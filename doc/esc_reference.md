@@ -71,8 +71,8 @@ set_global i/key true
 # removes the object "key" to the inventory
 set_global i/key false
 
-Lista de comandos
-----------------
+Command list
+------------
 
 - debug string ...
   Takes 1 or more strings, prints them to the console.
