@@ -1,0 +1,10 @@
+:pick_up
+
+set_global i/inv_ice_cream true
+set_active ice_cream false
+
+
+:look
+
+say player "A strawberry ice cream cone"
+
