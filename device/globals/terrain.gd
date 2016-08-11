@@ -2,6 +2,7 @@ tool
 
 export(Image) var scales setget set_scales
 export(Image) var lightmap setget set_lightmap
+export var bitmaps_scale = Vector2(1,1) setget set_bm_scale
 export(int, "None", "Scales", "Lightmap") var debug_mode = 1 setget debug_mode_updated
 export var modulate = Color(1, 1, 1, 1)
 export var scale_min = 0.3
@@ -20,6 +21,10 @@ func set_lightmap(p_lightmap):
 	lightmap = p_lightmap
 	_update_texture()
 
+func set_bm_scale(p_scale):
+	bitmaps_scale = p_scale
+	_update_texture()
+
 func _update_texture():
 	if !is_inside_tree():
 		return
@@ -32,9 +37,11 @@ func _update_texture():
 
 	texture = ImageTexture.new()
 	if debug_mode == 1:
-		texture.create_from_image(scales)
+		if scales != null && !scales.empty():
+			texture.create_from_image(scales)
 	else:
-		texture.create_from_image(lightmap)
+		if lightmap != null && !lightmap.empty():
+			texture.create_from_image(lightmap)
 
 	update()
 
@@ -53,36 +60,6 @@ func make_global(pos):
 	pos = pos * get_scale()
 	pos = pos + get_pos()
 	return pos
-
-func _find_solid(p_dest, dir_x, dir_y):
-	if path == null:
-		return
-	var pos = p_dest
-	var size = path.get_size()
-	while pos.x >= 0 && pos.x < size.x && pos.y >= 0 && pos.y < size.y:
-		if !path.is_solid(pos):
-			return pos
-		pos.x += dir_x
-		pos.y += dir_y
-
-	return Vector2(-1, -1)
-
-func _find_nearest(p_dest):
-	var final = Vector2(-1, -1)
-	var dist = 1000000
-
-	var dirs_x = [0, 0, 1, -1]
-	var dirs_y = [1, -1, 0, 0]
-	for i in range(0, 4):
-		var s = _find_solid(p_dest, dirs_x[i], dirs_y[i])
-		if s.x != -1:
-			var d = s.distance_squared_to(p_dest)
-			if final.x == -1 || d < dist:
-				dist = d
-				final = s
-
-	return final
-
 
 func get_path(p_src, p_dest):
 	printt("get path ", p_src, p_dest)
@@ -131,6 +108,7 @@ func get_light(pos):
 func get_pixel(pos, p_image):
 
 	pos = make_local(pos)
+	pos = pos * 1.0 / bitmaps_scale
 
 	if pos.x + 1 >= p_image.get_width() || pos.y + 1 >= p_image.get_height() || pos.x < 0 || pos.y < 0:
 		return Color()
@@ -182,10 +160,13 @@ func _draw():
 	#if !get_tree().is_editor_hint():
 	#	printt("*********no editor hint")
 	#	return
-	var scale = get_scale()
+	var scale = bitmaps_scale
 
-	var rect = Rect2(0, 0, texture.get_width() * scale.x, texture.get_height() * scale.y)
-	draw_texture(texture, Vector2(0, 0))
+	var src = Rect2(0, 0, texture.get_width(), texture.get_height())
+	var dst = Rect2(0, 0, texture.get_width() * scale.x, texture.get_height() * scale.y)
+
+	draw_texture_rect_region(texture, dst, src)
+	#draw_texture(texture, Vector2(0, 0))
 
 func _ready():
 	#path = ImagePathFinder.new()

@@ -214,7 +214,7 @@ func _check_bounds():
 	else:
 		if !has_node("terrain_icon"):
 			var node = Sprite.new()
-			var tex = load("res://game/objects/terrain.png")
+			var tex = load("res://globals/terrain.png")
 			node.set_texture(tex)
 			add_child(node)
 			node.set_name("terrain_icon")
