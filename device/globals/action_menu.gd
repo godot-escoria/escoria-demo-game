@@ -1,4 +1,5 @@
 var target
+var actions
 
 func action_pressed(action):
 	get_tree().call_group(0, "game", "action_menu_selected", target, action)
@@ -7,7 +8,7 @@ func target_visibility_changed():
 	stop()
 
 func start(p_target):
-	get_node("bg/use").grab_focus()
+	#actions[0].grab_focus()
 
 	if target != p_target:
 		target = p_target
@@ -29,15 +30,21 @@ func _input(event):
 		return
 	if !event.is_pressed():
 		return
-	if event.is_action("look"):
-		action_pressed("look")
-	elif event.is_action("use"):
-		action_pressed("use")
-	elif event.is_action("talk"):
-		action_pressed("talk")
+
+	for a in actions:
+		if event.is_action(a.get_name()):
+			action_pressed(a.get_name())
+			break
 
 func _ready():
-	get_node("bg/look").connect("pressed", self, "action_pressed", ["look"])
-	get_node("bg/talk").connect("pressed", self, "action_pressed", ["talk"])
-	get_node("bg/use").connect("pressed", self, "action_pressed", ["use"])
+
+	actions = []
+	var acts = get_node("actions")
+	for i in range(acts.get_child_count()):
+		var c = acts.get_child(i)
+		if !c.is_type("Button"):
+			continue
+		actions.push_back(c)
+		c.connect("pressed", self, "action_pressed", [c.get_name()])
+
 	set_process_input(true)
