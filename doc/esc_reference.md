@@ -163,7 +163,7 @@ Example:
 					say map_vendor "Here you go."
 					say player "Thanks!"
 					inventory_add map
-					global_set player_has_map true
+					set_global player_has_map true
 					stop
 
 				>	[!player_has_money]
