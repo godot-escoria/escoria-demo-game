@@ -539,7 +539,7 @@ func game_str_loaded(p_data = null):
 	clear()
 	loading_game = true
 	run_event(game["load"])
-	root.game_loaded()
+	root.menu_collapse()
 
 func save():
 	if stack.size() != 0:
