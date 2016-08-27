@@ -142,10 +142,19 @@ set_globals i/* false
 - camera_set_target speed object object2 object3...
   Configures the camera to follow 1 or more objects, using "speed" as speed limit. This is the default behavior (default follow object is "player"). If there's more than 1 object, the camera follows the average position of all the objects specified.
 
+- queue_resource path front_of_queue
+  Queues the load of a resource in a background thread. The path must be a full path inside your game, for example "res://scenes/next_scene.tscn". The "front_of_queue" parameter is optional (default value false), to put the resource in the front of the queue. Queued resources are cleared when a change scene happens (but after the scene is loaded, meaning you can queue resources that belong to the next scene).
+
+- queue_animation object animation
+  Similar to queue_resource, queues the resources necessary to have an animation loaded on an item. The resource paths are taken from the item placeholders.
+
+- game_over continue_enabled show_credits
+  Ends the game. Use the "continue_enabled" parameter to enable or disable the continue button in the main menu afterwards. The "show_credits" parameter loads the credits ui if true.
+
 Dialogs
 -------
 
-To start a dialog, use the "?" character, with some parameters, followed by a list of dialog options. Each option starts with the "-" character, followed by a parameter with the text to display in the dialog interfase. Inside the option, a group of commands is specified using indentation.
+To start a dialog, use the "?" character, with some parameters, followed by a list of dialog options. Each option starts with the "-" character, followed by a parameter with the text to display in the dialog interface. Inside the option, a group of commands is specified using indentation.
 
 Example:
 
@@ -182,5 +191,6 @@ repeat
 All parameters are options:
  - type: (default value "default") the type of dialog menu to use. All types are in the "dd_player" scene.
  - avatar: (default value "default") the avatar to use in the dialog ui.
- - typeout: (default value 0) timeout to select an option. After the time has passed, the "default_option" will be selected automatically. If the value is 0, there's no timeout.
- - default_option: (default value 0) option selected when timeout is reached.
+ - timeout: (default value 0) timeout to select an option. After the time has passed, the "timeout_option" will be selected automatically. If the value is 0, there's no timeout.
+ - timeout_option: (default value 0) option selected when timeout is reached.
+

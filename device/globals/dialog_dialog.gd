@@ -1,9 +1,9 @@
 extends Control
 
-const COLOR_MOUSE_ENTER_FONT = Color(1,1,0.3)
-const COLOR_MOUSE_ENTER_FONT_SHADOW = Color(0.6,0.4,0)
-const COLOR_MOUSE_EXIT_FONT = Color(1,1,1)
-const COLOR_MOUSE_EXIT_FONT_SHADOW = Color(1,1,1)
+export var mouse_enter_color = Color(1,1,0.3)
+export var mouse_enter_shadow_color = Color(0.6,0.4,0)
+export var mouse_exit_color = Color(1,1,1)
+export var mouse_exit_shadow_color = Color(1,1,1)
 
 var vm
 var cmd
@@ -78,11 +78,13 @@ func start(params, p_context):
 		i+=1
 		visible += 1
 
-	if has_node("avatars"):
+		_on_mouse_exit(but)
+
+	if has_node("anchor/avatars"):
 		var avatar = "default"
 		if params.size() >= 3:
 			avatar = params[2]
-		var avatars = get_node("avatars")
+		var avatars = get_node("anchor/avatars")
 		for i in range(avatars.get_child_count()):
 			var c = avatars.get_child(i)
 			if c.get_name() == avatar:
@@ -108,14 +110,15 @@ func start(params, p_context):
 
 	ready = false
 	animation.play("show")
+	animation.seek(0, true)
 	
 func _on_mouse_enter(button):
-	button.get_node("label").add_color_override("font_color",COLOR_MOUSE_ENTER_FONT)
-	button.get_node("label").add_color_override("font_color_shadow",COLOR_MOUSE_ENTER_FONT_SHADOW)
+	button.get_node("label").add_color_override("font_color", mouse_enter_color)
+	button.get_node("label").add_color_override("font_color_shadow", mouse_enter_shadow_color)
 	
 func _on_mouse_exit(button):
-	button.get_node("label").add_color_override("font_color",COLOR_MOUSE_EXIT_FONT)
-	button.get_node("label").add_color_override("font_color_shadow",COLOR_MOUSE_EXIT_FONT_SHADOW)
+	button.get_node("label").add_color_override("font_color", mouse_exit_color)
+	button.get_node("label").add_color_override("font_color_shadow", mouse_exit_shadow_color)
 
 func stop():
 	hide()

@@ -35,9 +35,6 @@ func game_cleared():
 	if global_id != "":
 		vm.register_object(global_id, self)
 
-	get_node("indicators_anim").stop()
-	get_node("disk").hide()
-
 func set_volume(p_vol):
 	AS.set_stream_global_volume_scale(p_vol)
 

@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://globals/bg_music.gd" type="Script" id=1]
+[ext_resource path="res://scenes/intro-game/sounds/asianoriental2.ogg" type="AudioStream" id=2]
+
+[node name="bg_music" type="Control"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+script/script = ExtResource( 1 )
+animations = null
+speed = 300
+scale_on_map = false
+light_on_map = false
+tooltip = ""
+action = ""
+events_path = ""
+global_id = "bg_music"
+use_combine = false
+inventory = false
+use_action_menu = true
+interact_angle = -1
+talk_animation = "talk"
+active = true
+placeholders = {  }
+
+[node name="stream" type="StreamPlayer" parent="."]
+
+stream/stream = ExtResource( 2 )
+stream/play = false
+stream/loop = false
+stream/volume_db = 0.0
+stream/autoplay = true
+stream/paused = false
+stream/loop_restart_time = 0.0
+stream/buffering_ms = 500
+
+

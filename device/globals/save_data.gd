@@ -3,14 +3,14 @@ const DATA_STRING = 0
 const DATA_STRING_ARRAY = 1
 const DATA_VARIANT = 2
 
-var base = "user://dmpb_saves"
+var base = "user://esc_saves"
 var slots = {}
 var max_slots = 3
 var settings
 
 func save_settings(p_data, p_callback):
 	var f = File.new()
-	f.open("user://dmpb_settings.bin", File.WRITE)
+	f.open("user://settings.bin", File.WRITE)
 	f.store_var(p_data)
 	f.close()
 
@@ -21,7 +21,7 @@ func save_settings(p_data, p_callback):
 
 func load_settings(p_callback):
 	var f = File.new()
-	f.open("user://dmpb_settings.bin", File.READ)
+	f.open("user://settings.bin", File.READ)
 	if !f.is_open():
 		if typeof(p_callback) != typeof(null):
 			p_callback[0].call_deferred(p_callback[1], null)

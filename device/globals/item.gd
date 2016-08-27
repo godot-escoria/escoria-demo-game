@@ -13,6 +13,7 @@ export(int, -1, 360) var interact_angle = -1
 export var talk_animation = "talk"
 export var active = true setget set_active,get_active
 export var placeholders = {}
+export var use_custom_z = false
 
 var anim_notify = null
 var anim_scale_override = null
@@ -44,7 +45,9 @@ func anim_finished():
 		set_scale(get_scale() * anim_scale_override)
 		anim_scale_override = null
 
-	set_state(state, true)
+	var cur = animation.get_current_animation()
+	if cur != state:
+		set_state(state, true)
 
 func set_active(p_active):
 	active = p_active
@@ -104,6 +107,14 @@ func _check_focus(focus, pressed):
 		else:
 			get_node("_pressed").hide()
 
+func get_tooltip():
+	if TranslationServer.get_locale() == Globals.get("application/tooltip_lang_default"):
+		return tooltip
+	else:
+		if tr(tooltip) == tooltip:
+			return global_id+".tooltip"
+		else:
+			return tooltip
 
 func get_drag_data(point):
 	printt("get drag data on point ", point, inventory)
@@ -232,11 +243,15 @@ func set_state(p_state, p_force = false):
 
 func teleport(obj):
 	set_pos(obj.get_global_pos())
+	_update_terrain()
 
 func teleport_pos(x, y):
 	set_pos(Vector2(x, y))
+	_update_terrain()
 
 func _update_terrain():
+	if self extends Node2D && !use_custom_z:
+		set_z(get_pos().y)
 	if !scale_on_map && !light_on_map:
 		return
 	print("updating terrain!")

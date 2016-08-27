@@ -2,6 +2,7 @@ var background = null
 var vm
 
 func set_tooltip(text):
+	printt("hud got tooltip text ", text)
 	get_node("tooltip").set_text(text)
 
 func inv_toggle():
