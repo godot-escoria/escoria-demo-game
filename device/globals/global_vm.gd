@@ -59,10 +59,7 @@ var settings_default = {
 }
 
 
-var scenes_cache_list = [
-		"res://globals/game.scn",
-		#"res://game/player/player.xml",
-	]
+var scenes_cache_list = preload("res://game/scenes_cache.gd").scenes
 
 var scenes_cache = {} # this will eventually have everything in scenes_cache_list forever
 
@@ -342,6 +339,8 @@ func register_object(name, val):
 	objects[name] = val
 	if name in states:
 		val.set_state(states[name])
+	else:
+		val.set_state("default")
 	if name in actives:
 		val.set_active(actives[name])
 	val.connect("exit_tree", self, "object_exit_scene", [name])
@@ -522,7 +521,7 @@ func load_file(p_game):
 	clear()
 	loading_game = true
 	run_event(game["load"])
-	root.game_loaded()
+	root.menu_collapse()
 
 func load_slot(p_game):
 	var cb = [self, "game_str_loaded"]
@@ -572,7 +571,7 @@ func save():
 				s = "false"
 			ret.append("set_active " + k + " " + s + "\n")
 
-		if k in states:
+		if k in states && states[k] != "default":
 			ret.append("set_state " + k + " " + states[k] + "\n")
 
 		ret.append("\n")

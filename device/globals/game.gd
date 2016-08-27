@@ -26,32 +26,30 @@ func set_mode(p_mode):
 
 func mouse_enter(obj):
 	var text
+	var tt = obj.get_tooltip()
 	if current_action != "" && current_tool != null:
-		var text = "Use %i with %2"
-		text = text.replace("%2", tr(obj.tooltip))
-		text = text.replace("%1", tr(current_tool.tooltip))
-		#text = pending_command + " " + pending_params[0].tooltip + " with "
-		#if obj != pending_params[0]:
-		#	text = text + obj.tooltip
+		text = tr(current_action + ".combine_id")
+		text = text.replace("%2", tr(tt))
+		text = text.replace("%1", tr(current_tool.get_tooltip()))
 	elif obj.inventory:
-		var action = inventory.get_action_text()
+		var action = inventory.get_action()
+		if action == "":
+			action = current_action
 		text = tr(action + ".id")
-		text = text.replace("%1", tr(obj.tooltip))
-		#text = action + " " + obj.tooltip + " with "
+		text = text.replace("%1", tr(tt))
 	else:
-		text = obj.tooltip
+		text = tt
 	get_tree().call_group(0, "hud", "set_tooltip", text)
 	vm.hover_begin(obj)
 
 func mouse_exit(obj):
 	var text
+	#var tt = obj.get_tooltip()
 	if current_action != "" && current_tool != null:
-		text = "Use %i with"
-		text = text.replace("%1", tr(current_tool.tooltip))
-		#text = pending_command + " " + pending_params[0].tooltip + " with "
+		text = tr(current_action + ".id")
+		text = text.replace("%1", tr(current_tool.get_tooltip()))
 	else:
 		text = ""
-	#if !action_menu.is_visible():
 	get_tree().call_group(0, "hud", "set_tooltip", text)
 	vm.hover_end()
 
@@ -106,54 +104,6 @@ func clicked(obj, pos):
 		elif obj.use_action_menu && action_menu != null:
 			spawn_action_menu(obj)
 
-
-var clicked_old = """
-func clicked_old(obj, pos):
-	joystick_mode = false
-	if !vm.can_interact():
-		return
-	if player == null:
-		player = self
-	if mode == "default":
-		var action = obj.get_action()
-		#action_menu.stop()
-		if action == "walk":
-			#click.set_pos(pos)
-			#click_anim.play("click")
-			if player == self:
-				return
-			player.walk_to(pos)
-			clear_pending_command()
-			get_tree().call_group(0, "hud", "set_tooltip", "")
-
-		elif obj.inventory:
-			if pending_command == "use":
-				interact([obj, pending_command, pending_params[0]])
-			else:
-				if (obj.global_id == "iwalkie" or obj.global_id == "imagic_compass" or inventory.current_action == "look"):
-					interact([obj, inventory.current_action])
-		else:
-			if pending_command == "use":
-				if obj.inventory:
-					interact([obj, pending_command, pending_params[0]])
-				else:
-					player.interact([obj, pending_command, pending_params[0]])
-			else:
-				if obj.use_action_menu:
-					if pending_command == "use":
-						player.interact([obj, pending_command, pending_params[0]])
-					else:
-						spawn_action_menu(obj)
-				elif action == "use" && obj.use_combine:
-					pending_command = "use"
-					pending_params.push_back(obj)
-					mouse_enter(obj)
-				else:
-					#click.set_pos(pos)
-					#click_anim.play("click")
-					player.interact([obj, action])
-
-"""
 
 func spawn_action_menu(obj):
 	if action_menu == null:
@@ -239,11 +189,11 @@ func scene_input(event):
 
 	if event.is_action("menu_request") && event.is_pressed() && !event.is_echo():
 		if vm.can_save() && vm.can_interact() && vm.menu_enabled():
-			get_node("/root/main").load_menu("res://game/ui/main_menu.xml")
+			get_node("/root/main").load_menu(Globals.get("ui/main_menu"))
 		else:
 			#get_tree().call_group(0, "game", "ui_blocked")
 			if vm.menu_enabled():
-				get_node("/root/main").load_menu("res://game/ui/in_game_menu.scn")
+				get_node("/root/main").load_menu(Globals.get("ui/in_game_menu"))
 			else:
 				get_tree().call_group(0, "game", "ui_blocked")
 

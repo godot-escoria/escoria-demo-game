@@ -1,15 +1,15 @@
 tool
 
-export(Image) var scales setget set_scales
-export(Image) var lightmap setget set_lightmap
-export var bitmaps_scale = Vector2(1,1) setget set_bm_scale
+export(Image) var scales setget set_scales,get_scales
+export(Image) var lightmap setget set_lightmap,get_lightmap
+export var bitmaps_scale = Vector2(1,1) setget set_bm_scale,get_bm_scale
 export(int, "None", "Scales", "Lightmap") var debug_mode = 1 setget debug_mode_updated
 export var modulate = Color(1, 1, 1, 1)
 export var scale_min = 0.3
 export var scale_max = 1.0
 var texture
 var img_area
-
+var _texture_dirty = false
 
 var path = null
 
@@ -17,15 +17,32 @@ func set_scales(p_scales):
 	scales = p_scales
 	_update_texture()
 
+func get_scales():
+	return scales
+
 func set_lightmap(p_lightmap):
 	lightmap = p_lightmap
 	_update_texture()
+
+func get_lightmap():
+	return lightmap
 
 func set_bm_scale(p_scale):
 	bitmaps_scale = p_scale
 	_update_texture()
 
+func get_bm_scale():
+	return bitmaps_scale
+
 func _update_texture():
+	if _texture_dirty:
+		return
+
+	_texture_dirty = true
+	call_deferred("_do_update_texture")
+
+func _do_update_texture():
+	_texture_dirty = false
 	if !is_inside_tree():
 		return
 	if !get_tree().is_editor_hint():

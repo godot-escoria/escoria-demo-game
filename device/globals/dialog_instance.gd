@@ -121,8 +121,9 @@ func init(p_params, p_context, p_intro, p_outro):
 		var anim = get_node("animation")
 		if anim.has_animation("show"):
 			if self.is_type("Node2D"):
-				hide()
+				show()
 			anim.play("show")
+			anim.seek(0, true)
 		else:
 			if self.is_type("Node2D"):
 				show()
@@ -147,7 +148,7 @@ func setup_speech(tid):
 	if !speech_enabled:
 		return
 
-	var fname = "res://game/audio/speech/"+speech_language+"/"+tid+speech_extension
+	var fname = "res://audio/speech/"+speech_language+"/"+tid+speech_extension
 	printt(" ** loading speech ", fname)
 	speech_stream = load(fname)
 	if !speech_stream:
@@ -200,6 +201,7 @@ func anim_finished():
 
 func _ready():
 	vm = get_tree().get_root().get_node("vm")
+	speech_extension = Globals.get("application/speech_suffix")
 	add_to_group("events")
 	if has_node("animation"):
 		get_node("animation").connect("finished", self, "anim_finished")
