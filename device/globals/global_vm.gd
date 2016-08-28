@@ -72,7 +72,7 @@ func load_settings():
 	save_data.load_settings([self, "settings_loaded"])
 
 func settings_loaded(p_settings):
-	printt("******* settings loaded")
+	printt("******* settings loaded", p_settings)
 	settings_default.text_lang = OS.get_locale().substr(0, 2)
 	if p_settings != null:
 		settings = p_settings
@@ -87,6 +87,7 @@ func settings_loaded(p_settings):
 	TranslationServer.set_locale(settings.text_lang)
 	music_volume_changed()
 	update_window_fullscreen(true)
+	get_tree().call_group(0, "ui", "language_changed")
 
 func update_window_fullscreen(p_force = false):
 	if Globals.get("debug/screen_size_override"):

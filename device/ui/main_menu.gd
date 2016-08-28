@@ -90,6 +90,13 @@ func set_continue_button():
 		get_node("continue").set_disabled(true)
 		#get_node("continue").hide()
 
+
+func _on_language_selected(lang):
+	vm.settings.text_lang=lang
+	TranslationServer.set_locale(vm.settings.text_lang)
+	get_tree().call_group(0, "ui", "language_changed")
+	vm.save_settings()
+
 func _ready():
 	get_node("new_game").connect("pressed", self, "newgame_pressed")
 	get_node("continue").connect("pressed", self, "continue_pressed")
@@ -114,9 +121,3 @@ func _ready():
 		get_node("exit").hide()
 
 
-
-func _on_language_selected(lang):
-	vm.settings.text_lang=lang
-	TranslationServer.set_locale(vm.settings.text_lang)
-	get_tree().call_group(0, "ui", "language_changed")
-	vm.save_settings()
