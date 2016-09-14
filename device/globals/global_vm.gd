@@ -641,7 +641,7 @@ func clear():
 func game_over(p_enable_continue, p_show_credits, context):
 	clear()
 	continue_enabled = p_enable_continue
-	change_scene(["res://game/globals/scene_main.scn"], context)
+	change_scene(["res://globals/scene_main.scn"], context)
 	if p_show_credits:
 		root.get_current_scene().show_credits()
 
