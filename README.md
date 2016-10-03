@@ -30,6 +30,13 @@ An extensive manual named [*Creating Point and Click Games with Escoria*](https:
 was written during a booksprint by Ariel Manzur (@punto-), main developer of this framework,
 and the [FLOSS Manuals francophone](https://fr.flossmanuals.net/) community.
 
+## Demo
+
+The great demo that goes with the FLOSS Manuals francophone manual linked above,
+"Escoria in Daïza", is also [hosted on GitHub](https://github.com/flossmanualsfr/escoria).
+It is released under the MIT license, and can thus be used as a way to kickstart
+your experience with Escoria.
+
 ## Licensing
 
 This framework (scripts, scenes) is distributed under the MIT license,
