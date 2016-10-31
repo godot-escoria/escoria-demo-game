@@ -641,7 +641,7 @@ func clear():
 func game_over(p_enable_continue, p_show_credits, context):
 	clear()
 	continue_enabled = p_enable_continue
-	change_scene(["res://globals/scene_main.scn"], context)
+	change_scene(["res://globals/scene_main.tscn"], context)
 	if p_show_credits:
 		root.get_current_scene().show_credits()
 
@@ -670,7 +670,7 @@ func _notification(what):
 func quit_request():
 	#if root.menu_stack.size() > 0 && (root.menu_stack[root.menu_stack.size()-1] extends preload("res://game/ui/confirmation_popup.gd")):
 	#	return
-	#var ConfPopup = get_node("/root/main").load_menu("res://game/ui/confirmation_popup.scn")
+	#var ConfPopup = get_node("/root/main").load_menu("res://game/ui/confirmation_popup.tscn")
 	#ConfPopup.PopupConfirmation("KEY_QUIT_GAME",self,"","_quit_game")
 	pass
 
@@ -693,7 +693,7 @@ func check_achievement(name):
 
 func show_rate(url):
 	rate_url = url
-	var ConfPopup = get_node("/root/main").load_menu("res://game/ui/confirmation_popup.scn")
+	var ConfPopup = get_node("/root/main").load_menu("res://game/ui/confirmation_popup.tscn")
 	ConfPopup.PopupConfirmation("rate2",self,"","_rate_game")
 	ConfPopup.set_buttons("rate3", "rate5")
 
@@ -701,7 +701,7 @@ func _rate_game():
 	OS.shell_open(rate_url)
 
 func get_hud_scene():
-	var hpath = "res://ui/hud.scn"
+	var hpath = "res://ui/hud.tscn"
 	return hpath
 
 func _ready():

@@ -1,0 +1,119 @@
+[gd_scene load_steps=5 format=1]
+
+[ext_resource path="res://globals/telon.gd" type="Script" id=1]
+[ext_resource path="res://globals/white.png" type="Texture" id=2]
+
+[sub_resource type="Animation" id=2]
+
+resource/name = "fade_in"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("white:modulate")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ Color( 0, 0, 0, 1 ) ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath("white:visibility/visible")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":1, "values":[ true ] }
+tracks/2/type = "value"
+tracks/2/path = NodePath("white:visibility/opacity")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = { "times":FloatArray( 0, 1 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 1.0, 0.0 ] }
+
+[sub_resource type="Animation" id=1]
+
+resource/name = "fade_out"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("white:modulate")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ Color( 0, 0, 0, 1 ) ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath("white:visibility/visible")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":1, "values":[ true ] }
+tracks/2/type = "value"
+tracks/2/path = NodePath("white:visibility/opacity")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = { "times":FloatArray( 0, 1 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 0.0, 1.0 ] }
+
+[node name="telon" type="Control"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+script/script = ExtResource( 1 )
+__meta__ = { "__editor_plugin_screen__":"2D" }
+animations = null
+speed = 300
+scale_on_map = false
+light_on_map = false
+tooltip = ""
+action = ""
+events_path = ""
+global_id = ""
+use_combine = false
+inventory = false
+use_action_menu = true
+interact_angle = -1
+talk_animation = "talk"
+active = true
+placeholders = {  }
+use_custom_z = false
+music_volume = 0.425
+
+[node name="input_catch" type="Control" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 1935.0
+margin/bottom = 1094.0
+
+[node name="white" type="TextureFrame" parent="."]
+
+visibility/opacity = 0.0
+focus/ignore_mouse = true
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -37.0
+margin/top = -46.0
+margin/right = 1953.0
+margin/bottom = 1107.0
+texture = ExtResource( 2 )
+modulate = Color( 0, 0, 0, 1 )
+expand = true
+stretch_mode = 0
+
+[node name="animation" type="AnimationPlayer" parent="."]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/fade_in = SubResource( 2 )
+anims/fade_out = SubResource( 1 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+

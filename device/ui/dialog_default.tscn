@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://globals/dialog_instance.gd" type="Script" id=1]
+
+[node name="dialog_instance" type="Node2D"]
+
+script/script = ExtResource( 1 )
+__meta__ = { "__editor_plugin_screen__":"2D" }
+fixed_pos = false
+
+[node name="anchor" type="Node2D" parent="."]
+
+[node name="text" type="RichTextLabel" parent="anchor"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -308.0
+margin/top = -129.0
+margin/right = 285.0
+margin/bottom = -30.0
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
+custom_constants/line_separation = -5
+bbcode/enabled = false
+bbcode/bbcode = ""
+visible_characters = -1
+
+[node name="avatars" type="Node2D" parent="anchor"]
+
+transform/pos = Vector2( -0.880569, 1.82724 )
+
+

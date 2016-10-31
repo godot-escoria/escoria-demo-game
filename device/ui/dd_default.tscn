@@ -1,0 +1,173 @@
+[gd_scene load_steps=4 format=1]
+
+[ext_resource path="res://globals/dialog_dialog.gd" type="Script" id=1]
+
+[sub_resource type="Animation" id=1]
+
+resource/name = "hide"
+length = 0.75
+loop = false
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("anchor:visibility/visible")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 0.3 ), "transitions":FloatArray( 1, 1 ), "update":1, "values":[ true, false ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath("anchor:transform/scale")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0, 0.1, 0.15, 0.3 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":0, "values":[ Vector2( 1, 1 ), Vector2( 1, 1.1 ), Vector2( 1, 1.1 ), Vector2( 1, 0 ) ] }
+
+[sub_resource type="Animation" id=2]
+
+length = 0.75
+loop = false
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("anchor:transform/scale")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 0.15, 0.2, 0.35 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":0, "values":[ Vector2( 1, 0 ), Vector2( 1, 1.1 ), Vector2( 1, 1.1 ), Vector2( 1, 1 ) ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visibility/visible")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":1, "values":[ true ] }
+tracks/2/type = "value"
+tracks/2/path = NodePath("anchor:visibility/visible")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":1, "values":[ true ] }
+
+[node name="dialog" type="Control"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 539.0
+margin/top = 398.0
+margin/right = -58.0
+margin/bottom = -203.0
+script/script = ExtResource( 1 )
+__meta__ = { "__editor_plugin_screen__":"2D" }
+mouse_enter_color = Color( 1, 1, 0.3, 1 )
+mouse_enter_shadow_color = Color( 0.6, 0.4, 0, 1 )
+mouse_exit_color = Color( 1, 1, 1, 1 )
+mouse_exit_shadow_color = Color( 1, 1, 1, 1 )
+
+[node name="anchor" type="Node2D" parent="."]
+
+transform/pos = Vector2( 373.302, 425.803 )
+
+[node name="bg" type="TextureFrame" parent="anchor"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -937.0
+margin/top = -377.0
+margin/right = 985.0
+margin/bottom = 138.0
+expand = true
+stretch_mode = 0
+
+[node name="scroll" type="ScrollContainer" parent="anchor"]
+
+rect/min_size = Vector2( 1628, 229 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -735.0
+margin/top = -334.0
+margin/right = 893.0
+margin/bottom = -105.0
+scroll/horizontal = false
+scroll/vertical = true
+
+[node name="container" type="VBoxContainer" parent="anchor/scroll"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+custom_constants/separation = 10
+alignment = 0
+
+[node name="avatars" type="Node2D" parent="anchor"]
+
+transform/pos = Vector2( -323, -33 )
+
+[node name="default" type="Sprite" parent="anchor/avatars"]
+
+transform/pos = Vector2( -472.18, -234.678 )
+
+[node name="item" type="Control" parent="."]
+
+rect/min_size = Vector2( 800, 29 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -338.0
+margin/top = 134.0
+margin/right = 1270.0
+margin/bottom = 163.0
+
+[node name="button" type="TextureButton" parent="item"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+
+[node name="label" type="Label" parent="item/button"]
+
+rect/min_size = Vector2( 1580, 33 )
+focus/ignore_mouse = true
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 25.0
+margin/top = 3.0
+margin/right = 1605.0
+margin/bottom = 36.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
+text = "I should pick option one"
+autowrap = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="animation" type="AnimationPlayer" parent="."]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/hide = SubResource( 1 )
+anims/show = SubResource( 2 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+

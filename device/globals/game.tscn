@@ -1,0 +1,50 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://globals/game.gd" type="Script" id=1]
+[ext_resource path="res://globals/dialog_player.tscn" type="PackedScene" id=2]
+
+[node name="game" type="Node"]
+
+script/script = ExtResource( 1 )
+fallbacks_path = "res://game/fallbacks.esc"
+inventory_enabled = true
+camera_limits = Rect2( 0, 0, 0, 0 )
+
+[node name="dialog_player" parent="." instance=ExtResource( 2 )]
+
+[node name="hud_layer" type="CanvasLayer" parent="."]
+
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+
+[node name="hud" parent="hud_layer" instance_placeholder="res://ui/hud.tscn"]
+
+[node name="wait_timer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = false
+
+[node name="camera" type="Camera2D" parent="."]
+
+anchor_mode = 1
+rotating = false
+current = false
+zoom = Vector2( 1, 1 )
+limit/left = -10000000
+limit/top = -10000000
+limit/right = 10000000
+limit/bottom = 10000000
+drag_margin/h_enabled = true
+drag_margin/v_enabled = true
+smoothing/enable = false
+smoothing/speed = 5.0
+drag_margin/left = 0.2
+drag_margin/top = 0.2
+drag_margin/right = 0.2
+drag_margin/bottom = 0.2
+
+

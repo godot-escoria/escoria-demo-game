@@ -28,7 +28,7 @@ func _on_menu_pressed():
 	else:
 		#get_tree().call_group(0, "game", "ui_blocked")
 		if vm.menu_enabled():
-			get_node("/root/main").load_menu("res://game/ui/in_game_menu.scn")
+			get_node("/root/main").load_menu("res://game/ui/in_game_menu.tscn")
 		else:
 			get_tree().call_group(0, "game", "ui_blocked")
 
