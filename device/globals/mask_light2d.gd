@@ -1,31 +1,23 @@
 tool
 
-export(NodePath) var terrain_nodepath
 export(Vector2) var front_pos
-export var use_custom_z = false
-var terrain_node
 var pos2DZ
 
 func init_mask():
-	if terrain_node == null:
-		return
-	
-	if (has_node("front_pos")):
-		pos2DZ = get_node("front_pos").get_global_pos()
-	else:
-		pos2DZ = front_pos
-		
-	var scale
-	if (!use_custom_z):
-		scale = terrain_node.get_terrain(pos2DZ)
-	else:
-		scale = get_z()
-		
-	set_z_range_min( 1 ) 
-	set_z_range_max( scale )
+	_update_terrain()
 	update()
+	
+func get_front_pos():
+	if (has_node("front_pos")):
+		front_pos = get_node("front_pos").get_global_pos()
+	return front_pos
 
-	#debug_print_z()
+
+func _update_terrain():
+	var pos = get_front_pos()
+	set_z(pos.y)
+	set_z_range_min( 1 ) 
+	set_z_range_max( pos.y )
 
 func debug_print_z():
 	printt("MASKS node Z : ", get_z())
@@ -34,8 +26,6 @@ func debug_print_z():
 	print("\n")
 
 func _ready():
-	if (terrain_nodepath != null):
-		terrain_node = get_node(terrain_nodepath)
 	init_mask()
 	#debug_print_z()
 	pass
