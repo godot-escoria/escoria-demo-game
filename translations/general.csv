@@ -1,10 +1,10 @@
-id,en,fr,es
-use.id,Use %1,Utiliser %1,Usa %1
-use.combine_id,Use %1 with %2,Utiliser %1 avec %2,Usa %1 con %2
-UI_CONTINUE,Continue,Continuer,Sigue
-UI_NEW_GAME,New Game,Nouveau jeu,Nuevo juego
-UI_QUIT,Quit,Quitter,Quitar
-UI_YES,Yes,Oui,Si 
-UI_NO,No,Non,No
-UI_QUIT_CONFIRM,Do you want to quit the game ?,Souhaitez-vous vraiment quitter le jeu ?,Queres realmente quitar el juego ?
-UI_NEW_GAME_CONFIRM,Start new game? Your unsaved progress will be lost,Commencer un nouveau jeu ? Vous n'avez pas sauvegardé votre progression…,Empezar un nuevo juego ? No has salvado su progresion…
+id,en,fr,es,cs
+use.id,Use %1,Utiliser %1,Usa %1,Použíj %1,
+use.combine_id,Use %1 with %2,Utiliser %1 avec %2,Usa %1 con %2,Použíj %1 s %2,
+UI_CONTINUE,Continue,Continuer,Sigue,Pokračuj
+UI_NEW_GAME,New Game,Nouveau jeu,Nuevo juego,Novou hru,
+UI_QUIT,Quit,Quitter,Quitar,Ukončit,
+UI_YES,Yes,Oui,Si,Ano,
+UI_NO,No,Non,No,Ne
+UI_QUIT_CONFIRM,Do you want to quit the game ?,Souhaitez-vous vraiment quitter le jeu ?,Queres realmente quitar el juego ?,Chcete ukončit hru?,
+UI_NEW_GAME_CONFIRM,Start new game? Your unsaved progress will be lost,Commencer un nouveau jeu ? Vous n'avez pas sauvegardé votre progression…,Empezar un nuevo juego ? No has salvado su progresion…,Začít novou hru? Váš neuložený postup bude ztracen.,
