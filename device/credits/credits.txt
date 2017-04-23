@@ -1,0 +1,11 @@
+Escoria
+
+Art credits
+
+Dan Griffin-Hayes - Cartoon characters and objects vector pack, License CC0, distributed on OpenGameArt
+
+Clint Bellanger - Recycle items set, License CC BY 3.0, distributed on OpenGameArt
+
+Technologies
+
+This game uses the MIT licenced Godot engine. Visit godotengine.org for more information.

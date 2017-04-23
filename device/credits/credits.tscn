@@ -1,0 +1,67 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://credits/credits.gd" type="Script" id=1]
+
+[node name="Panel" type="Panel"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 593.0
+margin/top = 325.0
+margin/right = 1549.0
+margin/bottom = 969.0
+script/script = ExtResource( 1 )
+__meta__ = {
+"__editor_plugin_screen__": "Script"
+}
+
+[node name="Label" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 172.0
+margin/top = 52.0
+margin/right = 772.0
+margin/bottom = 89.0
+text = "Credits"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="GoBack" type="Button" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+size_flags/stretch_ratio = 44.0
+margin/left = 448.0
+margin/top = 544.0
+margin/right = 513.0
+margin/bottom = 599.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "BACK"
+flat = false
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 121.0
+margin/top = 106.0
+margin/right = 826.0
+margin/bottom = 515.0
+bbcode/enabled = true
+bbcode/bbcode = ""
+visible_characters = -1
+
+

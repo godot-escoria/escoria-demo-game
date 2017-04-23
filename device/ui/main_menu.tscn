@@ -8,9 +8,9 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 0.0
+margin/left = 2.0
 margin/top = 0.0
-margin/right = 1930.0
+margin/right = 1932.0
 margin/bottom = 1101.0
 script/script = ExtResource( 1 )
 
@@ -46,16 +46,32 @@ shortcut = null
 text = "UI_NEW_GAME"
 flat = false
 
+[node name="credits" type="Button" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 157.0
+margin/top = 425.0
+margin/right = 727.0
+margin/bottom = 514.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "UI_CREDITS"
+flat = false
+
 [node name="exit" type="Button" parent="."]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 199.0
-margin/top = 830.0
-margin/right = 769.0
-margin/bottom = 919.0
+margin/left = 169.0
+margin/top = 831.0
+margin/right = 739.0
+margin/bottom = 920.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
