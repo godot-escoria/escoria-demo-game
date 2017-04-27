@@ -25,9 +25,6 @@ func _enter_tree():
 		var extents = Vector2(size.x / 2, size.y / 2)
 		var transform = Matrix32(Vector2(1, 0), Vector2(0, 1), extents)
 
-		printt(extents)
-		printt(transform)
-
 		var shape = RectangleShape2D.new()
 		shape.set_extents(extents)
 		add_shape(shape)
