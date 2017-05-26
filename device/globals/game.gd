@@ -66,6 +66,11 @@ func set_current_tool(p_tool):
 	current_tool = p_tool
 
 func clicked(obj, pos):
+	# If multiple areas are clicked at once, an item_background "wins"
+	if obj.get_type() == "Area2D":
+		for area in obj.get_overlapping_areas():
+			if area.has_method("is_clicked") and area.is_clicked():
+				return
 	joystick_mode = false
 	if !vm.can_interact():
 		return
