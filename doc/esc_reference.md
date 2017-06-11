@@ -1,52 +1,55 @@
 General
 -------
 
-- Events:
+### Events:
   When the player interacts with an object in the game, the object receives an even. Each event executes a series of commands.
   Events start with the character ":" in the Events file. Example:
 
-:use
+`:use`
 
-- Groups
-  Commands can be grouped using the character ">" to start a group, and incrementing the indentation of the commands that belong to the group. Example:
-
+### Groups
+Commands can be grouped using the character ">" to start a group, and incrementing the indentation of the commands that belong to the group. Example:
+```
 >
 	set_global door_open true
 	animation player pick_up
 
 # end of group
-
-- Global flags
+```
+### Global flags
   Global flags define the state of the game, and can have a value of true or false. All commands or groups can be conditioned to the value of a global flag.
 
-- Conditions
+### Conditions
   In order to run a command conditionally dependin on the value of a flag, use [] with a list of conditions. All conditions in the list must be true. The character "!" before a flag can be used to negate it.
   Example:
 
+```
 # runs the command only if the door_open flag is true
 say player "The door is open" [door_open]
 
 # runs the group only if door_open is false and i/key is true
 > [!door_open,i/key]
 	say player "The door is close, maybe I can try this key in my inventory"
+```
 
-- Commands
+### Commands
   Commands consist of one word followed by parameters. Parameters can be one word, or strings in quotes. A string can also be preceeded by an ID for localization and the ":" character. Example:
 
-
+```
 # one parameter "player", another parameter "hello world", with id "dialog_hello"
 say player dialog_hello:"hello world"
+```
 
-- Global IDs
+### Global IDs
   All objects in the game have a global ID, which is used to identify them in commands. The ID is configured in the object's scene.
 
-- States
+### States
   Each object can have a "state". The state is stored in the global state of the game, and the savegame, and it's set on the object when the scene is instanced. States can also be animations with the same name in the object's scene, in that case the animation is run when the state is set.
 
-- Active
+### Active
   Objects can be active or not active. Non-active objects are hidden and non clickable.
 
-- Blocking
+### Blocking
   Some commands will block execution of the event until they finish, others won't. See the command's reference for details on which commands block.
 
 Game global state
@@ -65,91 +68,72 @@ Inventory
 
 The inventory is handled as a special case of global flags. All flags with a name starting with "i/" are considered an inventory object, with the object's global id following. Example:
 
+```
 # adds the object "key" to the inventory
 set_global i/key true
 
 # removes the object "key" to the inventory
 set_global i/key false
+```
 
 Command list
 ------------
 
-- debug string ...
-  Takes 1 or more strings, prints them to the console.
+- `debug string ...` - Takes 1 or more strings, prints them to the console.
 
-- set_global name value
-  Changes the value of the global flag "name" with the value. Value can be "true" or "false"
+- `set_global name value` - Changes the value of the global flag "name" with the value. Value can be "true" or "false"
 
-- set_globals pattern value
+- `set_globals pattern value`
   Changes the value of multiple globals using a wildcard pattern. Example:
+	```
+	# clears the inventory
+	set_globals i/* false
+	```
+- `set_state object state` - Changes the state of an object, and executes the state animation if present.
 
-# clears the inventory
-set_globals i/* false
+- `say object text type avatar` - Runs the specified string as a dialog said by the object. Blocks execution until the dialog finishes playing. Optional parameters:
+  - `type` determines the type of dialog UI to use. Default value is "default"
+  - `avatar` determines the avatar to use for the dialog. Default value is "default"
 
-- set_state object state
-  Changes the state of an object, and executes the state animation if present.
+- `anim object name reverse flip_x flip_y` - Executes the animation specificed with the "name" parameter on the object, without blocking. The next command in the event will be executed immediately after. Optional parameters:
+  - `reverse` plays the animation in reverse when true
+  - `flip_x` flips the x axis of the object's sprites when true (object's root node needs to be Node2D)
+  - `flip_y` flips the y axis of the object's sprites when true (object's root node needs to be Node2D)
 
-- say object text type avatar
-  Runs the specified string as a dialog said by the object. Blocks execution until the dialog finishes playing. Optional parameters:
-  - "type" determines the type of dialog UI to use. Default value is "default"
-  - "avatar" determines the avatar to use for the dialog. Default value is "default"
+- `cut_scene object name reverse flip_x flip_y` - Executes the animation specificed with the "name" parameter on the object, blocking. The next command in the event will be executed when the animation is finished playing. Optional parameters:
+  - `reverse` plays the animation in reverse when true
+  - `flip_x` flips the x axis of the object's sprites when true (object's root node needs to be Node2D)
+  - `flip_y` flips the y axis of the object's sprites when true (object's root node needs to be Node2D)
 
-- anim object name reverse flip_x flip_y
-  Executes the animation specificed with the "name" parameter on the object, without blocking. The next command in the event will be executed immediately after. Optional parameters:
-  - reverse plays the animation in reverse when true
-  - flip_x flips the x axis of the object's sprites when true (object's root node needs to be Node2D)
-  - flip_y flips the y axis of the object's sprites when true (object's root node needs to be Node2D)
+- `set_active object value` - Changes the "active" state of the object, value can be true or false. Inactive objects are hidden in the scene.
 
-- cut_scene object name reverse flip_x flip_y
-  Executes the animation specificed with the "name" parameter on the object, blocking. The next command in the event will be executed when the animation is finished playing. Optional parameters:
-  - reverse plays the animation in reverse when true
-  - flip_x flips the x axis of the object's sprites when true (object's root node needs to be Node2D)
-  - flip_y flips the y axis of the object's sprites when true (object's root node needs to be Node2D)
+- `wait seconds` - Blocks execution of the current script for a number of seconds specified by the "seconds" parameter.
 
-- set_active object value
-  Changes the "active" state of the object, value can be true or false. Inactive objects are hidden in the scene.
+- `change_scene path` - Loads a new scene, specified by "path"
 
-- wait seconds
-  Blocks execution of the current script for a number of seconds specified by the "seconds" parameter.
+- `teleport object1 object2` - Sets the position of object1 to the position of object2
 
-- change_scene path
-  Loads a new scene, specified by "path"
+- `walk object1 object2` - Moves object1 towards the position of object2, at the speed determined by object1's "speed" property. This command is non-blocking.
 
-- teleport object1 object2
-  Sets the position of object1 to the position of object2
+- `walk_block object1 object2` - Moves object1 towards the position of object2, at the speed determined by object1's "speed" property. This command is blocking.
 
-- walk object1 object2
-  Moves object1 towards the position of object2, at the speed determined by object1's "speed" property. This command is non-blocking.
+- `spawn path object2` - Instances a scene determined by "path", and places in the position of object2 (object2 is optional)
 
-- walk_block object1 object2
-  Moves object1 towards the position of object2, at the speed determined by object1's "speed" property. This command is blocking.
+- `stop` - Stops the event's execution.
 
-- spawn path object2
-  Instances a scene determined by "path", and places in the position of object2 (object2 is optional)
+- `repeat` - Restarts the execution of the current scope at the start. A scope can be a group or an event.
 
-- stop
-  Stops the event's execution.
+- `sched_event time object event` - Schedules the execution of an "event" found in "object" in a time in seconds. If another event is running at the time, execution starts when the running event ends.
 
-- repeat
-  Restarts the execution of the current scope at the start. A scope can be a group or an event.
+- `camera_set_pos speed x y` - Moves the camera to a position defined by "x" and "y", at the speed defined by "speed" in pixels per second. If speed is 0, camera is teleported to the position.
 
-- sched_event time object event
-  Schedules the execution of an "event" found in "object" in a time in seconds. If another event is running at the time, execution starts when the running event ends.
+- `camera_set_target speed object object2 object3...` - Configures the camera to follow 1 or more objects, using "speed" as speed limit. This is the default behavior (default follow object is "player"). If there's more than 1 object, the camera follows the average position of all the objects specified.
 
-- camera_set_pos speed x y
-  Moves the camera to a position defined by "x" and "y", at the speed defined by "speed" in pixels per second. If speed is 0, camera is teleported to the position.
+- `queue_resource path front_of_queue` - Queues the load of a resource in a background thread. The path must be a full path inside your game, for example "res://scenes/next_scene.tscn". The `front_of_queue` parameter is optional (default value `false`), to put the resource in the front of the queue. Queued resources are cleared when a change scene happens (but after the scene is loaded, meaning you can queue resources that belong to the next scene).
 
-- camera_set_target speed object object2 object3...
-  Configures the camera to follow 1 or more objects, using "speed" as speed limit. This is the default behavior (default follow object is "player"). If there's more than 1 object, the camera follows the average position of all the objects specified.
+- `queue_animation object animation` - Similar to `queue_resource`, queues the resources necessary to have an animation loaded on an item. The resource paths are taken from the item placeholders.
 
-- queue_resource path front_of_queue
-  Queues the load of a resource in a background thread. The path must be a full path inside your game, for example "res://scenes/next_scene.tscn". The "front_of_queue" parameter is optional (default value false), to put the resource in the front of the queue. Queued resources are cleared when a change scene happens (but after the scene is loaded, meaning you can queue resources that belong to the next scene).
-
-- queue_animation object animation
-  Similar to queue_resource, queues the resources necessary to have an animation loaded on an item. The resource paths are taken from the item placeholders.
-
-- game_over continue_enabled show_credits
-  Ends the game. Use the "continue_enabled" parameter to enable or disable the continue button in the main menu afterwards. The "show_credits" parameter loads the credits ui if true.
+- `game_over continue_enabled show_credits` - Ends the game. Use the `continue_enabled` parameter to enable or disable the continue button in the main menu afterwards. The `show_credits` parameter loads the credits ui if true.
 
 Dialogs
 -------
@@ -157,7 +141,7 @@ Dialogs
 To start a dialog, use the "?" character, with some parameters, followed by a list of dialog options. Each option starts with the "-" character, followed by a parameter with the text to display in the dialog interface. Inside the option, a group of commands is specified using indentation.
 
 Example:
-
+```
 # character's "talk" event
 :talk
 ? type avatar timeout timeout_option
@@ -187,10 +171,10 @@ Example:
 		say player "Nevermind"
 		stop
 repeat
-
+```
 All parameters are options:
- - type: (default value "default") the type of dialog menu to use. All types are in the "dd_player" scene.
- - avatar: (default value "default") the avatar to use in the dialog ui.
- - timeout: (default value 0) timeout to select an option. After the time has passed, the "timeout_option" will be selected automatically. If the value is 0, there's no timeout.
- - timeout_option: (default value 0) option selected when timeout is reached.
+ - `type`: (default value "default") the type of dialog menu to use. All types are in the "dd_player" scene.
+ - `avatar`: (default value "default") the avatar to use in the dialog ui.
+ - `timeout`: (default value 0) timeout to select an option. After the time has passed, the "timeout_option" will be selected automatically. If the value is 0, there's no timeout.
+ - `timeout_option`: (default value 0) option selected when timeout is reached.
 
