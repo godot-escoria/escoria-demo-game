@@ -22,6 +22,11 @@ var ui_anim = null
 
 var event_table = {}
 
+var clicked = false
+
+func is_clicked():
+	return clicked
+
 #func _set(name, val):
 #	if name == "events_path":
 #		event_table = vm.compile(val)
@@ -86,12 +91,17 @@ func mouse_exit():
 	get_tree().call_group(0, "game", "mouse_exit", self)
 	_check_focus(false, false)
 
+func area_input(viewport, event, shape_idx):
+	input(event)
+
 func input(event):
 	if event.type == InputEvent.MOUSE_BUTTON || event.is_action("ui_accept"):
 		if event.is_pressed():
+			clicked = true
 			get_tree().call_group(0, "game", "clicked", self, get_pos())
 			_check_focus(true, true)
 		else:
+			clicked = false
 			_check_focus(true, false)
 
 func _check_focus(focus, pressed):
@@ -284,7 +294,7 @@ func _check_bounds():
 	else:
 		if !has_node("terrain_icon"):
 			var node = Sprite.new()
-			var tex = load("res://game/objects/terrain.png")
+			var tex = load("res://globals/terrain.png")
 			node.set_texture(tex)
 			add_child(node)
 			node.set_name("terrain_icon")
@@ -330,7 +340,10 @@ func _ready():
 		area = get_node("area")
 	else:
 		area = self
-	area.connect("input_event", self, "input")
+	if area.is_type("Area2D"):
+		area.connect("input_event", self, "area_input")
+	else:
+		area.connect("input_event", self, "input")
 	area.connect("mouse_enter", self, "mouse_enter")
 	area.connect("mouse_exit", self, "mouse_exit")
 	vm = get_tree().get_root().get_node("vm")
