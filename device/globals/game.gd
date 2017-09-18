@@ -27,8 +27,10 @@ func set_mode(p_mode):
 func mouse_enter(obj):
 	var text
 	var tt = obj.get_tooltip()
-	if current_action != "" && current_tool != null:
-		text = tr(current_action + ".combine_id")
+	if current_tool != null:
+		text = "use.combine_id"
+		if current_action != "":
+			text = tr(current_action + ".combine_id")
 		text = text.replace("%2", tr(tt))
 		text = text.replace("%1", tr(current_tool.get_tooltip()))
 	elif obj.inventory:
@@ -65,7 +67,7 @@ func set_current_action(p_act):
 func set_current_tool(p_tool):
 	current_tool = p_tool
 
-func clicked(obj, pos):
+func clicked(obj, pos, button_index=BUTTON_LEFT):
 	# If multiple areas are clicked at once, an item_background "wins"
 	if obj.get_type() == "Area2D":
 		for area in obj.get_overlapping_areas():
@@ -78,6 +80,8 @@ func clicked(obj, pos):
 		player = self
 	if mode == "default":
 		var action = obj.get_action()
+		if (button_index == BUTTON_RIGHT):
+			action = obj.get_secondary_action()
 		#action_menu.stop()
 		if action == "walk":
 
@@ -89,11 +93,15 @@ func clicked(obj, pos):
 			get_tree().call_group(0, "hud", "set_tooltip", "")
 
 		elif obj.inventory:
+			var one_click_action = obj.get_action()
+			if button_index == BUTTON_RIGHT:
+				one_click_action = obj.get_secondary_action()
 
-			if current_action == "use" && obj.use_combine && current_tool == null:
+			# NOTE! This makes it impossible to use a left-click "Action" in combination with a verb interface
+			if (current_action == "use" || one_click_action == "use") && obj.use_combine && current_tool == null:
 				set_current_tool(obj)
 			else:
-				interact([obj, current_action, current_tool])
+				interact([obj, current_action, current_tool], button_index)
 		elif action != "":
 			player.interact([obj, action, current_tool])
 		elif current_action != "":
@@ -132,13 +140,15 @@ func action_menu_selected(obj, action):
 		interact([obj, action])
 	action_menu.stop()
 
-func interact(p_params):
+func interact(p_params, button_index=BUTTON_LEFT):
 	if mode == "default":
 		var obj = p_params[0]
 		clear_action()
 		var action = p_params[1]
 		if !action:
 			action = obj.get_action()
+			if (button_index == BUTTON_RIGHT):
+				action = obj.get_secondary_action()
 
 		if p_params.size() > 2:
 			clear_action()
