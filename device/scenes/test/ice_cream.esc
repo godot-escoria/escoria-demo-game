@@ -10,3 +10,7 @@ set_state bg_music off
 say player "A strawberry ice cream cone"
 
 set_state bg_music "res://scenes/test/dog_splash_theme.ogg"
+
+:use
+
+set_costume default

@@ -299,6 +299,10 @@ func teleport_pos(x, y):
 	set_pos(Vector2(x, y))
 	_update_terrain()
 
+func set_costume(costume):
+	var node = get_node(costume)
+	# TODO: Might want to run some sanity checks on 'node'
+	animation = node if node else get_node("animation")
 
 func _find_sprites(p = null):
 	if p.is_type("Sprite") || p.is_type("AnimatedSprite"):

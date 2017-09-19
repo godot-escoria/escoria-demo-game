@@ -7,3 +7,7 @@ set_active can false
 :look
 
 say player "A can"
+
+:use
+
+set_costume hat
