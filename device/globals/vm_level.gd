@@ -266,6 +266,11 @@ func game_over(params):
 	current_context.waiting = true
 	return vm.state_yield
 
+func set_costume(params):
+	var player = vm.get_object("player")
+	if player:
+		player.set_costume(params[0])
+
 ### end command
 
 func run(context):
