@@ -303,6 +303,7 @@ func set_costume(costume):
 	var node = get_node(costume)
 	# TODO: Might want to run some sanity checks on 'node'
 	animation = node if node else get_node("animation")
+	animation.play(animations.idles[last_dir])
 
 func _find_sprites(p = null):
 	if p.is_type("Sprite") || p.is_type("AnimatedSprite"):
