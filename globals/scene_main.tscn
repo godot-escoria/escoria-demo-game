@@ -1,0 +1,15 @@
+[gd_scene load_steps=1 format=2]
+
+[ext_resource path="res://globals/scene_main.gd" type="Script" id=1]
+
+[node name="scene_main" type="Control"]
+
+focus_ignore_mouse = false
+focus_stop_mouse = true
+size_flags_horizontal = 2
+size_flags_vertical = 2
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )

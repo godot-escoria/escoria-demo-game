@@ -1,0 +1,228 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://globals/dialog_dialog.gd" type="Script" id=1]
+
+[sub_resource type="Animation" id=1]
+
+resource_name = "hide"
+length = 0.75
+loop = false
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("anchor:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("anchor:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.15, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 1.1 ), Vector2( 1, 1.1 ), Vector2( 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+
+length = 0.75
+loop = false
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("anchor:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.2, 0.35 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 0 ), Vector2( 1, 1.1 ), Vector2( 1, 1.1 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("anchor:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[node name="dialog" type="Control"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 539.0
+margin_top = 398.0
+margin_right = -58.0
+margin_bottom = -203.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+script = ExtResource( 1 )
+__meta__ = {
+"__editor_plugin_screen__": "2D"
+}
+mouse_enter_color = Color( 1, 1, 0.3, 1 )
+mouse_enter_shadow_color = Color( 0.6, 0.4, 0, 1 )
+mouse_exit_color = Color( 1, 1, 1, 1 )
+mouse_exit_shadow_color = Color( 1, 1, 1, 1 )
+
+[node name="anchor" type="Node2D" parent="."]
+
+position = Vector2( 373.302, 425.803 )
+
+[node name="bg" type="TextureRect" parent="anchor"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -937.0
+margin_top = -377.0
+margin_right = 985.0
+margin_bottom = 138.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+size_flags_horizontal = 2
+size_flags_vertical = 2
+expand = true
+stretch_mode = 0
+
+[node name="scroll" type="ScrollContainer" parent="anchor"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -735.0
+margin_top = -334.0
+margin_right = 893.0
+margin_bottom = -105.0
+rect_min_size = Vector2( 1628, 229 )
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+scroll_horizontal = false
+scroll_vertical = true
+
+[node name="container" type="VBoxContainer" parent="anchor/scroll"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+size_flags_horizontal = 2
+size_flags_vertical = 2
+custom_constants/separation = 10
+alignment = 0
+
+[node name="avatars" type="Node2D" parent="anchor"]
+
+position = Vector2( -323, -33 )
+
+[node name="default" type="Sprite" parent="anchor/avatars"]
+
+position = Vector2( -472.18, -234.678 )
+
+[node name="item" type="Control" parent="."]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -338.0
+margin_top = 134.0
+margin_right = 1270.0
+margin_bottom = 163.0
+rect_min_size = Vector2( 800, 29 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+
+[node name="button" type="TextureButton" parent="item"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+
+[node name="label" type="Label" parent="item/button"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 25.0
+margin_top = 3.0
+margin_right = 1605.0
+margin_bottom = 36.0
+rect_min_size = Vector2( 1580, 33 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+size_flags_horizontal = 2
+size_flags_vertical = 0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
+text = "I should pick option one"
+autowrap = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="animation" type="AnimationPlayer" parent="."]
+
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+root_node = NodePath("..")
+anims/hide = SubResource( 1 )
+anims/show = SubResource( 2 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+
