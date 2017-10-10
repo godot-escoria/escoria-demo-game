@@ -90,7 +90,8 @@ func wait(time, level):
 	wait_timer.start()
 
 func check_screen():
-	var vs = OS.get_video_mode_size()
+#	var vs = OS.get_video_mode_size()
+	var vs = OS.get_screen_size()
 	if vs == vm_size:
 		return
 	vm_size = vs
@@ -100,7 +101,7 @@ func check_screen():
 	get_tree().get_root().set_size_override(true,Vector2(game_size.x,height))
 	get_tree().get_root().set_size_override_stretch(true)
 
-	var m = Matrix32()
+	var m = Transform2D()
 	var ofs = Vector2(0, (height - game_size.y) / 2)
 	m[2] = ofs
 	get_tree().get_root().set_global_canvas_transform(m)
@@ -131,8 +132,9 @@ func load_telon():
 	var tpath = ProjectSettings.get("platform/telon")
 	var tres = vm.res_cache.get_resource(tpath)
 
-	get_node("layers/telon/telon").replace_by_instance(tres)
-	telon = get_node("layers/telon/telon")
+	if get_node("layers/telon/telon") != null:
+		get_node("layers/telon/telon").replace_by_instance(tres)
+		telon = get_node("layers/telon/telon")
 
 func _ready():
 
@@ -145,7 +147,8 @@ func _ready():
 
 	vm = get_tree().get_root().get_node("vm")
 	wait_timer = get_node("layers/wait_timer")
-	wait_timer.connect("timeout", self, "wait_finished")
+	if wait_timer != null:
+		wait_timer.connect("timeout", self, "wait_finished")
 	add_to_group("game")
 	menu_layer = get_node("layers/menu")
 	set_process_input(true)

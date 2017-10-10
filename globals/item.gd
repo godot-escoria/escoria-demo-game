@@ -98,7 +98,7 @@ func input(event):
 	if event is InputEventMouseButton || event.is_action("ui_accept"):
 		if event.is_pressed():
 			clicked = true
-			get_tree().call_group(0, "game", "clicked", self, get_pos())
+			get_tree().call_group(0, "game", "clicked", self, get_position())
 			_check_focus(true, true)
 		else:
 			clicked = false

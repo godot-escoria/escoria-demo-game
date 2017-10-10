@@ -182,13 +182,13 @@ func fallback(obj, action, param = null):
 func scene_input(event):
 	if event.is_action("quick_save") && event.is_pressed() && !event.is_echo():
 		vm.request_autosave()
-	if event.type == InputEvent.JOYSTICK_MOTION:
+	if event is InputEventJoypadMotion:
 		if event.axis == 0 || event.axis == 1:
 			joystick_mode = true
 			check_joystick = true
 			set_process(true)
 
-	if event.type == InputEvent.MOUSE_BUTTON && !event.is_pressed() && event.button_index == BUTTON_LEFT:
+	if event is InputEventMouseButton && !event.is_pressed() && event.button_index == BUTTON_LEFT:
 		if vm.drag_object != null:
 			vm.drag_end()
 
@@ -273,14 +273,14 @@ func set_camera_limits():
 			var c = p.get_child(i)
 			if !(c is preload("res://globals/background.gd")):
 				continue
-			var pos = c.get_global_pos()
+			var pos = c.get_global_position()
 			var size = c.get_size()
 			area = area.expand(pos)
 			area = area.expand(pos + size)
 
-		camera.set_limit(MARGIN_LEFT, area.pos.x)
-		camera.set_limit(MARGIN_RIGHT, area.pos.x + area.size.x)
-		var cam_top = area.pos.y # - get_node("/root/main").screen_ofs.y
+		camera.set_limit(MARGIN_LEFT, area.position.x)
+		camera.set_limit(MARGIN_RIGHT, area.position.x + area.size.x)
+		var cam_top = area.position.y # - get_node("/root/main").screen_ofs.y
 		camera.set_limit(MARGIN_TOP, cam_top)
 		camera.set_limit(MARGIN_BOTTOM, cam_top + area.size.y + get_node("/root/main").screen_ofs.y * 2)
 

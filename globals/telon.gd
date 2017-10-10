@@ -28,7 +28,7 @@ func _input(event):
 		get_tree().call_group(0, "events", "skipped")
 
 func input_event(event):
-	if event.type == InputEvent.MOUSE_BUTTON && event.pressed && event.button_index == BUTTON_LEFT:
+	if event is InputEventMouseButton && event.pressed && event.button_index == BUTTON_LEFT:
 		get_tree().call_group(0, "events", "skipped")
 
 func game_cleared():
@@ -114,8 +114,7 @@ func rand_seek(p_node = null):
 		node.play()
 
 func _ready():
-	#._ready()
-	get_node("input_catch").connect("input_event", self, "input_event")
+	get_node("input_catch").connect("gui_event", self, "input_event")
 	get_node("input_catch").set_size(Vector2(ProjectSettings.get("display/game_width"), ProjectSettings.get("display/game_height")))
 	get_node("animation").play("release_input")
 	add_to_group("game")

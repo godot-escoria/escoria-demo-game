@@ -83,7 +83,9 @@ func settings_loaded(p_settings):
 		if !(k in settings):
 			settings[k] = settings_default[k]
 
-	AudioServer.set_fx_global_volume_scale(settings.sfx_volume)
+	# TODO Apply globally
+#	AudioServer.set_fx_global_volume_scale(settings.sfx_volume)
+	AudioServer.set_bus_volume_db(0, settings.sfx_volume)
 	TranslationServer.set_locale(settings.text_lang)
 	music_volume_changed()
 	update_window_fullscreen(true)
@@ -163,13 +165,13 @@ func update_camera(time):
 			var obj = get_object(n)
 			if obj != null:
 				count += 1
-				pos += obj.get_pos()
+				pos += obj.get_position()
 		if count > 0:
 			pos = pos / count
 	else:
-		pos = target.get_pos()
+		pos = target.get_position()
 
-	var cpos = camera.get_pos()
+	var cpos = camera.get_position()
 
 	if cpos != pos:
 		#return
@@ -177,16 +179,16 @@ func update_camera(time):
 		var dif = pos - cpos
 		var dist = cam_speed * time
 		if dist > dif.length() || cam_speed == 0:
-			camera.set_pos(pos)
+			camera.set_position(pos)
 			#return
 		else:
-			camera.set_pos(cpos + dif.normalized() * dist)
+			camera.set_position(cpos + dif.normalized() * dist)
 			pos = cpos + dif.normalized() * dist
 
 	if ProjectSettings.get("platform/use_custom_camera"):
 		var half = game_size / 2
 		pos = _adjust_camera(pos)
-		var t = Matrix32()
+		var t = Transform2D()
 		t[2] = (-(pos - half))
 
 		get_node("/root").set_canvas_transform(t)
@@ -194,15 +196,15 @@ func update_camera(time):
 func _adjust_camera(pos):
 	var half = game_size / 2
 
-	if pos.x + half.x > camera_limits.pos.x + camera_limits.size.x:
-		pos.x = (camera_limits.pos.x + camera_limits.size.x) - half.x
-	if pos.x - half.x < camera_limits.pos.x:
-		pos.x = camera_limits.pos.x + half.x
+	if pos.x + half.x > camera_limits.position.x + camera_limits.size.x:
+		pos.x = (camera_limits.position.x + camera_limits.size.x) - half.x
+	if pos.x - half.x < camera_limits.position.x:
+		pos.x = camera_limits.position.x + half.x
 
-	if pos.y + half.y > camera_limits.pos.y + camera_limits.size.y:
-		pos.y = (camera_limits.pos.y + camera_limits.size.y) - half.y
-	if pos.y - half.y < camera_limits.pos.y:
-		pos.y = camera_limits.pos.y + half.y
+	if pos.y + half.y > camera_limits.position.y + camera_limits.size.y:
+		pos.y = (camera_limits.position.y + camera_limits.size.y) - half.y
+	if pos.y - half.y < camera_limits.position.y:
+		pos.y = camera_limits.position.y + half.y
 
 	return pos
 
@@ -553,7 +555,7 @@ func save():
 	ret.append("cut_scene telon fade_out\n\n")
 
 	ret.append("## Global flags\n\n")
-	for k in ProjectSettings.keys():
+	for k in globals.keys():
 		if !globals[k]:
 			continue
 		ret.append("set_global " + k + " true\n")
@@ -591,7 +593,7 @@ func save():
 	ret.append("change_scene " + root.get_current_scene().get_filename() + "\n")
 
 	if root.get_current_scene().has_node("player"):
-		var pos = root.get_current_scene().get_node("player").get_global_pos()
+		var pos = root.get_current_scene().get_node("player").get_global_position()
 		ret.append("teleport_pos player " + str(pos.x) + " " + str(pos.y) + "\n")
 
 	if cam_target != null:
@@ -734,7 +736,7 @@ func _ready():
 	scenes_cache_list.push_back(ProjectSettings.get("platform/telon"))
 	scenes_cache_list.push_back(get_hud_scene())
 
-	if !ProjectSettings.has("debug/skip_cache") || !ProjectSettings.get("debug/skip_cache"):
+	if !ProjectSettings.has_method("debug/skip_cache") || !ProjectSettings.get("debug/skip_cache"):
 		printt("cache list ", scenes_cache_list)
 		for s in scenes_cache_list:
 			print("s is ", s)

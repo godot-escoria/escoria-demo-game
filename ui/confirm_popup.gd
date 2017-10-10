@@ -1,3 +1,4 @@
+extends Control 
 
 var target = null
 var slot = ""

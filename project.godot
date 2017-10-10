@@ -18,8 +18,8 @@ tooltip_lang_default="en"
 
 [autoload]
 
-main="res://main.tscn"
-vm="res://globals/global_vm.tscn"
+main="res://main.gd"
+vm="res://globals/global_vm.gd"
 
 [debug]
 
@@ -27,14 +27,14 @@ print_clicked_control=true
 
 [display]
 
-window/size/width=1920
-window/size/height=1080
+window/size/width=1280
+window/size/height=720
 game_height=1080
 game_width=1920
-window/height=1080
+window/height=720
 window/test_height=720
 window/test_width=1280
-window/width=1920
+window/width=1280
 
 [gdnative]
 

@@ -20,6 +20,12 @@ scale = Vector2( 1, 1 )
 
 [node name="bg_music" parent="layers/telon" instance=ExtResource( 2 )]
 
+[node name="telon" parent="layers/telon" instance_placeholder="res://globals/telon.tscn"]
+
+placeholders = {
+
+}
+
 [node name="dialog" type="CanvasLayer" parent="layers"]
 
 layer = 2

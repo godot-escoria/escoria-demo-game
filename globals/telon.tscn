@@ -79,7 +79,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [node name="telon" type="Control"]
@@ -99,6 +99,25 @@ script = ExtResource( 1 )
 __meta__ = {
 "__editor_plugin_screen__": "2D"
 }
+animations = null
+speed = 300
+scale_on_map = false
+light_on_map = false
+tooltip = ""
+action = ""
+events_path = ""
+global_id = ""
+use_combine = false
+inventory = false
+use_action_menu = true
+interact_angle = -1
+talk_animation = "talk"
+active = true
+placeholders = {
+
+}
+use_custom_z = false
+music_volume = 1.0
 
 [node name="input_catch" type="Control" parent="."]
 
@@ -116,6 +135,7 @@ size_flags_vertical = 2
 
 [node name="white" type="TextureRect" parent="."]
 
+modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 0, 0, 0, 1 )
 anchor_left = 0.0
 anchor_top = 0.0
