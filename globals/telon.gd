@@ -25,11 +25,11 @@ func set_input_catch(p_catch):
 
 func _input(event):
 	if event.is_pressed() && event.is_action("ui_accept"):
-		get_tree().call_group(0, "events", "skipped")
+		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "events", "skipped")
 
 func input_event(event):
 	if event is InputEventMouseButton && event.pressed && event.button_index == BUTTON_LEFT:
-		get_tree().call_group(0, "events", "skipped")
+		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "events", "skipped")
 
 func game_cleared():
 	if global_id != "":

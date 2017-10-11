@@ -2,7 +2,7 @@ var target
 var actions
 
 func action_pressed(action):
-	get_tree().call_group(0, "game", "action_menu_selected", target, action)
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "action_menu_selected", target, action)
 
 func target_visibility_changed():
 	stop()

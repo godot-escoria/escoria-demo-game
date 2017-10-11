@@ -3,7 +3,6 @@ var text
 var elapsed = 0
 var total_time
 var character
-var vm
 var speed = 45.0 # characters per second
 var finished = false
 var play_intro = true
@@ -116,7 +115,7 @@ func init(p_params, p_context, p_intro, p_outro):
 					c.hide()
 
 	character.set_speaking(true)
-	get_tree().call_group(0, "game", "set_mode", "dialog")
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "set_mode", "dialog")
 	if has_node("animation") && play_intro:
 		var anim = get_node("animation")
 		if anim.has_animation("show"):
@@ -188,7 +187,7 @@ func game_paused(p_pause):
 
 func _queue_free():
 	queue_free()
-	get_tree().call_group(0, "game", "set_mode", "default")
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "set_mode", "default")
 	vm.finished(context)
 
 
@@ -200,7 +199,6 @@ func anim_finished():
 		_queue_free()
 
 func _ready():
-	vm = get_tree().get_root().get_node("vm")
 	speech_extension = ProjectSettings.get("application/speech_suffix")
 	add_to_group("events")
 	if has_node("animation"):

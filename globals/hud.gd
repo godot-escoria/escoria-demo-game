@@ -1,7 +1,6 @@
 extends Control
 
 var background = null
-var vm
 
 func set_tooltip(text):
 	printt("hud got tooltip text ", text)
@@ -28,11 +27,11 @@ func _on_menu_pressed():
 	if vm.can_save() && vm.can_interact() && vm.menu_enabled():
 		get_node("/root/main").load_menu("res://game/ui/main_menu.xml")
 	else:
-		#get_tree().call_group(0, "game", "ui_blocked")
+		#get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "ui_blocked")
 		if vm.menu_enabled():
 			get_node("/root/main").load_menu("res://game/ui/in_game_menu.tscn")
 		else:
-			get_tree().call_group(0, "game", "ui_blocked")
+			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "ui_blocked")
 
 
 func menu_opened():
@@ -42,7 +41,6 @@ func menu_closed():
 	show()
 
 func _ready():
-	vm = get_node("/root/vm")
 	add_to_group("hud")
 	add_to_group("game")
 	#get_node("inv_toggle").connect("pressed", self, "inv_toggle")

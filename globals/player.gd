@@ -154,7 +154,7 @@ func interact(p_params):
 			animation.play(animations.idles[last_dir])
 			pose_scale = animations.idles[last_dir + 1]
 			_update_terrain()
-		get_tree().call_group(0, "game", "interact", p_params)
+		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "interact", p_params)
 
 func walk_stop(pos):
 	set_position(pos)
@@ -170,7 +170,7 @@ func walk_stop(pos):
 		else:
 			animation.play(animations.idles[last_dir])
 			pose_scale = animations.idles[last_dir + 1]
-		get_tree().call_group(0, "game", "interact", params_queue)
+		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "interact", params_queue)
 	else:
 		animation.play(animations.idles[last_dir])
 		pose_scale = animations.idles[last_dir + 1]

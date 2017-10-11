@@ -5,7 +5,6 @@ export var mouse_enter_shadow_color = Color(0.6,0.4,0)
 export var mouse_exit_color = Color(1,1,1)
 export var mouse_exit_shadow_color = Color(1,1,1)
 
-var vm
 var cmd
 var container
 var context
@@ -153,7 +152,6 @@ func _ready():
 
 	printt("dialog ready")
 	hide()
-	vm = get_tree().get_root().get_node("vm")
 	container = get_node("anchor/scroll/container")
 	container.set_stop_mouse(false)
 	#add_to_group("dialog_dialog")

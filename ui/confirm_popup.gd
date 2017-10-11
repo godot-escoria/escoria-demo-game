@@ -18,8 +18,6 @@ func button_pressed(p_confirm):
 		return
 	if target != null:
 		target.call_deferred(slot, p_confirm)
-
-
 	close()
 
 func menu_collapsed():

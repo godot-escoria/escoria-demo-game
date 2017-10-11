@@ -1,6 +1,5 @@
 extends Node 
 
-var vm
 var telon
 var menu_layer
 var wait_timer
@@ -39,7 +38,7 @@ func get_current_scene():
 func menu_open(menu):
 	menu_stack.push_back(menu)
 	if menu_stack.size() == 1:
-		get_tree().call_group(0, "game", "menu_opened")
+		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "menu_opened")
 		vm.set_pause(true)
 		#get_tree().set_pause(true)
 		pass
@@ -51,7 +50,7 @@ func menu_close(p_menu):
 
 	if menu_stack.size() == 0:
 		vm.set_pause(false)
-		get_tree().call_group(0, "game", "menu_closed")
+		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "menu_closed")
 		#get_tree().set_pause(false)
 		pass
 
@@ -111,7 +110,7 @@ func check_screen():
 
 	#get_tree().set_auto_accept_quit(false)
 
-	get_tree().call_group(0, "game", "set_camera_limits")
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "set_camera_limits")
 
 
 func _process(time):
@@ -145,7 +144,6 @@ func _ready():
 	game_size.x = ProjectSettings.get("display/game_width")
 	game_size.y = ProjectSettings.get("display/game_height")
 
-	vm = get_tree().get_root().get_node("vm")
 	wait_timer = get_node("layers/wait_timer")
 	if wait_timer != null:
 		wait_timer.connect("timeout", self, "wait_finished")

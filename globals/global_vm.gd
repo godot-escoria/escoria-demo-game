@@ -89,7 +89,7 @@ func settings_loaded(p_settings):
 	TranslationServer.set_locale(settings.text_lang)
 	music_volume_changed()
 	update_window_fullscreen(true)
-	get_tree().call_group(0, "ui", "language_changed")
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "ui", "language_changed")
 
 func update_window_fullscreen(p_force = false):
 	if ProjectSettings.get("debug/screen_size_override"):
@@ -131,11 +131,11 @@ func drag_end():
 		printt("********** dragging ends")
 		if hover_object != null && !hover_object.inventory:
 			printt("calling clicked")
-			get_tree().call_group(0, "game", "clicked", hover_object, hover_object.get_pos())
-			get_tree().call_group(0, "game", "clear_pending_command")
+			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clicked", hover_object, hover_object.get_pos())
+			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clear_pending_command")
 		elif hover_object == null:
-			get_tree().call_group(0, "game", "clear_pending_command")
-			get_tree().call_group(0, "hud", "set_tooltip", "")
+			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clear_pending_command")
+			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", "")
 
 	drag_object = null
 
@@ -222,17 +222,17 @@ func inventory_set(p_obj, p_has):
 	set_global("i/"+p_obj, p_has)
 
 func say(params, level):
-	get_tree().call_group(0, "dialog", "say", params, level)
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "dialog", "say", params, level)
 
 func dialog_config(params):
-	get_tree().call_group(0, "dialog", "config", params)
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "dialog", "config", params)
 
 func wait(params, level):
 	var time = float(params[0])
 	printt("wait time ", params[0], time)
 	if time <= 0:
 		return state_return
-	get_tree().call_group(0, "game", "wait", time, level)
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "wait", time, level)
 	level.waiting = true
 	return state_yield
 
@@ -257,7 +257,7 @@ func test(cmd):
 	return true
 
 func dialog(params, level):
-	get_tree().call_group(0, "dialog_dialog", "start", params, level)
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "dialog_dialog", "start", params, level)
 
 func instance_level(p_level, p_root):
 	var level = { "ip": 0, "instructions": p_level, "waiting": false, "break_stop": p_root, "labels": {} }
@@ -310,7 +310,7 @@ func add_level(p_level, p_root):
 
 func run_event(p_event):
 	root.set_input_catch(true)
-	get_tree().call_group(0, "hud", "set_tooltip", "")
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", "")
 	add_level(p_event, true)
 
 func sched_event(time, obj, event):
@@ -630,7 +630,7 @@ func set_camera(p_cam):
 		camera.clear_current()
 
 func clear():
-	get_tree().call_group(0, "game", "game_cleared")
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "game_cleared")
 	stack = []
 	globals = {}
 	objects = {}

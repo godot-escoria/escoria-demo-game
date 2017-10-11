@@ -13,7 +13,7 @@ func set_state(p_state, p_force = false):
 	if p_state == state && !p_force && stream.is_playing():
 		return
 
-	.set_state(p_state, p_force)
+	#set_state(p_state, p_force)
 
 	if stream == null:
 		return

@@ -1,8 +1,6 @@
-extends Node 
-
+extends Node
 export(Script) var animations
 
-var vm
 var terrain
 var walk_path
 var walk_context
@@ -43,7 +41,7 @@ func _get_dir(angle):
 	return dir
 
 func walk_stop(pos):
-	set_pos(pos)
+	set_position(pos)
 	walk_path = []
 
 	if animation != null && animation.is_playing():
@@ -58,10 +56,10 @@ func walk_stop(pos):
 		walk_context = null
 
 func walk_to(pos, context = null):
-	walk_path = terrain.get_path(get_pos(), pos)
+	walk_path = terrain.get_path(get_position(), pos)
 	walk_context = context
 	if walk_path.size() == 0:
-		walk_stop(get_pos())
+		walk_stop(get_position())
 		set_process(false)
 		task = null
 		return
@@ -78,14 +76,16 @@ func walk(pos, speed, context = null):
 
 func modulate(color):
 	for s in sprites:
-		s.set_modulate(color)
+		#s.set_modulate(color)
+		#TODO
+		print("s.set_modulate(color)")
 
 
 func _process(time):
 
 	if task == "walk":
 		var to_walk = speed * last_scale.x * time
-		var pos = get_pos()
+		var pos = get_position()
 		var old_pos = pos
 		if walk_path.size() > 0:
 			while to_walk > 0:
@@ -110,7 +110,7 @@ func _process(time):
 					return
 
 		var angle = old_pos.angle_to_point(pos)
-		set_pos(pos)
+		set_position(pos)
 
 		last_dir = _get_dir(angle)
 
@@ -134,8 +134,7 @@ func _ready():
 
 	_find_sprites(self)
 
-#	if get_tree().is_editor_hint():
-#		return
+	if Engine.is_editor_hint():
+		return
 	if has_node("animation"):
 		animation = get_node("animation")
-	vm = get_node("/root/vm")

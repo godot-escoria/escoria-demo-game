@@ -1,10 +1,10 @@
-tool
+#tool
 
 extends "res://globals/interactive.gd"
 
 export var tooltip = ""
 export var action = ""
-export(String,FILE) var events_path = ""
+export(String, FILE) var events_path = ""
 export var global_id = ""
 export var use_combine = false
 export var inventory = false
@@ -37,16 +37,16 @@ func is_clicked():
 
 func get_interact_pos():
 	if has_node("interact_pos"):
-		return get_node("interact_pos").get_global_pos()
+		return get_node("interact_pos").get_global_position()
 	else:
-		return get_global_pos()
+		return get_global_position()
 
 func anim_finished():
-	if typeof(anim_notify) != typeof(null):
-		vm.finished(anim_notify)
+	if anim_notify != null:
+		get_node("/root/vm").finished(anim_notify)
 		anim_notify = null
 
-	if typeof(anim_scale_override) != typeof(null) && self is Node2D:
+	if anim_scale_override != null && self is Node2D:
 		set_scale(get_scale() * anim_scale_override)
 		anim_scale_override = null
 
@@ -71,24 +71,23 @@ func run_event(p_ev):
 func activate(p_action, p_param = null):
 	#printt("****** activated ", p_action, p_param, p_action in event_table)
 	#print_stack()
-	if typeof(p_param) != typeof(null):
+	if p_param != null:
 		p_action = p_action + " " + p_param.global_id
 	if p_action in event_table:
 		run_event(event_table[p_action])
 	else:
 		return false
-
 	return true
 
 func get_action():
 	return action
-
+#
 func mouse_enter():
-	get_tree().call_group(0, "game", "mouse_enter", self)
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "mouse_enter", self)
 	_check_focus(true, false)
 
 func mouse_exit():
-	get_tree().call_group(0, "game", "mouse_exit", self)
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "mouse_exit", self)
 	_check_focus(false, false)
 
 func area_input(viewport, event, shape_idx):
@@ -98,11 +97,11 @@ func input(event):
 	if event is InputEventMouseButton || event.is_action("ui_accept"):
 		if event.is_pressed():
 			clicked = true
-			get_tree().call_group(0, "game", "clicked", self, get_position())
+			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clicked", self, get_position())
 			_check_focus(true, true)
 		else:
 			clicked = false
-			_check_focus(true, false)
+#			_check_focus(true, false)
 
 func _check_focus(focus, pressed):
 	if has_node("_focus_in"):
@@ -140,8 +139,8 @@ func get_drag_data(point):
 	it.show()
 	set_drag_preview(c)
 
-	get_tree().call_group(0, "background", "force_drag", global_id, c)
-	get_tree().call_group(0, "game", "interact", [self, "use"])
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "background", "force_drag", global_id, c)
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "interact", [self, "use"])
 
 	vm.drag_begin(global_id)
 	printt("returning for drag data", global_id)
@@ -157,8 +156,8 @@ func drop_data(point, data):
 
 	if !inventory:
 		return
-	
-	get_tree().call_group(0, "game", "clicked", self, get_pos())
+
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clicked", self, get_pos())
 	vm.drag_end()
 
 
@@ -183,7 +182,7 @@ func anim_get_ph_paths(p_anim):
 
 func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 
-	if typeof(p_notify) != typeof(null) && (!has_node("animation") || !get_node("animation").has_animation(p_anim)):
+	if p_notify is null && (!has_node("animation") || !get_node("animation").has_animation(p_anim)):
 		print("skipping cut scene '", p_anim, "'")
 		vm.finished(p_notify)
 		#_debug_states()
@@ -200,8 +199,8 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 			_find_sprites(get_node(npath))
 
 	if p_flip != null && self is Node2D:
-		var scale = get_scale()
-		set_scale(scale * p_flip)
+		var s = get_scale()
+		set_scale(s * p_flip)
 		anim_scale_override = p_flip
 	else:
 		anim_scale_override = null
@@ -235,7 +234,7 @@ func set_speaking(p_speaking):
 	pass
 
 func set_state(p_state, p_force = false):
-	printt("set state ", global_id, state, p_state, p_force)
+	printt("set state ", "global_id: ", global_id, "state: ", state, "p_state: ", p_state, "p_force: ", p_force)
 	#print_stack()
 	if state == p_state && !p_force:
 		return
@@ -249,8 +248,8 @@ func set_state(p_state, p_force = false):
 		if animation.has_animation(p_state):
 			printt("playing animation ", p_state)
 			animation.play(p_state)
-
-
+#
+#
 func teleport(obj):
 	set_pos(obj.get_global_pos())
 	_update_terrain()
@@ -265,14 +264,14 @@ func _update_terrain():
 	if !scale_on_map && !light_on_map:
 		return
 	print("updating terrain!")
-	var pos = get_pos()
+	var pos = get_position()
 	var terrain = get_node("../terrain")
 	if terrain == null:
 		return
 	var color = terrain.get_terrain(pos)
-	var scale = terrain.get_scale_range(color.b)
+	var scale_range = terrain.get_scale_range(color.b)
 
-	if scale_on_map && (self is Node2D) && scale != get_scale():
+	if scale_on_map && (self is Node2D) && scale_range != get_scale():
 		var c = terrain.get_terrain(pos)
 		var s = terrain.get_scale_range(c.b)
 		set_scale(s)
@@ -326,10 +325,8 @@ func setup_ui_anim():
 		ui_anim = get_node("ui_anims")
 		for bg in get_tree().get_nodes_in_group("background"):
 			bg.connect("right_click_on_bg",self,"hint_request")
-
-
 	vm.connect("global_changed", self, "global_changed")
-
+#
 func _ready():
 
 	if Engine.is_editor_hint():
