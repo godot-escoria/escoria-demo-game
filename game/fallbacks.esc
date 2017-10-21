@@ -1,0 +1,9 @@
+
+
+:use
+debug "use fallback!"
+say player "I can't do that"
+
+:pick_up
+debug "pick_up fallback!"
+say player "That's not a good idea"

@@ -45,7 +45,7 @@ _sections_unfolded = [ "Transform", "Z" ]
 scales = null
 lightmap = null
 bitmaps_scale = Vector2( 1, 1 )
-debug_mode = 1
+debug_mode = 0
 lightmap_modulate = Color( 1, 1, 1, 1 )
 scale_min = 0.3
 scale_max = 1.0
@@ -83,3 +83,4 @@ position = Vector2( 115.876, 115.875 )
 [node name="game" parent="." instance=ExtResource( 7 )]
 
 
+[editable path="game"]

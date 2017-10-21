@@ -117,7 +117,7 @@ placeholders = {
 
 }
 use_custom_z = false
-music_volume = 1.0
+music_volume = 0.425
 
 [node name="input_catch" type="Control" parent="."]
 
@@ -129,9 +129,10 @@ margin_right = 1935.0
 margin_bottom = 1094.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
-mouse_filter = 0
+mouse_filter = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
+_sections_unfolded = [ "Focus", "Mouse", "Size Flags" ]
 
 [node name="white" type="TextureRect" parent="."]
 
@@ -147,13 +148,13 @@ margin_right = 1953.0
 margin_bottom = 1107.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
-mouse_filter = 1
+mouse_filter = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
 texture = ExtResource( 2 )
 expand = true
 stretch_mode = 0
-_sections_unfolded = [ "Visibility" ]
+_sections_unfolded = [ "Focus", "Mouse", "Visibility" ]
 
 [node name="animation" type="AnimationPlayer" parent="."]
 

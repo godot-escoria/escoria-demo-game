@@ -131,9 +131,8 @@ func load_telon():
 	var tpath = ProjectSettings.get("platform/telon")
 	var tres = vm.res_cache.get_resource(tpath)
 
-	if get_node("layers/telon/telon") != null:
-		get_node("layers/telon/telon").replace_by_instance(tres)
-		telon = get_node("layers/telon/telon")
+	get_node("layers/telon/telon").replace_by_instance(tres)
+	telon = get_node("layers/telon/telon")
 
 func _ready():
 

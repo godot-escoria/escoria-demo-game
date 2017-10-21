@@ -22,9 +22,8 @@ scale = Vector2( 1, 1 )
 
 [node name="telon" parent="layers/telon" instance_placeholder="res://globals/telon.tscn"]
 
-placeholders = {
-
-}
+global_id = "telon"
+music_volume = 0.425
 
 [node name="dialog" type="CanvasLayer" parent="layers"]
 

@@ -18,8 +18,8 @@ tooltip_lang_default="en"
 
 [autoload]
 
-vm="*res://globals/global_vm.gd"
-main="*res://globals/main.gd"
+main="*res://globals/main.tscn"
+vm="*res://globals/global_vm.tscn"
 
 [debug]
 

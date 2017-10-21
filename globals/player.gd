@@ -53,11 +53,11 @@ func walk(pos, speed, context = null):
 	walk_to(pos, context)
 
 func anim_finished():
-	if typeof(anim_notify) != typeof(null):
+	if anim_notify != null:
 		vm.finished(anim_notify)
 		anim_notify = null
 
-	if typeof(anim_scale_override) != typeof(null):
+	if anim_scale_override != null:
 		set_scale(get_scale() * anim_scale_override)
 		anim_scale_override = null
 
@@ -142,10 +142,10 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 func interact(p_params):
 	var pos
 	if p_params[0].has_node("interact_pos"):
-		pos = p_params[0].get_node("interact_pos").get_global_pos()
+		pos = p_params[0].get_node("interact_pos").get_global_position()
 	else:
-		pos = p_params[0].get_global_pos()
-	if !telekinetic && get_global_pos().distance_to(pos) > 10:
+		pos = p_params[0].get_global_position()
+	if !telekinetic && get_global_position().distance_to(pos) > 10:
 		walk_to(pos)
 		params_queue = p_params
 	else:
@@ -284,9 +284,9 @@ func teleport(obj):
 
 	var pos
 	if obj.has_node("interact_pos"):
-		pos = obj.get_node("interact_pos").get_global_pos()
+		pos = obj.get_node("interact_pos").get_global_position()
 	else:
-		pos = obj.get_global_pos()
+		pos = obj.get_global_position()
 
 	set_position(pos)
 	_update_terrain()
