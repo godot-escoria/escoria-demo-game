@@ -344,7 +344,7 @@ func _ready():
 
 	area.connect("mouse_entered", self, "mouse_enter")
 	area.connect("mouse_exited", self, "mouse_exit")
-	vm = get_tree().get_root().get_node("vm")
+
 	if events_path != "":
 		event_table = vm.compile(events_path)
 	if global_id != "":

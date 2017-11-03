@@ -320,8 +320,10 @@ func _ready():
 	if fallbacks_path != "":
 		fallbacks = vm.compile(fallbacks_path)
 
-	click = get_node("click")
-	click_anim = get_node("click_anim")
+	if has_node("click"):
+		click = get_node("click")
+	if has_node("click_anim"):
+		click_anim = get_node("click_anim")
 
 	camera = get_node("camera")
 

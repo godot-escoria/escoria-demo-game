@@ -9,7 +9,11 @@ export var music_volume = 1.0
 func set_input_catch(p_catch):
 	if catching_input == p_catch:
 		return
-	get_node("input_catch").set_ignore_mouse(!p_catch)
+	#get_node("input_catch").set_ignore_mouse(!p_catch)
+	if p_catch:
+		get_node("input_catch").set_mouse_filter(Control.MOUSE_FILTER_PASS)
+	else:
+		get_node("input_catch").set_mouse_filter(Control.MOUSE_FILTER_IGNORE)
 	catching_input = p_catch
 	set_process_input(p_catch)
 

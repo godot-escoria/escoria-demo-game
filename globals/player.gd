@@ -100,7 +100,7 @@ func anim_get_ph_paths(p_anim):
 	return ret
 
 func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
-	if typeof(p_notify) != typeof(null) && (!has_node("animation") || !get_node("animation").has_animation(p_anim)):
+	if p_notify != null && (!has_node("animation") || !get_node("animation").has_animation(p_anim)):
 		vm.finished(p_notify)
 		return
 
@@ -180,7 +180,7 @@ func walk_stop(pos):
 		walk_context = null
 
 func _get_dir(angle):
-	var deg = rad2deg(angle) + 180
+	var deg = rad2deg(angle)
 	return _get_dir_deg(deg)
 
 func _get_dir_deg(deg):

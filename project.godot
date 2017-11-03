@@ -24,7 +24,7 @@ vm="*res://globals/global_vm.tscn"
 [debug]
 
 print_clicked_control=true
-screen_size_override=true
+screen_size_override=false
 
 [display]
 

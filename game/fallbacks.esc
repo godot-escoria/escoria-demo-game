@@ -2,8 +2,8 @@
 
 :use
 debug "use fallback!"
-say player "I can't do that"
+say player "I can't use that."
 
 :pick_up
 debug "pick_up fallback!"
-say player "That's not a good idea"
+say player "I can't take this up."

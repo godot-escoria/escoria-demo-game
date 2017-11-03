@@ -1,0 +1,12 @@
+:pick_up
+
+set_global i/inv_ice_cream true
+set_active ice_cream false
+
+set_state bg_music off
+
+:look
+
+say player "A strawberry ice cream cone"
+
+set_state bg_music "res://scenes/test/dog_splash_theme.ogg"

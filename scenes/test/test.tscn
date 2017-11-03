@@ -24,7 +24,6 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -2.0
 margin_right = 1498.0
 margin_bottom = 720.0
 rect_pivot_offset = Vector2( 0, 0 )
@@ -35,6 +34,7 @@ size_flags_vertical = 2
 texture = ExtResource( 2 )
 stretch_mode = 0
 script = ExtResource( 3 )
+_sections_unfolded = [ "Margin" ]
 action = "walk"
 
 [node name="terrain" type="Navigation2D" parent="."]

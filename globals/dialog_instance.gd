@@ -1,3 +1,5 @@
+extends Node2D
+
 var context
 var text
 var elapsed = 0
@@ -94,10 +96,10 @@ func init(p_params, p_context, p_intro, p_outro):
 	if !fixed_pos:
 		var pos
 		if character.has_node("dialog_pos"):
-			pos = character.get_node("dialog_pos").get_global_pos()
+			pos = character.get_node("dialog_pos").get_global_position()
 		else:
-			pos = character.get_pos()
-		set_pos(pos)
+			pos = character.get_position()
+		set_position(pos)
 
 	if has_node("anchor/avatars"):
 		var avatars = get_node("anchor/avatars")
@@ -119,12 +121,12 @@ func init(p_params, p_context, p_intro, p_outro):
 	if has_node("animation") && play_intro:
 		var anim = get_node("animation")
 		if anim.has_animation("show"):
-			if self.is_type("Node2D"):
+			if self is Node2D:
 				show()
 			anim.play("show")
 			anim.seek(0, true)
 		else:
-			if self.is_type("Node2D"):
+			if self is Node2D:
 				show()
 			set_process(true)
 	else:
