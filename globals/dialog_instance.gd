@@ -193,7 +193,8 @@ func _queue_free():
 	vm.finished(context)
 
 
-func anim_finished():
+func anim_finished(anim_name):
+	# TODO use the parameter here?
 	var cur = get_node("animation").get_current_animation()
 	if cur == "show":
 		set_process(true)

@@ -52,7 +52,7 @@ func walk_to(pos, context = null):
 func walk(pos, speed, context = null):
 	walk_to(pos, context)
 
-func anim_finished():
+func anim_finished(anim_name):
 	if anim_notify != null:
 		vm.finished(anim_notify)
 		anim_notify = null

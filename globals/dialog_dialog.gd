@@ -131,7 +131,8 @@ func stop():
 func game_cleared():
 	queue_free()
 
-func anim_finished():
+func anim_finished(anim_name):
+	# TODO use parameter here?
 	var cur = animation.get_current_animation()
 	if cur == "show":
 		ready = true

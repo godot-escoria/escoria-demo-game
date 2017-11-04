@@ -41,9 +41,10 @@ func get_interact_pos():
 	else:
 		return get_global_position()
 
-func anim_finished():
+func anim_finished(anim_name):
+	# TODO use parameter here?
 	if anim_notify != null:
-		get_node("/root/vm").finished(anim_notify)
+		vm.finished(anim_notify)
 		anim_notify = null
 
 	if anim_scale_override != null && self is Node2D:
