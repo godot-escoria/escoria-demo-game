@@ -142,7 +142,6 @@ placeholders = {
 position = Vector2( 5.2803, -49.2264 )
 frames = SubResource( 1 )
 animation = "default"
-frame = 2
 
 [node name="animation" type="AnimationPlayer" parent="."]
 
