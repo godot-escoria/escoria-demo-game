@@ -1,15 +1,16 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://globals/scene.gd" type="Script" id=1]
 [ext_resource path="res://scenes/test/background.png" type="Texture" id=2]
 [ext_resource path="res://globals/background.gd" type="Script" id=3]
 [ext_resource path="res://globals/terrain.gd" type="Script" id=4]
-[ext_resource path="res://scenes/test/player.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scenes/test/ice_cream.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scenes/test/box.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scenes/test/can.tscn" type="PackedScene" id=8]
-[ext_resource path="res://scenes/test/chain_saw.tscn" type="PackedScene" id=9]
-[ext_resource path="res://globals/game.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/test/scales.png" type="Texture" id=5]
+[ext_resource path="res://scenes/test/player.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/test/ice_cream.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/test/box.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/test/can.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/test/chain_saw.tscn" type="PackedScene" id=10]
+[ext_resource path="res://globals/game.tscn" type="PackedScene" id=11]
 
 [sub_resource type="NavigationPolygon" id=1]
 
@@ -45,12 +46,12 @@ action = "walk"
 position = Vector2( -65.0709, 373.302 )
 script = ExtResource( 4 )
 _sections_unfolded = [ "Transform", "Z" ]
-scales = null
+scales = ExtResource( 5 )
 lightmap = null
-bitmaps_scale = Vector2( 1, 1 )
+bitmaps_scale = Vector2( 2, 1 )
 debug_mode = 1
 lightmap_modulate = Color( 1, 1, 1, 1 )
-scale_min = 0.3
+scale_min = 0.5
 scale_max = 1.0
 
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="terrain"]
@@ -59,12 +60,14 @@ position = Vector2( -69.3894, -553.208 )
 navpoly = SubResource( 1 )
 enabled = true
 
-[node name="player" parent="." instance=ExtResource( 5 )]
+[node name="player" parent="." instance=ExtResource( 6 )]
 
-position = Vector2( 675.64, 445.583 )
-z = 445
+position = Vector2( 828.549, 421.206 )
+scale = Vector2( 0.5, 0.5 )
+z = 421
+_sections_unfolded = [ "Transform" ]
 
-[node name="ice_cream" parent="." instance=ExtResource( 6 )]
+[node name="ice_cream" parent="." instance=ExtResource( 7 )]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -83,7 +86,7 @@ use_custom_z = false
 
 position = Vector2( 115.876, 115.875 )
 
-[node name="box" parent="." instance=ExtResource( 7 )]
+[node name="box" parent="." instance=ExtResource( 8 )]
 
 position = Vector2( 945.535, 381.07 )
 z = 381
@@ -93,7 +96,7 @@ use_custom_z = false
 
 position = Vector2( -53.8209, 46.6584 )
 
-[node name="can" parent="." instance=ExtResource( 8 )]
+[node name="can" parent="." instance=ExtResource( 9 )]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -113,7 +116,7 @@ use_custom_z = false
 
 position = Vector2( 57.6177, 60.9417 )
 
-[node name="chainsaw" parent="." instance=ExtResource( 9 )]
+[node name="chainsaw" parent="." instance=ExtResource( 10 )]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -132,6 +135,6 @@ use_custom_z = false
 
 position = Vector2( 7.19824, 124.934 )
 
-[node name="game" parent="." instance=ExtResource( 10 )]
+[node name="game" parent="." instance=ExtResource( 11 )]
 
 

@@ -57,10 +57,12 @@ func _do_update_texture():
 	texture = ImageTexture.new()
 	if debug_mode == 1:
 		if scales != null:
-			texture.create_from_image(scales)
+			#texture.create_from_image(scales)
+			texture = scales
 	else:
 		if lightmap != null:
-			texture.create_from_image(lightmap)
+			#texture.create_from_image(lightmap)
+			texture = lightmap
 
 	update()
 
@@ -107,7 +109,7 @@ func get_scale_range(r):
 	return Vector2(r, r)
 
 func get_terrain(pos):
-	if typeof(scales) == typeof(null) || scales.get_data().is_empty():
+	if scales == null || scales.get_data().is_empty():
 		return Color(1, 1, 1, 1)
 	return get_pixel(pos, scales.get_data())
 
@@ -125,13 +127,13 @@ func get_light(pos):
 	return _color_mul(get_pixel(pos, lightmap.get_data()), lightmap_modulate)
 
 func get_pixel(pos, p_image):
+	p_image.lock()
 
 	pos = make_local(pos)
 	pos = pos * 1.0 / bitmaps_scale
 
 	if pos.x + 1 >= p_image.get_width() || pos.y + 1 >= p_image.get_height() || pos.x < 0 || pos.y < 0:
 		return Color()
-
 
 	var ll = p_image.get_pixel(pos.x, pos.y)
 	var ndif = Vector2()
@@ -169,6 +171,7 @@ func get_pixel(pos, p_image):
 
 	var final = bottom.linear_interpolate(top, ndif.y)
 
+	p_image.unlock()
 	return final
 
 func _draw():
