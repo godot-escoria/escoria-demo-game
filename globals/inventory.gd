@@ -63,9 +63,9 @@ func sort_items():
 		elif count >= page_size * page:
 			var slot = count - page_size * page
 			c.show()
-			printt("showing item", c.global_id, slots.get_child(slot).get_global_pos())
+			printt("showing item", c.global_id, slots.get_child(slot).get_global_position())
 			#printt("no focus")
-			c.set_global_pos(slots.get_child(slot).get_global_pos())
+			c.set_global_position(slots.get_child(slot).get_global_position())
 			#c.set_focus_mode(Control.FOCUS_NONE)
 			if !focus:
 				#c.grab_focus()

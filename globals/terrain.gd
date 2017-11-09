@@ -1,3 +1,5 @@
+tool
+
 extends Navigation2D 
 
 export(Texture) var scales setget set_scales,get_scales
@@ -105,9 +107,9 @@ func get_scale_range(r):
 	return Vector2(r, r)
 
 func get_terrain(pos):
-	if typeof(scales) == typeof(null) || scales.empty():
+	if typeof(scales) == typeof(null) || scales.get_data().is_empty():
 		return Color(1, 1, 1, 1)
-	return get_pixel(pos, scales)
+	return get_pixel(pos, scales.get_data())
 
 func _color_mul(a, b):
 	var c = Color()
@@ -118,9 +120,9 @@ func _color_mul(a, b):
 	return c
 
 func get_light(pos):
-	if typeof(lightmap) == typeof(null) || lightmap.empty():
+	if typeof(lightmap) == typeof(null) || lightmap.get_data().is_empty():
 		return lightmap_modulate
-	return _color_mul(get_pixel(pos, lightmap), lightmap_modulate)
+	return _color_mul(get_pixel(pos, lightmap.get_data()), lightmap_modulate)
 
 func get_pixel(pos, p_image):
 

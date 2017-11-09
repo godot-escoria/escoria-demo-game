@@ -7,12 +7,10 @@ cut_scene telon fade_out
 
 ## Objects
 
-set_state bg_music res://scenes/test/dog_splash_theme.ogg
-
 
 ## Player
 
-change_scene res://scenes/test/test.tscn
-teleport_pos player 118.875999 453.875
+change_scene res://scenes/test/test (copie 1).tscn
+teleport_pos player 840.961853 427.349304
 
 cut_scene telon fade_in
