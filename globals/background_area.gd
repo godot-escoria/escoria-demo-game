@@ -23,7 +23,7 @@ func _enter_tree():
 	if background:
 		var size = background.get_size()
 		var extents = Vector2(size.x / 2, size.y / 2)
-		var transform = Matrix32(Vector2(1, 0), Vector2(0, 1), extents)
+		var transform = Transform2D(Vector2(1, 0), Vector2(0, 1), extents)
 
 		var shape = RectangleShape2D.new()
 		shape.set_extents(extents)
@@ -31,7 +31,7 @@ func _enter_tree():
 		set_shape_transform(0, transform)
 
 func _ready():
-	connect("input_event", self, "input")
+	connect("gui_input", self, "input")
 	add_to_group("background")
 
 func emit_right_click():

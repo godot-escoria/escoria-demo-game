@@ -7,14 +7,14 @@ func init_mask():
 	_update_terrain()
 	update()
 	
-func get_front_pos():
+func get_front_position():
 	if (has_node("front_pos")):
-		front_pos = get_node("front_pos").get_global_pos()
+		front_pos = get_node("front_pos").get_global_position()
 	return front_pos
 
 
 func _update_terrain():
-	var pos = get_front_pos()
+	var pos = get_front_position()
 	set_z(pos.y)
 	set_z_range_min( 1 ) 
 	set_z_range_max( pos.y )
