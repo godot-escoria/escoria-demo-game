@@ -1,3 +1,4 @@
+extends ResourcePreloader
 
 func start(params, level):
 	var type
