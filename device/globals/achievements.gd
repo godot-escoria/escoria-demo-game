@@ -42,6 +42,6 @@ func is_ready():
 	return true
 
 func start():
-	if ProjectSettings.has_singleton("GameCenter"):
+	if ProjectSettings.has_setting("GameCenter"):
 		GameCenter = ProjectSettings.get_singleton("GameCenter")
 		iOS = ProjectSettings.get_singleton("iOS")
