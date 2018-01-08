@@ -70,7 +70,7 @@ func global_changed(name):
 	printt("is item ", itemid, item)
 
 	item_anim_holder.add_child(item)
-	item.set_pos(Vector2(0, 0))
+	item.set_position(Vector2(0, 0))
 	item.show()
 	item_anim.play("new_item")
 

@@ -19,11 +19,11 @@ vertices = PoolVector2Array( 766.377, 567.042, 1204.89, 557.953, 1491.17, 617.02
 polygons = [ PoolIntArray( 0, 1, 2, 3, 4, 5 ), PoolIntArray( 6, 7, 0, 5, 8, 9 ) ]
 outlines = [ PoolVector2Array( 414.945, 555.219, 766.377, 567.042, 1204.89, 557.953, 1491.17, 617.027, 1491.17, 657.925, 1112.47, 689.271, 705.031, 687.462, 350.588, 673.829, 159.734, 646.564, 158.201, 587.028 ) ]
 
-[node name="scene" type="Node2D"]
+[node name="scene" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 
-[node name="background" type="TextureRect" parent="."]
+[node name="background" type="TextureRect" parent="." index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -33,7 +33,6 @@ margin_left = -2.0
 margin_right = 1498.0
 margin_bottom = 720.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 size_flags_horizontal = 2
 size_flags_vertical = 2
@@ -42,7 +41,7 @@ stretch_mode = 0
 script = ExtResource( 3 )
 action = "walk"
 
-[node name="terrain" type="Navigation2D" parent="."]
+[node name="terrain" type="Navigation2D" parent="." index="1"]
 
 position = Vector2( -65.0709, 373.302 )
 script = ExtResource( 4 )
@@ -55,19 +54,19 @@ lightmap_modulate = Color( 1, 1, 1, 1 )
 scale_min = 0.5
 scale_max = 1.0
 
-[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="terrain"]
+[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="terrain" index="0"]
 
 position = Vector2( -69.3894, -553.208 )
 navpoly = SubResource( 1 )
 enabled = true
 
-[node name="player" parent="." instance=ExtResource( 7 )]
+[node name="player" parent="." index="2" instance=ExtResource( 7 )]
 
 position = Vector2( 742.426, 415.054 )
-z = 415
+z_index = 415
 _sections_unfolded = [ "Transform" ]
 
-[node name="ice_cream" parent="." instance=ExtResource( 8 )]
+[node name="ice_cream" parent="." index="3" instance=ExtResource( 8 )]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -78,25 +77,23 @@ margin_top = 343.0
 margin_right = 313.0
 margin_bottom = 461.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 use_custom_z = false
 
-[node name="interact_pos" type="Position2D" parent="ice_cream"]
+[node name="interact_pos" type="Position2D" parent="ice_cream" index="0"]
 
 position = Vector2( 115.876, 115.875 )
 
-[node name="box" parent="." instance=ExtResource( 9 )]
+[node name="box" parent="." index="4" instance=ExtResource( 9 )]
 
 position = Vector2( 945.535, 381.07 )
-z = 381
 use_custom_z = false
 
-[node name="interact_pos" type="Position2D" parent="box"]
+[node name="interact_pos" type="Position2D" parent="box" index="3"]
 
 position = Vector2( -53.8209, 46.6584 )
 
-[node name="can" parent="." instance=ExtResource( 10 )]
+[node name="can" parent="." index="5" instance=ExtResource( 10 )]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -107,16 +104,15 @@ margin_top = 364.0
 margin_right = 481.0
 margin_bottom = 404.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 action = ""
 use_custom_z = false
 
-[node name="interact_pos" type="Position2D" parent="can"]
+[node name="interact_pos" type="Position2D" parent="can" index="0"]
 
 position = Vector2( 57.6177, 60.9417 )
 
-[node name="chainsaw" parent="." instance=ExtResource( 11 )]
+[node name="chainsaw" parent="." index="6" instance=ExtResource( 11 )]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -127,14 +123,13 @@ margin_top = 340.0
 margin_right = 1227.0
 margin_bottom = 435.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
 use_custom_z = false
 
-[node name="interact_pos" type="Position2D" parent="chainsaw"]
+[node name="interact_pos" type="Position2D" parent="chainsaw" index="0"]
 
 position = Vector2( 7.19824, 124.934 )
 
-[node name="game" parent="." instance=ExtResource( 12 )]
+[node name="game" parent="." index="7" instance=ExtResource( 12 )]
 
 

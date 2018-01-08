@@ -81,7 +81,7 @@ func clicked(obj, pos):
 		#action_menu.stop()
 		if action == "walk":
 
-			#click.set_pos(pos)
+			#click.set_position(pos)
 			#click_anim.play("click")
 			if player == self:
 				return
@@ -119,7 +119,7 @@ func spawn_action_menu(obj):
 		pos = obj.get_node("action_menu_pos").get_global_pos()
 	else:
 		pos = obj.get_global_pos()
-	action_menu.set_pos(pos)
+	action_menu.set_position(pos)
 	action_menu.start(obj)
 	#obj.grab_focus()
 
@@ -214,7 +214,7 @@ func _process(time):
 		var objs = vm.get_registered_objects()
 		var mobj = null
 		var mdist
-		var pos = player.get_pos()
+		var pos = player.get_position()
 		for key in objs:
 			if key == "player":
 				continue
@@ -252,7 +252,7 @@ func _process(time):
 		check_joystick = false
 		return
 
-	player.walk_to(player.get_pos() + dir * 20)
+	player.walk_to(player.get_position() + dir * 20)
 
 func set_inventory_enabled(p_enabled):
 	inventory_enabled = p_enabled

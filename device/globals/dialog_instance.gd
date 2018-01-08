@@ -137,7 +137,7 @@ func init(p_params, p_context, p_intro, p_outro):
 	label.set_visible_characters(0)
 
 	if self is Node2D:
-		set_z(1)
+		set_z_index(1)
 
 	setup_speech(text_id)
 
