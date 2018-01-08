@@ -15,14 +15,14 @@ func get_front_position():
 
 func _update_terrain():
 	var pos = get_front_position()
-	set_z(pos.y)
+	set_z_index(pos.y)
 	set_z_range_min( 1 ) 
 	set_z_range_max( pos.y )
 
 func debug_print_z():
-	printt("MASKS node Z : ", get_z())
+	printt("MASKS node Z : ", get_z_index())
 	printt("node", "name", "Z", "Z_range_min", "Z_range_max")
-	printt("node", get_name(), get_z(), get_z_range_min(), get_z_range_max())
+	printt("node", get_name(), get_z_index(), get_z_range_min(), get_z_range_max())
 	print("\n")
 
 func _ready():

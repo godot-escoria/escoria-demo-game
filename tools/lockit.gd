@@ -119,7 +119,7 @@ func process_file(path, ids):
 				end = line.length()
 			section = line.substr(1, end-1)
 
-			var pos = f.get_pos()
+			var pos = f.get_position()
 			section_ids = find_section_ids(f)
 			f.seek(pos)
 

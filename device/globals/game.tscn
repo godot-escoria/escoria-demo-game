@@ -10,25 +10,25 @@ fallbacks_path = "res://game/fallbacks.esc"
 inventory_enabled = true
 camera_limits = Rect2( 0, 0, 0, 0 )
 
-[node name="dialog_player" parent="." instance=ExtResource( 2 )]
+[node name="dialog_player" parent="." index="0" instance=ExtResource( 2 )]
 
-[node name="hud_layer" type="CanvasLayer" parent="."]
+[node name="hud_layer" type="CanvasLayer" parent="." index="1"]
 
 layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
 
-[node name="hud" parent="hud_layer" instance_placeholder="res://ui/hud.tscn"]
+[node name="hud" parent="hud_layer" index="0" instance_placeholder="res://ui/hud.tscn"]
 
-[node name="wait_timer" type="Timer" parent="."]
+[node name="wait_timer" type="Timer" parent="." index="2"]
 
 process_mode = 1
 wait_time = 1.0
 one_shot = false
 autostart = false
 
-[node name="camera" type="Camera2D" parent="."]
+[node name="camera" type="Camera2D" parent="." index="3"]
 
 anchor_mode = 1
 rotating = false

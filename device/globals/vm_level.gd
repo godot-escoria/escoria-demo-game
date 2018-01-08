@@ -196,7 +196,7 @@ func camera_set_target(params):
 		targets.push_back(params[i])
 	vm.camera_set_target(speed, targets)
 
-func camera_set_pos(params):
+func camera_set_position(params):
 	var speed = params[0]
 	var pos = Vector2(params[1], params[2])
 	vm.camera_set_target(speed, pos)
