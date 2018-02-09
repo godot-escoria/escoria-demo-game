@@ -25,11 +25,11 @@ func _on_hint_pressed():
 func _on_menu_pressed():
 	printt("menu pressed")
 	if vm.can_save() && vm.can_interact() && vm.menu_enabled():
-		get_node("/root/main").load_menu("res://game/ui/main_menu.xml")
+		main.load_menu("res://game/ui/main_menu.xml")
 	else:
 		#get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "ui_blocked")
 		if vm.menu_enabled():
-			get_node("/root/main").load_menu("res://game/ui/in_game_menu.tscn")
+			main.load_menu("res://game/ui/in_game_menu.tscn")
 		else:
 			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "ui_blocked")
 
