@@ -9,7 +9,7 @@ func start(message, p_target, p_slot):
 	target = p_target
 	slot = p_slot
 	anim.play("open")
-	get_node("/root/main").menu_open(self)
+	main.menu_open(self)
 	show()
 
 func button_pressed(p_confirm):
@@ -25,7 +25,7 @@ func menu_collapsed():
 
 
 func close():
-	get_node("/root/main").menu_close(self)
+	main.menu_close(self)
 	if anim.is_playing():
 		var cur = anim.get_current_animation()
 		if cur == "close":

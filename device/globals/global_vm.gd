@@ -673,7 +673,7 @@ func _notification(what):
 func quit_request():
 	#if main.menu_stack.size() > 0 && (main.menu_stack[main.menu_stack.size()-1] is preload("res://game/ui/confirmation_popup.gd")):
 	#	return
-	#var ConfPopup = get_node("/root/main").load_menu("res://game/ui/confirmation_popup.tscn")
+	#var ConfPopup = main.load_menu("res://game/ui/confirmation_popup.tscn")
 	#ConfPopup.PopupConfirmation("KEY_QUIT_GAME",self,"","_quit_game")
 	pass
 
@@ -696,7 +696,7 @@ func check_achievement(name):
 
 func show_rate(url):
 	rate_url = url
-	var ConfPopup = get_node("/root/main").load_menu("res://game/ui/confirmation_popup.tscn")
+	var ConfPopup = main.load_menu("res://game/ui/confirmation_popup.tscn")
 	ConfPopup.PopupConfirmation("rate2",self,"","_rate_game")
 	ConfPopup.set_buttons("rate3", "rate5")
 
