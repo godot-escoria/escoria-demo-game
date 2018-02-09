@@ -277,11 +277,11 @@ func set_camera_limits():
 			area = area.expand(pos)
 			area = area.expand(pos + size)
 
-		camera.set_limit(MARGIN_LEFT, area.position.x)
-		camera.set_limit(MARGIN_RIGHT, area.position.x + area.size.x)
+		camera.limit_left = area.position.x
+		camera.limit_right = area.position.x + area.size.x
 		var cam_top = area.position.y # - get_node("/root/main").screen_ofs.y
-		camera.set_limit(MARGIN_TOP, cam_top)
-		camera.set_limit(MARGIN_BOTTOM, cam_top + area.size.y + get_node("/root/main").screen_ofs.y * 2)
+		camera.limit_top = cam_top
+		camera.limit_top = cam_top + area.size.y + get_node("/root/main").screen_ofs.y * 2
 
 		if area.size.x == 0 || area.size.y == 0:
 			area.size.x = 1920
@@ -290,10 +290,10 @@ func set_camera_limits():
 		printt("setting camera limits from scene ", area)
 		cam_limit = area
 	else:
-		camera.set_limit(MARGIN_LEFT, camera_limits.pos.x)
-		camera.set_limit(MARGIN_RIGHT, camera_limits.pos.x + camera_limits.size.x)
-		camera.set_limit(MARGIN_TOP, camera_limits.pos.y)
-		camera.set_limit(MARGIN_BOTTOM, camera_limits.pos.y + camera_limits.size.y + get_node("/root/main").screen_ofs.y * 2)
+		camera.limit_left = camera_limits.position.x
+		camera.limit_right = camera_limits.position.x + camera_limits.size.x
+		camera.limit_top = camera_limits.position.y
+		camera.limit_bottom = camera_limits.position.y + camera_limits.size.y + get_node("/root/main").screen_ofs.y * 2
 		printt("setting camera limits from parameter ", camera_limits)
 
 	camera.set_offset(get_node("/root/main").screen_ofs * 2)
