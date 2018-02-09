@@ -14,7 +14,7 @@ func start(p_target):
 		target = p_target
 		target.connect("visibility_changed", self, "target_visibility_changed")
 
-	var scale = Globals.get("platform/action_menu_scale")
+	var scale = ProjectSettings.get("platform/action_menu_scale")
 	set_scale(Vector2(scale, scale))
 
 func stop():
