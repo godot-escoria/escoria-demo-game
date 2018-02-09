@@ -1,4 +1,4 @@
-tool 
+tool
 
 extends Node2D
 
@@ -221,6 +221,8 @@ func _check_bounds():
 		get_node("terrain_icon").show()
 
 func _update_terrain():
+	if !terrain:
+		return
 	var pos = get_position()
 	set_z_index(pos.y)
 	var color = terrain.get_terrain(pos)
