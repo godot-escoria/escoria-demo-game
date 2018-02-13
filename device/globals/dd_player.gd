@@ -7,7 +7,7 @@ func start(params, level):
 	else:
 		type = params[1]
 
-	type = type + ProjectSettings.get("platform/dialog_type_suffix")
+	type = type + ProjectSettings.get_setting("platform/dialog_type_suffix")
 
 	printt("******* instancing dialog ", type)
 

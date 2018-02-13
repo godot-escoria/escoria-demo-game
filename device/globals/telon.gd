@@ -119,7 +119,7 @@ func rand_seek(p_node = null):
 
 func _ready():
 	get_node("input_catch").connect("gui_input", self, "input_event")
-	get_node("input_catch").set_size(Vector2(ProjectSettings.get("display/game_width"), ProjectSettings.get("display/game_height")))
+	get_node("input_catch").set_size(Vector2(ProjectSettings.get_setting("display/game_width"), ProjectSettings.get_setting("display/game_height")))
 	get_node("animation").play("release_input")
 	add_to_group("game")
 
