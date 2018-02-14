@@ -118,7 +118,7 @@ func _check_focus(focus, pressed):
 			get_node("_pressed").hide()
 
 func get_tooltip():
-	if TranslationServer.get_locale() == ProjectSettings.get_setting("application/tooltip_lang_default"):
+	if TranslationServer.get_locale() == ProjectSettings.get_setting("escoria/application/tooltip_lang_default"):
 		return tooltip
 	else:
 		if tr(tooltip) == tooltip:

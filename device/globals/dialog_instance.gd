@@ -160,7 +160,7 @@ func setup_speech(tid):
 	player.set_name("speech_player")
 	add_child(player)
 	player.set_stream(speech_stream)
-	player.set_volume(vm.settings.voice_volume * ProjectSettings.get_setting("application/max_voice_volume"))
+	player.set_volume(vm.settings.voice_volume * ProjectSettings.get_setting("escoria/application/max_voice_volume"))
 	player.play()
 
 	if !player.is_playing():
@@ -202,7 +202,7 @@ func anim_finished(anim_name):
 		_queue_free()
 
 func _ready():
-	speech_extension = ProjectSettings.get_setting("application/speech_suffix")
+	speech_extension = ProjectSettings.get_setting("escoria/application/speech_suffix")
 	add_to_group("events")
 	if has_node("animation"):
 		get_node("animation").connect("animation_finished", self, "anim_finished")

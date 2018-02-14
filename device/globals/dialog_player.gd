@@ -8,7 +8,7 @@ func say(params, callback):
 		type = "default"
 	else:
 		type = params[2]
-	type = type + ProjectSettings.get_setting("platform/dialog_type_suffix")
+	type = type + ProjectSettings.get_setting("escoria/platform/dialog_type_suffix")
 	var inst = get_resource(type).instance()
 	var z = inst.get_z_index()
 	get_tree().get_root().get_child(0).add_child(inst)
