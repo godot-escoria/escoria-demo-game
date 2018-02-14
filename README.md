@@ -3,6 +3,8 @@
 Libre framework for the creation of point-and-click adventure games with
 the MIT-licensed multi-platform game engine [Godot Engine](https://godotengine.org).
 
+**This version works with Godot 2.1.** For Godot 3.0, please check the https://github.com/godotengine/escoria/tree/master branch.
+
 *Escoria* consists of a set of scripts, template scenes and a dialogue
 scripting language, which are all meant to be used within Godot Engine.
 
