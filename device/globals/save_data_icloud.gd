@@ -169,5 +169,5 @@ func autosave_available():
 	return data != null
 
 func start():
-	ICloud = Globals.get_singleton("ICloud")
+	ICloud = ProjectSettings.get_setting("ICloud")
 	pass

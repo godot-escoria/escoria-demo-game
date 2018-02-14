@@ -47,7 +47,7 @@ func _ready():
 	#get_node("inv_toggle").set_focus_mode(Control.FOCUS_NONE)
 	
 	#get_node("buttons").hide()
-	if ProjectSettings.get("platform/show_ingame_buttons"):
+	if ProjectSettings.get_setting("platform/show_ingame_buttons"):
 		if (not get_node("inv_toggle").is_hidden()):
 			get_node("buttons").show()
 		

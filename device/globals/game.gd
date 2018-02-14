@@ -194,11 +194,11 @@ func scene_input(event):
 
 	if event.is_action("menu_request") && event.is_pressed() && !event.is_echo():
 		if vm.can_save() && vm.can_interact() && vm.menu_enabled():
-			main.load_menu(ProjectSettings.get("ui/main_menu"))
+			main.load_menu(ProjectSettings.get_setting("ui/main_menu"))
 		else:
 			#get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "ui_blocked")
 			if vm.menu_enabled():
-				main.load_menu(ProjectSettings.get("ui/in_game_menu"))
+				main.load_menu(ProjectSettings.get_setting("ui/in_game_menu"))
 			else:
 				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "ui_blocked")
 

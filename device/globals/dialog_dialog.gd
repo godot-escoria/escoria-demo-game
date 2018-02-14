@@ -44,7 +44,7 @@ func start(params, p_context):
 		var but = it.get_node("button")
 		var label = but.get_node("label")
 
-		var force_ids = ProjectSettings.get("debug/force_text_ids")
+		var force_ids = ProjectSettings.get_setting("debug/force_text_ids")
 		var text = q.params[0]
 		var sep = text.find(":\"")
 		if sep > 0:
@@ -65,7 +65,7 @@ func start(params, p_context):
 		but.connect("mouse_entered",self,"_on_mouse_enter",[but])
 		but.connect("mouse_exited",self,"_on_mouse_exit",[but])
 
-		var height_ratio = ProjectSettings.get("platform/dialog_option_height")
+		var height_ratio = ProjectSettings.get_setting("platform/dialog_option_height")
 		var size = it.get_custom_minimum_size()
 		size.y = size.y * height_ratio
 		it.set_custom_minimum_size(size)

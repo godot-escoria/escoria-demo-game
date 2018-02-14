@@ -91,7 +91,7 @@ func settings_loaded(p_settings):
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "ui", "language_changed")
 
 func update_window_fullscreen(p_force = false):
-	if ProjectSettings.get("debug/screen_size_override"):
+	if ProjectSettings.get_setting("debug/screen_size_override"):
 		return
 	if !p_force && (settings.fullscreen == OS.is_window_fullscreen()):
 		return
@@ -100,7 +100,7 @@ func update_window_fullscreen(p_force = false):
 		OS.set_window_fullscreen(settings.fullscreen)
 		pass
 	else:
-		var title = ProjectSettings.get("platform/window_title_height")
+		var title = ProjectSettings.get_setting("platform/window_title_height")
 		var sc = OS.get_current_screen()
 		var ratio = 1080 / 1920.0
 		var size = OS.get_screen_size(sc)
@@ -115,7 +115,7 @@ func update_window_fullscreen(p_force = false):
 		OS.set_window_fullscreen(settings.fullscreen)
 		OS.set_window_size(size)
 		#OS.set_window_position(Vector2(0, 0))
-		OS.set_window_resizable(ProjectSettings.get("platform/screen_resizable"))
+		OS.set_window_resizable(ProjectSettings.get_setting("platform/screen_resizable"))
 
 func music_volume_changed():
 	emit_signal("music_volume_changed")
@@ -184,7 +184,7 @@ func update_camera(time):
 			camera.set_position(cpos + dif.normalized() * dist)
 			pos = cpos + dif.normalized() * dist
 
-	if ProjectSettings.get("platform/use_custom_camera"):
+	if ProjectSettings.get_setting("platform/use_custom_camera"):
 		var half = game_size / 2
 		pos = _adjust_camera(pos)
 		var t = Transform2D()
@@ -625,7 +625,7 @@ func save():
 
 func set_camera(p_cam):
 	camera = p_cam
-	if ProjectSettings.get("platform/use_custom_camera"):
+	if ProjectSettings.get_setting("platform/use_custom_camera"):
 		camera.clear_current()
 
 func clear():
@@ -709,7 +709,7 @@ func get_hud_scene():
 
 func _ready():
 
-	save_data = load(ProjectSettings.get("application/save_data")).new()
+	save_data = load(ProjectSettings.get_setting("application/save_data")).new()
 	save_data.start()
 
 	get_tree().set_auto_accept_quit(false)
@@ -729,13 +729,13 @@ func _ready():
 	level = preload("res://globals/vm_level.gd").new()
 	level.set_vm(self)
 	game_size = Vector2()
-	game_size.x = ProjectSettings.get("display/game_width")
-	game_size.y = ProjectSettings.get("display/game_height")
+	game_size.x = ProjectSettings.get_setting("display/game_width")
+	game_size.y = ProjectSettings.get_setting("display/game_height")
 
-	scenes_cache_list.push_back(ProjectSettings.get("platform/telon"))
+	scenes_cache_list.push_back(ProjectSettings.get_setting("platform/telon"))
 	scenes_cache_list.push_back(get_hud_scene())
 
-	if !ProjectSettings.has_method("debug/skip_cache") || !ProjectSettings.get("debug/skip_cache"):
+	if !ProjectSettings.has_method("debug/skip_cache") || !ProjectSettings.get_setting("debug/skip_cache"):
 		printt("cache list ", scenes_cache_list)
 		for s in scenes_cache_list:
 			print("s is ", s)
