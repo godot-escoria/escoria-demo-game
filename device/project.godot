@@ -18,6 +18,13 @@ run/main_scene="res://globals/scene_main.tscn"
 main="*res://globals/main.tscn"
 vm="*res://globals/global_vm.tscn"
 
+[display]
+
+window/size/width=1920
+window/size/height=1080
+window/size/test_width=1920
+window/size/test_height=1080
+
 [escoria]
 
 application/max_voice_volume=2
@@ -28,23 +35,18 @@ platform/action_menu_scale=2
 platform/credits="res://game/ui/credits/credits.txt"
 platform/dialog_option_height=1
 platform/dialog_type_suffix=""
+platform/force_text_ids=false
 platform/exit_button=true
 platform/screen_resizable=true
 platform/show_ingame_buttons=false
 platform/telon="res://globals/telon.tscn"
-platform/use_custom_camera=false
 platform/window_title_height=32
 ui/credits=""
-ui/in_game_menu=""
+ui/in_game_menu="res://ui/in_game_menu.tscn"
 ui/main_menu="res://ui/main_menu.tscn"
+ui/confirm_popup="res://ui/confirm_popup.tscn"
 ui/savegames=""
-
-[display]
-
-window/size/width=1920
-window/size/height=1080
-window/size/test_height=1080
-window/size/test_width=1920
+platform/use_custom_camera=true
 
 [gdnative]
 

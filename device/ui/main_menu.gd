@@ -16,7 +16,7 @@ func button_clicked():
 func newgame_pressed():
 	button_clicked()
 	if main.get_current_scene() is preload("res://globals/scene.gd"):
-		confirm_popup = main.load_menu("res://ui/confirm_popup.tscn")
+		confirm_popup = main.load_menu(ProjectSettings.get_setting("escoria/ui/confirm_popup"))
 		confirm_popup.start("UI_NEW_GAME_CONFIRM",self,"start_new_game")
 	else:
 		start_new_game(true)
@@ -60,7 +60,7 @@ func menu_collapsed():
 
 func _on_exit_pressed():
 	button_clicked()
-	confirm_popup = main.load_menu("res://ui/confirm_popup.tscn")
+	confirm_popup = main.load_menu(ProjectSettings.get_setting("escoria/ui/confirm_popup"))
 	confirm_popup.start("UI_QUIT_CONFIRM",self,"_quit_game")
 
 func _quit_game(p_confirm):

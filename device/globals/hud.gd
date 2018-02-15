@@ -29,7 +29,7 @@ func _on_menu_pressed():
 	else:
 		#get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "ui_blocked")
 		if vm.menu_enabled():
-			main.load_menu("res://game/ui/in_game_menu.tscn")
+			main.load_menu(ProjectSettings.get_setting("escoria/ui/in_game_menu"))
 		else:
 			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "ui_blocked")
 

@@ -44,7 +44,7 @@ func start(params, p_context):
 		var but = it.get_node("button")
 		var label = but.get_node("label")
 
-		var force_ids = ProjectSettings.get_setting("debug/force_text_ids")
+		var force_ids = ProjectSettings.get_setting("escoria/platform/force_text_ids")
 		var text = q.params[0]
 		var sep = text.find(":\"")
 		if sep > 0:
