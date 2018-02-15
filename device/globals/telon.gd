@@ -119,7 +119,7 @@ func rand_seek(p_node = null):
 
 func _ready():
 	get_node("input_catch").connect("gui_input", self, "input_event")
-	get_node("input_catch").set_size(Vector2(ProjectSettings.get_setting("escoria/display/game_width"), ProjectSettings.get_setting("escoria/display/game_height")))
+	get_node("input_catch").set_size(get_viewport().size)
 	get_node("animation").play("release_input")
 	add_to_group("game")
 

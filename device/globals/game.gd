@@ -284,8 +284,8 @@ func set_camera_limits():
 		camera.limit_top = cam_top + area.size.y + main.screen_ofs.y * 2
 
 		if area.size.x == 0 || area.size.y == 0:
-			area.size.x = 1920
-			area.size.y = 1080
+			printt("No limit area! Using viewport")
+			area.size = get_viewport().size
 
 		printt("setting camera limits from scene ", area)
 		cam_limit = area

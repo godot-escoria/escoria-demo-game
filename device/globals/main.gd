@@ -139,9 +139,7 @@ func _ready():
 	printt("main ready")
 #	get_node("/root").set_render_target_clear_on_new_frame(true)
 
-	game_size = Vector2()
-	game_size.x = ProjectSettings.get_setting("escoria/display/game_width")
-	game_size.y = ProjectSettings.get_setting("escoria/display/game_height")
+	game_size = get_viewport().size
 
 	wait_timer = get_node("layers/wait_timer")
 	if wait_timer != null:
