@@ -73,11 +73,14 @@ func menu_collapse():
 		i -= 1
 		menu_stack[i].menu_collapsed()
 
-func set_current_scene(p_scene):
+func set_current_scene(p_scene, events_path=null):
 	#print_stack()
 	current = p_scene
 	var root = get_tree().get_root()
 	root.move_child(p_scene, 0)
+
+	if events_path:
+		vm.load_file(events_path)
 
 func wait_finished():
 	vm.finished(wait_level)
