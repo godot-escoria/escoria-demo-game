@@ -153,18 +153,21 @@ func setup_speech(tid):
 	if !speech_enabled:
 		return
 
-	var fname = "res://audio/speech/"+speech_language+"/"+tid+speech_extension
+	var speech_path = ProjectSettings.get_setting("escoria/application/speech_path")
+	var fname = speech_path + speech_language + "/" + tid + speech_extension
 	printt(" ** loading speech ", fname)
 	speech_stream = load(fname)
 	if !speech_stream:
 		printt("*** unable to load speech stream ", fname)
 		return
 
+	speech_stream.set_loop(false)
+
 	var player = AudioStreamPlayer.new()
 	player.set_name("speech_player")
 	add_child(player)
 	player.set_stream(speech_stream)
-	player.set_volume(vm.settings.voice_volume * ProjectSettings.get_setting("escoria/application/max_voice_volume"))
+	player.volume_db = vm.settings.voice_volume * ProjectSettings.get_setting("escoria/application/max_voice_volume")
 	player.play()
 
 	if !player.is_playing():
