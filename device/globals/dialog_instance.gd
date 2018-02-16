@@ -5,7 +5,8 @@ var text
 var elapsed = 0
 var total_time
 var character
-var speed = 45.0 # characters per second
+export var typewriter_text = true
+export var characters_per_second = 45.0
 var finished = false
 var play_intro = true
 var play_outro = true
@@ -30,6 +31,9 @@ export var fixed_pos = false
 func _process(time):
 	if finished:
 		return
+	if !typewriter_text:
+		label.set_visible_characters(label.get_total_character_count())
+		text_done = true
 	elapsed += time
 	if !text_done:
 		if elapsed >= total_time:
@@ -92,7 +96,7 @@ func init(p_params, p_context, p_intro, p_outro):
 
 	play_intro = p_intro
 	play_outro = p_outro
-	total_time = text.length() / speed
+	total_time = text.length() / characters_per_second
 	if !fixed_pos:
 		var pos
 		if character.has_node("dialog_pos"):
