@@ -29,7 +29,7 @@ func _on_menu_pressed():
 	else:
 		#get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "ui_blocked")
 		if vm.menu_enabled():
-			main.load_menu("res://game/ui/in_game_menu.tscn")
+			main.load_menu(ProjectSettings.get_setting("escoria/ui/in_game_menu"))
 		else:
 			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "ui_blocked")
 
@@ -45,23 +45,23 @@ func _ready():
 	add_to_group("game")
 	#get_node("inv_toggle").connect("pressed", self, "inv_toggle")
 	#get_node("inv_toggle").set_focus_mode(Control.FOCUS_NONE)
-	
+
 	#get_node("buttons").hide()
-	if ProjectSettings.get_setting("platform/show_ingame_buttons"):
+	if ProjectSettings.get_setting("escoria/platform/show_ingame_buttons"):
 		if (not get_node("inv_toggle").is_hidden()):
 			get_node("buttons").show()
-		
+
 		var p = get_parent().get_parent().get_parent()
 		for i in range(0, p.get_child_count()):
 			var c = p.get_child(i)
 			if (c is preload("res://globals/background.gd")):
 				background = c
 				break
-				
+
 		get_node("inv_toggle").connect("visibility_changed",self,"_on_inv_toggle_vis_chaged")
 		get_node("buttons/hints").connect("pressed",self,"_on_hint_pressed")
 		get_node("buttons/menu").connect("pressed",self,"_on_menu_pressed")
-	
+
 
 	set_tooltip("")
 

@@ -16,11 +16,11 @@ func button_clicked():
 func newgame_pressed():
 	button_clicked()
 	if main.get_current_scene() is preload("res://globals/scene.gd"):
-		confirm_popup = main.load_menu("res://ui/confirm_popup.tscn")
+		confirm_popup = main.load_menu(ProjectSettings.get_setting("escoria/ui/confirm_popup"))
 		confirm_popup.start("UI_NEW_GAME_CONFIRM",self,"start_new_game")
 	else:
 		start_new_game(true)
-		
+
 func start_new_game(p_confirm):
 	if !p_confirm:
 		return
@@ -36,15 +36,15 @@ func continue_pressed():
 
 func save_pressed():
 	button_clicked()
-	main.load_menu(ProjectSettings.get_setting("ui/savegames"))
+	main.load_menu(ProjectSettings.get_setting("escoria/ui/savegames"))
 
 func settings_pressed():
 	button_clicked()
-	main.load_menu(ProjectSettings.get_setting("ui/settings"))
+	main.load_menu(ProjectSettings.get_setting("escoria/ui/settings"))
 
 func credits_pressed():
 	button_clicked()
-	main.load_menu(ProjectSettings.get_setting("ui/credits"))
+	main.load_menu(ProjectSettings.get_setting("escoria/ui/credits"))
 
 func close():
 	main.menu_close(self)
@@ -60,9 +60,9 @@ func menu_collapsed():
 
 func _on_exit_pressed():
 	button_clicked()
-	confirm_popup = main.load_menu("res://ui/confirm_popup.tscn")
+	confirm_popup = main.load_menu(ProjectSettings.get_setting("escoria/ui/confirm_popup"))
 	confirm_popup.start("UI_QUIT_CONFIRM",self,"_quit_game")
-	
+
 func _quit_game(p_confirm):
 	if !p_confirm:
 		return
@@ -114,7 +114,7 @@ func _ready():
 
 	call_deferred("set_continue_button")
 
-	if !ProjectSettings.get_setting("platform/exit_button"):
+	if !ProjectSettings.get_setting("escoria/platform/exit_button"):
 		get_node("exit").hide()
 
 

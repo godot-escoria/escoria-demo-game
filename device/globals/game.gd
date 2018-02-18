@@ -194,11 +194,11 @@ func scene_input(event):
 
 	if event.is_action("menu_request") && event.is_pressed() && !event.is_echo():
 		if vm.can_save() && vm.can_interact() && vm.menu_enabled():
-			main.load_menu(ProjectSettings.get_setting("ui/main_menu"))
+			main.load_menu(ProjectSettings.get_setting("escoria/ui/main_menu"))
 		else:
 			#get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "ui_blocked")
 			if vm.menu_enabled():
-				main.load_menu(ProjectSettings.get_setting("ui/in_game_menu"))
+				main.load_menu(ProjectSettings.get_setting("escoria/ui/in_game_menu"))
 			else:
 				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "ui_blocked")
 
@@ -284,8 +284,8 @@ func set_camera_limits():
 		camera.limit_top = cam_top + area.size.y + main.screen_ofs.y * 2
 
 		if area.size.x == 0 || area.size.y == 0:
-			area.size.x = 1920
-			area.size.y = 1080
+			printt("No limit area! Using viewport")
+			area.size = get_viewport().size
 
 		printt("setting camera limits from scene ", area)
 		cam_limit = area

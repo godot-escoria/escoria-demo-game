@@ -10,32 +10,43 @@ config_version=3
 
 [application]
 
-main_scene="res://globals/scene_main.tscn"
-max_voice_volume=2
-save_data="res://globals/save_data.gd"
-speech_suffix=".spx"
-tooltip_lang_default="en"
+config/name="Prototype"
+run/main_scene="res://globals/scene_main.tscn"
 
 [autoload]
 
 main="*res://globals/main.tscn"
 vm="*res://globals/global_vm.tscn"
 
-[debug]
-
-print_clicked_control=true
-screen_size_override=false
-
 [display]
 
-window/size/width=1280
-window/size/height=720
-game_height=1080
-game_width=1920
-window/height=720
-window/test_height=720
-window/test_width=1280
-window/width=1280
+window/size/width=1920
+window/size/height=1080
+window/size/test_width=1920
+window/size/test_height=1080
+
+[escoria]
+
+application/max_voice_volume=2
+application/save_data="res://globals/save_data.gd"
+application/speech_suffix=".spx"
+application/tooltip_lang_default="en"
+platform/action_menu_scale=2
+platform/credits="res://game/ui/credits/credits.txt"
+platform/dialog_option_height=1
+platform/dialog_type_suffix=""
+platform/force_text_ids=false
+platform/exit_button=true
+platform/screen_resizable=true
+platform/show_ingame_buttons=false
+platform/telon="res://globals/telon.tscn"
+platform/window_title_height=32
+ui/credits=""
+ui/in_game_menu="res://ui/in_game_menu.tscn"
+ui/main_menu="res://ui/main_menu.tscn"
+ui/confirm_popup="res://ui/confirm_popup.tscn"
+ui/savegames=""
+platform/use_custom_camera=true
 
 [gdnative]
 
@@ -70,31 +81,3 @@ use=[ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_na
 [locale]
 
 translations=PoolStringArray( "res://translations/general.en.translation", "res://translations/general.es.translation", "res://translations/general.fr.translation" )
-
-[platform]
-
-action_menu_scale=1
-credits="res://game/ui/credits/credits.txt"
-dialog_instance_scale=1
-dialog_option_height=1
-dialog_type_suffix=""
-disable_screen_shaders=false
-exit_button=true
-file_cases="res://game/ui/file_cases/file_cases.tscn"
-gamecenter=false
-ghost_remap=""
-hud_mobile=false
-logos="res://game/logos.ogm"
-screen_resizable=true
-show_ingame_buttons=false
-telon="res://globals/telon.tscn"
-use_custom_camera=false
-window_title_height=32
-windowed_available=true
-
-[ui]
-
-credits=""
-in_game_menu=""
-main_menu="res://ui/main_menu.tscn"
-savegames=""

@@ -87,39 +87,10 @@ func settings_loaded(p_settings):
 	AudioServer.set_bus_volume_db(0, settings.sfx_volume)
 	TranslationServer.set_locale(settings.text_lang)
 	music_volume_changed()
-	update_window_fullscreen(true)
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "ui", "language_changed")
-
-func update_window_fullscreen(p_force = false):
-	if ProjectSettings.get_setting("debug/screen_size_override"):
-		return
-	if !p_force && (settings.fullscreen == OS.is_window_fullscreen()):
-		return
-	if settings.fullscreen:
-		OS.set_window_resizable(true)
-		OS.set_window_fullscreen(settings.fullscreen)
-		pass
-	else:
-		var title = ProjectSettings.get_setting("platform/window_title_height")
-		var sc = OS.get_current_screen()
-		var ratio = 1080 / 1920.0
-		var size = OS.get_screen_size(sc)
-		printt("***** got screen size ", size, title)
-		var h = size.y - title
-		if h / ratio > size.x:
-			size.y = size.x * ratio
-		else:
-			size.y = size.y - title
-			size.x = h / ratio
-		printt("setting window to size", size)
-		OS.set_window_fullscreen(settings.fullscreen)
-		OS.set_window_size(size)
-		#OS.set_window_position(Vector2(0, 0))
-		OS.set_window_resizable(ProjectSettings.get_setting("platform/screen_resizable"))
 
 func music_volume_changed():
 	emit_signal("music_volume_changed")
-
 
 func drag_begin(obj_id):
 	drag_object = obj_id
@@ -184,7 +155,7 @@ func update_camera(time):
 			camera.set_position(cpos + dif.normalized() * dist)
 			pos = cpos + dif.normalized() * dist
 
-	if ProjectSettings.get_setting("platform/use_custom_camera"):
+	if ProjectSettings.get_setting("escoria/platform/use_custom_camera"):
 		var half = game_size / 2
 		pos = _adjust_camera(pos)
 		var t = Transform2D()
@@ -625,7 +596,7 @@ func save():
 
 func set_camera(p_cam):
 	camera = p_cam
-	if ProjectSettings.get_setting("platform/use_custom_camera"):
+	if ProjectSettings.get_setting("escoria/platform/use_custom_camera"):
 		camera.clear_current()
 
 func clear():
@@ -709,7 +680,7 @@ func get_hud_scene():
 
 func _ready():
 
-	save_data = load(ProjectSettings.get_setting("application/save_data")).new()
+	save_data = load(ProjectSettings.get_setting("escoria/application/save_data")).new()
 	save_data.start()
 
 	get_tree().set_auto_accept_quit(false)
@@ -728,11 +699,9 @@ func _ready():
 	compiler = preload("res://globals/esc_compile.gd").new()
 	level = preload("res://globals/vm_level.gd").new()
 	level.set_vm(self)
-	game_size = Vector2()
-	game_size.x = ProjectSettings.get_setting("display/game_width")
-	game_size.y = ProjectSettings.get_setting("display/game_height")
+	game_size = get_viewport().size
 
-	scenes_cache_list.push_back(ProjectSettings.get_setting("platform/telon"))
+	scenes_cache_list.push_back(ProjectSettings.get_setting("escoria/platform/telon"))
 	scenes_cache_list.push_back(get_hud_scene())
 
 	if !ProjectSettings.has_method("debug/skip_cache") || !ProjectSettings.get_setting("debug/skip_cache"):

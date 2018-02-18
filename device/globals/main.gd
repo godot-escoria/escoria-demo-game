@@ -120,7 +120,7 @@ func _input(event):
 	# CTRL+F12
 	if (event is InputEventKey and event.pressed and event.control and event.scancode==KEY_F12):
 		OS.print_all_textures_by_size()
-		
+
 	if menu_stack.size() > 0:
 		menu_stack[menu_stack.size() - 1].input(event)
 	elif current != null:
@@ -128,7 +128,7 @@ func _input(event):
 			current.get_node("game").scene_input(event)
 
 func load_telon():
-	var tpath = ProjectSettings.get_setting("platform/telon")
+	var tpath = ProjectSettings.get_setting("escoria/platform/telon")
 	var tres = vm.res_cache.get_resource(tpath)
 
 	get_node("layers/telon/telon").replace_by_instance(tres)
@@ -139,9 +139,7 @@ func _ready():
 	printt("main ready")
 #	get_node("/root").set_render_target_clear_on_new_frame(true)
 
-	game_size = Vector2()
-	game_size.x = ProjectSettings.get_setting("display/game_width")
-	game_size.y = ProjectSettings.get_setting("display/game_height")
+	game_size = get_viewport().size
 
 	wait_timer = get_node("layers/wait_timer")
 	if wait_timer != null:
