@@ -31,6 +31,7 @@ application/max_voice_volume=2
 application/save_data="res://globals/save_data.gd"
 application/speech_suffix=".spx"
 application/tooltip_lang_default="en"
+application/speech_path="res://audio/speech/"
 platform/action_menu_scale=2
 platform/credits="res://game/ui/credits/credits.txt"
 platform/dialog_option_height=1

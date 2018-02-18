@@ -1,9 +1,11 @@
-
-
 :use
 debug "use fallback!"
-say player "I can't use that."
+say player use_fallback:"I can't use that."
 
 :pick_up
 debug "pick_up fallback!"
-say player "I can't take this up."
+say player pick_up_fallback:"I can't take this up."
+
+:talk
+debug "talk fallback!"
+say player talk_fallback:"I can't talk to that."

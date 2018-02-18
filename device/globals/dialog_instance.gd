@@ -5,7 +5,8 @@ var text
 var elapsed = 0
 var total_time
 var character
-var speed = 45.0 # characters per second
+export var typewriter_text = true
+export var characters_per_second = 45.0
 var finished = false
 var play_intro = true
 var play_outro = true
@@ -30,6 +31,9 @@ export var fixed_pos = false
 func _process(time):
 	if finished:
 		return
+	if !typewriter_text:
+		label.set_visible_characters(label.get_total_character_count())
+		text_done = true
 	elapsed += time
 	if !text_done:
 		if elapsed >= total_time:
@@ -92,7 +96,7 @@ func init(p_params, p_context, p_intro, p_outro):
 
 	play_intro = p_intro
 	play_outro = p_outro
-	total_time = text.length() / speed
+	total_time = text.length() / characters_per_second
 	if !fixed_pos:
 		var pos
 		if character.has_node("dialog_pos"):
@@ -149,18 +153,21 @@ func setup_speech(tid):
 	if !speech_enabled:
 		return
 
-	var fname = "res://audio/speech/"+speech_language+"/"+tid+speech_extension
+	var speech_path = ProjectSettings.get_setting("escoria/application/speech_path")
+	var fname = speech_path + speech_language + "/" + tid + speech_extension
 	printt(" ** loading speech ", fname)
 	speech_stream = load(fname)
 	if !speech_stream:
 		printt("*** unable to load speech stream ", fname)
 		return
 
+	speech_stream.set_loop(false)
+
 	var player = AudioStreamPlayer.new()
 	player.set_name("speech_player")
 	add_child(player)
 	player.set_stream(speech_stream)
-	player.set_volume(vm.settings.voice_volume * ProjectSettings.get_setting("escoria/application/max_voice_volume"))
+	player.volume_db = vm.settings.voice_volume * ProjectSettings.get_setting("escoria/application/max_voice_volume")
 	player.play()
 
 	if !player.is_playing():
