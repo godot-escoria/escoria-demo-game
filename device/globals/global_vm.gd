@@ -58,7 +58,7 @@ var settings_default = {
 }
 
 
-var scenes_cache_list = preload("res://game/scenes_cache.gd").scenes
+var scenes_cache_list = preload("res://globals/scenes_cache.gd").scenes
 
 var scenes_cache = {} # this will eventually have everything in scenes_cache_list forever
 
@@ -263,7 +263,7 @@ func compile_str(p_str):
 	return ev_table
 
 func report_errors(p_path, errors):
-	#var dialog = preload("res://game/globals/errors.xml").instance()
+	#var dialog = preload("res://demo/globals/errors.xml").instance()
 	var text = "Errors in file "+p_path+"\n\n"
 	for e in errors:
 		text += e+"\n"
@@ -648,9 +648,9 @@ func _notification(what):
 		quit_request()
 
 func quit_request():
-	#if main.menu_stack.size() > 0 && (main.menu_stack[main.menu_stack.size()-1] is preload("res://game/ui/confirmation_popup.gd")):
+	#if main.menu_stack.size() > 0 && (main.menu_stack[main.menu_stack.size()-1] is preload("res://demo/ui/confirmation_popup.gd")):
 	#	return
-	#var ConfPopup = main.load_menu("res://game/ui/confirmation_popup.tscn")
+	#var ConfPopup = main.load_menu("res://demo/ui/confirmation_popup.tscn")
 	#ConfPopup.PopupConfirmation("KEY_QUIT_GAME",self,"","_quit_game")
 	pass
 
@@ -673,7 +673,7 @@ func check_achievement(name):
 
 func show_rate(url):
 	rate_url = url
-	var ConfPopup = main.load_menu("res://game/ui/confirmation_popup.tscn")
+	var ConfPopup = main.load_menu("res://demo/ui/confirmation_popup.tscn")
 	ConfPopup.PopupConfirmation("rate2",self,"","_rate_game")
 	ConfPopup.set_buttons("rate3", "rate5")
 

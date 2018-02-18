@@ -10,7 +10,7 @@ cut_scene telon fade_out
 
 ## Player
 
-change_scene res://scenes/test/test (copie 1).tscn
+change_scene res://demo/rooms/test/test (copie 1).tscn
 teleport_pos player 840.961853 427.349304
 
 cut_scene telon fade_in
