@@ -491,10 +491,16 @@ func load_file(p_game):
 		return
 
 	var game = compile(p_game)
-	clear()
-	loading_game = true
-	run_event(game["load"])
-	main.menu_collapse()
+	# `load` and `ready` are exclusive because you probably don't want to
+	# reset the game state when a scene becomes ready, and `ready` is
+	# redundant when `load`ing state anyway.
+	if "load" in game:
+		clear()
+		loading_game = true
+		run_event(game["load"])
+		main.menu_collapse()
+	elif "ready" in game:
+		run_event(game["ready"])
 
 func load_slot(p_game):
 	var cb = [self, "game_str_loaded"]
