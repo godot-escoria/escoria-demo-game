@@ -79,7 +79,8 @@ func clicked(obj, pos):
 	if mode == "default":
 		var action = obj.get_action()
 		# Hide the action menu when performing actions, so it's not eg. open while walking
-		action_menu.stop()
+		if action_menu:
+			action_menu.stop()
 		if action == "walk":
 
 			#click.set_position(pos)
