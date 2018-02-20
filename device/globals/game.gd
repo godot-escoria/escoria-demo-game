@@ -67,7 +67,7 @@ func set_current_action(p_act):
 func set_current_tool(p_tool):
 	current_tool = p_tool
 
-func clicked(obj, pos):
+func clicked(obj, pos, input_event = null):
 	# If multiple areas are clicked at once, an item_background "wins"
 	if obj is Area2D:
 		for area in obj.get_overlapping_areas():
@@ -80,7 +80,7 @@ func clicked(obj, pos):
 		player = self
 	if mode == "default":
 		var action = obj.get_action()
-		# Hide the action menu when performing actions, so it's not eg. open while walking
+		# Hide the action menu (where available) when performing actions, so it's not eg. open while walking
 		if action_menu:
 			action_menu.stop()
 		if action == "walk":
@@ -111,7 +111,19 @@ func clicked(obj, pos):
 			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", "")
 
 		elif obj.use_action_menu && action_menu != null:
-			spawn_action_menu(obj)
+			if ProjectSettings.get_setting("escoria/ui/right_mouse_button_action_menu"):
+				if input_event.button_index == BUTTON_RIGHT:
+					spawn_action_menu(obj)
+				else:
+					# Left-clicking in this context causes `player` to move to `obj`
+					if obj.has_node("interact_pos"):
+						pos = obj.get_node("interact_pos").get_global_position()
+					else:
+						pos = obj.get_global_position()
+					player.walk_to(pos)
+			# Have to verify left button because `clicked` reacts to any click
+			elif input_event.button_index == BUTTON_LEFT:
+				spawn_action_menu(obj)
 
 
 func spawn_action_menu(obj):
