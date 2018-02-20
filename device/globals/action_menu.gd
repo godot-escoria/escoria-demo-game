@@ -16,6 +16,10 @@ func start(p_target):
 		target = p_target
 		target.connect("visibility_changed", self, "target_visibility_changed")
 
+		# Do not display the tooltip alongside the menu
+		if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
+			get_tree().call_group("hud", "hide")
+
 	var scale = ProjectSettings.get_setting("escoria/platform/action_menu_scale")
 	set_scale(Vector2(scale, scale))
 
@@ -24,6 +28,8 @@ func stop():
 		target.disconnect("visibility_changed", self, "target_visibility_changed")
 	target = null
 	hide()
+	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
+		get_tree().call_group("hud", "show")
 
 func _input(event):
 	if !is_visible():
