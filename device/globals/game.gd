@@ -78,7 +78,8 @@ func clicked(obj, pos):
 		player = self
 	if mode == "default":
 		var action = obj.get_action()
-		#action_menu.stop()
+		# Hide the action menu when performing actions, so it's not eg. open while walking
+		action_menu.stop()
 		if action == "walk":
 
 			#click.set_position(pos)
@@ -115,10 +116,7 @@ func spawn_action_menu(obj):
 		return
 	action_menu.show()
 	var pos
-	if obj.has_node("action_menu_pos"):
-		pos = obj.get_node("action_menu_pos").get_global_pos()
-	else:
-		pos = obj.get_global_pos()
+	pos = obj.get_global_mouse_position()
 	action_menu.set_position(pos)
 	action_menu.start(obj)
 	#obj.grab_focus()
@@ -240,7 +238,6 @@ func _process(time):
 					mouse_enter(mobj)
 					last_obj = mobj
 			else:
-				#action_menu.stop()
 				mouse_exit(mobj)
 				last_obj = null
 
