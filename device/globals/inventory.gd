@@ -20,19 +20,28 @@ func open():
 		return
 	sort_items()
 	show()
-	get_node("animation").play("show")
+	print("inventory open")
+	if has_node("animation"):
+		get_node("animation").play("show")
 
 
 func close():
 	if !is_visible():
 		return
-	if get_node("animation").is_playing():
-		return
-	#printt("closing inventory")
-	print_stack()
-	get_node("animation").play("hide")
-	get_node("look").set_pressed(false)
+
+	if has_node("animation"):
+		var animation = get_node("animation")
+		if animation:
+			if animation.is_playing():
+				return
+			animation.play("hide")
+
+	# XXX: What is this `look` node? A verb menu thing?
+	if has_node("look"):
+		get_node("look").set_pressed(false)
+
 	current_action = ""
+	hide()
 	print("inventory close")
 
 func toggle():
@@ -116,7 +125,7 @@ func _input(event):
 func log_button_pressed():
 	close()
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "open_log")
-	
+
 func _on_open_inventory_signal(open):
 	if (open):
 		open()
