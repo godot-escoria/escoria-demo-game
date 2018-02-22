@@ -6,9 +6,9 @@ var rectangleshape
 
 func input(viewport, event, shape_idx):
 	if event.type == InputEvent.MOUSE_BUTTON && event.pressed:
-		if (event.button_index == 1):
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clicked", self, get_position() + Vector2(event.x, event.y))
-		elif (event.button_index == 2):
+		if (event.button_index == BUTTON_LEFT):
+			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clicked", self, get_position() + event.position, event)
+		elif (event.button_index == BUTTON_RIGHT):
 			emit_right_click()
 
 func get_action():
