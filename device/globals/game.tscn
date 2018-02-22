@@ -1,12 +1,12 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://globals/game.gd" type="Script" id=1]
-[ext_resource path="res://globals/dialog_player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ui/dialog_player.tscn" type="PackedScene" id=2]
 
 [node name="game" type="Node"]
 
 script = ExtResource( 1 )
-fallbacks_path = "res://game/fallbacks.esc"
+fallbacks_path = "res://demo/fallbacks.esc"
 inventory_enabled = true
 camera_limits = Rect2( 0, 0, 0, 0 )
 

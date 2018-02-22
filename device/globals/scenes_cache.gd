@@ -1,4 +1,4 @@
 const scenes = [
 		"res://globals/game.tscn",
-		#"res://game/player/player.xml",
+		#"res://demo/player/player.xml",
 ]

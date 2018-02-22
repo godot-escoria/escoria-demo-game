@@ -1,13 +1,13 @@
 [gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://globals/player.gd" type="Script" id=1]
-[ext_resource path="res://scenes/test/player_anims.gd" type="Script" id=2]
-[ext_resource path="res://scenes/test/player/idle_down.png" type="Texture" id=3]
-[ext_resource path="res://scenes/test/player/idle_right.png" type="Texture" id=4]
-[ext_resource path="res://scenes/test/player/idle_up.png" type="Texture" id=5]
-[ext_resource path="res://scenes/test/player/walk_down.png" type="Texture" id=6]
-[ext_resource path="res://scenes/test/player/walk_right.png" type="Texture" id=7]
-[ext_resource path="res://scenes/test/player/walk_up.png" type="Texture" id=8]
+[ext_resource path="res://demo/actors/player/player_anims.gd" type="Script" id=2]
+[ext_resource path="res://demo/actors/player/idle_down.png" type="Texture" id=3]
+[ext_resource path="res://demo/actors/player/idle_right.png" type="Texture" id=4]
+[ext_resource path="res://demo/actors/player/idle_up.png" type="Texture" id=5]
+[ext_resource path="res://demo/actors/player/walk_down.png" type="Texture" id=6]
+[ext_resource path="res://demo/actors/player/walk_right.png" type="Texture" id=7]
+[ext_resource path="res://demo/actors/player/walk_up.png" type="Texture" id=8]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -29,6 +29,7 @@ tracks/0/path = NodePath("sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
@@ -47,6 +48,7 @@ tracks/0/path = NodePath("sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
@@ -65,6 +67,7 @@ tracks/0/path = NodePath("sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
@@ -83,6 +86,7 @@ tracks/0/path = NodePath("sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
@@ -100,6 +104,7 @@ tracks/0/path = NodePath("sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
@@ -118,6 +123,7 @@ tracks/0/path = NodePath("sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
@@ -137,26 +143,25 @@ placeholders = {
 
 }
 
-[node name="sprite" type="AnimatedSprite" parent="."]
+[node name="sprite" type="AnimatedSprite" parent="." index="0"]
 
 position = Vector2( 5.2803, -49.2264 )
 frames = SubResource( 1 )
 animation = "default"
 
-[node name="animation" type="AnimationPlayer" parent="."]
+[node name="animation" type="AnimationPlayer" parent="." index="1"]
 
+root_node = NodePath("..")
+autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
-root_node = NodePath("..")
+playback_speed = 1.0
 anims/idle_down = SubResource( 2 )
 anims/idle_right = SubResource( 3 )
 anims/idle_up = SubResource( 4 )
 anims/walk_down = SubResource( 5 )
 anims/walk_right = SubResource( 6 )
 anims/walk_up = SubResource( 7 )
-playback/active = true
-playback/speed = 1.0
 blend_times = [  ]
-autoplay = ""
 
 

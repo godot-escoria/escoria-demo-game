@@ -1,4 +1,4 @@
-extends "res://game/objects/item.gd"
+extends "res://demo/objects/item.gd"
 
 func game_cleared():
 	set_state("clear", true)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=1 format=2]
 
-[ext_resource path="res://scenes/test/ice_cream.png" type="Texture" id=1]
+[ext_resource path="res://demo/rooms/test/ice_cream.png" type="Texture" id=1]
 [ext_resource path="res://globals/item.gd" type="Script" id=2]
 
 [node name="ice_cream" type="TextureRect"]
@@ -22,7 +22,7 @@ scale_on_map = false
 light_on_map = false
 tooltip = "Ice Cream"
 action = ""
-events_path = "res://scenes/test/ice_cream.esc"
+events_path = "res://demo/rooms/test/ice_cream.esc"
 global_id = "ice_cream"
 use_combine = false
 inventory = false

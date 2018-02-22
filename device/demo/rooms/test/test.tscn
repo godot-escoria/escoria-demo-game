@@ -1,16 +1,16 @@
 [gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://globals/scene.gd" type="Script" id=1]
-[ext_resource path="res://scenes/test/background.png" type="Texture" id=2]
+[ext_resource path="res://demo/rooms/test/background.png" type="Texture" id=2]
 [ext_resource path="res://globals/background.gd" type="Script" id=3]
 [ext_resource path="res://globals/terrain.gd" type="Script" id=4]
-[ext_resource path="res://scenes/test/scales.png" type="Texture" id=5]
-[ext_resource path="res://scenes/test/lightmap.png" type="Texture" id=6]
-[ext_resource path="res://scenes/test/player.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scenes/test/ice_cream.tscn" type="PackedScene" id=8]
-[ext_resource path="res://scenes/test/box.tscn" type="PackedScene" id=9]
-[ext_resource path="res://scenes/test/can.tscn" type="PackedScene" id=10]
-[ext_resource path="res://scenes/test/chain_saw.tscn" type="PackedScene" id=11]
+[ext_resource path="res://demo/rooms/test/scales.png" type="Texture" id=5]
+[ext_resource path="res://demo/rooms/test/lightmap.png" type="Texture" id=6]
+[ext_resource path="res://demo/actors/player/player.tscn" type="PackedScene" id=7]
+[ext_resource path="res://demo/rooms/test/ice_cream.tscn" type="PackedScene" id=8]
+[ext_resource path="res://demo/rooms/test/box.tscn" type="PackedScene" id=9]
+[ext_resource path="res://demo/rooms/test/can.tscn" type="PackedScene" id=10]
+[ext_resource path="res://demo/rooms/test/chain_saw.tscn" type="PackedScene" id=11]
 [ext_resource path="res://globals/game.tscn" type="PackedScene" id=12]
 
 [sub_resource type="NavigationPolygon" id=1]
@@ -34,6 +34,7 @@ margin_right = 1498.0
 margin_bottom = 720.0
 rect_pivot_offset = Vector2( 0, 0 )
 mouse_filter = 1
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 texture = ExtResource( 2 )
@@ -78,6 +79,7 @@ margin_right = 313.0
 margin_bottom = 461.0
 rect_pivot_offset = Vector2( 0, 0 )
 mouse_filter = 1
+mouse_default_cursor_shape = 0
 use_custom_z = false
 
 [node name="interact_pos" type="Position2D" parent="ice_cream" index="0"]
@@ -105,6 +107,7 @@ margin_right = 481.0
 margin_bottom = 404.0
 rect_pivot_offset = Vector2( 0, 0 )
 mouse_filter = 1
+mouse_default_cursor_shape = 0
 action = ""
 use_custom_z = false
 
@@ -124,6 +127,7 @@ margin_right = 1227.0
 margin_bottom = 435.0
 rect_pivot_offset = Vector2( 0, 0 )
 mouse_filter = 1
+mouse_default_cursor_shape = 0
 use_custom_z = false
 
 [node name="interact_pos" type="Position2D" parent="chainsaw" index="0"]

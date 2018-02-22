@@ -163,5 +163,5 @@ func _ready():
 	call_deferred("remove_child", item)
 	animation = get_node("animation")
 	animation.connect("animation_finished", self, "anim_finished")
-	#get_node("anchor/scroll").set_theme(preload("res://game/globals/dialog_theme.xml"))
+	#get_node("anchor/scroll").set_theme(preload("res://demo/globals/dialog_theme.xml"))
 	add_to_group("game")
