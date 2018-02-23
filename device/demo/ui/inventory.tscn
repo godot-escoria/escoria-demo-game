@@ -3,7 +3,7 @@
 [ext_resource path="res://globals/inventory.gd" type="Script" id=1]
 [ext_resource path="res://demo/ui/inventory_items.tscn" type="PackedScene" id=2]
 
-[node name="inventory" type="Control"]
+[node name="inventory" type="Control" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -103,19 +103,5 @@ group = null
 [node name="items" parent="." index="3" instance=ExtResource( 2 )]
 
 visible = false
-
-[node name="actions" type="Control" parent="." index="4"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 40.0
-margin_bottom = 40.0
-rect_pivot_offset = Vector2( 0, 0 )
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
 
 
