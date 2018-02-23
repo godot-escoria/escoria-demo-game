@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://globals/hud.gd" type="Script" id=1]
-[ext_resource path="res://demo/ui/inventory.tscn" type="PackedScene" id=2]
+[ext_resource path="res://game/ui/inventory.tscn" type="PackedScene" id=2]
 
 [node name="hud" type="Control"]
 
