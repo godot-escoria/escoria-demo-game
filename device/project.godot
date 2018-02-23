@@ -39,7 +39,6 @@ platform/dialog_type_suffix=""
 platform/force_text_ids=false
 platform/exit_button=true
 platform/screen_resizable=true
-platform/show_ingame_buttons=false
 platform/telon="res://globals/telon.tscn"
 platform/window_title_height=32
 platform/use_custom_camera=true
