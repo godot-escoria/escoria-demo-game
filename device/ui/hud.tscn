@@ -2,7 +2,6 @@
 
 [ext_resource path="res://globals/hud.gd" type="Script" id=1]
 [ext_resource path="res://demo/ui/inventory.tscn" type="PackedScene" id=2]
-[ext_resource path="res://demo/ui/verb_menu.tscn" type="PackedScene" id=3]
 
 [node name="hud" type="Control"]
 
@@ -47,12 +46,4 @@ margin_left = 702.0
 margin_top = 457.0
 margin_right = 742.0
 margin_bottom = 497.0
-
-[node name="verb_menu" parent="." instance=ExtResource( 3 )]
-
-margin_left = 63.0
-margin_top = 519.0
-margin_right = 103.0
-margin_bottom = 559.0
-
 
