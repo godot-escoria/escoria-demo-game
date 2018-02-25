@@ -3,8 +3,6 @@ extends Control
 var item_list = []
 var page = 0
 
-var actions = []
-
 var page_max
 var page_size
 var current_action = ""
@@ -125,15 +123,11 @@ func _on_open_inventory_signal(open):
 	else:
 		close()
 
-func action_pressed(n):
-	current_action = n
-	for but in actions:
-		but.set_pressed(but.get_name() == n)
-
 func _ready():
 	vm.connect("inventory_changed", self, "inventory_changed")
 	vm.connect("open_inventory", self, "_on_open_inventory_signal")
 	vm.connect("global_changed", self, "global_changed")
+
 	page_size = get_node("slots").get_child_count()
 	sort_items()
 	get_node("arrow_prev").connect("pressed", self, "change_page", [-1])
@@ -147,17 +141,11 @@ func _ready():
 		c.inventory = true
 		c.use_action_menu = false
 		c.hide()
+
 	items.show()
 	set_focus_mode(Control.FOCUS_NONE)
 	#get_node("mask").set_focus_mode(Control.FOCUS_NONE)
 	set_process_input(true)
-
-	var acts = get_node("actions")
-	actions = []
-	for i in range(acts.get_child_count()):
-		var c = acts.get_child(i)
-		actions.puah_back(c)
-		c.connect("pressed", self, "action_pressed", [c.get_name()])
 
 	#get_node("log_button").connect("pressed", self, "log_button_pressed")
 
