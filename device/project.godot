@@ -84,4 +84,4 @@ use=[ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_na
 
 [locale]
 
-translations=PoolStringArray( "res://translations/general.en.translation", "res://translations/general.es.translation", "res://translations/general.fr.translation" )
+translations=PoolStringArray( "res://game/translations/general.en.translation", "res://game/translations/general.es.translation", "res://game/translations/general.fr.translation" )
