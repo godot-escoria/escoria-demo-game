@@ -29,20 +29,37 @@ func set_mode(p_mode):
 func mouse_enter(obj):
 	var text
 	var tt = obj.get_tooltip()
-	if current_action != "" && current_tool != null:
-		text = tr(current_action + ".combine_id")
-		text = text.replace("%2", tr(tt))
-		text = text.replace("%1", tr(current_tool.get_tooltip()))
-	elif obj.inventory:
-		var action = inventory.get_action()
-		if action == "":
-			action = current_action
-		text = tr(action + ".id")
-		text = text.replace("%1", tr(tt))
+	# We must hide all non-inventory tooltips and interactions when the inventory is open
+	if action_menu and inventory.is_visible():
+		if obj.inventory:
+			if !current_action:
+				text = tr(tt)
+			else:
+				var action = inventory.get_action()
+				if action == "":
+					action = current_action
+				text = tr(action + ".id")
+				text = text.replace("%1", tr(tt))
+			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
+			vm.hover_begin(obj)
 	else:
-		text = tt
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
-	vm.hover_begin(obj)
+		if current_action != "" && current_tool != null:
+			text = tr(current_action + ".combine_id")
+			text = text.replace("%2", tr(tt))
+			text = text.replace("%1", tr(current_tool.get_tooltip()))
+		elif obj.inventory:
+			if !current_action:
+				text = tr(tt)
+			else:
+				var action = inventory.get_action()
+				if action == "":
+					action = current_action
+				text = tr(action + ".id")
+				text = text.replace("%1", tr(tt))
+		else:
+			text = tt
+		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
+		vm.hover_begin(obj)
 
 func mouse_exit(obj):
 	var text
@@ -53,10 +70,16 @@ func mouse_exit(obj):
 	else:
 		text = ""
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
-	vm.hover_end()
+
+	# Want to retain the hover if the player is about to perform an action
+	if !current_action:
+		vm.hover_end()
 
 func clear_action():
 	current_tool = null
+	# It is logical for action menus' actions to be cleared, but verb menus to persist
+	if action_menu:
+		current_action = ""
 
 func set_current_action(p_act):
 	if p_act != current_action:
@@ -84,15 +107,32 @@ func clicked(obj, pos, input_event = null):
 		if action_menu:
 			action_menu.stop()
 		if action == "walk":
-
 			#click.set_position(pos)
 			#click_anim.play("click")
 			if player == self:
 				return
-			player.walk_to(pos)
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", "")
+			if (action_menu and !inventory.is_visible()) or !action_menu:
+				player.walk_to(pos)
+				# Leave the tooltip if the player is in eg. a "use key with" state
+				if !current_action:
+					get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", "")
 
 		elif obj.inventory:
+			# Use and look are the only valid choices with an action menu
+			if action_menu:
+				# Do not set `look` as permanent action
+				if input_event.button_index == BUTTON_RIGHT:
+					interact([obj, "look"])
+					# XXX: Moving the mouse during `:look` will cause the tooltip to disappear
+					# so the following is a good-enough-for-now fix for it
+					get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", obj.get_tooltip())
+					vm.hover_begin(obj)
+				else:
+					current_action = "use"
+					# XXX: Setting an action here does not update the tooltip like `mouse_enter` does. Compensate.
+					var text = tr("use.id")
+					text = text.replace("%1", tr(obj.get_tooltip()))
+					get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
 
 			if current_action == "use" && obj.use_combine && current_tool == null:
 				set_current_tool(obj)
@@ -101,14 +141,19 @@ func clicked(obj, pos, input_event = null):
 		elif action != "":
 			player.interact([obj, action, current_tool])
 		elif current_action != "":
-			player.interact([obj, current_action, current_tool])
+			# Walking the player to perform current_action is fine only when inventory is closed
+			if (action_menu and !inventory.is_visible()) or !action_menu:
+				player.interact([obj, current_action, current_tool])
 		elif action_menu == null:
 
 			# same as action == "walk"
 			if player == self:
 				return
-			player.walk_to(pos)
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", "")
+			if (action_menu and !inventory.is_visible()) or !action_menu:
+				player.walk_to(pos)
+				# Leave the tooltip if the player is in eg. a "use key with" state
+				if !current_action:
+					get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", "")
 
 		elif obj.use_action_menu && action_menu != null:
 			if ProjectSettings.get_setting("escoria/ui/right_mouse_button_action_menu"):
