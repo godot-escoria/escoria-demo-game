@@ -7,6 +7,7 @@ var total_time
 var character
 export var typewriter_text = true
 export var characters_per_second = 45.0
+var force_disable_typewriter_text = ProjectSettings.get_setting("escoria/platform/force_disable_typewriter_text")
 var finished = false
 var play_intro = true
 var play_outro = true
@@ -31,7 +32,7 @@ export var fixed_pos = false
 func _process(time):
 	if finished:
 		return
-	if !typewriter_text:
+	if force_disable_typewriter_text or !typewriter_text:
 		label.set_visible_characters(label.get_total_character_count())
 		text_done = true
 	elapsed += time

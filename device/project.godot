@@ -37,6 +37,7 @@ platform/credits="res://demo/ui/credits/credits.txt"
 platform/dialog_option_height=1
 platform/dialog_type_suffix=""
 platform/force_text_ids=false
+platform/force_disable_typewriter_text=false
 platform/exit_button=true
 platform/screen_resizable=true
 platform/show_ingame_buttons=false
