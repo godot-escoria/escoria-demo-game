@@ -245,6 +245,8 @@ func _process(time):
 			next = walk_path[path_ofs]
 
 		var dist = speed * time * pow(last_scale.x, 2) * terrain.player_speed_multiplier
+		if walk_context and walk_context.fast:
+			dist *= terrain.player_doubleclick_speed_multiplier
 		var dir = (next - pos).normalized()
 
 		# assume that x^2 + y^2 == 1, apply v_speed_damp the y axis

@@ -91,6 +91,10 @@ func set_current_tool(p_tool):
 	current_tool = p_tool
 
 func clicked(obj, pos, input_event = null):
+	var walk_context = null
+
+	if input_event:
+		walk_context = {"fast": input_event.doubleclick}
 	# If multiple areas are clicked at once, an item_background "wins"
 	if obj is Area2D:
 		for area in obj.get_overlapping_areas():
@@ -112,7 +116,7 @@ func clicked(obj, pos, input_event = null):
 			if player == self:
 				return
 			if (action_menu and !inventory.is_visible()) or !action_menu:
-				player.walk_to(pos)
+				player.walk_to(pos, walk_context)
 				# Leave the tooltip if the player is in eg. a "use key with" state
 				if !current_action:
 					get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", "")
@@ -150,7 +154,7 @@ func clicked(obj, pos, input_event = null):
 			if player == self:
 				return
 			if (action_menu and !inventory.is_visible()) or !action_menu:
-				player.walk_to(pos)
+				player.walk_to(pos, walk_context)
 				# Leave the tooltip if the player is in eg. a "use key with" state
 				if !current_action:
 					get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", "")
@@ -165,7 +169,7 @@ func clicked(obj, pos, input_event = null):
 						pos = obj.get_node("interact_pos").get_global_position()
 					else:
 						pos = obj.get_global_position()
-					player.walk_to(pos)
+					player.walk_to(pos, walk_context)
 			# Have to verify left button because `clicked` reacts to any click
 			elif input_event.button_index == BUTTON_LEFT:
 				spawn_action_menu(obj)
