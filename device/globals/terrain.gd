@@ -9,6 +9,8 @@ export(int, "None", "Scales", "Lightmap") var debug_mode = 1 setget debug_mode_u
 export var lightmap_modulate = Color(1, 1, 1, 1)
 export var scale_min = 0.3
 export var scale_max = 1.0
+export var player_speed_multiplier = 1.0  # Override player speed in current scene
+export var player_doubleclick_speed_multiplier = 1.5  # Make the player move faster when doubleclicked
 var texture
 var img_area
 var _texture_dirty = false
