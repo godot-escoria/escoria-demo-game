@@ -18,6 +18,7 @@ var actives = {}
 
 var vm_size = Vector2(0, 0)
 var game_size
+var zoom_viewport  # If the game is zoomed in or out, or just `game_size`
 
 var compiler
 var level
@@ -28,6 +29,8 @@ var cam_target = null
 var cam_speed = 0
 var camera
 var camera_limits
+
+onready var viewport = get_node("/root")
 
 var drag_object = null
 var hover_object = null
@@ -156,26 +159,54 @@ func update_camera(time):
 			pos = cpos + dif.normalized() * dist
 
 	if ProjectSettings.get_setting("escoria/platform/use_custom_camera"):
-		var half = game_size / 2
+		set_zoom_height(zoom_viewport.y)
+
+		var half = zoom_viewport / 2
 		pos = _adjust_camera(pos)
 		var t = Transform2D()
 		t[2] = (-(pos - half))
 
-		get_node("/root").set_canvas_transform(t)
+		viewport.set_canvas_transform(t)
 
+func set_zoom_height(zoom_height):
+	var game_size_ratio = game_size.x / game_size.y
+	zoom_viewport = Vector2(zoom_height * game_size_ratio, zoom_height)
+	viewport.set_size_override(true, zoom_viewport)
+
+func unset_zoom():
+	if zoom_viewport != game_size:
+		zoom_viewport = game_size
+		viewport.set_size_override(true, game_size)
+
+var prev_if_case
 func _adjust_camera(pos):
-	var half = game_size / 2
+	# Move the camera in a way that respects `camera_limits` by keeping
+	# the position half a distance from the borders of `game_size`.
+	var half = zoom_viewport / 2
 
+	var if_case = null
 	if pos.x + half.x > camera_limits.position.x + camera_limits.size.x:
+		if_case = 1
 		pos.x = (camera_limits.position.x + camera_limits.size.x) - half.x
 	if pos.x - half.x < camera_limits.position.x:
+		if_case = 2
 		pos.x = camera_limits.position.x + half.x
 
 	if pos.y + half.y > camera_limits.position.y + camera_limits.size.y:
+		if_case = 3
 		pos.y = (camera_limits.position.y + camera_limits.size.y) - half.y
 	if pos.y - half.y < camera_limits.position.y:
+		if_case = 3
 		pos.y = camera_limits.position.y + half.y
 
+#	if !if_case:
+#		unset_zoom()
+#	elif if_case == 1:
+#		set_zoom_height(864)
+
+	if if_case != prev_if_case:
+		prev_if_case = if_case
+		printt("if_case ", if_case, " game_size", game_size, "half", half, "camera_limits", camera_limits, "pos", pos)
 	return pos
 
 func set_cam_limits(limits):
