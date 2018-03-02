@@ -100,7 +100,7 @@ func inventory_add(params):
 func inventory_remove(params):
 	vm.inventory_set(params[0], false)
 	return vm.state_return
-	
+
 func inventory_open(params):
 	vm.emit_signal("open_inventory", params[0])
 
@@ -196,7 +196,7 @@ func camera_set_target(params):
 		targets.push_back(params[i])
 	vm.camera_set_target(speed, targets)
 
-func camera_set_position(params):
+func camera_set_pos(params):
 	var speed = params[0]
 	var pos = Vector2(params[1], params[2])
 	vm.camera_set_target(speed, pos)
