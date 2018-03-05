@@ -30,7 +30,8 @@ var cam_speed = 0
 var camera
 var camera_limits
 
-onready var viewport = get_node("/root")
+var scene
+var viewport
 
 var drag_object = null
 var hover_object = null
@@ -159,7 +160,12 @@ func update_camera(time):
 			pos = cpos + dif.normalized() * dist
 
 	if ProjectSettings.get_setting("escoria/platform/use_custom_camera"):
-		set_zoom_height(zoom_viewport.y)
+		if !zoom_viewport:
+			scene = get_node("/root/scene")
+			printt("global_vm calls init_zoom_height", scene.zoom_height_pixels)
+			init_zoom_height(scene.zoom_height_pixels)
+		else:
+			set_zoom_height(zoom_viewport.y)
 
 		var half = zoom_viewport / 2
 		pos = _adjust_camera(pos)
@@ -168,15 +174,41 @@ func update_camera(time):
 
 		viewport.set_canvas_transform(t)
 
+var prev_zoom_height
 func set_zoom_height(zoom_height):
 	var game_size_ratio = game_size.x / game_size.y
 	zoom_viewport = Vector2(zoom_height * game_size_ratio, zoom_height)
+
+	## BROKEN
+	# Camera zoom viewport uses < 1 to zoom in, > 1 to zoom out
+	# var zoom_width = zoom_height * game_size_ratio
+	# var camera_zoom_viewport = Vector2(zoom_width / game_size.x, zoom_height / game_size.y)
+
+	viewport = get_node("/root")
 	viewport.set_size_override(true, zoom_viewport)
 
+	# camera.zoom = camera_zoom_viewport
+	# printt("camera.zoom ", camera.zoom, " for zoom_height ", zoom_height, " game height ", game_size.y)
+
+	if prev_zoom_height != zoom_height:
+		printt("changed zoom height from ", prev_zoom_height, " to ", zoom_height)
+		prev_zoom_height = zoom_height
+
 func unset_zoom():
-	if zoom_viewport != game_size:
-		zoom_viewport = game_size
-		viewport.set_size_override(true, game_size)
+	printt("called unset_zoom", scene, " ", scene.name)
+	if !scene.zoom_height_pixels:
+		if zoom_viewport != game_size:
+			zoom_viewport = game_size
+			viewport.set_size_override(true, game_size)
+	else:
+		set_zoom_height(scene.zoom_height_pixels)
+		printt("unset_zoom set zoom_height ", scene.zoom_height_pixels)
+
+func init_zoom_height(zoom_height_pixels):
+	if !zoom_height_pixels:
+		zoom_height_pixels = get_viewport().size.y
+
+	set_zoom_height(zoom_height_pixels)
 
 var prev_if_case
 func _adjust_camera(pos):
