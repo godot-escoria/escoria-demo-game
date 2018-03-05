@@ -31,6 +31,7 @@ var commands = {
 	"camera_set_target": { "min_args": 1, "types": [TYPE_REAL] },
 	"camera_set_pos": { "min_args": 3, "types": [TYPE_REAL, TYPE_INT, TYPE_INT] },
 	"camera_set_zoom_height": { "min_args": 1, "types": [TYPE_INT] },
+	"camera_unset_zoom": { "min_args": 0 },
 	"autosave": { "min_args": 0 },
 	"queue_resource": { "min_args": 1, "types": [TYPE_STRING, TYPE_BOOL] },
 	"queue_animation": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING, TYPE_BOOL] },

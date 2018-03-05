@@ -205,6 +205,9 @@ func camera_set_zoom_height(params):
 	var height = params[0]
 	vm.set_zoom_height(height)
 
+func camera_unset_zoom(params):
+	vm.unset_zoom()
+
 func set_globals(params):
 	var pat = params[0]
 	var val = params[1]
