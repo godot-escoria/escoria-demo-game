@@ -155,13 +155,12 @@ func update_camera(time):
 			camera.set_position(cpos + dif.normalized() * dist)
 			pos = cpos + dif.normalized() * dist
 
-	if ProjectSettings.get_setting("escoria/platform/use_custom_camera"):
-		var half = game_size / 2
-		pos = _adjust_camera(pos)
-		var t = Transform2D()
-		t[2] = (-(pos - half))
+	var half = game_size / 2
+	pos = _adjust_camera(pos)
+	var t = Transform2D()
+	t[2] = (-(pos - half))
 
-		get_node("/root").set_canvas_transform(t)
+	get_node("/root").set_canvas_transform(t)
 
 func _adjust_camera(pos):
 	var half = game_size / 2
@@ -602,8 +601,7 @@ func save():
 
 func set_camera(p_cam):
 	camera = p_cam
-	if ProjectSettings.get_setting("escoria/platform/use_custom_camera"):
-		camera.clear_current()
+	camera.clear_current()
 
 func clear():
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "game_cleared")

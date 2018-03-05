@@ -42,7 +42,6 @@ platform/exit_button=true
 platform/screen_resizable=true
 platform/telon="res://globals/telon.tscn"
 platform/window_title_height=32
-platform/use_custom_camera=true
 ui/credits=""
 ui/in_game_menu="res://ui/in_game_menu.tscn"
 ui/main_menu="res://demo/ui/main_menu.tscn"
