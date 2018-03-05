@@ -10,8 +10,8 @@ config_version=3
 
 [application]
 
-config/name="Prototype"
-run/main_scene="res://globals/scene_main.tscn"
+config/name="Prototype / Submodule"
+run/main_scene="res://game/rooms/001.office/main.tscn"
 
 [autoload]
 
@@ -29,27 +29,27 @@ window/size/test_height=1080
 
 application/max_voice_volume=2
 application/save_data="res://globals/save_data.gd"
-application/speech_suffix=".spx"
+application/speech_suffix=".ogg"
 application/tooltip_lang_default="en"
-application/speech_path="res://demo/audio/speech/"
+application/speech_path="res://audio/speech/"
 platform/action_menu_scale=2
 platform/credits="res://demo/ui/credits/credits.txt"
 platform/dialog_option_height=1
 platform/dialog_type_suffix=""
-platform/force_text_ids=false
-platform/force_disable_typewriter_text=false
+platform/force_text_ids=true
+platform/force_disable_typewriter_text=true
 platform/exit_button=true
-platform/screen_resizable=true
+platform/screen_resizable=false
 platform/telon="res://globals/telon.tscn"
 platform/window_title_height=32
 platform/use_custom_camera=true
 ui/credits=""
 ui/in_game_menu="res://ui/in_game_menu.tscn"
-ui/main_menu="res://demo/ui/main_menu.tscn"
-ui/confirm_popup="res://demo/ui/confirm_popup.tscn"
+ui/main_menu="res://ui/main_menu.tscn"
+ui/confirm_popup="res://ui/confirm_popup.tscn"
 ui/savegames=""
-ui/tooltip_follows_mouse=false
-ui/right_mouse_button_action_menu=false
+ui/tooltip_follows_mouse=true
+ui/right_mouse_button_action_menu=true
 
 [gdnative]
 
@@ -84,4 +84,4 @@ use=[ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_na
 
 [locale]
 
-translations=PoolStringArray( "res://translations/general.en.translation", "res://translations/general.es.translation", "res://translations/general.fr.translation" )
+translations=PoolStringArray( "res://game/translations/general.en.translation", "res://game/translations/general.es.translation", "res://game/translations/general.fr.translation" )

@@ -18,6 +18,7 @@ var actives = {}
 
 var vm_size = Vector2(0, 0)
 var game_size
+var zoom_viewport  # If the game is zoomed in or out, or just `game_size`
 
 var compiler
 var level
@@ -28,6 +29,9 @@ var cam_target = null
 var cam_speed = 0
 var camera
 var camera_limits
+
+var scene
+var viewport
 
 var drag_object = null
 var hover_object = null
@@ -156,26 +160,85 @@ func update_camera(time):
 			pos = cpos + dif.normalized() * dist
 
 	if ProjectSettings.get_setting("escoria/platform/use_custom_camera"):
-		var half = game_size / 2
+		if !zoom_viewport:
+			scene = get_node("/root/scene")
+			printt("global_vm calls init_zoom_height", scene.zoom_height_pixels)
+			init_zoom_height(scene.zoom_height_pixels)
+		else:
+			set_zoom_height(zoom_viewport.y)
+
+		var half = zoom_viewport / 2
 		pos = _adjust_camera(pos)
 		var t = Transform2D()
 		t[2] = (-(pos - half))
 
-		get_node("/root").set_canvas_transform(t)
+		viewport.set_canvas_transform(t)
 
+var prev_zoom_height
+func set_zoom_height(zoom_height):
+	var game_size_ratio = game_size.x / game_size.y
+	zoom_viewport = Vector2(zoom_height * game_size_ratio, zoom_height)
+
+	## BROKEN
+	# Camera zoom viewport uses < 1 to zoom in, > 1 to zoom out
+	# var zoom_width = zoom_height * game_size_ratio
+	# var camera_zoom_viewport = Vector2(zoom_width / game_size.x, zoom_height / game_size.y)
+
+	viewport = get_node("/root")
+	viewport.set_size_override(true, zoom_viewport)
+
+	# camera.zoom = camera_zoom_viewport
+	# printt("camera.zoom ", camera.zoom, " for zoom_height ", zoom_height, " game height ", game_size.y)
+
+	if prev_zoom_height != zoom_height:
+		printt("changed zoom height from ", prev_zoom_height, " to ", zoom_height)
+		prev_zoom_height = zoom_height
+
+func unset_zoom():
+	printt("called unset_zoom", scene, " ", scene.name)
+	if !scene.zoom_height_pixels:
+		if zoom_viewport != game_size:
+			zoom_viewport = game_size
+			viewport.set_size_override(true, game_size)
+	else:
+		set_zoom_height(scene.zoom_height_pixels)
+		printt("unset_zoom set zoom_height ", scene.zoom_height_pixels)
+
+func init_zoom_height(zoom_height_pixels):
+	if !zoom_height_pixels:
+		zoom_height_pixels = get_viewport().size.y
+
+	set_zoom_height(zoom_height_pixels)
+
+var prev_if_case
 func _adjust_camera(pos):
-	var half = game_size / 2
+	# Move the camera in a way that respects `camera_limits` by keeping
+	# the position half a distance from the borders of `game_size`.
+	var half = zoom_viewport / 2
 
+	var if_case = null
 	if pos.x + half.x > camera_limits.position.x + camera_limits.size.x:
+		if_case = 1
 		pos.x = (camera_limits.position.x + camera_limits.size.x) - half.x
 	if pos.x - half.x < camera_limits.position.x:
+		if_case = 2
 		pos.x = camera_limits.position.x + half.x
 
 	if pos.y + half.y > camera_limits.position.y + camera_limits.size.y:
+		if_case = 3
 		pos.y = (camera_limits.position.y + camera_limits.size.y) - half.y
 	if pos.y - half.y < camera_limits.position.y:
+		if_case = 3
 		pos.y = camera_limits.position.y + half.y
 
+#	if !if_case:
+#		unset_zoom()
+#	elif if_case == 1:
+#		set_zoom_height(864)
+
+	if if_case != prev_if_case:
+		prev_if_case = if_case
+		printt("if_case ", if_case, " game_size", game_size, "half", half, "camera_limits", camera_limits, "pos", pos)
 	return pos
 
 func set_cam_limits(limits):

@@ -22,7 +22,19 @@ to the backers of the Dog Mendonça Kickstarter campaign.
 
 ## Usage
 
-Here be dragons.
+Here be dragons. For https://github.com/mjtorn/escoria/tree/devel you want either
+
+    $ git clone https://github.com/mjtorn/escoria/ --recurse-submodules
+
+to see the code, but you have to `git checkout -b devel origin/devel` to see where the money at.
+
+Alternatively you can use
+
+    $ git clone https://github.com/mjtorn/escoria/ --recurse-submodules -b devel
+
+to get there by default.
+
+(These instructions shall never be merged to the upstream master!)
 
 ## Documentation
 
