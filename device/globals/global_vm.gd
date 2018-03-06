@@ -402,6 +402,8 @@ func finished(context):
 	context.waiting = false
 
 func change_scene(params, context):
+	# It might be tempting to use `get_tree().change_scene(params[0])`,
+	# but this custom solution is safer around your scene structure
 	printt("change scene to ", params[0])
 	#var res = ResourceLoader.load(params[0])
 	check_cache()
@@ -469,6 +471,10 @@ func autosave_done(err):
 	last_autosave = OS.get_ticks_msec()
 
 func check_cache():
+	# Warm the cache from the hard-coded list, unless configured to skip
+	if ProjectSettings.get_setting("escoria/platform/skip_cache"):
+		return
+
 	for s in scenes_cache_list:
 		if s in scenes_cache:
 			continue
@@ -695,10 +701,10 @@ func _ready():
 	level.set_vm(self)
 	game_size = get_viewport().size
 
-	scenes_cache_list.push_back(ProjectSettings.get_setting("escoria/platform/telon"))
-	scenes_cache_list.push_back(get_hud_scene())
+	if !ProjectSettings.get_setting("escoria/platform/skip_cache"):
+		scenes_cache_list.push_back(ProjectSettings.get_setting("escoria/platform/telon"))
+		scenes_cache_list.push_back(get_hud_scene())
 
-	if !ProjectSettings.has_method("debug/skip_cache") || !ProjectSettings.get_setting("debug/skip_cache"):
 		printt("cache list ", scenes_cache_list)
 		for s in scenes_cache_list:
 			print("s is ", s)
