@@ -64,6 +64,9 @@ var scenes_cache = {} # this will eventually have everything in scenes_cache_lis
 
 var settings
 
+# Used to save scale of current scene so that we can reset zoom
+var _original_scale
+
 func save_settings():
 	save_data.save_settings(settings, null)
 
@@ -161,6 +164,19 @@ func update_camera(time):
 	t[2] = (-(pos - half))
 
 	get_node("/root").set_canvas_transform(t)
+
+func camera_zoom_in(magnitude):
+	var current_scene = main.get_current_scene()
+	if current_scene == null or not current_scene is preload("res://globals/scene.gd"):
+		return
+	# Save current scale so that we can reset zoom
+	_original_scale = current_scene.scale
+	current_scene.scale = _original_scale * Vector2(magnitude, magnitude)
+
+func camera_zoom_out():
+	var current_scene = main.get_current_scene()
+	if current_scene and current_scene is preload("res://globals/scene.gd") and _original_scale:
+		current_scene.scale = _original_scale
 
 func _adjust_camera(pos):
 	var half = game_size / 2
