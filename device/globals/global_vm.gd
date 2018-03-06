@@ -422,16 +422,6 @@ func change_scene(params, context):
 	camera_set_target(0, null)
 	autosave_pending = true
 
-func swap_scene(p_path):
-
-	var res = res_cache.get_resource(p_path)
-	main.clear_scene()
-	var scene = res.instance()
-	if scene:
-		main.set_scene(scene)
-	else:
-		report_errors("", ["Failed loading scene "+p_path+" for swap_scene"])
-
 func spawn(params):
 	var res = ResourceLoader.load(params[0])
 	var scene = res.instance()

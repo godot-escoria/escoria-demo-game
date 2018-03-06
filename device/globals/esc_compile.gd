@@ -25,7 +25,6 @@ var commands = {
 	"%": { "alias": "label", "min_args": 1},
 	"jump": { "min_args": 1 },
 	"dialog_config": { "min_args": 3, "types": [TYPE_STRING, TYPE_BOOL, TYPE_BOOL] },
-	"queue_scene": { "min_args": 1 },
 	"sched_event": { "min_args": 3, "types": [TYPE_REAL, TYPE_STRING, TYPE_STRING] },
 	"custom": { "min_args": 2 },
 	"camera_set_target": { "min_args": 1, "types": [TYPE_REAL] },
