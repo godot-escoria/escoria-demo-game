@@ -49,6 +49,7 @@ ui/confirm_popup="res://demo/ui/confirm_popup.tscn"
 ui/savegames=""
 ui/tooltip_follows_mouse=false
 ui/right_mouse_button_action_menu=false
+ui/action_menu=""
 
 [gdnative]
 

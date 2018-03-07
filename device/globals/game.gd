@@ -180,8 +180,8 @@ func spawn_action_menu(obj):
 		return
 	action_menu.show()
 	var pos
-	pos = obj.get_global_mouse_position()
-	action_menu.set_position(pos)
+	pos = get_viewport().get_mouse_position()
+	action_menu.position = pos
 	action_menu.start(obj)
 	#obj.grab_focus()
 
@@ -374,6 +374,12 @@ func load_hud():
 	get_node("hud_layer/hud").replace_by_instance(hres)
 	inventory = get_node("hud_layer/hud/inventory")
 
+	# Add action menu to hud layer if found in project settings
+	if ProjectSettings.get_setting("escoria/ui/action_menu"):
+		action_menu = load(ProjectSettings.get_setting("escoria/ui/action_menu")).instance()
+		if action_menu and action_menu is preload("res://globals/action_menu.gd"):
+			$hud_layer.add_child(action_menu)
+
 	#if inventory_enabled:
 	#	get_node("hud_layer/hud/inv_toggle").show()
 	#else:
@@ -384,8 +390,7 @@ func load_hud():
 func _ready():
 	add_to_group("game")
 	player = get_node("../player")
-	if has_node("action_menu"):
-		action_menu = get_node("action_menu")
+
 	if fallbacks_path != "":
 		fallbacks = vm.compile(fallbacks_path)
 
