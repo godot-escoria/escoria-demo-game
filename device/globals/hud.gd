@@ -44,3 +44,6 @@ func _ready():
 	add_to_group("hud")
 	add_to_group("game")
 
+	# Hide verb menu if hud layer has an action menu
+	if has_node("../action_menu"):
+		$verb_menu.hide()
