@@ -372,7 +372,15 @@ func set_camera_limits():
 func load_hud():
 	var hres = vm.res_cache.get_resource(vm.get_hud_scene())
 	get_node("hud_layer/hud").replace_by_instance(hres)
-	inventory = get_node("hud_layer/hud/inventory")
+
+	# Add inventory to hud layer, usually hud_minimal.tscn, if found in project settings
+	if !$hud_layer.has_node("inventory") and ProjectSettings.get_setting("escoria/ui/inventory"):
+		inventory = load(ProjectSettings.get_setting("escoria/ui/inventory")).instance()
+		if inventory and inventory is preload("res://globals/inventory.gd"):
+			inventory.hide()
+			$hud_layer.add_child(inventory)
+	else:
+		inventory = get_node("hud_layer/hud/inventory")
 
 	# Add action menu to hud layer if found in project settings
 	if ProjectSettings.get_setting("escoria/ui/action_menu"):

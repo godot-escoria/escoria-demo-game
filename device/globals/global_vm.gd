@@ -695,7 +695,7 @@ func _rate_game():
 	OS.shell_open(rate_url)
 
 func get_hud_scene():
-	var hpath = "res://ui/hud.tscn"
+	var hpath = ProjectSettings.get_setting("escoria/ui/hud")
 	return hpath
 
 func _ready():
