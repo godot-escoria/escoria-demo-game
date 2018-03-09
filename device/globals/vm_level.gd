@@ -100,7 +100,7 @@ func inventory_add(params):
 func inventory_remove(params):
 	vm.inventory_set(params[0], false)
 	return vm.state_return
-	
+
 func inventory_open(params):
 	vm.emit_signal("open_inventory", params[0])
 
@@ -152,9 +152,6 @@ func change_scene(params):
 
 	current_context.waiting = true
 	return vm.state_yield
-
-func queue_scene(params):
-	vm.res_cache.queue_resource(params[0])
 
 func spawn(params):
 	return vm.spawn(params)

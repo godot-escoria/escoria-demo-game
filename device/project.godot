@@ -32,6 +32,7 @@ application/save_data="res://globals/save_data.gd"
 application/speech_suffix=".spx"
 application/tooltip_lang_default="en"
 application/speech_path="res://demo/audio/speech/"
+platform/skip_cache=false
 platform/action_menu_scale=2
 platform/credits="res://demo/ui/credits/credits.txt"
 platform/dialog_option_height=1
