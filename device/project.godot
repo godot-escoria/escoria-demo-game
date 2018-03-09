@@ -43,6 +43,7 @@ platform/exit_button=true
 platform/screen_resizable=true
 platform/telon="res://globals/telon.tscn"
 platform/window_title_height=32
+ui/hud="res://ui/hud.tscn"
 ui/credits=""
 ui/in_game_menu="res://ui/in_game_menu.tscn"
 ui/main_menu="res://demo/ui/main_menu.tscn"
@@ -50,6 +51,8 @@ ui/confirm_popup="res://demo/ui/confirm_popup.tscn"
 ui/savegames=""
 ui/tooltip_follows_mouse=false
 ui/right_mouse_button_action_menu=false
+ui/action_menu=""
+ui/inventory=""
 
 [gdnative]
 
