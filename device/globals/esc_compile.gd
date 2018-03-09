@@ -29,6 +29,7 @@ var commands = {
 	"custom": { "min_args": 2 },
 	"camera_set_target": { "min_args": 1, "types": [TYPE_REAL] },
 	"camera_set_pos": { "min_args": 3, "types": [TYPE_REAL, TYPE_INT, TYPE_INT] },
+	"camera_set_zoom_height": { "min_args": 1, "types": [TYPE_INT] },
 	"camera_zoom_in": { "min_args": 1, "types": [TYPE_REAL] },
 	"camera_zoom_out": { "min_args": 0 },
 	"autosave": { "min_args": 0 },

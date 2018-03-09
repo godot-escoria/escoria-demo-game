@@ -198,6 +198,10 @@ func camera_set_pos(params):
 	var pos = Vector2(params[1], params[2])
 	vm.camera_set_target(speed, pos)
 
+func camera_set_zoom_height(params):
+	var height = params[0]
+	vm.camera_set_zoom_height(height)
+
 func camera_zoom_in(params):
 	var magnitude = params[0]
 	vm.camera_zoom_in(magnitude)
