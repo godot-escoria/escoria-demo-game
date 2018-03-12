@@ -165,6 +165,10 @@ func update_camera(time):
 
 	get_node("/root").set_canvas_transform(t)
 
+func camera_set_zoom_height(zoom_height):
+	var scale = game_size.y / zoom_height
+	camera_zoom_in(scale)
+
 func camera_zoom_in(magnitude):
 	var current_scene = main.get_current_scene()
 	if current_scene and current_scene is preload("res://globals/scene.gd"):
