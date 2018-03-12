@@ -11,8 +11,8 @@ anchor_bottom = 0.0
 margin_right = 40.0
 margin_bottom = 40.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 script = ExtResource( 1 )
@@ -35,7 +35,7 @@ placeholders = {
 }
 use_custom_z = false
 
-[node name="stream" type="AudioStreamPlayer" parent="."]
+[node name="stream" type="AudioStreamPlayer" parent="." index="0"]
 
 stream = null
 volume_db = 0.0

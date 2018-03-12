@@ -1,7 +1,6 @@
 extends "res://globals/item.gd"
 
-onready var stream = get_node("stream")
-var current_music
+var stream
 
 func game_cleared():
 	set_state("off", true)
@@ -10,21 +9,33 @@ func game_cleared():
 
 func set_state(p_state, p_force = false):
 
-	if p_state == state && !p_force && stream.is_playing():
-		return
-
-	#set_state(p_state, p_force)
-
+	# Can't do anything without a player
 	if stream == null:
 		return
 
-	if state == "off" || state == "default":
-		stream.set_stream(null)
+	# If already playing this stream, keep playing, unless p_force
+	if p_state == state and not p_force and stream.is_playing():
 		return
 
-	var res = load(p_state)
-	stream.set_stream(res)
-	if res != null:
-		stream.set_loop(true)
+	# Update state in base class
+	.set_state(p_state, p_force)
+
+	# If state is "off"/"default", turn off music
+	if state == "off" or state == "default":
+		stream.stream = null
+		return
+
+	var resource = load(p_state)
+
+	stream.stream = resource
+
+	if stream.stream:
+		resource.set_loop(true)
 		stream.play()
-		stream.set_volume(vm.settings.music_volume)
+		stream.volume_db = vm.settings.music_volume
+
+func load_stream():
+	stream = get_node("stream")
+
+func _ready():
+	call_deferred("load_stream")
