@@ -1,5 +1,4 @@
 var global = null
-var vm
 var current_context
 
 func check_obj(name, cmd):

@@ -102,7 +102,6 @@ func _ready():
 	get_node("exit").connect("pressed", self, "_on_exit_pressed")
 	#get_node("settings").connect("pressed", self, "settings_pressed")
 	#get_node("credits").connect("pressed",self,"credits_pressed")
-	vm = get_tree().get_root().get_node("vm")
 	set_process_input(true)
 	#main.set_current_scene(self)
 
