@@ -146,22 +146,31 @@ func update_camera(time):
 
 	var cpos = camera.get_position()
 
+	# The camera position is set to target when it's about to overstep it,
+	# or when it's moved there instantly.
+	# Compare the camera and target position until then
 	if cpos != pos:
-		#return
+		var v = pos - cpos  # vector to move along
+		var step = cam_speed * time  # pixel size of step to move
 
-		var dif = pos - cpos
-		var dist = cam_speed * time
-		if dist > dif.length() || cam_speed == 0:
+		# This is where we may overstep or move instantly
+		if step > v.length() || cam_speed == 0:
 			camera.set_position(pos)
-			#return
 		else:
-			camera.set_position(cpos + dif.normalized() * dist)
-			pos = cpos + dif.normalized() * dist
+			pos = cpos + v.normalized() * step
+			camera.set_position(pos)
 
 	var half = game_size / 2
-	pos = _adjust_camera(pos)
+
+	var clamp_data = _clamp_camera(pos, half)
+	var camera_clamped = clamp_data[0]
+	pos = clamp_data[1]
+
 	var t = Transform2D()
-	t.origin = (-(pos - half))
+	t.origin = half - pos
+
+	if camera_clamped:
+		camera.set_position(pos)
 
 	get_node("/root").canvas_transform = t
 
@@ -182,8 +191,13 @@ func camera_zoom_out():
 	if current_scene and current_scene is preload("res://globals/scene.gd") and prev_state:
 		current_scene.scale = prev_state["scale"]
 
-func _adjust_camera(pos):
-	var half = game_size / 2
+func _clamp_camera(pos, half):
+	# Helper function clamps camera within the given camera limits; if we try
+	# to show anything outside the limits, we return a position that doesn't break the limits.
+	# `half` is passed in because there's a good chance it gets altered when zoomed in
+	# Returns whether or not the camera was clamped and what the new position is regardless
+
+	var orig_pos = pos
 
 	if pos.x + half.x > camera_limits.position.x + camera_limits.size.x:
 		pos.x = (camera_limits.position.x + camera_limits.size.x) - half.x
@@ -195,7 +209,7 @@ func _adjust_camera(pos):
 	if pos.y - half.y < camera_limits.position.y:
 		pos.y = camera_limits.position.y + half.y
 
-	return pos
+	return [orig_pos != pos, pos]
 
 func set_cam_limits(limits):
 	camera_limits = limits
@@ -738,7 +752,7 @@ func _ready():
 			print("s is ", s)
 			res_cache.queue_resource(s, false, true)
 
-	printt("********** vm calling get scene", get_tree(), get_tree().get_root())
+	printt("********** vm calling get scene", get_tree(), get_node("/root"))
 
 	achievements = preload("res://globals/achievements.gd").new()
 	achievements.start()
