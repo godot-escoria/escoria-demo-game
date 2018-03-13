@@ -346,6 +346,14 @@ func set_state(name, state):
 func set_active(name, active):
 	actives[name] = active
 
+func set_use_action_menu(obj, should_use_action_menu):
+	if obj is preload("res://globals/item.gd"):
+		obj.use_action_menu = should_use_action_menu
+
+func set_speed(obj, speed):
+	if obj is preload("res://globals/interactive.gd"):
+		obj.speed = speed
+
 func object_exit_scene(name):
 	objects.erase(name)
 
