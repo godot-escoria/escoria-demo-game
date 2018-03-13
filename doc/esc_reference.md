@@ -112,8 +112,9 @@ set_globals i/* false
 - wait seconds
   Blocks execution of the current script for a number of seconds specified by the "seconds" parameter.
 
-- change_scene path
-  Loads a new scene, specified by "path"
+- change_scene path position
+  Loads a new scene, specified by "path". Optional parameters:
+  - position is the name of a Position2D node where the player will be put.
 
 - teleport object1 object2
   Sets the position of object1 to the position of object2

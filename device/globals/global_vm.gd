@@ -424,7 +424,6 @@ func finished(context):
 func change_scene(params, context):
 	# It might be tempting to use `get_tree().change_scene(params[0])`,
 	# but this custom solution is safer around your scene structure
-	printt("change scene to ", params[0])
 	#var res = ResourceLoader.load(params[0])
 	check_cache()
 	main.clear_scene()
@@ -434,7 +433,12 @@ func change_scene(params, context):
 	res_cache.clear()
 	var scene = res.instance()
 	if scene:
-		main.set_scene(scene)
+		if params.size() == 1:
+			printt("change scene to ", params[0])
+			main.set_scene(scene)
+		else:
+			printt("change scene to ", params[0], " position ", params[1])
+			main.set_scene(scene, params[1])
 	else:
 		report_errors("", ["Failed loading scene "+params[0]+" for change_scene"])
 

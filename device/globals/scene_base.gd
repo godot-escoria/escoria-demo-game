@@ -3,5 +3,6 @@ extends Node
 export(String, FILE) var events_path = ""
 
 func _ready():
-	main.call_deferred("set_current_scene", self, events_path)
+	var start_pos_node = null
+	main.call_deferred("set_current_scene", self, start_pos_node, events_path)
 

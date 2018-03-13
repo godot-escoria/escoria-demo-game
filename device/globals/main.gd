@@ -22,15 +22,14 @@ func clear_scene():
 	current.free()
 	current = null
 
-func set_scene(p_scene):
+func set_scene(p_scene, p_start_pos_node):
 	if current != null:
 		clear_scene()
 
 	if !p_scene:
 		return
-	var root = get_tree().get_root()
-	root.add_child(p_scene)
-	set_current_scene(p_scene)
+	get_node("/root").add_child(p_scene)
+	set_current_scene(p_scene, p_start_pos_node)
 
 func get_current_scene():
 	return current
@@ -73,11 +72,15 @@ func menu_collapse():
 		i -= 1
 		menu_stack[i].menu_collapsed()
 
-func set_current_scene(p_scene, events_path=null):
+func set_current_scene(p_scene, start_pos_node=null, events_path=null):
 	#print_stack()
 	current = p_scene
 	var root = get_tree().get_root()
 	root.move_child(p_scene, 0)
+
+	if start_pos_node:
+		var start_pos = current.get_node(start_pos_node).position
+		vm.get_object("player").teleport_pos(start_pos.x, start_pos.y)
 
 	if events_path:
 		vm.load_file(events_path)
