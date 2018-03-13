@@ -11,7 +11,7 @@ func say(params, callback):
 	type = type + ProjectSettings.get_setting("escoria/platform/dialog_type_suffix")
 	var inst = get_resource(type).instance()
 	var z = inst.get_z_index()
-	get_tree().get_root().get_child(0).add_child(inst)
+	get_node("/root").get_child(0).add_child(inst)
 	var intro = true
 	var outro = true
 	if type in types:

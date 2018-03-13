@@ -161,9 +161,9 @@ func update_camera(time):
 	var half = game_size / 2
 	pos = _adjust_camera(pos)
 	var t = Transform2D()
-	t[2] = (-(pos - half))
+	t.origin = (-(pos - half))
 
-	get_node("/root").set_canvas_transform(t)
+	get_node("/root").canvas_transform = t
 
 func camera_set_zoom_height(zoom_height):
 	var scale = game_size.y / zoom_height

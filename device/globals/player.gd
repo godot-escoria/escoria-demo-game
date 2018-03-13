@@ -5,7 +5,6 @@ extends Node2D
 var task
 var walk_destination
 var animation
-var vm
 var terrain
 var walk_path
 var walk_context
@@ -317,7 +316,6 @@ func _ready():
 		return
 
 	animation = get_node("animation")
-	vm = get_tree().get_root().get_node("vm")
 	vm.register_object("player", self)
 	#_update_terrain();
 	if has_node("animation"):

@@ -1,5 +1,3 @@
-var vm
-
 var sounds = []
 var bg_path = ""
 var bg_volume = 1
