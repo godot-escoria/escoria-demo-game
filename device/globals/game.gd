@@ -95,11 +95,13 @@ func clicked(obj, pos, input_event = null):
 
 	if input_event:
 		walk_context = {"fast": input_event.doubleclick}
-	# If multiple areas are clicked at once, an item_background "wins"
-	if obj is Area2D:
-		for area in obj.get_overlapping_areas():
+
+	# If an background_area is covered by an item, the item "wins"
+	if obj is preload("res://globals/background_area.gd"):
+		for area in obj.get_child(0).get_overlapping_areas():
 			if area.has_method("is_clicked") and area.is_clicked():
 				return
+
 	joystick_mode = false
 	if !vm.can_interact():
 		return
