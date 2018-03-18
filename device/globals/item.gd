@@ -4,7 +4,7 @@ extends "res://globals/interactive.gd"
 
 export var tooltip = ""
 export var action = ""
-export(String, FILE) var events_path = ""
+export(String, FILE,".esc") var events_path = ""
 export var global_id = ""
 export var use_combine = false
 export var inventory = false
