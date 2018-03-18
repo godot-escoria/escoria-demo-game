@@ -10,7 +10,7 @@ config_version=3
 
 [application]
 
-config/name="Prototype_Escoria"
+config/name="Escoria Prototype"
 run/main_scene="res://globals/scene_main.tscn"
 
 [autoload]
