@@ -10,7 +10,7 @@ config_version=3
 
 [application]
 
-config/name="Prototype"
+config/name="Escoria Prototype"
 run/main_scene="res://globals/scene_main.tscn"
 
 [autoload]
@@ -53,6 +53,7 @@ ui/tooltip_follows_mouse=false
 ui/right_mouse_button_action_menu=false
 ui/action_menu=""
 ui/inventory=""
+platform/force_quit=true
 
 [gdnative]
 
