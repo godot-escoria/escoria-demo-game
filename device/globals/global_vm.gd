@@ -703,7 +703,7 @@ func _ready():
 	save_data = load(ProjectSettings.get_setting("escoria/application/save_data")).new()
 	save_data.start()
 
-	get_tree().set_auto_accept_quit(false)
+	get_tree().set_auto_accept_quit(ProjectSettings.get_setting("escoria/ui/force_quit"))
 	randomize()
 	add_user_signal("music_volume_changed")
 	add_user_signal("paused", ["p_paused"])
