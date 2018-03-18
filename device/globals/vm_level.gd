@@ -120,6 +120,14 @@ func repeat(params):
 func wait(params):
 	return vm.wait(params, current_context)
 
+func set_use_action_menu(params):
+	var obj = vm.get_object(params[0])
+	vm.set_use_action_menu(obj, params[1])
+
+func set_speed(params):
+	var obj = vm.get_object(params[0])
+	vm.set_speed(obj, params[1])
+
 func teleport(params):
 	if !check_obj(params[0], "teleport"):
 		return vm.state_return

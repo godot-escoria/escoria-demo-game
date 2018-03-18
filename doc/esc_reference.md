@@ -109,11 +109,17 @@ set_globals i/* false
 - set_active object value
   Changes the "active" state of the object, value can be true or false. Inactive objects are hidden in the scene.
 
+- set_use_action_menu object value
+  Sets whether or not an action menu should be used on object. It must use the `item.gd` script. Value can be true or false. Useful for "soft-disabling" objects without removing them by `set_active`.
+
 - wait seconds
   Blocks execution of the current script for a number of seconds specified by the "seconds" parameter.
 
 - change_scene path
   Loads a new scene, specified by "path"
+
+- set_speed object speed
+  Sets how fast object moves. It must use the `interactive.gd` script or something extended from it. Value is an integer.
 
 - teleport object1 object2
   Sets the position of object1 to the position of object2
