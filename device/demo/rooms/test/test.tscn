@@ -1,17 +1,18 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://globals/scene.gd" type="Script" id=1]
 [ext_resource path="res://demo/rooms/test/background.png" type="Texture" id=2]
-[ext_resource path="res://globals/background.gd" type="Script" id=3]
+[ext_resource path="res://globals/background_area.gd" type="Script" id=3]
 [ext_resource path="res://globals/terrain.gd" type="Script" id=4]
 [ext_resource path="res://demo/rooms/test/scales.png" type="Texture" id=5]
 [ext_resource path="res://demo/rooms/test/lightmap.png" type="Texture" id=6]
 [ext_resource path="res://demo/actors/player/player.tscn" type="PackedScene" id=7]
-[ext_resource path="res://demo/rooms/test/ice_cream.tscn" type="PackedScene" id=8]
-[ext_resource path="res://demo/rooms/test/box.tscn" type="PackedScene" id=9]
-[ext_resource path="res://demo/rooms/test/can.tscn" type="PackedScene" id=10]
-[ext_resource path="res://demo/rooms/test/chain_saw.tscn" type="PackedScene" id=11]
-[ext_resource path="res://globals/game.tscn" type="PackedScene" id=12]
+[ext_resource path="res://globals/exit.gd" type="Script" id=8]
+[ext_resource path="res://demo/rooms/test/ice_cream.tscn" type="PackedScene" id=9]
+[ext_resource path="res://demo/rooms/test/box.tscn" type="PackedScene" id=10]
+[ext_resource path="res://demo/rooms/test/can.tscn" type="PackedScene" id=11]
+[ext_resource path="res://demo/rooms/test/chain_saw.tscn" type="PackedScene" id=12]
+[ext_resource path="res://globals/game.tscn" type="PackedScene" id=13]
 
 [sub_resource type="NavigationPolygon" id=1]
 
@@ -22,24 +23,17 @@ outlines = [ PoolVector2Array( 414.945, 555.219, 766.377, 567.042, 1204.89, 557.
 [node name="scene" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+events_path = ""
 
-[node name="background" type="TextureRect" parent="." index="0"]
+[node name="background" type="Sprite" parent="." index="0"]
 
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -2.0
-margin_right = 1498.0
-margin_bottom = 720.0
-rect_pivot_offset = Vector2( 0, 0 )
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
 texture = ExtResource( 2 )
-stretch_mode = 0
+centered = false
 script = ExtResource( 3 )
+_sections_unfolded = [ "Offset" ]
 action = "walk"
 
 [node name="terrain" type="Navigation2D" parent="." index="1"]
@@ -54,6 +48,8 @@ debug_mode = 1
 lightmap_modulate = Color( 1, 1, 1, 1 )
 scale_min = 0.5
 scale_max = 1.0
+player_speed_multiplier = 1.0
+player_doubleclick_speed_multiplier = 1.5
 
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="terrain" index="0"]
 
@@ -67,7 +63,56 @@ position = Vector2( 742.426, 415.054 )
 z_index = 415
 _sections_unfolded = [ "Transform" ]
 
-[node name="ice_cream" parent="." index="3" instance=ExtResource( 8 )]
+[node name="exit1" type="TextureRect" parent="." index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 585.0
+margin_top = 395.0
+margin_right = 625.0
+margin_bottom = 435.0
+rect_pivot_offset = Vector2( 0, 0 )
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+script = ExtResource( 8 )
+_sections_unfolded = [ "Rect" ]
+animations = null
+speed = 300
+scale_on_map = false
+light_on_map = false
+esc_script = null
+global_id = "first_exit"
+tooltip = "First exit"
+
+[node name="exit2" type="Area2D" parent="." index="4"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+script = ExtResource( 8 )
+animations = null
+speed = 300
+scale_on_map = false
+light_on_map = false
+esc_script = "res://demo/rooms/test/exit2.esc"
+global_id = "second_exit"
+tooltip = "Second exit"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="exit2" index="0"]
+
+build_mode = 0
+polygon = PoolVector2Array( 372.508, 392.173, 296.246, 442.437, 373.375, 476.235, 426.239, 420.771, 426.239, 360.108, 377.708, 386.973 )
+
+[node name="ice_cream" parent="." index="5" instance=ExtResource( 9 )]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -80,22 +125,28 @@ margin_bottom = 461.0
 rect_pivot_offset = Vector2( 0, 0 )
 mouse_filter = 1
 mouse_default_cursor_shape = 0
+tooltip = ""
+events_path = ""
+global_id = ""
 use_custom_z = false
 
 [node name="interact_pos" type="Position2D" parent="ice_cream" index="0"]
 
 position = Vector2( 115.876, 115.875 )
 
-[node name="box" parent="." index="4" instance=ExtResource( 9 )]
+[node name="box" parent="." index="6" instance=ExtResource( 10 )]
 
 position = Vector2( 945.535, 381.07 )
+tooltip = ""
+events_path = ""
+global_id = ""
 use_custom_z = false
 
 [node name="interact_pos" type="Position2D" parent="box" index="3"]
 
 position = Vector2( -53.8209, 46.6584 )
 
-[node name="can" parent="." index="5" instance=ExtResource( 10 )]
+[node name="can" parent="." index="7" instance=ExtResource( 11 )]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -108,14 +159,17 @@ margin_bottom = 404.0
 rect_pivot_offset = Vector2( 0, 0 )
 mouse_filter = 1
 mouse_default_cursor_shape = 0
+tooltip = ""
 action = ""
+events_path = ""
+global_id = ""
 use_custom_z = false
 
 [node name="interact_pos" type="Position2D" parent="can" index="0"]
 
 position = Vector2( 57.6177, 60.9417 )
 
-[node name="chainsaw" parent="." index="6" instance=ExtResource( 11 )]
+[node name="chainsaw" parent="." index="8" instance=ExtResource( 12 )]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -128,12 +182,19 @@ margin_bottom = 435.0
 rect_pivot_offset = Vector2( 0, 0 )
 mouse_filter = 1
 mouse_default_cursor_shape = 0
+tooltip = ""
+events_path = ""
+global_id = ""
 use_custom_z = false
 
 [node name="interact_pos" type="Position2D" parent="chainsaw" index="0"]
 
 position = Vector2( 7.19824, 124.934 )
 
-[node name="game" parent="." index="7" instance=ExtResource( 12 )]
+[node name="game" parent="." index="9" instance=ExtResource( 13 )]
+
+[connection signal="body_entered" from="exit2" to="exit2" method="_on_exit2_body_entered"]
+
+[connection signal="body_shape_entered" from="exit2" to="exit2" method="_on_exit2_body_shape_entered"]
 
 

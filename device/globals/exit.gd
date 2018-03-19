@@ -1,10 +1,4 @@
-extends "res://globals/interactive.gd"
-
-export(String, FILE, ".esc") var esc_script  # must contain :dblclick
-export var global_id = ""
-export var tooltip = ""
-
-var event_table = {}
+extends "res://globals/hotspot.gd"
 
 func get_tooltip():
 	if TranslationServer.get_locale() == ProjectSettings.get_setting("escoria/application/tooltip_lang_default"):
@@ -21,24 +15,23 @@ func mouse_enter():
 	var text = tr(tt)
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
 
-func mouse_clicked(event):
-	if !(event is InputEventMouseButton):
+func input(event):
+	if !(event is InputEventMouseButton and event.is_pressed()):
 		return
 
-	if event.doubleclick:
-		vm.run_event(event_table["dblclick"])
+	var player = vm.get_object("player")
+	if player and event.doubleclick:
+		# event.position only works with Area2D exits
+		#player.set_position(event.position)
+		var pos = get_viewport().get_mouse_position()
+		player.set_position(pos)
+
+func exit(body):
+	printt("EXITING", body, body.get_name())
 
 func mouse_exit():
 	vm.hover_end()
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", "")
 
 func _ready():
-	if esc_script != "":
-		event_table = vm.compile(esc_script)
-		if !("dblclick" in event_table):
-			vm.report_errors(esc_script, ["Missing :dblclick"])
-
-	self.connect("mouse_entered", self, "mouse_enter")
-	self.connect("gui_input", self, "mouse_clicked")
-	self.connect("mouse_exited", self, "mouse_exit")
-
+	connect("body_entered", self, "exit")
