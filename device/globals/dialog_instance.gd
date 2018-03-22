@@ -69,10 +69,7 @@ func finish():
 		var anim = get_node("animation")
 		if anim.has_animation("hide"):
 			anim.play("hide")
-		else:
-			_queue_free()
-	else:
-		_queue_free()
+	_queue_free()
 
 func init(p_params, p_context, p_intro, p_outro):
 	character = vm.get_object(p_params[0])
