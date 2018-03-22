@@ -183,7 +183,7 @@ func anim_get_ph_paths(p_anim):
 
 func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 
-	if p_notify is null && (!has_node("animation") || !get_node("animation").has_animation(p_anim)):
+	if p_notify == null && (!has_node("animation") || !get_node("animation").has_animation(p_anim)):
 		print("skipping cut scene '", p_anim, "'")
 		vm.finished(p_notify)
 		#_debug_states()
