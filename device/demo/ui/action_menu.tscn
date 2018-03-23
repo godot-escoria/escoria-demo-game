@@ -2,7 +2,7 @@
 
 [ext_resource path="res://globals/action_menu.gd" type="Script" id=1]
 
-[node name="action_menu" type="Node2D"]
+[node name="action_menu" type="Container"]
 z_index = 4096
 
 script = ExtResource( 1 )

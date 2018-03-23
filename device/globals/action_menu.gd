@@ -1,4 +1,4 @@
-extends Node2D
+extends Container
 
 var target
 func action_pressed(action):
@@ -11,6 +11,26 @@ func action_pressed(action):
 
 func target_visibility_changed():
 	stop()
+
+func check_clamp(click_pos, camera):
+	var my_size = get_size()
+	var vp_size = get_viewport().size
+
+	var dist_from_right = vp_size.x - (click_pos.x + my_size.x)
+	var dist_from_left = click_pos.x - my_size.x
+	var dist_from_bottom = vp_size.y - (click_pos.y + my_size.y)
+	var dist_from_top = click_pos.y - my_size.y
+
+	if dist_from_right < 0:
+		click_pos.x += dist_from_right
+	if dist_from_left < 0:
+		click_pos.x -= dist_from_left
+	if dist_from_bottom < 0:
+		click_pos.y += dist_from_bottom
+	if dist_from_top < 0:
+		click_pos.y -= dist_from_top
+
+	return click_pos - get_size()
 
 func start(p_target):
 	if target != p_target:
