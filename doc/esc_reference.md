@@ -115,8 +115,9 @@ set_globals i/* false
 - wait seconds
   Blocks execution of the current script for a number of seconds specified by the "seconds" parameter.
 
-- change_scene path
-  Loads a new scene, specified by "path"
+- change_scene path position
+  Loads a new scene, specified by "path". Optional parameters:
+  - position is the name of a Position2D node where the player will be put.
 
 - set_speed object speed
   Sets how fast object moves. It must use the `interactive.gd` script or something extended from it. Value is an integer.

@@ -150,11 +150,15 @@ func walk_block(params):
 	return _walk(params, true)
 
 func change_scene(params):
+	var start_pos_node
+
 	# looking for localized string format in scene. this should be somewhere else
 	var sep = params[0].find(":\"")
+	if params.size() == 2:
+		start_pos_node = params[1]
 	if sep >= 0:
 		var path = params[0].substr(sep + 2, params[0].length() - (sep + 2))
-		vm.call_deferred("change_scene", [path], current_context)
+		vm.call_deferred("change_scene", [path, start_pos_node], current_context)
 	else:
 		vm.call_deferred("change_scene", params, current_context)
 
