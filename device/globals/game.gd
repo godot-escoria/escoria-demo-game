@@ -180,10 +180,10 @@ func clicked(obj, pos, input_event = null):
 func spawn_action_menu(obj):
 	if action_menu == null:
 		return
+	var pos = get_viewport().get_mouse_position()
+	var am_pos = action_menu.check_clamp(pos, camera)
+	action_menu.set_position(am_pos)
 	action_menu.show()
-	var pos
-	pos = get_viewport().get_mouse_position()
-	action_menu.position = pos
 	action_menu.start(obj)
 	#obj.grab_focus()
 
