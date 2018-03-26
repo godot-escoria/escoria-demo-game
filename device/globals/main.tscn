@@ -4,46 +4,49 @@
 [ext_resource path="res://globals/bg_music.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ui/dd_player.tscn" type="PackedScene" id=3]
 
-[node name="main" type="Node"]
+[node name="main" type="Node" index="0"]
 
 pause_mode = 2
 script = ExtResource( 1 )
 
-[node name="layers" type="Node" parent="."]
+[node name="layers" type="Node" parent="." index="0"]
 
-[node name="telon" type="CanvasLayer" parent="layers"]
+[node name="telon" type="CanvasLayer" parent="layers" index="0"]
 
 layer = 2
 offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
-[node name="bg_music" parent="layers/telon" instance=ExtResource( 2 )]
+[node name="bg_music" parent="layers/telon" index="0" instance=ExtResource( 2 )]
 
-[node name="telon" parent="layers/telon" instance_placeholder="res://globals/telon.tscn"]
+rect_clip_content = false
 
+[node name="telon" parent="layers/telon" index="1" instance_placeholder="res://globals/telon.tscn"]
+
+mouse_default_cursor_shape = 0
 global_id = "telon"
-music_volume = 0.425
 
-[node name="dialog" type="CanvasLayer" parent="layers"]
-
-layer = 2
-offset = Vector2( 0, 0 )
-rotation = 0.0
-scale = Vector2( 1, 1 )
-
-[node name="dd_player" parent="layers/dialog" instance=ExtResource( 3 )]
-
-resources = [ PoolStringArray(  ), [  ] ]
-
-[node name="menu" type="CanvasLayer" parent="layers"]
+[node name="dialog" type="CanvasLayer" parent="layers" index="1"]
 
 layer = 2
 offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
-[node name="wait_timer" type="Timer" parent="layers"]
+[node name="dd_player" parent="layers/dialog" index="0" instance=ExtResource( 3 )]
+
+[node name="menu" type="CanvasLayer" parent="layers" index="2"]
+
+layer = 2
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+
+[node name="wait_timer" type="Timer" parent="layers" index="3"]
 
 process_mode = 1
 wait_time = 1.0
