@@ -22,11 +22,10 @@ func input(event):
 		return
 
 	var player = vm.get_object("player")
+	# Get mouse position, since event.position only works with Area2D exits
 	var pos = get_viewport().get_mouse_position()
 
 	if player and event.doubleclick:
-		# event.position only works with Area2D exits
-		#player.set_position(event.position)
 		player.set_position(pos)
 	elif player:
 		# Control blocks input to background, so make player walk
@@ -37,14 +36,12 @@ func mouse_exit():
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", "")
 
 func stopped_at(pos):
-	if self is Control:
-		if get_global_rect().has_point(pos) and "exit" in game:
-			vm.run_event(game["exit"])
-	if self is Area2D:
-		pass
-		#var obj = shape_owner_get_shape(0, 0)
-		#var p_intersect_point = obj.intersect_point(pos)
-		#printt("HAS POINT", obj.points.size())
+	if self is Control and get_global_rect().has_point(pos) and "exit" in game:
+		vm.run_event(game["exit"])
+
+func body_entered(body):
+	if body is preload("res://globals/player.gd") and "exit" in game:
+		vm.run_event(game["exit"])
 
 func _ready():
 	add_to_group("exit")
@@ -52,3 +49,5 @@ func _ready():
 	var f = File.new()
 	if f.file_exists(esc_script):
 		game = vm.compile(esc_script)
+
+	connect("body_entered", self, "body_entered")
