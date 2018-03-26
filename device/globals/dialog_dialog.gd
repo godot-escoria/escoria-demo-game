@@ -29,6 +29,7 @@ func selected(n):
 func timer_timeout():
 	selected(timeout_option)
 
+# called from global_vm.gd::dialog() function
 func start(params, p_context):
 	#stop()
 	printt("dialog start with params ", params.size())
@@ -132,9 +133,7 @@ func game_cleared():
 	queue_free()
 
 func anim_finished(anim_name):
-	# TODO use parameter here?
-	var cur = animation.get_current_animation()
-	if cur == "show":
+	if anim_name == "show":
 		ready = true
 		if timer_timeout > 0:
 			timer.start()
@@ -144,18 +143,17 @@ func anim_finished(anim_name):
 				animation.set_speed(length / timer_timeout)
 				animation.play()
 
-	if cur == "hide":
+	if anim_name == "hide":
 		vm.finished(context)
 		vm.add_level(cmd[option_selected].params[1], false)
 		stop()
 
 func _ready():
-
 	printt("dialog ready")
 	hide()
 	container = get_node("anchor/scroll/container")
 	container.set_mouse_filter(MOUSE_FILTER_PASS)
-	#add_to_group("dialog_dialog")
+	add_to_group("dialog_dialog")
 	item = get_node("item")
 	item.get_node("button/label").set_mouse_filter(MOUSE_FILTER_PASS)
 	item.get_node("button").set_mouse_filter(MOUSE_FILTER_PASS)
