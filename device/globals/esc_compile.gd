@@ -1,6 +1,8 @@
 
 var commands = {
 	"set_global": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING] },
+	"dec_global": { "min_args": 2, "types": [TYPE_STRING, TYPE_INT] },
+	"inc_global": { "min_args": 2, "types": [TYPE_STRING, TYPE_INT] },
 	"set_globals": { "min_args": 2, "types": [TYPE_STRING, TYPE_BOOL] },
 	"debug": { "min_args": 1 },
 	"anim": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING, TYPE_BOOL, TYPE_BOOL, TYPE_BOOL] },
@@ -39,7 +41,6 @@ var commands = {
 	"queue_animation": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING, TYPE_BOOL] },
 	"game_over": { "min_args": 1, "types": [TYPE_BOOL] },
 }
-
 
 func check_command(cmd, state, errors):
 	if !(cmd.name in commands):
@@ -190,7 +191,7 @@ func trim(p_str):
 
 
 
-func parse_flags(p_flags, flags_list, if_true, if_false, if_inv, if_not_inv):
+func parse_flags(p_flags, flags_list, ifs):
 	var from = 1
 	while true:
 		var next = p_flags.find(",", from)
@@ -201,19 +202,27 @@ func parse_flags(p_flags, flags_list, if_true, if_false, if_inv, if_not_inv):
 			flag = p_flags.substr(from, next - from)
 		flag = trim(flag)
 		var list = []
+
 		if flag[0] == "!":
 			list.push_back(true)
-			flag = flag.substr(1, flag.length()-1)
-			if flag.find("inv-") == -1:
-				if_false.push_back(trim(flag))
+			flag = trim(flag.substr(1, flag.length()-1))
+			if flag.find("inv-") == 0:
+				ifs["if_not_inv"].push_back(trim(flag).substr(4, flag.length()-1))
+			elif flag.substr(0, 3) in ["eq ", "gt ", "lt "]:
+				var elems = flag.split(" ", true, 2)
+				var comparison = "ne" if elems[0] == "eq" else "le" if elems[0] == "gt" else "ge"
+				ifs["if_" + comparison].push_back([elems[1], elems[2]])
 			else:
-				if_not_inv.push_back(trim(flag).substr(4, flag.length()-1))
+				ifs["if_false"].push_back(trim(flag))
 		else:
 			list.push_back(false)
 			if flag.find("inv-") == 0:
-				if_inv.push_back(trim(flag).substr(4, flag.length()-1))
+				ifs["if_inv"].push_back(trim(flag).substr(4, flag.length()-1))
+			elif flag.substr(0, 3) in ["eq ", "gt ", "lt "]:
+				var elems = flag.split(" ", true, 2)
+				ifs["if_" + elems[0]].push_back([elems[1], elems[2]])
 			else:
-				if_true.push_back(trim(flag))
+				ifs["if_true"].push_back(trim(flag))
 		if flag.find(":") >= 0:
 			var pos = flag.substr(0, flag.find(":"))
 			var inv = flag.substr(0, pos)
@@ -256,21 +265,16 @@ func read_dialog_option(state, level, errors):
 	var cmd = { "name": "*", "params": [question, []] }
 
 	if q_flags:
-		#printt("parsing flags ", q_flags, state.line)
-		var if_true = []
-		var if_false = []
-		var if_inv = []
-		var if_not_inv = []
+		var ifs = {
+			"if_true": [], "if_false": [], "if_inv": [], "if_not_inv": [],
+			"if_eq": [], "if_ne": [], # string and integer comparison
+			"if_gt": [], "if_ge": [], "if_lt": [], "if_le": [] # integer comparison
+		}
 		var flag_list = []
-		parse_flags(q_flags, flag_list, if_true, if_false, if_inv, if_not_inv)
-		if if_true.size():
-			cmd.if_true = if_true
-		if if_false.size():
-			cmd.if_false = if_false
-		if if_inv.size():
-			cmd.if_inv = if_inv
-		if if_not_inv.size():
-			cmd.if_not_inv = if_inv
+		parse_flags(q_flags, flag_list, ifs)
+		for key in ifs:
+			if ifs[key].size():
+				cmd[key] = ifs[key]
 		if flag_list.size():
 			cmd.flags = flag_list
 
@@ -284,16 +288,17 @@ func read_cmd(state, level, errors):
 	var params = []
 	var from = 0
 	var tk_end = get_token(state.line, from, state.line_count, errors)
-	var if_true = []
-	var if_false = []
-	var if_inv = []
-	var if_not_inv = []
+	var ifs = {
+		"if_true": [], "if_false": [], "if_inv": [], "if_not_inv": [],
+		"if_eq": [], "if_ne": [], # string and integer comparison
+		"if_gt": [], "if_ge": [], "if_lt": [], "if_le": [] # integer comparison
+	}
 	var flags = []
 	while tk_end != -1:
 		var tk = trim(state.line.substr(from, tk_end - from))
 		from = tk_end + 1
 		if is_flags(tk):
-			parse_flags(tk, flags, if_true, if_false, if_inv, if_not_inv)
+			parse_flags(tk, flags, ifs)
 		else:
 			params.push_back(tk)
 		tk_end = get_token(state.line, from, state.line_count, errors)
@@ -327,14 +332,9 @@ func read_cmd(state, level, errors):
 		cmd.params = params
 		read_line(state)
 
-	if if_true.size():
-		cmd.if_true = if_true
-	if if_false.size():
-		cmd.if_false = if_false
-	if if_inv.size():
-		cmd.if_inv = if_inv
-	if if_not_inv.size():
-		cmd.if_not_inv = if_inv
+	for key in ifs:
+		if ifs[key].size():
+			cmd[key] = ifs[key]
 	if flags.size():
 		cmd.flags = flags
 

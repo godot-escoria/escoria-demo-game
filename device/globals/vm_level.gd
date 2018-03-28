@@ -31,6 +31,14 @@ func set_global(params):
 	vm.set_global(params[0], params[1])
 	return vm.state_return
 
+func dec_global(params):
+	vm.dec_global(params[0], params[1])
+	return vm.state_return
+
+func inc_global(params):
+	vm.inc_global(params[0], params[1])
+	return vm.state_return
+
 func debug(params):
 	for p in params:
 		printraw(p)
@@ -301,8 +309,3 @@ func resume(context):
 
 func set_vm(p_vm):
 	vm = p_vm
-
-func _init():
-	#print("*************** vm level init")
-	#vm = get_tree().get_singleton("vm")
-	pass
