@@ -320,7 +320,12 @@ func sched_event(time, obj, event):
 	event_queue.push_back([time, obj, event])
 
 func get_global(name):
-	return (name in globals) && globals[name]
+	# If no value or looks like boolean, return boolean for backwards compatibility
+	if not name in globals or globals[name].to_lower() == "false":
+		return false
+	if globals[name].to_lower() == "true":
+		return true
+	return globals[name]
 
 func set_global(name, val):
 	globals[name] = val
@@ -494,16 +499,14 @@ func is_game_active():
 	return main.get_current_scene() != null && (main.get_current_scene() is preload("res://globals/scene.gd"))
 
 func check_autosave():
-	if get_global("save_disabled"):
-		return
-	if main.get_current_scene() == null || !(main.get_current_scene() is preload("res://globals/scene.gd")):
+	if get_global("save_disabled") or not is_game_active():
 		return
 	var time = OS.get_ticks_msec()
 	if autosave_pending || (time - last_autosave) > AUTOSAVE_TIME_MS:
 		autosave_pending = true
 		var data = save()
 		if typeof(data) == TYPE_BOOL && data == false:
-				return
+			return
 		autosave_pending = false
 		save_data.autosave(data, [self, "autosave_done"])
 
@@ -571,7 +574,7 @@ func save():
 	for k in globals.keys():
 		if !globals[k]:
 			continue
-		ret.append("set_global " + k + " true\n")
+		ret.append("set_global %s \"%s\"\n" % [k, globals[k]])
 	ret.append("\n")
 
 	ret.append("## Objects\n\n")
