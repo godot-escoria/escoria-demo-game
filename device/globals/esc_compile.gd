@@ -1,6 +1,6 @@
 
 var commands = {
-	"set_global": { "min_args": 2, "types": [TYPE_STRING, TYPE_BOOL] },
+	"set_global": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING] },
 	"set_globals": { "min_args": 2, "types": [TYPE_STRING, TYPE_BOOL] },
 	"debug": { "min_args": 1 },
 	"anim": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING, TYPE_BOOL, TYPE_BOOL, TYPE_BOOL] },
