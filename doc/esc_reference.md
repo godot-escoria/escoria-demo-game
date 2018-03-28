@@ -19,7 +19,7 @@ General
 ```
 
 - Global flags
-  Global flags define the state of the game, and can have a value of true or false. All commands or groups can be conditioned to the value of a global flag.
+  Global flags define the state of the game, and can have a value of true, false or an integer. All commands or groups can be conditioned to the value of a global flag.
 
 - Conditions
   In order to run a command conditionally dependin on the value of a flag, use [] with a list of conditions. All conditions in the list must be true. The character "!" before a flag can be used to negate it.
@@ -34,6 +34,14 @@ say player "The door is open" [door_open]
 # runs the group only if door_open is false and i/key is true
 > [!door_open,i/key]
 	say player "The door is close, maybe I can try this key in my inventory"
+```
+
+  Additionally, there's a set of comparison operators for use with global integers: `eq`, `gt` and `lt`, all of which can be negated.
+  Example:
+
+```
+# runs the command only if the value of pieces_of_eight is greater than 5
+set_state inv_pieces_of_eight money_bag [gt pieces_of_eight 5]
 ```
 
 - Commands
@@ -89,7 +97,13 @@ Command list
   Takes 1 or more strings, prints them to the console.
 
 - `set_global name value`
-  Changes the value of the global flag "name" with the value. Value can be "true" or "false"
+  Changes the value of the global "name" with the value. Value can be "true", "false" or an integer.
+
+- `dec_global name value`
+  Subtracts the value from global with given "name". Value and global must both be integers.
+
+- `inc_global name value`
+  Adds the value to global with given "name". Value and global must both be integers.
 
 - `set_globals pattern value`
   Changes the value of multiple globals using a wildcard pattern. Example:

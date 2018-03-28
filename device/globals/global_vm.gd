@@ -239,6 +239,21 @@ func wait(params, level):
 	level.waiting = true
 	return state_yield
 
+func is_equal_to(name, val):
+	var global = get_global(name)
+	if global and val and global == val:
+		return true
+
+func is_greater_than(name, val):
+	var global = get_global(name)
+	if global and val and int(global) > int(val):
+		return true
+
+func is_less_than(name, val):
+	var global = get_global(name)
+	if global and val and int(global) < int(val):
+		return true
+
 func test(cmd):
 	if "if_true" in cmd:
 		for flag in cmd.if_true:
@@ -255,6 +270,30 @@ func test(cmd):
 	if "if_not_inv" in cmd:
 		for flag in cmd.if_not_inv:
 			if inventory_has(flag):
+				return false
+	if "if_eq" in cmd:
+		for flag in cmd.if_eq:
+			if !is_equal_to(flag[0], flag[1]):
+				return false
+	if "if_ne" in cmd:
+		for flag in cmd.if_ne:
+			if is_equal_to(flag[0], flag[1]):
+				return false
+	if "if_gt" in cmd:
+		for flag in cmd.if_gt:
+			if !is_greater_than(flag[0], flag[1]):
+				return false
+	if "if_ge" in cmd:
+		for flag in cmd.if_ge:
+			if is_less_than(flag[0], flag[1]):
+				return false
+	if "if_lt" in cmd:
+		for flag in cmd.if_lt:
+			if !is_less_than(flag[0], flag[1]):
+				return false
+	if "if_le" in cmd:
+		for flag in cmd.if_le:
+			if is_greater_than(flag[0], flag[1]):
 				return false
 
 	return true
@@ -331,6 +370,16 @@ func set_global(name, val):
 	globals[name] = val
 	#printt("global changed at global_vm, emitting for ", name, val)
 	emit_signal("global_changed", name)
+
+func dec_global(name, diff):
+	var global = get_global(name)
+	global = int(global) if global else 0
+	set_global(name, str(global - diff))
+
+func inc_global(name, diff):
+	var global = get_global(name)
+	global = int(global) if global else 0
+	set_global(name, str(global + diff))
 
 func set_globals(pat, val):
 	for key in globals:
@@ -763,4 +812,3 @@ func _ready():
 	connect("global_changed", self, "check_achievement")
 
 	set_process(true)
-
