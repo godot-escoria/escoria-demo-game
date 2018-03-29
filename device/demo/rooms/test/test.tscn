@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://globals/scene.gd" type="Script" id=1]
 [ext_resource path="res://demo/rooms/test/background.png" type="Texture" id=2]
@@ -8,10 +8,11 @@
 [ext_resource path="res://demo/rooms/test/lightmap.png" type="Texture" id=6]
 [ext_resource path="res://demo/actors/player/player.tscn" type="PackedScene" id=7]
 [ext_resource path="res://demo/rooms/test/ice_cream.tscn" type="PackedScene" id=8]
-[ext_resource path="res://demo/rooms/test/box.tscn" type="PackedScene" id=9]
-[ext_resource path="res://demo/rooms/test/can.tscn" type="PackedScene" id=10]
-[ext_resource path="res://demo/rooms/test/chain_saw.tscn" type="PackedScene" id=11]
-[ext_resource path="res://globals/game.tscn" type="PackedScene" id=12]
+[ext_resource path="res://demo/actors/NPC/NPC.tscn" type="PackedScene" id=9]
+[ext_resource path="res://demo/rooms/test/box.tscn" type="PackedScene" id=10]
+[ext_resource path="res://demo/rooms/test/can.tscn" type="PackedScene" id=11]
+[ext_resource path="res://demo/rooms/test/chain_saw.tscn" type="PackedScene" id=12]
+[ext_resource path="res://globals/game.tscn" type="PackedScene" id=13]
 
 [sub_resource type="NavigationPolygon" id=1]
 
@@ -22,6 +23,7 @@ outlines = [ PoolVector2Array( 414.945, 555.219, 766.377, 567.042, 1204.89, 557.
 [node name="scene" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
+events_path = ""
 
 [node name="background" type="TextureRect" parent="." index="0"]
 
@@ -54,6 +56,8 @@ debug_mode = 1
 lightmap_modulate = Color( 1, 1, 1, 1 )
 scale_min = 0.5
 scale_max = 1.0
+player_speed_multiplier = 1.0
+player_doubleclick_speed_multiplier = 1.5
 
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="terrain" index="0"]
 
@@ -86,7 +90,15 @@ use_custom_z = false
 
 position = Vector2( 115.876, 115.875 )
 
-[node name="box" parent="." index="4" instance=ExtResource( 9 )]
+[node name="NPC" parent="." index="4" instance=ExtResource( 9 )]
+
+position = Vector2( 556.405, 355.189 )
+
+[node name="interact_pos" type="Position2D" parent="NPC" index="3"]
+
+position = Vector2( 86.9018, 69.988 )
+
+[node name="box" parent="." index="5" instance=ExtResource( 10 )]
 
 position = Vector2( 945.535, 381.07 )
 use_custom_z = false
@@ -95,7 +107,7 @@ use_custom_z = false
 
 position = Vector2( -53.8209, 46.6584 )
 
-[node name="can" parent="." index="5" instance=ExtResource( 10 )]
+[node name="can" parent="." index="6" instance=ExtResource( 11 )]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -115,7 +127,7 @@ use_custom_z = false
 
 position = Vector2( 57.6177, 60.9417 )
 
-[node name="chainsaw" parent="." index="6" instance=ExtResource( 11 )]
+[node name="chainsaw" parent="." index="7" instance=ExtResource( 12 )]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -134,6 +146,6 @@ use_custom_z = false
 
 position = Vector2( 7.19824, 124.934 )
 
-[node name="game" parent="." index="7" instance=ExtResource( 12 )]
+[node name="game" parent="." index="8" instance=ExtResource( 13 )]
 
 

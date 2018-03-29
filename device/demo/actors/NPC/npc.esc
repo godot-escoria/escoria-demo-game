@@ -1,0 +1,46 @@
+:look
+say player "An Non-Playable-Character. Else known as an NPC"
+
+:pick_up
+say npc "YEEEEK! What are you doing?"
+say player "I thought I could put you in my Inventory."
+say npc "I ain't referenced in inventory_items.tscn, and even if I was, I ain't letting put me in your smelly pockets."
+
+:open
+say npc "Do I look like a box?"
+? 
+	- "Yes"
+		say npc "Why do I bother."
+	- "No"
+		say npc "Then don't do that."
+
+:talk
+> [!loop]
+	say player "Hello."
+	say npc "Hey."
+	set_global loop true
+? 
+	- "Who are you?"
+		say player "Who are you?"
+		say npc "I'm an NPC. I do fun stuff like sitting around all day."
+		say player "That doesn't sound fun."
+		say npc "Yeah, wish I had something to pass the time."
+	- "Why are you sad?"
+		say player "Why are you sad?"
+		say npc "I'm bored. There's nothing to do as a NPC"
+		say player "Do you want me to help?"
+		say npc "Sure. Just find me something to read."
+	- "Goodbye."
+		sched_event 0 "npc" "leave_npc"
+say player talk_fallback:"I can't talk to that."
+sched_event 0 "npc" "talk"
+
+:use inv_news
+debug "use fallback!"
+say player use_fallback:"I can't use that."
+
+:leave_npc
+say player "Goodbye."
+say npc "See you."
+set_global loop false
+stop
