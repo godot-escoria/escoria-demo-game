@@ -5,16 +5,18 @@ General
   When the player interacts with an object in the game, the object receives an even. Each event executes a series of commands.
   Events start with the character ":" in the Events file. Example:
 
+```
 :use
+```
 
 - Groups
   Commands can be grouped using the character ">" to start a group, and incrementing the indentation of the commands that belong to the group. Example:
-
+```
 >
 	set_global door_open true
 	animation player pick_up
-
 # end of group
+```
 
 - Global flags
   Global flags define the state of the game, and can have a value of true or false. All commands or groups can be conditioned to the value of a global flag.
@@ -23,19 +25,24 @@ General
   In order to run a command conditionally dependin on the value of a flag, use [] with a list of conditions. All conditions in the list must be true. The character "!" before a flag can be used to negate it.
   Example:
 
+```
 # runs the command only if the door_open flag is true
 say player "The door is open" [door_open]
+```
 
+```
 # runs the group only if door_open is false and i/key is true
 > [!door_open,i/key]
 	say player "The door is close, maybe I can try this key in my inventory"
+```
 
 - Commands
   Commands consist of one word followed by parameters. Parameters can be one word, or strings in quotes. A string can also be preceeded by an ID for localization and the ":" character. Example:
 
-
+```
 # one parameter "player", another parameter "hello world", with id "dialog_hello"
 say player dialog_hello:"hello world"
+```
 
 - Global IDs
   All objects in the game have a global ID, which is used to identify them in commands. The ID is configured in the object's scene.
@@ -65,11 +72,15 @@ Inventory
 
 The inventory is handled as a special case of global flags. All flags with a name starting with "i/" are considered an inventory object, with the object's global id following. Example:
 
+```
 # adds the object "key" to the inventory
 set_global i/key true
+```
 
+```
 # removes the object "key" to the inventory
 set_global i/key false
+```
 
 Command list
 ------------
@@ -83,8 +94,10 @@ Command list
 - set_globals pattern value
   Changes the value of multiple globals using a wildcard pattern. Example:
 
+```
 # clears the inventory
 set_globals i/* false
+```
 
 - set_state object state
   Changes the state of an object, and executes the state animation if present.
@@ -164,6 +177,7 @@ To start a dialog, use the "?" character, with some parameters, followed by a li
 
 Example:
 
+```
 # character's "talk" event
 :talk
 ? type avatar timeout timeout_option
@@ -193,6 +207,7 @@ Example:
 		say player "Nevermind"
 		stop
 repeat
+```
 
 All parameters are options:
  - type: (default value "default") the type of dialog menu to use. All types are in the "dd_player" scene.
