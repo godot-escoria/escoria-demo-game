@@ -41,6 +41,7 @@ platform/dialog_type_suffix=""
 platform/force_text_ids=false
 platform/force_disable_typewriter_text=false
 platform/force_quit=true
+platform/force_tooltip_global_id=false
 platform/exit_button=true
 platform/screen_resizable=true
 platform/telon="res://globals/telon.tscn"
