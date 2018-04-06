@@ -13,6 +13,7 @@ var play_intro = true
 var play_outro = true
 var label
 var text_done = false
+var text_timeout_seconds = ProjectSettings.get_setting("escoria/application/text_timeout_seconds")
 
 var speech_stream
 var speech_player
@@ -24,25 +25,30 @@ export var fixed_pos = false
 func _process(time):
 	if finished:
 		return
+
 	if force_disable_typewriter_text or !typewriter_text:
 		label.set_visible_characters(label.get_total_character_count())
 		text_done = true
+
 	elapsed += time
+
 	if !text_done:
 		if elapsed >= total_time:
 			label.set_visible_characters(label.get_total_character_count())
 			text_done = true
-			#set_process(false)
+
 			return
 		else:
 			label.set_visible_characters(text.length() * elapsed / (total_time))
 			pass
 
 	if text_done && !vm.settings.skip_dialog:
-		set_process(false)
+		finish()
+
+	if elapsed > text_timeout_seconds and (!speech_player or !speech_player.is_playing()):
+		finish()
 
 	if vm.settings.skip_dialog && speech_stream != null && !speech_player.is_playing() && text_done:
-		set_process(false)
 		finish()
 
 func skipped():
