@@ -71,17 +71,17 @@ func init(p_params, p_context, p_intro, p_outro):
 	var sep = text.find(":\"")
 	var text_id = null
 	if sep > 0:
-		var tid = text.substr(0, sep)
+		text_id = text.substr(0, sep)
 		text = text.substr(sep + 2, text.length() - (sep + 2))
 
-		var ptext = TranslationServer.translate(tid)
-		if ptext != tid:
+		var ptext = TranslationServer.translate(text_id)
+		if ptext != text_id:
 			text = ptext
-		elif force_ids:
-			text = tid + " (" + text + ")"
-		text_id = tid
+		else:
+			text = "(NOT TRANSLATED)\n\n" + text
 
 	elif force_ids:
+		vm.report_errors("dialog_instance", ["Missing text_id for string '" + text + "'"])
 		text = "(no id) " + text
 
 	play_intro = p_intro
