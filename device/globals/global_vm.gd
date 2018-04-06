@@ -303,6 +303,9 @@ func report_errors(p_path, errors):
 	#dialog.set_text(text)
 	print("error is ", text)
 	#main.get_node("layers/telon").add_child(dialog)
+	# The only way to - optionally - make errors matter
+	if ProjectSettings.get_setting("escoria/platform/terminate_on_errors"):
+		assert(false)
 
 func add_level(p_level, p_root):
 	stack.push_back(instance_level(p_level, p_root))
