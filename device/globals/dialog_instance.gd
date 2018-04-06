@@ -16,16 +16,8 @@ var text_done = false
 
 var speech_stream
 var speech_player
+var speech_suffix
 var speech_paused = false
-
-# these are globals, go somewhere with the game configuration
-var speech_enabled = true
-var speech_language = "en"
-var speech_extension = ".spx"
-var finish_with_speech = false
-
-var speech_locales = ["en", "de"]
-var default_speech_language = "en"
 
 export var fixed_pos = false
 
@@ -46,10 +38,10 @@ func _process(time):
 			label.set_visible_characters(text.length() * elapsed / (total_time))
 			pass
 
-	if text_done && !finish_with_speech:
+	if text_done && !vm.settings.skip_dialog:
 		set_process(false)
 
-	if finish_with_speech && speech_stream != null && !speech_player.is_playing() && text_done:
+	if vm.settings.skip_dialog && speech_stream != null && !speech_player.is_playing() && text_done:
 		set_process(false)
 		finish()
 
@@ -148,11 +140,11 @@ func setup_speech(tid):
 	if tid == null || tid == "":
 		return
 
-	if !speech_enabled:
+	if !vm.settings.speech_enabled:
 		return
 
 	var speech_path = ProjectSettings.get_setting("escoria/application/speech_path")
-	var fname = speech_path + speech_language + "/" + tid + speech_extension
+	var fname = speech_path + vm.settings.voice_lang + "/" + tid + speech_suffix
 	printt(" ** loading speech ", fname)
 	speech_stream = load(fname)
 	if !speech_stream:
@@ -207,17 +199,16 @@ func anim_finished(anim_name):
 		_queue_free()
 
 func _ready():
-	speech_extension = ProjectSettings.get_setting("escoria/application/speech_suffix")
+	speech_suffix = ProjectSettings.get_setting("escoria/application/speech_suffix")
 	add_to_group("events")
 	if has_node("animation"):
 		get_node("animation").connect("animation_finished", self, "anim_finished")
 	label = get_node("anchor/text")
 
-	finish_with_speech = vm.settings.skip_dialog
-
-	#speech_language = TranslationServer.get_locale().substr(0, 2)
-	speech_language = vm.settings.voice_lang
-	if !(speech_language in speech_locales):
-		speech_language = default_speech_language
+	# Ensure a supported speech locale has been set, or not set if no speech is desired
+	var speech_locales_path = ProjectSettings.get_setting("escoria/application/speech_locales_path")
+	if speech_locales_path:
+		var speech_locales_def = load(speech_locales_path).new()
+		assert(vm.settings.voice_lang in speech_locales_def.speech_locales)
 
 	vm.connect("paused", self, "game_paused")

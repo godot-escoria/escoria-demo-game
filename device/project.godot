@@ -31,7 +31,11 @@ application/max_voice_volume=2
 application/save_data="res://globals/save_data.gd"
 application/speech_suffix=".spx"
 application/tooltip_lang_default="en"
+application/text_lang="en"
+application/voice_lang="en"
 application/speech_path="res://demo/audio/speech/"
+application/speech_enabled=true
+application/speech_locales_path="res://demo/speech_locales.gd"
 platform/skip_cache=false
 platform/terminate_on_errors=true
 platform/action_menu_scale=2
@@ -90,4 +94,4 @@ use=[ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_na
 
 [locale]
 
-translations=PoolStringArray( "res://translations/general.en.translation", "res://translations/general.es.translation", "res://translations/general.fr.translation" )
+translations=PoolStringArray( "res://demo/translations/general.en.translation", "res://demo/translations/general.es.translation", "res://demo/translations/general.fr.translation" )
