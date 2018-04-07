@@ -1,3 +1,7 @@
+:look
+debug "look fallback!"
+say player look_fallback:"I can't look at that."
+
 :use
 debug "use fallback!"
 say player use_fallback:"I can't use that."
@@ -9,3 +13,8 @@ say player pick_up_fallback:"I can't take this up."
 :talk
 debug "talk fallback!"
 say player talk_fallback:"I can't talk to that."
+
+:open
+debug "open fallback!"
+say player open_fallback:"I can't open that."
+
