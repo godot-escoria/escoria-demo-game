@@ -46,15 +46,17 @@ var loading_game = false
 var achievements = null
 var rate_url = ""
 
+# These are settings that the player can affect and save/load later
 var settings_default = {
-	"text_lang": "en",
-	"voice_lang": "en",
+	"text_lang": ProjectSettings.get_setting("escoria/application/text_lang"),
+	"voice_lang": ProjectSettings.get_setting("escoria/application/voice_lang"),
+	"speech_enabled": ProjectSettings.get_setting("escoria/application/speech_enabled"),
 	"music_volume": 1,
 	"sfx_volume": 1,
 	"voice_volume": 1,
 	"fullscreen": false,
 	"skip_dialog": true,
-	"rate_shown": false,
+	"rate_shown": false,  # XXX: What is this? `achievements.gd` looks like iOS-only
 }
 
 
@@ -75,7 +77,6 @@ func load_settings():
 
 func settings_loaded(p_settings):
 	printt("******* settings loaded", p_settings)
-	settings_default.text_lang = OS.get_locale().substr(0, 2)
 	if p_settings != null:
 		settings = p_settings
 	else:

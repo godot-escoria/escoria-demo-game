@@ -118,13 +118,23 @@ func _check_focus(focus, pressed):
 			get_node("_pressed").hide()
 
 func get_tooltip():
+	# tooltip_lang_default is useful for untranslated games; if it matches text_lang, don't translate
 	if TranslationServer.get_locale() == ProjectSettings.get_setting("escoria/application/tooltip_lang_default"):
+		if not global_id and ProjectSettings.get_setting("escoria/platform/force_tooltip_global_id"):
+			vm.report_errors("item", ["Missing global_id in item with tooltip '" + tooltip + "'"])
 		return tooltip
-	else:
-		if tr(tooltip) == tooltip:
-			return global_id+".tooltip"
-		else:
-			return tooltip
+
+	# Otherwise try to return the translated tooltip
+	var tooltip_identifier = global_id + ".tooltip"
+	var translated = tr(tooltip_identifier)
+
+	# But if translation isn't found, ensure it can be translated and return placeholder
+	if translated == tooltip_identifier:
+		if not global_id and ProjectSettings.get_setting("escoria/platform/force_tooltip_global_id"):
+			vm.report_errors("item", ["Missing global_id in item with tooltip '" + tooltip + "'"])
+		return tooltip_identifier
+
+	return translated
 
 func get_drag_data(point):
 	printt("get drag data on point ", point, inventory)
