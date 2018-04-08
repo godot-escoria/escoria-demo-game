@@ -80,11 +80,12 @@ func init(p_params, p_context, p_intro, p_outro):
 		text_id = text.substr(0, sep)
 		text = text.substr(sep + 2, text.length() - (sep + 2))
 
-		var ptext = TranslationServer.translate(text_id)
-		if ptext != text_id:
-			text = ptext
-		else:
-			text = "(NOT TRANSLATED)\n\n" + text
+		if TranslationServer.get_locale() != ProjectSettings.get_setting("escoria/platform/development_lang"):
+			var ptext = TranslationServer.translate(text_id)
+			if ptext != text_id:
+				text = ptext
+			else:
+				text = "(NOT TRANSLATED)\n\n" + text
 
 	elif force_ids:
 		vm.report_errors("dialog_instance", ["Missing text_id for string '" + text + "'"])
