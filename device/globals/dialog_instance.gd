@@ -91,6 +91,10 @@ func init(p_params, p_context, p_intro, p_outro):
 		vm.report_errors("dialog_instance", ["Missing text_id for string '" + text + "'"])
 		text = "(no id) " + text
 
+	# This BBCode may be the only way to center text for a RichTextLabel
+	if ProjectSettings.get_setting("escoria/platform/dialog_force_centered"):
+		text = "[center]" + text + "[/center]"
+
 	play_intro = p_intro
 	play_outro = p_outro
 	total_time = text.length() / characters_per_second
