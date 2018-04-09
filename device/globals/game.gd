@@ -397,7 +397,8 @@ func set_camera_limits():
 
 func load_hud():
 	var hres = vm.res_cache.get_resource(vm.get_hud_scene())
-	get_node("hud_layer/hud").replace_by_instance(hres)
+	if get_node("hud_layer/hud") is InstancePlaceholder:
+		get_node("hud_layer/hud").replace_by_instance(hres)
 	inventory = get_node("hud_layer/hud/inventory")
 
 	#if inventory_enabled:
@@ -405,6 +406,7 @@ func load_hud():
 	#else:
 	#	get_node("hud_layer/hud/inv_toggle").hide()
 
+	action_menu = get_node("hud_layer/hud/action_menu")
 	tooltip = get_node("hud_layer/hud/tooltip")
 
 func _ready():
