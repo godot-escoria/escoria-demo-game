@@ -3,7 +3,7 @@
 [ext_resource path="res://globals/inventory.gd" type="Script" id=1]
 [ext_resource path="res://demo/ui/inventory_items.tscn" type="PackedScene" id=2]
 
-[node name="inventory" type="Control" index="0"]
+[node name="inventory" type="Control"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -12,6 +12,7 @@ anchor_bottom = 0.0
 margin_right = 40.0
 margin_bottom = 40.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -27,6 +28,7 @@ anchor_bottom = 0.0
 margin_right = 40.0
 margin_bottom = 40.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -68,6 +70,7 @@ margin_top = 68.0
 margin_right = 506.0
 margin_bottom = 108.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
@@ -90,6 +93,7 @@ margin_top = 167.0
 margin_right = 501.0
 margin_bottom = 207.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0

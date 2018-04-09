@@ -18,4 +18,3 @@ func _ready():
 
 		c.connect("pressed", self, "action_changed", [c.get_name()])
 		act_buttons.push_back(c)
-
