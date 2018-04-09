@@ -133,9 +133,13 @@ func init(p_params, p_context, p_intro, p_outro):
 	else:
 		show()
 		set_process(true)
-	#label.set_text(text)
-	label.parse_bbcode(text)
-	label.set_visible_characters(0)
+
+	label.bbcode_enabled = true
+
+	var parsed_ok = label.parse_bbcode(text)
+	assert(parsed_ok == OK)
+	label.bbcode_text = text
+	label.set_visible_characters(0)  # This length is always adjusted later
 
 	if self is Node2D:
 		set_z_index(1)
