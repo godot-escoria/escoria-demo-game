@@ -264,6 +264,15 @@ func scene_input(event):
 
 
 	if event.is_action("menu_request") && event.is_pressed() && !event.is_echo():
+		# Do not display overlay menu with action menu or inventory, it looks silly and weird
+		if action_menu:
+			if action_menu.is_visible():
+				action_menu.stop()
+
+			# Hide inventory only when it's implicitly not always visible
+			if inventory and inventory.is_visible():
+				inventory.close()
+
 		if vm.can_save() && vm.can_interact() && vm.menu_enabled():
 			main.load_menu(ProjectSettings.get_setting("escoria/ui/main_menu"))
 		else:
