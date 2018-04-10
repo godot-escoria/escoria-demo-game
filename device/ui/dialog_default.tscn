@@ -2,7 +2,7 @@
 
 [ext_resource path="res://globals/dialog_instance.gd" type="Script" id=1]
 
-[node name="dialog_instance" type="Node2D"]
+[node name="dialog_instance" type="Container"]
 
 script = ExtResource( 1 )
 __meta__ = {
@@ -12,7 +12,7 @@ typewriter_text = true
 characters_per_second = 45.0
 fixed_pos = false
 
-[node name="anchor" type="Node2D" parent="." index="0"]
+[node name="anchor" type="Container" parent="." index="0"]
 
 [node name="text" type="RichTextLabel" parent="anchor" index="0"]
 

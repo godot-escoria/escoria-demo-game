@@ -1,4 +1,4 @@
-extends Node2D
+extends Container
 
 var context
 var text
@@ -91,6 +91,10 @@ func init(p_params, p_context, p_intro, p_outro):
 		vm.report_errors("dialog_instance", ["Missing text_id for string '" + text + "'"])
 		text = "(no id) " + text
 
+	# This BBCode may be the only way to center text for a RichTextLabel
+	if ProjectSettings.get_setting("escoria/platform/dialog_force_centered"):
+		text = "[center]" + text + "[/center]"
+
 	play_intro = p_intro
 	play_outro = p_outro
 	total_time = text.length() / characters_per_second
@@ -133,9 +137,13 @@ func init(p_params, p_context, p_intro, p_outro):
 	else:
 		show()
 		set_process(true)
-	#label.set_text(text)
-	label.parse_bbcode(text)
-	label.set_visible_characters(0)
+
+	label.bbcode_enabled = true
+
+	var parsed_ok = label.parse_bbcode(text)
+	assert(parsed_ok == OK)
+	label.bbcode_text = text
+	label.set_visible_characters(0)  # This length is always adjusted later
 
 	if self is Node2D:
 		set_z_index(1)
