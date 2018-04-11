@@ -29,6 +29,12 @@ func set_mode(p_mode):
 func mouse_enter(obj):
 	var text
 	var tt = obj.get_tooltip()
+
+	# When following the mouse, prevent text from flashing for a moment in the wrong place
+	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
+		var pos = get_viewport().get_mouse_position()
+		tooltip.set_position(pos)
+
 	# We must hide all non-inventory tooltips and interactions when the inventory is open
 	if action_menu and inventory.is_visible():
 		if obj.inventory:
@@ -58,6 +64,7 @@ func mouse_enter(obj):
 				text = text.replace("%1", tr(tt))
 		else:
 			text = tt
+
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
 		vm.hover_begin(obj)
 
@@ -257,6 +264,15 @@ func scene_input(event):
 
 
 	if event.is_action("menu_request") && event.is_pressed() && !event.is_echo():
+		# Do not display overlay menu with action menu or inventory, it looks silly and weird
+		if action_menu:
+			if action_menu.is_visible():
+				action_menu.stop()
+
+			# Hide inventory only when it's implicitly not always visible
+			if inventory and inventory.is_visible():
+				inventory.close()
+
 		if vm.can_save() && vm.can_interact() && vm.menu_enabled():
 			main.load_menu(ProjectSettings.get_setting("escoria/ui/main_menu"))
 		else:
