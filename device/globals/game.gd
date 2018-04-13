@@ -356,12 +356,16 @@ func set_camera_limits():
 		var area = Rect2()
 		for i in range(0, p.get_child_count()):
 			var c = p.get_child(i)
-			if !(c is preload("res://globals/background.gd")):
-				continue
-			var pos = c.get_global_position()
-			var size = c.get_size()
-			area = area.expand(pos)
-			area = area.expand(pos + size)
+			if c is preload("res://globals/background.gd"):
+				var pos = c.get_global_position()
+				var size = c.get_size()
+				area = area.expand(pos)
+				area = area.expand(pos + size)
+			if c is preload("res://globals/background_area.gd"):
+				var pos = c.get_global_position()
+				var size = c.get_texture().get_size()
+				area = area.expand(pos)
+				area = area.expand(pos + size)
 
 		camera.limit_left = area.position.x
 		camera.limit_right = area.position.x + area.size.x
