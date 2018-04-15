@@ -10,6 +10,7 @@ export var use_combine = false
 export var inventory = false
 export var use_action_menu = true
 export(int, -1, 360) var interact_angle = -1
+export(Color) var dialog_color = null
 export var talk_animation = "talk"
 export var active = true setget set_active,get_active
 export var placeholders = {}
