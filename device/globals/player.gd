@@ -12,6 +12,7 @@ var path_ofs
 export var speed = 300
 export var v_speed_damp = 1.0
 export(Script) var animations
+export(Color) var dialog_color = null
 var last_dir = 0
 var last_scale
 var pose_scale = 1

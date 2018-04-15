@@ -138,6 +138,9 @@ func init(p_params, p_context, p_intro, p_outro):
 		show()
 		set_process(true)
 
+	if character.dialog_color:
+		label["custom_colors/default_color"] = character.dialog_color
+
 	label.bbcode_enabled = true
 
 	var parsed_ok = label.parse_bbcode(text)
