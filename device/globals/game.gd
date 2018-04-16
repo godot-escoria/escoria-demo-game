@@ -187,6 +187,10 @@ func clicked(obj, pos, input_event = null):
 func spawn_action_menu(obj):
 	if action_menu == null:
 		return
+
+	if player:
+		player.walk_stop(player.position)
+
 	var pos = get_viewport().get_mouse_position()
 	var am_pos = action_menu.check_clamp(pos, camera)
 	action_menu.set_position(am_pos)
