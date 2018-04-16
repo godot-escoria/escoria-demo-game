@@ -2,7 +2,8 @@
 
 [ext_resource path="res://globals/game.gd" type="Script" id=1]
 [ext_resource path="res://ui/dialog_player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://demo/ui/verb_hud.tscn" type="PackedScene" id=3]
+[ext_resource path="res://demo/ui/hud_vm.tscn" type="PackedScene" id=3]
+
 
 [node name="game" type="Node"]
 
