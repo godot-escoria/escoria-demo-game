@@ -33,6 +33,7 @@ func mouse_enter(obj):
 	# When following the mouse, prevent text from flashing for a moment in the wrong place
 	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
 		var pos = get_viewport().get_mouse_position()
+		pos -= tooltip.get_size() / Vector2(2, 1)
 		tooltip.set_position(pos)
 
 	# We must hide all non-inventory tooltips and interactions when the inventory is open
