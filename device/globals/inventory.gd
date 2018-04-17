@@ -1,5 +1,7 @@
 extends Control
 
+export(bool) var is_collapsible = false
+
 var item_list = []
 var page = 0
 

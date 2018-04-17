@@ -125,11 +125,12 @@ func clicked(obj, pos, input_event = null):
 			#click_anim.play("click")
 			if player == self:
 				return
-			if (action_menu and !inventory.is_visible()) or !action_menu:
-				player.walk_to(pos, walk_context)
-				# Leave the tooltip if the player is in eg. a "use key with" state
-				if !current_action:
-					get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", "")
+			if inventory and inventory.is_collapsible:
+				inventory.close()
+			player.walk_to(pos, walk_context)
+			# Leave the tooltip if the player is in eg. a "use key with" state
+			if !current_action:
+				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", "")
 
 		elif obj.inventory:
 			# Use and look are the only valid choices with an action menu
@@ -274,8 +275,8 @@ func scene_input(event):
 			if action_menu.is_visible():
 				action_menu.stop()
 
-			# Hide inventory only when it's implicitly not always visible
-			if inventory and inventory.is_visible():
+			# Hide inventory if collapsible
+			if inventory and inventory.is_collapsible:
 				inventory.close()
 
 		if vm.can_save() && vm.can_interact() && vm.menu_enabled():
