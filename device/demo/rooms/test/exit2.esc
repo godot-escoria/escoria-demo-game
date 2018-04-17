@@ -1,2 +1,5 @@
+:enter
+say player "I arrived at the second exit"
+
 :exit
-say player "I'm at the second exit"
+say player "I left the second exit"

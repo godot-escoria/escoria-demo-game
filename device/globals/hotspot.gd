@@ -1,6 +1,6 @@
 extends "res://globals/interactive.gd"
 
-export(String, FILE, ".esc") var esc_script
+export(String, FILE, ".esc") var events_path
 export var global_id = ""
 export var tooltip = ""
 
@@ -32,6 +32,9 @@ func _ready():
 		area.connect("input_event", self, "area_input")
 	else:
 		area.connect("gui_input", self, "input")
+
+	if events_path != "":
+		event_table = vm.compile(events_path)
 
 	area.connect("mouse_entered", self, "mouse_enter")
 	area.connect("mouse_exited", self, "mouse_exit")
