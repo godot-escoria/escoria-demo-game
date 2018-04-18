@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://globals/player.gd" type="Script" id=1]
 [ext_resource path="res://demo/actors/player/player_anims.gd" type="Script" id=2]
@@ -131,8 +131,17 @@ tracks/0/keys = {
 "values": [ 5 ]
 }
 
-[node name="player" type="Node2D"]
+[sub_resource type="RectangleShape2D" id=8]
 
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[node name="player" type="KinematicBody2D"]
+
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+collision/safe_margin = 0.08
 script = ExtResource( 1 )
 speed = 300
 v_speed_damp = 1.0
@@ -163,5 +172,9 @@ anims/walk_down = SubResource( 5 )
 anims/walk_right = SubResource( 6 )
 anims/walk_up = SubResource( 7 )
 blend_times = [  ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="2"]
+
+shape = SubResource( 8 )
 
 

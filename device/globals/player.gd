@@ -159,6 +159,9 @@ func interact(p_params):
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "interact", p_params)
 
 func walk_stop(pos):
+	# Notify exits of stop position
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "exit", "stopped_at", pos)
+
 	set_position(pos)
 	walk_path = []
 	task = null
