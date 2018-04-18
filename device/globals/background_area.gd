@@ -6,7 +6,8 @@ var area
 func input(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.pressed:
 		if (event.button_index == BUTTON_LEFT):
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clicked", self, get_position() + event.position, event)
+			var pos = get_global_mouse_position()
+			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clicked", self, pos, event)
 		elif (event.button_index == BUTTON_RIGHT):
 			emit_right_click()
 
