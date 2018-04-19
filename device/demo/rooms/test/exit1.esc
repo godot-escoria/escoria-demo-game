@@ -1,0 +1,2 @@
+:exit_scene
+say player exit_first_exit:"I'm at the first exit"
