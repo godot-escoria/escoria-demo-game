@@ -10,7 +10,7 @@ length = 1.0
 loop = false
 step = 0.1
 
-[node name="NPC" type="Node2D"]
+[node name="NPC" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 animations = null
@@ -25,6 +25,7 @@ use_combine = true
 inventory = false
 use_action_menu = true
 interact_angle = -1
+dialog_color = null
 talk_animation = "talk"
 active = true
 placeholders = {

@@ -32,12 +32,12 @@ say npc "Do I look like a box?"
 		say npc "Sure. Just find me something to read."
 	- "Goodbye."
 		sched_event 0 "npc" "leave_npc"
-say player talk_fallback:"I can't talk to that."
-sched_event 0 "npc" "talk"
+#sched_event 0 "npc" "talk"
 
 :use inv_news
-debug "use fallback!"
-say player use_fallback:"I can't use that."
+say npc "OH! Thank you!"
+set_global i/inv_news false
+say npc "Hmmm, Maybe this NPC stuff isn't so bad after all."
 
 :leave_npc
 say player "Goodbye."
