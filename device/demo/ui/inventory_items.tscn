@@ -9,7 +9,7 @@
 
 [node name="items" type="Node2D"]
 
-[node name="inv_news" type="TextureButton" parent="."]
+[node name="inv_news" type="TextureButton" parent="." index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -21,7 +21,9 @@ margin_right = 152.0
 margin_bottom = 90.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
+focus_mode = 2
 mouse_filter = 0
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 toggle_mode = false
@@ -38,10 +40,11 @@ tooltip = ""
 action = ""
 events_path = ""
 global_id = "inv_news"
-use_combine = false
-inventory = false
+use_combine = true
+inventory = true
 use_action_menu = true
 interact_angle = -1
+dialog_color = null
 talk_animation = "talk"
 active = true
 placeholders = {
@@ -49,7 +52,7 @@ placeholders = {
 }
 use_custom_z = false
 
-[node name="inv_can" type="TextureButton" parent="."]
+[node name="inv_can" type="TextureButton" parent="." index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -61,7 +64,9 @@ margin_right = 329.0
 margin_bottom = 99.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
+focus_mode = 2
 mouse_filter = 0
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 toggle_mode = false
@@ -78,10 +83,11 @@ tooltip = "Can"
 action = ""
 events_path = ""
 global_id = "inv_can"
-use_combine = false
-inventory = false
+use_combine = true
+inventory = true
 use_action_menu = true
 interact_angle = -1
+dialog_color = null
 talk_animation = "talk"
 active = true
 placeholders = {
@@ -89,7 +95,7 @@ placeholders = {
 }
 use_custom_z = false
 
-[node name="inv_can_open" type="TextureButton" parent="."]
+[node name="inv_can_open" type="TextureButton" parent="." index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -101,7 +107,9 @@ margin_right = 515.0
 margin_bottom = 90.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
+focus_mode = 2
 mouse_filter = 0
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 toggle_mode = false
@@ -118,10 +126,11 @@ tooltip = ""
 action = ""
 events_path = ""
 global_id = "inv_can_open"
-use_combine = false
-inventory = false
+use_combine = true
+inventory = true
 use_action_menu = true
 interact_angle = -1
+dialog_color = null
 talk_animation = "talk"
 active = true
 placeholders = {
@@ -129,7 +138,7 @@ placeholders = {
 }
 use_custom_z = false
 
-[node name="inv_ice_cream" type="TextureButton" parent="."]
+[node name="inv_ice_cream" type="TextureButton" parent="." index="3"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -141,7 +150,9 @@ margin_right = 712.0
 margin_bottom = 145.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
+focus_mode = 2
 mouse_filter = 0
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 toggle_mode = false
@@ -158,10 +169,11 @@ tooltip = ""
 action = ""
 events_path = ""
 global_id = "inv_ice_cream"
-use_combine = false
-inventory = false
+use_combine = true
+inventory = true
 use_action_menu = true
 interact_angle = -1
+dialog_color = null
 talk_animation = "talk"
 active = true
 placeholders = {
@@ -169,7 +181,7 @@ placeholders = {
 }
 use_custom_z = false
 
-[node name="inv_chainsaw" type="TextureButton" parent="."]
+[node name="inv_chainsaw" type="TextureButton" parent="." index="4"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -181,7 +193,9 @@ margin_right = 980.0
 margin_bottom = 129.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
+focus_mode = 2
 mouse_filter = 0
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 toggle_mode = false
@@ -198,10 +212,11 @@ tooltip = ""
 action = ""
 events_path = ""
 global_id = "inv_chainsaw"
-use_combine = false
-inventory = false
+use_combine = true
+inventory = true
 use_action_menu = true
 interact_angle = -1
+dialog_color = null
 talk_animation = "talk"
 active = true
 placeholders = {
