@@ -1,11 +1,11 @@
 tool
 
-extends Node2D
+extends KinematicBody2D
 
 var task
 var walk_destination
 var animation
-var vm
+var vm  # A tool script cannot refer to singletons in Godot
 var terrain
 var walk_path
 var walk_context
@@ -13,6 +13,7 @@ var path_ofs
 export var speed = 300
 export var v_speed_damp = 1.0
 export(Script) var animations
+export(Color) var dialog_color = null
 var last_dir = 0
 var last_scale
 var pose_scale = 1
@@ -158,6 +159,9 @@ func interact(p_params):
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "interact", p_params)
 
 func walk_stop(pos):
+	# Notify exits of stop position
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "exit", "stopped_at", pos)
+
 	set_position(pos)
 	walk_path = []
 	task = null
@@ -317,7 +321,7 @@ func _ready():
 		return
 
 	animation = get_node("animation")
-	vm = get_tree().get_root().get_node("vm")
+	vm = $"/root/vm"
 	vm.register_object("player", self)
 	#_update_terrain();
 	if has_node("animation"):

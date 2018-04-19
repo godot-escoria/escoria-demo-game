@@ -46,15 +46,17 @@ var loading_game = false
 var achievements = null
 var rate_url = ""
 
+# These are settings that the player can affect and save/load later
 var settings_default = {
-	"text_lang": "en",
-	"voice_lang": "en",
+	"text_lang": ProjectSettings.get_setting("escoria/application/text_lang"),
+	"voice_lang": ProjectSettings.get_setting("escoria/application/voice_lang"),
+	"speech_enabled": ProjectSettings.get_setting("escoria/application/speech_enabled"),
 	"music_volume": 1,
 	"sfx_volume": 1,
 	"voice_volume": 1,
 	"fullscreen": false,
 	"skip_dialog": true,
-	"rate_shown": false,
+	"rate_shown": false,  # XXX: What is this? `achievements.gd` looks like iOS-only
 }
 
 
@@ -75,7 +77,6 @@ func load_settings():
 
 func settings_loaded(p_settings):
 	printt("******* settings loaded", p_settings)
-	settings_default.text_lang = OS.get_locale().substr(0, 2)
 	if p_settings != null:
 		settings = p_settings
 	else:
@@ -146,24 +147,33 @@ func update_camera(time):
 
 	var cpos = camera.get_position()
 
+	# The camera position is set to target when it's about to overstep it,
+	# or when it's moved there instantly.
+	# Compare the camera and target position until then
 	if cpos != pos:
-		#return
+		var v = pos - cpos  # vector to move along
+		var step = cam_speed * time  # pixel size of step to move
 
-		var dif = pos - cpos
-		var dist = cam_speed * time
-		if dist > dif.length() || cam_speed == 0:
+		# This is where we may overstep or move instantly
+		if step > v.length() || cam_speed == 0:
 			camera.set_position(pos)
-			#return
 		else:
-			camera.set_position(cpos + dif.normalized() * dist)
-			pos = cpos + dif.normalized() * dist
+			pos = cpos + v.normalized() * step
+			camera.set_position(pos)
 
 	var half = game_size / 2
-	pos = _adjust_camera(pos)
-	var t = Transform2D()
-	t[2] = (-(pos - half))
 
-	get_node("/root").set_canvas_transform(t)
+	var clamp_data = _clamp_camera(pos, half)
+	var camera_clamped = clamp_data[0]
+	pos = clamp_data[1]
+
+	var t = Transform2D()
+	t.origin = half - pos
+
+	if camera_clamped:
+		camera.set_position(pos)
+
+	get_node("/root").canvas_transform = t
 
 func camera_set_zoom_height(zoom_height):
 	var scale = game_size.y / zoom_height
@@ -182,8 +192,13 @@ func camera_zoom_out():
 	if current_scene and current_scene is preload("res://globals/scene.gd") and prev_state:
 		current_scene.scale = prev_state["scale"]
 
-func _adjust_camera(pos):
-	var half = game_size / 2
+func _clamp_camera(pos, half):
+	# Helper function clamps camera within the given camera limits; if we try
+	# to show anything outside the limits, we return a position that doesn't break the limits.
+	# `half` is passed in because there's a good chance it gets altered when zoomed in
+	# Returns whether or not the camera was clamped and what the new position is regardless
+
+	var orig_pos = pos
 
 	if pos.x + half.x > camera_limits.position.x + camera_limits.size.x:
 		pos.x = (camera_limits.position.x + camera_limits.size.x) - half.x
@@ -195,7 +210,7 @@ func _adjust_camera(pos):
 	if pos.y - half.y < camera_limits.position.y:
 		pos.y = camera_limits.position.y + half.y
 
-	return pos
+	return [orig_pos != pos, pos]
 
 func set_cam_limits(limits):
 	camera_limits = limits
@@ -225,6 +240,21 @@ func wait(params, level):
 	level.waiting = true
 	return state_yield
 
+func is_equal_to(name, val):
+	var global = get_global(name)
+	if global and val and global == val:
+		return true
+
+func is_greater_than(name, val):
+	var global = get_global(name)
+	if global and val and int(global) > int(val):
+		return true
+
+func is_less_than(name, val):
+	var global = get_global(name)
+	if global and val and int(global) < int(val):
+		return true
+
 func test(cmd):
 	if "if_true" in cmd:
 		for flag in cmd.if_true:
@@ -241,6 +271,30 @@ func test(cmd):
 	if "if_not_inv" in cmd:
 		for flag in cmd.if_not_inv:
 			if inventory_has(flag):
+				return false
+	if "if_eq" in cmd:
+		for flag in cmd.if_eq:
+			if !is_equal_to(flag[0], flag[1]):
+				return false
+	if "if_ne" in cmd:
+		for flag in cmd.if_ne:
+			if is_equal_to(flag[0], flag[1]):
+				return false
+	if "if_gt" in cmd:
+		for flag in cmd.if_gt:
+			if !is_greater_than(flag[0], flag[1]):
+				return false
+	if "if_ge" in cmd:
+		for flag in cmd.if_ge:
+			if is_less_than(flag[0], flag[1]):
+				return false
+	if "if_lt" in cmd:
+		for flag in cmd.if_lt:
+			if !is_less_than(flag[0], flag[1]):
+				return false
+	if "if_le" in cmd:
+		for flag in cmd.if_le:
+			if is_greater_than(flag[0], flag[1]):
 				return false
 
 	return true
@@ -289,6 +343,9 @@ func report_errors(p_path, errors):
 	#dialog.set_text(text)
 	print("error is ", text)
 	#main.get_node("layers/telon").add_child(dialog)
+	# The only way to - optionally - make errors matter
+	if ProjectSettings.get_setting("escoria/platform/terminate_on_errors"):
+		assert(false)
 
 func add_level(p_level, p_root):
 	stack.push_back(instance_level(p_level, p_root))
@@ -306,12 +363,27 @@ func sched_event(time, obj, event):
 	event_queue.push_back([time, obj, event])
 
 func get_global(name):
-	return (name in globals) && globals[name]
+	# If no value or looks like boolean, return boolean for backwards compatibility
+	if not name in globals or globals[name].to_lower() == "false":
+		return false
+	if globals[name].to_lower() == "true":
+		return true
+	return globals[name]
 
 func set_global(name, val):
 	globals[name] = val
 	#printt("global changed at global_vm, emitting for ", name, val)
 	emit_signal("global_changed", name)
+
+func dec_global(name, diff):
+	var global = get_global(name)
+	global = int(global) if global else 0
+	set_global(name, str(global - diff))
+
+func inc_global(name, diff):
+	var global = get_global(name)
+	global = int(global) if global else 0
+	set_global(name, str(global + diff))
 
 func set_globals(pat, val):
 	for key in globals:
@@ -345,6 +417,14 @@ func set_state(name, state):
 
 func set_active(name, active):
 	actives[name] = active
+
+func set_use_action_menu(obj, should_use_action_menu):
+	if obj is preload("res://globals/item.gd"):
+		obj.use_action_menu = should_use_action_menu
+
+func set_speed(obj, speed):
+	if obj is preload("res://globals/interactive.gd"):
+		obj.speed = speed
 
 func object_exit_scene(name):
 	objects.erase(name)
@@ -472,16 +552,14 @@ func is_game_active():
 	return main.get_current_scene() != null && (main.get_current_scene() is preload("res://globals/scene.gd"))
 
 func check_autosave():
-	if get_global("save_disabled"):
-		return
-	if main.get_current_scene() == null || !(main.get_current_scene() is preload("res://globals/scene.gd")):
+	if get_global("save_disabled") or not is_game_active():
 		return
 	var time = OS.get_ticks_msec()
 	if autosave_pending || (time - last_autosave) > AUTOSAVE_TIME_MS:
 		autosave_pending = true
 		var data = save()
 		if typeof(data) == TYPE_BOOL && data == false:
-				return
+			return
 		autosave_pending = false
 		save_data.autosave(data, [self, "autosave_done"])
 
@@ -549,7 +627,7 @@ func save():
 	for k in globals.keys():
 		if !globals[k]:
 			continue
-		ret.append("set_global " + k + " true\n")
+		ret.append("set_global %s \"%s\"\n" % [k, globals[k]])
 	ret.append("\n")
 
 	ret.append("## Objects\n\n")
@@ -703,7 +781,7 @@ func _ready():
 	save_data = load(ProjectSettings.get_setting("escoria/application/save_data")).new()
 	save_data.start()
 
-	get_tree().set_auto_accept_quit(false)
+	get_tree().set_auto_accept_quit(ProjectSettings.get('escoria/platform/force_quit'))
 	randomize()
 	add_user_signal("music_volume_changed")
 	add_user_signal("paused", ["p_paused"])
@@ -730,7 +808,7 @@ func _ready():
 			print("s is ", s)
 			res_cache.queue_resource(s, false, true)
 
-	printt("********** vm calling get scene", get_tree(), get_tree().get_root())
+	printt("********** vm calling get scene", get_tree(), get_node("/root"))
 
 	achievements = preload("res://globals/achievements.gd").new()
 	achievements.start()
@@ -738,4 +816,3 @@ func _ready():
 	connect("global_changed", self, "check_achievement")
 
 	set_process(true)
-

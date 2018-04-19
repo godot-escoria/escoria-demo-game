@@ -1,5 +1,4 @@
 var global = null
-var vm
 var current_context
 
 func check_obj(name, cmd):
@@ -30,6 +29,14 @@ func _walk(params, block):
 
 func set_global(params):
 	vm.set_global(params[0], params[1])
+	return vm.state_return
+
+func dec_global(params):
+	vm.dec_global(params[0], params[1])
+	return vm.state_return
+
+func inc_global(params):
+	vm.inc_global(params[0], params[1])
 	return vm.state_return
 
 func debug(params):
@@ -119,6 +126,14 @@ func repeat(params):
 
 func wait(params):
 	return vm.wait(params, current_context)
+
+func set_use_action_menu(params):
+	var obj = vm.get_object(params[0])
+	vm.set_use_action_menu(obj, params[1])
+
+func set_speed(params):
+	var obj = vm.get_object(params[0])
+	vm.set_speed(obj, params[1])
 
 func teleport(params):
 	if !check_obj(params[0], "teleport"):
@@ -294,8 +309,3 @@ func resume(context):
 
 func set_vm(p_vm):
 	vm = p_vm
-
-func _init():
-	#print("*************** vm level init")
-	#vm = get_tree().get_singleton("vm")
-	pass

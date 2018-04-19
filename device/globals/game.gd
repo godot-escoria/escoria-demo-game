@@ -29,6 +29,13 @@ func set_mode(p_mode):
 func mouse_enter(obj):
 	var text
 	var tt = obj.get_tooltip()
+
+	# When following the mouse, prevent text from flashing for a moment in the wrong place
+	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
+		var pos = get_viewport().get_mouse_position()
+		pos -= tooltip.get_size() / Vector2(2, 1)
+		tooltip.set_position(pos)
+
 	# We must hide all non-inventory tooltips and interactions when the inventory is open
 	if action_menu and inventory.is_visible():
 		if obj.inventory:
@@ -58,6 +65,7 @@ func mouse_enter(obj):
 				text = text.replace("%1", tr(tt))
 		else:
 			text = tt
+
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
 		vm.hover_begin(obj)
 
@@ -117,11 +125,12 @@ func clicked(obj, pos, input_event = null):
 			#click_anim.play("click")
 			if player == self:
 				return
-			if (action_menu and !inventory.is_visible()) or !action_menu:
-				player.walk_to(pos, walk_context)
-				# Leave the tooltip if the player is in eg. a "use key with" state
-				if !current_action:
-					get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", "")
+			if inventory and inventory.is_collapsible:
+				inventory.close()
+			player.walk_to(pos, walk_context)
+			# Leave the tooltip if the player is in eg. a "use key with" state
+			if !current_action:
+				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", "")
 
 		elif obj.inventory:
 			# Use and look are the only valid choices with an action menu
@@ -180,10 +189,14 @@ func clicked(obj, pos, input_event = null):
 func spawn_action_menu(obj):
 	if action_menu == null:
 		return
+
+	if player:
+		player.walk_stop(player.position)
+
+	var pos = get_viewport().get_mouse_position()
+	var am_pos = action_menu.check_clamp(pos, camera)
+	action_menu.set_position(am_pos)
 	action_menu.show()
-	var pos
-	pos = get_viewport().get_mouse_position()
-	action_menu.position = pos
 	action_menu.start(obj)
 	#obj.grab_focus()
 
@@ -257,6 +270,15 @@ func scene_input(event):
 
 
 	if event.is_action("menu_request") && event.is_pressed() && !event.is_echo():
+		# Do not display overlay menu with action menu or inventory, it looks silly and weird
+		if action_menu:
+			if action_menu.is_visible():
+				action_menu.stop()
+
+			# Hide inventory if collapsible
+			if inventory and inventory.is_collapsible:
+				inventory.close()
+
 		if vm.can_save() && vm.can_interact() && vm.menu_enabled():
 			main.load_menu(ProjectSettings.get_setting("escoria/ui/main_menu"))
 		else:
@@ -340,12 +362,16 @@ func set_camera_limits():
 		var area = Rect2()
 		for i in range(0, p.get_child_count()):
 			var c = p.get_child(i)
-			if !(c is preload("res://globals/background.gd")):
-				continue
-			var pos = c.get_global_position()
-			var size = c.get_size()
-			area = area.expand(pos)
-			area = area.expand(pos + size)
+			if c is preload("res://globals/background.gd"):
+				var pos = c.get_global_position()
+				var size = c.get_size()
+				area = area.expand(pos)
+				area = area.expand(pos + size)
+			if c is preload("res://globals/background_area.gd"):
+				var pos = c.get_global_position()
+				var size = c.get_texture().get_size()
+				area = area.expand(pos)
+				area = area.expand(pos + size)
 
 		camera.limit_left = area.position.x
 		camera.limit_right = area.position.x + area.size.x

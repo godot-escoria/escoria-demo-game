@@ -1,3 +1,8 @@
 .import/
 logs/
 *.import
+*.translation
+
+# Platform specific metadata files
+.DS_Store
+thumbs.db

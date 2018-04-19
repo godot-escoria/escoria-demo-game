@@ -17,8 +17,7 @@ func clear_scene():
 	if current == null:
 		return
 
-	var root = get_tree().get_root()
-	root.remove_child(current)
+	get_node("/root").remove_child(current)
 	current.free()
 	current = null
 
@@ -28,8 +27,7 @@ func set_scene(p_scene):
 
 	if !p_scene:
 		return
-	var root = get_tree().get_root()
-	root.add_child(p_scene)
+	get_node("/root").add_child(p_scene)
 	set_current_scene(p_scene)
 
 func get_current_scene():
@@ -76,8 +74,7 @@ func menu_collapse():
 func set_current_scene(p_scene, events_path=null):
 	#print_stack()
 	current = p_scene
-	var root = get_tree().get_root()
-	root.move_child(p_scene, 0)
+	get_node("/root").move_child(p_scene, 0)
 
 	if events_path:
 		vm.load_file(events_path)
@@ -100,13 +97,13 @@ func check_screen():
 
 	var rate = float(vs.x)/float(vs.y)
 	var height = int(game_size.x / rate)
-	get_tree().get_root().set_size_override(true,Vector2(game_size.x,height))
-	get_tree().get_root().set_size_override_stretch(true)
+	get_node("/root").set_size_override(true,Vector2(game_size.x,height))
+	get_node("/root").set_size_override_stretch(true)
 
 	var m = Transform2D()
 	var ofs = Vector2(0, (height - game_size.y) / 2)
-	m[2] = ofs
-	get_tree().get_root().set_global_canvas_transform(m)
+	m.origin = ofs
+	get_node("/root").global_canvas_transform = m
 
 	screen_ofs = ofs
 	printt("**** screen ofs is ", screen_ofs)

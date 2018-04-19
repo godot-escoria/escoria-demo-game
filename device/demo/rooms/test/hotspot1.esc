@@ -1,0 +1,5 @@
+:enter
+say player enter_first_trigger:"I entered the first trigger"
+
+:exit
+say player trigger_first_trigger:"I exited the first trigger"

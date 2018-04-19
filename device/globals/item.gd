@@ -4,12 +4,13 @@ extends "res://globals/interactive.gd"
 
 export var tooltip = ""
 export var action = ""
-export(String, FILE) var events_path = ""
+export(String, FILE, ".esc") var events_path = ""
 export var global_id = ""
 export var use_combine = false
 export var inventory = false
 export var use_action_menu = true
 export(int, -1, 360) var interact_angle = -1
+export(Color) var dialog_color = null
 export var talk_animation = "talk"
 export var active = true setget set_active,get_active
 export var placeholders = {}
@@ -118,13 +119,23 @@ func _check_focus(focus, pressed):
 			get_node("_pressed").hide()
 
 func get_tooltip():
-	if TranslationServer.get_locale() == ProjectSettings.get_setting("escoria/application/tooltip_lang_default"):
+	# if `development_lang` matches `text_lang`, don't translate
+	if TranslationServer.get_locale() == ProjectSettings.get_setting("escoria/platform/development_lang"):
+		if not global_id and ProjectSettings.get_setting("escoria/platform/force_tooltip_global_id"):
+			vm.report_errors("item", ["Missing global_id in item with tooltip '" + tooltip + "'"])
 		return tooltip
-	else:
-		if tr(tooltip) == tooltip:
-			return global_id+".tooltip"
-		else:
-			return tooltip
+
+	# Otherwise try to return the translated tooltip
+	var tooltip_identifier = global_id + ".tooltip"
+	var translated = tr(tooltip_identifier)
+
+	# But if translation isn't found, ensure it can be translated and return placeholder
+	if translated == tooltip_identifier:
+		if not global_id and ProjectSettings.get_setting("escoria/platform/force_tooltip_global_id"):
+			vm.report_errors("item", ["Missing global_id in item with tooltip '" + tooltip + "'"])
+		return tooltip_identifier
+
+	return translated
 
 func get_drag_data(point):
 	printt("get drag data on point ", point, inventory)
@@ -183,7 +194,7 @@ func anim_get_ph_paths(p_anim):
 
 func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 
-	if p_notify is null && (!has_node("animation") || !get_node("animation").has_animation(p_anim)):
+	if p_notify == null && (!has_node("animation") || !get_node("animation").has_animation(p_anim)):
 		print("skipping cut scene '", p_anim, "'")
 		vm.finished(p_notify)
 		#_debug_states()
