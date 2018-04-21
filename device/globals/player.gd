@@ -211,6 +211,9 @@ func _editor_transform_changed():
 	_check_bounds()
 
 func _check_bounds():
+	if !terrain:
+		return
+
 	#printt("checking bouds for pos ", get_position(), terrain.is_solid(get_position()))
 	if terrain.is_solid(get_position()):
 		if has_node("terrain_icon"):
@@ -225,6 +228,9 @@ func _check_bounds():
 		get_node("terrain_icon").show()
 
 func _update_terrain():
+	if !terrain:
+		return
+
 	var pos = get_position()
 	set_z_index(pos.y)
 	var color = terrain.get_terrain(pos)
@@ -314,8 +320,9 @@ func _find_sprites(p = null):
 
 func _ready():
 
-	terrain = get_parent().get_node("terrain")
-	print(terrain)
+	if get_parent().has_node("terrain"):
+		terrain = get_parent().get_node("terrain")
+
 	_find_sprites(self)
 	if Engine.is_editor_hint():
 		return
