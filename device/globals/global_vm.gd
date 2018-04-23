@@ -181,7 +181,7 @@ func camera_set_zoom_height(zoom_height):
 
 func camera_zoom_in(magnitude):
 	var current_scene = main.get_current_scene()
-	if current_scene and current_scene is preload("res://globals/scene.gd"):
+	if current_scene and current_scene is esc_type.SCENE:
 		# Save current state so that we can reset zoom
 		_zoom_stack.append({"scale": current_scene.scale})
 		current_scene.scale *= Vector2(magnitude, magnitude)
@@ -189,7 +189,7 @@ func camera_zoom_in(magnitude):
 func camera_zoom_out():
 	var current_scene = main.get_current_scene()
 	var prev_state = _zoom_stack.pop_back()
-	if current_scene and current_scene is preload("res://globals/scene.gd") and prev_state:
+	if current_scene and current_scene is esc_type.SCENE and prev_state:
 		current_scene.scale = prev_state["scale"]
 
 func _clamp_camera(pos, half):
@@ -419,11 +419,11 @@ func set_active(name, active):
 	actives[name] = active
 
 func set_use_action_menu(obj, should_use_action_menu):
-	if obj is preload("res://globals/item.gd"):
+	if obj is esc_type.ITEM:
 		obj.use_action_menu = should_use_action_menu
 
 func set_speed(obj, speed):
-	if obj is preload("res://globals/interactive.gd"):
+	if obj is esc_type.INTERACTIVE:
 		obj.speed = speed
 
 func object_exit_scene(name):
@@ -549,7 +549,7 @@ func set_pause(p_pause):
 	emit_signal("paused", p_pause)
 
 func is_game_active():
-	return main.get_current_scene() != null && (main.get_current_scene() is preload("res://globals/scene.gd"))
+	return main.get_current_scene() != null && (main.get_current_scene() is esc_type.SCENE)
 
 func check_autosave():
 	if get_global("save_disabled") or not is_game_active():

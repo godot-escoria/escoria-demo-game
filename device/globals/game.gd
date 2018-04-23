@@ -105,7 +105,7 @@ func clicked(obj, pos, input_event = null):
 		walk_context = {"fast": input_event.doubleclick}
 
 	# If an background_area is covered by an item, the item "wins"
-	if obj is preload("res://globals/background_area.gd"):
+	if obj is esc_type.BACKGROUND_AREA:
 		for area in obj.get_child(0).get_overlapping_areas():
 			if area.has_method("is_clicked") and area.is_clicked():
 				return
@@ -362,12 +362,12 @@ func set_camera_limits():
 		var area = Rect2()
 		for i in range(0, p.get_child_count()):
 			var c = p.get_child(i)
-			if c is preload("res://globals/background.gd"):
+			if c is esc_type.BACKGROUND:
 				var pos = c.get_global_position()
 				var size = c.get_size()
 				area = area.expand(pos)
 				area = area.expand(pos + size)
-			if c is preload("res://globals/background_area.gd"):
+			if c is esc_type.BACKGROUND_AREA:
 				var pos = c.get_global_position()
 				var size = c.get_texture().get_size()
 				area = area.expand(pos)
@@ -404,7 +404,7 @@ func load_hud():
 	# Add inventory to hud layer, usually hud_minimal.tscn, if found in project settings
 	if !$hud_layer.has_node("inventory") and ProjectSettings.get_setting("escoria/ui/inventory"):
 		inventory = load(ProjectSettings.get_setting("escoria/ui/inventory")).instance()
-		if inventory and inventory is preload("res://globals/inventory.gd"):
+		if inventory and inventory is esc_type.INVENTORY:
 			inventory.hide()
 			$hud_layer.add_child(inventory)
 	else:
@@ -413,7 +413,7 @@ func load_hud():
 	# Add action menu to hud layer if found in project settings
 	if ProjectSettings.get_setting("escoria/ui/action_menu"):
 		action_menu = load(ProjectSettings.get_setting("escoria/ui/action_menu")).instance()
-		if action_menu and action_menu is preload("res://globals/action_menu.gd"):
+		if action_menu and action_menu is esc_type.ACTION_MENU:
 			$hud_layer.add_child(action_menu)
 
 	#if inventory_enabled:

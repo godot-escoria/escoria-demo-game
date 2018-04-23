@@ -50,11 +50,11 @@ func input(event):
 		player.walk_to(pos)
 
 func body_entered(body):
-	if body is preload("res://globals/player.gd"):
+	if body is esc_type.PLAYER:
 		run_event("enter")
 
 func body_exited(body):
-	if body is preload("res://globals/player.gd"):
+	if body is esc_type.PLAYER:
 		run_event("exit")
 
 func run_event(event):
