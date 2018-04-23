@@ -96,10 +96,15 @@ func area_input(viewport, event, shape_idx):
 	input(event)
 
 func input(event):
+	# TODO: Expand this for other input events than mouse
 	if event is InputEventMouseButton || event.is_action("ui_accept"):
 		if event.is_pressed():
 			clicked = true
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clicked", self, event.get_global_position(), event)
+
+			if event.button_index == BUTTON_LEFT:
+				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clicked", self, event.get_global_position(), event)
+			elif event.button_index == BUTTON_RIGHT:
+				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "secondary_click", self, event.get_global_position(), event)
 			_check_focus(true, true)
 		else:
 			clicked = false
