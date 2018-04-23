@@ -3,7 +3,8 @@ extends Control
 var background = null
 
 func set_tooltip(text):
-	printt("hud got tooltip text ", text)
+	if text:
+		printt("hud got tooltip text ", text)
 	get_node("tooltip").set_text(text)
 
 func inv_toggle():
