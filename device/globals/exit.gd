@@ -7,7 +7,7 @@ func stopped_at(pos):
 
 func body_entered(body):
 	# Entering an exit node runs the `:exit_scene` event
-	if body is preload("res://globals/player.gd"):
+	if body is esc_type.PLAYER:
 		run_event("exit_scene")
 
 func body_exited(body):

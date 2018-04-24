@@ -7,7 +7,7 @@ func load_autosave():
 	vm.load_autosave()
 
 func can_continue():
-	return (main.get_current_scene() is preload("res://globals/scene.gd")) || vm.save_data.autosave_available()
+	return (main.get_current_scene() is esc_type.SCENE) || vm.save_data.autosave_available()
 
 func button_clicked():
 	# play a clicking sound here?
@@ -15,7 +15,7 @@ func button_clicked():
 
 func newgame_pressed():
 	button_clicked()
-	if main.get_current_scene() is preload("res://globals/scene.gd"):
+	if main.get_current_scene() is esc_type.SCENE:
 		confirm_popup = main.load_menu(ProjectSettings.get_setting("escoria/ui/confirm_popup"))
 		confirm_popup.start("UI_NEW_GAME_CONFIRM",self,"start_new_game")
 	else:
@@ -28,7 +28,7 @@ func start_new_game(p_confirm):
 
 func continue_pressed():
 	button_clicked()
-	if main.get_current_scene() is preload("res://globals/scene.gd"):
+	if main.get_current_scene() is esc_type.SCENE:
 		main.menu_collapse()
 	else:
 		if vm.continue_enabled:
@@ -52,7 +52,7 @@ func close():
 
 func input(event):
 	if event.is_pressed() && !event.is_echo() && event.is_action("menu_request"):
-		if main.get_current_scene() is preload("res://globals/scene.gd"):
+		if main.get_current_scene() is esc_type.SCENE:
 			close()
 
 func menu_collapsed():

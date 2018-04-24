@@ -17,6 +17,7 @@ run/main_scene="res://globals/scene_main.tscn"
 
 main="*res://globals/main.tscn"
 vm="*res://globals/global_vm.tscn"
+esc_type="*res://globals/escoria_types.gd"
 
 [display]
 
