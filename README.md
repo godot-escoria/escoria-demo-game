@@ -46,7 +46,7 @@ as described in the LICENSE.md file.
 
 ### Art credits
 
-- [Dan Griffin-Hayes](dangriffinhayes.com) - Cartoon characters and objects vector pack,
+- [Dan Griffin-Hayes](http://dangriffinhayes.com) - Cartoon characters and objects vector pack,
 License CC0, [distributed on OpenGameArt](http://opengameart.org/content/cartoon-characters-and-objects-vector-pack)
-- [Clint Bellanger](clintbellanger.net) - Recycle items set, License CC BY 3.0,
+- [Clint Bellanger](http://clintbellanger.net) - Recycle items set, License CC BY 3.0,
 [distributed on OpenGameArt](http://opengameart.org/content/recycle-items-set)
