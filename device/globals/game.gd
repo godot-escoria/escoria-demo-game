@@ -357,29 +357,26 @@ func set_inventory_enabled(p_enabled):
 
 func set_camera_limits():
 	var cam_limit = camera_limits
-	if camera_limits.size.x == 0 && camera_limits.size.y == 0:
-		var p = get_parent()
+	if camera_limits.size.x == 0 and camera_limits.size.y == 0:
 		var area = Rect2()
-		for i in range(0, p.get_child_count()):
-			var c = p.get_child(i)
-			if c is esc_type.BACKGROUND:
-				var pos = c.get_global_position()
-				var size = c.get_size()
+		for child in get_parent().get_children():
+			if child is esc_type.BACKGROUND:
+				var pos = child.get_global_position()
+				var size = child.get_size()
 				area = area.expand(pos)
 				area = area.expand(pos + size)
-			if c is esc_type.BACKGROUND_AREA:
-				var pos = c.get_global_position()
-				var size = c.get_texture().get_size()
+			if child is esc_type.BACKGROUND_AREA:
+				var pos = child.get_global_position()
+				var size = child.get_texture().get_size()
 				area = area.expand(pos)
 				area = area.expand(pos + size)
 
 		camera.limit_left = area.position.x
 		camera.limit_right = area.position.x + area.size.x
-		var cam_top = area.position.y # - main.screen_ofs.y
-		camera.limit_top = cam_top
-		camera.limit_top = cam_top + area.size.y + main.screen_ofs.y * 2
+		camera.limit_top = area.position.y
+		camera.limit_bottom = area.position.y + area.size.y
 
-		if area.size.x == 0 || area.size.y == 0:
+		if area.size.x == 0 or area.size.y == 0:
 			printt("No limit area! Using viewport")
 			area.size = get_viewport().size
 

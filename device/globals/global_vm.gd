@@ -161,56 +161,20 @@ func update_camera(time):
 			pos = cpos + v.normalized() * step
 			camera.set_position(pos)
 
-	var half = game_size / 2
-
-	var clamp_data = _clamp_camera(pos, half)
-	var camera_clamped = clamp_data[0]
-	pos = clamp_data[1]
-
-	var t = Transform2D()
-	t.origin = half - pos
-
-	if camera_clamped:
-		camera.set_position(pos)
-
-	get_node("/root").canvas_transform = t
-
 func camera_set_zoom_height(zoom_height):
 	var scale = game_size.y / zoom_height
 	camera_zoom_in(scale)
 
 func camera_zoom_in(magnitude):
-	var current_scene = main.get_current_scene()
-	if current_scene and current_scene is esc_type.SCENE:
+	if camera:
 		# Save current state so that we can reset zoom
-		_zoom_stack.append({"scale": current_scene.scale})
-		current_scene.scale *= Vector2(magnitude, magnitude)
+		_zoom_stack.append({"zoom": camera.zoom})
+		camera.zoom /= Vector2(magnitude, magnitude)
 
 func camera_zoom_out():
-	var current_scene = main.get_current_scene()
 	var prev_state = _zoom_stack.pop_back()
-	if current_scene and current_scene is esc_type.SCENE and prev_state:
-		current_scene.scale = prev_state["scale"]
-
-func _clamp_camera(pos, half):
-	# Helper function clamps camera within the given camera limits; if we try
-	# to show anything outside the limits, we return a position that doesn't break the limits.
-	# `half` is passed in because there's a good chance it gets altered when zoomed in
-	# Returns whether or not the camera was clamped and what the new position is regardless
-
-	var orig_pos = pos
-
-	if pos.x + half.x > camera_limits.position.x + camera_limits.size.x:
-		pos.x = (camera_limits.position.x + camera_limits.size.x) - half.x
-	if pos.x - half.x < camera_limits.position.x:
-		pos.x = camera_limits.position.x + half.x
-
-	if pos.y + half.y > camera_limits.position.y + camera_limits.size.y:
-		pos.y = (camera_limits.position.y + camera_limits.size.y) - half.y
-	if pos.y - half.y < camera_limits.position.y:
-		pos.y = camera_limits.position.y + half.y
-
-	return [orig_pos != pos, pos]
+	if camera and prev_state:
+		camera.zoom = prev_state["zoom"]
 
 func set_cam_limits(limits):
 	camera_limits = limits
@@ -695,7 +659,6 @@ func save():
 
 func set_camera(p_cam):
 	camera = p_cam
-	camera.clear_current()
 
 func clear():
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "game_cleared")

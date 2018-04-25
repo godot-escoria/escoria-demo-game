@@ -126,7 +126,7 @@ animations = null
 speed = 300
 scale_on_map = false
 light_on_map = false
-events_path = "res://demo/rooms/test/trigger1.esc"
+events_path = "res://demo/rooms/test/hotspot1.esc"
 global_id = "first_trigger"
 tooltip = "First trigger"
 
