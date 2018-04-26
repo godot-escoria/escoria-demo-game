@@ -3,10 +3,10 @@ extends MainLoop
 func _iteration(time):
 	return true
 
-
 func get_input_files(argv):
 
 	var list = []
+
 	if "-esc" in argv:
 		for i in range(argv.size()):
 			if argv[i] == "-esc":
@@ -76,7 +76,6 @@ func get_token(line, p_from):
 			tk_end += 1
 	return tk_end
 
-
 func process_file(path, ids):
 
 	printt("process file ", path)
@@ -88,7 +87,7 @@ func process_file(path, ids):
 		return
 
 	var fo = File.new()
-	var tmp_dst = "esc_tmp_" + str(OS.get_process_ID())
+	var tmp_dst = "esc_tmp_" + str(OS.get_process_id())
 	fo.open(tmp_dst, File.WRITE)
 	if !fo.is_open():
 		print(" ** Failed opening temp file ", tmp_dst, " for ", path)
@@ -98,7 +97,7 @@ func process_file(path, ids):
 	var section = ""
 	var section_count = 0
 	var line_count = 0
-	var base = path.get_file().basename()
+	var base = path.get_file().get_basename()
 
 	ids._found.push_back(["file", base])
 
@@ -234,8 +233,6 @@ func add_to_ids(ids, id, text, path, line_count, args):
 	else:
 		ids._texts[text]["dialog"] = id
 
-
-
 func get_new_id(base, section, section_count, section_ids, args):
 	var r = base + "_" + section + "_" + str(section_count)
 	var count = 0
@@ -246,14 +243,11 @@ func get_new_id(base, section, section_count, section_ids, args):
 
 	return ret
 
-
 func find_section_ids(f):
 	var sec_ids = []
 
-	#printt("finding ids")
 	while !f.eof_reached():
 		var line = f.get_line()
-		#printt("line ", line)
 		if line == "":
 			continue
 
@@ -269,7 +263,6 @@ func find_section_ids(f):
 			if tk_end == -1:
 				break
 			var next = line.substr(from, tk_end - from)
-			#printt("next token ", next)
 			next = trim(next)
 			if next.find(":\"") != -1:
 				var sep = next.find(":")
@@ -278,7 +271,6 @@ func find_section_ids(f):
 
 			from = tk_end
 
-	#printt("done ", sec_ids)
 	return sec_ids
 
 func write_csv(out, ids):
@@ -329,14 +321,13 @@ func write_csv(out, ids):
 
 	f.close()
 
-
 func _initialize():
 
 	var argv = Array(OS.get_cmdline_args())
 	while argv.size():
 		var p = argv[0]
 		argv.remove(0)
-		if p == "-script":
+		if p in ["-s", "--script"]:
 			break
 
 	var out = "strings.csv"
@@ -352,6 +343,3 @@ func _initialize():
 		process_file(f, ids)
 
 	write_csv(out, ids)
-
-	pass
-
