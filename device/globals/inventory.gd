@@ -138,6 +138,7 @@ func _ready():
 	vm.connect("inventory_changed", self, "inventory_changed")
 	vm.connect("open_inventory", self, "_on_open_inventory_signal")
 	vm.connect("global_changed", self, "global_changed")
+	get_node("hide_inv").connect("pressed",self,"toggle")
 
 	page_size = get_node("slots").get_child_count()
 	sort_items()
@@ -163,3 +164,5 @@ func _ready():
 	add_to_group("game")
 
 	call_deferred("sort_items")
+
+

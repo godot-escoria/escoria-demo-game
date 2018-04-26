@@ -34,12 +34,24 @@ func _on_menu_pressed():
 		else:
 			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "ui_blocked")
 
-
 func menu_opened():
 	hide()
 
 func menu_closed():
 	show()
+
+func add_inv_reveal():
+	var reopen_inv = Control.new()
+	var inventory = get_node("inventory")
+	
+	add_child(reopen_inv)
+
+	reopen_inv.set_position(inventory.get_position())
+	reopen_inv.set_size(inventory.get_size())
+	reopen_inv.set_rotation_degrees(inventory.get_rotation_degrees())
+	reopen_inv.set_scale(inventory.get_scale())
+
+	reopen_inv.connect("mouse_entered",inventory,"open")
 
 func _ready():
 	add_to_group("hud")
@@ -48,3 +60,6 @@ func _ready():
 	# Hide verb menu if hud layer has an action menu
 	if has_node("../action_menu"):
 		$verb_menu.hide()
+
+	if has_node("inventory"):
+		add_inv_reveal()
