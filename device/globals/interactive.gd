@@ -76,10 +76,7 @@ func walk(pos, speed, context = null):
 
 func modulate(color):
 	for s in sprites:
-		#s.set_modulate(color)
-		#TODO
-		print("s.set_modulate(color)")
-
+		s.set_modulate(color)
 
 func _process(time):
 
@@ -120,6 +117,7 @@ func _process(time):
 
 		#pose_scale = animations.directions[last_dir+1]
 
+	if self is esc_type.ITEM:
 		_update_terrain()
 
 func _find_sprites(p = null):
