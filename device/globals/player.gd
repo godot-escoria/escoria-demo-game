@@ -312,7 +312,7 @@ func teleport_pos(x, y):
 	_update_terrain()
 
 func set_costume(costume):
-	var node = $costume
+	var node = get_node(costume)
 	# You can `set_costume default` with no animation by that name, and get "animation"
 	animation = node if node else $"animation"
 	assert(animation is AnimationPlayer)
