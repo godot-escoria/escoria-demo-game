@@ -280,7 +280,7 @@ func _update_terrain():
 		set_z_index(get_position().y)
 	if !scale_on_map && !light_on_map:
 		return
-	print("updating terrain!")
+
 	var pos = get_position()
 	var terrain = get_node("../terrain")
 	if terrain == null:
@@ -295,7 +295,6 @@ func _update_terrain():
 
 	if light_on_map:
 		var c = terrain.get_light(pos)
-		printt("lights on map! ", c)
 		modulate(c)
 
 func _check_bounds():
