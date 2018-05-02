@@ -267,9 +267,8 @@ func game_over(params):
 	return vm.state_yield
 
 func set_costume(params):
-	var player = vm.get_object("player")
-	if player:
-		player.set_costume(params[0])
+	var character = vm.get_object(params[0])
+	character.set_costume(params[1])
 
 ### end command
 

@@ -40,7 +40,7 @@ var commands = {
 	"queue_resource": { "min_args": 1, "types": [TYPE_STRING, TYPE_BOOL] },
 	"queue_animation": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING, TYPE_BOOL] },
 	"game_over": { "min_args": 1, "types": [TYPE_BOOL] },
-	"set_costume": { "min_args": 1, "types": [TYPE_STRING] },
+	"set_costume": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING] },
 }
 
 func check_command(cmd, state, errors):

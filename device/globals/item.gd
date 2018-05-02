@@ -342,7 +342,28 @@ func setup_ui_anim():
 		for bg in get_tree().get_nodes_in_group("background"):
 			bg.connect("right_click_on_bg",self,"hint_request")
 	vm.connect("global_changed", self, "global_changed")
-#
+
+func set_costume(costume):
+	var node = get_node(costume)
+
+	# Any value will default to this if there's a Sprite named sprite
+	if !node:
+		if has_node("sprite") and $"sprite" is Sprite:
+			node = $"sprite"
+
+	# Otherwise assume there's an "animation"
+	if !node:
+		node = $"animation"
+
+	if node is Sprite:
+		node.show()
+		for child in get_children():
+			if child is Sprite and child != node:
+				child.hide()
+	else:
+		assert(node is AnimationPlayer)
+		node.play(animations.idles[last_dir])
+
 func _ready():
 
 	if Engine.is_editor_hint():

@@ -169,6 +169,11 @@ set_globals i/* false
 - `sched_event time object event`
   Schedules the execution of an "event" found in "object" in a time in seconds. If another event is running at the time, execution starts when the running event ends.
 
+- `set_costume character costume`
+  Dress "character" in costume identified by "costume". The character can either be the player or an item. Players require an animation in the character's node with the given name, although "animation" is always the fallback when trying set a missing costume.
+
+  When changing the costume of an item, `Sprite` children have preference. If a missing name is given and there is a child by the name of "sprite" and type of `Sprite` (not `AnimatedSprite`!) it will be used. If your object is animated, use `AnimatedSprite` and refer to the `AnimationPlayer`.
+
 - `camera_set_pos speed x y`
   Moves the camera to a position defined by "x" and "y", at the speed defined by "speed" in pixels per second. If speed is 0, camera is teleported to the position.
 

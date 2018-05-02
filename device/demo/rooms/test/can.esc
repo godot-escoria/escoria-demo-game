@@ -10,4 +10,4 @@ say player "A can"
 
 :use
 
-set_costume hat
+set_costume player hat

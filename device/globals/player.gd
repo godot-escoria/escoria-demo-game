@@ -312,9 +312,10 @@ func teleport_pos(x, y):
 	_update_terrain()
 
 func set_costume(costume):
-	var node = get_node(costume)
-	# TODO: Might want to run some sanity checks on 'node'
-	animation = node if node else get_node("animation")
+	var node = $costume
+	# You can `set_costume default` with no animation by that name, and get "animation"
+	animation = node if node else $"animation"
+	assert(animation is AnimationPlayer)
 	animation.play(animations.idles[last_dir])
 
 func _find_sprites(p = null):
