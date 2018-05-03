@@ -1,0 +1,5 @@
+:use
+set_state floppy saving
+autosave
+wait 1.2
+set_state floppy default
