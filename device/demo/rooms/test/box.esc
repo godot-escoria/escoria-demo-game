@@ -27,9 +27,9 @@
 
 :talk
 > [!box_inverted]
-	set_costume box inverted
+	set_state box inverted
 	set_global box_inverted true
 	stop
 > [box_inverted]
-	set_costume box default
+	set_state box default
 	set_global box_inverted false

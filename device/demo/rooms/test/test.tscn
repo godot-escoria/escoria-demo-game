@@ -43,7 +43,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_lock_": true
 }
-events_path = "res://demo/rooms/test/test.esc"
+events_path = ""
 
 [node name="background" type="Sprite" parent="." index="0"]
 
@@ -237,6 +237,9 @@ position = Vector2( 7.19824, 124.934 )
 [node name="floppy" parent="." index="10" instance=ExtResource( 14 )]
 
 position = Vector2( 67.0833, 388.125 )
+placeholders = {
+
+}
 
 [node name="interact_pos" type="Position2D" parent="floppy" index="3"]
 

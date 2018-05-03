@@ -114,7 +114,11 @@ set_globals i/* false
 ```
 
 - `set_state object state`
-  Changes the state of an object, and executes the state animation if present.
+  Changes the state of an object, and executes the state animation if present. The command can be used to change the appearance of an item or a player character.
+
+When used on a player object, the command is used to dress the player in a costume identified by the state parameter. An `AnimationPlayer` with the given parameter should be a child of the player node, although one named "animation" is always the fallback when trying set a missing costume.
+
+Items can also change state by playing animations from an `AnimationPlayer` named "animation". The `AnimationPlayer` is typically used to change the texture of a `Sprite` node, but it's also possible to add additional tracks for changing the tooltip and other properties of the item scene. By using keyframes and looping, any given state can also use multiple textures to bring more life to the item.
 
 - `say object text [type] [avatar]`
   Runs the specified string as a dialog said by the object. Blocks execution until the dialog finishes playing. Optional parameters:
@@ -168,19 +172,6 @@ set_globals i/* false
 
 - `sched_event time object event`
   Schedules the execution of an "event" found in "object" in a time in seconds. If another event is running at the time, execution starts when the running event ends.
-
-- `set_costume character costume`
-  Dress "character" in costume identified by "costume". The character can either be the player or an item. Players require an animation in the character's node with the given name, although "animation" is always the fallback when trying set a missing costume.
-
-  When changing the costume of an item, `Sprite` children have preference. If a missing name is given and there is a child by the name of "sprite" and type of `Sprite` (not `AnimatedSprite`!) it will be used. If your object is animated, use `AnimatedSprite` and refer to the `AnimationPlayer`.
-
-  To use with save games or loading scenes, you need globals to set the costume at the top of `:ready`:
-
-  ```
-  :ready
-  set_costume player hat [player_wears_hat]
-  set_costume player default [!player_wears_hat]
-  ```
 
 - `camera_set_pos speed x y`
   Moves the camera to a position defined by "x" and "y", at the speed defined by "speed" in pixels per second. If speed is 0, camera is teleported to the position.

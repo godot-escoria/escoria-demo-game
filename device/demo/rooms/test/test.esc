@@ -1,5 +1,0 @@
-:ready
-set_costume player hat [player_wears_hat]
-set_costume player default [!player_wears_hat]
-set_costume box default [!box_inverted]
-set_costume box inverted [box_inverted]

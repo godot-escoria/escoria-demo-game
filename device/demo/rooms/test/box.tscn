@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://globals/item.gd" type="Script" id=1]
 [ext_resource path="res://demo/rooms/test/box.png" type="Texture" id=2]
@@ -36,6 +36,37 @@ tracks/1/keys = {
 "values": [ "Box" ]
 }
 
+[sub_resource type="Animation" id=3]
+
+resource_name = "inverted"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 3 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:tooltip")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "Inverted box" ]
+}
+
 [sub_resource type="Animation" id=2]
 
 resource_name = "newspaper"
@@ -67,7 +98,7 @@ tracks/1/keys = {
 "values": [ "Newspapers" ]
 }
 
-[node name="box" type="Node2D"]
+[node name="box" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 animations = null
@@ -94,12 +125,7 @@ use_custom_z = false
 
 texture = ExtResource( 2 )
 
-[node name="inverted" type="Sprite" parent="." index="1"]
-
-visible = false
-texture = ExtResource( 3 )
-
-[node name="animation" type="AnimationPlayer" parent="." index="2"]
+[node name="animation" type="AnimationPlayer" parent="." index="1"]
 
 root_node = NodePath("..")
 autoplay = ""
@@ -107,10 +133,11 @@ playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
 anims/default = SubResource( 1 )
+anims/inverted = SubResource( 3 )
 anims/newspaper = SubResource( 2 )
 blend_times = [  ]
 
-[node name="area" type="Control" parent="." index="3"]
+[node name="area" type="Control" parent="." index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0

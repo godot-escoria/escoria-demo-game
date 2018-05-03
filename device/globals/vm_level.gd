@@ -266,10 +266,6 @@ func game_over(params):
 	current_context.waiting = true
 	return vm.state_yield
 
-func set_costume(params):
-	var character = vm.get_object(params[0])
-	character.set_costume(params[1])
-
 ### end command
 
 func run(context):

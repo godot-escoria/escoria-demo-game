@@ -9,5 +9,4 @@ set_active can false
 say player "A can"
 
 :use
-set_costume player hat
-set_global player_wears_hat true
+set_state player hat
