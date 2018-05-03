@@ -174,6 +174,14 @@ set_globals i/* false
 
   When changing the costume of an item, `Sprite` children have preference. If a missing name is given and there is a child by the name of "sprite" and type of `Sprite` (not `AnimatedSprite`!) it will be used. If your object is animated, use `AnimatedSprite` and refer to the `AnimationPlayer`.
 
+  To use with save games or loading scenes, you need globals to set the costume at the top of `:ready`:
+
+  ```
+  :ready
+  set_costume player hat [player_wears_hat]
+  set_costume player default [!player_wears_hat]
+  ```
+
 - `camera_set_pos speed x y`
   Moves the camera to a position defined by "x" and "y", at the speed defined by "speed" in pixels per second. If speed is 0, camera is teleported to the position.
 

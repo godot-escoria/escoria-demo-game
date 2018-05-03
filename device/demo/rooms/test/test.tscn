@@ -43,7 +43,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_lock_": true
 }
-events_path = ""
+events_path = "res://demo/rooms/test/test.esc"
 
 [node name="background" type="Sprite" parent="." index="0"]
 
