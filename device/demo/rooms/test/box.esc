@@ -25,4 +25,11 @@
 	set_state box newspaper
 	say player "There was a newspaper inside it"
 
-
+:talk
+> [!box_inverted]
+	set_costume box inverted
+	set_global box_inverted true
+	stop
+> [box_inverted]
+	set_costume box default
+	set_global box_inverted false

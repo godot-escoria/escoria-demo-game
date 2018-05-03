@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://globals/item.gd" type="Script" id=1]
 [ext_resource path="res://demo/rooms/test/box.png" type="Texture" id=2]
-[ext_resource path="res://demo/rooms/test/newspaper.png" type="Texture" id=3]
+[ext_resource path="res://demo/rooms/test/box_inverted.png" type="Texture" id=3]
+[ext_resource path="res://demo/rooms/test/newspaper.png" type="Texture" id=4]
 
 [sub_resource type="Animation" id=1]
 
@@ -13,7 +14,9 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:texture")
 tracks/0/interp = 1
+tracks/0/loop_wrap = true
 tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
@@ -23,7 +26,9 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:tooltip")
 tracks/1/interp = 1
+tracks/1/loop_wrap = true
 tracks/1/imported = false
+tracks/1/enabled = true
 tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
@@ -40,17 +45,21 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:texture")
 tracks/0/interp = 1
+tracks/0/loop_wrap = true
 tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 3 ) ]
+"values": [ ExtResource( 4 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:tooltip")
 tracks/1/interp = 1
+tracks/1/loop_wrap = true
 tracks/1/imported = false
+tracks/1/enabled = true
 tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
@@ -73,35 +82,49 @@ use_combine = false
 inventory = false
 use_action_menu = true
 interact_angle = -1
+dialog_color = null
 talk_animation = "talk"
 active = true
 placeholders = {
 
 }
+use_custom_z = false
 
-[node name="sprite" type="Sprite" parent="."]
+[node name="sprite" type="Sprite" parent="." index="0"]
 
 texture = ExtResource( 2 )
 
-[node name="animation" type="AnimationPlayer" parent="."]
+[node name="inverted" type="Sprite" parent="." index="1"]
 
+visible = false
+texture = ExtResource( 3 )
+
+[node name="animation" type="AnimationPlayer" parent="." index="2"]
+
+root_node = NodePath("..")
+autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
-root_node = NodePath("..")
+playback_speed = 1.0
 anims/default = SubResource( 1 )
 anims/newspaper = SubResource( 2 )
-playback/active = true
-playback/speed = 1.0
 blend_times = [  ]
-autoplay = ""
 
-[node name="area" type="Control" parent="."]
+[node name="area" type="Control" parent="." index="3"]
 
-focus_ignore_mouse = false
-focus_stop_mouse = true
-size_flags_horizontal = 2
-size_flags_vertical = 2
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = -28.0
 margin_top = -23.0
 margin_right = 28.0
 margin_bottom = 23.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+
+
