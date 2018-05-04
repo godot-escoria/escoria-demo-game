@@ -114,7 +114,11 @@ set_globals i/* false
 ```
 
 - `set_state object state`
-  Changes the state of an object, and executes the state animation if present.
+  Changes the state of an object, and executes the state animation if present. The command can be used to change the appearance of an item or a player character.
+
+When used on a player object, the command is used to dress the player in a costume identified by the state parameter. An `AnimationPlayer` with the given parameter should be a child of the player node, although one named "animation" is always the fallback when trying set a missing costume.
+
+Items can also change state by playing animations from an `AnimationPlayer` named "animation". The `AnimationPlayer` is typically used to change the texture of a `Sprite` node, but it's also possible to add additional tracks for changing the tooltip and other properties of the item scene. By using keyframes and looping, any given state can also use multiple textures to bring more life to the item.
 
 - `say object text [type] [avatar]`
   Runs the specified string as a dialog said by the object. Blocks execution until the dialog finishes playing. Optional parameters:

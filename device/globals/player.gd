@@ -304,13 +304,16 @@ func teleport(obj):
 	set_position(pos)
 	_update_terrain()
 
-func set_state(name):
-	pass
+func set_state(costume):
+	var node = get_node(costume)
+	# You can `set_state player default` with no animation by that name, and get "animation"
+	animation = node if node else $"animation"
+	assert(animation is AnimationPlayer)
+	animation.play(animations.idles[last_dir])
 
 func teleport_pos(x, y):
 	set_position(Vector2(x, y))
 	_update_terrain()
-
 
 func _find_sprites(p = null):
 	if p is Sprite || p is AnimatedSprite:

@@ -342,7 +342,7 @@ func setup_ui_anim():
 		for bg in get_tree().get_nodes_in_group("background"):
 			bg.connect("right_click_on_bg",self,"hint_request")
 	vm.connect("global_changed", self, "global_changed")
-#
+
 func _ready():
 
 	if Engine.is_editor_hint():
