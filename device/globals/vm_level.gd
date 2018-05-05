@@ -213,16 +213,15 @@ func camera_set_pos(params):
 	var pos = Vector2(params[1], params[2])
 	vm.camera_set_target(speed, pos)
 
-func camera_set_zoom_height(params):
-	var height = params[0]
-	vm.camera_set_zoom_height(height)
-
-func camera_zoom_in(params):
+func camera_set_zoom(params):
 	var magnitude = params[0]
-	vm.camera_zoom_in(magnitude)
+	var time = params[1] if params.size() > 1 else 0
+	vm.camera_set_zoom(magnitude, float(time))
 
-func camera_zoom_out(params):
-	vm.camera_zoom_out()
+func camera_set_zoom_height(params):
+	var magnitude = params[0] / vm.game_size.y
+	var time = params[1] if params.size() > 1 else 0
+	vm.camera_set_zoom(magnitude, float(time))
 
 func set_globals(params):
 	var pat = params[0]

@@ -179,6 +179,12 @@ Items can also change state by playing animations from an `AnimationPlayer` name
 - `camera_set_target speed object [object2 object3 ...]`
   Configures the camera to follow 1 or more objects, using "speed" as speed limit. This is the default behavior (default follow object is "player"). If there's more than 1 object, the camera follows the average position of all the objects specified.
 
+-`camera_set_zoom magnitude [time]`
+  Zooms the camera in/out to the desired magnitude. Values larger than 1 zooms the camera out, and smaller values zooms in, relative to the default value of 1. An optional time in seconds controls how long it takes for the camera to zoom into position.
+
+-`camera_set_zoom_height pixels [time]`
+  Similar to the command above, but uses pixel height instead of magnitude to zoom.
+
 - `queue_resource path front_of_queue`
   Queues the load of a resource in a background thread. The path must be a full path inside your game, for example "res://scenes/next_scene.tscn". The "front_of_queue" parameter is optional (default value false), to put the resource in the front of the queue. Queued resources are cleared when a change scene happens (but after the scene is loaded, meaning you can queue resources that belong to the next scene).
 

@@ -58,7 +58,6 @@ enabled = true
 position = Vector2( 1735.14, 1210.67 )
 z_index = 1210
 _sections_unfolded = [ "Transform" ]
-dialog_color = null
 placeholders = {
 
 }
@@ -235,7 +234,7 @@ scroll_base_offset = Vector2( 0, 0 )
 scroll_base_scale = Vector2( 1, 1 )
 scroll_limit_begin = Vector2( 0, 0 )
 scroll_limit_end = Vector2( 0, 0 )
-scroll_ignore_camera_zoom = true
+scroll_ignore_camera_zoom = false
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground" index="0"]
 
