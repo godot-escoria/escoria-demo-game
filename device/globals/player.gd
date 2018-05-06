@@ -143,8 +143,8 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 
 func interact(p_params):
 	var pos
-	if p_params[0].has_node("interact_pos"):
-		pos = p_params[0].get_node("interact_pos").get_global_position()
+	if p_params[0].has_method("get_interact_pos"):
+		pos = p_params[0].get_interact_pos()
 	else:
 		pos = p_params[0].get_global_position()
 	if !telekinetic && get_global_position().distance_to(pos) > 10:
@@ -296,8 +296,8 @@ func teleport(obj):
 		pose_scale = animations.idles[last_dir + 1]
 
 	var pos
-	if obj.has_node("interact_pos"):
-		pos = obj.get_node("interact_pos").get_global_position()
+	if obj.has_method("get_interact_pos"):
+		pos = obj.get_interact_pos()
 	else:
 		pos = obj.get_global_position()
 

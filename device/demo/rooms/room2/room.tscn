@@ -103,6 +103,7 @@ use_combine = false
 inventory = false
 use_action_menu = true
 interact_angle = -1
+interact_position = null
 dialog_color = null
 talk_animation = "talk"
 active = true
@@ -186,6 +187,7 @@ use_combine = false
 inventory = false
 use_action_menu = true
 interact_angle = -1
+interact_position = null
 dialog_color = null
 talk_animation = "talk"
 active = true
@@ -263,7 +265,6 @@ shortcut = null
 group = null
 texture_click_mask = ExtResource( 8 )
 script = ExtResource( 6 )
-_sections_unfolded = [ "Rect" ]
 __meta__ = {
 "_edit_lock_": true
 }
@@ -279,6 +280,7 @@ use_combine = false
 inventory = false
 use_action_menu = true
 interact_angle = -1
+interact_position = null
 dialog_color = null
 talk_animation = "talk"
 active = true
@@ -287,7 +289,11 @@ placeholders = {
 }
 use_custom_z = false
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="." index="6"]
+[node name="sun_interact_pos" type="Position2D" parent="." index="6"]
+
+position = Vector2( 1800, 1200 )
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="." index="7"]
 
 layer = -1
 offset = Vector2( 0, 0 )
@@ -357,6 +363,7 @@ use_combine = false
 inventory = false
 use_action_menu = true
 interact_angle = -1
+interact_position = NodePath("../../../sun_interact_pos")
 dialog_color = null
 talk_animation = "talk"
 active = true
@@ -365,6 +372,6 @@ placeholders = {
 }
 use_custom_z = false
 
-[node name="game" parent="." index="7" instance=ExtResource( 11 )]
+[node name="game" parent="." index="8" instance=ExtResource( 11 )]
 
 
