@@ -66,8 +66,8 @@ var scenes_cache = {} # this will eventually have everything in scenes_cache_lis
 
 var settings
 
-# Keep previous states on a stack to revert zoom
-var _zoom_stack = []
+var zoom_target
+var zoom_step
 
 func save_settings():
 	save_data.save_settings(settings, null)
@@ -161,20 +161,14 @@ func update_camera(time):
 			pos = cpos + v.normalized() * step
 			camera.set_position(pos)
 
-func camera_set_zoom_height(zoom_height):
-	var scale = game_size.y / zoom_height
-	camera_zoom_in(scale)
-
-func camera_zoom_in(magnitude):
-	if camera:
-		# Save current state so that we can reset zoom
-		_zoom_stack.append({"zoom": camera.zoom})
-		camera.zoom /= Vector2(magnitude, magnitude)
-
-func camera_zoom_out():
-	var prev_state = _zoom_stack.pop_back()
-	if camera and prev_state:
-		camera.zoom = prev_state["zoom"]
+	if zoom_target:
+		var step = zoom_step * time
+		var diff = camera.zoom - zoom_target
+		if step.length() > diff.length():
+			camera.zoom = zoom_target
+			zoom_target = null
+		else:
+			camera.zoom += step
 
 func set_cam_limits(limits):
 	camera_limits = limits
@@ -182,6 +176,11 @@ func set_cam_limits(limits):
 func camera_set_target(speed, p_target):
 	cam_speed = speed
 	cam_target = p_target
+
+func camera_set_zoom(zoom_level, time):
+	zoom_target = Vector2(1, 1) * zoom_level
+	# Calculate magnitude to zoom per second
+	zoom_step = (zoom_target - camera.zoom) / time
 
 func inventory_has(p_obj):
 	return get_global("i/"+p_obj)

@@ -1,2 +1,14 @@
 :use
-camera_zoom_out
+
+dec_global zoom_level 1
+# Constrain zoom_level
+set_global zoom_level 0 [lt zoom_level 0]
+
+> [gt zoom_level 1]
+ camera_set_zoom 0.5 1
+ stop
+> [gt zoom_level 0]
+ camera_set_zoom 0.75 1
+ stop
+>
+ camera_set_zoom 1 1
