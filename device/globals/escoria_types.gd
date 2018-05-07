@@ -9,3 +9,5 @@ const BACKGROUND = preload("res://globals/background.gd")
 const BACKGROUND_AREA = preload("res://globals/background_area.gd")
 const PLAYER = preload("res://globals/player.gd")
 const SCENE = preload("res://globals/scene.gd")
+
+const PLUGIN_ANIMATION = "Animation"

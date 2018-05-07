@@ -38,7 +38,6 @@ width = 2048
 render_priority = 0
 
 [node name="scene" type="Node2D" index="0"]
-
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_lock_": true
@@ -46,14 +45,12 @@ __meta__ = {
 events_path = ""
 
 [node name="background" type="Sprite" parent="." index="0"]
-
 texture = ExtResource( 2 )
 centered = false
 script = ExtResource( 3 )
 action = "walk"
 
 [node name="terrain" type="Navigation2D" parent="." index="1"]
-
 position = Vector2( -65.0709, 373.302 )
 script = ExtResource( 4 )
 _sections_unfolded = [ "Transform", "Z" ]
@@ -68,22 +65,16 @@ player_speed_multiplier = 1.0
 player_doubleclick_speed_multiplier = 1.5
 
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="terrain" index="0"]
-
 position = Vector2( -69.3894, -553.208 )
 navpoly = SubResource( 1 )
 enabled = true
 
 [node name="player" parent="." index="2" instance=ExtResource( 7 )]
-
 position = Vector2( 742.426, 415.054 )
 z_index = 415
 _sections_unfolded = [ "Transform" ]
-placeholders = {
-
-}
 
 [node name="exit1" type="TextureRect" parent="." index="3"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -112,7 +103,6 @@ global_id = "first_exit"
 tooltip = "First exit"
 
 [node name="trigger1" type="Area2D" parent="." index="4"]
-
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -131,14 +121,12 @@ global_id = "first_trigger"
 tooltip = "First trigger"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="trigger1" index="0"]
-
 position = Vector2( 858.008, 414.05 )
 scale = Vector2( 3.7345, 3.00525 )
 build_mode = 0
 polygon = PoolVector2Array( -11.2083, -10.6006, 9.81654, -9.69969, 9.33321, 9.82031, -9.27502, 9.52 )
 
 [node name="exit2" type="Area2D" parent="." index="5"]
-
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -156,14 +144,12 @@ global_id = "second_exit"
 tooltip = "Second exit"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="exit2" index="0"]
-
 material = SubResource( 4 )
 build_mode = 0
 polygon = PoolVector2Array( 372.508, 392.173, 296.246, 442.437, 373.375, 476.235, 426.239, 420.771, 426.239, 360.108, 377.708, 386.973 )
 _sections_unfolded = [ "Material" ]
 
 [node name="ice_cream" parent="." index="6" instance=ExtResource( 10 )]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -176,23 +162,27 @@ rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
+interact_position = null
 dialog_color = null
+placeholders = {
+
+}
 use_custom_z = false
 
 [node name="interact_pos" type="Position2D" parent="ice_cream" index="0"]
-
 position = Vector2( -5.05936, 96.9224 )
 
 [node name="box" parent="." index="7" instance=ExtResource( 11 )]
-
 position = Vector2( 945.535, 381.07 )
+interact_position = null
+placeholders = {
+
+}
 
 [node name="interact_pos" type="Position2D" parent="box" index="3"]
-
 position = Vector2( -53.8209, 46.6584 )
 
 [node name="can" parent="." index="8" instance=ExtResource( 12 )]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -206,15 +196,17 @@ rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
 action = ""
+interact_position = null
 dialog_color = null
+placeholders = {
+
+}
 use_custom_z = false
 
 [node name="interact_pos" type="Position2D" parent="can" index="0"]
-
 position = Vector2( 57.6177, 60.9417 )
 
 [node name="chainsaw" parent="." index="9" instance=ExtResource( 13 )]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -227,25 +219,26 @@ rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
+interact_position = null
 dialog_color = null
+placeholders = {
+
+}
 use_custom_z = false
 
 [node name="interact_pos" type="Position2D" parent="chainsaw" index="0"]
-
 position = Vector2( 7.19824, 124.934 )
 
 [node name="floppy" parent="." index="10" instance=ExtResource( 14 )]
-
 position = Vector2( 67.0833, 388.125 )
+interact_position = null
 placeholders = {
 
 }
 
 [node name="interact_pos" type="Position2D" parent="floppy" index="3"]
-
 position = Vector2( 73.3036, 34.9703 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="game" parent="." index="11" instance=ExtResource( 15 )]
-
 

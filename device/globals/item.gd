@@ -181,6 +181,31 @@ func global_changed(name):
 	elif "global_changed" in event_table:
 		run_event(event_table.global_changed)
 
+func _animation_play(args):
+	if !animation:
+		return
+	assert(typeof(args) == TYPE_DICTIONARY)
+
+	if animation is AnimatedSprite or animation is AnimationPlayer:
+		# play(String name=”“, float custom_blend=-1, float custom_speed=1.0, bool from_end=false)
+		var name = args["name"]
+		var custom_blend = args["custom_blend"] if args.has("custom_blend") else -1
+		var custom_speed = args["custom_speed"] if args.has("custom_speed") else 1.0
+		var from_end = args["from_end"] if args.has("from_end") else false
+
+		animation.play(name, custom_blend, custom_speed, from_end)
+	else:
+		for plugin in main.plugins[esc_type.PLUGIN_ANIMATION]:
+			plugin._play_animation(animation, last_dir, args)
+		
+
+func _animation_get_current_animation():
+	if !animation:
+		return
+	return animation.get_current_animation()
+
+
+
 func anim_get_ph_paths(p_anim):
 	if !(p_anim in placeholders):
 		return null
@@ -195,10 +220,8 @@ func anim_get_ph_paths(p_anim):
 
 func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 
-	if p_notify == null && (!has_node("animation") || !get_node("animation").has_animation(p_anim)):
-		print("skipping cut scene '", p_anim, "'")
+	if p_notify == null && (!animation || !animation.has_animation(p_anim)):
 		vm.finished(p_notify)
-		#_debug_states()
 		return
 
 	if p_anim in placeholders:
@@ -219,12 +242,12 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 		anim_scale_override = null
 
 	if p_reverse:
-		get_node("animation").play(p_anim, -1, -1, true)
+		_animation_play({"name": p_anim, "custom_blend": -1, "custom_speed": -1.0, "from_end": true})
 	else:
-		get_node("animation").play(p_anim)
+		_animation_play({"name": p_anim})
+		
 	anim_notify = p_notify
 
-	#_debug_states()
 
 
 func set_speaking(p_speaking):
@@ -235,14 +258,11 @@ func set_speaking(p_speaking):
 	if talk_animation == "":
 		return
 	if p_speaking:
-		if get_node("animation").has_animation(talk_animation):
-			get_node("animation").play(talk_animation)
-			get_node("animation").seek(0, true)
-		#else:
-		#	set_state(state, true)
+		if animation.has_animation(talk_animation):
+			_animation_play({"name": talk_animation})
 	else:
-		if get_node("animation").is_playing():
-			get_node("animation").stop()
+		if animation.is_playing():
+			animation.stop()
 		set_state(state, true)
 	pass
 
@@ -259,8 +279,10 @@ func set_state(p_state, p_force = false):
 		if animation.is_playing() && animation.get_current_animation() == p_state:
 			return
 		if animation.has_animation(p_state):
-			animation.play(p_state)
-
+			printt("playing animation ", p_state)
+			_animation_play({"name": p_state})
+#
+#
 func teleport(obj):
 	set_position(obj.get_global_pos())
 	_update_terrain()
@@ -359,16 +381,27 @@ func _ready():
 		event_table = vm.compile(events_path)
 	if global_id != "":
 		vm.register_object(global_id, self)
-	if has_node("animation"):
-		get_node("animation").connect("animation_finished", self, "anim_finished")
+	if animation:
+		if animation is AnimatedSprite or animation is AnimationPlayer:
+			animation.connect("animation_finished", self, "anim_finished")
+		else:
+			_plugin_connect_animation_finished_node(animation)
 
 	_check_focus(false, false)
 
 	call_deferred("setup_ui_anim")
-
 	call_deferred("_update_terrain")
 
 	if interact_position:
 		interact_pos = get_node(interact_position)
 	elif has_node("interact_pos"):
 		interact_pos = $"interact_pos"
+
+
+func _plugin_connect_animation_finished_node(animation_node):
+	if !main.plugins.has(esc_type.PLUGIN_ANIMATION):
+		return
+	
+	for plugin in main.plugins[esc_type.PLUGIN_ANIMATION]:
+		plugin._connect_animation_finished_node(animation_node, self, "anim_finished")
+	

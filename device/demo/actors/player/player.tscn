@@ -460,5 +460,3 @@ blend_times = [  ]
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="3"]
 
 shape = SubResource( 14 )
-
-

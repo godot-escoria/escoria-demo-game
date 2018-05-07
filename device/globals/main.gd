@@ -9,6 +9,7 @@ var menu_stack = []
 var vm_size = Vector2(0, 0)
 var game_size
 var screen_ofs = Vector2(0, 0)
+var plugins = {}
 
 func set_input_catch(p_catch):
 	telon.set_input_catch(p_catch)
@@ -134,10 +135,24 @@ func load_telon():
 	get_node("layers/telon/telon").replace_by_instance(tres)
 	telon = get_node("layers/telon/telon")
 
+# Load all Escoria plugins
+func load_plugins():
+	# all Escoria plugins are singletons
+	for c in get_node("/root").get_children():
+		if c.has_method("escoria_plugin_type"):
+			var plugin_type = c.escoria_plugin_type()
+			if !plugins.has(plugin_type):
+				plugins[plugin_type] = []
+			plugins[plugin_type].push_back(c)
+	return
+
+
 func _ready():
 
 	printt("main ready")
 #	get_node("/root").set_render_target_clear_on_new_frame(true)
+
+	load_plugins()
 
 	game_size = get_viewport().size
 
