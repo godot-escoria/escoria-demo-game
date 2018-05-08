@@ -121,7 +121,7 @@ func _process(time):
 		_update_terrain()
 
 func _find_sprites(p = null):
-	if p is Sprite || p is AnimatedSprite || p is TextureRect || p is TextureButton:
+	if p is Sprite || p is AnimatedSprite || p is TextureRect || p is TextureButton || p.get_class() == "Spine":
 		sprites.push_back(p)
 	for i in range(0, p.get_child_count()):
 		_find_sprites(p.get_child(i))
@@ -134,5 +134,6 @@ func _ready():
 
 	if Engine.is_editor_hint():
 		return
-	if has_node("animation"):
-		animation = get_node("animation")
+
+	animation = $"animation"
+

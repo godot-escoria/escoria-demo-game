@@ -5,6 +5,7 @@ extends KinematicBody2D
 var task
 var walk_destination
 var animation
+var animation_is_spine
 var vm  # A tool script cannot refer to singletons in Godot
 var terrain
 var walk_path
@@ -55,6 +56,14 @@ func walk(pos, speed, context = null):
 	walk_to(pos, context)
 
 func anim_finished(anim_name):
+	# Spine will call this with track_number instead of animation name,
+	# and only track 0 is supported
+
+	# This prevents Spine from breaking and restarting a loop, to
+	# avoid a glitch in the walk animation
+	if animation_is_spine and task == "walk":
+		return
+
 	if anim_notify != null:
 		vm.finished(anim_notify)
 		anim_notify = null
@@ -63,16 +72,21 @@ func anim_finished(anim_name):
 		set_scale(get_scale() * anim_scale_override)
 		anim_scale_override = null
 
-	animation.play(animations.idles[last_dir])
+	# Spine needs to add the idle animation to the queue, Godot would just play it
+	if !animation_is_spine:
+		_animation_play({"name": animations.idles[last_dir]})
+	else:
+		animation.add(animations.idles[last_dir], true)
+
 	pose_scale = animations.idles[last_dir + 1]
 	_update_terrain()
 
 func set_speaking(p_speaking):
 	if p_speaking:
-		animation.play(animations.speaks[last_dir])
+		_animation_play({"name": animations.speaks[last_dir]})
 		pose_scale = animations.speaks[last_dir + 1]
 	else:
-		animation.play(animations.idles[last_dir])
+		_animation_play({"name": animations.idles[last_dir], "loop": true})
 		pose_scale = animations.idles[last_dir + 1]
 	_update_terrain()
 
@@ -102,7 +116,7 @@ func anim_get_ph_paths(p_anim):
 	return ret
 
 func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
-	if p_notify != null && (!has_node("animation") || !get_node("animation").has_animation(p_anim)):
+	if p_notify != null && (!animation || !animation.has_animation(p_anim)):
 		vm.finished(p_notify)
 		return
 
@@ -116,7 +130,6 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 			node.replace_by_instance(res)
 			_find_sprites(get_node(npath))
 
-
 	pose_scale = 1
 	_update_terrain()
 	if p_flip != null:
@@ -127,10 +140,16 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 		anim_scale_override = null
 
 	if p_reverse:
-		get_node("animation").play(p_anim, -1, -1, true)
+		if animation_is_spine:
+			# Spine is too "advanced" to have a simple mechanism for reversing an animation
+			# https://github.com/EsotericSoftware/spine-runtimes/issues/203 probably related
+			printt("Not implemented")
+			assert(0)
+		_animation_play({"name": p_anim, "custom_blend": -1, "custom_speed": -1.0, "from_end": true})
 	else:
-		get_node("animation").play(p_anim)
-		#get_node("animation").seek(0, true)
+		_animation_play({"name": p_anim})
+		if animation_is_spine:
+			animation.add(animations.idles[last_dir], true)
 
 	anim_notify = p_notify
 	var dir = _find(p_anim, animations.directions, p_flip.x)
@@ -153,12 +172,13 @@ func interact(p_params):
 	else:
 		if animations.dir_angles.size() > 0 && p_params[0].interact_angle != -1:
 			last_dir = _get_dir_deg(p_params[0].interact_angle)
-			animation.play(animations.idles[last_dir])
+			_animation_play({"name": animations.idles[last_dir], "loop": true})
 			pose_scale = animations.idles[last_dir + 1]
 			_update_terrain()
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "interact", p_params)
 
 func walk_stop(pos):
+	printt("walk_stop at ", pos)
 	# Notify exits of stop position
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "exit", "stopped_at", pos)
 
@@ -169,15 +189,15 @@ func walk_stop(pos):
 	if typeof(params_queue) != typeof(null):
 		if animations.dir_angles.size() > 0 && params_queue[0].interact_angle != -1:
 			last_dir = _get_dir_deg(params_queue[0].interact_angle)
-			animation.play(animations.idles[last_dir])
+			_animation_play({"name": animations.idles[last_dir], "loop": true})
 			pose_scale = animations.idles[last_dir + 1]
 			_update_terrain()
 		else:
-			animation.play(animations.idles[last_dir])
+			_animation_play({"name": animations.idles[last_dir], "loop": true})
 			pose_scale = animations.idles[last_dir + 1]
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "interact", params_queue)
 	else:
-		animation.play(animations.idles[last_dir])
+		_animation_play({"name": animations.idles[last_dir], "loop": true})
 		pose_scale = animations.idles[last_dir + 1]
 	_update_terrain()
 	if walk_context != null:
@@ -244,6 +264,37 @@ func _update_terrain():
 	for s in sprites:
 		s.set_modulate(color)
 
+func _animation_play(args):
+	if !animation:
+		return
+
+	assert(typeof(args) == TYPE_DICTIONARY)
+
+	## Then tackle the hard part, though name must always be present
+	var name = args["name"]
+
+	if !animation_is_spine:
+		# play(String name=”“, float custom_blend=-1, float custom_speed=1.0, bool from_end=false)
+		var custom_blend = args["custom_blend"] if args.has("custom_blend") else -1
+		var custom_speed = args["custom_speed"] if args.has("custom_speed") else 1.0
+		var from_end = args["from_end"] if args.has("from_end") else false
+
+		animation.play(name, custom_blend, custom_speed, from_end)
+	else:
+		# play(const String &p_name, bool p_loop, int p_track, int p_delay)
+		var loop = args["loop"] if args.has("loop") else false
+		var track = args["track"] if args.has("track") else 0
+		var delay = args["delay"] if args.has("delay") else 0
+
+		animation.play(name, loop, track, delay)
+
+func _animation_get_current_animation():
+	if !animation:
+		return
+
+	# XXX: Spine defaults to track 0
+	return animation.get_current_animation()
+
 func _process(time):
 	if task == "walk":
 		var pos = get_position()
@@ -282,8 +333,10 @@ func _process(time):
 
 		last_dir = _get_dir(angle)
 
-		if animation.get_current_animation() != animations.directions[last_dir]:
-			animation.play(animations.directions[last_dir])
+		var current_animation = _animation_get_current_animation()
+
+		if current_animation != animations.directions[last_dir]:
+			_animation_play({"name": animations.directions[last_dir], "loop": true})
 		pose_scale = animations.directions[last_dir+1]
 
 	_update_terrain()
@@ -292,7 +345,7 @@ func _process(time):
 func teleport(obj):
 	if animations.dir_angles.size() > 0 && obj.interact_angle != -1:
 		last_dir = _get_dir(obj.interact_angle)
-		animation.play(animations.idles[last_dir])
+		_animation_play({"name": animations.idles[last_dir], "loop": true})
 		pose_scale = animations.idles[last_dir + 1]
 
 	var pos
@@ -316,7 +369,7 @@ func teleport_pos(x, y):
 	_update_terrain()
 
 func _find_sprites(p = null):
-	if p is Sprite || p is AnimatedSprite:
+	if p is Sprite || p is AnimatedSprite || p.get_class() == "Spine":
 		sprites.push_back(p)
 	for i in range(0, p.get_child_count()):
 		_find_sprites(p.get_child(i))
@@ -330,12 +383,19 @@ func _ready():
 	if Engine.is_editor_hint():
 		return
 
-	animation = get_node("animation")
+	animation = $"animation"
 	vm = $"/root/vm"
 	vm.register_object("player", self)
 	#_update_terrain();
-	if has_node("animation"):
-		get_node("animation").connect("animation_finished", self, "anim_finished")
+	if animation:
+		assert(animations)
+
+		# Spine support
+		animation_is_spine = animation.get_class() == "Spine"
+		if animation_is_spine:
+			animation.connect("animation_end", self, "anim_finished")
+		else:
+			animation.connect("animation_finished", self, "anim_finished")
 
 	last_scale = get_scale()
 	set_process(true)
