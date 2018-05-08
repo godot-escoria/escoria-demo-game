@@ -53,6 +53,9 @@ func anim_finished(anim_name):
 		anim_scale_override = null
 
 	var cur = animation.get_current_animation()
+
+	# `cur` is always "" for a finished animation,
+	# this forces the state to be reset and the animation played again
 	if cur != state:
 		set_state(state, true)
 
@@ -251,22 +254,20 @@ func set_speaking(p_speaking):
 	pass
 
 func set_state(p_state, p_force = false):
-	printt("set state ", "global_id: ", global_id, "state: ", state, "p_state: ", p_state, "p_force: ", p_force)
-	#print_stack()
 	if state == p_state && !p_force:
 		return
+
+	# printt("set state ", "global_id: ", global_id, "state: ", state, "p_state: ", p_state, "p_force: ", p_force)
+
 	if has_node("animation"):
 		get_node("animation").stop()
 	state = p_state
 	if animation != null:
-		printt("has animation", animation.has_animation(p_state))
 		if animation.is_playing() && animation.get_current_animation() == p_state:
 			return
 		if animation.has_animation(p_state):
-			printt("playing animation ", p_state)
 			animation.play(p_state)
-#
-#
+
 func teleport(obj):
 	set_position(obj.get_global_pos())
 	_update_terrain()
