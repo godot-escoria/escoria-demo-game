@@ -41,12 +41,6 @@ func find_esc(path, list):
 
 	d.list_dir_end()
 
-func join(p_arr):
-	if not p_arr:
-		return ""
-	var string = String(p_arr)
-	return string.substr(1, string.length()-2)
-
 func get_token(line, p_from):
 	while p_from < line.length():
 		if line[p_from] == " " || line[p_from] == "\t":
@@ -181,6 +175,8 @@ func process_file(path, ids):
 					line = line_new + "-" + line.right(tk_end)
 				elif next[0] == "#":
 					next += " " + line.right(tk_end)
+					# Comments may contain quotes. Double quote in accordance with RFC-4180.
+					next = next.replace("\"", "\"\"")
 					tk_end = line.length()
 
 				args.push_back(next)
@@ -303,19 +299,20 @@ func write_csv(out, ids):
 				f.store_string("\""+t.args[0]+"\",")
 
 			f.store_string("\"")
-			f.store_string(join(t.files))
-			f.store_string("\", ")
+			var tfiles = PoolStringArray(t.files)
+			f.store_string(tfiles.join(", "))
+			f.store_string("\",")
 
 			f.store_string("\"")
-			var tconflicts = []
+			var tconflicts = PoolStringArray([])
 			for tf in t.conflicts:
 				tconflicts.append(tf[0] + ":" + tf[1])
-			f.store_string(join(tconflicts))
+			f.store_string(tconflicts.join(", "))
 			f.store_string("\"")
 
 			if t.args.back()[0] == "#":
 				var comment = t.args.back().right(1).strip_edges()
-				f.store_string(", \"" + comment + "\"")
+				f.store_string(",\"" + comment + "\"")
 
 		f.store_string("\n")
 
