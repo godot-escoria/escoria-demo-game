@@ -41,13 +41,11 @@ func find_esc(path, list):
 
 	d.list_dir_end()
 
-func trim(p_str):
-	while p_str.length() && (p_str[0] == " " || p_str[0] == "\t"):
-		p_str = p_str.substr(1, p_str.length()-1)
-	while p_str.length() && (p_str[p_str.length()-1] == " " || p_str[p_str.length()-1] == "\t"):
-		p_str = p_str.substr(0, p_str.length()-1)
-
-	return p_str
+func join(p_arr):
+	if not p_arr:
+		return ""
+	var string = String(p_arr)
+	return string.substr(1, string.length()-2)
 
 func get_token(line, p_from):
 	while p_from < line.length():
@@ -142,7 +140,7 @@ func process_file(path, ids):
 					break
 
 				var next = line.substr(from, tk_end - from)
-				next = trim(next)
+				next = next.strip_edges()
 
 				if args.size() == 1 && args[0] == "*":
 					next = "\""+next+"\""
@@ -152,7 +150,7 @@ func process_file(path, ids):
 					# already has an id
 					var sep = next.find(":")
 					var id = next.substr(0, sep)
-					var text = next.substr(sep+1, next.length() - sep)
+					var text = next.right(sep+1)
 					text = text.substr(1, text.length()-2)
 
 					add_to_ids(ids, id, text, path, line_count, args)
@@ -174,13 +172,16 @@ func process_file(path, ids):
 					next = id + ":\"" + text + "\""
 					line_new = line_new + next
 					var tend = line_new.length()
-					line_new = line_new + line.substr(tk_end, line.length() - tk_end)
+					line_new = line_new + line.right(tk_end)
 					tk_end = tend
 
 					line = line_new
 				elif next == "*":
 					var line_new = line.substr(0, tk_end - 1)
-					line = line_new + "-" + line.substr(tk_end, line.length() - tk_end)
+					line = line_new + "-" + line.right(tk_end)
+				elif next[0] == "#":
+					next += " " + line.right(tk_end)
+					tk_end = line.length()
 
 				args.push_back(next)
 
@@ -200,12 +201,8 @@ func has_id(text, ids, args):
 		return null
 
 	if args[0] == "say":
-
 		if args[1] in ids._texts[text]:
 			return ids._texts[text][args[1]]
-		else:
-			return null
-
 	else: # match any
 		var key = ids._texts[text].keys()[0]
 		return ids._texts[text][key]
@@ -263,7 +260,7 @@ func find_section_ids(f):
 			if tk_end == -1:
 				break
 			var next = line.substr(from, tk_end - from)
-			next = trim(next)
+			next = next.strip_edges()
 			if next.find(":\"") != -1:
 				var sep = next.find(":")
 				var id = next.substr(0, sep)
@@ -306,14 +303,19 @@ func write_csv(out, ids):
 				f.store_string("\""+t.args[0]+"\",")
 
 			f.store_string("\"")
-			for tf in t.files:
-				f.store_string(tf+", ")
+			f.store_string(join(t.files))
 			f.store_string("\", ")
 
 			f.store_string("\"")
+			var tconflicts = []
 			for tf in t.conflicts:
-				f.store_string(tf[0] + ":" + tf[1] + ", ")
+				tconflicts.append(tf[0] + ":" + tf[1])
+			f.store_string(join(tconflicts))
 			f.store_string("\"")
+
+			if t.args.back()[0] == "#":
+				var comment = t.args.back().right(1).strip_edges()
+				f.store_string(", \"" + comment + "\"")
 
 		f.store_string("\n")
 
