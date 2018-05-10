@@ -24,7 +24,7 @@ func newgame_pressed():
 func start_new_game(p_confirm):
 	if !p_confirm:
 		return
-	vm.load_file("res://demo/game.esc")
+	vm.load_file(ProjectSettings.get_setting("escoria/platform/game_start_script"))
 
 func continue_pressed():
 	button_clicked()
