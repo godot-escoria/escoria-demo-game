@@ -45,6 +45,7 @@ platform/dialog_option_height=1
 platform/dialog_type_suffix=""
 platform/dialog_force_centered=false
 platform/development_lang="en"
+platform/game_start_script="res://demo/game.esc"
 platform/force_text_ids=false
 platform/force_disable_typewriter_text=false
 platform/force_quit=true
