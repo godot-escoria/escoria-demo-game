@@ -34,9 +34,7 @@ func close():
 	anim.play("close")
 
 func anim_finished(anim_name):
-	# TODO use parameter here?
-	var cur = anim.get_current_animation()
-	if cur == "close":
+	if anim_name == "close":
 		queue_free()
 
 func input(event):
