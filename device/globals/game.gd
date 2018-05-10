@@ -421,13 +421,14 @@ func load_hud():
 	get_node("hud_layer/hud").replace_by_instance(hres)
 
 	# Add inventory to hud layer, usually hud_minimal.tscn, if found in project settings
-	if !$hud_layer.has_node("inventory") and ProjectSettings.get_setting("escoria/ui/inventory"):
-		inventory = load(ProjectSettings.get_setting("escoria/ui/inventory")).instance()
-		if inventory and inventory is esc_type.INVENTORY:
-			inventory.hide()
-			$hud_layer.add_child(inventory)
-	else:
-		inventory = get_node("hud_layer/hud/inventory")
+	if inventory_enabled:
+		if !$hud_layer.has_node("inventory") and ProjectSettings.get_setting("escoria/ui/inventory"):
+			inventory = load(ProjectSettings.get_setting("escoria/ui/inventory")).instance()
+			if inventory and inventory is esc_type.INVENTORY:
+				inventory.hide()
+				$hud_layer.add_child(inventory)
+		else:
+			inventory = get_node("hud_layer/hud/inventory")
 
 	# Add action menu to hud layer if found in project settings
 	if ProjectSettings.get_setting("escoria/ui/action_menu"):
