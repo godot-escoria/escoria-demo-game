@@ -141,10 +141,13 @@ func _ready():
 
 	page_size = get_node("slots").get_child_count()
 	sort_items()
-	get_node("arrow_prev").connect("pressed", self, "change_page", [-1])
-	#get_node("arrow_left").set_focus_mode(Control.FOCUS_NONE)
-	get_node("arrow_next").connect("pressed", self, "change_page", [1])
-	#get_node("arrow_right").set_focus_mode(Control.FOCUS_NONE)
+
+	if has_node("arrow_prev"):
+		$"arrow_prev".connect("pressed", self, "change_page", [-1])
+
+	if has_node("arrow_next"):
+		$"arrow_next".connect("pressed", self, "change_page", [1])
+
 	var items = get_node("items")
 	for i in range(0, items.get_child_count()):
 		var c = items.get_child(i)
