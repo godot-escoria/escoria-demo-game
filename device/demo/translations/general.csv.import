@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+
+[deps]
+
+files=[ "res://demo/translations/general.en.translation", "res://demo/translations/general.fr.translation", "res://demo/translations/general.es.translation" ]
+
+source_file="res://demo/translations/general.csv"
+source_md5="4940c8ec7eb57f4c9207b3ba1528fb42"
+
+dest_files=[ "res://demo/translations/general.en.translation", "res://demo/translations/general.fr.translation", "res://demo/translations/general.es.translation" ]
+dest_md5="2684fd179a1edf7309832cb5d1b77462"
+
+[params]
+
+compress=true
+delimiter=0
