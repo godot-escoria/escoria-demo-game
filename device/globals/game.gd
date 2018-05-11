@@ -49,7 +49,7 @@ func mouse_enter(obj):
 				text = text.replace("%1", tr(tt))
 			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
 			vm.hover_begin(obj)
-	elif inventory:
+	else:
 		if current_action != "" && current_tool != null:
 			text = tr(current_action + ".combine_id")
 			text = text.replace("%2", tr(tt))
@@ -57,7 +57,7 @@ func mouse_enter(obj):
 		elif obj.inventory:
 			if !current_action:
 				text = tr(tt)
-			else:
+			elif inventory:
 				var action = inventory.get_action()
 				if action == "":
 					action = current_action
