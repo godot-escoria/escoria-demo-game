@@ -26,7 +26,7 @@ Here be dragons.
 
 ## Documentation
 
-This repository contains some basic documentation in the `doc` folder.
+This repository contains some basic documentation in the `docs` folder.
 
 An extensive manual named [*Creating Point and Click Games with Escoria*](https://fr.flossmanuals.net/creating-point-and-click-games-with-escoria/)
 was written during a booksprint by Ariel Manzur (@punto-), main developer of this framework,
