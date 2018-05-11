@@ -1,0 +1,18 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+path="res://.import/sun_click_mask.png-0040e2840cb1e2e542fd5e93f84d25db.res"
+
+[deps]
+
+source_file="res://demo/rooms/room2/sun_click_mask.png"
+source_md5="690ae246927cfa0ac0a184dd4e93faf4"
+
+dest_files=[ "res://.import/sun_click_mask.png-0040e2840cb1e2e542fd5e93f84d25db.res" ]
+dest_md5="452994bd0701f39db46cf66db1fd6e4b"
+
+[params]
+
+create_from=1
+threshold=0.5

@@ -1,5 +1,3 @@
-#tool
-
 extends "res://globals/interactive.gd"
 
 export var tooltip = ""
@@ -10,6 +8,7 @@ export var use_combine = false
 export var inventory = false
 export var use_action_menu = true
 export(int, -1, 360) var interact_angle = -1
+export(NodePath) var interact_position = null
 export(Color) var dialog_color = null
 export var talk_animation = "talk"
 export var active = true setget set_active,get_active
@@ -25,20 +24,14 @@ var event_table = {}
 
 var clicked = false
 
+var interact_pos
+
 func is_clicked():
 	return clicked
 
-#func _set(name, val):
-#	if name == "events_path":
-#		event_table = vm.compile(val)
-#		events_path = val
-#		return
-#	if name in self:
-#		self[name] = val
-
 func get_interact_pos():
-	if has_node("interact_pos"):
-		return get_node("interact_pos").get_global_position()
+	if interact_pos:
+		return interact_pos.get_global_position()
 	else:
 		return get_global_position()
 
@@ -374,3 +367,8 @@ func _ready():
 	call_deferred("setup_ui_anim")
 
 	call_deferred("_update_terrain")
+
+	if interact_position:
+		interact_pos = get_node(interact_position)
+	elif has_node("interact_pos"):
+		interact_pos = $"interact_pos"

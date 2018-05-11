@@ -1,0 +1,18 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+path="res://.import/mountain_click_mask.png-38d23638221e0b512b3a7e156a7df67d.res"
+
+[deps]
+
+source_file="res://demo/rooms/room2/mountain_click_mask.png"
+source_md5="b124a9f4bca9ef0b50d0009e8eaff287"
+
+dest_files=[ "res://.import/mountain_click_mask.png-38d23638221e0b512b3a7e156a7df67d.res" ]
+dest_md5="a71498c20e8fe2e85630345db75f4413"
+
+[params]
+
+create_from=1
+threshold=0.5

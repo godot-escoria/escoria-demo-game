@@ -174,8 +174,8 @@ func clicked(obj, pos, input_event = null):
 			if !ProjectSettings.get_setting("escoria/ui/right_mouse_button_action_menu"):
 				spawn_action_menu(obj)
 			else:
-				if obj.has_node("interact_pos"):
-					pos = obj.get_node("interact_pos").get_global_position()
+				if obj.has_method("get_interact_pos"):
+					pos = obj.get_interact_pos()
 				else:
 					pos = obj.get_global_position()
 				player.walk_to(pos, walk_context)
