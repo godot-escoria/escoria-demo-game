@@ -37,7 +37,7 @@ func mouse_enter(obj):
 		tooltip.set_position(pos)
 
 	# We must hide all non-inventory tooltips and interactions when the inventory is open
-	if action_menu and inventory.is_visible():
+	if action_menu and inventory and inventory.is_visible():
 		if obj.inventory:
 			if !current_action:
 				text = tr(tt)
@@ -49,7 +49,7 @@ func mouse_enter(obj):
 				text = text.replace("%1", tr(tt))
 			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
 			vm.hover_begin(obj)
-	else:
+	elif inventory:
 		if current_action != "" && current_tool != null:
 			text = tr(current_action + ".combine_id")
 			text = text.replace("%2", tr(tt))
