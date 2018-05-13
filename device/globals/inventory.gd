@@ -121,7 +121,7 @@ func look_toggled(pressed):
 func _input(event):
 	if !vm.can_interact():
 		return
-	if event.is_pressed() && event.is_action("inventory_toggle"):
+	if event.is_pressed() and event.is_action("inventory_toggle") and is_collapsible:
 		toggle()
 
 func log_button_pressed():
