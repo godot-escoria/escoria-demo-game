@@ -176,6 +176,8 @@ func walk_stop(pos):
 			animation.play(animations.idles[last_dir])
 			pose_scale = animations.idles[last_dir + 1]
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "interact", params_queue)
+		# Clear params queue to prevent the same action from being triggered again
+		params_queue = null
 	else:
 		animation.play(animations.idles[last_dir])
 		pose_scale = animations.idles[last_dir + 1]
