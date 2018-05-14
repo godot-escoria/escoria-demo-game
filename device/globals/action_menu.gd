@@ -12,7 +12,7 @@ func action_pressed(action):
 func target_visibility_changed():
 	stop()
 
-func check_clamp(click_pos, camera):
+func check_clamp(click_pos):
 	var my_size = get_size()
 	var vp_size = get_viewport().size
 
@@ -30,7 +30,7 @@ func check_clamp(click_pos, camera):
 	if dist_from_top < 0:
 		click_pos.y -= dist_from_top
 
-	return click_pos - get_size() / 2
+	return click_pos - my_size / 2
 
 func start(p_target):
 	if target != p_target:
