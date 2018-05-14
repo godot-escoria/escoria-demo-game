@@ -145,7 +145,7 @@ func init(p_params, p_context, p_intro, p_outro):
 
 	var parsed_ok = label.parse_bbcode(text)
 	assert(parsed_ok == OK)
-	label.bbcode_text = text
+	label.bbcode_text = "\n" + text
 	label.set_visible_characters(0)  # This length is always adjusted later
 
 	if self is Node2D:
