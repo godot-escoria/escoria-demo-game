@@ -52,13 +52,15 @@ func start(params, p_context):
 			var tid = text.substr(0, sep)
 			text = text.substr(sep + 2, text.length() - (sep + 2))
 
-			var ptext = TranslationServer.translate(tid)
-			if ptext != tid:
-				text = ptext
-			elif force_ids:
-				text = tid + " (" + text + ")"
+			if TranslationServer.get_locale() != ProjectSettings.get_setting("escoria/platform/development_lang"):
+				var ptext = TranslationServer.translate(tid)
+				if ptext != tid:
+					text = ptext
+				elif force_ids:
+					text = "(NOT TRANSLATED)\n\n" + text
 
 		elif force_ids:
+			vm.report_errors("dialog_dialog", ["Missing text_id for string '" + text + "'"])
 			text = "(no id) " + text
 
 		label.set_text(text)
