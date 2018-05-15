@@ -39,7 +39,7 @@ func start(p_target):
 
 		# Do not display the tooltip alongside the menu
 		if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
-			get_tree().call_group("hud", "hide")
+			get_tree().call_group("hud", "set_tooltip_visible", false)
 
 	var scale = ProjectSettings.get_setting("escoria/platform/action_menu_scale")
 	set_scale(Vector2(scale, scale))
@@ -50,7 +50,7 @@ func stop():
 	target = null
 	hide()
 	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
-		get_tree().call_group("hud", "show")
+		get_tree().call_group("hud", "set_tooltip_visible", true)
 
 func _ready():
 
