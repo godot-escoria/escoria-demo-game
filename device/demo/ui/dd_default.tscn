@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://globals/dialog_dialog.gd" type="Script" id=1]
+[ext_resource path="res://demo/ui/dialog_theme.tres" type="Theme" id=2]
 
-[sub_resource type="Animation" id=1]
 
-resource_name = "hide"
+[sub_resource type="Animation" id=4]
+
 length = 0.75
 loop = false
 step = 0.05
@@ -33,7 +34,7 @@ tracks/1/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1, 1.1 ), Vector2( 1, 1.1 ), Vector2( 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=5]
 
 length = 0.75
 loop = false
@@ -100,9 +101,19 @@ mouse_enter_shadow_color = Color( 0.6, 0.4, 0, 1 )
 mouse_exit_color = Color( 1, 1, 1, 1 )
 mouse_exit_shadow_color = Color( 1, 1, 1, 1 )
 
-[node name="anchor" type="Node2D" parent="." index="0"]
+[node name="anchor" type="CenterContainer" parent="." index="0"]
 
-position = Vector2( 373.302, 425.803 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+use_top_left = false
 
 [node name="bg" type="TextureRect" parent="anchor" index="0"]
 
@@ -110,10 +121,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -937.0
-margin_top = -377.0
-margin_right = 985.0
-margin_bottom = 138.0
+margin_left = 814.0
+margin_top = 114.0
+margin_right = 814.0
+margin_bottom = 114.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -129,10 +140,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -735.0
-margin_top = -334.0
-margin_right = 893.0
-margin_bottom = -105.0
+margin_right = 1628.0
+margin_bottom = 229.0
 rect_min_size = Vector2( 1628, 229 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = true
@@ -208,6 +217,7 @@ group = null
 
 [node name="label" type="Label" parent="item/button" index="0"]
 
+modulate = Color( 0, 0, 0, 1 )
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -223,8 +233,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+theme = ExtResource( 2 )
 text = "I should pick option one"
 valign = 1
 autowrap = true
@@ -239,8 +248,8 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/hide = SubResource( 1 )
-anims/show = SubResource( 2 )
+anims/hide = SubResource( 4 )
+anims/show = SubResource( 5 )
 blend_times = [  ]
 
 
