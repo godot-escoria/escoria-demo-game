@@ -418,7 +418,7 @@ func set_camera_limits():
 
 func load_hud():
 	var hres = vm.res_cache.get_resource(vm.get_hud_scene())
-	get_node("hud_layer/hud").replace_by_instance(hres)
+	$"hud_layer/hud".replace_by_instance(hres)
 
 	# Add inventory to hud layer, usually hud_minimal.tscn, if found in project settings
 	if inventory_enabled:
