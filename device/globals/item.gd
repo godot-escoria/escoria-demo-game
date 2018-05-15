@@ -262,7 +262,7 @@ func set_state(p_state, p_force = false):
 			animation.play(p_state)
 
 func teleport(obj):
-	set_position(obj.get_global_pos())
+	set_position(obj.global_position)
 	_update_terrain()
 
 func teleport_pos(x, y):
