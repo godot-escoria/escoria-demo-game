@@ -65,14 +65,13 @@ func start(params, p_context):
 
 		label.set_text(text)
 		but.connect("pressed", self, "selected", [i])
-		but.connect("mouse_entered",self,"_on_mouse_enter",[but])
-		but.connect("mouse_exited",self,"_on_mouse_exit",[but])
+		label.connect("mouse_entered", self, "_on_mouse_enter", [but])
+		label.connect("mouse_exited", self, "_on_mouse_exit", [but])
 
 		var height_ratio = ProjectSettings.get_setting("escoria/platform/dialog_option_height")
 		var size = it.get_custom_minimum_size()
 		size.y = size.y * height_ratio
 		it.set_custom_minimum_size(size)
-
 
 		container.add_child(it)
 		if i == 0:
