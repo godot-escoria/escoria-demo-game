@@ -5,7 +5,11 @@ var slot = ""
 var anim
 
 func start(message, p_target, p_slot):
-	get_node("message").set_text(message)
+	if has_node("message"):
+		$"message".set_text(message)
+	else:
+		# This allows having TextureRects by the name of eg UI_CONFIRM_NEW_GAME or UI_CONFIRM_QUIT
+		get_node(message).show()
 	target = p_target
 	slot = p_slot
 	anim.play("open")
