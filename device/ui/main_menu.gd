@@ -98,10 +98,13 @@ func _on_language_selected(lang):
 func _ready():
 	get_node("new_game").connect("pressed", self, "newgame_pressed")
 	get_node("continue").connect("pressed", self, "continue_pressed")
-	#get_node("save").connect("pressed", self, "save_pressed")
+	if has_node("save"):
+		get_node("save").connect("pressed", self, "save_pressed")
 	get_node("exit").connect("pressed", self, "_on_exit_pressed")
-	#get_node("settings").connect("pressed", self, "settings_pressed")
-	#get_node("credits").connect("pressed",self,"credits_pressed")
+	if has_node("settings"):
+		get_node("settings").connect("pressed", self, "settings_pressed")
+	if has_node("credits"):
+		get_node("credits").connect("pressed",self,"credits_pressed")
 	set_process_input(true)
 	#main.set_current_scene(self)
 
