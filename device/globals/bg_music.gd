@@ -38,4 +38,5 @@ func load_stream():
 	stream = get_node("stream")
 
 func _ready():
+	add_to_group("game")
 	call_deferred("load_stream")
