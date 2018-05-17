@@ -11,6 +11,13 @@ set_state bg_music "res://demo/audio/music/demo_melody.ogg"
 
 Assuming `demo_melody.ogg` is a music file which exists under that resource path in your project.
 
+If your music is loud, you can pass in decibels:
+
+```
+:ready
+set_state bg_music "res://demo/audio/music/demo_melody.ogg -20.5"
+```
+
 Similarly, you can also control music by triggering actions on items in your scene, for instance by using custom `turn_on` and `turn_off` actions on a radio item in your game with the following .esc script added to its `Events Path` property:
 
 ```

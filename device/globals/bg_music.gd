@@ -7,8 +7,8 @@ func game_cleared():
 	if global_id != "":
 		vm.register_object(global_id, self)
 
-func set_state(p_state, p_force = false):
-
+func set_state(p_state, p_volume = 1, p_force = false):
+	var volume = float(p_volume)
 	# Can't do anything without a player
 	if stream == null:
 		return
@@ -32,7 +32,7 @@ func set_state(p_state, p_force = false):
 	if stream.stream:
 		resource.set_loop(true)
 		stream.play()
-		stream.volume_db = vm.settings.music_volume
+		stream.volume_db = volume
 
 func load_stream():
 	stream = get_node("stream")
