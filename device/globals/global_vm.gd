@@ -358,6 +358,11 @@ func get_global_list():
 	return ProjectSettings.keys()
 
 func get_object(name):
+	# bg_music is special, because it's a Child of Telon(tm) and thus loaded after
+	# the music should already be playing
+	if name == "bg_music":
+		return $"/root/main/layers/telon/bg_music"
+
 	if !(name in objects):
 		return null
 	return objects[name]
