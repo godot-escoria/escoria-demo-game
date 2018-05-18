@@ -42,3 +42,7 @@ Tools
 [Git submodules](git_submodule.md)
 
 
+Miscellaneous
+-------------
+
+[Exporting your game](export.md)
