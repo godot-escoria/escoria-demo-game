@@ -342,6 +342,9 @@ func _ready():
 	if Engine.is_editor_hint():
 		return
 
+	# item.gd can be used with Position2D to get global_id values
+	# for moving characters and the camera. It does not have all
+	# the signals, so be careful about connecting.
 	var area
 	if has_node("area"):
 		area = get_node("area")
@@ -349,11 +352,12 @@ func _ready():
 		area = self
 	if area is Area2D:
 		area.connect("input_event", self, "area_input")
-	else:
+	elif not self is Position2D:
 		area.connect("gui_input", self, "input")
 
-	area.connect("mouse_entered", self, "mouse_enter")
-	area.connect("mouse_exited", self, "mouse_exit")
+	if not self is Position2D:
+		area.connect("mouse_entered", self, "mouse_enter")
+		area.connect("mouse_exited", self, "mouse_exit")
 
 	if events_path != "":
 		event_table = vm.compile(events_path)
