@@ -13,6 +13,8 @@ Reference
 
 [Background](background.md)
 
+[Designing dialogs](designing_dialogs.md)
+
 [HUD](hud.md)
 
 [Items](items.md)
