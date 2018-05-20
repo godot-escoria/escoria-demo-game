@@ -1,3 +1,4 @@
 :load
 
 change_scene res://demo/rooms/test/test.tscn
+set_state bg_music "res://demo/audio/music/demo_melody.ogg"
