@@ -86,6 +86,12 @@ func make_global(pos):
 
 func get_path(p_src, p_dest):
 	printt("get path ", p_src, p_dest)
+
+	# FIXME: Game crashes on click outside the viewport:
+	# **ERROR**: exception thrown: RuntimeError: float unrepresentable in integer range,RuntimeError: float unrepresentable in integer range
+	if not get_viewport().get_visible_rect().has_point(p_dest): # <- doesn't work
+		p_dest = p_src
+
 	if !(self is Navigation2D):
 		printt("returning a line")
 		return [p_src, p_dest]

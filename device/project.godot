@@ -11,7 +11,7 @@ config_version=3
 [application]
 
 config/name="Escoria Prototype"
-run/main_scene="res://globals/scene_main.tscn"
+run/main_scene="res://demo/rooms/test/test.tscn"
 
 [autoload]
 
@@ -23,8 +23,8 @@ esc_type="*res://globals/escoria_types.gd"
 
 window/size/width=1920
 window/size/height=1080
-window/size/test_width=1920
-window/size/test_height=1080
+window/size/test_width=960
+window/size/test_height=540
 
 [escoria]
 

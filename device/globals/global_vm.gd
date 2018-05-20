@@ -741,6 +741,7 @@ func get_hud_scene():
 func _ready():
 
 	save_data = load(ProjectSettings.get_setting("escoria/application/save_data")).new()
+	# Uncommenting this halts the web build - how does this make sense?
 	save_data.start()
 
 	get_tree().set_auto_accept_quit(ProjectSettings.get('escoria/platform/force_quit'))

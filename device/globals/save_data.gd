@@ -197,5 +197,6 @@ func autosave_available():
 	var f = File.new()
 	return f.file_exists("user://quick_save.esc")
 
-func start():
-	pass
+# FIXME: Having this here halts the web build
+#func start():
+#	pass
