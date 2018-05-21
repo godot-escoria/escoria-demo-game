@@ -76,7 +76,7 @@ func make_local(pos):
 	pos = pos - get_position()
 	pos = pos * 1.0 / get_scale()
 	if self is Navigation2D:
-		pos = get_closest_point(pos)
+		pos = _get_closest_point(pos)
 	return pos
 
 func make_global(pos):
@@ -109,7 +109,7 @@ func is_solid(pos):
 	pos = pos - get_position()
 	pos = pos * 1.0 / get_scale()
 
-	var closest = get_closest_point(pos)
+	var closest = _get_closest_point(pos)
 	return pos == closest
 
 func get_scale_range(r):
@@ -181,6 +181,13 @@ func get_pixel(pos, p_image):
 
 	p_image.unlock()
 	return final
+
+func _get_closest_point(pos):
+	var viewport_rect = get_viewport_rect()
+	if not viewport_rect.has_point(pos):
+		pos.x = viewport_rect.size.x
+		pos.y = viewport_rect.size.y
+	return get_closest_point(pos)
 
 func _draw():
 	if typeof(texture) == typeof(null):
