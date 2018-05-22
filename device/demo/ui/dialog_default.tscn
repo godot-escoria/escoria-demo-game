@@ -1,9 +1,21 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://globals/dialog_instance.gd" type="Script" id=1]
+[ext_resource path="res://demo/ui/dialog_theme.tres" type="Theme" id=2]
+
 
 [node name="dialog_instance" type="Container"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
 script = ExtResource( 1 )
 __meta__ = {
 "__editor_plugin_screen__": "2D"
@@ -14,8 +26,20 @@ fixed_pos = false
 
 [node name="anchor" type="Container" parent="." index="0"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
 [node name="text" type="RichTextLabel" parent="anchor" index="0"]
 
+modulate = Color( 0, 0, 0, 1 )
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -30,10 +54,8 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
-custom_constants/line_separation = -5
-bbcode_enabled = false
+theme = ExtResource( 2 )
+bbcode_enabled = true
 bbcode_text = ""
 visible_characters = -1
 percent_visible = 1.0

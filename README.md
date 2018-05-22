@@ -50,3 +50,7 @@ as described in the LICENSE.md file.
 License CC0, [distributed on OpenGameArt](http://opengameart.org/content/cartoon-characters-and-objects-vector-pack)
 - [Clint Bellanger](http://clintbellanger.net) - Recycle items set, License CC BY 3.0,
 [distributed on OpenGameArt](http://opengameart.org/content/recycle-items-set)
+
+### Font
+
+The [Noto font](https://www.google.com/get/noto/) is a trademark of Google Inc., and is available under the SIL Open Font License, version 1.1.

@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://globals/dialog_dialog.gd" type="Script" id=1]
+[ext_resource path="res://demo/ui/dd_background.png" type="Texture" id=2]
+[ext_resource path="res://demo/ui/dialog_theme.tres" type="Theme" id=3]
 
 [sub_resource type="Animation" id=1]
 
-resource_name = "hide"
 length = 0.75
 loop = false
 step = 0.05
@@ -77,14 +78,14 @@ tracks/2/keys = {
 
 [node name="dialog" type="Control" index="0"]
 
-anchor_left = 0.0
+anchor_left = 0.5
 anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 539.0
-margin_top = 398.0
-margin_right = -58.0
-margin_bottom = -203.0
+anchor_right = 0.5
+anchor_bottom = 0.0
+margin_left = -450.0
+margin_top = 150.0
+margin_right = -450.0
+margin_bottom = 200.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -92,9 +93,6 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 script = ExtResource( 1 )
-__meta__ = {
-"__editor_plugin_screen__": "2D"
-}
 mouse_enter_color = Color( 1, 1, 0.3, 1 )
 mouse_enter_shadow_color = Color( 0.6, 0.4, 0, 1 )
 mouse_exit_color = Color( 1, 1, 1, 1 )
@@ -102,24 +100,22 @@ mouse_exit_shadow_color = Color( 1, 1, 1, 1 )
 
 [node name="anchor" type="Node2D" parent="." index="0"]
 
-position = Vector2( 373.302, 425.803 )
-
 [node name="bg" type="TextureRect" parent="anchor" index="0"]
 
+modulate = Color( 0, 0, 0, 0.392157 )
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -937.0
-margin_top = -377.0
-margin_right = 985.0
-margin_bottom = 138.0
+margin_right = 900.0
+margin_bottom = 400.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
-mouse_filter = 1
+mouse_filter = 0
 mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 2 )
 expand = true
 stretch_mode = 0
 
@@ -129,11 +125,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -735.0
-margin_top = -334.0
-margin_right = 893.0
-margin_bottom = -105.0
-rect_min_size = Vector2( 1628, 229 )
+margin_left = 50.0
+margin_top = 50.0
+margin_right = 850.0
+margin_bottom = 350.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = true
 mouse_filter = 0
@@ -151,14 +146,12 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 1628.0
-margin_bottom = 229.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
-mouse_filter = 1
+mouse_filter = 0
 mouse_default_cursor_shape = 0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+size_flags_horizontal = 1
+size_flags_vertical = 1
 custom_constants/separation = 10
 alignment = 0
 
@@ -176,31 +169,28 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -338.0
-margin_top = 134.0
-margin_right = 1270.0
-margin_bottom = 163.0
-rect_min_size = Vector2( 800, 29 )
+margin_bottom = 35.0
+rect_min_size = Vector2( 0, 35 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
+size_flags_horizontal = 1
+size_flags_vertical = 1
 
 [node name="button" type="TextureButton" parent="item" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
+size_flags_horizontal = 1
+size_flags_vertical = 1
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -212,22 +202,14 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 25.0
-margin_top = 3.0
-margin_right = 1605.0
-margin_bottom = 36.0
-rect_min_size = Vector2( 1580, 33 )
+margin_bottom = 14.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
-mouse_filter = 2
+mouse_filter = 1
 mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = "I should pick option one"
-valign = 1
-autowrap = true
+size_flags_horizontal = 1
+size_flags_vertical = 4
+theme = ExtResource( 3 )
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
