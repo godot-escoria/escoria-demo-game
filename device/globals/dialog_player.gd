@@ -10,6 +10,7 @@ func say(params, callback):
 		type = params[2]
 	type = type + ProjectSettings.get_setting("escoria/platform/dialog_type_suffix")
 	var inst = get_resource(type).instance()
+	var z = inst.get_z_index()
 	get_node("/root").get_child(0).add_child(inst)
 	var intro = true
 	var outro = true
@@ -17,6 +18,7 @@ func say(params, callback):
 		intro = types[type][0]
 		outro = types[type][1]
 	inst.init(params, callback, intro, outro)
+	inst.set_z_index(z)
 
 func config(params):
 	types[params[0]] = [params[1], params[2]]
