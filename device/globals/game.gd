@@ -441,7 +441,7 @@ func load_hud():
 	#else:
 	#	get_node("hud_layer/hud/inv_toggle").hide()
 
-	tooltip = get_node("hud_layer/hud/tooltip")
+	tooltip = get_node("hud_layer/hud/tt_layer/tooltip")
 
 func _ready():
 	add_to_group("game")

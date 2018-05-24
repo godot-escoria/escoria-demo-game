@@ -5,7 +5,7 @@ var background = null
 func set_tooltip(text):
 	if text:
 		printt("hud got tooltip text ", text)
-	get_node("tooltip").set_text(text)
+	get_node("tt_layer/tooltip").set_text(text)
 
 func inv_toggle():
 	#get_node("inventory").toggle()
@@ -48,3 +48,4 @@ func _ready():
 	# Hide verb menu if hud layer has an action menu
 	if has_node("../action_menu"):
 		$verb_menu.hide()
+
