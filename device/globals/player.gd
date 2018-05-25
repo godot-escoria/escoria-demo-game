@@ -5,6 +5,7 @@ extends KinematicBody2D
 var task
 var walk_destination
 var animation
+var main # A tool script cannot refer to singletons in Godot
 var vm  # A tool script cannot refer to singletons in Godot
 var terrain
 var walk_path
@@ -54,7 +55,33 @@ func walk_to(pos, context = null):
 func walk(pos, speed, context = null):
 	walk_to(pos, context)
 
+func _animation_play(args):
+	if !animation:
+		return
+	assert(typeof(args) == TYPE_DICTIONARY)
+
+	if animation is AnimatedSprite or animation is AnimationPlayer:
+		# play(String name=”“, float custom_blend=-1, float custom_speed=1.0, bool from_end=false)
+		var name = args["name"]
+		var custom_blend = args["custom_blend"] if args.has("custom_blend") else -1
+		var custom_speed = args["custom_speed"] if args.has("custom_speed") else 1.0
+		var from_end = args["from_end"] if args.has("from_end") else false
+
+		animation.play(name, custom_blend, custom_speed, from_end)
+	else:
+		for plugin in main.plugins[esc_type.PLUGIN_ANIMATION]:
+			plugin._play_animation(animation, last_dir, args)
+
+func _animation_get_current_animation():
+	if !animation:
+		return
+	return animation.get_current_animation()
+
+
 func anim_finished(anim_name):
+	if _plugin_animation_finished_task_is_blocking(task, animation):
+		return
+
 	if anim_notify != null:
 		vm.finished(anim_notify)
 		anim_notify = null
@@ -63,16 +90,21 @@ func anim_finished(anim_name):
 		set_scale(get_scale() * anim_scale_override)
 		anim_scale_override = null
 
-	animation.play(animations.idles[last_dir])
+	if animation is AnimationPlayer or AnimatedSprite:
+		_animation_play({"name": animations.idles[last_dir]})
+	else:
+		animation.add(animations.idles[last_dir], true)
+
 	pose_scale = animations.idles[last_dir + 1]
 	_update_terrain()
 
+
 func set_speaking(p_speaking):
 	if p_speaking:
-		animation.play(animations.speaks[last_dir])
+		_animation_play({"name": animations.speaks[last_dir]})
 		pose_scale = animations.speaks[last_dir + 1]
 	else:
-		animation.play(animations.idles[last_dir])
+		_animation_play({"name": animations.idles[last_dir], "loop": true})
 		pose_scale = animations.idles[last_dir + 1]
 	_update_terrain()
 
@@ -102,7 +134,7 @@ func anim_get_ph_paths(p_anim):
 	return ret
 
 func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
-	if p_notify != null && (!has_node("animation") || !get_node("animation").has_animation(p_anim)):
+	if p_notify != null && (!animation || !animation.has_animation(p_anim)):
 		vm.finished(p_notify)
 		return
 
@@ -127,10 +159,9 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 		anim_scale_override = null
 
 	if p_reverse:
-		get_node("animation").play(p_anim, -1, -1, true)
+		_animation_play({"name": p_anim, "custom_blend": -1, "custom_speed": -1.0, "from_end": true})
 	else:
-		get_node("animation").play(p_anim)
-		#get_node("animation").seek(0, true)
+		_animation_play({"name": p_anim})
 
 	anim_notify = p_notify
 	var dir = _find(p_anim, animations.directions, p_flip.x)
@@ -153,12 +184,13 @@ func interact(p_params):
 	else:
 		if animations.dir_angles.size() > 0 && p_params[0].interact_angle != -1:
 			last_dir = _get_dir_deg(p_params[0].interact_angle)
-			animation.play(animations.idles[last_dir])
+			_animation_play({"name": animations.idles[last_dir], "loop": true})
 			pose_scale = animations.idles[last_dir + 1]
 			_update_terrain()
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "interact", p_params)
 
 func walk_stop(pos):
+	printt("walk_stop at ", pos)
 	# Notify exits of stop position
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "exit", "stopped_at", pos)
 
@@ -169,18 +201,19 @@ func walk_stop(pos):
 	if typeof(params_queue) != typeof(null):
 		if animations.dir_angles.size() > 0 && params_queue[0].interact_angle != -1:
 			last_dir = _get_dir_deg(params_queue[0].interact_angle)
-			animation.play(animations.idles[last_dir])
+			_animation_play({"name": animations.idles[last_dir], "loop": true})
 			pose_scale = animations.idles[last_dir + 1]
 			_update_terrain()
 		else:
-			animation.play(animations.idles[last_dir])
+			_animation_play({"name": animations.idles[last_dir], "loop": true})
 			pose_scale = animations.idles[last_dir + 1]
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "interact", params_queue)
 		# Clear params queue to prevent the same action from being triggered again
 		params_queue = null
 	else:
-		animation.play(animations.idles[last_dir])
+		_animation_play({"name": animations.idles[last_dir], "loop": true})
 		pose_scale = animations.idles[last_dir + 1]
+
 	_update_terrain()
 	if walk_context != null:
 		vm.finished(walk_context)
@@ -323,21 +356,56 @@ func _find_sprites(p = null):
 	for i in range(0, p.get_child_count()):
 		_find_sprites(p.get_child(i))
 
+func _plugin_animation_finished_task_is_blocking(task, animation):
+	if !main.plugins.has(esc_type.PLUGIN_ANIMATION):
+		return
+	
+	for plugin in main.plugins[esc_type.PLUGIN_ANIMATION]:
+		return plugin._animation_finished_task_is_blocking(task, animation)
+
+func _plugin_find_sprites(p = null):
+	var sprites_list = []
+	if !main.plugins.has(esc_type.PLUGIN_ANIMATION):
+		return
+
+	for plugin in main.plugins[esc_type.PLUGIN_ANIMATION]:
+		sprites_list = plugin._find_sprites(self)
+		for s in sprites_list:
+			sprites.push_back(s)
+
+func _plugin_connect_animation_finished_node(animation_node):
+	if !main.plugins.has(esc_type.PLUGIN_ANIMATION):
+		return
+
+	for plugin in main.plugins[esc_type.PLUGIN_ANIMATION]:
+		plugin._connect_animation_finished_node(animation_node, self, "anim_finished")
+
 func _ready():
+	
+	vm = $"/root/vm"
+	main = $"/root/main"
 
 	if get_parent().has_node("terrain"):
 		terrain = get_parent().get_node("terrain")
 
+	# First find sprites using Godot types
 	_find_sprites(self)
+	# Then find sprites using plugin types
+	_plugin_find_sprites(self)
+
 	if Engine.is_editor_hint():
 		return
 
-	animation = get_node("animation")
-	vm = $"/root/vm"
+	animation = $"animation"
+	
 	vm.register_object("player", self)
-	#_update_terrain();
+
 	if has_node("animation"):
-		get_node("animation").connect("animation_finished", self, "anim_finished")
+		if animation is AnimatedSprite or animation is AnimationPlayer:
+			animation.connect("animation_finished", self, "anim_finished")
+		else:
+			_plugin_connect_animation_finished_node(animation)
 
 	last_scale = get_scale()
 	set_process(true)
+

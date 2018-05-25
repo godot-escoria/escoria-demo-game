@@ -115,8 +115,6 @@ func _process(time):
 			if last_dir != -1 && animation.get_current_animation() != animations.directions[last_dir]:
 				animation.play(animations.directions[last_dir])
 
-		#pose_scale = animations.directions[last_dir+1]
-
 	if self is esc_type.ITEM:
 		_update_terrain()
 
@@ -126,13 +124,27 @@ func _find_sprites(p = null):
 	for i in range(0, p.get_child_count()):
 		_find_sprites(p.get_child(i))
 
+func _plugin_find_sprites(p = null):
+	var sprites_list = []
+	if !main.plugins.has(esc_type.PLUGIN_ANIMATION):
+		return
+
+	for plugin in main.plugins[esc_type.PLUGIN_ANIMATION]:
+		sprites_list = plugin._find_sprites(self)
+		for s in sprites_list:
+			sprites.push_back(s)
+
 func _ready():
 	if has_node("../terrain"):
 		terrain = get_node("../terrain")
 
+	# First find sprites using Godot types
 	_find_sprites(self)
+	# Then find sprites using plugin types
+	_plugin_find_sprites(self)
 
 	if Engine.is_editor_hint():
 		return
+	
 	if has_node("animation"):
-		animation = get_node("animation")
+		animation = $animation
