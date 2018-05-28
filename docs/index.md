@@ -23,6 +23,8 @@ Reference
 
 [Music](music.md)
 
+[Right-mouse-button behavior](right_mouse_button_action_menu.md)
+
 [Triggers and exits](triggers-and-exits.md)
 
 

@@ -333,11 +333,14 @@ func hint_request():
 func setup_ui_anim():
 	if has_node("ui_anims"):
 		ui_anim = get_node("ui_anims")
+
 		for bg in get_tree().get_nodes_in_group("background"):
-			bg.connect("right_click_on_bg",self,"hint_request")
+			bg.connect("right_click_on_bg", self, "hint_request")
+
 	vm.connect("global_changed", self, "global_changed")
 
 func _ready():
+	add_to_group("item")
 
 	if Engine.is_editor_hint():
 		return
@@ -363,8 +366,6 @@ func _ready():
 		get_node("animation").connect("animation_finished", self, "anim_finished")
 
 	_check_focus(false, false)
-
-	call_deferred("setup_ui_anim")
 
 	call_deferred("_update_terrain")
 
