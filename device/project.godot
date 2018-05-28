@@ -16,7 +16,7 @@ run/main_scene="res://globals/scene_main.tscn"
 [autoload]
 
 main="*res://globals/main.tscn"
-vm="*res://globals/global_vm.tscn"
+vm="*res://globals/global_vm.gd"
 esc_type="*res://globals/escoria_types.gd"
 
 [display]
