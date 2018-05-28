@@ -7,14 +7,12 @@
 [node name="hud" type="Control" index="0"]
 
 anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 40.0
-margin_bottom = 40.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
-mouse_filter = 0
+mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
@@ -55,10 +53,12 @@ is_collapsible = false
 
 [node name="verb_menu" parent="." index="2" instance=ExtResource( 3 )]
 
-margin_left = 63.0
-margin_top = 519.0
-margin_right = 103.0
-margin_bottom = 559.0
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = -260.0
+margin_right = 0.0
+margin_bottom = 0.0
 mouse_default_cursor_shape = 0
 
 
