@@ -18,8 +18,11 @@ layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
 [node name="hud" parent="hud_layer" index="0" instance_placeholder="res://ui/hud.tscn"]
+
+mouse_default_cursor_shape = 0
 
 [node name="wait_timer" type="Timer" parent="." index="2"]
 
@@ -43,6 +46,8 @@ drag_margin_h_enabled = true
 drag_margin_v_enabled = true
 smoothing_enabled = false
 smoothing_speed = 5.0
+offset_v = 0.0
+offset_h = 0.0
 drag_margin_left = 0.2
 drag_margin_top = 0.2
 drag_margin_right = 0.2
