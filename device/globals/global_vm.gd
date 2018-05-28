@@ -191,6 +191,9 @@ func inventory_set(p_obj, p_has):
 func say(params, level):
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "dialog", "say", params, level)
 
+func set_hud_visible(p_visible):
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_visible", p_visible)
+
 func dialog_config(params):
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "dialog", "config", params)
 

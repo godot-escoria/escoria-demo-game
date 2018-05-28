@@ -45,6 +45,9 @@ func menu_opened():
 func menu_closed():
 	show()
 
+func set_visible(p_visible):
+	visible = p_visible
+
 func _ready():
 	add_to_group("hud")
 	add_to_group("game")

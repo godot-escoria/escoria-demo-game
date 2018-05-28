@@ -120,6 +120,9 @@ When used on a player object, the command is used to dress the player in a costu
 
 Items can also change state by playing animations from an `AnimationPlayer` named "animation". The `AnimationPlayer` is typically used to change the texture of a `Sprite` node, but it's also possible to add additional tracks for changing the tooltip and other properties of the item scene. By using keyframes and looping, any given state can also use multiple textures to bring more life to the item.
 
+- `set_hud_visible visible`
+  If you have a cut-scene-like sequence where the player doesn't have control, and you also have HUD elements visible, use this to hide the HUD. You want to do that because it explicitly signals the player that there is no control over the game at the moment. "visible" is true or false.
+
 - `say object text [type] [avatar]`
   Runs the specified string as a dialog said by the object. Blocks execution until the dialog finishes playing. Optional parameters:
   - "type" determines the type of dialog UI to use. Default value is "default"

@@ -68,6 +68,9 @@ func set_state(params):
 	vm.set_state(params[0], params[1])
 	return vm.state_return
 
+func set_hud_visible(params):
+	vm.set_hud_visible(params[0])
+
 func say(params):
 	if !check_obj(params[0], "say"):
 		return vm.state_return
