@@ -39,7 +39,6 @@ func walk_to(pos, context = null):
 	walk_context = context
 	if walk_path.size() == 0:
 		task = null
-		params_queue = null
 		walk_stop(get_position())
 		set_process(false)
 		return
@@ -49,7 +48,6 @@ func walk_to(pos, context = null):
 	path_ofs = 0.0
 	task = "walk"
 	set_process(true)
-	params_queue = null
 
 func walk(pos, speed, context = null):
 	walk_to(pos, context)
@@ -148,8 +146,10 @@ func interact(p_params):
 	else:
 		pos = p_params[0].get_global_position()
 	if !telekinetic && get_global_position().distance_to(pos) > 10:
-		walk_to(pos)
+		# It's important to set the queue before walking, so it
+		# is in effect until walk_stop() has to reset the queue.
 		params_queue = p_params
+		walk_to(pos)
 	else:
 		if animations.dir_angles.size() > 0 && p_params[0].interact_angle != -1:
 			last_dir = _get_dir_deg(p_params[0].interact_angle)
@@ -166,7 +166,7 @@ func walk_stop(pos):
 	walk_path = []
 	task = null
 	set_process(false)
-	if typeof(params_queue) != typeof(null):
+	if params_queue != null:
 		if animations.dir_angles.size() > 0 && params_queue[0].interact_angle != -1:
 			last_dir = _get_dir_deg(params_queue[0].interact_angle)
 			animation.play(animations.idles[last_dir])
