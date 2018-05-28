@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://globals/hud.gd" type="Script" id=1]
 [ext_resource path="res://demo/ui/inventory.tscn" type="PackedScene" id=2]
-[ext_resource path="res://demo/ui/verb_menu.tscn" type="PackedScene" id=3]
+[ext_resource path="res://globals/white.png" type="Texture" id=3]
+[ext_resource path="res://demo/ui/verb_menu.tscn" type="PackedScene" id=4]
 
 [node name="hud" type="Control" index="0"]
 
@@ -44,14 +45,20 @@ _sections_unfolded = [ "Visibility" ]
 
 [node name="inventory" parent="." index="1" instance=ExtResource( 2 )]
 
-margin_left = 702.0
-margin_top = 457.0
-margin_right = 742.0
-margin_bottom = 497.0
-rect_clip_content = false
-is_collapsible = false
+modulate = Color( 1, 1, 1, 1 )
+self_modulate = Color( 0, 0, 0, 0.196078 )
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -620.0
+margin_top = -400.0
+margin_right = -20.0
+margin_bottom = -100.0
+texture = ExtResource( 3 )
+_sections_unfolded = [ "Anchor", "Margin", "Rect", "Visibility" ]
 
-[node name="verb_menu" parent="." index="2" instance=ExtResource( 3 )]
+[node name="verb_menu" parent="." index="2" instance=ExtResource( 4 )]
 
 anchor_top = 1.0
 anchor_bottom = 1.0
