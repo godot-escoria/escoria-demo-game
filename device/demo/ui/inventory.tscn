@@ -3,7 +3,7 @@
 [ext_resource path="res://globals/inventory.gd" type="Script" id=1]
 [ext_resource path="res://demo/ui/inventory_items.tscn" type="PackedScene" id=2]
 
-[node name="inventory" type="Control" index="0"]
+[node name="inventory" type="Control"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -12,11 +12,13 @@ anchor_bottom = 0.0
 margin_right = 40.0
 margin_bottom = 40.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 script = ExtResource( 1 )
+is_collapsible = false
 
 [node name="slots" type="Control" parent="." index="0"]
 
@@ -27,6 +29,7 @@ anchor_bottom = 0.0
 margin_right = 40.0
 margin_bottom = 40.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
@@ -68,6 +71,7 @@ margin_top = 68.0
 margin_right = 506.0
 margin_bottom = 108.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
@@ -77,7 +81,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-_sections_unfolded = [ "Textures" ]
+_sections_unfolded = [ "Rect", "Textures" ]
 
 [node name="arrow_next" type="TextureButton" parent="." index="2"]
 
@@ -90,6 +94,7 @@ margin_top = 167.0
 margin_right = 501.0
 margin_bottom = 207.0
 rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
@@ -103,5 +108,29 @@ group = null
 [node name="items" parent="." index="3" instance=ExtResource( 2 )]
 
 visible = false
+
+[node name="hide_inv" type="Button" parent="." index="4"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 67.0
+margin_bottom = 23.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "hide"
+flat = false
+align = 1
+_sections_unfolded = [ "Rect" ]
 
 
