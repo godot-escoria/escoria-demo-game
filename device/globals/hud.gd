@@ -5,22 +5,22 @@ var background = null
 func set_tooltip(text):
 	if text:
 		printt("hud got tooltip text ", text)
-	get_node("tooltip").set_text(text)
+	$tooltip.set_text(text)
 
 func set_tooltip_visible(p_visible):
-	if tooltip:
-		tooltip.visible = p_visible
+	if $tooltip:
+		$tooltip.visible = p_visible
 
 func inv_toggle():
 	#get_node("inventory").toggle()
 	pass
 
 
-func _on_inv_toggle_vis_chaged():
-	if (get_node("inv_toggle").is_hidden()):
-		get_node("buttons").hide()
+func _on_inventory_toggle_visibility_changed():
+	if $inv_toggle.is_hidden():
+		$buttons.hide()
 	else:
-		get_node("buttons").show()
+		$buttons.show()
 
 func _on_hint_pressed():
 	printt("hint pressed")
