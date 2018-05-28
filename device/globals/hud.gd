@@ -7,6 +7,10 @@ func set_tooltip(text):
 		printt("hud got tooltip text ", text)
 	get_node("tooltip").set_text(text)
 
+func set_tooltip_visible(p_visible):
+	if tooltip:
+		tooltip.visible = p_visible
+
 func inv_toggle():
 	#get_node("inventory").toggle()
 	pass

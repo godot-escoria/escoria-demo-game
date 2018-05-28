@@ -27,6 +27,11 @@ func set_mode(p_mode):
 	mode = p_mode
 
 func mouse_enter(obj):
+	# Immediately bail out if the action menu is open
+	if action_menu and action_menu.is_visible():
+		assert(!tooltip.visible)
+		return
+
 	var text
 	var tt = obj.get_tooltip()
 
@@ -70,6 +75,13 @@ func mouse_enter(obj):
 		vm.hover_begin(obj)
 
 func mouse_exit(obj):
+	# If we don't return here, and the cursor is moved around over
+	# items with the action menu open, we would get an empty tooltip
+	# when the action menu closes
+	if action_menu and action_menu.is_visible():
+		assert(!tooltip.visible)
+		return
+
 	var text
 	#var tt = obj.get_tooltip()
 	if current_action != "" && current_tool != null:
