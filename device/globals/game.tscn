@@ -1,18 +1,15 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://globals/game.gd" type="Script" id=1]
-[ext_resource path="res://ui/dialog_player.tscn" type="PackedScene" id=2]
 
-[node name="game" type="Node"]
+[node name="game" type="Node" index="0"]
 
 script = ExtResource( 1 )
 fallbacks_path = "res://demo/fallbacks.esc"
 inventory_enabled = true
 camera_limits = Rect2( 0, 0, 0, 0 )
 
-[node name="dialog_player" parent="." index="0" instance=ExtResource( 2 )]
-
-[node name="hud_layer" type="CanvasLayer" parent="." index="1"]
+[node name="hud_layer" type="CanvasLayer" parent="." index="0"]
 
 layer = 1
 offset = Vector2( 0, 0 )
@@ -22,16 +19,14 @@ transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
 [node name="hud" parent="hud_layer" index="0" instance_placeholder="res://ui/hud.tscn"]
 
-mouse_default_cursor_shape = 0
-
-[node name="wait_timer" type="Timer" parent="." index="2"]
+[node name="wait_timer" type="Timer" parent="." index="1"]
 
 process_mode = 1
 wait_time = 1.0
 one_shot = false
 autostart = false
 
-[node name="camera" type="Camera2D" parent="." index="3"]
+[node name="camera" type="Camera2D" parent="." index="2"]
 
 anchor_mode = 1
 rotating = false
