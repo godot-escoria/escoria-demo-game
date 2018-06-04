@@ -366,6 +366,9 @@ func get_object(name):
 	return objects[name]
 
 func register_object(name, val):
+	if !name:
+		report_errors("register_object", ["Name not given for " + val.get_class()])
+
 	objects[name] = val
 	val.connect("tree_exited", self, "object_exit_scene", [name])
 
