@@ -12,6 +12,11 @@ var joystick_mode = false
 var min_interact_dist = 50*50
 var last_obj = null
 
+export var drag_margin_left = 0.2
+export var drag_margin_top = 0.2
+export var drag_margin_right = 0.2
+export var drag_margin_bottom = 0.2
+
 var current_action = ""
 var current_tool = null
 
@@ -468,6 +473,11 @@ func _ready():
 		click_anim = get_node("click_anim")
 
 	camera = get_node("camera")
+
+	camera.drag_margin_left = drag_margin_left
+	camera.drag_margin_top = drag_margin_top
+	camera.drag_margin_right = drag_margin_right
+	camera.drag_margin_bottom = drag_margin_bottom
 
 	vm.set_camera(camera)
 
