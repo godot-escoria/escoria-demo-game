@@ -257,7 +257,7 @@ func _process(time):
 			next = walk_path[path_ofs]
 
 		var dist = speed * time * pow(last_scale.x, 2) * terrain.player_speed_multiplier
-		if walk_context and walk_context.fast:
+		if walk_context and "fast" in walk_context and walk_context.fast:
 			dist *= terrain.player_doubleclick_speed_multiplier
 		var dir = (next - pos).normalized()
 
