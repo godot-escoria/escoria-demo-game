@@ -164,6 +164,12 @@ Items can also change state by playing animations from an `AnimationPlayer` name
 - `walk_block object1 object2`
   Moves object1 towards the position of object2, at the speed determined by object1's "speed" property. This command is blocking.
 
+- `turn_to object degrees`
+  Turns `object` to a `degrees` angle.
+  0 sets `object` facing forward, 90 sets it 90 degrees clockwise ("east") etc. When turning to the destination angle, animations are played if they're defined in `animations`.
+  `object` must be player or interactive.
+  `degrees` must be between [0, 360] or an error is reported.
+
 - `spawn path [object2]`
   Instances a scene determined by "path", and places in the position of object2 (object2 is optional)
 

@@ -317,6 +317,16 @@ func teleport_pos(x, y):
 	set_position(Vector2(x, y))
 	_update_terrain()
 
+func turn_to(deg):
+	if deg < 0 or deg > 360:
+		vm.report_errors("player", ["Invalid degree to turn to " + str(deg)])
+
+	last_dir = _get_dir_deg(deg)
+
+	if animation.get_current_animation() != animations.directions[last_dir]:
+		animation.play(animations.directions[last_dir])
+	pose_scale = animations.directions[last_dir+1]
+
 func _find_sprites(p = null):
 	if p is Sprite || p is AnimatedSprite:
 		sprites.push_back(p)
