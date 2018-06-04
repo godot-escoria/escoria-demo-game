@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://globals/scene.gd" type="Script" id=1]
 [ext_resource path="res://demo/rooms/test/background.png" type="Texture" id=2]
@@ -12,10 +12,12 @@
 [ext_resource path="res://demo/rooms/test/ice_cream.tscn" type="PackedScene" id=10]
 [ext_resource path="res://demo/rooms/test/box.tscn" type="PackedScene" id=11]
 [ext_resource path="res://demo/rooms/test/can.tscn" type="PackedScene" id=12]
-[ext_resource path="res://demo/rooms/test/chain_saw.tscn" type="PackedScene" id=13]
-[ext_resource path="res://demo/rooms/test/floppy.tscn" type="PackedScene" id=14]
-[ext_resource path="res://globals/game.tscn" type="PackedScene" id=15]
-[ext_resource path="res://demo/ui/rmb_hints.gd" type="Script" id=16]
+[ext_resource path="res://demo/rooms/test/can_anims.gd" type="Script" id=13]
+[ext_resource path="res://globals/target.gd" type="Script" id=14]
+[ext_resource path="res://demo/rooms/test/chain_saw.tscn" type="PackedScene" id=15]
+[ext_resource path="res://demo/rooms/test/floppy.tscn" type="PackedScene" id=16]
+[ext_resource path="res://globals/game.tscn" type="PackedScene" id=17]
+[ext_resource path="res://demo/ui/rmb_hints.gd" type="Script" id=18]
 
 [sub_resource type="NavigationPolygon" id=1]
 
@@ -37,6 +39,130 @@ width = 2048
 [sub_resource type="ShaderMaterial" id=4]
 
 render_priority = 0
+
+[sub_resource type="Animation" id=7]
+
+resource_name = "face_down"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 180.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 481, 404 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+
+resource_name = "face_left"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 461, 394 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rect_rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 270.0 ]
+}
+
+[sub_resource type="Animation" id=5]
+
+resource_name = "face_right"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 90.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 501, 374 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+
+resource_name = "face_up"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 461, 364 ) ]
+}
 
 [node name="scene" type="Node2D" index="0"]
 
@@ -188,7 +314,6 @@ position = Vector2( -5.05936, 96.9224 )
 [node name="box" parent="." index="7" instance=ExtResource( 11 )]
 
 position = Vector2( 945.535, 381.07 )
-interact_position = null
 
 [node name="interact_pos" type="Position2D" parent="box" index="3"]
 
@@ -208,16 +333,36 @@ rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
+animations = ExtResource( 13 )
 action = ""
 interact_position = null
 dialog_color = null
 use_custom_z = false
 
-[node name="interact_pos" type="Position2D" parent="can" index="0"]
+[node name="animation" type="AnimationPlayer" parent="can" index="0"]
+
+root_node = NodePath("..")
+autoplay = ""
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/face_down = SubResource( 7 )
+anims/face_left = SubResource( 8 )
+anims/face_right = SubResource( 5 )
+anims/face_up = SubResource( 6 )
+blend_times = [  ]
+
+[node name="interact_pos" type="Position2D" parent="can" index="1"]
 
 position = Vector2( 57.6177, 60.9417 )
 
-[node name="chainsaw" parent="." index="9" instance=ExtResource( 13 )]
+[node name="can_destination" type="Position2D" parent="." index="9"]
+
+position = Vector2( 572.187, 451.251 )
+script = ExtResource( 14 )
+global_id = "can_destination"
+
+[node name="chainsaw" parent="." index="10" instance=ExtResource( 15 )]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -239,7 +384,7 @@ use_custom_z = false
 
 position = Vector2( 7.19824, 124.934 )
 
-[node name="floppy" parent="." index="10" instance=ExtResource( 14 )]
+[node name="floppy" parent="." index="11" instance=ExtResource( 16 )]
 
 position = Vector2( 67.0833, 388.125 )
 interact_position = null
@@ -252,7 +397,7 @@ placeholders = {
 position = Vector2( 73.3036, 34.9703 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="game" parent="." index="11" instance=ExtResource( 15 )]
+[node name="game" parent="." index="12" instance=ExtResource( 17 )]
 
 drag_margin_left = 0.2
 drag_margin_top = 0.2
@@ -261,6 +406,6 @@ drag_margin_bottom = 0.2
 
 [node name="rmb_script" type="Node" parent="game" index="4"]
 
-script = ExtResource( 16 )
+script = ExtResource( 18 )
 
 

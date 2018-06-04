@@ -1,12 +1,46 @@
 :pick_up
-
 set_global i/inv_can true
 set_active can false
 
-
 :look
-
 say player "A can"
 
 :use
 set_state player hat
+
+:open
+set_global turning_can true
+> [eq can_angle 180, turning_can]
+	turn_to can 90
+	set_global can_angle 90
+	debug "can_angle was 180, now 90"
+	set_global turning_can false
+
+> [eq can_angle 270, turning_can]
+	turn_to can 180 [eq can_angle 270]
+	set_global can_angle 180
+	debug "can_angle was 270, now 180"
+	set_global turning_can false
+
+> [!can_angle, turning_can]
+	turn_to can 270
+	set_global can_angle 270
+	debug "!can_angle, now 270"
+	set_global turning_can false
+
+> [eq can_angle 360, turning_can]
+	turn_to can 270
+	set_global can_angle 270
+	debug "can_angle was 360, now 270"
+	set_global turning_can false
+
+> [eq can_angle 90, turning_can]
+	turn_to can 360
+	set_global can_angle 360
+	debug "can_angle was 90, now 360"
+	set_global turning_can false
+
+walk_block player can_destination
+say player "Walking away instead"
+turn_to player 90
+
