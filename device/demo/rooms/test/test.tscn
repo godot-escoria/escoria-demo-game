@@ -111,7 +111,6 @@ light_on_map = false
 events_path = "res://demo/rooms/test/exit1.esc"
 global_id = "first_exit"
 tooltip = "First exit"
-active = true
 
 [node name="trigger1" type="Area2D" parent="." index="4"]
 
@@ -131,7 +130,6 @@ light_on_map = false
 events_path = "res://demo/rooms/test/hotspot1.esc"
 global_id = "first_trigger"
 tooltip = "First trigger"
-active = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="trigger1" index="0"]
 
@@ -157,7 +155,6 @@ light_on_map = false
 events_path = "res://demo/rooms/test/exit2.esc"
 global_id = "second_exit"
 tooltip = "Second exit"
-active = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="exit2" index="0"]
 
