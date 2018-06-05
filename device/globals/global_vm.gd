@@ -367,13 +367,18 @@ func get_object(name):
 
 func register_object(name, val):
 	objects[name] = val
-	if name in states:
-		val.set_state(states[name])
-	else:
-		val.set_state("default")
-	if name in actives:
-		val.set_active(actives[name])
 	val.connect("tree_exited", self, "object_exit_scene", [name])
+
+	# Most objects have states/animations, but don't count on it
+	if val.has_method("set_state"):
+		if name in states:
+			val.set_state(states[name])
+		else:
+			val.set_state("default")
+
+	if val.has_method("set_active"):
+		if name in actives:
+			val.set_active(actives[name])
 
 func get_registered_objects():
 	return objects

@@ -51,15 +51,20 @@ func input(event):
 
 func body_entered(body):
 	if body is esc_type.PLAYER:
-		run_event("enter")
+		if self.visible:
+			run_event("enter")
 
 func body_exited(body):
 	if body is esc_type.PLAYER:
-		run_event("exit")
+		if self.visible:
+			run_event("exit")
 
 func run_event(event):
 	if event in event_table:
 		vm.run_event(event_table[event])
+
+func set_active(p_active):
+	self.visible = p_active
 
 func _ready():
 	var area
@@ -76,6 +81,8 @@ func _ready():
 		var f = File.new()
 		if f.file_exists(events_path):
 			event_table = vm.compile(events_path)
+
+	vm.register_object(global_id, self)
 
 	area.connect("mouse_entered", self, "mouse_enter")
 	area.connect("mouse_exited", self, "mouse_exit")
