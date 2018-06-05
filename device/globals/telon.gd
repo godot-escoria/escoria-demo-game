@@ -36,8 +36,7 @@ func input_event(event):
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "events", "skipped")
 
 func game_cleared():
-	if global_id != "":
-		vm.register_object(global_id, self)
+	vm.register_object(global_id, self)
 
 func set_volume(p_vol):
 	# TODO manage multiple buses
