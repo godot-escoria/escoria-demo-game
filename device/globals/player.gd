@@ -194,7 +194,7 @@ func _get_dir_deg(deg):
 	var dir = 0
 	var i = 0
 	for ang in animations.dir_angles:
-		if deg < ang:
+		if deg <= ang:
 			dir = i
 			break
 		i+=2

@@ -34,7 +34,7 @@ func _get_dir(angle):
 	var dir = -1
 	var i = 0
 	for ang in animations.dir_angles:
-		if deg < ang:
+		if deg <= ang:
 			dir = i
 			break
 		i+=2
