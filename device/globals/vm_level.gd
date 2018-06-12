@@ -159,6 +159,11 @@ func walk(params):
 func walk_block(params):
 	return _walk(params, true)
 
+func turn_to(params):
+	var obj = vm.get_object(params[0])
+	obj.turn_to(int(params[1]))
+	return vm.state_return
+
 func change_scene(params):
 	# looking for localized string format in scene. this should be somewhere else
 	var sep = params[0].find(":\"")

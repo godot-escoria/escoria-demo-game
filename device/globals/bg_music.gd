@@ -4,8 +4,7 @@ var stream
 
 func game_cleared():
 	set_state("off", true)
-	if global_id != "":
-		vm.register_object(global_id, self)
+	vm.register_object(global_id, self)
 
 func set_state(p_state, p_force = false):
 

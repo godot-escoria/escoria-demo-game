@@ -360,8 +360,9 @@ func _ready():
 
 	if events_path != "":
 		event_table = vm.compile(events_path)
-	if global_id != "":
-		vm.register_object(global_id, self)
+
+	vm.register_object(global_id, self)
+
 	if has_node("animation"):
 		get_node("animation").connect("animation_finished", self, "anim_finished")
 

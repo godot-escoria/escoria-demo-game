@@ -26,7 +26,6 @@ rect_clip_content = false
 [node name="telon" parent="layers/telon" index="1" instance_placeholder="res://globals/telon.tscn"]
 
 mouse_default_cursor_shape = 0
-global_id = "telon"
 
 [node name="dialog" type="CanvasLayer" parent="layers" index="1"]
 

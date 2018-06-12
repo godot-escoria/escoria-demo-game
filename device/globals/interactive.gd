@@ -26,15 +26,17 @@ func set_light_on_map(p_light):
 	else:
 		modulate(Color(1, 1, 1, 1))
 
-
 func _get_dir(angle):
 	if animations == null:
 		return -1
 	var deg = rad2deg(angle) + 180
+	return _get_dir_deg(deg)
+
+func _get_dir_deg(deg):
 	var dir = -1
 	var i = 0
 	for ang in animations.dir_angles:
-		if deg < ang:
+		if deg <= ang:
 			dir = i
 			break
 		i+=2
@@ -109,16 +111,28 @@ func _process(time):
 		var angle = old_pos.angle_to_point(pos)
 		set_position(pos)
 
-		last_dir = _get_dir(angle)
+		last_dir = _get_dir_deg(angle)
 
-		if has_node("animation"):
+		if animation:
 			if last_dir != -1 && animation.get_current_animation() != animations.directions[last_dir]:
 				animation.play(animations.directions[last_dir])
 
-		#pose_scale = animations.directions[last_dir+1]
-
 	if self is esc_type.ITEM:
 		_update_terrain()
+
+func turn_to(deg):
+	if deg < 0 or deg > 360:
+		vm.report_errors("interactive", ["Invalid degree to turn to " + str(deg)])
+
+	last_dir = _get_dir_deg(deg)
+
+	if animation:
+		if !animation.get_current_animation() or animation.get_current_animation() != animations.directions[last_dir]:
+			animation.play(animations.directions[last_dir])
+
+			# Explicitly set an idle state, as that's most likely desired. Think of lighting
+			# or breathing effects or other such idle animations.
+			set_state(animations.idles[last_dir])
 
 func _find_sprites(p = null):
 	if p is Sprite || p is AnimatedSprite || p is TextureRect || p is TextureButton:
