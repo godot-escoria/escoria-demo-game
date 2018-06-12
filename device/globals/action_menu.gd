@@ -30,7 +30,7 @@ func check_clamp(click_pos, camera):
 	if dist_from_top < 0:
 		click_pos.y -= dist_from_top
 
-	return click_pos - get_size()
+	return click_pos - get_size() / 2
 
 func start(p_target):
 	if target != p_target:
