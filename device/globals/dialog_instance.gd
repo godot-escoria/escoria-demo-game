@@ -69,6 +69,26 @@ func finish():
 			anim.play("hide")
 	_queue_free()
 
+func clamped_position(dialog_pos):
+	var my_size = $"anchor/text".get_size()
+	var center_offset = my_size.x / 2
+
+	var dist_from_right = vm.camera_limits.size.x - (dialog_pos.x + center_offset)
+	var dist_from_left = dialog_pos.x - center_offset
+	var dist_from_bottom = vm.camera_limits.size.y - (dialog_pos.y + my_size.y)
+	var dist_from_top = dialog_pos.y - my_size.y
+
+	if dist_from_right < 0:
+		dialog_pos.x += dist_from_right
+	if dist_from_left < 0:
+		dialog_pos.x -= dist_from_left
+	if dist_from_bottom < 0:
+		dialog_pos.y += dist_from_bottom
+	if dist_from_top < 0:
+		dialog_pos.y -= dist_from_top
+
+	return dialog_pos
+
 func init(p_params, p_context, p_intro, p_outro):
 	character = vm.get_object(p_params[0])
 	context = p_context
@@ -104,6 +124,8 @@ func init(p_params, p_context, p_intro, p_outro):
 			pos = character.get_node("dialog_pos").get_global_position()
 		else:
 			pos = character.get_position()
+
+		pos = clamped_position(pos)
 		set_position(pos)
 
 	if has_node("anchor/avatars"):

@@ -3,13 +3,20 @@ extends Control
 var background = null
 
 func set_tooltip(text):
+	if !$"tooltip":
+		return
+
+	$"tooltip".text = text
+
 	if text:
 		printt("hud got tooltip text ", text)
-	$tooltip.set_text(text)
+		$"tooltip".show()
+	else:
+		$"tooltip".hide()
 
 func set_tooltip_visible(p_visible):
-	if $tooltip:
-		$tooltip.visible = p_visible
+	if $"tooltip":
+		$"tooltip".visible = p_visible
 
 func inv_toggle():
 	#get_node("inventory").toggle()
@@ -55,3 +62,4 @@ func _ready():
 	# Hide verb menu if hud layer has an action menu
 	if has_node("../action_menu"):
 		$verb_menu.hide()
+

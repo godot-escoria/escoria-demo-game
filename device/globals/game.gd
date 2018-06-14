@@ -31,6 +31,31 @@ var tooltip
 func set_mode(p_mode):
 	mode = p_mode
 
+func tooltip_clamped_position(tt_pos):
+	var vp_size = get_viewport().size
+	var tt_size = tooltip.get_size()
+	tt_pos -= tt_size / Vector2(2, 1)
+
+	# var dist_from_right = vp_size.x - (tt_pos.x + tt_size.x)
+	# var dist_from_left = tt_pos.x - tt_size.x
+	var dist_from_bottom = vp_size.y - (tt_pos.y + tt_size.y)
+	var dist_from_top = tt_pos.y - tt_size.y
+
+	## XXX: Godot has serious issues with the width of the text, so tooltips need
+	## to be wide at a fixed size, which makes horizontal clamping impossible.
+	## The code is left here in case someone fixes Godot.
+	# if dist_from_right < 0:
+		# tt_pos.x += dist_from_right
+	# if dist_from_left < 0:
+		# tt_pos.x -= dist_from_left
+
+	if dist_from_bottom < 0:
+		tt_pos.y += dist_from_bottom
+	if dist_from_top < 0:
+		tt_pos.y -= dist_from_top
+
+	return tt_pos
+
 func mouse_enter(obj):
 	# Immediately bail out if the action menu is open
 	if action_menu and action_menu.is_visible():
@@ -41,9 +66,11 @@ func mouse_enter(obj):
 	var tt = obj.get_tooltip()
 
 	# When following the mouse, prevent text from flashing for a moment in the wrong place
-	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
+	if tooltip and ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
 		var pos = get_viewport().get_mouse_position()
-		pos -= tooltip.get_size() / Vector2(2, 1)
+
+		pos = tooltip_clamped_position(pos)
+
 		tooltip.set_position(pos)
 
 	# We must hide all non-inventory tooltips and interactions when the inventory is open
@@ -233,7 +260,7 @@ func spawn_action_menu(obj):
 		player.walk_stop(player.position)
 
 	var pos = get_viewport().get_mouse_position()
-	var am_pos = action_menu.check_clamp(pos, camera)
+	var am_pos = action_menu.check_clamp(pos)
 	action_menu.set_position(am_pos)
 	action_menu.show()
 	action_menu.start(obj)
@@ -382,7 +409,7 @@ func _input(ev):
 	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
 		# Must verify `position` is there, key inputs do not have it
 		if vm.hover_object and "position" in ev:
-			var pos = ev.position - tooltip.get_size() / Vector2(2, 1)
+			var pos = tooltip_clamped_position(ev.position)
 			tooltip.set_position(pos)
 
 func set_inventory_enabled(p_enabled):
