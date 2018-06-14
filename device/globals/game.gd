@@ -399,11 +399,6 @@ func set_camera_limits():
 	if camera_limits.size.x == 0 and camera_limits.size.y == 0:
 		var area = Rect2()
 		for child in get_parent().get_children():
-			if child is esc_type.BACKGROUND:
-				var pos = child.get_global_position()
-				var size = child.get_size()
-				area = area.expand(pos)
-				area = area.expand(pos + size)
 			if child is esc_type.BACKGROUND_AREA:
 				var pos = child.get_global_position()
 				var size = child.get_texture().get_size()

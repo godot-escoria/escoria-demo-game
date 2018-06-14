@@ -19,7 +19,7 @@ There are also times when you want to enable the player to interact with items w
 * [item] - a `TextureRect` with an `item.gd` script attached and the properties you want to use for this item
     * ...
 
-You can also use an `Area2D` for your background item with a `CollisionPolygon2D` child node, which lets you draw the outline of the item directly in the editor. Do note, however, that the latter only works with a `Sprite` background with the `background_area.gd` script attached.
+You can also use an `Area2D` for your background item with a `CollisionPolygon2D` child node, which lets you draw the outline of the item directly in the editor.
 
 * [item] - an `Area2D`  with an `item.gd` script attached and the properties you want to use for this item
     * `CollisionPolygon2D` which defines the shape of the item
