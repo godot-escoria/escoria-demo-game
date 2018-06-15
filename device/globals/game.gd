@@ -410,7 +410,7 @@ func _input(ev):
 		# Must verify `position` is there, key inputs do not have it
 		if vm.hover_object and "position" in ev:
 			var pos = tooltip_clamped_position(ev.position)
-			tooltip.set_position(pos)
+			tooltip.set_global_position(pos)
 
 func set_inventory_enabled(p_enabled):
 	inventory_enabled = p_enabled
