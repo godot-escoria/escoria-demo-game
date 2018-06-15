@@ -169,8 +169,8 @@ func clicked(obj, pos, input_event = null):
 	if input_event:
 		walk_context = {"fast": input_event.doubleclick}
 
-	# If an background_area is covered by an item, the item "wins"
-	if obj is esc_type.BACKGROUND_AREA:
+	# If a background is covered by an item, the item "wins"
+	if obj is esc_type.BACKGROUND:
 		for area in obj.get_child(0).get_overlapping_areas():
 			if area.has_method("is_clicked") and area.is_clicked():
 				return
@@ -427,11 +427,6 @@ func set_camera_limits():
 		var area = Rect2()
 		for child in get_parent().get_children():
 			if child is esc_type.BACKGROUND:
-				var pos = child.get_global_position()
-				var size = child.get_size()
-				area = area.expand(pos)
-				area = area.expand(pos + size)
-			if child is esc_type.BACKGROUND_AREA:
 				var pos = child.get_global_position()
 				var size = child.get_texture().get_size()
 				area = area.expand(pos)
