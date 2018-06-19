@@ -279,7 +279,7 @@ func _process(time):
 
 		pos = new_pos
 
-		var angle = (old_pos.angle_to_point(pos) - PI/2) * -1
+		var angle = (old_pos.angle_to_point(pos)) * -1
 		set_position(pos)
 
 		last_dir = _get_dir(angle)
@@ -327,6 +327,8 @@ func turn_to(deg):
 	if animation.get_current_animation() != animations.directions[last_dir]:
 		animation.play(animations.directions[last_dir])
 	pose_scale = animations.directions[last_dir+1]
+	_update_terrain()
+
 
 func _find_sprites(p = null):
 	if p is Sprite || p is AnimatedSprite:
