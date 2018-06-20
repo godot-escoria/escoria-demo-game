@@ -7,10 +7,7 @@ path="res://.import/newspaper.png-baf949dd5b1b35105a446a80565f4b12.stex"
 [deps]
 
 source_file="res://demo/rooms/test/newspaper.png"
-source_md5="22944f960b504c9fd5bd086dd0c86d2a"
-
 dest_files=[ "res://.import/newspaper.png-baf949dd5b1b35105a446a80565f4b12.stex" ]
-dest_md5="2b4fa36af833a8bcef0c8f607237f787"
 
 [params]
 

@@ -7,10 +7,7 @@ path="res://.import/can.png-7ec78294b4e31a7731cce16ec28ecb3d.stex"
 [deps]
 
 source_file="res://demo/rooms/test/can.png"
-source_md5="9b5fb7316afa25c3f0019a392d6e3605"
-
 dest_files=[ "res://.import/can.png-7ec78294b4e31a7731cce16ec28ecb3d.stex" ]
-dest_md5="f02e10c266db519d9c42f2f27bf40723"
 
 [params]
 

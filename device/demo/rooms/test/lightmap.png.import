@@ -7,10 +7,7 @@ path="res://.import/lightmap.png-afbc9f9f3ccea5108aedc97f04892900.stex"
 [deps]
 
 source_file="res://demo/rooms/test/lightmap.png"
-source_md5="2589e30a3b7bc595419fdeaf0959f866"
-
 dest_files=[ "res://.import/lightmap.png-afbc9f9f3ccea5108aedc97f04892900.stex" ]
-dest_md5="99f0d24f490fc0c89738f92b4e64b130"
 
 [params]
 
