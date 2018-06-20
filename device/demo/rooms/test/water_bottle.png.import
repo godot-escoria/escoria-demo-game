@@ -7,10 +7,7 @@ path="res://.import/water_bottle.png-88c2210ceac68963dc5197ad4235c78d.stex"
 [deps]
 
 source_file="res://demo/rooms/test/water_bottle.png"
-source_md5="8a9dbbac57ad5465174272c8d7697c0c"
-
 dest_files=[ "res://.import/water_bottle.png-88c2210ceac68963dc5197ad4235c78d.stex" ]
-dest_md5="c103811e39e6d6a65bcdce897cc62155"
 
 [params]
 

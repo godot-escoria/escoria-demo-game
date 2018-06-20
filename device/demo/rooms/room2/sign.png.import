@@ -7,10 +7,7 @@ path="res://.import/sign.png-b7e34d3c0d5a94ca7da5945f1982be8c.stex"
 [deps]
 
 source_file="res://demo/rooms/room2/sign.png"
-source_md5="abbf6861cb0607649bc68de154e96f95"
-
 dest_files=[ "res://.import/sign.png-b7e34d3c0d5a94ca7da5945f1982be8c.stex" ]
-dest_md5="ad7daafcfdbe74cb80985b7b68fc0e52"
 
 [params]
 

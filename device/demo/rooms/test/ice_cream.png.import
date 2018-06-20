@@ -7,10 +7,7 @@ path="res://.import/ice_cream.png-557d906d87c47ecf4aaff4277cee08c5.stex"
 [deps]
 
 source_file="res://demo/rooms/test/ice_cream.png"
-source_md5="7ac1ab0bb5fbaf811ef867a2164da91f"
-
 dest_files=[ "res://.import/ice_cream.png-557d906d87c47ecf4aaff4277cee08c5.stex" ]
-dest_md5="d0cb868fc578059087e6c3a95584fc35"
 
 [params]
 

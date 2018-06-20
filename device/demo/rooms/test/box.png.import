@@ -7,10 +7,7 @@ path="res://.import/box.png-fc7c20620d4a0121c1ab344ce21c6019.stex"
 [deps]
 
 source_file="res://demo/rooms/test/box.png"
-source_md5="a32e7d4b26bb460b0b9fc76c9d77ba7a"
-
 dest_files=[ "res://.import/box.png-fc7c20620d4a0121c1ab344ce21c6019.stex" ]
-dest_md5="4ad2669c4a683f5cc4aa70e916551cb0"
 
 [params]
 

@@ -7,10 +7,7 @@ path="res://.import/chainsaw.png-c04bd15c520fb665d9758e6397c96eab.stex"
 [deps]
 
 source_file="res://demo/rooms/test/chainsaw.png"
-source_md5="b82eca0da469b866b64073937c232b5e"
-
 dest_files=[ "res://.import/chainsaw.png-c04bd15c520fb665d9758e6397c96eab.stex" ]
-dest_md5="714adaae21a93e276afed4a6ae3d9e4c"
 
 [params]
 
