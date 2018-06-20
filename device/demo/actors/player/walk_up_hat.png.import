@@ -7,10 +7,7 @@ path="res://.import/walk_up_hat.png-7e5ea717bb5b041bb6879327f5b88a82.stex"
 [deps]
 
 source_file="res://demo/actors/player/walk_up_hat.png"
-source_md5="aa21e5aa6d9c64df0f3469e5fc0d6ec4"
-
 dest_files=[ "res://.import/walk_up_hat.png-7e5ea717bb5b041bb6879327f5b88a82.stex" ]
-dest_md5="70d8b1d39584603fa46bcef14f0e6e45"
 
 [params]
 

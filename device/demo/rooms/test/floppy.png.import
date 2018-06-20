@@ -7,10 +7,7 @@ path="res://.import/floppy.png-f32fc11cf2058e2aee430d3fba282025.stex"
 [deps]
 
 source_file="res://demo/rooms/test/floppy.png"
-source_md5="4fce9375b527b027ac9c077ccf576639"
-
 dest_files=[ "res://.import/floppy.png-f32fc11cf2058e2aee430d3fba282025.stex" ]
-dest_md5="738219c1b99b999ae52cff7ce244f601"
 
 [params]
 

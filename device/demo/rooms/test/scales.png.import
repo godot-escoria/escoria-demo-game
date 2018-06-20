@@ -7,10 +7,7 @@ path="res://.import/scales.png-f6833921dd38afc0e3b086c975840955.stex"
 [deps]
 
 source_file="res://demo/rooms/test/scales.png"
-source_md5="2cc26e5e86773e12470fc119508ce8e3"
-
 dest_files=[ "res://.import/scales.png-f6833921dd38afc0e3b086c975840955.stex" ]
-dest_md5="99f0d24f490fc0c89738f92b4e64b130"
 
 [params]
 

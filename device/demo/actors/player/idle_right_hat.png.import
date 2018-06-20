@@ -7,10 +7,7 @@ path="res://.import/idle_right_hat.png-d9c1cfa2850a7edf6099673601c8fc1b.stex"
 [deps]
 
 source_file="res://demo/actors/player/idle_right_hat.png"
-source_md5="a685e0a8cc1cf942d320904da209e342"
-
 dest_files=[ "res://.import/idle_right_hat.png-d9c1cfa2850a7edf6099673601c8fc1b.stex" ]
-dest_md5="51d6765ef51ccd3e1e1e6c228883d1f9"
 
 [params]
 
