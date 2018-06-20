@@ -7,10 +7,7 @@ path="res://.import/box_inverted.png-cde0d6399455670db56c59eee0209709.stex"
 [deps]
 
 source_file="res://demo/rooms/test/box_inverted.png"
-source_md5="8dfa4449ce6db17490393f53f12cf3fa"
-
 dest_files=[ "res://.import/box_inverted.png-cde0d6399455670db56c59eee0209709.stex" ]
-dest_md5="ccdb7978c6830517a838cd224db938de"
 
 [params]
 

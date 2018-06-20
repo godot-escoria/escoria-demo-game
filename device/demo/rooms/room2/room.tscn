@@ -18,8 +18,7 @@ vertices = PoolVector2Array( 1491.17, 617.027, 1491.17, 657.925, 1112.47, 689.27
 polygons = [ PoolIntArray( 0, 1, 2, 3, 4, 5 ), PoolIntArray( 6, 4, 3, 7 ), PoolIntArray( 5, 4, 8 ), PoolIntArray( 9, 5, 8, 10 ), PoolIntArray( 11, 9, 10 ), PoolIntArray( 6, 7, 12, 13, 11, 10 ) ]
 outlines = [ PoolVector2Array( 414.945, 555.219, 766.377, 567.042, 1204.89, 557.953, 1491.17, 617.027, 1491.17, 657.925, 1112.47, 689.271, 705.031, 687.462, 350.588, 673.829, 159.734, 646.564, 158.201, 587.028 ), PoolVector2Array( 621.927, 596.206, 619.837, 630.408, 848.029, 649.017, 847.74, 611.076 ) ]
 
-[node name="scene" type="Node2D"]
-
+[node name="scene" type="Node2D" index="0"]
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_lock_": true
@@ -27,7 +26,6 @@ __meta__ = {
 events_path = ""
 
 [node name="background" type="Sprite" parent="." index="0"]
-
 texture = ExtResource( 2 )
 centered = false
 script = ExtResource( 3 )
@@ -37,7 +35,6 @@ __meta__ = {
 action = "walk"
 
 [node name="terrain" type="Navigation2D" parent="." index="1"]
-
 editor/display_folded = true
 position = Vector2( -65.0709, 373.302 )
 script = ExtResource( 4 )
@@ -56,7 +53,6 @@ player_speed_multiplier = 1.0
 player_doubleclick_speed_multiplier = 1.5
 
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="terrain" index="0"]
-
 position = Vector2( -226.309, -691.971 )
 scale = Vector2( 2.18869, 2.5645 )
 navpoly = SubResource( 1 )
@@ -66,7 +62,6 @@ __meta__ = {
 }
 
 [node name="player" parent="." index="2" instance=ExtResource( 5 )]
-
 position = Vector2( 1735.14, 1210.67 )
 z_index = 1210
 _sections_unfolded = [ "Transform" ]
@@ -75,7 +70,6 @@ placeholders = {
 }
 
 [node name="zoom_in" type="Area2D" parent="." index="3"]
-
 editor/display_folded = true
 position = Vector2( 1229.91, 1191.31 )
 z_index = 50
@@ -113,7 +107,6 @@ placeholders = {
 use_custom_z = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="zoom_in" index="0"]
-
 build_mode = 0
 polygon = PoolVector2Array( -87.4153, -96.8391, -87.4153, 12.9872, -15.953, 13.7394, -13.6963, 100.246, 18.6498, 100.246, 20.1543, 15.2439, 90.1121, 17.5006, 93.1211, -98.3436 )
 __meta__ = {
@@ -121,14 +114,12 @@ __meta__ = {
 }
 
 [node name="Sprite" type="Sprite" parent="zoom_in" index="1"]
-
 texture = ExtResource( 7 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="Label" type="Label" parent="zoom_in" index="2"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -155,11 +146,9 @@ __meta__ = {
 }
 
 [node name="interact_pos" type="Position2D" parent="zoom_in" index="3"]
-
 position = Vector2( -104.491, 202.88 )
 
 [node name="zoom_out" type="Area2D" parent="." index="4"]
-
 editor/display_folded = true
 position = Vector2( 1443.48, 1219.74 )
 z_index = 50
@@ -197,7 +186,6 @@ placeholders = {
 use_custom_z = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="zoom_out" index="0"]
-
 build_mode = 0
 polygon = PoolVector2Array( -87.4153, -96.8391, -87.4153, 12.9872, -15.953, 13.7394, -13.6963, 100.246, 18.6498, 100.246, 20.1543, 15.2439, 90.1121, 17.5006, 93.1211, -98.3436 )
 __meta__ = {
@@ -205,14 +193,12 @@ __meta__ = {
 }
 
 [node name="Sprite" type="Sprite" parent="zoom_out" index="1"]
-
 texture = ExtResource( 7 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="Label" type="Label" parent="zoom_out" index="2"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -239,11 +225,9 @@ __meta__ = {
 }
 
 [node name="interact_pos" type="Position2D" parent="zoom_out" index="3"]
-
 position = Vector2( 96.1008, 199.066 )
 
 [node name="mountain" type="TextureButton" parent="." index="5"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -290,11 +274,9 @@ placeholders = {
 use_custom_z = false
 
 [node name="sun_interact_pos" type="Position2D" parent="." index="6"]
-
 position = Vector2( 1800, 1200 )
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="." index="7"]
-
 layer = -1
 offset = Vector2( 0, 0 )
 rotation = 0.0
@@ -308,7 +290,6 @@ scroll_limit_end = Vector2( 0, 0 )
 scroll_ignore_camera_zoom = false
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground" index="0"]
-
 position = Vector2( -250, -125 )
 motion_scale = Vector2( 0.8, 0.8 )
 motion_offset = Vector2( 0, 0 )
@@ -318,7 +299,6 @@ __meta__ = {
 }
 
 [node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer" index="0"]
-
 texture = ExtResource( 9 )
 centered = false
 __meta__ = {
@@ -326,7 +306,6 @@ __meta__ = {
 }
 
 [node name="sun" type="TextureButton" parent="ParallaxBackground/ParallaxLayer" index="1"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -373,5 +352,8 @@ placeholders = {
 use_custom_z = false
 
 [node name="game" parent="." index="8" instance=ExtResource( 11 )]
-
+drag_margin_left = 0.2
+drag_margin_top = 0.2
+drag_margin_right = 0.2
+drag_margin_bottom = 0.2
 
