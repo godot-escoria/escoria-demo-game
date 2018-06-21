@@ -165,7 +165,13 @@ Items can also change state by playing animations from an `AnimationPlayer` name
   Moves object1 towards the position of object2, at the speed determined by object1's "speed" property. This command is blocking.
 
 - `turn_to object degrees`
-  Turns `object` to a `degrees` angle.
+  Turns `object` to a `degrees` angle with a `directions` animation.
+  0 sets `object` facing forward, 90 sets it 90 degrees clockwise ("east") etc. When turning to the destination angle, animations are played if they're defined in `animations`.
+  `object` must be player or interactive.
+  `degrees` must be between [0, 360] or an error is reported.
+
+- `set_angle object degrees`
+  Turns `object` to a `degrees` angle without animations.
   0 sets `object` facing forward, 90 sets it 90 degrees clockwise ("east") etc. When turning to the destination angle, animations are played if they're defined in `animations`.
   `object` must be player or interactive.
   `degrees` must be between [0, 360] or an error is reported.

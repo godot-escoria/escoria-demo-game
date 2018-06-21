@@ -329,6 +329,15 @@ func turn_to(deg):
 	pose_scale = animations.directions[last_dir+1]
 	_update_terrain()
 
+func set_angle(deg):
+	if deg < 0 or deg > 360:
+		vm.report_errors("player", ["Invalid degree to turn to " + str(deg)])
+
+	last_dir = _get_dir_deg(deg)
+
+	pose_scale = animations.idles[last_dir+1]
+	_update_terrain()
+
 
 func _find_sprites(p = null):
 	if p is Sprite || p is AnimatedSprite:

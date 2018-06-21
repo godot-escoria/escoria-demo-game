@@ -134,6 +134,16 @@ func turn_to(deg):
 			# or breathing effects or other such idle animations.
 			set_state(animations.idles[last_dir])
 
+func set_angle(deg):
+	if deg < 0 or deg > 360:
+		vm.report_errors("interactive", ["Invalid degree to turn to " + str(deg)])
+
+	last_dir = _get_dir_deg(deg)
+
+	if animations and "idles" in animations:
+		pose_scale = animations.idles[last_dir + 1]
+		_update_terrain()
+
 func _find_sprites(p = null):
 	if p is Sprite || p is AnimatedSprite || p is TextureRect || p is TextureButton:
 		sprites.push_back(p)
