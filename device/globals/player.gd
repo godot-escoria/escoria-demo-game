@@ -345,12 +345,14 @@ func _ready():
 	if Engine.is_editor_hint():
 		return
 
-	animation = get_node("animation")
 	vm = $"/root/vm"
-	vm.register_object("player", self)
-	#_update_terrain();
+
 	if has_node("animation"):
-		get_node("animation").connect("animation_finished", self, "anim_finished")
+		animation = $"animation"
+		animation.connect("animation_finished", self, "anim_finished")
+		vm.report_errors("player", ["Animations not set for player."])
+
+	vm.register_object("player", self)
 
 	last_scale = get_scale()
 	set_process(true)
