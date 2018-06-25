@@ -45,12 +45,9 @@ func anim_finished(anim_name):
 		set_scale(get_scale() * anim_scale_override)
 		anim_scale_override = null
 
-	var cur = animation.get_current_animation()
-
-	# `cur` is always "" for a finished animation,
-	# this forces the state to be reset and the animation played again
-	if cur != state:
-		set_state(state, true)
+	# Although states are permanent until changed, the underlying animations are not,
+	# so we must re-set the state for the appearance of permanence
+	set_state(state, true)
 
 func set_active(p_active):
 	active = p_active
@@ -252,9 +249,8 @@ func set_state(p_state, p_force = false):
 
 	# printt("set state ", "global_id: ", global_id, "state: ", state, "p_state: ", p_state, "p_force: ", p_force)
 
-	if has_node("animation"):
-		get_node("animation").stop()
 	state = p_state
+
 	if animation != null:
 		if animation.is_playing() && animation.get_current_animation() == p_state:
 			return

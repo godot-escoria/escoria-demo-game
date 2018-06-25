@@ -1,14 +1,16 @@
 # Setting states
 
 States are a versatile feature of Escoria. They provide a way to use the
-animation interfaces to have the player change costumes and items to
-appear different or transition from static to animated.
+animation interfaces to have items to appear different or transition from
+static to animated.
 
 ## Animated items
 
 The animations are documented in the flossmanuals book, eg.
 [Animations](https://fr.flossmanuals.net/creating-point-and-click-games-with-escoria/animations/)
 and [Main Player](https://fr.flossmanuals.net/creating-point-and-click-games-with-escoria/main-player/) for most of your needs.
+
+Note that for the player character and animated items which "idle", ie. NPCs, you must allow the appearance-changing animation to execute completely by running the `cut_scene` esc command and then running `set_state char idle` for the appearance-change to come into effect.
 
 ## Static items
 
