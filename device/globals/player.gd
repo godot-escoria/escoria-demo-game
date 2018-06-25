@@ -359,7 +359,8 @@ func _ready():
 	if has_node("animation"):
 		animation = $"animation"
 		animation.connect("animation_finished", self, "anim_finished")
-		vm.report_errors("player", ["Animations not set for player."])
+		if not animations:
+			vm.report_errors("player", ["Animations not set for player."])
 
 	vm.register_object("player", self)
 
