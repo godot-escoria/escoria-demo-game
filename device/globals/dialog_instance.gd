@@ -1,4 +1,4 @@
-extends Container
+extends Node2D
 
 var context
 var text
