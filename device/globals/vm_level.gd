@@ -195,7 +195,18 @@ func dialog_config(params):
 func sched_event(params):
 	var time = params[0]
 	var obj = params[1]
-	var event = params[2]
+	var event
+	if params.size() == 3:
+		event = params[2]
+	else:
+		# This should be easier in Godot 3.1 with array slicing
+		for i in range(2, params.size()):
+			var word = params[i]
+			if not event:
+				event = word
+			else:
+				event += " %s" % word
+
 	if !check_obj(obj, "sched_event"):
 		return
 	var o = vm.get_object(obj)
