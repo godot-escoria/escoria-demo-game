@@ -51,6 +51,8 @@ func walk_stop(pos):
 	set_state(state)
 
 	task = null
+	if "idles" in animations:
+		pose_scale = animations.idles[last_dir + 1]
 	_update_terrain()
 
 	if walk_context != null:
@@ -129,10 +131,8 @@ func turn_to(deg):
 	if animation:
 		if !animation.get_current_animation() or animation.get_current_animation() != animations.directions[last_dir]:
 			animation.play(animations.directions[last_dir])
-
-			# Explicitly set an idle state, as that's most likely desired. Think of lighting
-			# or breathing effects or other such idle animations.
-			set_state(animations.idles[last_dir])
+		pose_scale = animations.directions[last_dir + 1]
+		_update_terrain()
 
 func set_angle(deg):
 	if deg < 0 or deg > 360:

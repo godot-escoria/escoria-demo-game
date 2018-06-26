@@ -52,6 +52,10 @@ func anim_finished(anim_name):
 	if cur != state:
 		set_state(state, true)
 
+	if animations and "idles" in animations:
+		pose_scale = animations.idles[last_dir + 1]
+		_update_terrain()
+
 func set_active(p_active):
 	active = p_active
 	if p_active:
@@ -244,7 +248,9 @@ func set_speaking(p_speaking):
 		if get_node("animation").is_playing():
 			get_node("animation").stop()
 		set_state(state, true)
-	pass
+		if animations and "idles" in animations:
+			pose_scale = animations.idles[last_dir + 1]
+	_update_terrain()
 
 func set_state(p_state, p_force = false):
 	if state == p_state && !p_force:
@@ -282,10 +288,24 @@ func _update_terrain():
 	var color = terrain.get_terrain(pos)
 	var scale_range = terrain.get_scale_range(color.b)
 
+	# The item's - as the player's - `animations` define the direction
+	# as 1 or -1. This is stored as `pose_scale` and the easiest way
+	# to flip a node is multiply its x-axis scale.
+	scale_range.x *= pose_scale
+
 	if scale_on_map && (self is Node2D) && scale_range != get_scale():
-		var c = terrain.get_terrain(pos)
-		var s = terrain.get_scale_range(c.b)
-		set_scale(s)
+		# Check if `interact_pos` is a child of ours, and if so,
+		# take a backup of the global position, because it will be affected by scaling.
+		var interact_global_position
+		if has_node("interact_pos"):
+			interact_global_position = interact_pos.get_global_position()
+
+		self.scale = scale_range
+
+		# If `interact_pos` is a child, it was affected by scaling, so reset it
+		# to the expected location.
+		if interact_global_position:
+			interact_pos.global_position = interact_global_position
 
 	if light_on_map:
 		var c = terrain.get_light(pos)
