@@ -45,12 +45,9 @@ func anim_finished(anim_name):
 		set_scale(get_scale() * anim_scale_override)
 		anim_scale_override = null
 
-	var cur = animation.get_current_animation()
-
-	# `cur` is always "" for a finished animation,
-	# this forces the state to be reset and the animation played again
-	if cur != state:
-		set_state(state, true)
+	# Although states are permanent until changed, the underlying animations are not,
+	# so we must re-set the state for the appearance of permanence
+	set_state(state, true)
 
 	if animations and "idles" in animations:
 		pose_scale = animations.idles[last_dir + 1]
@@ -198,8 +195,7 @@ func anim_get_ph_paths(p_anim):
 	return ret
 
 func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
-
-	if p_notify == null && (!has_node("animation") || !get_node("animation").has_animation(p_anim)):
+	if p_notify == null and (!animation or !animation.has_animation(p_anim)):
 		print("skipping cut scene '", p_anim, "'")
 		vm.finished(p_notify)
 		#_debug_states()
@@ -223,9 +219,9 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 		anim_scale_override = null
 
 	if p_reverse:
-		get_node("animation").play(p_anim, -1, -1, true)
+		animation.play(p_anim, -1, -1, true)
 	else:
-		get_node("animation").play(p_anim)
+		animation.play(p_anim)
 	anim_notify = p_notify
 
 	#_debug_states()
@@ -234,19 +230,15 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 func set_speaking(p_speaking):
 	printt("item set speaking! ", global_id, p_speaking, state)
 	#print_stack()
-	if !has_node("animation"):
+	if !animation:
 		return
 	if talk_animation == "":
 		return
 	if p_speaking:
-		if get_node("animation").has_animation(talk_animation):
-			get_node("animation").play(talk_animation)
-			get_node("animation").seek(0, true)
-		#else:
-		#	set_state(state, true)
+		if animation.has_animation(talk_animation):
+			animation.play(talk_animation)
+			animation.seek(0, true)
 	else:
-		if get_node("animation").is_playing():
-			get_node("animation").stop()
 		set_state(state, true)
 		if animations and "idles" in animations:
 			pose_scale = animations.idles[last_dir + 1]
@@ -258,12 +250,11 @@ func set_state(p_state, p_force = false):
 
 	# printt("set state ", "global_id: ", global_id, "state: ", state, "p_state: ", p_state, "p_force: ", p_force)
 
-	if has_node("animation"):
-		get_node("animation").stop()
 	state = p_state
+
 	if animation != null:
-		if animation.is_playing() && animation.get_current_animation() == p_state:
-			return
+		# Though calling `.play()` probably stops the animation, be safe.
+		animation.stop()
 		if animation.has_animation(p_state):
 			animation.play(p_state)
 
@@ -383,8 +374,8 @@ func _ready():
 
 	vm.register_object(global_id, self)
 
-	if has_node("animation"):
-		get_node("animation").connect("animation_finished", self, "anim_finished")
+	if animation:
+		animation.connect("animation_finished", self, "anim_finished")
 
 	_check_focus(false, false)
 

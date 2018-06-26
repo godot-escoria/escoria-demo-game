@@ -46,8 +46,7 @@ func walk_stop(pos):
 	set_position(pos)
 	walk_path = []
 
-	if animation != null && animation.is_playing():
-		animation.stop()
+	# Walking is not a state, but we must re-set our previous state to reset the animation
 	set_state(state)
 
 	task = null
