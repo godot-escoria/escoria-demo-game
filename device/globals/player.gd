@@ -28,6 +28,8 @@ var anim_scale_override = null
 var sprites = []
 export var placeholders = {}
 
+var state
+
 func set_active(p_active):
 	if p_active:
 		show()
@@ -61,7 +63,10 @@ func anim_finished(anim_name):
 		set_scale(get_scale() * anim_scale_override)
 		anim_scale_override = null
 
-	animation.play(animations.idles[last_dir])
+	# Although states are permanent until changed, the underlying animations are not,
+	# so we must re-set the state for the appearance of permanence
+	set_state(state, true)
+
 	pose_scale = animations.idles[last_dir + 1]
 	_update_terrain()
 
@@ -100,7 +105,7 @@ func anim_get_ph_paths(p_anim):
 	return ret
 
 func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
-	if p_notify != null && (!has_node("animation") || !get_node("animation").has_animation(p_anim)):
+	if p_notify != null and (!animation || !animation.has_animation(p_anim)):
 		vm.finished(p_notify)
 		return
 
@@ -114,7 +119,6 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 			node.replace_by_instance(res)
 			_find_sprites(get_node(npath))
 
-
 	pose_scale = 1
 	_update_terrain()
 	if p_flip != null:
@@ -125,10 +129,9 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 		anim_scale_override = null
 
 	if p_reverse:
-		get_node("animation").play(p_anim, -1, -1, true)
+		animation.play(p_anim, -1, -1, true)
 	else:
-		get_node("animation").play(p_anim)
-		#get_node("animation").seek(0, true)
+		animation.play(p_anim)
 
 	anim_notify = p_notify
 	var dir = _find(p_anim, animations.directions, p_flip.x)
@@ -307,12 +310,17 @@ func teleport(obj):
 	set_position(pos)
 	_update_terrain()
 
-func set_state(costume):
-	var node = get_node(costume)
-	# You can `set_state player default` with no animation by that name, and get "animation"
-	animation = node if node else $"animation"
-	assert(animation is AnimationPlayer)
-	animation.play(animations.idles[last_dir])
+func set_state(p_state, p_force = false):
+	if state == p_state and !p_force:
+		return
+
+	state = p_state
+
+	if animation != null:
+		if animation.is_playing() and animation.get_current_animation() == p_state:
+			return
+		if animation.has_animation(p_state):
+			animation.play(p_state)
 
 func teleport_pos(x, y):
 	set_position(Vector2(x, y))

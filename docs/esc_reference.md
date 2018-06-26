@@ -114,11 +114,9 @@ set_globals i/* false
 ```
 
 - `set_state object state`
-  Changes the state of an object, and executes the state animation if present. The command can be used to change the appearance of an item or a player character.
+  Changes the state of an object, and executes the state animation if present. The command can be used to change the appearance of an item. Please see `cut_scene` for changing costumes for NPCs and the player character.
 
-When used on a player object, the command is used to dress the player in a costume identified by the state parameter. An `AnimationPlayer` with the given parameter should be a child of the player node, although one named "animation" is always the fallback when trying set a missing costume.
-
-Items can also change state by playing animations from an `AnimationPlayer` named "animation". The `AnimationPlayer` is typically used to change the texture of a `Sprite` node, but it's also possible to add additional tracks for changing the tooltip and other properties of the item scene. By using keyframes and looping, any given state can also use multiple textures to bring more life to the item.
+Items can change state by playing animations from an `AnimationPlayer` named "animation". The `AnimationPlayer` is typically used to change the texture of a `Sprite` node, but it's also possible to add additional tracks for changing the tooltip and other properties of the item scene. By using keyframes and looping, any given state can also use multiple textures to bring more life to the item.
 
 - `set_hud_visible visible`
   If you have a cut-scene-like sequence where the player doesn't have control, and you also have HUD elements visible, use this to hide the HUD. You want to do that because it explicitly signals the player that there is no control over the game at the moment. "visible" is true or false.
@@ -139,6 +137,10 @@ Items can also change state by playing animations from an `AnimationPlayer` name
   - reverse plays the animation in reverse when true
   - flip_x flips the x axis of the object's sprites when true (object's root node needs to be Node2D)
   - flip_y flips the y axis of the object's sprites when true (object's root node needs to be Node2D)
+
+  You must use this to change the appearance of the player character or an item that has an idle animation (think NPCs), and then explicitly `set_state char idle` for the appearance to come into effect.
+  An `AnimationPlayer` with the given parameter should be a child of the player node, although one named "animation" is always the fallback when trying set a missing costume.
+
 
 - `set_active object value`
   Changes the "active" state of the object, value can be true or false. Inactive objects are hidden in the scene.
