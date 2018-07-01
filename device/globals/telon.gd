@@ -9,23 +9,16 @@ export var music_volume = 1.0
 func set_input_catch(p_catch):
 	if catching_input == p_catch:
 		return
-	#get_node("input_catch").set_ignore_mouse(!p_catch)
+
 	if p_catch:
+		# When catching, assume we can handle the event in `input_event`
 		get_node("input_catch").set_mouse_filter(Control.MOUSE_FILTER_PASS)
 	else:
+		# When released, allow some other node to handle the click
 		get_node("input_catch").set_mouse_filter(Control.MOUSE_FILTER_IGNORE)
+
 	catching_input = p_catch
 	set_process_input(p_catch)
-
-	return
-	var anim = get_node("animation")
-	if p_catch:
-		anim.play("catch_input")
-		set_process_input(true)
-	else:
-		anim.play("release_input")
-		set_process_input(false)
-	catching_input = p_catch
 
 func _input(event):
 	if event.is_pressed() && event.is_action("ui_accept"):
@@ -119,7 +112,7 @@ func rand_seek(p_node = null):
 func _ready():
 	get_node("input_catch").connect("gui_input", self, "input_event")
 	get_node("input_catch").set_size(get_viewport().size)
-	get_node("animation").play("release_input")
+
 	add_to_group("game")
 
 	call_deferred("setup_vm")
