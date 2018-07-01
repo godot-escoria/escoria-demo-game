@@ -20,6 +20,10 @@ func set_input_catch(p_catch):
 	catching_input = p_catch
 	set_process_input(p_catch)
 
+func set_input_disabled(p_input_disabled):
+	$"/root".set_disable_input(p_input_disabled)
+	vm.set_global("save_disabled", str(p_input_disabled))
+
 func _input(event):
 	if event.is_pressed() && event.is_action("ui_accept"):
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "events", "skipped")
