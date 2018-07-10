@@ -88,34 +88,6 @@ func wait(time, level):
 	wait_timer.set_one_shot(true)
 	wait_timer.start()
 
-func check_screen():
-#	var vs = OS.get_video_mode_size()
-	var vs = OS.get_screen_size()
-	if vs == vm_size:
-		return
-	vm_size = vs
-
-	var rate = float(vs.x)/float(vs.y)
-	var height = int(game_size.x / rate)
-	get_node("/root").set_size_override(true,Vector2(game_size.x,height))
-	get_node("/root").set_size_override_stretch(true)
-
-	var m = Transform2D()
-	var ofs = Vector2(0, (height - game_size.y) / 2)
-	m.origin = ofs
-	get_node("/root").global_canvas_transform = m
-
-	screen_ofs = ofs
-	printt("**** screen ofs is ", screen_ofs)
-
-	#get_tree().set_auto_accept_quit(false)
-
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "set_camera_limits")
-
-
-func _process(time):
-	check_screen()
-
 func _input(event):
 	# CTRL+F12
 	if (event is InputEventKey and event.pressed and event.control and event.scancode==KEY_F12):
