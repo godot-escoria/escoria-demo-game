@@ -340,7 +340,7 @@ func set_angle(deg):
 
 
 func _find_sprites(p = null):
-	if p is Sprite || p is AnimatedSprite:
+	if p is CanvasItem:
 		sprites.push_back(p)
 	for i in range(0, p.get_child_count()):
 		_find_sprites(p.get_child(i))
