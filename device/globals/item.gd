@@ -13,7 +13,7 @@ export(Color) var dialog_color = null
 export var talk_animation = "talk"
 export var active = true setget set_active,get_active
 export var placeholders = {}
-export var use_custom_z = false
+export var dynamic_z_index = true
 
 var anim_notify = null
 var anim_scale_override = null
@@ -268,8 +268,9 @@ func teleport_pos(x, y):
 	_update_terrain()
 
 func _update_terrain():
-	if self is Node2D && !use_custom_z:
+	if self is Node2D and dynamic_z_index:
 		set_z_index(get_position().y)
+
 	if !scale_on_map && !light_on_map:
 		return
 
@@ -278,6 +279,7 @@ func _update_terrain():
 	var terrain = $"../terrain" if has_node("../terrain") else null
 	if terrain == null:
 		return
+
 	var color = terrain.get_terrain(pos)
 	var scale_range = terrain.get_scale_range(color.b)
 
@@ -286,7 +288,7 @@ func _update_terrain():
 	# to flip a node is multiply its x-axis scale.
 	scale_range.x *= pose_scale
 
-	if scale_on_map && (self is Node2D) && scale_range != get_scale():
+	if self is Node2D and scale_on_map and scale_range != get_scale():
 		# Check if `interact_pos` is a child of ours, and if so,
 		# take a backup of the global position, because it will be affected by scaling.
 		var interact_global_position
@@ -300,7 +302,7 @@ func _update_terrain():
 		if interact_global_position:
 			interact_pos.global_position = interact_global_position
 
-	if light_on_map:
+	if self is CanvasItem and light_on_map:
 		var c = terrain.get_light(pos)
 		modulate(c)
 
