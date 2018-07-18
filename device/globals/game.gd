@@ -171,9 +171,12 @@ func clicked(obj, pos, input_event = null):
 
 	# If a background is covered by an item, the item "wins"
 	if obj is esc_type.BACKGROUND:
-		for area in obj.get_child(0).get_overlapping_areas():
-			if area.has_method("is_clicked") and area.is_clicked():
-				return
+		var overlay = obj.get_child(0)  # Created by background.gd to intercept clicks
+		# Eg. Polygon2D does not have this method
+		if overlay.has_method("get_overlapping_areas"):
+			for area in overlay.get_overlapping_areas():
+				if area.has_method("is_clicked") and area.is_clicked():
+					return
 
 	# Hide the action menu (where available) when performing actions, so it's not eg. open while walking
 	if action_menu:
