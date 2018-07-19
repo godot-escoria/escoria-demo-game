@@ -361,13 +361,17 @@ func _ready():
 		area = get_node("area")
 	else:
 		area = self
-	if area is Area2D:
-		area.connect("input_event", self, "area_input")
-	else:
-		area.connect("gui_input", self, "input")
 
-	area.connect("mouse_entered", self, "mouse_enter")
-	area.connect("mouse_exited", self, "mouse_exit")
+	if ClassDB.class_has_signal(area.get_class(), "input_event"):
+		area.connect("input_event", self, "area_input")
+	elif ClassDB.class_has_signal(area.get_class(), "gui_input"):
+		area.connect("gui_input", self, "input")
+	else:
+		vm.report_warnings("item", ["No input events possible for global_id " + global_id])
+
+	if ClassDB.class_has_signal(area.get_class(), "mouse_entered"):
+		area.connect("mouse_entered", self, "mouse_enter")
+		area.connect("mouse_exited", self, "mouse_exit")
 
 	if events_path != "":
 		event_table = vm.compile(events_path)
