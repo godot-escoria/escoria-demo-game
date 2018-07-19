@@ -273,7 +273,8 @@ func _update_terrain():
 		return
 
 	var pos = get_position()
-	var terrain = get_node("../terrain")
+	# Items in the scene tree will issue errors unless this is conditional
+	var terrain = $"../terrain" if has_node("../terrain") else null
 	if terrain == null:
 		return
 	var color = terrain.get_terrain(pos)
