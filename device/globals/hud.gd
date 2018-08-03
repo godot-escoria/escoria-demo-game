@@ -16,7 +16,7 @@ func set_tooltip(text):
 
 func set_tooltip_visible(p_visible):
 	if $"tooltip":
-		$"tooltip".visible = p_visible
+		$"tooltip".visible = p_visible and $"tooltip".text
 
 func inv_toggle():
 	#get_node("inventory").toggle()
