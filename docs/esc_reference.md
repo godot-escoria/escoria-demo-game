@@ -149,8 +149,8 @@ Items can also change state by playing animations from an `AnimationPlayer` name
 - `wait seconds`
   Blocks execution of the current script for a number of seconds specified by the "seconds" parameter.
 
-- `change_scene path`
-  Loads a new scene, specified by "path"
+- `change_scene path run_events`
+  Loads a new scene, specified by "path". The `run_events` variable is a boolean (default true) which you never want to set manually! It's there only to benefit save games, so they don't conflict with the scene's events.
 
 - `set_speed object speed`
   Sets how fast object moves. It must use the `interactive.gd` script or something extended from it. Value is an integer.

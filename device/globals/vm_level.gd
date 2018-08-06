@@ -169,6 +169,11 @@ func set_angle(params):
 	return vm.state_return
 
 func change_scene(params):
+	# Savegames must have events disabled, so saving the game adds a false to params
+	var run_events = true
+	if params.size() == 2:
+		run_events = bool(params[1])
+
 	# looking for localized string format in scene. this should be somewhere else
 	var sep = params[0].find(":\"")
 	if sep >= 0:
