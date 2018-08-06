@@ -120,6 +120,7 @@ func _process(time):
 		var angle = (old_pos.angle_to_point(pos)) * -1
 		set_position(pos)
 
+		last_deg = rad2deg(angle)
 		last_dir = _get_dir(angle)
 
 		if animation:
