@@ -178,9 +178,9 @@ func change_scene(params):
 	var sep = params[0].find(":\"")
 	if sep >= 0:
 		var path = params[0].substr(sep + 2, params[0].length() - (sep + 2))
-		vm.call_deferred("change_scene", [path], current_context)
+		vm.call_deferred("change_scene", [path], current_context, run_events)
 	else:
-		vm.call_deferred("change_scene", params, current_context)
+		vm.call_deferred("change_scene", params, current_context, run_events)
 
 	current_context.waiting = true
 	return vm.state_yield
