@@ -144,7 +144,7 @@ func set_angle(deg):
 		_update_terrain()
 
 func _find_sprites(p = null):
-	if p is Sprite || p is AnimatedSprite || p is TextureRect || p is TextureButton:
+	if p is CanvasItem:
 		sprites.push_back(p)
 	for i in range(0, p.get_child_count()):
 		_find_sprites(p.get_child(i))
