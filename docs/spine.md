@@ -6,14 +6,12 @@ that can be added to the `modules/` directory in your Godot source tree and buil
 with eg. `schedtool -D -e ccache scons platform=x11 tools=yes target=release_debug`
 or whatever you like.
 
-The script as referred to here is `spine-to-godot-scene.py`, which must be run from your `device/`
-directory. Do note it requires `python3-docopt`, so please install it using `pip3` or whatever
-you prefer.
+For compatibility with Godot, run `spine-to-godot-scene.py` ("the script"), found in the [Spine to Godot](https://github.com/mjtorn/spine-to-godot/) project, from your project root (typically the `device/` directory).
+
+Do note the script requires `python3-docopt`, so please install it using `pip3` or whatever
+you prefer. You may also want to read its documentation; it may expand to cover things not in the scope of Escoria!
 
 ## Caveats
-
-NOTE: Showing the animation's duration has not been merged to GodotExplorer's repository, so
-until further notice, use [mjtorn's fork](https://github.com/mjtorn/spine/) instead.
 
 Do note that Spine animations cannot be played in reverse by design.
 
