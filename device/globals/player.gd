@@ -187,7 +187,9 @@ func walk_stop(pos):
 		walk_context = null
 
 func _get_dir(angle):
-	var deg = rad2deg(angle) + 180
+	var deg = rad2deg(angle) + 180 + 45
+	if deg >= 360:
+		deg = deg - 360
 	return _get_dir_deg(deg)
 
 func _get_dir_deg(deg):
