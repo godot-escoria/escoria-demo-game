@@ -308,9 +308,12 @@ func teleport(obj):
 	_update_terrain()
 
 func set_state(costume):
-	var node = get_node(costume)
-	# You can `set_state player default` with no animation by that name, and get "animation"
-	animation = node if node else $"animation"
+	# Set a costume-state by changing the AnimationPlayer.
+	if has_node(costume):
+		animation = get_node(costume)
+	else:
+		vm.report_errors("player", ["Costume AnimationPlayer '" + costume + "' not found"])
+
 	assert(animation is AnimationPlayer)
 	animation.play(animations.idles[last_dir])
 

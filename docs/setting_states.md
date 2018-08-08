@@ -10,6 +10,8 @@ The animations are documented in the flossmanuals book, eg.
 [Animations](https://fr.flossmanuals.net/creating-point-and-click-games-with-escoria/animations/)
 and [Main Player](https://fr.flossmanuals.net/creating-point-and-click-games-with-escoria/main-player/) for most of your needs.
 
+The big difference is that your default animation player must be named `default` now.
+
 ## Static items
 
 For static items, ones that don't move, you still need to use the `AnimationPlayer`
