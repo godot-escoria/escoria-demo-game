@@ -170,6 +170,7 @@ func clicked(obj, pos, input_event = null):
 		walk_context = {"fast": input_event.doubleclick}
 
 	# If a background is covered by an item, the item "wins"
+	# and the winning item is chosen in item.gd by looking at the overlapping areas
 	if obj is esc_type.BACKGROUND:
 		var overlay = obj.get_child(0)  # Created by background.gd to intercept clicks
 		# Eg. Polygon2D does not have this method
