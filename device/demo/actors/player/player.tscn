@@ -404,7 +404,7 @@ tracks/1/keys = {
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
-[node name="player" type="KinematicBody2D"]
+[node name="player" type="KinematicBody2D" index="0"]
 
 input_pickable = false
 collision_layer = 1
@@ -427,7 +427,7 @@ position = Vector2( 5.2803, -49.2264 )
 frames = SubResource( 1 )
 animation = "hat"
 
-[node name="animation" type="AnimationPlayer" parent="." index="1"]
+[node name="default" type="AnimationPlayer" parent="." index="1"]
 
 root_node = NodePath("..")
 autoplay = ""
