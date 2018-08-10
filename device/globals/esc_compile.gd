@@ -331,6 +331,12 @@ func read_cmd(state, level, errors):
 		return
 	else:
 		params.remove(0)
+
+		# Remove inline comments
+		var comment_idx = params.find("#")
+		if comment_idx > -1:
+			params.resize(comment_idx)
+
 		cmd.params = params
 		read_line(state)
 
