@@ -581,10 +581,15 @@ func load_file(p_game):
 	# `load` and `ready` are exclusive because you probably don't want to
 	# reset the game state when a scene becomes ready, and `ready` is
 	# redundant when `load`ing state anyway.
+	# `start` is used only in your `game.esc` file to start the game.
 	if "load" in game:
 		clear()
 		loading_game = true
 		run_event(game["load"])
+		main.menu_collapse()
+	elif "start" in game:
+		clear()
+		run_event(game["start"])
 		main.menu_collapse()
 	elif "ready" in game:
 		run_event(game["ready"])

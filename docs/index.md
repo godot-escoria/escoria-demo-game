@@ -11,6 +11,8 @@ Installation
 Reference
 ---------
 
+[How a game is started](starting-a-game.md)
+
 [Background](background.md)
 
 [Designing dialogs](designing_dialogs.md)
