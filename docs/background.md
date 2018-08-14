@@ -6,6 +6,8 @@ To add a background to your scene, add a `Sprite` node as the first child of the
 
 This enables you to use `Area2D` nodes for your items, which lets you draw one or more `CollisionPolygon2D` child nodes to capture input, using only editor tools for the drawing. You can also add `Sprite` nodes as children of the `Area2D` item node if your items are not part of the background image.
 
+*Important note:* Having children on the background is possible, but discouraged. Usually there is a way of having them parallel to the background in the node tree, and not much testing has been put into children of the background. Please open an issue on GitHub if you find an insurmountable problem!
+
 ### Parallax
 
 To create an illusion of perspective in a 2D game, a technique called parallax scrolling effect can be used. This effect is achieved by adding one or more additional background layers, which are moved at a different speed than the foreground when the camera pans.
