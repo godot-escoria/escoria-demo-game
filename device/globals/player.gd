@@ -300,7 +300,7 @@ func _process(time):
 func teleport(obj):
 	if animations.dir_angles.size() > 0:
 		if "interact_angle" in obj and obj.interact_angle != -1:
-			last_dir = _get_dir(obj.interact_angle)
+			last_dir = _get_dir_deg(obj.interact_angle)
 			animation.play(animations.idles[last_dir])
 			pose_scale = animations.idles[last_dir + 1]
 
