@@ -27,9 +27,9 @@ func set_light_on_map(p_light):
 		modulate(Color(1, 1, 1, 1))
 
 func _get_dir(angle):
-	if animations == null:
-		return -1
-	var deg = rad2deg(angle) + 180
+	var deg = rad2deg(angle) + 180 + 45
+	if deg >= 360:
+		deg = deg - 360
 	return _get_dir_deg(deg)
 
 func _get_dir_deg(deg):
@@ -40,6 +40,10 @@ func _get_dir_deg(deg):
 			dir = i
 			break
 		i+=2
+
+	# It's an error to have the animations misconfigured
+	if dir == -1:
+		vm.report_errors("interactive", ["No direction found for " + str(deg)])
 	return dir
 
 func walk_stop(pos):
@@ -82,7 +86,6 @@ func modulate(color):
 		s.set_modulate(color)
 
 func _process(time):
-
 	if task == "walk":
 		var to_walk = speed * last_scale.x * time
 		var pos = get_position()
@@ -109,14 +112,15 @@ func _process(time):
 					set_process(false)
 					return
 
-		var angle = old_pos.angle_to_point(pos)
+		var angle = (old_pos.angle_to_point(pos)) * -1
 		set_position(pos)
 
-		last_dir = _get_dir_deg(angle)
+		last_dir = _get_dir(angle)
 
 		if animation:
-			if last_dir != -1 && animation.get_current_animation() != animations.directions[last_dir]:
+			if animation.get_current_animation() != animations.directions[last_dir]:
 				animation.play(animations.directions[last_dir])
+			pose_scale = animations.directions[last_dir+1]
 
 	if self is esc_type.ITEM:
 		_update_terrain()
