@@ -193,13 +193,17 @@ func _get_dir(angle):
 	return _get_dir_deg(deg)
 
 func _get_dir_deg(deg):
-	var dir = 0
+	var dir = -1
 	var i = 0
 	for ang in animations.dir_angles:
 		if deg <= ang:
 			dir = i
 			break
 		i+=2
+
+	# It's an error to have the animations misconfigured
+	if dir == -1:
+		vm.report_errors("player", ["No direction found for " + str(deg)])
 	return dir
 
 
