@@ -96,6 +96,19 @@ func input(event):
 	# TODO: Expand this for other input events than mouse
 	if event is InputEventMouseButton || event.is_action("ui_accept"):
 		if event.is_pressed():
+			# See if we're allowed to call game.gd's `clicked()` method.
+			var bg = $"/root/scene/background"
+			var overlay = bg.get_child(0)  # Created by background.gd to intercept clicks
+
+			# Eg. Polygon2D does not have this method
+			if overlay.has_method("get_overlapping_areas"):
+				var overlapping_areas = overlay.get_overlapping_areas()
+
+				# The last overlapping area is the lowest in the node tree, it gets the event
+				# but verify `self` is contested by other areas, because eg. inventory items aren't
+				if self in overlapping_areas and self != overlapping_areas[-1]:
+					return
+
 			clicked = true
 
 			if event.button_index == BUTTON_LEFT:
