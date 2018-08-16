@@ -88,9 +88,10 @@ func mouse_enter(obj):
 			vm.hover_begin(obj)
 	else:
 		if current_action != "" && current_tool != null:
-			text = tr(current_action + ".combine_id")
-			text = text.replace("%2", tr(tt))
-			text = text.replace("%1", tr(current_tool.get_tooltip()))
+			if tt:
+				text = tr(current_action + ".combine_id")
+				text = text.replace("%2", tr(tt))
+				text = text.replace("%1", tr(current_tool.get_tooltip()))
 		elif obj.inventory:
 			if !current_action:
 				text = tr(tt)
