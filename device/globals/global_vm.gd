@@ -705,7 +705,8 @@ func game_over(p_enable_continue, p_show_credits, context):
 	continue_enabled = p_enable_continue
 	change_scene(["res://globals/scene_main.tscn"], context)
 	if p_show_credits:
-		main.get_current_scene().show_credits()
+		var end = true  # game over, show separate end credits if available
+		main.get_current_scene().show_credits(end)
 
 func focus_out():
 	#AudioServer.set_fx_global_volume_scale(0)
