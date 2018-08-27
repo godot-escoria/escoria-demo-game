@@ -301,14 +301,20 @@ func compile_str(p_str):
 
 	return ev_table
 
+func report_warnings(p_path, warnings):
+	var text = "Warnings in file "+p_path+"\n\n"
+	for e in warnings:
+		text += e+"\n"
+
+	print("warning is ", text)
+
 func report_errors(p_path, errors):
-	#var dialog = preload("res://demo/globals/errors.xml").instance()
 	var text = "Errors in file "+p_path+"\n\n"
 	for e in errors:
 		text += e+"\n"
-	#dialog.set_text(text)
+
 	print("error is ", text)
-	#main.get_node("layers/telon").add_child(dialog)
+
 	# The only way to - optionally - make errors matter
 	if ProjectSettings.get_setting("escoria/platform/terminate_on_errors"):
 		assert(false)

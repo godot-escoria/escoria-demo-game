@@ -72,20 +72,24 @@ func _ready():
 		area = get_node("area")
 	else:
 		area = self
-	if area is Area2D:
+
+	if ClassDB.class_has_signal(area.get_class(), "input_event"):
 		area.connect("input_event", self, "area_input")
-	else:
+	elif ClassDB.class_has_signal(area.get_class(), "gui_input"):
 		area.connect("gui_input", self, "input")
+	else:
+		vm.report_errors("trigger", ["No input events possible for global_id " + global_id])
 
 	if events_path:
 		var f = File.new()
 		if f.file_exists(events_path):
 			event_table = vm.compile(events_path)
 
-	vm.register_object(global_id, self)
+	if ClassDB.class_has_signal(area.get_class(), "mouse_entered"):
+		area.connect("mouse_entered", self, "mouse_enter")
+		area.connect("mouse_exited", self, "mouse_exit")
 
-	area.connect("mouse_entered", self, "mouse_enter")
-	area.connect("mouse_exited", self, "mouse_exit")
+	vm.register_object(global_id, self)
 
 	connect("body_entered", self, "body_entered")
 	connect("body_exited", self, "body_exited")
