@@ -41,8 +41,7 @@ func inc_global(params):
 
 func debug(params):
 	for p in params:
-		printraw(p)
-	printraw("\n")
+		printt(p)
 	return vm.state_return
 
 func anim(params):
