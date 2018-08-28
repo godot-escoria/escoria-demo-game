@@ -66,6 +66,7 @@ var scenes_cache = {} # this will eventually have everything in scenes_cache_lis
 
 var settings
 
+var zoom_time
 var zoom_target
 var zoom_step
 
@@ -162,13 +163,13 @@ func update_camera(time):
 			camera.set_position(pos)
 
 	if zoom_target:
-		var step = zoom_step * time
+		var zstep = zoom_step * time
 		var diff = camera.zoom - zoom_target
-		if step.length() > diff.length():
+		if zstep.length() > diff.length() || zoom_time == 0:
 			camera.zoom = zoom_target
 			zoom_target = null
 		else:
-			camera.zoom += step
+			camera.zoom += zstep
 
 func set_cam_limits(limits):
 	camera_limits = limits
@@ -178,6 +179,9 @@ func camera_set_target(speed, p_target):
 	cam_target = p_target
 
 func camera_set_zoom(zoom_level, time):
+	if zoom_level <= 0.0:
+		report_errors("global_vm", ["Tried to set negative or zero zoom level"])
+	zoom_time = time
 	zoom_target = Vector2(1, 1) * zoom_level
 	# Calculate magnitude to zoom per second
 	zoom_step = (zoom_target - camera.zoom) / time
