@@ -70,6 +70,9 @@ var zoom_time
 var zoom_target
 var zoom_step
 
+# This is needed to adjust dialog positions and such
+var zoom_transform
+
 func save_settings():
 	save_data.save_settings(settings, null)
 
@@ -168,8 +171,13 @@ func update_camera(time):
 		if zstep.length() > diff.length() || zoom_time == 0:
 			camera.zoom = zoom_target
 			zoom_target = null
+			zoom_transform = camera.get_canvas_transform()
 		else:
 			camera.zoom += zstep
+	# Even when not zooming, somehow the clamping of dialog, when the
+	# scene is not zoomed, goes awry without this :/
+	else:
+		zoom_transform = camera.get_canvas_transform()
 
 func set_cam_limits(limits):
 	camera_limits = limits
@@ -679,6 +687,7 @@ func save():
 
 func set_camera(p_cam):
 	camera = p_cam
+	zoom_transform = camera.get_canvas_transform()
 
 func clear():
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "game_cleared")
@@ -760,7 +769,6 @@ func get_hud_scene():
 	return hpath
 
 func _ready():
-
 	save_data = load(ProjectSettings.get_setting("escoria/application/save_data")).new()
 	save_data.start()
 
@@ -799,3 +807,4 @@ func _ready():
 	connect("global_changed", self, "check_achievement")
 
 	set_process(true)
+
