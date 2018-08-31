@@ -8,9 +8,21 @@
 script = ExtResource( 1 )
 fallbacks_path = "res://demo/fallbacks.esc"
 inventory_enabled = true
+drag_margin_left = 0.2
+drag_margin_top = 0.2
+drag_margin_right = 0.2
+drag_margin_bottom = 0.2
 camera_limits = Rect2( 0, 0, 0, 0 )
 
-[node name="dialog_player" parent="." index="0" instance=ExtResource( 2 )]
+[node name="dialog_layer" type="CanvasLayer" parent="." index="0"]
+
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+
+[node name="dialog_player" parent="dialog_layer" index="0" instance=ExtResource( 2 )]
 
 [node name="hud_layer" type="CanvasLayer" parent="." index="1"]
 
@@ -21,8 +33,6 @@ scale = Vector2( 1, 1 )
 transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
 [node name="hud" parent="hud_layer" index="0" instance_placeholder="res://ui/hud.tscn"]
-
-mouse_default_cursor_shape = 0
 
 [node name="wait_timer" type="Timer" parent="." index="2"]
 
