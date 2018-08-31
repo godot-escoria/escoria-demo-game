@@ -70,12 +70,13 @@ func finish():
 	_queue_free()
 
 func clamped_position(dialog_pos):
+	var vp_size = get_viewport().size
 	var my_size = $"anchor/text".get_size()
 	var center_offset = my_size.x / 2
 
-	var dist_from_right = vm.camera_limits.size.x - (dialog_pos.x + center_offset)
+	var dist_from_right = vp_size.x - (dialog_pos.x + center_offset)
 	var dist_from_left = dialog_pos.x - center_offset
-	var dist_from_bottom = vm.camera_limits.size.y - (dialog_pos.y + my_size.y)
+	var dist_from_bottom = vp_size.y - (dialog_pos.y + my_size.y)
 	var dist_from_top = dialog_pos.y - my_size.y
 
 	if dist_from_right < 0:
@@ -119,12 +120,14 @@ func init(p_params, p_context, p_intro, p_outro):
 	play_outro = p_outro
 	total_time = text.length() / characters_per_second
 	if !fixed_pos:
-		var pos
+		var dialog_pos
 		if character.has_node("dialog_pos"):
-			pos = character.get_node("dialog_pos").get_global_position()
+			dialog_pos = character.get_node("dialog_pos")
 		else:
-			pos = character.get_position()
+			dialog_pos = character
 
+		var pos = dialog_pos.global_position
+		pos = vm.zoom_transform.xform(pos)
 		pos = clamped_position(pos)
 		set_position(pos)
 
