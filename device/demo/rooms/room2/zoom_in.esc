@@ -6,9 +6,12 @@ set_global zoom_level 3 [gt zoom_level 3]
 
 > [gt zoom_level 2]
  camera_set_zoom 0.25 1
+ say player zoom1:"WHOAH!"
  stop
 > [gt zoom_level 1]
  camera_set_zoom 0.5 1
+ say player zoom1:"whoah!"
  stop
 >
  camera_set_zoom 0.75 1
+ say player zoom1:"whoah"

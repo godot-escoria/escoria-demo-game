@@ -18,13 +18,13 @@ vertices = PoolVector2Array( 1491.17, 617.027, 1491.17, 657.925, 1112.47, 689.27
 polygons = [ PoolIntArray( 0, 1, 2, 3, 4, 5 ), PoolIntArray( 6, 4, 3, 7 ), PoolIntArray( 5, 4, 8 ), PoolIntArray( 9, 5, 8, 10 ), PoolIntArray( 11, 9, 10 ), PoolIntArray( 6, 7, 12, 13, 11, 10 ) ]
 outlines = [ PoolVector2Array( 414.945, 555.219, 766.377, 567.042, 1204.89, 557.953, 1491.17, 617.027, 1491.17, 657.925, 1112.47, 689.271, 705.031, 687.462, 350.588, 673.829, 159.734, 646.564, 158.201, 587.028 ), PoolVector2Array( 621.927, 596.206, 619.837, 630.408, 848.029, 649.017, 847.74, 611.076 ) ]
 
-[node name="scene" type="Node2D"]
+[node name="scene" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_lock_": true
 }
-events_path = ""
+events_path = "res://demo/rooms/room2/room.esc"
 
 [node name="background" type="Sprite" parent="." index="0"]
 
