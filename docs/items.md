@@ -12,6 +12,14 @@ Items are objects that have several attributes specifically designed to make the
 
 Often you will find that you don't need to add all of these child nodes.
 
+## Interaction
+
+The `item.gd` script exports the `action` variable. This is the default action for this object. If you wish, you may also configure a global default action in `escoria/platform/default_object_action`. Now you can leave this empty in the editor and have the player always perform this action by default.
+
+It may be that you want these default actions to require double-clicks. This is configured in `escoria/platform/default_object_action_requires_doubleclick`. It applies to both the global and local default actions.
+
+An item-local default action overrides a global default action, as you'd expect.
+
 ### Background items
 
 There are also times when you want to enable the player to interact with items which are not separate scenes, but drawn directly on the background. For such use cases, you will typically use a `TextureRect` to frame the item, with an optional click mask, and no "area" child node.

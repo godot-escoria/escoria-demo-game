@@ -23,6 +23,9 @@ var current_tool = null
 var click
 var click_anim
 
+var default_obj_action
+var obj_action_req_dblc
+
 var camera
 export var camera_limits = Rect2()
 
@@ -162,7 +165,22 @@ func clicked(obj, pos, input_event = null):
 		return
 
 	var walk_context = null
-	var action = obj.get_action()
+	var obj_action = obj.get_action()
+	var action = "walk"
+
+	# Before setting action, see if the object or the project
+	# has a default action and if it requires a doubleclick
+	if not obj_action:
+		if default_obj_action:
+			if not obj_action_req_dblc:
+				action = default_obj_action
+			elif input_event and input_event.doubleclick:
+				action = default_obj_action
+	elif obj_action:
+		if not obj_action_req_dblc:
+			action = obj_action
+		elif input_event and input_event.doubleclick:
+			action = obj_action
 
 	# XXX: Why does this disable joystick_mode?
 	joystick_mode = false
@@ -497,6 +515,9 @@ func _ready():
 		click = get_node("click")
 	if has_node("click_anim"):
 		click_anim = get_node("click_anim")
+
+	default_obj_action = ProjectSettings.get_setting("escoria/platform/default_object_action")
+	obj_action_req_dblc = ProjectSettings.get_setting("escoria/platform/object_action_requires_doubleclick")
 
 	camera = get_node("camera")
 
