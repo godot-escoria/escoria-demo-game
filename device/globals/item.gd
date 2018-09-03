@@ -98,10 +98,11 @@ func input(event):
 		if event.is_pressed():
 			clicked = true
 
+			var ev_pos = get_global_mouse_position()
 			if event.button_index == BUTTON_LEFT:
-				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clicked", self, event.get_global_position(), event)
+				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clicked", self, ev_pos, event)
 			elif event.button_index == BUTTON_RIGHT:
-				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "secondary_click", self, event.get_global_position(), event)
+				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "secondary_click", self, ev_pos, event)
 			_check_focus(true, true)
 		else:
 			clicked = false
