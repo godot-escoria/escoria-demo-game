@@ -70,13 +70,14 @@ func finish():
 	_queue_free()
 
 func clamped_position(dialog_pos):
-	var vp_size = get_viewport().size
+	var width = float(ProjectSettings.get("display/window/size/width"))
+	var height = float(ProjectSettings.get("display/window/size/height"))
 	var my_size = $"anchor/text".get_size()
 	var center_offset = my_size.x / 2
 
-	var dist_from_right = vp_size.x - (dialog_pos.x + center_offset)
+	var dist_from_right = width - (dialog_pos.x + center_offset)
 	var dist_from_left = dialog_pos.x - center_offset
-	var dist_from_bottom = vp_size.y - (dialog_pos.y + my_size.y)
+	var dist_from_bottom = height - (dialog_pos.y + my_size.y)
 	var dist_from_top = dialog_pos.y - my_size.y
 
 	if dist_from_right < 0:

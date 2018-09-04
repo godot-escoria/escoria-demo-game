@@ -12,14 +12,19 @@ func action_pressed(action):
 func target_visibility_changed():
 	stop()
 
-func check_clamp(click_pos):
+func clamped_position(click_pos):
+	var width = float(ProjectSettings.get("display/window/size/width"))
+	var height = float(ProjectSettings.get("display/window/size/height"))
 	var my_size = get_size()
-	var vp_size = get_viewport().size
+	var center_offset = my_size / Vector2(2, 2)  # Half to the left, half up
 
-	var dist_from_right = vp_size.x - (click_pos.x + my_size.x)
-	var dist_from_left = click_pos.x - my_size.x
-	var dist_from_bottom = vp_size.y - (click_pos.y + my_size.y)
-	var dist_from_top = click_pos.y - my_size.y
+	# Set the action menu in the middle
+	click_pos -= center_offset
+
+	var dist_from_right = width - (click_pos.x + my_size.x)
+	var dist_from_left = click_pos.x
+	var dist_from_bottom = height - (click_pos.y + my_size.y)
+	var dist_from_top = click_pos.y
 
 	if dist_from_right < 0:
 		click_pos.x += dist_from_right
@@ -30,7 +35,7 @@ func check_clamp(click_pos):
 	if dist_from_top < 0:
 		click_pos.y -= dist_from_top
 
-	return click_pos - my_size / 2
+	return click_pos
 
 func start(p_target):
 	if target != p_target:
