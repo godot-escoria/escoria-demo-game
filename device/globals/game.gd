@@ -286,7 +286,7 @@ func spawn_action_menu(obj):
 		player.walk_stop(player.position)
 
 	var pos = get_viewport().get_mouse_position()
-	var am_pos = action_menu.check_clamp(pos)
+	var am_pos = action_menu.clamped_position(pos)
 	action_menu.set_position(am_pos)
 	action_menu.show()
 	action_menu.start(obj)
