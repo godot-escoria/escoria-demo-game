@@ -208,7 +208,7 @@ Items can also change state by playing animations from an `AnimationPlayer` name
   Similar to queue_resource, queues the resources necessary to have an animation loaded on an item. The resource paths are taken from the item placeholders.
 
 - `game_over continue_enabled show_credits`
-  Ends the game. Use the "continue_enabled" parameter to enable or disable the continue button in the main menu afterwards. The "show_credits" parameter loads the credits ui if true.
+  Ends the game. Use the "continue_enabled" parameter to enable or disable the continue button in the main menu afterwards. The "show_credits" parameter loads the `ui/end_credits` scene if true. You can configure it to your regular credits scene if you want.
 
 Dialogs
 -------
