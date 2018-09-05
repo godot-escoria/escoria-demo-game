@@ -20,7 +20,17 @@ It may be that you want these default actions to require double-clicks. This is 
 
 An item-local default action overrides a global default action, as you'd expect.
 
-### Background items
+## Z-index
+
+By default every room in the game is considered to have faux "depth". This is done by setting the z-index based on the y-coordinate.
+
+If you want things to be flat or manually controlled, you can use Godot's z-indexes by unchecking the `Dynamic Z Index` checkbox.
+At least for certain inventory configurations, this is something you must do. If your items don't show up on the HUD, uncheck!
+
+The system isn't perfect, so sometimes you may have to use an `AnimationPlayer` to tweak the z-index given by Godot. Likewise
+if your item consists of many nodes, they will have different positions, so some of them may need manual tweaking.
+
+## Background items
 
 There are also times when you want to enable the player to interact with items which are not separate scenes, but drawn directly on the background. For such use cases, you will typically use a `TextureRect` to frame the item, with an optional click mask, and no "area" child node.
 
@@ -33,7 +43,7 @@ You can also use an `Area2D` for your background item with a `CollisionPolygon2D
     * `CollisionPolygon2D` which defines the shape of the item
     * ...
 
-### Parallax items
+## Parallax items
 
 Items can also be added to a parallax layer, but this comes with a few caveats. First of all, you need to use an item with the shape defined by a `Control` node, since the mouse cursor cannot interact with an `Area2D` through the foreground layer. Secondly, since these items will be visible to the cursor through the foreground, any items meant to be obstructed by foreground elements will need to be masked by a `Control` node. These masks don't need to be items, but can be `TextureRects` with click masks for more fine grained control of their shape. Do take care not to cover any items in the foreground with these masks though, as that will make them impossible to interact with.
 
