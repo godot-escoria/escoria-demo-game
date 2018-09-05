@@ -385,7 +385,7 @@ func get_object(name):
 
 func register_object(name, val):
 	if !name:
-		report_errors("register_object", ["Name not given for " + val.get_class()])
+		report_errors("register_object", ["global_id not given for " + val.get_class() + " " + val.name])
 
 	objects[name] = val
 	val.connect("tree_exited", self, "object_exit_scene", [name])
