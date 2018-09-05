@@ -100,7 +100,12 @@ func anim_get_ph_paths(p_anim):
 	return ret
 
 func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
-	if p_notify != null && (!has_node("animation") || !get_node("animation").has_animation(p_anim)):
+	if not animation:
+		vm.report_errors("player", ["Animation not found for play_anim"])
+	if not animation.has_animation(p_anim):
+		vm.report_errors("player", [animation.name + " does not contain " + p_anim])
+
+	if p_notify != null && (!animation || !animation.has_animation(p_anim)):
 		vm.finished(p_notify)
 		return
 
@@ -125,10 +130,9 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 		anim_scale_override = null
 
 	if p_reverse:
-		get_node("animation").play(p_anim, -1, -1, true)
+		animation.play(p_anim, -1, -1, true)
 	else:
-		get_node("animation").play(p_anim)
-		#get_node("animation").seek(0, true)
+		animation.play(p_anim)
 
 	anim_notify = p_notify
 	var dir = _find(p_anim, animations.directions, p_flip.x)
@@ -314,9 +318,12 @@ func teleport(obj):
 	_update_terrain()
 
 func set_state(costume):
-	var node = get_node(costume)
-	# You can `set_state player default` with no animation by that name, and get "animation"
-	animation = node if node else $"animation"
+	# Set a costume-state by changing the AnimationPlayer.
+	if has_node(costume):
+		animation = get_node(costume)
+	else:
+		vm.report_errors("player", ["Costume AnimationPlayer '" + costume + "' not found"])
+
 	assert(animation is AnimationPlayer)
 	animation.play(animations.idles[last_dir])
 
@@ -362,11 +369,17 @@ func _ready():
 
 	vm = $"/root/vm"
 
-	if has_node("animation"):
-		animation = $"animation"
-		animation.connect("animation_finished", self, "anim_finished")
+	if has_node("default"):
+		animation = $"default"
+
 		if not animations:
 			vm.report_errors("player", ["Animations not set for player."])
+	else:
+		vm.report_errors("player", ["No default AnimationPlayer found"])
+
+	for child in get_children():
+		if child is AnimationPlayer:
+			child.connect("animation_finished", self, "anim_finished")
 
 	vm.register_object("player", self)
 
