@@ -170,7 +170,7 @@ func clicked(obj, pos, input_event = null):
 
 	var walk_context = null
 	var obj_action = obj.get_action()
-	var action = "walk"
+	var action = ""
 
 	# Before setting action, see if the object or the project
 	# has a default action and if it requires a doubleclick
@@ -194,6 +194,7 @@ func clicked(obj, pos, input_event = null):
 
 	# If a background is covered by an item, the item "wins"
 	if obj is esc_type.BACKGROUND:
+		action = "walk"
 		var overlay = obj.get_child(0)  # Created by background.gd to intercept clicks
 		# Eg. Polygon2D does not have this method
 		if overlay.has_method("get_overlapping_areas"):
