@@ -248,7 +248,6 @@ func _update_terrain():
 	var color = terrain.get_terrain(pos)
 	var scal = terrain.get_scale_range(color.b)
 	scal.x = scal.x * pose_scale
-	#if scale != last_scale:
 	if scal != get_scale():
 		last_scale = scal
 		set_scale(last_scale)
@@ -298,7 +297,7 @@ func _process(time):
 			animation.play(animations.directions[last_dir])
 		pose_scale = animations.directions[last_dir+1]
 
-	_update_terrain()
+		_update_terrain()
 
 
 func teleport(obj):
@@ -383,5 +382,9 @@ func _ready():
 
 	vm.register_object("player", self)
 
+	# Set the player up for z-index, scale, light etc, update later when moving
+	call_deferred("_update_terrain", true)
+
 	last_scale = get_scale()
 	set_process(true)
+

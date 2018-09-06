@@ -19,6 +19,10 @@ export var speed = 300
 export var scale_on_map = false
 export var light_on_map = false setget set_light_on_map
 
+# This appears to be slightly faster in _process than checking
+# `self is Node2D` or something similar on every loop
+onready var self_has_z_index = self is Node2D
+
 func set_light_on_map(p_light):
 	light_on_map = p_light
 	if light_on_map:
@@ -56,7 +60,7 @@ func walk_stop(pos):
 	task = null
 	if "idles" in animations:
 		pose_scale = animations.idles[last_dir + 1]
-	_update_terrain()
+	_update_terrain(self_has_z_index)
 
 	if walk_context != null:
 		vm.finished(walk_context)
@@ -122,8 +126,9 @@ func _process(time):
 				animation.play(animations.directions[last_dir])
 			pose_scale = animations.directions[last_dir+1]
 
-	if self is esc_type.ITEM:
-		_update_terrain()
+		# If a z-indexed item is moved, forcibly update its z index
+		if self is esc_type.ITEM:
+			_update_terrain(self_has_z_index)
 
 func turn_to(deg):
 	if deg < 0 or deg > 360:

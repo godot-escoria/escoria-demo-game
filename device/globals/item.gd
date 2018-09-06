@@ -261,14 +261,14 @@ func set_state(p_state, p_force = false):
 
 func teleport(obj):
 	set_position(obj.global_position)
-	_update_terrain()
+	_update_terrain(self is Node2D)
 
 func teleport_pos(x, y):
 	set_position(Vector2(x, y))
-	_update_terrain()
+	_update_terrain(self is Node2D)
 
-func _update_terrain():
-	if self is Node2D and dynamic_z_index:
+func _update_terrain(need_z_update=false):
+	if dynamic_z_index and need_z_update:
 		set_z_index(get_position().y)
 
 	if !scale_on_map && !light_on_map:
@@ -387,7 +387,10 @@ func _ready():
 
 	_check_focus(false, false)
 
-	call_deferred("_update_terrain")
+	# Initialize Node2D items' terrain status like z-index.
+	# Stationary items will be set up correctly and
+	# if an item moves, it will handle this in its _process() loop
+	call_deferred("_update_terrain", self is Node2D)
 
 	if interact_position:
 		interact_pos = get_node(interact_position)
