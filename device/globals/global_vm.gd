@@ -405,6 +405,8 @@ func get_registered_objects():
 	return objects
 
 func set_state(name, state):
+	if !(name in objects):
+		report_errors("global_vm", ["Trying to set state that does not exist:" + name + ": " + state])
 	states[name] = state
 
 func set_active(name, active):
@@ -493,10 +495,10 @@ func can_interact():
 func finished(context):
 	context.waiting = false
 
-func change_scene(params, context):
+func change_scene(params, context, run_events=true):
 	# It might be tempting to use `get_tree().change_scene(params[0])`,
 	# but this custom solution is safer around your scene structure
-	printt("change scene to ", params[0])
+	printt("change scene to ", params[0], " with run_events ", run_events)
 	#var res = ResourceLoader.load(params[0])
 	check_cache()
 	main.clear_scene()
@@ -506,7 +508,7 @@ func change_scene(params, context):
 	res_cache.clear()
 	var scene = res.instance()
 	if scene:
-		main.set_scene(scene)
+		main.set_scene(scene, run_events)
 	else:
 		report_errors("", ["Failed loading scene "+params[0]+" for change_scene"])
 
@@ -579,10 +581,15 @@ func load_file(p_game):
 	# `load` and `ready` are exclusive because you probably don't want to
 	# reset the game state when a scene becomes ready, and `ready` is
 	# redundant when `load`ing state anyway.
+	# `start` is used only in your `game.esc` file to start the game.
 	if "load" in game:
 		clear()
 		loading_game = true
 		run_event(game["load"])
+		main.menu_collapse()
+	elif "start" in game:
+		clear()
+		run_event(game["start"])
 		main.menu_collapse()
 	elif "ready" in game:
 		run_event(game["ready"])
@@ -615,6 +622,10 @@ func save():
 
 	ret.append("cut_scene telon fade_out\n\n")
 
+	# Change the scene up-front so objects and states can be loaded properly,
+	# and with events disabled to not confuse the game
+	ret.append("change_scene " + main.get_current_scene().get_filename() + " false\n\n")
+
 	ret.append("## Global flags\n\n")
 	for k in globals.keys():
 		if !globals[k]:
@@ -641,21 +652,25 @@ func save():
 		ret.append("\n")
 
 	# check global states of moved objects
-	#for k in objects:
-	#	if k == "player" || objects[k] == null:
-	#		continue
-	#	if objects[k].moved:
-	#		var pos = objects[k].get_position()
-	#		ret.append("teleport_pos " + k + " " + str(int(pos.x)) + " " + str(int(pos.y)) + "\n")
+	for k in objects:
+		if k == "player" || objects[k] == null:
+			continue
+
+		if "moved" in objects[k] and objects[k].moved:
+			var pos = objects[k].get_position()
+			ret.append("teleport_pos " + k + " " + str(int(pos.x)) + " " + str(int(pos.y)) + "\n")
+			if objects[k].last_deg != null:
+				ret.append("set_angle " + k + " " + str(objects[k].last_deg) + "\n")
 
 	ret.append("\n")
 	ret.append("## Player\n\n")
 
-	ret.append("change_scene " + main.get_current_scene().get_filename() + "\n")
-
 	if main.get_current_scene().has_node("player"):
-		var pos = main.get_current_scene().get_node("player").get_global_position()
+		var player = main.get_current_scene().get_node("player")
+		var pos = player.get_global_position()
+		var angle = player.last_deg
 		ret.append("teleport_pos player " + str(pos.x) + " " + str(pos.y) + "\n")
+		ret.append("set_angle player " + str(angle) + "\n")
 
 	if cam_target != null:
 		ret.append("\n")

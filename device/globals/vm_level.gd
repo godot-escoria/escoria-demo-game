@@ -169,13 +169,18 @@ func set_angle(params):
 	return vm.state_return
 
 func change_scene(params):
+	# Savegames must have events disabled, so saving the game adds a false to params
+	var run_events = true
+	if params.size() == 2:
+		run_events = bool(params[1])
+
 	# looking for localized string format in scene. this should be somewhere else
 	var sep = params[0].find(":\"")
 	if sep >= 0:
 		var path = params[0].substr(sep + 2, params[0].length() - (sep + 2))
-		vm.call_deferred("change_scene", [path], current_context)
+		vm.call_deferred("change_scene", [path], current_context, run_events)
 	else:
-		vm.call_deferred("change_scene", params, current_context)
+		vm.call_deferred("change_scene", params, current_context, run_events)
 
 	current_context.waiting = true
 	return vm.state_yield

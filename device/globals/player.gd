@@ -14,6 +14,7 @@ export var speed = 300
 export var v_speed_damp = 1.0
 export(Script) var animations
 export(Color) var dialog_color = null
+var last_deg = null
 var last_dir = 0
 var last_scale
 var pose_scale = 1
@@ -291,6 +292,7 @@ func _process(time):
 		var angle = (old_pos.angle_to_point(pos)) * -1
 		set_position(pos)
 
+		last_deg = rad2deg(angle)
 		last_dir = _get_dir(angle)
 
 		if animation.get_current_animation() != animations.directions[last_dir]:
@@ -303,6 +305,7 @@ func _process(time):
 func teleport(obj):
 	if animations.dir_angles.size() > 0:
 		if "interact_angle" in obj and obj.interact_angle != -1:
+			last_deg = obj.interact_angle
 			last_dir = _get_dir_deg(obj.interact_angle)
 			animation.play(animations.idles[last_dir])
 			pose_scale = animations.idles[last_dir + 1]
@@ -334,6 +337,7 @@ func turn_to(deg):
 	if deg < 0 or deg > 360:
 		vm.report_errors("player", ["Invalid degree to turn to " + str(deg)])
 
+	last_deg = deg
 	last_dir = _get_dir_deg(deg)
 
 	if animation.get_current_animation() != animations.directions[last_dir]:
@@ -345,6 +349,7 @@ func set_angle(deg):
 	if deg < 0 or deg > 360:
 		vm.report_errors("player", ["Invalid degree to turn to " + str(deg)])
 
+	last_deg = deg
 	last_dir = _get_dir_deg(deg)
 
 	pose_scale = animations.idles[last_dir+1]

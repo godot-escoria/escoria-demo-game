@@ -27,7 +27,7 @@ var commands = {
 	"walk_block": { "min_args": 2 },
 	"turn_to": { "min_args": 2 },
 	"set_angle": { "min_args": 2 },
-	"change_scene": { "min_args": 1 },
+	"change_scene": { "min_args": 1, "types": [TYPE_STRING, TYPE_BOOL] },
 	"spawn": { "min_args": 1 },
 	"%": { "alias": "label", "min_args": 1},
 	"jump": { "min_args": 1 },

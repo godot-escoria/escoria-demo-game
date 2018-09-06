@@ -261,10 +261,12 @@ func set_state(p_state, p_force = false):
 
 func teleport(obj):
 	set_position(obj.global_position)
+	moved = true
 	_update_terrain(self is Node2D)
 
 func teleport_pos(x, y):
 	set_position(Vector2(x, y))
+	moved = true
 	_update_terrain(self is Node2D)
 
 func _update_terrain(need_z_update=false):

@@ -6,6 +6,7 @@ var walk_path
 var walk_context
 var moved
 var last_scale = Vector2(1, 1)
+var last_deg = null
 var last_dir = 0
 var animation
 var state = ""
@@ -134,6 +135,9 @@ func turn_to(deg):
 	if deg < 0 or deg > 360:
 		vm.report_errors("interactive", ["Invalid degree to turn to " + str(deg)])
 
+	moved = true
+
+	last_deg = deg
 	last_dir = _get_dir_deg(deg)
 
 	if animation:
@@ -146,6 +150,9 @@ func set_angle(deg):
 	if deg < 0 or deg > 360:
 		vm.report_errors("interactive", ["Invalid degree to turn to " + str(deg)])
 
+	moved = true
+
+	last_deg = deg
 	last_dir = _get_dir_deg(deg)
 
 	if animations and "idles" in animations:
