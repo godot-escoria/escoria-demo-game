@@ -121,8 +121,10 @@ func turn_to(deg):
 	last_deg = deg
 	last_dir = vm._get_dir_deg(deg, self.name, animations)
 
-	if animation:
+	if animation and animations and "directions" in animations:
 		if !animation.get_current_animation() or animation.get_current_animation() != animations.directions[last_dir]:
+			# XXX: This requires manually scripting a wait
+			# and setting the correct idle animation
 			animation.play(animations.directions[last_dir])
 		pose_scale = animations.directions[last_dir + 1]
 		_update_terrain()
@@ -136,7 +138,7 @@ func set_angle(deg):
 	last_deg = deg
 	last_dir = vm._get_dir_deg(deg, self.name, animations)
 
-	if animations and "idles" in animations:
+	if animation and animations and "idles" in animations:
 		pose_scale = animations.idles[last_dir + 1]
 		_update_terrain()
 
