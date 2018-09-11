@@ -332,6 +332,10 @@ func set_angle(deg):
 	last_deg = deg
 	last_dir = vm._get_dir_deg(deg, self.name, animations)
 
+	# The player may have a state animation from before, which would be
+	# resumed, so we immediately force the correct idle animation
+	if animation.get_current_animation() != animations.idles[last_dir]:
+		animation.play(animations.idles[last_dir])
 	pose_scale = animations.idles[last_dir+1]
 	_update_terrain()
 
