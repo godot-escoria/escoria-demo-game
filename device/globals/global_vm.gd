@@ -73,6 +73,34 @@ var zoom_step
 # This is needed to adjust dialog positions and such
 var zoom_transform
 
+# Helpers to deal with player's and items' angles
+func _get_deg_from_rad(rad_angle):
+	# We need some special magic to rotate the node
+	var deg = rad2deg(rad_angle) + 180 + 45
+	if deg >= 360:
+		deg = deg - 360
+
+	return deg
+
+func _get_dir(angle, obj_name, animations):
+	var deg = _get_deg_from_rad(angle)
+	return _get_dir_deg(deg, obj_name, animations)
+
+func _get_dir_deg(deg, obj_name, animations):
+	var dir = -1
+	var i = 0
+	for ang in animations.dir_angles:
+		if deg <= ang:
+			dir = i
+			break
+		i+=2
+
+	# It's an error to have the animations misconfigured
+	if dir == -1:
+		vm.report_errors("obj_name", ["No direction found for " + str(deg)])
+	return dir
+
+
 func save_settings():
 	save_data.save_settings(settings, null)
 
