@@ -31,26 +31,6 @@ func set_light_on_map(p_light):
 	else:
 		modulate(Color(1, 1, 1, 1))
 
-func _get_dir(angle):
-	var deg = rad2deg(angle) + 180 + 45
-	if deg >= 360:
-		deg = deg - 360
-	return _get_dir_deg(deg)
-
-func _get_dir_deg(deg):
-	var dir = -1
-	var i = 0
-	for ang in animations.dir_angles:
-		if deg <= ang:
-			dir = i
-			break
-		i+=2
-
-	# It's an error to have the animations misconfigured
-	if dir == -1:
-		vm.report_errors("interactive", ["No direction found for " + str(deg)])
-	return dir
-
 func walk_stop(pos):
 	set_position(pos)
 	walk_path = []
@@ -120,8 +100,8 @@ func _process(time):
 		var angle = (old_pos.angle_to_point(pos)) * -1
 		set_position(pos)
 
-		last_deg = rad2deg(angle)
-		last_dir = _get_dir(angle)
+		last_deg = vm._get_deg_from_rad(angle)
+		last_dir = vm._get_dir_deg(last_deg, self.name, animations)
 
 		if animation:
 			if animation.get_current_animation() != animations.directions[last_dir]:
@@ -139,7 +119,7 @@ func turn_to(deg):
 	moved = true
 
 	last_deg = deg
-	last_dir = _get_dir_deg(deg)
+	last_dir = vm._get_dir_deg(deg, self.name, animations)
 
 	if animation:
 		if !animation.get_current_animation() or animation.get_current_animation() != animations.directions[last_dir]:
@@ -154,7 +134,7 @@ func set_angle(deg):
 	moved = true
 
 	last_deg = deg
-	last_dir = _get_dir_deg(deg)
+	last_dir = vm._get_dir_deg(deg, self.name, animations)
 
 	if animations and "idles" in animations:
 		pose_scale = animations.idles[last_dir + 1]
