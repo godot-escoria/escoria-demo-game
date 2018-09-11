@@ -131,7 +131,12 @@ func turn_to(deg):
 
 func set_angle(deg):
 	if deg < 0 or deg > 360:
-		vm.report_errors("interactive", ["Invalid degree to turn to " + str(deg)])
+		# Compensate for savegame files during a broken version of Escoria
+		if vm.loading_game:
+			vm.report_warnings("interactive", ["Reset invalid degree " + str(deg)])
+			deg = 0
+		else:
+			vm.report_errors("interactive", ["Invalid degree to turn to " + str(deg)])
 
 	moved = true
 

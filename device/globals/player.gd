@@ -327,7 +327,12 @@ func turn_to(deg):
 
 func set_angle(deg):
 	if deg < 0 or deg > 360:
-		vm.report_errors("player", ["Invalid degree to turn to " + str(deg)])
+		# Compensate for savegame files during a broken version of Escoria
+		if vm.loading_game:
+			vm.report_warnings("player", ["Reset invalid degree " + str(deg)])
+			deg = 0
+		else:
+			vm.report_errors("player", ["Invalid degree to turn to " + str(deg)])
 
 	last_deg = deg
 	last_dir = vm._get_dir_deg(deg, self.name, animations)
