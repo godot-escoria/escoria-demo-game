@@ -157,7 +157,7 @@ func interact(p_params):
 		walk_to(pos)
 	else:
 		if animations.dir_angles.size() > 0 && p_params[0].interact_angle != -1:
-			last_dir = _get_dir_deg(p_params[0].interact_angle)
+			last_dir = vm._get_dir_deg(p_params[0].interact_angle, self.name, animations)
 			animation.play(animations.idles[last_dir])
 			pose_scale = animations.idles[last_dir + 1]
 			_update_terrain()
@@ -173,7 +173,7 @@ func walk_stop(pos):
 	set_process(false)
 	if params_queue != null:
 		if animations.dir_angles.size() > 0 && params_queue[0].interact_angle != -1:
-			last_dir = _get_dir_deg(params_queue[0].interact_angle)
+			last_dir = vm._get_dir_deg(params_queue[0].interact_angle, self.name, animations)
 			animation.play(animations.idles[last_dir])
 			pose_scale = animations.idles[last_dir + 1]
 			_update_terrain()
@@ -190,26 +190,6 @@ func walk_stop(pos):
 	if walk_context != null:
 		vm.finished(walk_context)
 		walk_context = null
-
-func _get_dir(angle):
-	var deg = rad2deg(angle) + 180 + 45
-	if deg >= 360:
-		deg = deg - 360
-	return _get_dir_deg(deg)
-
-func _get_dir_deg(deg):
-	var dir = -1
-	var i = 0
-	for ang in animations.dir_angles:
-		if deg <= ang:
-			dir = i
-			break
-		i+=2
-
-	# It's an error to have the animations misconfigured
-	if dir == -1:
-		vm.report_errors("player", ["No direction found for " + str(deg)])
-	return dir
 
 
 func _notification(what):
@@ -292,8 +272,8 @@ func _process(time):
 		var angle = (old_pos.angle_to_point(pos)) * -1
 		set_position(pos)
 
-		last_deg = rad2deg(angle)
-		last_dir = _get_dir(angle)
+		last_deg = vm._get_deg_from_rad(angle)
+		last_dir = vm._get_dir_deg(last_deg, self.name, animations)
 
 		if animation.get_current_animation() != animations.directions[last_dir]:
 			animation.play(animations.directions[last_dir])
@@ -306,7 +286,7 @@ func teleport(obj):
 	if animations.dir_angles.size() > 0:
 		if "interact_angle" in obj and obj.interact_angle != -1:
 			last_deg = obj.interact_angle
-			last_dir = _get_dir_deg(obj.interact_angle)
+			last_dir = vm._get_dir_deg(obj.interact_angle, self.name, animations)
 			animation.play(animations.idles[last_dir])
 			pose_scale = animations.idles[last_dir + 1]
 
@@ -338,7 +318,7 @@ func turn_to(deg):
 		vm.report_errors("player", ["Invalid degree to turn to " + str(deg)])
 
 	last_deg = deg
-	last_dir = _get_dir_deg(deg)
+	last_dir = vm._get_dir_deg(deg, self.name, animations)
 
 	if animation.get_current_animation() != animations.directions[last_dir]:
 		animation.play(animations.directions[last_dir])
@@ -347,11 +327,20 @@ func turn_to(deg):
 
 func set_angle(deg):
 	if deg < 0 or deg > 360:
-		vm.report_errors("player", ["Invalid degree to turn to " + str(deg)])
+		# Compensate for savegame files during a broken version of Escoria
+		if vm.loading_game:
+			vm.report_warnings("player", ["Reset invalid degree " + str(deg)])
+			deg = 0
+		else:
+			vm.report_errors("player", ["Invalid degree to turn to " + str(deg)])
 
 	last_deg = deg
-	last_dir = _get_dir_deg(deg)
+	last_dir = vm._get_dir_deg(deg, self.name, animations)
 
+	# The player may have a state animation from before, which would be
+	# resumed, so we immediately force the correct idle animation
+	if animation.get_current_animation() != animations.idles[last_dir]:
+		animation.play(animations.idles[last_dir])
 	pose_scale = animations.idles[last_dir+1]
 	_update_terrain()
 
