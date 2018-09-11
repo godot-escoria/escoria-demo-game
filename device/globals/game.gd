@@ -72,6 +72,15 @@ func mouse_enter(obj):
 	var text
 	var tt = obj.get_tooltip()
 
+	# XXX: The warning report may be removed if it turns out to be too annoying in practice
+	if not tt:
+		vm.report_warnings("game", ["No tooltip for item " + obj.name])
+		# For a passive item, it's fine to set an empty tooltip, but if we have a passive and
+		# an active esc_type.ITEM overlapping, say a window and a light that will move later,
+		# the tooltip may be emptied by the light not having a tooltip. This is because the
+		# `mouse_enter` events have no guaranteed order.
+		return
+
 	# When following the mouse, prevent text from flashing for a moment in the wrong place
 	if tooltip and ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
 		var pos = get_viewport().get_mouse_position()
