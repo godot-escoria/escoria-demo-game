@@ -658,6 +658,8 @@ func save():
 			var pos = objects[k].get_position()
 			ret.append("teleport_pos " + k + " " + str(int(pos.x)) + " " + str(int(pos.y)) + "\n")
 			if objects[k].last_deg != null:
+				if objects[k].last_deg < 0 or objects[k].last_deg > 360:
+					vm.report_errors("global_vm", ["Trying to save game with " + objects[k].name + " at invalid angle " + str(objects[k].last_deg)])
 				ret.append("set_angle " + k + " " + str(objects[k].last_deg) + "\n")
 
 	ret.append("\n")
@@ -668,7 +670,11 @@ func save():
 		var pos = player.get_global_position()
 		var angle = player.last_deg
 		ret.append("teleport_pos player " + str(pos.x) + " " + str(pos.y) + "\n")
-		ret.append("set_angle player " + str(angle) + "\n")
+		# Angle may be unset if saving occurs when entering another room
+		if angle:
+			if angle < 0 or angle > 360:
+				vm.report_errors("global_vm", ["Trying to save game with player at invalid angle " + str(angle)])
+			ret.append("set_angle player " + str(angle) + "\n")
 
 	if cam_target != null:
 		ret.append("\n")
