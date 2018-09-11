@@ -405,8 +405,6 @@ func get_registered_objects():
 	return objects
 
 func set_state(name, state):
-	if !(name in objects):
-		report_errors("global_vm", ["Trying to set state that does not exist:" + name + ": " + state])
 	states[name] = state
 
 func set_active(name, active):
