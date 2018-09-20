@@ -495,6 +495,9 @@ func load_hud():
 	var hres = vm.res_cache.get_resource(vm.get_hud_scene())
 	$"hud_layer/hud".replace_by_instance(hres)
 
+	if $"hud_layer/hud".has_node("tooltip"):
+		tooltip = $"hud_layer/hud/tooltip"
+
 	# Add inventory to hud layer, usually hud_minimal.tscn, if found in project settings
 	if inventory_enabled:
 		if !$hud_layer.has_node("inventory") and ProjectSettings.get_setting("escoria/ui/inventory"):
@@ -515,8 +518,6 @@ func load_hud():
 	#	get_node("hud_layer/hud/inv_toggle").show()
 	#else:
 	#	get_node("hud_layer/hud/inv_toggle").hide()
-
-	tooltip = get_node("hud_layer/hud/tooltip")
 
 func _ready():
 	add_to_group("game")
