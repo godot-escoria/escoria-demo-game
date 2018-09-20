@@ -20,6 +20,7 @@ func change_page(dir):
 func open():
 	if is_visible():
 		return
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip_visible", false)
 	sort_items()
 	show()
 	print("inventory open")
@@ -30,6 +31,8 @@ func open():
 func close():
 	if !is_visible():
 		return
+
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip_visible", false)
 
 	if has_node("animation"):
 		var animation = get_node("animation")
