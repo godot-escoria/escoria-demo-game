@@ -163,6 +163,9 @@ func _ready():
 
 	#get_node("log_button").connect("pressed", self, "log_button_pressed")
 
+	if has_node("animation"):
+		$"animation".connect("animation_finished", self, "anim_finished")
+
 	add_to_group("game")
 
 	call_deferred("sort_items")
