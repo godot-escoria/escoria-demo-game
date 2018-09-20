@@ -496,24 +496,33 @@ func load_hud():
 	var hres = vm.res_cache.get_resource(vm.get_hud_scene())
 	$"hud_layer/hud".replace_by_instance(hres)
 
-	if $"hud_layer/hud".has_node("tooltip"):
-		tooltip = $"hud_layer/hud/tooltip"
+	var hud = $"hud_layer/hud"
+
+	if hud.has_node("tooltip"):
+		tooltip = hud.get_node("tooltip")
 
 	# Add inventory to hud layer, usually hud_minimal.tscn, if found in project settings
+	# and not present in the `game` scene's hud.
 	if inventory_enabled:
-		if !$hud_layer.has_node("inventory") and ProjectSettings.get_setting("escoria/ui/inventory"):
-			inventory = load(ProjectSettings.get_setting("escoria/ui/inventory")).instance()
-			if inventory and inventory is esc_type.INVENTORY:
-				inventory.hide()
-				$hud_layer.add_child(inventory)
+		if hud.has_node("inventory"):
+			inventory = hud.get_node("inventory")
+			printt("Found inventory in hud", hud)
 		else:
-			inventory = get_node("hud_layer/hud/inventory")
+			var inventory_scene = ProjectSettings.get_setting("escoria/ui/inventory")
+			if inventory_scene:
+				inventory = load(inventory_scene).instance()
+				if inventory and inventory is esc_type.INVENTORY:
+					if inventory.is_collapsible:
+						inventory.hide()
+					hud.add_child(inventory)
+					hud.move_child(inventory, 0)
+					printt("Added inventory to hud", hud)
 
 	# Add action menu to hud layer if found in project settings
 	if ProjectSettings.get_setting("escoria/ui/action_menu"):
 		action_menu = load(ProjectSettings.get_setting("escoria/ui/action_menu")).instance()
 		if action_menu and action_menu is esc_type.ACTION_MENU:
-			$hud_layer.add_child(action_menu)
+			$"hud_layer".add_child(action_menu)
 
 	#if inventory_enabled:
 	#	get_node("hud_layer/hud/inv_toggle").show()
