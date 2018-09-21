@@ -35,11 +35,9 @@ func close():
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip_visible", false)
 
 	if has_node("animation"):
-		var animation = get_node("animation")
-		if animation:
-			if animation.is_playing():
-				return
-			animation.play("hide")
+		if $"animation".is_playing():
+			return
+		$"animation".play("hide")
 
 	# XXX: What is this `look` node? A verb menu thing?
 	if has_node("look"):
