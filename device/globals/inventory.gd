@@ -52,8 +52,8 @@ func toggle():
 	else:
 		open()
 
-func anim_finished():
-	if get_node("animation").get_current_animation() == "hide":
+func anim_finished(name):
+	if name == "hide":
 		hide()
 
 func sort_items():
