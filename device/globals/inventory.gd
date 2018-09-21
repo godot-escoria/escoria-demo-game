@@ -9,6 +9,9 @@ var page_max
 var page_size
 var current_action = ""
 
+func blocks_tooltip():
+	return self.is_collapsible and self.is_visible()
+
 func change_page(dir):
 	page += dir
 	if page < 0:

@@ -90,7 +90,7 @@ func mouse_enter(obj):
 		tooltip.set_position(pos)
 
 	# We must hide all non-inventory tooltips and interactions when the inventory is open
-	if action_menu and inventory and inventory.is_visible():
+	if inventory and inventory.blocks_tooltip():
 		if obj.inventory:
 			if !current_action:
 				text = tr(tt)
@@ -247,6 +247,7 @@ func clicked(obj, pos, input_event = null):
 	elif current_action != "":
 		# Walking the player to perform current_action is fine only when inventory is closed
 		if inventory:
+			# XXX: look into having something like inventory.blocks_tooltip() here
 			if !inventory.is_collapsible or (inventory.is_collapsible and !inventory.is_visible()):
 				player.interact([obj, current_action, current_tool])
 	elif obj is esc_type.ITEM:
