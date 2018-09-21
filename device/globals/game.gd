@@ -34,6 +34,12 @@ var tooltip
 func set_mode(p_mode):
 	mode = p_mode
 
+func maybe_hide_tooltip():
+	# We want to hide the tooltip from a collapsible inventory, but not if
+	# an item has been selected as `current_tool`.
+	if not current_tool:
+		get_tree().call_group("hud", "set_tooltip_visible", false)
+
 func tooltip_clamped_position(tt_pos):
 	var width = float(ProjectSettings.get("display/window/size/width"))
 	var height = float(ProjectSettings.get("display/window/size/height"))

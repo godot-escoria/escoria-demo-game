@@ -35,7 +35,9 @@ func close():
 	if !is_visible():
 		return
 
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip_visible", false)
+	# There's no way to access variables across groups and non-globals,
+	# so do this instead. It hides the tooltip unless an item has been chosen as a tool.
+	get_tree().call_group("game", "maybe_hide_tooltip")
 
 	if has_node("animation"):
 		if $"animation".is_playing():
