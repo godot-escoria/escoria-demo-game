@@ -153,7 +153,10 @@ func _ready():
 	vm.connect("global_changed", self, "global_changed")
 
 	page_size = get_node("slots").get_child_count()
-	sort_items()
+
+	# XXX: Not sure why, but sorting a collapsible inventory here causes textures to disappear
+	if not self.is_collapsible:
+		sort_items()
 
 	if has_node("arrow_prev"):
 		$"arrow_prev".connect("pressed", self, "change_page", [-1])
