@@ -87,7 +87,7 @@ func mouse_enter(obj):
 	# Store overlapped_obj just in case we try to open the inventory
 	if inventory and inventory.is_collapsible:
 		# But not for inventory objects!
-		if not obj.inventory:
+		if not "inventory" in obj or not obj.inventory:
 			set_overlapped_obj(obj)
 
 	var text
@@ -112,7 +112,7 @@ func mouse_enter(obj):
 
 	# We must hide all non-inventory tooltips and interactions when the inventory is open
 	if inventory and inventory.blocks_tooltip():
-		if obj.inventory:
+		if obj is esc_type.ITEM and obj.inventory:
 			if !current_action:
 				text = tr(tt)
 			else:
@@ -124,20 +124,23 @@ func mouse_enter(obj):
 			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
 			vm.hover_begin(obj)
 	else:
-		if current_action != "" && current_tool != null:
-			if tt:
-				text = tr(current_action + ".combine_id")
-				text = text.replace("%2", tr(tt))
-				text = text.replace("%1", tr(current_tool.get_tooltip()))
-		elif obj.inventory:
-			if !current_action:
-				text = tr(tt)
-			elif inventory:
-				var action = inventory.get_action()
-				if action == "":
-					action = current_action
-				text = tr(action + ".id")
-				text = text.replace("%1", tr(tt))
+		if obj is esc_type.ITEM:
+			if current_action != "" and current_tool != null:
+				if tt:
+					text = tr(current_action + ".combine_id")
+					text = text.replace("%2", tr(tt))
+					text = text.replace("%1", tr(current_tool.get_tooltip()))
+			elif obj.inventory:
+				if !current_action:
+					text = tr(tt)
+				elif inventory:
+					var action = inventory.get_action()
+					if action == "":
+						action = current_action
+					text = tr(action + ".id")
+					text = text.replace("%1", tr(tt))
+			else:
+				text = tt
 		else:
 			text = tt
 
