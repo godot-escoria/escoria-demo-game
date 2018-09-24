@@ -482,9 +482,9 @@ func set_inventory_enabled(p_enabled):
 	if !has_node("hud_layer/hud/inv_toggle"):
 		return
 	if inventory_enabled:
-		get_node("hud_layer/hud/inv_toggle").show()
+		$"hud_layer/hud/inv_toggle".show()
 	else:
-		get_node("hud_layer/hud/inv_toggle").hide()
+		$"hud_layer/hud/inv_toggle".hide()
 
 func set_camera_limits():
 	var cam_limit = camera_limits
@@ -546,16 +546,17 @@ func load_hud():
 					hud.move_child(inventory, 0)
 					printt("Added inventory to hud", hud)
 
+	if has_node("hud_layer/hud/inv_toggle"):
+		if inventory_enabled:
+			$"hud_layer/hud/inv_toggle".show()
+		else:
+			$"hud_layer/hud/inv_toggle".hide()
+
 	# Add action menu to hud layer if found in project settings
 	if ProjectSettings.get_setting("escoria/ui/action_menu"):
 		action_menu = load(ProjectSettings.get_setting("escoria/ui/action_menu")).instance()
 		if action_menu and action_menu is esc_type.ACTION_MENU:
 			$"hud_layer".add_child(action_menu)
-
-	#if inventory_enabled:
-	#	get_node("hud_layer/hud/inv_toggle").show()
-	#else:
-	#	get_node("hud_layer/hud/inv_toggle").hide()
 
 func _ready():
 	add_to_group("game")

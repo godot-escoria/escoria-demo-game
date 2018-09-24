@@ -19,9 +19,7 @@ func set_tooltip_visible(p_visible):
 		$"tooltip".visible = p_visible and $"tooltip".text
 
 func inv_toggle():
-	#get_node("inventory").toggle()
-	pass
-
+	$"inventory".toggle()
 
 func _on_inventory_toggle_visibility_changed():
 	if $inv_toggle.is_hidden():
@@ -58,6 +56,10 @@ func set_visible(p_visible):
 func _ready():
 	add_to_group("hud")
 	add_to_group("game")
+
+	if has_node("inv_toggle"):
+		$"inv_toggle".connect("pressed", self, "inv_toggle")
+		$"inv_toggle".set_focus_mode(Control.FOCUS_NONE)
 
 	# Hide verb menu if hud layer has an action menu
 	if has_node("../action_menu"):
