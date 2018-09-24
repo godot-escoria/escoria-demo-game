@@ -306,7 +306,10 @@ func test(cmd):
 	return true
 
 func dialog(params, level):
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "dialog_dialog", "start", params, level)
+	# Ensure tooltip is hidden. It may remain visible when the NPC finishes saying something
+	# and then `dialog` is called.
+	get_tree().call_group("hud", "set_tooltip_visible", false)
+	get_tree().call_group("dialog_dialog", "start", params, level)
 
 func instance_level(p_level, p_root):
 	var level = { "ip": 0, "instructions": p_level, "waiting": false, "break_stop": p_root, "labels": {} }

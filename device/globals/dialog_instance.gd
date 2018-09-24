@@ -68,6 +68,7 @@ func finish():
 		if anim.has_animation("hide"):
 			anim.play("hide")
 	_queue_free()
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "reset_overlapped_obj")
 
 func clamped_position(dialog_pos):
 	var width = float(ProjectSettings.get("display/window/size/width"))
