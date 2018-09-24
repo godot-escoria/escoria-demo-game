@@ -406,8 +406,9 @@ func scene_input(event):
 			if action_menu.is_visible():
 				action_menu.stop()
 
-			# Hide inventory if collapsible
-			if inventory and inventory.is_collapsible:
+		# Hide inventory if collapsible
+		if inventory:
+			if inventory.is_collapsible and inventory.is_visible():
 				inventory.close()
 
 		if vm.can_save() && vm.can_interact() && vm.menu_enabled():
