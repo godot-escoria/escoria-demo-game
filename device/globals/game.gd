@@ -30,9 +30,18 @@ var camera
 export var camera_limits = Rect2()
 
 var tooltip
+# This is used to "cache" a hidden tooltip
+var overlapped_obj
 
 func set_mode(p_mode):
 	mode = p_mode
+
+func set_overlapped_obj(obj):
+	overlapped_obj = obj
+
+func reset_overlapped_obj():
+	if overlapped_obj:
+		return mouse_enter(overlapped_obj)
 
 func maybe_hide_tooltip():
 	# We want to hide the tooltip from a collapsible inventory, but not if
@@ -74,6 +83,12 @@ func mouse_enter(obj):
 	if action_menu and action_menu.is_visible():
 		assert(!tooltip.visible)
 		return
+
+	# Store overlapped_obj just in case we try to open the inventory
+	if inventory and inventory.is_collapsible:
+		# But not for inventory objects!
+		if not obj.inventory:
+			set_overlapped_obj(obj)
 
 	var text
 	var tt = obj.get_tooltip()
@@ -149,6 +164,8 @@ func mouse_exit(obj):
 	# Want to retain the hover if the player is about to perform an action
 	if !current_action:
 		vm.hover_end()
+
+	overlapped_obj = null
 
 func clear_action():
 	current_tool = null

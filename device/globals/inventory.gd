@@ -39,10 +39,12 @@ func close():
 	# so do this instead. It hides the tooltip unless an item has been chosen as a tool.
 	get_tree().call_group("game", "maybe_hide_tooltip")
 
+	var closing_animation = false
 	if has_node("animation"):
 		if $"animation".is_playing():
 			return
 		$"animation".play("hide")
+		closing_animation = true
 
 	# XXX: What is this `look` node? A verb menu thing?
 	if has_node("look"):
@@ -51,6 +53,10 @@ func close():
 	current_action = ""
 	hide()
 	print("inventory close")
+
+	# Reset immediately only when there isn't an animation, otherwise let the handler do it
+	if not closing_animation:
+		get_tree().call_group("game", "reset_overlapped_obj")
 
 func toggle():
 	if is_visible():
@@ -61,6 +67,7 @@ func toggle():
 func anim_finished(name):
 	if name == "hide":
 		hide()
+		get_tree().call_group("game", "reset_overlapped_obj")
 
 func sort_items():
 	var items = get_node("items")
