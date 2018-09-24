@@ -227,8 +227,10 @@ func clicked(obj, pos, input_event = null):
 		if click_anim:
 			click_anim.play("click")
 
-		if inventory and inventory.is_collapsible:
+		# If it's possible to click outside the inventory, don't walk but only close it
+		if inventory and inventory.is_collapsible and inventory.is_visible():
 			inventory.close()
+			return
 
 		player.walk_to(pos, walk_context)
 		# Leave the tooltip if the player is in eg. a "use key with" state
