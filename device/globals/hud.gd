@@ -34,15 +34,7 @@ func _on_hint_pressed():
 
 func _on_menu_pressed():
 	printt("menu pressed")
-	if vm.can_save() && vm.can_interact() && vm.menu_enabled():
-		main.load_menu("res://demo/ui/main_menu.xml")
-	else:
-		#get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "ui_blocked")
-		if vm.menu_enabled():
-			main.load_menu(ProjectSettings.get_setting("escoria/ui/in_game_menu"))
-		else:
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "ui_blocked")
-
+	get_tree().call_group("game", "handle_menu_request")
 
 func menu_opened():
 	hide()
@@ -60,6 +52,10 @@ func _ready():
 	if has_node("inv_toggle"):
 		$"inv_toggle".connect("pressed", self, "inv_toggle")
 		$"inv_toggle".set_focus_mode(Control.FOCUS_NONE)
+
+	if has_node("menu"):
+		$"menu".connect("pressed", self, "_on_menu_pressed")
+		$"menu".set_focus_mode(Control.FOCUS_NONE)
 
 	# Hide verb menu if hud layer has an action menu
 	if has_node("../action_menu"):

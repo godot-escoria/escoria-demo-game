@@ -189,7 +189,6 @@ func set_current_action(p_act):
 		set_current_tool(null)
 	current_action = p_act
 
-
 func set_current_tool(p_tool):
 	current_tool = p_tool
 
@@ -407,8 +406,12 @@ func scene_input(event):
 		if vm.drag_object != null:
 			vm.drag_end()
 
-
 	if event.is_action("menu_request") && event.is_pressed() && !event.is_echo():
+		handle_menu_request()
+
+func handle_menu_request():
+	var menu_enabled = vm.menu_enabled()
+	if vm.can_save() and vm.can_interact() and menu_enabled:
 		# Do not display overlay menu with action menu or inventory, it looks silly and weird
 		if action_menu:
 			if action_menu.is_visible():
@@ -419,15 +422,10 @@ func scene_input(event):
 			if inventory.is_collapsible and inventory.is_visible():
 				inventory.close()
 
-		if vm.can_save() && vm.can_interact() && vm.menu_enabled():
-			main.load_menu(ProjectSettings.get_setting("escoria/ui/main_menu"))
-		else:
-			#get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "ui_blocked")
-			if vm.menu_enabled():
-				main.load_menu(ProjectSettings.get_setting("escoria/ui/in_game_menu"))
-			else:
-				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "ui_blocked")
-
+		# Finally show the menu
+		main.load_menu(ProjectSettings.get_setting("escoria/ui/in_game_menu"))
+	elif not menu_enabled:
+		get_tree().call_group("game", "ui_blocked")
 
 func _process(time):
 	if !vm.can_interact():
