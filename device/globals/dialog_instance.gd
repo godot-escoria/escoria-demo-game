@@ -68,6 +68,9 @@ func finish():
 		if anim.has_animation("hide"):
 			anim.play("hide")
 	_queue_free()
+
+	# BUG: moving cursor during speech will show the wrong object
+	# after speech, until the mouse is moved.
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "reset_overlapped_obj")
 
 func clamped_position(dialog_pos):
