@@ -80,13 +80,13 @@ func activate(p_action, p_param = null):
 
 func get_action():
 	return action
-#
+
 func mouse_enter():
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "mouse_enter", self)
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "game", "mouse_enter", self)
 	_check_focus(true, false)
 
 func mouse_exit():
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "mouse_exit", self)
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "game", "mouse_exit", self)
 	_check_focus(false, false)
 
 func area_input(viewport, event, shape_idx):

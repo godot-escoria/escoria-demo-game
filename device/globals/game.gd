@@ -79,6 +79,15 @@ func tooltip_clamped_position(tt_pos):
 	return tt_pos
 
 func mouse_enter(obj):
+	if overlapped_obj and overlapped_obj != obj:
+		# Be sure we have exited the other object, because
+		# sometimes item2's `mouse_entered` happens before
+		# item1's `mouse_exited`. This causes the tooltip to disappear!
+		if "mouse_exited" in overlapped_obj.get_signal_list():
+			yield(overlapped_obj, "mouse_exited")
+		elif overlapped_obj.has_node("area"):
+			yield(overlapped_obj.get_node("area"), "mouse_exited")
+
 	# Immediately bail out if the action menu is open
 	if action_menu and action_menu.is_visible():
 		assert(!tooltip.visible)
@@ -143,7 +152,7 @@ func mouse_enter(obj):
 		else:
 			text = tt
 
-		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
+		get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "hud", "set_tooltip", text)
 		vm.hover_begin(obj)
 
 func mouse_exit(obj):
@@ -161,7 +170,7 @@ func mouse_exit(obj):
 		text = text.replace("%1", tr(current_tool.get_tooltip()))
 	else:
 		text = ""
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "hud", "set_tooltip", text)
 
 	# Want to retain the hover if the player is about to perform an action
 	if !current_action:
