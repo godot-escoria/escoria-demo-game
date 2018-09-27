@@ -85,10 +85,9 @@ func mouse_enter(obj):
 		return
 
 	# Store overlapped_obj just in case we try to open the inventory
-	if inventory and inventory.is_collapsible:
-		# But not for inventory objects!
-		if not "inventory" in obj or not obj.inventory:
-			set_overlapped_obj(obj)
+	# or the in-game menu, but not for inventory objects
+	if not "inventory" in obj or not obj.inventory:
+		set_overlapped_obj(obj)
 
 	var text
 	var tt = obj.get_tooltip()
