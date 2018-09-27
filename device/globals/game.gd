@@ -83,10 +83,10 @@ func mouse_enter(obj):
 		# Be sure we have exited the other object, because
 		# sometimes item2's `mouse_entered` happens before
 		# item1's `mouse_exited`. This causes the tooltip to disappear!
-		if "mouse_exited" in overlapped_obj.get_signal_list():
-			yield(overlapped_obj, "mouse_exited")
-		elif overlapped_obj.has_node("area"):
+		if overlapped_obj.has_node("area"):
 			yield(overlapped_obj.get_node("area"), "mouse_exited")
+		else:
+			yield(overlapped_obj, "mouse_exited")
 
 	# Immediately bail out if the action menu is open
 	if action_menu and action_menu.is_visible():
