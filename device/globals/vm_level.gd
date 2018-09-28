@@ -70,6 +70,9 @@ func set_state(params):
 func set_hud_visible(params):
 	vm.set_hud_visible(params[0])
 
+func set_tooltip_visible(params):
+	vm.set_tooltip_visible(params[0])
+
 func say(params):
 	if !check_obj(params[0], "say"):
 		return vm.state_return

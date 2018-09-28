@@ -1,9 +1,16 @@
 extends Control
 
 var background = null
+var force_hide_tooltip = false  # Used by `set_tooltip_visible` to never show
 
 func set_tooltip(text):
 	if !$"tooltip":
+		return
+
+	# BUG: This leaves the tooltip invisible if hovering over an item after
+	# eg. dialog, but removing the check shows the wrong tooltip during `say`
+	if force_hide_tooltip:
+		printt("force_hide_tooltip returns")
 		return
 
 	$"tooltip".text = text
@@ -16,7 +23,13 @@ func set_tooltip(text):
 
 func set_tooltip_visible(p_visible):
 	if $"tooltip":
-		$"tooltip".visible = p_visible and $"tooltip".text
+		$"tooltip".visible = p_visible and $"tooltip".text and not force_hide_tooltip
+
+func force_tooltip_visible(p_force_hide_tooltip):
+	if $"tooltip":
+		# Not visible (false) means it's hidden
+		force_hide_tooltip = not p_force_hide_tooltip
+		printt("force-hide tooltip:", force_hide_tooltip)
 
 func inv_toggle():
 	$"inventory".toggle()

@@ -234,6 +234,10 @@ func say(params, level):
 func set_hud_visible(p_visible):
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_visible", p_visible)
 
+func set_tooltip_visible(p_visible):
+	# This force-hides or "force-shows" the tooltip
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "force_tooltip_visible", p_visible)
+
 func dialog_config(params):
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "dialog", "config", params)
 
