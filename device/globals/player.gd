@@ -377,7 +377,7 @@ func _ready():
 	vm.register_object("player", self)
 
 	# Set the player up for z-index, scale, light etc, update later when moving
-	call_deferred("_update_terrain", true)
+	_update_terrain()
 
 	last_scale = get_scale()
 	set_process(true)

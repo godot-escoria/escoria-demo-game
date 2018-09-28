@@ -392,7 +392,7 @@ func _ready():
 	# Initialize Node2D items' terrain status like z-index.
 	# Stationary items will be set up correctly and
 	# if an item moves, it will handle this in its _process() loop
-	call_deferred("_update_terrain", self is Node2D)
+	_update_terrain(self is Node2D)
 
 	if interact_position:
 		interact_pos = get_node(interact_position)
