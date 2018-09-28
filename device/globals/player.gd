@@ -193,7 +193,7 @@ func walk_stop(pos):
 
 
 func _notification(what):
-	if !get_tree() || !Engine.is_editor_hint():
+	if !is_inside_tree() || !Engine.is_editor_hint():
 		return
 
 	if what == CanvasItem.NOTIFICATION_TRANSFORM_CHANGED:
