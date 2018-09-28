@@ -389,12 +389,13 @@ func _ready():
 
 	_check_focus(false, false)
 
+	if interact_position:
+		interact_pos = get_node(interact_position)
+	elif has_node("interact_pos"):
+		interact_pos = $"interact_pos"
+
 	# Initialize Node2D items' terrain status like z-index.
 	# Stationary items will be set up correctly and
 	# if an item moves, it will handle this in its _process() loop
 	_update_terrain(self is Node2D)
 
-	if interact_position:
-		interact_pos = get_node(interact_position)
-	elif has_node("interact_pos"):
-		interact_pos = $"interact_pos"
