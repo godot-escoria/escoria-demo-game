@@ -7,10 +7,10 @@ func set_tooltip(text):
 	if !$"tooltip":
 		return
 
-	# BUG: This leaves the tooltip invisible if hovering over an item after
-	# eg. dialog, but removing the check shows the wrong tooltip during `say`
 	if force_hide_tooltip:
-		printt("force_hide_tooltip returns")
+		# XXX: This issues an error from Godot that ugc_locked is true,
+		# but it appears to be ignorable. At least this works.
+		get_tree().call_group_flags(SceneTree.GROUP_CALL_UNIQUE, "game", "reset_overlapped_obj")
 		return
 
 	$"tooltip".text = text
