@@ -711,9 +711,9 @@ func save():
 				vm.report_errors("global_vm", ["Trying to save game with player at invalid angle " + str(angle)])
 			ret.append("set_angle player " + str(angle) + "\n")
 
+	ret.append("\n")
+	ret.append("## Camera\n\n")
 	if cam_target != null:
-		ret.append("\n")
-		ret.append("## Camera\n\n")
 		if typeof(cam_target) == typeof(Vector2()):
 			#ret.append("camera_set_position " + str(cam_speed) + " " + str(int(cam_target.x)) + " " + str(int(cam_target.y)) + "\n")
 			ret.append("camera_set_position 0 " + str(int(cam_target.x)) + " " + str(int(cam_target.y)) + "\n")
@@ -729,6 +729,9 @@ func save():
 
 			ret.append("camera_set_target 0" + tlist + "\n")
 			ret.append("camera_set_target " + str(cam_speed) + tlist + "\n")
+
+	# Always save the zoom, but assume symmetrical zoom because esc scripts don't support anything else
+	ret.append("camera_set_zoom " + str(camera.zoom.x) + "\n")
 
 	for e in event_queue:
 		ret.append("sched_event " + str(e[0]) + " " + str(e[1]) + " " + str(e[2]) + "\n")
