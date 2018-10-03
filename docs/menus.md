@@ -71,3 +71,22 @@ set into a `Label` named `message`.
 You can create a functioning game using the above description, but
 there is still work to do in supporting everything you may ever want.
 
+## Credits
+
+You may configure a credits screen in `escoria/ui/credits`, and an end
+credits screen in `escoria/ui/end_credits`.
+
+This is pretty free-form, but the simplest form is
+
+  * credits (`Control`)
+    * background (`TextureRect`)
+    * menu (`TextureRect`)
+
+Then you attach the `globals/credits.gd` script to the `credits` node
+and everything should work as expected.
+
+You can use the same script for the end credits, but if you want eg.
+music there, you have to make a copy and edit that script. Or make
+it configurable and submit a pull request with changes and removal
+of this statement.
+
