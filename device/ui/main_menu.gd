@@ -1,5 +1,7 @@
 extends Control
 
+export(String, FILE) var bg_sound
+
 var confirm_popup = null
 var labels = []
 
@@ -88,6 +90,15 @@ func set_continue_button():
 		get_node("continue").set_disabled(true)
 		#get_node("continue").hide()
 
+func set_bg_sound():
+	var stream = $"stream"
+
+	var resource = load(bg_sound)
+	stream.stream = resource
+	assert stream.stream
+	resource.set_loop(true)
+	stream.volume_db = 1  # TODO: Should have all this in ProjectSettings
+	stream.play()
 
 func _on_language_selected(lang):
 	vm.settings.text_lang=lang
@@ -106,7 +117,9 @@ func _ready():
 	if has_node("credits"):
 		get_node("credits").connect("pressed",self,"credits_pressed")
 	set_process_input(true)
-	#main.set_current_scene(self)
+
+	if has_node("stream") and bg_sound:
+		set_bg_sound()
 
 	main.menu_open(self)
 

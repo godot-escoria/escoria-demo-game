@@ -26,6 +26,10 @@ following defined.
   * continue
   * exit
 
+The use of `TextureRect` is recommended.
+
+## Optional nodes
+
 Optionally you may also have
 
   * save
@@ -35,7 +39,9 @@ Optionally you may also have
 (This list should be expanded to include loading a saved game in
 case your game has multiple save slots.)
 
-The use of `TextureRect` is recommended.
+If you want background music, add an `AudioStreamPlayer` by the name
+of `stream` and set a file in the `bg_sound` variable. It will play
+and loop automatically
 
 ## Spawning menus
 
