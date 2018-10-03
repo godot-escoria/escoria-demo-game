@@ -31,7 +31,8 @@ func timer_timeout():
 
 # called from global_vm.gd::dialog() function
 func start(params, p_context):
-	#stop()
+	vm.set_hud_visible(false)
+
 	printt("dialog start with params ", params.size())
 	context = p_context
 	cmd = params[0]
@@ -122,6 +123,7 @@ func _on_mouse_exit(button):
 	button.get_node("label").add_color_override("font_color_shadow", mouse_exit_shadow_color)
 
 func stop():
+	vm.set_hud_visible(true)
 	hide()
 	while container.get_child_count() > 0:
 		var c = container.get_child(0)
