@@ -567,7 +567,8 @@ func load_hud():
 
 func _ready():
 	add_to_group("game")
-	player = get_node("../player")
+	if has_node("../player"):
+		player = $"../player"
 
 	if fallbacks_path != "":
 		fallbacks = vm.compile(fallbacks_path)
