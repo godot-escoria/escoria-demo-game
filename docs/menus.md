@@ -90,3 +90,14 @@ music there, you have to make a copy and edit that script. Or make
 it configurable and submit a pull request with changes and removal
 of this statement.
 
+Protip: if you end your game on a fade out, you will not be able to
+see the end credits, as `telon` will have made it all black.
+
+You will then make a copy of `credits.gd` for your game, call it
+`end_credits.gd` and attach that to `credits`. Then you'll add the
+following line to `_ready()`:
+
+```
+get_tree().call_group("game", "telon_play_anim", "fade_in")
+```
+

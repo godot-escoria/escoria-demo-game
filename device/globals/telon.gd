@@ -113,6 +113,9 @@ func rand_seek(p_node = null):
 	if !node.is_playing():
 		node.play()
 
+func telon_play_anim(p_anim):
+	$"animation".play(p_anim)
+
 func _ready():
 	get_node("input_catch").connect("gui_input", self, "input_event")
 	get_node("input_catch").set_size(get_viewport().size)
