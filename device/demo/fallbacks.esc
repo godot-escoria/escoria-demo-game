@@ -1,20 +1,20 @@
-:look
+:look | TK
 debug "look fallback!"
 say player look_fallback:"I can't look at that."
 
-:use
+:use | TK
 debug "use fallback!"
 say player use_fallback:"I can't use that."
 
-:pick_up
+:pick_up | TK
 debug "pick_up fallback!"
 say player pick_up_fallback:"I can't take this up."
 
-:talk
+:talk | TK
 debug "talk fallback!"
 say player talk_fallback:"I can't talk to that."
 
-:open
+:open | TK
 debug "open fallback!"
 say player open_fallback:"I can't open that."
 
