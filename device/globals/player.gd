@@ -157,20 +157,37 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 
 func interact(p_params):
 	interact_status = INTERACT_STARTED
+	var obj = p_params[0]
+	var action = p_params[1]
 	var pos
-	if p_params[0].has_method("get_interact_pos"):
-		pos = p_params[0].get_interact_pos()
+	if obj.has_method("get_interact_pos"):
+		pos = obj.get_interact_pos()
 	else:
-		pos = p_params[0].get_global_position()
+		pos = obj.get_global_position()
 
-	if !telekinetic && get_global_position().distance_to(pos) > 10:
+	# Check if we are using an item with another, lest we fall back to fallbacks' :use
+	# so this reworks action to match `:use inv_ice_cream`
+	if p_params.size() > 2 and p_params[2]:
+		var target = p_params[2].global_id
+		action += " " + target
+
+	# It's safe to assume false, because it most likely gets reset
+	# or we pass control over to fallbacks in game.interact()
+	var do_walk = false
+	if action in obj.event_table:
+		var ev_flags = obj.event_table[action]["flags"]
+
+		if not "TK" in ev_flags:
+			do_walk = true
+
+	if (not telekinetic and do_walk) and get_global_position().distance_to(pos) > 10:
 		# It's important to set the queue before walking, so it
 		# is in effect until walk_stop() has to reset the queue.
 		params_queue = p_params
 		walk_to(pos)
 	else:
-		if animations.dir_angles.size() > 0 && p_params[0].interact_angle != -1:
-			last_dir = vm._get_dir_deg(p_params[0].interact_angle, self.name, animations)
+		if animations.dir_angles.size() > 0 and obj.interact_angle != -1:
+			last_dir = vm._get_dir_deg(obj.interact_angle, self.name, animations)
 			animation.play(animations.idles[last_dir])
 			pose_scale = animations.idles[last_dir + 1]
 			_update_terrain()
