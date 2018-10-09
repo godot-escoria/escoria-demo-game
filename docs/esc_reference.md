@@ -90,6 +90,17 @@ set_global i/key true
 set_global i/key false
 ```
 
+Is item active?
+---------------
+
+Item activity is also handled as a special case of global flags. If the check starts with "a/", like "a/elaine", you're checking if "elaine" is active.
+
+```
+:ready
+> [!a/elaine]
+    say player player_no_elaine_yet:"It would appear Elaine hasn't arrived yet."
+```
+
 Command list
 ------------
 

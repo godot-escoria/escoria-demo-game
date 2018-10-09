@@ -282,6 +282,14 @@ func test(cmd):
 		for flag in cmd.if_not_inv:
 			if inventory_has(flag):
 				return false
+	if "if_active" in cmd:
+		for flag in cmd.if_active:
+			if not flag in actives or not actives[flag]:
+				return false
+	if "if_not_active" in cmd:
+		for flag in cmd.if_not_active:
+			if flag in actives and actives[flag]:
+				return false
 	if "if_eq" in cmd:
 		for flag in cmd.if_eq:
 			if !is_equal_to(flag[0], flag[1]):
