@@ -29,6 +29,13 @@ var anim_scale_override = null
 var sprites = []
 export var placeholders = {}
 
+# Use `interact_status` to prevent player from moving past target when interacting.
+# This appears to happen because Godot doesn't discern a click from a double click
+# until the second click happens, by which time the player is already underway to
+# an invalid position.
+var interact_status = 0
+enum interact_statuses {INTERACT_NONE, INTERACT_STARTED, INTERACT_WALKING}
+
 func set_active(p_active):
 	if p_active:
 		show()
@@ -36,6 +43,10 @@ func set_active(p_active):
 		hide()
 
 func walk_to(pos, context = null):
+	if interact_status == INTERACT_WALKING:
+		return
+	if interact_status == INTERACT_STARTED:
+		interact_status = INTERACT_WALKING
 	walk_path = terrain.get_path(get_position(), pos)
 	walk_context = context
 	if walk_path.size() == 0:
@@ -145,11 +156,13 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 	set_process(false)
 
 func interact(p_params):
+	interact_status = INTERACT_STARTED
 	var pos
 	if p_params[0].has_method("get_interact_pos"):
 		pos = p_params[0].get_interact_pos()
 	else:
 		pos = p_params[0].get_global_position()
+
 	if !telekinetic && get_global_position().distance_to(pos) > 10:
 		# It's important to set the queue before walking, so it
 		# is in effect until walk_stop() has to reset the queue.
@@ -168,6 +181,7 @@ func walk_stop(pos):
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "exit", "stopped_at", pos)
 
 	set_position(pos)
+	interact_status = INTERACT_NONE
 	walk_path = []
 	task = null
 	set_process(false)
