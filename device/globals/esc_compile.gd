@@ -192,8 +192,6 @@ func trim(p_str):
 		p_str = p_str.substr(0, p_str.length()-1)
 	return p_str
 
-
-
 func parse_flags(p_flags, flags_list, ifs):
 	var from = 1
 	while true:
@@ -371,7 +369,16 @@ func read_events(f, ret, errors):
 		if typeof(ev) != typeof(null):
 			var level = []
 			var abort = add_level(state, level, errors)
-			ret[ev] = level
+			var ev_flags = []
+			if "|" in ev:
+				var ev_split = ev.split("|", true, 1)
+				ev = ev_split[0]
+				ev = ev.strip_edges()
+				if ev_split.size() > 1:
+					ev_split[1] = ev_split[1].strip_edges()
+					ev_flags = ev_split[1].split(" ")
+
+			ret[ev] = {"level": level, "flags": ev_flags}
 			if abort:
 				return abort
 
@@ -402,7 +409,6 @@ func compile_str(p_str, errors):
 
 	#printt("returning ", p_fname, ret)
 	return ret
-
 
 func compile(p_fname, errors):
 	var f = File.new()

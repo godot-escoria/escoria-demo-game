@@ -148,7 +148,11 @@ func anim_finished(anim_name):
 
 	if anim_name == "hide":
 		vm.finished(context)
-		vm.add_level(cmd[option_selected].params[1], false)
+		var params = {
+			"level": cmd[option_selected].params[1],
+			"flags": []
+		}
+		vm.add_level(params, false)
 		stop()
 
 func _ready():
