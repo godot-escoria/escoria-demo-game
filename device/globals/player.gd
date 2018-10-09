@@ -180,11 +180,18 @@ func interact(p_params):
 		if not "TK" in ev_flags:
 			do_walk = true
 
+		if "FAST" in ev_flags:
+			if not walk_context:
+				walk_context = {"fast": true}
+			else:
+				walk_context["fast"] = true
+				do_walk = true
+
 	if (not telekinetic and do_walk) and get_global_position().distance_to(pos) > 10:
 		# It's important to set the queue before walking, so it
 		# is in effect until walk_stop() has to reset the queue.
 		params_queue = p_params
-		walk_to(pos)
+		walk_to(pos, walk_context)
 	else:
 		if animations.dir_angles.size() > 0 and obj.interact_angle != -1:
 			last_dir = vm._get_dir_deg(obj.interact_angle, self.name, animations)
