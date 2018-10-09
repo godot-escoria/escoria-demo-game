@@ -211,6 +211,8 @@ func parse_flags(p_flags, flags_list, ifs):
 			flag = trim(flag.substr(1, flag.length()-1))
 			if flag.find("inv-") == 0:
 				ifs["if_not_inv"].push_back(trim(flag).substr(4, flag.length()-1))
+			elif flag.find("a/") == 0:
+				ifs["if_not_active"].push_back(trim(flag).substr(2, flag.length() - 1))
 			elif flag.substr(0, 3) in ["eq ", "gt ", "lt "]:
 				var elems = flag.split(" ", true, 2)
 				var comparison = "ne" if elems[0] == "eq" else "le" if elems[0] == "gt" else "ge"
@@ -221,11 +223,14 @@ func parse_flags(p_flags, flags_list, ifs):
 			list.push_back(false)
 			if flag.find("inv-") == 0:
 				ifs["if_inv"].push_back(trim(flag).substr(4, flag.length()-1))
+			elif flag.find("a/") == 0:
+				ifs["if_active"].push_back(trim(flag).substr(2, flag.length() - 1))
 			elif flag.substr(0, 3) in ["eq ", "gt ", "lt "]:
 				var elems = flag.split(" ", true, 2)
 				ifs["if_" + elems[0]].push_back([elems[1], elems[2]])
 			else:
 				ifs["if_true"].push_back(trim(flag))
+
 		if flag.find(":") >= 0:
 			var pos = flag.substr(0, flag.find(":"))
 			var inv = flag.substr(0, pos)
@@ -237,8 +242,9 @@ func parse_flags(p_flags, flags_list, ifs):
 			list.push_back("i")
 		else:
 			list.push_back("g")
+
 		list.push_back(trim(flag))
-		#printt("adding flag ", list)
+		# printt("adding flag ", list)
 		flags_list.push_back(list)
 		if next == -1:
 			return
@@ -270,6 +276,7 @@ func read_dialog_option(state, level, errors):
 	if q_flags:
 		var ifs = {
 			"if_true": [], "if_false": [], "if_inv": [], "if_not_inv": [],
+			"if_active": [], "if_not_active": [],
 			"if_eq": [], "if_ne": [], # string and integer comparison
 			"if_gt": [], "if_ge": [], "if_lt": [], "if_le": [] # integer comparison
 		}
@@ -293,6 +300,7 @@ func read_cmd(state, level, errors):
 	var tk_end = get_token(state.line, from, state.line_count, errors)
 	var ifs = {
 		"if_true": [], "if_false": [], "if_inv": [], "if_not_inv": [],
+		"if_active": [], "if_not_active": [],
 		"if_eq": [], "if_ne": [], # string and integer comparison
 		"if_gt": [], "if_ge": [], "if_lt": [], "if_le": [] # integer comparison
 	}
