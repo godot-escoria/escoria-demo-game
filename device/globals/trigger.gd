@@ -57,7 +57,7 @@ func body_exited(body):
 
 func run_event(event):
 	if event in event_table:
-		vm.run_event(event_table[event])
+		vm.run_event(event, event_table[event])
 
 func set_active(p_active):
 	self.visible = p_active

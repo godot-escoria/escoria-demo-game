@@ -16,10 +16,11 @@ General
 say player player_does_not_wanna:"I don't wanna."
 ```
 
-  Two flags are implemented:
+  These flags are implemented:
 
    * `TK` stands for "telekinetic". It means the player won't walk over to the item to say the line.
    * `FAST` stands for "fast". It means the player will walk at the speed of `player_doubleclick_speed_multiplier` to execute the action.
+   * `NO_TT` stands for "No tooltip". It hides the tooltip for the duration of the event. Useful when having multiple `say` commands in it.
 
 - Groups
   Commands can be grouped using the character ">" to start a group, and incrementing the indentation of the commands that belong to the group. Example:

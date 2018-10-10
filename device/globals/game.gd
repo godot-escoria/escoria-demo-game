@@ -390,10 +390,10 @@ func fallback(obj, action, param = null):
 	if typeof(param) != typeof(null):
 		comb = action + " " + param.global_id
 		if comb in fallbacks:
-			vm.run_event(fallbacks[comb])
+			vm.run_event(comb, fallbacks[comb])
 			return
 	if action in fallbacks:
-		vm.run_event(fallbacks[action])
+		vm.run_event(action, fallbacks[action])
 		return
 	vm.report_errors(fallbacks_path, ["Invalid action " + comb + " in fallbacks."])
 
