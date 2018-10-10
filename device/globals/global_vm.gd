@@ -410,9 +410,18 @@ func run_event(p_name, p_event_data):
 	assert("level" in p_event_data)
 	assert("flags" in p_event_data)
 	printt("run_event: ", p_name, p_event_data["flags"])
+
 	running_event = EscoriaEvent.new(p_name, p_event_data["level"], p_event_data["flags"])
 	main.set_input_catch(true)
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", "")
+
+	# Hide tooltip for even simple events. It's up to NO_TT to not react to
+	# mouse events making it visible between eg. `say` commands, but do not
+	# clear it because that would leave an empty tooltip after NO_TT.
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip_visible", false)
+
+	if "NO_TT" in p_event_data["flags"]:
+		set_tooltip_visible(false)
+
 	add_level(p_event_data, true)
 
 func sched_event(time, obj, event):
@@ -420,6 +429,8 @@ func sched_event(time, obj, event):
 
 func event_done():
 	printt("event_done: ", running_event.ev_name, running_event.ev_flags)
+	if "NO_TT" in running_event.ev_flags:
+		set_tooltip_visible(true)
 	running_event = null
 
 func get_global(name):
