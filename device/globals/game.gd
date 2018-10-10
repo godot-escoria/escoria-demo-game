@@ -241,6 +241,10 @@ func clicked(obj, pos, input_event = null):
 		# Eg. Polygon2D does not have this method
 		if overlay.has_method("get_overlapping_areas"):
 			for area in overlay.get_overlapping_areas():
+				if not area is esc_type.ITEM:
+					if area.get_parent() is esc_type.ITEM:
+						area = area.get_parent()
+
 				if area.has_method("is_clicked") and area.is_clicked():
 					return
 
