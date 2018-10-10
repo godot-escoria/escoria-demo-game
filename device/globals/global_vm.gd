@@ -1,5 +1,17 @@
 extends Node
 
+class EscoriaEvent:
+	var ev_name
+	var ev_level
+	var ev_flags
+
+	func _init(p_name, p_level, p_flags):
+		ev_name = p_name
+		ev_level = p_level
+		ev_flags = p_flags
+
+var running_event
+
 var stack = []
 var globals = {}
 var objects = {}
@@ -394,15 +406,21 @@ func add_level(p_event, p_root):
 	#var ret =  run_top()
 	#return ret
 
-func run_event(p_event):
-	assert("level" in p_event)
-	assert("flags" in p_event)
+func run_event(p_name, p_event_data):
+	assert("level" in p_event_data)
+	assert("flags" in p_event_data)
+	printt("run_event: ", p_name, p_event_data["flags"])
+	running_event = EscoriaEvent.new(p_name, p_event_data["level"], p_event_data["flags"])
 	main.set_input_catch(true)
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", "")
-	add_level(p_event, true)
+	add_level(p_event_data, true)
 
 func sched_event(time, obj, event):
 	event_queue.push_back([time, obj, event])
+
+func event_done():
+	printt("event_done: ", running_event.ev_name, running_event.ev_flags)
+	running_event = null
 
 func get_global(name):
 	# If no value or looks like boolean, return boolean for backwards compatibility
@@ -414,7 +432,7 @@ func get_global(name):
 
 func set_global(name, val):
 	globals[name] = val
-	#printt("global changed at global_vm, emitting for ", name, val)
+	# printt("global changed at global_vm, emitting for ", name, val)
 	emit_signal("global_changed", name)
 
 func dec_global(name, diff):
@@ -492,7 +510,8 @@ func check_event_queue(time):
 		i -= 1
 		if event_queue[i][0] <= 0:
 			var obj = get_object(event_queue[i][1])
-			run_event(obj.event_table[event_queue[i][2]])
+			var ev_name = event_queue[i][2]
+			run_event(ev_name, obj.event_table[ev_name])
 			event_queue.remove(i)
 			break
 
@@ -526,6 +545,9 @@ func jump(p_label):
 
 func run():
 	if stack.size() == 0:
+		# Constantly run in _process: we may have an empty stack and no event
+		if running_event:
+			emit_signal("event_done")
 		return
 	while stack.size() > 0:
 		var ret = run_top()
@@ -641,14 +663,14 @@ func load_file(p_game):
 	if "load" in game:
 		clear()
 		loading_game = true
-		run_event(game["load"])
+		run_event("load", game["load"])
 		main.menu_collapse()
 	elif "start" in game:
 		clear()
-		run_event(game["start"])
+		run_event("start", game["start"])
 		main.menu_collapse()
 	elif "ready" in game:
-		run_event(game["ready"])
+		run_event("ready", game["ready"])
 
 func load_slot(p_game):
 	var cb = [self, "game_str_loaded"]
@@ -665,7 +687,7 @@ func game_str_loaded(p_data = null):
 	var game = compile_str(p_data)
 	clear()
 	loading_game = true
-	run_event(game["load"])
+	run_event("load", game["load"])
 	main.menu_collapse()
 
 func save():
@@ -863,6 +885,9 @@ func _ready():
 	add_user_signal("inventory_changed")
 	add_user_signal("open_inventory")
 	add_user_signal("saved")
+	add_user_signal("run_event", ["ev_name", "ev_data"])
+	add_user_signal("event_done")
+
 	res_cache = preload("res://globals/resource_queue.gd").new()
 	printt("calling res cache start")
 	res_cache.start()
@@ -886,6 +911,8 @@ func _ready():
 	achievements.start()
 
 	connect("global_changed", self, "check_achievement")
+	connect("run_event", self, "run_event")
+	connect("event_done", self, "event_done")
 
 	set_process(true)
 
