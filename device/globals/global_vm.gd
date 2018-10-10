@@ -323,11 +323,22 @@ func dialog(params, level):
 	get_tree().call_group("hud", "set_tooltip_visible", false)
 	get_tree().call_group("dialog_dialog", "start", params, level)
 
-func instance_level(p_level, p_root):
-	var level = { "ip": 0, "instructions": p_level, "waiting": false, "break_stop": p_root, "labels": {} }
-	for i in range(p_level.size()):
-		if p_level[i].name == "label":
-			var lname = p_level[i].params[0]
+func instance_level(p_event, p_root):
+	var event_level = p_event["level"]
+	var level_flags = p_event["flags"]
+
+	var level = {
+		"ip": 0,
+		"instructions": event_level,
+		"waiting": false,
+		"break_stop": p_root,
+		"labels": {},
+		"flags": level_flags
+	}
+
+	for i in range(event_level.size()):
+		if event_level[i].name == "label":
+			var lname = event_level[i].params[0]
 			level.labels[lname] = i
 	return level
 
@@ -374,14 +385,18 @@ func report_errors(p_path, errors):
 	if ProjectSettings.get_setting("escoria/platform/terminate_on_errors"):
 		assert(false)
 
-func add_level(p_level, p_root):
-	stack.push_back(instance_level(p_level, p_root))
+func add_level(p_event, p_root):
+	assert("level" in p_event)
+	assert("flags" in p_event)
+	stack.push_back(instance_level(p_event, p_root))
 	return state_call
 	#run()
 	#var ret =  run_top()
 	#return ret
 
 func run_event(p_event):
+	assert("level" in p_event)
+	assert("flags" in p_event)
 	main.set_input_catch(true)
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", "")
 	add_level(p_event, true)

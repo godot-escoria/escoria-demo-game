@@ -103,6 +103,10 @@ func cut_scene(params):
 	return vm.state_yield
 
 func branch(params):
+	params = {
+		"level": params,
+		"flags": []
+	}
 	return vm.add_level(params, false)
 
 func inventory_add(params):

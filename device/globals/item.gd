@@ -72,6 +72,7 @@ func activate(p_action, p_param = null):
 	#print_stack()
 	if p_param != null:
 		p_action = p_action + " " + p_param.global_id
+
 	if p_action in event_table:
 		run_event(event_table[p_action])
 	else:
@@ -381,6 +382,11 @@ func _ready():
 
 	if events_path != "":
 		event_table = vm.compile(events_path)
+
+	# Forbit pipe because it's used to separate flags from actions, like in `:use item | TK`. And space for good measure.
+	for c in ["|", " "]:
+		if c in global_id:
+			vm.report_errors("item", ["Forbidden character '" + c + "' in global_id: " + global_id])
 
 	vm.register_object(global_id, self)
 
