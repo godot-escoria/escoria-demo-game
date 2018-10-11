@@ -24,6 +24,8 @@ var game_size
 var compiler
 var level
 
+var game
+
 var res_cache
 
 var cam_target = null
@@ -654,7 +656,7 @@ func load_file(p_game):
 	if !f.file_exists(p_game):
 		return
 
-	var game = compile(p_game)
+	game = compile(p_game)
 	# `load` and `ready` are exclusive because you probably don't want to
 	# reset the game state when a scene becomes ready, and `ready` is
 	# redundant when `load`ing state anyway.
@@ -683,7 +685,7 @@ func game_str_loaded(p_data = null):
 	if p_data == null:
 		return
 
-	var game = compile_str(p_data)
+	game = compile_str(p_data)
 	clear()
 	loading_game = true
 	run_event(game["load"])
