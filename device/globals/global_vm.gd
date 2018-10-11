@@ -422,6 +422,9 @@ func run_event(p_name, p_event_data):
 	if "NO_TT" in p_event_data["flags"]:
 		set_tooltip_visible(false)
 
+	if "NO_HUD" in p_event_data["flags"]:
+		set_hud_visible(false)
+
 	add_level(p_event_data, true)
 
 func sched_event(time, obj, event):
@@ -431,6 +434,10 @@ func event_done():
 	printt("event_done: ", running_event.ev_name, running_event.ev_flags)
 	if "NO_TT" in running_event.ev_flags:
 		set_tooltip_visible(true)
+
+	if "NO_HUD" in running_event.ev_flags:
+		set_hud_visible(true)
+
 	running_event = null
 
 func get_global(name):
