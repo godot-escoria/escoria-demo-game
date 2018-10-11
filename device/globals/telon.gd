@@ -1,5 +1,7 @@
 extends "res://globals/item.gd"
 
+onready var white = $"white"
+
 var catching_input = false
 var item_anim
 var item_anim_holder
@@ -115,6 +117,16 @@ func rand_seek(p_node = null):
 
 func telon_play_anim(p_anim):
 	$"animation".play(p_anim)
+
+func cut_to_black():
+	white.visible = true
+	white.self_modulate = "000000"
+	white.modulate = "ffffff"
+
+func cut_to_scene():
+	white.visible = true
+	white.self_modulate = "000000"
+	white.modulate = "000000"
 
 func _ready():
 	get_node("input_catch").connect("gui_input", self, "input_event")
