@@ -148,11 +148,9 @@ func anim_finished(anim_name):
 
 	if anim_name == "hide":
 		vm.finished(context)
-		var params = {
-			"level": cmd[option_selected].params[1],
-			"flags": []
-		}
-		vm.add_level(params, false)
+		var ev_level = cmd[option_selected].params[1]
+		var ev = vm.compiler.EscoriaEvent.new("dialog_choice_done", ev_level, [])
+		vm.add_level(ev, false)
 		stop()
 
 func _ready():

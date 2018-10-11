@@ -1,15 +1,5 @@
 extends Node
 
-class EscoriaEvent:
-	var ev_name
-	var ev_level
-	var ev_flags
-
-	func _init(p_name, p_level, p_flags):
-		ev_name = p_name
-		ev_level = p_level
-		ev_flags = p_flags
-
 var running_event
 
 var stack = []
@@ -336,21 +326,18 @@ func dialog(params, level):
 	get_tree().call_group("dialog_dialog", "start", params, level)
 
 func instance_level(p_event, p_root):
-	var event_level = p_event["level"]
-	var level_flags = p_event["flags"]
-
 	var level = {
 		"ip": 0,
-		"instructions": event_level,
+		"instructions": p_event.ev_level,
 		"waiting": false,
 		"break_stop": p_root,
 		"labels": {},
-		"flags": level_flags
+		"flags": p_event.ev_flags
 	}
 
-	for i in range(event_level.size()):
-		if event_level[i].name == "label":
-			var lname = event_level[i].params[0]
+	for i in range(p_event.ev_level.size()):
+		if p_event.ev_level[i].name == "label":
+			var lname = p_event.ev_level[i].params[0]
 			level.labels[lname] = i
 	return level
 
@@ -398,20 +385,14 @@ func report_errors(p_path, errors):
 		assert(false)
 
 func add_level(p_event, p_root):
-	assert("level" in p_event)
-	assert("flags" in p_event)
 	stack.push_back(instance_level(p_event, p_root))
+
 	return state_call
-	#run()
-	#var ret =  run_top()
-	#return ret
 
-func run_event(p_name, p_event_data):
-	assert("level" in p_event_data)
-	assert("flags" in p_event_data)
-	printt("run_event: ", p_name, p_event_data["flags"])
+func run_event(p_event):
+	printt("run_event: ", p_event.ev_name, p_event.ev_flags)
 
-	running_event = EscoriaEvent.new(p_name, p_event_data["level"], p_event_data["flags"])
+	running_event = p_event
 	main.set_input_catch(true)
 
 	# Hide tooltip for even simple events. It's up to NO_TT to not react to
@@ -419,13 +400,13 @@ func run_event(p_name, p_event_data):
 	# clear it because that would leave an empty tooltip after NO_TT.
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip_visible", false)
 
-	if "NO_TT" in p_event_data["flags"]:
+	if "NO_TT" in p_event.ev_flags:
 		set_tooltip_visible(false)
 
-	if "NO_HUD" in p_event_data["flags"]:
+	if "NO_HUD" in p_event.ev_flags:
 		set_hud_visible(false)
 
-	add_level(p_event_data, true)
+	add_level(p_event, true)
 
 func sched_event(time, obj, event):
 	event_queue.push_back([time, obj, event])
@@ -529,7 +510,7 @@ func check_event_queue(time):
 		if event_queue[i][0] <= 0:
 			var obj = get_object(event_queue[i][1])
 			var ev_name = event_queue[i][2]
-			run_event(ev_name, obj.event_table[ev_name])
+			run_event(obj.event_table[ev_name])
 			event_queue.remove(i)
 			break
 
@@ -681,14 +662,14 @@ func load_file(p_game):
 	if "load" in game:
 		clear()
 		loading_game = true
-		run_event("load", game["load"])
+		run_event(game["load"])
 		main.menu_collapse()
 	elif "start" in game:
 		clear()
-		run_event("start", game["start"])
+		run_event(game["start"])
 		main.menu_collapse()
 	elif "ready" in game:
-		run_event("ready", game["ready"])
+		run_event(game["ready"])
 
 func load_slot(p_game):
 	var cb = [self, "game_str_loaded"]
@@ -705,7 +686,7 @@ func game_str_loaded(p_data = null):
 	var game = compile_str(p_data)
 	clear()
 	loading_game = true
-	run_event("load", game["load"])
+	run_event(game["load"])
 	main.menu_collapse()
 
 func save():
