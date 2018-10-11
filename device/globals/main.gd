@@ -81,6 +81,12 @@ func set_current_scene(p_scene, events_path=null, run_events=true):
 	if events_path and run_events:
 		vm.load_file(events_path)
 
+		# setup will kick off `:ready` if available
+		if "setup" in vm.game:
+			vm.run_event(vm.game["setup"])
+		else:
+			vm.run_game()
+
 func wait_finished():
 	vm.finished(wait_level)
 

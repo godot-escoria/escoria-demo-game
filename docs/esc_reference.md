@@ -2,6 +2,26 @@ General
 -------
 
 - Events:
+
+  When a scene is loaded, it may have events. We will not cover `:load` as it is used only internally for save games, nor will we cover [:start](starting-a-game.md) here.
+
+  To initialize a room properly, you may want to use `:setup` like this:
+
+```
+:setup
+teleport player door1 [eq last_exit door1]
+teleport player door2 [eq last_exit door2]
+```
+
+  It covers the fact that your `player` can be set anywhere in the room and be visible for just a moment before the `teleport` happens.
+
+  It's not mandatory, nor mutually exclusive with `:setup` to have a `:ready` event.
+
+```
+:ready
+say player player_wants_out:"I want out! To live my life and to be free!" [want_out]
+```
+
   When the player interacts with an object in the game, the object receives an even. Each event executes a series of commands.
   Events start with the character ":" in the Events file. Example:
 
@@ -21,6 +41,8 @@ say player player_does_not_wanna:"I don't wanna."
    * `TK` stands for "telekinetic". It means the player won't walk over to the item to say the line.
    * `FAST` stands for "fast". It means the player will walk at the speed of `player_doubleclick_speed_multiplier` to execute the action.
    * `NO_TT` stands for "No tooltip". It hides the tooltip for the duration of the event. Useful when having multiple `say` commands in it.
+   * `CUT_BLACK` applies only to `:setup`. It makes the screen go black during the setup phase. You will probably see a quick black flash, so use it only if you prefer it over the standard cut.
+   * `LEAVE_BLACK` applies only to `:setup`. In case your `:ready` starts with `cut_scene telon fade_in`, you must apply this flag or you will see a flash of your new scene before going black again for the `fade_in`.
 
 - Groups
   Commands can be grouped using the character ">" to start a group, and incrementing the indentation of the commands that belong to the group. Example:
