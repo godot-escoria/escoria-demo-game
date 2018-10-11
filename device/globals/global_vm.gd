@@ -501,7 +501,7 @@ func check_event_queue(time):
 		if e[0] > 0:
 			e[0] -= time
 
-	if !can_interact():
+	if !can_interact() or running_event:
 		return
 
 	var i = event_queue.size()
