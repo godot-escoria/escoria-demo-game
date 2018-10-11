@@ -64,8 +64,8 @@ func get_active():
 	return active
 	#return is_visible()
 
-func run_event(p_name, p_ev):
-	vm.emit_signal("run_event", p_name, p_ev)
+func run_event(p_ev):
+	vm.emit_signal("run_event", p_ev)
 	yield(vm, "event_done")
 
 func activate(p_action, p_param = null, p_flags = null):
@@ -75,7 +75,7 @@ func activate(p_action, p_param = null, p_flags = null):
 		p_action = p_action + " " + p_param.global_id
 
 	if p_action in event_table:
-		run_event(p_action, event_table[p_action])
+		run_event(event_table[p_action])
 	else:
 		return false
 	return true
@@ -181,9 +181,9 @@ func drop_data(point, data):
 func global_changed(name):
 	var ev = "global_changed "+name
 	if ev in event_table:
-		run_event(ev, event_table[ev])
+		run_event(event_table[ev])
 	elif "global_changed" in event_table:
-		run_event("global_changed", event_table.global_changed)
+		run_event(event_table.global_changed)
 
 func anim_get_ph_paths(p_anim):
 	if !(p_anim in placeholders):

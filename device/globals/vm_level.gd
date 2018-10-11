@@ -103,11 +103,9 @@ func cut_scene(params):
 	return vm.state_yield
 
 func branch(params):
-	params = {
-		"level": params,
-		"flags": []
-	}
-	return vm.add_level(params, false)
+	var branch_ev = vm.compiler.EscoriaEvent.new("branch", params, [])
+
+	return vm.add_level(branch_ev, false)
 
 func inventory_add(params):
 	vm.inventory_set(params[0], true)

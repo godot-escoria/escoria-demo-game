@@ -1,3 +1,12 @@
+class EscoriaEvent:
+	var ev_name
+	var ev_level
+	var ev_flags
+
+	func _init(p_name, p_level, p_flags):
+		ev_name = p_name
+		ev_level = p_level
+		ev_flags = p_flags
 
 var commands = {
 	"set_global": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING] },
@@ -378,7 +387,7 @@ func read_events(f, ret, errors):
 					ev_split[1] = ev_split[1].strip_edges()
 					ev_flags = ev_split[1].split(" ")
 
-			ret[ev] = {"level": level, "flags": ev_flags}
+			ret[ev] = EscoriaEvent.new(ev, level, ev_flags)
 			if abort:
 				return abort
 

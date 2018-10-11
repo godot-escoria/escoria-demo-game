@@ -175,7 +175,7 @@ func interact(p_params):
 	# or we pass control over to fallbacks in game.interact()
 	var do_walk = false
 	if action in obj.event_table:
-		var ev_flags = obj.event_table[action]["flags"]
+		var ev_flags = obj.event_table[action]["ev_flags"]
 
 		if not "TK" in ev_flags:
 			do_walk = true
