@@ -1,4 +1,4 @@
-extends Node 
+extends Node
 
 var telon
 var menu_layer
@@ -109,7 +109,6 @@ func load_telon():
 	telon = get_node("layers/telon/telon")
 
 func _ready():
-
 	printt("main ready")
 #	get_node("/root").set_render_target_clear_on_new_frame(true)
 
