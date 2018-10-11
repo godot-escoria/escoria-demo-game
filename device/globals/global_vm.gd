@@ -657,6 +657,8 @@ func load_file(p_game):
 		return
 
 	game = compile(p_game)
+
+func run_game():
 	# `load` and `ready` are exclusive because you probably don't want to
 	# reset the game state when a scene becomes ready, and `ready` is
 	# redundant when `load`ing state anyway.
