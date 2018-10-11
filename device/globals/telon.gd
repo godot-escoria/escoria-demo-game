@@ -124,9 +124,7 @@ func cut_to_black():
 	white.modulate = "ffffff"
 
 func cut_to_scene():
-	white.visible = true
-	white.self_modulate = "000000"
-	white.modulate = "000000"
+	white.visible = false
 
 func _ready():
 	get_node("input_catch").connect("gui_input", self, "input_event")
