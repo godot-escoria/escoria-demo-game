@@ -85,7 +85,7 @@ func make_global(pos):
 	return pos
 
 func get_path(p_src, p_dest):
-	printt("get path ", p_src, p_dest)
+	# printt("get path ", p_src, p_dest)
 	if !(self is Navigation2D):
 		printt("returning a line")
 		return [p_src, p_dest]

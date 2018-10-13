@@ -16,7 +16,7 @@ func set_tooltip(text):
 	$"tooltip".text = text
 
 	if text:
-		printt("hud got tooltip text ", text)
+		# printt("hud got tooltip text ", text)
 		$"tooltip".show()
 	else:
 		$"tooltip".hide()
