@@ -22,14 +22,14 @@ func clear_scene():
 	current = null
 
 func set_scene(p_scene, run_events=true):
+	assert p_scene
+
 	if current != null:
 		clear_scene()
 
-	if !p_scene:
-		return
 	get_node("/root").add_child(p_scene)
-	# The null is for events_path; it has to be explicit because gdscript lacks keyword arguments
-	set_current_scene(p_scene, null, run_events)
+
+	set_current_scene(p_scene, run_events)
 
 func get_current_scene():
 	return current
@@ -72,10 +72,10 @@ func menu_collapse():
 		i -= 1
 		menu_stack[i].menu_collapsed()
 
-func set_current_scene(p_scene, events_path=null, run_events=true):
+func set_current_scene(p_scene, run_events=true):
 	#print_stack()
 	current = p_scene
-	get_node("/root").move_child(p_scene, 0)
+	get_node("/root").move_child(current, 0)
 
 	# Loading a save game must set the scene but not run events
 	if events_path and run_events:
