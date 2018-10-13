@@ -419,9 +419,10 @@ func run_event(p_event):
 func sched_event(time, obj, event):
 	event_queue.push_back([time, obj, event])
 
-func event_done():
+func event_done(ev_name):
+	assert ev_name == running_event.ev_name
 	printt("event_done: ", running_event.ev_name, running_event.ev_flags)
-	if running_event.ev_name == "setup":
+	if ev_name == "setup":
 		if not "LEAVE_BLACK" in running_event.ev_flags or not "ready" in game:
 			main.telon.cut_to_scene()
 
@@ -561,7 +562,7 @@ func run():
 	if stack.size() == 0:
 		# Constantly run in _process: we may have an empty stack and no event
 		if running_event:
-			emit_signal("event_done")
+			emit_signal("event_done", running_event.ev_name)
 		return
 	while stack.size() > 0:
 		var ret = run_top()
@@ -902,7 +903,7 @@ func _ready():
 	add_user_signal("open_inventory")
 	add_user_signal("saved")
 	add_user_signal("run_event", ["ev_name", "ev_data"])
-	add_user_signal("event_done")
+	add_user_signal("event_done", ["ev_name"])
 
 	res_cache = preload("res://globals/resource_queue.gd").new()
 	printt("calling res cache start")
