@@ -24,9 +24,12 @@ func clear_scene():
 func set_scene(p_scene, run_events=true):
 	assert p_scene
 
+	## Uncomment this as a starting point in case of trouble,
+	## but it occurs that yielding here will cause lag and apparently
+	## serves no real purpose
 	# Like `:open` from a door in the last room
-	if vm.running_event:
-		yield(vm, "event_done")
+	# if vm.running_event:
+	# 	yield(vm, "event_done")
 
 	if p_scene.events_path and run_events:
 		vm.load_file(p_scene.events_path)
