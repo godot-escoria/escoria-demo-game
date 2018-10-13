@@ -24,6 +24,16 @@ func clear_scene():
 func set_scene(p_scene, run_events=true):
 	assert p_scene
 
+	# Like `:open` from a door in the last room
+	if vm.running_event:
+		yield(vm, "event_done")
+
+	if p_scene.events_path and run_events:
+		vm.load_file(p_scene.events_path)
+
+		if "setup" in vm.game:
+			vm.run_event(vm.game["setup"])
+
 	if current != null:
 		clear_scene()
 
@@ -74,17 +84,29 @@ func menu_collapse():
 
 func set_current_scene(p_scene, run_events=true):
 	#print_stack()
+	# printt("set_current_scene: ", p_scene, run_events)
 	current = p_scene
 	get_node("/root").move_child(current, 0)
 
 	# Loading a save game must set the scene but not run events
-	if events_path and run_events:
-		vm.load_file(events_path)
-
-		# setup will kick off `:ready` if available
-		if "setup" in vm.game:
-			vm.run_event(vm.game["setup"])
+	if current.events_path and run_events:
+		if vm.game:
+			# Having a game with `:setup` means we must wait for it to finish
+			if "setup" in vm.game:
+				assert vm.running_event
+				assert vm.running_event.ev_name == "setup"
+				yield(vm, "event_done")
 		else:
+			vm.load_file(current.events_path)
+			# For a new game, we must run `:setup` if available
+			# and wait for it to finish
+			if "setup" in vm.game:
+				vm.run_event(vm.game["setup"])
+				yield(vm, "event_done")
+
+		# Because 1) changing a scene and 2) having a scene become ready
+		# both call `set_current_scene`, we don't want to duplicate thing
+		if not vm.running_event:
 			vm.run_game()
 
 func wait_finished():
