@@ -425,8 +425,6 @@ func event_done():
 		if not "LEAVE_BLACK" in running_event.ev_flags or not "ready" in game:
 			main.telon.cut_to_scene()
 
-		running_event = null
-
 		if "ready" in game:
 			emit_signal("run_event", game["ready"])
 	else:
@@ -436,7 +434,7 @@ func event_done():
 		if "NO_HUD" in running_event.ev_flags:
 			set_hud_visible(true)
 
-		running_event = null
+	running_event = null
 
 func get_global(name):
 	# If no value or looks like boolean, return boolean for backwards compatibility
