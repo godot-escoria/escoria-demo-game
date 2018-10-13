@@ -34,8 +34,13 @@ func set_scene(p_scene, run_events=true):
 	if p_scene.events_path and run_events:
 		vm.load_file(p_scene.events_path)
 
-		if "setup" in vm.game:
-			vm.run_event(vm.game["setup"])
+		# :setup is pretty much required in the code, but fortunately
+		# we can help out with cases where one isn't necessary otherwise
+		if not "setup" in vm.game:
+			var fake_setup = vm.compile_str(":setup\n")
+			vm.game["setup"] = fake_setup["setup"]
+
+		vm.run_event(vm.game["setup"])
 
 	if current != null:
 		clear_scene()
