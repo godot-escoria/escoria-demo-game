@@ -72,6 +72,8 @@ func get_progress(path):
 			ret = float(pending[path].res.get_stage()) / float(pending[path].res.get_stage_count())
 		else:
 			ret = 1.0
+			emit_signal("resource_loading_done", path)
+	emit_signal("resource_loading_progress", path, ret)
 	_unlock("get_progress")
 
 	return ret
@@ -133,20 +135,22 @@ func thread_process():
 	_lock("process")
 
 	while queue.size() > 0:
-
 		var res = queue[0]
 
 		_unlock("process_poll")
 		var ret = res.poll()
 		_lock("process_check_queue")
 
+		var path = res.get_meta("path")
 		if ret == ERR_FILE_EOF || ret != OK:
-			var path = res.get_meta("path")
 			printt("finished loading ", path)
 			if path in pending: # else it was already retrieved
 				pending[res.get_meta("path")].res = res.get_resource()
 
 			queue.erase(res) # something might have been put at the front of the queue while we polled, so use erase instead of remove
+			emit_signal("resource_queue_progress", queue.size())
+
+		get_progress(path)
 
 	_unlock("process")
 
@@ -155,8 +159,27 @@ func thread_func(u):
 	while true:
 		thread_process()
 
+func print_progress(p_path, p_progress):
+	printt(p_path, "loading", round(p_progress * 100), "%")
+
+func res_loaded(p_path):
+	printt("loaded resource", p_path)
+
+func print_queue_progress(p_queue_size):
+	printt("queue size:", p_queue_size)
+
 func start():
 	mutex = Mutex.new()
 	sem = Semaphore.new()
 	thread = Thread.new()
 	thread.start(self, "thread_func", 0)
+
+	add_user_signal("resource_loading_progress", ["path", "progress"])
+	add_user_signal("resource_loading_done", ["path"])
+	add_user_signal("resource_queue_progress", ["queue_size"])
+
+	## Uncomment these for debug, or wait for someone to implement log levels
+	# connect("resource_loading_progress", self, "print_progress")
+	# connect("resource_loading_done", self, "res_loaded")
+	# connect("resource_queue_progress", self, "print_queue_progress")
+
