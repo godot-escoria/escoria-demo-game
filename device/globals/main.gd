@@ -22,14 +22,32 @@ func clear_scene():
 	current = null
 
 func set_scene(p_scene, run_events=true):
+	assert p_scene
+
+	## Uncomment this as a starting point in case of trouble,
+	## but it occurs that yielding here will cause lag and apparently
+	## serves no real purpose
+	# Like `:open` from a door in the last room
+	# if vm.running_event:
+	# 	yield(vm, "event_done")
+
+	if p_scene.events_path and run_events:
+		vm.load_file(p_scene.events_path)
+
+		# :setup is pretty much required in the code, but fortunately
+		# we can help out with cases where one isn't necessary otherwise
+		if not "setup" in vm.game:
+			var fake_setup = vm.compile_str(":setup\n")
+			vm.game["setup"] = fake_setup["setup"]
+
+		vm.run_event(vm.game["setup"])
+
 	if current != null:
 		clear_scene()
 
-	if !p_scene:
-		return
 	get_node("/root").add_child(p_scene)
-	# The null is for events_path; it has to be explicit because gdscript lacks keyword arguments
-	set_current_scene(p_scene, null, run_events)
+
+	set_current_scene(p_scene, run_events)
 
 func get_current_scene():
 	return current
@@ -72,19 +90,31 @@ func menu_collapse():
 		i -= 1
 		menu_stack[i].menu_collapsed()
 
-func set_current_scene(p_scene, events_path=null, run_events=true):
+func set_current_scene(p_scene, run_events=true):
 	#print_stack()
+	# printt("set_current_scene: ", p_scene, run_events)
 	current = p_scene
-	get_node("/root").move_child(p_scene, 0)
+	get_node("/root").move_child(current, 0)
 
 	# Loading a save game must set the scene but not run events
-	if events_path and run_events:
-		vm.load_file(events_path)
-
-		# setup will kick off `:ready` if available
-		if "setup" in vm.game:
-			vm.run_event(vm.game["setup"])
+	if current.events_path and run_events:
+		if vm.game:
+			# Having a game with `:setup` means we must wait for it to finish
+			if "setup" in vm.game:
+				assert vm.running_event
+				assert vm.running_event.ev_name == "setup"
+				yield(vm, "event_done")
 		else:
+			vm.load_file(current.events_path)
+			# For a new game, we must run `:setup` if available
+			# and wait for it to finish
+			if "setup" in vm.game:
+				vm.run_event(vm.game["setup"])
+				yield(vm, "event_done")
+
+		# Because 1) changing a scene and 2) having a scene become ready
+		# both call `set_current_scene`, we don't want to duplicate thing
+		if not vm.running_event:
 			vm.run_game()
 
 func wait_finished():

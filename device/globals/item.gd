@@ -66,7 +66,6 @@ func get_active():
 
 func run_event(p_ev):
 	vm.emit_signal("run_event", p_ev)
-	yield(vm, "event_done")
 
 func activate(p_action, p_param = null, p_flags = null):
 	#printt("****** activated ", p_action, p_param, p_action in event_table)
