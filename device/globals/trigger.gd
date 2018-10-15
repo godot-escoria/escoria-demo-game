@@ -1,10 +1,7 @@
 extends "res://globals/interactive.gd"
 
-export(String, FILE, ".esc") var events_path
-export var global_id = ""
 export var tooltip = ""
 
-var event_table = {}
 var hud
 var inventory
 
