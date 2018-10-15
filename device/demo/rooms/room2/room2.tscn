@@ -24,7 +24,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_lock_": true
 }
-events_path = "res://demo/rooms/room2/room.esc"
+events_path = "res://demo/rooms/room2/room2.esc"
 
 [node name="background" type="Sprite" parent="." index="0"]
 
@@ -110,7 +110,7 @@ active = true
 placeholders = {
 
 }
-use_custom_z = false
+dynamic_z_index = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="zoom_in" index="0"]
 
@@ -194,7 +194,7 @@ active = true
 placeholders = {
 
 }
-use_custom_z = false
+dynamic_z_index = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="zoom_out" index="0"]
 
@@ -287,7 +287,7 @@ active = true
 placeholders = {
 
 }
-use_custom_z = false
+dynamic_z_index = true
 
 [node name="sun_interact_pos" type="Position2D" parent="." index="6"]
 
@@ -370,7 +370,7 @@ active = true
 placeholders = {
 
 }
-use_custom_z = false
+dynamic_z_index = true
 
 [node name="game" parent="." index="8" instance=ExtResource( 11 )]
 

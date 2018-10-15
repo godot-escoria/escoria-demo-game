@@ -1,9 +1,9 @@
 [gd_scene load_steps=1 format=2]
 
-[ext_resource path="res://demo/rooms/test/ice_cream.png" type="Texture" id=1]
+[ext_resource path="res://demo/rooms/room1/can.png" type="Texture" id=1]
 [ext_resource path="res://globals/item.gd" type="Script" id=2]
 
-[node name="ice_cream" type="TextureRect"]
+[node name="can" type="TextureRect"]
 
 focus_ignore_mouse = false
 focus_stop_mouse = true
@@ -11,7 +11,7 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 margin_left = 0.0
 margin_top = 0.0
-margin_right = 40.0
+margin_right = 20.0
 margin_bottom = 40.0
 texture = ExtResource( 1 )
 stretch_mode = 0
@@ -20,10 +20,10 @@ animations = null
 speed = 300
 scale_on_map = false
 light_on_map = false
-tooltip = "Ice Cream"
-action = ""
-events_path = "res://demo/rooms/test/ice_cream.esc"
-global_id = "ice_cream"
+tooltip = "Can"
+action = "look"
+events_path = "res://demo/rooms/room1/can.esc"
+global_id = "can"
 use_combine = false
 inventory = false
 use_action_menu = true

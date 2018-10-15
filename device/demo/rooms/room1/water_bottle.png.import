@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/box_inverted.png-cde0d6399455670db56c59eee0209709.stex"
+path="res://.import/water_bottle.png-562305ceb8d0418415a1c6d41c9d463a.stex"
 
 [deps]
 
-source_file="res://demo/rooms/test/box_inverted.png"
-dest_files=[ "res://.import/box_inverted.png-cde0d6399455670db56c59eee0209709.stex" ]
+source_file="res://demo/rooms/room1/water_bottle.png"
+dest_files=[ "res://.import/water_bottle.png-562305ceb8d0418415a1c6d41c9d463a.stex" ]
 
 [params]
 

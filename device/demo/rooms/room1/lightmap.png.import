@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/box.png-fc7c20620d4a0121c1ab344ce21c6019.stex"
+path="res://.import/lightmap.png-8a1ddbac6ff550d4e1634508ea59cd31.stex"
 
 [deps]
 
-source_file="res://demo/rooms/test/box.png"
-dest_files=[ "res://.import/box.png-fc7c20620d4a0121c1ab344ce21c6019.stex" ]
+source_file="res://demo/rooms/room1/lightmap.png"
+dest_files=[ "res://.import/lightmap.png-8a1ddbac6ff550d4e1634508ea59cd31.stex" ]
 
 [params]
 
