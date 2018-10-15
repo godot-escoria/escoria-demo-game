@@ -177,8 +177,17 @@ func interact(p_params):
 	if action in obj.event_table:
 		var ev_flags = obj.event_table[action]["ev_flags"]
 
+		# Triggering a telekinetic default action by double-clicking will set
+		# the player walking, so stop as immediately as possible. It would be
+		# better if Godot waited a while to see if the first click of a double-click
+		# is a click or should it be handled as a double-click.
 		if not "TK" in ev_flags:
 			do_walk = true
+		else:
+			if walk_path:
+				walk_stop(walk_path[0])
+			else:
+				walk_stop(get_position())
 
 		if "FAST" in ev_flags:
 			if not walk_context:
