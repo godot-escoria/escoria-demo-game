@@ -20,6 +20,9 @@ var speech_player
 var speech_suffix
 var speech_paused = false
 
+var damp_db = ProjectSettings.get_setting("escoria/application/dialog_damp_music_by_db")
+onready var bg_music = $"/root/main/layers/telon/bg_music/stream"
+
 export var fixed_pos = false
 
 func _process(time):
@@ -44,12 +47,15 @@ func _process(time):
 
 	if text_done && !vm.settings.skip_dialog:
 		finish()
+		return
 
 	if elapsed > text_timeout_seconds and (!speech_player or !speech_player.is_playing()):
 		finish()
+		return
 
 	if vm.settings.skip_dialog && speech_stream != null && !speech_player.is_playing() && text_done:
 		finish()
+		return
 
 func skipped():
 	if finished:
@@ -67,6 +73,10 @@ func finish():
 		var anim = get_node("animation")
 		if anim.has_animation("hide"):
 			anim.play("hide")
+
+	if bg_music.is_playing():
+		bg_music.volume_db += damp_db
+
 	_queue_free()
 
 	# BUG: moving cursor during speech will show the wrong object
@@ -203,9 +213,14 @@ func setup_speech(tid):
 
 	var player = AudioStreamPlayer.new()
 	player.set_name("speech_player")
+	player.bus = "Speech"
 	add_child(player)
 	player.set_stream(speech_stream)
 	player.volume_db = vm.settings.voice_volume * ProjectSettings.get_setting("escoria/application/max_voice_volume")
+
+	if bg_music.is_playing():
+		bg_music.volume_db -= damp_db
+
 	player.play()
 
 	if !player.is_playing():
@@ -260,3 +275,4 @@ func _ready():
 		assert(vm.settings.voice_lang in speech_locales_def.speech_locales)
 
 	vm.connect("paused", self, "game_paused")
+
