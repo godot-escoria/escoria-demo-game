@@ -31,7 +31,7 @@ func set_scene(p_scene, run_events=true):
 	# if vm.running_event:
 	# 	yield(vm, "event_done")
 
-	if p_scene.events_path and run_events:
+	if "events_path" in p_scene and p_scene.events_path and run_events:
 		vm.load_file(p_scene.events_path)
 
 		# :setup is pretty much required in the code, but fortunately
@@ -97,7 +97,7 @@ func set_current_scene(p_scene, run_events=true):
 	get_node("/root").move_child(current, 0)
 
 	# Loading a save game must set the scene but not run events
-	if current.events_path and run_events:
+	if "events_path" in current and current.events_path and run_events:
 		if vm.game:
 			# Having a game with `:setup` means we must wait for it to finish
 			if "setup" in vm.game:
