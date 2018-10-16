@@ -203,6 +203,7 @@ func setup_speech(tid):
 
 	var player = AudioStreamPlayer.new()
 	player.set_name("speech_player")
+	player.bus = "Speech"
 	add_child(player)
 	player.set_stream(speech_stream)
 	player.volume_db = vm.settings.voice_volume * ProjectSettings.get_setting("escoria/application/max_voice_volume")
