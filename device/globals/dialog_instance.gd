@@ -20,6 +20,8 @@ var speech_player
 var speech_suffix
 var speech_paused = false
 
+var dialog_min_vis = ProjectSettings.get_setting("escoria/application/dialog_minimum_visible_seconds")
+
 var damp_db = ProjectSettings.get_setting("escoria/application/dialog_damp_music_by_db")
 onready var bg_music = $"/root/main/layers/telon/bg_music/stream"
 
@@ -34,6 +36,11 @@ func _process(time):
 		text_done = true
 
 	elapsed += time
+
+	# For eg. a short fallback dialog, leave the text for it visible. The player
+	# will be able to skip it anyway.
+	if dialog_min_vis and elapsed < dialog_min_vis:
+		return
 
 	if !text_done:
 		if elapsed >= total_time:
