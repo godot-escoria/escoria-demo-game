@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/lightmap.png-afbc9f9f3ccea5108aedc97f04892900.stex"
+path="res://.import/chainsaw.png-5e25dc59de117223af7249dcb9a0b0dc.stex"
 
 [deps]
 
-source_file="res://demo/rooms/test/lightmap.png"
-dest_files=[ "res://.import/lightmap.png-afbc9f9f3ccea5108aedc97f04892900.stex" ]
+source_file="res://demo/rooms/room1/chainsaw.png"
+dest_files=[ "res://.import/chainsaw.png-5e25dc59de117223af7249dcb9a0b0dc.stex" ]
 
 [params]
 

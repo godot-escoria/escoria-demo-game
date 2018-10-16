@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://globals/item.gd" type="Script" id=1]
-[ext_resource path="res://demo/rooms/test/floppy.png" type="Texture" id=2]
+[ext_resource path="res://demo/rooms/room1/floppy.png" type="Texture" id=2]
 
 [sub_resource type="Animation" id=1]
 
@@ -74,7 +74,7 @@ scale_on_map = false
 light_on_map = false
 tooltip = "Save game"
 action = ""
-events_path = "res://demo/rooms/test/floppy.esc"
+events_path = "res://demo/rooms/room1/floppy.esc"
 global_id = "floppy"
 use_combine = false
 inventory = false

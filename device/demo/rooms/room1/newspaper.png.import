@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/floppy.png-f32fc11cf2058e2aee430d3fba282025.stex"
+path="res://.import/newspaper.png-94a6cfbb20442240dee8d78811aee9ef.stex"
 
 [deps]
 
-source_file="res://demo/rooms/test/floppy.png"
-dest_files=[ "res://.import/floppy.png-f32fc11cf2058e2aee430d3fba282025.stex" ]
+source_file="res://demo/rooms/room1/newspaper.png"
+dest_files=[ "res://.import/newspaper.png-94a6cfbb20442240dee8d78811aee9ef.stex" ]
 
 [params]
 

@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/water_bottle.png-88c2210ceac68963dc5197ad4235c78d.stex"
+path="res://.import/floppy.png-b2952989fbdd075732242c1c092f45fe.stex"
 
 [deps]
 
-source_file="res://demo/rooms/test/water_bottle.png"
-dest_files=[ "res://.import/water_bottle.png-88c2210ceac68963dc5197ad4235c78d.stex" ]
+source_file="res://demo/rooms/room1/floppy.png"
+dest_files=[ "res://.import/floppy.png-b2952989fbdd075732242c1c092f45fe.stex" ]
 
 [params]
 

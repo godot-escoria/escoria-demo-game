@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/chainsaw.png-c04bd15c520fb665d9758e6397c96eab.stex"
+path="res://.import/box.png-39b8a300de01c45c325d85527bc5509c.stex"
 
 [deps]
 
-source_file="res://demo/rooms/test/chainsaw.png"
-dest_files=[ "res://.import/chainsaw.png-c04bd15c520fb665d9758e6397c96eab.stex" ]
+source_file="res://demo/rooms/room1/box.png"
+dest_files=[ "res://.import/box.png-39b8a300de01c45c325d85527bc5509c.stex" ]
 
 [params]
 

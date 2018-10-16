@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/scales.png-f6833921dd38afc0e3b086c975840955.stex"
+path="res://.import/can_open.png-4cc48f7eb1803698c094995535aa0acc.stex"
 
 [deps]
 
-source_file="res://demo/rooms/test/scales.png"
-dest_files=[ "res://.import/scales.png-f6833921dd38afc0e3b086c975840955.stex" ]
+source_file="res://demo/rooms/room1/can_open.png"
+dest_files=[ "res://.import/can_open.png-4cc48f7eb1803698c094995535aa0acc.stex" ]
 
 [params]
 

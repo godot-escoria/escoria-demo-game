@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/can_open.png-34e8bfc254f18b920a106cc3cfa03d21.stex"
+path="res://.import/background.png-924a2f11b60cf377f3a1ad591ca762f5.stex"
 
 [deps]
 
-source_file="res://demo/rooms/test/can_open.png"
-dest_files=[ "res://.import/can_open.png-34e8bfc254f18b920a106cc3cfa03d21.stex" ]
+source_file="res://demo/rooms/room1/background.png"
+dest_files=[ "res://.import/background.png-924a2f11b60cf377f3a1ad591ca762f5.stex" ]
 
 [params]
 

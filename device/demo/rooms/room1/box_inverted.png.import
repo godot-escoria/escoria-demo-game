@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/newspaper.png-baf949dd5b1b35105a446a80565f4b12.stex"
+path="res://.import/box_inverted.png-c38187a76c4f9cf9ed48429ea049426c.stex"
 
 [deps]
 
-source_file="res://demo/rooms/test/newspaper.png"
-dest_files=[ "res://.import/newspaper.png-baf949dd5b1b35105a446a80565f4b12.stex" ]
+source_file="res://demo/rooms/room1/box_inverted.png"
+dest_files=[ "res://.import/box_inverted.png-c38187a76c4f9cf9ed48429ea049426c.stex" ]
 
 [params]
 

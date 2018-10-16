@@ -3,6 +3,7 @@
 [ext_resource path="res://globals/scene_main.gd" type="Script" id=1]
 
 [node name="scene_main" type="Control" index="0"]
+
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -17,4 +18,5 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 script = ExtResource( 1 )
 events_path = ""
+
 

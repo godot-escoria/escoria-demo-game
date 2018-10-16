@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/can.png-7ec78294b4e31a7731cce16ec28ecb3d.stex"
+path="res://.import/ice_cream.png-45ac95ba7b171f88627ba5ae1f6f9ab7.stex"
 
 [deps]
 
-source_file="res://demo/rooms/test/can.png"
-dest_files=[ "res://.import/can.png-7ec78294b4e31a7731cce16ec28ecb3d.stex" ]
+source_file="res://demo/rooms/room1/ice_cream.png"
+dest_files=[ "res://.import/ice_cream.png-45ac95ba7b171f88627ba5ae1f6f9ab7.stex" ]
 
 [params]
 
