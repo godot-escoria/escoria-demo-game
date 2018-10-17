@@ -20,6 +20,15 @@ It may be that you want these default actions to require double-clicks. This is 
 
 An item-local default action overrides a global default action, as you'd expect.
 
+### Interact angle
+
+Items have an `interact_angle` variable. This defines the angle to which the player turns to when interacting.
+
+The unit is counter-clockwise degrees: 0 faces the camera, 90 the right, etc.
+
+You can leave it at `-1` to have Escoria resolve the interaction angle for you. This is usually the easiest way, but sometimes
+item positions can be in slightly unintuitive coordinates, so if your game doesn't feel right, you can always set a value here.
+
 ## Z-index
 
 By default every room in the game is considered to have faux "depth". This is done by setting the z-index based on the y-coordinate.
