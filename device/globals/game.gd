@@ -393,6 +393,11 @@ func fallback(obj, action, param = null):
 			vm.run_event(fallbacks[comb])
 			return
 	if action in fallbacks:
+		if player:
+			# Resolve the angle to look toward and call `walk_stop` to make magic happen
+			player.resolve_angle_to(obj)
+			player.walk_stop(player.position)
+
 		vm.run_event(fallbacks[action])
 		return
 	vm.report_errors(fallbacks_path, ["Invalid action " + comb + " in fallbacks."])
