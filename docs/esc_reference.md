@@ -104,6 +104,7 @@ Game global state
 
 The following values are saved in the global game state and savegames:
 
+
 - Global flags
 - Object's "state" values
 - Object's "active" values
@@ -135,6 +136,18 @@ Item activity is also handled as a special case of global flags. If the check st
 > [!a/elaine]
     say player player_no_elaine_yet:"It would appear Elaine hasn't arrived yet."
 ```
+
+Caveat: This works only when `set_active` has been called. Therefore if "elaine" is not set `active` in the editor but `set_active elaine true` is
+called later, everything works as expected. If you have an item that can be picked up, even if it's `active` in the editor, but its state *may* toggle,
+you must use this pattern:
+
+```
+:setup
+set_active broom true [!i/inv_broom]
+```
+
+Now it has been explicitly set and it will work. The underlying technical rationale is way beyond the scope of this reference; just trust us
+that it's the best way to go.
 
 Command list
 ------------
