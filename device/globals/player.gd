@@ -36,6 +36,13 @@ export var placeholders = {}
 var interact_status = 0
 enum interact_statuses {INTERACT_NONE, INTERACT_STARTED, INTERACT_WALKING}
 
+func resolve_angle_to(obj):
+	# Set `last_deg` and `last_dir` as they are globals
+	var angle = self.position.angle_to_point(obj.position) * -1
+	last_deg = vm._get_deg_from_rad(angle)
+	# printt("Resolve angle from ", self.position, " to ", obj.position, ":", last_deg)
+	last_dir = vm._get_dir_deg(last_deg, self.name, animations)
+
 func set_active(p_active):
 	if p_active:
 		show()
@@ -174,6 +181,7 @@ func interact(p_params):
 	# It's safe to assume false, because it most likely gets reset
 	# or we pass control over to fallbacks in game.interact()
 	var do_walk = false
+	var telekinetic_action = false
 	if action in obj.event_table:
 		var ev_flags = obj.event_table[action]["ev_flags"]
 
@@ -184,6 +192,7 @@ func interact(p_params):
 		if not "TK" in ev_flags:
 			do_walk = true
 		else:
+			telekinetic_action = true
 			if walk_path:
 				walk_stop(walk_path[0])
 			else:
@@ -202,8 +211,11 @@ func interact(p_params):
 		params_queue = p_params
 		walk_to(pos, walk_context)
 	else:
-		if animations.dir_angles.size() > 0 and obj.interact_angle != -1:
-			last_dir = vm._get_dir_deg(obj.interact_angle, self.name, animations)
+		if animations.dir_angles.size() > 0:
+			if not telekinetic_action and obj.interact_angle != -1:
+				last_dir = vm._get_dir_deg(obj.interact_angle, self.name, animations)
+			else:
+				resolve_angle_to(obj)
 			animation.play(animations.idles[last_dir])
 			pose_scale = animations.idles[last_dir + 1]
 			_update_terrain()
@@ -219,8 +231,11 @@ func walk_stop(pos):
 	task = null
 	set_process(false)
 	if params_queue != null:
-		if animations.dir_angles.size() > 0 && params_queue[0].interact_angle != -1:
-			last_dir = vm._get_dir_deg(params_queue[0].interact_angle, self.name, animations)
+		if animations.dir_angles.size() > 0:
+			if params_queue[0].interact_angle == -1:
+				resolve_angle_to(params_queue[0])
+			else:
+				last_dir = vm._get_dir_deg(params_queue[0].interact_angle, self.name, animations)
 			animation.play(animations.idles[last_dir])
 			pose_scale = animations.idles[last_dir + 1]
 			_update_terrain()
