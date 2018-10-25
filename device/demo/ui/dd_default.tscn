@@ -10,7 +10,7 @@ length = 0.75
 loop = false
 step = 0.05
 tracks/0/type = "value"
-tracks/0/path = NodePath("anchor:visible")
+tracks/0/path = NodePath("wrapper:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -22,7 +22,7 @@ tracks/0/keys = {
 "values": [ true, false ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("anchor:scale")
+tracks/1/path = NodePath("wrapper:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -40,7 +40,7 @@ length = 0.75
 loop = false
 step = 0.05
 tracks/0/type = "value"
-tracks/0/path = NodePath("anchor:scale")
+tracks/0/path = NodePath("wrapper:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -64,7 +64,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("anchor:visible")
+tracks/2/path = NodePath("wrapper:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -85,7 +85,7 @@ anchor_bottom = 0.0
 margin_left = -450.0
 margin_top = 150.0
 margin_right = -450.0
-margin_bottom = 200.0
+margin_bottom = 150.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -98,9 +98,9 @@ mouse_enter_shadow_color = Color( 0.6, 0.4, 0, 1 )
 mouse_exit_color = Color( 1, 1, 1, 1 )
 mouse_exit_shadow_color = Color( 1, 1, 1, 1 )
 
-[node name="anchor" type="Node2D" parent="." index="0"]
+[node name="wrapper" type="Node2D" parent="." index="0"]
 
-[node name="bg" type="TextureRect" parent="anchor" index="0"]
+[node name="bg" type="TextureRect" parent="wrapper" index="0"]
 
 modulate = Color( 0, 0, 0, 0.392157 )
 anchor_left = 0.0
@@ -119,47 +119,63 @@ texture = ExtResource( 2 )
 expand = true
 stretch_mode = 0
 
-[node name="scroll" type="ScrollContainer" parent="anchor" index="1"]
+[node name="margin" type="MarginContainer" parent="wrapper" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 50.0
-margin_top = 50.0
-margin_right = 850.0
-margin_bottom = 350.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = true
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-scroll_horizontal_enabled = true
-scroll_horizontal = 0
-scroll_vertical_enabled = true
-scroll_vertical = 0
-
-[node name="container" type="VBoxContainer" parent="anchor/scroll" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+margin_right = 900.0
+margin_bottom = 400.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
-size_flags_vertical = 1
+size_flags_vertical = 3
+
+[node name="scroll" type="ScrollContainer" parent="wrapper/margin" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 900.0
+margin_bottom = 400.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = true
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+scroll_horizontal_enabled = true
+scroll_horizontal = 0
+scroll_vertical_enabled = true
+scroll_vertical = 0
+scroll_deadzone = 0
+
+[node name="container" type="VBoxContainer" parent="wrapper/margin/scroll" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 900.0
+margin_bottom = 400.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_constants/separation = 10
 alignment = 0
 
-[node name="avatars" type="Node2D" parent="anchor" index="2"]
+[node name="avatars" type="Node2D" parent="wrapper" index="2"]
 
 position = Vector2( -323, -33 )
 
-[node name="default" type="Sprite" parent="anchor/avatars" index="0"]
+[node name="default" type="Sprite" parent="wrapper/avatars" index="0"]
 
 position = Vector2( -472.18, -234.678 )
 
@@ -169,8 +185,7 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_bottom = 35.0
-rect_min_size = Vector2( 0, 35 )
+rect_min_size = Vector2( 800, 30 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -184,13 +199,16 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
+margin_right = 800.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 800, 30 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
+size_flags_horizontal = 2
+size_flags_vertical = 2
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -203,13 +221,15 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_bottom = 14.0
+rect_min_size = Vector2( 800, 30 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
+size_flags_horizontal = 2
+size_flags_vertical = 0
 theme = ExtResource( 3 )
+text = "I should pick option one"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
