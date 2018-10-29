@@ -82,11 +82,11 @@ func start(params, p_context):
 
 		_on_mouse_exit(but)
 
-	if has_node("anchor/avatars"):
+	if has_node("wrapper/avatars"):
 		var avatar = "default"
 		if params.size() >= 3:
 			avatar = params[2]
-		var avatars = get_node("anchor/avatars")
+		var avatars = get_node("wrapper/avatars")
 		for i in range(avatars.get_child_count()):
 			var c = avatars.get_child(i)
 			if c.get_name() == avatar:
@@ -156,7 +156,7 @@ func anim_finished(anim_name):
 func _ready():
 	printt("dialog ready")
 	hide()
-	container = get_node("anchor/scroll/container")
+	container = get_node("wrapper/margin/scroll/container")
 	container.set_mouse_filter(MOUSE_FILTER_PASS)
 	add_to_group("dialog_dialog")
 	item = get_node("item")
@@ -166,5 +166,6 @@ func _ready():
 	call_deferred("remove_child", item)
 	animation = get_node("animation")
 	animation.connect("animation_finished", self, "anim_finished")
-	#get_node("anchor/scroll").set_theme(preload("res://demo/globals/dialog_theme.xml"))
+	#get_node("wrapper/scroll").set_theme(preload("res://demo/globals/dialog_theme.xml"))
 	add_to_group("game")
+
