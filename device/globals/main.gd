@@ -83,7 +83,8 @@ func set_current_scene(p_scene, run_events=true):
 
 		# setup will kick off `:ready` if available
 		if "setup" in vm.game:
-			vm.run_event(vm.game["setup"])
+			if vm.running_event.ev_name != "setup":
+				vm.run_event(vm.game["setup"])
 		else:
 			vm.run_game()
 
