@@ -423,8 +423,11 @@ func event_done(ev_name):
 	assert ev_name == running_event.ev_name
 	printt("event_done: ", running_event.ev_name, running_event.ev_flags)
 	if ev_name == "setup":
-		if not "LEAVE_BLACK" in running_event.ev_flags:
+		if not "LEAVE_BLACK" in running_event.ev_flags or not "ready" in game:
 			main.telon.cut_to_scene()
+
+		if "ready" in game:
+			emit_signal("run_event", game["ready"])
 	else:
 		if "NO_TT" in running_event.ev_flags:
 			set_tooltip_visible(true)
