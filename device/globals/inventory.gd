@@ -58,6 +58,15 @@ func close():
 	if not closing_animation:
 		get_tree().call_group("game", "reset_overlapped_obj")
 
+func force_close():
+	if !is_visible():
+		return
+
+	get_tree().call_group("hud", "set_tooltip_visible", false)
+	hide()
+	printt("inventory force_close")
+
+
 func toggle():
 	if is_visible():
 		close()

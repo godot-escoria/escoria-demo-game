@@ -57,6 +57,7 @@ func menu_opened():
 	hide()
 
 func menu_closed():
+	get_tree().call_group("game", "reset_overlapped_obj")
 	show()
 
 func set_visible(p_visible):

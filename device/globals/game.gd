@@ -426,10 +426,9 @@ func handle_menu_request():
 			if action_menu.is_visible():
 				action_menu.stop()
 
-		# Hide inventory if collapsible
-		if inventory:
-			if inventory.is_collapsible and inventory.is_visible():
-				inventory.close()
+		# Forcibly close inventory without animation if collapsible and visible
+		if inventory and inventory.blocks_tooltip():
+			inventory.force_close()
 
 		# Finally show the menu
 		main.load_menu(ProjectSettings.get_setting("escoria/ui/in_game_menu"))
