@@ -49,12 +49,12 @@ func start(p_target):
 	var scale = ProjectSettings.get_setting("escoria/platform/action_menu_scale")
 	set_scale(Vector2(scale, scale))
 
-func stop():
+func stop(show_tooltip=true):
 	if target != null:
 		target.disconnect("visibility_changed", self, "target_visibility_changed")
 	target = null
 	hide()
-	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
+	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse") and show_tooltip:
 		get_tree().call_group("hud", "set_tooltip_visible", true)
 
 func _ready():

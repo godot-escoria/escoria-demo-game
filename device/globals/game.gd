@@ -342,6 +342,9 @@ func spawn_action_menu(obj):
 	action_menu.start(obj)
 	#obj.grab_focus()
 
+func stop_action_menu(show_tooltip):
+	action_menu.stop(show_tooltip)
+
 func action_menu_selected(obj, action):
 	if action == "use" && obj.get_action() != "":
 		action = obj.get_action()
