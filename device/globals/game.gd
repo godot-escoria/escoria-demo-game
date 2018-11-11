@@ -207,6 +207,8 @@ func can_click():
 	return true
 
 func clicked(obj, pos, input_event = null):
+	var inventory_open = inventory and inventory.blocks_tooltip()
+
 	if not can_click():
 		return
 
@@ -247,6 +249,9 @@ func clicked(obj, pos, input_event = null):
 
 				if area.has_method("is_clicked") and area.is_clicked():
 					return
+	elif inventory_open and not obj.inventory:
+		inventory.close()
+		return
 
 	# Hide the action menu (where available) when performing actions, so it's not eg. open while walking
 	if action_menu:
@@ -259,7 +264,7 @@ func clicked(obj, pos, input_event = null):
 			click_anim.play("click")
 
 		# If it's possible to click outside the inventory, don't walk but only close it
-		if inventory and inventory.is_collapsible and inventory.is_visible():
+		if inventory and inventory.blocks_tooltip():
 			inventory.close()
 			return
 
@@ -301,12 +306,14 @@ func clicked(obj, pos, input_event = null):
 				player.walk_to(pos, walk_context)
 
 func secondary_click(obj, pos, input_event = null):
+	var inventory_open = inventory and inventory.blocks_tooltip()
+
 	if not can_click():
 		return
 
 	var action = obj.get_action()
 
-	if action == "walk":
+	if action == "walk" and not inventory_open:
 		player.walk_to(pos)
 		return
 
@@ -314,7 +321,7 @@ func secondary_click(obj, pos, input_event = null):
 	if action_menu:
 		action_menu.stop()
 
-		if obj.use_action_menu:
+		if obj.use_action_menu and not inventory_open:
 			if ProjectSettings.get_setting("escoria/ui/right_mouse_button_action_menu"):
 				spawn_action_menu(obj)
 				return
@@ -327,6 +334,10 @@ func secondary_click(obj, pos, input_event = null):
 			# so the following is a good-enough-for-now fix for it
 			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", obj.get_tooltip())
 			vm.hover_begin(obj)
+		# Prevent action menu from opening on an underlying object when right-clicking the inventory overlay
+		elif inventory_open and not obj.inventory:
+			inventory.close()
+
 
 func spawn_action_menu(obj):
 	if action_menu == null:
