@@ -1,6 +1,7 @@
 extends Node
 
 export(String, FILE, ".esc") var events_path = ""
+export(float) var default_zoom = 1.0
 
 func _ready():
 	# Call `set_current_scene` only when not loading the game, because doing so

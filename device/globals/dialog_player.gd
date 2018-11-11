@@ -18,11 +18,18 @@ func say(params, callback):
 		# XXX: This can be made into a config option by someone with spare time
 		type = "bottom"
 
+	# Zooming will also affect the type.
+	if vm.camera.zoom.x != $"/root/scene".default_zoom:
+		type = "bottom"
+
 	type = type + ProjectSettings.get_setting("escoria/platform/dialog_type_suffix")
 	var inst = get_resource(type).instance()
 	var z = inst.get_z_index()
 
 	if inventory and inventory.blocks_tooltip():
+		inst.fixed_pos = true
+
+	if vm.camera.zoom.x != $"/root/scene".default_zoom:
 		inst.fixed_pos = true
 
 	$"/root/scene/game/dialog_layer".add_child(inst)
