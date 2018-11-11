@@ -6,6 +6,8 @@ The story is usually the cornerstone of an adventure game, and in visual media, 
 
 To make your dialogs available from esc scripts, they must be added to one of the dialog players. When playing dialogs, the `type` parameter will be used to look up the correct dialog scene by name in the `ResourcePreloader` in either `device/ui/dialog_player.tscn` for the `say` command or `device/ui/dd_player.tscn` for the `?` command. If no `type` parameter is provided or the given type does not exist in the player, the "default" dialog scene will be used.
 
+If a `type` named "bottom" is registered, and the game's inventory is collapsible and open, this instance will be used with a fixed position to play the dialog.
+
 ### Speech dialog
 
 The default speech dialog scene is located in `device/ui/dialog_default.tscn`. If you wish to customize its appearance, make a copy like `device/game/ui/dialog_default.tscn`, and replace the "default" scene in `device/ui/dialog_player.tscn` with your own, using the bottom-pane file picker. Remember that the name in the `ResourcePreloader` refers to the type of dialog UI to use, and that "default" will be used if no `type` parameter is provided.
