@@ -14,22 +14,18 @@ func say(params, callback):
 	else:
 		type = params[2]
 
-	if inventory and inventory.blocks_tooltip():
-		# XXX: This can be made into a config option by someone with spare time
-		type = "bottom"
+	# Zooming will also affect the type. But account for the fact floats are actual floats and hard to compare.
+	var zoom_diff = abs(vm.camera.zoom.x - $"/root/scene".default_zoom)
+	var need_zoomed = round(zoom_diff) > 0
 
-	# Zooming will also affect the type.
-	if vm.camera.zoom.x != $"/root/scene".default_zoom:
+	if (inventory and inventory.blocks_tooltip()) or need_zoomed:
 		type = "bottom"
 
 	type = type + ProjectSettings.get_setting("escoria/platform/dialog_type_suffix")
 	var inst = get_resource(type).instance()
 	var z = inst.get_z_index()
 
-	if inventory and inventory.blocks_tooltip():
-		inst.fixed_pos = true
-
-	if vm.camera.zoom.x != $"/root/scene".default_zoom:
+	if (inventory and inventory.blocks_tooltip()) or need_zoomed:
 		inst.fixed_pos = true
 
 	$"/root/scene/game/dialog_layer".add_child(inst)
