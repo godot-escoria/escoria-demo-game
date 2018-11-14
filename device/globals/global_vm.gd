@@ -440,7 +440,9 @@ func event_done(ev_name):
 			# Do not restore hud if next event is also NO_HUD
 			# because that would cause the hud to flash between the events
 			if event_queue.size():
-				if event_queue[-1][0] == 0:  # Immediately scheduled event
+				# Timing can be -0.0019 or whatever, so just `int()` it to see if it's immediate
+				var time = int(event_queue[-1][0])
+				if time == 0:
 					var obj = get_object(event_queue[-1][1])
 					var next_ev_name = event_queue[-1][2]
 					var next_event = obj.event_table[next_ev_name]
