@@ -82,8 +82,13 @@ func say(params):
 
 func dialog(params):
 	current_context.waiting = true
+	current_context.in_dialog = true
 	vm.dialog(params, current_context)
 	return vm.state_yield
+
+func end_dialog(params):
+	current_context.in_dialog = false
+	vm.end_dialog(params)
 
 func cut_scene(params):
 	if !check_obj(params[0], "cut_scene"):

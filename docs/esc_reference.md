@@ -275,7 +275,7 @@ Items can also change state by playing animations from an `AnimationPlayer` name
 Dialogs
 -------
 
-To start a dialog, use the "?" character, with some parameters, followed by a list of dialog options. Each option starts with the "-" character, followed by a parameter with the text to display in the dialog interface. Inside the option, a group of commands is specified using indentation.
+To start a dialog, use the "?" character, with some parameters, followed by a list of dialog options. This hides the HUD. Each option starts with the "-" character, followed by a parameter with the text to display in the dialog interface. Inside the option, a group of commands is specified using indentation. Use "!" to signify the dialog is over and the HUD may be restored. The HUD will not be restored if the running event is flagged NO_HUD. Either way the Escoria virtual machine will know if the game is in a dialog context.
 
 Example:
 
@@ -300,13 +300,16 @@ Example:
 				>	[!player_has_money]
 					say map_vendor "You can't afford it"
 					say player "I'll be back"
+          !
 					stop
 
 			- "Nevermind"
 				say player "Nevermind"
+        !
 				stop
 	- "Nevermind"
 		say player "Nevermind"
+    !
 		stop
 repeat
 ```
