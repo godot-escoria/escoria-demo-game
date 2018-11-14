@@ -20,6 +20,7 @@ var commands = {
 	"set_tooltip_visible": { "min_args": 1, "types": [TYPE_BOOL]},
 	"say": { "min_args": 2 },
 	"?": { "alias": "dialog"},
+	"!": { "alias": "end_dialog", "min_args": 0 },
 	"cut_scene": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING, TYPE_BOOL, TYPE_BOOL, TYPE_BOOL] },
 	">": { "alias": "branch"},
 	"inventory_add": { "min_args": 1 },

@@ -322,10 +322,17 @@ func test(cmd):
 	return true
 
 func dialog(params, level):
+	set_hud_visible(false)
+
 	# Ensure tooltip is hidden. It may remain visible when the NPC finishes saying something
 	# and then `dialog` is called.
 	get_tree().call_group("hud", "set_tooltip_visible", false)
 	get_tree().call_group("dialog_dialog", "start", params, level)
+
+func end_dialog(params):
+	if not running_event or not "NO_HUD" in running_event.ev_flags:
+		vm.set_hud_visible(true)
+
 
 func instance_level(p_event, p_root):
 	var level = {
