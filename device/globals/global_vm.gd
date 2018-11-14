@@ -430,7 +430,17 @@ func event_done(ev_name):
 			set_tooltip_visible(true)
 
 		if "NO_HUD" in running_event.ev_flags:
-			set_hud_visible(true)
+			# Do not restore hud if next event is also NO_HUD
+			# because that would cause the hud to flash between the events
+			if event_queue.size():
+				if event_queue[-1][0] == 0:  # Immediately scheduled event
+					var obj = get_object(event_queue[-1][1])
+					var next_ev_name = event_queue[-1][2]
+					var next_event = obj.event_table[next_ev_name]
+					if not "NO_HUD" in next_event.ev_flags:
+						set_hud_visible(true)
+			else:
+				set_hud_visible(true)
 
 	running_event = null
 
