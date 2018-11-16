@@ -18,6 +18,12 @@ in the same language as during development.
 
 Translating the texts are documented further in [The Escoria book](https://fr.flossmanuals.net/creating-point-and-click-games-with-escoria/i18n/)
 
+### Changing locales
+
+Add buttons (inheriting from `BaseButton`) to your menu, which is any menu using `main_menu.gd`.
+Name the buttons after the locale, eg. `fr` or `de`. Now you are able to change languages by clicking
+the buttons.
+
 ### Text timeout
 
 In case you don't have audio to determine how long your dialog text is visible, you can
