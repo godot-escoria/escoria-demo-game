@@ -657,8 +657,15 @@ func is_game_active():
 func check_autosave():
 	if get_global("save_disabled") or not is_game_active():
 		return
+
 	var time = OS.get_ticks_msec()
 	if autosave_pending || (time - last_autosave) > AUTOSAVE_TIME_MS:
+		if running_event:
+			if running_event.ev_name == "setup":
+				return
+			elif running_event.ev_name == "load":
+				return
+
 		autosave_pending = true
 		var data = save()
 		if typeof(data) == TYPE_BOOL && data == false:

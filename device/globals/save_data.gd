@@ -99,6 +99,7 @@ func _do_save(fname, p_data):
 		f.store_string(p_data)
 
 	f.close()
+	printt("Saved game to " + fname)
 
 	return OK
 
