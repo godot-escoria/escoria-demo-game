@@ -125,7 +125,8 @@ func init(p_params, p_context, p_intro, p_outro):
 
 		if TranslationServer.get_locale() != ProjectSettings.get_setting("escoria/platform/development_lang"):
 			var ptext = TranslationServer.translate(text_id)
-			if ptext != text_id:
+			# An untranslated string comes back as it was, so we must tag it as not translated
+			if ptext != text_id and ptext != text:
 				text = ptext
 			else:
 				text = "(NOT TRANSLATED)\n\n" + text
