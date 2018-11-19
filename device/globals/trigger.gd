@@ -5,6 +5,8 @@ export var global_id = ""
 export var tooltip = ""
 
 var event_table = {}
+var hud
+var inventory
 
 func get_tooltip():
 	if TranslationServer.get_locale() == ProjectSettings.get_setting("escoria/platform/development_lang"):
@@ -33,6 +35,15 @@ func area_input(viewport, event, shape_idx):
 
 func input(event):
 	if !(event is InputEventMouseButton and event.is_pressed()):
+		return
+
+	# Do not allow input on triggers/exits with inventory open
+	hud = $"/root/scene/game/hud_layer/hud"
+
+	if hud.has_node("inventory"):
+		inventory = hud.get_node("inventory")
+
+	if inventory and inventory.blocks_tooltip():
 		return
 
 	var player = vm.get_object("player")
