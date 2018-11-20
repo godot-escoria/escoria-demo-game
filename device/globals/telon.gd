@@ -1,12 +1,16 @@
-extends "res://globals/item.gd"
+extends Control
 
 onready var white = $"white"
 
-var catching_input = false
+var animation
+var anim_notify
 var item_anim
 var item_anim_holder
 
+var catching_input = false
+
 export var music_volume = 1.0
+export var global_id = "telon"
 
 func set_input_catch(p_catch):
 	if catching_input == p_catch:
@@ -35,6 +39,7 @@ func input_event(event):
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "events", "skipped")
 
 func game_cleared():
+	self.disconnect("tree_exited", vm, "object_exit_scene")
 	vm.register_object(global_id, self)
 
 func set_volume(p_vol):
@@ -80,6 +85,11 @@ func item_anim_finished():
 			var it = item_anim_holder.get_child(0)
 			it.free()
 
+func anim_finished(anim_name):
+	if anim_notify != null:
+		vm.finished(anim_notify)
+		anim_notify = null
+
 func saved():
 	#get_node("indicators_anim").play("saved")
 	pass
@@ -116,7 +126,13 @@ func rand_seek(p_node = null):
 		node.play()
 
 func telon_play_anim(p_anim):
-	$"animation".play(p_anim)
+	# Play animations like `get_tree().call_group("game", "telon_play_anim", "fade_in")`
+	animation.play(p_anim)
+
+func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
+	# A simple wrapper that implements the `cut_scene`/`anim` API
+	anim_notify = p_notify
+	return telon_play_anim(p_anim)
 
 func cut_to_black():
 	white.visible = true
@@ -127,11 +143,16 @@ func cut_to_scene():
 	white.visible = false
 
 func _ready():
+	animation = $"animation"
+
+	vm.register_object(global_id, self)
+
+	animation.connect("animation_finished", self, "anim_finished")
+
 	get_node("input_catch").connect("gui_input", self, "input_event")
 	get_node("input_catch").set_size(get_viewport().size)
 
 	add_to_group("game")
 
 	call_deferred("setup_vm")
-
 
