@@ -24,7 +24,7 @@ tracks/0/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=2]
 
 resource_name = "cut_to_black"
 length = 0.01
@@ -67,7 +67,7 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=3]
 
 resource_name = "cut_to_scene"
 length = 0.01
@@ -110,9 +110,8 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=4]
 
-resource_name = "disable_input"
 length = 0.01
 loop = false
 step = 0.1
@@ -131,9 +130,8 @@ tracks/0/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=5]
 
-resource_name = "enable_input"
 length = 0.01
 loop = false
 step = 0.1
@@ -152,7 +150,7 @@ tracks/0/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=6]
 
 length = 1.0
 loop = false
@@ -194,7 +192,7 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=7]
 
 length = 1.0
 loop = false
@@ -236,7 +234,7 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=8]
 
 length = 0.01
 loop = false
@@ -274,27 +272,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "__editor_plugin_screen__": "2D"
 }
-animations = null
-speed = 300
-scale_on_map = false
-light_on_map = false
-tooltip = ""
-action = ""
-events_path = ""
 global_id = "telon"
-use_combine = false
-inventory = false
-use_action_menu = true
-interact_angle = -1
-interact_position = null
-dialog_color = null
-talk_animation = "talk"
-active = true
-placeholders = {
-
-}
-dynamic_z_index = true
-music_volume = 0.425
 
 [node name="input_catch" type="Control" parent="." index="0"]
 
@@ -343,13 +321,13 @@ playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
 anims/catch_input = SubResource( 1 )
-anims/cut_to_black = SubResource( 7 )
-anims/cut_to_scene = SubResource( 8 )
-anims/disable_input = SubResource( 2 )
-anims/enable_input = SubResource( 3 )
-anims/fade_in = SubResource( 4 )
-anims/fade_out = SubResource( 5 )
-anims/release_input = SubResource( 6 )
+anims/cut_to_black = SubResource( 2 )
+anims/cut_to_scene = SubResource( 3 )
+anims/disable_input = SubResource( 4 )
+anims/enable_input = SubResource( 5 )
+anims/fade_in = SubResource( 6 )
+anims/fade_out = SubResource( 7 )
+anims/release_input = SubResource( 8 )
 blend_times = [  ]
 
 
