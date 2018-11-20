@@ -93,8 +93,6 @@ func _ready():
 		area.connect("mouse_entered", self, "mouse_enter")
 		area.connect("mouse_exited", self, "mouse_exit")
 
-	vm.register_object(global_id, self)
-
 	connect("body_entered", self, "body_entered")
 	connect("body_exited", self, "body_exited")
 
