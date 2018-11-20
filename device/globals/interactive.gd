@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 export var global_id = ""
 export(String, FILE, ".esc") var events_path = ""
