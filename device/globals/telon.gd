@@ -9,7 +9,6 @@ var item_anim_holder
 
 var catching_input = false
 
-export var music_volume = 1.0
 export var global_id = "telon"
 
 func set_input_catch(p_catch):
@@ -42,65 +41,23 @@ func game_cleared():
 	self.disconnect("tree_exited", vm, "object_exit_scene")
 	vm.register_object(global_id, self)
 
-func set_volume(p_vol):
-	# TODO manage multiple buses
-	AudioServer.set_bus_volume_db(0, p_vol)
-
-func _process(time):
-	set_volume(music_volume)
-
-func global_changed(name):
-
-	return
-	#printt("global changed at telon! ", name)
-	if name.find("i/") != 0:
-		return
-
-	if !vm.get_global(name):
-		return
-
-	#if item_anim.is_playing():
-	#	return
-
-	# get item by its id?
-	var itemid = name.substr(2, name.length() - 2)
-	var obj = vm.get_object(itemid)
-	if obj == null:
-		return
-	var item = obj.duplicate()
-	item.set_script(null)
-
-	printt("is item ", itemid, item)
-
-	item_anim_holder.add_child(item)
-	item.set_position(Vector2(0, 0))
-	item.show()
-	item_anim.play("new_item")
-
-func item_anim_finished():
-	var cur = item_anim.get_current_animation()
-	printt("item anim finished at telon ", cur)
-	if cur == "new_item":
-		while item_anim_holder.get_child_count() > 0:
-			var it = item_anim_holder.get_child(0)
-			it.free()
-
 func anim_finished(anim_name):
 	if anim_notify != null:
 		vm.finished(anim_notify)
 		anim_notify = null
 
 func saved():
+	## XXX: This should be implemented somewhere in the game data tree!
 	#get_node("indicators_anim").play("saved")
 	pass
 
 func ui_blocked():
+	## XXX: This should be implemented somewhere in the game data tree!
 	#get_node("indicators_anim").play("ui_blocked")
 	pass
 
 func setup_vm():
 	printt("vm on telon is ", vm)
-	#vm.connect("global_changed", self, "global_changed")
 	vm.connect("saved", self, "saved")
 	printt("connected")
 
@@ -109,8 +66,6 @@ func rand_seek(p_node = null):
 		p_node = "music"
 
 	var node = get_node(p_node)
-	#node.play()
-	#return
 
 	var length = node.get_length()
 	printt("length is ", length)
