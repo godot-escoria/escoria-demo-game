@@ -127,8 +127,15 @@ func mouse_enter(obj):
 				var action = inventory.get_action()
 				if action == "":
 					action = current_action
-				text = tr(action + ".id")
-				text = text.replace("%1", tr(tt))
+
+				if current_tool:
+					text = tr(current_action + ".combine_id")
+					text = text.replace("%2", tr(tt))
+					text = text.replace("%1", tr(current_tool.get_tooltip()))
+				else:
+					text = tr(action + ".id")
+					text = text.replace("%1", tr(tt))
+
 			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
 			vm.hover_begin(obj)
 	else:
