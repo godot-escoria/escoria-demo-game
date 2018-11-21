@@ -181,7 +181,8 @@ func drop_data(point, data):
 	if !inventory:
 		return
 
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clicked", self, get_position())
+	## TODO: reimplement this
+	# get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clicked", self, get_position())
 	vm.drag_end()
 
 

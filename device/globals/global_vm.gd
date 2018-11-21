@@ -141,7 +141,8 @@ func drag_end():
 		printt("********** dragging ends")
 		if hover_object != null && !hover_object.inventory:
 			printt("calling clicked")
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clicked", hover_object, hover_object.get_position())
+			## TODO: reimplement this
+			# get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clicked", hover_object, hover_object.get_position())
 			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clear_pending_command")
 		elif hover_object == null:
 			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clear_pending_command")
