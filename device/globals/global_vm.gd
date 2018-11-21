@@ -142,6 +142,11 @@ func hover_end():
 		if not hover_object.inventory:
 			get_tree().call_group_flags(SceneTree.GROUP_CALL_UNIQUE, "game", "mouse_exit", self)
 
+		# Without this, it's possible the event remains perpetually clicked
+		# when doing a drag-and-drop motion. Then the player will never move.
+		if "clicked" in hover_object:
+			hover_object.clicked = false
+
 	hover_object = null
 
 func update_camera(time):
