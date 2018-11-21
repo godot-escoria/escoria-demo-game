@@ -149,43 +149,6 @@ func get_tooltip():
 
 	return translated
 
-func get_drag_data(point):
-	printt("get drag data on point ", point, inventory)
-	if !inventory:
-		return null
-
-	var c = Control.new()
-	var it = duplicate()
-	it.set_script(null)
-	it.set_position(Vector2(-50, -80))
-	c.add_child(it)
-	c.show()
-	it.show()
-	set_drag_preview(c)
-
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "background", "force_drag", global_id, c)
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "interact", [self, "use"])
-
-	vm.drag_begin(global_id)
-	printt("returning for drag data", global_id)
-	return global_id
-
-func can_drop_data(point, data):
-	return true # always true ?
-
-func drop_data(point, data):
-	printt("dropping data ", data, global_id)
-	if data == global_id:
-		return
-
-	if !inventory:
-		return
-
-	## TODO: reimplement this
-	# get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clicked", self, get_position())
-	vm.drag_end()
-
-
 func global_changed(name):
 	var ev = "global_changed "+name
 	if ev in event_table:

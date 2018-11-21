@@ -131,11 +131,6 @@ func input(event):
 	if event.type == InputEvent.MOUSE_BUTTON && event.pressed:
 		toggle()
 
-	if event.type == InputEvent.MOUSE_MOTION:
-		#printt("mouse motion on alpha", get_node("../../..").pending_command)
-		if get_node("../../..").pending_command != "" || vm.drag_object != null:
-			toggle()
-
 func get_action():
 	return current_action
 

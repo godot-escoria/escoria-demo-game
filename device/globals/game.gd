@@ -435,10 +435,6 @@ func scene_input(event):
 			check_joystick = true
 			set_process(true)
 
-	if event is InputEventMouseButton && !event.is_pressed() && event.button_index == BUTTON_LEFT:
-		if vm.drag_object != null:
-			vm.drag_end()
-
 	if event.is_action("menu_request") && event.is_pressed() && !event.is_echo():
 		handle_menu_request()
 
