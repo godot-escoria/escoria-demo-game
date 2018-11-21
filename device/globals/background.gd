@@ -1,21 +1,35 @@
 extends Sprite
 
+signal left_click_on_bg
+signal right_click_on_bg  # Connect this in your game/rmb_script
+
 export var action = "walk"
 var area
 
 func input(viewport, event, shape_idx):
+	## Try the overlay handling here for topmost item
+	# If a background is covered by an item, the item "wins"
+	var overlay = get_child(0)
+	# Eg. Polygon2D does not have this method
+	if overlay.has_method("get_overlapping_areas"):
+		for area in overlay.get_overlapping_areas():
+			if not area is esc_type.ITEM:
+				if area.get_parent() is esc_type.ITEM:
+					area = area.get_parent()
+
+			# An item won
+			if area.has_method("is_clicked") and area.is_clicked():
+				return
+
 	if event is InputEventMouseButton and event.pressed:
 		if (event.button_index == BUTTON_LEFT):
 			var pos = get_global_mouse_position()
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clicked", self, pos, event)
+			emit_signal("left_click_on_bg", self, pos, event)
 		elif (event.button_index == BUTTON_RIGHT):
-			emit_right_click()
+			emit_signal("right_click_on_bg")
 
 func get_action():
 	return action
-
-func _init():
-	add_user_signal("right_click_on_bg")
 
 func _enter_tree():
 	# Use size of background texture to calculate collision shape
@@ -39,7 +53,6 @@ func _enter_tree():
 
 func _ready():
 	area.connect("input_event", self, "input")
+	connect("left_click_on_bg", $"/root/scene/game", "ev_left_click_on_bg")
 	add_to_group("background")
 
-func emit_right_click():
-	emit_signal("right_click_on_bg")

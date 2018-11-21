@@ -33,7 +33,6 @@ var cam_speed = 0
 var camera
 var camera_limits
 
-var drag_object = null
 var hover_object = null
 
 var last_autosave = 0
@@ -132,27 +131,22 @@ func settings_loaded(p_settings):
 func music_volume_changed():
 	emit_signal("music_volume_changed")
 
-func drag_begin(obj_id):
-	drag_object = obj_id
-
-func drag_end():
-	if drag_object != null:
-		# dragging ends
-		printt("********** dragging ends")
-		if hover_object != null && !hover_object.inventory:
-			printt("calling clicked")
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clicked", hover_object, hover_object.get_position())
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clear_pending_command")
-		elif hover_object == null:
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clear_pending_command")
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", "")
-
-	drag_object = null
-
 func hover_begin(obj):
 	hover_object = obj
+	get_tree().call_group("hud", "set_tooltip_visible", true)
 
 func hover_end():
+	if hover_object:
+		## XXX: No idea why this works. Sets an empty tooltip and something.
+		# Cannot be called for inventory items. Prevents tooltip from following mouse O_o
+		if not hover_object.inventory:
+			get_tree().call_group_flags(SceneTree.GROUP_CALL_UNIQUE, "game", "mouse_exit", self)
+
+		# Without this, it's possible the event remains perpetually clicked
+		# when doing a drag-and-drop motion. Then the player will never move.
+		if "clicked" in hover_object:
+			hover_object.clicked = false
+
 	hover_object = null
 
 func update_camera(time):

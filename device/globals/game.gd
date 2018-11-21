@@ -127,8 +127,15 @@ func mouse_enter(obj):
 				var action = inventory.get_action()
 				if action == "":
 					action = current_action
-				text = tr(action + ".id")
-				text = text.replace("%1", tr(tt))
+
+				if current_tool:
+					text = tr(current_action + ".combine_id")
+					text = text.replace("%2", tr(tt))
+					text = text.replace("%1", tr(current_tool.get_tooltip()))
+				else:
+					text = tr(action + ".id")
+					text = text.replace("%1", tr(tt))
+
 			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
 			vm.hover_begin(obj)
 	else:
@@ -173,7 +180,7 @@ func mouse_exit(obj):
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "hud", "set_tooltip", text)
 
 	# Want to retain the hover if the player is about to perform an action
-	if !current_action:
+	if !current_action and vm.hover_object:
 		vm.hover_end()
 
 	overlapped_obj = null
@@ -206,138 +213,148 @@ func can_click():
 
 	return true
 
-func clicked(obj, pos, input_event = null):
-	var inventory_open = inventory and inventory.blocks_tooltip()
+func ev_left_click_on_bg(obj, pos, event):
+	printt(obj.name, "left-clicked at", pos, "with", event, can_click())
 
 	if not can_click():
 		return
 
-	var walk_context = null
-	var obj_action = obj.get_action()
-	var action = ""
+	if action_menu:
+		action_menu.stop()
 
-	# Before setting action, see if the object or the project
-	# has a default action and if it requires a doubleclick
-	if not obj_action:
-		if default_obj_action:
-			if not obj_action_req_dblc:
-				action = default_obj_action
-			elif input_event and input_event.doubleclick:
-				action = default_obj_action
-	elif obj_action:
-		if not obj_action_req_dblc:
-			action = obj_action
-		elif input_event and input_event.doubleclick:
-			action = obj_action
-
-	# XXX: Why does this disable joystick_mode?
-	joystick_mode = false
-
-	if input_event:
-		walk_context = {"fast": input_event.doubleclick}
-
-	# If a background is covered by an item, the item "wins"
-	if obj is esc_type.BACKGROUND:
-		action = "walk"
-		var overlay = obj.get_child(0)  # Created by background.gd to intercept clicks
-		# Eg. Polygon2D does not have this method
-		if overlay.has_method("get_overlapping_areas"):
-			for area in overlay.get_overlapping_areas():
-				if not area is esc_type.ITEM:
-					if area.get_parent() is esc_type.ITEM:
-						area = area.get_parent()
-
-				if area.has_method("is_clicked") and area.is_clicked():
-					return
-	elif inventory_open and not obj.inventory:
+	# If it's possible to click outside the inventory, don't walk but only close it
+	if inventory and inventory.blocks_tooltip():
 		inventory.close()
 		return
 
-	# Hide the action menu (where available) when performing actions, so it's not eg. open while walking
-	if action_menu:
-		action_menu.stop()
+	var walk_context = {"fast": event.doubleclick}
 
-	if action == "walk":
-		if click:
-			click.set_position(pos)
-		if click_anim:
-			click_anim.play("click")
+	if click:
+		click.set_position(pos)
+	if click_anim:
+		click_anim.play("click")
 
-		# If it's possible to click outside the inventory, don't walk but only close it
-		if inventory and inventory.blocks_tooltip():
-			inventory.close()
-			return
+	player.walk_to(pos, walk_context)
+	# Leave the tooltip if the player is in eg. a "use key with" state
+	if !current_action and vm.hover_object:
+		vm.hover_end()
 
-		player.walk_to(pos, walk_context)
-		# Leave the tooltip if the player is in eg. a "use key with" state
-		if !current_action:
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", "")
+	maybe_hide_tooltip()
 
-	elif obj.inventory:
-		# Use and look are the only valid choices with an action menu
-		if action_menu:
-			current_action = "use"
-			# XXX: Setting an action here does not update the tooltip like `mouse_enter` does. Compensate.
-			var text = tr("use.id")
-			text = text.replace("%1", tr(obj.get_tooltip()))
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
-
-		if current_action == "use" && obj.use_combine && current_tool == null:
-			set_current_tool(obj)
-		else:
-			interact([obj, current_action, current_tool])
-	elif action != "":
-		player.interact([obj, action, current_tool])
-	elif current_action != "":
-		# Walking the player to perform current_action is fine only when inventory is closed
-		if inventory:
-			# XXX: look into having something like inventory.blocks_tooltip() here
-			if !inventory.is_collapsible or (inventory.is_collapsible and !inventory.is_visible()):
-				player.interact([obj, current_action, current_tool])
-	elif obj is esc_type.ITEM:
-		if action_menu and obj.use_action_menu:
-			if !ProjectSettings.get_setting("escoria/ui/right_mouse_button_action_menu"):
-				spawn_action_menu(obj)
-			else:
-				if obj.has_method("get_interact_pos"):
-					pos = obj.get_interact_pos()
-				else:
-					pos = obj.get_global_position()
-				player.walk_to(pos, walk_context)
-
-func secondary_click(obj, pos, input_event = null):
-	var inventory_open = inventory and inventory.blocks_tooltip()
+func ev_left_click_on_item(obj, pos, event):
+	printt(obj.name, "left-clicked at", pos, "with", event, can_click())
 
 	if not can_click():
 		return
 
-	var action = obj.get_action()
+	if action_menu and obj.use_action_menu:
+		if !ProjectSettings.get_setting("escoria/ui/right_mouse_button_action_menu"):
+			spawn_action_menu(obj)
+			return
 
-	if action == "walk" and not inventory_open:
-		player.walk_to(pos)
+	if inventory and inventory.blocks_tooltip():
+		inventory.close()
 		return
 
-	# Hide the action menu (where available) when performing actions, so it's not eg. open while walking
+	var obj_action = obj.get_action()
+	var action = "walk"
+
+	# Start off by checking a non-doubleclick default action
+	if not obj_action_req_dblc:
+		if obj_action:
+			action = obj_action
+		elif default_obj_action:
+			action = default_obj_action
+
+	var walk_context = {"fast": event.doubleclick}
+
+	if click:
+		click.set_position(pos)
+	if click_anim:
+		click_anim.play("click")
+
+	if obj.has_method("get_interact_pos"):
+		pos = obj.get_interact_pos()
+
+	player.walk_to(pos, walk_context)
+
+	# XXX: Interacting with current_tool etc should be a signal
+	if action != "walk" or current_action:
+		if inventory and not inventory.blocks_tooltip():
+			player.interact([obj, current_action, current_tool])
+
+func ev_left_dblclick_on_item(obj, pos, event):
+	printt(obj.name, "left-dblclicked at", pos, "with", event, can_click())
+
+	if not can_click():
+		return
+
+	var obj_action = obj.get_action()
+	var action = "walk"
+
+	# See if there's a doubleclick default action
+	if obj_action_req_dblc:
+		if obj_action:
+			action = obj_action
+		elif default_obj_action:
+			action = default_obj_action
+
+	if click:
+		click.set_position(pos)
+	if click_anim:
+		click_anim.play("click")
+
+	var walk_context = {"fast": event.doubleclick}
+	player.walk_to(pos, walk_context)
+	if action != "walk":
+		player.interact([obj, action, current_tool])
+
+func ev_right_click_on_item(obj, pos, event):
+	printt(obj.name, "right-clicked at", pos, "with", event, can_click())
+
+	if not can_click():
+		return
+
+	var inventory_open = inventory and inventory.blocks_tooltip()
+
+	if obj.use_action_menu and not inventory_open:
+		if ProjectSettings.get_setting("escoria/ui/right_mouse_button_action_menu"):
+			spawn_action_menu(obj)
+			return
+	elif inventory_open:
+		inventory.close()
+
+func ev_left_click_on_inventory_item(obj, pos, event):
+	printt(obj.name, "left-clicked at", pos, "with", event, can_click())
+
+	if not can_click():
+		return
+
+	# Use and look are the only valid choices with an action menu
 	if action_menu:
-		action_menu.stop()
+		current_action = "use"
+		# XXX: Setting an action here does not update the tooltip like `mouse_enter` does. Compensate.
+		var text = tr("use.id")
+		text = text.replace("%1", tr(obj.get_tooltip()))
+		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
 
-		if obj.use_action_menu and not inventory_open:
-			if ProjectSettings.get_setting("escoria/ui/right_mouse_button_action_menu"):
-				spawn_action_menu(obj)
-				return
+	if current_action == "use" && obj.use_combine && current_tool == null:
+		set_current_tool(obj)
+	else:
+		interact([obj, current_action, current_tool])
 
-	if inventory:
-		if obj is esc_type.ITEM and obj.inventory:
-			# Do not set `look` as permanent action
-			interact([obj, "look"])
-			# XXX: Moving the mouse during `:look` will cause the tooltip to disappear
-			# so the following is a good-enough-for-now fix for it
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", obj.get_tooltip())
-			vm.hover_begin(obj)
-		# Prevent action menu from opening on an underlying object when right-clicking the inventory overlay
-		elif inventory_open and not obj.inventory:
-			inventory.close()
+func ev_right_click_on_inventory_item(obj, pos, event):
+	printt(obj.name, "right-clicked at", pos, "with", event, can_click())
 
+	if not can_click():
+		return
+
+	# Do not set `look` as permanent action
+	interact([obj, "look"])
+	# XXX: Moving the mouse during `:look` will cause the tooltip to disappear
+	# so the following is a good-enough-for-now fix for it
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", obj.get_tooltip())
+	vm.hover_begin(obj)
 
 func spawn_action_menu(obj):
 	if action_menu == null:
@@ -424,10 +441,6 @@ func scene_input(event):
 			joystick_mode = true
 			check_joystick = true
 			set_process(true)
-
-	if event is InputEventMouseButton && !event.is_pressed() && event.button_index == BUTTON_LEFT:
-		if vm.drag_object != null:
-			vm.drag_end()
 
 	if event.is_action("menu_request") && event.is_pressed() && !event.is_echo():
 		handle_menu_request()

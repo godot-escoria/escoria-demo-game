@@ -1,5 +1,11 @@
 extends "res://globals/interactive.gd"
 
+signal left_click_on_item
+signal left_dblclick_on_item
+signal left_click_on_inventory_item
+signal right_click_on_item
+signal right_click_on_inventory_item
+
 export var tooltip = ""
 export var action = ""
 
@@ -95,9 +101,17 @@ func input(event):
 
 			var ev_pos = get_global_mouse_position()
 			if event.button_index == BUTTON_LEFT:
-				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clicked", self, ev_pos, event)
+				if event.doubleclick:
+					emit_signal("left_dblclick_on_item", self, ev_pos, event)
+				if self.inventory:
+					emit_signal("left_click_on_inventory_item", self, ev_pos, event)
+				else:
+					emit_signal("left_click_on_item", self, ev_pos, event)
 			elif event.button_index == BUTTON_RIGHT:
-				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "secondary_click", self, ev_pos, event)
+				if self.inventory:
+					emit_signal("right_click_on_inventory_item", self, ev_pos, event)
+				else:
+					emit_signal("right_click_on_item", self, ev_pos, event)
 			_check_focus(true, true)
 		else:
 			clicked = false
@@ -134,42 +148,6 @@ func get_tooltip():
 		return tooltip_identifier
 
 	return translated
-
-func get_drag_data(point):
-	printt("get drag data on point ", point, inventory)
-	if !inventory:
-		return null
-
-	var c = Control.new()
-	var it = duplicate()
-	it.set_script(null)
-	it.set_position(Vector2(-50, -80))
-	c.add_child(it)
-	c.show()
-	it.show()
-	set_drag_preview(c)
-
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "background", "force_drag", global_id, c)
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "interact", [self, "use"])
-
-	vm.drag_begin(global_id)
-	printt("returning for drag data", global_id)
-	return global_id
-
-func can_drop_data(point, data):
-	return true # always true ?
-
-func drop_data(point, data):
-	printt("dropping data ", data, global_id)
-	if data == global_id:
-		return
-
-	if !inventory:
-		return
-
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clicked", self, get_position())
-	vm.drag_end()
-
 
 func global_changed(name):
 	var ev = "global_changed "+name
@@ -350,6 +328,7 @@ func setup_ui_anim():
 			bg.connect("right_click_on_bg", self, "hint_request")
 
 	vm.connect("global_changed", self, "global_changed")
+
 func set_light_on_map(p_light):
 	light_on_map = p_light
 	if light_on_map:
@@ -479,7 +458,6 @@ func _find_sprites(p = null):
 	for i in range(0, p.get_child_count()):
 		_find_sprites(p.get_child(i))
 
-
 func _ready():
 	add_to_group("item")
 
@@ -502,6 +480,12 @@ func _ready():
 	if ClassDB.class_has_signal(area.get_class(), "mouse_entered"):
 		area.connect("mouse_entered", self, "mouse_enter")
 		area.connect("mouse_exited", self, "mouse_exit")
+
+	connect("left_click_on_item", $"/root/scene/game", "ev_left_click_on_item")
+	connect("left_dblclick_on_item", $"/root/scene/game", "ev_left_dblclick_on_item")
+	connect("left_click_on_inventory_item", $"/root/scene/game", "ev_left_click_on_inventory_item")
+	connect("right_click_on_item", $"/root/scene/game", "ev_right_click_on_item")
+	connect("right_click_on_inventory_item", $"/root/scene/game", "ev_right_click_on_inventory_item")
 
 	if events_path != "":
 		event_table = vm.compile(events_path)
@@ -527,8 +511,6 @@ func _ready():
 
 	_find_sprites(self)
 
-	if Engine.is_editor_hint():
-		return
 	if has_node("animation"):
 		animation = get_node("animation")
 		# Initialize Node2D items' terrain status like z-index.
