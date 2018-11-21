@@ -152,8 +152,15 @@ func drag_end():
 
 func hover_begin(obj):
 	hover_object = obj
+	get_tree().call_group("hud", "set_tooltip_visible", true)
 
 func hover_end():
+	if hover_object:
+		## XXX: No idea why this works. Sets an empty tooltip and something.
+		# Cannot be called for inventory items. Prevents tooltip from following mouse O_o
+		if not hover_object.inventory:
+			get_tree().call_group_flags(SceneTree.GROUP_CALL_UNIQUE, "game", "mouse_exit", self)
+
 	hover_object = null
 
 func update_camera(time):
