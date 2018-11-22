@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://globals/scene.gd" type="Script" id=1]
 [ext_resource path="res://demo/rooms/room2/foreground.png" type="Texture" id=2]
@@ -7,16 +7,19 @@
 [ext_resource path="res://demo/actors/player/player.tscn" type="PackedScene" id=5]
 [ext_resource path="res://globals/item.gd" type="Script" id=6]
 [ext_resource path="res://demo/rooms/room2/sign.png" type="Texture" id=7]
-[ext_resource path="res://demo/rooms/room2/mountain_click_mask.png" type="BitMap" id=8]
-[ext_resource path="res://demo/rooms/room2/background.png" type="Texture" id=9]
-[ext_resource path="res://demo/rooms/room2/sun_click_mask.png" type="BitMap" id=10]
-[ext_resource path="res://globals/game.tscn" type="PackedScene" id=11]
+[ext_resource path="res://demo/rooms/room2/background.png" type="Texture" id=8]
+[ext_resource path="res://globals/game.tscn" type="PackedScene" id=9]
 
 [sub_resource type="NavigationPolygon" id=1]
 
 vertices = PoolVector2Array( 1491.17, 617.027, 1491.17, 657.925, 1112.47, 689.271, 705.031, 687.462, 848.029, 649.017, 1204.89, 557.953, 619.837, 630.408, 350.588, 673.829, 847.74, 611.076, 766.377, 567.042, 621.927, 596.206, 414.945, 555.219, 159.734, 646.564, 158.201, 587.028 )
 polygons = [ PoolIntArray( 0, 1, 2, 3, 4, 5 ), PoolIntArray( 6, 4, 3, 7 ), PoolIntArray( 5, 4, 8 ), PoolIntArray( 9, 5, 8, 10 ), PoolIntArray( 11, 9, 10 ), PoolIntArray( 6, 7, 12, 13, 11, 10 ) ]
 outlines = [ PoolVector2Array( 414.945, 555.219, 766.377, 567.042, 1204.89, 557.953, 1491.17, 617.027, 1491.17, 657.925, 1112.47, 689.271, 705.031, 687.462, 350.588, 673.829, 159.734, 646.564, 158.201, 587.028 ), PoolVector2Array( 621.927, 596.206, 619.837, 630.408, 848.029, 649.017, 847.74, 611.076 ) ]
+
+[sub_resource type="RectangleShape2D" id=2]
+
+custom_solver_bias = 0.0
+extents = Vector2( 17.1792, 14.5338 )
 
 [node name="scene" type="Node2D" index="0"]
 
@@ -25,6 +28,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 events_path = "res://demo/rooms/room2/room2.esc"
+default_zoom = 1.0
 
 [node name="background" type="Sprite" parent="." index="0"]
 
@@ -91,26 +95,26 @@ _sections_unfolded = [ "Z Index" ]
 __meta__ = {
 "_edit_lock_": true
 }
-animations = null
-speed = 300
-scale_on_map = false
-light_on_map = false
+global_id = "zoom_in"
+events_path = "res://demo/rooms/room2/zoom_in.esc"
+active = true
 tooltip = "Zoom In"
 action = ""
-events_path = "res://demo/rooms/room2/zoom_in.esc"
-global_id = "zoom_in"
+interact_position = null
 use_combine = false
 inventory = false
 use_action_menu = true
 interact_angle = -1
-interact_position = null
 dialog_color = null
+animations = null
 talk_animation = "talk"
-active = true
 placeholders = {
 
 }
 dynamic_z_index = true
+speed = 300
+scale_on_map = false
+light_on_map = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="zoom_in" index="0"]
 
@@ -175,26 +179,26 @@ _sections_unfolded = [ "Z Index" ]
 __meta__ = {
 "_edit_lock_": true
 }
-animations = null
-speed = 300
-scale_on_map = false
-light_on_map = false
+global_id = "zoom_out"
+events_path = "res://demo/rooms/room2/zoom_out.esc"
+active = true
 tooltip = "Zoom Out"
 action = ""
-events_path = "res://demo/rooms/room2/zoom_out.esc"
-global_id = "zoom_out"
+interact_position = null
 use_combine = false
 inventory = false
 use_action_menu = true
 interact_angle = -1
-interact_position = null
 dialog_color = null
+animations = null
 talk_animation = "talk"
-active = true
 placeholders = {
 
 }
 dynamic_z_index = true
+speed = 300
+scale_on_map = false
+light_on_map = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="zoom_out" index="0"]
 
@@ -242,52 +246,51 @@ __meta__ = {
 
 position = Vector2( 96.1008, 199.066 )
 
-[node name="mountain" type="TextureButton" parent="." index="5"]
+[node name="mountain" type="Sprite" parent="." index="5"]
 
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 1218.0
-margin_top = 371.0
-margin_right = 2517.0
-margin_bottom = 1043.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-texture_click_mask = ExtResource( 8 )
+centered = false
 script = ExtResource( 6 )
-__meta__ = {
-"_edit_lock_": true
-}
-animations = null
-speed = 300
-scale_on_map = false
-light_on_map = false
+global_id = "mountain"
+events_path = "res://demo/rooms/room2/mountain.esc"
+active = true
 tooltip = "Mountain"
 action = ""
-events_path = ""
-global_id = "mountain"
+interact_position = null
 use_combine = false
 inventory = false
 use_action_menu = true
 interact_angle = -1
-interact_position = null
 dialog_color = null
+animations = null
 talk_animation = "talk"
-active = true
 placeholders = {
 
 }
 dynamic_z_index = true
+speed = 300
+scale_on_map = false
+light_on_map = false
+
+[node name="area" type="Area2D" parent="mountain" index="0"]
+
+position = Vector2( 1250.83, 401.907 )
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="mountain/area" index="0"]
+
+position = Vector2( 350.644, 88.1735 )
+build_mode = 0
+polygon = PoolVector2Array( -114.423, 115.02, -389.196, 545.635, -81.6143, 559.989, 104.985, 525.129, 182.906, 521.028, 318.242, 490.27, 406.416, 480.017, 568.409, 451.31, 777.564, 494.371, 867.789, 525.129, 902.648, 625.606, 931.355, 625.606, 908.799, 416.45, 906.749, 369.288, 767.312, -1.86096, 687.341, -112.59, 588.914, -77.7312, 400.264, 137.576, 324.394, 250.356, 205.462, 340.58, 143.946, 131.425, 37.3174, 16.594, -28.3, 14.5435, -85.7153, 74.0093 )
+
+[node name="interact_pos" type="Position2D" parent="mountain" index="1"]
+
+position = Vector2( 1605.05, 1085.62 )
 
 [node name="sun_interact_pos" type="Position2D" parent="." index="6"]
 
@@ -319,59 +322,51 @@ __meta__ = {
 
 [node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer" index="0"]
 
-texture = ExtResource( 9 )
+texture = ExtResource( 8 )
 centered = false
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="sun" type="TextureButton" parent="ParallaxBackground/ParallaxLayer" index="1"]
+[node name="sun" type="Area2D" parent="ParallaxBackground/ParallaxLayer" index="1"]
 
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 1530.0
-margin_top = 340.0
-margin_right = 2529.0
-margin_bottom = 955.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-texture_click_mask = ExtResource( 10 )
+z_index = 999
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
 script = ExtResource( 6 )
-__meta__ = {
-"_edit_lock_": true
-}
-animations = null
-speed = 300
-scale_on_map = false
-light_on_map = false
+_sections_unfolded = [ "Pickable", "Z Index" ]
+global_id = "sun"
+events_path = ""
+active = true
 tooltip = "Sun"
 action = ""
-events_path = ""
-global_id = "sun"
+interact_position = NodePath("../../../sun_interact_pos")
 use_combine = false
 inventory = false
 use_action_menu = true
 interact_angle = -1
-interact_position = NodePath("../../../sun_interact_pos")
 dialog_color = null
+animations = null
 talk_animation = "talk"
-active = true
 placeholders = {
 
 }
 dynamic_z_index = true
+speed = 300
+scale_on_map = false
+light_on_map = false
 
-[node name="game" parent="." index="8" instance=ExtResource( 11 )]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ParallaxBackground/ParallaxLayer/sun" index="0"]
+
+position = Vector2( 1962.77, 657.115 )
+scale = Vector2( 28.7739, 22.3833 )
+shape = SubResource( 2 )
+
+[node name="game" parent="." index="8" instance=ExtResource( 9 )]
 
 
