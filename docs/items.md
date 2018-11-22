@@ -50,6 +50,13 @@ There are also times when you want to enable the player to interact with items w
 
 ## Parallax items
 
-Items can also be added to a parallax layer, but this comes with a few caveats. First of all, you need to use an item with the shape defined by a `Control` node, since the mouse cursor cannot interact with an `Area2D` through the foreground layer. Secondly, since these items will be visible to the cursor through the foreground, any items meant to be obstructed by foreground elements will need to be masked by a `Control` node. These masks don't need to be items, but can be `TextureRects` with click masks for more fine grained control of their shape. Do take care not to cover any items in the foreground with these masks though, as that will make them impossible to interact with.
+Items can also be added to a parallax layer, but this comes with a caveat. You can't interact with them at the moment. This is because we can't
+mix `Control` (UI) and `Node2D` (game) elements anymore. Godot 3.1 will bring a stricter type system. The rules for how priorities are dealt
+with when mixing UI elements with game elemnts are complex. There are probably more reasons, at least from a design-philosophy point of view.
 
-Because parallax layers are offset from the background, interacting with them might lead to surprising results. It is therefore recommended that you add `Position2D` node in the foreground layer where you want the player character to stand when interacting with parallax items. This can be achieved by setting the `Interact Position` property on the item and assigning the correct `Position2D` node in the scene.
+This is what the text used to say. It's left as a guide in case it would be helpful in reimplementing the interactability with parallax-background
+objects without the use of `Control` nodes.
+
+~First of all, you need to use an item with the shape defined by a `Control` node, since the mouse cursor cannot interact with an `Area2D` through the foreground layer. Secondly, since these items will be visible to the cursor through the foreground, any items meant to be obstructed by foreground elements will need to be masked by a `Control` node. These masks don't need to be items, but can be `TextureRects` with click masks for more fine grained control of their shape. Do take care not to cover any items in the foreground with these masks though, as that will make them impossible to interact with.~
+
+~Because parallax layers are offset from the background, interacting with them might lead to surprising results. It is therefore recommended that you add `Position2D` node in the foreground layer where you want the player character to stand when interacting with parallax items. This can be achieved by setting the `Interact Position` property on the item and assigning the correct `Position2D` node in the scene.~
