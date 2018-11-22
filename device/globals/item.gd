@@ -467,8 +467,15 @@ func _ready():
 	var area
 	if has_node("area"):
 		area = get_node("area")
+		# XXX: Inventory items as Area2D did not work. z-index?
+		if not self.inventory and not area is Area2D:
+			vm.report_errors("item", ["Child area is not Area2D in " + self.global_id])
+		elif self.inventory and not area is TextureRect:
+			vm.report_errors("inventory item", ["Child area is not TextureRect in " + self.global_id])
 	else:
 		area = self
+		if not area is Area2D:
+			vm.report_errors("item", ["Background item area is not Area2D in " + self.global_id])
 
 	if ClassDB.class_has_signal(area.get_class(), "input_event"):
 		area.connect("input_event", self, "area_input")
