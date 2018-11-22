@@ -1,35 +1,47 @@
-[gd_scene load_steps=1 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://demo/rooms/room1/ice_cream.png" type="Texture" id=1]
 [ext_resource path="res://globals/item.gd" type="Script" id=2]
 
-[node name="ice_cream" type="TextureRect"]
+[node name="ice_cream" type="Sprite"]
 
-focus_ignore_mouse = false
-focus_stop_mouse = true
-size_flags_horizontal = 2
-size_flags_vertical = 2
-margin_left = 0.0
-margin_top = 0.0
-margin_right = 40.0
-margin_bottom = 40.0
 texture = ExtResource( 1 )
-stretch_mode = 0
+centered = false
 script = ExtResource( 2 )
-animations = null
-speed = 300
-scale_on_map = false
-light_on_map = false
+global_id = "ice_cream"
+events_path = "res://demo/rooms/room1/ice_cream.esc"
+active = true
 tooltip = "Ice Cream"
 action = ""
-events_path = "res://demo/rooms/room1/ice_cream.esc"
-global_id = "ice_cream"
+interact_position = null
 use_combine = false
 inventory = false
 use_action_menu = true
 interact_angle = -1
+dialog_color = null
+animations = null
 talk_animation = "talk"
-active = true
 placeholders = {
 
 }
+dynamic_z_index = true
+speed = 300
+scale_on_map = false
+light_on_map = false
+
+[node name="area" type="Area2D" parent="." index="0"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="area" index="0"]
+
+build_mode = 0
+polygon = PoolVector2Array( 38.5051, 2.91333, 54.0347, 4.531, 66.329, 16.1782, 82.5057, 28.1489, 73.4467, 37.8549, 81.5351, 50.1492, 42.064, 117.768, 25.8873, 84.7673, 19.0931, 78.2966, 18.1225, 64.0612, 9.38708, 48.208, 33.9756, 11.9723 )
+
+

@@ -1,11 +1,15 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://globals/item.gd" type="Script" id=1]
 [ext_resource path="res://demo/rooms/room1/floppy.png" type="Texture" id=2]
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="RectangleShape2D" id=1]
 
-resource_name = "default"
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[sub_resource type="Animation" id=2]
+
 length = 1.0
 loop = false
 step = 0.1
@@ -34,9 +38,8 @@ tracks/1/keys = {
 "values": [ 0.0 ]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=3]
 
-resource_name = "saving"
 length = 1.2
 loop = true
 step = 0.1
@@ -65,51 +68,51 @@ tracks/1/keys = {
 "values": [ 0.0, 90.0, 180.0, 270.0, 360.0 ]
 }
 
-[node name="floppy" type="Node2D"]
+[node name="floppy" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
-animations = null
-speed = 300
-scale_on_map = false
-light_on_map = false
+global_id = "floppy"
+events_path = "res://demo/rooms/room1/floppy.esc"
+active = true
 tooltip = "Save game"
 action = ""
-events_path = "res://demo/rooms/room1/floppy.esc"
-global_id = "floppy"
+interact_position = null
 use_combine = false
 inventory = false
 use_action_menu = true
 interact_angle = -1
 dialog_color = null
+animations = null
 talk_animation = "talk"
-active = true
 placeholders = {
 
 }
-use_custom_z = false
+dynamic_z_index = true
+speed = 300
+scale_on_map = false
+light_on_map = false
 
 [node name="sprite" type="Sprite" parent="." index="0"]
 
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="area" type="Control" parent="." index="1"]
+[node name="area" type="Area2D" parent="." index="1"]
 
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -35.0
-margin_top = -35.0
-margin_right = 35.0
-margin_bottom = 35.0
-rect_pivot_offset = Vector2( 35, 35 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
 _sections_unfolded = [ "Rect" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="area" index="0"]
+
+position = Vector2( -0.0647864, -0.0647864 )
+scale = Vector2( 3.44955, 3.44955 )
+shape = SubResource( 1 )
 
 [node name="animation" type="AnimationPlayer" parent="." index="2"]
 
@@ -118,8 +121,8 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/default = SubResource( 1 )
-anims/saving = SubResource( 2 )
+anims/default = SubResource( 2 )
+anims/saving = SubResource( 3 )
 blend_times = [  ]
 
 
