@@ -57,6 +57,7 @@ platform/force_text_ids=false
 platform/force_disable_typewriter_text=false
 platform/force_quit=true
 platform/force_tooltip_global_id=false
+platform/tag_untranslated_strings=true
 platform/default_object_action=""
 platform/object_action_requires_doubleclick=false
 platform/exit_button=true

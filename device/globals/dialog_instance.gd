@@ -117,6 +117,7 @@ func init(p_params, p_context, p_intro, p_outro):
 	context = p_context
 	text = p_params[1]
 	var force_ids = ProjectSettings.get_setting("escoria/platform/force_text_ids")
+	var tag_untranslated = ProjectSettings.get_setting("escoria/platform/tag_untranslated_strings")
 	var sep = text.find(":\"")
 	var text_id = null
 	if sep > 0:
@@ -128,7 +129,7 @@ func init(p_params, p_context, p_intro, p_outro):
 			# An untranslated string comes back as it was, so we must tag it as not translated
 			if ptext != text_id and ptext != text:
 				text = ptext
-			else:
+			elif tag_untranslated:
 				text = "(NOT TRANSLATED)\n\n" + text
 
 	elif force_ids:
