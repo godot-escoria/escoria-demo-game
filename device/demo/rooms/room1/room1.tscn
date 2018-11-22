@@ -402,7 +402,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="game" parent="." index="12" instance=ExtResource( 17 )]
 
-[node name="rmb_script" type="Node" parent="game" index="4"]
+[node name="signal_script" type="Node" parent="game" index="4"]
 
 script = ExtResource( 18 )
 

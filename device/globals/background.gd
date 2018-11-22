@@ -1,7 +1,7 @@
 extends Sprite
 
 signal left_click_on_bg
-signal right_click_on_bg  # Connect this in your game/rmb_script
+signal right_click_on_bg  # Connect this in your game/signal_script
 
 export var action = "walk"
 var area

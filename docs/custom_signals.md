@@ -1,4 +1,6 @@
-# Right-mouse-button behavior
+# Custom signals
+
+(Formerly known as `Right-mouse-button behavior`)
 
 Escoria provides sane defaults for the right mouse button.
 
@@ -16,7 +18,7 @@ What if you want more out of the button? Say you want to highlight items or disa
 `game` must still be the lowermost node in your scene tree. However, it may have a child
 of type `Node`.
 
-This child is named `rmb_script` because it only hosts the script where you implement your
+This child is named `signal_script` because it only hosts the script where you implement your
 behavior. You do not want to attempt scripting signals without a `Node` to bind to;
 see the [connect()](http://docs.godotengine.org/en/latest/classes/class_object.html?highlight=connect#class-object-connect)
 documentation. The `target` can not be `self` in a static script and things get real messy
@@ -30,7 +32,7 @@ It requires only the `_ready():` function, becase it will be the last added to t
 scene tree when loading. This means all the nodes and groups will be automagically
 available for your convenience.
 
-Attach this script to `$"game/rmb_script"`.
+Attach this script to `$"game/signal_script"`.
 
 Note that you do not have to attach it to the main `game` scene itself, if you're using
 a custom one. This is because you may want to have mini-games with different behavior.
