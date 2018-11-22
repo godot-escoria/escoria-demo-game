@@ -2,8 +2,9 @@
 
 Items are objects that have several attributes specifically designed to make the player character interact with them, using actions defined in their attached .esc script. There are a few different ways to design an item in the editor, but an item saved as a separate scene an instanced into the room typically has the following anatomy:
 
-* [item] - a `Node2D` which an `item.gd` script attached and the properties you want to use for this item
-    * "area" - a `Control`, typically a `TextureRect`, which can be without texture, or optionally have the `Textures` properties set for finer control of its appearence
+* [item] - a `Node2D` which an `item.gd` script attached to, and to which the properties you want to use for this item. This can be an `Area2D` or a `Sprite`, in most cases.
+    * "area" - an `Area2D`, in case your item root is `Sprite`.
+      * "CollisionShape2D" or "CollisionPolygon2D" - The name of this does not matter, it's simply what `Area2D` expects to find.
     * "iteract_pos" - a `Position2D` which determines the position the player character will walk to before interacting with the item
     * "animation" - an `AnimationPlayer` used to change properties of the item by using the `set_state` .esc command.
     * "_focus_in" - a `Sprite` to show when the item has focus
@@ -41,12 +42,7 @@ if your item consists of many nodes, they will have different positions, so some
 
 ## Background items
 
-There are also times when you want to enable the player to interact with items which are not separate scenes, but drawn directly on the background. For such use cases, you will typically use a `TextureRect` to frame the item, with an optional click mask, and no "area" child node.
-
-* [item] - a `TextureRect` with an `item.gd` script attached and the properties you want to use for this item
-    * ...
-
-You can also use an `Area2D` for your background item with a `CollisionPolygon2D` child node, which lets you draw the outline of the item directly in the editor.
+There are also times when you want to enable the player to interact with items which are not separate scenes, but drawn directly on the background. For such use cases, you will typically use an `Area2D` to frame the item, with an optional click mask, and no "area" child node.
 
 * [item] - an `Area2D`  with an `item.gd` script attached and the properties you want to use for this item
     * `CollisionPolygon2D` which defines the shape of the item

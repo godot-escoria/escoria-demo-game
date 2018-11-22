@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://globals/item.gd" type="Script" id=1]
 [ext_resource path="res://demo/rooms/room1/box.png" type="Texture" id=2]
@@ -36,7 +36,7 @@ tracks/1/keys = {
 "values": [ "Box" ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 
 resource_name = "inverted"
 length = 1.0
@@ -67,9 +67,8 @@ tracks/1/keys = {
 "values": [ "Inverted box" ]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=3]
 
-resource_name = "newspaper"
 length = 1.0
 loop = false
 step = 0.1
@@ -98,28 +97,34 @@ tracks/1/keys = {
 "values": [ "Newspapers" ]
 }
 
-[node name="box" type="Node2D" index="0"]
+[sub_resource type="RectangleShape2D" id=4]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[node name="box" type="Node2D"]
 
 script = ExtResource( 1 )
-animations = null
-speed = 300
-scale_on_map = false
-light_on_map = false
+global_id = "box"
+events_path = "res://demo/rooms/room1/box.esc"
+active = true
 tooltip = "Box"
 action = ""
-events_path = "res://demo/rooms/room1/box.esc"
-global_id = "box"
+interact_position = null
 use_combine = false
 inventory = false
 use_action_menu = true
 interact_angle = -1
 dialog_color = null
+animations = null
 talk_animation = "talk"
-active = true
 placeholders = {
 
 }
-use_custom_z = false
+dynamic_z_index = true
+speed = 300
+scale_on_map = false
+light_on_map = false
 
 [node name="sprite" type="Sprite" parent="." index="0"]
 
@@ -133,25 +138,24 @@ playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
 anims/default = SubResource( 1 )
-anims/inverted = SubResource( 3 )
-anims/newspaper = SubResource( 2 )
+anims/inverted = SubResource( 2 )
+anims/newspaper = SubResource( 3 )
 blend_times = [  ]
 
-[node name="area" type="Control" parent="." index="2"]
+[node name="area" type="Area2D" parent="." index="2"]
 
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -28.0
-margin_top = -23.0
-margin_right = 28.0
-margin_bottom = 23.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="area" index="0"]
+
+position = Vector2( 0.71919, 0.71919 )
+scale = Vector2( 2.34641, 2.34641 )
+shape = SubResource( 4 )
 
 
