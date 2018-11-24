@@ -133,19 +133,16 @@ func music_volume_changed():
 
 func hover_begin(obj):
 	hover_object = obj
+
 	get_tree().call_group("hud", "set_tooltip_visible", true)
 
 func hover_end():
-	if hover_object:
-		## XXX: No idea why this works. Sets an empty tooltip and something.
-		# Cannot be called for inventory items. Prevents tooltip from following mouse O_o
-		if not hover_object.inventory:
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_UNIQUE, "game", "mouse_exit", self)
+	assert hover_object
 
-		# Without this, it's possible the event remains perpetually clicked
-		# when doing a drag-and-drop motion. Then the player will never move.
-		if "clicked" in hover_object:
-			hover_object.clicked = false
+	# Without this, it's possible the event remains perpetually clicked
+	# when doing a drag-and-drop motion. Then the player will never move.
+	if "clicked" in hover_object:
+		hover_object.clicked = false
 
 	hover_object = null
 

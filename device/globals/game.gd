@@ -37,11 +37,14 @@ func set_mode(p_mode):
 	mode = p_mode
 
 func set_overlapped_obj(obj):
+	assert not obj.inventory
+
 	overlapped_obj = obj
 
 func reset_overlapped_obj():
 	if overlapped_obj:
-		return mouse_enter(overlapped_obj)
+		assert not overlapped_obj.inventory
+		overlapped_obj.emit_signal("mouse_enter_item", overlapped_obj)
 
 func maybe_hide_tooltip():
 	# We want to hide the tooltip from a collapsible inventory, but not if
@@ -369,13 +372,6 @@ func ev_mouse_enter_inventory_item(obj):
 
 func ev_mouse_exit_item(obj):
 	printt(obj.name, "mouse_exit_item")
-
-	# If we don't return here, and the cursor is moved around over
-	# items with the action menu open, we would get an empty tooltip
-	# when the action menu closes
-	if action_menu and action_menu.is_visible():
-		assert(!tooltip.visible)
-		return
 
 	if tooltip:
 		var text = ""
