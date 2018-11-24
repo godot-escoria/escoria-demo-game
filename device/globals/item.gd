@@ -127,6 +127,9 @@ func _check_focus(focus, pressed):
 			get_node("_pressed").hide()
 
 func get_tooltip():
+	if not tooltip:
+		return null
+
 	# if `development_lang` matches `text_lang`, don't translate
 	if TranslationServer.get_locale() == ProjectSettings.get_setting("escoria/platform/development_lang"):
 		if not global_id and ProjectSettings.get_setting("escoria/platform/force_tooltip_global_id"):
@@ -141,6 +144,7 @@ func get_tooltip():
 	if translated == tooltip_identifier:
 		if not global_id and ProjectSettings.get_setting("escoria/platform/force_tooltip_global_id"):
 			vm.report_errors("item", ["Missing global_id in item with tooltip '" + tooltip + "'"])
+
 		return tooltip_identifier
 
 	return translated
