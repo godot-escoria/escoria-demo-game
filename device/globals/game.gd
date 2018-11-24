@@ -147,6 +147,12 @@ func ev_left_click_on_item(obj, pos, event):
 		if !ProjectSettings.get_setting("escoria/ui/right_mouse_button_action_menu"):
 			spawn_action_menu(obj)
 			return
+		elif action_menu.is_visible():
+			# XXX: Can't close action menu here or doubleclick would cause an action
+			if obj == vm.hover_object:
+				return
+			else:
+				action_menu.stop()
 
 	if inventory and inventory.blocks_tooltip():
 		inventory.close()
@@ -183,6 +189,10 @@ func ev_left_dblclick_on_item(obj, pos, event):
 	printt(obj.name, "left-dblclicked at", pos, "with", event, can_click())
 
 	if not can_click():
+		return
+
+	if action_menu and action_menu.is_visible():
+		action_menu.stop()
 		return
 
 	var obj_action = obj.get_action()
