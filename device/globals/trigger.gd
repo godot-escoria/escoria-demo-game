@@ -99,5 +99,8 @@ func _ready():
 	connect("body_entered", self, "body_entered")
 	connect("body_exited", self, "body_exited")
 
+	connect("mouse_enter_trigger", $"/root/scene/game", "ev_mouse_enter_trigger")
+	connect("mouse_exit_trigger", $"/root/scene/game", "ev_mouse_exit_trigger")
+
 	vm.register_object(global_id, self)
 

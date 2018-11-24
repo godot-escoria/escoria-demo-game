@@ -524,6 +524,59 @@ func ev_mouse_exit_inventory_item(obj):
 
 	# overlapped_obj = null
 
+func ev_mouse_enter_trigger(obj):
+	printt(obj.name, "mouse_enter_trigger")
+
+	# Immediately bail out if the action menu is open
+	if action_menu and action_menu.is_visible():
+		assert(!tooltip.visible)
+		return
+
+	# Also bail out if inventory blocks us
+	if inventory and inventory.blocks_tooltip():
+		return
+
+	if tooltip:
+		var tt = obj.get_tooltip()
+		var text
+
+		# XXX: The warning report may be removed if it turns out to be too annoying in practice
+		if not tt:
+			vm.report_warnings("game", ["No tooltip for trigger " + obj.name])
+			# For a passive item, it's fine to set an empty tooltip, but if we have a passive and
+			# an active esc_type.ITEM overlapping, say a window and a light that will move later,
+			# the tooltip may be emptied by the light not having a tooltip. This is because the
+			# `mouse_enter` events have no guaranteed order.
+			return
+
+		text = tr(tt)
+
+		# When following the mouse, prevent text from flashing for a moment in the wrong place
+		if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
+			var pos = get_viewport().get_mouse_position()
+
+			pos = tooltip_clamped_position(pos)
+
+			tooltip.set_position(pos)
+
+		get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "hud", "set_tooltip", text)
+
+	vm.hover_begin(obj)
+
+func ev_mouse_exit_trigger(obj):
+	printt(obj.name, "mouse_exit_trigger")
+
+	if tooltip:
+		var text = ""
+
+		if current_action and current_tool:
+			text = tr(current_action + ".id")
+			text = text.replace("%1", tr(current_tool.get_tooltip()))
+
+		get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "hud", "set_tooltip", text)
+
+	overlapped_obj = null
+
 func spawn_action_menu(obj):
 	if action_menu == null:
 		return
