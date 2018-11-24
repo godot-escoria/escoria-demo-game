@@ -503,7 +503,8 @@ func _ready():
 		if c in global_id:
 			vm.report_errors("item", ["Forbidden character '" + c + "' in global_id: " + global_id])
 
-	if animation:
+	if has_node("animation"):
+		animation = $"animation"
 		animation.connect("animation_finished", self, "anim_finished")
 
 	_check_focus(false, false)
@@ -519,9 +520,7 @@ func _ready():
 
 	_find_sprites(self)
 
-	if has_node("animation"):
-		animation = get_node("animation")
-		# Initialize Node2D items' terrain status like z-index.
+	# Initialize Node2D items' terrain status like z-index.
 	# Stationary items will be set up correctly and
 	# if an item moves, it will handle this in its _process() loop
 	_update_terrain(true)
