@@ -45,10 +45,6 @@ var pose_scale = 1
 var task
 var sprites = []
 
-# This appears to be slightly faster in _process than checking
-# `self is Node2D` or something similar on every loop
-onready var self_has_z_index = self is Node2D
-
 func is_clicked():
 	return clicked
 
@@ -64,7 +60,7 @@ func anim_finished(anim_name):
 		vm.finished(anim_notify)
 		anim_notify = null
 
-	if anim_scale_override != null && self is Node2D:
+	if anim_scale_override != null:
 		set_scale(get_scale() * anim_scale_override)
 		anim_scale_override = null
 
@@ -185,7 +181,7 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 			node.replace_by_instance(res)
 			_find_sprites(get_node(npath))
 
-	if p_flip != null && self is Node2D:
+	if p_flip != null:
 		var s = get_scale()
 		set_scale(s * p_flip)
 		anim_scale_override = p_flip
@@ -235,12 +231,12 @@ func set_state(p_state, p_force = false):
 func teleport(obj):
 	set_position(obj.global_position)
 	moved = true
-	_update_terrain(self is Node2D)
+	_update_terrain(true)
 
 func teleport_pos(x, y):
 	set_position(Vector2(x, y))
 	moved = true
-	_update_terrain(self is Node2D)
+	_update_terrain(true)
 
 func _update_terrain(need_z_update=false):
 	if dynamic_z_index and need_z_update:
@@ -263,7 +259,7 @@ func _update_terrain(need_z_update=false):
 	# to flip a node is multiply its x-axis scale.
 	scale_range.x *= pose_scale
 
-	if self is Node2D and scale_on_map and scale_range != get_scale():
+	if scale_on_map and scale_range != get_scale():
 		# Check if `interact_pos` is a child of ours, and if so,
 		# take a backup of the global position, because it will be affected by scaling.
 		var interact_global_position
@@ -346,7 +342,7 @@ func walk_stop(pos):
 	task = null
 	if "idles" in animations:
 		pose_scale = animations.idles[last_dir + 1]
-	_update_terrain(self_has_z_index)
+	_update_terrain(true)
 
 	if walk_context != null:
 		vm.finished(walk_context)
@@ -415,7 +411,7 @@ func _process(time):
 
 		# If a z-indexed item is moved, forcibly update its z index
 		if self is esc_type.ITEM:
-			_update_terrain(self_has_z_index)
+			_update_terrain(true)
 
 func turn_to(deg):
 	if deg < 0 or deg > 360:
@@ -524,5 +520,5 @@ func _ready():
 		# Initialize Node2D items' terrain status like z-index.
 	# Stationary items will be set up correctly and
 	# if an item moves, it will handle this in its _process() loop
-	_update_terrain(self is Node2D)
+	_update_terrain(true)
 
