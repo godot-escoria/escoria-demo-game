@@ -506,6 +506,11 @@ func _ready():
 	connect("right_click_on_item", $"/root/scene/game", "ev_right_click_on_item")
 	connect("right_click_on_inventory_item", $"/root/scene/game", "ev_right_click_on_inventory_item")
 
+	connect("mouse_enter_item", $"/root/scene/game", "ev_mouse_enter_item")
+	connect("mouse_enter_inventory_item", $"/root/scene/game", "ev_mouse_enter_inventory_item")
+	connect("mouse_exit_item", $"/root/scene/game", "ev_mouse_exit_item")
+	connect("mouse_exit_inventory_item", $"/root/scene/game", "ev_mouse_exit_inventory_item")
+
 	if events_path != "":
 		event_table = vm.compile(events_path)
 
