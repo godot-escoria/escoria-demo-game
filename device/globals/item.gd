@@ -5,6 +5,10 @@ signal left_dblclick_on_item
 signal left_click_on_inventory_item
 signal right_click_on_item
 signal right_click_on_inventory_item
+signal mouse_enter_item
+signal mouse_enter_inventory_item
+signal mouse_exit_item
+signal mouse_exit_inventory_item
 
 export var tooltip = ""
 export var action = ""
@@ -79,12 +83,18 @@ func get_action():
 	return action
 
 func mouse_enter():
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "game", "mouse_enter", self)
 	_check_focus(true, false)
+	if self.inventory:
+		emit_signal("mouse_enter_inventory_item", self)
+	else:
+		emit_signal("mouse_enter_item", self)
 
 func mouse_exit():
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "game", "mouse_exit", self)
 	_check_focus(false, false)
+	if self.inventory:
+		emit_signal("mouse_exit_inventory_item", self)
+	else:
+		emit_signal("mouse_exit_item", self)
 
 func area_input(viewport, event, shape_idx):
 	input(event)
@@ -485,6 +495,7 @@ func _ready():
 	else:
 		vm.report_warnings("item", ["No input events possible for global_id " + global_id])
 
+	# These signals proxy the proper signals for regular and inventory items
 	if ClassDB.class_has_signal(area.get_class(), "mouse_entered"):
 		area.connect("mouse_entered", self, "mouse_enter")
 		area.connect("mouse_exited", self, "mouse_exit")
