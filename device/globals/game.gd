@@ -234,10 +234,11 @@ func ev_left_click_on_inventory_item(obj, pos, event):
 		text = text.replace("%1", tr(obj.get_tooltip()))
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
 
-	if current_action == "use" && obj.use_combine && current_tool == null:
-		set_current_tool(obj)
-	else:
-		interact([obj, current_action, current_tool])
+	if current_action == "use" and obj.use_combine:
+		if not current_tool:
+			set_current_tool(obj)
+		elif current_tool != obj:
+			interact([obj, current_action, current_tool])
 
 func ev_right_click_on_inventory_item(obj, pos, event):
 	printt(obj.name, "right-clicked at", pos, "with", event, can_click())
