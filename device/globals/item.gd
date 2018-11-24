@@ -525,3 +525,5 @@ func _ready():
 	# if an item moves, it will handle this in its _process() loop
 	_update_terrain(true)
 
+	vm.register_object(global_id, self)
+

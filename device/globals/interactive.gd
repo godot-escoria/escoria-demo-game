@@ -29,5 +29,3 @@ func set_active(p_active):
 func get_active():
 	return active
 
-func _ready():
-	vm.register_object(global_id, self)

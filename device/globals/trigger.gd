@@ -96,3 +96,5 @@ func _ready():
 	connect("body_entered", self, "body_entered")
 	connect("body_exited", self, "body_exited")
 
+	vm.register_object(global_id, self)
+
