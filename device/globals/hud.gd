@@ -1,37 +1,6 @@
 extends Control
 
 var background = null
-var force_hide_tooltip = false  # Used by `set_tooltip_visible` to never show
-
-func set_tooltip(text):
-	if !$"tooltip":
-		return
-
-	if force_hide_tooltip:
-		vm.reset_overlapped_obj()
-		return
-
-	$"tooltip".text = text
-
-	if text:
-		# printt("hud got tooltip text ", text)
-		$"tooltip".show()
-	else:
-		$"tooltip".hide()
-
-func set_tooltip_visible(p_visible):
-	if $"tooltip":
-		$"tooltip".visible = p_visible and $"tooltip".text and not force_hide_tooltip
-
-func force_tooltip_visible(p_force_hide_tooltip):
-	if $"tooltip":
-		# Not visible (false) means it's hidden
-		force_hide_tooltip = not p_force_hide_tooltip
-		printt("force-hide tooltip:", force_hide_tooltip)
-		if force_hide_tooltip:
-			$"tooltip".hide()
-		else:
-			$"tooltip".show()
 
 func inv_toggle():
 	$"inventory".toggle()
