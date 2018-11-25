@@ -58,11 +58,13 @@ func stop(show_tooltip=true):
 		get_tree().call_group("hud", "set_tooltip_visible", true)
 
 func _ready():
-
 	var acts = get_node("actions")
+
 	for i in range(acts.get_child_count()):
 		var c = acts.get_child(i)
 		if !(c is BaseButton):
 			continue
 		c.connect("pressed", self, "action_pressed", [c.get_name()])
+
+	vm.register_action_menu(self)
 

@@ -34,6 +34,7 @@ var camera
 var camera_limits
 
 ## One game, one VM; there are many things we can have only one of, track them here.
+var action_menu = null	   # If the game uses an action menu, register it here
 var tooltip = null         # The tooltip scene, registered by game.gd
 var hover_object = null    # Best-effort attempt to track what's under the mouse
 var overlapped_obj = null  # Would be covered by eg. a collapsible inventory ("cache" tooltip)
@@ -487,6 +488,14 @@ func register_tooltip(p_tooltip):
 	# XXX: Maybe tooltip should have a type and it checked here
 	tooltip = p_tooltip
 
+func register_action_menu(p_action_menu):
+	if action_menu and p_action_menu != action_menu:
+		assert p_action_menu is esc_type.ACTION_MENU
+	elif not action_menu:
+		assert p_action_menu is esc_type.ACTION_MENU
+
+	action_menu = p_action_menu
+
 func get_object(name):
 	if !(name in objects):
 		return null
@@ -540,6 +549,13 @@ func set_current_action(p_action):
 
 func clear_current_action():
 	set_current_action("")
+
+func clear_action():
+	vm.clear_current_tool()
+
+	# It is logical for action menus' actions to be cleared, but verb menus to persist
+	if action_menu:
+		vm.clear_current_action()
 
 func set_current_tool(p_tool):
 	if p_tool:

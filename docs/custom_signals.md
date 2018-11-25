@@ -54,7 +54,7 @@ func hide_current_tool():
 	var game = get_parent()
 
 	if game.current_action == "use" and game.current_tool:
-		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "clear_action")
+		vm.clear_action()
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", "")
 
 func _ready():

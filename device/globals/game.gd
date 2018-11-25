@@ -2,7 +2,6 @@ extends Node
 
 var player
 var mode = "default"
-var action_menu = null
 var inventory
 export(String,FILE) var fallbacks_path = ""
 export var inventory_enabled = true setget set_inventory_enabled
@@ -58,14 +57,6 @@ func tooltip_clamped_position(tt_pos):
 
 	return tt_pos
 
-# TODO: Move this to vm
-func clear_action():
-	vm.clear_current_tool()
-
-	# It is logical for action menus' actions to be cleared, but verb menus to persist
-	if action_menu:
-		vm.clear_current_action()
-
 func can_click():
 	# Check certain global state to see if an object could be clicked
 
@@ -86,8 +77,8 @@ func ev_left_click_on_bg(obj, pos, event):
 	if not can_click():
 		return
 
-	if action_menu:
-		action_menu.stop()
+	if vm.action_menu:
+		vm.action_menu.stop()
 
 	# If it's possible to click outside the inventory, don't walk but only close it
 	if inventory and inventory.blocks_tooltip():
@@ -114,16 +105,16 @@ func ev_left_click_on_item(obj, pos, event):
 	if not can_click():
 		return
 
-	if action_menu and obj.use_action_menu:
+	if vm.action_menu and obj.use_action_menu:
 		if !ProjectSettings.get_setting("escoria/ui/right_mouse_button_action_menu"):
 			spawn_action_menu(obj)
 			return
-		elif action_menu.is_visible():
+		elif vm.action_menu.is_visible():
 			# XXX: Can't close action menu here or doubleclick would cause an action
 			if obj == vm.hover_object:
 				return
 			else:
-				action_menu.stop()
+				vm.action_menu.stop()
 
 	if inventory and inventory.blocks_tooltip():
 		inventory.close()
@@ -162,8 +153,8 @@ func ev_left_dblclick_on_item(obj, pos, event):
 	if not can_click():
 		return
 
-	if action_menu and action_menu.is_visible():
-		action_menu.stop()
+	if vm.action_menu and vm.action_menu.is_visible():
+		vm.action_menu.stop()
 		return
 
 	var obj_action = obj.get_action()
@@ -208,7 +199,7 @@ func ev_left_click_on_inventory_item(obj, pos, event):
 		return
 
 	# Use and look are the only valid choices with an action menu
-	if action_menu:
+	if vm.action_menu:
 		vm.set_current_action("use")
 		# XXX: Setting an action here does not update the tooltip like `mouse_enter` does. Compensate.
 		var text = tr("use.id")
@@ -248,7 +239,7 @@ func ev_mouse_enter_item(obj):
 	vm.set_overlapped_obj(obj)
 
 	# Immediately bail out if the action menu is open
-	if action_menu and action_menu.is_visible():
+	if vm.action_menu and vm.action_menu.is_visible():
 		assert(!vm.tooltip.visible)
 		return
 
@@ -286,7 +277,9 @@ func ev_mouse_enter_item(obj):
 
 			vm.tooltip.set_position(pos)
 
-		get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "hud", "set_tooltip", text)
+		# XXX: Usually doesn't end up overflowing the stack as a regular call, but it has happened
+		#      so try to guard against it
+		get_tree().call_group_flags(SceneTree.GROUP_CALL_UNIQUE, "hud", "set_tooltip", text)
 
 	vm.hover_begin(obj)
 
@@ -376,7 +369,7 @@ func ev_mouse_exit_inventory_item(obj):
 	# If we don't return here, and the cursor is moved around over
 	# items with the action menu open, we would get an empty tooltip
 	# when the action menu closes
-	if action_menu and action_menu.is_visible():
+	if vm.action_menu and vm.action_menu.is_visible():
 		assert(!vm.tooltip.visible)
 		return
 
@@ -397,7 +390,7 @@ func ev_mouse_enter_trigger(obj):
 	printt(obj.name, "mouse_enter_trigger")
 
 	# Immediately bail out if the action menu is open
-	if action_menu and action_menu.is_visible():
+	if vm.action_menu and vm.action_menu.is_visible():
 		assert(!vm.tooltip.visible)
 		return
 
@@ -447,21 +440,17 @@ func ev_mouse_exit_trigger(obj):
 	vm.clear_overlapped_obj()
 
 func spawn_action_menu(obj):
-	if action_menu == null:
+	if vm.action_menu == null:
 		return
 
 	if player:
 		player.walk_stop(player.position)
 
 	var pos = get_viewport().get_mouse_position()
-	var am_pos = action_menu.clamped_position(pos)
-	action_menu.set_position(am_pos)
-	action_menu.show()
-	action_menu.start(obj)
-	#obj.grab_focus()
-
-func stop_action_menu(show_tooltip):
-	action_menu.stop(show_tooltip)
+	var am_pos = vm.action_menu.clamped_position(pos)
+	vm.action_menu.set_position(am_pos)
+	vm.action_menu.show()
+	vm.action_menu.start(obj)
 
 func action_menu_selected(obj, action):
 	if action == "use" && obj.get_action() != "":
@@ -470,18 +459,18 @@ func action_menu_selected(obj, action):
 		player.interact([obj, action])
 	else:
 		interact([obj, action])
-	action_menu.stop()
+	vm.action_menu.stop()
 
 func interact(p_params):
 	if mode == "default":
 		var obj = p_params[0]
-		clear_action()
+		vm.clear_action()
 		var action = p_params[1]
 		if !action:
 			action = obj.get_action()
 
 		if p_params.size() > 2:
-			clear_action()
+			vm.clear_action()
 			if obj == p_params[2]:
 				return
 			#inventory.close()
@@ -489,7 +478,7 @@ func interact(p_params):
 		else:
 			#inventory.close()
 			activate(obj, action)
-			clear_action()
+			vm.clear_action()
 		return
 
 func activate(obj, action, param = null):
@@ -539,9 +528,9 @@ func handle_menu_request():
 	var menu_enabled = vm.menu_enabled()
 	if vm.can_save() and vm.can_interact() and menu_enabled:
 		# Do not display overlay menu with action menu or inventory, it looks silly and weird
-		if action_menu:
-			if action_menu.is_visible():
-				action_menu.stop()
+		if vm.action_menu:
+			if vm.action_menu.is_visible():
+				vm.action_menu.stop()
 
 		# Forcibly close inventory without animation if collapsible and visible
 		if inventory and inventory.blocks_tooltip():
@@ -687,8 +676,8 @@ func load_hud():
 
 	# Add action menu to hud layer if found in project settings
 	if ProjectSettings.get_setting("escoria/ui/action_menu"):
-		action_menu = load(ProjectSettings.get_setting("escoria/ui/action_menu")).instance()
-		if action_menu and action_menu is esc_type.ACTION_MENU:
+		var action_menu = load(ProjectSettings.get_setting("escoria/ui/action_menu")).instance()
+		if action_menu:
 			$"hud_layer".add_child(action_menu)
 
 func _ready():

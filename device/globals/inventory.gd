@@ -24,8 +24,11 @@ func open():
 	if is_visible():
 		return
 
-	get_tree().call_group("hud", "set_tooltip_visible", false)
-	get_tree().call_group("game", "stop_action_menu", false)  # show_tooltip false
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_UNIQUE, "hud", "set_tooltip_visible", false)
+
+	if vm.action_menu:
+		# `false` is for show_tooltip=false
+		vm.action_menu.stop(false)
 
 	sort_items()
 
