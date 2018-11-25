@@ -141,7 +141,6 @@ func music_volume_changed():
 func hover_begin(obj):
 	assert obj is esc_type.ITEM or obj is esc_type.TRIGGER
 
-	get_tree().call_group("hud", "set_tooltip_visible", true)
 	hover_object = obj
 
 func hover_end():
@@ -238,8 +237,12 @@ func set_hud_visible(p_visible):
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_visible", p_visible)
 
 func set_tooltip_visible(p_visible):
-	# This force-hides or "force-shows" the tooltip
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "force_tooltip_visible", p_visible)
+	# Wrapper that vm_level can use
+	if tooltip:
+		if p_visible:
+			tooltip.show()
+		else:
+			tooltip.hide()
 
 func dialog_config(params):
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "dialog", "config", params)
@@ -325,7 +328,8 @@ func dialog(params, level):
 
 	# Ensure tooltip is hidden. It may remain visible when the NPC finishes saying something
 	# and then `dialog` is called.
-	get_tree().call_group("hud", "set_tooltip_visible", false)
+	if tooltip:
+		tooltip.hide()
 	get_tree().call_group("dialog_dialog", "start", params, level)
 
 func end_dialog(params):
@@ -409,13 +413,9 @@ func run_event(p_event):
 	else:
 		main.set_input_catch(true)
 
-		# Hide tooltip for even simple events. It's up to NO_TT to not react to
-		# mouse events making it visible between eg. `say` commands, but do not
-		# clear it because that would leave an empty tooltip after NO_TT.
-		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip_visible", false)
-
 		if "NO_TT" in p_event.ev_flags:
-			set_tooltip_visible(false)
+			if tooltip:
+				tooltip.hide()
 
 		if "NO_HUD" in p_event.ev_flags:
 			set_hud_visible(false)
@@ -433,7 +433,8 @@ func event_done(ev_name):
 			main.telon.cut_to_scene()
 	else:
 		if "NO_TT" in running_event.ev_flags:
-			set_tooltip_visible(true)
+			# Let an `overlapped_obj` deal with the tooltip if required
+			reset_overlapped_obj()
 
 		if "NO_HUD" in running_event.ev_flags:
 			# Do not restore hud if next event is also NO_HUD
@@ -485,7 +486,11 @@ func get_global_list():
 	return ProjectSettings.keys()
 
 func register_tooltip(p_tooltip):
-	# XXX: Maybe tooltip should have a type and it checked here
+	if tooltip and p_tooltip != tooltip:
+		assert p_tooltip is esc_type.TOOLTIP
+	elif not tooltip:
+		assert p_tooltip is esc_type.TOOLTIP
+
 	tooltip = p_tooltip
 
 func register_action_menu(p_action_menu):
@@ -584,12 +589,6 @@ func reset_overlapped_obj():
 
 func clear_overlapped_obj():
 	overlapped_obj = null
-
-func maybe_hide_tooltip():
-	# We want to hide the tooltip from a collapsible inventory, but not if
-	# an item has been selected as `current_tool`.
-	if not current_tool:
-		get_tree().call_group("hud", "set_tooltip_visible", false)
 
 func object_exit_scene(name):
 	objects.erase(name)
