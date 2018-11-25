@@ -97,7 +97,9 @@ func ev_left_click_on_bg(obj, pos, event):
 	if not vm.current_action and vm.hover_object:
 		vm.hover_end()
 
-	vm.maybe_hide_tooltip()
+	if vm.tooltip:
+		if not vm.current_tool:
+			vm.tooltip.hide()
 
 func ev_left_click_on_item(obj, pos, event):
 	printt(obj.name, "left-clicked at", pos, "with", event, can_click())
@@ -202,9 +204,10 @@ func ev_left_click_on_inventory_item(obj, pos, event):
 	if vm.action_menu:
 		vm.set_current_action("use")
 		# XXX: Setting an action here does not update the tooltip like `mouse_enter` does. Compensate.
-		var text = tr("use.id")
-		text = text.replace("%1", tr(obj.get_tooltip()))
-		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
+		if vm.tooltip:
+			var text = tr("use.id")
+			text = text.replace("%1", tr(obj.get_tooltip()))
+			vm.tooltip.set_tooltip(text)
 
 	if vm.current_action == "use" and obj.use_combine:
 		if not vm.current_tool:
@@ -222,7 +225,9 @@ func ev_right_click_on_inventory_item(obj, pos, event):
 	interact([obj, "look"])
 	# XXX: Moving the mouse during `:look` will cause the tooltip to disappear
 	# so the following is a good-enough-for-now fix for it
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", obj.get_tooltip())
+	if vm.tooltip:
+		vm.tooltip.set_tooltip(obj.get_tooltip())
+
 	vm.hover_begin(obj)
 
 func ev_mouse_enter_item(obj):
@@ -277,9 +282,8 @@ func ev_mouse_enter_item(obj):
 
 			vm.tooltip.set_position(pos)
 
-		# XXX: Usually doesn't end up overflowing the stack as a regular call, but it has happened
-		#      so try to guard against it
-		get_tree().call_group_flags(SceneTree.GROUP_CALL_UNIQUE, "hud", "set_tooltip", text)
+		vm.tooltip.set_tooltip(text)
+		vm.tooltip.show()
 
 	vm.hover_begin(obj)
 
@@ -319,8 +323,6 @@ func ev_mouse_enter_inventory_item(obj):
 					text = tr(action + ".id")
 					text = text.replace("%1", tr(tt))
 
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
-
 			vm.hover_begin(obj)
 		else:
 			if not vm.current_action:
@@ -341,7 +343,8 @@ func ev_mouse_enter_inventory_item(obj):
 
 			vm.tooltip.set_position(pos)
 
-		get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "hud", "set_tooltip", text)
+		vm.tooltip.set_tooltip(text)
+		vm.tooltip.show()
 
 	vm.hover_begin(obj)
 
@@ -355,7 +358,10 @@ func ev_mouse_exit_item(obj):
 			text = tr(vm.current_action + ".id")
 			text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
 
-		get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "hud", "set_tooltip", text)
+			vm.tooltip.set_tooltip(text)
+			vm.tooltip.show()
+		else:
+			vm.tooltip.hide()
 
 	# Want to retain the hover if the player is about to perform an action
 	if not vm.current_action and vm.hover_object:
@@ -380,7 +386,10 @@ func ev_mouse_exit_inventory_item(obj):
 			text = tr(vm.current_action + ".id")
 			text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
 
-		get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "hud", "set_tooltip", text)
+			vm.tooltip.set_tooltip(text)
+			vm.tooltip.show()
+		else:
+			vm.tooltip.hide()
 
 	# Want to retain the hover if the player is about to perform an action
 	if not vm.current_action and vm.hover_object:
@@ -421,8 +430,10 @@ func ev_mouse_enter_trigger(obj):
 
 			vm.tooltip.set_position(pos)
 
-		get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "hud", "set_tooltip", text)
+		vm.tooltip.set_tooltip(text)
+		vm.tooltip.show()
 
+	vm.set_overlapped_obj(obj)
 	vm.hover_begin(obj)
 
 func ev_mouse_exit_trigger(obj):
@@ -435,7 +446,10 @@ func ev_mouse_exit_trigger(obj):
 			text = tr(vm.current_action + ".id")
 			text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
 
-		get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "hud", "set_tooltip", text)
+			vm.tooltip.set_tooltip(text)
+			vm.tooltip.show()
+		else:
+			vm.tooltip.hide()
 
 	vm.clear_overlapped_obj()
 
@@ -646,10 +660,6 @@ func load_hud():
 	$"hud_layer/hud".replace_by_instance(hres)
 
 	var hud = $"hud_layer/hud"
-
-	if hud.has_node("tooltip"):
-		var tooltip = hud.get_node("tooltip")
-		vm.register_tooltip(tooltip)
 
 	# Add inventory to hud layer, usually hud_minimal.tscn, if found in project settings
 	# and not present in the `game` scene's hud.

@@ -24,7 +24,14 @@ func open():
 	if is_visible():
 		return
 
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_UNIQUE, "hud", "set_tooltip_visible", false)
+	if vm.tooltip:
+		# Hide if we don't have a tool
+		if not vm.current_tool:
+			vm.tooltip.hide()
+		# And this is where it gets fishy ...
+		else:
+			# ... because we must re-enter the item to get the tooltip sorted
+			vm.current_tool.emit_signal("mouse_enter_inventory_item", vm.current_tool)
 
 	if vm.action_menu:
 		# `false` is for show_tooltip=false
@@ -44,7 +51,17 @@ func close():
 	if !is_visible():
 		return
 
-	vm.maybe_hide_tooltip()
+	if vm.tooltip:
+		# We want to hide the tooltip from a collapsible inventory, but not if
+		# an item has been selected as `current_tool`.
+		if not vm.current_tool:
+			vm.tooltip.hide()
+		# But if we are closing while hovering ...
+		elif vm.hover_object:
+			# ... an inventory item ...
+			if vm.hover_object is esc_type.ITEM and vm.hover_object.inventory:
+				# ... we must exit it to sort out the tooltip
+				vm.hover_object.emit_signal("mouse_exit_inventory_item", vm.hover_object)
 
 	var closing_animation = false
 	if has_node("animation"):
@@ -69,7 +86,8 @@ func force_close():
 	if !is_visible():
 		return
 
-	get_tree().call_group("hud", "set_tooltip_visible", false)
+	if vm.tooltip:
+		vm.tooltip.hide()
 	hide()
 	printt("inventory force_close")
 
