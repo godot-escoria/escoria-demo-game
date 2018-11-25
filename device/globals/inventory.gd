@@ -41,9 +41,7 @@ func close():
 	if !is_visible():
 		return
 
-	# There's no way to access variables across groups and non-globals,
-	# so do this instead. It hides the tooltip unless an item has been chosen as a tool.
-	get_tree().call_group("game", "maybe_hide_tooltip")
+	vm.maybe_hide_tooltip()
 
 	var closing_animation = false
 	if has_node("animation"):
@@ -62,7 +60,7 @@ func close():
 
 	# Reset immediately only when there isn't an animation, otherwise let the handler do it
 	if not closing_animation:
-		get_tree().call_group("game", "reset_overlapped_obj")
+		vm.reset_overlapped_obj()
 
 func force_close():
 	if !is_visible():
@@ -82,7 +80,7 @@ func toggle():
 func anim_finished(name):
 	if name == "hide":
 		hide()
-		get_tree().call_group("game", "reset_overlapped_obj")
+		vm.reset_overlapped_obj()
 
 func sort_items():
 	var items = get_node("items")

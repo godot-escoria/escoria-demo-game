@@ -3,7 +3,7 @@ extends Control
 var act_buttons = []
 
 func action_changed(action):
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "set_current_action", action)
+	vm.set_current_action(action)
 
 	for b in act_buttons:
 		b.set_pressed(b.get_name() == action)

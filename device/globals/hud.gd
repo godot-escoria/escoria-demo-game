@@ -8,9 +8,7 @@ func set_tooltip(text):
 		return
 
 	if force_hide_tooltip:
-		# XXX: This issues an error from Godot that ugc_locked is true,
-		# but it appears to be ignorable. At least this works.
-		get_tree().call_group_flags(SceneTree.GROUP_CALL_UNIQUE, "game", "reset_overlapped_obj")
+		vm.reset_overlapped_obj()
 		return
 
 	$"tooltip".text = text
@@ -57,7 +55,7 @@ func menu_opened():
 	hide()
 
 func menu_closed():
-	get_tree().call_group("game", "reset_overlapped_obj")
+	vm.reset_overlapped_obj()
 	show()
 
 func set_visible(p_visible):

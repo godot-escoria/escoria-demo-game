@@ -17,9 +17,6 @@ export var drag_margin_top = 0.2
 export var drag_margin_right = 0.2
 export var drag_margin_bottom = 0.2
 
-var current_action = ""
-var current_tool = null
-
 var click
 var click_anim
 
@@ -29,33 +26,13 @@ var obj_action_req_dblc
 var camera
 export var camera_limits = Rect2()
 
-var tooltip
-# This is used to "cache" a hidden tooltip
-var overlapped_obj
-
 func set_mode(p_mode):
 	mode = p_mode
-
-func set_overlapped_obj(obj):
-	assert not obj.inventory
-
-	overlapped_obj = obj
-
-func reset_overlapped_obj():
-	if overlapped_obj:
-		assert not overlapped_obj.inventory
-		overlapped_obj.emit_signal("mouse_enter_item", overlapped_obj)
-
-func maybe_hide_tooltip():
-	# We want to hide the tooltip from a collapsible inventory, but not if
-	# an item has been selected as `current_tool`.
-	if not current_tool:
-		get_tree().call_group("hud", "set_tooltip_visible", false)
 
 func tooltip_clamped_position(tt_pos):
 	var width = float(ProjectSettings.get("display/window/size/width"))
 	var height = float(ProjectSettings.get("display/window/size/height"))
-	var tt_size = tooltip.get_size()
+	var tt_size = vm.tooltip.get_size()
 	var center_offset = tt_size.x / 2
 
 	# We want to have the center of the tooltip above where the cursor is, compensate first
@@ -81,19 +58,13 @@ func tooltip_clamped_position(tt_pos):
 
 	return tt_pos
 
+# TODO: Move this to vm
 func clear_action():
-	current_tool = null
+	vm.clear_current_tool()
+
 	# It is logical for action menus' actions to be cleared, but verb menus to persist
 	if action_menu:
-		current_action = ""
-
-func set_current_action(p_act):
-	if p_act != current_action:
-		set_current_tool(null)
-	current_action = p_act
-
-func set_current_tool(p_tool):
-	current_tool = p_tool
+		vm.clear_current_action()
 
 func can_click():
 	# Check certain global state to see if an object could be clicked
@@ -132,10 +103,10 @@ func ev_left_click_on_bg(obj, pos, event):
 
 	player.walk_to(pos, walk_context)
 	# Leave the tooltip if the player is in eg. a "use key with" state
-	if !current_action and vm.hover_object:
+	if not vm.current_action and vm.hover_object:
 		vm.hover_end()
 
-	maybe_hide_tooltip()
+	vm.maybe_hide_tooltip()
 
 func ev_left_click_on_item(obj, pos, event):
 	printt(obj.name, "left-clicked at", pos, "with", event, can_click())
@@ -181,9 +152,9 @@ func ev_left_click_on_item(obj, pos, event):
 	player.walk_to(pos, walk_context)
 
 	# XXX: Interacting with current_tool etc should be a signal
-	if action != "walk" or current_action:
+	if action != "walk" or vm.current_action:
 		if inventory and not inventory.blocks_tooltip():
-			player.interact([obj, current_action, current_tool])
+			player.interact([obj, vm.current_action, vm.current_tool])
 
 func ev_left_dblclick_on_item(obj, pos, event):
 	printt(obj.name, "left-dblclicked at", pos, "with", event, can_click())
@@ -213,7 +184,7 @@ func ev_left_dblclick_on_item(obj, pos, event):
 	var walk_context = {"fast": event.doubleclick}
 	player.walk_to(pos, walk_context)
 	if action != "walk":
-		player.interact([obj, action, current_tool])
+		player.interact([obj, action, vm.current_tool])
 
 func ev_right_click_on_item(obj, pos, event):
 	printt(obj.name, "right-clicked at", pos, "with", event, can_click())
@@ -238,17 +209,17 @@ func ev_left_click_on_inventory_item(obj, pos, event):
 
 	# Use and look are the only valid choices with an action menu
 	if action_menu:
-		current_action = "use"
+		vm.set_current_action("use")
 		# XXX: Setting an action here does not update the tooltip like `mouse_enter` does. Compensate.
 		var text = tr("use.id")
 		text = text.replace("%1", tr(obj.get_tooltip()))
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
 
-	if current_action == "use" and obj.use_combine:
-		if not current_tool:
-			set_current_tool(obj)
-		elif current_tool != obj:
-			interact([obj, current_action, current_tool])
+	if vm.current_action == "use" and obj.use_combine:
+		if not vm.current_tool:
+			vm.set_current_tool(obj)
+		elif vm.current_tool != obj:
+			interact([obj, vm.current_action, vm.current_tool])
 
 func ev_right_click_on_inventory_item(obj, pos, event):
 	printt(obj.name, "right-clicked at", pos, "with", event, can_click())
@@ -268,24 +239,24 @@ func ev_mouse_enter_item(obj):
 	printt(obj.name, "mouse_enter_item")
 
 	## XXX: Would want a design where this is not relevant!
-	if overlapped_obj and overlapped_obj != obj:
+	if vm.overlapped_obj and vm.overlapped_obj != obj:
 		# Be sure we have exited the other object, because
 		# sometimes item2's `mouse_entered` happens before
 		# item1's `mouse_exited`. This causes the tooltip to disappear!
-		yield(overlapped_obj, "mouse_exit_item")
+		yield(vm.overlapped_obj, "mouse_exit_item")
 
-	set_overlapped_obj(obj)
+	vm.set_overlapped_obj(obj)
 
 	# Immediately bail out if the action menu is open
 	if action_menu and action_menu.is_visible():
-		assert(!tooltip.visible)
+		assert(!vm.tooltip.visible)
 		return
 
 	# Also bail out if inventory blocks us
 	if inventory and inventory.blocks_tooltip():
 		return
 
-	if tooltip:
+	if vm.tooltip:
 		var tt = obj.get_tooltip()
 		var text
 
@@ -299,10 +270,10 @@ func ev_mouse_enter_item(obj):
 			return
 
 		# {{{ tooltip handling
-		if current_action and current_tool:
-			text = tr(current_action + ".combine_id")
+		if vm.current_action and vm.current_tool:
+			text = tr(vm.current_action + ".combine_id")
 			text = text.replace("%2", tr(tt))
-			text = text.replace("%1", tr(current_tool.get_tooltip()))
+			text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
 		else:
 			text = tr(tt)
 		# }}}
@@ -313,7 +284,7 @@ func ev_mouse_enter_item(obj):
 
 			pos = tooltip_clamped_position(pos)
 
-			tooltip.set_position(pos)
+			vm.tooltip.set_position(pos)
 
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "hud", "set_tooltip", text)
 
@@ -325,7 +296,7 @@ func ev_mouse_enter_inventory_item(obj):
 
 	assert inventory
 
-	if tooltip:
+	if vm.tooltip:
 		var tt = obj.get_tooltip()
 		var text
 
@@ -340,18 +311,18 @@ func ev_mouse_enter_inventory_item(obj):
 
 		# {{{ tooltip handling
 		if inventory.blocks_tooltip():
-			if not current_action:
+			if not vm.current_action:
 				text = tr(tt)
 			else:
 				var action = inventory.get_action()
 				if action == "":
-					action = current_action
+					action = vm.current_action
 
-				if current_tool and current_tool != obj:
-					text = tr(current_action + ".combine_id")
+				if vm.current_tool and vm.current_tool != obj:
+					text = tr(vm.current_action + ".combine_id")
 					text = text.replace("%2", tr(tt))
-					text = text.replace("%1", tr(current_tool.get_tooltip()))
-				elif current_tool:
+					text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
+				elif vm.current_tool:
 					text = tr(action + ".id")
 					text = text.replace("%1", tr(tt))
 
@@ -359,12 +330,12 @@ func ev_mouse_enter_inventory_item(obj):
 
 			vm.hover_begin(obj)
 		else:
-			if not current_action:
+			if not vm.current_action:
 				text = tr(tt)
 			else:
 				var action = inventory.get_action()
 				if action == "":
-					action = current_action
+					action = vm.current_action
 				text = tr(action + ".id")
 				text = text.replace("%1", tr(tt))
 		# }}}
@@ -375,7 +346,7 @@ func ev_mouse_enter_inventory_item(obj):
 
 			pos = tooltip_clamped_position(pos)
 
-			tooltip.set_position(pos)
+			vm.tooltip.set_position(pos)
 
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "hud", "set_tooltip", text)
 
@@ -384,20 +355,20 @@ func ev_mouse_enter_inventory_item(obj):
 func ev_mouse_exit_item(obj):
 	printt(obj.name, "mouse_exit_item")
 
-	if tooltip:
+	if vm.tooltip:
 		var text = ""
 
-		if current_action and current_tool:
-			text = tr(current_action + ".id")
-			text = text.replace("%1", tr(current_tool.get_tooltip()))
+		if vm.current_action and vm.current_tool:
+			text = tr(vm.current_action + ".id")
+			text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
 
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "hud", "set_tooltip", text)
 
 	# Want to retain the hover if the player is about to perform an action
-	if not current_action and vm.hover_object:
+	if not vm.current_action and vm.hover_object:
 		vm.hover_end()
 
-	overlapped_obj = null
+	vm.clear_overlapped_obj()
 
 func ev_mouse_exit_inventory_item(obj):
 	printt(obj.name, "mouse_exit_inventory_item")
@@ -406,37 +377,35 @@ func ev_mouse_exit_inventory_item(obj):
 	# items with the action menu open, we would get an empty tooltip
 	# when the action menu closes
 	if action_menu and action_menu.is_visible():
-		assert(!tooltip.visible)
+		assert(!vm.tooltip.visible)
 		return
 
-	if tooltip:
+	if vm.tooltip:
 		var text = ""
 
-		if current_action and current_tool:
-			text = tr(current_action + ".id")
-			text = text.replace("%1", tr(current_tool.get_tooltip()))
+		if vm.current_action and vm.current_tool:
+			text = tr(vm.current_action + ".id")
+			text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
 
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "hud", "set_tooltip", text)
 
 	# Want to retain the hover if the player is about to perform an action
-	if not current_action and vm.hover_object:
+	if not vm.current_action and vm.hover_object:
 		vm.hover_end()
-
-	# overlapped_obj = null
 
 func ev_mouse_enter_trigger(obj):
 	printt(obj.name, "mouse_enter_trigger")
 
 	# Immediately bail out if the action menu is open
 	if action_menu and action_menu.is_visible():
-		assert(!tooltip.visible)
+		assert(!vm.tooltip.visible)
 		return
 
 	# Also bail out if inventory blocks us
 	if inventory and inventory.blocks_tooltip():
 		return
 
-	if tooltip:
+	if vm.tooltip:
 		var tt = obj.get_tooltip()
 		var text
 
@@ -457,7 +426,7 @@ func ev_mouse_enter_trigger(obj):
 
 			pos = tooltip_clamped_position(pos)
 
-			tooltip.set_position(pos)
+			vm.tooltip.set_position(pos)
 
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "hud", "set_tooltip", text)
 
@@ -466,16 +435,16 @@ func ev_mouse_enter_trigger(obj):
 func ev_mouse_exit_trigger(obj):
 	printt(obj.name, "mouse_exit_trigger")
 
-	if tooltip:
+	if vm.tooltip:
 		var text = ""
 
-		if current_action and current_tool:
-			text = tr(current_action + ".id")
-			text = text.replace("%1", tr(current_tool.get_tooltip()))
+		if vm.current_action and vm.current_tool:
+			text = tr(vm.current_action + ".id")
+			text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
 
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "hud", "set_tooltip", text)
 
-	overlapped_obj = null
+	vm.clear_overlapped_obj()
 
 func spawn_action_menu(obj):
 	if action_menu == null:
@@ -638,7 +607,7 @@ func _input(ev):
 		# Must verify `position` is there, key inputs do not have it
 		if vm.hover_object and "position" in ev:
 			var pos = tooltip_clamped_position(ev.position)
-			tooltip.set_global_position(pos)
+			vm.tooltip.set_global_position(pos)
 
 func set_inventory_enabled(p_enabled):
 	inventory_enabled = p_enabled
@@ -690,7 +659,8 @@ func load_hud():
 	var hud = $"hud_layer/hud"
 
 	if hud.has_node("tooltip"):
-		tooltip = hud.get_node("tooltip")
+		var tooltip = hud.get_node("tooltip")
+		vm.register_tooltip(tooltip)
 
 	# Add inventory to hud layer, usually hud_minimal.tscn, if found in project settings
 	# and not present in the `game` scene's hud.
