@@ -17,6 +17,12 @@ func clear_scene():
 	if current == null:
 		return
 
+	vm.clear_overlapped_obj()
+	vm.clear_current_action()
+	vm.clear_current_tool()
+	if vm.hover_object:
+		vm.hover_end()
+
 	get_node("/root").remove_child(current)
 	current.free()
 	current = null
@@ -92,8 +98,9 @@ func menu_collapse():
 
 func set_current_scene(p_scene, run_events=true):
 	#print_stack()
+
 	current = p_scene
-	get_node("/root").move_child(current, 0)
+	$"/root".move_child(current, 0)
 
 	# Loading a save game must set the scene but not run events
 	if "events_path" in current and current.events_path and run_events:

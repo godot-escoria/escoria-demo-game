@@ -33,7 +33,13 @@ var cam_speed = 0
 var camera
 var camera_limits
 
-var hover_object = null
+## One game, one VM; there are many things we can have only one of, track them here.
+var tooltip = null         # The tooltip scene, registered by game.gd
+var hover_object = null    # Best-effort attempt to track what's under the mouse
+var overlapped_obj = null  # Would be covered by eg. a collapsible inventory ("cache" tooltip)
+
+var current_action = ""    # Verb or action menu button
+var current_tool = null    # Item chosen from inventory
 
 var last_autosave = 0
 var autosave_pending = false
@@ -132,9 +138,10 @@ func music_volume_changed():
 	emit_signal("music_volume_changed")
 
 func hover_begin(obj):
-	hover_object = obj
+	assert obj is esc_type.ITEM or obj is esc_type.TRIGGER
 
 	get_tree().call_group("hud", "set_tooltip_visible", true)
+	hover_object = obj
 
 func hover_end():
 	assert hover_object
@@ -476,6 +483,10 @@ func set_globals(pat, val):
 func get_global_list():
 	return ProjectSettings.keys()
 
+func register_tooltip(p_tooltip):
+	# XXX: Maybe tooltip should have a type and it checked here
+	tooltip = p_tooltip
+
 func get_object(name):
 	if !(name in objects):
 		return null
@@ -518,6 +529,51 @@ func set_use_action_menu(obj, should_use_action_menu):
 func set_speed(obj, speed):
 	if obj is esc_type.INTERACTIVE:
 		obj.speed = speed
+
+func set_current_action(p_action):
+	assert typeof(p_action) == TYPE_STRING
+
+	if p_action != current_action:
+		clear_current_tool()
+
+	current_action = p_action
+
+func clear_current_action():
+	set_current_action("")
+
+func set_current_tool(p_tool):
+	if p_tool:
+		assert p_tool is esc_type.ITEM
+		assert p_tool.inventory
+
+	current_tool = p_tool
+
+func clear_current_tool():
+	current_tool = null
+
+func set_overlapped_obj(obj):
+	assert obj is esc_type.ITEM or obj is esc_type.TRIGGER
+	if obj is esc_type.ITEM:
+		assert not obj.inventory
+
+	overlapped_obj = obj
+
+func reset_overlapped_obj():
+	if overlapped_obj:
+		if overlapped_obj is esc_type.ITEM:
+			assert not overlapped_obj.inventory
+			overlapped_obj.emit_signal("mouse_enter_item", overlapped_obj)
+		elif overlapped_obj is esc_type.TRIGGER:
+			overlapped_obj.emit_signal("mouse_enter_trigger", overlapped_obj)
+
+func clear_overlapped_obj():
+	overlapped_obj = null
+
+func maybe_hide_tooltip():
+	# We want to hide the tooltip from a collapsible inventory, but not if
+	# an item has been selected as `current_tool`.
+	if not current_tool:
+		get_tree().call_group("hud", "set_tooltip_visible", false)
 
 func object_exit_scene(name):
 	objects.erase(name)
