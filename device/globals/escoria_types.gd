@@ -10,3 +10,5 @@ const BACKGROUND = preload("res://globals/background.gd")
 const PLAYER = preload("res://globals/player.gd")
 const SCENE = preload("res://globals/scene.gd")
 const TARGET = preload("res://globals/target.gd")
+const TOOLTIP = preload("res://globals/tooltip.gd")
+
