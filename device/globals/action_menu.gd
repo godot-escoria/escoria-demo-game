@@ -12,7 +12,7 @@ func action_pressed(action):
 func target_visibility_changed():
 	stop()
 
-func clamped_position(click_pos):
+func _clamp(click_pos):
 	var width = float(ProjectSettings.get("display/window/size/width"))
 	var height = float(ProjectSettings.get("display/window/size/height"))
 	var my_size = get_size()
@@ -58,6 +58,9 @@ func stop(show_tooltip=true):
 	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse") and show_tooltip:
 		# If there's an `overlapped_obj`, let it handle the tooltip part
 		vm.reset_overlapped_obj()
+
+func set_position(pos):
+	.set_position(_clamp(pos))
 
 func _ready():
 	var acts = get_node("actions")
