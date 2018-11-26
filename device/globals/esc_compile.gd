@@ -388,7 +388,7 @@ func read_events(f, ret, errors):
 					ev_split[1] = ev_split[1].strip_edges()
 					ev_flags = ev_split[1].split(" ")
 
-			ret[ev] = EscoriaEvent.new(ev, level, ev_flags)
+			ret[ev] = EscoriaEvent.new(ev, level, Array(ev_flags))
 			if abort:
 				return abort
 

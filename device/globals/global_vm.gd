@@ -401,8 +401,25 @@ func add_level(p_event, p_root):
 
 	return state_call
 
+func _find_say(level):
+	# Recursive helper to see if we have the `say` command,
+	# so we can auto-hide a tooltip that follows the mouse
+	for command in level:
+		if command.name == "say":
+			return true
+		elif command.name == "branch":
+			return _find_say(command.params)
+
+	return false
+
 func run_event(p_event):
 	printt("run_event: ", p_event.ev_name, p_event.ev_flags)
+	# When the tooltip follows the mouse, you must use `NO_TT` to hide it
+	# during dialog or it looks bad. It's easy to miss, so let's automate!
+	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse") and not "NO_TT" in p_event.ev_flags:
+		var need_no_tt = _find_say(p_event.ev_level)
+		if need_no_tt:
+			p_event.ev_flags.push_back("NO_TT")
 
 	running_event = p_event
 	if p_event.ev_name == "setup":
