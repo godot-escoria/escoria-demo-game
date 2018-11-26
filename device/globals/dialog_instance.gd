@@ -90,7 +90,7 @@ func finish():
 	# after speech, until the mouse is moved.
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "reset_overlapped_obj")
 
-func clamped_position(dialog_pos):
+func _clamp(dialog_pos):
 	var width = float(ProjectSettings.get("display/window/size/width"))
 	var height = float(ProjectSettings.get("display/window/size/height"))
 	var my_size = $"anchor/text".get_size()
@@ -152,7 +152,6 @@ func init(p_params, p_context, p_intro, p_outro):
 
 		var pos = dialog_pos.global_position
 		pos = vm.zoom_transform.xform(pos)
-		pos = clamped_position(pos)
 		set_position(pos)
 
 	if has_node("anchor/avatars"):
@@ -269,6 +268,9 @@ func anim_finished(anim_name):
 		set_process(true)
 	if cur == "hide":
 		_queue_free()
+
+func set_position(pos):
+	.set_position(_clamp(pos))
 
 func _ready():
 	speech_suffix = ProjectSettings.get_setting("escoria/application/speech_suffix")
