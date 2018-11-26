@@ -38,6 +38,38 @@ func force_tooltip_visible(p_force_hide_tooltip):
 func set_visible(p_visible):
 	visible = p_visible
 
+func _clamp(tt_pos):
+	var width = float(ProjectSettings.get("display/window/size/width"))
+	var height = float(ProjectSettings.get("display/window/size/height"))
+	var tt_size = self.get_size()
+	var center_offset = tt_size.x / 2
+
+	# We want to have the center of the tooltip above where the cursor is, compensate first
+	tt_pos.x -= center_offset  # Shift it half-way to the left
+	tt_pos.y -= tt_size.y  # Shift it one size up
+
+	var dist_from_right = width - (tt_pos.x + tt_size.x)  # Check if the right edge, not eg. center, is overflowing
+	var dist_from_left = tt_pos.x
+	var dist_from_bottom = height - (tt_pos.y + tt_size.y)
+	var dist_from_top = tt_pos.y
+
+	## XXX: Godot has serious issues with the width of the text, so tooltips need
+	## to be wide at a fixed size, which makes clamping a bit weird.
+	## The code is left here in case someone fixes Godot.
+	if dist_from_right < 0:
+		tt_pos.x += dist_from_right
+	if dist_from_left < 0:
+		tt_pos.x -= dist_from_left
+	if dist_from_bottom < 0:
+		tt_pos.y += dist_from_bottom
+	if dist_from_top < 0:
+		tt_pos.y -= dist_from_top
+
+	return tt_pos
+
+func set_position(pos):
+	.set_position(_clamp(pos))
+
 func _ready():
 	vm.register_tooltip(self)
 
