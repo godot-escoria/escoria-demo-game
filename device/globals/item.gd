@@ -27,6 +27,7 @@ export var dynamic_z_index = true
 export var speed = 300
 export var scale_on_map = false
 export var light_on_map = false setget set_light_on_map
+export var is_interactive = true
 
 var anim_notify = null
 var anim_scale_override = null
@@ -474,42 +475,49 @@ func _ready():
 	if Engine.is_editor_hint():
 		return
 
-	var area
-	if has_node("area"):
-		area = get_node("area")
-		# XXX: Inventory items as Area2D did not work. z-index?
-		if not self.inventory and not area is Area2D:
-			vm.report_errors("item", ["Child area is not Area2D in " + self.global_id])
-		elif self.inventory and not area is TextureRect:
-			vm.report_errors("inventory item", ["Child area is not TextureRect in " + self.global_id])
-	else:
-		area = self
-		# Bodyless NPCs, eg. voices through walls, are Position2D
-		if not area is Area2D and not area is Position2D:
-			vm.report_errors("item", ["Background item area is not Area2D in " + self.global_id])
+	# {{{ Check for interaction area and connect signals only if the item is interactive
+	if is_interactive:
+		var area
+		if has_node("area"):
+			area = get_node("area")
+			# XXX: Inventory items as Area2D did not work. z-index?
+			if not self.inventory and not area is Area2D:
+				vm.report_errors("item", ["Child area is not Area2D in " + self.global_id])
+			elif self.inventory and not area is TextureRect:
+				vm.report_errors("inventory item", ["Child area is not TextureRect in " + self.global_id])
+		else:
+			area = self
+			if not area is Area2D:
+				vm.report_errors("item", ["Background item area is not Area2D in " + self.global_id])
 
-	if ClassDB.class_has_signal(area.get_class(), "input_event"):
-		area.connect("input_event", self, "area_input")
-	elif ClassDB.class_has_signal(area.get_class(), "gui_input"):
-		area.connect("gui_input", self, "input")
-	else:
-		vm.report_warnings("item", ["No input events possible for global_id " + global_id])
+		if ClassDB.class_has_signal(area.get_class(), "input_event"):
+			area.connect("input_event", self, "area_input")
+		elif ClassDB.class_has_signal(area.get_class(), "gui_input"):
+			area.connect("gui_input", self, "input")
+		else:
+			vm.report_warnings("item", ["No input events possible for global_id " + global_id])
 
-	# These signals proxy the proper signals for regular and inventory items
-	if ClassDB.class_has_signal(area.get_class(), "mouse_entered"):
-		area.connect("mouse_entered", self, "mouse_enter")
-		area.connect("mouse_exited", self, "mouse_exit")
+		# These signals proxy the proper signals for regular and inventory items
+		if ClassDB.class_has_signal(area.get_class(), "mouse_entered"):
+			area.connect("mouse_entered", self, "mouse_enter")
+			area.connect("mouse_exited", self, "mouse_exit")
 
-	connect("left_click_on_item", $"/root/scene/game", "ev_left_click_on_item")
-	connect("left_dblclick_on_item", $"/root/scene/game", "ev_left_dblclick_on_item")
-	connect("left_click_on_inventory_item", $"/root/scene/game", "ev_left_click_on_inventory_item")
-	connect("right_click_on_item", $"/root/scene/game", "ev_right_click_on_item")
-	connect("right_click_on_inventory_item", $"/root/scene/game", "ev_right_click_on_inventory_item")
+		connect("left_click_on_item", $"/root/scene/game", "ev_left_click_on_item")
+		connect("left_dblclick_on_item", $"/root/scene/game", "ev_left_dblclick_on_item")
+		connect("left_click_on_inventory_item", $"/root/scene/game", "ev_left_click_on_inventory_item")
+		connect("right_click_on_item", $"/root/scene/game", "ev_right_click_on_item")
+		connect("right_click_on_inventory_item", $"/root/scene/game", "ev_right_click_on_inventory_item")
 
-	connect("mouse_enter_item", $"/root/scene/game", "ev_mouse_enter_item")
-	connect("mouse_enter_inventory_item", $"/root/scene/game", "ev_mouse_enter_inventory_item")
-	connect("mouse_exit_item", $"/root/scene/game", "ev_mouse_exit_item")
-	connect("mouse_exit_inventory_item", $"/root/scene/game", "ev_mouse_exit_inventory_item")
+		connect("mouse_enter_item", $"/root/scene/game", "ev_mouse_enter_item")
+		connect("mouse_enter_inventory_item", $"/root/scene/game", "ev_mouse_enter_inventory_item")
+		connect("mouse_exit_item", $"/root/scene/game", "ev_mouse_exit_item")
+		connect("mouse_exit_inventory_item", $"/root/scene/game", "ev_mouse_exit_inventory_item")
+
+		if interact_position:
+			interact_pos = get_node(interact_position)
+		elif has_node("interact_pos"):
+			interact_pos = $"interact_pos"
+		# }}}
 
 	if events_path != "":
 		event_table = vm.compile(events_path)
@@ -524,12 +532,6 @@ func _ready():
 		animation.connect("animation_finished", self, "anim_finished")
 
 	_check_focus(false, false)
-
-	if interact_position:
-		interact_pos = get_node(interact_position)
-	elif has_node("interact_pos"):
-		interact_pos = $"interact_pos"
-
 
 	if has_node("../terrain"):
 		terrain = get_node("../terrain")
