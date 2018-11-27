@@ -276,32 +276,22 @@ func ev_mouse_enter_inventory_item(obj):
 			return
 
 		# {{{ tooltip handling
-		if inventory.blocks_tooltip():
-			if not vm.current_action:
-				text = tr(tt)
-			else:
-				var action = inventory.get_action()
-				if action == "":
-					action = vm.current_action
-
-				if vm.current_tool and vm.current_tool != obj:
-					text = tr(vm.current_action + ".combine_id")
-					text = text.replace("%2", tr(tt))
-					text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
-				elif vm.current_tool:
-					text = tr(action + ".id")
-					text = text.replace("%1", tr(tt))
-
-			vm.hover_begin(obj)
+		if not vm.current_action:
+			text = tr(tt)
 		else:
-			if not vm.current_action:
-				text = tr(tt)
-			else:
-				var action = inventory.get_action()
-				if action == "":
-					action = vm.current_action
+			var action = inventory.get_action()
+			if action == "":
+				action = vm.current_action
+
+			if vm.current_tool and vm.current_tool != obj:
+				text = tr(vm.current_action + ".combine_id")
+				text = text.replace("%2", tr(tt))
+				text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
+			elif vm.current_tool:
 				text = tr(action + ".id")
 				text = text.replace("%1", tr(tt))
+
+		vm.hover_begin(obj)
 		# }}}
 
 		# When following the mouse, prevent text from flashing for a moment in the wrong place
