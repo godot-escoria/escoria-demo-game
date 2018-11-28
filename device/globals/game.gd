@@ -58,6 +58,14 @@ func ev_left_click_on_bg(obj, pos, event):
 
 	var walk_context = {"fast": event.doubleclick}
 
+	# Make it possible to abort an interaction before the player interacts
+	if player.interact_status == player.INTERACT_WALKING:
+		# by overriding the interaction status
+		player.interact_status = player.INTERACT_NONE
+		player.params_queue = null
+		player.walk_to(pos, walk_context)
+		return
+
 	if click:
 		click.set_position(pos)
 	if click_anim:
@@ -93,6 +101,16 @@ func ev_left_click_on_item(obj, pos, event):
 		inventory.close()
 		return
 
+	var walk_context = {"fast": event.doubleclick}
+
+	# Make it possible to abort an interaction before the player interacts
+	if player.interact_status == player.INTERACT_WALKING:
+		# by overriding the interaction status
+		player.interact_status = player.INTERACT_NONE
+		player.params_queue = null
+		player.walk_to(pos, walk_context)
+		return
+
 	var obj_action = obj.get_action()
 	var action = "walk"
 
@@ -102,8 +120,6 @@ func ev_left_click_on_item(obj, pos, event):
 			action = obj_action
 		elif default_obj_action:
 			action = default_obj_action
-
-	var walk_context = {"fast": event.doubleclick}
 
 	if click:
 		click.set_position(pos)
@@ -130,6 +146,15 @@ func ev_left_dblclick_on_item(obj, pos, event):
 		vm.action_menu.stop()
 		return
 
+	var walk_context = {"fast": event.doubleclick}
+
+	# Make it possible to abort an interaction before the player interacts
+	if player.interact_status == player.INTERACT_WALKING:
+		# by overriding the interaction status
+		player.interact_status = player.INTERACT_NONE
+		player.params_queue = null
+		player.walk_to(pos, walk_context)
+
 	var obj_action = obj.get_action()
 	var action = "walk"
 
@@ -155,7 +180,6 @@ func ev_left_dblclick_on_item(obj, pos, event):
 
 		player.interact([obj, action, vm.current_tool])
 	else:
-		var walk_context = {"fast": event.doubleclick}
 		player.walk_to(pos, walk_context)
 
 func ev_right_click_on_item(obj, pos, event):
