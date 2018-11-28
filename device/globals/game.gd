@@ -2,7 +2,6 @@ extends Node
 
 var player
 var mode = "default"
-var action_menu = null
 var inventory
 export(String,FILE) var fallbacks_path = ""
 export var inventory_enabled = true setget set_inventory_enabled
@@ -17,9 +16,6 @@ export var drag_margin_top = 0.2
 export var drag_margin_right = 0.2
 export var drag_margin_bottom = 0.2
 
-var current_action = ""
-var current_tool = null
-
 var click
 var click_anim
 
@@ -29,175 +25,8 @@ var obj_action_req_dblc
 var camera
 export var camera_limits = Rect2()
 
-var tooltip
-# This is used to "cache" a hidden tooltip
-var overlapped_obj
-
 func set_mode(p_mode):
 	mode = p_mode
-
-func set_overlapped_obj(obj):
-	overlapped_obj = obj
-
-func reset_overlapped_obj():
-	if overlapped_obj:
-		return mouse_enter(overlapped_obj)
-
-func maybe_hide_tooltip():
-	# We want to hide the tooltip from a collapsible inventory, but not if
-	# an item has been selected as `current_tool`.
-	if not current_tool:
-		get_tree().call_group("hud", "set_tooltip_visible", false)
-
-func tooltip_clamped_position(tt_pos):
-	var width = float(ProjectSettings.get("display/window/size/width"))
-	var height = float(ProjectSettings.get("display/window/size/height"))
-	var tt_size = tooltip.get_size()
-	var center_offset = tt_size.x / 2
-
-	# We want to have the center of the tooltip above where the cursor is, compensate first
-	tt_pos.x -= center_offset  # Shift it half-way to the left
-	tt_pos.y -= tt_size.y  # Shift it one size up
-
-	var dist_from_right = width - (tt_pos.x + tt_size.x)  # Check if the right edge, not eg. center, is overflowing
-	var dist_from_left = tt_pos.x
-	var dist_from_bottom = height - (tt_pos.y + tt_size.y)
-	var dist_from_top = tt_pos.y
-
-	## XXX: Godot has serious issues with the width of the text, so tooltips need
-	## to be wide at a fixed size, which makes clamping a bit weird.
-	## The code is left here in case someone fixes Godot.
-	if dist_from_right < 0:
-		tt_pos.x += dist_from_right
-	if dist_from_left < 0:
-		tt_pos.x -= dist_from_left
-	if dist_from_bottom < 0:
-		tt_pos.y += dist_from_bottom
-	if dist_from_top < 0:
-		tt_pos.y -= dist_from_top
-
-	return tt_pos
-
-func mouse_enter(obj):
-	if overlapped_obj and overlapped_obj != obj:
-		# Be sure we have exited the other object, because
-		# sometimes item2's `mouse_entered` happens before
-		# item1's `mouse_exited`. This causes the tooltip to disappear!
-		if overlapped_obj.has_node("area"):
-			yield(overlapped_obj.get_node("area"), "mouse_exited")
-		else:
-			yield(overlapped_obj, "mouse_exited")
-
-	# Immediately bail out if the action menu is open
-	if action_menu and action_menu.is_visible():
-		assert(!tooltip.visible)
-		return
-
-	# Store overlapped_obj just in case we try to open the inventory
-	# or the in-game menu, but not for inventory objects
-	if not "inventory" in obj or not obj.inventory:
-		set_overlapped_obj(obj)
-
-	var text
-	var tt = obj.get_tooltip()
-
-	# XXX: The warning report may be removed if it turns out to be too annoying in practice
-	if not tt:
-		vm.report_warnings("game", ["No tooltip for item " + obj.name])
-		# For a passive item, it's fine to set an empty tooltip, but if we have a passive and
-		# an active esc_type.ITEM overlapping, say a window and a light that will move later,
-		# the tooltip may be emptied by the light not having a tooltip. This is because the
-		# `mouse_enter` events have no guaranteed order.
-		return
-
-	# When following the mouse, prevent text from flashing for a moment in the wrong place
-	if tooltip and ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
-		var pos = get_viewport().get_mouse_position()
-
-		pos = tooltip_clamped_position(pos)
-
-		tooltip.set_position(pos)
-
-	# We must hide all non-inventory tooltips and interactions when the inventory is open
-	if inventory and inventory.blocks_tooltip():
-		if obj is esc_type.ITEM and obj.inventory:
-			if !current_action:
-				text = tr(tt)
-			else:
-				var action = inventory.get_action()
-				if action == "":
-					action = current_action
-
-				if current_tool:
-					text = tr(current_action + ".combine_id")
-					text = text.replace("%2", tr(tt))
-					text = text.replace("%1", tr(current_tool.get_tooltip()))
-				else:
-					text = tr(action + ".id")
-					text = text.replace("%1", tr(tt))
-
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
-			vm.hover_begin(obj)
-	else:
-		if obj is esc_type.ITEM:
-			if current_action != "" and current_tool != null:
-				if tt:
-					text = tr(current_action + ".combine_id")
-					text = text.replace("%2", tr(tt))
-					text = text.replace("%1", tr(current_tool.get_tooltip()))
-			elif obj.inventory:
-				if !current_action:
-					text = tr(tt)
-				elif inventory:
-					var action = inventory.get_action()
-					if action == "":
-						action = current_action
-					text = tr(action + ".id")
-					text = text.replace("%1", tr(tt))
-			else:
-				text = tt
-		else:
-			text = tt
-
-		get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "hud", "set_tooltip", text)
-		vm.hover_begin(obj)
-
-func mouse_exit(obj):
-	# If we don't return here, and the cursor is moved around over
-	# items with the action menu open, we would get an empty tooltip
-	# when the action menu closes
-	if action_menu and action_menu.is_visible():
-		assert(!tooltip.visible)
-		return
-
-	var text
-	#var tt = obj.get_tooltip()
-	if current_action != "" && current_tool != null:
-		text = tr(current_action + ".id")
-		text = text.replace("%1", tr(current_tool.get_tooltip()))
-	else:
-		text = ""
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "hud", "set_tooltip", text)
-
-	# Want to retain the hover if the player is about to perform an action
-	if !current_action and vm.hover_object:
-		vm.hover_end()
-
-	overlapped_obj = null
-
-func clear_action():
-	current_tool = null
-	# It is logical for action menus' actions to be cleared, but verb menus to persist
-	if action_menu:
-		current_action = ""
-
-func set_current_action(p_act):
-	if p_act != current_action:
-		set_current_tool(null)
-	current_action = p_act
-
-func set_current_tool(p_tool):
-	current_tool = p_tool
 
 func can_click():
 	# Check certain global state to see if an object could be clicked
@@ -219,8 +48,8 @@ func ev_left_click_on_bg(obj, pos, event):
 	if not can_click():
 		return
 
-	if action_menu:
-		action_menu.stop()
+	if vm.action_menu:
+		vm.action_menu.stop()
 
 	# If it's possible to click outside the inventory, don't walk but only close it
 	if inventory and inventory.blocks_tooltip():
@@ -229,6 +58,14 @@ func ev_left_click_on_bg(obj, pos, event):
 
 	var walk_context = {"fast": event.doubleclick}
 
+	# Make it possible to abort an interaction before the player interacts
+	if player.interact_status == player.INTERACT_WALKING:
+		# by overriding the interaction status
+		player.interact_status = player.INTERACT_NONE
+		player.params_queue = null
+		player.walk_to(pos, walk_context)
+		return
+
 	if click:
 		click.set_position(pos)
 	if click_anim:
@@ -236,10 +73,12 @@ func ev_left_click_on_bg(obj, pos, event):
 
 	player.walk_to(pos, walk_context)
 	# Leave the tooltip if the player is in eg. a "use key with" state
-	if !current_action and vm.hover_object:
+	if not vm.current_action and vm.hover_object:
 		vm.hover_end()
 
-	maybe_hide_tooltip()
+	if vm.tooltip:
+		if not vm.current_tool:
+			vm.tooltip.hide()
 
 func ev_left_click_on_item(obj, pos, event):
 	printt(obj.name, "left-clicked at", pos, "with", event, can_click())
@@ -247,13 +86,29 @@ func ev_left_click_on_item(obj, pos, event):
 	if not can_click():
 		return
 
-	if action_menu and obj.use_action_menu:
+	if vm.action_menu and obj.use_action_menu:
 		if !ProjectSettings.get_setting("escoria/ui/right_mouse_button_action_menu"):
 			spawn_action_menu(obj)
 			return
+		elif vm.action_menu.is_visible():
+			# XXX: Can't close action menu here or doubleclick would cause an action
+			if obj == vm.hover_object:
+				return
+			else:
+				vm.action_menu.stop()
 
 	if inventory and inventory.blocks_tooltip():
 		inventory.close()
+		return
+
+	var walk_context = {"fast": event.doubleclick}
+
+	# Make it possible to abort an interaction before the player interacts
+	if player.interact_status == player.INTERACT_WALKING:
+		# by overriding the interaction status
+		player.interact_status = player.INTERACT_NONE
+		player.params_queue = null
+		player.walk_to(pos, walk_context)
 		return
 
 	var obj_action = obj.get_action()
@@ -266,8 +121,6 @@ func ev_left_click_on_item(obj, pos, event):
 		elif default_obj_action:
 			action = default_obj_action
 
-	var walk_context = {"fast": event.doubleclick}
-
 	if click:
 		click.set_position(pos)
 	if click_anim:
@@ -279,15 +132,28 @@ func ev_left_click_on_item(obj, pos, event):
 	player.walk_to(pos, walk_context)
 
 	# XXX: Interacting with current_tool etc should be a signal
-	if action != "walk" or current_action:
+	if action != "walk" or vm.current_action:
 		if inventory and not inventory.blocks_tooltip():
-			player.interact([obj, current_action, current_tool])
+			player.interact([obj, vm.current_action, vm.current_tool])
 
 func ev_left_dblclick_on_item(obj, pos, event):
 	printt(obj.name, "left-dblclicked at", pos, "with", event, can_click())
 
 	if not can_click():
 		return
+
+	if vm.action_menu and vm.action_menu.is_visible():
+		vm.action_menu.stop()
+		return
+
+	var walk_context = {"fast": event.doubleclick}
+
+	# Make it possible to abort an interaction before the player interacts
+	if player.interact_status == player.INTERACT_WALKING:
+		# by overriding the interaction status
+		player.interact_status = player.INTERACT_NONE
+		player.params_queue = null
+		player.walk_to(pos, walk_context)
 
 	var obj_action = obj.get_action()
 	var action = "walk"
@@ -304,10 +170,17 @@ func ev_left_dblclick_on_item(obj, pos, event):
 	if click_anim:
 		click_anim.play("click")
 
-	var walk_context = {"fast": event.doubleclick}
-	player.walk_to(pos, walk_context)
 	if action != "walk":
-		player.interact([obj, action, current_tool])
+		# Resolve telekinesis
+		if action in obj.event_table:
+			var telekinetic = "TK" in obj.event_table[action]["ev_flags"]
+			if player.task == "walk":
+				player.walk_stop(player.get_position())
+				vm.clear_current_action()
+
+		player.interact([obj, action, vm.current_tool])
+	else:
+		player.walk_to(pos, walk_context)
 
 func ev_right_click_on_item(obj, pos, event):
 	printt(obj.name, "right-clicked at", pos, "with", event, can_click())
@@ -331,17 +204,19 @@ func ev_left_click_on_inventory_item(obj, pos, event):
 		return
 
 	# Use and look are the only valid choices with an action menu
-	if action_menu:
-		current_action = "use"
+	if vm.action_menu:
+		vm.set_current_action("use")
 		# XXX: Setting an action here does not update the tooltip like `mouse_enter` does. Compensate.
-		var text = tr("use.id")
-		text = text.replace("%1", tr(obj.get_tooltip()))
-		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", text)
+		if vm.tooltip:
+			var text = tr("use.id")
+			text = text.replace("%1", tr(obj.get_tooltip()))
+			vm.tooltip.set_tooltip(text)
 
-	if current_action == "use" && obj.use_combine && current_tool == null:
-		set_current_tool(obj)
-	else:
-		interact([obj, current_action, current_tool])
+	if vm.current_action == "use" and obj.use_combine:
+		if not vm.current_tool:
+			vm.set_current_tool(obj)
+		elif vm.current_tool != obj:
+			interact([obj, vm.current_action, vm.current_tool])
 
 func ev_right_click_on_inventory_item(obj, pos, event):
 	printt(obj.name, "right-clicked at", pos, "with", event, can_click())
@@ -353,25 +228,229 @@ func ev_right_click_on_inventory_item(obj, pos, event):
 	interact([obj, "look"])
 	# XXX: Moving the mouse during `:look` will cause the tooltip to disappear
 	# so the following is a good-enough-for-now fix for it
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip", obj.get_tooltip())
+	if vm.tooltip:
+		vm.tooltip.set_tooltip(obj.get_tooltip())
+
 	vm.hover_begin(obj)
 
+func ev_mouse_enter_item(obj):
+	assert not obj.inventory
+	printt(obj.name, "mouse_enter_item")
+
+	## XXX: Would want a design where this is not relevant!
+	if vm.overlapped_obj and vm.overlapped_obj != obj:
+		# Be sure we have exited the other object, because
+		# sometimes item2's `mouse_entered` happens before
+		# item1's `mouse_exited`. This causes the tooltip to disappear!
+		yield(vm.overlapped_obj, "mouse_exit_item")
+
+	vm.set_overlapped_obj(obj)
+
+	# Immediately bail out if the action menu is open
+	if vm.action_menu and vm.action_menu.is_visible():
+		assert(!vm.tooltip.visible)
+		return
+
+	# Also bail out if inventory blocks us
+	if inventory and inventory.blocks_tooltip():
+		return
+
+	if vm.tooltip:
+		var tt = obj.get_tooltip()
+		var text
+
+		# XXX: The warning report may be removed if it turns out to be too annoying in practice
+		if not tt:
+			vm.report_warnings("game", ["No tooltip for item " + obj.name])
+			# For a passive item, it's fine to set an empty tooltip, but if we have a passive and
+			# an active esc_type.ITEM overlapping, say a window and a light that will move later,
+			# the tooltip may be emptied by the light not having a tooltip. This is because the
+			# `mouse_enter` events have no guaranteed order.
+			return
+
+		# {{{ tooltip handling
+		if vm.current_action and vm.current_tool:
+			text = tr(vm.current_action + ".combine_id")
+			text = text.replace("%2", tr(tt))
+			text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
+		else:
+			text = tr(tt)
+		# }}}
+
+		# When following the mouse, prevent text from flashing for a moment in the wrong place
+		if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
+			var pos = get_viewport().get_mouse_position()
+
+			vm.tooltip.set_position(pos)
+
+		vm.tooltip.set_tooltip(text)
+		vm.tooltip.show()
+
+	vm.hover_begin(obj)
+
+func ev_mouse_enter_inventory_item(obj):
+	assert obj.inventory
+	printt(obj.name, "mouse_enter_inventory_item")
+
+	assert inventory
+
+	if vm.tooltip:
+		var tt = obj.get_tooltip()
+		var text
+
+		# XXX: The warning report may be removed if it turns out to be too annoying in practice
+		if not tt:
+			vm.report_warnings("game", ["No tooltip for item " + obj.name])
+			# For a passive item, it's fine to set an empty tooltip, but if we have a passive and
+			# an active esc_type.ITEM overlapping, say a window and a light that will move later,
+			# the tooltip may be emptied by the light not having a tooltip. This is because the
+			# `mouse_enter` events have no guaranteed order.
+			return
+
+		# {{{ tooltip handling
+		if not vm.current_action:
+			text = tr(tt)
+		else:
+			var action = inventory.get_action()
+			if action == "":
+				action = vm.current_action
+
+			if vm.current_tool and vm.current_tool != obj:
+				text = tr(vm.current_action + ".combine_id")
+				text = text.replace("%2", tr(tt))
+				text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
+			elif vm.current_tool:
+				text = tr(action + ".id")
+				text = text.replace("%1", tr(tt))
+
+		vm.hover_begin(obj)
+		# }}}
+
+		# When following the mouse, prevent text from flashing for a moment in the wrong place
+		if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
+			var pos = get_viewport().get_mouse_position()
+
+			vm.tooltip.set_position(pos)
+
+		vm.tooltip.set_tooltip(text)
+		vm.tooltip.show()
+
+	vm.hover_begin(obj)
+
+func ev_mouse_exit_item(obj):
+	printt(obj.name, "mouse_exit_item")
+
+	if vm.tooltip:
+		var text = ""
+
+		if vm.current_action and vm.current_tool:
+			text = tr(vm.current_action + ".id")
+			text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
+
+			vm.tooltip.set_tooltip(text)
+			vm.tooltip.show()
+		else:
+			vm.tooltip.hide()
+
+	# Want to retain the hover if the player is about to perform an action
+	if not vm.current_action and vm.hover_object:
+		vm.hover_end()
+
+	vm.clear_overlapped_obj()
+
+func ev_mouse_exit_inventory_item(obj):
+	printt(obj.name, "mouse_exit_inventory_item")
+
+	# If we don't return here, and the cursor is moved around over
+	# items with the action menu open, we would get an empty tooltip
+	# when the action menu closes
+	if vm.action_menu and vm.action_menu.is_visible():
+		assert(!vm.tooltip.visible)
+		return
+
+	if vm.tooltip:
+		var text = ""
+
+		if vm.current_action and vm.current_tool:
+			text = tr(vm.current_action + ".id")
+			text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
+
+			vm.tooltip.set_tooltip(text)
+			vm.tooltip.show()
+		else:
+			vm.tooltip.hide()
+
+	# Want to retain the hover if the player is about to perform an action
+	if not vm.current_action and vm.hover_object:
+		vm.hover_end()
+
+func ev_mouse_enter_trigger(obj):
+	printt(obj.name, "mouse_enter_trigger")
+
+	# Immediately bail out if the action menu is open
+	if vm.action_menu and vm.action_menu.is_visible():
+		assert(!vm.tooltip.visible)
+		return
+
+	# Also bail out if inventory blocks us
+	if inventory and inventory.blocks_tooltip():
+		return
+
+	if vm.tooltip:
+		var tt = obj.get_tooltip()
+		var text
+
+		# XXX: The warning report may be removed if it turns out to be too annoying in practice
+		if not tt:
+			vm.report_warnings("game", ["No tooltip for trigger " + obj.name])
+			# For a passive item, it's fine to set an empty tooltip, but if we have a passive and
+			# an active esc_type.ITEM overlapping, say a window and a light that will move later,
+			# the tooltip may be emptied by the light not having a tooltip. This is because the
+			# `mouse_enter` events have no guaranteed order.
+			return
+
+		text = tr(tt)
+
+		# When following the mouse, prevent text from flashing for a moment in the wrong place
+		if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
+			var pos = get_viewport().get_mouse_position()
+
+			vm.tooltip.set_position(pos)
+
+		vm.tooltip.set_tooltip(text)
+		vm.tooltip.show()
+
+	vm.set_overlapped_obj(obj)
+	vm.hover_begin(obj)
+
+func ev_mouse_exit_trigger(obj):
+	printt(obj.name, "mouse_exit_trigger")
+
+	if vm.tooltip:
+		var text = ""
+
+		if vm.current_action and vm.current_tool:
+			text = tr(vm.current_action + ".id")
+			text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
+
+			vm.tooltip.set_tooltip(text)
+			vm.tooltip.show()
+		else:
+			vm.tooltip.hide()
+
+	vm.clear_overlapped_obj()
+
 func spawn_action_menu(obj):
-	if action_menu == null:
+	if vm.action_menu == null:
 		return
 
 	if player:
 		player.walk_stop(player.position)
 
 	var pos = get_viewport().get_mouse_position()
-	var am_pos = action_menu.clamped_position(pos)
-	action_menu.set_position(am_pos)
-	action_menu.show()
-	action_menu.start(obj)
-	#obj.grab_focus()
-
-func stop_action_menu(show_tooltip):
-	action_menu.stop(show_tooltip)
+	vm.action_menu.set_position(pos)
+	vm.action_menu.show()
+	vm.action_menu.start(obj)
 
 func action_menu_selected(obj, action):
 	if action == "use" && obj.get_action() != "":
@@ -380,18 +459,18 @@ func action_menu_selected(obj, action):
 		player.interact([obj, action])
 	else:
 		interact([obj, action])
-	action_menu.stop()
+	vm.action_menu.stop()
 
 func interact(p_params):
 	if mode == "default":
 		var obj = p_params[0]
-		clear_action()
+		vm.clear_action()
 		var action = p_params[1]
 		if !action:
 			action = obj.get_action()
 
 		if p_params.size() > 2:
-			clear_action()
+			vm.clear_action()
 			if obj == p_params[2]:
 				return
 			#inventory.close()
@@ -399,7 +478,7 @@ func interact(p_params):
 		else:
 			#inventory.close()
 			activate(obj, action)
-			clear_action()
+			vm.clear_action()
 		return
 
 func activate(obj, action, param = null):
@@ -449,9 +528,9 @@ func handle_menu_request():
 	var menu_enabled = vm.menu_enabled()
 	if vm.can_save() and vm.can_interact() and menu_enabled:
 		# Do not display overlay menu with action menu or inventory, it looks silly and weird
-		if action_menu:
-			if action_menu.is_visible():
-				action_menu.stop()
+		if vm.action_menu:
+			if vm.action_menu.is_visible():
+				vm.action_menu.stop()
 
 		# Forcibly close inventory without animation if collapsible and visible
 		if inventory and inventory.blocks_tooltip():
@@ -516,8 +595,7 @@ func _input(ev):
 	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
 		# Must verify `position` is there, key inputs do not have it
 		if vm.hover_object and "position" in ev:
-			var pos = tooltip_clamped_position(ev.position)
-			tooltip.set_global_position(pos)
+			vm.tooltip.set_position(ev.position)
 
 func set_inventory_enabled(p_enabled):
 	inventory_enabled = p_enabled
@@ -568,9 +646,6 @@ func load_hud():
 
 	var hud = $"hud_layer/hud"
 
-	if hud.has_node("tooltip"):
-		tooltip = hud.get_node("tooltip")
-
 	# Add inventory to hud layer, usually hud_minimal.tscn, if found in project settings
 	# and not present in the `game` scene's hud.
 	if inventory_enabled:
@@ -596,8 +671,8 @@ func load_hud():
 
 	# Add action menu to hud layer if found in project settings
 	if ProjectSettings.get_setting("escoria/ui/action_menu"):
-		action_menu = load(ProjectSettings.get_setting("escoria/ui/action_menu")).instance()
-		if action_menu and action_menu is esc_type.ACTION_MENU:
+		var action_menu = load(ProjectSettings.get_setting("escoria/ui/action_menu")).instance()
+		if action_menu:
 			$"hud_layer".add_child(action_menu)
 
 func _ready():

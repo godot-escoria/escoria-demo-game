@@ -1,5 +1,8 @@
 extends "res://globals/interactive.gd"
 
+signal mouse_enter_trigger
+signal mouse_exit_trigger
+
 export var tooltip = ""
 
 var hud
@@ -22,10 +25,10 @@ func get_tooltip():
 	return translated
 
 func mouse_enter():
-	get_tree().call_group("game", "mouse_enter", self)
+	emit_signal("mouse_enter_trigger", self)
 
 func mouse_exit():
-	get_tree().call_group("game", "mouse_exit", self)
+	emit_signal("mouse_exit_trigger", self)
 
 func area_input(viewport, event, shape_idx):
 	input(event)
@@ -95,6 +98,9 @@ func _ready():
 
 	connect("body_entered", self, "body_entered")
 	connect("body_exited", self, "body_exited")
+
+	connect("mouse_enter_trigger", $"/root/scene/game", "ev_mouse_enter_trigger")
+	connect("mouse_exit_trigger", $"/root/scene/game", "ev_mouse_exit_trigger")
 
 	vm.register_object(global_id, self)
 

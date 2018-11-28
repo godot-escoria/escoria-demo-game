@@ -149,6 +149,13 @@ set_active broom true [!i/inv_broom]
 Now it has been explicitly set and it will work. The underlying technical rationale is way beyond the scope of this reference; just trust us
 that it's the best way to go.
 
+Is item interactive?
+--------------------
+
+If you have something that only blocks the terrain, something you can move behind, you probably don't want to hassle with interaction areas
+and tooltip texts. In this case, just set `is_interactive` to `false` and the item will not be checked for areas and its mouse events will
+not be connected.
+
 Command list
 ------------
 

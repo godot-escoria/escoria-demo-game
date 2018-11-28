@@ -12,7 +12,7 @@ func action_pressed(action):
 func target_visibility_changed():
 	stop()
 
-func clamped_position(click_pos):
+func _clamp(click_pos):
 	var width = float(ProjectSettings.get("display/window/size/width"))
 	var height = float(ProjectSettings.get("display/window/size/height"))
 	var my_size = get_size()
@@ -44,7 +44,8 @@ func start(p_target):
 
 		# Do not display the tooltip alongside the menu
 		if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
-			get_tree().call_group("hud", "set_tooltip_visible", false)
+			if vm.tooltip:
+				vm.tooltip.hide()
 
 	var scale = ProjectSettings.get_setting("escoria/platform/action_menu_scale")
 	set_scale(Vector2(scale, scale))
@@ -55,14 +56,20 @@ func stop(show_tooltip=true):
 	target = null
 	hide()
 	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse") and show_tooltip:
-		get_tree().call_group("hud", "set_tooltip_visible", true)
+		# If there's an `overlapped_obj`, let it handle the tooltip part
+		vm.reset_overlapped_obj()
+
+func set_position(pos):
+	.set_position(_clamp(pos))
 
 func _ready():
-
 	var acts = get_node("actions")
+
 	for i in range(acts.get_child_count()):
 		var c = acts.get_child(i)
 		if !(c is BaseButton):
 			continue
 		c.connect("pressed", self, "action_pressed", [c.get_name()])
+
+	vm.register_action_menu(self)
 

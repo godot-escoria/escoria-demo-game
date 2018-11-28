@@ -33,11 +33,19 @@ var cam_speed = 0
 var camera
 var camera_limits
 
-var hover_object = null
+## One game, one VM; there are many things we can have only one of, track them here.
+var action_menu = null	   # If the game uses an action menu, register it here
+var tooltip = null         # The tooltip scene, registered by game.gd
+var hover_object = null    # Best-effort attempt to track what's under the mouse
+var overlapped_obj = null  # Would be covered by eg. a collapsible inventory ("cache" tooltip)
+
+var current_action = ""    # Verb or action menu button
+var current_tool = null    # Item chosen from inventory
 
 var last_autosave = 0
 var autosave_pending = false
 const AUTOSAVE_TIME_MS = 64 * 1000
+const DOUBLECLICK_TIMEOUT = 0.2  # seconds
 
 var save_data
 
@@ -132,20 +140,17 @@ func music_volume_changed():
 	emit_signal("music_volume_changed")
 
 func hover_begin(obj):
+	assert obj is esc_type.ITEM or obj is esc_type.TRIGGER
+
 	hover_object = obj
-	get_tree().call_group("hud", "set_tooltip_visible", true)
 
 func hover_end():
-	if hover_object:
-		## XXX: No idea why this works. Sets an empty tooltip and something.
-		# Cannot be called for inventory items. Prevents tooltip from following mouse O_o
-		if not hover_object.inventory:
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_UNIQUE, "game", "mouse_exit", self)
+	assert hover_object
 
-		# Without this, it's possible the event remains perpetually clicked
-		# when doing a drag-and-drop motion. Then the player will never move.
-		if "clicked" in hover_object:
-			hover_object.clicked = false
+	# Without this, it's possible the event remains perpetually clicked
+	# when doing a drag-and-drop motion. Then the player will never move.
+	if "clicked" in hover_object:
+		hover_object.clicked = false
 
 	hover_object = null
 
@@ -233,8 +238,12 @@ func set_hud_visible(p_visible):
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_visible", p_visible)
 
 func set_tooltip_visible(p_visible):
-	# This force-hides or "force-shows" the tooltip
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "force_tooltip_visible", p_visible)
+	# Wrapper that vm_level can use
+	if tooltip:
+		if p_visible:
+			tooltip.show()
+		else:
+			tooltip.hide()
 
 func dialog_config(params):
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "dialog", "config", params)
@@ -320,7 +329,8 @@ func dialog(params, level):
 
 	# Ensure tooltip is hidden. It may remain visible when the NPC finishes saying something
 	# and then `dialog` is called.
-	get_tree().call_group("hud", "set_tooltip_visible", false)
+	if tooltip:
+		tooltip.hide()
 	get_tree().call_group("dialog_dialog", "start", params, level)
 
 func end_dialog(params):
@@ -392,8 +402,25 @@ func add_level(p_event, p_root):
 
 	return state_call
 
+func _find_say(level):
+	# Recursive helper to see if we have the `say` command,
+	# so we can auto-hide a tooltip that follows the mouse
+	for command in level:
+		if command.name == "say":
+			return true
+		elif command.name == "branch":
+			return _find_say(command.params)
+
+	return false
+
 func run_event(p_event):
 	printt("run_event: ", p_event.ev_name, p_event.ev_flags)
+	# When the tooltip follows the mouse, you must use `NO_TT` to hide it
+	# during dialog or it looks bad. It's easy to miss, so let's automate!
+	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse") and not "NO_TT" in p_event.ev_flags:
+		var need_no_tt = _find_say(p_event.ev_level)
+		if need_no_tt:
+			p_event.ev_flags.push_back("NO_TT")
 
 	running_event = p_event
 	if p_event.ev_name == "setup":
@@ -404,13 +431,9 @@ func run_event(p_event):
 	else:
 		main.set_input_catch(true)
 
-		# Hide tooltip for even simple events. It's up to NO_TT to not react to
-		# mouse events making it visible between eg. `say` commands, but do not
-		# clear it because that would leave an empty tooltip after NO_TT.
-		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_tooltip_visible", false)
-
 		if "NO_TT" in p_event.ev_flags:
-			set_tooltip_visible(false)
+			if tooltip:
+				tooltip.hide()
 
 		if "NO_HUD" in p_event.ev_flags:
 			set_hud_visible(false)
@@ -428,7 +451,8 @@ func event_done(ev_name):
 			main.telon.cut_to_scene()
 	else:
 		if "NO_TT" in running_event.ev_flags:
-			set_tooltip_visible(true)
+			# Let an `overlapped_obj` deal with the tooltip if required
+			reset_overlapped_obj()
 
 		if "NO_HUD" in running_event.ev_flags:
 			# Do not restore hud if next event is also NO_HUD
@@ -479,6 +503,22 @@ func set_globals(pat, val):
 func get_global_list():
 	return ProjectSettings.keys()
 
+func register_tooltip(p_tooltip):
+	if tooltip and p_tooltip != tooltip:
+		assert p_tooltip is esc_type.TOOLTIP
+	elif not tooltip:
+		assert p_tooltip is esc_type.TOOLTIP
+
+	tooltip = p_tooltip
+
+func register_action_menu(p_action_menu):
+	if action_menu and p_action_menu != action_menu:
+		assert p_action_menu is esc_type.ACTION_MENU
+	elif not action_menu:
+		assert p_action_menu is esc_type.ACTION_MENU
+
+	action_menu = p_action_menu
+
 func get_object(name):
 	if !(name in objects):
 		return null
@@ -521,6 +561,52 @@ func set_use_action_menu(obj, should_use_action_menu):
 func set_speed(obj, speed):
 	if obj is esc_type.INTERACTIVE:
 		obj.speed = speed
+
+func set_current_action(p_action):
+	assert typeof(p_action) == TYPE_STRING
+
+	if p_action != current_action:
+		clear_current_tool()
+
+	current_action = p_action
+
+func clear_current_action():
+	set_current_action("")
+
+func clear_action():
+	vm.clear_current_tool()
+
+	# It is logical for action menus' actions to be cleared, but verb menus to persist
+	if action_menu:
+		vm.clear_current_action()
+
+func set_current_tool(p_tool):
+	if p_tool:
+		assert p_tool is esc_type.ITEM
+		assert p_tool.inventory
+
+	current_tool = p_tool
+
+func clear_current_tool():
+	current_tool = null
+
+func set_overlapped_obj(obj):
+	assert obj is esc_type.ITEM or obj is esc_type.TRIGGER
+	if obj is esc_type.ITEM:
+		assert not obj.inventory
+
+	overlapped_obj = obj
+
+func reset_overlapped_obj():
+	if overlapped_obj:
+		if overlapped_obj is esc_type.ITEM:
+			assert not overlapped_obj.inventory
+			overlapped_obj.emit_signal("mouse_enter_item", overlapped_obj)
+		elif overlapped_obj is esc_type.TRIGGER:
+			overlapped_obj.emit_signal("mouse_enter_trigger", overlapped_obj)
+
+func clear_overlapped_obj():
+	overlapped_obj = null
 
 func object_exit_scene(name):
 	objects.erase(name)

@@ -24,8 +24,18 @@ func open():
 	if is_visible():
 		return
 
-	get_tree().call_group("hud", "set_tooltip_visible", false)
-	get_tree().call_group("game", "stop_action_menu", false)  # show_tooltip false
+	if vm.tooltip:
+		# Hide if we don't have a tool
+		if not vm.current_tool:
+			vm.tooltip.hide()
+		# And this is where it gets fishy ...
+		else:
+			# ... because we must re-enter the item to get the tooltip sorted
+			vm.current_tool.emit_signal("mouse_enter_inventory_item", vm.current_tool)
+
+	if vm.action_menu:
+		# `false` is for show_tooltip=false
+		vm.action_menu.stop(false)
 
 	sort_items()
 
@@ -41,9 +51,17 @@ func close():
 	if !is_visible():
 		return
 
-	# There's no way to access variables across groups and non-globals,
-	# so do this instead. It hides the tooltip unless an item has been chosen as a tool.
-	get_tree().call_group("game", "maybe_hide_tooltip")
+	if vm.tooltip:
+		# We want to hide the tooltip from a collapsible inventory, but not if
+		# an item has been selected as `current_tool`.
+		if not vm.current_tool:
+			vm.tooltip.hide()
+		# But if we are closing while hovering ...
+		elif vm.hover_object:
+			# ... an inventory item ...
+			if vm.hover_object is esc_type.ITEM and vm.hover_object.inventory:
+				# ... we must exit it to sort out the tooltip
+				vm.hover_object.emit_signal("mouse_exit_inventory_item", vm.hover_object)
 
 	var closing_animation = false
 	if has_node("animation"):
@@ -62,13 +80,14 @@ func close():
 
 	# Reset immediately only when there isn't an animation, otherwise let the handler do it
 	if not closing_animation:
-		get_tree().call_group("game", "reset_overlapped_obj")
+		vm.reset_overlapped_obj()
 
 func force_close():
 	if !is_visible():
 		return
 
-	get_tree().call_group("hud", "set_tooltip_visible", false)
+	if vm.tooltip:
+		vm.tooltip.hide()
 	hide()
 	printt("inventory force_close")
 
@@ -82,7 +101,7 @@ func toggle():
 func anim_finished(name):
 	if name == "hide":
 		hide()
-		get_tree().call_group("game", "reset_overlapped_obj")
+		vm.reset_overlapped_obj()
 
 func sort_items():
 	var items = get_node("items")
