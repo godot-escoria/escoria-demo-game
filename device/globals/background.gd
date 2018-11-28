@@ -6,7 +6,11 @@ signal right_click_on_bg  # Connect this in your game/signal_script
 export var action = "walk"
 var area
 
-func input(viewport, event, shape_idx):
+# Godot doesn't do doubleclicks so we must
+var last_lmb_dt = 0
+var waiting_dblclick = null  # null or [pos, event]
+
+func item_was_clicked():
 	## Try the overlay handling here for topmost item
 	# If a background is covered by an item, the item "wins"
 	var overlay = get_child(0)
@@ -19,17 +23,31 @@ func input(viewport, event, shape_idx):
 
 			# An item won
 			if area.has_method("is_clicked") and area.is_clicked():
-				return
+				return true
+
+	return false
+
+func input(viewport, event, shape_idx):
+	if item_was_clicked():
+		return
 
 	if event is InputEventMouseButton and event.pressed:
-		if (event.button_index == BUTTON_LEFT):
-			var pos = get_global_mouse_position()
-			emit_signal("left_click_on_bg", self, pos, event)
-		elif (event.button_index == BUTTON_RIGHT):
+		if event.button_index == BUTTON_LEFT:
+			last_lmb_dt = 0
+			waiting_dblclick = [get_global_mouse_position(), event]
+		elif event.button_index == BUTTON_RIGHT:
 			emit_signal("right_click_on_bg")
 
 func get_action():
 	return action
+
+func _physics_process(dt):
+	last_lmb_dt += dt
+
+	if waiting_dblclick and last_lmb_dt > vm.DOUBLECLICK_TIMEOUT:
+		emit_signal("left_click_on_bg", self, waiting_dblclick[0], waiting_dblclick[1])
+		last_lmb_dt = 0
+		waiting_dblclick = null
 
 func _enter_tree():
 	# Use size of background texture to calculate collision shape

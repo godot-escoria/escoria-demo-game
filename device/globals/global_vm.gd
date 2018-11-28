@@ -45,6 +45,7 @@ var current_tool = null    # Item chosen from inventory
 var last_autosave = 0
 var autosave_pending = false
 const AUTOSAVE_TIME_MS = 64 * 1000
+const DOUBLECLICK_TIMEOUT = 0.2  # seconds
 
 var save_data
 

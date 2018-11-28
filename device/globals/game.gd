@@ -145,10 +145,18 @@ func ev_left_dblclick_on_item(obj, pos, event):
 	if click_anim:
 		click_anim.play("click")
 
-	var walk_context = {"fast": event.doubleclick}
-	player.walk_to(pos, walk_context)
 	if action != "walk":
+		# Resolve telekinesis
+		if action in obj.event_table:
+			var telekinetic = "TK" in obj.event_table[action]["ev_flags"]
+			if player.task == "walk":
+				player.walk_stop(player.get_position())
+				vm.clear_current_action()
+
 		player.interact([obj, action, vm.current_tool])
+	else:
+		var walk_context = {"fast": event.doubleclick}
+		player.walk_to(pos, walk_context)
 
 func ev_right_click_on_item(obj, pos, event):
 	printt(obj.name, "right-clicked at", pos, "with", event, can_click())

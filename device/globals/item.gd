@@ -50,6 +50,10 @@ var pose_scale = 1
 var task
 var sprites = []
 
+# Godot doesn't do doubleclicks so we must
+var last_lmb_dt = 0
+var waiting_dblclick = false
+
 func is_clicked():
 	return clicked
 
@@ -108,12 +112,18 @@ func input(event):
 
 			var ev_pos = get_global_mouse_position()
 			if event.button_index == BUTTON_LEFT:
-				if event.doubleclick:
-					emit_signal("left_dblclick_on_item", self, ev_pos, event)
 				if self.inventory:
 					emit_signal("left_click_on_inventory_item", self, ev_pos, event)
+					last_lmb_dt = 0
+					waiting_dblclick = null
+				elif last_lmb_dt <= vm.DOUBLECLICK_TIMEOUT:
+					emit_signal("left_dblclick_on_item", self, ev_pos, event)
+					last_lmb_dt = 0
+					waiting_dblclick = null
 				else:
-					emit_signal("left_click_on_item", self, ev_pos, event)
+					last_lmb_dt = 0
+					waiting_dblclick = [ev_pos, event]
+
 			elif event.button_index == BUTTON_RIGHT:
 				if self.inventory:
 					emit_signal("right_click_on_inventory_item", self, ev_pos, event)
@@ -385,6 +395,14 @@ func walk(pos, speed, context = null):
 func modulate(color):
 	for s in sprites:
 		s.set_modulate(color)
+
+func _physics_process(dt):
+	last_lmb_dt += dt
+
+	if waiting_dblclick and last_lmb_dt > vm.DOUBLECLICK_TIMEOUT:
+		emit_signal("left_click_on_item", self, waiting_dblclick[0], waiting_dblclick[1])
+		last_lmb_dt = 0
+		waiting_dblclick = null
 
 func _process(time):
 	if task == "walk":
