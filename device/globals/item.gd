@@ -224,14 +224,15 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 func play_snd(p_snd):
 	if !audio:
 		return
-		
+
 	var resource = load(p_snd)
 	if !resource:
 		return
 	audio.stream = resource
+	audio.stream.set_loop(false)
 	assert audio.stream
 	audio.play()
-	
+
 	#_debug_states()
 
 func set_speaking(p_speaking):
@@ -560,9 +561,10 @@ func _ready():
 	if has_node("animation"):
 		animation = $"animation"
 		animation.connect("animation_finished", self, "anim_finished")
-		
+
 	if has_node("audio"):
 		audio = $"audio"
+		audio.set_bus("SFX")
 
 	_check_focus(false, false)
 
