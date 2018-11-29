@@ -49,6 +49,7 @@ var path_ofs
 var pose_scale = 1
 var task
 var sprites = []
+var audio
 
 # Godot doesn't do doubleclicks so we must
 var last_lmb_dt = 0
@@ -205,7 +206,6 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 			var res = vm.res_cache.get_resource(path)
 			node.replace_by_instance(res)
 			_find_sprites(get_node(npath))
-
 	if p_flip != null:
 		var s = get_scale()
 		set_scale(s * p_flip)
@@ -221,6 +221,18 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 
 	#_debug_states()
 
+func play_snd(p_snd):
+	if !audio:
+		return
+		
+	var resource = load(p_snd)
+	if !resource:
+		return
+	audio.stream = resource
+	assert audio.stream
+	audio.play()
+	
+	#_debug_states()
 
 func set_speaking(p_speaking):
 	printt("item set speaking! ", global_id, p_speaking, state)
@@ -548,6 +560,9 @@ func _ready():
 	if has_node("animation"):
 		animation = $"animation"
 		animation.connect("animation_finished", self, "anim_finished")
+		
+	if has_node("audio"):
+		audio = $"audio"
 
 	_check_focus(false, false)
 
