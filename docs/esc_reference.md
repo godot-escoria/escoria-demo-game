@@ -210,7 +210,7 @@ Items can also change state by playing animations from an `AnimationPlayer` name
   - flip_y flips the y axis of the object's sprites when true (object's root node needs to be Node2D)
 
 - `play_snd object file`
-  Plays the sound specificed with the "file" parameter on the object, without blocking. 
+  Plays the sound specificed with the "file" parameter on the object, without blocking. You can play background sounds, eg. during scene changes, with `play_snd bg_snd res://...`
 
 - `set_active object value`
   Changes the "active" state of the object, value can be true or false. Inactive objects are hidden in the scene.

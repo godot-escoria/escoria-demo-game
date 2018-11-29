@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://globals/main.gd" type="Script" id=1]
 [ext_resource path="res://globals/bg_music.tscn" type="PackedScene" id=2]
-[ext_resource path="res://ui/dd_player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://globals/bg_snd.tscn" type="PackedScene" id=3]
+[ext_resource path="res://ui/dd_player.tscn" type="PackedScene" id=4]
 
-[node name="main" type="Node" index="0"]
+[node name="main" type="Node"]
 
 pause_mode = 2
 script = ExtResource( 1 )
@@ -21,11 +22,9 @@ transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
 [node name="bg_music" parent="layers/telon" index="0" instance=ExtResource( 2 )]
 
-rect_clip_content = false
-
 [node name="telon" parent="layers/telon" index="1" instance_placeholder="res://globals/telon.tscn"]
 
-mouse_default_cursor_shape = 0
+[node name="bg_snd" parent="layers/telon" index="2" instance=ExtResource( 3 )]
 
 [node name="dialog" type="CanvasLayer" parent="layers" index="1"]
 
@@ -35,7 +34,7 @@ rotation = 0.0
 scale = Vector2( 1, 1 )
 transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
-[node name="dd_player" parent="layers/dialog" index="0" instance=ExtResource( 3 )]
+[node name="dd_player" parent="layers/dialog" index="0" instance=ExtResource( 4 )]
 
 [node name="menu" type="CanvasLayer" parent="layers" index="2"]
 

@@ -59,7 +59,7 @@ func anim(params):
 		flip.y = -1
 	obj.play_anim(anim_id, null, reverse, flip)
 	return vm.state_return
-	
+
 func play_snd(params):
 	if !check_obj(params[0], "play_snd"):
 		return vm.state_return
