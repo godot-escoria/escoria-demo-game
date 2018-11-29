@@ -21,6 +21,7 @@
 	say player "It's already open"
 
 > [!box_open]
+	play_snd box "res://demo/audio/items/box_open.wav"
 	set_global box_open true
 	set_state box newspaper
 	say player "There was a newspaper inside it"

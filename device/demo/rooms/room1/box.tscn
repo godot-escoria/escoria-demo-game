@@ -125,6 +125,7 @@ dynamic_z_index = true
 speed = 300
 scale_on_map = false
 light_on_map = false
+is_interactive = true
 
 [node name="sprite" type="Sprite" parent="." index="0"]
 
@@ -157,5 +158,14 @@ audio_bus_name = "Master"
 position = Vector2( 0.71919, 0.71919 )
 scale = Vector2( 2.34641, 2.34641 )
 shape = SubResource( 4 )
+
+[node name="audio" type="AudioStreamPlayer" parent="." index="3"]
+
+stream = null
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+mix_target = 0
+bus = "SFX"
 
 
