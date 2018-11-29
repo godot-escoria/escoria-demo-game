@@ -26,7 +26,7 @@ tracks/0/keys = {
 "values": [ 0.0 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("area:rect_rotation")
+tracks/1/path = NodePath("area:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -56,7 +56,7 @@ tracks/0/keys = {
 "values": [ 0.0, 90.0, 180.0, 270.0, 360.0 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("area:rect_rotation")
+tracks/1/path = NodePath("area:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -91,6 +91,7 @@ dynamic_z_index = true
 speed = 300
 scale_on_map = false
 light_on_map = false
+is_interactive = true
 
 [node name="sprite" type="Sprite" parent="." index="0"]
 
