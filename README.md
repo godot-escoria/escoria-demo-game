@@ -51,6 +51,10 @@ License CC0, [distributed on OpenGameArt](http://opengameart.org/content/cartoon
 - [Clint Bellanger](http://clintbellanger.net) - Recycle items set, License CC BY 3.0,
 [distributed on OpenGameArt](http://opengameart.org/content/recycle-items-set)
 
+### Sound credits
+box_open: 61-AbrirCaja by Caap(https://freesound.org/people/Caap/), License CC0, [distributed on FreeSound.org] 
+(https://freesound.org/people/Caap/sounds/427154/)
+
 ### Font
 
 The [Noto font](https://www.google.com/get/noto/) is a trademark of Google Inc., and is available under the SIL Open Font License, version 1.1.
