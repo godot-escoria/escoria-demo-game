@@ -1,4 +1,6 @@
-# Music
+# Music and Sound
+
+## Music
 
 Make your game come alive with some music.
 
@@ -11,7 +13,7 @@ set_state bg_music "res://demo/audio/music/demo_melody.ogg"
 
 Assuming `demo_melody.ogg` is a music file which exists under that resource path in your project.
 
-## Controlling music streams
+### Controlling music streams
 
 Similarly, you can also control music by triggering actions on items in your scene, for instance by using custom `turn_on` and `turn_off` actions on a radio item in your game with the following .esc script added to its `Events Path` property:
 
@@ -22,6 +24,14 @@ set_state bg_music "res://demo/audio/music/demo_melody.ogg"
 :turn_off
 set_state bg_music off
 ```
+
+### Sound
+
+You play sound files with `play_snd`.
+
+You can add an `AudioStreamPlayer2D` to any item, calling it `audio`. Please see [the reference](esc_reference.md) for more info.
+
+For idle animations, their idle sounds, it's preferred you use the `animation` node to control the audio stream.
 
 ## Controlling volume
 
