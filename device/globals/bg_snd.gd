@@ -14,6 +14,7 @@ func game_cleared():
 func play_snd(p_snd):
 	var resource = load(p_snd)
 	if !resource:
+		vm.report_errors("bg_snd", ["play_snd resource not found " + p_snd])
 		return
 	stream.stream = resource
 	stream.stream.set_loop(false)

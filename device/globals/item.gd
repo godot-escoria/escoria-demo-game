@@ -223,11 +223,14 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 
 func play_snd(p_snd):
 	if !audio:
+		vm.report_errors("item", ["play_snd called with no audio node"])
 		return
 
 	var resource = load(p_snd)
 	if !resource:
+		vm.report_errors("item", ["play_snd resource not found " + p_snd])
 		return
+
 	audio.stream = resource
 	audio.stream.set_loop(false)
 	assert audio.stream
