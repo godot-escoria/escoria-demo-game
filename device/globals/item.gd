@@ -459,8 +459,7 @@ func _process(time):
 			pose_scale = animations.directions[last_dir+1]
 
 		# If a z-indexed item is moved, forcibly update its z index
-		if self is esc_type.ITEM:
-			_update_terrain(true)
+		_update_terrain(true)
 
 func turn_to(deg):
 	if deg < 0 or deg > 360:
