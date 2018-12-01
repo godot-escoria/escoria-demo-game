@@ -35,6 +35,8 @@ var commands = {
 	"set_speed": { "min_args": 2, "types": [TYPE_STRING, TYPE_INT] },
 	"teleport": { "min_args": 2 },
 	"teleport_pos": { "min_args": 3 },
+	"slide": { "min_args": 2 },
+	"slide_block": { "min_args": 2 },
 	"walk": { "min_args": 2 },
 	"walk_block": { "min_args": 2 },
 	"turn_to": { "min_args": 2 },

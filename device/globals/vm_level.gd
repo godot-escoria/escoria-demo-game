@@ -8,6 +8,23 @@ func check_obj(name, cmd):
 		return false
 	return true
 
+func _slide(params, block):
+	if !check_obj(params[0], "slide"):
+		return vm.state_return
+	if !check_obj(params[1], "slide"):
+		return vm.state_return
+	var tpos = vm.get_object(params[1]).get_interact_pos()
+	var speed = 0
+	if params.size() > 2:
+		speed = real(params[2])
+	if block:
+		current_context.waiting = true
+		vm.get_object(params[0]).slide(tpos, speed, current_context)
+		return vm.state_yield
+	else:
+		vm.get_object(params[0]).slide(tpos, speed)
+		return vm.state_return
+
 func _walk(params, block):
 	if !check_obj(params[0], "walk"):
 		return vm.state_return
@@ -169,6 +186,12 @@ func teleport_pos(params):
 	vm.get_object(params[0]).teleport_pos(int(params[1]), int(params[2]))
 	return vm.state_return
 
+
+func slide(params):
+	return _slide(params, false)
+
+func slide_block(params):
+	return _slide(params, true)
 
 func walk(params):
 	return _walk(params, false)

@@ -230,11 +230,17 @@ Items can also change state by playing animations from an `AnimationPlayer` name
 - `teleport object1 object2`
   Sets the position of object1 to the position of object2
 
+- `slide object1 object2`
+  Moves object1 towards the position of object2, at the speed determined by object1's "speed" property. This command is non-blocking. It does not respect the room's navigation polygons, so you can move items where the player can't walk.
+
+- `slide_block object1 object2`
+  Moves object1 towards the position of object2, at the speed determined by object1's "speed" property. This command is blocking. It does not respect the room's navigation polygons, so you can move items where the player can't walk.
+
 - `walk object1 object2`
-  Moves object1 towards the position of object2, at the speed determined by object1's "speed" property. This command is non-blocking.
+  Walks, using the walk animation, object1 towards the position of object2, at the speed determined by object1's "speed" property. This command is non-blocking.
 
 - `walk_block object1 object2`
-  Moves object1 towards the position of object2, at the speed determined by object1's "speed" property. This command is blocking.
+  Walks, using the walk animation, object1 towards the position of object2, at the speed determined by object1's "speed" property. This command is blocking.
 
 - `turn_to object degrees`
   Turns `object` to a `degrees` angle with a `directions` animation.

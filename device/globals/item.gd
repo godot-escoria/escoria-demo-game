@@ -373,6 +373,27 @@ func set_light_on_map(p_light):
 	else:
 		modulate(Color(1, 1, 1, 1))
 
+func slide_to(pos, context = null):
+	# Assume a straight line, and leverage some walk functionality
+	walk_path = [get_position(), pos]
+	walk_context = context
+	if walk_path.size() == 0:
+		walk_stop(get_position())
+		set_process(false)
+		task = null
+		return
+
+	moved = true
+
+	walk_destination = walk_path[walk_path.size()-1]
+
+	path_ofs = 0.0
+	task = "slide"
+	set_process(true)
+
+func slide(pos, speed, context = null):
+	slide_to(pos, context)
+
 func walk_stop(pos):
 	set_position(pos)
 	walk_path = []
@@ -421,7 +442,7 @@ func _physics_process(dt):
 		waiting_dblclick = null
 
 func _process(time):
-	if task == "walk":
+	if task == "walk" or task == "slide":
 		var to_walk = speed * last_scale.x * time
 		var pos = get_position()
 		var old_pos = pos
@@ -448,15 +469,17 @@ func _process(time):
 					return
 
 		var angle = (old_pos.angle_to_point(pos)) * -1
+
 		set_position(pos)
 
-		last_deg = vm._get_deg_from_rad(angle)
-		last_dir = vm._get_dir_deg(last_deg, self.name, animations)
+		if task == "walk":
+			last_deg = vm._get_deg_from_rad(angle)
+			last_dir = vm._get_dir_deg(last_deg, self.name, animations)
 
-		if animation:
-			if animation.get_current_animation() != animations.directions[last_dir]:
-				animation.play(animations.directions[last_dir])
-			pose_scale = animations.directions[last_dir+1]
+			if animation:
+				if animation.get_current_animation() != animations.directions[last_dir]:
+					animation.play(animations.directions[last_dir])
+				pose_scale = animations.directions[last_dir+1]
 
 		# If a z-indexed item is moved, forcibly update its z index
 		_update_terrain(true)
