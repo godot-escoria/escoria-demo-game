@@ -1,19 +1,17 @@
-extends Control 
+extends Control
 
+var lang_node
 var target = null
 var slot = ""
 var confirm
 var anim
 
-func start(message, p_target, p_slot):
+func start(p_node, p_target, p_slot):
 	target = p_target
 	slot = p_slot
 
-	if has_node("message"):
-		$"message".set_text(message)
-	else:
-		# This allows having TextureRects by the name of eg UI_CONFIRM_NEW_GAME or UI_CONFIRM_QUIT
-		get_node(message).show()
+	# This allows having TextureRects by the name of eg UI_CONFIRM_NEW_GAME or UI_CONFIRM_QUIT
+	lang_node.get_node(p_node).show()
 
 	if anim:
 		anim.play("open")
@@ -67,8 +65,14 @@ func input(event):
 		button_pressed(false)
 
 func _ready():
-	$"yes".connect("pressed", self, "button_pressed", [true])
-	$"no".connect("pressed", self, "button_pressed", [false])
+	lang_node = get_node(TranslationServer.get_locale())
+	if not lang_node:
+		vm.report_errors("confirm_popup",
+						 ["No language node " + TranslationServer.get_locale() + " in confirmation popup"])
+
+	lang_node.get_node("yes").connect("pressed", self, "button_pressed", [true])
+	lang_node.get_node("no").connect("pressed", self, "button_pressed", [false])
+
 	if has_node("animation"):
 		anim = $"animation"
 		anim.connect("animation_finished", self, "anim_finished")

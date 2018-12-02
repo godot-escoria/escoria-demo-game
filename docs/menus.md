@@ -55,21 +55,27 @@ The main menu is used only when starting the game.
 ## Confirm popup
 
 The structure similar to a regular menu. You have a base `Control`.
+Then one `Control` named after each locale; create one and call it "en" in doubt.
 
-In this you can have `TextureRect`s called
+In these you can have eg. `TextureRect`s called
 
   * UI_QUIT_CONFIRM
   * UI_NEW_GAME_CONFIRM
 
 Which are hidden by default and shown on demand.
 
-This is maybe the least final part of the code. For example hitting
-`new_game` will start a new popup menu with `UI_NEW_GAME_CONFIRM`, but
-the confirm_popup.gd script supports having a message passed in and
-set into a `Label` named `message`.
+You must also have the following
 
-You can create a functioning game using the above description, but
-there is still work to do in supporting everything you may ever want.
+  * yes
+  * no
+
+They must be visible, because they are your yes/no buttons.
+
+The types on any of these don't matter, but *their names do*.
+
+Any means of passing in messages to the confirmation popups has been
+deprecated as not being frameworky enough; that would require altering
+Escoria code for a scene that's created by the developer anyway.
 
 ## Credits
 
