@@ -73,6 +73,9 @@ They must be visible, because they are your yes/no buttons.
 
 The types on any of these don't matter, but *their names do*.
 
+If you have multiple locales, hide the top locale-named nodes, all of
+them, or the code might pass the click to the wrong button and ignore it.
+
 Any means of passing in messages to the confirmation popups has been
 deprecated as not being frameworky enough; that would require altering
 Escoria code for a scene that's created by the developer anyway.

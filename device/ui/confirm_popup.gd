@@ -75,6 +75,8 @@ func _ready():
 		vm.report_errors("confirm_popup",
 						 ["No language node " + TranslationServer.get_locale() + " in confirmation popup"])
 
+	lang_node.visible = true
+
 	lang_node.get_node("yes").connect("pressed", self, "button_pressed", [true])
 	lang_node.get_node("no").connect("pressed", self, "button_pressed", [false])
 
