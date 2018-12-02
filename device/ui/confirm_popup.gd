@@ -65,7 +65,12 @@ func input(event):
 		button_pressed(false)
 
 func _ready():
-	lang_node = get_node(TranslationServer.get_locale())
+	var lang = TranslationServer.get_locale()
+
+	if not has_node(lang) and "_" in lang:
+		lang = lang.split("_")[0]
+
+	lang_node = get_node(lang)
 	if not lang_node:
 		vm.report_errors("confirm_popup",
 						 ["No language node " + TranslationServer.get_locale() + " in confirmation popup"])
