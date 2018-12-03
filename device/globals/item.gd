@@ -401,10 +401,12 @@ func walk_stop(pos):
 	# Walking is not a state, but we must re-set our previous state to reset the animation
 	set_state(state)
 
-	task = null
-	if "idles" in animations:
-		pose_scale = animations.idles[last_dir + 1]
+	if task == "walk":
+		if "idles" in animations:
+			pose_scale = animations.idles[last_dir + 1]
 	_update_terrain(true)
+
+	task = null
 
 	if walk_context != null:
 		vm.finished(walk_context)
