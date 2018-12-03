@@ -221,7 +221,7 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 
 	#_debug_states()
 
-func play_snd(p_snd):
+func play_snd(p_snd, p_loop=false):
 	if !audio:
 		vm.report_errors("item", ["play_snd called with no audio node"])
 		return
@@ -232,7 +232,7 @@ func play_snd(p_snd):
 		return
 
 	audio.stream = resource
-	audio.stream.set_loop(false)
+	audio.stream.set_loop(p_loop)
 	assert audio.stream
 	audio.play()
 

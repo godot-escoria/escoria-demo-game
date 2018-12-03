@@ -209,7 +209,7 @@ Items can also change state by playing animations from an `AnimationPlayer` name
   - flip_x flips the x axis of the object's sprites when true (object's root node needs to be Node2D)
   - flip_y flips the y axis of the object's sprites when true (object's root node needs to be Node2D)
 
-- `play_snd object file`
+- `play_snd object file [loop]`
   Plays the sound specificed with the "file" parameter on the object, without blocking. You can play background sounds, eg. during scene changes, with `play_snd bg_snd res://...`
 
 - `set_active object value`

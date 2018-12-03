@@ -82,7 +82,10 @@ func play_snd(params):
 		return vm.state_return
 	var obj = vm.get_object(params[0])
 	var snd_id = params[1]
-	obj.play_snd(snd_id)
+	var loop = false
+	if params.size() == 3 and params[2]:
+		loop = true
+	obj.play_snd(snd_id, loop)
 	return vm.state_return
 
 func set_state(params):
