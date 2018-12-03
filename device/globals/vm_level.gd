@@ -264,14 +264,14 @@ func sched_event(params):
 	vm.sched_event(time, obj, event)
 
 func custom(params):
-	var node = vm.get_node(params[0])
-	if node == null:
-		vm.report_errors("", ["Node not found for custom: "+params[0]])
+	var obj = vm.get_object(params[0])
+	if obj == null:
+		vm.report_errors("custom", ["Object not found: " + params[0]])
 
-	if params.size() > 2:
-		node.call(params[1], params)
-	else:
-		node.call(params[1])
+	if not obj.has_node("custom"):
+		vm.report_errors("custom", ["Node 'custom' not found for " + params[0]])
+
+	obj.get_node("custom").call(params[1], params)
 
 func camera_set_target(params):
 	var speed = params[0]

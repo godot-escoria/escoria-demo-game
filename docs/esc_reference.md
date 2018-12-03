@@ -267,6 +267,9 @@ Items can also change state by playing animations from an `AnimationPlayer` name
   Schedules the execution of an "event" found in "object" in a time in seconds. If another event is running at the time, execution starts when the running event ends.
   `event` can consist of multiple words like in `sched_event 0 tow_hook use inv_rope`
 
+- `custom obj func_name [params]`
+  If `obj` has a `(Node2D) custom` node, `func_name` will be searched for in its script and called with `params`. See device/contrib/custom/spine.gd for an example.
+
 - `camera_set_pos speed x y`
   Moves the camera to a position defined by "x" and "y", at the speed defined by "speed" in pixels per second. If speed is 0, camera is teleported to the position.
 
