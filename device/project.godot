@@ -65,6 +65,7 @@ platform/screen_resizable=true
 platform/telon="res://globals/telon.tscn"
 platform/window_title_height=32
 ui/hud="res://ui/hud.tscn"
+ui/instructions=""
 ui/credits=""
 ui/end_credits=""
 ui/in_game_menu="res://ui/in_game_menu.tscn"

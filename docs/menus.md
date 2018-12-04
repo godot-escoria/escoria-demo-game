@@ -18,26 +18,25 @@ so you may use that as a reference as well.
 
 Your base node must be `Control`.
 
-There is a minimum subset of things that must be supported in the
-menus. They are looked for by their `name`, so you must have the
-following defined.
+You are free to use `Container` nodes to lay out your menu.
+
+Attach `ui/menu_button.gd` or `ui/menu_texturebutton.gd` to your menu buttons and `ui/lang_button.gd`
+to your language-changing buttons.
+
+The buttons' signal handlers are resolved dynamically. This means that you
+should name the buttons like
 
   * new_game
   * continue
   * exit
+  * credits
+  * instructions
+  * save
 
-The use of `TextureRect` is recommended.
+The use of `TextureButton` is possible if you don't intend to switch locales.
+Sometime in the future we would like to support localized `TextureButton` buttons.
 
 ## Optional nodes
-
-Optionally you may also have
-
-  * save
-  * settings
-  * credits
-
-(This list should be expanded to include loading a saved game in
-case your game has multiple save slots.)
 
 If you want background music, add an `AudioStreamPlayer` by the name
 of `stream` and set a file in the `bg_sound` variable. It will play
