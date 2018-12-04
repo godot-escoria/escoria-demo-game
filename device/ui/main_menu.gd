@@ -104,10 +104,12 @@ func set_bg_sound():
 	stream.volume_db = 1  # TODO: Should have all this in ProjectSettings
 	stream.play()
 
-func _find_lang_buttons():
-	for c in self.get_children():
+func _find_lang_buttons(node=self):
+	for c in node.get_children():
 		if c is preload("res://ui/lang_button.gd"):
 			c.connect("language_selected", self, "_on_language_selected")
+		else:
+			_find_lang_buttons(c)
 
 func _on_language_selected(lang):
 	vm.settings.text_lang=lang
