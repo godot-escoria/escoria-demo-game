@@ -1,8 +1,9 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://ui/main_menu.gd" type="Script" id=1]
+[ext_resource path="res://ui/menu_button.gd" type="Script" id=2]
 
-[node name="main_menu" type="Control"]
+[node name="main_menu" type="Control" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -13,11 +14,13 @@ margin_bottom = 1101.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 script = ExtResource( 1 )
+bg_sound = null
 
-[node name="continue" type="Button" parent="."]
+[node name="continue" type="Button" parent="." index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -29,7 +32,9 @@ margin_right = 733.0
 margin_bottom = 229.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
+focus_mode = 2
 mouse_filter = 0
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 toggle_mode = false
@@ -38,8 +43,11 @@ shortcut = null
 group = null
 text = "UI_CONTINUE"
 flat = false
+align = 1
+script = ExtResource( 2 )
+translation_id = "UI_CONTINUE"
 
-[node name="new_game" type="Button" parent="."]
+[node name="new_game" type="Button" parent="." index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -51,7 +59,9 @@ margin_right = 729.0
 margin_bottom = 373.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
+focus_mode = 2
 mouse_filter = 0
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 toggle_mode = false
@@ -60,8 +70,11 @@ shortcut = null
 group = null
 text = "UI_NEW_GAME"
 flat = false
+align = 1
+script = ExtResource( 2 )
+translation_id = "UI_NEW_GAME"
 
-[node name="exit" type="Button" parent="."]
+[node name="exit" type="Button" parent="." index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -73,7 +86,9 @@ margin_right = 728.0
 margin_bottom = 527.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
+focus_mode = 2
 mouse_filter = 0
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 toggle_mode = false
@@ -82,5 +97,8 @@ shortcut = null
 group = null
 text = "UI_QUIT"
 flat = false
+align = 1
+script = ExtResource( 2 )
+translation_id = "UI_QUIT"
 
 
