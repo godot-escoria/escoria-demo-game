@@ -125,7 +125,7 @@ func _on_language_selected(lang):
 
 func _find_menu_buttons(node=self):
 	for c in node.get_children():
-		if c is preload("res://ui/menu_button.gd"):
+		if c is preload("res://ui/menu_button.gd") or c is preload("res://ui/menu_texturebutton.gd"):
 			var sighandler_name = c.name + "_pressed"
 
 			c.connect("pressed", self, sighandler_name)
