@@ -9,6 +9,9 @@ func load_autosave():
 	vm.load_autosave()
 
 func can_continue():
+	if not main.get_current_scene():
+		return false
+
 	return (main.get_current_scene() is esc_type.SCENE) || vm.save_data.autosave_available()
 
 func button_clicked():
