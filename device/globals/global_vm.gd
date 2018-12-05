@@ -5,6 +5,7 @@ var running_event
 var stack = []
 var globals = {}
 var objects = {}
+var customs = []
 
 var event_queue = []
 
@@ -548,6 +549,15 @@ func register_object(name, val):
 func get_registered_objects():
 	return objects
 
+func save_custom(params):
+	# Store `custom obj func_name foo bar` style custom data into savegames
+	# by passing in the params as your `custom` node's function takes them
+	var param_str = ""
+	for param in params:
+		param_str += (param + " ")
+
+	customs.push_back("custom " + param_str)
+
 func set_state(name, state):
 	states[name] = state
 
@@ -897,6 +907,15 @@ func save():
 
 			ret.append("camera_set_target 0" + tlist + "\n")
 			ret.append("camera_set_target " + str(cam_speed) + tlist + "\n")
+
+	if customs:
+		ret.append("\n")
+		ret.append("## Custom\n\n")
+
+		for custom in customs:
+			ret.append(custom + "\n")
+
+		ret.append("\n")
 
 	# Always save the zoom, but assume symmetrical zoom because esc scripts don't support anything else
 	ret.append("camera_set_zoom " + str(camera.zoom.x) + "\n")
