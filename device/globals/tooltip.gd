@@ -2,6 +2,8 @@ extends Label
 
 var force_hide_tooltip = false  # Used by `set_tooltip_visible` to never show
 
+var orig_size
+
 func show():
 	assert self.text
 
@@ -22,6 +24,7 @@ func set_tooltip(text):
 		return
 
 	self.text = text
+	self.rect_size = orig_size
 
 func set_tooltip_visible(p_visible):
 	self.visible = p_visible and self.text and not force_hide_tooltip
@@ -72,4 +75,5 @@ func set_position(pos):
 
 func _ready():
 	vm.register_tooltip(self)
+	orig_size = self.rect_size
 
