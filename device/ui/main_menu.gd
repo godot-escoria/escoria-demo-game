@@ -141,6 +141,9 @@ func _ready():
 	if has_node("stream") and bg_sound:
 		set_bg_sound()
 
+	# Make sure menu buttons have the correct language when the menu is opened
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "ui", "language_changed")
+
 	main.menu_open(self)
 
 	_find_labels()
