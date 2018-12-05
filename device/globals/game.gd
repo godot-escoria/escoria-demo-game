@@ -444,6 +444,11 @@ func spawn_action_menu(obj):
 	if vm.action_menu == null:
 		return
 
+	if vm.tooltip and (vm.current_tool or vm.current_action):
+		vm.tooltip.hide()
+		vm.clear_current_tool()
+		vm.clear_current_action()
+
 	if player:
 		player.walk_stop(player.position)
 
