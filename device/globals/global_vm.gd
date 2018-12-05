@@ -467,6 +467,8 @@ func event_done(ev_name):
 					var next_event = obj.event_table[next_ev_name]
 					if not "NO_HUD" in next_event.ev_flags:
 						set_hud_visible(true)
+				else:
+					set_hud_visible(true)
 			else:
 				set_hud_visible(true)
 
