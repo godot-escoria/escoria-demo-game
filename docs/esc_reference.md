@@ -40,7 +40,7 @@ say player player_does_not_wanna:"I don't wanna."
 
    * `TK` stands for "telekinetic". It means the player won't walk over to the item to say the line.
    * `FAST` stands for "fast". It means the player will walk at the speed of `player_doubleclick_speed_multiplier` to execute the action.
-   * `NO_TT` stands for "No tooltip". It hides the tooltip for the duration of the event. Useful when having multiple `say` commands in it.
+   * `NO_TT` stands for "No tooltip". It hides the tooltip for the duration of the event. Probably not very useful, because events having multiple `say` commands in them are automatically hidden.
    * `NO_HUD` stands for "No HUD". It hides the HUD for the duration of the event. Useful when you want something to look like a cut scene but not disable input for skipping dialog.
    * `NO_SAVE` disables saving. Use this in cut scenes and anywhere a badly-timed autosave would leave your game in a messed-up state.
    * `CUT_BLACK` applies only to `:setup`. It makes the screen go black during the setup phase. You will probably see a quick black flash, so use it only if you prefer it over the standard cut.
