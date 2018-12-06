@@ -439,6 +439,9 @@ func run_event(p_event):
 		if "NO_HUD" in p_event.ev_flags:
 			set_hud_visible(false)
 
+		if "NO_SAVE" in p_event.ev_flags:
+			set_global("save_disabled", str(true))
+
 		add_level(p_event, true)
 
 func sched_event(time, obj, event):
@@ -455,22 +458,34 @@ func event_done(ev_name):
 			# Let an `overlapped_obj` deal with the tooltip if required
 			reset_overlapped_obj()
 
-		if "NO_HUD" in running_event.ev_flags:
-			# Do not restore hud if next event is also NO_HUD
-			# because that would cause the hud to flash between the events
-			if event_queue.size():
-				# Timing can be -0.0019 or whatever, so just `int()` it to see if it's immediate
-				var time = int(event_queue[-1][0])
-				if time == 0:
-					var obj = get_object(event_queue[-1][1])
-					var next_ev_name = event_queue[-1][2]
-					var next_event = obj.event_table[next_ev_name]
-					if not "NO_HUD" in next_event.ev_flags:
-						set_hud_visible(true)
-				else:
+		# Do not restore hud if next event is also NO_HUD
+		# because that would cause the hud to flash between the events
+		# and treat other such flags similarly
+		if event_queue.size():
+			# Timing can be -0.0019 or whatever, so just `int()` it to see if it's immediate
+			var time = int(event_queue[-1][0])
+			if time == 0:
+				var obj = get_object(event_queue[-1][1])
+				var next_ev_name = event_queue[-1][2]
+				var next_event = obj.event_table[next_ev_name]
+
+				if not "NO_HUD" in next_event.ev_flags:
 					set_hud_visible(true)
+
+				if not "NO_SAVE" in next_event.ev_flags:
+					set_global("save_disabled", str(false))
 			else:
+				if "NO_HUD" in running_event.ev_flags:
+					set_hud_visible(true)
+
+				if "NO_SAVE" in running_event.ev_flags:
+					set_global("save_disabled", str(false))
+		else:
+			if "NO_HUD" in running_event.ev_flags:
 				set_hud_visible(true)
+
+			if "NO_SAVE" in running_event.ev_flags:
+				set_global("save_disabled", str(false))
 
 	running_event = null
 
