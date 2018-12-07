@@ -14,8 +14,21 @@ func input(event):
 func back_pressed():
 	close()
 
-func _ready():
-	main.menu_open(self)
+func _find_menu_buttons(node=self):
+	for c in node.get_children():
+		if c is preload("res://ui/menu_button.gd") or c is preload("res://ui/menu_texturebutton.gd"):
+			var sighandler_name = c.name + "_pressed"
 
-	$"menu".connect("pressed", self, "back_pressed")
+			c.connect("pressed", self, sighandler_name)
+		else:
+			_find_menu_buttons(c)
+
+func _ready():
+	_find_menu_buttons()
+
+	add_to_group("ui")
+
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "ui", "language_changed")
+
+	main.menu_open(self)
 
