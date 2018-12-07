@@ -491,6 +491,7 @@ func event_done(ev_name):
 
 	# For example dialog will hide the tooltip, but we may want to see it again
 	if tooltip and self.hover_object:
+		tooltip.set_tooltip(self.hover_object.get_tooltip())
 		tooltip.show()
 
 func get_global(name):
