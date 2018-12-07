@@ -221,6 +221,25 @@ func interact(p_params):
 			_update_terrain()
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "interact", p_params)
 
+func slide_to(pos, context = null):
+       # Assume a straight line, and leverage some walk functionality
+       walk_path = [get_position(), pos]
+       walk_context = context
+       if walk_path.size() == 0:
+               walk_stop(get_position())
+               set_process(false)
+               task = null
+               return
+
+       walk_destination = walk_path[walk_path.size()-1]
+
+       path_ofs = 0.0
+       task = "slide"
+       set_process(true)
+
+func slide(pos, speed, context = null):
+       slide_to(pos, context)
+
 func walk_stop(pos):
 	# Notify exits of stop position
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "exit", "stopped_at", pos)
@@ -299,7 +318,7 @@ func _update_terrain():
 		s.set_modulate(color)
 
 func _process(time):
-	if task == "walk":
+	if task == "walk" or task == "slide":
 		var pos = get_position()
 		var old_pos = pos
 		var next
@@ -334,12 +353,13 @@ func _process(time):
 		var angle = (old_pos.angle_to_point(pos)) * -1
 		set_position(pos)
 
-		last_deg = vm._get_deg_from_rad(angle)
-		last_dir = vm._get_dir_deg(last_deg, self.name, animations)
+		if task == "walk":
+			last_deg = vm._get_deg_from_rad(angle)
+			last_dir = vm._get_dir_deg(last_deg, self.name, animations)
 
-		if animation.get_current_animation() != animations.directions[last_dir]:
-			animation.play(animations.directions[last_dir])
-		pose_scale = animations.directions[last_dir+1]
+			if animation.get_current_animation() != animations.directions[last_dir]:
+				animation.play(animations.directions[last_dir])
+			pose_scale = animations.directions[last_dir+1]
 
 		_update_terrain()
 
