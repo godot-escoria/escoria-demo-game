@@ -175,11 +175,11 @@ func update_camera(time):
 			var obj = get_object(n)
 			if obj != null:
 				count += 1
-				pos += obj.get_position()
+				pos += obj.get_global_position()
 		if count > 0:
 			pos = pos / count
 	else:
-		pos = target.get_position()
+		pos = target.get_global_position()
 
 	var cpos = camera.get_position()
 
