@@ -275,10 +275,13 @@ func custom(params):
 
 func camera_set_target(params):
 	var speed = params[0]
-	var targets = []
-	for i in range(1, params.size()):
-		targets.push_back(params[i])
-	vm.camera_set_target(speed, targets)
+	if params.size() > 2:
+		var targets = []
+		for i in range(1, params.size()):
+			targets.push_back(params[i])
+		vm.camera_set_target(speed, targets)
+	else:
+		vm.camera_set_target(speed, vm.get_object(params[1]))
 
 func camera_set_pos(params):
 	var speed = params[0]
