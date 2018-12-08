@@ -35,6 +35,7 @@ var ui_anim = null
 
 var clicked = false
 var interact_pos
+var camera_pos
 var terrain
 var walk_path
 var walk_context
@@ -63,6 +64,12 @@ func get_interact_pos():
 		return interact_pos.get_global_position()
 	else:
 		return get_global_position()
+
+func get_camera_pos():
+	if camera_pos:
+		return camera_pos.get_global_position()
+
+	return get_global_position()
 
 func anim_finished(anim_name):
 	# TODO use parameter here?
@@ -307,12 +314,21 @@ func _update_terrain(need_z_update=false):
 		if has_node("interact_pos"):
 			interact_global_position = interact_pos.get_global_position()
 
+		# Same for camera_pos
+		var camera_global_position
+		if has_node("camera_pos"):
+			camera_global_position = camera_pos.get_global_position()
+
 		self.scale = scale_range
 
 		# If `interact_pos` is a child, it was affected by scaling, so reset it
 		# to the expected location.
 		if interact_global_position:
 			interact_pos.global_position = interact_global_position
+
+		# And camera position
+		if camera_global_position:
+			camera_pos.global_position = camera_global_position
 
 	if self is CanvasItem and light_on_map:
 		var c = terrain.get_light(pos)
@@ -576,6 +592,9 @@ func _ready():
 		elif has_node("interact_pos"):
 			interact_pos = $"interact_pos"
 		# }}}
+
+	if has_node("camera_pos"):
+		camera_pos = $"camera_pos"
 
 	if events_path != "":
 		event_table = vm.compile(events_path)
