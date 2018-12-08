@@ -954,6 +954,7 @@ func save():
 func set_camera(p_cam):
 	camera = p_cam
 	zoom_transform = camera.get_canvas_transform()
+	register_object("_camera", p_cam)
 
 func clear():
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "game_cleared")
