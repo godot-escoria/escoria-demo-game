@@ -36,6 +36,12 @@ export var placeholders = {}
 var interact_status = 0
 enum interact_statuses {INTERACT_NONE, INTERACT_STARTED, INTERACT_WALKING}
 
+func get_camera_pos():
+	if has_node("camera_pos"):
+		return $"camera_pos".global_position
+
+	return global_position
+
 func resolve_angle_to(obj):
 	# Set `last_deg` and `last_dir` as they are globals
 	var angle = self.position.angle_to_point(obj.position) * -1
