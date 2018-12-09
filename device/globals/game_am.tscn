@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://globals/game.gd" type="Script" id=1]
 [ext_resource path="res://ui/dialog_player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://globals/camera.gd" type="Script" id=3]
 
-[node name="game" type="Node" index="0"]
+[node name="game" type="Node"]
 
 script = ExtResource( 1 )
 fallbacks_path = "res://demo/fallbacks.esc"
@@ -67,5 +68,6 @@ drag_margin_bottom = 0.2
 editor_draw_screen = true
 editor_draw_limits = false
 editor_draw_drag_margin = false
+script = ExtResource( 3 )
 
 
