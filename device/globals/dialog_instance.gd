@@ -151,7 +151,7 @@ func init(p_params, p_context, p_intro, p_outro):
 			dialog_pos = character
 
 		var pos = dialog_pos.global_position
-		pos = vm.zoom_transform.xform(pos)
+		pos = vm.camera.zoom_transform.xform(pos)
 		set_position(pos)
 
 	if has_node("anchor/avatars"):

@@ -32,7 +32,6 @@ var res_cache
 var cam_target = null
 var cam_speed = 0
 var camera
-var camera_limits
 
 ## One game, one VM; there are many things we can have only one of, track them here.
 var action_menu = null	   # If the game uses an action menu, register it here
@@ -77,13 +76,6 @@ var scenes_cache_list = preload("res://globals/scenes_cache.gd").scenes
 var scenes_cache = {} # this will eventually have everything in scenes_cache_list forever
 
 var settings
-
-var zoom_time
-var zoom_target
-var zoom_step
-
-# This is needed to adjust dialog positions and such
-var zoom_transform
 
 # Helpers to deal with player's and items' angles
 func _get_deg_from_rad(rad_angle):
@@ -155,76 +147,34 @@ func hover_end():
 
 	hover_object = null
 
-func update_camera(time):
-	if camera == null:
-		return
-	var target = cam_target
-	if target == null:
+func camera_set_target(p_speed, p_target):
+	var target = p_target
+
+	# change_scene will pass in `null`, see if it's the player
+	if not target:
 		target = get_object("player")
 
-	if target == null:
-		target = Vector2(0, 0)
-
-	var pos
-	if typeof(target) == typeof(Vector2()):
-		pos = target
-	elif typeof(target) == typeof([]):
-		var count = 0
-		pos = Vector2()
-		for n in target:
+	if not target:
+		report_errors("global_vm", ["No valid camera target given: " + p_target])
+	elif typeof(target) == TYPE_ARRAY:
+		for i in range(target.size()):
+			var n = target[i]
 			var obj = get_object(n)
-			if obj != null:
-				count += 1
-				pos += obj.get_camera_pos()
-		if count > 0:
-			pos = pos / count
-	else:
-		pos = target.get_camera_pos()
 
-	var cpos = camera.get_position()
+			if not obj:
+				report_errors("global_vm", ["Camera target array contains invalid name " + n])
 
-	# The camera position is set to target when it's about to overstep it,
-	# or when it's moved there instantly.
-	# Compare the camera and target position until then
-	if cpos != pos:
-		var v = pos - cpos  # vector to move along
-		var step = cam_speed * time  # pixel size of step to move
+			target[i] = obj
 
-		# This is where we may overstep or move instantly
-		if step > v.length() || cam_speed == 0:
-			camera.set_position(pos)
-		else:
-			pos = cpos + v.normalized() * step
-			camera.set_position(pos)
-
-	if zoom_target:
-		var zstep = zoom_step * time
-		var diff = camera.zoom - zoom_target
-		if zstep.length() > diff.length() || zoom_time == 0:
-			camera.zoom = zoom_target
-			zoom_target = null
-			zoom_transform = camera.get_canvas_transform()
-		else:
-			camera.zoom += zstep
-	# Even when not zooming, somehow the clamping of dialog, when the
-	# scene is not zoomed, goes awry without this :/
-	else:
-		zoom_transform = camera.get_canvas_transform()
-
-func set_cam_limits(limits):
-	camera_limits = limits
-
-func camera_set_target(speed, p_target):
-	cam_speed = speed
+	# Set state for savegames
+	cam_speed = p_speed
 	cam_target = p_target
 
-func camera_set_zoom(zoom_level, time):
-	if zoom_level <= 0.0:
-		report_errors("global_vm", ["Tried to set negative or zero zoom level"])
-	zoom_time = time
-	zoom_target = Vector2(1, 1) * zoom_level
-	# Calculate magnitude to zoom per second
-	zoom_step = (zoom_target - camera.zoom) / time
+	# Kick it
+	camera.set_target(p_speed, p_target)
+
+func camera_set_zoom(p_zoom_level, p_time):
+	camera.set_zoom(p_zoom_level, p_time)
 
 func inventory_has(p_obj):
 	return get_global("i/"+p_obj)
@@ -665,7 +615,8 @@ func _process(time):
 	check_event_queue(time)
 	run()
 	check_autosave()
-	update_camera(time)
+	if camera:
+		camera.update(time)
 
 func run_top():
 	var top = stack[stack.size()-1]
@@ -953,7 +904,6 @@ func save():
 
 func set_camera(p_cam):
 	camera = p_cam
-	zoom_transform = camera.get_canvas_transform()
 	register_object("_camera", p_cam)
 
 func clear():

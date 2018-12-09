@@ -612,7 +612,6 @@ func set_inventory_enabled(p_enabled):
 		$"hud_layer/hud/inv_toggle".hide()
 
 func set_camera_limits():
-	var cam_limit = camera_limits
 	if camera_limits.size.x == 0 and camera_limits.size.y == 0:
 		var area = Rect2()
 		for child in get_parent().get_children():
@@ -622,17 +621,16 @@ func set_camera_limits():
 				area = area.expand(pos)
 				area = area.expand(pos + size)
 
+		if area.size.x == 0 or area.size.y == 0:
+			printt("No limit area! Using viewport")
+			area.size = get_viewport().size
+
 		camera.limit_left = area.position.x
 		camera.limit_right = area.position.x + area.size.x
 		camera.limit_top = area.position.y
 		camera.limit_bottom = area.position.y + area.size.y
 
-		if area.size.x == 0 or area.size.y == 0:
-			printt("No limit area! Using viewport")
-			area.size = get_viewport().size
-
 		printt("setting camera limits from scene ", area)
-		cam_limit = area
 	else:
 		camera.limit_left = camera_limits.position.x
 		camera.limit_right = camera_limits.position.x + camera_limits.size.x
@@ -641,7 +639,6 @@ func set_camera_limits():
 		printt("setting camera limits from parameter ", camera_limits)
 
 	camera.set_offset(main.screen_ofs * 2)
-	vm.set_cam_limits(cam_limit)
 
 	#vm.update_camera(0.000000001)
 
