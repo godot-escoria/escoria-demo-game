@@ -441,8 +441,9 @@ func event_done(ev_name):
 
 	# For example dialog will hide the tooltip, but we may want to see it again
 	if tooltip and self.hover_object:
-		tooltip.set_tooltip(self.hover_object.get_tooltip())
-		tooltip.show()
+		if not action_menu or not action_menu.is_visible():
+			tooltip.set_tooltip(self.hover_object.get_tooltip())
+			tooltip.show()
 
 func get_global(name):
 	# If no value or looks like boolean, return boolean for backwards compatibility
