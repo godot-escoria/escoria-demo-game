@@ -507,8 +507,8 @@ func register_object(name, val, force=false):
 
 	objects[name] = val
 
-	# FIXME: This is called twice through `set_current_scene`!
-	val.connect("tree_exited", self, "object_exit_scene", [name])
+	if not val.is_connected("tree_exited", self, "object_exit_scene"):
+		val.connect("tree_exited", self, "object_exit_scene", [name])
 
 	# Most objects have states/animations, but don't count on it
 	if val.has_method("set_state"):
