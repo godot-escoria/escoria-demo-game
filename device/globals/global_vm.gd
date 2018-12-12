@@ -148,6 +148,9 @@ func hover_end():
 	hover_object = null
 
 func camera_set_target(p_speed, p_target):
+	if not camera:
+		return
+
 	var target = p_target
 
 	# change_scene will pass in `null`, see if it's the player
