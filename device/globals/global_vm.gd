@@ -868,17 +868,19 @@ func save():
 	ret.append("\n")
 	ret.append("## Camera\n\n")
 	if cam_target != null:
-		if typeof(cam_target) == typeof(Vector2()):
+		if typeof(cam_target) == TYPE_VECTOR2:
 			#ret.append("camera_set_position " + str(cam_speed) + " " + str(int(cam_target.x)) + " " + str(int(cam_target.y)) + "\n")
 			ret.append("camera_set_position 0 " + str(int(cam_target.x)) + " " + str(int(cam_target.y)) + "\n")
 		else:
 			var tlist = ""
 
-			if typeof(cam_target) == typeof([]):
+			if typeof(cam_target) == TYPE_ARRAY:
 				for t in cam_target:
 					tlist = tlist + " " + t
+			elif cam_target is esc_type.PLAYER:
+				tlist = tlist + " player"
 			else:
-				tlist = tlist + " " + cam_target
+				tlist = tlist + " " + cam_target.global_id
 
 
 			ret.append("camera_set_target 0" + tlist + "\n")
