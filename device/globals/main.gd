@@ -123,6 +123,8 @@ func set_current_scene(p_scene, run_events=true):
 		if not vm.running_event:
 			vm.run_game()
 
+	vm.register_object("_scene", p_scene, true)  # Force overwrite of global
+
 func wait_finished():
 	vm.finished(wait_level)
 

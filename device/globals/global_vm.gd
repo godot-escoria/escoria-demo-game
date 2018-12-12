@@ -497,14 +497,16 @@ func get_object(name):
 		return null
 	return objects[name]
 
-func register_object(name, val):
+func register_object(name, val, force=false):
 	if !name:
 		report_errors("register_object", ["global_id not given for " + val.get_class() + " " + val.name])
 
-	if name in objects:
+	if name in objects and not force:
 		report_errors("register_object", ["Trying to register already registered object " + name + ": " + val.get_class() + " (" + val.name + ")"])
 
 	objects[name] = val
+
+	# FIXME: This is called twice through `set_current_scene`!
 	val.connect("tree_exited", self, "object_exit_scene", [name])
 
 	# Most objects have states/animations, but don't count on it
