@@ -5,6 +5,9 @@ var force_hide_tooltip = false  # Used by `set_tooltip_visible` to never show
 var orig_size
 
 func show():
+	if force_hide_tooltip:
+		return
+
 	assert self.text
 
 	set_tooltip_visible(true)
@@ -35,8 +38,6 @@ func force_tooltip_visible(p_force_hide_tooltip):
 	printt("force-hide tooltip:", force_hide_tooltip)
 	if force_hide_tooltip:
 		self.hide()
-	else:
-		self.show()
 
 func set_visible(p_visible):
 	visible = p_visible

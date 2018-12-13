@@ -387,7 +387,7 @@ func run_event(p_event):
 
 		if "NO_TT" in p_event.ev_flags:
 			if tooltip:
-				tooltip.hide()
+				tooltip.force_tooltip_visible(false)
 
 		if "NO_HUD" in p_event.ev_flags:
 			set_hud_visible(false)
@@ -410,6 +410,10 @@ func event_done(ev_name):
 		if "NO_TT" in running_event.ev_flags:
 			# Let an `overlapped_obj` deal with the tooltip if required
 			reset_overlapped_obj()
+
+			# If the event was NO_TT, explicitly or because of `say`, we shouldn't keep it hidden
+			if tooltip.force_hide_tooltip:
+				tooltip.force_tooltip_visible(true)
 
 		# Do not restore hud if next event is also NO_HUD
 		# because that would cause the hud to flash between the events
