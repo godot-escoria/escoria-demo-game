@@ -64,7 +64,11 @@ func start(params, p_context):
 			vm.report_errors("dialog_dialog", ["Missing text_id for string '" + text + "'"])
 			text = "(no id) " + text
 
-		label.set_text(text)
+		if label is RichTextLabel and label.bbcode_enabled:
+			label.bbcode_text = text
+		else:
+			label.text = text
+
 		but.connect("pressed", self, "selected", [i])
 		label.connect("mouse_entered", self, "_on_mouse_enter", [but])
 		label.connect("mouse_exited", self, "_on_mouse_exit", [but])
