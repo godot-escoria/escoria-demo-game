@@ -133,12 +133,14 @@ func music_volume_changed():
 	emit_signal("music_volume_changed")
 
 func hover_begin(obj):
-	assert obj is esc_type.ITEM or obj is esc_type.TRIGGER
+	if not obj is esc_type.ITEM and not obj is esc_type.TRIGGER:
+		report_errors("global_vm", ["Trying to hover " + obj.global_id + " which is not ITEM or TRIGGER"])
 
 	hover_object = obj
 
 func hover_end():
-	assert hover_object
+	if not hover_object:
+		report_errors("global_vm", ["Hover ended without hover_object"])
 
 	# Without this, it's possible the event remains perpetually clicked
 	# when doing a drag-and-drop motion. Then the player will never move.
@@ -402,7 +404,9 @@ func sched_event(time, obj, event):
 	event_queue.push_back([time, obj, event])
 
 func event_done(ev_name):
-	assert ev_name == running_event.ev_name
+	if ev_name != running_event.ev_name:
+		report_errors("global_vm", ["Done event mismatch: ", ev_name, " != ", running_event.ev_name])
+
 	printt("event_done: ", running_event.ev_name, running_event.ev_flags)
 	if ev_name == "setup":
 		if not "CUT_BLACK" in running_event.ev_flags:
@@ -487,17 +491,21 @@ func get_global_list():
 
 func register_tooltip(p_tooltip):
 	if tooltip and p_tooltip != tooltip:
-		assert p_tooltip is esc_type.TOOLTIP
+		if not p_tooltip is esc_type.TOOLTIP:
+			report_errors("global_vm", ["Trying to re-register non-TOOLTIP type tooltip"])
 	elif not tooltip:
-		assert p_tooltip is esc_type.TOOLTIP
+		if not p_tooltip is esc_type.TOOLTIP:
+			report_errors("global_vm", ["Trying to register non-TOOLTIP type tooltip"])
 
 	tooltip = p_tooltip
 
 func register_action_menu(p_action_menu):
 	if action_menu and p_action_menu != action_menu:
-		assert p_action_menu is esc_type.ACTION_MENU
+		if not p_action_menu is esc_type.ACTION_MENU:
+			report_errors("global_vm", ["Trying to re-register non-ACTION_MENU type action_menu"])
 	elif not action_menu:
-		assert p_action_menu is esc_type.ACTION_MENU
+		if not p_action_menu is esc_type.ACTION_MENU:
+			report_errors("global_vm", ["Trying to register non-ACTION_MENU type action_menu"])
 
 	action_menu = p_action_menu
 
@@ -556,7 +564,8 @@ func set_speed(obj, speed):
 		obj.speed = speed
 
 func set_current_action(p_action):
-	assert typeof(p_action) == TYPE_STRING
+	if typeof(p_action) != TYPE_STRING:
+		report_errors("global_vm", ["Trying to set_current_action type: " + str(typeof(p_action))])
 
 	if p_action != current_action:
 		clear_current_tool()
@@ -575,8 +584,10 @@ func clear_action():
 
 func set_current_tool(p_tool):
 	if p_tool:
-		assert p_tool is esc_type.ITEM
-		assert p_tool.inventory
+		if not p_tool is esc_type.ITEM:
+			report_errors("global_vm", ["Trying to set non-item tool"])
+		if not p_tool.inventory:
+			report_errors("global_vm", ["Trying to set non-inventory tool"])
 
 	current_tool = p_tool
 
@@ -584,16 +595,20 @@ func clear_current_tool():
 	current_tool = null
 
 func set_overlapped_obj(obj):
-	assert obj is esc_type.ITEM or obj is esc_type.TRIGGER
-	if obj is esc_type.ITEM:
-		assert not obj.inventory
+	if not obj is esc_type.ITEM and not obj is esc_type.TRIGGER:
+		report_errors("global_vm", ["Trying to set overlapped object " + obj.global_id + " which is not ITEM or TRIGGER"])
+
+	if obj is esc_type.ITEM and obj.inventory:
+		report_errors("global_vm", ["Trying to set overlapped inventory object " + obj.global_id])
 
 	overlapped_obj = obj
 
 func reset_overlapped_obj():
 	if overlapped_obj:
 		if overlapped_obj is esc_type.ITEM:
-			assert not overlapped_obj.inventory
+			if overlapped_obj.inventory:
+				report_errors("global_vm", ["Trying to reset overlapped inventory item"])
+
 			overlapped_obj.emit_signal("mouse_enter_item", overlapped_obj)
 		elif overlapped_obj is esc_type.TRIGGER:
 			overlapped_obj.emit_signal("mouse_enter_trigger", overlapped_obj)
