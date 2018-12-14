@@ -105,7 +105,6 @@ func set_bg_sound():
 
 	var resource = load(bg_sound)
 	stream.stream = resource
-	assert stream.stream
 	resource.set_loop(true)
 	stream.volume_db = 1  # TODO: Should have all this in ProjectSettings
 	stream.play()
