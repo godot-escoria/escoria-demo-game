@@ -893,8 +893,8 @@ func save():
 	ret.append("## Camera\n\n")
 	if cam_target != null:
 		if typeof(cam_target) == TYPE_VECTOR2:
-			#ret.append("camera_set_position " + str(cam_speed) + " " + str(int(cam_target.x)) + " " + str(int(cam_target.y)) + "\n")
-			ret.append("camera_set_position 0 " + str(int(cam_target.x)) + " " + str(int(cam_target.y)) + "\n")
+			#ret.append("camera_set_pos " + str(cam_speed) + " " + str(int(cam_target.x)) + " " + str(int(cam_target.y)) + "\n")
+			ret.append("camera_set_pos 0 " + str(int(cam_target.x)) + " " + str(int(cam_target.y)) + "\n")
 		else:
 			var tlist = ""
 
