@@ -240,7 +240,6 @@ func play_snd(p_snd, p_loop=false):
 
 	audio.stream = resource
 	audio.stream.set_loop(p_loop)
-	assert audio.stream
 	audio.play()
 
 	#_debug_states()

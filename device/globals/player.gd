@@ -394,7 +394,6 @@ func set_state(costume):
 	else:
 		vm.report_errors("player", ["Costume AnimationPlayer '" + costume + "' not found"])
 
-	assert(animation is AnimationPlayer)
 	animation.play(animations.idles[last_dir])
 
 func teleport_pos(x, y):

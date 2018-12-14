@@ -234,7 +234,9 @@ func ev_right_click_on_inventory_item(obj, pos, event):
 	vm.hover_begin(obj)
 
 func ev_mouse_enter_item(obj):
-	assert not obj.inventory
+	if obj.inventory:
+		vm.report_errors("game", ["Mouse entered inventory non-inventory item: " + obj.global_id])
+
 	printt(obj.name, "mouse_enter_item")
 
 	## XXX: Would want a design where this is not relevant!
@@ -245,10 +247,12 @@ func ev_mouse_enter_item(obj):
 		yield(vm.overlapped_obj, "mouse_exit_item")
 
 	vm.set_overlapped_obj(obj)
+	vm.hover_begin(obj)
 
 	# Immediately bail out if the action menu is open
 	if vm.action_menu and vm.action_menu.is_visible():
-		assert(!vm.tooltip.visible)
+		if vm.tooltip and vm.tooltip.visible:
+			vm.report_errors("game", ["Tooltip visible while action menu is visible"])
 		return
 
 	# Also bail out if inventory blocks us
@@ -286,13 +290,15 @@ func ev_mouse_enter_item(obj):
 		vm.tooltip.set_tooltip(text)
 		vm.tooltip.show()
 
-	vm.hover_begin(obj)
-
 func ev_mouse_enter_inventory_item(obj):
-	assert obj.inventory
+	if not inventory:
+		vm.report_errors("game", ["Mouse entered inventory item without inventory: " + obj.global_id])
+	if not obj.inventory:
+		vm.report_errors("game", ["Mouse entered non-inventory inventory item: " + obj.global_id])
+
 	printt(obj.name, "mouse_enter_inventory_item")
 
-	assert inventory
+	vm.hover_begin(obj)
 
 	if vm.tooltip:
 		var tt = obj.get_tooltip()
@@ -322,8 +328,6 @@ func ev_mouse_enter_inventory_item(obj):
 			elif vm.current_tool:
 				text = tr(action + ".id")
 				text = text.replace("%1", tr(tt))
-
-		vm.hover_begin(obj)
 		# }}}
 
 		# When following the mouse, prevent text from flashing for a moment in the wrong place
@@ -334,8 +338,6 @@ func ev_mouse_enter_inventory_item(obj):
 
 		vm.tooltip.set_tooltip(text)
 		vm.tooltip.show()
-
-	vm.hover_begin(obj)
 
 func ev_mouse_exit_item(obj):
 	printt(obj.name, "mouse_exit_item")
@@ -365,7 +367,8 @@ func ev_mouse_exit_inventory_item(obj):
 	# items with the action menu open, we would get an empty tooltip
 	# when the action menu closes
 	if vm.action_menu and vm.action_menu.is_visible():
-		assert(!vm.tooltip.visible)
+		if vm.tooltip and vm.tooltip.visible:
+			vm.report_errors("game", ["Tooltip visible while action menu is visible"])
 		return
 
 	if vm.tooltip:
@@ -389,12 +392,16 @@ func ev_mouse_enter_trigger(obj):
 
 	# Immediately bail out if the action menu is open
 	if vm.action_menu and vm.action_menu.is_visible():
-		assert(!vm.tooltip.visible)
+		if vm.tooltip and vm.tooltip.visible:
+			vm.report_errors("game", ["Tooltip visible while action menu is visible"])
 		return
 
 	# Also bail out if inventory blocks us
 	if inventory and inventory.blocks_tooltip():
 		return
+
+	vm.set_overlapped_obj(obj)
+	vm.hover_begin(obj)
 
 	if vm.tooltip:
 		var tt = obj.get_tooltip()
@@ -419,9 +426,6 @@ func ev_mouse_enter_trigger(obj):
 
 		vm.tooltip.set_tooltip(text)
 		vm.tooltip.show()
-
-	vm.set_overlapped_obj(obj)
-	vm.hover_begin(obj)
 
 func ev_mouse_exit_trigger(obj):
 	printt(obj.name, "mouse_exit_trigger")

@@ -192,7 +192,10 @@ func init(p_params, p_context, p_intro, p_outro):
 	label.bbcode_enabled = true
 
 	var parsed_ok = label.parse_bbcode(text)
-	assert(parsed_ok == OK)
+
+	if parsed_ok != OK:
+		vm.report_errors("dialog_instance", ["Label failed parsing bbcode: " + text])
+
 	label.bbcode_text = "\n" + text
 	label.set_visible_characters(0)  # This length is always adjusted later
 
@@ -283,7 +286,9 @@ func _ready():
 	var speech_locales_path = ProjectSettings.get_setting("escoria/application/speech_locales_path")
 	if speech_locales_path:
 		var speech_locales_def = load(speech_locales_path).new()
-		assert(vm.settings.voice_lang in speech_locales_def.speech_locales)
+
+		if not vm.settings.voice_lang in speech_locales_def.speech_locales:
+			vm.report_errors("dialog_instance", ["Settings voice_lang not in defined speech locales: " + vm.settings.voice_lang])
 
 	vm.connect("paused", self, "game_paused")
 

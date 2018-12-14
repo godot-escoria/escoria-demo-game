@@ -28,7 +28,8 @@ func clear_scene():
 	current = null
 
 func set_scene(p_scene, run_events=true):
-	assert p_scene
+	if not p_scene:
+		vm.report_errors("main", ["Trying to set empty scene"])
 
 	## Uncomment this as a starting point in case of trouble,
 	## but it occurs that yielding here will cause lag and apparently
@@ -107,8 +108,12 @@ func set_current_scene(p_scene, run_events=true):
 		if vm.game:
 			# Having a game with `:setup` means we must wait for it to finish
 			if "setup" in vm.game:
-				assert vm.running_event
-				assert vm.running_event.ev_name == "setup"
+				if not vm.running_event:
+					vm.report_errors("main", ["vm.game has setup but no running_event"])
+
+				if vm.running_event.ev_name != "setup":
+					vm.report_errors("main", ["vm.game has setup but it is not running"])
+
 				yield(vm, "event_done")
 		else:
 			vm.load_file(current.events_path)
