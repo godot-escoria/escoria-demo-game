@@ -716,7 +716,8 @@ func change_scene(params, context, run_events=true):
 	if context != null:
 		context.waiting = false
 
-	camera_set_target(0, null)
+	cam_speed = 0
+	cam_target = null
 	autosave_pending = true
 
 func spawn(params):
@@ -900,11 +901,10 @@ func save():
 			if typeof(cam_target) == TYPE_ARRAY:
 				for t in cam_target:
 					tlist = tlist + " " + t
-			elif cam_target is esc_type.PLAYER:
-				tlist = tlist + " player"
-			else:
+			elif "global_id" in cam_target and not cam_target is esc_type.PLAYER:
 				tlist = tlist + " " + cam_target.global_id
-
+			else:
+				tlist = tlist + " player"
 
 			ret.append("camera_set_target 0" + tlist + "\n")
 			ret.append("camera_set_target " + str(cam_speed) + tlist + "\n")
