@@ -298,6 +298,13 @@ func camera_set_zoom_height(params):
 	var time = params[1] if params.size() > 1 else 0
 	vm.camera_set_zoom(magnitude, float(time))
 
+func camera_push(params):
+	var target = params[0]
+	var time = params[1] if params.size() > 1 else 1
+	var type = params[2] if params.size() > 2 else "QUAD"
+
+	vm.camera_push(target, time, type)
+
 func set_globals(params):
 	var pat = params[0]
 	var val = params[1]

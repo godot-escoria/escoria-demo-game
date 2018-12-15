@@ -85,6 +85,27 @@ func set_zoom(p_zoom_level, p_time):
 
 		tween.start()
 
+func push(p_target, p_time, p_type):
+	var time = float(p_time)
+	var type = "TRANS_" + p_type
+
+	if not p_target.has_node("camera_pos"):
+		vm.report_errors("camera", ["Tried pushing to target without camera_pos: " + p_target.global_id])
+
+	var camera_pos = p_target.get_node("camera_pos")
+
+	target = p_target
+
+	if tween.is_active():
+		tween.stop_all()
+
+	if camera_pos is Camera2D:
+		tween.interpolate_property(self, "zoom", self.zoom, camera_pos.zoom, time, Tween.get(type), Tween.EASE_IN_OUT)
+
+	tween.interpolate_property(self, "global_position", self.global_position, camera_pos.global_position, time, Tween.get(type), Tween.EASE_IN_OUT)
+
+	tween.start()
+
 func target_reached(obj, key):
 	tween.stop_all()
 

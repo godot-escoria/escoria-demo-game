@@ -179,6 +179,13 @@ func camera_set_target(p_speed, p_target):
 func camera_set_zoom(p_zoom_level, p_time):
 	camera.set_zoom(p_zoom_level, p_time)
 
+func camera_push(p_target, p_time, p_type):
+	var target = get_object(p_target)
+
+	camera.push(target, p_time, p_type)
+
+	cam_target = p_target
+
 func inventory_has(p_obj):
 	return get_global("i/"+p_obj)
 
