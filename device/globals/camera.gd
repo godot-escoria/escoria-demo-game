@@ -1,13 +1,15 @@
 extends Camera2D
 
+onready var tween = $"tween"
+
 var default_limits = {}  # This does not change once set
 
 var speed = 0
 var target
+var target_pos
 
 var zoom_time
 var zoom_target
-var zoom_step
 
 # This is needed to adjust dialog positions and such, see dialog_instance.gd
 var zoom_transform
@@ -31,29 +33,7 @@ func set_limits(kwargs=null):
 	if "set_default" in kwargs and kwargs["set_default"] and not default_limits:
 		default_limits = kwargs
 
-func set_target(p_speed, p_target):
-	speed = p_speed
-	target = p_target
-
-func set_zoom(p_zoom_level, p_time):
-	if p_zoom_level <= 0.0:
-		vm.report_errors("camera", ["Tried to set negative or zero zoom level"])
-
-	zoom_time = p_time
-	zoom_target = Vector2(1, 1) * p_zoom_level
-
-	# Calculate magnitude to zoom per second
-	zoom_step = (zoom_target - self.zoom) / zoom_time
-
-func update(time):
-	var target_pos
-
-	# Force some kind of target if there is none
-	if not target:
-		target = vm.get_object("player")
-	if not target:
-		target = Vector2(0, 0)
-
+func resolve_target_pos():
 	if typeof(target) == TYPE_VECTOR2:
 		target_pos = target
 	elif typeof(target) == TYPE_ARRAY:
@@ -68,31 +48,58 @@ func update(time):
 	else:
 		target_pos = target.get_camera_pos()
 
-	# The camera position is set to target when it's about to overstep it,
-	# or when it's moved there instantly.
-	# Compare the camera and target position until then
-	if self.global_position != target_pos:
-		var v = target_pos - self.position  # vector to move along
-		var step = speed * time      # pixel size of step to move
+	return target_pos
 
-		# This is where we may overstep or move instantly
-		if step > v.length() || speed == 0:
-			self.global_position = target_pos
-		else:
-			target_pos = self.global_position + v.normalized() * step
-			self.global_position = target_pos
+func set_target(p_speed, p_target):
+	speed = p_speed
+	target = p_target
 
-	if zoom_target:
-		var zstep = zoom_step * time
-		var diff = self.zoom - zoom_target
-		if zstep.length() > diff.length() || zoom_time == 0:
-			self.zoom = zoom_target
-			zoom_target = null
-			zoom_transform = self.get_canvas_transform()
-		else:
-			self.zoom += zstep
-	# Even when not zooming, somehow the clamping of dialog, when the
-	# scene is not zoomed, goes awry without this :/
+	resolve_target_pos()
+
+	if speed == 0:
+		self.global_position = target_pos
 	else:
-		zoom_transform = self.get_canvas_transform()
+		var time = self.global_position.distance_to(target_pos) / speed
+
+		if tween.is_active():
+			tween.stop_all()
+
+		tween.interpolate_property(self, "global_position", self.global_position, target_pos, time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+
+		tween.start()
+
+func set_zoom(p_zoom_level, p_time):
+	if p_zoom_level <= 0.0:
+		vm.report_errors("camera", ["Tried to set negative or zero zoom level"])
+
+	zoom_time = p_time
+	zoom_target = Vector2(1, 1) * p_zoom_level
+
+	if zoom_time == 0:
+		self.zoom = zoom_target
+	else:
+		if tween.is_active():
+			tween.stop_all()
+
+		tween.interpolate_property(self, "zoom", self.zoom, zoom_target, zoom_time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+
+		tween.start()
+
+func target_reached(obj, key):
+	tween.stop_all()
+
+func _process(time):
+	zoom_transform = self.get_canvas_transform()
+
+	if target and not tween.is_active():
+		self.global_position = resolve_target_pos()
+
+func _ready():
+	# Init some kind of target if there is none
+	if not target:
+		target = vm.get_object("player")
+	if not target:
+		target = Vector2(0, 0)
+
+	tween.connect("tween_completed", self, "target_reached")
 

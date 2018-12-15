@@ -639,8 +639,6 @@ func _process(time):
 	check_event_queue(time)
 	run()
 	check_autosave()
-	if camera:
-		camera.update(time)
 
 func run_top():
 	var top = stack[stack.size()-1]
