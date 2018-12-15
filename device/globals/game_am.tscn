@@ -4,7 +4,7 @@
 [ext_resource path="res://ui/dialog_player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://globals/camera.gd" type="Script" id=3]
 
-[node name="game" type="Node"]
+[node name="game" type="Node" index="0"]
 
 script = ExtResource( 1 )
 fallbacks_path = "res://demo/fallbacks.esc"
@@ -69,5 +69,14 @@ editor_draw_screen = true
 editor_draw_limits = false
 editor_draw_drag_margin = false
 script = ExtResource( 3 )
+
+[node name="tween" type="Tween" parent="camera" index="0"]
+
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
 
 
