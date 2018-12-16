@@ -68,4 +68,13 @@ editor_draw_limits = false
 editor_draw_drag_margin = false
 script = ExtResource( 3 )
 
+[node name="tween" type="Tween" parent="camera" index="0"]
+
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
+
 

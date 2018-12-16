@@ -284,6 +284,10 @@ Items can also change state by playing animations from an `AnimationPlayer` name
 -`camera_set_zoom_height pixels [time]`
   Similar to the command above, but uses pixel height instead of magnitude to zoom.
 
+-`camera_push target [time] [type]`
+  Push camera to target. Target must have `camera_pos` set. If it's of type `Camera2D`, its zoom will be used as well as position.
+  `type` is any of the `Tween.TransitionType` values without the prefix, eg. `LINEAR`, `QUART` or `CIRC`; defaults to `QUART`.
+
 - `queue_resource path front_of_queue`
   Queues the load of a resource in a background thread. The path must be a full path inside your game, for example "res://scenes/next_scene.tscn". The "front_of_queue" parameter is optional (default value false), to put the resource in the front of the queue. Queued resources are cleared when a change scene happens (but after the scene is loaded, meaning you can queue resources that belong to the next scene).
 

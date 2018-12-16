@@ -30,7 +30,6 @@ var game
 var res_cache
 
 var cam_target = null
-var cam_speed = 0
 var camera
 
 ## One game, one VM; there are many things we can have only one of, track them here.
@@ -172,7 +171,6 @@ func camera_set_target(p_speed, p_target):
 			target[i] = obj
 
 	# Set state for savegames
-	cam_speed = p_speed
 	cam_target = p_target
 
 	# Kick it
@@ -180,6 +178,13 @@ func camera_set_target(p_speed, p_target):
 
 func camera_set_zoom(p_zoom_level, p_time):
 	camera.set_zoom(p_zoom_level, p_time)
+
+func camera_push(p_target, p_time, p_type):
+	var target = get_object(p_target)
+
+	camera.push(target, p_time, p_type)
+
+	cam_target = p_target
 
 func inventory_has(p_obj):
 	return get_global("i/"+p_obj)
@@ -641,8 +646,6 @@ func _process(time):
 	check_event_queue(time)
 	run()
 	check_autosave()
-	if camera:
-		camera.update(time)
 
 func run_top():
 	var top = stack[stack.size()-1]
@@ -716,7 +719,6 @@ func change_scene(params, context, run_events=true):
 	if context != null:
 		context.waiting = false
 
-	cam_speed = 0
 	cam_target = null
 	autosave_pending = true
 
@@ -893,7 +895,6 @@ func save():
 	ret.append("## Camera\n\n")
 	if cam_target != null:
 		if typeof(cam_target) == TYPE_VECTOR2:
-			#ret.append("camera_set_pos " + str(cam_speed) + " " + str(int(cam_target.x)) + " " + str(int(cam_target.y)) + "\n")
 			ret.append("camera_set_pos 0 " + str(int(cam_target.x)) + " " + str(int(cam_target.y)) + "\n")
 		else:
 			var tlist = ""
@@ -907,7 +908,6 @@ func save():
 				tlist = tlist + " player"
 
 			ret.append("camera_set_target 0" + tlist + "\n")
-			ret.append("camera_set_target " + str(cam_speed) + tlist + "\n")
 
 	if customs:
 		ret.append("\n")

@@ -616,6 +616,7 @@ func set_inventory_enabled(p_enabled):
 		$"hud_layer/hud/inv_toggle".hide()
 
 func set_camera_limits():
+	var limits = {}
 	if camera_limits.size.x == 0 and camera_limits.size.y == 0:
 		var area = Rect2()
 		for child in get_parent().get_children():
@@ -629,19 +630,26 @@ func set_camera_limits():
 			printt("No limit area! Using viewport")
 			area.size = get_viewport().size
 
-		camera.limit_left = area.position.x
-		camera.limit_right = area.position.x + area.size.x
-		camera.limit_top = area.position.y
-		camera.limit_bottom = area.position.y + area.size.y
 
 		printt("setting camera limits from scene ", area)
+		limits = {
+			"limit_left": area.position.x,
+			"limit_right": area.position.x + area.size.x,
+			"limit_top": area.position.y,
+			"limit_bottom": area.position.y + area.size.y,
+			"set_default": true,
+		}
 	else:
-		camera.limit_left = camera_limits.position.x
-		camera.limit_right = camera_limits.position.x + camera_limits.size.x
-		camera.limit_top = camera_limits.position.y
-		camera.limit_bottom = camera_limits.position.y + camera_limits.size.y + main.screen_ofs.y * 2
+		limits = {
+			"limit_left": camera_limits.position.x,
+			"limit_right": camera_limits.position.x + camera_limits.size.x,
+			"limit_top": camera_limits.position.y,
+			"limit_bottom": camera_limits.position.y + camera_limits.size.y + main.screen_ofs.y * 2,
+			"set_default": true,
+		}
 		printt("setting camera limits from parameter ", camera_limits)
 
+	camera.set_limits(limits)
 	camera.set_offset(main.screen_ofs * 2)
 
 	#vm.update_camera(0.000000001)
