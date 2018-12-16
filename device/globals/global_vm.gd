@@ -186,6 +186,11 @@ func camera_push(p_target, p_time, p_type):
 
 	cam_target = p_target
 
+func camera_shift(p_x, p_y, p_time, p_type):
+	camera.shift(p_x, p_y, p_time, p_type)
+
+	cam_target = camera.target
+
 func inventory_has(p_obj):
 	return get_global("i/"+p_obj)
 

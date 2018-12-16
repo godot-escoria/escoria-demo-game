@@ -305,6 +305,14 @@ func camera_push(params):
 
 	vm.camera_push(target, time, type)
 
+func camera_shift(params):
+	var x = params[0]
+	var y = params[1]
+	var time = params[2] if params.size() > 2 else 1
+	var type = params[3] if params.size() > 3 else "QUAD"
+
+	vm.camera_shift(x, y, time, type)
+
 func set_globals(params):
 	var pat = params[0]
 	var val = params[1]

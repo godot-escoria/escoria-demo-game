@@ -106,6 +106,23 @@ func push(p_target, p_time, p_type):
 
 	tween.start()
 
+func shift(p_x, p_y, p_time, p_type):
+	var x = int(p_x)
+	var y = int(p_y)
+	var time = float(p_time)
+	var type = "TRANS_" + p_type
+
+	var new_pos = self.global_position + Vector2(x, y)
+
+	target = new_pos
+
+	if tween.is_active():
+		tween.stop_all()
+
+	tween.interpolate_property(self, "global_position", self.global_position, new_pos, time, Tween.get(type), Tween.EASE_IN_OUT)
+
+	tween.start()
+
 func target_reached(obj, key):
 	tween.stop_all()
 
