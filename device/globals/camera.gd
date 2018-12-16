@@ -1,5 +1,7 @@
 extends Camera2D
 
+var default_limits = {}  # This does not change once set
+
 var speed = 0
 var target
 
@@ -9,6 +11,25 @@ var zoom_step
 
 # This is needed to adjust dialog positions and such, see dialog_instance.gd
 var zoom_transform
+
+func set_limits(kwargs=null):
+	if not kwargs:
+		kwargs = {
+			"limit_left": -10000,
+			"limit_right": 10000,
+			"limit_top": -10000,
+			"limit_bottom": 10000,
+			"set_default": false,
+		}
+		print_stack()
+
+	self.limit_left = kwargs["limit_left"]
+	self.limit_right = kwargs["limit_right"]
+	self.limit_top = kwargs["limit_top"]
+	self.limit_bottom = kwargs["limit_bottom"]
+
+	if "set_default" in kwargs and kwargs["set_default"] and not default_limits:
+		default_limits = kwargs
 
 func set_target(p_speed, p_target):
 	speed = p_speed
