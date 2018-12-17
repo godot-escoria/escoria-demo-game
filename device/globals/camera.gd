@@ -89,20 +89,23 @@ func push(p_target, p_time, p_type):
 	var time = float(p_time)
 	var type = "TRANS_" + p_type
 
-	if not p_target.has_node("camera_pos"):
-		vm.report_errors("camera", ["Tried pushing to target without camera_pos: " + p_target.global_id])
-
-	var camera_pos = p_target.get_node("camera_pos")
-
 	target = p_target
+
+	var camera_pos
+	var camera_pos_coords
+	if target.has_node("camera_pos"):
+		camera_pos = target.get_node("camera_pos")
+		camera_pos_coords = camera_pos.global_position
+	else:
+		camera_pos_coords = target.global_position
 
 	if tween.is_active():
 		tween.stop_all()
 
-	if camera_pos is Camera2D:
+	if camera_pos and camera_pos is Camera2D:
 		tween.interpolate_property(self, "zoom", self.zoom, camera_pos.zoom, time, Tween.get(type), Tween.EASE_IN_OUT)
 
-	tween.interpolate_property(self, "global_position", self.global_position, camera_pos.global_position, time, Tween.get(type), Tween.EASE_IN_OUT)
+	tween.interpolate_property(self, "global_position", self.global_position, camera_pos_coords, time, Tween.get(type), Tween.EASE_IN_OUT)
 
 	tween.start()
 
