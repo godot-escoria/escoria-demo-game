@@ -85,6 +85,12 @@ func _clamp(tt_pos):
 func set_position(pos):
 	.set_position(_clamp(pos))
 
+func _input(ev):
+	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
+		# Must verify `position` is there, key inputs do not have it
+		if "position" in ev:
+			self.set_position(ev.position)
+
 func _ready():
 	vm.register_tooltip(self)
 	orig_size = self.rect_size

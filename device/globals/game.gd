@@ -600,12 +600,6 @@ func _process(time):
 
 	player.walk_to(player.get_position() + dir * 20)
 
-func _input(ev):
-	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
-		# Must verify `position` is there, key inputs do not have it
-		if vm.hover_object and "position" in ev:
-			vm.tooltip.set_position(ev.position)
-
 func set_inventory_enabled(p_enabled):
 	inventory_enabled = p_enabled
 	if !has_node("hud_layer/hud/inv_toggle"):
