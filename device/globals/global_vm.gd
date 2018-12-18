@@ -136,6 +136,8 @@ func hover_begin(obj):
 		report_errors("global_vm", ["Trying to hover " + obj.global_id + " which is not ITEM or TRIGGER"])
 
 	hover_object = obj
+	if tooltip:
+		tooltip.update()
 
 func hover_end():
 	if not hover_object:
@@ -147,6 +149,8 @@ func hover_end():
 		hover_object.clicked = false
 
 	hover_object = null
+	if tooltip:
+		tooltip.update()
 
 func camera_set_target(p_speed, p_target):
 	if not camera:
@@ -454,10 +458,9 @@ func event_done(ev_name):
 	running_event = null
 
 	# For example dialog will hide the tooltip, but we may want to see it again
-	if tooltip and self.hover_object:
+	if tooltip:
 		if not action_menu or not action_menu.is_visible():
-			tooltip.set_tooltip(self.hover_object.get_tooltip())
-			tooltip.show()
+			tooltip.update()
 
 func get_global(name):
 	# If no value or looks like boolean, return boolean for backwards compatibility

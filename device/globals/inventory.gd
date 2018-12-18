@@ -25,13 +25,11 @@ func open():
 		return
 
 	if vm.tooltip:
-		# Hide if we don't have a tool
-		if not vm.current_tool:
-			vm.tooltip.hide()
-		# And this is where it gets fishy ...
-		else:
-			# ... because we must re-enter the item to get the tooltip sorted
-			vm.current_tool.emit_signal("mouse_enter_inventory_item", vm.current_tool)
+		# Anything left underneath the inventory is not considered hovering
+		if vm.hover_object:
+			vm.hover_end()
+
+		vm.tooltip.update()
 
 	if vm.action_menu:
 		# `false` is for show_tooltip=false
