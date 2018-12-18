@@ -27,6 +27,34 @@ func hide():
 
 	set_tooltip_visible(false)
 
+func update():
+	var text = ""
+
+	if vm.hover_object:
+		var tt = vm.hover_object.get_tooltip()
+
+		if vm.current_action and vm.current_tool and vm.current_tool != vm.hover_object:
+			text = tr(vm.current_action + ".combine_id")
+			text = text.replace("%2", tr(tt))
+			text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
+		elif vm.current_action == "use" and vm.current_tool:
+			text = tr("use.id")
+			text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
+		else:
+			text = tr(tt)
+	else:
+		if vm.current_action and vm.current_tool:
+			if not vm.hover_object:
+				text = tr(vm.current_action + ".id")
+				text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
+
+	vm.tooltip.set_tooltip(text)
+	if text:
+		vm.tooltip.show()
+		self.set_position(get_global_mouse_position())
+	else:
+		vm.tooltip.hide()
+
 func set_tooltip(text):
 	if not typeof(text) == TYPE_STRING:
 		vm.report_errors("tooltip", ["Trying to set tooltip of type: " + str(typeof(text))])
