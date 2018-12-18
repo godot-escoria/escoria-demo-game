@@ -191,9 +191,6 @@ Items can also change state by playing animations from an `AnimationPlayer` name
 - `set_hud_visible visible`
   If you have a cut-scene-like sequence where the player doesn't have control, and you also have HUD elements visible, use this to hide the HUD. You want to do that because it explicitly signals the player that there is no control over the game at the moment. "visible" is true or false.
 
-- `set_tooltip_visible visible`
-  Escoria's dialog system, like the `say` command, has no feedback channel to the tooltip system. This means the tooltip will appear between lines of dialog, which is confusing. Unless someone solves this problem, you should consider hiding the tooltip (or the entire hud) when many lines are spoken.
-
 - `say object text [type] [avatar]`
   Runs the specified string as a dialog said by the object. Blocks execution until the dialog finishes playing. Optional parameters:
   - "type" determines the type of dialog UI to use. Default value is "default"

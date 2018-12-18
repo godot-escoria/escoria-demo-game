@@ -18,7 +18,6 @@ var commands = {
 	"play_snd": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING, TYPE_BOOL] },
 	"set_state": { "min_args": 2 },
 	"set_hud_visible": { "min_args": 1, "types": [TYPE_BOOL]},
-	"set_tooltip_visible": { "min_args": 1, "types": [TYPE_BOOL]},
 	"say": { "min_args": 2 },
 	"?": { "alias": "dialog"},
 	"!": { "alias": "end_dialog", "min_args": 0 },

@@ -203,14 +203,6 @@ func say(params, level):
 func set_hud_visible(p_visible):
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_visible", p_visible)
 
-func set_tooltip_visible(p_visible):
-	# Wrapper that vm_level can use
-	if tooltip:
-		if p_visible:
-			tooltip.show()
-		else:
-			tooltip.hide()
-
 func dialog_config(params):
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "dialog", "config", params)
 
