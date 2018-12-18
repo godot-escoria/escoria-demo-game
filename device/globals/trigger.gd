@@ -46,6 +46,9 @@ func input(event):
 	if inventory and inventory.blocks_tooltip():
 		return
 
+	if vm.action_menu and vm.action_menu.is_visible():
+		vm.action_menu.stop()
+
 	var player = vm.get_object("player")
 	# Get mouse position, since event.position only works with Area2D exits
 	var pos = get_global_mouse_position()
