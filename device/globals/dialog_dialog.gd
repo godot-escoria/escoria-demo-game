@@ -1,9 +1,11 @@
 extends Control
 
-export var mouse_enter_color = Color(1,1,0.3)
-export var mouse_enter_shadow_color = Color(0.6,0.4,0)
-export var mouse_exit_color = Color(1,1,1)
-export var mouse_exit_shadow_color = Color(1,1,1)
+export(bool) var use_mouse_enter_shadow = true
+export(bool) var use_mouse_exit_shadow = true
+export(Color) var mouse_enter_color = Color(1, 1, 1)
+export(Color) var mouse_enter_shadow_color = Color(0.6, 0.4, 0)
+export(Color) var mouse_exit_color = Color(1, 1, 1)
+export(Color) var mouse_exit_shadow_color = Color(1, 1, 1)
 
 var cmd
 var container
@@ -120,11 +122,13 @@ func start(params, p_context):
 
 func _on_mouse_enter(button):
 	button.get_node("label").add_color_override("font_color", mouse_enter_color)
-	button.get_node("label").add_color_override("font_color_shadow", mouse_enter_shadow_color)
+	if use_mouse_enter_shadow:
+		button.get_node("label").add_color_override("font_color_shadow", mouse_enter_shadow_color)
 
 func _on_mouse_exit(button):
 	button.get_node("label").add_color_override("font_color", mouse_exit_color)
-	button.get_node("label").add_color_override("font_color_shadow", mouse_exit_shadow_color)
+	if use_mouse_exit_shadow:
+		button.get_node("label").add_color_override("font_color_shadow", mouse_exit_shadow_color)
 
 func stop():
 	hide()
