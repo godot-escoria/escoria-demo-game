@@ -72,9 +72,6 @@ func ev_left_click_on_bg(obj, pos, event):
 		click_anim.play("click")
 
 	player.walk_to(pos, walk_context)
-	# Leave the tooltip if the player is in eg. a "use key with" state
-	if not vm.current_action and vm.hover_object:
-		vm.hover_end()
 
 	if vm.tooltip:
 		if not vm.current_tool:
@@ -206,11 +203,6 @@ func ev_left_click_on_inventory_item(obj, pos, event):
 	# Use and look are the only valid choices with an action menu
 	if vm.action_menu:
 		vm.set_current_action("use")
-		# XXX: Setting an action here does not update the tooltip like `mouse_enter` does. Compensate.
-		if vm.tooltip:
-			var text = tr("use.id")
-			text = text.replace("%1", tr(obj.get_tooltip()))
-			vm.tooltip.set_tooltip(text)
 
 	if vm.current_action == "use" and obj.use_combine:
 		if not vm.current_tool:
@@ -218,20 +210,26 @@ func ev_left_click_on_inventory_item(obj, pos, event):
 		elif vm.current_tool != obj:
 			interact([obj, vm.current_action, vm.current_tool])
 
+	if vm.tooltip:
+		vm.tooltip.update()
+
 func ev_right_click_on_inventory_item(obj, pos, event):
 	printt(obj.name, "right-clicked at", pos, "with", event, can_click())
 
 	if not can_click():
 		return
 
-	# Do not set `look` as permanent action
-	interact([obj, "look"])
-	# XXX: Moving the mouse during `:look` will cause the tooltip to disappear
-	# so the following is a good-enough-for-now fix for it
-	if vm.tooltip:
-		vm.tooltip.set_tooltip(obj.get_tooltip())
-
-	vm.hover_begin(obj)
+	if vm.current_tool:
+		vm.clear_current_tool()
+		if vm.tooltip:
+			vm.tooltip.update()
+	else:
+		# Do not set `look` as permanent action
+		interact([obj, "look"])
+		# XXX: Moving the mouse during `:look` will cause the tooltip to disappear
+		# so the following is a good-enough-for-now fix for it
+		if vm.tooltip:
+			vm.tooltip.update()
 
 func ev_mouse_enter_item(obj):
 	if obj.inventory:
@@ -247,7 +245,6 @@ func ev_mouse_enter_item(obj):
 		yield(vm.overlapped_obj, "mouse_exit_item")
 
 	vm.set_overlapped_obj(obj)
-	vm.hover_begin(obj)
 
 	# Immediately bail out if the action menu is open
 	if vm.action_menu and vm.action_menu.is_visible():
@@ -261,7 +258,6 @@ func ev_mouse_enter_item(obj):
 
 	if vm.tooltip:
 		var tt = obj.get_tooltip()
-		var text
 
 		# XXX: The warning report may be removed if it turns out to be too annoying in practice
 		if not tt:
@@ -272,23 +268,7 @@ func ev_mouse_enter_item(obj):
 			# `mouse_enter` events have no guaranteed order.
 			return
 
-		# {{{ tooltip handling
-		if vm.current_action and vm.current_tool:
-			text = tr(vm.current_action + ".combine_id")
-			text = text.replace("%2", tr(tt))
-			text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
-		else:
-			text = tr(tt)
-		# }}}
-
-		# When following the mouse, prevent text from flashing for a moment in the wrong place
-		if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
-			var pos = get_viewport().get_mouse_position()
-
-			vm.tooltip.set_position(pos)
-
-		vm.tooltip.set_tooltip(text)
-		vm.tooltip.show()
+	vm.hover_begin(obj)
 
 func ev_mouse_enter_inventory_item(obj):
 	if not inventory:
@@ -298,11 +278,8 @@ func ev_mouse_enter_inventory_item(obj):
 
 	printt(obj.name, "mouse_enter_inventory_item")
 
-	vm.hover_begin(obj)
-
 	if vm.tooltip:
 		var tt = obj.get_tooltip()
-		var text
 
 		# XXX: The warning report may be removed if it turns out to be too annoying in practice
 		if not tt:
@@ -313,52 +290,21 @@ func ev_mouse_enter_inventory_item(obj):
 			# `mouse_enter` events have no guaranteed order.
 			return
 
-		# {{{ tooltip handling
-		if not vm.current_action:
-			text = tr(tt)
-		else:
-			var action = inventory.get_action()
-			if action == "":
-				action = vm.current_action
-
-			if vm.current_tool and vm.current_tool != obj:
-				text = tr(vm.current_action + ".combine_id")
-				text = text.replace("%2", tr(tt))
-				text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
-			elif vm.current_tool:
-				text = tr(action + ".id")
-				text = text.replace("%1", tr(tt))
-		# }}}
-
-		# When following the mouse, prevent text from flashing for a moment in the wrong place
-		if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
-			var pos = get_viewport().get_mouse_position()
-
-			vm.tooltip.set_position(pos)
-
-		vm.tooltip.set_tooltip(text)
-		vm.tooltip.show()
+	vm.hover_begin(obj)
 
 func ev_mouse_exit_item(obj):
 	printt(obj.name, "mouse_exit_item")
 
-	if vm.tooltip:
-		var text = ""
-
-		if vm.current_action and vm.current_tool:
-			text = tr(vm.current_action + ".id")
-			text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
-
-			vm.tooltip.set_tooltip(text)
-			vm.tooltip.show()
-		else:
-			vm.tooltip.hide()
-
-	# Want to retain the hover if the player is about to perform an action
-	if not vm.current_action and vm.hover_object:
-		vm.hover_end()
-
 	vm.clear_overlapped_obj()
+
+	if vm.action_menu and vm.action_menu.is_visible():
+		return
+
+	# Also bail out if inventory blocks us
+	if inventory and inventory.blocks_tooltip():
+		return
+
+	vm.hover_end()
 
 func ev_mouse_exit_inventory_item(obj):
 	printt(obj.name, "mouse_exit_inventory_item")
@@ -371,21 +317,7 @@ func ev_mouse_exit_inventory_item(obj):
 			vm.report_errors("game", ["Tooltip visible while action menu is visible"])
 		return
 
-	if vm.tooltip:
-		var text = ""
-
-		if vm.current_action and vm.current_tool:
-			text = tr(vm.current_action + ".id")
-			text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
-
-			vm.tooltip.set_tooltip(text)
-			vm.tooltip.show()
-		else:
-			vm.tooltip.hide()
-
-	# Want to retain the hover if the player is about to perform an action
-	if not vm.current_action and vm.hover_object:
-		vm.hover_end()
+	vm.hover_end()
 
 func ev_mouse_enter_trigger(obj):
 	printt(obj.name, "mouse_enter_trigger")
@@ -401,11 +333,9 @@ func ev_mouse_enter_trigger(obj):
 		return
 
 	vm.set_overlapped_obj(obj)
-	vm.hover_begin(obj)
 
 	if vm.tooltip:
 		var tt = obj.get_tooltip()
-		var text
 
 		# XXX: The warning report may be removed if it turns out to be too annoying in practice
 		if not tt:
@@ -416,33 +346,15 @@ func ev_mouse_enter_trigger(obj):
 			# `mouse_enter` events have no guaranteed order.
 			return
 
-		text = tr(tt)
-
-		# When following the mouse, prevent text from flashing for a moment in the wrong place
-		if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
-			var pos = get_viewport().get_mouse_position()
-
-			vm.tooltip.set_position(pos)
-
-		vm.tooltip.set_tooltip(text)
-		vm.tooltip.show()
+	vm.hover_begin(obj)
 
 func ev_mouse_exit_trigger(obj):
 	printt(obj.name, "mouse_exit_trigger")
 
-	if vm.tooltip:
-		var text = ""
-
-		if vm.current_action and vm.current_tool:
-			text = tr(vm.current_action + ".id")
-			text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
-
-			vm.tooltip.set_tooltip(text)
-			vm.tooltip.show()
-		else:
-			vm.tooltip.hide()
-
 	vm.clear_overlapped_obj()
+	# FIXME: Action menu on item, click trigger which causes dialog, hover_object is not set, but should be
+	if vm.hover_object:
+		vm.hover_end()
 
 func spawn_action_menu(obj):
 	if vm.action_menu == null:
@@ -599,12 +511,6 @@ func _process(time):
 		return
 
 	player.walk_to(player.get_position() + dir * 20)
-
-func _input(ev):
-	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
-		# Must verify `position` is there, key inputs do not have it
-		if vm.hover_object and "position" in ev:
-			vm.tooltip.set_position(ev.position)
 
 func set_inventory_enabled(p_enabled):
 	inventory_enabled = p_enabled
