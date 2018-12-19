@@ -11,7 +11,12 @@ func start(p_node, p_target, p_slot):
 	slot = p_slot
 
 	# This allows having TextureRects by the name of eg UI_CONFIRM_NEW_GAME or UI_CONFIRM_QUIT
-	lang_node.get_node(p_node).show()
+	var content_node = lang_node.get_node(p_node)
+
+	if content_node is preload("res://ui/translated_label.gd") or content_node is preload("res://ui/translated_rtlabel.gd"):
+		content_node.language_changed()
+
+	content_node.show()
 
 	if anim:
 		anim.play("open")

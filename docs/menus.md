@@ -61,6 +61,9 @@ In these you can have eg. `TextureRect`s called
   * UI_QUIT_CONFIRM
   * UI_NEW_GAME_CONFIRM
 
+Optionally you can use the `ui/translated_label.gd` or `ui/translated_rtlabel.gd`
+scripts to pull text from localization.
+
 Which are hidden by default and shown on demand.
 
 You must also have the following
