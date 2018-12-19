@@ -72,8 +72,8 @@ func start(params, p_context):
 			label.text = text
 
 		but.connect("pressed", self, "selected", [i])
-		label.connect("mouse_entered", self, "_on_mouse_enter", [but])
-		label.connect("mouse_exited", self, "_on_mouse_exit", [but])
+		label.connect("mouse_entered", self, "_on_mouse_enter", [label])
+		label.connect("mouse_exited", self, "_on_mouse_exit", [label])
 
 		var height_ratio = ProjectSettings.get_setting("escoria/platform/dialog_option_height")
 		var size = it.get_custom_minimum_size()
@@ -86,7 +86,7 @@ func start(params, p_context):
 		i+=1
 		nb_visible += 1
 
-		_on_mouse_exit(but)
+		_on_mouse_exit(label)
 
 	if has_node("wrapper/avatars"):
 		var avatar = "default"
@@ -120,15 +120,15 @@ func start(params, p_context):
 	animation.play("show")
 	animation.seek(0, true)
 
-func _on_mouse_enter(button):
-	button.get_node("label").add_color_override("font_color", mouse_enter_color)
+func _on_mouse_enter(label):
+	label.add_color_override("font_color", mouse_enter_color)
 	if use_mouse_enter_shadow:
-		button.get_node("label").add_color_override("font_color_shadow", mouse_enter_shadow_color)
+		label.add_color_override("font_color_shadow", mouse_enter_shadow_color)
 
-func _on_mouse_exit(button):
-	button.get_node("label").add_color_override("font_color", mouse_exit_color)
+func _on_mouse_exit(label):
+	label.add_color_override("font_color", mouse_exit_color)
 	if use_mouse_exit_shadow:
-		button.get_node("label").add_color_override("font_color_shadow", mouse_exit_shadow_color)
+		label.add_color_override("font_color_shadow", mouse_exit_shadow_color)
 
 func stop():
 	hide()
