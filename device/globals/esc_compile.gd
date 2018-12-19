@@ -271,7 +271,9 @@ func read_dialog_option(state, level, errors):
 		read_line(state)
 		return false
 	tk_end += 1
-	var q_end = state.line.find("[", tk_end)
+	# var c_start = state.line.find("\"", 0)
+	var c_end = state.line.find_last("\"")
+	var q_end = state.line.find("[", c_end)
 	var q_flags = null
 	#printt("flags before", q_flags)
 	if q_end == -1:
