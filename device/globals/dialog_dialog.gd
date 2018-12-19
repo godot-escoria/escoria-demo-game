@@ -121,14 +121,14 @@ func start(params, p_context):
 	animation.seek(0, true)
 
 func _on_mouse_enter(label):
-	label.add_color_override("font_color", mouse_enter_color)
+	label.set("custom_colors/default_color", mouse_enter_color)
 	if use_mouse_enter_shadow:
-		label.add_color_override("font_color_shadow", mouse_enter_shadow_color)
+		label.set("custom_colors/font_color_shadow", mouse_enter_shadow_color)
 
 func _on_mouse_exit(label):
-	label.add_color_override("font_color", mouse_exit_color)
+	label.set("custom_colors/default_color", mouse_exit_color)
 	if use_mouse_exit_shadow:
-		label.add_color_override("font_color_shadow", mouse_exit_shadow_color)
+		label.set("custom_colors/font_color_shadow", mouse_exit_shadow_color)
 
 func stop():
 	hide()
