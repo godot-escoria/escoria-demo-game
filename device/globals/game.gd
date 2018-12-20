@@ -152,8 +152,15 @@ func ev_left_dblclick_on_item(obj, pos, event):
 		player.params_queue = null
 		player.walk_to(pos, walk_context)
 
-	var obj_action = obj.get_action()
 	var action = "walk"
+
+	# Cannot use the object action if an action and tool is selected,
+	# because the event is probably not defined
+	var obj_action
+	if vm.current_action and vm.current_tool:
+		obj_action = vm.current_action
+	else:
+		obj_action = obj.get_action()
 
 	# See if there's a doubleclick default action
 	if obj_action_req_dblc:
