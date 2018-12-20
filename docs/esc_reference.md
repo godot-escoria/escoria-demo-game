@@ -284,6 +284,7 @@ Items can also change state by playing animations from an `AnimationPlayer` name
 -`camera_push target [time] [type]`
   Push camera to target. Target must have `camera_pos` set. If it's of type `Camera2D`, its zoom will be used as well as position.
   `type` is any of the `Tween.TransitionType` values without the prefix, eg. `LINEAR`, `QUART` or `CIRC`; defaults to `QUART`.
+  A `time` value of 0 will set the camera immediately.
 
 -`camera_shift x y [time] [type]`
   Shift camera by `x` and `y` pixels over `time` seconds.

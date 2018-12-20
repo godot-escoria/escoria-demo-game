@@ -99,15 +99,20 @@ func push(p_target, p_time, p_type):
 	else:
 		camera_pos_coords = target.global_position
 
-	if tween.is_active():
-		tween.stop_all()
+	if time == 0:
+		if camera_pos and camera_pos is Camera2D:
+			self.zoom = camera_pos.zoom
+		self.global_position = camera_pos_coords
+	else:
+		if tween.is_active():
+			tween.stop_all()
 
-	if camera_pos and camera_pos is Camera2D:
-		tween.interpolate_property(self, "zoom", self.zoom, camera_pos.zoom, time, Tween.get(type), Tween.EASE_IN_OUT)
+		if camera_pos and camera_pos is Camera2D:
+			tween.interpolate_property(self, "zoom", self.zoom, camera_pos.zoom, time, Tween.get(type), Tween.EASE_IN_OUT)
 
-	tween.interpolate_property(self, "global_position", self.global_position, camera_pos_coords, time, Tween.get(type), Tween.EASE_IN_OUT)
+		tween.interpolate_property(self, "global_position", self.global_position, camera_pos_coords, time, Tween.get(type), Tween.EASE_IN_OUT)
 
-	tween.start()
+		tween.start()
 
 func shift(p_x, p_y, p_time, p_type):
 	var x = int(p_x)
