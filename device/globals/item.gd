@@ -37,6 +37,7 @@ var clicked = false
 var interact_pos
 var camera_pos
 var terrain
+var terrain_is_scalenodes
 var walk_path
 var walk_context
 var moved
@@ -294,12 +295,15 @@ func _update_terrain(need_z_update=false):
 
 	var pos = get_position()
 	# Items in the scene tree will issue errors unless this is conditional
-	var terrain = $"../terrain" if has_node("../terrain") else null
-	if terrain == null:
+	if not terrain:
 		return
 
-	var color = terrain.get_terrain(pos)
-	var scale_range = terrain.get_scale_range(color.b)
+	var scale_range
+	if terrain_is_scalenodes:
+		scale_range = terrain.get_terrain(pos)
+	else:
+		var color = terrain.get_terrain(pos)
+		scale_range = terrain.get_scale_range(color.b)
 
 	# The item's - as the player's - `animations` define the direction
 	# as 1 or -1. This is stored as `pose_scale` and the easiest way
@@ -614,7 +618,8 @@ func _ready():
 	_check_focus(false, false)
 
 	if has_node("../terrain"):
-		terrain = get_node("../terrain")
+		terrain = $"../terrain"
+		terrain_is_scalenodes = terrain is preload("terrain_scalenodes.gd")
 
 	_find_sprites(self)
 

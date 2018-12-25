@@ -1,16 +1,13 @@
 tool
 
-extends Navigation2D 
+extends "terrain_base.gd"
 
 export(Texture) var scales setget set_scales,get_scales
-export(Texture) var lightmap setget set_lightmap,get_lightmap
 export var bitmaps_scale = Vector2(1,1) setget set_bm_scale,get_bm_scale
 export(int, "None", "Scales", "Lightmap") var debug_mode = 1 setget debug_mode_updated
-export var lightmap_modulate = Color(1, 1, 1, 1)
 export var scale_min = 0.3
 export var scale_max = 1.0
-export var player_speed_multiplier = 1.0  # Override player speed in current scene
-export var player_doubleclick_speed_multiplier = 1.5  # Make the player move faster when doubleclicked
+
 var texture
 var img_area
 var _texture_dirty = false
@@ -23,13 +20,6 @@ func set_scales(p_scales):
 
 func get_scales():
 	return scales
-
-func set_lightmap(p_lightmap):
-	lightmap = p_lightmap
-	_update_texture()
-
-func get_lightmap():
-	return lightmap
 
 func set_bm_scale(p_scale):
 	bitmaps_scale = p_scale
@@ -72,40 +62,6 @@ func debug_mode_updated(p_mode):
 	debug_mode = p_mode
 	_update_texture()
 
-func make_local(pos):
-	pos = pos - get_position()
-	pos = pos * 1.0 / get_scale()
-	if self is Navigation2D:
-		pos = get_closest_point(pos)
-	return pos
-
-func make_global(pos):
-	pos = pos * get_scale()
-	pos = pos + get_position()
-	return pos
-
-func get_path(p_src, p_dest):
-	# printt("get path ", p_src, p_dest)
-	if !(self is Navigation2D):
-		printt("returning a line")
-		return [p_src, p_dest]
-	p_src = make_local(p_src)
-	p_dest = make_local(p_dest)
-
-	var r_path = get_simple_path(p_src, p_dest, true)
-	r_path = Array(r_path)
-	for i in range(0, r_path.size()):
-		r_path[i] = make_global(r_path[i])
-	return r_path
-
-func is_solid(pos):
-
-	pos = pos - get_position()
-	pos = pos * 1.0 / get_scale()
-
-	var closest = get_closest_point(pos)
-	return pos == closest
-
 func get_scale_range(r):
 	r = scale_min + (scale_max - scale_min) * r
 	return Vector2(r, r)
@@ -114,19 +70,6 @@ func get_terrain(pos):
 	if scales == null || scales.get_data().is_empty():
 		return Color(1, 1, 1, 1)
 	return get_pixel(pos, scales.get_data())
-
-func _color_mul(a, b):
-	var c = Color()
-	c.r = a.r * b.r
-	c.g = a.g * b.g
-	c.b = a.b * b.b
-	c.a = a.a * b.a
-	return c
-
-func get_light(pos):
-	if typeof(lightmap) == typeof(null) || lightmap.get_data().is_empty():
-		return lightmap_modulate
-	return _color_mul(get_pixel(pos, lightmap.get_data()), lightmap_modulate)
 
 func get_pixel(pos, p_image):
 	p_image.lock()

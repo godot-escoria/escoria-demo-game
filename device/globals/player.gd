@@ -7,6 +7,7 @@ var walk_destination
 var animation
 var vm  # A tool script cannot refer to singletons in Godot
 var terrain
+var terrain_is_scalenodes
 var walk_path
 var walk_context
 var path_ofs
@@ -313,12 +314,20 @@ func _update_terrain():
 
 	var pos = get_position()
 	set_z_index(pos.y)
-	var color = terrain.get_terrain(pos)
-	var scal = terrain.get_scale_range(color.b)
-	scal.x = scal.x * pose_scale
-	if scal != get_scale():
-		last_scale = scal
+
+	var color
+	if terrain_is_scalenodes:
+		last_scale = terrain.get_terrain(pos)
+		last_scale.x *= pose_scale
 		set_scale(last_scale)
+	else:
+		color = terrain.get_terrain(pos)
+		var scal = terrain.get_scale_range(color.b)
+		scal.x = scal.x * pose_scale
+		if scal != get_scale():
+			last_scale = scal
+			set_scale(last_scale)
+
 	color = terrain.get_light(pos)
 	for s in sprites:
 		s.set_modulate(color)
@@ -440,10 +449,15 @@ func _find_sprites(p = null):
 
 func _ready():
 
-	if get_parent().has_node("terrain"):
-		terrain = get_parent().get_node("terrain")
+	if has_node("../terrain"):
+		terrain = $"../terrain"
+		terrain_is_scalenodes = terrain is preload("terrain_scalenodes.gd")
 
 	_find_sprites(self)
+
+	# Set the player up for z-index, scale, light etc, update later when moving
+	_update_terrain()
+
 	if Engine.is_editor_hint():
 		return
 
@@ -462,9 +476,6 @@ func _ready():
 			child.connect("animation_finished", self, "anim_finished")
 
 	vm.register_object("player", self)
-
-	# Set the player up for z-index, scale, light etc, update later when moving
-	_update_terrain()
 
 	last_scale = get_scale()
 	set_process(true)

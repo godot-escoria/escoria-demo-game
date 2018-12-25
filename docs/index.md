@@ -15,6 +15,8 @@ Reference
 
 [Background](background.md)
 
+[Terrain](terrain.md)
+
 [Designing dialogs](designing_dialogs.md)
 
 [HUD](hud.md)
