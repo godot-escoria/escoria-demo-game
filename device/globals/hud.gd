@@ -24,7 +24,6 @@ func menu_opened():
 	hide()
 
 func menu_closed():
-	vm.reset_overlapped_obj()
 	show()
 
 func set_visible(p_visible):

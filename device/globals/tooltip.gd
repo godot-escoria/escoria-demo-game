@@ -11,9 +11,6 @@ func show():
 	if not self.text:
 		var errors = ["Trying to show empty tooltip"]
 
-		if vm.overlapped_obj:
-			errors.push_back("Overlapped object: " + vm.overlapped_obj.global_id)
-
 		if vm.hover_obj:
 			errors.push_back("Hovered object: " + vm.hover_obj.global_id)
 
@@ -60,7 +57,6 @@ func set_tooltip(text):
 		vm.report_errors("tooltip", ["Trying to set tooltip of type: " + str(typeof(text))])
 
 	if force_hide_tooltip:
-		# vm.reset_overlapped_obj()
 		if self.visible:
 			vm.report_errors("tooltip", ["Forcibly hidden tooltip visible while trying to set text: " + text])
 		return

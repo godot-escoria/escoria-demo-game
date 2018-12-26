@@ -244,15 +244,6 @@ func ev_mouse_enter_item(obj):
 
 	printt(obj.name, "mouse_enter_item")
 
-	## XXX: Would want a design where this is not relevant!
-	if vm.overlapped_obj and vm.overlapped_obj != obj:
-		# Be sure we have exited the other object, because
-		# sometimes item2's `mouse_entered` happens before
-		# item1's `mouse_exited`. This causes the tooltip to disappear!
-		yield(vm.overlapped_obj, "mouse_exit_item")
-
-	vm.set_overlapped_obj(obj)
-
 	# Immediately bail out if the action menu is open
 	if vm.action_menu and vm.action_menu.is_visible():
 		if vm.tooltip and vm.tooltip.visible:
@@ -302,8 +293,6 @@ func ev_mouse_enter_inventory_item(obj):
 func ev_mouse_exit_item(obj):
 	printt(obj.name, "mouse_exit_item")
 
-	vm.clear_overlapped_obj()
-
 	if vm.action_menu and vm.action_menu.is_visible():
 		return
 
@@ -339,8 +328,6 @@ func ev_mouse_enter_trigger(obj):
 	if inventory and inventory.blocks_tooltip():
 		return
 
-	vm.set_overlapped_obj(obj)
-
 	if vm.tooltip:
 		var tt = obj.get_tooltip()
 
@@ -358,7 +345,6 @@ func ev_mouse_enter_trigger(obj):
 func ev_mouse_exit_trigger(obj):
 	printt(obj.name, "mouse_exit_trigger")
 
-	vm.clear_overlapped_obj()
 	# FIXME: Action menu on item, click trigger which causes dialog, hover_object is not set, but should be
 	if vm.hover_object:
 		vm.hover_end()

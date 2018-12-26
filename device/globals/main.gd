@@ -17,7 +17,6 @@ func clear_scene():
 	if current == null:
 		return
 
-	vm.clear_overlapped_obj()
 	vm.clear_current_action()
 	vm.clear_current_tool()
 	if vm.hover_object:

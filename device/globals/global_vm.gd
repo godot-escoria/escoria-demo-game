@@ -36,7 +36,6 @@ var camera
 var action_menu = null	   # If the game uses an action menu, register it here
 var tooltip = null         # The tooltip scene, registered by game.gd
 var hover_object = null    # Best-effort attempt to track what's under the mouse
-var overlapped_obj = null  # Would be covered by eg. a collapsible inventory ("cache" tooltip)
 
 var current_action = ""    # Verb or action menu button
 var current_tool = null    # Item chosen from inventory
@@ -419,9 +418,6 @@ func event_done(ev_name):
 			main.telon.cut_to_scene()
 	else:
 		if "NO_TT" in running_event.ev_flags:
-			# Let an `overlapped_obj` deal with the tooltip if required
-			reset_overlapped_obj()
-
 			# If the event was NO_TT, explicitly or because of `say`, we shouldn't keep it hidden
 			if tooltip.force_hide_tooltip:
 				tooltip.force_tooltip_visible(true)
@@ -598,28 +594,6 @@ func set_current_tool(p_tool):
 
 func clear_current_tool():
 	current_tool = null
-
-func set_overlapped_obj(obj):
-	if not obj is esc_type.ITEM and not obj is esc_type.TRIGGER:
-		report_errors("global_vm", ["Trying to set overlapped object " + obj.global_id + " which is not ITEM or TRIGGER"])
-
-	if obj is esc_type.ITEM and obj.inventory:
-		report_errors("global_vm", ["Trying to set overlapped inventory object " + obj.global_id])
-
-	overlapped_obj = obj
-
-func reset_overlapped_obj():
-	if overlapped_obj:
-		if overlapped_obj is esc_type.ITEM:
-			if overlapped_obj.inventory:
-				report_errors("global_vm", ["Trying to reset overlapped inventory item"])
-
-			overlapped_obj.emit_signal("mouse_enter_item", overlapped_obj)
-		elif overlapped_obj is esc_type.TRIGGER:
-			overlapped_obj.emit_signal("mouse_enter_trigger", overlapped_obj)
-
-func clear_overlapped_obj():
-	overlapped_obj = null
 
 func object_exit_scene(name):
 	objects.erase(name)

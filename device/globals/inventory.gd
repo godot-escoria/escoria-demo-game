@@ -76,10 +76,6 @@ func close():
 	hide()
 	print("inventory close")
 
-	# Reset immediately only when there isn't an animation, otherwise let the handler do it
-	if not closing_animation:
-		vm.reset_overlapped_obj()
-
 func force_close():
 	if !is_visible():
 		return
@@ -99,7 +95,6 @@ func toggle():
 func anim_finished(name):
 	if name == "hide":
 		hide()
-		vm.reset_overlapped_obj()
 
 func sort_items():
 	var items = get_node("items")
