@@ -36,6 +36,7 @@ var camera
 var action_menu = null	   # If the game uses an action menu, register it here
 var tooltip = null         # The tooltip scene, registered by game.gd
 var hover_object = null    # Best-effort attempt to track what's under the mouse
+var hover_stack = []       # Register mouse_enter events here based on z-index
 
 var current_action = ""    # Verb or action menu button
 var current_tool = null    # Item chosen from inventory
@@ -130,11 +131,76 @@ func settings_loaded(p_settings):
 func music_volume_changed():
 	emit_signal("music_volume_changed")
 
+func hover_debug(s):
+	var ids = []
+	for h in hover_stack:
+		ids.push_back([h.z_index, h.global_id])
+	printt("HOVER DEBUG: " + s, ids)
+
+func hover_push(obj):
+	if not obj is esc_type.ITEM and not obj is esc_type.TRIGGER:
+		report_errors("global_vm", ["Trying to hover " + obj.global_id + " which is not ITEM or TRIGGER"])
+
+	var stacked
+	var for_else = true
+	var need_new_hover = false
+	if not hover_stack:
+		hover_stack.push_back(obj)
+		need_new_hover = true
+	else:
+		if obj in hover_stack:
+			report_errors("global_vm", ["Hovering push obj " + obj.global_id + " in hover_stack!"])
+
+		for i in hover_stack.size():
+			stacked = hover_stack[i]
+			if obj.z_index >= stacked.z_index:
+				hover_stack.insert(i, obj)
+				for_else = false
+				need_new_hover = i == 0
+				break
+		if for_else:
+			hover_stack.push_back(obj)
+
+	hover_debug("PUSH")
+	if need_new_hover:
+		# hover_debug("PUSHED, hovering " + obj.global_id)
+		hover_begin(obj)
+	# else:
+	# 	hover_debug("KEEP HOVERING " + hover_object.global_id)
+
+func hover_pop(obj):
+	if not obj in hover_stack:
+		report_errors("global_vm", ["Hovering pop obj " + obj.global_id + " not in hover_stack!"])
+
+	if not hover_stack:
+		report_errors("global_vm", ["Hovering trying to pop from empty stack"])
+
+	var next
+	if hover_stack[0] == obj:
+		hover_stack.pop_front()
+		if hover_stack:
+			next = hover_stack[0]
+	else:
+		for i in range(1, hover_stack.size()):
+			if hover_stack[i] == obj:
+				next = hover_stack[i - 1]
+				hover_stack.remove(i)
+				break
+
+	hover_debug("POP")
+	if not hover_stack:
+		# printt("\tENDING ALL HOVERS", hover_object)
+		hover_end()
+	elif next != hover_object:
+		# printt("\tNEW HOVER", next, next.global_id)
+		hover_begin(next)
+
 func hover_begin(obj):
 	if not obj is esc_type.ITEM and not obj is esc_type.TRIGGER:
 		report_errors("global_vm", ["Trying to hover " + obj.global_id + " which is not ITEM or TRIGGER"])
 
 	hover_object = obj
+
 	if tooltip:
 		tooltip.update()
 
@@ -148,6 +214,7 @@ func hover_end():
 		hover_object.clicked = false
 
 	hover_object = null
+
 	if tooltip:
 		tooltip.update()
 

@@ -244,6 +244,8 @@ func ev_mouse_enter_item(obj):
 
 	printt(obj.name, "mouse_enter_item")
 
+	vm.hover_push(obj)
+
 	# Immediately bail out if the action menu is open
 	if vm.action_menu and vm.action_menu.is_visible():
 		if vm.tooltip and vm.tooltip.visible:
@@ -265,8 +267,6 @@ func ev_mouse_enter_item(obj):
 			# the tooltip may be emptied by the light not having a tooltip. This is because the
 			# `mouse_enter` events have no guaranteed order.
 			return
-
-	vm.hover_begin(obj)
 
 func ev_mouse_enter_inventory_item(obj):
 	if not inventory:
@@ -300,7 +300,7 @@ func ev_mouse_exit_item(obj):
 	if inventory and inventory.blocks_tooltip():
 		return
 
-	vm.hover_end()
+	vm.hover_pop(obj)
 
 func ev_mouse_exit_inventory_item(obj):
 	printt(obj.name, "mouse_exit_inventory_item")
