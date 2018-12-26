@@ -11,8 +11,8 @@ func show():
 	if not self.text:
 		var errors = ["Trying to show empty tooltip"]
 
-		if vm.hover_obj:
-			errors.push_back("Hovered object: " + vm.hover_obj.global_id)
+		if vm.hover_object:
+			errors.push_back("Hovered object: " + vm.hover_object.global_id)
 
 		vm.report_errors("tooltip", errors)
 
