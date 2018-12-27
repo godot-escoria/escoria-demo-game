@@ -34,6 +34,7 @@ var camera
 
 ## One game, one VM; there are many things we can have only one of, track them here.
 var action_menu = null	   # If the game uses an action menu, register it here
+var inventory = null       # Register an inventory if used
 var tooltip = null         # The tooltip scene, registered by game.gd
 var hover_object = null    # Best-effort attempt to track what's under the mouse
 var hover_stack = []       # Register mouse_enter events here based on z-index
@@ -576,6 +577,16 @@ func register_action_menu(p_action_menu):
 			report_errors("global_vm", ["Trying to register non-ACTION_MENU type action_menu"])
 
 	action_menu = p_action_menu
+
+func register_inventory(p_inventory):
+	if inventory and p_inventory != inventory:
+		if not p_inventory is esc_type.INVENTORY:
+			report_errors("global_vm", ["Trying to re-register non-INVENTORY type inventory"])
+	elif not inventory:
+		if not p_inventory is esc_type.INVENTORY:
+			report_errors("global_vm", ["Trying to register non-INVENTORY type inventory"])
+
+	inventory = p_inventory
 
 func get_object(name):
 	if !(name in objects):

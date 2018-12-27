@@ -6,7 +6,6 @@ signal mouse_exit_trigger
 export var tooltip = ""
 
 var hud
-var inventory
 
 func get_tooltip():
 	if TranslationServer.get_locale() == ProjectSettings.get_setting("escoria/platform/development_lang"):
@@ -38,12 +37,7 @@ func input(event):
 		return
 
 	# Do not allow input on triggers/exits with inventory open
-	hud = $"/root/scene/game/hud_layer/hud"
-
-	if hud.has_node("inventory"):
-		inventory = hud.get_node("inventory")
-
-	if inventory and inventory.blocks_tooltip():
+	if vm.inventory and vm.inventory.blocks_tooltip():
 		return
 
 	if vm.action_menu and vm.action_menu.is_visible():

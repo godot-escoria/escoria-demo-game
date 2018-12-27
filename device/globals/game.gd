@@ -2,7 +2,6 @@ extends Node
 
 var player
 var mode = "default"
-var inventory
 export(String,FILE) var fallbacks_path = ""
 export var inventory_enabled = true setget set_inventory_enabled
 var fallbacks
@@ -52,8 +51,8 @@ func ev_left_click_on_bg(obj, pos, event):
 		vm.action_menu.stop()
 
 	# If it's possible to click outside the inventory, don't walk but only close it
-	if inventory and inventory.blocks_tooltip():
-		inventory.close()
+	if vm.inventory and vm.inventory.blocks_tooltip():
+		vm.inventory.close()
 		return
 
 	var walk_context = {"fast": event.doubleclick}
@@ -94,8 +93,8 @@ func ev_left_click_on_item(obj, pos, event):
 			else:
 				vm.action_menu.stop()
 
-	if inventory and inventory.blocks_tooltip():
-		inventory.close()
+	if vm.inventory and vm.inventory.blocks_tooltip():
+		vm.inventory.close()
 		return
 
 	var walk_context = {"fast": event.doubleclick}
@@ -130,7 +129,7 @@ func ev_left_click_on_item(obj, pos, event):
 
 	# XXX: Interacting with current_tool etc should be a signal
 	if action != "walk" or vm.current_action:
-		if inventory and not inventory.blocks_tooltip():
+		if vm.inventory and not vm.inventory.blocks_tooltip():
 			player.interact([obj, vm.current_action, vm.current_tool])
 
 func ev_left_dblclick_on_item(obj, pos, event):
@@ -192,14 +191,14 @@ func ev_right_click_on_item(obj, pos, event):
 	if not can_click():
 		return
 
-	var inventory_open = inventory and inventory.blocks_tooltip()
+	var inventory_open = vm.inventory and vm.inventory.blocks_tooltip()
 
 	if obj.use_action_menu and not inventory_open:
 		if ProjectSettings.get_setting("escoria/ui/right_mouse_button_action_menu"):
 			spawn_action_menu(obj)
 			return
 	elif inventory_open:
-		inventory.close()
+		vm.inventory.close()
 
 func ev_left_click_on_inventory_item(obj, pos, event):
 	printt(obj.name, "left-clicked at", pos, "with", event, can_click())
@@ -259,11 +258,11 @@ func ev_mouse_enter_item(obj):
 			return
 
 	# Bail out if inventory blocks us
-	if inventory and inventory.blocks_tooltip():
+	if vm.inventory and vm.inventory.blocks_tooltip():
 		return
 
 func ev_mouse_enter_inventory_item(obj):
-	if not inventory:
+	if not vm.inventory:
 		vm.report_errors("game", ["Mouse entered inventory item without inventory: " + obj.global_id])
 	if not obj.inventory:
 		vm.report_errors("game", ["Mouse entered non-inventory inventory item: " + obj.global_id])
@@ -282,7 +281,7 @@ func ev_mouse_enter_inventory_item(obj):
 			# `mouse_enter` events have no guaranteed order.
 			return
 
-	vm.hover_begin(obj)
+	vm.hover_push(obj)
 
 func ev_mouse_exit_item(obj):
 	printt(obj.name, "mouse_exit_item")
@@ -290,7 +289,7 @@ func ev_mouse_exit_item(obj):
 	vm.hover_pop(obj)
 
 	# Also bail out if inventory blocks us
-	if inventory and inventory.blocks_tooltip():
+	if vm.inventory and vm.inventory.blocks_tooltip():
 		return
 
 func ev_mouse_exit_inventory_item(obj):
@@ -304,7 +303,7 @@ func ev_mouse_exit_inventory_item(obj):
 			vm.report_errors("game", ["Tooltip visible while action menu is visible"])
 		return
 
-	vm.hover_end()
+	vm.hover_pop(obj)
 
 func ev_mouse_enter_trigger(obj):
 	printt(obj.name, "mouse_enter_trigger")
@@ -316,7 +315,7 @@ func ev_mouse_enter_trigger(obj):
 		return
 
 	# Also bail out if inventory blocks us
-	if inventory and inventory.blocks_tooltip():
+	if vm.inventory and vm.inventory.blocks_tooltip():
 		return
 
 	if vm.tooltip:
@@ -438,8 +437,8 @@ func handle_menu_request():
 				vm.action_menu.stop()
 
 		# Forcibly close inventory without animation if collapsible and visible
-		if inventory and inventory.blocks_tooltip():
-			inventory.force_close()
+		if vm.inventory and vm.inventory.blocks_tooltip():
+			vm.inventory.force_close()
 
 		# Finally show the menu
 		main.load_menu(ProjectSettings.get_setting("escoria/ui/in_game_menu"))
@@ -554,17 +553,19 @@ func load_hud():
 	# and not present in the `game` scene's hud.
 	if inventory_enabled:
 		if hud.has_node("inventory"):
-			inventory = hud.get_node("inventory")
+			var inventory = hud.get_node("inventory")
+			vm.register_inventory(inventory)
 			printt("Found inventory in hud", hud)
 		else:
 			var inventory_scene = ProjectSettings.get_setting("escoria/ui/inventory")
 			if inventory_scene:
-				inventory = load(inventory_scene).instance()
+				var inventory = load(inventory_scene).instance()
 				if inventory and inventory is esc_type.INVENTORY:
 					if inventory.is_collapsible:
 						inventory.hide()
 					hud.add_child(inventory)
 					hud.move_child(inventory, 0)
+					vm.register_inventory(inventory)
 					printt("Added inventory to hud", hud)
 
 	if has_node("hud_layer/hud/inv_toggle"):

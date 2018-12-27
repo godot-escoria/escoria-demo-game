@@ -21,6 +21,7 @@ func clear_scene():
 	vm.clear_current_tool()
 	if vm.hover_object:
 		vm.hover_end()
+	vm.inventory = null
 
 	get_node("/root").remove_child(current)
 	current.free()
