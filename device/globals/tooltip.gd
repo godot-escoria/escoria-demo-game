@@ -25,6 +25,9 @@ func hide():
 	set_tooltip_visible(false)
 
 func update():
+	if vm.action_menu and vm.action_menu.visible:
+		return
+
 	var text = ""
 
 	if vm.hover_object:
