@@ -19,9 +19,10 @@ func clear_scene():
 
 	vm.clear_current_action()
 	vm.clear_current_tool()
-	if vm.hover_object:
-		vm.hover_end()
+	vm.hover_clear_stack()
 	vm.inventory = null
+	vm.tooltip = null
+	vm.action_menu = null
 
 	get_node("/root").remove_child(current)
 	current.free()

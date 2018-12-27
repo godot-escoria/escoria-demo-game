@@ -34,14 +34,27 @@ func update():
 		var tt = vm.hover_object.get_tooltip()
 
 		if vm.current_action and vm.current_tool and vm.current_tool != vm.hover_object:
-			text = tr(vm.current_action + ".combine_id")
-			text = text.replace("%2", tr(tt))
-			text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
+			if not "inventory" in vm.hover_object or not vm.hover_object.inventory:
+				if not vm.inventory or not vm.inventory.blocks_tooltip():
+					text = tr(vm.current_action + ".combine_id")
+					text = text.replace("%2", tr(tt))
+					text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
+				else:
+					text = tr("use.id")
+					text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
+			else:
+					text = tr(vm.current_action + ".combine_id")
+					text = text.replace("%2", tr(tt))
+					text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
 		elif vm.current_action == "use" and vm.current_tool:
 			text = tr("use.id")
 			text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
 		else:
-			text = tr(tt)
+			if not "inventory" in vm.hover_object or not vm.hover_object.inventory:
+				if not vm.inventory or not vm.inventory.blocks_tooltip():
+					text = tr(tt)
+			else:
+					text = tr(tt)
 	else:
 		if vm.current_action and vm.current_tool:
 			if not vm.hover_object:

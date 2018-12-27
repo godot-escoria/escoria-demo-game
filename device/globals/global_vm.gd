@@ -219,6 +219,10 @@ func hover_end():
 	if tooltip:
 		tooltip.update()
 
+func hover_clear_stack():
+	hover_stack = []
+	hover_object = null
+
 func camera_set_target(p_speed, p_target):
 	if not camera:
 		return
