@@ -7,14 +7,22 @@ export var tooltip = ""
 
 var hud
 
-func get_tooltip():
+func get_tooltip(hint=null):
 	if TranslationServer.get_locale() == ProjectSettings.get_setting("escoria/platform/development_lang"):
 		if not global_id and ProjectSettings.get_setting("escoria/platform/force_tooltip_global_id"):
 			vm.report_errors("exit", ["Missing global_id in exit with tooltip '" + tooltip + "'"])
 		return tooltip
 
 	var tooltip_identifier = global_id + ".tooltip"
+	if hint:
+		tooltip_identifier += "." + hint
+
 	var translated = tr(tooltip_identifier)
+
+	# Try again if there's no translation for this hint
+	if translated == "\"":
+		tooltip_identifier = global_id + ".tooltip"
+		translated = tr(tooltip_identifier)
 
 	if translated == tooltip_identifier:
 		if not global_id and ProjectSettings.get_setting("escoria/platform/force_tooltip_global_id"):
