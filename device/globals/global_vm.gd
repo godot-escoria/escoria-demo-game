@@ -389,7 +389,7 @@ func run_event(p_event):
 
 	running_event = p_event
 	if p_event.ev_name == "setup":
-		if "CUT_BLACK" in p_event.ev_flags:
+		if "CUT_BLACK" in p_event.ev_flags or "LEAVE_BLACK" in p_event.ev_flags:
 			main.telon.cut_to_black()
 
 		add_level(p_event, true)
@@ -417,7 +417,7 @@ func event_done(ev_name):
 
 	printt("event_done: ", running_event.ev_name, running_event.ev_flags)
 	if ev_name == "setup":
-		if not "CUT_BLACK" in running_event.ev_flags:
+		if not "LEAVE_BLACK" in running_event.ev_flags:
 			main.telon.cut_to_scene()
 	else:
 		if "NO_TT" in running_event.ev_flags:
