@@ -16,6 +16,15 @@ Set the language code used during development in `escoria/platform/development_l
 This is required so Escoria can skip the translation code if the game is
 in the same language as during development.
 
+If you're translating for a language that conjugates use/combine tooltips, you can add new
+identifiers for tooltips that end in `.object1` and `.object2` with the proper words.
+
+In Finnish, for example, you would have `key.tooltip` say "Avain", `key.tooltip.object1` say "avainta"
+and `key.tooltip.object2` say "avaimeen".
+
+Protip: this same functionality can be used to lowercase yor tooltips in use/combine
+situations where your language requires it. German is exempt, as German nouns are always capitalized.
+
 Translating the texts are documented further in [The Escoria book](https://fr.flossmanuals.net/creating-point-and-click-games-with-escoria/i18n/)
 
 ### Changing locales

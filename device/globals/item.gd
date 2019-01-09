@@ -153,7 +153,7 @@ func _check_focus(focus, pressed):
 		else:
 			get_node("_pressed").hide()
 
-func get_tooltip():
+func get_tooltip(hint=null):
 	if not tooltip:
 		return null
 
@@ -165,7 +165,15 @@ func get_tooltip():
 
 	# Otherwise try to return the translated tooltip
 	var tooltip_identifier = global_id + ".tooltip"
+	if hint:
+		tooltip_identifier += "." + hint
+
 	var translated = tr(tooltip_identifier)
+
+	# Try again if there's no translation for this hint
+	if translated == "\"":
+		tooltip_identifier = global_id + ".tooltip"
+		translated = tr(tooltip_identifier)
 
 	# But if translation isn't found, ensure it can be translated and return placeholder
 	if translated == tooltip_identifier:
