@@ -162,7 +162,7 @@ func hover_push(obj):
 		if for_else:
 			hover_stack.push_back(obj)
 
-	hover_debug("PUSH")
+	# hover_debug("PUSH")
 	if need_new_hover:
 		# hover_debug("PUSHED, hovering " + obj.global_id)
 		hover_begin(obj)
@@ -188,7 +188,7 @@ func hover_pop(obj):
 				hover_stack.remove(i)
 				break
 
-	hover_debug("POP")
+	# hover_debug("POP")
 	if not hover_stack:
 		# printt("\tENDING ALL HOVERS", hover_object)
 		hover_end()
