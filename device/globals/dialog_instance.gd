@@ -86,10 +86,6 @@ func finish():
 
 	_queue_free()
 
-	# BUG: moving cursor during speech will show the wrong object
-	# after speech, until the mouse is moved.
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "reset_overlapped_obj")
-
 func _clamp(dialog_pos):
 	var width = float(ProjectSettings.get("display/window/size/width"))
 	var height = float(ProjectSettings.get("display/window/size/height"))

@@ -56,8 +56,8 @@ func stop(show_tooltip=true):
 	target = null
 	hide()
 	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse") and show_tooltip:
-		# If there's an `overlapped_obj`, let it handle the tooltip part
-		vm.reset_overlapped_obj()
+		if vm.tooltip:
+			vm.tooltip.update()
 
 func set_position(pos):
 	.set_position(_clamp(pos))

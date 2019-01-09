@@ -117,7 +117,7 @@ func input(event):
 	# TODO: Expand this for other input events than mouse
 	if event is InputEventMouseButton || event.is_action("ui_accept"):
 		if event.is_pressed():
-			clicked = true
+			clicked = vm.hover_stack.front() == self
 
 			var ev_pos = get_global_mouse_position()
 			if event.button_index == BUTTON_LEFT:
@@ -139,9 +139,6 @@ func input(event):
 				else:
 					emit_signal("right_click_on_item", self, ev_pos, event)
 			_check_focus(true, true)
-		else:
-			clicked = false
-#			_check_focus(true, false)
 
 func _check_focus(focus, pressed):
 	if has_node("_focus_in"):

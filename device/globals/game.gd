@@ -2,7 +2,6 @@ extends Node
 
 var player
 var mode = "default"
-var inventory
 export(String,FILE) var fallbacks_path = ""
 export var inventory_enabled = true setget set_inventory_enabled
 var fallbacks
@@ -52,8 +51,8 @@ func ev_left_click_on_bg(obj, pos, event):
 		vm.action_menu.stop()
 
 	# If it's possible to click outside the inventory, don't walk but only close it
-	if inventory and inventory.blocks_tooltip():
-		inventory.close()
+	if vm.inventory and vm.inventory.blocks_tooltip():
+		vm.inventory.close()
 		return
 
 	var walk_context = {"fast": event.doubleclick}
@@ -94,8 +93,15 @@ func ev_left_click_on_item(obj, pos, event):
 			else:
 				vm.action_menu.stop()
 
-	if inventory and inventory.blocks_tooltip():
-		inventory.close()
+	if vm.inventory and vm.inventory.blocks_tooltip():
+		vm.inventory.close()
+		if vm.tooltip:
+			vm.tooltip.update()
+		return
+
+	# Many overlapping items can receive the click event,
+	# but only the topmost is really `clicked`
+	if not obj.clicked:
 		return
 
 	var walk_context = {"fast": event.doubleclick}
@@ -130,7 +136,7 @@ func ev_left_click_on_item(obj, pos, event):
 
 	# XXX: Interacting with current_tool etc should be a signal
 	if action != "walk" or vm.current_action:
-		if inventory and not inventory.blocks_tooltip():
+		if vm.inventory and not vm.inventory.blocks_tooltip():
 			player.interact([obj, vm.current_action, vm.current_tool])
 
 func ev_left_dblclick_on_item(obj, pos, event):
@@ -192,14 +198,14 @@ func ev_right_click_on_item(obj, pos, event):
 	if not can_click():
 		return
 
-	var inventory_open = inventory and inventory.blocks_tooltip()
+	var inventory_open = vm.inventory and vm.inventory.blocks_tooltip()
 
 	if obj.use_action_menu and not inventory_open:
 		if ProjectSettings.get_setting("escoria/ui/right_mouse_button_action_menu"):
 			spawn_action_menu(obj)
 			return
 	elif inventory_open:
-		inventory.close()
+		vm.inventory.close()
 
 func ev_left_click_on_inventory_item(obj, pos, event):
 	printt(obj.name, "left-clicked at", pos, "with", event, can_click())
@@ -244,41 +250,19 @@ func ev_mouse_enter_item(obj):
 
 	printt(obj.name, "mouse_enter_item")
 
-	## XXX: Would want a design where this is not relevant!
-	if vm.overlapped_obj and vm.overlapped_obj != obj:
-		# Be sure we have exited the other object, because
-		# sometimes item2's `mouse_entered` happens before
-		# item1's `mouse_exited`. This causes the tooltip to disappear!
-		yield(vm.overlapped_obj, "mouse_exit_item")
-
-	vm.set_overlapped_obj(obj)
-
-	# Immediately bail out if the action menu is open
-	if vm.action_menu and vm.action_menu.is_visible():
-		if vm.tooltip and vm.tooltip.visible:
-			vm.report_errors("game", ["Tooltip visible while action menu is visible"])
-		return
-
-	# Also bail out if inventory blocks us
-	if inventory and inventory.blocks_tooltip():
-		return
+	vm.hover_push(obj)
 
 	if vm.tooltip:
-		var tt = obj.get_tooltip()
-
 		# XXX: The warning report may be removed if it turns out to be too annoying in practice
-		if not tt:
-			vm.report_warnings("game", ["No tooltip for item " + obj.name])
+		if not obj.get_tooltip():
 			# For a passive item, it's fine to set an empty tooltip, but if we have a passive and
 			# an active esc_type.ITEM overlapping, say a window and a light that will move later,
 			# the tooltip may be emptied by the light not having a tooltip. This is because the
 			# `mouse_enter` events have no guaranteed order.
-			return
-
-	vm.hover_begin(obj)
+			vm.report_warnings("game", ["No tooltip for item " + obj.name])
 
 func ev_mouse_enter_inventory_item(obj):
-	if not inventory:
+	if not vm.inventory:
 		vm.report_errors("game", ["Mouse entered inventory item without inventory: " + obj.global_id])
 	if not obj.inventory:
 		vm.report_errors("game", ["Mouse entered non-inventory inventory item: " + obj.global_id])
@@ -286,82 +270,44 @@ func ev_mouse_enter_inventory_item(obj):
 	printt(obj.name, "mouse_enter_inventory_item")
 
 	if vm.tooltip:
-		var tt = obj.get_tooltip()
-
 		# XXX: The warning report may be removed if it turns out to be too annoying in practice
-		if not tt:
-			vm.report_warnings("game", ["No tooltip for item " + obj.name])
+		if not obj.get_tooltip():
 			# For a passive item, it's fine to set an empty tooltip, but if we have a passive and
 			# an active esc_type.ITEM overlapping, say a window and a light that will move later,
 			# the tooltip may be emptied by the light not having a tooltip. This is because the
 			# `mouse_enter` events have no guaranteed order.
-			return
+			vm.report_warnings("game", ["No tooltip for item " + obj.name])
 
-	vm.hover_begin(obj)
+	vm.hover_push(obj)
 
 func ev_mouse_exit_item(obj):
 	printt(obj.name, "mouse_exit_item")
 
-	vm.clear_overlapped_obj()
-
-	if vm.action_menu and vm.action_menu.is_visible():
-		return
-
-	# Also bail out if inventory blocks us
-	if inventory and inventory.blocks_tooltip():
-		return
-
-	vm.hover_end()
+	vm.hover_pop(obj)
 
 func ev_mouse_exit_inventory_item(obj):
 	printt(obj.name, "mouse_exit_inventory_item")
 
-	# If we don't return here, and the cursor is moved around over
-	# items with the action menu open, we would get an empty tooltip
-	# when the action menu closes
-	if vm.action_menu and vm.action_menu.is_visible():
-		if vm.tooltip and vm.tooltip.visible:
-			vm.report_errors("game", ["Tooltip visible while action menu is visible"])
-		return
-
-	vm.hover_end()
+	vm.hover_pop(obj)
 
 func ev_mouse_enter_trigger(obj):
 	printt(obj.name, "mouse_enter_trigger")
 
-	# Immediately bail out if the action menu is open
-	if vm.action_menu and vm.action_menu.is_visible():
-		if vm.tooltip and vm.tooltip.visible:
-			vm.report_errors("game", ["Tooltip visible while action menu is visible"])
-		return
-
-	# Also bail out if inventory blocks us
-	if inventory and inventory.blocks_tooltip():
-		return
-
-	vm.set_overlapped_obj(obj)
+	vm.hover_push(obj)
 
 	if vm.tooltip:
-		var tt = obj.get_tooltip()
-
 		# XXX: The warning report may be removed if it turns out to be too annoying in practice
-		if not tt:
-			vm.report_warnings("game", ["No tooltip for trigger " + obj.name])
+		if not obj.get_tooltip():
 			# For a passive item, it's fine to set an empty tooltip, but if we have a passive and
 			# an active esc_type.ITEM overlapping, say a window and a light that will move later,
 			# the tooltip may be emptied by the light not having a tooltip. This is because the
 			# `mouse_enter` events have no guaranteed order.
-			return
-
-	vm.hover_begin(obj)
+			vm.report_warnings("game", ["No tooltip for trigger " + obj.name])
 
 func ev_mouse_exit_trigger(obj):
 	printt(obj.name, "mouse_exit_trigger")
 
-	vm.clear_overlapped_obj()
-	# FIXME: Action menu on item, click trigger which causes dialog, hover_object is not set, but should be
-	if vm.hover_object:
-		vm.hover_end()
+	vm.hover_pop(obj)
 
 func spawn_action_menu(obj):
 	if vm.action_menu == null:
@@ -461,8 +407,8 @@ func handle_menu_request():
 				vm.action_menu.stop()
 
 		# Forcibly close inventory without animation if collapsible and visible
-		if inventory and inventory.blocks_tooltip():
-			inventory.force_close()
+		if vm.inventory and vm.inventory.blocks_tooltip():
+			vm.inventory.force_close()
 
 		# Finally show the menu
 		main.load_menu(ProjectSettings.get_setting("escoria/ui/in_game_menu"))
@@ -577,17 +523,19 @@ func load_hud():
 	# and not present in the `game` scene's hud.
 	if inventory_enabled:
 		if hud.has_node("inventory"):
-			inventory = hud.get_node("inventory")
+			var inventory = hud.get_node("inventory")
+			vm.register_inventory(inventory)
 			printt("Found inventory in hud", hud)
 		else:
 			var inventory_scene = ProjectSettings.get_setting("escoria/ui/inventory")
 			if inventory_scene:
-				inventory = load(inventory_scene).instance()
+				var inventory = load(inventory_scene).instance()
 				if inventory and inventory is esc_type.INVENTORY:
-					if inventory.is_collapsible:
-						inventory.hide()
-					hud.add_child(inventory)
-					hud.move_child(inventory, 0)
+					vm.register_inventory(inventory)
+					if vm.inventory.is_collapsible:
+						vm.inventory.hide()
+					hud.add_child(vm.inventory)
+					hud.move_child(vm.inventory, 0)
 					printt("Added inventory to hud", hud)
 
 	if has_node("hud_layer/hud/inv_toggle"):

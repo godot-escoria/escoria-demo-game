@@ -34,9 +34,10 @@ var camera
 
 ## One game, one VM; there are many things we can have only one of, track them here.
 var action_menu = null	   # If the game uses an action menu, register it here
+var inventory = null       # Register an inventory if used
 var tooltip = null         # The tooltip scene, registered by game.gd
 var hover_object = null    # Best-effort attempt to track what's under the mouse
-var overlapped_obj = null  # Would be covered by eg. a collapsible inventory ("cache" tooltip)
+var hover_stack = []       # Register mouse_enter events here based on z-index
 
 var current_action = ""    # Verb or action menu button
 var current_tool = null    # Item chosen from inventory
@@ -131,11 +132,76 @@ func settings_loaded(p_settings):
 func music_volume_changed():
 	emit_signal("music_volume_changed")
 
+func hover_debug(s):
+	var ids = []
+	for h in hover_stack:
+		ids.push_back([h.z_index, h.global_id])
+	printt("HOVER DEBUG: " + s, ids)
+
+func hover_push(obj):
+	if not obj is esc_type.ITEM and not obj is esc_type.TRIGGER:
+		report_errors("global_vm", ["Trying to hover " + obj.global_id + " which is not ITEM or TRIGGER"])
+
+	var stacked
+	var for_else = true
+	var need_new_hover = false
+	if not hover_stack:
+		hover_stack.push_back(obj)
+		need_new_hover = true
+	else:
+		if obj in hover_stack:
+			report_errors("global_vm", ["Hovering push obj " + obj.global_id + " in hover_stack!"])
+
+		for i in hover_stack.size():
+			stacked = hover_stack[i]
+			if obj.z_index >= stacked.z_index:
+				hover_stack.insert(i, obj)
+				for_else = false
+				need_new_hover = i == 0
+				break
+		if for_else:
+			hover_stack.push_back(obj)
+
+	# hover_debug("PUSH")
+	if need_new_hover:
+		# hover_debug("PUSHED, hovering " + obj.global_id)
+		hover_begin(obj)
+	# else:
+	# 	hover_debug("KEEP HOVERING " + hover_object.global_id)
+
+func hover_pop(obj):
+	if not obj in hover_stack:
+		report_errors("global_vm", ["Hovering pop obj " + obj.global_id + " not in hover_stack!"])
+
+	if not hover_stack:
+		report_errors("global_vm", ["Hovering trying to pop from empty stack"])
+
+	var next
+	if hover_stack[0] == obj:
+		hover_stack.pop_front()
+		if hover_stack:
+			next = hover_stack[0]
+	else:
+		for i in range(1, hover_stack.size()):
+			if hover_stack[i] == obj:
+				next = hover_stack[i - 1]
+				hover_stack.remove(i)
+				break
+
+	# hover_debug("POP")
+	if not hover_stack:
+		# printt("\tENDING ALL HOVERS", hover_object)
+		hover_end()
+	elif next != hover_object:
+		# printt("\tNEW HOVER", next, next.global_id)
+		hover_begin(next)
+
 func hover_begin(obj):
 	if not obj is esc_type.ITEM and not obj is esc_type.TRIGGER:
 		report_errors("global_vm", ["Trying to hover " + obj.global_id + " which is not ITEM or TRIGGER"])
 
 	hover_object = obj
+
 	if tooltip:
 		tooltip.update()
 
@@ -149,8 +215,13 @@ func hover_end():
 		hover_object.clicked = false
 
 	hover_object = null
+
 	if tooltip:
 		tooltip.update()
+
+func hover_clear_stack():
+	hover_stack = []
+	hover_object = null
 
 func camera_set_target(p_speed, p_target):
 	if not camera:
@@ -421,9 +492,6 @@ func event_done(ev_name):
 			main.telon.cut_to_scene()
 	else:
 		if "NO_TT" in running_event.ev_flags:
-			# Let an `overlapped_obj` deal with the tooltip if required
-			reset_overlapped_obj()
-
 			# If the event was NO_TT, explicitly or because of `say`, we shouldn't keep it hidden
 			if tooltip.force_hide_tooltip:
 				tooltip.force_tooltip_visible(true)
@@ -516,6 +584,16 @@ func register_action_menu(p_action_menu):
 
 	action_menu = p_action_menu
 
+func register_inventory(p_inventory):
+	if inventory and p_inventory != inventory:
+		if not p_inventory is esc_type.INVENTORY:
+			report_errors("global_vm", ["Trying to re-register non-INVENTORY type inventory"])
+	elif not inventory:
+		if not p_inventory is esc_type.INVENTORY:
+			report_errors("global_vm", ["Trying to register non-INVENTORY type inventory"])
+
+	inventory = p_inventory
+
 func get_object(name):
 	if !(name in objects):
 		return null
@@ -600,28 +678,6 @@ func set_current_tool(p_tool):
 
 func clear_current_tool():
 	current_tool = null
-
-func set_overlapped_obj(obj):
-	if not obj is esc_type.ITEM and not obj is esc_type.TRIGGER:
-		report_errors("global_vm", ["Trying to set overlapped object " + obj.global_id + " which is not ITEM or TRIGGER"])
-
-	if obj is esc_type.ITEM and obj.inventory:
-		report_errors("global_vm", ["Trying to set overlapped inventory object " + obj.global_id])
-
-	overlapped_obj = obj
-
-func reset_overlapped_obj():
-	if overlapped_obj:
-		if overlapped_obj is esc_type.ITEM:
-			if overlapped_obj.inventory:
-				report_errors("global_vm", ["Trying to reset overlapped inventory item"])
-
-			overlapped_obj.emit_signal("mouse_enter_item", overlapped_obj)
-		elif overlapped_obj is esc_type.TRIGGER:
-			overlapped_obj.emit_signal("mouse_enter_trigger", overlapped_obj)
-
-func clear_overlapped_obj():
-	overlapped_obj = null
 
 func object_exit_scene(name):
 	objects.erase(name)

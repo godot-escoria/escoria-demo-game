@@ -11,11 +11,8 @@ func show():
 	if not self.text:
 		var errors = ["Trying to show empty tooltip"]
 
-		if vm.overlapped_obj:
-			errors.push_back("Overlapped object: " + vm.overlapped_obj.global_id)
-
-		if vm.hover_obj:
-			errors.push_back("Hovered object: " + vm.hover_obj.global_id)
+		if vm.hover_object:
+			errors.push_back("Hovered object: " + vm.hover_object.global_id)
 
 		vm.report_errors("tooltip", errors)
 
@@ -28,20 +25,36 @@ func hide():
 	set_tooltip_visible(false)
 
 func update():
+	if vm.action_menu and vm.action_menu.visible:
+		return
+
 	var text = ""
 
 	if vm.hover_object:
 		var tt = vm.hover_object.get_tooltip()
 
 		if vm.current_action and vm.current_tool and vm.current_tool != vm.hover_object:
-			text = tr(vm.current_action + ".combine_id")
-			text = text.replace("%2", tr(tt))
-			text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
+			if not "inventory" in vm.hover_object or not vm.hover_object.inventory:
+				if not vm.inventory or not vm.inventory.blocks_tooltip():
+					text = tr(vm.current_action + ".combine_id")
+					text = text.replace("%2", tr(tt))
+					text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
+				else:
+					text = tr("use.id")
+					text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
+			else:
+					text = tr(vm.current_action + ".combine_id")
+					text = text.replace("%2", tr(tt))
+					text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
 		elif vm.current_action == "use" and vm.current_tool:
 			text = tr("use.id")
 			text = text.replace("%1", tr(vm.current_tool.get_tooltip()))
 		else:
-			text = tr(tt)
+			if not "inventory" in vm.hover_object or not vm.hover_object.inventory:
+				if not vm.inventory or not vm.inventory.blocks_tooltip():
+					text = tr(tt)
+			else:
+					text = tr(tt)
 	else:
 		if vm.current_action and vm.current_tool:
 			if not vm.hover_object:
@@ -60,7 +73,6 @@ func set_tooltip(text):
 		vm.report_errors("tooltip", ["Trying to set tooltip of type: " + str(typeof(text))])
 
 	if force_hide_tooltip:
-		# vm.reset_overlapped_obj()
 		if self.visible:
 			vm.report_errors("tooltip", ["Forcibly hidden tooltip visible while trying to set text: " + text])
 		return

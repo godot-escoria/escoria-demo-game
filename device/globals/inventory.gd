@@ -24,13 +24,6 @@ func open():
 	if is_visible():
 		return
 
-	if vm.tooltip:
-		# Anything left underneath the inventory is not considered hovering
-		if vm.hover_object:
-			vm.hover_end()
-
-		vm.tooltip.update()
-
 	if vm.action_menu:
 		# `false` is for show_tooltip=false
 		vm.action_menu.stop(false)
@@ -44,29 +37,28 @@ func open():
 	if has_node("animation"):
 		get_node("animation").play("show")
 
+func show():
+	.show()
+
+	if vm.tooltip:
+		vm.tooltip.update()
 
 func close():
 	if !is_visible():
 		return
 
 	if vm.tooltip:
-		# We want to hide the tooltip from a collapsible inventory, but not if
-		# an item has been selected as `current_tool`.
-		if not vm.current_tool:
-			vm.tooltip.hide()
-		# But if we are closing while hovering ...
-		elif vm.hover_object:
+		# If we are closing while hovering ...
+		if vm.hover_object:
 			# ... an inventory item ...
 			if vm.hover_object is esc_type.ITEM and vm.hover_object.inventory:
 				# ... we must exit it to sort out the tooltip
 				vm.hover_object.emit_signal("mouse_exit_inventory_item", vm.hover_object)
 
-	var closing_animation = false
 	if has_node("animation"):
 		if $"animation".is_playing():
 			return
 		$"animation".play("hide")
-		closing_animation = true
 
 	# XXX: What is this `look` node? A verb menu thing?
 	if has_node("look"):
@@ -76,9 +68,11 @@ func close():
 	hide()
 	print("inventory close")
 
-	# Reset immediately only when there isn't an animation, otherwise let the handler do it
-	if not closing_animation:
-		vm.reset_overlapped_obj()
+func hide():
+	.hide()
+
+	if vm.tooltip:
+		vm.tooltip.update()
 
 func force_close():
 	if !is_visible():
@@ -99,7 +93,6 @@ func toggle():
 func anim_finished(name):
 	if name == "hide":
 		hide()
-		vm.reset_overlapped_obj()
 
 func sort_items():
 	var items = get_node("items")
