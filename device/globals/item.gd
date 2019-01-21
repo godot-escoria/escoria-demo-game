@@ -57,9 +57,6 @@ var audio
 var last_lmb_dt = 0
 var waiting_dblclick = false
 
-func is_clicked():
-	return clicked
-
 func get_interact_pos():
 	if interact_pos:
 		return interact_pos.get_global_position()

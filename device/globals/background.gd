@@ -10,28 +10,13 @@ var area
 var last_lmb_dt = 0
 var waiting_dblclick = null  # null or [pos, event]
 
-func item_was_clicked():
-	## Try the overlay handling here for topmost item
-	# If a background is covered by an item, the item "wins"
-	var overlay = get_child(0)
-	# Eg. Polygon2D does not have this method
-	if overlay.has_method("get_overlapping_areas"):
-		for area in overlay.get_overlapping_areas():
-			if not area is esc_type.ITEM:
-				if area.get_parent() is esc_type.ITEM:
-					area = area.get_parent()
-
-			# An item won
-			if area.has_method("is_clicked") and area.is_clicked():
-				return true
-
-	return false
-
 func input(viewport, event, shape_idx):
-	if item_was_clicked():
-		return
-
 	if event is InputEventMouseButton and event.pressed:
+		# If we are hovering items, do not allow background to receive a click
+		# and let the items sort out who's on top and gets to be `clicked`
+		if vm.hover_stack:
+			return
+
 		if event.button_index == BUTTON_LEFT:
 			last_lmb_dt = 0
 			waiting_dblclick = [get_global_mouse_position(), event]
