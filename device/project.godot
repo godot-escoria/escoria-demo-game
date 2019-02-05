@@ -40,6 +40,7 @@ application/speech_suffix=".spx"
 application/text_lang="en"
 application/voice_lang="en"
 application/speech_path="res://demo/audio/speech/"
+application/binaural_speech=false
 application/speech_enabled=true
 application/speech_locales_path="res://demo/speech_locales.gd"
 application/text_timeout_seconds=3

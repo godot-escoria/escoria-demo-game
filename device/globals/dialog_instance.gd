@@ -201,12 +201,13 @@ func init(p_params, p_context, p_intro, p_outro):
 	setup_speech(text_id)
 
 func setup_speech(tid):
-
 	if tid == null || tid == "":
 		return
 
 	if !vm.settings.speech_enabled:
 		return
+
+	var use_binaural = ProjectSettings.get_setting("escoria/application/binaural_speech")
 
 	var speech_path = ProjectSettings.get_setting("escoria/application/speech_path")
 	var fname = speech_path + vm.settings.voice_lang + "/" + tid + speech_suffix
@@ -218,28 +219,37 @@ func setup_speech(tid):
 
 	speech_stream.set_loop(false)
 
-	var player = AudioStreamPlayer.new()
-	player.set_name("speech_player")
-	player.bus = "Speech"
-	add_child(player)
-	player.set_stream(speech_stream)
-	player.volume_db = vm.settings.voice_volume * ProjectSettings.get_setting("escoria/application/max_voice_volume")
+	if use_binaural:
+		speech_player = AudioStreamPlayer2D.new()
+	else:
+		speech_player = AudioStreamPlayer.new()
+
+	speech_player.set_name("speech_player_" + character.global_id if "global_id" in character else "player")
+	speech_player.bus = "Speech"
+
+	if use_binaural:
+		character.add_child(speech_player)
+	else:
+		add_child(speech_player)
+
+	speech_player.set_stream(speech_stream)
+	speech_player.volume_db = vm.settings.voice_volume * ProjectSettings.get_setting("escoria/application/max_voice_volume")
 
 	if bg_music.is_playing():
 		bg_music.volume_db -= damp_db
 
-	player.play()
+	speech_player.play()
 
-	if !player.is_playing():
+	# XXX: For whatever reason the AudioStreamPlayer2D does not appear to be playing, but it actually is
+	if not use_binaural and not speech_player.is_playing():
 		print(" *** not playing? :(")
 		# error?
 		speech_stream = null
-		player.free()
+		speech_player.free()
 		return
 
 	#total_time = speech_stream.get_length() * 0.8 + 1.5
 	#printt("total time ", total_time, speech_stream.get_length())
-	speech_player = player
 
 func game_paused(p_pause):
 	if speech_stream == null || speech_player == null:
@@ -255,6 +265,7 @@ func game_paused(p_pause):
 
 
 func _queue_free():
+	speech_player.free()
 	queue_free()
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "set_mode", "default")
 	vm.finished(context)
