@@ -1,0 +1,116 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://globals/scene.gd" type="Script" id=1]
+[ext_resource path="res://demo/rooms/scify/sci-fi-level[foreground_layer_small].png" type="Texture" id=2]
+[ext_resource path="res://globals/background.gd" type="Script" id=3]
+[ext_resource path="res://globals/terrain.gd" type="Script" id=4]
+[ext_resource path="res://demo/actors/player/player.tscn" type="PackedScene" id=5]
+[ext_resource path="res://contrib/shaders/shadow.tres" type="Material" id=6]
+[ext_resource path="res://demo/rooms/scify/shadow.png" type="Texture" id=7]
+[ext_resource path="res://globals/shadow.gd" type="Script" id=8]
+[ext_resource path="res://globals/game.tscn" type="PackedScene" id=9]
+[ext_resource path="res://demo/rooms/scify/spot.png" type="Texture" id=10]
+
+[sub_resource type="NavigationPolygon" id=1]
+
+vertices = PoolVector2Array( 3713.32, 441.44, 0.134003, 434.23, 547.856, 229.252, 908.239, 237.044, 1640.69, 270.161, 2289.38, 240.94, 3713.32, 261.188 )
+polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 0, 4, 5, 6 ) ]
+outlines = [ PoolVector2Array( 0.134003, 434.23, 547.856, 229.252, 908.239, 237.044, 1640.69, 270.161, 2289.38, 240.94, 3713.32, 261.188, 3713.32, 441.44 ) ]
+
+[node name="scene" type="Node2D" index="0"]
+
+script = ExtResource( 1 )
+events_path = ""
+default_zoom = 1.0
+
+[node name="background" type="Sprite" parent="." index="0"]
+
+position = Vector2( -1, 0 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 2 )
+centered = false
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
+action = "walk"
+
+[node name="terrain" type="Navigation2D" parent="." index="1"]
+
+editor/display_folded = true
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+lightmap = null
+player_speed_multiplier = 0.8
+player_doubleclick_speed_multiplier = 2.0
+lightmap_modulate = Color( 1, 1, 1, 1 )
+scales = null
+bitmaps_scale = Vector2( 1, 1 )
+debug_mode = 0
+scale_min = 1.0
+scale_max = 2.0
+
+[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="terrain" index="0"]
+
+position = Vector2( 1.85059, 173.374 )
+navpoly = SubResource( 1 )
+enabled = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="player" parent="." index="2" instance=ExtResource( 5 )]
+
+position = Vector2( 1425.56, 454.979 )
+scale = Vector2( 2, 2 )
+z_index = 454
+speed = 100
+placeholders = {
+
+}
+
+[node name="shadow" type="Sprite" parent="player" index="4"]
+
+material = ExtResource( 6 )
+position = Vector2( 0.541687, 4.82181 )
+z_index = -1
+texture = ExtResource( 7 )
+centered = false
+offset = Vector2( -50, 0 )
+script = ExtResource( 8 )
+_sections_unfolded = [ "Material", "Offset" ]
+rotating = true
+scaling = true
+scale_by_node = "sprite"
+
+[node name="game" parent="." index="3" instance=ExtResource( 9 )]
+
+[node name="Light2D" type="Light2D" parent="." index="4"]
+
+position = Vector2( 1279.82, 230.131 )
+scale = Vector2( 14.7068, 13.242 )
+enabled = true
+editor_only = false
+texture = ExtResource( 10 )
+offset = Vector2( 0, 0 )
+texture_scale = 1.0
+color = Color( 1, 0, 0, 1 )
+energy = 1.8
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = true
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+
+
