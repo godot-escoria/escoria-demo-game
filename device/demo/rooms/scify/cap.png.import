@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/hallway.png-b5b23cad30154166bf2be63555a5bfa2.stex"
+path="res://.import/cap.png-34050a8a6c4c0db72dd4a2407a6145f7.stex"
 
 [deps]
 
-source_file="res://demo/rooms/scify/hallway.png"
-dest_files=[ "res://.import/hallway.png-b5b23cad30154166bf2be63555a5bfa2.stex" ]
+source_file="res://demo/rooms/scify/cap.png"
+dest_files=[ "res://.import/cap.png-34050a8a6c4c0db72dd4a2407a6145f7.stex" ]
 
 [params]
 
