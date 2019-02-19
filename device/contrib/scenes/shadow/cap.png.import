@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/cap.png-34050a8a6c4c0db72dd4a2407a6145f7.stex"
+path="res://.import/cap.png-3d49dcef40d6831b180435be18953959.stex"
 
 [deps]
 
-source_file="res://demo/rooms/scify/cap.png"
-dest_files=[ "res://.import/cap.png-34050a8a6c4c0db72dd4a2407a6145f7.stex" ]
+source_file="res://contrib/scenes/shadow/cap.png"
+dest_files=[ "res://.import/cap.png-3d49dcef40d6831b180435be18953959.stex" ]
 
 [params]
 

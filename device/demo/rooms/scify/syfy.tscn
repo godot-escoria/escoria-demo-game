@@ -1,22 +1,25 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://globals/scene.gd" type="Script" id=1]
 [ext_resource path="res://demo/rooms/scify/sci-fi-level[foreground_layer_small].png" type="Texture" id=2]
 [ext_resource path="res://globals/background.gd" type="Script" id=3]
 [ext_resource path="res://globals/terrain.gd" type="Script" id=4]
 [ext_resource path="res://demo/actors/player/player.tscn" type="PackedScene" id=5]
-[ext_resource path="res://globals/shadow.gd" type="Script" id=6]
-[ext_resource path="res://contrib/shaders/shadow.tres" type="Material" id=7]
-[ext_resource path="res://demo/rooms/scify/shadow.png" type="Texture" id=8]
-[ext_resource path="res://demo/rooms/scify/cap.png" type="Texture" id=9]
-[ext_resource path="res://globals/game.tscn" type="PackedScene" id=10]
-[ext_resource path="res://demo/rooms/scify/spot.png" type="Texture" id=11]
+[ext_resource path="res://contrib/scenes/shadow/shadow.tscn" type="PackedScene" id=6]
+[ext_resource path="res://demo/rooms/scify/spot.png" type="Texture" id=7]
+[ext_resource path="res://globals/shadow_caster.gd" type="Script" id=8]
+[ext_resource path="res://globals/game.tscn" type="PackedScene" id=9]
 
 [sub_resource type="NavigationPolygon" id=1]
 
 vertices = PoolVector2Array( 3713.32, 441.44, 0.134003, 434.23, 547.856, 229.252, 908.239, 237.044, 1640.69, 270.161, 2289.38, 240.94, 3713.32, 261.188 )
 polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 0, 4, 5, 6 ) ]
 outlines = [ PoolVector2Array( 0.134003, 434.23, 547.856, 229.252, 908.239, 237.044, 1640.69, 270.161, 2289.38, 240.94, 3713.32, 261.188, 3713.32, 441.44 ) ]
+
+[sub_resource type="RectangleShape2D" id=2]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
 
 [node name="scene" type="Node2D" index="0"]
 
@@ -77,46 +80,14 @@ placeholders = {
 
 }
 
-[node name="shadow" type="Node2D" parent="player" index="0"]
+[node name="shadow" parent="player" index="0" instance=ExtResource( 6 )]
 
-script = ExtResource( 6 )
-rotating = true
-scaling = true
-
-[node name="perspective_scale" type="Node2D" parent="player/shadow" index="0"]
-
-scale = Vector2( 1, 0.5 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="rotation" type="Node2D" parent="player/shadow/perspective_scale" index="0"]
-
-_sections_unfolded = [ "Transform" ]
-
-[node name="shadow" type="Sprite" parent="player/shadow/perspective_scale/rotation" index="0"]
-
-material = ExtResource( 7 )
-z_index = -1
-texture = ExtResource( 8 )
-centered = false
-offset = Vector2( 0, -32 )
-_sections_unfolded = [ "Material", "Offset", "Transform", "Z Index" ]
-
-[node name="shadow_cap" type="Sprite" parent="player/shadow/perspective_scale/rotation" index="1"]
-
-material = ExtResource( 7 )
-z_index = -1
-texture = ExtResource( 9 )
-offset = Vector2( -16, 0 )
-_sections_unfolded = [ "Material", "Offset", "Z Index" ]
-
-[node name="game" parent="." index="3" instance=ExtResource( 10 )]
-
-[node name="Light2D" type="Light2D" parent="." index="4"]
+[node name="Light2D" type="Light2D" parent="." index="3"]
 
 position = Vector2( 1279.82, 230.131 )
 enabled = true
 editor_only = false
-texture = ExtResource( 11 )
+texture = ExtResource( 7 )
 offset = Vector2( 0, 0 )
 texture_scale = 15.0
 color = Color( 1, 0, 0, 1 )
@@ -136,5 +107,69 @@ shadow_filter = 0
 shadow_filter_smooth = 0.0
 shadow_item_cull_mask = 1
 _sections_unfolded = [ "Transform" ]
+
+[node name="shadow_caster" type="Area2D" parent="Light2D" index="0"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+script = ExtResource( 8 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Light2D/shadow_caster" index="0"]
+
+position = Vector2( -5.47417, 55.3939 )
+scale = Vector2( 64.7928, 61.681 )
+shape = SubResource( 2 )
+
+[node name="Light2D2" type="Light2D" parent="." index="4"]
+
+position = Vector2( 1558, 95 )
+enabled = true
+editor_only = false
+texture = ExtResource( 7 )
+offset = Vector2( 0, 0 )
+texture_scale = 15.0
+color = Color( 1, 0, 0, 1 )
+energy = 1.8
+mode = 0
+range_height = 0.0
+range_z_min = -1024
+range_z_max = 1024
+range_layer_min = 0
+range_layer_max = 0
+range_item_cull_mask = 1
+shadow_enabled = true
+shadow_color = Color( 0, 0, 0, 0 )
+shadow_buffer_size = 2048
+shadow_gradient_length = 0.0
+shadow_filter = 0
+shadow_filter_smooth = 0.0
+shadow_item_cull_mask = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="shadow_caster" type="Area2D" parent="Light2D2" index="0"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+script = ExtResource( 8 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Light2D2/shadow_caster" index="0"]
+
+position = Vector2( 315.596, 55.3939 )
+scale = Vector2( 40.0951, 61.681 )
+shape = SubResource( 2 )
+
+[node name="game" parent="." index="5" instance=ExtResource( 9 )]
 
 

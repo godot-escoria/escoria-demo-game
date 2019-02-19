@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/shadow.png-7e924f3feb3d6b1be1a41fd626c38713.stex"
+path="res://.import/shadow.png-acc6ebdec702b2dc2e8d7d7cc818c744.stex"
 
 [deps]
 
-source_file="res://demo/rooms/scify/shadow.png"
-dest_files=[ "res://.import/shadow.png-7e924f3feb3d6b1be1a41fd626c38713.stex" ]
+source_file="res://contrib/scenes/shadow/shadow.png"
+dest_files=[ "res://.import/shadow.png-acc6ebdec702b2dc2e8d7d7cc818c744.stex" ]
 
 [params]
 

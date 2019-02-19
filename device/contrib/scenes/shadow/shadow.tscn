@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://globals/shadow.gd" type="Script" id=1]
+[ext_resource path="res://contrib/shaders/shadow.tres" type="Material" id=2]
+[ext_resource path="res://contrib/scenes/shadow/shadow.png" type="Texture" id=3]
+[ext_resource path="res://contrib/scenes/shadow/cap.png" type="Texture" id=4]
+
+
+
+
+[node name="shadow" type="Node2D"]
+
+script = ExtResource( 1 )
+rotating = true
+scaling = true
+
+[node name="perspective_scale" type="Node2D" parent="." index="0"]
+
+scale = Vector2( 1, 0.5 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="rotation" type="Node2D" parent="perspective_scale" index="0"]
+
+_sections_unfolded = [ "Transform" ]
+
+[node name="shadow" type="Sprite" parent="perspective_scale/rotation" index="0"]
+
+material = ExtResource( 2 )
+z_index = -1
+texture = ExtResource( 3 )
+centered = false
+offset = Vector2( 0, -32 )
+_sections_unfolded = [ "Material", "Offset", "Transform", "Z Index" ]
+
+[node name="shadow_cap" type="Sprite" parent="perspective_scale/rotation" index="1"]
+
+material = ExtResource( 2 )
+z_index = -1
+texture = ExtResource( 4 )
+offset = Vector2( -16, 0 )
+_sections_unfolded = [ "Material", "Offset", "Z Index" ]
+
+
