@@ -404,7 +404,7 @@ tracks/1/keys = {
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
-[node name="player" type="KinematicBody2D" index="0"]
+[node name="player" type="KinematicBody2D"]
 
 input_pickable = false
 collision_layer = 1
@@ -423,6 +423,7 @@ placeholders = {
 
 [node name="sprite" type="AnimatedSprite" parent="." index="0"]
 
+visible = false
 position = Vector2( 5.2803, -49.2264 )
 frames = SubResource( 1 )
 animation = "hat"

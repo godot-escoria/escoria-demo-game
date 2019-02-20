@@ -31,6 +31,7 @@ Reference
 
 [Triggers and exits](triggers-and-exits.md)
 
+[Directional shadows](directional-shadows.md)
 
 Scripting
 ---------
