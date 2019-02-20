@@ -4,6 +4,14 @@ var light
 var shadow
 var polygon
 
+export (int)var light_y_offset = 0
+export (float)var max_dist_visible = 50
+export (float)var alpha_coefficient = 2.0
+export (float)var alpha_max = 0.65
+export (float)var scale_power = 1.2
+export (float)var scale_divide = 1000.0
+export (float)var scale_extra = 0.15
+
 func body_entered(body):
 	if not light.visible:
 		return

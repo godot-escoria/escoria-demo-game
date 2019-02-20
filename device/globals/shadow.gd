@@ -1,8 +1,5 @@
 extends Node
 
-const MAX_DIST_VISIBLE = 50.0
-const LIGHT_HEIGHT = 180.0
-
 var light = null
 var caster = null
 var polygon = null
@@ -10,7 +7,7 @@ var polygon = null
 var in_caster
 var light_floor_pos
 var vector_to
-var direction
+var alpha
 var alpha_calculated
 
 onready var space = get_world_2d().get_direct_space_state()
@@ -49,13 +46,14 @@ func _process(delta):
 	elif in_caster and not self.visible:
 		self.visible = true
 
-	light_floor_pos = light.global_position + Vector2(0,LIGHT_HEIGHT)
+	light_floor_pos = light.global_position + Vector2(0, caster.light_y_offset)
 	vector_to = shadow.global_position - light_floor_pos
-	direction = vector_to.normalized()
 
 	# Recalculate shadow's alpha.
 	# The closer the light source, the bigger the alpha value
-	alpha_calculated = clamp((MAX_DIST_VISIBLE/vector_to.length()) * 2.0, 0.0, 0.65)
+	alpha = (caster.max_dist_visible / vector_to.length()) * caster.alpha_coefficient
+	# TODO: Should have some code to grade off the shadow when close to the polygon's edge
+	alpha_calculated = clamp(alpha, 0.0, caster.alpha_max)
 	# printt("ALPHA", alpha_calculated)
 	shadow.get_material().set_shader_param("alpha_value", alpha_calculated)
 	if alpha_calculated < 0.1:
@@ -70,8 +68,7 @@ func _process(delta):
 	# Scale the shadow according to its distance to light source
 	# The closer the light, the shorter its height (down to the minimum size)
 	if scaling:
-		# printt("direction", direction)
-		shadow.scale.x = pow(vector_to.length(),1.2)/1000.0 + 0.15
+		shadow.scale.x = pow(vector_to.length(), caster.scale_power) / caster.scale_divide + caster.scale_extra
 
 func _ready():
 	# We are always the "template" for shadows, so we ourselves can't be visible
