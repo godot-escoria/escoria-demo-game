@@ -5,6 +5,10 @@ Your player needs to have a `shadow` child. You can use/extend the one provided 
 To actually cast a shadow, you must have one or more `Light2D` instances, with an `Area2D` child (named eg. `shadow_caster`).
 Attach the `globals/shadow_caster.gd` script to it and create the `CollisionPolygon2D` or `CollisionShape2D`.
 
+The `force_light_mask` toggle will reset your player's light mask to match the `Light2D`'s _range cull mask_ so the player
+will always be lit up by the light. This is so you can stand in front of a light, outside `shadow_caster`, and not have it
+affect you - simply by having different masks. If you don't want this behavior, uncheck the box or set matching masks.
+
 Now when your player enters the `shadow_caster`(s), there'll be shadows!
 
 ## Tunables
