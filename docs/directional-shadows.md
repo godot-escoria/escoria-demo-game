@@ -23,5 +23,11 @@ There are more than a few tunables here.
   * (float)var scale_extra = 0.15
       * Magic tunables to affect the shadow's length
 
+## Shadow configuration
 
+All the scaling tunables above are ignored if you uncheck `scaling`.
+
+If you don't want your shadow to rotate, uncheck `rotating` and set a `fixed_rotation`.
+This value is ignored when `rotating` is checked. The unit is degrees, starting directly
+toward the camera and moving clockwise.
 

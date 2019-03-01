@@ -15,6 +15,7 @@ onready var perspective_scale = $"perspective_scale"
 onready var rotation = perspective_scale.get_node("rotation")
 onready var shadow = rotation.get_node("shadow")
 
+export (float)var fixed_rotation = 0.0
 export var rotating = true
 export var scaling = true
 
@@ -64,6 +65,11 @@ func _process(delta):
 	if rotating:
 		rotation.look_at(shadow.global_position - vector_to)
 		rotation.rotate(PI)
+	else:
+		rotation.rotation_degrees = self.fixed_rotation + 90
+
+		if get_parent().scale.x < 0:
+			rotation.rotation_degrees -= 180 + 2 * (self.fixed_rotation + 90)
 
 	# Scale the shadow according to its distance to light source
 	# The closer the light, the shorter its height (down to the minimum size)
