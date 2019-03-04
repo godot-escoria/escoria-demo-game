@@ -55,7 +55,8 @@ func input(event):
 	# Get mouse position, since event.position only works with Area2D exits
 	var pos = get_global_mouse_position()
 
-	if player and event.doubleclick:
+	# Disallow doubleclick teleportation if there's no tooltip.
+	if player and event.doubleclick and self.tooltip:
 		player.set_position(pos)
 	elif player:
 		# Control blocks input to background, so make player walk

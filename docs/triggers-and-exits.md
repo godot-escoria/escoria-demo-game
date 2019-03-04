@@ -15,6 +15,10 @@ The working cases are described here.
 Exit is extended from trigger. To make gameplay quicker and "more modern", trigger
 implements double-clicking, which therefore works in exit as well.
 
+Sometimes you may want a hidden `trigger`, by having an empty tooltip. As the player
+will figure out where they are by the events triggered, it would feel broken if a
+double-click teleported the player. Therefore an empty tooltip disables double-clicking.
+
 ## Concerning the player
 
 Your player character must be a `KinematicBody2D` in order to work with triggers
