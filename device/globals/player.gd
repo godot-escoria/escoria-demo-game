@@ -90,6 +90,11 @@ func walk(pos, speed, context = null):
 	walk_to(pos, context)
 
 func anim_finished(anim_name):
+	# Ignore the signal if the previous animation finished while we're actually playing another one
+	if animation.get_current_animation() and anim_name != animation.get_current_animation():
+		# printt("player: anim_finished: ignore", anim_name, animation.get_current_animation())
+		return
+
 	if anim_notify != null:
 		vm.finished(anim_notify)
 		anim_notify = null
