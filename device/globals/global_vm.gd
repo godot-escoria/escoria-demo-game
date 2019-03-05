@@ -101,7 +101,7 @@ func _get_dir_deg(deg, obj_name, animations):
 
 	# It's an error to have the animations misconfigured
 	if dir == -1:
-		vm.report_errors("obj_name", ["No direction found for " + str(deg)])
+		report_errors("obj_name", ["No direction found for " + str(deg)])
 	return dir
 
 
@@ -197,7 +197,8 @@ func hover_pop(obj):
 		hover_begin(next)
 
 func hover_begin(obj):
-	if not obj is esc_type.ITEM and not obj is esc_type.TRIGGER:
+	var escoria_types = load("res://globals/escoria_types.gd")
+	if not obj is escoria_types.ITEM and not obj is escoria_types.TRIGGER:
 		report_errors("global_vm", ["Trying to hover " + obj.global_id + " which is not ITEM or TRIGGER"])
 
 	hover_object = obj
@@ -290,17 +291,17 @@ func wait(params, level):
 	level.waiting = true
 	return state_yield
 
-func is_equal_to(name, val):
+func is_global_equal_to(name, val):
 	var global = get_global(name)
 	if global and val and global == val:
 		return true
 
-func is_greater_than(name, val):
+func is_global_greater_than(name, val):
 	var global = get_global(name)
 	if global and val and int(global) > int(val):
 		return true
 
-func is_less_than(name, val):
+func is_global_less_than(name, val):
 	var global = get_global(name)
 	if global and val and int(global) < int(val):
 		return true
@@ -332,27 +333,27 @@ func test(cmd):
 				return false
 	if "if_eq" in cmd:
 		for flag in cmd.if_eq:
-			if !is_equal_to(flag[0], flag[1]):
+			if !is_global_equal_to(flag[0], flag[1]):
 				return false
 	if "if_ne" in cmd:
 		for flag in cmd.if_ne:
-			if is_equal_to(flag[0], flag[1]):
+			if is_global_equal_to(flag[0], flag[1]):
 				return false
 	if "if_gt" in cmd:
 		for flag in cmd.if_gt:
-			if !is_greater_than(flag[0], flag[1]):
+			if !is_global_greater_than(flag[0], flag[1]):
 				return false
 	if "if_ge" in cmd:
 		for flag in cmd.if_ge:
-			if is_less_than(flag[0], flag[1]):
+			if is_global_less_than(flag[0], flag[1]):
 				return false
 	if "if_lt" in cmd:
 		for flag in cmd.if_lt:
-			if !is_less_than(flag[0], flag[1]):
+			if !is_global_less_than(flag[0], flag[1]):
 				return false
 	if "if_le" in cmd:
 		for flag in cmd.if_le:
-			if is_greater_than(flag[0], flag[1]):
+			if is_global_greater_than(flag[0], flag[1]):
 				return false
 
 	return true
@@ -368,7 +369,7 @@ func dialog(params, level):
 
 func end_dialog(params):
 	if not running_event or not "NO_HUD" in running_event.ev_flags:
-		vm.set_hud_visible(true)
+		set_hud_visible(true)
 
 
 func instance_level(p_event, p_root):
@@ -661,11 +662,11 @@ func clear_current_action():
 	set_current_action("")
 
 func clear_action():
-	vm.clear_current_tool()
+	clear_current_tool()
 
 	# It is logical for action menus' actions to be cleared, but verb menus to persist
 	if action_menu:
-		vm.clear_current_action()
+		clear_current_action()
 
 func set_current_tool(p_tool):
 	if p_tool:
@@ -932,7 +933,7 @@ func save():
 			ret.append("teleport_pos " + k + " " + str(int(pos.x)) + " " + str(int(pos.y)) + "\n")
 			if objects[k].last_deg != null:
 				if objects[k].last_deg < 0 or objects[k].last_deg > 360:
-					vm.report_errors("global_vm", ["Trying to save game with " + objects[k].name + " at invalid angle " + str(objects[k].last_deg)])
+					report_errors("global_vm", ["Trying to save game with " + objects[k].name + " at invalid angle " + str(objects[k].last_deg)])
 				ret.append("set_angle " + k + " " + str(objects[k].last_deg) + "\n")
 
 	ret.append("\n")
@@ -946,7 +947,7 @@ func save():
 		# Angle may be unset if saving occurs when entering another room
 		if angle:
 			if angle < 0 or angle > 360:
-				vm.report_errors("global_vm", ["Trying to save game with player at invalid angle " + str(angle)])
+				report_errors("global_vm", ["Trying to save game with player at invalid angle " + str(angle)])
 			ret.append("set_angle player " + str(angle) + "\n")
 
 	ret.append("\n")
@@ -1094,7 +1095,6 @@ func _ready():
 	res_cache.start()
 	compiler = preload("res://globals/esc_compile.gd").new()
 	level = preload("res://globals/vm_level.gd").new()
-	level.set_vm(self)
 	game_size = get_viewport().size
 
 	if !ProjectSettings.get_setting("escoria/platform/skip_cache"):

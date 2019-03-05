@@ -71,11 +71,11 @@ func walk_to(pos, context = null):
 	if not terrain:
 		return walk_stop(get_position())
 
-	if interact_status == INTERACT_WALKING:
+	if interact_status == interact_statuses.INTERACT_WALKING:
 		return
-	if interact_status == INTERACT_STARTED:
-		interact_status = INTERACT_WALKING
-	walk_path = terrain.get_path(get_position(), pos)
+	if interact_status == interact_statuses.INTERACT_STARTED:
+		interact_status = interact_statuses.INTERACT_WALKING
+	walk_path = terrain.get_terrain_path(get_position(), pos)
 	walk_context = context
 	if walk_path.size() == 0:
 		task = null
@@ -107,7 +107,7 @@ func anim_finished(anim_name):
 		anim_notify = null
 
 	if anim_scale_override != null:
-		set_scale(get_scale() * anim_scale_override)
+		$sprite.set_scale($sprite.get_scale() * anim_scale_override)
 		anim_scale_override = null
 
 	animation.play(animations.idles[last_dir])
@@ -172,8 +172,8 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 	pose_scale = 1
 	_update_terrain()
 	if p_flip != null:
-		var s = get_scale()
-		set_scale(s * p_flip)
+		var s = $sprite.get_scale()
+		$sprite.set_scale(s * p_flip)
 		anim_scale_override = p_flip
 	else:
 		anim_scale_override = null
@@ -193,7 +193,7 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 	set_process(false)
 
 func interact(p_params):
-	interact_status = INTERACT_STARTED
+	interact_status = interact_statuses.INTERACT_STARTED
 	var obj = p_params[0]
 	var action = p_params[1]
 	var pos
@@ -279,7 +279,7 @@ func walk_stop(pos):
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "exit", "stopped_at", pos)
 
 	set_position(pos)
-	interact_status = INTERACT_NONE
+	interact_status = interact_statuses.INTERACT_NONE
 	walk_path = []
 
 	if orig_speed:
@@ -359,7 +359,7 @@ func _update_terrain():
 		scal.x = scal.x * pose_scale
 		if scal != get_scale():
 			last_scale = scal
-			set_scale(last_scale)
+			$sprite.set_scale(last_scale)
 
 	if check_maps:
 		color = terrain.get_light(pos)
@@ -525,6 +525,5 @@ func _ready():
 
 	vm.register_object("player", self)
 
-	last_scale = get_scale()
+	last_scale = $sprite.get_scale()
 	set_process(true)
-

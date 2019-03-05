@@ -68,7 +68,7 @@ func set_target(p_speed, p_target):
 
 		tween.start()
 
-func set_zoom(p_zoom_level, p_time):
+func set_camera_zoom(p_zoom_level, p_time):
 	if p_zoom_level <= 0.0:
 		vm.report_errors("camera", ["Tried to set negative or zero zoom level"])
 
@@ -108,9 +108,9 @@ func push(p_target, p_time, p_type):
 			tween.stop_all()
 
 		if camera_pos and camera_pos is Camera2D:
-			tween.interpolate_property(self, "zoom", self.zoom, camera_pos.zoom, time, Tween.get(type), Tween.EASE_IN_OUT)
+			tween.interpolate_property(self, "zoom", self.zoom, camera_pos.zoom, time, tween.get(type), Tween.EASE_IN_OUT)
 
-		tween.interpolate_property(self, "global_position", self.global_position, camera_pos_coords, time, Tween.get(type), Tween.EASE_IN_OUT)
+		tween.interpolate_property(self, "global_position", self.global_position, camera_pos_coords, time, tween.get(type), Tween.EASE_IN_OUT)
 
 		tween.start()
 
@@ -127,7 +127,7 @@ func shift(p_x, p_y, p_time, p_type):
 	if tween.is_active():
 		tween.stop_all()
 
-	tween.interpolate_property(self, "global_position", self.global_position, new_pos, time, Tween.get(type), Tween.EASE_IN_OUT)
+	tween.interpolate_property(self, "global_position", self.global_position, new_pos, time, tween.get(type), Tween.EASE_IN_OUT)
 
 	tween.start()
 

@@ -591,8 +591,10 @@ func _ready():
 				vm.report_errors("inventory item", ["Child area is not TextureRect in " + self.global_id])
 		else:
 			area = self
-			if not area is Area2D:
-				vm.report_errors("item", ["Background item area is not Area2D in " + self.global_id])
+			if area is Position2D:
+				vm.report_warnings("item", ["The Position2D node named " + self.global_id + " is probably erroneously marked as interactive."])
+			elif not area is Area2D and not area is Position2D:
+				vm.report_errors("item", ["Background item area is not Area2D nor Position2D in " + self.global_id])
 
 		if ClassDB.class_has_signal(area.get_class(), "input_event"):
 			area.connect("input_event", self, "area_input")

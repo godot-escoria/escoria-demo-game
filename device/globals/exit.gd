@@ -2,9 +2,10 @@ extends "res://globals/trigger.gd"
 
 func stopped_at(pos):
 	# TextureRect exits run this code
-	if self is Control and get_global_rect().has_point(pos):
-		if self.visible:
-			run_event("exit_scene")
+#	if self is Control and get_global_rect().has_point(pos):
+#		if self.visible:
+#			run_event("exit_scene")
+	pass
 
 func body_entered(body):
 	# Entering an exit node runs the `:exit_scene` event

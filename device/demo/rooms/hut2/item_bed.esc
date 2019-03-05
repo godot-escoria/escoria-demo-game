@@ -1,0 +1,5 @@
+:look
+say player "A nice, red bed."
+
+:use
+say player "I'd have a little nap with pleasure, but I've got some work to do."

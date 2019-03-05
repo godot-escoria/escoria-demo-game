@@ -30,6 +30,7 @@ func _physics_process(dt):
 	last_lmb_dt += dt
 
 	if waiting_dblclick and last_lmb_dt > vm.DOUBLECLICK_TIMEOUT:
+		print("ok")
 		emit_signal("left_click_on_bg", self, waiting_dblclick[0], waiting_dblclick[1])
 		last_lmb_dt = 0
 		waiting_dblclick = null
@@ -56,6 +57,6 @@ func _enter_tree():
 
 func _ready():
 	area.connect("input_event", self, "input")
-	connect("left_click_on_bg", $"/root/scene/game", "ev_left_click_on_bg")
+	connect("left_click_on_bg", $"../game", "ev_left_click_on_bg")
 	add_to_group("background")
 

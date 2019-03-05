@@ -308,4 +308,3 @@ func _ready():
 			vm.report_errors("dialog_instance", ["Settings voice_lang not in defined speech locales: " + vm.settings.voice_lang])
 
 	vm.connect("paused", self, "game_paused")
-

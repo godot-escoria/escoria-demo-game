@@ -2,11 +2,6 @@ tool
 
 extends "terrain_base.gd"
 
-export(int, "None", "Lightmap") var debug_mode = 0 setget debug_mode_updated
-
-var _texture_dirty = false
-var texture
-
 var scale_nodes = []
 
 onready var scale_min = $"scale_min"
@@ -15,14 +10,7 @@ onready var scale_max = $"scale_max"
 func debug_mode_updated(p_mode):
 	debug_mode = p_mode
 
-	_update_texture()
-
-func _update_texture():
-	if _texture_dirty:
-		return
-
-	_texture_dirty = true
-	call_deferred("_do_update_texture")
+	._update_texture()
 
 func _do_update_texture():
 	_texture_dirty = false
@@ -98,4 +86,3 @@ func _ready():
 	scale_nodes.sort_custom(self, "sort_by_y")
 	scale_nodes.push_front(scale_min)
 	scale_nodes.push_back(scale_max)
-

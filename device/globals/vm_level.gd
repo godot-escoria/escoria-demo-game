@@ -402,6 +402,3 @@ func resume(context):
 			return vm.state_jump
 	context.ip = 0
 	return vm.state_return
-
-func set_vm(p_vm):
-	vm = p_vm
