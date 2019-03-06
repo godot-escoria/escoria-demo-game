@@ -265,7 +265,9 @@ func game_paused(p_pause):
 
 
 func _queue_free():
-	speech_player.free()
+	if speech_player != null:
+		speech_player.free()
+
 	queue_free()
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "set_mode", "default")
 	vm.finished(context)
