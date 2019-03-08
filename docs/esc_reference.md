@@ -226,8 +226,9 @@ Items can also change state by playing animations from an `AnimationPlayer` name
 - `set_speed object speed`
   Sets how fast object moves. It must use the `interactive.gd` script or something extended from it. Value is an integer.
 
-- `teleport object1 object2`
-  Sets the position of object1 to the position of object2
+- `teleport object1 object2 [angle]`
+  Sets the position of object1 to the position of object2. By default object2's `interact_angle` is used to turn `object1`, but `angle` will override this.
+  Useful for doors and such with an `interact_angle` you don't always want to adhere to when re-entering a room.
 
 - `slide object1 object2`
   Moves object1 towards the position of object2, at the speed determined by object1's "speed" property. This command is non-blocking. It does not respect the room's navigation polygons, so you can move items where the player can't walk.

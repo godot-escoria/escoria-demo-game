@@ -278,13 +278,17 @@ func set_state(p_state, p_force = false):
 		if animation.has_animation(p_state):
 			animation.play(p_state)
 
-func teleport(obj):
+func teleport(obj, angle=null):
 	set_position(obj.global_position)
+	if angle:
+		set_angle(angle)
 	moved = true
 	_update_terrain(true)
 
-func teleport_pos(x, y):
+func teleport_pos(x, y, angle=null):
 	set_position(Vector2(x, y))
+	if angle:
+		set_angle(angle)
 	moved = true
 	_update_terrain(true)
 

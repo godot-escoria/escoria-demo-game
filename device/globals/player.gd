@@ -379,13 +379,15 @@ func _process(time):
 		_update_terrain()
 
 
-func teleport(obj):
-	if animations.dir_angles.size() > 0:
+func teleport(obj, angle=null):
+	if animations.dir_angles.size() > 0 and not angle:
 		if "interact_angle" in obj and obj.interact_angle != -1:
 			last_deg = obj.interact_angle
 			last_dir = vm._get_dir_deg(obj.interact_angle, self.name, animations)
 			animation.play(animations.idles[last_dir])
 			pose_scale = animations.idles[last_dir + 1]
+	elif angle:
+		set_angle(angle)
 
 	var pos
 	if obj.has_method("get_interact_pos"):

@@ -32,7 +32,7 @@ var commands = {
 	"repeat": true,
 	"wait": true,
 	"set_speed": { "min_args": 2, "types": [TYPE_STRING, TYPE_INT] },
-	"teleport": { "min_args": 2 },
+	"teleport": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING, TYPE_INT] },
 	"teleport_pos": { "min_args": 3 },
 	"slide": { "min_args": 2 },
 	"slide_block": { "min_args": 2 },

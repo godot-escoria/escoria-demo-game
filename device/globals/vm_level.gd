@@ -177,13 +177,23 @@ func teleport(params):
 		return vm.state_return
 	if !check_obj(params[1], "teleport"):
 		return vm.state_return
-	vm.get_object(params[0]).teleport(vm.get_object(params[1]))
+
+	var angle
+	if params.size() > 2:
+		angle = int(params[2])
+
+	vm.get_object(params[0]).teleport(vm.get_object(params[1]), angle)
 	return vm.state_return
 
 func teleport_pos(params):
 	if !check_obj(params[0], "teleport_pos"):
 		return vm.state_return
-	vm.get_object(params[0]).teleport_pos(int(params[1]), int(params[2]))
+
+	var angle
+	if params.size() > 2:
+		angle = int(params[2])
+
+	vm.get_object(params[0]).teleport_pos(int(params[1]), int(params[2]), angle)
 	return vm.state_return
 
 
