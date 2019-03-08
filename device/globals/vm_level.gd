@@ -190,8 +190,8 @@ func teleport_pos(params):
 		return vm.state_return
 
 	var angle
-	if params.size() > 2:
-		angle = int(params[2])
+	if params.size() > 3:
+		angle = int(params[3])
 
 	vm.get_object(params[0]).teleport_pos(int(params[1]), int(params[2]), angle)
 	return vm.state_return
