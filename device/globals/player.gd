@@ -407,8 +407,10 @@ func set_state(costume):
 
 	animation.play(animations.idles[last_dir])
 
-func teleport_pos(x, y):
+func teleport_pos(x, y, angle=null):
 	set_position(Vector2(x, y))
+	if angle:
+		set_angle(angle)
 	_update_terrain()
 
 func turn_to(deg):
