@@ -88,11 +88,15 @@ func check_command(cmd, state, errors):
 				elif cmd.params[i] == "false":
 					cmd.params[i] = false
 				else:
-					errors.push_back("line "+str(state.line_count)+": Invalid parameter "+str(i)+" for command "+cmd.name+". Must be 'true' or 'false'.")
+					errors.push_back("line " + str(state.line_count) + ": Invalid parameter " + cmd.params[i] + " for command " + cmd.name + ". Must be 'true' or 'false'.")
 					ret = false
 			if t == TYPE_INT:
+				if not cmd.params[i].is_valid_integer():
+					errors.push_back("line " + str(state.line_count) + ": Invalid parameter " + cmd.params[i] + " for command " + cmd.name + ". Expected integer.")
 				cmd.params[i] = int(cmd.params[i])
 			if t == TYPE_REAL:
+				if not cmd.params[i].is_valid_float():
+					errors.push_back("line " + str(state.line_count) + ": Invalid parameter " + cmd.params[i] + " for command " + cmd.name + ". Expected float.")
 				cmd.params[i] = float(cmd.params[i])
 			i+=1
 
