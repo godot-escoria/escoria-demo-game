@@ -57,17 +57,23 @@ var audio
 var last_lmb_dt = 0
 var waiting_dblclick = false
 
+func get_dialog_pos():
+	if has_node("dialog_pos"):
+		return $"dialog_pos".global_position
+
+	return global_position
+
 func get_interact_pos():
 	if interact_pos:
-		return interact_pos.get_global_position()
-	else:
-		return get_global_position()
+		return interact_pos.global_position
+
+	return global_position
 
 func get_camera_pos():
 	if camera_pos:
-		return camera_pos.get_global_position()
+		return camera_pos.global_position
 
-	return get_global_position()
+	return global_position
 
 func anim_finished(anim_name):
 	# TODO use parameter here?

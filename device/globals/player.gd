@@ -43,6 +43,12 @@ func get_camera_pos():
 
 	return global_position
 
+func get_dialog_pos():
+	if has_node("dialog_pos"):
+		return $"dialog_pos".global_position
+
+	return global_position
+
 func resolve_angle_to(obj):
 	# Set `last_deg` and `last_dir` as they are globals
 	var angle = self.position.angle_to_point(obj.position) * -1
