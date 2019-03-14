@@ -20,6 +20,10 @@ var speech_player
 var speech_suffix
 var speech_paused = false
 
+var dialog_pos  # The designated position
+var pos         # The transformed position
+var prev_pos    # Check this to see if `character` moved and reposition
+
 var dialog_min_vis = ProjectSettings.get_setting("escoria/application/dialog_minimum_visible_seconds")
 
 var damp_db = ProjectSettings.get_setting("escoria/application/dialog_damp_music_by_db")
@@ -30,6 +34,14 @@ export var fixed_pos = false
 func _process(time):
 	if finished:
 		return
+
+	if not fixed_pos:
+		dialog_pos = character.get_dialog_pos()
+		pos = vm.camera.zoom_transform.xform(dialog_pos)
+
+		if prev_pos != pos:
+			set_position(pos)
+			prev_pos = pos
 
 	if force_disable_typewriter_text or !typewriter_text:
 		label.set_visible_characters(label.get_total_character_count())
@@ -140,15 +152,11 @@ func init(p_params, p_context, p_intro, p_outro):
 	play_outro = p_outro
 	total_time = text.length() / characters_per_second
 	if !fixed_pos:
-		var dialog_pos
-		if character.has_node("dialog_pos"):
-			dialog_pos = character.get_node("dialog_pos")
-		else:
-			dialog_pos = character
+		dialog_pos = character.get_dialog_pos()
 
-		var pos = dialog_pos.global_position
-		pos = vm.camera.zoom_transform.xform(pos)
+		pos = vm.camera.zoom_transform.xform(dialog_pos)
 		set_position(pos)
+		prev_pos = pos
 
 	if has_node("anchor/avatars"):
 		var avatars = get_node("anchor/avatars")
