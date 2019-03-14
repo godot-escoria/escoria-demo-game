@@ -640,9 +640,9 @@ func set_state(name, state):
 func set_active(name, active):
 	actives[name] = active
 
-func set_use_action_menu(obj, should_use_action_menu):
+func set_interactive(obj, p_interactive):
 	if obj is esc_type.ITEM:
-		obj.use_action_menu = should_use_action_menu
+		obj.area.visible = p_interactive
 
 func set_speed(obj, speed):
 	if obj is esc_type.INTERACTIVE:

@@ -164,9 +164,9 @@ func repeat(params):
 func wait(params):
 	return vm.wait(params, current_context)
 
-func set_use_action_menu(params):
+func set_interactive(params):
 	var obj = vm.get_object(params[0])
-	vm.set_use_action_menu(obj, params[1])
+	vm.set_interactive(obj, params[1])
 
 func set_speed(params):
 	var obj = vm.get_object(params[0])

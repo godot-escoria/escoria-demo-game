@@ -10,6 +10,8 @@ signal mouse_enter_inventory_item
 signal mouse_exit_item
 signal mouse_exit_inventory_item
 
+var area
+
 export var tooltip = ""
 export var action = ""
 
@@ -566,7 +568,6 @@ func _ready():
 
 	# {{{ Check for interaction area and connect signals only if the item is interactive
 	if is_interactive:
-		var area
 		if has_node("area"):
 			area = get_node("area")
 			# XXX: Inventory items as Area2D did not work. z-index?

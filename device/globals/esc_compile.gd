@@ -27,7 +27,7 @@ var commands = {
 	"inventory_remove": { "min_args": 1 },
 	"inventory_open": { "min_args": 1, "types": [TYPE_BOOL] },
 	"set_active": { "min_args": 2, "types": [TYPE_STRING, TYPE_BOOL] },
-	"set_use_action_menu": { "min_args": 2, "types": [TYPE_STRING, TYPE_BOOL] },
+	"set_interactive": { "min_args": 2, "types": [TYPE_STRING, TYPE_BOOL] },
 	"stop": true,
 	"repeat": true,
 	"wait": true,

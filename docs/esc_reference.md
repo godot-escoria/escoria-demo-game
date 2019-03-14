@@ -214,8 +214,8 @@ Items can also change state by playing animations from an `AnimationPlayer` name
 - `set_active object value`
   Changes the "active" state of the object, value can be true or false. Inactive objects are hidden in the scene.
 
-- `set_use_action_menu object value`
-  Sets whether or not an action menu should be used on object. It must use the `item.gd` script. Value can be true or false. Useful for "soft-disabling" objects without removing them by `set_active`.
+- `set_interactive object value`
+  Sets whether or not an action menu should be used, and a tooltip shown, on object. It must use the `item.gd` script. Value can be true or false. Useful for "soft-disabling" objects without removing them by `set_active`.
 
 - `wait seconds`
   Blocks execution of the current script for a number of seconds specified by the "seconds" parameter.
