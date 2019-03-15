@@ -62,12 +62,12 @@ func update():
 				text = tr(vm.current_action + ".id")
 				text = text.replace("%1", tr(vm.current_tool.get_tooltip("object1")))
 
-	vm.tooltip.set_tooltip(text)
+	set_tooltip(text)
 	if text:
-		vm.tooltip.show()
+		show()
 		self.set_position(get_global_mouse_position())
 	else:
-		vm.tooltip.hide()
+		hide()
 
 func set_tooltip(text):
 	if not typeof(text) == TYPE_STRING:
