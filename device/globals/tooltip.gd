@@ -1,5 +1,7 @@
 extends Label
 
+var follow_mouse = ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse")
+
 var force_hide_tooltip = false  # Used by `set_tooltip_visible` to never show
 
 var orig_size
@@ -62,12 +64,12 @@ func update():
 				text = tr(vm.current_action + ".id")
 				text = text.replace("%1", tr(vm.current_tool.get_tooltip("object1")))
 
-	vm.tooltip.set_tooltip(text)
+	set_tooltip(text)
 	if text:
-		vm.tooltip.show()
+		show()
 		self.set_position(get_global_mouse_position())
 	else:
-		vm.tooltip.hide()
+		hide()
 
 func set_tooltip(text):
 	if not typeof(text) == TYPE_STRING:
@@ -124,10 +126,11 @@ func _clamp(tt_pos):
 	return tt_pos
 
 func set_position(pos):
-	.set_position(_clamp(pos))
+	if follow_mouse:
+		.set_position(_clamp(pos))
 
 func _input(ev):
-	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
+	if follow_mouse:
 		# Must verify `position` is there, key inputs do not have it
 		if "position" in ev:
 			self.set_position(ev.position)
