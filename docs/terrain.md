@@ -31,3 +31,11 @@ value of a pixel and scale accordingly. More blue is a bigger scale.
 Caveat: for some reason this method is currently very slow, so having many NPCs move
 around will probably kill performance.
 
+## Dynamic navigation
+
+You can attach `nav_poly_instance.gd` to multiple `NavigationPolygonInstance`s, give
+them `global_id`s and use `set_active` to toggle where you're allowed to move.
+
+Note that you should use pixel snapping or somesuch to share vertices between the
+polygons or they are not considered the same terrain.
+
