@@ -423,7 +423,6 @@ placeholders = {
 
 [node name="sprite" type="AnimatedSprite" parent="." index="0"]
 
-visible = false
 position = Vector2( 5.2803, -49.2264 )
 frames = SubResource( 1 )
 animation = "hat"
