@@ -349,7 +349,8 @@ func _update_terrain(need_z_update=false):
 
 	if self is CanvasItem and light_on_map:
 		var c = terrain.get_light(pos)
-		modulate(c)
+		if c:
+			modulate(c)
 
 func _check_bounds():
 	#printt("checking bouds for pos ", get_position(), terrain.is_solid(get_position()))

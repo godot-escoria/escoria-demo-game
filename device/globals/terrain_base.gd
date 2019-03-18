@@ -70,7 +70,7 @@ func _color_mul(a, b):
 
 func get_light(pos):
 	if typeof(lightmap) == typeof(null) || lightmap.get_data().is_empty():
-		return lightmap_modulate
+		return
 
 	return _color_mul(get_pixel(pos, lightmap_data), lightmap_modulate)
 

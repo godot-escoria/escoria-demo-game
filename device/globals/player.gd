@@ -335,8 +335,9 @@ func _update_terrain():
 			set_scale(last_scale)
 
 	color = terrain.get_light(pos)
-	for s in sprites:
-		s.set_modulate(color)
+	if color:
+		for s in sprites:
+			s.set_modulate(color)
 
 func _process(time):
 	if task == "walk" or task == "slide":
