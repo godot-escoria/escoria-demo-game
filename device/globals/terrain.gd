@@ -72,13 +72,13 @@ func get_terrain(pos):
 	return get_pixel(pos, scales.get_data())
 
 func get_pixel(pos, p_image):
-	p_image.lock()
-
+	# XXX: Highly unlikely local coordinates are desired, and probably not bitmaps_scale either,
+	# but someone who uses scalemaps will want to look into this.
 	pos = make_local(pos)
 	pos = pos * 1.0 / bitmaps_scale
 
 	if pos.x + 1 >= p_image.get_width() || pos.y + 1 >= p_image.get_height() || pos.x < 0 || pos.y < 0:
-		return Color()
+		return Color(1.0, 0.0, 0.0)
 
 	var ll = p_image.get_pixel(pos.x, pos.y)
 	var ndif = Vector2()
@@ -86,6 +86,7 @@ func get_pixel(pos, p_image):
 	ndif.y = pos.y - floor(pos.y)
 	var ur
 
+	# XXX: This is most likely ok to deprecate by someone using scalemaps
 	img_area = Rect2(0, 0, p_image.get_width(), p_image.get_height())
 
 	var lr = ll
@@ -116,7 +117,6 @@ func get_pixel(pos, p_image):
 
 	var final = bottom.linear_interpolate(top, ndif.y)
 
-	p_image.unlock()
 	return final
 
 func _draw():

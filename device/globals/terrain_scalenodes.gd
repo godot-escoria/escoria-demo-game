@@ -2,7 +2,7 @@ tool
 
 extends "terrain_base.gd"
 
-export(int, "None", "Lightmap") var debug_mode = 1 setget debug_mode_updated
+export(int, "None", "Lightmap") var debug_mode = 0 setget debug_mode_updated
 
 var _texture_dirty = false
 var texture
@@ -72,6 +72,50 @@ func get_terrain(pos):
 	var interp = y_1.linear_interpolate(y_2, interp_dist)
 
 	return Vector2(interp.y, interp.y)
+
+func get_pixel(pos, p_image):
+	if pos.x + 1 >= p_image.get_width() || pos.y + 1 >= p_image.get_height() || pos.x < 0 || pos.y < 0:
+		return Color(1.0, 0.0, 0.0)
+
+	var ll = p_image.get_pixel(pos.x, pos.y)
+	var ndif = Vector2()
+	ndif.x = pos.x - floor(pos.x)
+	ndif.y = pos.y - floor(pos.y)
+	var ur
+
+	var lr = ll
+	if ndif.x > 0:
+		lr = p_image.get_pixel(pos.x+1, pos.y)
+		ur = lr
+
+	var ul = ll
+	if ndif.y > 0:
+		ul = p_image.get_pixel(pos.x, pos.y+1)
+		ur = ul
+
+	if ndif.x > 0 && ndif.y > 0:
+		var pix = p_image.get_pixel(pos.x+1, pos.y+1)
+		ur = pix
+
+	var bottom = ll.linear_interpolate(lr, ndif.x)
+	var top
+	if ur != null:
+		top = ul.linear_interpolate(ur, ndif.x)
+	else:
+		top = ul
+
+	var final = bottom.linear_interpolate(top, ndif.y)
+
+	return final
+
+func _draw():
+	if not texture:
+		return
+
+	if debug_mode == 0:
+		return
+
+	draw_texture(texture, Vector2(0, 0))
 
 func _ready():
 	for c in get_children():

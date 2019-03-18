@@ -3,13 +3,25 @@ tool
 extends Navigation2D
 
 export(Texture) var lightmap setget set_lightmap,get_lightmap
+var lightmap_data  # Did someone do this to suck on purpose? https://github.com/godotengine/godot/issues/13934
 
 export var player_speed_multiplier = 1.0  # Override player speed in current scene
 export var player_doubleclick_speed_multiplier = 1.5  # Make the player move faster when doubleclicked
 export var lightmap_modulate = Color(1, 1, 1, 1)
 
 func set_lightmap(p_lightmap):
+	var need_init = (lightmap != p_lightmap) or (lightmap and not lightmap_data)
+
 	lightmap = p_lightmap
+
+	# It's bad enough a new copy is created when reading a pixel, we don't
+	# also need to get the data for every read to make yet another copy
+	if need_init:
+		if lightmap_data:
+			lightmap_data.unlock()
+		lightmap_data = lightmap.get_data()
+		lightmap_data.lock()
+
 	_update_texture()
 
 func get_lightmap():
@@ -59,5 +71,6 @@ func _color_mul(a, b):
 func get_light(pos):
 	if typeof(lightmap) == typeof(null) || lightmap.get_data().is_empty():
 		return lightmap_modulate
-	return _color_mul(get_pixel(pos, lightmap.get_data()), lightmap_modulate)
+
+	return _color_mul(get_pixel(pos, lightmap_data), lightmap_modulate)
 
