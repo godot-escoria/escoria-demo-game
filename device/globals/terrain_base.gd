@@ -3,7 +3,7 @@ tool
 extends Navigation2D
 
 export(Texture) var lightmap setget set_lightmap,get_lightmap
-var lightmap_data  # Did someone do this to suck on purpose? https://github.com/godotengine/godot/issues/13934
+var lightmap_data
 
 export var player_speed_multiplier = 1.0  # Override player speed in current scene
 export var player_doubleclick_speed_multiplier = 1.5  # Make the player move faster when doubleclicked

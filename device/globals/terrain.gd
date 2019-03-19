@@ -72,52 +72,12 @@ func get_terrain(pos):
 	return get_pixel(pos, scales.get_data())
 
 func get_pixel(pos, p_image):
-	# XXX: Highly unlikely local coordinates are desired, and probably not bitmaps_scale either,
-	# but someone who uses scalemaps will want to look into this.
-	pos = make_local(pos)
-	pos = pos * 1.0 / bitmaps_scale
-
 	if pos.x + 1 >= p_image.get_width() || pos.y + 1 >= p_image.get_height() || pos.x < 0 || pos.y < 0:
 		return Color(1.0, 0.0, 0.0)
 
-	var ll = p_image.get_pixel(pos.x, pos.y)
-	var ndif = Vector2()
-	ndif.x = pos.x - floor(pos.x)
-	ndif.y = pos.y - floor(pos.y)
-	var ur
-
-	# XXX: This is most likely ok to deprecate by someone using scalemaps
-	img_area = Rect2(0, 0, p_image.get_width(), p_image.get_height())
-
-	var lr = ll
-	if ndif.x > 0 && img_area.has_point(Vector2(pos.x+1, pos.y)):
-		lr = p_image.get_pixel(pos.x+1, pos.y)
-		#if lr.a < 128:
-		#	lr = ll
-		ur = lr
-
-	var ul = ll
-	if ndif.y > 0 && img_area.has_point(Vector2(pos.x, pos.y+1)):
-		ul = p_image.get_pixel(pos.x, pos.y+1)
-		#if ul.a < 128:
-		#	ul = ll
-		ur = ul
-
-	if ndif.x > 0 && ndif.y > 0 && img_area.has_point(Vector2(pos.x+1, pos.y+1)):
-		var pix = p_image.get_pixel(pos.x+1, pos.y+1)
-		#if pix.a > 128:
-		ur = pix
-
-	var bottom = ll.linear_interpolate(lr, ndif.x)
-	var top
-	if ur != null:
-		top = ul.linear_interpolate(ur, ndif.x)
-	else:
-		top = ul
-
-	var final = bottom.linear_interpolate(top, ndif.y)
-
-	return final
+	# `get_pixel()` is slow; this is accurate enough
+	# without interpolating neighboring pixels and accounting for fractions
+	return p_image.get_pixel(pos.x, pos.y)
 
 func _draw():
 	if typeof(texture) == typeof(null):

@@ -77,36 +77,9 @@ func get_pixel(pos, p_image):
 	if pos.x + 1 >= p_image.get_width() || pos.y + 1 >= p_image.get_height() || pos.x < 0 || pos.y < 0:
 		return Color(1.0, 0.0, 0.0)
 
-	var ll = p_image.get_pixel(pos.x, pos.y)
-	var ndif = Vector2()
-	ndif.x = pos.x - floor(pos.x)
-	ndif.y = pos.y - floor(pos.y)
-	var ur
-
-	var lr = ll
-	if ndif.x > 0:
-		lr = p_image.get_pixel(pos.x+1, pos.y)
-		ur = lr
-
-	var ul = ll
-	if ndif.y > 0:
-		ul = p_image.get_pixel(pos.x, pos.y+1)
-		ur = ul
-
-	if ndif.x > 0 && ndif.y > 0:
-		var pix = p_image.get_pixel(pos.x+1, pos.y+1)
-		ur = pix
-
-	var bottom = ll.linear_interpolate(lr, ndif.x)
-	var top
-	if ur != null:
-		top = ul.linear_interpolate(ur, ndif.x)
-	else:
-		top = ul
-
-	var final = bottom.linear_interpolate(top, ndif.y)
-
-	return final
+	# `get_pixel()` is slow; this is accurate enough
+	# without interpolating neighboring pixels and accounting for fractions
+	return p_image.get_pixel(pos.x, pos.y)
 
 func _draw():
 	if not texture:
