@@ -3,7 +3,13 @@
 Your player and NPCs walk along a defined terrain. You'll need a `NavigationPolygon2D`
 for that, and attaching a script for special features like scaling and lighting.
 
-## Scalenodes
+Note that lighting on the terrain is not the same as lighting by `Light2D`, it is modulating
+the player and items based on a separate texture. You'll make it white and color in the areas
+where you want something to change.
+
+## Scaling
+
+### Scalenodes
 
 The easiest way to make your player and NPCs scale is to use the `terrain_scalenodes.gd`
 script. Then you create `Position2D` nodes with `scalenode.gd` attached to them.
@@ -17,7 +23,7 @@ values.
 Caveat: although these are `tool` scripts, you can't refresh the scalenode list at the
 moment so you will need to refresh the scene when making bigger changes.
 
-## Gradient
+### Gradient
 
 The harder, though more versatile way, is to create a separate scalemap texture.
 
@@ -30,6 +36,13 @@ value of a pixel and scale accordingly. More blue is a bigger scale.
 
 Caveat: for some reason this method is currently very slow, so having many NPCs move
 around will probably kill performance.
+
+## Lighting by lightmap
+
+Reading pixels is, for whatever reason, slow. It is necessary for lightmaps, and scalemaps
+if you use them. To mitigate the performance problems, there's a script `lightmap_area.gd`
+which you would attach to an `Area2D` and draw its polygon or shape around the part of
+your lightmap that actually contains information.
 
 ## Dynamic navigation
 
