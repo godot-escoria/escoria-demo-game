@@ -25,6 +25,8 @@ export var camera_limits = Rect2()
 
 export var telekinetic = false
 
+var check_maps   # set by lightmap_area.gd
+
 var anim_notify = null
 var anim_scale_override = null
 var sprites = []
@@ -326,7 +328,7 @@ func _update_terrain():
 		last_scale = terrain.get_terrain(pos)
 		last_scale.x *= pose_scale
 		set_scale(last_scale)
-	else:
+	elif check_maps:
 		color = terrain.get_terrain(pos)
 		var scal = terrain.get_scale_range(color.b)
 		scal.x = scal.x * pose_scale
@@ -334,7 +336,9 @@ func _update_terrain():
 			last_scale = scal
 			set_scale(last_scale)
 
-	color = terrain.get_light(pos)
+	if check_maps:
+		color = terrain.get_light(pos)
+
 	if color:
 		for s in sprites:
 			s.set_modulate(color)
