@@ -301,13 +301,14 @@ func teleport_pos(x, y, angle=null):
 	_update_terrain(true)
 
 func _update_terrain(need_z_update=false):
+	var pos = get_position()
+
 	if dynamic_z_index and need_z_update:
-		set_z_index(get_position().y)
+		z_index = pos.y if pos.y <= VisualServer.CANVAS_ITEM_Z_MAX else VisualServer.CANVAS_ITEM_Z_MAX
 
 	if !scale_on_map && !light_on_map:
 		return
 
-	var pos = get_position()
 	# Items in the scene tree will issue errors unless this is conditional
 	if not terrain:
 		return

@@ -321,7 +321,7 @@ func _update_terrain():
 		return
 
 	var pos = get_position()
-	set_z_index(pos.y)
+	z_index = pos.y if pos.y <= VisualServer.CANVAS_ITEM_Z_MAX else VisualServer.CANVAS_ITEM_Z_MAX
 
 	var color
 	if terrain_is_scalenodes:
