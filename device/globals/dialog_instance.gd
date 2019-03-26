@@ -121,7 +121,7 @@ func _clamp(dialog_pos):
 	return dialog_pos
 
 func init(p_params, p_context, p_intro, p_outro):
-	character = vm.get_object(p_params[0])
+	character = p_params[0]
 	context = p_context
 	text = p_params[1]
 	var force_ids = ProjectSettings.get_setting("escoria/platform/force_text_ids")

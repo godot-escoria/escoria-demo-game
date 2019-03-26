@@ -3,6 +3,11 @@ extends ResourcePreloader
 var types = {}
 
 func say(params, callback):
+	var character = vm.get_object(params[0])
+
+	# Override the character so we don't need to re-resolve in `dialog_instance`
+	params[0] = character
+
 	var type
 	if params.size() < 3 || !has_resource(params[2]):
 		type = "default"
@@ -16,12 +21,17 @@ func say(params, callback):
 	# Check if we have an inventory, because it might affect dialog positioning
 	if (vm.inventory and vm.inventory.blocks_tooltip()) or need_zoomed:
 		type = "bottom"
+	# Same for a hidden character
+	elif not character.visible:
+		type = "bottom"
 
 	type = type + ProjectSettings.get_setting("escoria/platform/dialog_type_suffix")
 	var inst = get_resource(type).instance()
 	var z = inst.get_z_index()
 
 	if (vm.inventory and vm.inventory.blocks_tooltip()) or need_zoomed:
+		inst.fixed_pos = true
+	elif not character.visible:
 		inst.fixed_pos = true
 
 	$"/root/scene/game/dialog_layer".add_child(inst)
