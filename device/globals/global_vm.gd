@@ -493,7 +493,7 @@ func event_done(ev_name):
 	else:
 		if "NO_TT" in running_event.ev_flags:
 			# If the event was NO_TT, explicitly or because of `say`, we shouldn't keep it hidden
-			if tooltip.force_hide_tooltip:
+			if tooltip and tooltip.force_hide_tooltip:
 				tooltip.force_tooltip_visible(true)
 
 		# Do not restore hud if next event is also NO_HUD
