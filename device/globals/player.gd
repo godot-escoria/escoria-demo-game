@@ -15,14 +15,13 @@ var path_ofs
 export var speed = 300
 export var v_speed_damp = 1.0
 export(Script) var animations
+#warning-ignore:unused_class_variable
 export(Color) var dialog_color = null
 var last_deg = null
 var last_dir = 0
 var last_scale
 var pose_scale = 1
 var params_queue
-var camera
-export var camera_limits = Rect2()
 
 export var telekinetic = false
 
@@ -107,7 +106,7 @@ func anim_finished(anim_name):
 		anim_notify = null
 
 	if anim_scale_override != null:
-		$sprite.set_scale($sprite.get_scale() * anim_scale_override)
+		.set_scale(.get_scale() * anim_scale_override)
 		anim_scale_override = null
 
 	animation.play(animations.idles[last_dir])
@@ -172,8 +171,8 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 	pose_scale = 1
 	_update_terrain()
 	if p_flip != null:
-		var s = $sprite.get_scale()
-		$sprite.set_scale(s * p_flip)
+		var s = .get_scale()
+		.set_scale(s * p_flip)
 		anim_scale_override = p_flip
 	else:
 		anim_scale_override = null
@@ -359,7 +358,7 @@ func _update_terrain():
 		scal.x = scal.x * pose_scale
 		if scal != get_scale():
 			last_scale = scal
-			$sprite.set_scale(last_scale)
+			.set_scale(last_scale)
 
 	if check_maps:
 		color = terrain.get_light(pos)
@@ -525,5 +524,5 @@ func _ready():
 
 	vm.register_object("player", self)
 
-	last_scale = $sprite.get_scale()
+	last_scale = .get_scale()
 	set_process(true)
