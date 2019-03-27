@@ -7,6 +7,9 @@ Note that lighting on the terrain is not the same as lighting by `Light2D`, it i
 the player and items based on a separate texture. You'll make it white and color in the areas
 where you want something to change.
 
+A terrain is not strictly necessary. In rooms like that, all interactions are handled
+as if the player had already walked to the target position.
+
 ## Scaling
 
 ### Scalenodes

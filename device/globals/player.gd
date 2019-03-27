@@ -65,6 +65,9 @@ func set_active(p_active):
 		hide()
 
 func walk_to(pos, context = null):
+	if not terrain:
+		return walk_stop(get_position())
+
 	if interact_status == INTERACT_WALKING:
 		return
 	if interact_status == INTERACT_STARTED:
