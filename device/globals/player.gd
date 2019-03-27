@@ -216,12 +216,11 @@ func interact(p_params):
 			else:
 				walk_stop(get_position())
 
-		if "FAST" in ev_flags:
-			if not walk_context:
-				walk_context = {"fast": true}
-			else:
-				walk_context["fast"] = true
-				do_walk = true
+		if not walk_context:
+			walk_context = {"fast": true}
+		else:
+			walk_context["fast"] = true
+			do_walk = true
 
 	if (not telekinetic and do_walk) and get_global_position().distance_to(pos) > 10:
 		# It's important to set the queue before walking, so it
