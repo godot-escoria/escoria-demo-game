@@ -5,9 +5,6 @@ var types = {}
 func say(params, callback):
 	var character = vm.get_object(params[0])
 
-	# Override the character so we don't need to re-resolve in `dialog_instance`
-	params[0] = character
-
 	var type
 	if params.size() < 3 || !has_resource(params[2]):
 		type = "default"
