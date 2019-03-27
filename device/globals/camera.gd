@@ -138,7 +138,9 @@ func _process(time):
 	zoom_transform = self.get_canvas_transform()
 
 	if target and not tween.is_active():
-		if "moved" in target and target.moved:
+		if typeof(target) == TYPE_VECTOR2 or typeof(target) == TYPE_ARRAY:
+			self.global_position = resolve_target_pos()
+		elif "moved" in target and target.moved:
 			self.global_position = resolve_target_pos()
 
 func _ready():
