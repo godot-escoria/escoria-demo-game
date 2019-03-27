@@ -10,6 +10,7 @@ var terrain
 var terrain_is_scalenodes
 var walk_path
 var walk_context
+var moved
 var path_ofs
 export var speed = 300
 export var v_speed_damp = 1.0
@@ -79,6 +80,7 @@ func walk_to(pos, context = null):
 		walk_stop(get_position())
 		set_process(false)
 		return
+	moved = true
 	walk_destination = walk_path[walk_path.size()-1]
 	if terrain.is_solid(pos):
 		walk_destination = walk_path[walk_path.size()-1]
@@ -253,6 +255,8 @@ func slide_to(pos, context = null):
                task = null
                return
 
+       moved = true
+
        walk_destination = walk_path[walk_path.size()-1]
 
        path_ofs = 0.0
@@ -270,6 +274,7 @@ func walk_stop(pos):
 	interact_status = INTERACT_NONE
 	walk_path = []
 	task = null
+	moved = false
 	set_process(false)
 	if params_queue != null:
 		if animations.dir_angles.size() > 0:
@@ -395,6 +400,8 @@ func _process(time):
 			pose_scale = animations.directions[last_dir+1]
 
 		_update_terrain()
+	else:
+		moved = false
 
 
 func teleport(obj, angle=null):
@@ -414,6 +421,7 @@ func teleport(obj, angle=null):
 		pos = obj.get_global_position()
 
 	set_position(pos)
+	moved = true
 	_update_terrain()
 
 func set_state(costume):
@@ -429,11 +437,14 @@ func teleport_pos(x, y, angle=null):
 	set_position(Vector2(x, y))
 	if angle:
 		set_angle(angle)
+	moved = true
 	_update_terrain()
 
 func turn_to(deg):
 	if deg < 0 or deg > 360:
 		vm.report_errors("player", ["Invalid degree to turn to " + str(deg)])
+
+	moved = true
 
 	last_deg = deg
 	last_dir = vm._get_dir_deg(deg, self.name, animations)
@@ -451,6 +462,8 @@ func set_angle(deg):
 			deg = 0
 		else:
 			vm.report_errors("player", ["Invalid degree to turn to " + str(deg)])
+
+	moved = true
 
 	last_deg = deg
 	last_dir = vm._get_dir_deg(deg, self.name, animations)

@@ -137,7 +137,7 @@ func target_reached(obj, key):
 func _process(time):
 	zoom_transform = self.get_canvas_transform()
 
-	if target and not tween.is_active():
+	if target and target.moved and not tween.is_active():
 		self.global_position = resolve_target_pos()
 
 func _ready():
