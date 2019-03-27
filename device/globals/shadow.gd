@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 var light = null
 var caster = null
@@ -12,8 +12,8 @@ var alpha_calculated
 
 onready var space = get_world_2d().get_direct_space_state()
 onready var perspective_scale = $"perspective_scale"
-onready var rotation = perspective_scale.get_node("rotation")
-onready var shadow = rotation.get_node("shadow")
+onready var rotation_node = perspective_scale.get_node("rotation")
+onready var shadow = rotation_node.get_node("shadow")
 
 export (float)var fixed_rotation = 0.0
 export var rotating = true
@@ -39,7 +39,7 @@ func shadow_in_caster():
 
 	return false
 
-func _process(delta):
+func _process(_delta):
 	in_caster = shadow_in_caster()
 	if not in_caster:
 		self.visible = false
@@ -63,13 +63,13 @@ func _process(delta):
 
 	# Rotate the shadow so it faces the light
 	if rotating:
-		rotation.look_at(shadow.global_position - vector_to)
-		rotation.rotate(PI)
+		rotation_node.look_at(shadow.global_position - vector_to)
+		rotation_node.rotate(PI)
 	else:
-		rotation.rotation_degrees = self.fixed_rotation + 90
+		rotation_node.rotation_degrees = self.fixed_rotation + 90
 
 		if get_parent().scale.x < 0:
-			rotation.rotation_degrees -= 180 + 2 * (self.fixed_rotation + 90)
+			rotation_node.rotation_degrees -= 180 + 2 * (self.fixed_rotation + 90)
 
 	# Scale the shadow according to its distance to light source
 	# The closer the light, the shorter its height (down to the minimum size)
