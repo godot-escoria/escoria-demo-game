@@ -28,7 +28,7 @@ func selected(n):
 		timer.stop()
 		animation.set_speed(1)
 
-func timer_timeout():
+func timer_timed_out():
 	selected(timeout_option)
 
 # called from global_vm.gd::dialog() function
@@ -37,7 +37,6 @@ func start(params, p_context):
 	context = p_context
 	cmd = params[0]
 	var i = 0
-	var nb_visible = 0
 	for q in cmd:
 		if !vm.test(q):
 			i+=1
@@ -84,7 +83,6 @@ func start(params, p_context):
 		if i == 0:
 			but.grab_focus()
 		i+=1
-		nb_visible += 1
 
 		_on_mouse_exit(label)
 
@@ -113,7 +111,7 @@ func start(params, p_context):
 		add_child(timer)
 		timer.set_one_shot(true)
 		timer.set_wait_time(timer_timeout)
-		timer.connect("timeout", self, "timer_timeout")
+		timer.connect("timeout", self, "timer_timed_out")
 		#timer.start()
 
 	ready = false
