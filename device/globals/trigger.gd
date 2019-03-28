@@ -5,8 +5,6 @@ signal mouse_exit_trigger
 
 export var tooltip = ""
 
-var hud
-
 func get_tooltip(hint=null):
 	if TranslationServer.get_locale() == ProjectSettings.get_setting("escoria/platform/development_lang"):
 		if not global_id and ProjectSettings.get_setting("escoria/platform/force_tooltip_global_id"):
@@ -37,7 +35,7 @@ func mouse_enter():
 func mouse_exit():
 	emit_signal("mouse_exit_trigger", self)
 
-func area_input(viewport, event, shape_idx):
+func area_input(_viewport, event, _shape_idx):
 	input(event)
 
 func input(event):
@@ -80,6 +78,8 @@ func set_active(p_active):
 	self.visible = p_active
 
 func _ready():
+	var conn_err
+
 	var area
 	if has_node("area"):
 		area = get_node("area")
@@ -87,9 +87,15 @@ func _ready():
 		area = self
 
 	if ClassDB.class_has_signal(area.get_class(), "input_event"):
-		area.connect("input_event", self, "area_input")
+		conn_err = area.connect("input_event", self, "area_input")
+		if conn_err:
+			vm.report_errors("item", ["area.input_event -> area_input error: " + String(conn_err)])
+
 	elif ClassDB.class_has_signal(area.get_class(), "gui_input"):
-		area.connect("gui_input", self, "input")
+		conn_err = area.connect("gui_input", self, "input")
+		if conn_err:
+			vm.report_errors("item", ["area.gui_input -> gui_input error: " + String(conn_err)])
+
 	else:
 		vm.report_errors("trigger", ["No input events possible for global_id " + global_id])
 
@@ -99,14 +105,29 @@ func _ready():
 			event_table = vm.compile(events_path)
 
 	if ClassDB.class_has_signal(area.get_class(), "mouse_entered"):
-		area.connect("mouse_entered", self, "mouse_enter")
-		area.connect("mouse_exited", self, "mouse_exit")
+		conn_err = area.connect("mouse_entered", self, "mouse_enter")
+		if conn_err:
+			vm.report_errors("item", ["area.mouse_entered -> mouse_enter error: " + String(conn_err)])
 
-	connect("body_entered", self, "body_entered")
-	connect("body_exited", self, "body_exited")
+		conn_err = area.connect("mouse_exited", self, "mouse_exit")
+		if conn_err:
+			vm.report_errors("item", ["area.mouse_exited -> mouse_exit error: " + String(conn_err)])
 
-	connect("mouse_enter_trigger", $"/root/scene/game", "ev_mouse_enter_trigger")
-	connect("mouse_exit_trigger", $"/root/scene/game", "ev_mouse_exit_trigger")
+	conn_err = connect("body_entered", self, "body_entered")
+	if conn_err:
+		vm.report_errors("item", ["area.body_entered -> body_entered error: " + String(conn_err)])
+
+	conn_err = connect("body_exited", self, "body_exited")
+	if conn_err:
+		vm.report_errors("item", ["area.body_exited -> body_exited error: " + String(conn_err)])
+
+	conn_err = connect("mouse_enter_trigger", $"/root/scene/game", "ev_mouse_enter_trigger")
+	if conn_err:
+		vm.report_errors("item", ["mouse_enter_trigger -> ev_mouse_enter_trigger error: " + String(conn_err)])
+
+	conn_err = connect("mouse_exit_trigger", $"/root/scene/game", "ev_mouse_exit_trigger")
+	if conn_err:
+		vm.report_errors("item", ["mouse_exit_trigger -> ev_mouse_exit_trigger error: " + String(conn_err)])
 
 	vm.register_object(global_id, self)
 
