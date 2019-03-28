@@ -128,7 +128,7 @@ func _color_mul(a, b):
 	return c
 
 func get_light(pos):
-	if typeof(lightmap) == typeof(null) || lightmap.get_data().is_empty():
+	if not lightmap or lightmap.get_data().is_empty():
 		return
 
 	return _color_mul(get_pixel(pos, lightmap_data), lightmap_modulate)
