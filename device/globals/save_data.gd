@@ -88,7 +88,7 @@ func save_game(p_data, p_slot, p_callback):
 func _do_save(fname, p_data):
 	var f = File.new()
 	var ret = f.open(fname, File.WRITE)
-	if !f.is_open():
+	if ret or not f.is_open():
 		print("Unable to open file for save ", fname)
 		return FAILED
 
