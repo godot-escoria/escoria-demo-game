@@ -2,20 +2,25 @@ var thread
 var mutex
 var sem
 
+#warning-ignore:unused_class_variable
 var time_max = 100 # msec
 
 var queue = []
 var pending = {}
 
+#warning-ignore:unused_argument
 func _lock(caller):
 	mutex.lock()
 
+#warning-ignore:unused_argument
 func _unlock(caller):
 	mutex.unlock()
 
+#warning-ignore:unused_argument
 func _post(caller):
 	sem.post()
 
+#warning-ignore:unused_argument
 func _wait(caller):
 	sem.wait()
 
@@ -26,7 +31,7 @@ func queue_resource(path, p_in_front = false, p_permanent = false):
 		_unlock("queue_resource")
 		return
 
-	elif ResourceLoader.has(path):
+	elif ResourceLoader.exists(path):
 		var res = ResourceLoader.load(path)
 		pending[path] = { "res": res, "permanent": p_permanent }
 		_unlock("queue_resource")
@@ -154,7 +159,7 @@ func thread_process():
 
 	_unlock("process")
 
-
+#warning-ignore:unused_argument
 func thread_func(u):
 	while true:
 		thread_process()
