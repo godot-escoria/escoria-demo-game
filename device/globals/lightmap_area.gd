@@ -22,8 +22,15 @@ func body_exited(body):
 		body.check_maps = false
 
 func _ready():
-	connect("body_entered", self, "body_entered")
-	connect("body_exited", self, "body_exited")
+	var conn_err
+
+	conn_err = connect("body_entered", self, "body_entered")
+	if conn_err:
+		vm.report_errors("lightmap_area", ["body_entered -> body_entered error: " + String(conn_err)])
+
+	conn_err = connect("body_exited", self, "body_exited")
+	if conn_err:
+		vm.report_errors("item", ["body_exited -> body_exited error: " + String(conn_err)])
 
 	vm.register_object(global_id, self)
 
