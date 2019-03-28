@@ -4,8 +4,6 @@ onready var white = $"white"
 
 var animation
 var anim_notify
-var item_anim
-var item_anim_holder
 
 var catching_input = false
 
@@ -41,6 +39,7 @@ func game_cleared():
 	self.disconnect("tree_exited", vm, "object_exit_scene")
 	vm.register_object(global_id, self)
 
+#warning-ignore:unused_argument
 func anim_finished(anim_name):
 	if anim_notify != null:
 		vm.finished(anim_notify)
@@ -58,7 +57,9 @@ func ui_blocked():
 
 func setup_vm():
 	printt("vm on telon is ", vm)
-	vm.connect("saved", self, "saved")
+	var conn_err = vm.connect("saved", self, "saved")
+	if conn_err:
+		vm.report_errors("telon", ["saved -> saved error: " + String(conn_err)])
 	printt("connected")
 
 func rand_seek(p_node = null):
@@ -84,6 +85,9 @@ func telon_play_anim(p_anim):
 	# Play animations like `get_tree().call_group("game", "telon_play_anim", "fade_in")`
 	animation.play(p_anim)
 
+## Have the unused arguments because API
+#warning-ignore:unused_argument
+#warning-ignore:unused_argument
 func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 	# A simple wrapper that implements the `cut_scene`/`anim` API
 	anim_notify = p_notify
@@ -98,13 +102,20 @@ func cut_to_scene():
 	white.visible = false
 
 func _ready():
+	var conn_err
+
 	animation = $"animation"
 
 	vm.register_object(global_id, self)
 
-	animation.connect("animation_finished", self, "anim_finished")
+	conn_err = animation.connect("animation_finished", self, "anim_finished")
+	if conn_err:
+		vm.report_errors("telon", ["animation_finished -> anim_finished error: " + String(conn_err)])
 
-	get_node("input_catch").connect("gui_input", self, "input_event")
+	conn_err = get_node("input_catch").connect("gui_input", self, "input_event")
+	if conn_err:
+		vm.report_errors("telon", ["gui_input -> input_event error: " + String(conn_err)])
+
 	get_node("input_catch").set_size(get_viewport().size)
 
 	add_to_group("game")
