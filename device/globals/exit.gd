@@ -13,7 +13,7 @@ func body_entered(body):
 		if self.visible:
 			run_event("exit_scene")
 
-func body_exited(body):
+func body_exited(_body):
 	# Do nothing when exiting an exit node. Usually this code should not be hit.
 	return
 
