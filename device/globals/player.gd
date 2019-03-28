@@ -274,9 +274,6 @@ func slide(pos, p_speed, context = null):
 	slide_to(pos, context)
 
 func walk_stop(pos):
-	# Notify exits of stop position
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "exit", "stopped_at", pos)
-
 	set_position(pos)
 	interact_status = interact_statuses.INTERACT_NONE
 	walk_path = []
