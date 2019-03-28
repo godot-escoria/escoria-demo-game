@@ -1,7 +1,9 @@
 extends Node2D
 
-export var global_id = ""
-export(String, FILE, ".esc") var events_path = ""
+#warning-ignore:unused_class_variable
+export var global_id = ""                                  # API property
+#warning-ignore:unused_class_variable
+export(String, FILE, ".esc") var events_path = ""          # API property
 export var active = true setget set_active,get_active
 
 var event_table = {}
@@ -9,7 +11,7 @@ var event_table = {}
 func run_event(p_ev):
 	vm.emit_signal("run_event", p_ev)
 
-func activate(p_action, p_param = null, p_flags = null):
+func activate(p_action, p_param = null):
 	if p_param != null:
 		p_action = p_action + " " + p_param.global_id
 
