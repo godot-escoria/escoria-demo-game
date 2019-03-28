@@ -7,7 +7,9 @@ var lightmap_data
 export(Texture) var scales setget set_scales,get_scales
 export var bitmaps_scale = Vector2(1,1) setget set_bm_scale,get_bm_scale
 
+#warning-ignore:unused_class_variable
 export var player_speed_multiplier = 1.0  # Override player speed in current scene
+#warning-ignore:unused_class_variable
 export var player_doubleclick_speed_multiplier = 1.5  # Make the player move faster when doubleclicked
 export var lightmap_modulate = Color(1, 1, 1, 1)
 export(int, "None", "Scales", "Lightmap") var debug_mode = 1 setget debug_mode_updated
