@@ -24,6 +24,12 @@ main="*res://globals/main.tscn"
 vm="*res://globals/global_vm.gd"
 esc_type="*res://globals/escoria_types.gd"
 
+[debug]
+
+gdscript/warnings/treat_warnings_as_errors=true
+gdscript/warnings/unsafe_cast=true
+gdscript/warnings/unsafe_call_argument=true
+
 [display]
 
 window/size/width=1920
