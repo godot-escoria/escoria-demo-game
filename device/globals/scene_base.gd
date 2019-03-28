@@ -1,6 +1,7 @@
 extends Node
 
 export(String, FILE, ".esc") var events_path = ""
+#warning-ignore:unused_class_variable
 export(float) var default_zoom = 1.0
 
 var event_table
