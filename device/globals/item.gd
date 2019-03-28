@@ -530,7 +530,7 @@ func _process(time):
 
 		if task == "walk":
 			last_deg = vm._get_deg_from_rad(angle)
-			last_dir = vm._get_dir_deg(last_deg, self.name, animations)
+			last_dir = vm._get_dir_deg(last_deg, animations)
 
 			if animation:
 				if animation.get_current_animation() != animations.directions[last_dir]:
@@ -547,7 +547,7 @@ func turn_to(deg):
 	moved = true
 
 	last_deg = deg
-	last_dir = vm._get_dir_deg(deg, self.name, animations)
+	last_dir = vm._get_dir_deg(deg, animations)
 
 	if animation and animations and "directions" in animations:
 		if !animation.get_current_animation() or animation.get_current_animation() != animations.directions[last_dir]:
@@ -569,7 +569,7 @@ func set_angle(deg):
 	moved = true
 
 	last_deg = deg
-	last_dir = vm._get_dir_deg(deg, self.name, animations)
+	last_dir = vm._get_dir_deg(deg, animations)
 
 	if animation and animations and "idles" in animations:
 		pose_scale = animations.idles[last_dir + 1]

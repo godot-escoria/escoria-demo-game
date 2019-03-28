@@ -87,11 +87,11 @@ func _get_deg_from_rad(rad_angle):
 
 	return deg
 
-func _get_dir(angle, obj_name, animations):
+func _get_dir(angle, animations):
 	var deg = _get_deg_from_rad(angle)
-	return _get_dir_deg(deg, obj_name, animations)
+	return _get_dir_deg(deg, animations)
 
-func _get_dir_deg(deg, obj_name, animations):
+func _get_dir_deg(deg, animations):
 	var dir = -1
 	var i = 0
 	for ang in animations.dir_angles:

@@ -58,7 +58,7 @@ func resolve_angle_to(obj):
 	var angle = self.position.angle_to_point(obj.position) * -1
 	last_deg = vm._get_deg_from_rad(angle)
 	# printt("Resolve angle from ", self.position, " to ", obj.position, ":", last_deg)
-	last_dir = vm._get_dir_deg(last_deg, self.name, animations)
+	last_dir = vm._get_dir_deg(last_deg, animations)
 
 func set_active(p_active):
 	if p_active:
@@ -241,7 +241,7 @@ func interact(p_params):
 	else:
 		if animations.dir_angles.size() > 0:
 			if not telekinetic_action and obj.interact_angle != -1:
-				last_dir = vm._get_dir_deg(obj.interact_angle, self.name, animations)
+				last_dir = vm._get_dir_deg(obj.interact_angle, animations)
 			else:
 				resolve_angle_to(obj)
 			animation.play(animations.idles[last_dir])
@@ -293,7 +293,7 @@ func walk_stop(pos):
 			if params_queue[0].interact_angle == -1:
 				resolve_angle_to(params_queue[0])
 			else:
-				last_dir = vm._get_dir_deg(params_queue[0].interact_angle, self.name, animations)
+				last_dir = vm._get_dir_deg(params_queue[0].interact_angle, animations)
 			animation.play(animations.idles[last_dir])
 			pose_scale = animations.idles[last_dir + 1]
 			_update_terrain()
@@ -405,7 +405,7 @@ func _process(time):
 
 		if task == "walk":
 			last_deg = vm._get_deg_from_rad(angle)
-			last_dir = vm._get_dir_deg(last_deg, self.name, animations)
+			last_dir = vm._get_dir_deg(last_deg, animations)
 
 			if animation.get_current_animation() != animations.directions[last_dir]:
 				animation.play(animations.directions[last_dir])
@@ -420,7 +420,7 @@ func teleport(obj, angle=null):
 	if animations.dir_angles.size() > 0 and not angle:
 		if "interact_angle" in obj and obj.interact_angle != -1:
 			last_deg = obj.interact_angle
-			last_dir = vm._get_dir_deg(obj.interact_angle, self.name, animations)
+			last_dir = vm._get_dir_deg(obj.interact_angle, animations)
 			animation.play(animations.idles[last_dir])
 			pose_scale = animations.idles[last_dir + 1]
 	elif angle:
@@ -459,7 +459,7 @@ func turn_to(deg):
 	moved = true
 
 	last_deg = deg
-	last_dir = vm._get_dir_deg(deg, self.name, animations)
+	last_dir = vm._get_dir_deg(deg, animations)
 
 	if animation.get_current_animation() != animations.directions[last_dir]:
 		animation.play(animations.directions[last_dir])
@@ -478,7 +478,7 @@ func set_angle(deg):
 	moved = true
 
 	last_deg = deg
-	last_dir = vm._get_dir_deg(deg, self.name, animations)
+	last_dir = vm._get_dir_deg(deg, animations)
 
 	# The player may have a state animation from before, which would be
 	# resumed, so we immediately force the correct idle animation
