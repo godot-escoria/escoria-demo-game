@@ -131,10 +131,10 @@ func shift(p_x, p_y, p_time, p_type):
 
 	tween.start()
 
-func target_reached(obj, key):
+func target_reached(_obj, _key):
 	tween.stop_all()
 
-func _process(time):
+func _process(_delta):
 	zoom_transform = self.get_canvas_transform()
 
 	if target and not tween.is_active():
