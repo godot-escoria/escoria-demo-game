@@ -12,14 +12,15 @@ var event_queue = []
 var state_return = 0
 var state_yield = 1
 var state_break = 2
-var state_repeat = 3
+#warning-ignore:unused_class_variable
+var state_repeat = 3  # vm_level.gd
 var state_call = 4
-var state_jump = 5
+#warning-ignore:unused_class_variable
+var state_jump = 5  # vm_level.gd
 
 var states = {}
 var actives = {}
 
-var vm_size = Vector2(0, 0)
 var game_size
 
 var compiler
@@ -253,7 +254,7 @@ func camera_set_target(p_speed, p_target):
 	camera.set_target(p_speed, p_target)
 
 func camera_set_zoom(p_zoom_level, p_time):
-	camera.set_zoom(p_zoom_level, p_time)
+	camera.set_camera_zoom(p_zoom_level, p_time)
 
 func camera_push(p_target, p_time, p_type):
 	var target = get_object(p_target)
@@ -367,6 +368,7 @@ func dialog(params, level):
 		tooltip.hide()
 	get_tree().call_group("dialog_dialog", "start", params, level)
 
+#warning-ignore:unused_argument
 func end_dialog(params):
 	if not running_event or not "NO_HUD" in running_event.ev_flags:
 		set_hud_visible(true)
@@ -562,9 +564,6 @@ func set_globals(pat, val):
 			globals[key] = val
 			emit_signal("global_changed", key)
 
-func get_global_list():
-	return ProjectSettings.keys()
-
 func register_tooltip(p_tooltip):
 	if tooltip and p_tooltip != tooltip:
 		if not p_tooltip is esc_type.TOOLTIP:
@@ -679,6 +678,15 @@ func set_current_tool(p_tool):
 
 func clear_current_tool():
 	current_tool = null
+
+func clear_inventory():
+	inventory = null
+
+func clear_tooltip():
+	tooltip = null
+
+func clear_action_menu():
+	action_menu = null
 
 func object_exit_scene(name):
 	objects.erase(name)
@@ -1048,7 +1056,7 @@ func _quit_game():
 
 func check_achievement(name):
 	#printt("********* checking achievement ", name, loading_game)
-	if name.find("a/") != 0:
+	if name.find("A/") != 0:
 		return
 
 	if loading_game:
@@ -1067,7 +1075,10 @@ func show_rate(url):
 	ConfPopup.set_buttons("rate3", "rate5")
 
 func _rate_game():
-	OS.shell_open(rate_url)
+	var err = OS.shell_open(rate_url)
+
+	if err != 0:
+		report_warnings("global_vm", ["Unhandled error while rating game"])
 
 func get_hud_scene():
 	var hpath = ProjectSettings.get_setting("escoria/ui/hud")
@@ -1111,9 +1122,18 @@ func _ready():
 	achievements = preload("res://globals/achievements.gd").new()
 	achievements.start()
 
-	connect("global_changed", self, "check_achievement")
-	connect("run_event", self, "run_event")
-	connect("event_done", self, "event_done")
+	var conn_err
+	conn_err = connect("global_changed", self, "check_achievement")
+	if conn_err != 0:
+		report_errors("global_vm", ["global_changed -> check_achievement error: " + String(conn_err)])
+
+	conn_err = connect("run_event", self, "run_event")
+	if conn_err != 0:
+		report_errors("global_vm", ["run_event -> run_event error: " + String(conn_err)])
+
+	conn_err = connect("event_done", self, "event_done")
+	if conn_err != 0:
+		report_errors("global_vm", ["event_done -> event_done error: " + String(conn_err)])
 
 	set_process(true)
 
