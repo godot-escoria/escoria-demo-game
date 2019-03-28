@@ -28,6 +28,8 @@ export var telekinetic = false
 
 var check_maps   # set by lightmap_area.gd
 
+var orig_speed
+
 var anim_notify = null
 var anim_scale_override = null
 var sprites = []
@@ -88,7 +90,10 @@ func walk_to(pos, context = null):
 	task = "walk"
 	set_process(true)
 
-func walk(pos, speed, context = null):
+func walk(pos, p_speed, context = null):
+	if p_speed:
+		orig_speed = speed
+		speed = p_speed
 	walk_to(pos, context)
 
 func anim_finished(anim_name):
@@ -263,8 +268,11 @@ func slide_to(pos, context = null):
        task = "slide"
        set_process(true)
 
-func slide(pos, speed, context = null):
-       slide_to(pos, context)
+func slide(pos, p_speed, context = null):
+	if p_speed:
+		orig_speed = speed
+		speed = p_speed
+	slide_to(pos, context)
 
 func walk_stop(pos):
 	# Notify exits of stop position
@@ -273,6 +281,11 @@ func walk_stop(pos):
 	set_position(pos)
 	interact_status = INTERACT_NONE
 	walk_path = []
+
+	if orig_speed:
+		speed = orig_speed
+		orig_speed = null
+
 	task = null
 	moved = false
 	set_process(false)

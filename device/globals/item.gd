@@ -31,6 +31,8 @@ export var scale_on_map = false
 export var light_on_map = false setget set_light_on_map
 export var is_interactive = true
 
+var orig_speed
+
 var anim_notify = null
 var anim_scale_override = null
 var ui_anim = null
@@ -426,12 +428,19 @@ func slide_to(pos, context = null):
 	task = "slide"
 	set_process(true)
 
-func slide(pos, speed, context = null):
+func slide(pos, p_speed, context = null):
+	if p_speed:
+		orig_speed = speed
+		speed = p_speed
 	slide_to(pos, context)
 
 func walk_stop(pos):
 	set_position(pos)
 	walk_path = []
+
+	if orig_speed:
+		speed = orig_speed
+		orig_speed = null
 
 	# Walking is not a state, but we must re-set our previous state to reset the animation
 	set_state(state)
@@ -463,7 +472,10 @@ func walk_to(pos, context = null):
 	task = "walk"
 	set_process(true)
 
-func walk(pos, speed, context = null):
+func walk(pos, p_speed, context = null):
+	if p_speed:
+		orig_speed = speed
+		speed = p_speed
 	walk_to(pos, context)
 
 func modulate(color):
