@@ -10,7 +10,7 @@ var area
 var last_lmb_dt = 0
 var waiting_dblclick = null  # null or [pos, event]
 
-func input(viewport, event, shape_idx):
+func input(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.pressed:
 		# If we are hovering items, do not allow background to receive a click
 		# and let the items sort out who's on top and gets to be `clicked`
@@ -30,7 +30,6 @@ func _physics_process(dt):
 	last_lmb_dt += dt
 
 	if waiting_dblclick and last_lmb_dt > vm.DOUBLECLICK_TIMEOUT:
-		print("ok")
 		emit_signal("left_click_on_bg", self, waiting_dblclick[0], waiting_dblclick[1])
 		last_lmb_dt = 0
 		waiting_dblclick = null
@@ -56,7 +55,15 @@ func _enter_tree():
 	add_child(area)
 
 func _ready():
-	area.connect("input_event", self, "input")
-	connect("left_click_on_bg", $"../game", "ev_left_click_on_bg")
+	var conn_err
+
+	conn_err = area.connect("input_event", self, "input")
+	if conn_err:
+		vm.report_errors("item", ["area.input_event -> input error: " + String(conn_err)])
+
+	conn_err = connect("left_click_on_bg", $"../game", "ev_left_click_on_bg")
+	if conn_err:
+		vm.report_errors("item", ["left_click_on_bg -> ev_left_click_on_bg error: " + String(conn_err)])
+
 	add_to_group("background")
 
