@@ -183,7 +183,6 @@ func ev_left_dblclick_on_item(obj, pos, event):
 	if action != "walk":
 		# Resolve telekinesis
 		if action in obj.event_table:
-			var telekinetic = "TK" in obj.event_table[action]["ev_flags"]
 			if player.task == "walk":
 				player.walk_stop(player.get_position())
 				vm.clear_current_action()
@@ -415,7 +414,7 @@ func handle_menu_request():
 	elif not menu_enabled:
 		get_tree().call_group("game", "ui_blocked")
 
-func _process(time):
+func _process(_delta):
 	if !vm.can_interact():
 		check_joystick = false
 		return
@@ -485,10 +484,10 @@ func set_camera_limits():
 				if child.global_scale.x != 1 or child.global_scale.y != 1:
 					size.x *= child.global_scale.x
 					size.y *= child.global_scale.y
-				
+
 				area = area.expand(pos)
 				area = area.expand(pos + size)
-		
+
 		# if the background is smaller than the viewport, we want the camera to stick centered on the background
 		if area.size.x == 0 or area.size.y == 0 or area.size < get_viewport().size:
 			printt("No limit area! Using viewport")
@@ -581,4 +580,4 @@ func _ready():
 
 	call_deferred("set_camera_limits")
 	call_deferred("load_hud")
-	
+
