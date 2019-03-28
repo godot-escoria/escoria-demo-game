@@ -7,12 +7,21 @@ var polygon
 var bkp_mask
 
 export (bool)var force_light_mask = true
+
+## These are used in shadow.gd
+#warning-ignore:unused_class_variable
 export (int)var light_y_offset = 0
+#warning-ignore:unused_class_variable
 export (float)var max_dist_visible = 50
+#warning-ignore:unused_class_variable
 export (float)var alpha_coefficient = 2.0
+#warning-ignore:unused_class_variable
 export (float)var alpha_max = 0.65
+#warning-ignore:unused_class_variable
 export (float)var scale_power = 1.2
+#warning-ignore:unused_class_variable
 export (float)var scale_divide = 1000.0
+#warning-ignore:unused_class_variable
 export (float)var scale_extra = 0.15
 
 func change_light_mask(body, cull_mask):
@@ -52,6 +61,8 @@ func body_exited(body):
 	shadow.stop()
 
 func _ready():
+	var conn_err
+
 	light = get_parent()
 
 	if not light is Light2D:
@@ -62,6 +73,12 @@ func _ready():
 			polygon = child
 			break
 
-	connect("body_entered", self, "body_entered")
-	connect("body_exited", self, "body_exited")
+	conn_err = connect("body_entered", self, "body_entered")
+	if conn_err:
+		vm.report_errors("shadow_caster", ["body_entered -> body_entered error: " + String(conn_err)])
+
+	conn_err = connect("body_exited", self, "body_exited")
+	if conn_err:
+		vm.report_errors("item", ["body_exited -> body_exited error: " + String(conn_err)])
+
 
