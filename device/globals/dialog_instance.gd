@@ -90,14 +90,15 @@ func finish():
 	character.set_speaking(false)
 	set_process(false)
 	finished = true
-	if animation and play_outro:
-		if animation.has_animation("hide"):
-			animation.play("hide")
 
 	if bg_music.is_playing():
 		bg_music.volume_db += damp_db
 
-	_queue_free()
+	if animation and play_outro:
+		if animation.has_animation("hide"):
+			animation.play("hide")
+	elif not animation:
+		_queue_free()
 
 func _clamp(dialog_pos):
 	var width = float(ProjectSettings.get("display/window/size/width"))
@@ -276,9 +277,9 @@ func _queue_free():
 	if speech_player != null:
 		speech_player.free()
 
-	queue_free()
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "set_mode", "default")
 	vm.finished(context)
+	queue_free()
 
 
 #warning-ignore:unused_argument

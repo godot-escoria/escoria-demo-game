@@ -24,6 +24,9 @@ var obj_action_req_dblc
 var camera
 export var camera_limits = Rect2()
 
+var inventory
+var action_menu
+
 func set_mode(p_mode):
 	mode = p_mode
 
@@ -532,7 +535,7 @@ func load_hud():
 		else:
 			var inventory_scene = ProjectSettings.get_setting("escoria/ui/inventory")
 			if inventory_scene:
-				var inventory = load(inventory_scene).instance()
+				inventory = load(inventory_scene).instance()
 				if inventory and inventory is esc_type.INVENTORY:
 					vm.register_inventory(inventory)
 					if vm.inventory.is_collapsible:
@@ -549,7 +552,7 @@ func load_hud():
 
 	# Add action menu to hud layer if found in project settings
 	if ProjectSettings.get_setting("escoria/ui/action_menu"):
-		var action_menu = load(ProjectSettings.get_setting("escoria/ui/action_menu")).instance()
+		action_menu = load(ProjectSettings.get_setting("escoria/ui/action_menu")).instance()
 		if action_menu:
 			$"hud_layer".add_child(action_menu)
 
@@ -580,4 +583,11 @@ func _ready():
 
 	call_deferred("set_camera_limits")
 	call_deferred("load_hud")
+
+func _exit_tree():
+	if inventory:
+		inventory.free()
+
+	if action_menu:
+		action_menu.free()
 
