@@ -44,6 +44,7 @@ the dialog text disappears on its own.
 You must create a file like
 
 ```
+#warning-ignore:unused_class_variable
 var speech_locales = ["en", "de", "fr"]
 ```
 
