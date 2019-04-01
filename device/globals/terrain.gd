@@ -6,8 +6,6 @@ extends "terrain_base.gd"
 export var scale_min = 0.3
 export var scale_max = 1.0
 
-var path = null
-
 func get_scale_range(r):
 	r = scale_min + (scale_max - scale_min) * r
 	return Vector2(r, r)
