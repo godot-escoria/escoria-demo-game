@@ -9,6 +9,9 @@ var customs = []
 
 var event_queue = []
 
+enum acceptable_inputs {INPUT_NONE INPUT_ALL INPUT_SKIP}
+var accept_input = acceptable_inputs.INPUT_ALL
+
 var state_return = 0
 var state_yield = 1
 var state_break = 2
@@ -452,8 +455,23 @@ func _find_hiding_commands(level):
 
 	return false
 
+func _find_accept_input(level):
+	# Recursive helper to see if we have the `say` command,
+	# so we can set the acceptable input to INPUT_SKIP
+	for command in level:
+		if command.name == "say":
+			return acceptable_inputs.INPUT_SKIP
+		elif command.name == "branch":
+			return _find_accept_input(command.params)
+
+	return acceptable_inputs.INPUT_ALL
+
 func run_event(p_event):
-	printt("run_event: ", p_event.ev_name, p_event.ev_flags)
+	# If we're accepting input, see if we need to set SKIP or ALL
+	if accept_input != acceptable_inputs.INPUT_NONE:
+		accept_input = _find_accept_input(p_event.ev_level)
+	printt("run_event: ", p_event.ev_name, p_event.ev_flags, accept_input)
+
 	# When the tooltip follows the mouse, you must use `NO_TT` to hide it
 	# during dialog and scene changes or it looks bad. It's easy to miss, so let's automate!
 	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse") and not "NO_TT" in p_event.ev_flags:
@@ -468,8 +486,6 @@ func run_event(p_event):
 
 		add_level(p_event, true)
 	else:
-		main.set_input_catch(true)
-
 		if "NO_TT" in p_event.ev_flags:
 			if tooltip:
 				tooltip.force_tooltip_visible(false)
@@ -489,7 +505,6 @@ func event_done(ev_name):
 	if ev_name != running_event.ev_name:
 		report_errors("global_vm", ["Done event mismatch: ", ev_name, " != ", running_event.ev_name])
 
-	printt("event_done: ", running_event.ev_name, running_event.ev_flags)
 	if ev_name == "setup":
 		if not "LEAVE_BLACK" in running_event.ev_flags:
 			main.telon.cut_to_scene()
@@ -528,12 +543,20 @@ func event_done(ev_name):
 			if "NO_SAVE" in running_event.ev_flags:
 				set_global("save_disabled", str(false))
 
-	running_event = null
-
 	# For example dialog will hide the tooltip, but we may want to see it again
 	if tooltip:
 		if not action_menu or not action_menu.is_visible():
 			tooltip.update()
+
+	# We can reset only INPUT_SKIP because INPUT_NONE is used mainly in :setup and :ready
+	# whereas INPUT_SKIP is mainly for dialog.
+	# TODO: If people want to use INPUT_SKIP explicitly, change this logic
+	if accept_input == acceptable_inputs.INPUT_SKIP:
+		accept_input = acceptable_inputs.INPUT_ALL
+
+	printt("event_done: ", running_event.ev_name, running_event.ev_flags, accept_input)
+
+	running_event = null
 
 func get_global(name):
 	# If no value or looks like boolean, return boolean for backwards compatibility
@@ -563,6 +586,19 @@ func set_globals(pat, val):
 		if key.match(pat):
 			globals[key] = val
 			emit_signal("global_changed", key)
+
+func set_accept_input(p_accept_input):
+	match p_accept_input:
+		acceptable_inputs.INPUT_NONE, acceptable_inputs.INPUT_SKIP:
+			vm.set_global("save_disabled", "true")
+			accept_input = p_accept_input
+			return
+		acceptable_inputs.INPUT_ALL:
+			vm.set_global("save_disabled", "false")
+			accept_input = p_accept_input
+			return
+
+	report_errors("global_vm", ["Unknown accept_input given"])
 
 func register_tooltip(p_tooltip):
 	if tooltip and p_tooltip != tooltip:
@@ -750,7 +786,7 @@ func run():
 			while stack.size() > 0 && !(stack[stack.size()-1].break_stop):
 				stack.remove(stack.size()-1)
 			stack.remove(stack.size()-1)
-	main.set_input_catch(false)
+
 	loading_game = false
 
 func can_save():

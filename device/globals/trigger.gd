@@ -42,6 +42,9 @@ func input(event):
 	if !(event is InputEventMouseButton and event.is_pressed()):
 		return
 
+	if vm.accept_input != vm.acceptable_inputs.INPUT_ALL:
+		return
+
 	# Do not allow input on triggers/exits with inventory open
 	if vm.inventory and vm.inventory.blocks_tooltip():
 		return

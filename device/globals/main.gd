@@ -11,9 +11,6 @@ var game_size
 #warning-ignore:unused_class_variable
 var screen_ofs = Vector2(0, 0)  # game.gd
 
-func set_input_catch(p_catch):
-	telon.set_input_catch(p_catch)
-
 func clear_scene():
 	if current == null:
 		return
@@ -142,15 +139,26 @@ func wait(time, level):
 	wait_timer.start()
 
 func _input(event):
-	# CTRL+F12
-	if (event is InputEventKey and event.pressed and event.control and event.scancode==KEY_F12):
-		OS.print_all_textures_by_size()
+	match vm.accept_input:
+		vm.acceptable_inputs.INPUT_NONE:
+			return
+		vm.acceptable_inputs.INPUT_SKIP:
+			if event is InputEventMouseButton and event.pressed and event.button_index == BUTTON_LEFT:
+				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "events", "skipped")
+			return
+		vm.acceptable_inputs.INPUT_ALL:
+			if event is InputEventMouseButton and event.pressed and event.button_index == BUTTON_LEFT:
+				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "events", "skipped")
 
-	if menu_stack.size() > 0:
-		menu_stack[menu_stack.size() - 1].input(event)
-	elif current != null:
-		if current.has_node("game"):
-			current.get_node("game").scene_input(event)
+			# CTRL+F12
+			if (event is InputEventKey and event.pressed and event.control and event.scancode==KEY_F12):
+				OS.print_all_textures_by_size()
+
+			if menu_stack.size() > 0:
+				menu_stack[menu_stack.size() - 1].input(event)
+			elif current != null:
+				if current.has_node("game"):
+					current.get_node("game").scene_input(event)
 
 func load_telon():
 	var tpath = ProjectSettings.get_setting("escoria/platform/telon")

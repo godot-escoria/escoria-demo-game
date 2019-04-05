@@ -22,8 +22,3 @@ Note that `disable_input` disables autosaves, because if an autosave would happe
 
 Because the variables are global, you're encouraged to use these tightly, so you don't cause a bug where your game disables input forever!
 
-These animations control whether or not the telon catches input, like skipping dialog
-
-  * catch_input
-  * release_input
-

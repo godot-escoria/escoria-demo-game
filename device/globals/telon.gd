@@ -5,35 +5,12 @@ onready var white = $"white"
 var animation
 var anim_notify
 
-var catching_input = false
-
 export var global_id = "telon"
-
-func set_input_catch(p_catch):
-	if catching_input == p_catch:
-		return
-
-	if p_catch:
-		# When catching, assume we can handle the event in `input_event`
-		get_node("input_catch").set_mouse_filter(Control.MOUSE_FILTER_PASS)
-	else:
-		# When released, allow some other node to handle the click
-		get_node("input_catch").set_mouse_filter(Control.MOUSE_FILTER_IGNORE)
-
-	catching_input = p_catch
-	set_process_input(p_catch)
 
 func set_input_disabled(p_input_disabled):
 	$"/root".set_disable_input(p_input_disabled)
 	vm.set_global("save_disabled", str(p_input_disabled))
-
-func _input(event):
-	if event.is_pressed() && event.is_action("ui_accept"):
-		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "events", "skipped")
-
-func input_event(event):
-	if event is InputEventMouseButton && event.pressed && event.button_index == BUTTON_LEFT:
-		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "events", "skipped")
+	vm.report_warnings("telon", ["Deprecated interface, use 'accept_input NONE' instead"])
 
 func game_cleared():
 	self.disconnect("tree_exited", vm, "object_exit_scene")
@@ -111,12 +88,6 @@ func _ready():
 	conn_err = animation.connect("animation_finished", self, "anim_finished")
 	if conn_err:
 		vm.report_errors("telon", ["animation_finished -> anim_finished error: " + String(conn_err)])
-
-	conn_err = get_node("input_catch").connect("gui_input", self, "input_event")
-	if conn_err:
-		vm.report_errors("telon", ["gui_input -> input_event error: " + String(conn_err)])
-
-	get_node("input_catch").set_size(get_viewport().size)
 
 	add_to_group("game")
 
