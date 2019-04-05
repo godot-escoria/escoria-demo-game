@@ -1,5 +1,7 @@
 extends Node2D
 
+var animation
+
 var context
 var text
 var elapsed = 0
@@ -88,15 +90,15 @@ func finish():
 	character.set_speaking(false)
 	set_process(false)
 	finished = true
-	if has_node("animation") && play_outro:
-		var anim = get_node("animation")
-		if anim.has_animation("hide"):
-			anim.play("hide")
 
 	if bg_music.is_playing():
 		bg_music.volume_db += damp_db
 
-	_queue_free()
+	if animation and play_outro:
+		if animation.has_animation("hide"):
+			animation.play("hide")
+	elif not animation:
+		_queue_free()
 
 func _clamp(dialog_pos):
 	var width = float(ProjectSettings.get("display/window/size/width"))
@@ -175,13 +177,12 @@ func init(p_params, p_context, p_intro, p_outro):
 
 	character.set_speaking(true)
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "set_mode", "dialog")
-	if has_node("animation") && play_intro:
-		var anim = get_node("animation")
-		if anim.has_animation("show"):
+	if animation and play_intro:
+		if animation.has_animation("show"):
 			if self is Node2D:
 				show()
-			anim.play("show")
-			anim.seek(0, true)
+			animation.play("show")
+			animation.seek(0, true)
 		else:
 			if self is Node2D:
 				show()
@@ -276,14 +277,15 @@ func _queue_free():
 	if speech_player != null:
 		speech_player.free()
 
-	queue_free()
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "set_mode", "default")
 	vm.finished(context)
+	queue_free()
 
 
+#warning-ignore:unused_argument
 func anim_finished(anim_name):
 	# TODO use the parameter here?
-	var cur = get_node("animation").get_current_animation()
+	var cur = animation.get_current_animation()
 	if cur == "show":
 		set_process(true)
 	if cur == "hide":
@@ -293,10 +295,17 @@ func set_position(pos):
 	.set_position(_clamp(pos))
 
 func _ready():
+	var conn_err
+
 	speech_suffix = ProjectSettings.get_setting("escoria/application/speech_suffix")
 	add_to_group("events")
 	if has_node("animation"):
-		get_node("animation").connect("animation_finished", self, "anim_finished")
+		animation = $"animation"
+
+		conn_err = animation.connect("animation_finished", self, "anim_finished")
+		if conn_err:
+			vm.report_errors("dialog_instance", ["animation_finished -> anim_finished error: " + String(conn_err)])
+
 	label = get_node("anchor/text")
 
 	# Ensure a supported speech locale has been set, or not set if no speech is desired
@@ -307,5 +316,8 @@ func _ready():
 		if not vm.settings.voice_lang in speech_locales_def.speech_locales:
 			vm.report_errors("dialog_instance", ["Settings voice_lang not in defined speech locales: " + vm.settings.voice_lang])
 
-	vm.connect("paused", self, "game_paused")
+	conn_err = vm.connect("paused", self, "game_paused")
+	if conn_err:
+		vm.report_errors("dialog_instance", ["paused -> game_paused error: " + String(conn_err)])
+
 

@@ -16,11 +16,15 @@ export var tooltip = ""
 export var action = ""
 
 export(NodePath) var interact_position = null
-export var use_combine = false
+#warning-ignore:unused_class_variable
+export var use_combine = false           # game.gd
 export var inventory = false
-export var use_action_menu = true
+#warning-ignore:unused_class_variable
+export var use_action_menu = true        # game.gd
 
+#warning-ignore:unused_class_variable
 export(int, -1, 360) var interact_angle = -1
+#warning-ignore:unused_class_variable
 export(Color) var dialog_color = null
 export(Script) var animations
 export var talk_animation = "talk"
@@ -79,6 +83,7 @@ func get_camera_pos():
 
 	return global_position
 
+#warning-ignore:unused_argument
 func anim_finished(anim_name):
 	# TODO use parameter here?
 	if anim_notify != null:
@@ -117,7 +122,7 @@ func mouse_exit():
 	else:
 		emit_signal("mouse_exit_item", self)
 
-func area_input(viewport, event, shape_idx):
+func area_input(_viewport, event, _shape_idx):
 	input(event)
 
 func input(event):
@@ -401,7 +406,9 @@ func setup_ui_anim():
 		for bg in get_tree().get_nodes_in_group("background"):
 			bg.connect("right_click_on_bg", self, "hint_request")
 
-	vm.connect("global_changed", self, "global_changed")
+	var conn_err = vm.connect("global_changed", self, "global_changed")
+	if conn_err:
+		vm.report_errors("item", ["global_changed -> global_changed error: " + String(conn_err)])
 
 func set_light_on_map(p_light):
 	light_on_map = p_light
@@ -457,7 +464,7 @@ func walk_stop(pos):
 		walk_context = null
 
 func walk_to(pos, context = null):
-	walk_path = terrain.get_path(get_position(), pos)
+	walk_path = terrain.get_terrain_path(get_position(), pos)
 	walk_context = context
 	if walk_path.size() == 0:
 		walk_stop(get_position())
@@ -523,7 +530,7 @@ func _process(time):
 
 		if task == "walk":
 			last_deg = vm._get_deg_from_rad(angle)
-			last_dir = vm._get_dir_deg(last_deg, self.name, animations)
+			last_dir = vm._get_dir_deg(last_deg, animations)
 
 			if animation:
 				if animation.get_current_animation() != animations.directions[last_dir]:
@@ -540,7 +547,7 @@ func turn_to(deg):
 	moved = true
 
 	last_deg = deg
-	last_dir = vm._get_dir_deg(deg, self.name, animations)
+	last_dir = vm._get_dir_deg(deg, animations)
 
 	if animation and animations and "directions" in animations:
 		if !animation.get_current_animation() or animation.get_current_animation() != animations.directions[last_dir]:
@@ -562,7 +569,7 @@ func set_angle(deg):
 	moved = true
 
 	last_deg = deg
-	last_dir = vm._get_dir_deg(deg, self.name, animations)
+	last_dir = vm._get_dir_deg(deg, animations)
 
 	if animation and animations and "idles" in animations:
 		pose_scale = animations.idles[last_dir + 1]
@@ -580,6 +587,8 @@ func _ready():
 	if Engine.is_editor_hint():
 		return
 
+	var conn_err
+
 	# {{{ Check for interaction area and connect signals only if the item is interactive
 	if is_interactive:
 		if has_node("area"):
@@ -591,31 +600,68 @@ func _ready():
 				vm.report_errors("inventory item", ["Child area is not TextureRect in " + self.global_id])
 		else:
 			area = self
-			if not area is Area2D:
-				vm.report_errors("item", ["Background item area is not Area2D in " + self.global_id])
+			if area is Position2D:
+				vm.report_warnings("item", ["The Position2D node named " + self.global_id + " is probably erroneously marked as interactive."])
+			elif not area is Area2D and not area is Position2D:
+				vm.report_errors("item", ["Background item area is not Area2D nor Position2D in " + self.global_id])
 
 		if ClassDB.class_has_signal(area.get_class(), "input_event"):
-			area.connect("input_event", self, "area_input")
+			conn_err = area.connect("input_event", self, "area_input")
+			if conn_err:
+				vm.report_errors("item", ["area.input_event -> area_input error: " + String(conn_err)])
 		elif ClassDB.class_has_signal(area.get_class(), "gui_input"):
-			area.connect("gui_input", self, "input")
+			conn_err = area.connect("gui_input", self, "input")
+			if conn_err:
+				vm.report_errors("item", ["area.gui_input -> input error: " + String(conn_err)])
 		else:
 			vm.report_warnings("item", ["No input events possible for global_id " + global_id])
 
 		# These signals proxy the proper signals for regular and inventory items
 		if ClassDB.class_has_signal(area.get_class(), "mouse_entered"):
-			area.connect("mouse_entered", self, "mouse_enter")
-			area.connect("mouse_exited", self, "mouse_exit")
+			conn_err = area.connect("mouse_entered", self, "mouse_enter")
+			if conn_err:
+				vm.report_errors("item", ["mouse_entered -> mouse_enter error: " + String(conn_err)])
 
-		connect("left_click_on_item", $"/root/scene/game", "ev_left_click_on_item")
-		connect("left_dblclick_on_item", $"/root/scene/game", "ev_left_dblclick_on_item")
-		connect("left_click_on_inventory_item", $"/root/scene/game", "ev_left_click_on_inventory_item")
-		connect("right_click_on_item", $"/root/scene/game", "ev_right_click_on_item")
-		connect("right_click_on_inventory_item", $"/root/scene/game", "ev_right_click_on_inventory_item")
+			conn_err = area.connect("mouse_exited", self, "mouse_exit")
+			if conn_err:
+				vm.report_errors("item", ["mouse_exited -> mouse_exit error: " + String(conn_err)])
 
-		connect("mouse_enter_item", $"/root/scene/game", "ev_mouse_enter_item")
-		connect("mouse_enter_inventory_item", $"/root/scene/game", "ev_mouse_enter_inventory_item")
-		connect("mouse_exit_item", $"/root/scene/game", "ev_mouse_exit_item")
-		connect("mouse_exit_inventory_item", $"/root/scene/game", "ev_mouse_exit_inventory_item")
+		conn_err = connect("left_click_on_item", $"/root/scene/game", "ev_left_click_on_item")
+		if conn_err:
+			vm.report_errors("item", ["left_click_on_item -> ev_left_click_on_item error: " + String(conn_err)])
+
+		conn_err = connect("left_dblclick_on_item", $"/root/scene/game", "ev_left_dblclick_on_item")
+		if conn_err:
+			vm.report_errors("item", ["left_dblclick_on_item -> ev_left_dblclick_on_item error: " + String(conn_err)])
+
+		conn_err = connect("left_click_on_inventory_item", $"/root/scene/game", "ev_left_click_on_inventory_item")
+		if conn_err:
+			vm.report_errors("item", ["left_click_on_inventory_item -> ev_left_click_on_inventory_item error: " + String(conn_err)])
+
+		conn_err = connect("right_click_on_item", $"/root/scene/game", "ev_right_click_on_item")
+		if conn_err:
+			vm.report_errors("item", ["right_click_on_item -> ev_right_click_on_item error: " + String(conn_err)])
+
+		conn_err = connect("right_click_on_inventory_item", $"/root/scene/game", "ev_right_click_on_inventory_item")
+		if conn_err:
+			vm.report_errors("item", ["right_click_on_inventory_item -> ev_right_click_on_inventory_item error: " + String(conn_err)])
+
+
+		conn_err = connect("mouse_enter_item", $"/root/scene/game", "ev_mouse_enter_item")
+		if conn_err:
+			vm.report_errors("item", ["mouse_enter_item -> ev_mouse_enter_item error: " + String(conn_err)])
+
+		conn_err = connect("mouse_enter_inventory_item", $"/root/scene/game", "ev_mouse_enter_inventory_item")
+		if conn_err:
+			vm.report_errors("item", ["mouse_enter_inventory_item -> ev_mouse_enter_inventory_item error: " + String(conn_err)])
+
+		conn_err = connect("mouse_exit_item", $"/root/scene/game", "ev_mouse_exit_item")
+		if conn_err:
+			vm.report_errors("item", ["mouse_exit_item -> ev_mouse_exit_item error: " + String(conn_err)])
+
+		conn_err = connect("mouse_exit_inventory_item", $"/root/scene/game", "ev_mouse_exit_inventory_item")
+		if conn_err:
+			vm.report_errors("item", ["mouse_exit_inventory_item -> ev_mouse_exit_inventory_item error: " + String(conn_err)])
 
 		if interact_position:
 			interact_pos = get_node(interact_position)
@@ -636,7 +682,9 @@ func _ready():
 
 	if has_node("animation"):
 		animation = $"animation"
-		animation.connect("animation_finished", self, "anim_finished")
+		conn_err = animation.connect("animation_finished", self, "anim_finished")
+		if conn_err:
+			vm.report_errors("item", ["animation_finished -> anim_finished error: " + String(conn_err)])
 
 	if has_node("audio"):
 		audio = $"audio"

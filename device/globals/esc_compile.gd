@@ -156,17 +156,22 @@ func add_level(state, level, errors):
 
 func add_dialog(state, level, errors):
 	read_line(state)
+
 	while typeof(state.line) != typeof(null):
 		if is_event(state.line):
 			return
+
 		var ind_level = get_indent(state.line)
+
 		if ind_level < state.indent:
 			return
+
 		if ind_level > state.indent:
 			errors.push_back("line "+str(state.line_count)+": invalid indentation for dialog")
 			read_line(state)
 			continue
-		var read = read_dialog_option(state, level, errors)
+
+		read_dialog_option(state, level, errors)
 
 func get_token(line, p_from, line_count, errors):
 	while p_from < line.length():
@@ -272,7 +277,8 @@ func read_dialog_option(state, level, errors):
 	if tk != "*" && tk != "-":
 		errors.append("line "+str(state.line_count)+": Ivalid dialog option")
 		read_line(state)
-		return false
+		return
+
 	tk_end += 1
 	# var c_start = state.line.find("\"", 0)
 	var c_end = state.line.find_last("\"")

@@ -4,8 +4,8 @@
 [ext_resource path="res://demo/rooms/room1/background.png" type="Texture" id=2]
 [ext_resource path="res://globals/background.gd" type="Script" id=3]
 [ext_resource path="res://globals/terrain.gd" type="Script" id=4]
-[ext_resource path="res://demo/rooms/room1/scales.png" type="Texture" id=5]
-[ext_resource path="res://demo/rooms/room1/lightmap.png" type="Texture" id=6]
+[ext_resource path="res://demo/rooms/room1/lightmap.png" type="Texture" id=5]
+[ext_resource path="res://demo/rooms/room1/scales.png" type="Texture" id=6]
 [ext_resource path="res://demo/actors/player/player.tscn" type="PackedScene" id=7]
 [ext_resource path="res://globals/exit.gd" type="Script" id=8]
 [ext_resource path="res://globals/trigger.gd" type="Script" id=9]
@@ -27,29 +27,20 @@ outlines = [ PoolVector2Array( 414.945, 555.219, 766.377, 567.042, 1204.89, 557.
 
 [sub_resource type="Gradient" id=2]
 
-offsets = PoolRealArray( 0, 1 )
-colors = PoolColorArray( 0, 0, 0, 1, 1, 1, 1, 1 )
 
 [sub_resource type="GradientTexture" id=3]
 
-flags = 4
 gradient = SubResource( 2 )
 width = 1
 
 [sub_resource type="RectangleShape2D" id=4]
 
-custom_solver_bias = 0.0
-extents = Vector2( 10, 10 )
 
 [sub_resource type="ShaderMaterial" id=5]
 
-render_priority = 0
 
 [sub_resource type="Animation" id=6]
 
-length = 1.0
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rotation")
 tracks/0/interp = 1
@@ -77,9 +68,6 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id=7]
 
-length = 1.0
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:position")
 tracks/0/interp = 1
@@ -107,9 +95,6 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id=8]
 
-length = 1.0
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rotation")
 tracks/0/interp = 1
@@ -137,9 +122,6 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id=9]
 
-length = 1.0
-loop = false
-step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rotation")
 tracks/0/interp = 1
@@ -165,200 +147,153 @@ tracks/1/keys = {
 "values": [ Vector2( 461, 364 ) ]
 }
 
-[node name="scene" type="Node2D" index="0"]
-
+[node name="scene" type="Node2D"]
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_lock_": true
 }
-events_path = ""
-default_zoom = 1.0
 
-[node name="background" type="Sprite" parent="." index="0"]
-
+[node name="background" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 centered = false
 script = ExtResource( 3 )
-action = "walk"
 
-[node name="terrain" type="Navigation2D" parent="." index="1"]
-
+[node name="terrain" type="Navigation2D" parent="."]
 position = Vector2( -65.0709, 373.302 )
 script = ExtResource( 4 )
-_sections_unfolded = [ "Transform", "Z" ]
-scales = ExtResource( 5 )
-lightmap = ExtResource( 6 )
+lightmap = ExtResource( 5 )
+scales = ExtResource( 6 )
 bitmaps_scale = Vector2( 2, 1 )
-debug_mode = 1
-lightmap_modulate = Color( 1, 1, 1, 1 )
-scale_min = 0.5
-scale_max = 1.0
 player_speed_multiplier = 1.0
 player_doubleclick_speed_multiplier = 1.5
+lightmap_modulate = Color( 1, 1, 1, 1 )
+debug_mode = 1
+scale_min = 0.5
+scale_max = 1.0
 
-[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="terrain" index="0"]
-
+[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="terrain"]
 position = Vector2( -69.3894, -553.208 )
 navpoly = SubResource( 1 )
-enabled = true
 
-[node name="player" parent="." index="2" instance=ExtResource( 7 )]
-
+[node name="player" parent="." instance=ExtResource( 7 )]
 modulate = Color( 1, 0, 1, 1 )
 position = Vector2( 742.426, 415.054 )
 z_index = 415
-_sections_unfolded = [ "Transform" ]
 placeholders = {
 
 }
 
-[node name="exit1" type="Sprite" parent="." index="3"]
-
+[node name="exit1" type="Sprite" parent="."]
 position = Vector2( 585.24, 395.094 )
 scale = Vector2( 0.0291253, 39.6751 )
 texture = SubResource( 3 )
 centered = false
 script = ExtResource( 8 )
-_sections_unfolded = [ "Offset", "Rect" ]
 global_id = "exit1"
 events_path = "res://demo/rooms/room1/exit1.esc"
-active = true
 tooltip = "First exit"
 
-[node name="area" type="Area2D" parent="exit1" index="0"]
-
+[node name="area" type="Area2D" parent="exit1"]
 position = Vector2( 1029.58, 0.50245 )
 scale = Vector2( -31.9479, 0.0156595 )
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
-_sections_unfolded = [ "Transform" ]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="exit1/area" index="0"]
-
+[node name="CollisionShape2D" type="CollisionShape2D" parent="exit1/area"]
 position = Vector2( 0.131617, 0.131617 )
 scale = Vector2( 2.48476, 2.48476 )
 shape = SubResource( 4 )
 
-[node name="trigger1" type="Area2D" parent="." index="4"]
-
+[node name="trigger1" type="Area2D" parent="."]
 editor/display_folded = true
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
 script = ExtResource( 9 )
-_sections_unfolded = [ "Rect" ]
 global_id = "trigger1"
 events_path = "res://demo/rooms/room1/trigger1.esc"
-active = true
 tooltip = "First trigger"
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="trigger1" index="0"]
-
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="trigger1"]
 position = Vector2( 858.008, 414.05 )
 scale = Vector2( 3.7345, 3.00525 )
-build_mode = 0
 polygon = PoolVector2Array( -11.2083, -10.6006, 9.81654, -9.69969, 9.33321, 9.82031, -9.27502, 9.52 )
 
-[node name="exit2" type="Area2D" parent="." index="5"]
-
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
+[node name="exit2" type="Area2D" parent="."]
 script = ExtResource( 8 )
 global_id = "exit2"
 events_path = "res://demo/rooms/room1/exit2.esc"
-active = true
 tooltip = "Second exit"
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="exit2" index="0"]
-
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="exit2"]
 material = SubResource( 5 )
-build_mode = 0
 polygon = PoolVector2Array( 372.508, 392.173, 296.246, 442.437, 373.375, 476.235, 426.239, 420.771, 426.239, 360.108, 377.708, 386.973 )
-_sections_unfolded = [ "Material" ]
 
-[node name="ice_cream" parent="." index="6" instance=ExtResource( 10 )]
-
+[node name="ice_cream" parent="." instance=ExtResource( 10 )]
 position = Vector2( 250.666, 306.533 )
-
-[node name="interact_pos" type="Position2D" parent="ice_cream" index="0"]
-
-position = Vector2( -5.05936, 96.9224 )
-
-[node name="box" parent="." index="7" instance=ExtResource( 11 )]
-
-position = Vector2( 945.535, 381.07 )
-
-[node name="interact_pos" type="Position2D" parent="box" index="3"]
-
-position = Vector2( -53.8209, 46.6584 )
-
-[node name="can" parent="." index="8" instance=ExtResource( 12 )]
-
-position = Vector2( 480.75, 358.725 )
-action = ""
-animations = ExtResource( 13 )
-
-[node name="animation" type="AnimationPlayer" parent="can" index="0"]
-
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
-playback_speed = 1.0
-anims/face_down = SubResource( 6 )
-anims/face_left = SubResource( 7 )
-anims/face_right = SubResource( 8 )
-anims/face_up = SubResource( 9 )
-blend_times = [  ]
-
-[node name="interact_pos" type="Position2D" parent="can" index="1"]
-
-position = Vector2( 57.6177, 60.9417 )
-
-[node name="can_destination" type="Position2D" parent="." index="9"]
-
-position = Vector2( 572.187, 451.251 )
-script = ExtResource( 14 )
-global_id = "can_destination"
-
-[node name="chainsaw" parent="." index="10" instance=ExtResource( 15 )]
-
-position = Vector2( 1013.69, 317.56 )
-
-[node name="interact_pos" type="Position2D" parent="chainsaw" index="0"]
-
-position = Vector2( 7.19824, 124.934 )
-
-[node name="floppy" parent="." index="11" instance=ExtResource( 16 )]
-
-position = Vector2( 67.0833, 388.125 )
+interact_position = NodePath("")
+dialog_color = Color( 0, 0, 0, 1 )
 placeholders = {
 
 }
 
-[node name="interact_pos" type="Position2D" parent="floppy" index="3"]
+[node name="interact_pos" type="Position2D" parent="ice_cream"]
+position = Vector2( -5.05936, 96.9224 )
 
+[node name="box" parent="." instance=ExtResource( 11 )]
+position = Vector2( 945.535, 381.07 )
+interact_position = NodePath("")
+dialog_color = Color( 0, 0, 0, 1 )
+placeholders = {
+
+}
+
+[node name="interact_pos" type="Position2D" parent="box"]
+position = Vector2( -53.8209, 46.6584 )
+
+[node name="can" parent="." instance=ExtResource( 12 )]
+position = Vector2( 480.75, 358.725 )
+action = ""
+interact_position = NodePath("")
+dialog_color = Color( 0, 0, 0, 1 )
+animations = ExtResource( 13 )
+placeholders = {
+
+}
+
+[node name="animation" type="AnimationPlayer" parent="can"]
+anims/face_down = SubResource( 6 )
+anims/face_left = SubResource( 7 )
+anims/face_right = SubResource( 8 )
+anims/face_up = SubResource( 9 )
+
+[node name="interact_pos" type="Position2D" parent="can"]
+position = Vector2( 57.6177, 60.9417 )
+
+[node name="can_destination" type="Position2D" parent="."]
+position = Vector2( 572.187, 451.251 )
+script = ExtResource( 14 )
+global_id = "can_destination"
+
+[node name="chainsaw" parent="." instance=ExtResource( 15 )]
+position = Vector2( 1013.69, 317.56 )
+interact_position = NodePath("")
+dialog_color = Color( 0, 0, 0, 1 )
+placeholders = {
+
+}
+
+[node name="interact_pos" type="Position2D" parent="chainsaw"]
+position = Vector2( 7.19824, 124.934 )
+
+[node name="floppy" parent="." instance=ExtResource( 16 )]
+position = Vector2( 67.0833, 388.125 )
+interact_position = NodePath("")
+dialog_color = Color( 0, 0, 0, 1 )
+placeholders = {
+
+}
+
+[node name="interact_pos" type="Position2D" parent="floppy"]
 position = Vector2( 73.3036, 34.9703 )
-_sections_unfolded = [ "Transform" ]
 
-[node name="game" parent="." index="12" instance=ExtResource( 17 )]
+[node name="game" parent="." instance=ExtResource( 17 )]
 
-[node name="signal_script" type="Node" parent="game" index="4"]
-
+[node name="signal_script" type="Node" parent="game"]
 script = ExtResource( 18 )
-
 

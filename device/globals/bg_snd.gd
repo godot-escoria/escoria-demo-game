@@ -2,7 +2,8 @@ extends Control
 
 var stream
 
-var state = "default"
+#warning-ignore:unused_class_variable
+var state = "default"  # To play along with the `set_state` semantics
 
 export var global_id = "bg_snd"
 

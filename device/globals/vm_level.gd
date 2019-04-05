@@ -1,4 +1,3 @@
-var global = null
 var current_context
 
 func check_obj(name, cmd):
@@ -155,12 +154,15 @@ func set_active(params):
 	vm.set_active(params[0], params[1])
 	return vm.state_return
 
+#warning-ignore:unused_argument
 func stop(params):
 	return vm.state_break
 
+#warning-ignore:unused_argument
 func repeat(params):
 	return vm.state_repeat
 
+#warning-ignore:unused_argument
 func wait(params):
 	return vm.wait(params, current_context)
 
@@ -402,6 +404,3 @@ func resume(context):
 			return vm.state_jump
 	context.ip = 0
 	return vm.state_return
-
-func set_vm(p_vm):
-	vm = p_vm

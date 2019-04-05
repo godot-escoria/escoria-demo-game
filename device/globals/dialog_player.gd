@@ -23,6 +23,8 @@ func say(params, callback):
 		type = "bottom"
 
 	type = type + ProjectSettings.get_setting("escoria/platform/dialog_type_suffix")
+
+	# De-instantiated in dialog_instance.gd _queue_free()
 	var inst = get_resource(type).instance()
 	var z = inst.get_z_index()
 
@@ -46,3 +48,4 @@ func config(params):
 
 func _ready():
 	add_to_group("dialog")
+

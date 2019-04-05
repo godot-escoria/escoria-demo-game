@@ -1,0 +1,116 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://globals/scene.gd" type="Script" id=1]
+[ext_resource path="res://demo/rooms/outside/Planet02.png" type="Texture" id=2]
+[ext_resource path="res://globals/background.gd" type="Script" id=3]
+[ext_resource path="res://globals/terrain.gd" type="Script" id=4]
+[ext_resource path="res://demo/rooms/outside/Planet02_scales.png" type="Texture" id=5]
+[ext_resource path="res://demo/actors/player/player.tscn" type="PackedScene" id=6]
+[ext_resource path="res://globals/exit.gd" type="Script" id=7]
+[ext_resource path="res://globals/game.tscn" type="PackedScene" id=8]
+[ext_resource path="res://globals/trigger.gd" type="Script" id=9]
+[ext_resource path="res://globals/item.gd" type="Script" id=10]
+
+[sub_resource type="NavigationPolygon" id=1]
+vertices = PoolVector2Array( 2394.66, 1012.59, 2403.02, 1107.43, 1515.96, 1113.01, 2193.81, 1034.91, 176.995, 1099.07, 174.206, 956.8, 651.212, 965.169, 868.793, 1001.43, 455.946, 895.431, 634.475, 901.01, 1248.17, 920.537, 1691.7, 940.063, 1714.01, 1004.22, 1998.54, 1048.85, 2020.86, 1020.96, 2143.6, 1020.96, 748.844, 945.642, 843.688, 962.379, 2241.23, 1004.22 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 2, 4, 5, 6, 7 ), PoolIntArray( 8, 9, 6, 5 ), PoolIntArray( 10, 11, 12, 2, 7 ), PoolIntArray( 13, 14, 15, 3 ), PoolIntArray( 16, 17, 7, 6 ), PoolIntArray( 3, 18, 0 ), PoolIntArray( 2, 12, 13 ), PoolIntArray( 3, 2, 13 ) ]
+outlines = [ PoolVector2Array( 634.475, 901.01, 651.212, 965.169, 748.844, 945.642, 843.688, 962.379, 868.793, 1001.43, 1248.17, 920.537, 1691.7, 940.063, 1714.01, 1004.22, 1998.54, 1048.85, 2020.86, 1020.96, 2143.6, 1020.96, 2193.81, 1034.91, 2241.23, 1004.22, 2394.66, 1012.59, 2403.02, 1107.43, 1515.96, 1113.01, 176.995, 1099.07, 174.206, 956.8, 455.946, 895.431 ) ]
+
+[sub_resource type="ShaderMaterial" id=2]
+
+[node name="scene" type="Node2D"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="background" type="Sprite" parent="."]
+scale = Vector2( 3.5, 3.5 )
+texture = ExtResource( 2 )
+centered = false
+script = ExtResource( 3 )
+
+[node name="terrain" type="Navigation2D" parent="."]
+script = ExtResource( 4 )
+lightmap = null
+scales = ExtResource( 5 )
+bitmaps_scale = Vector2( 1, 1 )
+player_speed_multiplier = 1.0
+player_doubleclick_speed_multiplier = 3.0
+lightmap_modulate = Color( 1, 1, 1, 1 )
+debug_mode = 0
+scale_min = 1.0
+scale_max = 2.0
+
+[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="terrain"]
+position = Vector2( -158.819, -404.099 )
+navpoly = SubResource( 1 )
+
+[node name="player" parent="." instance=ExtResource( 6 )]
+position = Vector2( 279.279, 546.863 )
+scale = Vector2( 2, 2 )
+z_index = 546
+placeholders = {
+
+}
+speed = 120
+
+[node name="exit_hut1" type="Area2D" parent="."]
+editor/display_folded = true
+script = ExtResource( 7 )
+global_id = "exit_hut1"
+events_path = "res://demo/rooms/outside/exit_hut1.esc"
+tooltip = "Hut"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="exit_hut1"]
+material = SubResource( 2 )
+position = Vector2( 290.456, 131.504 )
+polygon = PoolVector2Array( 301.941, 401.717, 235.783, 420.094, 400.443, 443.617, 396.033, 414.213 )
+
+[node name="exit_hut2" type="Area2D" parent="."]
+editor/display_folded = true
+script = ExtResource( 7 )
+global_id = "exit_hut2"
+events_path = "res://demo/rooms/outside/exit_hut2.esc"
+tooltip = "Hut"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="exit_hut2"]
+material = SubResource( 2 )
+position = Vector2( 1532.11, 203.016 )
+polygon = PoolVector2Array( 308.458, 408.529, 302.736, 429.655, 396.484, 424.814, 467.344, 410.29, 409.884, 403.457, 361.714, 405.448 )
+
+[node name="game" parent="." instance=ExtResource( 8 )]
+
+[node name="exit_out" type="Area2D" parent="."]
+editor/display_folded = true
+script = ExtResource( 9 )
+global_id = "exit_out"
+events_path = "res://demo/rooms/outside/exit_out.esc"
+tooltip = "Leave"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="exit_out"]
+position = Vector2( 1.55164, 91.6255 )
+polygon = PoolVector2Array( 5.24045, 456.893, 73.7179, 450.213, 87.0794, 592.178, 6.91063, 603.87 )
+
+[node name="position_no_way_out" type="Position2D" parent="."]
+position = Vector2( 131.235, 549.546 )
+script = ExtResource( 10 )
+global_id = "position_no_way_out"
+
+[node name="position_entrance_hut1" type="Position2D" parent="."]
+position = Vector2( 516.256, 507.352 )
+script = ExtResource( 10 )
+global_id = "position_entrance_hut1"
+placeholders = {
+
+}
+is_interactive = false
+
+[node name="position_entrance_hut2" type="Position2D" parent="."]
+position = Vector2( 1669.56, 558.336 )
+script = ExtResource( 10 )
+global_id = "position_entrance_hut2"
+placeholders = {
+
+}
+is_interactive = false

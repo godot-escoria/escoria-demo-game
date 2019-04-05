@@ -24,6 +24,9 @@ var obj_action_req_dblc
 var camera
 export var camera_limits = Rect2()
 
+var inventory
+var action_menu
+
 func set_mode(p_mode):
 	mode = p_mode
 
@@ -58,9 +61,9 @@ func ev_left_click_on_bg(obj, pos, event):
 	var walk_context = {"fast": event.doubleclick}
 
 	# Make it possible to abort an interaction before the player interacts
-	if player.interact_status == player.INTERACT_WALKING:
+	if player.interact_status == player.interact_statuses.INTERACT_WALKING:
 		# by overriding the interaction status
-		player.interact_status = player.INTERACT_NONE
+		player.interact_status = player.interact_statuses.INTERACT_NONE
 		player.params_queue = null
 		player.walk_to(pos, walk_context)
 		return
@@ -107,9 +110,9 @@ func ev_left_click_on_item(obj, pos, event):
 	var walk_context = {"fast": event.doubleclick}
 
 	# Make it possible to abort an interaction before the player interacts
-	if player.interact_status == player.INTERACT_WALKING:
+	if player.interact_status == player.interact_statuses.INTERACT_WALKING:
 		# by overriding the interaction status
-		player.interact_status = player.INTERACT_NONE
+		player.interact_status = player.interact_statuses.INTERACT_NONE
 		player.params_queue = null
 		player.walk_to(pos, walk_context)
 		return
@@ -152,9 +155,9 @@ func ev_left_dblclick_on_item(obj, pos, event):
 	var walk_context = {"fast": event.doubleclick}
 
 	# Make it possible to abort an interaction before the player interacts
-	if player.interact_status == player.INTERACT_WALKING:
+	if player.interact_status == player.interact_statuses.INTERACT_WALKING:
 		# by overriding the interaction status
-		player.interact_status = player.INTERACT_NONE
+		player.interact_status = player.interact_statuses.INTERACT_NONE
 		player.params_queue = null
 		player.walk_to(pos, walk_context)
 
@@ -183,7 +186,6 @@ func ev_left_dblclick_on_item(obj, pos, event):
 	if action != "walk":
 		# Resolve telekinesis
 		if action in obj.event_table:
-			var telekinetic = "TK" in obj.event_table[action]["ev_flags"]
 			if player.task == "walk":
 				player.walk_stop(player.get_position())
 				vm.clear_current_action()
@@ -415,7 +417,7 @@ func handle_menu_request():
 	elif not menu_enabled:
 		get_tree().call_group("game", "ui_blocked")
 
-func _process(time):
+func _process(_delta):
 	if !vm.can_interact():
 		check_joystick = false
 		return
@@ -449,10 +451,10 @@ func _process(time):
 			if mdist < min_interact_dist:
 				if mobj != last_obj:
 					spawn_action_menu(mobj)
-					mouse_enter(mobj)
+#					mouse_enter(mobj)
 					last_obj = mobj
 			else:
-				mouse_exit(mobj)
+#				mouse_exit(mobj)
 				last_obj = null
 
 	if !check_joystick:
@@ -482,13 +484,17 @@ func set_camera_limits():
 			if child is esc_type.BACKGROUND:
 				var pos = child.get_global_position()
 				var size = child.get_texture().get_size()
+				if child.global_scale.x != 1 or child.global_scale.y != 1:
+					size.x *= child.global_scale.x
+					size.y *= child.global_scale.y
+
 				area = area.expand(pos)
 				area = area.expand(pos + size)
 
-		if area.size.x == 0 or area.size.y == 0:
+		# if the background is smaller than the viewport, we want the camera to stick centered on the background
+		if area.size.x == 0 or area.size.y == 0 or area.size < get_viewport().size:
 			printt("No limit area! Using viewport")
 			area.size = get_viewport().size
-
 
 		printt("setting camera limits from scene ", area)
 		limits = {
@@ -529,7 +535,7 @@ func load_hud():
 		else:
 			var inventory_scene = ProjectSettings.get_setting("escoria/ui/inventory")
 			if inventory_scene:
-				var inventory = load(inventory_scene).instance()
+				inventory = load(inventory_scene).instance()
 				if inventory and inventory is esc_type.INVENTORY:
 					vm.register_inventory(inventory)
 					if vm.inventory.is_collapsible:
@@ -546,7 +552,7 @@ func load_hud():
 
 	# Add action menu to hud layer if found in project settings
 	if ProjectSettings.get_setting("escoria/ui/action_menu"):
-		var action_menu = load(ProjectSettings.get_setting("escoria/ui/action_menu")).instance()
+		action_menu = load(ProjectSettings.get_setting("escoria/ui/action_menu")).instance()
 		if action_menu:
 			$"hud_layer".add_child(action_menu)
 
@@ -577,4 +583,11 @@ func _ready():
 
 	call_deferred("set_camera_limits")
 	call_deferred("load_hud")
+
+func _exit_tree():
+	if inventory:
+		inventory.free()
+
+	if action_menu:
+		action_menu.free()
 

@@ -2,7 +2,6 @@ extends Control
 
 export(bool) var is_collapsible = false
 
-var item_list = []
 var page = 0
 
 var page_max
@@ -168,9 +167,19 @@ func _on_open_inventory_signal(open):
 		close()
 
 func _ready():
-	vm.connect("inventory_changed", self, "inventory_changed")
-	vm.connect("open_inventory", self, "_on_open_inventory_signal")
-	vm.connect("global_changed", self, "global_changed")
+	var conn_err
+
+	conn_err = vm.connect("inventory_changed", self, "inventory_changed")
+	if conn_err:
+		vm.report_errors("inventory", ["inventory_changed -> inventory_changed error: " + String(conn_err)])
+
+	conn_err = vm.connect("open_inventory", self, "_on_open_inventory_signal")
+	if conn_err:
+		vm.report_errors("inventory", ["open_inventory -> _on_open_inventory_signal error: " + String(conn_err)])
+
+	conn_err = vm.connect("global_changed", self, "global_changed")
+	if conn_err:
+		vm.report_errors("inventory", ["global_changed -> global_changed error: " + String(conn_err)])
 
 	page_size = get_node("slots").get_child_count()
 
@@ -179,10 +188,14 @@ func _ready():
 		sort_items()
 
 	if has_node("arrow_prev"):
-		$"arrow_prev".connect("pressed", self, "change_page", [-1])
+		conn_err = $"arrow_prev".connect("pressed", self, "change_page", [-1])
+		if conn_err:
+			vm.report_errors("inventory", ["arrow_prev.pressed -> change_page -1 error: " + String(conn_err)])
 
 	if has_node("arrow_next"):
-		$"arrow_next".connect("pressed", self, "change_page", [1])
+		conn_err = $"arrow_next".connect("pressed", self, "change_page", [1])
+		if conn_err:
+			vm.report_errors("inventory", ["arrow_next.pressed -> change_page +1 error: " + String(conn_err)])
 
 	var items = get_node("items")
 	for i in range(0, items.get_child_count()):
@@ -200,7 +213,9 @@ func _ready():
 	#get_node("log_button").connect("pressed", self, "log_button_pressed")
 
 	if has_node("animation"):
-		$"animation".connect("animation_finished", self, "anim_finished")
+		conn_err = $"animation".connect("animation_finished", self, "anim_finished")
+		if conn_err:
+			vm.report_errors("inventory", ["animation_finished -> anim_finished error: " + String(conn_err)])
 
 	add_to_group("game")
 

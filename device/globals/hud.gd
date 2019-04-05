@@ -34,11 +34,17 @@ func _ready():
 	add_to_group("game")
 
 	if has_node("inv_toggle"):
-		$"inv_toggle".connect("pressed", self, "inv_toggle")
+		var conn_err = $"inv_toggle".connect("pressed", self, "inv_toggle")
+		if conn_err:
+			vm.report_errors("hud", ["inv_toggle.pressed -> inv_toggle error: " + String(conn_err)])
+
 		$"inv_toggle".set_focus_mode(Control.FOCUS_NONE)
 
 	if has_node("menu"):
-		$"menu".connect("pressed", self, "_on_menu_pressed")
+		var conn_err = $"menu".connect("pressed", self, "_on_menu_pressed")
+		if conn_err:
+			vm.report_errors("hud", ["menu.pressed -> _on_menu_pressed error: " + String(conn_err)])
+
 		$"menu".set_focus_mode(Control.FOCUS_NONE)
 
 	# Hide verb menu if hud layer has an action menu

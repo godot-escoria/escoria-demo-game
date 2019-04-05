@@ -6,9 +6,10 @@ var wait_timer
 var wait_level
 var current
 var menu_stack = []
-var vm_size = Vector2(0, 0)
 var game_size
-var screen_ofs = Vector2(0, 0)
+
+#warning-ignore:unused_class_variable
+var screen_ofs = Vector2(0, 0)  # game.gd
 
 func set_input_catch(p_catch):
 	telon.set_input_catch(p_catch)
@@ -20,9 +21,9 @@ func clear_scene():
 	vm.clear_current_action()
 	vm.clear_current_tool()
 	vm.hover_clear_stack()
-	vm.inventory = null
-	vm.tooltip = null
-	vm.action_menu = null
+	vm.clear_inventory()
+	vm.clear_tooltip()
+	vm.clear_action_menu()
 
 	get_node("/root").remove_child(current)
 	current.free()
@@ -172,6 +173,5 @@ func _ready():
 	set_process_input(true)
 	set_process(true)
 
-	ProjectSettings.load_resource_pack("res://scripts.zip")
-
 	call_deferred("load_telon")
+

@@ -10,7 +10,7 @@ var area
 var last_lmb_dt = 0
 var waiting_dblclick = null  # null or [pos, event]
 
-func input(viewport, event, shape_idx):
+func input(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.pressed:
 		# If we are hovering items, do not allow background to receive a click
 		# and let the items sort out who's on top and gets to be `clicked`
@@ -55,7 +55,15 @@ func _enter_tree():
 	add_child(area)
 
 func _ready():
-	area.connect("input_event", self, "input")
-	connect("left_click_on_bg", $"/root/scene/game", "ev_left_click_on_bg")
+	var conn_err
+
+	conn_err = area.connect("input_event", self, "input")
+	if conn_err:
+		vm.report_errors("item", ["area.input_event -> input error: " + String(conn_err)])
+
+	conn_err = connect("left_click_on_bg", $"../game", "ev_left_click_on_bg")
+	if conn_err:
+		vm.report_errors("item", ["left_click_on_bg -> ev_left_click_on_bg error: " + String(conn_err)])
+
 	add_to_group("background")
 

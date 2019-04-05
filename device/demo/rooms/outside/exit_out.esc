@@ -1,0 +1,4 @@
+:enter
+walk_block player position_no_way_out
+say player "There is no way out."
+say player "I'll need to find another path to escape."
