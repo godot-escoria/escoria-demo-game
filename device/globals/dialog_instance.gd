@@ -179,13 +179,10 @@ func init(p_params, p_context, p_intro, p_outro):
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "set_mode", "dialog")
 	if animation and play_intro:
 		if animation.has_animation("show"):
-			if self is Node2D:
-				show()
 			animation.play("show")
 			animation.seek(0, true)
 		else:
-			if self is Node2D:
-				show()
+			show()
 			set_process(true)
 	else:
 		show()
@@ -204,8 +201,7 @@ func init(p_params, p_context, p_intro, p_outro):
 	label.bbcode_text = "\n" + text
 	label.set_visible_characters(0)  # This length is always adjusted later
 
-	if self is Node2D:
-		set_z_index(1)
+	set_z_index(1)
 
 	setup_speech(text_id)
 
