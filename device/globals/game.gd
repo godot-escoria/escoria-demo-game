@@ -529,7 +529,7 @@ func load_hud():
 	# and not present in the `game` scene's hud.
 	if inventory_enabled:
 		if hud.has_node("inventory"):
-			var inventory = hud.get_node("inventory")
+			inventory = hud.get_node("inventory")
 			vm.register_inventory(inventory)
 			printt("Found inventory in hud", hud)
 		else:
