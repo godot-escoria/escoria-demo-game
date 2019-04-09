@@ -24,7 +24,6 @@ var obj_action_req_dblc
 var camera
 export var camera_limits = Rect2()
 
-var inventory
 var action_menu
 
 func set_mode(p_mode):
@@ -529,13 +528,13 @@ func load_hud():
 	# and not present in the `game` scene's hud.
 	if inventory_enabled:
 		if hud.has_node("inventory"):
-			inventory = hud.get_node("inventory")
+			var inventory = hud.get_node("inventory")
 			vm.register_inventory(inventory)
 			printt("Found inventory in hud", hud)
 		else:
 			var inventory_scene = ProjectSettings.get_setting("escoria/ui/inventory")
 			if inventory_scene:
-				inventory = load(inventory_scene).instance()
+				var inventory = load(inventory_scene).instance()
 				if inventory and inventory is esc_type.INVENTORY:
 					vm.register_inventory(inventory)
 					if vm.inventory.is_collapsible:
@@ -585,9 +584,6 @@ func _ready():
 	call_deferred("load_hud")
 
 func _exit_tree():
-	if inventory:
-		inventory.free()
-
 	if action_menu:
 		action_menu.free()
 
