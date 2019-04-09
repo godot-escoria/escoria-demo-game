@@ -180,6 +180,12 @@ Command list
 set_globals i/* false
 ```
 
+- `accept_input [ALL|NONE|SKIP]`
+  What type of input does the game accept. `ALL` is the default, `SKIP` allows skipping of dialog but nothing else, `NONE` denies all input. Including opening the menu etc.
+  `SKIP` and `NONE` also disable autosaves.
+  Note that `SKIP` gets reset to `ALL` when the event is done, but `NONE` persists. This allows you to create cut scenes with `SKIP` where the dialog can be skipped, but also
+  initiate locked-down cutscenes with `accept_input NONE` in `:setup` and `accept_input ALL` later in `:ready`.
+
 - `set_state object state`
   Changes the state of an object, and executes the state animation if present. The command can be used to change the appearance of an item or a player character.
 

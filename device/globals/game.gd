@@ -41,6 +41,9 @@ func can_click():
 	if mode != "default":
 		return false
 
+	if vm.accept_input != vm.acceptable_inputs.INPUT_ALL:
+		return false
+
 	return true
 
 func ev_left_click_on_bg(obj, pos, event):

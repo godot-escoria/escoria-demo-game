@@ -13,6 +13,7 @@ var commands = {
 	"dec_global": { "min_args": 2, "types": [TYPE_STRING, TYPE_INT] },
 	"inc_global": { "min_args": 2, "types": [TYPE_STRING, TYPE_INT] },
 	"set_globals": { "min_args": 2, "types": [TYPE_STRING, TYPE_BOOL] },
+	"accept_input": { "min_args": 1, "types": [TYPE_STRING] },
 	"debug": { "min_args": 1 },
 	"anim": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING, TYPE_BOOL, TYPE_BOOL, TYPE_BOOL] },
 	"play_snd": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING, TYPE_BOOL] },
