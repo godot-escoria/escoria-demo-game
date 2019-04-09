@@ -33,7 +33,10 @@ func stop():
 	self.queue_free()
 
 func shadow_in_caster():
-	for shape in space.intersect_point(self.global_position):
+	# Wouldn't it be nice if gdscript handled keyword arguments properly?
+	# The meaning of this documented in
+	# https://docs.godotengine.org/en/3.1/classes/class_physics2ddirectspacestate.html#class-physics2ddirectspacestate-method-intersect-point
+	for shape in space.intersect_point(self.global_position, 32, [], 2147483647, false, true):
 		if shape["collider"] == caster:
 			return true
 
