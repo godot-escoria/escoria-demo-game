@@ -127,7 +127,7 @@ func init(p_params, p_context, p_intro, p_outro):
 	context = p_context
 	text = p_params[1]
 	var force_ids = ProjectSettings.get_setting("escoria/platform/force_text_ids")
-	var tag_untranslated = ProjectSettings.get_setting("escoria/platform/tag_untranslated_strings")
+	var tag_untranslated = ProjectSettings.get_setting("escoria/debug/tag_untranslated_strings")
 	var sep = text.find(":\"")
 	var text_id = null
 	if sep > 0:

@@ -46,7 +46,7 @@ func start(params, p_context):
 		var label = but.get_node("label")
 
 		var force_ids = ProjectSettings.get_setting("escoria/platform/force_text_ids")
-		var tag_untranslated = ProjectSettings.get_setting("escoria/platform/tag_untranslated_strings")
+		var tag_untranslated = ProjectSettings.get_setting("escoria/debug/tag_untranslated_strings")
 		var text = q.params[0]
 		var sep = text.find(":\"")
 		if sep > 0:

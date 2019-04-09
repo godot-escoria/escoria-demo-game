@@ -422,6 +422,10 @@ func report_warnings(p_path, warnings):
 
 	print("warning is ", text)
 
+	if ProjectSettings.get_setting("escoria/debug/terminate_on_warnings"):
+		print_stack()
+		assert(false)
+
 func report_errors(p_path, errors):
 	var text = "Errors in file "+p_path+"\n\n"
 	for e in errors:
@@ -430,7 +434,7 @@ func report_errors(p_path, errors):
 	print("error is ", text)
 
 	# The only way to - optionally - make errors matter
-	if ProjectSettings.get_setting("escoria/platform/terminate_on_errors"):
+	if ProjectSettings.get_setting("escoria/debug/terminate_on_errors"):
 		print_stack()
 		assert(false)
 
