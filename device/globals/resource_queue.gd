@@ -31,7 +31,7 @@ func queue_resource(path, p_in_front = false, p_permanent = false):
 		_unlock("queue_resource")
 		return
 
-	elif ResourceLoader.exists(path):
+	elif ResourceLoader.has(path):
 		var res = ResourceLoader.load(path)
 		pending[path] = { "res": res, "permanent": p_permanent }
 		_unlock("queue_resource")
