@@ -329,7 +329,7 @@ func set_globals(params):
 
 func accept_input(params):
 	var p_input = params[0]
-	var input = vm.acceptable_inputs.get("INPUT_" + p_input)
+	var input = vm.acceptable_inputs["INPUT_" + p_input]
 	vm.set_accept_input(input)
 
 func autosave(params):
