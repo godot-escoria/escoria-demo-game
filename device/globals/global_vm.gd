@@ -232,15 +232,20 @@ func camera_set_target(p_speed, p_target):
 	if not camera:
 		return
 
+	assert typeof(p_target) in [TYPE_VECTOR2, TYPE_ARRAY, TYPE_STRING, TYPE_NIL]
+
 	var target = p_target
 
-	# change_scene will pass in `null`, see if it's the player
+	# change_scene will pass in TYPE_NIL, see if it's the player
 	if not target:
 		target = get_object("player")
 
+	# So no player was found and nothing else was given, error out
 	if not target:
 		report_errors("global_vm", ["No valid camera target given: " + p_target])
-	elif typeof(target) == TYPE_ARRAY:
+
+	# Vector2 goes unprocessed, but Array not so much; `camera` expects it to contain objects
+	if typeof(target) == TYPE_ARRAY:
 		for i in range(target.size()):
 			var n = target[i]
 			var obj = get_object(n)
@@ -249,12 +254,18 @@ func camera_set_target(p_speed, p_target):
 				report_errors("global_vm", ["Camera target array contains invalid name " + n])
 
 			target[i] = obj
+	elif typeof(target) == TYPE_STRING:
+		target = get_object(target)
+		if not target:
+			report_errors("global_vm", ["Camera target not found: " + cam_target])
+	else:
+		assert typeof(target) == TYPE_VECTOR2
 
 	# Set state for savegames
 	cam_target = p_target
 
 	# Kick it
-	camera.set_target(p_speed, p_target)
+	camera.set_target(p_speed, target)
 
 func camera_set_zoom(p_zoom_level, p_time):
 	camera.set_camera_zoom(p_zoom_level, p_time)
@@ -601,8 +612,8 @@ func set_accept_input(p_accept_input):
 			vm.set_global("save_disabled", "false")
 			accept_input = p_accept_input
 			return
-
-	report_errors("global_vm", ["Unknown accept_input given"])
+		_:
+			report_errors("global_vm", ["Unknown accept_input given"])
 
 func register_tooltip(p_tooltip):
 	if tooltip and p_tooltip != tooltip:
@@ -1009,10 +1020,20 @@ func save():
 			if typeof(cam_target) == TYPE_ARRAY:
 				for t in cam_target:
 					tlist = tlist + " " + t
-			elif "global_id" in cam_target and not cam_target is esc_type.PLAYER:
-				tlist = tlist + " " + cam_target.global_id
-			else:
+			elif typeof(cam_target) == TYPE_STRING:
+				var target_obj = get_object(cam_target)
+
+				if "global_id" in target_obj:
+					tlist = tlist + " " + target_obj.global_id
+				elif cam_target == "player":
+					tlist = tlist + " player"
+				else:
+					report_warnings("global_vm", ["Unknown cam_target " + str(cam_target) + ", defaulting to player"])
+					tlist = tlist + " player"
+			elif cam_target is esc_type.PLAYER:
 				tlist = tlist + " player"
+			else:
+				report_errors("global_vm", ["Messed up cam_target " + str(cam_target)])
 
 			ret.append("camera_set_target 0" + tlist + "\n")
 
