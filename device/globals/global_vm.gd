@@ -1,5 +1,15 @@
 extends Node
 
+class QueuedEvent:
+	var qe_time
+	var qe_objname
+	var qe_event
+
+	func _init(p_time, p_objname, p_event):
+		qe_time = p_time
+		qe_objname = p_objname
+		qe_event = p_event
+
 var running_event
 
 var stack = []
@@ -513,8 +523,8 @@ func run_event(p_event):
 
 		add_level(p_event, true)
 
-func sched_event(time, obj, event):
-	event_queue.push_back([time, obj, event])
+func sched_event(time, objname, event):
+	event_queue.push_back(QueuedEvent.new(time, objname, event))
 
 func event_done(ev_name):
 	if ev_name != running_event.ev_name:
@@ -533,12 +543,16 @@ func event_done(ev_name):
 		# because that would cause the hud to flash between the events
 		# and treat other such flags similarly
 		if event_queue.size():
-			# Timing can be -0.0019 or whatever, so just `int()` it to see if it's immediate
-			var time = int(event_queue[-1][0])
-			if time == 0:
-				var obj = get_object(event_queue[-1][1])
-				var next_ev_name = event_queue[-1][2]
-				var next_event = obj.event_table[next_ev_name]
+			var queued_next
+			for e in event_queue:
+				if not queued_next:
+					queued_next = e
+				elif e.qe_time < queued_next.qe_time:
+					queued_next = e
+
+			if queued_next.qe_time <= 0:
+				var obj = get_object(queued_next.qe_objname)
+				var next_event = obj.event_table[queued_next.qe_event]
 
 				if not "NO_HUD" in next_event.ev_flags:
 					set_hud_visible(true)
@@ -744,8 +758,8 @@ func object_exit_scene(name):
 
 func check_event_queue(time):
 	for e in event_queue:
-		if e[0] > 0:
-			e[0] -= time
+		if e.qe_time > 0:
+			e.qe_time -= time
 
 	if !can_interact() or running_event:
 		return
@@ -753,10 +767,10 @@ func check_event_queue(time):
 	var i = event_queue.size()
 	while i:
 		i -= 1
-		if event_queue[i][0] <= 0:
-			var obj = get_object(event_queue[i][1])
-			var ev_name = event_queue[i][2]
-			run_event(obj.event_table[ev_name])
+		var queued_next = event_queue[i]
+		if queued_next.qe_time <= 0:
+			var obj = get_object(queued_next.qe_objname)
+			run_event(obj.event_table[queued_next.qe_event])
 			event_queue.remove(i)
 			break
 
@@ -1050,7 +1064,7 @@ func save():
 	ret.append("camera_set_zoom " + str(camera.zoom.x) + "\n")
 
 	for e in event_queue:
-		ret.append("sched_event " + str(e[0]) + " " + str(e[1]) + " " + str(e[2]) + "\n")
+		ret.append("sched_event " + str(e.qe_time) + " " + e.qe_objname + " " + e.qe_event + "\n")
 
 	ret.append("\ncut_scene telon fade_in\n")
 
