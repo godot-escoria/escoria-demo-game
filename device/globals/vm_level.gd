@@ -283,6 +283,7 @@ func custom(params):
 	obj.get_node("custom").call(params[1], params)
 
 func camera_set_target(params):
+	# Pass strings in so vm can resolve what to do with them
 	var speed = params[0]
 	if params.size() > 2:
 		var targets = []
@@ -290,7 +291,7 @@ func camera_set_target(params):
 			targets.push_back(params[i])
 		vm.camera_set_target(speed, targets)
 	else:
-		vm.camera_set_target(speed, vm.get_object(params[1]))
+		vm.camera_set_target(speed, params[1])
 
 func camera_set_pos(params):
 	var speed = params[0]
