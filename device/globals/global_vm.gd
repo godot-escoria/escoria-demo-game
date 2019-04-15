@@ -492,6 +492,19 @@ func _find_accept_input(level):
 	return acceptable_inputs.INPUT_ALL
 
 func run_event(p_event):
+	# If a new event is triggered while another is running, defer it by
+	# appending its code into the current one, as a kind of "unroll" or "unpack".
+	#
+	# `:start` is a special built-in, it should be ignored
+	if running_event and running_event.ev_name != "start":
+		# Without this, something like `:setup | CUT_BLACK` with a `teleport`
+		# causing `:exit` or `:enter` would never be properly finished and the screen
+		# would remain black.
+		printt("run_event, defer:", p_event.ev_name, p_event.ev_flags, accept_input)
+		# NOTE: The added code will be the last thing run in the current event
+		add_level(p_event, false)
+		return
+
 	# If we're accepting input, see if we need to set SKIP or ALL
 	if accept_input != acceptable_inputs.INPUT_NONE:
 		accept_input = _find_accept_input(p_event.ev_level)
@@ -781,6 +794,7 @@ func _process(time):
 
 func run_top():
 	var top = stack[stack.size()-1]
+	# printt("-----> TOP:", top)
 	var ret = level.resume(top)
 	if ret == state_return || ret == state_break:
 		stack.remove(stack.size()-1)
@@ -840,6 +854,14 @@ func change_scene(params, context, run_events=true):
 	main.clear_scene()
 	camera = null
 	event_queue = []
+
+	# Regular events need to be reset immediately, so we don't
+	# accidentally `yield()` on them, for performance reasons.
+	# This does not affect `stack` so execution is fine anyway.
+	if running_event and running_event.ev_name != "load":
+		emit_signal("event_done", running_event.ev_name)
+		running_event = null
+
 	var res = res_cache.get_resource(params[0])
 	res_cache.clear()
 	var scene = res.instance()
