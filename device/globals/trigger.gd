@@ -4,6 +4,7 @@ signal mouse_enter_trigger
 signal mouse_exit_trigger
 
 export var tooltip = ""
+export var dblclick_teleport = true
 
 func get_tooltip(hint=null):
 	if TranslationServer.get_locale() == ProjectSettings.get_setting("escoria/platform/development_lang"):
@@ -57,11 +58,14 @@ func input(event):
 	var pos = get_global_mouse_position()
 
 	# Disallow doubleclick teleportation if there's no tooltip.
-	if player and event.doubleclick and self.tooltip:
-		player.set_position(pos)
-	elif player:
+	if player:
+		if dblclick_teleport and event.doubleclick and self.tooltip:
+			player.set_position(pos)
 		# Control blocks input to background, so make player walk
-		player.walk_to(pos)
+		elif event.doubleclick:
+			player.walk_to(pos, {"fast": true})
+		else:
+			player.walk_to(pos)
 
 func body_entered(body):
 	if body is esc_type.PLAYER:
