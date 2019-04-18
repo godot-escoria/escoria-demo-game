@@ -35,7 +35,7 @@ func update():
 	if vm.hover_object:
 		var tt
 
-		if vm.current_action and vm.current_tool and vm.current_tool != vm.hover_object:
+		if vm.current_action and vm.current_tool and vm.current_tool != vm.hover_object and vm.hover_object is esc_type.ITEM:
 			if not "inventory" in vm.hover_object or not vm.hover_object.inventory:
 				if not vm.inventory or not vm.inventory.blocks_tooltip():
 					text = tr(vm.current_action + ".combine_id")
