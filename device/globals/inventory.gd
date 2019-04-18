@@ -166,6 +166,16 @@ func _on_open_inventory_signal(open):
 	else:
 		close()
 
+func mouse_entered():
+	# Hide the tooltip unless we're dealing with a selected item
+	if not vm.current_tool:
+		vm.tooltip.hide()
+
+func mouse_exited():
+	# Restore the expected state if it was reset when entering;
+	# generally ensure the tooltip is as expected
+	vm.tooltip.update()
+
 func _ready():
 	var conn_err
 
@@ -196,6 +206,17 @@ func _ready():
 		conn_err = $"arrow_next".connect("pressed", self, "change_page", [1])
 		if conn_err:
 			vm.report_errors("inventory", ["arrow_next.pressed -> change_page +1 error: " + String(conn_err)])
+
+	# Block problems when tooltip follows mouse and open inventory overlaps with exits
+	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse") and self is TextureRect:
+		conn_err = connect("mouse_entered", self, "mouse_entered")
+		if conn_err:
+			vm.report_errors("inventory", ["mouse_entered -> mouse_entered error: " + String(conn_err)])
+
+		conn_err = connect("mouse_exited", self, "mouse_exited")
+		if conn_err:
+			vm.report_errors("inventory", ["mouse_exited -> mouse_exited error: " + String(conn_err)])
+
 
 	var items = get_node("items")
 	for i in range(0, items.get_child_count()):
