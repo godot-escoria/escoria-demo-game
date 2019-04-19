@@ -355,7 +355,7 @@ func _update_terrain(need_z_update=false):
 		if camera_global_position:
 			camera_pos.global_position = camera_global_position
 
-	if self is CanvasItem and light_on_map:
+	if light_on_map:
 		var c = terrain.get_light(pos)
 		if c:
 			modulate(c)
