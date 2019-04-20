@@ -414,10 +414,45 @@ func handle_menu_request():
 		if vm.inventory and vm.inventory.blocks_tooltip():
 			vm.inventory.force_close()
 
+		# XXX: Inventory is `Control`, so mouse events are funky. We may exit the
+		# inventory item while the in-game menu is open, the exit signal is not seen by Godot,
+		# so re-entering crashes the game, as `hover_stack` has the item, but it's stale.
+		# The in-game menu also leaves the stale tooltip visible when exiting and closing.
+		# We fix this by exiting inventory items manually.
+		#
+		# Regular items' tooltips will be visible after in-game-menu-close and exiting the item
+		# until the mouse is touched (see: telon change).
+		#
+		# Inventory items' tooltips will be hidden until the mouse is touched.
+		if vm.hover_stack and vm.inventory:
+			# If we didn't `force_close()`, the inventory is not collapsible by design
+			if vm.inventory.visible:
+				for item in vm.hover_stack:
+					if item.inventory:
+						# printt("manually exiting due to menu:", item.name)
+						item.emit_signal("mouse_exit_inventory_item", item)
+
 		# Finally show the menu
 		main.load_menu(ProjectSettings.get_setting("escoria/ui/in_game_menu"))
 	elif not menu_enabled:
 		get_tree().call_group("game", "ui_blocked")
+
+func menu_closed():
+	printt("menu_closed")
+	if vm.hover_object:
+		printt("MENU STARTS HOVERING")
+		vm.hover_begin(vm.hover_object)
+	# if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
+	# 	for item in vm.inventory.get_node("items").get_children():
+	# 		if not item.visible:
+	# 			continue
+	# 		var item_space = item.get_node("area").get_world_2d().get_direct_space_state()
+	# 		printt(item.name)
+	# 		for shape in item_space.intersect_point($"/root/scene".get_global_mouse_position()):
+	# 			printt("\t", shape, shape["collider"].name, shape["collider"].get_parent().name)
+	# 	var space = $"/root/scene".get_world_2d().get_direct_space_state()
+	# 	for shape in space.intersect_point($"/root/scene".get_global_mouse_position()):
+	# 		printt(shape, shape["collider"].name, shape["collider"].get_parent().name)
 
 func _process(_delta):
 	if !vm.can_interact():
