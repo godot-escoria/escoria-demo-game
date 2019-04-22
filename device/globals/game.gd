@@ -81,6 +81,36 @@ func ev_left_click_on_bg(obj, pos, event):
 		if not vm.current_tool:
 			vm.tooltip.hide()
 
+func ev_left_click_on_trigger(obj, pos, event):
+	printt(obj.name, "left-clicked at", pos, "with", event, can_click())
+
+	if not can_click():
+		return
+
+	# Do not allow input on triggers/exits with inventory open
+	if vm.inventory and vm.inventory.blocks_tooltip():
+		return
+
+	if vm.action_menu and vm.action_menu.is_visible():
+		vm.action_menu.stop()
+
+	player.walk_to(pos)
+
+func ev_left_dblclick_on_trigger(obj, pos, event):
+	printt(obj.name, "left-dblclicked at", pos, "with", event, can_click())
+
+	if not can_click():
+		return
+
+	if vm.action_menu and vm.action_menu.is_visible():
+		vm.action_menu.stop()
+		return
+
+	if obj.dblclick_teleport and obj.tooltip:
+		player.set_position(pos)
+	else:
+		player.walk_to(pos, {"fast": true})
+
 func ev_left_click_on_item(obj, pos, event):
 	printt(obj.name, "left-clicked at", pos, "with", event, can_click())
 
