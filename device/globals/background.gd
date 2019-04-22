@@ -21,7 +21,7 @@ func input(_viewport, event, _shape_idx):
 			last_lmb_dt = 0
 			waiting_dblclick = [get_global_mouse_position(), event]
 		elif event.button_index == BUTTON_RIGHT:
-			emit_signal("right_click_on_bg")
+			emit_signal("right_click_on_bg", self, get_global_mouse_position(), event)
 
 func get_action():
 	return action
