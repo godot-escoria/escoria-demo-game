@@ -274,8 +274,10 @@ func sched_event(params):
 
 func custom(params):
 	var obj = vm.get_object(params[0])
+	# Do not error out because `obj` may not be present in every room of the game,
+	# making it (probably) safe to ignore it being missing.
 	if obj == null:
-		vm.report_errors("custom", ["Object not found: " + params[0]])
+		return
 
 	if not obj.has_node("custom"):
 		vm.report_errors("custom", ["Node 'custom' not found for " + params[0]])
