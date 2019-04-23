@@ -283,7 +283,7 @@ func read_dialog_option(state, level, errors):
 	# Remove inline comments
 	var comment_idx = state.line.find("#")
 	if comment_idx > -1:
-		state.line = trim(state.line.substr(0, comment_idx))
+		state.line = state.line.substr(0, comment_idx)
 
 	tk_end += 1
 	# var c_start = state.line.find("\"", 0)
