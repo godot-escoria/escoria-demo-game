@@ -28,6 +28,9 @@ func set_active(p_active):
 	else:
 		hide()
 
+func set_interactive(p_interactive):
+	self.area.visible = p_interactive
+
 func get_active():
 	return active
 

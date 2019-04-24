@@ -33,6 +33,7 @@ var state_jump = 5  # vm_level.gd
 
 var states = {}
 var actives = {}
+var interactives = {}
 
 var game_size
 
@@ -700,6 +701,10 @@ func register_object(name, val, force=false):
 		if name in actives:
 			val.set_active(actives[name])
 
+	if val.has_method("set_interactive"):
+		if name in interactives:
+			val.set_interactive(interactives[name])
+
 func get_registered_objects():
 	return objects
 
@@ -718,9 +723,8 @@ func set_state(name, state):
 func set_active(name, active):
 	actives[name] = active
 
-func set_interactive(obj, p_interactive):
-	if obj is esc_type.ITEM:
-		obj.area.visible = p_interactive
+func set_interactive(name, interactive):
+	interactives[name] = interactive
 
 func set_speed(obj, speed):
 	if obj is esc_type.INTERACTIVE:
@@ -1006,12 +1010,20 @@ func save():
 		objs[k] = true
 	for k in actives.keys():
 		objs[k] = true
+	for k in interactives.keys():
+		objs[k] = true
 	for k in objs.keys():
 		if k in actives:
 			var s = "true"
 			if !actives[k]:
 				s = "false"
 			ret.append("set_active " + k + " " + s + "\n")
+
+		if k in interactives:
+			var s = "true"
+			if !interactives[k]:
+				s = "false"
+			ret.append("set_interactive " + k + " " + s + "\n")
 
 		if k in states && states[k] != "default":
 			ret.append("set_state " + k + " " + states[k] + "\n")
@@ -1105,6 +1117,7 @@ func clear():
 	objects = {}
 	states = {}
 	actives = {}
+	interactives = {}
 	event_queue = []
 	continue_enabled = true
 	loading_game = false

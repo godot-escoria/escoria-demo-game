@@ -168,7 +168,10 @@ func wait(params):
 
 func set_interactive(params):
 	var obj = vm.get_object(params[0])
-	vm.set_interactive(obj, params[1])
+	if obj:
+		obj.set_interactive(params[1])
+	vm.set_interactive(params[0], params[1])
+	return vm.state_return
 
 func set_speed(params):
 	var obj = vm.get_object(params[0])
