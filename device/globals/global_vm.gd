@@ -154,8 +154,8 @@ func hover_debug(s):
 	printt("HOVER DEBUG: " + s, ids)
 
 func hover_push(obj):
-	if not obj is esc_type.ITEM and not obj is esc_type.TRIGGER:
-		report_errors("global_vm", ["Trying to hover " + obj.global_id + " which is not ITEM or TRIGGER"])
+	if not obj is esc_type.ITEM and not obj is esc_type.TRIGGER and not obj is esc_type.NPC:
+		report_errors("global_vm", ["Trying to hover " + obj.global_id + " which is not ITEM, TRIGGER or NPC"])
 
 	var stacked
 	var for_else = true
@@ -213,8 +213,8 @@ func hover_pop(obj):
 
 func hover_begin(obj):
 	var escoria_types = load("res://globals/escoria_types.gd")
-	if not obj is escoria_types.ITEM and not obj is escoria_types.TRIGGER:
-		report_errors("global_vm", ["Trying to hover " + obj.global_id + " which is not ITEM or TRIGGER"])
+	if not obj is escoria_types.ITEM and not obj is escoria_types.TRIGGER and not obj is escoria_types.NPC:
+		report_errors("global_vm", ["Trying to hover " + obj.global_id + " which is not ITEM, TRIGGER or NPC"])
 
 	hover_object = obj
 
