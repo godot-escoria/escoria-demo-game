@@ -45,6 +45,9 @@ func body_entered(body):
 	if not light.visible:
 		return
 
+	if not self.visible:
+		return
+
 	printt(body.name, " entered ", get_parent().name)
 
 	if force_light_mask and body.light_mask != light.range_item_cull_mask:
@@ -60,6 +63,9 @@ func body_entered(body):
 
 func body_exited(body):
 	if not light.visible:
+		return
+
+	if not self.visible:
 		return
 
 	var body_id = get_id(body)
