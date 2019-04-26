@@ -347,15 +347,22 @@ func _update_terrain():
 	var color
 	if terrain_is_scalenodes:
 		last_scale = terrain.get_terrain(pos)
-		last_scale.x *= pose_scale
-		set_scale(last_scale)
+		self.scale = last_scale
 	elif check_maps:
 		color = terrain.get_terrain(pos)
 		var scal = terrain.get_scale_range(color.b)
-		scal.x = scal.x * pose_scale
 		if scal != get_scale():
 			last_scale = scal
-			.set_scale(last_scale)
+			self.scale = last_scale
+
+	# Do not flip the entire player character, because that would conflict
+	# with shadows that expect to be siblings of $"sprite"
+	if pose_scale == -1 and $"sprite".scale.x > 0:
+		$"sprite".scale.x *= pose_scale
+		$"collision".scale.x *= pose_scale
+	elif pose_scale == 1 and $"sprite".scale.x < 0:
+		$"sprite".scale.x *= -1
+		$"collision".scale.x *= -1
 
 	if check_maps:
 		color = terrain.get_light(pos)
@@ -506,6 +513,12 @@ func _ready():
 		return
 
 	vm = $"/root/vm"
+
+	if not has_node("sprite"):
+		vm.report_errors("player", ["No sprite node set"])
+
+	if not has_node("collision"):
+		vm.report_errors("player", ["No collision node set"])
 
 	if has_node("default"):
 		animation = $"default"
