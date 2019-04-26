@@ -35,3 +35,10 @@ If you don't want your shadow to rotate, uncheck `rotating` and set a `fixed_rot
 This value is ignored when `rotating` is checked. The unit is degrees, starting directly
 toward the camera and moving clockwise.
 
+# Static shadows
+
+Add a `Sprite` child to your character, you can call it `static_shadow`
+if you want, and attach `globals/static_shadow_sprite.gd` to it.
+
+You may have to unset `centered`, and set the relevant offsets and scale.
+
