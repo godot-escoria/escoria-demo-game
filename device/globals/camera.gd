@@ -100,10 +100,17 @@ func push(p_target, p_time, p_type):
 		camera_pos_coords = target.global_position
 
 	if time == 0:
+		self.global_position = camera_pos_coords
+
 		if camera_pos and camera_pos is Camera2D:
 			self.zoom = camera_pos.zoom
-		self.global_position = camera_pos_coords
+			self.drag_margin_h_enabled = camera_pos.drag_margin_h_enabled
+			self.drag_margin_v_enabled = camera_pos.drag_margin_v_enabled
 	else:
+		if camera_pos is Camera2D:
+			self.drag_margin_h_enabled = camera_pos.drag_margin_h_enabled
+			self.drag_margin_v_enabled = camera_pos.drag_margin_v_enabled
+
 		if tween.is_active():
 			tween.stop_all()
 
@@ -133,6 +140,8 @@ func shift(p_x, p_y, p_time, p_type):
 
 func target_reached(_obj, _key):
 	tween.stop_all()
+	self.drag_margin_h_enabled = true
+	self.drag_margin_v_enabled = true
 
 func _process(_delta):
 	zoom_transform = self.get_canvas_transform()
