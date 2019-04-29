@@ -61,7 +61,7 @@ func _ready():
 	if conn_err:
 		vm.report_errors("item", ["area.input_event -> input error: " + String(conn_err)])
 
-	conn_err = connect("left_click_on_bg", $"../game", "ev_left_click_on_bg")
+	conn_err = connect("left_click_on_bg", $"/root/scene/game", "ev_left_click_on_bg")
 	if conn_err:
 		vm.report_errors("item", ["left_click_on_bg -> ev_left_click_on_bg error: " + String(conn_err)])
 
