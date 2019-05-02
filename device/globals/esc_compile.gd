@@ -48,6 +48,7 @@ var commands = {
 	"dialog_config": { "min_args": 3, "types": [TYPE_STRING, TYPE_BOOL, TYPE_BOOL] },
 	"sched_event": { "min_args": 3, "types": [TYPE_REAL, TYPE_STRING, TYPE_STRING] },
 	"custom": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING] },
+	"camera_set_drag_margin_enabled": { "min_args": 2, "types": [TYPE_BOOL, TYPE_BOOL] },
 	"camera_set_target": { "min_args": 1, "types": [TYPE_REAL] },
 	"camera_set_pos": { "min_args": 3, "types": [TYPE_REAL, TYPE_INT, TYPE_INT] },
 	"camera_set_zoom": { "min_args": 1, "types": [TYPE_REAL] },

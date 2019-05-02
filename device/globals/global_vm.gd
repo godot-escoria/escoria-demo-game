@@ -239,6 +239,12 @@ func hover_clear_stack():
 	hover_stack = []
 	hover_object = null
 
+func camera_set_drag_margin_enabled(p_dm_h_enabled, p_dm_v_enabled):
+	if not camera:
+		return
+
+	camera.set_drag_margin_enabled(p_dm_h_enabled, p_dm_v_enabled)
+
 func camera_set_target(p_speed, p_target):
 	if not camera:
 		return

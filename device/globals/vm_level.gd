@@ -298,6 +298,11 @@ func camera_set_target(params):
 	else:
 		vm.camera_set_target(speed, params[1])
 
+func camera_set_drag_margin_enabled(params):
+	var dm_h_enabled = params[0]
+	var dm_v_enabled = params[0]
+	vm.camera_set_drag_margin_enabled(dm_h_enabled, dm_v_enabled)
+
 func camera_set_pos(params):
 	var speed = params[0]
 	var pos = Vector2(params[1], params[2])

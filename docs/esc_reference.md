@@ -275,6 +275,9 @@ Items can also change state by playing animations from an `AnimationPlayer` name
 - `custom obj func_name [params]`
   If `obj` has a `(Node2D) custom` node, `func_name` will be searched for in its script and called with `params`. See device/contrib/custom/spine.gd for an example.
 
+- `camera_set_drag_margin_enabled h v`
+  "h" and "v" are booleans for whether or not horizontal and vertical drag margins are enabled. You will likely want to set them `false` for advanced camera motions and `true` for regular gameplay and/or tracking NPCs.
+
 - `camera_set_pos speed x y`
   Moves the camera to a position defined by "x" and "y", at the speed defined by "speed" in pixels per second. If speed is 0, camera is teleported to the position.
 
