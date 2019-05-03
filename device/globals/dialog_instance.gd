@@ -100,27 +100,27 @@ func finish():
 	elif not animation:
 		_queue_free()
 
-func _clamp(dialog_pos):
+func _clamp(p_dialog_pos):
 	var width = float(ProjectSettings.get("display/window/size/width"))
 	var height = float(ProjectSettings.get("display/window/size/height"))
 	var my_size = $"anchor/text".get_size()
 	var center_offset = my_size.x / 2
 
-	var dist_from_right = width - (dialog_pos.x + center_offset)
-	var dist_from_left = dialog_pos.x - center_offset
-	var dist_from_bottom = height - (dialog_pos.y + my_size.y)
-	var dist_from_top = dialog_pos.y - my_size.y
+	var dist_from_right = width - (p_dialog_pos.x + center_offset)
+	var dist_from_left = p_dialog_pos.x - center_offset
+	var dist_from_bottom = height - (p_dialog_pos.y + my_size.y)
+	var dist_from_top = p_dialog_pos.y - my_size.y
 
 	if dist_from_right < 0:
-		dialog_pos.x += dist_from_right
+		p_dialog_pos.x += dist_from_right
 	if dist_from_left < 0:
-		dialog_pos.x -= dist_from_left
+		p_dialog_pos.x -= dist_from_left
 	if dist_from_bottom < 0:
-		dialog_pos.y += dist_from_bottom
+		p_dialog_pos.y += dist_from_bottom
 	if dist_from_top < 0:
-		dialog_pos.y -= dist_from_top
+		p_dialog_pos.y -= dist_from_top
 
-	return dialog_pos
+	return p_dialog_pos
 
 func init(p_params, p_context, p_intro, p_outro):
 	character = vm.get_object(p_params[0])
@@ -287,8 +287,8 @@ func anim_finished(anim_name):
 	if cur == "hide":
 		_queue_free()
 
-func set_position(pos):
-	.set_position(_clamp(pos))
+func set_position(p_pos):
+	.set_position(_clamp(p_pos))
 
 func _ready():
 	var conn_err
