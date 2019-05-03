@@ -602,10 +602,10 @@ func handle_menu_request():
 		if vm.hover_stack and vm.inventory:
 			# If we didn't `force_close()`, the inventory is not collapsible by design
 			if vm.inventory.visible:
-				for item in vm.hover_stack:
-					if item.inventory:
-						# printt("manually exiting due to menu:", item.name)
-						item.emit_signal("mouse_exit_inventory_item", item)
+				for obj in vm.hover_stack:
+					if obj is esc_type.ITEM and obj.inventory:
+						# printt("manually exiting due to menu:", obj.name)
+						obj.emit_signal("mouse_exit_inventory_item", obj)
 
 		# Finally show the menu
 		main.load_menu(ProjectSettings.get_setting("escoria/ui/in_game_menu"))
