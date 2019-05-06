@@ -71,7 +71,13 @@ var audio
 var last_lmb_dt = 0
 var waiting_dblclick = false
 
+# This'll contain a highlight tooltip if `tooltip_pos` is set as a child
+var highlight_tooltip
+
 var event_table = {}
+
+var width = float(ProjectSettings.get("display/window/size/width"))
+var height = float(ProjectSettings.get("display/window/size/height"))
 
 func run_event(p_ev):
 	vm.emit_signal("run_event", p_ev)
@@ -213,6 +219,50 @@ func get_tooltip(hint=null):
 		return tooltip_identifier
 
 	return translated
+
+func show_highlight():
+	if not self.visible:
+		return
+
+	if not self.area.visible:
+		return
+
+	if not has_node("tooltip_pos"):
+		return
+
+	highlight_tooltip = vm.tooltip.duplicate()
+	assert highlight_tooltip != vm.tooltip
+
+	var tt_pos = $"tooltip_pos".global_position
+	var tt_text = get_tooltip()
+
+	highlight_tooltip.highlight_only = true
+	highlight_tooltip.follow_mouse = false
+	highlight_tooltip.text = tt_text
+
+	tt_pos = vm.camera.zoom_transform.xform(tt_pos)
+
+	# Bail out if we're hopelessly out-of-view
+	if tt_pos.x < 0 or tt_pos.x > width or tt_pos.y < 0 or tt_pos.y > height:
+		highlight_tooltip.free()
+		highlight_tooltip = null
+		return
+
+	vm.tooltip.get_parent().add_child(highlight_tooltip)
+
+	highlight_tooltip.set_position(tt_pos)
+
+	highlight_tooltip.show()
+
+func hide_highlight():
+	if not highlight_tooltip:
+		return
+
+	assert highlight_tooltip.visible
+
+	highlight_tooltip.hide()
+	highlight_tooltip.free()
+	highlight_tooltip = null
 
 func global_changed(name):
 	var ev = "global_changed "+name
@@ -612,6 +662,7 @@ func _find_sprites(p = null):
 
 func _ready():
 	add_to_group("npc")
+	add_to_group("highlight_tooltip")
 
 	if has_node("../terrain"):
 		terrain = $"../terrain"

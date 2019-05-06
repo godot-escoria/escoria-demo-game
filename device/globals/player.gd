@@ -273,6 +273,9 @@ func slide(pos, p_speed, context = null):
 		speed = p_speed
 	slide_to(pos, context)
 
+func halt():
+	return walk_stop(self.global_position)
+
 func walk_stop(pos):
 	set_position(pos)
 	interact_status = interact_statuses.INTERACT_NONE
@@ -499,6 +502,7 @@ func _find_sprites(p = null):
 		_find_sprites(p.get_child(i))
 
 func _ready():
+	add_to_group("player")
 
 	if has_node("../terrain"):
 		terrain = $"../terrain"

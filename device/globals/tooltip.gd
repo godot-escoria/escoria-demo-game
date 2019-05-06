@@ -1,12 +1,17 @@
 extends Label
 
 var follow_mouse = ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse")
+var width = float(ProjectSettings.get("display/window/size/width"))
+var height = float(ProjectSettings.get("display/window/size/height"))
 
+var highlight_only = false      # Is this tooltip used only for highlighting?
 var force_hide_tooltip = false  # Used by `set_tooltip_visible` to never show
 
 var orig_size
 
 func show():
+	set_process_input(true)
+
 	if force_hide_tooltip:
 		return
 
@@ -25,6 +30,8 @@ func hide():
 	self.text = ""
 
 	set_tooltip_visible(false)
+
+	set_process_input(false)
 
 func update():
 	if vm.action_menu and vm.action_menu.visible:
@@ -97,8 +104,6 @@ func set_visible(p_visible):
 	visible = p_visible
 
 func _clamp(tt_pos):
-	var width = float(ProjectSettings.get("display/window/size/width"))
-	var height = float(ProjectSettings.get("display/window/size/height"))
 	var tt_size = self.get_size()
 	var center_offset = tt_size.x / 2
 
@@ -126,8 +131,7 @@ func _clamp(tt_pos):
 	return tt_pos
 
 func set_position(pos):
-	if follow_mouse:
-		.set_position(_clamp(pos))
+	.set_position(_clamp(pos))
 
 func _input(ev):
 	if follow_mouse:
@@ -136,6 +140,10 @@ func _input(ev):
 			self.set_position(ev.position)
 
 func _ready():
-	vm.register_tooltip(self)
 	orig_size = self.rect_size
+
+	if not highlight_only:
+		vm.register_tooltip(self)
+
+	set_process_input(false)
 
