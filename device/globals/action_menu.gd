@@ -13,9 +13,12 @@ func target_visibility_changed():
 	stop()
 
 func _clamp(click_pos):
+	var scale = ProjectSettings.get_setting("escoria/platform/action_menu_scale")
+	set_scale(Vector2(scale, scale))
+
 	var width = float(ProjectSettings.get("display/window/size/width"))
 	var height = float(ProjectSettings.get("display/window/size/height"))
-	var my_size = get_size()
+	var my_size = get_size() * Vector2(scale, scale)
 	var center_offset = my_size / Vector2(2, 2)  # Half to the left, half up
 
 	# Set the action menu in the middle
@@ -46,9 +49,6 @@ func start(p_target):
 		if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
 			if vm.tooltip:
 				vm.tooltip.hide()
-
-	var scale = ProjectSettings.get_setting("escoria/platform/action_menu_scale")
-	set_scale(Vector2(scale, scale))
 
 func stop(show_tooltip=true):
 	if target != null:
