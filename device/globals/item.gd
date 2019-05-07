@@ -132,7 +132,7 @@ func input(event):
 			clicked = vm.hover_stack.front() == self
 
 			var ev_pos = get_global_mouse_position()
-			if event.button_index == BUTTON_LEFT:
+			if event.is_action("game_general"):
 				if self.inventory:
 					emit_signal("left_click_on_inventory_item", self, ev_pos, event)
 					last_lmb_dt = 0
@@ -145,7 +145,7 @@ func input(event):
 					last_lmb_dt = 0
 					waiting_dblclick = [ev_pos, event]
 
-			elif event.button_index == BUTTON_RIGHT:
+			elif event.is_action("game_rmb"):
 				if self.inventory:
 					emit_signal("right_click_on_inventory_item", self, ev_pos, event)
 				else:

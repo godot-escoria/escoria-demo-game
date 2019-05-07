@@ -17,10 +17,10 @@ func input(_viewport, event, _shape_idx):
 		if vm.hover_stack:
 			return
 
-		if event.button_index == BUTTON_LEFT:
+		if event.is_action("game_general"):
 			last_lmb_dt = 0
 			waiting_dblclick = [get_global_mouse_position(), event]
-		elif event.button_index == BUTTON_RIGHT:
+		elif event.is_action("game_rmb"):
 			emit_signal("right_click_on_bg", self, get_global_mouse_position(), event)
 
 func get_action():

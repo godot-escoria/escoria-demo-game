@@ -141,22 +141,22 @@ func _input(event):
 			# The only acceptable input here is releasing the MMB
 			if event is InputEventMouseButton:
 				if not event.pressed:
-					if event.button_index == BUTTON_MIDDLE:
+					if event.is_action("game_highlight"):
 						vm.accept_input = vm.acceptable_inputs.INPUT_ALL
 						get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "highlight_tooltip", "hide_highlight")
 						vm.tooltip.force_tooltip_visible(true)
 						vm.tooltip.update()
 			return
 		vm.acceptable_inputs.INPUT_SKIP:
-			if event is InputEventMouseButton and event.pressed and event.button_index == BUTTON_LEFT:
+			if event is InputEventMouseButton and event.pressed and event.is_action("game_general"):
 				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "events", "skipped")
 			return
 		vm.acceptable_inputs.INPUT_ALL:
 			if event is InputEventMouseButton:
 				if event.pressed:
-					if event.button_index == BUTTON_LEFT:
+					if event.is_action("game_general"):
 						get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "events", "skipped")
-					elif event.button_index == BUTTON_MIDDLE:
+					elif event.is_action("game_highlight"):
 						# Deny all input, like walking around with the highlights open
 						vm.accept_input = vm.acceptable_inputs.INPUT_NONE
 						vm.tooltip.force_tooltip_visible(false)

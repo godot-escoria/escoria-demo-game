@@ -48,7 +48,7 @@ func area_input(_viewport, event, _shape_idx):
 		return
 
 	var ev_pos = get_global_mouse_position()
-	if event.button_index == BUTTON_LEFT:
+	if event.is_action("game_general"):
 		if last_lmb_dt <= vm.DOUBLECLICK_TIMEOUT:
 			emit_signal("left_dblclick_on_trigger", self, ev_pos, event)
 			last_lmb_dt = 0
@@ -56,7 +56,7 @@ func area_input(_viewport, event, _shape_idx):
 		else:
 			last_lmb_dt = 0
 			waiting_dblclick = [ev_pos, event]
-	elif event.button_index == BUTTON_RIGHT:
+	elif event.is_action("game_rmb"):
 		emit_signal("right_click_on_trigger", self, ev_pos, event)
 
 func body_entered(body):
