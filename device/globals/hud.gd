@@ -20,6 +20,19 @@ func _on_menu_pressed():
 	printt("menu pressed")
 	get_tree().call_group("game", "handle_menu_request")
 
+func _on_menu_mouse_entered():
+	# printt("menu mouse entered")
+	if vm.tooltip and vm.tooltip.visible:
+		vm.tooltip.force_tooltip_visible(false)
+
+func _on_menu_mouse_exited():
+	# printt("menu mouse exited")
+	if vm.tooltip:
+		assert not vm.tooltip.visible
+
+		vm.tooltip.force_tooltip_visible(true)
+		vm.tooltip.update()
+
 func menu_opened():
 	hide()
 
@@ -44,6 +57,14 @@ func _ready():
 		var conn_err = $"menu".connect("pressed", self, "_on_menu_pressed")
 		if conn_err:
 			vm.report_errors("hud", ["menu.pressed -> _on_menu_pressed error: " + String(conn_err)])
+
+		conn_err = $"menu".connect("mouse_entered", self, "_on_menu_mouse_entered")
+		if conn_err:
+			vm.report_errors("hud", ["menu.mouse_entered -> _on_menu_mouse_entered error: " + String(conn_err)])
+
+		conn_err = $"menu".connect("mouse_exited", self, "_on_menu_mouse_exited")
+		if conn_err:
+			vm.report_errors("hud", ["menu.mouse_exited -> _on_menu_mouse_exited error: " + String(conn_err)])
 
 		$"menu".set_focus_mode(Control.FOCUS_NONE)
 
