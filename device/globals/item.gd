@@ -12,6 +12,9 @@ signal mouse_exit_inventory_item
 
 var area
 
+# For inventory items, when in-game menu is closed, look at this to see if we're hovered
+var rect
+
 export var tooltip = ""
 export var action = ""
 
@@ -580,6 +583,14 @@ func _find_sprites(p = null):
 		sprites.push_back(p)
 	for i in range(0, p.get_child_count()):
 		_find_sprites(p.get_child(i))
+
+func update_rect():
+	# Called from inventory.gd when items get sorted
+	assert self.inventory
+	assert area is TextureRect
+
+	# Now that we know we are TextureRect, create a Rect2 so we can check `.has_point()` when closing the menu
+	rect = Rect2(area.rect_global_position, area.rect_size)
 
 func _ready():
 	add_to_group("item")

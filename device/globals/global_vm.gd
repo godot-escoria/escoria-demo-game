@@ -165,7 +165,8 @@ func hover_push(obj):
 		need_new_hover = true
 	else:
 		if obj in hover_stack:
-			report_errors("global_vm", ["Hovering push obj " + obj.global_id + " in hover_stack!"])
+			# report_warnings("global_vm", ["Hovering push obj " + obj.global_id + " in hover_stack!"])
+			return
 
 		for i in hover_stack.size():
 			stacked = hover_stack[i]
@@ -185,11 +186,13 @@ func hover_push(obj):
 	# 	hover_debug("KEEP HOVERING " + hover_object.global_id)
 
 func hover_pop(obj):
-	if not obj in hover_stack:
-		report_errors("global_vm", ["Hovering pop obj " + obj.global_id + " not in hover_stack!"])
-
 	if not hover_stack:
-		report_errors("global_vm", ["Hovering trying to pop from empty stack"])
+		# report_warnings("global_vm", ["Hovering trying to pop from empty stack"])
+		return
+
+	if not obj in hover_stack:
+		# report_warnings("global_vm", ["Hovering pop obj " + obj.global_id + " not in hover_stack!"])
+		return
 
 	var next
 	if hover_stack[0] == obj:
@@ -207,7 +210,7 @@ func hover_pop(obj):
 	if not hover_stack:
 		# printt("\tENDING ALL HOVERS", hover_object)
 		hover_end()
-	elif next != hover_object:
+	elif next and next != hover_object:
 		# printt("\tNEW HOVER", next, next.global_id)
 		hover_begin(next)
 
@@ -238,6 +241,52 @@ func hover_end():
 func hover_clear_stack():
 	hover_stack = []
 	hover_object = null
+
+func hover_teardown():
+	# printt("hover_teardown")
+	# Popping an object with an underlying object will start hovering that one,
+	# so we must be very brutish about popping everything
+	while hover_stack.size():
+		hover_pop(hover_stack[0])
+
+func hover_rebuild():
+	# printt("hover_rebuild")
+	## Rebuild the hover stack when eg. closing the in-game menu or exiting a hud button
+
+	# `Control` nodes are not seen by `Physics2DDirectSpaceState` because of general suckyness
+	# Look at inventory first
+	for item in vm.inventory.get_node("items").get_children():
+		if not item.visible:
+			continue
+
+		assert item.rect
+		if item.rect.has_point($"/root".get_mouse_position()):
+			vm.hover_push(item)
+
+	# Don't care about scene hovers if we are over an inventory here
+	if vm.hover_stack:
+		return
+
+	# Items and NPCs and such next
+	var scene = $"/root/scene"
+	var mouse_pos = scene.get_global_mouse_position()
+	var space = scene.get_world_2d().get_direct_space_state()
+	var intersect_points = space.intersect_point(mouse_pos)
+
+	var objs = []
+	for p in intersect_points:
+		var obj
+		if p.collider.name == "area":
+			obj = p.collider.get_parent()
+		else:
+			obj = p.collider
+
+		if not obj.visible:
+			continue
+
+		# If it quacks like a duck...
+		if "global_id" in obj and obj.global_id and "tooltip" in obj and obj.tooltip:
+			vm.hover_push(obj)
 
 func camera_set_drag_margin_enabled(p_dm_h_enabled, p_dm_v_enabled):
 	if not camera:

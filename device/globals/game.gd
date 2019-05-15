@@ -24,6 +24,7 @@ var obj_action_req_dblc
 var camera
 export var camera_limits = Rect2()
 
+var hud
 var action_menu
 
 func set_mode(p_mode):
@@ -589,23 +590,8 @@ func handle_menu_request():
 		if vm.inventory and vm.inventory.blocks_tooltip():
 			vm.inventory.force_close()
 
-		# XXX: Inventory is `Control`, so mouse events are funky. We may exit the
-		# inventory item while the in-game menu is open, the exit signal is not seen by Godot,
-		# so re-entering crashes the game, as `hover_stack` has the item, but it's stale.
-		# The in-game menu also leaves the stale tooltip visible when exiting and closing.
-		# We fix this by exiting inventory items manually.
-		#
-		# Regular items' tooltips will be visible after in-game-menu-close and exiting the item
-		# until the mouse is touched (see: telon change).
-		#
-		# Inventory items' tooltips will be hidden until the mouse is touched.
-		if vm.hover_stack and vm.inventory:
-			# If we didn't `force_close()`, the inventory is not collapsible by design
-			if vm.inventory.visible:
-				for obj in vm.hover_stack:
-					if obj is esc_type.ITEM and obj.inventory:
-						# printt("manually exiting due to menu:", obj.name)
-						obj.emit_signal("mouse_exit_inventory_item", obj)
+		# Clear hover/tooltip state to be rebuilt when menu is closed
+		vm.hover_teardown()
 
 		# Finally show the menu
 		main.load_menu(ProjectSettings.get_setting("escoria/ui/in_game_menu"))
@@ -614,20 +600,22 @@ func handle_menu_request():
 
 func menu_closed():
 	printt("menu_closed")
-	if vm.hover_object:
-		printt("MENU STARTS HOVERING")
-		vm.hover_begin(vm.hover_object)
-	# if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
-	# 	for item in vm.inventory.get_node("items").get_children():
-	# 		if not item.visible:
-	# 			continue
-	# 		var item_space = item.get_node("area").get_world_2d().get_direct_space_state()
-	# 		printt(item.name)
-	# 		for shape in item_space.intersect_point($"/root/scene".get_global_mouse_position()):
-	# 			printt("\t", shape, shape["collider"].name, shape["collider"].get_parent().name)
-	# 	var space = $"/root/scene".get_world_2d().get_direct_space_state()
-	# 	for shape in space.intersect_point($"/root/scene".get_global_mouse_position()):
-	# 		printt(shape, shape["collider"].name, shape["collider"].get_parent().name)
+	## We may be hovering a HUD button which is over an item;
+	# make it look like it would in gameplay
+	if hud:
+		# These are set up in hud.gd only if the corresponding button is available
+		if hud.menu_toggle_rect:
+			if hud.menu_toggle_rect.has_point($"/root".get_mouse_position()):
+				hud.hud_button_entered()
+				return
+
+		if hud.inv_toggle_rect:
+			if hud.inv_toggle_rect.has_point($"/root".get_mouse_position()):
+				hud.hud_button_entered()
+				return
+
+	## Otherwise rebuild hover stack
+	vm.hover_rebuild()
 
 func _process(_delta):
 	if !vm.can_interact():
@@ -735,7 +723,7 @@ func load_hud():
 	var hres = vm.res_cache.get_resource(vm.get_hud_scene())
 	$"hud_layer/hud".replace_by_instance(hres)
 
-	var hud = $"hud_layer/hud"
+	hud = $"hud_layer/hud"
 
 	# Add inventory to hud layer, usually hud_minimal.tscn, if found in project settings
 	# and not present in the `game` scene's hud.

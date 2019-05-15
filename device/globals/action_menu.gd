@@ -46,18 +46,17 @@ func start(p_target):
 		target.connect("visibility_changed", self, "target_visibility_changed")
 
 		# Do not display the tooltip alongside the menu
-		if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
-			if vm.tooltip:
-				vm.tooltip.hide()
+		if vm.tooltip and ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
+			vm.tooltip.hide()  # XXX: Maybe the tooltip should hide itself automatically if the action menu is visible
+			vm.hover_teardown()
 
 func stop(show_tooltip=true):
 	if target != null:
 		target.disconnect("visibility_changed", self, "target_visibility_changed")
 	target = null
 	hide()
-	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse") and show_tooltip:
-		if vm.tooltip:
-			vm.tooltip.update()
+	if vm.tooltip and ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse") and show_tooltip:
+		vm.hover_rebuild()
 
 func set_position(pos):
 	.set_position(_clamp(pos))

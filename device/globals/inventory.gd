@@ -110,11 +110,11 @@ func sort_items():
 			var slot = count - page_size * page
 			c.show()
 			printt("showing item", c.global_id, slots.get_child(slot).get_global_position())
-			#printt("no focus")
+
 			c.set_global_position(slots.get_child(slot).get_global_position())
-			#c.set_focus_mode(Control.FOCUS_NONE)
+			c.update_rect()  # To see if we're hovered when in-game menu closes
+
 			if !focus:
-				#c.grab_focus()
 				focus = true
 		else:
 			c.hide()
@@ -167,14 +167,13 @@ func _on_open_inventory_signal(open):
 		close()
 
 func mouse_entered():
-	# Hide the tooltip unless we're dealing with a selected item
-	if not vm.current_tool:
-		vm.tooltip.hide()
+	# Must tear down the hovers or we might get side-effects when something is under
+	# a non-blocking inventory
+	vm.hover_teardown()
 
 func mouse_exited():
-	# Restore the expected state if it was reset when entering;
-	# generally ensure the tooltip is as expected
-	vm.tooltip.update()
+	# Restore the expected state if it was reset when entering
+	vm.hover_rebuild()
 
 func _ready():
 	var conn_err
