@@ -144,7 +144,7 @@ func shift(p_x, p_y, p_time, p_type):
 
 	tween.start()
 
-func target_reached(_obj, _key):
+func target_reached(_obj=null, _key=null):
 	tween.stop_all()
 
 func _process(_delta):
