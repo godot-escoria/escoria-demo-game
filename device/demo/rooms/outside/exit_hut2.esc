@@ -1,2 +1,2 @@
 :exit_scene
-change_scene "res://demo/rooms/hut1/hut1.tscn"
+change_scene "res://demo/rooms/hut2/hut2.tscn"
