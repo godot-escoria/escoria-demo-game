@@ -354,8 +354,8 @@ func inventory_has(p_obj):
 func inventory_set(p_obj, p_has):
 	set_global("i/"+p_obj, p_has)
 
-func say(params, level):
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "dialog", "say", params, level)
+func say(params, p_level):
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "dialog", "say", params, p_level)
 
 func set_hud_visible(p_visible):
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "hud", "set_visible", p_visible)
@@ -363,13 +363,13 @@ func set_hud_visible(p_visible):
 func dialog_config(params):
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "dialog", "config", params)
 
-func wait(params, level):
+func wait(params, p_level):
 	var time = float(params[0])
 	printt("wait time ", params[0], time)
 	if time <= 0:
 		return state_return
-	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "wait", time, level)
-	level.waiting = true
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "wait", time, p_level)
+	p_level.waiting = true
 	return state_yield
 
 func is_global_equal_to(name, val):
@@ -439,14 +439,14 @@ func test(cmd):
 
 	return true
 
-func dialog(params, level):
+func dialog(params, p_level):
 	set_hud_visible(false)
 
 	# Ensure tooltip is hidden. It may remain visible when the NPC finishes saying something
 	# and then `dialog` is called.
 	if tooltip:
 		tooltip.hide()
-	get_tree().call_group("dialog_dialog", "start", params, level)
+	get_tree().call_group("dialog_dialog", "start", params, p_level)
 
 #warning-ignore:unused_argument
 func end_dialog(params):
@@ -455,7 +455,7 @@ func end_dialog(params):
 
 
 func instance_level(p_event, p_root):
-	var level = {
+	var new_level = {
 		"ip": 0,
 		"instructions": p_event.ev_level,
 		"waiting": false,
@@ -467,8 +467,8 @@ func instance_level(p_event, p_root):
 	for i in range(p_event.ev_level.size()):
 		if p_event.ev_level[i].name == "label":
 			var lname = p_event.ev_level[i].params[0]
-			level.labels[lname] = i
-	return level
+			new_level.labels[lname] = i
+	return new_level
 
 func compile(p_path):
 
@@ -523,10 +523,10 @@ func add_level(p_event, p_root):
 
 	return state_call
 
-func _find_hiding_commands(level):
+func _find_hiding_commands(p_level):
 	# Recursive helper to see if we have the `say` command,
 	# so we can auto-hide a tooltip that follows the mouse
-	for command in level:
+	for command in p_level:
 		if command.name == "say":
 			return true
 		elif command.name == "change_scene":
@@ -536,10 +536,10 @@ func _find_hiding_commands(level):
 
 	return false
 
-func _find_accept_input(level):
+func _find_accept_input(p_level):
 	# Recursive helper to see if we have the `say` command,
 	# so we can set the acceptable input to INPUT_SKIP
-	for command in level:
+	for command in p_level:
 		if command.name == "say":
 			return acceptable_inputs.INPUT_SKIP
 		elif command.name == "branch":
