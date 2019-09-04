@@ -2,6 +2,8 @@ tool
 
 extends "terrain_base.gd"
 
+const DIST_EPSILON = 0.000001
+
 var scale_nodes = []
 
 onready var scale_min = $"scale_min"
@@ -52,6 +54,8 @@ func get_terrain(pos):
 			break
 
 	var nodes_dist = next.global_position.y - prev.global_position.y
+	if nodes_dist < DIST_EPSILON:
+		nodes_dist = DIST_EPSILON
 	var interp_dist = (pos.y - prev.global_position.y) / nodes_dist
 
 	var y_1 = Vector2(0, prev_target)

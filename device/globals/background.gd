@@ -17,11 +17,11 @@ func input(_viewport, event, _shape_idx):
 		if vm.hover_stack:
 			return
 
-		if event.button_index == BUTTON_LEFT:
+		if event.is_action("game_general"):
 			last_lmb_dt = 0
 			waiting_dblclick = [get_global_mouse_position(), event]
-		elif event.button_index == BUTTON_RIGHT:
-			emit_signal("right_click_on_bg")
+		elif event.is_action("game_rmb"):
+			emit_signal("right_click_on_bg", self, get_global_mouse_position(), event)
 
 func get_action():
 	return action
@@ -61,7 +61,7 @@ func _ready():
 	if conn_err:
 		vm.report_errors("item", ["area.input_event -> input error: " + String(conn_err)])
 
-	conn_err = connect("left_click_on_bg", $"../game", "ev_left_click_on_bg")
+	conn_err = connect("left_click_on_bg", $"/root/scene/game", "ev_left_click_on_bg")
 	if conn_err:
 		vm.report_errors("item", ["left_click_on_bg -> ev_left_click_on_bg error: " + String(conn_err)])
 

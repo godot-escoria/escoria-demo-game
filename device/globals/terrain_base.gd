@@ -89,8 +89,7 @@ func _do_update_texture():
 func make_local(pos):
 	pos = pos - get_position()
 	pos = pos * 1.0 / get_scale()
-	if self is Navigation2D:
-		pos = get_closest_point(pos)
+	pos = get_closest_point(pos)
 	return pos
 
 func make_global(pos):
@@ -100,9 +99,6 @@ func make_global(pos):
 
 func get_terrain_path(p_src, p_dest):
 	# printt("get path ", p_src, p_dest)
-	if !(self is Navigation2D):
-		printt("returning a line")
-		return [p_src, p_dest]
 	p_src = make_local(p_src)
 	p_dest = make_local(p_dest)
 

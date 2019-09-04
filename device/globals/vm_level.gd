@@ -168,7 +168,10 @@ func wait(params):
 
 func set_interactive(params):
 	var obj = vm.get_object(params[0])
-	vm.set_interactive(obj, params[1])
+	if obj:
+		obj.set_interactive(params[1])
+	vm.set_interactive(params[0], params[1])
+	return vm.state_return
 
 func set_speed(params):
 	var obj = vm.get_object(params[0])
@@ -274,8 +277,10 @@ func sched_event(params):
 
 func custom(params):
 	var obj = vm.get_object(params[0])
+	# Do not error out because `obj` may not be present in every room of the game,
+	# making it (probably) safe to ignore it being missing.
 	if obj == null:
-		vm.report_errors("custom", ["Object not found: " + params[0]])
+		return
 
 	if not obj.has_node("custom"):
 		vm.report_errors("custom", ["Node 'custom' not found for " + params[0]])
@@ -283,6 +288,7 @@ func custom(params):
 	obj.get_node("custom").call(params[1], params)
 
 func camera_set_target(params):
+	# Pass strings in so vm can resolve what to do with them
 	var speed = params[0]
 	if params.size() > 2:
 		var targets = []
@@ -290,7 +296,12 @@ func camera_set_target(params):
 			targets.push_back(params[i])
 		vm.camera_set_target(speed, targets)
 	else:
-		vm.camera_set_target(speed, vm.get_object(params[1]))
+		vm.camera_set_target(speed, params[1])
+
+func camera_set_drag_margin_enabled(params):
+	var dm_h_enabled = params[0]
+	var dm_v_enabled = params[0]
+	vm.camera_set_drag_margin_enabled(dm_h_enabled, dm_v_enabled)
 
 func camera_set_pos(params):
 	var speed = params[0]
@@ -329,7 +340,7 @@ func set_globals(params):
 
 func accept_input(params):
 	var p_input = params[0]
-	var input = vm.acceptable_inputs.get("INPUT_" + p_input)
+	var input = vm.acceptable_inputs["INPUT_" + p_input]
 	vm.set_accept_input(input)
 
 func autosave(params):

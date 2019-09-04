@@ -8,5 +8,8 @@ func language_changed():
 		self.text = ptext
 
 func _ready():
-	add_to_group("ui")
+	if translation_id:
+		var ptext = TranslationServer.translate(translation_id)
+		self.text = ptext
 
+	add_to_group("ui")

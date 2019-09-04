@@ -110,11 +110,11 @@ func sort_items():
 			var slot = count - page_size * page
 			c.show()
 			printt("showing item", c.global_id, slots.get_child(slot).get_global_position())
-			#printt("no focus")
+
 			c.set_global_position(slots.get_child(slot).get_global_position())
-			#c.set_focus_mode(Control.FOCUS_NONE)
+			c.update_rect()  # To see if we're hovered when in-game menu closes
+
 			if !focus:
-				#c.grab_focus()
 				focus = true
 		else:
 			c.hide()
@@ -166,6 +166,15 @@ func _on_open_inventory_signal(open):
 	else:
 		close()
 
+func mouse_entered():
+	# Must tear down the hovers or we might get side-effects when something is under
+	# a non-blocking inventory
+	vm.hover_teardown()
+
+func mouse_exited():
+	# Restore the expected state if it was reset when entering
+	vm.hover_rebuild()
+
 func _ready():
 	var conn_err
 
@@ -196,6 +205,17 @@ func _ready():
 		conn_err = $"arrow_next".connect("pressed", self, "change_page", [1])
 		if conn_err:
 			vm.report_errors("inventory", ["arrow_next.pressed -> change_page +1 error: " + String(conn_err)])
+
+	# Block problems when tooltip follows mouse and open inventory overlaps with exits
+	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse") and self is TextureRect:
+		conn_err = connect("mouse_entered", self, "mouse_entered")
+		if conn_err:
+			vm.report_errors("inventory", ["mouse_entered -> mouse_entered error: " + String(conn_err)])
+
+		conn_err = connect("mouse_exited", self, "mouse_exited")
+		if conn_err:
+			vm.report_errors("inventory", ["mouse_exited -> mouse_exited error: " + String(conn_err)])
+
 
 	var items = get_node("items")
 	for i in range(0, items.get_child_count()):

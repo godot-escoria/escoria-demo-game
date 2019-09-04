@@ -30,12 +30,9 @@ func set_scene(p_scene, run_events=true):
 	if not p_scene:
 		vm.report_errors("main", ["Trying to set empty scene"])
 
-	## Uncomment this as a starting point in case of trouble,
-	## but it occurs that yielding here will cause lag and apparently
-	## serves no real purpose
-	# Like `:open` from a door in the last room
-	# if vm.running_event:
-	# 	yield(vm, "event_done")
+	# Ensure we don't have a regular event running when changing scenes
+	if vm.running_event:
+		assert vm.running_event.ev_name == "load"
 
 	if "events_path" in p_scene and p_scene.events_path and run_events:
 		vm.load_file(p_scene.events_path)
@@ -111,7 +108,7 @@ func set_current_scene(p_scene, run_events=true):
 					vm.report_errors("main", ["vm.game has setup but no running_event"])
 
 				if vm.running_event.ev_name != "setup":
-					vm.report_errors("main", ["vm.game has setup but it is not running"])
+					vm.report_errors("main", ["vm.game has setup but it is not running: " + vm.running_event.ev_name])
 
 				yield(vm, "event_done")
 		else:
@@ -141,14 +138,32 @@ func wait(time, level):
 func _input(event):
 	match vm.accept_input:
 		vm.acceptable_inputs.INPUT_NONE:
+			# The only acceptable input here is releasing the MMB
+			if event is InputEventMouseButton:
+				if not event.pressed:
+					if event.is_action("game_highlight"):
+						vm.accept_input = vm.acceptable_inputs.INPUT_ALL
+						if vm.tooltip:
+							get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "highlight_tooltip", "hide_highlight")
+							vm.tooltip.force_tooltip_visible(true)
+							vm.tooltip.update()
 			return
 		vm.acceptable_inputs.INPUT_SKIP:
-			if event is InputEventMouseButton and event.pressed and event.button_index == BUTTON_LEFT:
+			if event is InputEventMouseButton and event.pressed and event.is_action("game_general"):
 				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "events", "skipped")
 			return
 		vm.acceptable_inputs.INPUT_ALL:
-			if event is InputEventMouseButton and event.pressed and event.button_index == BUTTON_LEFT:
-				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "events", "skipped")
+			if event is InputEventMouseButton:
+				if event.pressed:
+					if event.is_action("game_general"):
+						get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "events", "skipped")
+					elif event.is_action("game_highlight"):
+						# Deny all input, like walking around with the highlights open
+						vm.accept_input = vm.acceptable_inputs.INPUT_NONE
+						get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "player", "halt")
+						if vm.tooltip:
+							vm.tooltip.force_tooltip_visible(false)
+							get_tree().call_group_flags(SceneTree.GROUP_CALL_REALTIME, "highlight_tooltip", "show_highlight")
 
 			# CTRL+F12
 			if (event is InputEventKey and event.pressed and event.control and event.scancode==KEY_F12):

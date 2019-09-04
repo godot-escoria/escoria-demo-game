@@ -17,7 +17,7 @@ camera_limits = Rect2( 0, 0, 0, 0 )
 
 [node name="dialog_layer" type="CanvasLayer" parent="." index="0"]
 
-layer = 1
+layer = 128
 offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
@@ -27,15 +27,13 @@ transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
 [node name="hud_layer" type="CanvasLayer" parent="." index="1"]
 
-layer = 1
+layer = 126
 offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
 transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
 [node name="hud" parent="hud_layer" index="0" instance_placeholder="res://ui/hud_minimal.tscn"]
-
-mouse_default_cursor_shape = 0
 
 [node name="wait_timer" type="Timer" parent="." index="2"]
 

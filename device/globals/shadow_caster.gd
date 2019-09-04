@@ -1,7 +1,7 @@
 extends Area2D
 
 var light
-var shadow
+var shadows = {}
 var polygon
 
 var bkp_mask
@@ -30,8 +30,22 @@ func change_light_mask(body, cull_mask):
 		if "light_mask" in child:
 			change_light_mask(child, cull_mask)
 
+func get_id(body):
+	var body_id
+
+	if not "global_id" in body:
+		assert body is esc_type.PLAYER
+		body_id = "player"
+	else:
+		body_id = body.global_id
+
+	return body_id
+
 func body_entered(body):
 	if not light.visible:
+		return
+
+	if not self.visible:
 		return
 
 	printt(body.name, " entered ", get_parent().name)
@@ -41,15 +55,22 @@ func body_entered(body):
 		change_light_mask(body, light.range_item_cull_mask)
 
 	if body.has_node("shadow"):
-		shadow = body.get_node("shadow").duplicate()
-		body.add_child(shadow)
-		shadow.start(self, polygon)
+		var body_id = get_id(body)
+
+		shadows[body_id] = body.get_node("shadow").duplicate()
+		body.add_child(shadows[body_id])
+		shadows[body_id].start(self, polygon)
 
 func body_exited(body):
 	if not light.visible:
 		return
 
-	if not shadow:
+	if not self.visible:
+		return
+
+	var body_id = get_id(body)
+
+	if not body_id in shadows:
 		vm.report_errors("shadow_caster", [body.name + " leaving " + get_parent().name + " with no shadow"])
 
 	printt(body.name, " exited  ", get_parent().name)
@@ -58,7 +79,8 @@ func body_exited(body):
 		change_light_mask(body, bkp_mask)
 		bkp_mask = null
 
-	shadow.stop()
+	shadows[body_id].stop()
+	shadows.erase(body_id)
 
 func _ready():
 	var conn_err

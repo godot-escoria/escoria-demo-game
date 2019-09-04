@@ -50,6 +50,10 @@ func resolve_target_pos():
 
 	return target_pos
 
+func set_drag_margin_enabled(p_dm_h_enabled, p_dm_v_enabled):
+	self.drag_margin_h_enabled = p_dm_h_enabled
+	self.drag_margin_v_enabled = p_dm_v_enabled
+
 func set_target(p_speed, p_target):
 	speed = p_speed
 	target = p_target
@@ -62,7 +66,9 @@ func set_target(p_speed, p_target):
 		var time = self.global_position.distance_to(target_pos) / speed
 
 		if tween.is_active():
-			tween.stop_all()
+			var tweenstat = String(tween.tell()) + "/" + String(tween.get_runtime())
+			vm.report_warnings("camera", ["Tween still active running camera_set_target: " + tweenstat])
+			tween.emit_signal("tween_completed")
 
 		tween.interpolate_property(self, "global_position", self.global_position, target_pos, time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 
@@ -79,7 +85,9 @@ func set_camera_zoom(p_zoom_level, p_time):
 		self.zoom = zoom_target
 	else:
 		if tween.is_active():
-			tween.stop_all()
+			var tweenstat = String(tween.tell()) + "/" + String(tween.get_runtime())
+			vm.report_warnings("camera", ["Tween still active running camera_set_zoom: " + tweenstat])
+			tween.emit_signal("tween_completed")
 
 		tween.interpolate_property(self, "zoom", self.zoom, zoom_target, zoom_time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 
@@ -100,12 +108,15 @@ func push(p_target, p_time, p_type):
 		camera_pos_coords = target.global_position
 
 	if time == 0:
+		self.global_position = camera_pos_coords
+
 		if camera_pos and camera_pos is Camera2D:
 			self.zoom = camera_pos.zoom
-		self.global_position = camera_pos_coords
 	else:
 		if tween.is_active():
-			tween.stop_all()
+			var tweenstat = String(tween.tell()) + "/" + String(tween.get_runtime())
+			vm.report_warnings("camera", ["Tween still active running camera_push: " + tweenstat])
+			tween.emit_signal("tween_completed")
 
 		if camera_pos and camera_pos is Camera2D:
 			tween.interpolate_property(self, "zoom", self.zoom, camera_pos.zoom, time, tween.get(type), Tween.EASE_IN_OUT)
@@ -125,13 +136,15 @@ func shift(p_x, p_y, p_time, p_type):
 	target = new_pos
 
 	if tween.is_active():
-		tween.stop_all()
+		var tweenstat = String(tween.tell()) + "/" + String(tween.get_runtime())
+		vm.report_warnings("camera", ["Tween still active running camera_shift: " + tweenstat])
+		tween.emit_signal("tween_completed")
 
 	tween.interpolate_property(self, "global_position", self.global_position, new_pos, time, tween.get(type), Tween.EASE_IN_OUT)
 
 	tween.start()
 
-func target_reached(_obj, _key):
+func target_reached(_obj=null, _key=null):
 	tween.stop_all()
 
 func _process(_delta):

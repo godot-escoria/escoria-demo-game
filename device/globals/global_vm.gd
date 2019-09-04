@@ -1,5 +1,15 @@
 extends Node
 
+class QueuedEvent:
+	var qe_time
+	var qe_objname
+	var qe_event
+
+	func _init(p_time, p_objname, p_event):
+		qe_time = p_time
+		qe_objname = p_objname
+		qe_event = p_event
+
 var running_event
 
 var stack = []
@@ -23,6 +33,7 @@ var state_jump = 5  # vm_level.gd
 
 var states = {}
 var actives = {}
+var interactives = {}
 
 var game_size
 
@@ -143,8 +154,8 @@ func hover_debug(s):
 	printt("HOVER DEBUG: " + s, ids)
 
 func hover_push(obj):
-	if not obj is esc_type.ITEM and not obj is esc_type.TRIGGER:
-		report_errors("global_vm", ["Trying to hover " + obj.global_id + " which is not ITEM or TRIGGER"])
+	if not obj is esc_type.ITEM and not obj is esc_type.TRIGGER and not obj is esc_type.NPC:
+		report_errors("global_vm", ["Trying to hover " + obj.global_id + " which is not ITEM, TRIGGER or NPC"])
 
 	var stacked
 	var for_else = true
@@ -154,7 +165,8 @@ func hover_push(obj):
 		need_new_hover = true
 	else:
 		if obj in hover_stack:
-			report_errors("global_vm", ["Hovering push obj " + obj.global_id + " in hover_stack!"])
+			# report_warnings("global_vm", ["Hovering push obj " + obj.global_id + " in hover_stack!"])
+			return
 
 		for i in hover_stack.size():
 			stacked = hover_stack[i]
@@ -174,11 +186,13 @@ func hover_push(obj):
 	# 	hover_debug("KEEP HOVERING " + hover_object.global_id)
 
 func hover_pop(obj):
-	if not obj in hover_stack:
-		report_errors("global_vm", ["Hovering pop obj " + obj.global_id + " not in hover_stack!"])
-
 	if not hover_stack:
-		report_errors("global_vm", ["Hovering trying to pop from empty stack"])
+		# report_warnings("global_vm", ["Hovering trying to pop from empty stack"])
+		return
+
+	if not obj in hover_stack:
+		# report_warnings("global_vm", ["Hovering pop obj " + obj.global_id + " not in hover_stack!"])
+		return
 
 	var next
 	if hover_stack[0] == obj:
@@ -196,14 +210,14 @@ func hover_pop(obj):
 	if not hover_stack:
 		# printt("\tENDING ALL HOVERS", hover_object)
 		hover_end()
-	elif next != hover_object:
+	elif next and next != hover_object:
 		# printt("\tNEW HOVER", next, next.global_id)
 		hover_begin(next)
 
 func hover_begin(obj):
 	var escoria_types = load("res://globals/escoria_types.gd")
-	if not obj is escoria_types.ITEM and not obj is escoria_types.TRIGGER:
-		report_errors("global_vm", ["Trying to hover " + obj.global_id + " which is not ITEM or TRIGGER"])
+	if not obj is escoria_types.ITEM and not obj is escoria_types.TRIGGER and not obj is escoria_types.NPC:
+		report_errors("global_vm", ["Trying to hover " + obj.global_id + " which is not ITEM, TRIGGER or NPC"])
 
 	hover_object = obj
 
@@ -228,19 +242,76 @@ func hover_clear_stack():
 	hover_stack = []
 	hover_object = null
 
+func hover_teardown():
+	# printt("hover_teardown")
+	# Popping an object with an underlying object will start hovering that one,
+	# so we must be very brutish about popping everything
+	while hover_stack.size():
+		hover_pop(hover_stack[0])
+
+func hover_rebuild():
+	# printt("hover_rebuild")
+	## Rebuild the hover stack when eg. closing the in-game menu or exiting a hud button
+
+	# `Control` nodes are not seen by `Physics2DDirectSpaceState` because of general suckyness
+	# Look at inventory first
+	for item in vm.inventory.get_node("items").get_children():
+		if not item.visible:
+			continue
+
+		assert item.rect
+		if item.rect.has_point($"/root".get_mouse_position()):
+			vm.hover_push(item)
+
+	# Don't care about scene hovers if we are over an inventory here
+	if vm.hover_stack:
+		return
+
+	# Items and NPCs and such next
+	var scene = $"/root/scene"
+	var mouse_pos = scene.get_global_mouse_position()
+	var space = scene.get_world_2d().get_direct_space_state()
+	var intersect_points = space.intersect_point(mouse_pos)
+
+	var objs = []
+	for p in intersect_points:
+		var obj
+		if p.collider.name == "area":
+			obj = p.collider.get_parent()
+		else:
+			obj = p.collider
+
+		if not obj.visible:
+			continue
+
+		# If it quacks like a duck...
+		if "global_id" in obj and obj.global_id and "tooltip" in obj and obj.tooltip:
+			vm.hover_push(obj)
+
+func camera_set_drag_margin_enabled(p_dm_h_enabled, p_dm_v_enabled):
+	if not camera:
+		return
+
+	camera.set_drag_margin_enabled(p_dm_h_enabled, p_dm_v_enabled)
+
 func camera_set_target(p_speed, p_target):
 	if not camera:
 		return
 
+	assert typeof(p_target) in [TYPE_VECTOR2, TYPE_ARRAY, TYPE_STRING, TYPE_NIL]
+
 	var target = p_target
 
-	# change_scene will pass in `null`, see if it's the player
+	# change_scene will pass in TYPE_NIL, see if it's the player
 	if not target:
 		target = get_object("player")
 
+	# So no player was found and nothing else was given, error out
 	if not target:
 		report_errors("global_vm", ["No valid camera target given: " + p_target])
-	elif typeof(target) == TYPE_ARRAY:
+
+	# Vector2 goes unprocessed, but Array not so much; `camera` expects it to contain objects
+	if typeof(target) == TYPE_ARRAY:
 		for i in range(target.size()):
 			var n = target[i]
 			var obj = get_object(n)
@@ -249,12 +320,18 @@ func camera_set_target(p_speed, p_target):
 				report_errors("global_vm", ["Camera target array contains invalid name " + n])
 
 			target[i] = obj
+	elif typeof(target) == TYPE_STRING:
+		target = get_object(target)
+		if not target:
+			report_errors("global_vm", ["Camera target not found: " + cam_target])
+	else:
+		assert typeof(target) == TYPE_VECTOR2
 
 	# Set state for savegames
 	cam_target = p_target
 
 	# Kick it
-	camera.set_target(p_speed, p_target)
+	camera.set_target(p_speed, target)
 
 func camera_set_zoom(p_zoom_level, p_time):
 	camera.set_camera_zoom(p_zoom_level, p_time)
@@ -471,6 +548,19 @@ func _find_accept_input(level):
 	return acceptable_inputs.INPUT_ALL
 
 func run_event(p_event):
+	# If a new event is triggered while another is running, defer it by
+	# appending its code into the current one, as a kind of "unroll" or "unpack".
+	#
+	# `:start` is a special built-in, it should be ignored
+	if running_event and running_event.ev_name != "start":
+		# Without this, something like `:setup | CUT_BLACK` with a `teleport`
+		# causing `:exit` or `:enter` would never be properly finished and the screen
+		# would remain black.
+		printt("run_event, defer:", p_event.ev_name, p_event.ev_flags, accept_input)
+		# NOTE: The added code will be the last thing run in the current event
+		add_level(p_event, false)
+		return
+
 	# If we're accepting input, see if we need to set SKIP or ALL
 	if accept_input != acceptable_inputs.INPUT_NONE:
 		accept_input = _find_accept_input(p_event.ev_level)
@@ -502,8 +592,8 @@ func run_event(p_event):
 
 		add_level(p_event, true)
 
-func sched_event(time, obj, event):
-	event_queue.push_back([time, obj, event])
+func sched_event(time, objname, event):
+	event_queue.push_back(QueuedEvent.new(time, objname, event))
 
 func event_done(ev_name):
 	if ev_name != running_event.ev_name:
@@ -522,12 +612,16 @@ func event_done(ev_name):
 		# because that would cause the hud to flash between the events
 		# and treat other such flags similarly
 		if event_queue.size():
-			# Timing can be -0.0019 or whatever, so just `int()` it to see if it's immediate
-			var time = int(event_queue[-1][0])
-			if time == 0:
-				var obj = get_object(event_queue[-1][1])
-				var next_ev_name = event_queue[-1][2]
-				var next_event = obj.event_table[next_ev_name]
+			var queued_next
+			for e in event_queue:
+				if not queued_next:
+					queued_next = e
+				elif e.qe_time < queued_next.qe_time:
+					queued_next = e
+
+			if queued_next.qe_time <= 0:
+				var obj = get_object(queued_next.qe_objname)
+				var next_event = obj.event_table[queued_next.qe_event]
 
 				if not "NO_HUD" in next_event.ev_flags:
 					set_hud_visible(true)
@@ -660,6 +754,10 @@ func register_object(name, val, force=false):
 		if name in actives:
 			val.set_active(actives[name])
 
+	if val.has_method("set_interactive"):
+		if name in interactives:
+			val.set_interactive(interactives[name])
+
 func get_registered_objects():
 	return objects
 
@@ -678,9 +776,8 @@ func set_state(name, state):
 func set_active(name, active):
 	actives[name] = active
 
-func set_interactive(obj, p_interactive):
-	if obj is esc_type.ITEM:
-		obj.area.visible = p_interactive
+func set_interactive(name, interactive):
+	interactives[name] = interactive
 
 func set_speed(obj, speed):
 	if obj is esc_type.INTERACTIVE:
@@ -731,8 +828,8 @@ func object_exit_scene(name):
 
 func check_event_queue(time):
 	for e in event_queue:
-		if e[0] > 0:
-			e[0] -= time
+		if e.qe_time > 0:
+			e.qe_time -= time
 
 	if !can_interact() or running_event:
 		return
@@ -740,10 +837,10 @@ func check_event_queue(time):
 	var i = event_queue.size()
 	while i:
 		i -= 1
-		if event_queue[i][0] <= 0:
-			var obj = get_object(event_queue[i][1])
-			var ev_name = event_queue[i][2]
-			run_event(obj.event_table[ev_name])
+		var queued_next = event_queue[i]
+		if queued_next.qe_time <= 0:
+			var obj = get_object(queued_next.qe_objname)
+			run_event(obj.event_table[queued_next.qe_event])
 			event_queue.remove(i)
 			break
 
@@ -754,6 +851,7 @@ func _process(time):
 
 func run_top():
 	var top = stack[stack.size()-1]
+	# printt("-----> TOP:", top)
 	var ret = level.resume(top)
 	if ret == state_return || ret == state_break:
 		stack.remove(stack.size()-1)
@@ -813,6 +911,14 @@ func change_scene(params, context, run_events=true):
 	main.clear_scene()
 	camera = null
 	event_queue = []
+
+	# Regular events need to be reset immediately, so we don't
+	# accidentally `yield()` on them, for performance reasons.
+	# This does not affect `stack` so execution is fine anyway.
+	if running_event and running_event.ev_name != "load":
+		emit_signal("event_done", running_event.ev_name)
+		running_event = null
+
 	var res = res_cache.get_resource(params[0])
 	res_cache.clear()
 	var scene = res.instance()
@@ -957,12 +1063,20 @@ func save():
 		objs[k] = true
 	for k in actives.keys():
 		objs[k] = true
+	for k in interactives.keys():
+		objs[k] = true
 	for k in objs.keys():
 		if k in actives:
 			var s = "true"
 			if !actives[k]:
 				s = "false"
 			ret.append("set_active " + k + " " + s + "\n")
+
+		if k in interactives:
+			var s = "true"
+			if !interactives[k]:
+				s = "false"
+			ret.append("set_interactive " + k + " " + s + "\n")
 
 		if k in states && states[k] != "default":
 			ret.append("set_state " + k + " " + states[k] + "\n")
@@ -1007,10 +1121,20 @@ func save():
 			if typeof(cam_target) == TYPE_ARRAY:
 				for t in cam_target:
 					tlist = tlist + " " + t
-			elif "global_id" in cam_target and not cam_target is esc_type.PLAYER:
-				tlist = tlist + " " + cam_target.global_id
-			else:
+			elif typeof(cam_target) == TYPE_STRING:
+				var target_obj = get_object(cam_target)
+
+				if "global_id" in target_obj:
+					tlist = tlist + " " + target_obj.global_id
+				elif cam_target == "player":
+					tlist = tlist + " player"
+				else:
+					report_warnings("global_vm", ["Unknown cam_target " + str(cam_target) + ", defaulting to player"])
+					tlist = tlist + " player"
+			elif cam_target is esc_type.PLAYER:
 				tlist = tlist + " player"
+			else:
+				report_errors("global_vm", ["Messed up cam_target " + str(cam_target)])
 
 			ret.append("camera_set_target 0" + tlist + "\n")
 
@@ -1027,7 +1151,7 @@ func save():
 	ret.append("camera_set_zoom " + str(camera.zoom.x) + "\n")
 
 	for e in event_queue:
-		ret.append("sched_event " + str(e[0]) + " " + str(e[1]) + " " + str(e[2]) + "\n")
+		ret.append("sched_event " + str(e.qe_time) + " " + e.qe_objname + " " + e.qe_event + "\n")
 
 	ret.append("\ncut_scene telon fade_in\n")
 
@@ -1046,6 +1170,7 @@ func clear():
 	objects = {}
 	states = {}
 	actives = {}
+	interactives = {}
 	event_queue = []
 	continue_enabled = true
 	loading_game = false

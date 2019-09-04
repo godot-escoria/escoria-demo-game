@@ -1,19 +1,18 @@
-extends "res://globals/interactive.gd"
+tool
 
-signal left_click_on_item
-signal left_dblclick_on_item
-signal left_click_on_inventory_item
-signal right_click_on_item
-signal right_click_on_inventory_item
-signal mouse_enter_item
-signal mouse_enter_inventory_item
-signal mouse_exit_item
-signal mouse_exit_inventory_item
+extends KinematicBody2D
 
-var area
+signal left_click_on_npc
+signal left_dblclick_on_npc
+signal right_click_on_npc
+signal mouse_enter_npc
+signal mouse_exit_npc
 
-# For inventory items, when in-game menu is closed, look at this to see if we're hovered
-var rect
+#warning-ignore:unused_class_variable
+export var global_id = ""                                  # API property
+#warning-ignore:unused_class_variable
+export(String, FILE, ".esc") var events_path = ""          # API property
+export var active = true setget set_active,get_active
 
 export var tooltip = ""
 export var action = ""
@@ -21,7 +20,6 @@ export var action = ""
 export(NodePath) var interact_position = null
 #warning-ignore:unused_class_variable
 export var use_combine = false           # game.gd
-export var inventory = false
 #warning-ignore:unused_class_variable
 export var use_action_menu = true        # game.gd
 
@@ -36,7 +34,12 @@ export var dynamic_z_index = true
 export var speed = 300
 export var scale_on_map = false
 export var light_on_map = false setget set_light_on_map
-export var is_interactive = true
+
+var check_maps   # set by lightmap_area.gd
+
+var vm  # A tool script cannot refer to singletons in Godot
+
+var area
 
 var orig_speed
 
@@ -67,6 +70,40 @@ var audio
 # Godot doesn't do doubleclicks so we must
 var last_lmb_dt = 0
 var waiting_dblclick = false
+
+# This'll contain a highlight tooltip if `tooltip_pos` is set as a child
+var highlight_tooltip
+
+var event_table = {}
+
+var width = float(ProjectSettings.get("display/window/size/width"))
+var height = float(ProjectSettings.get("display/window/size/height"))
+
+func run_event(p_ev):
+	vm.emit_signal("run_event", p_ev)
+
+func activate(p_action, p_param = null):
+	if p_param != null:
+		p_action = p_action + " " + p_param.global_id
+
+	if p_action in event_table:
+		run_event(event_table[p_action])
+	else:
+		return false
+	return true
+
+func set_active(p_active):
+	active = p_active
+	if p_active:
+		show()
+	else:
+		hide()
+
+func set_interactive(p_interactive):
+	self.area.visible = p_interactive
+
+func get_active():
+	return active
 
 func get_dialog_pos():
 	if has_node("dialog_pos"):
@@ -113,22 +150,13 @@ func get_action():
 
 func mouse_enter():
 	_check_focus(true, false)
-	if self.inventory:
-		emit_signal("mouse_enter_inventory_item", self)
-	else:
-		emit_signal("mouse_enter_item", self)
+	emit_signal("mouse_enter_npc", self)
 
 func mouse_exit():
 	_check_focus(false, false)
-	if self.inventory:
-		emit_signal("mouse_exit_inventory_item", self)
-	else:
-		emit_signal("mouse_exit_item", self)
+	emit_signal("mouse_exit_npc", self)
 
 func area_input(_viewport, event, _shape_idx):
-	input(event)
-
-func input(event):
 	# TODO: Expand this for other input events than mouse
 	if event is InputEventMouseButton || event.is_action("ui_accept"):
 		if event.is_pressed():
@@ -136,12 +164,8 @@ func input(event):
 
 			var ev_pos = get_global_mouse_position()
 			if event.is_action("game_general"):
-				if self.inventory:
-					emit_signal("left_click_on_inventory_item", self, ev_pos, event)
-					last_lmb_dt = 0
-					waiting_dblclick = null
-				elif last_lmb_dt <= vm.DOUBLECLICK_TIMEOUT:
-					emit_signal("left_dblclick_on_item", self, ev_pos, event)
+				if last_lmb_dt <= vm.DOUBLECLICK_TIMEOUT:
+					emit_signal("left_dblclick_on_npc", self, ev_pos, event)
 					last_lmb_dt = 0
 					waiting_dblclick = null
 				else:
@@ -149,10 +173,7 @@ func input(event):
 					waiting_dblclick = [ev_pos, event]
 
 			elif event.is_action("game_rmb"):
-				if self.inventory:
-					emit_signal("right_click_on_inventory_item", self, ev_pos, event)
-				else:
-					emit_signal("right_click_on_item", self, ev_pos, event)
+				emit_signal("right_click_on_npc", self, ev_pos, event)
 			_check_focus(true, true)
 
 func _check_focus(focus, pressed):
@@ -175,7 +196,7 @@ func get_tooltip(hint=null):
 	# if `development_lang` matches `text_lang`, don't translate
 	if TranslationServer.get_locale() == ProjectSettings.get_setting("escoria/platform/development_lang"):
 		if not global_id and ProjectSettings.get_setting("escoria/platform/force_tooltip_global_id"):
-			vm.report_errors("item", ["Missing global_id in item with tooltip '" + tooltip + "'"])
+			vm.report_errors("npc", ["Missing global_id in npc with tooltip '" + tooltip + "'"])
 		return tooltip
 
 	# Otherwise try to return the translated tooltip
@@ -193,11 +214,55 @@ func get_tooltip(hint=null):
 	# But if translation isn't found, ensure it can be translated and return placeholder
 	if translated == tooltip_identifier:
 		if not global_id and ProjectSettings.get_setting("escoria/platform/force_tooltip_global_id"):
-			vm.report_errors("item", ["Missing global_id in item with tooltip '" + tooltip + "'"])
+			vm.report_errors("npc", ["Missing global_id in npc with tooltip '" + tooltip + "'"])
 
 		return tooltip_identifier
 
 	return translated
+
+func show_highlight():
+	if not self.visible:
+		return
+
+	if not self.area.visible:
+		return
+
+	if not has_node("tooltip_pos"):
+		return
+
+	highlight_tooltip = vm.tooltip.duplicate()
+	assert highlight_tooltip != vm.tooltip
+
+	var tt_pos = $"tooltip_pos".global_position
+	var tt_text = get_tooltip()
+
+	highlight_tooltip.highlight_only = true
+	highlight_tooltip.follow_mouse = false
+	highlight_tooltip.text = tt_text
+
+	tt_pos = vm.camera.zoom_transform.xform(tt_pos)
+
+	# Bail out if we're hopelessly out-of-view
+	if tt_pos.x < 0 or tt_pos.x > width or tt_pos.y < 0 or tt_pos.y > height:
+		highlight_tooltip.free()
+		highlight_tooltip = null
+		return
+
+	vm.tooltip.get_parent().add_child(highlight_tooltip)
+
+	highlight_tooltip.set_position(tt_pos)
+
+	highlight_tooltip.show()
+
+func hide_highlight():
+	if not highlight_tooltip:
+		return
+
+	assert highlight_tooltip.visible
+
+	highlight_tooltip.hide()
+	highlight_tooltip.free()
+	highlight_tooltip = null
 
 func global_changed(name):
 	var ev = "global_changed "+name
@@ -251,12 +316,12 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 
 func play_snd(p_snd, p_loop=false):
 	if !audio:
-		vm.report_errors("item", ["play_snd called with no audio node"])
+		vm.report_errors("npc", ["play_snd called with no audio node"])
 		return
 
 	var resource = load(p_snd)
 	if !resource:
-		vm.report_errors("item", ["play_snd resource not found " + p_snd])
+		vm.report_errors("npc", ["play_snd resource not found " + p_snd])
 		return
 
 	audio.stream = resource
@@ -266,7 +331,7 @@ func play_snd(p_snd, p_loop=false):
 	#_debug_states()
 
 func set_speaking(p_speaking):
-	printt("item set speaking! ", global_id, p_speaking, state)
+	printt("npc set speaking! ", global_id, p_speaking, state)
 	#print_stack()
 	if !animation:
 		return
@@ -311,6 +376,10 @@ func teleport_pos(x, y, angle=null):
 	_update_terrain(true)
 
 func _update_terrain(need_z_update=false):
+	# Objects in the scene tree will issue errors unless this is conditional
+	if not terrain:
+		return
+
 	var pos = get_position()
 
 	if dynamic_z_index and need_z_update:
@@ -319,21 +388,12 @@ func _update_terrain(need_z_update=false):
 	if !scale_on_map && !light_on_map:
 		return
 
-	# Items in the scene tree will issue errors unless this is conditional
-	if not terrain:
-		return
-
 	var scale_range
 	if terrain_is_scalenodes:
 		scale_range = terrain.get_terrain(pos)
-	else:
+	elif check_maps:
 		var color = terrain.get_terrain(pos)
 		scale_range = terrain.get_scale_range(color.b)
-
-	# The item's - as the player's - `animations` define the direction
-	# as 1 or -1. This is stored as `pose_scale` and the easiest way
-	# to flip a node is multiply its x-axis scale.
-	scale_range.x *= pose_scale
 
 	if scale_on_map and scale_range != get_scale():
 		# Check if `interact_pos` is a child of ours, and if so,
@@ -358,16 +418,29 @@ func _update_terrain(need_z_update=false):
 		if camera_global_position:
 			camera_pos.global_position = camera_global_position
 
-	if light_on_map:
+	if light_on_map and check_maps:
 		var c = terrain.get_light(pos)
 		if c:
 			modulate(c)
 
+	# The npc's - as the player's - `animations` define the direction
+	# as 1 or -1. This is stored as `pose_scale` and the easiest way
+	# to flip a node is multiply its x-axis scale.
+	if pose_scale == -1 and $"sprite".scale.x > 0:
+		$"sprite".scale.x *= pose_scale
+		$"area".scale.x *= pose_scale
+	elif pose_scale == 1 and $"sprite".scale.x < 0:
+		$"sprite".scale.x *= -1
+		$"area".scale.x *= -1
+
 func _check_bounds():
+	printt("_check_bounds", terrain)
 	#printt("checking bouds for pos ", get_position(), terrain.is_solid(get_position()))
 	if !scale_on_map:
 		return
 	if !Engine.is_editor_hint():
+		return
+	if !terrain:
 		return
 	if terrain.is_solid(get_position()):
 		if has_node("terrain_icon"):
@@ -384,9 +457,12 @@ func _check_bounds():
 func _notification(what):
 	if !is_inside_tree() || !Engine.is_editor_hint():
 		return
-	if what == Node2D.NOTIFICATION_TRANSFORM_CHANGED:
-		_update_terrain()
-		_check_bounds()
+	if what == CanvasItem.NOTIFICATION_TRANSFORM_CHANGED:
+		call_deferred("_editor_transform_changed")
+
+func _editor_transform_changed():
+	_update_terrain()
+	_check_bounds()
 
 func hint_request():
 	if !get_active():
@@ -411,7 +487,7 @@ func setup_ui_anim():
 
 	var conn_err = vm.connect("global_changed", self, "global_changed")
 	if conn_err:
-		vm.report_errors("item", ["global_changed -> global_changed error: " + String(conn_err)])
+		vm.report_errors("npc", ["global_changed -> global_changed error: " + String(conn_err)])
 
 func set_light_on_map(p_light):
 	light_on_map = p_light
@@ -496,7 +572,7 @@ func _physics_process(dt):
 	last_lmb_dt += dt
 
 	if waiting_dblclick and last_lmb_dt > vm.DOUBLECLICK_TIMEOUT:
-		emit_signal("left_click_on_item", self, waiting_dblclick[0], waiting_dblclick[1])
+		emit_signal("left_click_on_npc", self, waiting_dblclick[0], waiting_dblclick[1])
 		last_lmb_dt = 0
 		waiting_dblclick = null
 
@@ -540,7 +616,7 @@ func _process(time):
 					animation.play(animations.directions[last_dir])
 				pose_scale = animations.directions[last_dir+1]
 
-		# If a z-indexed item is moved, forcibly update its z index
+		# If a z-indexed npc is moved, forcibly update its z index
 		_update_terrain(true)
 
 func turn_to(deg):
@@ -584,104 +660,71 @@ func _find_sprites(p = null):
 	for i in range(0, p.get_child_count()):
 		_find_sprites(p.get_child(i))
 
-func update_rect():
-	# Called from inventory.gd when items get sorted
-	assert self.inventory
-	assert area is TextureRect
-
-	# Now that we know we are TextureRect, create a Rect2 so we can check `.has_point()` when closing the menu
-	rect = Rect2(area.rect_global_position, area.rect_size)
-
 func _ready():
-	add_to_group("item")
+	add_to_group("npc")
+	add_to_group("highlight_tooltip")
+
+	if has_node("../terrain"):
+		terrain = $"../terrain"
+		terrain_is_scalenodes = terrain is preload("terrain_scalenodes.gd")
+
+	if interact_position:
+		interact_pos = get_node(interact_position)
+	elif has_node("interact_pos"):
+		interact_pos = $"interact_pos"
+
+	if has_node("camera_pos"):
+		camera_pos = $"camera_pos"
+
+	_find_sprites(self)
+
+	# Initialize Node2D items' terrain status like z-index.
+	# Stationary items will be set up correctly and
+	# if an npc moves, it will handle this in its _process() loop
+	_update_terrain(true)
 
 	if Engine.is_editor_hint():
 		return
 
+	vm = $"/root/vm"
+
 	var conn_err
 
-	# {{{ Check for interaction area and connect signals only if the item is interactive
-	if is_interactive:
-		if has_node("area"):
-			area = get_node("area")
-			# XXX: Inventory items as Area2D did not work. z-index?
-			if not self.inventory and not area is Area2D:
-				vm.report_errors("item", ["Child area is not Area2D in " + self.global_id])
-			elif self.inventory and not area is TextureRect:
-				vm.report_errors("inventory item", ["Child area is not TextureRect in " + self.global_id])
-		else:
-			area = self
-			if area is Position2D:
-				vm.report_warnings("item", ["The Position2D node named " + self.global_id + " is probably erroneously marked as interactive."])
-			elif not area is Area2D and not area is Position2D:
-				vm.report_errors("item", ["Background item area is not Area2D nor Position2D in " + self.global_id])
+	# {{{ Check for interaction area and connect signals only if the npc is interactive
+	area = get_node("area")
 
-		if ClassDB.class_has_signal(area.get_class(), "input_event"):
-			conn_err = area.connect("input_event", self, "area_input")
-			if conn_err:
-				vm.report_errors("item", ["area.input_event -> area_input error: " + String(conn_err)])
-		elif ClassDB.class_has_signal(area.get_class(), "gui_input"):
-			conn_err = area.connect("gui_input", self, "input")
-			if conn_err:
-				vm.report_errors("item", ["area.gui_input -> input error: " + String(conn_err)])
-		else:
-			vm.report_warnings("item", ["No input events possible for global_id " + global_id])
+	conn_err = area.connect("input_event", self, "area_input")
+	if conn_err:
+		vm.report_errors("npc", ["area.input_event -> area_input error: " + String(conn_err)])
 
-		# These signals proxy the proper signals for regular and inventory items
-		if ClassDB.class_has_signal(area.get_class(), "mouse_entered"):
-			conn_err = area.connect("mouse_entered", self, "mouse_enter")
-			if conn_err:
-				vm.report_errors("item", ["mouse_entered -> mouse_enter error: " + String(conn_err)])
+	conn_err = area.connect("mouse_entered", self, "mouse_enter")
+	if conn_err:
+		vm.report_errors("npc", ["mouse_entered -> mouse_enter error: " + String(conn_err)])
 
-			conn_err = area.connect("mouse_exited", self, "mouse_exit")
-			if conn_err:
-				vm.report_errors("item", ["mouse_exited -> mouse_exit error: " + String(conn_err)])
+	conn_err = area.connect("mouse_exited", self, "mouse_exit")
+	if conn_err:
+		vm.report_errors("npc", ["mouse_exited -> mouse_exit error: " + String(conn_err)])
 
-		conn_err = connect("left_click_on_item", $"/root/scene/game", "ev_left_click_on_item")
-		if conn_err:
-			vm.report_errors("item", ["left_click_on_item -> ev_left_click_on_item error: " + String(conn_err)])
+	conn_err = connect("left_click_on_npc", $"/root/scene/game", "ev_left_click_on_npc")
+	if conn_err:
+		vm.report_errors("npc", ["left_click_on_npc -> ev_left_click_on_npc error: " + String(conn_err)])
 
-		conn_err = connect("left_dblclick_on_item", $"/root/scene/game", "ev_left_dblclick_on_item")
-		if conn_err:
-			vm.report_errors("item", ["left_dblclick_on_item -> ev_left_dblclick_on_item error: " + String(conn_err)])
+	conn_err = connect("left_dblclick_on_npc", $"/root/scene/game", "ev_left_dblclick_on_npc")
+	if conn_err:
+		vm.report_errors("npc", ["left_dblclick_on_npc -> ev_left_dblclick_on_npc error: " + String(conn_err)])
 
-		conn_err = connect("left_click_on_inventory_item", $"/root/scene/game", "ev_left_click_on_inventory_item")
-		if conn_err:
-			vm.report_errors("item", ["left_click_on_inventory_item -> ev_left_click_on_inventory_item error: " + String(conn_err)])
+	conn_err = connect("right_click_on_npc", $"/root/scene/game", "ev_right_click_on_npc")
+	if conn_err:
+		vm.report_errors("npc", ["right_click_on_npc -> ev_right_click_on_npc error: " + String(conn_err)])
 
-		conn_err = connect("right_click_on_item", $"/root/scene/game", "ev_right_click_on_item")
-		if conn_err:
-			vm.report_errors("item", ["right_click_on_item -> ev_right_click_on_item error: " + String(conn_err)])
+	conn_err = connect("mouse_enter_npc", $"/root/scene/game", "ev_mouse_enter_npc")
+	if conn_err:
+		vm.report_errors("npc", ["mouse_enter_npc -> ev_mouse_enter_npc error: " + String(conn_err)])
 
-		conn_err = connect("right_click_on_inventory_item", $"/root/scene/game", "ev_right_click_on_inventory_item")
-		if conn_err:
-			vm.report_errors("item", ["right_click_on_inventory_item -> ev_right_click_on_inventory_item error: " + String(conn_err)])
-
-
-		conn_err = connect("mouse_enter_item", $"/root/scene/game", "ev_mouse_enter_item")
-		if conn_err:
-			vm.report_errors("item", ["mouse_enter_item -> ev_mouse_enter_item error: " + String(conn_err)])
-
-		conn_err = connect("mouse_enter_inventory_item", $"/root/scene/game", "ev_mouse_enter_inventory_item")
-		if conn_err:
-			vm.report_errors("item", ["mouse_enter_inventory_item -> ev_mouse_enter_inventory_item error: " + String(conn_err)])
-
-		conn_err = connect("mouse_exit_item", $"/root/scene/game", "ev_mouse_exit_item")
-		if conn_err:
-			vm.report_errors("item", ["mouse_exit_item -> ev_mouse_exit_item error: " + String(conn_err)])
-
-		conn_err = connect("mouse_exit_inventory_item", $"/root/scene/game", "ev_mouse_exit_inventory_item")
-		if conn_err:
-			vm.report_errors("item", ["mouse_exit_inventory_item -> ev_mouse_exit_inventory_item error: " + String(conn_err)])
-
-		if interact_position:
-			interact_pos = get_node(interact_position)
-		elif has_node("interact_pos"):
-			interact_pos = $"interact_pos"
-		# }}}
-
-	if has_node("camera_pos"):
-		camera_pos = $"camera_pos"
+	conn_err = connect("mouse_exit_npc", $"/root/scene/game", "ev_mouse_exit_npc")
+	if conn_err:
+		vm.report_errors("npc", ["mouse_exit_npc -> ev_mouse_exit_npc error: " + String(conn_err)])
+	# }}}
 
 	if events_path != "":
 		event_table = vm.compile(events_path)
@@ -689,13 +732,19 @@ func _ready():
 	# Forbit pipe because it's used to separate flags from actions, like in `:use item | TK`. And space for good measure.
 	for c in ["|", " "]:
 		if c in global_id:
-			vm.report_errors("item", ["Forbidden character '" + c + "' in global_id: " + global_id])
+			vm.report_errors("npc", ["Forbidden character '" + c + "' in global_id: " + global_id])
+
+	if not has_node("sprite"):
+		vm.report_errors("npc", ["No sprite node set"])
+
+	if not has_node("collision"):
+		vm.report_errors("npc", ["No collision node set"])
 
 	if has_node("animation"):
 		animation = $"animation"
 		conn_err = animation.connect("animation_finished", self, "anim_finished")
 		if conn_err:
-			vm.report_errors("item", ["animation_finished -> anim_finished error: " + String(conn_err)])
+			vm.report_errors("npc", ["animation_finished -> anim_finished error: " + String(conn_err)])
 
 	if has_node("audio"):
 		audio = $"audio"
@@ -703,16 +752,6 @@ func _ready():
 
 	_check_focus(false, false)
 
-	if has_node("../terrain"):
-		terrain = $"../terrain"
-		terrain_is_scalenodes = terrain is preload("terrain_scalenodes.gd")
-
-	_find_sprites(self)
-
-	# Initialize Node2D items' terrain status like z-index.
-	# Stationary items will be set up correctly and
-	# if an item moves, it will handle this in its _process() loop
-	_update_terrain(true)
-
 	vm.register_object(global_id, self)
+
 

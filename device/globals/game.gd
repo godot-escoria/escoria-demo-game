@@ -24,6 +24,7 @@ var obj_action_req_dblc
 var camera
 export var camera_limits = Rect2()
 
+var hud
 var action_menu
 
 func set_mode(p_mode):
@@ -80,6 +81,36 @@ func ev_left_click_on_bg(obj, pos, event):
 	if vm.tooltip:
 		if not vm.current_tool:
 			vm.tooltip.hide()
+
+func ev_left_click_on_trigger(obj, pos, event):
+	printt(obj.name, "left-clicked at", pos, "with", event, can_click())
+
+	if not can_click():
+		return
+
+	# Do not allow input on triggers/exits with inventory open
+	if vm.inventory and vm.inventory.blocks_tooltip():
+		return
+
+	if vm.action_menu and vm.action_menu.is_visible():
+		vm.action_menu.stop()
+
+	player.walk_to(pos)
+
+func ev_left_dblclick_on_trigger(obj, pos, event):
+	printt(obj.name, "left-dblclicked at", pos, "with", event, can_click())
+
+	if not can_click():
+		return
+
+	if vm.action_menu and vm.action_menu.is_visible():
+		vm.action_menu.stop()
+		return
+
+	if obj.dblclick_teleport and obj.tooltip:
+		player.set_position(pos)
+	else:
+		player.walk_to(pos, {"fast": true})
 
 func ev_left_click_on_item(obj, pos, event):
 	printt(obj.name, "left-clicked at", pos, "with", event, can_click())
@@ -313,6 +344,151 @@ func ev_mouse_exit_trigger(obj):
 
 	vm.hover_pop(obj)
 
+func ev_mouse_enter_npc(obj):
+	printt(obj.name, "mouse_enter_npc")
+
+	vm.hover_push(obj)
+
+	if vm.tooltip:
+		# XXX: The warning report may be removed if it turns out to be too annoying in practice
+		if not obj.get_tooltip():
+			vm.report_warnings("game", ["No tooltip for npc " + obj.name])
+
+func ev_left_click_on_npc(obj, pos, event):
+	printt(obj.name, "left-clicked at", pos, "with", event, can_click())
+
+	if not can_click():
+		return
+
+	if vm.action_menu and obj.use_action_menu:
+		if !ProjectSettings.get_setting("escoria/ui/right_mouse_button_action_menu"):
+			spawn_action_menu(obj)
+			return
+		elif vm.action_menu.is_visible():
+			# XXX: Can't close action menu here or doubleclick would cause an action
+			if obj == vm.hover_object:
+				return
+			else:
+				vm.action_menu.stop()
+
+	if vm.inventory and vm.inventory.blocks_tooltip():
+		vm.inventory.close()
+		if vm.tooltip:
+			vm.tooltip.update()
+		return
+
+	# Many overlapping items can receive the click event,
+	# but only the topmost is really `clicked`
+	if not obj.clicked:
+		return
+
+	var walk_context = {"fast": event.doubleclick}
+
+	# Make it possible to abort an interaction before the player interacts
+	if player.interact_status == player.interact_statuses.INTERACT_WALKING:
+		# by overriding the interaction status
+		player.interact_status = player.interact_statuses.INTERACT_NONE
+		player.params_queue = null
+		player.walk_to(pos, walk_context)
+		return
+
+	var obj_action = obj.get_action()
+	var action = "walk"
+
+	# Start off by checking a non-doubleclick default action
+	if not obj_action_req_dblc:
+		if obj_action:
+			action = obj_action
+		elif default_obj_action:
+			action = default_obj_action
+
+	if click:
+		click.set_position(pos)
+	if click_anim:
+		click_anim.play("click")
+
+	if obj.has_method("get_interact_pos"):
+		pos = obj.get_interact_pos()
+
+	player.walk_to(pos, walk_context)
+
+	# XXX: Interacting with current_tool etc should be a signal
+	if action != "walk" or vm.current_action:
+		if vm.inventory and not vm.inventory.blocks_tooltip():
+			player.interact([obj, vm.current_action, vm.current_tool])
+
+func ev_left_dblclick_on_npc(obj, pos, event):
+	printt(obj.name, "left-dblclicked at", pos, "with", event, can_click())
+
+	if not can_click():
+		return
+
+	if vm.action_menu and vm.action_menu.is_visible():
+		vm.action_menu.stop()
+		return
+
+	var walk_context = {"fast": event.doubleclick}
+
+	# Make it possible to abort an interaction before the player interacts
+	if player.interact_status == player.interact_statuses.INTERACT_WALKING:
+		# by overriding the interaction status
+		player.interact_status = player.interact_statuses.INTERACT_NONE
+		player.params_queue = null
+		player.walk_to(pos, walk_context)
+
+	var action = "walk"
+
+	# Cannot use the object action if an action and tool is selected,
+	# because the event is probably not defined
+	var obj_action
+	if vm.current_action and vm.current_tool:
+		obj_action = vm.current_action
+	else:
+		obj_action = obj.get_action()
+
+	# See if there's a doubleclick default action
+	if obj_action_req_dblc:
+		if obj_action:
+			action = obj_action
+		elif default_obj_action:
+			action = default_obj_action
+
+	if click:
+		click.set_position(pos)
+	if click_anim:
+		click_anim.play("click")
+
+	if action != "walk":
+		# Resolve telekinesis
+		if action in obj.event_table:
+			if player.task == "walk":
+				player.walk_stop(player.get_position())
+				vm.clear_current_action()
+
+		player.interact([obj, action, vm.current_tool])
+	else:
+		player.walk_to(pos, walk_context)
+
+func ev_right_click_on_npc(obj, pos, event):
+	printt(obj.name, "right-clicked at", pos, "with", event, can_click())
+
+	if not can_click():
+		return
+
+	var inventory_open = vm.inventory and vm.inventory.blocks_tooltip()
+
+	if obj.use_action_menu and not inventory_open:
+		if ProjectSettings.get_setting("escoria/ui/right_mouse_button_action_menu"):
+			spawn_action_menu(obj)
+			return
+	elif inventory_open:
+		vm.inventory.close()
+
+func ev_mouse_exit_npc(obj):
+	printt(obj.name, "mouse_exit_npc")
+
+	vm.hover_pop(obj)
+
 func spawn_action_menu(obj):
 	if vm.action_menu == null:
 		return
@@ -414,10 +590,32 @@ func handle_menu_request():
 		if vm.inventory and vm.inventory.blocks_tooltip():
 			vm.inventory.force_close()
 
+		# Clear hover/tooltip state to be rebuilt when menu is closed
+		vm.hover_teardown()
+
 		# Finally show the menu
 		main.load_menu(ProjectSettings.get_setting("escoria/ui/in_game_menu"))
 	elif not menu_enabled:
 		get_tree().call_group("game", "ui_blocked")
+
+func menu_closed():
+	printt("menu_closed")
+	## We may be hovering a HUD button which is over an item;
+	# make it look like it would in gameplay
+	if hud:
+		# These are set up in hud.gd only if the corresponding button is available
+		if hud.menu_toggle_rect:
+			if hud.menu_toggle_rect.has_point($"/root".get_mouse_position()):
+				hud.hud_button_entered()
+				return
+
+		if hud.inv_toggle_rect:
+			if hud.inv_toggle_rect.has_point($"/root".get_mouse_position()):
+				hud.hud_button_entered()
+				return
+
+	## Otherwise rebuild hover stack
+	vm.hover_rebuild()
 
 func _process(_delta):
 	if !vm.can_interact():
@@ -525,7 +723,7 @@ func load_hud():
 	var hres = vm.res_cache.get_resource(vm.get_hud_scene())
 	$"hud_layer/hud".replace_by_instance(hres)
 
-	var hud = $"hud_layer/hud"
+	hud = $"hud_layer/hud"
 
 	# Add inventory to hud layer, usually hud_minimal.tscn, if found in project settings
 	# and not present in the `game` scene's hud.

@@ -1,9 +1,17 @@
 extends "res://globals/interactive.gd"
 
+signal left_click_on_trigger
+signal left_dblclick_on_trigger
+signal right_click_on_trigger
 signal mouse_enter_trigger
 signal mouse_exit_trigger
 
 export var tooltip = ""
+export var dblclick_teleport = true
+
+# Superior doubleclick
+var last_lmb_dt = 0
+var waiting_dblclick = false
 
 func get_tooltip(hint=null):
 	if TranslationServer.get_locale() == ProjectSettings.get_setting("escoria/platform/development_lang"):
@@ -36,32 +44,20 @@ func mouse_exit():
 	emit_signal("mouse_exit_trigger", self)
 
 func area_input(_viewport, event, _shape_idx):
-	input(event)
-
-func input(event):
 	if !(event is InputEventMouseButton and event.is_pressed()):
 		return
 
-	if vm.accept_input != vm.acceptable_inputs.INPUT_ALL:
-		return
-
-	# Do not allow input on triggers/exits with inventory open
-	if vm.inventory and vm.inventory.blocks_tooltip():
-		return
-
-	if vm.action_menu and vm.action_menu.is_visible():
-		vm.action_menu.stop()
-
-	var player = vm.get_object("player")
-	# Get mouse position, since event.position only works with Area2D exits
-	var pos = get_global_mouse_position()
-
-	# Disallow doubleclick teleportation if there's no tooltip.
-	if player and event.doubleclick and self.tooltip:
-		player.set_position(pos)
-	elif player:
-		# Control blocks input to background, so make player walk
-		player.walk_to(pos)
+	var ev_pos = get_global_mouse_position()
+	if event.is_action("game_general"):
+		if last_lmb_dt <= vm.DOUBLECLICK_TIMEOUT:
+			emit_signal("left_dblclick_on_trigger", self, ev_pos, event)
+			last_lmb_dt = 0
+			waiting_dblclick = null
+		else:
+			last_lmb_dt = 0
+			waiting_dblclick = [ev_pos, event]
+	elif event.is_action("game_rmb"):
+		emit_signal("right_click_on_trigger", self, ev_pos, event)
 
 func body_entered(body):
 	if body is esc_type.PLAYER:
@@ -80,57 +76,61 @@ func run_event(event):
 func set_active(p_active):
 	self.visible = p_active
 
+func _physics_process(dt):
+	last_lmb_dt += dt
+
+	if waiting_dblclick and last_lmb_dt > vm.DOUBLECLICK_TIMEOUT:
+		emit_signal("left_click_on_trigger", self, waiting_dblclick[0], waiting_dblclick[1])
+		last_lmb_dt = 0
+		waiting_dblclick = null
+
 func _ready():
 	var conn_err
 
-	var area
-	if has_node("area"):
-		area = get_node("area")
-	else:
-		area = self
+	assert self is Area2D
 
-	if ClassDB.class_has_signal(area.get_class(), "input_event"):
-		conn_err = area.connect("input_event", self, "area_input")
-		if conn_err:
-			vm.report_errors("item", ["area.input_event -> area_input error: " + String(conn_err)])
-
-	elif ClassDB.class_has_signal(area.get_class(), "gui_input"):
-		conn_err = area.connect("gui_input", self, "input")
-		if conn_err:
-			vm.report_errors("item", ["area.gui_input -> gui_input error: " + String(conn_err)])
-
-	else:
-		vm.report_errors("trigger", ["No input events possible for global_id " + global_id])
+	conn_err = connect("input_event", self, "area_input")
+	if conn_err:
+		vm.report_errors("trigger", ["trigger.input_event -> area_input error: " + String(conn_err)])
 
 	if events_path:
 		var f = File.new()
 		if f.file_exists(events_path):
 			event_table = vm.compile(events_path)
 
-	if ClassDB.class_has_signal(area.get_class(), "mouse_entered"):
-		conn_err = area.connect("mouse_entered", self, "mouse_enter")
-		if conn_err:
-			vm.report_errors("item", ["area.mouse_entered -> mouse_enter error: " + String(conn_err)])
+	conn_err = connect("left_click_on_trigger", $"/root/scene/game", "ev_left_click_on_trigger")
+	if conn_err:
+		vm.report_errors("trigger", ["left_click_on_trigger -> ev_left_click_on_trigger error: " + String(conn_err)])
 
-		conn_err = area.connect("mouse_exited", self, "mouse_exit")
-		if conn_err:
-			vm.report_errors("item", ["area.mouse_exited -> mouse_exit error: " + String(conn_err)])
+	conn_err = connect("left_dblclick_on_trigger", $"/root/scene/game", "ev_left_dblclick_on_trigger")
+	if conn_err:
+		vm.report_errors("trigger", ["left_dblclick_on_trigger -> ev_left_dblclick_on_trigger error: " + String(conn_err)])
+
+	conn_err = connect("mouse_entered", self, "mouse_enter")
+	if conn_err:
+		vm.report_errors("trigger", ["trigger.mouse_entered -> mouse_enter error: " + String(conn_err)])
+
+	conn_err = connect("mouse_exited", self, "mouse_exit")
+	if conn_err:
+		vm.report_errors("trigger", ["trigger.mouse_exited -> mouse_exit error: " + String(conn_err)])
 
 	conn_err = connect("body_entered", self, "body_entered")
 	if conn_err:
-		vm.report_errors("item", ["area.body_entered -> body_entered error: " + String(conn_err)])
+		vm.report_errors("trigger", ["trigger.body_entered -> body_entered error: " + String(conn_err)])
 
 	conn_err = connect("body_exited", self, "body_exited")
 	if conn_err:
-		vm.report_errors("item", ["area.body_exited -> body_exited error: " + String(conn_err)])
+		vm.report_errors("trigger", ["trigger.body_exited -> body_exited error: " + String(conn_err)])
 
 	conn_err = connect("mouse_enter_trigger", $"/root/scene/game", "ev_mouse_enter_trigger")
 	if conn_err:
-		vm.report_errors("item", ["mouse_enter_trigger -> ev_mouse_enter_trigger error: " + String(conn_err)])
+		vm.report_errors("trigger", ["mouse_enter_trigger -> ev_mouse_enter_trigger error: " + String(conn_err)])
 
 	conn_err = connect("mouse_exit_trigger", $"/root/scene/game", "ev_mouse_exit_trigger")
 	if conn_err:
-		vm.report_errors("item", ["mouse_exit_trigger -> ev_mouse_exit_trigger error: " + String(conn_err)])
+		vm.report_errors("trigger", ["mouse_exit_trigger -> ev_mouse_exit_trigger error: " + String(conn_err)])
 
 	vm.register_object(global_id, self)
+
+	add_to_group("triggers")
 
