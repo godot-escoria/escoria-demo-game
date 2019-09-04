@@ -32,12 +32,8 @@ script = ExtResource( 3 )
 
 [node name="terrain" type="Navigation2D" parent="."]
 script = ExtResource( 4 )
-lightmap = null
 scales = ExtResource( 5 )
-bitmaps_scale = Vector2( 1, 1 )
-player_speed_multiplier = 1.0
 player_doubleclick_speed_multiplier = 3.0
-lightmap_modulate = Color( 1, 1, 1, 1 )
 debug_mode = 0
 scale_min = 1.0
 scale_max = 2.0
@@ -50,10 +46,10 @@ navpoly = SubResource( 1 )
 position = Vector2( 279.279, 546.863 )
 scale = Vector2( 2, 2 )
 z_index = 546
+speed = 120
 placeholders = {
 
 }
-speed = 120
 
 [node name="exit_hut1" type="Area2D" parent="."]
 editor/display_folded = true

@@ -360,8 +360,8 @@ placeholders = {
 
 }
 
-[node name="sprite" type="AnimatedSprite" parent="." index="0"]
-position = Vector2( 5.2803, -49.2264 )
+[node name="sprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0.146847, -64.6266 )
 frames = SubResource( 1 )
 animation = "hat"
 
@@ -381,5 +381,5 @@ anims/walk_down = SubResource( 11 )
 anims/walk_right = SubResource( 12 )
 anims/walk_up = SubResource( 13 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="collision" type="CollisionShape2D" parent="."]
 shape = SubResource( 14 )

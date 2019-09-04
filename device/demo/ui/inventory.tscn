@@ -4,115 +4,57 @@
 [ext_resource path="res://globals/inventory.gd" type="Script" id=2]
 [ext_resource path="res://demo/ui/inventory_items.tscn" type="PackedScene" id=3]
 
-[node name="inventory" type="TextureRect" index="0"]
-
+[node name="inventory" type="TextureRect"]
 self_modulate = Color( 0, 0, 0, 0.196078 )
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 margin_right = 600.0
 margin_bottom = 280.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 texture = ExtResource( 1 )
 expand = true
-stretch_mode = 0
 script = ExtResource( 2 )
-_sections_unfolded = [ "Visibility" ]
-is_collapsible = false
 
-[node name="slots" type="Control" parent="." index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="slots" type="Control" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 
-[node name="Position2D" type="Position2D" parent="slots" index="0"]
-
+[node name="Position2D" type="Position2D" parent="slots"]
 position = Vector2( 120.477, 85.9731 )
 
-[node name="Position2D1" type="Position2D" parent="slots" index="1"]
-
+[node name="Position2D1" type="Position2D" parent="slots"]
 position = Vector2( 305.352, 82.4256 )
 scale = Vector2( 0.999999, 1 )
 
-[node name="Position2D2" type="Position2D" parent="slots" index="2"]
-
+[node name="Position2D2" type="Position2D" parent="slots"]
 position = Vector2( 484.329, 86.664 )
 
-[node name="Position2D3" type="Position2D" parent="slots" index="3"]
-
+[node name="Position2D3" type="Position2D" parent="slots"]
 position = Vector2( 120.782, 187.581 )
 
-[node name="Position2D4" type="Position2D" parent="slots" index="4"]
-
+[node name="Position2D4" type="Position2D" parent="slots"]
 position = Vector2( 303.731, 191.537 )
 
-[node name="Position2D5" type="Position2D" parent="slots" index="5"]
-
+[node name="Position2D5" type="Position2D" parent="slots"]
 position = Vector2( 484.393, 187.155 )
 
-[node name="arrow_prev" type="TextureButton" parent="." index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="arrow_prev" type="TextureButton" parent="."]
 margin_left = 466.0
 margin_top = 68.0
 margin_right = 506.0
 margin_bottom = 108.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-_sections_unfolded = [ "Textures" ]
 
-[node name="arrow_next" type="TextureButton" parent="." index="2"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="arrow_next" type="TextureButton" parent="."]
 margin_left = 461.0
 margin_top = 167.0
 margin_right = 501.0
 margin_bottom = 207.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
 
-[node name="items" parent="." index="3" instance=ExtResource( 3 )]
-
+[node name="items" parent="." instance=ExtResource( 3 )]
 visible = false
-
-

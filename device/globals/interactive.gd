@@ -14,6 +14,9 @@ var highlight_tooltip
 var width = float(ProjectSettings.get("display/window/size/width"))
 var height = float(ProjectSettings.get("display/window/size/height"))
 
+func get_tooltip():
+	pass
+
 func show_highlight():
 	if not self.visible:
 		return
@@ -28,7 +31,7 @@ func show_highlight():
 	highlight_tooltip = vm.tooltip.duplicate()
 	assert highlight_tooltip != vm.tooltip
 
-	var tt_pos = $"tooltip_pos".global_position
+	var tt_pos = $tooltip_pos.global_position
 	var tt_text = get_tooltip()
 
 	highlight_tooltip.highlight_only = true

@@ -75,7 +75,9 @@ func update():
 	set_tooltip(text)
 	if text:
 		show()
-		self.set_position(get_global_mouse_position())
+		if follow_mouse:
+			var mouse_pos = get_tree().get_root().get_viewport().get_mouse_position()
+			set_position( mouse_pos)
 	else:
 		hide()
 
@@ -132,7 +134,7 @@ func _clamp(tt_pos):
 	return tt_pos
 
 func set_position(pos):
-	.set_position(_clamp(pos))
+	rect_global_position= _clamp(pos)
 
 func _input(ev):
 	if follow_mouse:
@@ -147,4 +149,3 @@ func _ready():
 		vm.register_tooltip(self)
 
 	set_process_input(false)
-

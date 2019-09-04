@@ -1,4 +1,4 @@
-extends Control
+extends TextureRect
 
 export(bool) var is_collapsible = false
 

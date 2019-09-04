@@ -215,8 +215,8 @@ func hover_pop(obj):
 		hover_begin(next)
 
 func hover_begin(obj):
-	var escoria_types = load("res://globals/escoria_types.gd")
-	if not obj is escoria_types.ITEM and not obj is escoria_types.TRIGGER and not obj is escoria_types.NPC:
+#	var escoria_types = load("res://globals/escoria_types.gd")
+	if not obj is esc_type.ITEM and not obj is esc_type.TRIGGER and not obj is esc_type.NPC:
 		report_errors("global_vm", ["Trying to hover " + obj.global_id + " which is not ITEM, TRIGGER or NPC"])
 
 	hover_object = obj
