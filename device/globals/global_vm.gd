@@ -592,16 +592,14 @@ func set_globals(pat, val):
 			emit_signal("global_changed", key)
 
 func set_accept_input(p_accept_input):
-	match p_accept_input:
-		acceptable_inputs.INPUT_NONE, acceptable_inputs.INPUT_SKIP:
-			vm.set_global("save_disabled", "true")
-			accept_input = p_accept_input
-			return
-		acceptable_inputs.INPUT_ALL:
-			vm.set_global("save_disabled", "false")
-			accept_input = p_accept_input
-			return
-
+	if p_accept_input == acceptable_inputs.INPUT_NONE || p_accept_input == acceptable_inputs.INPUT_SKIP:
+		vm.set_global("save_disabled", "true")
+		accept_input = p_accept_input
+		return
+	elif p_accept_input == acceptable_inputs.INPUT_ALL:
+		vm.set_global("save_disabled", "false")
+		accept_input = p_accept_input
+		return
 	report_errors("global_vm", ["Unknown accept_input given"])
 
 func register_tooltip(p_tooltip):
