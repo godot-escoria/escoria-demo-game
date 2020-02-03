@@ -12,3 +12,4 @@ const idles = ["idle_down", 1, "idle_down", 1, "idle_right", 1, "idle_right", 1,
 const speaks = ["idle_down", 1, "idle_down", 1, "idle_right", 1, "idle_right", 1,
 "idle_up", 1, "idle_up", 1, "idle_right", -1, "idle_right", -1]
 
+

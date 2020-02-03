@@ -44,8 +44,8 @@ func toggle():
 	else:
 		open()
 
-func anim_finished():
-	if get_node("animation").get_current_animation() == "hide":
+func anim_finished(anim_name):
+	if anim_name == "hide":
 		hide()
 
 func sort_items():
@@ -64,9 +64,9 @@ func sort_items():
 		elif count >= page_size * page:
 			var slot = count - page_size * page
 			c.show()
-			printt("showing item", c.global_id, slots.get_child(slot).get_global_pos())
+			printt("showing item", c.global_id, slots.get_child(slot).get_global_position())
 			#printt("no focus")
-			c.set_global_pos(slots.get_child(slot).get_global_pos())
+			c.set_global_position(slots.get_child(slot).get_global_position())
 			#c.set_focus_mode(Control.FOCUS_NONE)
 			if !focus:
 				#c.grab_focus()
@@ -92,10 +92,10 @@ func global_changed(name):
 	inventory_changed()
 
 func input(event):
-	if event.type == InputEvent.MOUSE_BUTTON && event.pressed:
+	if event is InputEventMouseButton && event.pressed:
 		toggle()
 
-	if event.type == InputEvent.MOUSE_MOTION:
+	if event is InputEventMouseMotion:
 		#printt("mouse motion on alpha", get_node("../../..").pending_command)
 		if get_node("../../..").pending_command != "" || vm.drag_object != null:
 			toggle()
@@ -108,7 +108,7 @@ func look_toggled(pressed):
 		current_action = "look"
 	else:
 		current_action = "use"
-	get_tree().call_group(0, "game", "clear_action")
+	get_tree().call_group("game", "clear_action")
 
 func _input(event):
 	if !vm.can_interact():
@@ -118,7 +118,7 @@ func _input(event):
 
 func log_button_pressed():
 	close()
-	get_tree().call_group(0, "game", "open_log")
+	get_tree().call_group("game", "open_log")
 	
 func _on_open_inventory_signal(open):
 	if (open):
@@ -138,8 +138,10 @@ func _ready():
 	vm.connect("global_changed", self, "global_changed")
 	page_size = get_node("slots").get_child_count()
 	sort_items()
+	# warning-ignore:return_value_discarded
 	get_node("arrow_prev").connect("pressed", self, "change_page", [-1])
 	#get_node("arrow_left").set_focus_mode(Control.FOCUS_NONE)
+	# warning-ignore:return_value_discarded
 	get_node("arrow_next").connect("pressed", self, "change_page", [1])
 	#get_node("arrow_right").set_focus_mode(Control.FOCUS_NONE)
 	var items = get_node("items")
@@ -166,3 +168,4 @@ func _ready():
 	add_to_group("game")
 
 	call_deferred("sort_items")
+

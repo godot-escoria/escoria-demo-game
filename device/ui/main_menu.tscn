@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=1]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://ui/main_menu.gd" type="Script" id=1]
 
@@ -6,60 +6,62 @@
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 1930.0
-margin/bottom = 1101.0
-script/script = ExtResource( 1 )
+size_flags_horizontal = 1
+size_flags_vertical = 1
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 1930.0
+margin_bottom = 1101.0
+script = ExtResource( 1 )
+mouse_filter = 0
 
 [node name="continue" type="Button" parent="."]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 163.0
-margin/top = 140.0
-margin/right = 733.0
-margin/bottom = 229.0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+margin_left = 163.0
+margin_top = 140.0
+margin_right = 733.0
+margin_bottom = 229.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "UI_CONTINUE"
 flat = false
+mouse_filter = 0
 
 [node name="new_game" type="Button" parent="."]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 159.0
-margin/top = 284.0
-margin/right = 729.0
-margin/bottom = 373.0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+margin_left = 159.0
+margin_top = 284.0
+margin_right = 729.0
+margin_bottom = 373.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "UI_NEW_GAME"
 flat = false
+mouse_filter = 0
 
 [node name="exit" type="Button" parent="."]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 199.0
-margin/top = 830.0
-margin/right = 769.0
-margin/bottom = 919.0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+margin_left = 199.0
+margin_top = 830.0
+margin_right = 769.0
+margin_bottom = 919.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "UI_QUIT"
 flat = false
-
-
+mouse_filter = 0

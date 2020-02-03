@@ -31,3 +31,4 @@ func setup():
 func _ready():
 	printt("music player ready, ", get_path(), get_volume_db(), get_volume())
 	call_deferred("setup")
+

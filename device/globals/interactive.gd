@@ -1,3 +1,4 @@
+extends Node
 export(Script) var animations
 
 var vm
@@ -19,6 +20,16 @@ export var speed = 300
 export var scale_on_map = false
 export var light_on_map = false setget set_light_on_map
 
+func _update_terrain():
+    # abstract method
+	assert(0)
+
+# warning-ignore:unused_argument
+# warning-ignore:unused_argument
+func set_state(p_state, p_force = false):
+    # abstract method
+	assert(0)
+
 func set_light_on_map(p_light):
 	light_on_map = p_light
 	if light_on_map:
@@ -30,7 +41,7 @@ func set_light_on_map(p_light):
 func _get_dir(angle):
 	if animations == null:
 		return -1
-	var deg = rad2deg(angle) + 180
+	var deg = int(rad2deg(angle) + 180 + 45) % 360
 	var dir = -1
 	var i = 0
 	for ang in animations.dir_angles:
@@ -41,7 +52,7 @@ func _get_dir(angle):
 	return dir
 
 func walk_stop(pos):
-	set_pos(pos)
+	(self as Node).set_position(pos)
 	walk_path = []
 
 	if animation != null && animation.is_playing():
@@ -56,10 +67,10 @@ func walk_stop(pos):
 		walk_context = null
 
 func walk_to(pos, context = null):
-	walk_path = terrain.get_path(get_pos(), pos)
+	walk_path = terrain.get_terrain_path((self as Node).get_position(), pos)
 	walk_context = context
 	if walk_path.size() == 0:
-		walk_stop(get_pos())
+		walk_stop((self as Node).get_position())
 		set_process(false)
 		task = null
 		return
@@ -71,7 +82,7 @@ func walk_to(pos, context = null):
 	task = "walk"
 	set_process(true)
 
-func walk(pos, speed, context = null):
+func walk(pos, _speed, context = null):
 	walk_to(pos, context)
 
 func modulate(color):
@@ -83,9 +94,8 @@ func _process(time):
 
 	if task == "walk":
 		var to_walk = speed * last_scale.x * time
-		var pos = get_pos()
+		var pos = (self as Node).get_position()
 		var old_pos = pos
-		var next
 		if walk_path.size() > 0:
 			while to_walk > 0:
 				var next
@@ -109,7 +119,7 @@ func _process(time):
 					return
 
 		var angle = old_pos.angle_to_point(pos)
-		set_pos(pos)
+		(self as Node).set_position(pos)
 
 		last_dir = _get_dir(angle)
 
@@ -122,7 +132,7 @@ func _process(time):
 		_update_terrain()
 
 func _find_sprites(p = null):
-	if p.is_type("Sprite") || p.is_type("AnimatedSprite") || p.is_type("TextureFrame") || p.is_type("TextureButton"):
+	if p is Sprite || p is AnimatedSprite || p is TextureRect || p is TextureButton:
 		sprites.push_back(p)
 	for i in range(0, p.get_child_count()):
 		_find_sprites(p.get_child(i))
@@ -133,8 +143,9 @@ func _ready():
 
 	_find_sprites(self)
 
-	if get_tree().is_editor_hint():
+	if Engine.is_editor_hint():
 		return
 	if has_node("animation"):
 		animation = get_node("animation")
 	vm = get_node("/root/vm")
+

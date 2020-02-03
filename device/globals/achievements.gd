@@ -24,7 +24,7 @@ func award(aid):
 		return
 
 	printt("showing rate screen")
-	var url = iOS.get_rate_url(Globals.get("ios/app_id"))
+	var url = iOS.get_rate_url(ProjectSettings.get("ios/app_id"))
 	vm.show_rate(url)
 
 	vm.settings.rate_shown = true
@@ -42,6 +42,7 @@ func is_ready():
 	return true
 
 func start():
-	if Globals.has_singleton("GameCenter"):
-		GameCenter = Globals.get_singleton("GameCenter")
-		iOS = Globals.get_singleton("iOS")
+	if ProjectSettings.has_setting("GameCenter"):
+		GameCenter = ProjectSettings.get_singleton("GameCenter")
+		iOS = ProjectSettings.get_singleton("iOS")
+

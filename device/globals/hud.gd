@@ -1,3 +1,5 @@
+extends Control
+
 var background = null
 var vm
 
@@ -30,7 +32,7 @@ func _on_menu_pressed():
 		if vm.menu_enabled():
 			get_node("/root/main").load_menu("res://game/ui/in_game_menu.scn")
 		else:
-			get_tree().call_group(0, "game", "ui_blocked")
+			get_tree().call_group("game", "ui_blocked")
 
 
 func menu_opened():
@@ -47,21 +49,25 @@ func _ready():
 	#get_node("inv_toggle").set_focus_mode(Control.FOCUS_NONE)
 	
 	#get_node("buttons").hide()
-	if Globals.get("platform/show_ingame_buttons"):
+	if ProjectSettings.get("platform/show_ingame_buttons"):
 		if (not get_node("inv_toggle").is_hidden()):
 			get_node("buttons").show()
 		
 		var p = get_parent().get_parent().get_parent()
 		for i in range(0, p.get_child_count()):
 			var c = p.get_child(i)
-			if (c extends preload("res://globals/background.gd")):
+			if (c is preload("res://globals/background.gd")):
 				background = c
 				break
 				
+	# warning-ignore:return_value_discarded
 		get_node("inv_toggle").connect("visibility_changed",self,"_on_inv_toggle_vis_chaged")
+	# warning-ignore:return_value_discarded
 		get_node("buttons/hints").connect("pressed",self,"_on_hint_pressed")
+	# warning-ignore:return_value_discarded
 		get_node("buttons/menu").connect("pressed",self,"_on_menu_pressed")
 	
 
 	set_tooltip("")
+
 

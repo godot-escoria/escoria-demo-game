@@ -1,18 +1,11 @@
-[gd_scene load_steps=2 format=1]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://scenes/test/ice_cream.png" type="Texture" id=1]
 
-[node name="ice_cream" type="TextureFrame"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 40.0
-margin/bottom = 40.0
+[node name="ice_cream" type="TextureRect"]
+margin_right = 40.0
+margin_bottom = 40.0
 texture = ExtResource( 1 )
-stretch_mode = 0
-
-
+__meta__ = {
+"_edit_use_anchors_": false
+}

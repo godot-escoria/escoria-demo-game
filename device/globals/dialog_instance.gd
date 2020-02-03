@@ -1,3 +1,5 @@
+extends Node2D
+
 var context
 var text
 var elapsed = 0
@@ -18,7 +20,7 @@ var speech_paused = false
 # these are globals, go somewhere with the game configuration
 var speech_enabled = true
 var speech_language = "en"
-var speech_extension = ".spx"
+var speech_extension = ".ogg"
 var finish_with_speech = false
 
 var speech_locales = ["en", "de"]
@@ -63,16 +65,13 @@ func finish():
 		var anim = get_node("animation")
 		if anim.has_animation("hide"):
 			anim.play("hide")
-		else:
-			_queue_free()
-	else:
-		_queue_free()
+	_queue_free()
 
 func init(p_params, p_context, p_intro, p_outro):
 	character = vm.get_object(p_params[0])
 	context = p_context
 	text = p_params[1]
-	var force_ids = Globals.get("debug/force_text_ids")
+	var force_ids = ProjectSettings.has_setting("debug/force_text_ids") && ProjectSettings.get("debug/force_text_ids")
 	var sep = text.find(":\"")
 	var text_id = null
 	if sep > 0:
@@ -95,10 +94,10 @@ func init(p_params, p_context, p_intro, p_outro):
 	if !fixed_pos:
 		var pos
 		if character.has_node("dialog_pos"):
-			pos = character.get_node("dialog_pos").get_global_pos()
+			pos = character.get_node("dialog_pos").get_global_position()
 		else:
-			pos = character.get_pos()
-		set_pos(pos)
+			pos = character.get_position()
+		set_position(pos)
 
 	if has_node("anchor/avatars"):
 		var avatars = get_node("anchor/avatars")
@@ -116,16 +115,16 @@ func init(p_params, p_context, p_intro, p_outro):
 					c.hide()
 
 	character.set_speaking(true)
-	get_tree().call_group(0, "game", "set_mode", "dialog")
+	get_tree().call_group("game", "set_mode", "dialog")
 	if has_node("animation") && play_intro:
 		var anim = get_node("animation")
 		if anim.has_animation("show"):
-			if self.is_type("Node2D"):
+			if self is Node2D:
 				show()
 			anim.play("show")
 			anim.seek(0, true)
 		else:
-			if self.is_type("Node2D"):
+			if self is Node2D:
 				show()
 			set_process(true)
 	else:
@@ -135,8 +134,8 @@ func init(p_params, p_context, p_intro, p_outro):
 	label.parse_bbcode(text)
 	label.set_visible_characters(0)
 
-	if self extends Node2D:
-		set_z(1)
+	if self is Node2D:
+		set_z_index(1)
 
 	setup_speech(text_id)
 
@@ -149,17 +148,19 @@ func setup_speech(tid):
 		return
 
 	var fname = "res://audio/speech/"+speech_language+"/"+tid+speech_extension
+	if !ResourceLoader.exists(fname):
+		return
 	printt(" ** loading speech ", fname)
 	speech_stream = load(fname)
 	if !speech_stream:
 		printt("*** unable to load speech stream ", fname)
 		return
 
-	var player = StreamPlayer.new()
+	var player = AudioStreamPlayer.new()
 	player.set_name("speech_player")
 	add_child(player)
 	player.set_stream(speech_stream)
-	player.set_volume(vm.settings.voice_volume * Globals.get("application/max_voice_volume"))
+	player.set_volume_db(vm.settings.voice_volume * ProjectSettings.get("application/max_voice_volume"))
 	player.play()
 
 	if !player.is_playing():
@@ -188,23 +189,24 @@ func game_paused(p_pause):
 
 func _queue_free():
 	queue_free()
-	get_tree().call_group(0, "game", "set_mode", "default")
+	get_tree().call_group("game", "set_mode", "default")
 	vm.finished(context)
 
 
-func anim_finished():
-	var cur = get_node("animation").get_current_animation()
-	if cur == "show":
+# warning-ignore:unused_argument
+func anim_finished(anim_name):
+	if anim_name == "show":
 		set_process(true)
-	if cur == "hide":
+	if anim_name == "hide":
 		_queue_free()
 
 func _ready():
 	vm = get_tree().get_root().get_node("vm")
-	speech_extension = Globals.get("application/speech_suffix")
+	speech_extension = ProjectSettings.get("application/speech_suffix")
 	add_to_group("events")
 	if has_node("animation"):
-		get_node("animation").connect("finished", self, "anim_finished")
+		# warning-ignore:return_value_discarded
+		get_node("animation").connect("animation_finished", self, "anim_finished")
 	label = get_node("anchor/text")
 
 	finish_with_speech = vm.settings.skip_dialog
@@ -215,3 +217,4 @@ func _ready():
 		speech_language = default_speech_language
 
 	vm.connect("paused", self, "game_paused")
+

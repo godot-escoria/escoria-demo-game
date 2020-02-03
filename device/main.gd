@@ -1,3 +1,4 @@
+extends Node
 
 var vm
 var telon
@@ -11,7 +12,7 @@ var game_size
 var screen_ofs = Vector2(0, 0)
 
 func set_input_catch(p_catch):
-	telon.set_input_catch(p_catch)
+	telon.call_deferred("set_input_catch", p_catch)
 
 func clear_scene():
 	if current == null:
@@ -38,7 +39,7 @@ func get_current_scene():
 func menu_open(menu):
 	menu_stack.push_back(menu)
 	if menu_stack.size() == 1:
-		get_tree().call_group(0, "game", "menu_opened")
+		get_tree().call_group("game", "menu_opened")
 		vm.set_pause(true)
 		#get_tree().set_pause(true)
 		pass
@@ -50,7 +51,7 @@ func menu_close(p_menu):
 
 	if menu_stack.size() == 0:
 		vm.set_pause(false)
-		get_tree().call_group(0, "game", "menu_closed")
+		get_tree().call_group("game", "menu_closed")
 		#get_tree().set_pause(false)
 		pass
 
@@ -89,7 +90,7 @@ func wait(time, level):
 	wait_timer.start()
 
 func check_screen():
-	var vs = OS.get_video_mode_size()
+	var vs = OS.get_screen_size()
 	if vs == vm_size:
 		return
 	vm_size = vs
@@ -99,7 +100,7 @@ func check_screen():
 	get_tree().get_root().set_size_override(true,Vector2(game_size.x,height))
 	get_tree().get_root().set_size_override_stretch(true)
 
-	var m = Matrix32()
+	var m = Transform2D()
 	var ofs = Vector2(0, (height - game_size.y) / 2)
 	m[2] = ofs
 	get_tree().get_root().set_global_canvas_transform(m)
@@ -109,24 +110,24 @@ func check_screen():
 
 	#get_tree().set_auto_accept_quit(false)
 
-	get_tree().call_group(0, "game", "set_camera_limits")
+	get_tree().call_group("game", "set_camera_limits")
 
 
-func _process(time):
+func _process(_time):
 	check_screen()
 
 func _input(event):
-	if (event.type==InputEvent.KEY and event.pressed and event.control and event.scancode==KEY_F12):
+	if (event is InputEventKey and event.pressed and event.control and event.scancode==KEY_F12):
 		OS.print_all_textures_by_size()
 		
 	if menu_stack.size() > 0:
 		menu_stack[menu_stack.size() - 1].input(event)
 	elif current != null:
 		if current.has_node("game"):
-			current.get_node("game").scene_input(event)
+			current.get_node("game").call_deferred("scene_input", event)
 
 func load_telon():
-	var tpath = Globals.get("platform/telon")
+	var tpath = ProjectSettings.get("platform/telon")
 	var tres = vm.res_cache.get_resource(tpath)
 
 	get_node("layers/telon/telon").replace_by_instance(tres)
@@ -135,11 +136,11 @@ func load_telon():
 func _ready():
 
 	printt("main ready")
-	get_node("/root").set_render_target_clear_on_new_frame(true)
+	#get_node("/root").set_render_target_clear_on_new_frame(true)
 
 	game_size = Vector2()
-	game_size.x = Globals.get("display/game_width")
-	game_size.y = Globals.get("display/game_height")
+	game_size.x = ProjectSettings.get("display/game_width")
+	game_size.y = ProjectSettings.get("display/game_height")
 
 	vm = get_tree().get_root().get_node("vm")
 	wait_timer = get_node("layers/wait_timer")
@@ -149,6 +150,8 @@ func _ready():
 	set_process_input(true)
 	set_process(true)
 
-	Globals.load_resource_pack("res://scripts.zip")
+	# warning-ignore:return_value_discarded
+	ProjectSettings.load_resource_pack("res://scripts.zip")
 
 	call_deferred("load_telon")
+

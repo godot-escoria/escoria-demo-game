@@ -1,10 +1,10 @@
 tool
 
+extends Navigation2D
 export(Image) var scales setget set_scales,get_scales
 export(Image) var lightmap setget set_lightmap,get_lightmap
 export var bitmaps_scale = Vector2(1,1) setget set_bm_scale,get_bm_scale
 export(int, "None", "Scales", "Lightmap") var debug_mode = 1 setget debug_mode_updated
-export var modulate = Color(1, 1, 1, 1)
 export var scale_min = 0.3
 export var scale_max = 1.0
 var texture
@@ -45,7 +45,7 @@ func _do_update_texture():
 	_texture_dirty = false
 	if !is_inside_tree():
 		return
-	if !get_tree().is_editor_hint():
+	if !Engine.is_editor_hint():
 		return
 
 	if debug_mode == 0:
@@ -54,11 +54,13 @@ func _do_update_texture():
 
 	texture = ImageTexture.new()
 	if debug_mode == 1:
-		if scales != null && !scales.empty():
-			texture.create_from_image(scales)
+		if scales != null:
+			#texture.create_from_image(scales)
+			texture = scales
 	else:
-		if lightmap != null && !lightmap.empty():
-			texture.create_from_image(lightmap)
+		if lightmap != null:
+			#texture.create_from_image(lightmap)
+			texture = lightmap
 
 	update()
 
@@ -67,20 +69,20 @@ func debug_mode_updated(p_mode):
 	_update_texture()
 
 func make_local(pos):
-	pos = pos - get_pos()
+	pos = pos - get_position()
 	pos = pos * 1.0 / get_scale()
-	if self extends Navigation2D:
+	if self is Navigation2D:
 		pos = get_closest_point(pos)
 	return pos
 
 func make_global(pos):
 	pos = pos * get_scale()
-	pos = pos + get_pos()
+	pos = pos + get_position()
 	return pos
 
-func get_path(p_src, p_dest):
+func get_terrain_path(p_src, p_dest):
 	printt("get path ", p_src, p_dest)
-	if !(self extends Navigation2D):
+	if !(self is Navigation2D):
 		printt("returning a line")
 		return [p_src, p_dest]
 	p_src = make_local(p_src)
@@ -94,7 +96,7 @@ func get_path(p_src, p_dest):
 
 func is_solid(pos):
 
-	pos = pos - get_pos()
+	pos = pos - get_position()
 	pos = pos * 1.0 / get_scale()
 
 	var closest = get_closest_point(pos)
@@ -105,7 +107,7 @@ func get_scale_range(r):
 	return Vector2(r, r)
 
 func get_terrain(pos):
-	if typeof(scales) == typeof(null) || scales.empty():
+	if typeof(scales) == typeof(null) || scales.get_data().empty():
 		return Color(1, 1, 1, 1)
 	return get_pixel(pos, scales)
 
@@ -118,7 +120,7 @@ func _color_mul(a, b):
 	return c
 
 func get_light(pos):
-	if typeof(lightmap) == typeof(null) || lightmap.empty():
+	if typeof(lightmap) == typeof(null) || lightmap.get_data().empty():
 		return modulate
 	return _color_mul(get_pixel(pos, lightmap), modulate)
 
@@ -131,6 +133,7 @@ func get_pixel(pos, p_image):
 		return Color()
 
 
+	p_image.lock()
 	var ll = p_image.get_pixel(pos.x, pos.y)
 	var ndif = Vector2()
 	ndif.x = pos.x - floor(pos.x)
@@ -167,6 +170,7 @@ func get_pixel(pos, p_image):
 
 	var final = bottom.linear_interpolate(top, ndif.y)
 
+	p_image.unlock()
 	return final
 
 func _draw():
@@ -188,5 +192,6 @@ func _draw():
 func _ready():
 	#path = ImagePathFinder.new()
 	_update_texture()
+
 
 

@@ -18,19 +18,20 @@ func rand_seek(p_node = null):
 	#node.play()
 	#return
 
-	var len = node.get_length()
-	printt("length is ", len)
-	if len == 0:
+	var length = node.get_length()
+	printt("length is ", length)
+	if length == 0:
 		return
 
 	var r = randf()
-	var pos = len * r
+	var pos = length * r
 	printt("seek to ", pos, r)
 
 	#if !node.is_playing():
 	node.play(pos)
-	#node.seek_pos(pos)
+	#node.seek_position(pos)
 
 func _ready():
 	add_to_group("game")
+
 

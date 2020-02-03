@@ -33,3 +33,4 @@ func set_state(p_state, p_force = false):
 
 func _ready():
 	stream = get_node("stream")
+

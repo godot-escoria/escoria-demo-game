@@ -1,8 +1,10 @@
+extends Node2D
+
 var target
 var actions
 
 func action_pressed(action):
-	get_tree().call_group(0, "game", "action_menu_selected", target, action)
+	get_tree().call_group("game", "action_menu_selected", target, action)
 
 func target_visibility_changed():
 	stop()
@@ -14,7 +16,7 @@ func start(p_target):
 		target = p_target
 		target.connect("visibility_changed", self, "target_visibility_changed")
 
-	var scale = Globals.get("platform/action_menu_scale")
+	var scale = ProjectSettings.get("platform/action_menu_scale")
 	set_scale(Vector2(scale, scale))
 
 func stop():
@@ -48,3 +50,4 @@ func _ready():
 		c.connect("pressed", self, "action_pressed", [c.get_name()])
 
 	set_process_input(true)
+

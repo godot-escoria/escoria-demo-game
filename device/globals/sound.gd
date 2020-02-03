@@ -1,3 +1,5 @@
+extends Node
+
 var vm
 
 var sounds = []
@@ -9,7 +11,7 @@ func get_free_player():
 	for s in sounds:
 		if !s.is_playing() && !s.has_meta("action"):
 			return s
-	var s = StreamPlayer.new()
+	var s = AudioStreamPlayer.new()
 	add_child(s)
 	sounds.push_back(s)
 	return s
@@ -138,3 +140,4 @@ func _ready():
 	#set_process(true)
 	vm.connect("scene_changed", self, "scene_changed")
 	get_node("timer").connect("timeout", self, "check_sounds")
+
