@@ -1,4 +1,4 @@
-tool
+#tool
 
 extends "res://globals/interactive.gd"
 
@@ -25,7 +25,8 @@ var event_table = {}
 var clicked = false
 
 func is_clicked():
-	return clicked
+       return clicked
+
 
 #func _set(name, val):
 #	if name == "events_path":
@@ -35,31 +36,31 @@ func is_clicked():
 #	if name in self:
 #		self[name] = val
 
-func get_interact_pos():
+func get_interact_position():
 	if has_node("interact_pos"):
-		return get_node("interact_pos").get_global_pos()
+		return get_node("interact_pos").get_global_position()
 	else:
-		return get_global_pos()
+		return (self as Node).get_global_position()
 
-func anim_finished():
+# warning-ignore:unused_argument
+func anim_finished(anim_name):
 	if typeof(anim_notify) != typeof(null):
 		vm.finished(anim_notify)
 		anim_notify = null
 
-	if typeof(anim_scale_override) != typeof(null) && self extends Node2D:
-		set_scale(get_scale() * anim_scale_override)
+	if typeof(anim_scale_override) != typeof(null) && (self as Node) is Node2D:
+		(self as Node).set_scale((self as Node).get_scale() * anim_scale_override)
 		anim_scale_override = null
 
-	var cur = animation.get_current_animation()
-	if cur != state:
+	if anim_name != state:
 		set_state(state, true)
 
 func set_active(p_active):
 	active = p_active
 	if p_active:
-		show()
+		(self as Node).show()
 	else:
-		hide()
+		(self as Node).hide()
 
 func get_active():
 	return active
@@ -84,21 +85,21 @@ func get_action():
 	return action
 
 func mouse_enter():
-	get_tree().call_group(0, "game", "mouse_enter", self)
+	get_tree().call_group("game", "mouse_enter", self)
 	_check_focus(true, false)
 
 func mouse_exit():
-	get_tree().call_group(0, "game", "mouse_exit", self)
+	get_tree().call_group("game", "mouse_exit", self)
 	_check_focus(false, false)
 
-func area_input(viewport, event, shape_idx):
-	input(event)
+func area_input(_viewport, event, _shape_idx):
+       input(event)
 
 func input(event):
-	if event.type == InputEvent.MOUSE_BUTTON || event.is_action("ui_accept"):
+	if event is InputEventMouseButton || event.is_action("ui_accept"):
 		if event.is_pressed():
 			clicked = true
-			get_tree().call_group(0, "game", "clicked", self, get_pos())
+			get_tree().call_group("game", "clicked", self, (self as Node).get_position())
 			_check_focus(true, true)
 		else:
 			clicked = false
@@ -117,8 +118,8 @@ func _check_focus(focus, pressed):
 		else:
 			get_node("_pressed").hide()
 
-func get_tooltip():
-	if TranslationServer.get_locale() == Globals.get("application/tooltip_lang_default"):
+func get_esctooltip():
+	if TranslationServer.get_locale() == ProjectSettings.get("application/tooltip_lang_default"):
 		return tooltip
 	else:
 		if tr(tooltip) == tooltip:
@@ -134,22 +135,26 @@ func get_drag_data(point):
 	var c = Control.new()
 	var it = duplicate()
 	it.set_script(null)
-	it.set_pos(Vector2(-50, -80))
+	it.set_position(Vector2(-50, -80))
 	c.add_child(it)
 	c.show()
 	it.show()
-	set_drag_preview(c)
+	if (self as Node) is Control:
+	    (self as Node).set_drag_preview(c)
 
-	get_tree().call_group(0, "background", "force_drag", global_id, c)
-	get_tree().call_group(0, "game", "interact", [self, "use"])
+	get_tree().call_group("background", "force_drag", global_id, c)
+	get_tree().call_group("game", "interact", [self, "use"])
 
 	vm.drag_begin(global_id)
 	printt("returning for drag data", global_id)
 	return global_id
 
+# warning-ignore:unused_argument
+# warning-ignore:unused_argument
 func can_drop_data(point, data):
 	return true # always true ?
 
+# warning-ignore:unused_argument
 func drop_data(point, data):
 	printt("dropping data ", data, global_id)
 	if data == global_id:
@@ -158,7 +163,7 @@ func drop_data(point, data):
 	if !inventory:
 		return
 	
-	get_tree().call_group(0, "game", "clicked", self, get_pos())
+	get_tree().call_group("game", "clicked", self, (self as Node).get_position())
 	vm.drag_end()
 
 
@@ -176,7 +181,7 @@ func anim_get_ph_paths(p_anim):
 	var ret = []
 	for p in placeholders[p_anim]:
 		var n = get_node(p)
-		if !(n extends InstancePlaceholder):
+		if !(n is InstancePlaceholder):
 			continue
 		ret.push_back(n.get_instance_path())
 	return ret
@@ -192,16 +197,16 @@ func play_anim(p_anim, p_notify = null, p_reverse = false, p_flip = null):
 	if p_anim in placeholders:
 		for npath in placeholders[p_anim]:
 			var node = get_node(npath)
-			if !(node extends InstancePlaceholder):
+			if !(node is InstancePlaceholder):
 				continue
 			var path = node.get_instance_path()
 			var res = vm.res_cache.get_resource(path)
 			node.replace_by_instance(res)
 			_find_sprites(get_node(npath))
 
-	if p_flip != null && self extends Node2D:
-		var scale = get_scale()
-		set_scale(scale * p_flip)
+	if p_flip != null && (self as Node) is Node2D:
+		var scale = (self as Node).get_scale()
+		(self as Node).set_scale(scale * p_flip)
 		anim_scale_override = p_flip
 	else:
 		anim_scale_override = null
@@ -252,43 +257,43 @@ func set_state(p_state, p_force = false):
 
 
 func teleport(obj):
-	set_pos(obj.get_global_pos())
+	(self as Node).set_position(obj.get_global_position())
 	_update_terrain()
 
 func teleport_pos(x, y):
-	set_pos(Vector2(x, y))
+	(self as Node).set_position(Vector2(x, y))
 	_update_terrain()
 
 func _update_terrain():
-	if self extends Node2D && !use_custom_z:
-		set_z(get_pos().y)
+	if (self as Node) is Node2D && !use_custom_z:
+		(self as Node).set_z_index((self as Node).get_position().y)
 	if !scale_on_map && !light_on_map:
 		return
 	print("updating terrain!")
-	var pos = get_pos()
+	var pos = (self as Node).get_position()
 	var terrain = get_node("../terrain")
 	if terrain == null:
 		return
 	var color = terrain.get_terrain(pos)
 	var scale = terrain.get_scale_range(color.b)
 
-	if scale_on_map && (self extends Node2D) && scale != get_scale():
-		var color = terrain.get_terrain(pos)
-		var scale = terrain.get_scale_range(color.b)
-		set_scale(scale)
+	if scale_on_map && ((self as Node) is Node2D) && scale != (self as Node).get_scale():
+		var c = terrain.get_terrain(pos)
+		var s = terrain.get_scale_range(c.b)
+		(self as Node).set_scale(s)
 
 	if light_on_map:
-		var color = terrain.get_light(pos)
-		printt("lights on map! ", color)
-		modulate(color)
+		var c = terrain.get_light(pos)
+		printt("lights on map! ", c)
+		modulate(c)
 
 func _check_bounds():
-	#printt("checking bouds for pos ", get_pos(), terrain.is_solid(get_pos()))
+	#printt("checking bouds for pos ", get_position(), terrain.is_solid(get_position()))
 	if !scale_on_map:
 		return
 	if !get_tree().is_editor_hint():
 		return
-	if terrain.is_solid(get_pos()):
+	if terrain.is_solid((self as Node).get_position()):
 		if has_node("terrain_icon"):
 			get_node("terrain_icon").hide()
 	else:
@@ -301,7 +306,7 @@ func _check_bounds():
 		get_node("terrain_icon").show()
 
 func _notification(what):
-	if !is_inside_tree() || !get_tree().is_editor_hint():
+	if !is_inside_tree() || !Engine.is_editor_hint():
 		return
 	if what == Node2D.NOTIFICATION_TRANSFORM_CHANGED:
 		_update_terrain()
@@ -332,7 +337,7 @@ func setup_ui_anim():
 
 func _ready():
 
-	if get_tree().is_editor_hint():
+	if Engine.is_editor_hint():
 		return
 
 	var area
@@ -340,22 +345,24 @@ func _ready():
 		area = get_node("area")
 	else:
 		area = self
-	if area.is_type("Area2D"):
-		area.connect("input_event", self, "area_input")
+	if area is Area2D:
+		area.connect("gui_input", self, "area_input")
 	else:
-		area.connect("input_event", self, "input")
-	area.connect("mouse_enter", self, "mouse_enter")
-	area.connect("mouse_exit", self, "mouse_exit")
+		area.connect("gui_input", self, "input")
+	area.connect("mouse_entered", self, "mouse_enter")
+	area.connect("mouse_exited", self, "mouse_exit")
 	vm = get_tree().get_root().get_node("vm")
 	if events_path != "":
 		event_table = vm.compile(events_path)
 	if global_id != "":
 		vm.register_object(global_id, self)
 	if has_node("animation"):
-		get_node("animation").connect("finished", self, "anim_finished")
+		# warning-ignore:return_value_discarded
+		get_node("animation").connect("animation_finished", self, "anim_finished")
 
 	_check_focus(false, false)
 
 	call_deferred("setup_ui_anim")
 
 	call_deferred("_update_terrain")
+

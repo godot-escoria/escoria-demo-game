@@ -1,17 +1,17 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://ui/confirm_popup.gd" type="Script" id=1]
 
 [sub_resource type="Animation" id=1]
 
-resource/name = "close"
+resource_name = "close"
 length = 1.0
 loop = false
 step = 0.1
 
 [sub_resource type="Animation" id=2]
 
-resource/name = "open"
+resource_name = "open"
 length = 1.0
 loop = false
 step = 0.1
@@ -20,80 +20,85 @@ step = 0.1
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 1949.0
-margin/bottom = 1079.0
-script/script = ExtResource( 1 )
+size_flags_horizontal = 1
+size_flags_vertical = 1
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 1949.0
+margin_bottom = 1079.0
+script = ExtResource( 1 )
+mouse_filter = 0
 
 [node name="Panel" type="TextureButton" parent="."]
 
-rect/scale = Vector2( 0.8, 0.8 )
+rect_scale = Vector2( 0.8, 0.8 )
 focus/ignore_mouse = false
 focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 667.0
-margin/top = 312.0
-margin/right = 1384.0
-margin/bottom = 759.0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+margin_left = 667.0
+margin_top = 312.0
+margin_right = 1384.0
+margin_bottom = 759.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-params/scale = Vector2( 0.3, 0.3 )
+texture_scale = Vector2( 0.3, 0.3 )
+mouse_filter = 0
 
 [node name="message" type="Label" parent="."]
 
-rect/scale = Vector2( 1.3, 1.3 )
-hint/tooltip = "Sure \?"
+rect_scale = Vector2( 1.3, 1.3 )
+hint_tooltip = "Sure ?"
 focus/ignore_mouse = true
 focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 673.0
-margin/top = 319.0
-margin/right = 1105.0
-margin/bottom = 494.0
+size_flags_horizontal = 1
+size_flags_vertical = 0
+margin_left = 673.0
+margin_top = 319.0
+margin_right = 1105.0
+margin_bottom = 494.0
 custom_colors/font_color = Color( 0.807843, 0.156863, 0.219608, 1 )
 custom_colors/font_color_shadow = Color( 0.443137, 0.266667, 0.00784314, 1 )
-text = "Do you want \nto quit the game \?"
+text = "Do you want 
+to quit the game ?"
 align = 1
 valign = 1
 autowrap = true
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+mouse_filter = 1
 
 [node name="yes" type="TextureButton" parent="."]
 
-rect/scale = Vector2( 0.8, 0.8 )
+rect_scale = Vector2( 0.8, 0.8 )
 focus/ignore_mouse = false
 focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 755.0
-margin/top = 549.0
-margin/right = 964.4
-margin/bottom = 644.0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+margin_left = 755.0
+margin_top = 549.0
+margin_right = 964.4
+margin_bottom = 644.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-params/scale = Vector2( 0.3, 0.3 )
+texture_scale = Vector2( 0.3, 0.3 )
+mouse_filter = 0
 
 [node name="UI_YES" type="Label" parent="yes"]
 
-rect/scale = Vector2( 2.5, 2.5 )
-hint/tooltip = "Yes"
+rect_scale = Vector2( 2.5, 2.5 )
+hint_tooltip = "Yes"
 focus/ignore_mouse = true
 focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 59.0
-margin/top = 13.0
-margin/right = 101.0
-margin/bottom = 43.0
+size_flags_horizontal = 1
+size_flags_vertical = 0
+margin_left = 59.0
+margin_top = 13.0
+margin_right = 101.0
+margin_bottom = 43.0
 custom_colors/font_color = Color( 0.988235, 0.913725, 0.309804, 1 )
 custom_colors/font_color_shadow = Color( 0.443137, 0.266667, 0.00784314, 1 )
 text = "UI_YES"
@@ -102,35 +107,37 @@ autowrap = true
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+mouse_filter = 1
 
 [node name="no" type="TextureButton" parent="."]
 
-rect/scale = Vector2( 0.8, 0.8 )
+rect_scale = Vector2( 0.8, 0.8 )
 focus/ignore_mouse = false
 focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 986.0
-margin/top = 549.0
-margin/right = 1195.4
-margin/bottom = 643.0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+margin_left = 986.0
+margin_top = 549.0
+margin_right = 1195.4
+margin_bottom = 643.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-params/scale = Vector2( 0.3, 0.3 )
+texture_scale = Vector2( 0.3, 0.3 )
+mouse_filter = 0
 
 [node name="UI_NO" type="Label" parent="no"]
 
-rect/scale = Vector2( 2.5, 2.5 )
-hint/tooltip = "No"
+rect_scale = Vector2( 2.5, 2.5 )
+hint_tooltip = "No"
 focus/ignore_mouse = true
 focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 60.0
-margin/top = 14.0
-margin/right = 105.0
-margin/bottom = 44.0
+size_flags_horizontal = 1
+size_flags_vertical = 0
+margin_left = 60.0
+margin_top = 14.0
+margin_right = 105.0
+margin_bottom = 44.0
 custom_colors/font_color = Color( 0.988235, 0.913725, 0.309804, 1 )
 custom_colors/font_color_shadow = Color( 0.443137, 0.266667, 0.00784314, 1 )
 text = "UI_NO"
@@ -139,17 +146,16 @@ autowrap = true
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+mouse_filter = 1
 
 [node name="animation" type="AnimationPlayer" parent="."]
 
-playback/process_mode = 1
-playback/default_blend_time = 0.0
-root/root = NodePath("..")
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+root_node = NodePath("..")
 anims/close = SubResource( 1 )
 anims/open = SubResource( 2 )
-playback/active = true
-playback/speed = 1.0
+playback_active = true
+playback_speed = 1.0
 blend_times = [  ]
 autoplay = ""
-
-

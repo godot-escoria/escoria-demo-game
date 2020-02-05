@@ -48,6 +48,7 @@ func save_settings(p_data, p_callback):
 
 func load_settings(p_callback):
 
+	# warning-ignore:shadowed_variable
 	var settings = ICloud.get_key_value("settings")
 	if settings == null:
 		settings = {}
@@ -78,6 +79,7 @@ func save_game(p_data, p_slot, p_callback):
 	var path = str(base) + "/" + str(fname)
 	var vals = {}
 	vals[skey] = { "fname": path, "data": p_data }
+	# warning-ignore:unused_variable
 	var ret = ICloud.set_key_values(vals)
 
 	if typeof(p_callback) != typeof(null):
@@ -169,5 +171,6 @@ func autosave_available():
 	return data != null
 
 func start():
-	ICloud = Globals.get_singleton("ICloud")
+	ICloud = ProjectSettings.get_singleton("ICloud")
 	pass
+

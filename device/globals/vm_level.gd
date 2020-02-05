@@ -14,10 +14,10 @@ func _walk(params, block):
 		return vm.state_return
 	if !check_obj(params[1], "walk"):
 		return vm.state_return
-	var tpos = vm.get_object(params[1]).get_interact_pos()
+	var tpos = vm.get_object(params[1]).get_interact_position()
 	var speed = 0
 	if params.size() > 2:
-		speed = real(params[2])
+		speed = int(params[2])
 	if block:
 		current_context.waiting = true
 		vm.get_object(params[0]).walk(tpos, speed, current_context)
@@ -97,7 +97,7 @@ func inventory_add(params):
 	vm.inventory_set(params[0], true)
 	return vm.state_return
 
-func inventory_remove(params):
+func inventory_remove_and_collide(params):
 	vm.inventory_set(params[0], false)
 	return vm.state_return
 	
@@ -111,9 +111,11 @@ func set_active(params):
 	vm.set_active(params[0], params[1])
 	return vm.state_return
 
+# warning-ignore:unused_argument
 func stop(params):
 	return vm.state_break
 
+# warning-ignore:unused_argument
 func repeat(params):
 	return vm.state_repeat
 
@@ -196,7 +198,7 @@ func camera_set_target(params):
 		targets.push_back(params[i])
 	vm.camera_set_target(speed, targets)
 
-func camera_set_pos(params):
+func camera_set_position(params):
 	var speed = params[0]
 	var pos = Vector2(params[1], params[2])
 	vm.camera_set_target(speed, pos)
@@ -206,6 +208,7 @@ func set_globals(params):
 	var val = params[1]
 	vm.set_globals(pat, val)
 
+# warning-ignore:unused_argument
 func autosave(params):
 	vm.request_autosave()
 
@@ -291,3 +294,4 @@ func _init():
 	#print("*************** vm level init")
 	#vm = get_tree().get_singleton("vm")
 	pass
+
