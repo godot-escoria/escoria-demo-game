@@ -231,7 +231,7 @@ func show_highlight():
 		return
 
 	highlight_tooltip = vm.tooltip.duplicate()
-	assert highlight_tooltip != vm.tooltip
+	assert(highlight_tooltip != vm.tooltip)
 
 	var tt_pos = $"tooltip_pos".global_position
 	var tt_text = get_tooltip()
@@ -258,7 +258,7 @@ func hide_highlight():
 	if not highlight_tooltip:
 		return
 
-	assert highlight_tooltip.visible
+	assert(highlight_tooltip.visible)
 
 	highlight_tooltip.hide()
 	highlight_tooltip.free()

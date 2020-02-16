@@ -133,7 +133,7 @@ func _clamp(tt_pos):
 
 	return tt_pos
 
-func set_position(pos):
+func set_position(pos, keep_margins=false):
 	rect_global_position= _clamp(pos)
 
 func _input(ev):
