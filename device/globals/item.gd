@@ -586,8 +586,8 @@ func _find_sprites(p = null):
 
 func update_rect():
 	# Called from inventory.gd when items get sorted
-	assert self.inventory
-	assert area is TextureRect
+	assert(self.inventory)
+	assert(area is TextureRect)
 
 	# Now that we know we are TextureRect, create a Rect2 so we can check `.has_point()` when closing the menu
 	rect = Rect2(area.rect_global_position, area.rect_size)

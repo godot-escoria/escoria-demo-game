@@ -58,8 +58,8 @@ func stop(show_tooltip=true):
 	if vm.tooltip and ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse") and show_tooltip:
 		vm.hover_rebuild()
 
-func set_position(pos):
-	.set_position(_clamp(pos))
+func set_position(pos, keep_margins=false):
+	.set_position(_clamp(pos), keep_margins)
 
 func _ready():
 	var acts = get_node("actions")
