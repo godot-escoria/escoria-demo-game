@@ -20,6 +20,8 @@ This framework was initially developed for the adventure game
 and later streamlined for broader usages and open sourced as promised
 to the backers of the Dog Mendonça Kickstarter campaign.
 
+![screenshot](doc/screenshots/Escoria_-_point-and-click_system_for_the_Godot_engine_2.jpg)
+
 ## Usage
 
 Here be dragons.
@@ -38,6 +40,8 @@ The great demo that goes with the FLOSS Manuals francophone manual linked above,
 "Escoria in Daïza", is also [hosted on GitHub](https://github.com/flossmanualsfr/escoria).
 It is released under the MIT license, and can thus be used as a way to kickstart
 your experience with Escoria.
+
+![screenshot](doc/screenshots/Escoria_-_point-and-click_system_for_the_Godot_engine_1.jpg)
 
 ## Licensing
 
