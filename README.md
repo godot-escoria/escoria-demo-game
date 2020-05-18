@@ -3,7 +3,7 @@
 Libre framework for the creation of point-and-click adventure games with
 the MIT-licensed multi-platform game engine [Godot Engine](https://godotengine.org).
 
-**This version works with Godot 3.0.**
+**This version works with Godot 3.2.x.**
 
 For Escoria 2.0 for Godot 3.2, please check the https://github.com/godotengine/escoria/tree/esc2-godot3.2 branch.  
 For Escoria 2.0 for Godot 2.1, please check the https://github.com/godotengine/escoria/tree/2.1 branch.
@@ -25,7 +25,7 @@ to the backers of the Dog Mendonça Kickstarter campaign.
 
 ## Usage
 
-Here be dragons.
+Escoria will be rewritten extensively in the near future. Documentation will come after. We have plans.
 
 ## Documentation
 
@@ -41,6 +41,11 @@ The great demo that goes with the FLOSS Manuals francophone manual linked above,
 "Escoria in Daïza", is also [hosted on GitHub](https://github.com/flossmanualsfr/escoria).
 It is released under the MIT license, and can thus be used as a way to kickstart
 your experience with Escoria.
+
+## Contact
+
+You can reach Escoria developers and users on IRC.
+Freenode.net #godotengine-escoria
 
 ## Licensing
 
