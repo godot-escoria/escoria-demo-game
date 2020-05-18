@@ -32,8 +32,12 @@ script = ExtResource( 3 )
 
 [node name="terrain" type="Navigation2D" parent="."]
 script = ExtResource( 4 )
+lightmap = null
 scales = ExtResource( 5 )
+bitmaps_scale = Vector2( 1, 1 )
+player_speed_multiplier = 1.0
 player_doubleclick_speed_multiplier = 3.0
+lightmap_modulate = Color( 1, 1, 1, 1 )
 debug_mode = 0
 scale_min = 1.0
 scale_max = 2.0
@@ -52,7 +56,6 @@ placeholders = {
 }
 
 [node name="exit_hut1" type="Area2D" parent="."]
-editor/display_folded = true
 script = ExtResource( 7 )
 global_id = "exit_hut1"
 events_path = "res://demo/rooms/outside/exit_hut1.esc"
@@ -64,7 +67,6 @@ position = Vector2( 290.456, 131.504 )
 polygon = PoolVector2Array( 301.941, 401.717, 235.783, 420.094, 400.443, 443.617, 396.033, 414.213 )
 
 [node name="exit_hut2" type="Area2D" parent="."]
-editor/display_folded = true
 script = ExtResource( 7 )
 global_id = "exit_hut2"
 events_path = "res://demo/rooms/outside/exit_hut2.esc"
@@ -78,7 +80,6 @@ polygon = PoolVector2Array( 308.458, 408.529, 302.736, 429.655, 396.484, 424.814
 [node name="game" parent="." instance=ExtResource( 8 )]
 
 [node name="exit_out" type="Area2D" parent="."]
-editor/display_folded = true
 script = ExtResource( 9 )
 global_id = "exit_out"
 events_path = "res://demo/rooms/outside/exit_out.esc"

@@ -19,7 +19,11 @@ var customs = []
 
 var event_queue = []
 
-enum acceptable_inputs {INPUT_NONE INPUT_ALL INPUT_SKIP}
+enum acceptable_inputs {
+	INPUT_NONE,
+	INPUT_ALL,
+	INPUT_SKIP
+}
 var accept_input = acceptable_inputs.INPUT_ALL
 
 var state_return = 0
@@ -259,7 +263,7 @@ func hover_rebuild():
 		if not item.visible:
 			continue
 
-		assert item.rect
+		assert(item.rect)
 		if item.rect.has_point($"/root".get_mouse_position()):
 			vm.hover_push(item)
 
@@ -298,7 +302,7 @@ func camera_set_target(p_speed, p_target):
 	if not camera:
 		return
 
-	assert typeof(p_target) in [TYPE_VECTOR2, TYPE_ARRAY, TYPE_STRING, TYPE_NIL]
+	assert(typeof(p_target) in [TYPE_VECTOR2, TYPE_ARRAY, TYPE_STRING, TYPE_NIL])
 
 	var target = p_target
 
@@ -325,7 +329,7 @@ func camera_set_target(p_speed, p_target):
 		if not target:
 			report_errors("global_vm", ["Camera target not found: " + cam_target])
 	else:
-		assert typeof(target) == TYPE_VECTOR2
+		assert(typeof(target) == TYPE_VECTOR2)
 
 	# Set state for savegames
 	cam_target = p_target

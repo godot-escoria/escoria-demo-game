@@ -32,7 +32,7 @@ func set_scene(p_scene, run_events=true):
 
 	# Ensure we don't have a regular event running when changing scenes
 	if vm.running_event:
-		assert vm.running_event.ev_name == "load"
+		assert(vm.running_event.ev_name == "load")
 
 	if "events_path" in p_scene and p_scene.events_path and run_events:
 		vm.load_file(p_scene.events_path)
