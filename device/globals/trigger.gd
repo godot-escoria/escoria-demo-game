@@ -87,7 +87,7 @@ func _physics_process(dt):
 func _ready():
 	var conn_err
 
-	assert(self is Area2D)
+	#assert(self is Area2D)
 
 	conn_err = connect("input_event", self, "area_input")
 	if conn_err:
