@@ -1,5 +1,7 @@
 :look
 say player "Some jars."
+wait 3
+say player "Very nice."
 
 :use
 say player "Hey! There's a key in there!"

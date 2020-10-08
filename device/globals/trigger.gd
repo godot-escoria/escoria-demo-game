@@ -87,8 +87,6 @@ func _physics_process(dt):
 func _ready():
 	var conn_err
 
-	assert(self is Area2D)
-
 	conn_err = connect("input_event", self, "area_input")
 	if conn_err:
 		vm.report_errors("trigger", ["trigger.input_event -> area_input error: " + String(conn_err)])

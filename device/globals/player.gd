@@ -250,22 +250,22 @@ func interact(p_params):
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "interact", p_params)
 
 func slide_to(pos, context = null):
-       # Assume a straight line, and leverage some walk functionality
-       walk_path = [get_position(), pos]
-       walk_context = context
-       if walk_path.size() == 0:
-               walk_stop(get_position())
-               set_process(false)
-               task = null
-               return
+	   # Assume a straight line, and leverage some walk functionality
+	   walk_path = [get_position(), pos]
+	   walk_context = context
+	   if walk_path.size() == 0:
+			   walk_stop(get_position())
+			   set_process(false)
+			   task = null
+			   return
 
-       moved = true
+	   moved = true
 
-       walk_destination = walk_path[walk_path.size()-1]
+	   walk_destination = walk_path[walk_path.size()-1]
 
-       path_ofs = 0.0
-       task = "slide"
-       set_process(true)
+	   path_ofs = 0.0
+	   task = "slide"
+	   set_process(true)
 
 func slide(pos, p_speed, context = null):
 	if p_speed:
