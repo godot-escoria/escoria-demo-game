@@ -16,7 +16,9 @@ the needs of your specific game and team.
 ## History
 
 This framework was initially developed for the adventure game
-[The Interactive Adventures of Dog Mendonça and Pizzaboy®](http://store.steampowered.com/app/330420)
+*The Interactive Adventures of Dog Mendonça & Pizzaboy®*
+([full game](https://store.steampowered.com/app/330420),
+[demo](https://archive.org/details/Dog_Pizzaboy_demo))
 and later streamlined for broader usages and open sourced as promised
 to the backers of the Dog Mendonça Kickstarter campaign.
 
