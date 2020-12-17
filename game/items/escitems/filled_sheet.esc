@@ -1,0 +1,6 @@
+:look
+say player "'Dear Escoria developer: I hope you're having fun right now!'"
+stop
+
+:use character
+say player "I'll give you this!"

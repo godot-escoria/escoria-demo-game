@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=1]
+[ext_resource path="res://game/rooms/room5/items/wrench.png" type="Texture" id=2]
+[ext_resource path="res://game/items/inventory/wrench_escinventoryitem.tscn" type="PackedScene" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 44.696, 49.0953 )
+
+[node name="wrench" type="Sprite"]
+texture = ExtResource( 2 )
+script = ExtResource( 1 )
+global_id = "r5_wrench"
+esc_script = "res://game/items/escitems/wrench.esc"
+tooltip_name = "Wrench"
+default_action = "look"
+combine_if_action_used_among = PoolStringArray( "use", "give" )
+use_from_inventory_only = true
+inventory_item_scene_file = ExtResource( 3 )
+dialog_color = Color( 1, 1, 1, 1 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 1 )

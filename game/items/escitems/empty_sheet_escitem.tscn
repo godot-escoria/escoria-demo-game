@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=1]
+[ext_resource path="res://game/rooms/room5/items/empty_sheet.png" type="Texture" id=2]
+[ext_resource path="res://game/items/inventory/empty_sheet_escinventoryitem.tscn" type="PackedScene" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 86.9568, 115.211 )
+
+[node name="empty_sheet" type="Sprite"]
+texture = ExtResource( 2 )
+script = ExtResource( 1 )
+global_id = "r5_empty_sheet"
+esc_script = "res://game/items/escitems/empty_sheet.esc"
+tooltip_name = "Sheet"
+default_action = "look"
+combine_if_action_used_among = PoolStringArray( "use" )
+use_from_inventory_only = true
+inventory_item_scene_file = ExtResource( 3 )
+dialog_color = Color( 1, 1, 1, 1 )
+
+[node name="Area2D" type="Area2D" parent="."]
+rotation = 0.0218604
+scale = Vector2( 0.683022, 0.519355 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 1 )

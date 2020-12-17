@@ -1,0 +1,142 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "TextureRect",
+"class": "ESCBackground",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/escbackground.gd"
+}, {
+"base": "Camera2D",
+"class": "ESCCamera",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/scenes/camera_player/esccamera.gd"
+}, {
+"base": "Node",
+"class": "ESCCharacter",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esccharacter.gd"
+}, {
+"base": "ResourcePreloader",
+"class": "ESCDialogsPlayer",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/scenes/dialogs/dialog_player.gd"
+}, {
+"base": "Area2D",
+"class": "ESCHotspot",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/eschotspot.gd"
+}, {
+"base": "Control",
+"class": "ESCInventory",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/scenes/inventory/inventory_ui.gd"
+}, {
+"base": "TextureButton",
+"class": "ESCInventoryItem",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/inventory_item.gd"
+}, {
+"base": "Sprite",
+"class": "ESCItem",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/escitem.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "ESCPlayer",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/escplayer.gd"
+}, {
+"base": "Node2D",
+"class": "ESCRoom",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/escroom.gd"
+}, {
+"base": "Navigation2D",
+"class": "ESCTerrain",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/escterrain.gd"
+}, {
+"base": "Area2D",
+"class": "ESCTriggerZone",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esctriggerzone.gd"
+} ]
+_global_script_class_icons={
+"ESCBackground": "",
+"ESCCamera": "",
+"ESCCharacter": "",
+"ESCDialogsPlayer": "",
+"ESCHotspot": "",
+"ESCInventory": "",
+"ESCInventoryItem": "",
+"ESCItem": "",
+"ESCPlayer": "",
+"ESCRoom": "",
+"ESCTerrain": "",
+"ESCTriggerZone": ""
+}
+
+[application]
+
+config/name="Escoria-reloaded"
+run/main_scene="res://addons/escoria-core/game/main_scene.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+escoria="*res://addons/escoria-core/game/escoria.tscn"
+esctypes="*res://addons/escoria-core/game/core-scripts/escoria_types.gd"
+
+[display]
+
+window/size/width=1280
+window/size/height=800
+
+[editor]
+
+search_in_file_extensions=PoolStringArray( "gd", "shader", "esc" )
+
+[editor_plugins]
+
+enabled=PoolStringArray( "escoria-core" )
+
+[escoria]
+
+debug/terminate_on_errors=true
+main/game_start_script="res://game/start_game.esc"
+main/main_menu_scene="res://game/ui/commons/main_menu.tscn"
+debug/terminate_on_warnings=false
+main/force_quit=true
+internals/save_data=""
+debug/development_lang="en"
+ui/dialogs_folder="res://game/ui/commons/dialogs"
+ui/default_dialog_scene="res://game/ui/commons/dialogs/dialog_label.tscn"
+ui/tooltip_follows_mouse=true
+ui/main_menu_scene="res://game/ui/commons/main_menu.tscn"
+ui/game_scene="res://game/ui/ui_mouse_icons/game.tscn"
+
+[input]
+
+esc_show_debug_prompt={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777245,"unicode":0,"echo":false,"script":null)
+ ]
+}
+switch_action_verb={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":4,"pressed":false,"doubleclick":false,"script":null)
+, Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":5,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"

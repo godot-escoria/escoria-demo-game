@@ -1,0 +1,66 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://game/ui/ui_mouse_icons/verbs_mouseicons.gd" type="Script" id=1]
+[ext_resource path="res://game/ui/ui_mouse_icons/cursors/cursor_examine.png" type="Texture" id=2]
+[ext_resource path="res://game/ui/ui_mouse_icons/cursors/cursor_tool.png" type="Texture" id=3]
+[ext_resource path="res://game/ui/ui_mouse_icons/cursors/cursor_pen.png" type="Texture" id=4]
+[ext_resource path="res://game/ui/ui_mouse_icons/cursors/cursor_foot.png" type="Texture" id=5]
+[ext_resource path="res://game/ui/ui_mouse_icons/cursors/cursor_hand.png" type="Texture" id=6]
+
+[node name="verbs_menu" type="Control"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="actions" type="GridContainer" parent="."]
+visible = false
+margin_right = 333.0
+margin_bottom = 175.0
+columns = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="walk" type="TextureRect" parent="actions"]
+margin_right = 64.0
+margin_bottom = 64.0
+texture = ExtResource( 5 )
+
+[node name="look" type="TextureRect" parent="actions"]
+margin_left = 68.0
+margin_right = 132.0
+margin_bottom = 64.0
+texture = ExtResource( 2 )
+
+[node name="pickup" type="TextureRect" parent="actions"]
+margin_left = 136.0
+margin_right = 200.0
+margin_bottom = 64.0
+texture = ExtResource( 6 )
+
+[node name="use" type="TextureRect" parent="actions"]
+margin_top = 68.0
+margin_right = 64.0
+margin_bottom = 132.0
+texture = ExtResource( 3 )
+
+[node name="talk" type="TextureRect" parent="actions"]
+margin_left = 68.0
+margin_top = 68.0
+margin_right = 132.0
+margin_bottom = 132.0
+texture = ExtResource( 4 )
+
+[node name="mouse_position" type="Control" parent="."]
+mouse_filter = 2
+
+[node name="tool" type="TextureRect" parent="mouse_position"]
+margin_left = 46.4475
+margin_top = 45.6984
+margin_right = 86.4475
+margin_bottom = 85.6984
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}

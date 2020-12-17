@@ -1,0 +1,34 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path="res://.import/06_07.png-497df3cc2c5a6f10f87be683f935b786.stex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://game/characters/character/png/06_07.png"
+dest_files=[ "res://.import/06_07.png-497df3cc2c5a6f10f87be683f935b786.stex" ]
+
+[params]
+
+compress/mode=0
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=0
+flags/repeat=0
+flags/filter=true
+flags/mipmaps=false
+flags/anisotropic=false
+flags/srgb=2
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+stream=false
+size_limit=0
+detect_3d=true
+svg/scale=1.0

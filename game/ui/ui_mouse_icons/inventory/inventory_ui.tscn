@@ -1,0 +1,172 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/scenes/inventory/inventory_ui.gd" type="Script" id=1]
+[ext_resource path="res://game/ui/ui_mouse_icons/images/inventory_bg.png" type="Texture" id=2]
+[ext_resource path="res://game/ui/ui_mouse_icons/inventory/inventory_ui_container.gd" type="Script" id=3]
+[ext_resource path="res://game/ui/ui_mouse_icons/inventory/inventory_showhide.gd" type="Script" id=4]
+[ext_resource path="res://game/ui/ui_mouse_icons/images/frame.png" type="Texture" id=5]
+[ext_resource path="res://game/ui/ui_mouse_icons/images/inventory_icon.png" type="Texture" id=6]
+[ext_resource path="res://game/items/all_items.tscn" type="PackedScene" id=7]
+
+[sub_resource type="Animation" id=1]
+resource_name = "hide"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../inventory_button:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../inventory_button/panel:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -1682.88, -52 ), Vector2( 268, -52 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "show"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../inventory_button:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../inventory_button/panel:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 268, -52 ), Vector2( -1682.88, -52 ) ]
+}
+
+[node name="inventory_ui" type="Control"]
+anchor_right = 0.609
+anchor_bottom = 0.135
+margin_right = -779.52
+margin_bottom = -108.0
+rect_scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+items_container = NodePath("inventory_button/panel/MarginContainer/ScrollContainer/container")
+
+[node name="all_items" parent="." instance=ExtResource( 7 )]
+position = Vector2( 269.391, 275.003 )
+
+[node name="inventory_button" type="TextureButton" parent="."]
+margin_right = 256.0
+margin_bottom = 322.0
+texture_normal = ExtResource( 6 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="frame" type="TextureRect" parent="inventory_button"]
+margin_right = 2643.0
+margin_bottom = 2630.0
+rect_scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 5 )
+stretch_mode = 1
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="panel" type="TextureRect" parent="inventory_button"]
+margin_left = 268.0
+margin_top = -52.0
+margin_right = 1957.0
+margin_bottom = 270.0
+grow_horizontal = 0
+rect_min_size = Vector2( 1689, 322 )
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="inventory_button/panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 57.0
+margin_top = 37.0
+margin_right = -68.0
+margin_bottom = -71.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="inventory_button/panel/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 1544.0
+margin_bottom = 194.0
+scroll_vertical_enabled = false
+
+[node name="container" type="HBoxContainer" parent="inventory_button/panel/MarginContainer/ScrollContainer"]
+margin_right = 1524.0
+margin_bottom = 174.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 20
+script = ExtResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="inventory_button"]
+anims/hide = SubResource( 1 )
+anims/show = SubResource( 2 )
+
+[connection signal="pressed" from="inventory_button" to="inventory_button" method="_on_inventory_button_pressed"]

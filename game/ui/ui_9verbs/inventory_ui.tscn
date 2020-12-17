@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/scenes/inventory/inventory_ui.gd" type="Script" id=1]
+[ext_resource path="res://game/items/all_items.tscn" type="PackedScene" id=2]
+[ext_resource path="res://game/ui/ui_9verbs/inventory_ui_container.gd" type="Script" id=3]
+
+
+[node name="inventory_ui" type="Control"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+items_container = NodePath("PanelContainer/ScrollContainer/GridContainer")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+margin_right = 600.0
+margin_bottom = 175.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 593.0
+margin_bottom = 168.0
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/ScrollContainer"]
+margin_right = 586.0
+size_flags_horizontal = 3
+custom_constants/vseparation = 16
+custom_constants/hseparation = 16
+columns = 4
+script = ExtResource( 3 )
+
+[node name="all_items" parent="." instance=ExtResource( 2 )]
+position = Vector2( 269.391, 275.003 )

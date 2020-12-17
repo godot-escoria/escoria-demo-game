@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://icon.png" type="Texture" id=1]
+
+[node name="dialog_avatars" type="Control"]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="character1" type="TextureRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="character2" type="TextureRect" parent="."]
+modulate = Color( 1, 0, 0, 1 )
+margin_left = 46.0
+margin_top = 80.0
+margin_right = 110.0
+margin_bottom = 144.0
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

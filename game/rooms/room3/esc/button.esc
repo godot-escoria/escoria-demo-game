@@ -1,0 +1,41 @@
+:look
+say player "That button must activate the bridge, but it is broken." [button_broken]
+say player "It should work now." [!button_broken]
+
+:push
+say player "I must USE this."
+
+:use
+> [!button_broken, !r3_bridge_closed]
+	set_state r3_bridge bridge_close 
+	enable_terrain bridge_closed
+	set_global r3_bridge_closed true
+	set_interactive r3_right_platform false
+	stop
+
+> [!button_broken, r3_bridge_closed]
+	set_state r3_bridge bridge_open 
+	enable_terrain bridge_open
+	set_global r3_bridge_closed false
+	set_interactive r3_right_platform true
+	stop
+
+> [button_broken]
+	say player "The button is broken!"
+	stop
+
+:talk
+> [button_broken]
+	say player "Please, will you repair yourself?"
+	wait 2
+	set_state r3_button button_repaired
+	set_global button_broken false
+	wait 2
+	say player "Oh, it worked!" 
+	stop
+> [!button_broken]
+	say player "I should not talk to it again. It could break itself back."
+
+
+:arrived
+say player "I am there!"

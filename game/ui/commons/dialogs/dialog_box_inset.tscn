@@ -1,0 +1,84 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/assets/fonts/efmi/efmi_font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://game/ui/commons/dialogs/insets/guybrush.jpeg" type="Texture" id=2]
+[ext_resource path="res://addons/escoria-core/template_scenes/dialog_scenes/dialog_box_inset.gd" type="Script" id=3]
+[ext_resource path="res://game/ui/commons/dialogs/insets/dialog_box_avatars.tscn" type="PackedScene" id=4]
+
+
+
+
+
+[node name="dialog_box" type="PanelContainer"]
+anchor_left = 0.155
+anchor_top = 0.334
+anchor_right = 0.845
+anchor_bottom = 0.666
+margin_left = 0.100006
+margin_top = -0.199982
+margin_right = -0.100098
+margin_bottom = 0.200012
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 876.0
+margin_bottom = 259.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 849.0
+margin_bottom = 232.0
+custom_constants/separation = 35
+dragger_visibility = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HSplitContainer"]
+margin_right = 150.0
+margin_bottom = 212.0
+
+[node name="avatar" type="TextureRect" parent="MarginContainer/HSplitContainer/VBoxContainer"]
+margin_right = 150.0
+margin_bottom = 150.0
+texture = ExtResource( 2 )
+
+[node name="name" type="Label" parent="MarginContainer/HSplitContainer/VBoxContainer"]
+margin_top = 154.0
+margin_right = 150.0
+margin_bottom = 178.0
+custom_fonts/font = ExtResource( 1 )
+valign = 1
+
+[node name="text" type="RichTextLabel" parent="MarginContainer/HSplitContainer"]
+margin_left = 185.0
+margin_right = 829.0
+margin_bottom = 212.0
+custom_fonts/normal_font = ExtResource( 1 )
+bbcode_enabled = true
+bbcode_text = "Here be some text"
+text = "Here be some text"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="MarginContainer/HSplitContainer/text"]
+
+[node name="dialog_avatars" parent="." instance=ExtResource( 4 )]
+visible = false
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 876.0
+margin_bottom = 259.0
+
+[node name="Timer" type="Timer" parent="."]

@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://game/rooms/room5/items/filled_sheet.png" type="Texture" id=1]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/inventory_item.gd" type="Script" id=2]
+
+[node name="filled_sheet" type="TextureButton"]
+margin_right = 88.0
+margin_bottom = 124.0
+texture_normal = ExtResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+global_id = "r5_filled_sheet"

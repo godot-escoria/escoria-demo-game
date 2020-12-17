@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/assets/fonts/efmi/efmi_font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://game/characters/tools/debug_label.gd" type="Script" id=2]
+
+[node name="debug" type="Label"]
+margin_left = 46.8283
+margin_top = -26.1921
+margin_right = 58.8283
+margin_bottom = -2.1921
+custom_fonts/font = ExtResource( 1 )
+text = "0"
+align = 1
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}

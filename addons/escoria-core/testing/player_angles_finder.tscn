@@ -1,0 +1,219 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://game/characters/guybrush/guybrush.tscn" type="PackedScene" id=1]
+[ext_resource path="res://addons/escoria-core/testing/player_angles_finder.gd" type="Script" id=2]
+
+[node name="player_angles_finder" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="areas" type="Node2D" parent="."]
+
+[node name="player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 640, 480 )
+dialog_position_node = NodePath("../../player_angles_finder/player/dialog_position")
+
+[node name="x_axis" type="Line2D" parent="."]
+points = PoolVector2Array( -10, 480, 1300, 480 )
+width = 2.0
+default_color = Color( 0.980392, 0.00392157, 0.00392157, 1 )
+
+[node name="y_axis" type="Line2D" parent="."]
+points = PoolVector2Array( 640, -20, 640, 810 )
+width = 2.0
+default_color = Color( 0.156863, 0.0117647, 0.984314, 1 )
+
+[node name="three" type="Node2D" parent="."]
+visible = false
+
+[node name="Line2D" type="Line2D" parent="three"]
+points = PoolVector2Array( 160, 0, 1120, 960 )
+width = 2.0
+default_color = Color( 1, 1, 1, 1 )
+
+[node name="Line2D2" type="Line2D" parent="three"]
+points = PoolVector2Array( 160, 960, 1120, 0 )
+width = 2.0
+default_color = Color( 1, 1, 1, 1 )
+
+[node name="six" type="Node2D" parent="."]
+visible = false
+
+[node name="Line2D" type="Line2D" parent="six"]
+points = PoolVector2Array( 0, 210, 640, 480 )
+width = 2.0
+default_color = Color( 1, 1, 1, 1 )
+
+[node name="Line2D4" type="Line2D" parent="six"]
+points = PoolVector2Array( 320, 0, 640, 480 )
+width = 2.0
+default_color = Color( 1, 1, 1, 1 )
+
+[node name="Line2D2" type="Line2D" parent="six"]
+points = PoolVector2Array( 640, 480, 1280, 210 )
+width = 2.0
+default_color = Color( 1, 1, 1, 1 )
+
+[node name="Line2D3" type="Line2D" parent="six"]
+points = PoolVector2Array( 640, 480, 960, 0 )
+width = 2.0
+default_color = Color( 1, 1, 1, 1 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+visible = false
+margin_right = 420.0
+margin_bottom = 24.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+margin_top = 5.0
+margin_right = 136.0
+margin_bottom = 19.0
+text = "Number of directions"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="number_of_directions" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+margin_left = 140.0
+margin_right = 198.0
+margin_bottom = 24.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="angle_x" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 235.0
+margin_bottom = 24.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VBoxContainer/angle_x"]
+margin_top = 5.0
+margin_right = 173.0
+margin_bottom = 19.0
+text = "Angle on horizontal axis (X)"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="angle_horiz" type="LineEdit" parent="VBoxContainer/angle_x"]
+margin_left = 177.0
+margin_right = 235.0
+margin_bottom = 24.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="angle_y" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 28.0
+margin_right = 235.0
+margin_bottom = 52.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VBoxContainer/angle_y"]
+margin_top = 5.0
+margin_right = 155.0
+margin_bottom = 19.0
+text = "Angle on vertical axis (Y)"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="angle_vert" type="LineEdit" parent="VBoxContainer/angle_y"]
+margin_left = 159.0
+margin_right = 217.0
+margin_bottom = 24.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="angle_diag" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 56.0
+margin_right = 235.0
+margin_bottom = 80.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VBoxContainer/angle_diag"]
+margin_top = 5.0
+margin_right = 146.0
+margin_bottom = 19.0
+text = "Angle on diagonal axes"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="angle_diag" type="LineEdit" parent="VBoxContainer/angle_diag"]
+margin_left = 150.0
+margin_right = 208.0
+margin_bottom = 24.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+margin_top = 84.0
+margin_right = 235.0
+margin_bottom = 88.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+margin_top = 92.0
+margin_right = 235.0
+margin_bottom = 116.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="angles" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+margin_right = 235.0
+margin_bottom = 24.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/angles"]
+margin_top = 5.0
+margin_right = 78.0
+margin_bottom = 19.0
+text = "Angles array"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="angle_array" type="LineEdit" parent="VBoxContainer/VBoxContainer/angles"]
+margin_left = 82.0
+margin_right = 235.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+editable = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="player_animations" type="OptionButton" parent="."]
+visible = false
+margin_left = 470.0
+margin_top = 10.0
+margin_right = 638.0
+margin_bottom = 33.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer/number_of_directions" to="." method="_on_number_of_directions_text_changed"]
+[connection signal="text_changed" from="VBoxContainer/angle_x/angle_horiz" to="." method="_on_angle_horiz_text_changed"]
+[connection signal="text_changed" from="VBoxContainer/angle_y/angle_vert" to="." method="_on_angle_vert_text_changed"]
+[connection signal="text_changed" from="VBoxContainer/angle_diag/angle_diag" to="." method="_on_angle_diag_text_changed"]
+[connection signal="text_changed" from="VBoxContainer/VBoxContainer/angles/angle_array" to="." method="_on_angle_diag_text_changed"]

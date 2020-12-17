@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://game/ui/ui_mouse_icons/cursors/cursor_hand.png" type="Texture" id=1]
+[ext_resource path="res://game/ui/ui_mouse_icons/cursors/cursor_foot.png" type="Texture" id=2]
+[ext_resource path="res://game/ui/ui_mouse_icons/cursors/cursor_examine.png" type="Texture" id=3]
+[ext_resource path="res://game/ui/ui_mouse_icons/cursors/cursor_tool.png" type="Texture" id=4]
+
+
+
+[node name="verbs_menu" type="Control"]
+margin_left = 1.0
+margin_right = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="actions" type="GridContainer" parent="."]
+margin_right = 333.0
+margin_bottom = 175.0
+columns = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="look" type="TextureRect" parent="actions"]
+margin_right = 301.0
+margin_bottom = 300.0
+texture = ExtResource( 3 )
+
+[node name="walk" type="TextureRect" parent="actions"]
+margin_left = 305.0
+margin_right = 606.0
+margin_bottom = 300.0
+texture = ExtResource( 2 )
+
+[node name="pickup" type="TextureRect" parent="actions"]
+margin_left = 610.0
+margin_right = 911.0
+margin_bottom = 300.0
+texture = ExtResource( 1 )
+
+[node name="use" type="TextureRect" parent="actions"]
+margin_top = 304.0
+margin_right = 301.0
+margin_bottom = 604.0
+texture = ExtResource( 4 )

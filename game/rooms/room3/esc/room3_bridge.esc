@@ -1,0 +1,35 @@
+# THIS ROOMS FEATURES AN OPEN BRIDGE WITH A ***BROKEN*** BUTTON TO USE IN ORDER TO OPEN
+
+:setup
+
+> [r3_bridge_closed]
+	# Make set_state IMMEDIATE to reach the final frame immediately
+	set_state r3_bridge bridge_close true
+	enable_terrain bridge_closed
+	set_interactive r3_right_platform false
+
+> [eq ESC_LAST_SCENE room2]
+	teleport player r3_l_exit
+	# Set player look right
+	set_angle player 180
+	stop
+> [eq ESC_LAST_SCENE room4]
+	teleport player r3_r_exit
+	# Set player look left
+	set_angle player 270
+	stop
+> [!last_scene]
+	teleport player player_start
+	stop
+
+:ready
+set_global bridge_closed false
+set_global button_broken true
+
+# DEBUG
+#set_state r3_bridge bridge_close 
+#enable_terrain bridge_closed
+#set_global bridge_closed true
+#set_interactive r3_right_platform false
+## /DEBUG
+

@@ -1,0 +1,90 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://addons/escoria-core/testing/rtl_screen_offset_testing.gd" type="Script" id=1]
+[ext_resource path="res://addons/escoria-core/template_scenes/label/target_tooltip.tscn" type="PackedScene" id=2]
+
+[sub_resource type="ButtonGroup" id=1]
+
+[node name="rtl_screen_offset" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1280.0
+margin_bottom = -800.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+path_to_richtextlabel = NodePath("tooltip")
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PoolVector2Array( 40, 40, 40, 976, 1808, 976, 1808, 40, 40, 40 )
+width = 2.51
+texture_mode = 116
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 315.72
+margin_top = 269.104
+margin_right = 475.72
+margin_bottom = 321.104
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 160.0
+margin_bottom = 24.0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+margin_top = 5.0
+margin_right = 98.0
+margin_bottom = 19.0
+text = "Clamp distance"
+
+[node name="clamp_distance" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+margin_left = 102.0
+margin_right = 160.0
+margin_bottom = 24.0
+text = "40"
+max_length = 4
+
+[node name="HBoxContainer2" type="VBoxContainer" parent="."]
+margin_left = 310.0
+margin_top = 340.0
+margin_right = 470.0
+margin_bottom = 380.0
+
+[node name="foo" type="CheckBox" parent="HBoxContainer2"]
+margin_right = 624.0
+margin_bottom = 24.0
+pressed = true
+group = SubResource( 1 )
+text = "Foo"
+
+[node name="foobar" type="CheckBox" parent="HBoxContainer2"]
+margin_top = 28.0
+margin_right = 624.0
+margin_bottom = 52.0
+group = SubResource( 1 )
+text = "Foo bar"
+
+[node name="whatisit" type="CheckBox" parent="HBoxContainer2"]
+margin_top = 56.0
+margin_right = 624.0
+margin_bottom = 80.0
+group = SubResource( 1 )
+text = "Une phrase extremement<br>longue pour tester<br>le comportement de ce RichTextLabel..."
+
+[node name="tooltip" parent="." instance=ExtResource( 2 )]
+margin_left = 238.815
+margin_top = 131.18
+margin_right = 638.815
+margin_bottom = 231.18
+rect_min_size = Vector2( 400, 0 )
+bbcode_text = "Tooltip content"
+fit_content_height = true
+[connection signal="mouse_moved" from="." to="." method="_on_Control_mouse_moved"]
+[connection signal="text_selected" from="." to="." method="_on_Control_text_selected"]
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer/clamp_distance" to="." method="_on_clamp_distance_text_changed"]
+[connection signal="pressed" from="HBoxContainer2/foo" to="." method="_on_new_text_pressed"]
+[connection signal="pressed" from="HBoxContainer2/foobar" to="." method="_on_new_text_pressed"]
+[connection signal="pressed" from="HBoxContainer2/whatisit" to="." method="_on_new_text_pressed"]

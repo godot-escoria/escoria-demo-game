@@ -1,0 +1,194 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/core-scripts/escterrain.gd" type="Script" id=1]
+[ext_resource path="res://game/rooms/room7/background.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/eschotspot.gd" type="Script" id=3]
+[ext_resource path="res://game/characters/guybrush/guybrush.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=5]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/escroom.gd" type="Script" id=6]
+
+[sub_resource type="NavigationPolygon" id=1]
+vertices = PoolVector2Array( 1976.63, 640.557, 1987.95, 588.863, 2070.07, 622.872, 2066.3, 799.721, 129.634, 615.792, 1956.81, 616.096, -9.16094, 803.802, 84.5821, 654.06, -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 0, 3, 6, 7 ), PoolIntArray( 7, 6, 8, 9, 10 ) ]
+outlines = [ PoolVector2Array( -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698, 84.5821, 654.06, 129.634, 615.792, 1956.81, 616.096, 1976.63, 640.557, 1987.95, 588.863, 2070.07, 622.872, 2066.3, 799.721, -9.16094, 803.802 ) ]
+
+[sub_resource type="Animation" id=2]
+resource_name = "r_door_close"
+tracks/0/type = "value"
+tracks/0/path = NodePath("r_door_closed:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("r_door_opened:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Position2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1180.52, 395.193 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "r_door_open"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("r_door_closed:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("r_door_opened:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Position2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1225.47, 353.99 ) ]
+}
+
+[node name="room7" type="Node2D"]
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_vertical_guides_": [  ]
+}
+global_id = "room7"
+esc_script = "res://game/rooms/room7/esc/room7.esc"
+player_scene = ExtResource( 4 )
+
+[node name="background" parent="." instance=ExtResource( 2 )]
+
+[node name="walkable_area" type="Navigation2D" parent="."]
+script = ExtResource( 1 )
+scales = null
+bitmaps_scale = Vector2( 1, 1 )
+lightmap = null
+player_speed_multiplier = 1.0
+player_doubleclick_speed_multiplier = 1.5
+lightmap_modulate = Color( 1, 1, 1, 1 )
+debug_mode = 1
+scale_min = 0.3
+scale_max = 1.0
+
+[node name="platform" type="NavigationPolygonInstance" parent="walkable_area"]
+position = Vector2( 7.73163, -264.779 )
+navpoly = SubResource( 1 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Hotspots" type="Node2D" parent="."]
+
+[node name="l_exit" type="Area2D" parent="Hotspots"]
+script = ExtResource( 3 )
+global_id = "r6_l_exit"
+is_exit = true
+esc_script = "res://game/rooms/room7/esc/left_exit.esc"
+tooltip_name = "Exit"
+dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": Vector2( 37.4521, 392.045 )
+}
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_exit"]
+polygon = PoolVector2Array( 0.328762, 440.897, 1.85199, 119.926, 85.9517, 74.6212, 87.1409, 377.869 )
+
+[node name="Position2D" type="Position2D" parent="Hotspots/l_exit"]
+position = Vector2( 37.4521, 392.045 )
+
+[node name="r_exit" type="Area2D" parent="Hotspots"]
+script = ExtResource( 3 )
+global_id = "r6_r_exit"
+is_exit = true
+esc_script = "res://game/rooms/room7/esc/right_exit.esc"
+is_interactive = false
+interaction_direction = 1
+tooltip_name = "Exit"
+dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": Vector2( 1232.52, 347.193 ),
+"r6_r_exit_closed": NodePath("r_door_closed/Position2D"),
+"r6_r_exit_opened": NodePath("r_door_opened/Position2D")
+}
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_exit"]
+polygon = PoolVector2Array( 1989, 343, 1986, 278.129, 2076, 316.129, 2075, 394 )
+
+[node name="Position2D" type="Position2D" parent="Hotspots/r_exit"]
+position = Vector2( 2038.8, 347.193 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="r_door" type="Sprite" parent="Hotspots"]
+visible = false
+script = ExtResource( 5 )
+dialog_color = Color( 1, 1, 1, 1 )
+
+[node name="r_door_closed" type="Polygon2D" parent="Hotspots/r_door"]
+color = Color( 0.482353, 0.568627, 1, 1 )
+polygon = PoolVector2Array( 1172.3, 44.8186, 1172.3, 348.012, 1273.9, 401.983, 1277.07, 89.2657 )
+
+[node name="Line2D" type="Line2D" parent="Hotspots/r_door/r_door_closed"]
+points = PoolVector2Array( 1265.23, 266.8, 1253.65, 276.6, 1252.76, 230.273, 1264.34, 233.837 )
+default_color = Color( 1, 1, 1, 1 )
+
+[node name="r_door_opened" type="Polygon2D" parent="Hotspots/r_door"]
+visible = false
+color = Color( 0.482353, 0.568627, 1, 1 )
+polygon = PoolVector2Array( 1172.3, 44.8186, 1172.3, 348.012, 1029.82, 349.887, 1025.19, 42.1269 )
+
+[node name="Line2D" type="Line2D" parent="Hotspots/r_door/r_door_opened"]
+points = PoolVector2Array( 1048.98, 230.477, 1048.98, 189.89 )
+default_color = Color( 1, 1, 1, 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/r_door"]
+anims/r_door_close = SubResource( 2 )
+anims/r_door_open = SubResource( 3 )
+
+[node name="player_start" type="Position2D" parent="."]
+position = Vector2( 76.7617, 437.649 )

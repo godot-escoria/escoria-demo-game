@@ -1,0 +1,123 @@
+[gd_scene load_steps=47 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/core-scripts/eschotspot.gd" type="Script" id=1]
+[ext_resource path="res://game/characters/character/png/05_05.png" type="Texture" id=2]
+[ext_resource path="res://game/characters/character/png/06_09.png" type="Texture" id=3]
+[ext_resource path="res://game/characters/character/png/06_05.png" type="Texture" id=4]
+[ext_resource path="res://game/characters/character/png/06_06.png" type="Texture" id=5]
+[ext_resource path="res://game/characters/character/png/06_07.png" type="Texture" id=6]
+[ext_resource path="res://game/characters/character/png/06_04.png" type="Texture" id=7]
+[ext_resource path="res://game/characters/character/png/06_03.png" type="Texture" id=8]
+[ext_resource path="res://game/characters/character/png/03_07.png" type="Texture" id=9]
+[ext_resource path="res://game/characters/character/png/03_08.png" type="Texture" id=10]
+[ext_resource path="res://game/characters/character/png/03_02.png" type="Texture" id=11]
+[ext_resource path="res://game/characters/character/png/05_03.png" type="Texture" id=12]
+[ext_resource path="res://game/characters/character/png/04_02.png" type="Texture" id=13]
+[ext_resource path="res://game/characters/character/png/06_01.png" type="Texture" id=14]
+[ext_resource path="res://game/characters/character/png/02_01.png" type="Texture" id=15]
+[ext_resource path="res://game/characters/character/png/02_07.png" type="Texture" id=16]
+[ext_resource path="res://game/characters/character/png/06_02.png" type="Texture" id=17]
+[ext_resource path="res://game/characters/character/png/03_04.png" type="Texture" id=18]
+[ext_resource path="res://game/characters/character/png/03_03.png" type="Texture" id=19]
+[ext_resource path="res://game/characters/character/png/02_04.png" type="Texture" id=20]
+[ext_resource path="res://game/characters/character/png/02_05.png" type="Texture" id=21]
+[ext_resource path="res://game/characters/character/png/03_05.png" type="Texture" id=22]
+[ext_resource path="res://game/characters/character/png/03_09.png" type="Texture" id=23]
+[ext_resource path="res://game/characters/character/png/03_06.png" type="Texture" id=24]
+[ext_resource path="res://game/characters/character/png/02_06.png" type="Texture" id=25]
+[ext_resource path="res://game/characters/character/png/06_08.png" type="Texture" id=26]
+[ext_resource path="res://game/characters/character/png/05_09.png" type="Texture" id=27]
+[ext_resource path="res://game/characters/character/png/04_05.png" type="Texture" id=28]
+[ext_resource path="res://game/characters/character/png/02_08.png" type="Texture" id=29]
+[ext_resource path="res://game/characters/character/png/03_01.png" type="Texture" id=30]
+[ext_resource path="res://game/characters/character/png/04_07.png" type="Texture" id=31]
+[ext_resource path="res://game/characters/character/png/04_06.png" type="Texture" id=32]
+[ext_resource path="res://game/characters/character/png/02_03.png" type="Texture" id=33]
+[ext_resource path="res://game/characters/character/png/05_04.png" type="Texture" id=34]
+[ext_resource path="res://game/characters/character/png/04_09.png" type="Texture" id=35]
+[ext_resource path="res://game/characters/character/png/04_08.png" type="Texture" id=36]
+[ext_resource path="res://game/characters/character/png/02_09.png" type="Texture" id=37]
+[ext_resource path="res://game/characters/character/png/04_01.png" type="Texture" id=38]
+[ext_resource path="res://game/characters/character/png/05_08.png" type="Texture" id=39]
+[ext_resource path="res://game/characters/character/png/05_06.png" type="Texture" id=40]
+[ext_resource path="res://game/characters/character/png/05_07.png" type="Texture" id=41]
+[ext_resource path="res://game/characters/character/png/04_03.png" type="Texture" id=42]
+[ext_resource path="res://game/characters/character/png/02_02.png" type="Texture" id=43]
+[ext_resource path="res://game/characters/character/png/04_04.png" type="Texture" id=44]
+[ext_resource path="res://game/characters/tools/debug_label.tscn" type="PackedScene" id=45]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 12 ) ],
+"loop": true,
+"name": "idle_down_right",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 30 ), ExtResource( 11 ), ExtResource( 19 ), ExtResource( 18 ), ExtResource( 22 ), ExtResource( 24 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 23 ) ],
+"loop": true,
+"name": "walk_up_right",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 38 ), ExtResource( 13 ), ExtResource( 42 ), ExtResource( 44 ), ExtResource( 28 ), ExtResource( 32 ), ExtResource( 31 ), ExtResource( 36 ), ExtResource( 35 ) ],
+"loop": true,
+"name": "walk_right",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "idle_down",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 15 ), ExtResource( 43 ), ExtResource( 33 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 25 ), ExtResource( 16 ), ExtResource( 29 ), ExtResource( 37 ) ],
+"loop": true,
+"name": "walk_up",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 43 ) ],
+"loop": true,
+"name": "idle_up",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 24 ) ],
+"loop": true,
+"name": "idle_up_right",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 12 ), ExtResource( 34 ), ExtResource( 2 ), ExtResource( 40 ), ExtResource( 41 ), ExtResource( 39 ), ExtResource( 27 ) ],
+"loop": true,
+"name": "walk_down_right",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 14 ), ExtResource( 17 ), ExtResource( 8 ), ExtResource( 7 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 26 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "walk_down",
+"speed": 8.0
+} ]
+
+[node name="character" type="Area2D"]
+script = ExtResource( 1 )
+global_id = "character"
+interaction_direction = 3
+tooltip_name = "Character"
+default_action = "talk"
+dialog_color = Color( 1, 0, 0, 1 )
+interact_positions = {
+"default": Vector2( 0, 0 )
+}
+
+[node name="sprites" type="AnimatedSprite" parent="."]
+position = Vector2( -4.01764, -117.666 )
+scale = Vector2( 0.6, 0.6 )
+frames = SubResource( 1 )
+animation = "idle_down_right"
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 6.2341, -279.169, -17.8076, -269.27, -16.3933, -235.329, -38.3136, -223.308, -37.3678, -123.59, -22.7573, -86.8364, -30.5355, -1.27643, 20.3762, 24.1794, 45.8321, 12.1586, 23.2047, -8.3475, 35.2255, -149.062, 65.6311, -108.757, 77.6519, -126.434, 39.4681, -200.681, 27.4473, -265.734 )
+
+[node name="dialog_position" type="Position2D" parent="."]
+position = Vector2( 6.35642, -321.19 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="debug" parent="." instance=ExtResource( 45 )]

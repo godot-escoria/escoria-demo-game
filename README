@@ -1,0 +1,40 @@
+# Escoria Rewrite
+
+Libre framework for the creation of point-and-click adventure games with
+the MIT-licensed multi-platform game engine [Godot Engine](https://godotengine.org).
+
+This repository is big rewrite of the original Escoria framework (see https://github.com/godotengine/escoria/tree/master).
+Its purpose is to make Escoria work as a plugin for Godot Engine editor, instead of being a collection of scripts and scenes.
+It is intended to be easier to use and easier to maintain. It is designed so that you can claim it for yourself and modify it to match
+the needs of your specific game and team.
+
+Escoria should always be compatible with the current stable version of Godot Engine, and you should use
+If you're encountering issues or incompatibilities, please raise an issue on [Escoria's Github repository](https://github.com/godotengine/escoria/issues).
+
+## History
+
+This framework was initially developed for the adventure game
+[The Interactive Adventures of Dog Mendonça and Pizzaboy®](http://store.steampowered.com/app/330420)
+and later streamlined for broader usages and open sourced as promised
+to the backers of the Dog Mendonça Kickstarter campaign.
+
+## Usage
+
+
+## Documentation
+
+## Licensing
+
+This framework (scripts, scenes) is distributed under the MIT license,
+as described in the LICENSE file.
+
+### Art credits
+
+
+### Sound credits
+
+
+### Font
+
+
+

@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=1]
+[ext_resource path="res://game/items/inventory/filled_sheet_escinventoryitem.tscn" type="PackedScene" id=2]
+
+[node name="filled_sheet" type="Sprite"]
+script = ExtResource( 1 )
+global_id = "r5_filled_sheet"
+esc_script = "res://game/items/escitems/filled_sheet.esc"
+tooltip_name = "Filled sheet"
+default_action = "look"
+combine_if_action_used_among = PoolStringArray( "use", "give" )
+use_from_inventory_only = true
+inventory_item_scene_file = ExtResource( 2 )
+dialog_color = Color( 1, 1, 1, 1 )

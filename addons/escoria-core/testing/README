@@ -1,0 +1,8 @@
+In this folder, you can find various scenes and tools to test some of the scenes of your actual game project.
+
+These scenes are not intended to be shipped with your game, you may want to use them only for testing purposes, such as:
+
+- RichTextLabels screen clamping (rtl_screen_clamping.tscn)
+	This scene helps you test the RichTextLabels used in your game, such as labels used when pointing an item or NPC or dialogs.
+	To use this testing scene, simply add your actual label scene as a child of the root node and set the path to this node in it.
+	You can then run the scene, move your mouse around the edges of the screen and see if the label reacts properly.

@@ -1,0 +1,21 @@
+:exit_scene
+change_scene "res://game/rooms/room7/room7.tscn" [r6_door_open]
+
+:ready
+set_global r6_door_open false
+
+:use
+> [!r6_door_open]
+	set_state r6_door r_door_open
+	set_global r6_door_open true
+	stop
+> [r6_door_open]
+	set_state r6_door r_door_close
+	set_global r6_door_open false
+
+
+
+:look
+say player "It's open." [r6_door_open]
+say player "It's closed." [!r6_door_open]
+

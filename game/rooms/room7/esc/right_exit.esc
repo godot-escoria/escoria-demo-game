@@ -1,0 +1,2 @@
+:exit_scene
+change_scene "res://game/rooms/room8/room8.tscn"

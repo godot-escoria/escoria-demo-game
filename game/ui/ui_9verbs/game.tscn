@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://addons/escoria-core/template_scenes/label/action_target_tooltip.tscn" type="PackedScene" id=1]
+[ext_resource path="res://game/ui/ui_9verbs/inventory_ui.tscn" type="PackedScene" id=2]
+[ext_resource path="res://game/ui/ui_9verbs/verbs_menu.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/escoria-core/game/scenes/dialogs/dialog_player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/escoria-core/game/scenes/camera_player/camera.tscn" type="PackedScene" id=6]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.6, 0.6, 0.6, 0.5 )
+
+[node name="game" type="Node"]
+
+[node name="ui" type="CanvasLayer" parent="."]
+
+[node name="panel_down" type="PanelContainer" parent="ui"]
+anchor_top = 0.714
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -0.200012
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="verbs_layer" type="CanvasLayer" parent="ui"]
+layer = 2
+
+[node name="verbs_menu" parent="ui/verbs_layer" instance=ExtResource( 3 )]
+margin_left = 21.097
+margin_top = 615.331
+margin_right = 21.097
+margin_bottom = 615.331
+
+[node name="inventory_layer" type="CanvasLayer" parent="ui"]
+layer = 2
+
+[node name="inventory_ui" parent="ui/inventory_layer" instance=ExtResource( 2 )]
+margin_left = 661.041
+margin_top = 615.331
+margin_right = 661.041
+margin_bottom = 615.331
+
+[node name="tooltip_layer" type="CanvasLayer" parent="ui"]
+layer = 2
+
+[node name="tooltip" parent="ui/tooltip_layer" instance=ExtResource( 1 )]
+anchor_left = 0.208
+anchor_top = 0.722
+anchor_right = 0.734
+anchor_bottom = 0.77
+margin_left = 0.383453
+margin_top = 0.364075
+margin_right = 0.103394
+margin_bottom = -0.0359497
+
+[node name="dialog_layer" type="CanvasLayer" parent="ui"]
+layer = 3
+
+[node name="dialog_player" parent="ui/dialog_layer" instance=ExtResource( 4 )]
+
+[node name="camera" parent="." instance=ExtResource( 6 )]

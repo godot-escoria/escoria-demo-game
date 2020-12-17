@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/core-scripts/eschotspot.gd" type="Script" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 28.6442, 23.5021 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "button_broken"
+tracks/0/type = "value"
+tracks/0/path = NodePath("../../background/button/Particles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "button_repaired"
+tracks/0/type = "value"
+tracks/0/path = NodePath("../../background/button/Particles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[node name="button" type="Area2D"]
+position = Vector2( 346.18, 151.013 )
+script = ExtResource( 1 )
+global_id = "button"
+esc_script = "res://game/rooms/room3/esc/button.esc"
+tooltip_name = "Button"
+dialog_color = Color( 1, 1, 1, 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Position2D" type="Position2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/button_broken = SubResource( 2 )
+anims/button_repaired = SubResource( 3 )

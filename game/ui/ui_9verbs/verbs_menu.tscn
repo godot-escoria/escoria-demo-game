@@ -1,0 +1,131 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://game/ui/ui_9verbs/verbs_menu.gd" type="Script" id=1]
+
+
+[node name="verbs_menu" type="Control"]
+margin_left = 1.0
+margin_right = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="actions" type="GridContainer" parent="."]
+margin_right = 333.0
+margin_bottom = 175.0
+columns = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="open" type="Button" parent="actions"]
+margin_right = 108.0
+margin_bottom = 55.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+toggle_mode = true
+text = "Open"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="pickup" type="Button" parent="actions"]
+margin_left = 112.0
+margin_right = 220.0
+margin_bottom = 55.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+toggle_mode = true
+text = "Pick up"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="push" type="Button" parent="actions"]
+margin_left = 224.0
+margin_right = 332.0
+margin_bottom = 55.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+toggle_mode = true
+text = "Push"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="close" type="Button" parent="actions"]
+margin_top = 59.0
+margin_right = 108.0
+margin_bottom = 114.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+toggle_mode = true
+text = "Close"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="look" type="Button" parent="actions"]
+margin_left = 112.0
+margin_top = 59.0
+margin_right = 220.0
+margin_bottom = 114.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+toggle_mode = true
+text = "Look at"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="pull" type="Button" parent="actions"]
+margin_left = 224.0
+margin_top = 59.0
+margin_right = 332.0
+margin_bottom = 114.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+toggle_mode = true
+text = "Pull"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="give" type="Button" parent="actions"]
+margin_top = 118.0
+margin_right = 108.0
+margin_bottom = 173.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+toggle_mode = true
+text = "Give"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="use" type="Button" parent="actions"]
+margin_left = 112.0
+margin_top = 118.0
+margin_right = 220.0
+margin_bottom = 173.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+toggle_mode = true
+text = "Use"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="talk" type="Button" parent="actions"]
+margin_left = 224.0
+margin_top = 118.0
+margin_right = 332.0
+margin_bottom = 173.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+toggle_mode = true
+text = "Talk"
+__meta__ = {
+"_edit_use_anchors_": false
+}

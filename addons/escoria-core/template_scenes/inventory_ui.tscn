@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/scenes/inventory/inventory_ui.gd" type="Script" id=1]
+[ext_resource path="res://addons/escoria-core/template_scenes/inventory_item.tscn" type="PackedScene" id=2]
+
+[node name="inventory_ui_template" type="Control"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+margin_right = 282.0
+margin_bottom = 151.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 275.0
+margin_bottom = 144.0
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/ScrollContainer"]
+margin_right = 268.0
+margin_bottom = 137.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 4
+
+[node name="inventory_item1" parent="PanelContainer/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
+
+[node name="inventory_item2" parent="PanelContainer/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
+margin_left = 54.0
+margin_right = 104.0
+
+[node name="inventory_item3" parent="PanelContainer/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
+margin_left = 108.0
+margin_right = 158.0
+
+[node name="inventory_item4" parent="PanelContainer/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
+margin_left = 162.0
+margin_right = 212.0
+
+[node name="inventory_item5" parent="PanelContainer/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
+margin_top = 54.0
+margin_bottom = 104.0
+
+[node name="inventory_item6" parent="PanelContainer/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
+margin_left = 54.0
+margin_top = 54.0
+margin_right = 104.0
+margin_bottom = 104.0
+
+[node name="inventory_item7" parent="PanelContainer/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
+margin_left = 108.0
+margin_top = 54.0
+margin_right = 158.0
+margin_bottom = 104.0

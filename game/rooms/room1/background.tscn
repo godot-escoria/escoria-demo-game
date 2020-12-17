@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/core-scripts/escbackground.gd" type="Script" id=1]
+
+[node name="background" type="TextureRect"]
+margin_right = 1289.0
+margin_bottom = 555.0
+mouse_filter = 2
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="l_platform" type="Line2D" parent="."]
+position = Vector2( 2, -266 )
+points = PoolVector2Array( -2.96298, 712.01, 129.973, 614.429, 1167.5, 612.894, 1281.5, 668.894, 1281.5, 812.894, -4.3772, 811.004, -2.96295, 713.424 )
+
+[node name="r_door" type="Line2D" parent="."]
+position = Vector2( 0, -267.828 )
+points = PoolVector2Array( 1175.07, 620.086, 1171.24, 311.267, 1274.8, 356.87, 1278.31, 672.412, 1188.64, 624.843 )
+
+[node name="item" type="Line2D" parent="."]
+position = Vector2( 0, -267.828 )
+points = PoolVector2Array( 634.097, 516.751, 578.861, 335.008, 701.805, 386.68, 696.459, 509.624, 634.097, 516.751 )

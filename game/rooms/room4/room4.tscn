@@ -1,0 +1,110 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/core-scripts/escterrain.gd" type="Script" id=1]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/escbackground.gd" type="Script" id=2]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/eschotspot.gd" type="Script" id=3]
+[ext_resource path="res://game/characters/guybrush/guybrush.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/escroom.gd" type="Script" id=6]
+[ext_resource path="res://game/rooms/room4/assets/background.png" type="Texture" id=7]
+[ext_resource path="res://game/rooms/room4/assets/depth_reduced.png" type="Texture" id=8]
+
+[sub_resource type="NavigationPolygon" id=1]
+vertices = PoolVector2Array( 1564.36, 574.459, 1576.02, 540.556, 1634.29, 568.102, 1624.42, 800.399, 1536.87, 579.274, 1012.68, 786.929, 1197.79, 675.666, 908.294, 488.354, 996.968, 451.313, 600.739, 456.925, 673.699, 490.599, 371.757, 688.152, 542.371, 788.052, 2.46706, 794.786, 11.4468, 698.255, 189.918, 682.54, 127.06, 573.661, 23.7938, 614.07, 42.8757, 527.64, 125.938, 536.62 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 0, 3, 5, 6 ), PoolIntArray( 6, 5, 7, 8 ), PoolIntArray( 9, 8, 7, 10 ), PoolIntArray( 11, 12, 13, 14, 15 ), PoolIntArray( 9, 10, 12, 11 ), PoolIntArray( 16, 15, 14, 17, 18 ), PoolIntArray( 16, 18, 19 ) ]
+outlines = [ PoolVector2Array( 11.4468, 698.255, 23.7938, 614.07, 42.8757, 527.64, 125.938, 536.62, 127.06, 573.661, 189.918, 682.54, 371.757, 688.152, 600.739, 456.925, 996.968, 451.313, 1197.79, 675.666, 1536.87, 579.274, 1564.36, 574.459, 1576.02, 540.556, 1634.29, 568.102, 1624.42, 800.399, 1012.68, 786.929, 908.294, 488.354, 673.699, 490.599, 542.371, 788.052, 2.46706, 794.786 ) ]
+
+[node name="room4" type="Node2D"]
+script = ExtResource( 6 )
+global_id = "room4"
+esc_script = "res://game/rooms/room4/esc/room4.esc"
+player_scene = ExtResource( 4 )
+
+[node name="background" type="TextureRect" parent="."]
+margin_left = 0.943848
+margin_right = 2398.94
+margin_bottom = 549.0
+mouse_filter = 2
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+esc_script = ""
+
+[node name="Sprite" type="Sprite" parent="background"]
+scale = Vector2( 0.692794, 0.692794 )
+texture = ExtResource( 7 )
+centered = false
+
+[node name="l_platform" type="Line2D" parent="background"]
+visible = false
+position = Vector2( 2, -266 )
+points = PoolVector2Array( 80.1882, 575.221, 161.613, 664.655, 472.392, 662.45, 685.125, 526.838, 860.996, 526.838, 1114.43, 647.617, 2242.97, 610.492, 2385.84, 672.401, 2389.93, 804.937, 1000, 795.942, 805.904, 564.979, 733.86, 562.86, 580.457, 806.537, -4.3772, 811.004, 4.10239, 576.556, 78.8534, 576.556 )
+
+[node name="r_door" type="Line2D" parent="background"]
+visible = false
+position = Vector2( 0, -267.828 )
+points = PoolVector2Array( 2252.91, 610.733, 2251.32, 332.938, 2384.66, 386.909, 2386.25, 674.229, 2254.5, 615.495 )
+
+[node name="l_door" type="Line2D" parent="background"]
+visible = false
+points = PoolVector2Array( 6.10242, 307.886, 2.0979, 129.017, 84.858, 129.017, 84.858, 311.89, 4.76758, 307.886 )
+
+[node name="walkable_area" type="Navigation2D" parent="."]
+script = ExtResource( 1 )
+scales = ExtResource( 8 )
+bitmaps_scale = Vector2( 1, 1 )
+lightmap = null
+player_speed_multiplier = 1.0
+player_doubleclick_speed_multiplier = 1.8
+lightmap_modulate = Color( 1, 1, 1, 1 )
+debug_mode = 0
+scale_min = 0.4
+scale_max = 1.0
+
+[node name="platform" type="NavigationPolygonInstance" parent="walkable_area"]
+visible = false
+position = Vector2( 6.73163, -264.779 )
+navpoly = SubResource( 1 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="player_start" type="Position2D" parent="."]
+position = Vector2( 697.275, 203.998 )
+
+[node name="Hotspots" type="Node2D" parent="."]
+position = Vector2( 0.943848, 0 )
+
+[node name="r_door" type="Area2D" parent="Hotspots"]
+script = ExtResource( 3 )
+global_id = "r_exit"
+is_exit = true
+esc_script = "res://game/rooms/room4/esc/right_exit.esc"
+tooltip_name = "Exit"
+dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": Vector2( 84.5736, 279.703 )
+}
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
+polygon = PoolVector2Array( 1567.92, 294.848, 1573.21, 92.4902, 1651.61, 127.452, 1654.79, 343.583 )
+
+[node name="Position2D" type="Position2D" parent="Hotspots/r_door"]
+position = Vector2( 1611.46, 301.017 )
+
+[node name="l_door" type="Area2D" parent="Hotspots"]
+script = ExtResource( 3 )
+global_id = "l_exit"
+is_exit = true
+esc_script = "res://game/rooms/room4/esc/left_exit.esc"
+tooltip_name = "Exit"
+dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": Vector2( 84.5736, 279.703 )
+}
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
+polygon = PoolVector2Array( 26.3979, 288.491, 27.4573, 70.2414, 147.177, 74.4792, 151.415, 293.788 )
+
+[node name="Position2D" type="Position2D" parent="Hotspots/l_door"]
+position = Vector2( 83.6298, 279.703 )

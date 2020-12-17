@@ -1,0 +1,19 @@
+:setup
+> [eq ESC_LAST_SCENE room3]
+	teleport player l_exit
+	# Set player look right
+	set_angle player 180
+	stop
+> [eq ESC_LAST_SCENE room5]
+	teleport player r_exit
+	# Set player look left
+	set_angle player 270
+	stop
+> [!last_scene]
+	teleport player player_start
+	stop
+
+teleport player player_start
+#walk player r_exit
+
+

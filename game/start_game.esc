@@ -1,0 +1,20 @@
+:start
+
+# Simple scene
+#change_scene res://game/rooms/room1/room1.tscn
+
+# Button bridge
+#change_scene res://game/rooms/room2/room2.tscn
+
+# Broken button
+#change_scene res://game/rooms/room3/room3.tscn
+
+# wide room
+#change_scene res://game/rooms/room4/room4.tscn
+
+# items rooms
+change_scene res://game/rooms/room5/room5.tscn
+
+# character room
+#change_scene res://game/rooms/room6/room6.tscn
+

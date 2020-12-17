@@ -1,0 +1,29 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=3]
+code = "shader_type canvas_item;
+uniform vec4 col : hint_color;
+
+
+bool is_equal(vec4 c1, vec4 refcol) {
+	float epsilon = 0.001;
+	vec3 delta = abs(c1.rgb - refcol.rgb);
+	return float(delta.r + delta.g + delta.b) < epsilon ? true : false;
+}
+
+void fragment() {
+	vec4 tex = texture(TEXTURE, UV);
+	
+	if (is_equal(tex, col)) {
+		COLOR = vec4(0.0,0.0,0.0,0.3);
+	}
+//	else {
+//		COLOR = texture(TEXTURE, UV);
+//	}
+	
+}
+"
+
+[resource]
+shader = SubResource( 3 )
+shader_param/col = Color( 0.572549, 0.25098, 0.105882, 1 )

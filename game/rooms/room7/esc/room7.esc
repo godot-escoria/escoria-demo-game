@@ -1,0 +1,16 @@
+:setup
+> [eq ESC_LAST_SCENE room5]
+	teleport player r6_l_exit
+	# Set player look right
+	set_angle player 180
+	stop
+> [!last_scene]
+	teleport player player_start
+	stop
+
+:ready
+#set_global i/r5_pen true
+#set_active r5_pen false
+#set_global i/r5_empty_sheet true
+#set_active r5_empty_sheet false
+

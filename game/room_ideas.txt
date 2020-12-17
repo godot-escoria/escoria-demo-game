@@ -1,0 +1,13 @@
+
+Vertical scrolling room: stairs. Also illustrate the movement walking down/front/left/back/right (downstairs)
+
+Timed moving objects in BG: 1 object moves up while the other moves down.
+
+Timed moving walking area: bridge goes up and down.
+	- Click other side while bridge is down -> player refuses to go
+	- Click other side while bridge is up -> player goes
+
+Puzzle with 3 levers and 3 locks positioned down. To open door, the 3 locks must be up:
+	- lever 1 moves left lock
+	- lever 2 moves middle lock + right lock
+	- lever 3 moves left lock + right lock

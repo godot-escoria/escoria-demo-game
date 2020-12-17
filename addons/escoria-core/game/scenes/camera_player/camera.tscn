@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/scenes/camera_player/esccamera.gd" type="Script" id=1]
+
+[node name="camera" type="Camera2D"]
+current = true
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+script = ExtResource( 1 )
+
+[node name="tween" type="Tween" parent="."]

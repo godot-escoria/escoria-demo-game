@@ -1,0 +1,67 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/escoria-core/template_scenes/dialog_scenes/dialog_box_inset.gd" type="Script" id=3]
+[ext_resource path="res://addons/escoria-core/template_scenes/dialog_scenes/dialog_avatars.tscn" type="PackedScene" id=4]
+
+[node name="dialog_box" type="PopupPanel"]
+visible = true
+anchor_right = 0.685
+anchor_bottom = 0.452
+margin_right = 0.199951
+margin_bottom = 0.399994
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+current_character = "guybrush"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = -4.0
+margin_bottom = -4.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 848.0
+margin_bottom = 334.0
+custom_constants/separation = 35
+dragger_visibility = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HSplitContainer"]
+margin_right = 60.0
+margin_bottom = 314.0
+
+[node name="avatar" type="TextureRect" parent="MarginContainer/HSplitContainer/VBoxContainer"]
+margin_right = 60.0
+
+[node name="name" type="Label" parent="MarginContainer/HSplitContainer/VBoxContainer"]
+margin_top = 4.0
+margin_right = 60.0
+margin_bottom = 18.0
+text = "Character"
+valign = 1
+
+[node name="text" type="RichTextLabel" parent="MarginContainer/HSplitContainer"]
+margin_left = 95.0
+margin_right = 828.0
+margin_bottom = 314.0
+bbcode_enabled = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="MarginContainer/HSplitContainer/text"]
+
+[node name="dialog_avatars" parent="." instance=ExtResource( 4 )]
+[connection signal="gui_input" from="." to="." method="_on_PopupPanel_gui_input"]
