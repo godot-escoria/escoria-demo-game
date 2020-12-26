@@ -13,8 +13,11 @@
 #change_scene res://game/rooms/room4/room4.tscn
 
 # items rooms
-change_scene res://game/rooms/room5/room5.tscn
+#change_scene res://game/rooms/room5/room5.tscn
 
 # character room
 #change_scene res://game/rooms/room6/room6.tscn
+
+# long room with camera shift to object 2 if look on object 1
+change_scene res://game/rooms/room7/room7.tscn
 

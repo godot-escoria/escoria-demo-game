@@ -5,14 +5,19 @@ extends Node
 var current_context
 onready var esc_runner = get_parent()
 
+
 func _ready():
 	pass
+
 
 func finished(context = null):
 	if context != null:
 		context.waiting = false
 	else:
 		current_context.waiting = false
+	
+	if escoria.current_state == escoria.GAME_STATE.WAIT:
+		escoria.current_state = escoria.GAME_STATE.DEFAULT
 
 
 func check_obj(name, cmd):
@@ -21,6 +26,7 @@ func check_obj(name, cmd):
 		escoria.report_errors("", ["Global id "+name+" not found for " + cmd])
 		return false
 	return true
+
 
 func resume(context):
 	current_context = context
@@ -49,6 +55,7 @@ func resume(context):
 	context.ip = 0
 	return esctypes.EVENT_LEVEL_STATE.RETURN
 
+
 func run(context):
 	var cmd = context.instructions[context.ip]
 	if cmd.name == "label":
@@ -70,25 +77,53 @@ func dialog_line_finished() -> void:
 	escoria.dialog_player.is_speaking = false
 	escoria.current_state = escoria.GAME_STATE.DEFAULT
 
+
 """
+accept_input [ALL|NONE|SKIP] 
+What type of input does the game accept. ALL is the default, SKIP allows skipping 
+of dialog but nothing else, NONE denies all input. Including opening the menu etc. 
+SKIP and NONE also disable autosaves. Note that SKIP gets reset to ALL when the 
+event is done, but NONE persists. This allows you to create cut scenes with SKIP 
+where the dialog can be skipped, but also initiate locked-down cutscenes with 
+accept_input NONE in :setup and accept_input ALL later in :ready.
 """
-func accept_input():
+func accept_input(command_params : Array):
+#	var p_input = command_params[0]
+#	var input = escoria.esc_runner.acceptable_inputs["INPUT_" + p_input]
+#	escoria.esc_runner.set_accept_input(input)
 	pass
 
 
 """
 """
 func autosave():
+#	escoria.request_autosave()
 	pass
 
 
 """
+anim object name [reverse] [flip_x] [flip_y] 
+Executes the animation specificed with the "name" parameter on the object, 
+without blocking. The next command in the event will be executed immediately after. 
+Optional parameters:
+	reverse plays the animation in reverse when true
+	flip_x flips the x axis of the object's sprites when true (object's root node needs to be Node2D)
+	flip_y flips the y axis of the object's sprites when true (object's root node needs to be Node2D)
 """
-func anim():
-	pass
+func anim(command_params : Array):
+	if !check_obj(command_params[0], "anim"):
+		return esctypes.EVENT_LEVEL_STATE.RETURN
+	private_play_animation(command_params)
+	return esctypes.EVENT_LEVEL_STATE.RETURN
 
 
 """
+Groups Commands can be grouped using the character ">" to start a group, and 
+incrementing the indentation of the commands that belong to the group. Example:
+	>
+		set_global door_open true
+		animation player pick_up
+	# end of group
 """
 func branch(command_params : Array):
 	var branch_ev = esctypes.ESCEvent.new("branch", command_params, [])
@@ -96,64 +131,103 @@ func branch(command_params : Array):
 
 
 """
+camera_push target [time] [type] 
+Push camera to target. Target must have camera_pos set. 
+If it's of type Camera2D, its zoom will be used as well as position. 
+- A time value of 0 will set the camera immediately.
+- type is any of the Tween.TransitionType values without the prefix, eg. LINEAR, 
+	QUART or CIRC; defaults to QUART.
 """
-func camera_push():
-	pass
+func camera_push(command_params : Array):
+	var target = escoria.esc_runner.get_object(command_params[0])
+	var time = command_params[1] if command_params.size() > 1 else 1
+	var type = command_params[2] if command_params.size() > 2 else "QUAD"
+	escoria.main.current_scene.game.get_node("camera").push(target, time, type)
 
 
 """
+camera_set_drag_margin_enabled h v 
+- "h" and "v" are booleans for whether or not horizontal and vertical drag 
+margins are enabled. You will likely want to set them false for advanced camera 
+motions and true for regular gameplay and/or tracking NPCs.
 """
 func camera_set_drag_margin_enabled():
 	pass
 
 
 """
+camera_set_pos speed x y 
+Moves the camera to a position defined by "x" and "y", at the speed defined by 
+"speed" in pixels per second. If speed is 0, camera is teleported to the position.
 """
 func camera_set_pos():
 	pass
 
 
 """
+camera_set_target speed object [object2 object3 ...] 
+Configures the camera to follow 1 or more objects, using "speed" as speed limit. 
+This is the default behavior (default follow object is "player"). 
+If there's more than 1 object, the camera follows the average position of all 
+the objects specified.
 """
 func camera_set_target():
 	pass
 
 
 """
+camera_set_zoom magnitude [time] 
+Zooms the camera in/out to the desired magnitude. Values larger than 1 zooms 
+the camera out, and smaller values zooms in, relative to the default value of 1. 
+An optional time in seconds controls how long it takes for the camera to zoom 
+into position.
 """
 func camera_set_zoom():
 	pass
 
 
 """
+camera_set_zoom_height pixels [time] 
+Similar to the command abo/ve, but uses pixel height instead of magnitude to zoom.
 """
 func camera_set_zoom_height():
 	pass
 
 
 """
+camera_shift x y [time] [type] 
+Shift camera by x and y pixels over time seconds. 
+- type is any of the Tween.TransitionType values without the prefix, eg. LINEAR, 
+	QUART or CIRC; defaults to QUART.
 """
 func camera_shift():
 	pass
 
+
 """
+change_scene path [run_events]
+Loads a new scene, specified by "path". 
+The run_events variable is a boolean (default true) which you never want to set 
+manually! It's there only to benefit save games, so they don't conflict with the 
+scene's events.
 """
-func change_scene(params):
+func change_scene(command_params : Array):
 	# Savegames must have events disabled, so saving the game adds a false to params
 	var run_events = true
-	if params.size() == 2:
-		run_events = bool(params[1])
+	if command_params.size() == 2:
+		run_events = bool(command_params[1])
 	
 	# looking for localized string format in scene. this should be somewhere else
-	var sep = params[0].find(":\"")
+	var sep = command_params[0].find(":\"")
 	if sep >= 0:
-		var path = params[0].substr(sep + 2, params[0].length() - (sep + 2))
+		var path = command_params[0].substr(sep + 2, command_params[0].length() - (sep + 2))
 		escoria.esc_runner.call_deferred("change_scene", [path], current_context, run_events)
 	else:
-		escoria.esc_runner.call_deferred("change_scene", params, current_context, run_events)
+		escoria.esc_runner.call_deferred("change_scene", command_params, current_context, run_events)
 	
 	current_context.waiting = true
 	return esctypes.EVENT_LEVEL_STATE.YIELD
+
 
 """
 """
@@ -162,30 +236,76 @@ func custom():
 
 
 """
+cut_scene object name [reverse] [flip_x] [flip_y] 
+Executes the animation specificed with the "name" parameter on the object, BLOCKING. 
+The next command in the event will be executed when the animation is finished 
+playing. 
+Optional parameters:
+- reverse plays the animation in reverse when true
+- flip_x flips the x axis of the object's sprites when true 
+	(object's root node needs to be Node2D)
+- flip_y flips the y axis of the object's sprites when true 
+	(object's root node needs to be Node2D)
 """
-func cut_scene():
-	pass
+func cut_scene(command_params : Array):
+	if !check_obj(command_params[0], "cut_scene"):
+		return esctypes.EVENT_LEVEL_STATE.RETURN
+	private_play_animation(command_params)
+	return esctypes.EVENT_LEVEL_STATE.YIELD
 
 
 """
+PRIVATE
+Play animation using parameters.
+Used by commands anim() and cut_scene() 
 """
-func debug():
-	pass
+func private_play_animation(command_params : Array):
+	var obj = escoria.esc_runner.get_object(command_params[0])
+	var anim_id = command_params[1]
+	var reverse = false
+	if command_params.size() > 2:
+		reverse = command_params[2]
+	var flip = Vector2(1, 1)
+	if command_params.size() > 3 && command_params[3]:
+		flip.x = -1
+	if command_params.size() > 4 && command_params[4]:
+		flip.y = -1
+	current_context.waiting = true
+	obj.play_anim(anim_id, current_context, reverse, flip)
 
 
 """
+debug string [string2 ...] 
+	Takes 1 or more strings, prints them to the console.
 """
-func dec_global():
-	pass
+func debug(command_params : Array):
+	for p in command_params:
+		printt(p)
+	return esctypes.EVENT_LEVEL_STATE.RETURN
 
 
 """
+dec_global name value 
+	Subtracts the value from global with given "name". 
+	Value and global must both be integers.
 """
-func inc_global():
-	pass
+func dec_global(command_params : Array):
+	escoria.esc_runner.dec_global(command_params[0], command_params[1])
+	return esctypes.EVENT_LEVEL_STATE.RETURN
 
 
 """
+inc_global name value 
+	Adds the value to global with given "name". 
+	Value and global must both be integers.
+"""
+func inc_global(command_params : Array):
+	escoria.esc_runner.inc_global(command_params[0], command_params[1])
+	return esctypes.EVENT_LEVEL_STATE.RETURN
+
+
+"""
+Start a dialog choice.
 """
 func dialog(command_params : Array):
 	current_context.waiting = true
@@ -198,13 +318,14 @@ func dialog(command_params : Array):
 	return esctypes.EVENT_LEVEL_STATE.YIELD
 
 
-"""
-"""
-func dialog_config():
-	pass
+#func dialog_config():
+##	escoria.esc_runner.dialog_config(params)
+##	return esctypes.EVENT_LEVEL_STATE.RETURN
+#	pass
 
 
 """
+enable_terrain node_name
 Enable the ESCTerrain's NavigationPolygonInstance defined by given node name. 
 Disables previously activated NavigationPolygonInstance.
 """
@@ -223,18 +344,25 @@ func game_over(command_params : Array):
 
 
 """
+Adds element in inventory.
+Usage: inventory_add my_item
+equivalent to: set_global i/my_item true
 """
 func inventory_add(command_params : Array):
-	pass
+	set_global(["i/"+command_params[0], "true"])
 
 
 """
+Removes element from inventory.
+Usage: inventory_remove my_item
+equivalent to: set_global i/my_item false
 """
 func inventory_remove(command_params : Array):
-	pass
+	set_global(["i/"+command_params[0], "false"])
 
 
 """
+TODO: This is dependant to the user UI. It must remain flexible enough.
 """
 func inventory_open(command_params : Array):
 	pass
@@ -243,8 +371,9 @@ func inventory_open(command_params : Array):
 """
 """
 func jump(command_params : Array):
+#	escoria.esc_runner.jump(command_params[0])
+#	return esctypes.EVENT_LEVEL_STATE.JUMP
 	pass
-
 
 """
 """
@@ -318,11 +447,11 @@ func set_active(command_params : Array):
 Set the angle of an object. 
 Usage: set_angle object_id angle_degrees
 """
-func set_angle(params : Array):
-	if !check_obj(params[0], "set_angle"):
+func set_angle(command_params : Array):
+	if !check_obj(command_params[0], "set_angle"):
 		return esctypes.EVENT_LEVEL_STATE.RETURN
-	var obj = escoria.esc_runner.get_object(params[0])
-	obj.set_angle(int(params[1]))
+	var obj = escoria.esc_runner.get_object(command_params[0])
+	obj.set_angle(int(command_params[1]))
 	return esctypes.EVENT_LEVEL_STATE.RETURN
 
 
@@ -355,9 +484,16 @@ func set_global(command_params : Array):
 
 
 """
+set_globals pattern value
+Changes the value of multiple globals using a wildcard pattern. 
+Example:
+	# clears the inventory
+	set_globals i/* false
 """
 func set_globals(command_params : Array):
-	pass
+	var pattern : String = command_params[0]
+	var val = command_params[1]
+	escoria.esc_runner.set_globals(pattern, val)
 
 
 """
@@ -402,17 +538,18 @@ Teleports obj1 at obj2's position. If angle_degrees is set (int), sets obj1's
 angle to angle_degrees.
 Usage: teleport obj1 obj2 [angle_degrees]
 """
-func teleport(params):
-	if !check_obj(params[0], "teleport"):
+func teleport(command_params : Array):
+	if !check_obj(command_params[0], "teleport"):
 		return esctypes.EVENT_LEVEL_STATE.RETURN
-	if !check_obj(params[1], "teleport"):
+	if !check_obj(command_params[1], "teleport"):
 		return esctypes.EVENT_LEVEL_STATE.RETURN
 
 	var angle
-	if params.size() > 2:
-		angle = int(params[2])
+	if command_params.size() > 2:
+		angle = int(command_params[2])
 
-	escoria.esc_runner.get_object(params[0]).teleport(escoria.esc_runner.get_object(params[1]), angle)
+	escoria.esc_runner.get_object(command_params[0]) \
+		.teleport(escoria.esc_runner.get_object(command_params[1]), angle)
 	return esctypes.EVENT_LEVEL_STATE.RETURN
 
 

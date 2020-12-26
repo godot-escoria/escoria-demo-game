@@ -65,7 +65,7 @@ func _on_mouse_right_click_inventory_item(inventory_item_global_id, event : Inpu
 
 func _on_mouse_double_left_click_inventory_item(inventory_item_global_id, event : InputEvent) -> void:
 	printt("Inventory item double left clicked ", inventory_item_global_id)
-	escoria.main.current_scene.game.double_left_click_on_inventory_item(inventory_item_global_id, event)
+	escoria.main.current_scene.game.left_double_click_on_inventory_item(inventory_item_global_id, event)
 
 func _on_mouse_entered_inventory_item(inventory_item_global_id) -> void:
 	printt("Inventory item focused ", inventory_item_global_id)

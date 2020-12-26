@@ -126,10 +126,13 @@ func _ready():
 	terrain = escoria.room_terrain
 	
 	last_scale = scale
+	
 	set_process(true)
 
 
 func _process(time):
+	if Engine.is_editor_hint():
+		return
 	$debug.text = str(z_index)
 	
 	if task == PLAYER_TASKS.WALK or task == PLAYER_TASKS.SLIDE:

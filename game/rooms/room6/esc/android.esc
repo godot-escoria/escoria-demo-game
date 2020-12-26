@@ -7,32 +7,32 @@ say player "I don't think he'd like that."
 :talk
 > [!talked_once]
 	say player "Uhm..."
-	say character "Yeah?"
+	say android "Yeah?"
 	set_global talked_once true
 
 ? option1 1000 option2 true
 	- "What are you doing here?"
 		say player 		"What are you doing here?"
-		say character 	"I'm working! Can't you see that?"
-		say character	"My colleague is supposed to bring me an important report. And he's not coming!"
+		say android 	"I'm working! Can't you see that?"
+		say android	"My colleague is supposed to bring me an important report. And he's not coming!"
 		?
 			- "I'll bring you this report!"
 				say player		"I'll bring you this report!"
-				say character	"You will? Great!"
-				say character	"Now please hurry up so I can leave and have lunch."
+				say android	"You will? Great!"
+				say android	"Now please hurry up so I can leave and have lunch."
 				stop
 			- "I've got better things to do."
 				say player		"I've got better things to do."
-				say character	"Eh! I'm not asking you anythin'!"
+				say android	"Eh! I'm not asking you anythin'!"
 				stop
 	
 	- "I'm selling these fine leather jackets."
 		say player		"I'm selling these fine leather jackets."
-		say character 	"Go away, kid."
+		say android 	"Go away, kid."
 		stop
 		
 :give filled_sheet
-say character "Hey! That's perfect!"
-say character "I can finally got away from here!"
-walk character 1200,400
-set_angle character 45
+say android "Hey! That's perfect!"
+say android "I can finally got away from here!"
+walk android 1200,400
+set_angle android 45

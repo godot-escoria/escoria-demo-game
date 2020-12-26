@@ -45,10 +45,12 @@ func left_double_click_on_bg(position : Vector2) -> void:
 
 func element_focused(element_id : String) -> void:
 	#emit_signal("element_focused", element_id)
-	var target_obj = escoria.esc_runner.get_object(element_id)
-	if escoria.esc_runner.current_action != "use" && escoria.esc_runner.current_tool == null:
-		if target_obj is ESCItem or target_obj is ESCHotspot:
-			$ui/verbs_layer/verbs_menu.set_by_name(target_obj.default_action)
+#	var target_obj = escoria.esc_runner.get_object(element_id)
+#	if escoria.esc_runner.current_action != "use" && escoria.esc_runner.current_tool == null:
+#		if target_obj is ESCItem or target_obj is ESCHotspot:
+#			$ui/verbs_layer/verbs_menu.set_by_name(target_obj.default_action)
+	pass
+
 
 func element_unfocused() -> void:
 	#emit_signal("element_focused", "")

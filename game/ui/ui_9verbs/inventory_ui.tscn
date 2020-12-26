@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/scenes/inventory/inventory_ui.gd" type="Script" id=1]
-[ext_resource path="res://game/items/all_items.tscn" type="PackedScene" id=2]
+[ext_resource path="res://game/items/ESCORIA_ALL_ITEMS.tscn" type="PackedScene" id=2]
 [ext_resource path="res://game/ui/ui_9verbs/inventory_ui_container.gd" type="Script" id=3]
 
 

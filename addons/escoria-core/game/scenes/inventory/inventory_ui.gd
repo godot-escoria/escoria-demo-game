@@ -4,17 +4,19 @@ class_name ESCInventory
 func get_class():
 	return "ESCInventory"
 
+"""
+This script is set on the inventory UI scene's root node. 
+The scene MUST contain the 2 following nodes:
+	- one node named "ESCORIA_ALL_ITEMS" containing ALL ESCItems of the game. This is required
+		to be able to get the ESCInventoryItem for a given ESCItem.
+	- one Container node (under Control type) that will contain the inventory items. 
+		It must be set in the "items_container" export variable.
+"""
+
+
 # Define the actual container node to add items as children of. Should be a Container.
 export(NodePath) var items_container
-onready var all_items = $all_items
-
-# Methods available for selecting an item
-enum ITEM_SELECTION_METHODS {
-	VERB_ACTION,	# Use a verb action, such as use or give, on inventory item 
-	ONE_CLICK,		# One click on inventory item selects it (eventually put it on cursor)
-	DRAG_N_DROP		# (Useful for mobile) Drag n drop item on another or on background to use/give it
-}
-export(ITEM_SELECTION_METHODS) var selection_method
+onready var all_items = $ESCORIA_ALL_ITEMS
 
 var items_ids_in_inventory : Dictionary = {} # { item_id : TextureButton}
 
@@ -52,7 +54,6 @@ func add_new_item_by_id(item_id : String) -> void:
 			escoria.esc_runner.register_object(item_id, item_inventory_button)
 		item_inventory_button.visible = true
 			
-		# connect this new item TextureButton's signals to our inventory UI
 		item_inventory_button.connect("mouse_left_inventory_item", 
 			escoria.inputs_manager, "_on_mouse_left_click_inventory_item")
 		item_inventory_button.connect("mouse_double_left_inventory_item", 

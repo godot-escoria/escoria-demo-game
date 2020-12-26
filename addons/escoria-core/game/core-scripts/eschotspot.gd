@@ -116,6 +116,8 @@ func update_terrain(on_event_finished_name = null):
 		return
 	if on_event_finished_name != null and on_event_finished_name != "setup":
 		return
+	if is_exit:
+		return
 		
 	var pos = position
 	z_index = pos.y if pos.y <= VisualServer.CANVAS_ITEM_Z_MAX else VisualServer.CANVAS_ITEM_Z_MAX

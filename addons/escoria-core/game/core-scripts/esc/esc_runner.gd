@@ -272,6 +272,13 @@ func set_global(name, val, force_change_reserved : bool = false):
 	# printt("global changed at global_vm, emitting for ", name, val)
 	emit_signal("global_changed", name)
 
+func set_globals(pattern : String, val):
+	for key in globals:
+		if key.match(pattern):
+			set_global(key, val)
+#			globals[key] = val
+#			emit_signal("global_changed", key)
+
 func dec_global(name, diff):
 	var global = get_global(name)
 	global = int(global) if global else 0
@@ -281,12 +288,6 @@ func inc_global(name, diff):
 	var global = get_global(name)
 	global = int(global) if global else 0
 	set_global(name, str(global + diff))
-
-func set_globals(pat, val):
-	for key in globals:
-		if key.match(pat):
-			globals[key] = val
-			emit_signal("global_changed", key)
 
 func is_global_equal_to(name, val):
 	var global = get_global(name)
@@ -353,14 +354,27 @@ func change_scene(params, context, run_events=true):
 	if !game_scene:
 		escoria.report_errors("esc_runner.gd:change_scene()", 
 			["Failed loading scene " + ProjectSettings.get_setting("escoria/ui/game_scene")])
-
 	
 	# Load room scene
 	var room_scene = res_room.instance()
 	if room_scene:
 		room_scene.add_child(game_scene)
 		room_scene.move_child(game_scene, 0)
-		escoria.main.set_scene(room_scene, run_events)
+		var events = escoria.main.set_scene(room_scene, run_events)
+		
+		# If scene was never visited, add "ready" event to the events stack
+		if !scenes_cache.has(room_scene.global_id) \
+			and "ready" in events:
+			run_event(events["ready"])
+		
+		# :setup is pretty much required in the code, but fortunately
+		# we can help out with cases where one isn't necessary otherwise
+		if not "setup" in events:
+			var fake_setup = escoria.esc_compiler.compile_str(":setup\n")
+			events["setup"] = fake_setup["setup"]
+		# Finally we add the setup on to of the events stack so that it is ran first
+		run_event(events["setup"])
+		
 		escoria.inputs_manager.is_hotspot_focused = false
 		if !scenes_cache_list.has(params[0]):
 			scenes_cache_list.push_back(params[0])
@@ -628,3 +642,17 @@ func object_exit_scene(name : String):
 		printt("Object " + name + " removed from scene.")
 		objects.erase(name)
 
+#func jump(p_label):
+#	while stack.size() > 0:
+#		var top = stack[stack.size()-1]
+#		printt("top labels: ", top.labels, p_label)
+#		if p_label in top.labels:
+#			top.ip = top.labels[p_label]
+#			return
+#		else:
+#			if top.break_stop || stack.size() == 1:
+#				report_errors("", ["Label not found: "+p_label+", can't jump"])
+#				stack.remove(stack.size()-1)
+#				break
+#			else:
+#				stack.remove(stack.size()-1)

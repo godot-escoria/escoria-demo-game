@@ -9,9 +9,9 @@
 [ext_resource path="res://game/rooms/room4/assets/depth_reduced.png" type="Texture" id=8]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 1564.36, 574.459, 1576.02, 540.556, 1634.29, 568.102, 1624.42, 800.399, 1536.87, 579.274, 1012.68, 786.929, 1197.79, 675.666, 908.294, 488.354, 996.968, 451.313, 600.739, 456.925, 673.699, 490.599, 371.757, 688.152, 542.371, 788.052, 2.46706, 794.786, 11.4468, 698.255, 189.918, 682.54, 127.06, 573.661, 23.7938, 614.07, 42.8757, 527.64, 125.938, 536.62 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 0, 3, 5, 6 ), PoolIntArray( 6, 5, 7, 8 ), PoolIntArray( 9, 8, 7, 10 ), PoolIntArray( 11, 12, 13, 14, 15 ), PoolIntArray( 9, 10, 12, 11 ), PoolIntArray( 16, 15, 14, 17, 18 ), PoolIntArray( 16, 18, 19 ) ]
-outlines = [ PoolVector2Array( 11.4468, 698.255, 23.7938, 614.07, 42.8757, 527.64, 125.938, 536.62, 127.06, 573.661, 189.918, 682.54, 371.757, 688.152, 600.739, 456.925, 996.968, 451.313, 1197.79, 675.666, 1536.87, 579.274, 1564.36, 574.459, 1576.02, 540.556, 1634.29, 568.102, 1624.42, 800.399, 1012.68, 786.929, 908.294, 488.354, 673.699, 490.599, 542.371, 788.052, 2.46706, 794.786 ) ]
+vertices = PoolVector2Array( 371.757, 688.152, 542.371, 788.052, 2.46706, 794.786, 11.4468, 698.255, 189.918, 682.54, 1564.36, 574.459, 1578.66, 529.011, 1635.23, 551.638, 1624.42, 800.399, 1536.87, 579.274, 1012.68, 786.929, 1197.79, 675.666, 908.294, 488.354, 996.968, 451.313, 600.739, 456.925, 673.699, 490.599, 127.06, 573.661, 23.7938, 614.07, 42.8757, 527.64, 125.717, 528.797 )
+polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 5, 6, 7, 8 ), PoolIntArray( 9, 5, 8, 10, 11 ), PoolIntArray( 11, 10, 12, 13 ), PoolIntArray( 14, 13, 12, 15 ), PoolIntArray( 14, 15, 1, 0 ), PoolIntArray( 16, 4, 3, 17, 18 ), PoolIntArray( 16, 18, 19 ) ]
+outlines = [ PoolVector2Array( 11.4468, 698.255, 23.7938, 614.07, 42.8757, 527.64, 125.717, 528.797, 127.06, 573.661, 189.918, 682.54, 371.757, 688.152, 600.739, 456.925, 996.968, 451.313, 1197.79, 675.666, 1536.87, 579.274, 1564.36, 574.459, 1578.66, 529.011, 1635.23, 551.638, 1624.42, 800.399, 1012.68, 786.929, 908.294, 488.354, 673.699, 490.599, 542.371, 788.052, 2.46706, 794.786 ) ]
 
 [node name="room4" type="Node2D"]
 script = ExtResource( 6 )
@@ -20,15 +20,13 @@ esc_script = "res://game/rooms/room4/esc/room4.esc"
 player_scene = ExtResource( 4 )
 
 [node name="background" type="TextureRect" parent="."]
-margin_left = 0.943848
-margin_right = 2398.94
+margin_right = 1663.0
 margin_bottom = 549.0
 mouse_filter = 2
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-esc_script = ""
 
 [node name="Sprite" type="Sprite" parent="background"]
 scale = Vector2( 0.692794, 0.692794 )
@@ -52,14 +50,9 @@ points = PoolVector2Array( 6.10242, 307.886, 2.0979, 129.017, 84.858, 129.017, 8
 [node name="walkable_area" type="Navigation2D" parent="."]
 script = ExtResource( 1 )
 scales = ExtResource( 8 )
-bitmaps_scale = Vector2( 1, 1 )
-lightmap = null
-player_speed_multiplier = 1.0
 player_doubleclick_speed_multiplier = 1.8
-lightmap_modulate = Color( 1, 1, 1, 1 )
 debug_mode = 0
 scale_min = 0.4
-scale_max = 1.0
 
 [node name="platform" type="NavigationPolygonInstance" parent="walkable_area"]
 visible = false
@@ -73,24 +66,6 @@ __meta__ = {
 position = Vector2( 697.275, 203.998 )
 
 [node name="Hotspots" type="Node2D" parent="."]
-position = Vector2( 0.943848, 0 )
-
-[node name="r_door" type="Area2D" parent="Hotspots"]
-script = ExtResource( 3 )
-global_id = "r_exit"
-is_exit = true
-esc_script = "res://game/rooms/room4/esc/right_exit.esc"
-tooltip_name = "Exit"
-dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 84.5736, 279.703 )
-}
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
-polygon = PoolVector2Array( 1567.92, 294.848, 1573.21, 92.4902, 1651.61, 127.452, 1654.79, 343.583 )
-
-[node name="Position2D" type="Position2D" parent="Hotspots/r_door"]
-position = Vector2( 1611.46, 301.017 )
 
 [node name="l_door" type="Area2D" parent="Hotspots"]
 script = ExtResource( 3 )
@@ -104,7 +79,24 @@ interact_positions = {
 }
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
-polygon = PoolVector2Array( 26.3979, 288.491, 27.4573, 70.2414, 147.177, 74.4792, 151.415, 293.788 )
+polygon = PoolVector2Array( 29.1046, 292.156, 31.0151, 76.8949, 147.177, 74.4792, 151.415, 293.788 )
 
 [node name="Position2D" type="Position2D" parent="Hotspots/l_door"]
 position = Vector2( 83.6298, 279.703 )
+
+[node name="r_door" type="Area2D" parent="Hotspots"]
+script = ExtResource( 3 )
+global_id = "r_exit"
+is_exit = true
+esc_script = "res://game/rooms/room4/esc/right_exit.esc"
+tooltip_name = "Exit"
+dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": Vector2( 1612.4, 301.017 )
+}
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
+polygon = PoolVector2Array( 1567.92, 294.848, 1573.21, 92.4902, 1657.34, 129.485, 1654.79, 343.583 )
+
+[node name="Position2D" type="Position2D" parent="Hotspots/r_door"]
+position = Vector2( 1611.46, 301.017 )

@@ -42,7 +42,7 @@ var commands = {
 	"cut_scene": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING, TYPE_BOOL, TYPE_BOOL, TYPE_BOOL] },
 	"debug": { "min_args": 1 },
 	"dec_global": { "min_args": 2, "types": [TYPE_STRING, TYPE_INT] },
-	"dialog_config": { "min_args": 3, "types": [TYPE_STRING, TYPE_BOOL, TYPE_BOOL] },
+#	"dialog_config": { "min_args": 3, "types": [TYPE_STRING, TYPE_BOOL, TYPE_BOOL] },
 	"enable_terrain": { "min_args": 1, "types": [TYPE_STRING]},
 	"game_over": { "min_args": 1, "types": [TYPE_BOOL] },
 	"inc_global": { "min_args": 2, "types": [TYPE_STRING, TYPE_INT] },

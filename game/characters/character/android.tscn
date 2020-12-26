@@ -94,9 +94,9 @@ animations = [ {
 "speed": 8.0
 } ]
 
-[node name="character" type="Area2D"]
+[node name="android" type="Area2D"]
 script = ExtResource( 1 )
-global_id = "character"
+global_id = "android"
 interaction_direction = 3
 tooltip_name = "Character"
 default_action = "talk"

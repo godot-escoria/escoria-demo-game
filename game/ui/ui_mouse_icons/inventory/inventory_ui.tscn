@@ -6,7 +6,7 @@
 [ext_resource path="res://game/ui/ui_mouse_icons/inventory/inventory_showhide.gd" type="Script" id=4]
 [ext_resource path="res://game/ui/ui_mouse_icons/images/frame.png" type="Texture" id=5]
 [ext_resource path="res://game/ui/ui_mouse_icons/images/inventory_icon.png" type="Texture" id=6]
-[ext_resource path="res://game/items/all_items.tscn" type="PackedScene" id=7]
+[ext_resource path="res://game/items/ESCORIA_ALL_ITEMS.tscn" type="PackedScene" id=7]
 
 [sub_resource type="Animation" id=1]
 resource_name = "hide"
@@ -100,7 +100,7 @@ __meta__ = {
 }
 items_container = NodePath("inventory_button/panel/MarginContainer/ScrollContainer/container")
 
-[node name="all_items" parent="." instance=ExtResource( 7 )]
+[node name="ESCORIA_ALL_ITEMS" parent="." instance=ExtResource( 7 )]
 position = Vector2( 269.391, 275.003 )
 
 [node name="inventory_button" type="TextureButton" parent="."]

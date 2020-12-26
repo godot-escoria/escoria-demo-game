@@ -21,36 +21,43 @@ func set_scene(p_scene, run_events=true):
 	"""
 	if !p_scene:
 		escoria.report_errors("main", ["Trying to set empty scene"])
+	
+	if current_scene != null:
+		clear_scene()
+
+	get_node("/root").add_child(p_scene)
 
 	# Ensure we don't have a regular event running when changing scenes
 	if escoria.esc_runner.running_event:
 		assert(escoria.esc_runner.running_event.ev_name == "load")
 
+	var events : Dictionary = {}
 	if "esc_script" in p_scene and p_scene.esc_script and run_events:
-		var events = escoria.esc_compiler.load_esc_file(p_scene.esc_script)
+		events = escoria.esc_compiler.load_esc_file(p_scene.esc_script)
 
-		# :setup is pretty much required in the code, but fortunately
-		# we can help out with cases where one isn't necessary otherwise
-		if not "setup" in events:
-			var fake_setup = escoria.esc_compiler.compile_str(":setup\n")
-			events["setup"] = fake_setup["setup"]
-
-		escoria.esc_runner.run_event(events["setup"])
+#		# :setup is pretty much required in the code, but fortunately
+#		# we can help out with cases where one isn't necessary otherwise
+#		if not "setup" in events:
+#			var fake_setup = escoria.esc_compiler.compile_str(":setup\n")
+#			events["setup"] = fake_setup["setup"]
+#
+#		escoria.esc_runner.run_event(events["setup"])
+#		# We need to ensure that :setup event is finished before adding the next event.
+#		var setup_done = false
+#		while !setup_done:
+#			var event_name = yield(escoria.esc_runner, "event_done")
+#			if event_name == "setup":
+#				setup_done = true
+#
+#		# If scene was never visited, run "ready" event
+#		if !escoria.esc_runner.scenes_cache.has(p_scene.global_id) \
+#			and "ready" in events:
+#			escoria.esc_runner.run_event(events["ready"])
+#
 	
-		# If scene was never visited, run "ready" event
-		if !escoria.esc_runner.scenes_cache.has(p_scene.global_id) \
-			and "ready" in events:
-			escoria.esc_runner.run_event(events["ready"])
-
-	if current_scene != null:
-		clear_scene()
-	
-#	var game_scene = 
-	
-	get_node("/root").add_child(p_scene)
 	set_current_scene(p_scene, run_events)
 	set_camera_limits()
-
+	return events
 
 func set_current_scene(p_scene, run_events=true):
 	current_scene = p_scene
@@ -83,6 +90,7 @@ func set_current_scene(p_scene, run_events=true):
 
 	escoria.esc_runner.register_object("_scene", p_scene, true)  # Force overwrite of global
 
+	check_game_scene_methods()
 
 func clear_scene():
 	if current_scene == null:
@@ -154,5 +162,36 @@ func set_camera_limits():
 		}
 		printt("setting camera limits from parameter ", scene_camera_limits)
 
-	escoria.esc_runner.get_object("camera").set_limits(limits)
-	escoria.esc_runner.get_object("camera").set_offset(screen_ofs * 2)
+	current_scene.game.get_node("camera").set_limits(limits)
+	current_scene.game.get_node("camera").set_offset(screen_ofs * 2)
+
+
+"""
+The game.tscn scene's root node script MUST implement the following methods.
+If they do not exist, stop immediately. Implement them, even if empty
+"""
+func check_game_scene_methods():
+	assert(current_scene.game.has_method("left_click_on_bg"))
+	assert(current_scene.game.has_method("right_click_on_bg"))
+	assert(current_scene.game.has_method("left_double_click_on_bg"))
+	
+	assert(current_scene.game.has_method("element_focused"))
+	assert(current_scene.game.has_method("element_unfocused"))
+	
+	assert(current_scene.game.has_method("left_click_on_hotspot"))
+	assert(current_scene.game.has_method("right_click_on_hotspot"))
+	assert(current_scene.game.has_method("left_double_click_on_hotspot"))
+	
+	assert(current_scene.game.has_method("left_click_on_item"))
+	assert(current_scene.game.has_method("right_click_on_item"))
+	assert(current_scene.game.has_method("left_double_click_on_item"))
+	
+	assert(current_scene.game.has_method("open_inventory"))
+	assert(current_scene.game.has_method("close_inventory"))
+	
+	assert(current_scene.game.has_method("left_click_on_inventory_item"))
+	assert(current_scene.game.has_method("right_click_on_inventory_item"))
+	assert(current_scene.game.has_method("left_double_click_on_inventory_item"))
+	
+	assert(current_scene.game.has_method("inventory_item_focused"))
+	assert(current_scene.game.has_method("inventory_item_unfocused"))

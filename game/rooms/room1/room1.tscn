@@ -3,7 +3,7 @@
 [ext_resource path="res://game/rooms/room1/walkable_area.tscn" type="PackedScene" id=1]
 [ext_resource path="res://game/rooms/room1/background.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/eschotspot.gd" type="Script" id=3]
-[ext_resource path="res://game/characters/guybrush/guybrush.tscn" type="PackedScene" id=4]
+[ext_resource path="res://game/characters/character2/character.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escroom.gd" type="Script" id=6]
 
 [node name="room1" type="Node2D"]
@@ -26,15 +26,6 @@ text = "Move : left click
 Fast move : double left click"
 
 [node name="walkable_area" parent="." instance=ExtResource( 1 )]
-scales = null
-bitmaps_scale = Vector2( 1, 1 )
-lightmap = null
-player_speed_multiplier = 1.0
-player_doubleclick_speed_multiplier = 1.5
-lightmap_modulate = Color( 1, 1, 1, 1 )
-debug_mode = 1
-scale_min = 0.3
-scale_max = 1.0
 
 [node name="Hotspots" type="Node2D" parent="."]
 
@@ -45,6 +36,9 @@ is_exit = true
 esc_script = "res://game/rooms/room1/esc/right_exit.esc"
 tooltip_name = "Exit"
 dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": Vector2( 1225.47, 353.99 )
+}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
 polygon = PoolVector2Array( 1177.94, 348.61, 1175.95, 45.3759, 1276.06, 92.0953, 1277.95, 399.407 )
@@ -58,6 +52,9 @@ global_id = "r1_item"
 esc_script = "res://game/rooms/room1/esc/wall_item.esc"
 tooltip_name = "Item on the wall"
 dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": Vector2( 671.798, 373.035 )
+}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/item"]
 polygon = PoolVector2Array( 635.586, 253.345, 568.928, 60.1716, 709.047, 120.028, 699.524, 247.903 )

@@ -6,13 +6,20 @@ func _ready():
 	pass
 
 
-
 func _on_inventory_button_pressed():
 	if !$AnimationPlayer.is_playing() and !showed:
-		$AnimationPlayer.play("show")
-		yield($AnimationPlayer, "animation_finished")
-		showed = true
+		show_inventory()
 	elif !$AnimationPlayer.is_playing() and showed:
-		$AnimationPlayer.play("hide")
-		yield($AnimationPlayer, "animation_finished")
-		showed = false
+		close_inventory()
+		
+
+func show_inventory():
+	$AnimationPlayer.play("show")
+	yield($AnimationPlayer, "animation_finished")
+	showed = true
+
+
+func close_inventory():
+	$AnimationPlayer.play("hide")
+	yield($AnimationPlayer, "animation_finished")
+	showed = false
