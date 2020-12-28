@@ -85,12 +85,12 @@ func left_double_click_on_item(item_global_id : String, event : InputEvent) -> v
 ## INVENTORY ##
 func left_click_on_inventory_item(inventory_item_global_id : String, event : InputEvent) -> void:
 	escoria.do("item_left_click", [inventory_item_global_id, event])
-	if escoria.esc_runner.current_action == "use":
-		var item = escoria.esc_runner.get_object(inventory_item_global_id)
-		if item.texture:
-			$ui/verbs_layer/verbs_menu.set_tool_texture(item.texture)
-		elif item.inventory_item_scene_file.instance().texture_normal:
-			$ui/verbs_layer/verbs_menu.set_tool_texture(item.inventory_item_scene_file.instance().texture_normal)
+#	if escoria.esc_runner.current_action == "use":
+#		var item = escoria.esc_runner.get_object(inventory_item_global_id)
+#		if item.texture:
+#			$ui/verbs_layer/verbs_menu.set_tool_texture(item.texture)
+#		elif item.inventory_item_scene_file.instance().texture_normal:
+#			$ui/verbs_layer/verbs_menu.set_tool_texture(item.inventory_item_scene_file.instance().texture_normal)
 			
 
 func right_click_on_inventory_item(inventory_item_global_id : String, event : InputEvent) -> void:

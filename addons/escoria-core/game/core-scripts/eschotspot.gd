@@ -41,7 +41,6 @@ var terrain : ESCTerrain
 # If the terrain node type is scalenodes
 var terrain_is_scalenodes : bool
 var check_maps = true
-
 var pose_scale : int
 var last_scale : Vector2
 
@@ -58,7 +57,6 @@ func _ready():
 	connect("input_event", self, "manage_input")
 	init_interact_position_with_node()
 	terrain = escoria.room_terrain
-	
 	
 	update_terrain()
 	

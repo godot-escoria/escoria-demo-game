@@ -111,32 +111,42 @@ func do(action : String, params : Array = []) -> void:
 	if current_state == GAME_STATE.DEFAULT:
 		match action:
 			"walk":
-				# Reset current action 
+				# Reset current action. 
 				esc_runner.set_current_action("")
 				
-				# Walk to position2D
-				if params[1] is Vector2:	
+				# Check moving object.
+				if !escoria.esc_runner.check_obj(params[0], "escoria.do(walk)"):
+					report_errors("escoria.gd:do()", 
+						["Walk action requested on inexisting object: " + params[0]])
+					return
+				
+				var moving_obj = escoria.esc_runner.get_object(params[0])
+				
+				# Walk to Position2D.
+				if params[1] is Vector2:
 					var target_position = params[1]
 					var is_fast : bool = false
 					if params.size() > 2 and params[2] == true:
 						is_fast = true
 					var walk_context = {"fast": is_fast} 
-					main.current_scene.player.walk_to(target_position, walk_context)
+					moving_obj.walk_to(target_position, walk_context)
+					
 				# Walk to object from its id
-				elif params[1] is String:	
+				elif params[1] is String:
+					if !escoria.esc_runner.check_obj(params[1], "escoria.do(walk)"):
+						report_errors("escoria.gd:do()", 
+							["Walk action requested TOWARDS inexisting object: " + params[1]])
+						return
+					
 					var object = escoria.esc_runner.get_object(params[1])
 					if object:
 						var target_position : Vector2 = object.interact_position
+						var is_fast : bool = false
+						if params.size() > 2 and params[2] == true:
+							is_fast = true
+						var walk_context = {"fast": is_fast, "target_object" : object} 
 						
-						if params[0] == main.current_scene.player.global_id:
-							var is_fast : bool = false
-							if params.size() > 2 and params[2] == true:
-								is_fast = true
-							var walk_context = {"fast": is_fast, "target_object" : object} 
-							
-							main.current_scene.player.walk_to(target_position, walk_context)
-						else:
-							report_errors("escoria.gd: do() > walk", ["TODO: code NPC walking"])
+						moving_obj.walk_to(target_position, walk_context)
 							
 			"hotspot_left_click", "item_left_click":
 				if params[0] is String:

@@ -68,6 +68,7 @@ var last_dir : int
 var last_scale : Vector2
 var pose_scale : int
 
+# Animations script (for walking, idling...)
 export(Script) var animations
 
 # AnimatedSprite node (if any)
@@ -227,10 +228,13 @@ func update_terrain(on_event_finished_name = null):
 #		for s in sprites:
 #			s.set_modulate(color)
 
-# Sets player angle and plays according animation.
+
+"""
+Sets player angle and plays according animation.
+"""
 func set_angle(deg):
 	if deg < 0 or deg > 360:
-			escoria.report_errors("player.gd:set_angle()", ["Invalid degree to turn to " + str(deg)])
+			escoria.report_errors("escplayer.gd:set_angle()", ["Invalid degree to turn to " + str(deg)])
 	moved = true
 	last_deg = deg
 	last_dir = _get_dir_deg(deg, animations)
@@ -242,12 +246,11 @@ func set_angle(deg):
 	pose_scale = animations.idles[last_dir][1]
 	update_terrain()
 
-
+"""
+Teleports the player on target position.
+target can be Vector2 or Object
+"""
 func teleport(target, angle : Object = null) -> void:
-	"""
-	Teleports the player on target position.
-	target can be Vector2 or Object
-	"""
 	if typeof(target) == TYPE_VECTOR2:
 		printt("Player teleported at position", target, "with angle", angle)
 		position = target
@@ -374,7 +377,7 @@ func _get_dir_deg(deg : int, animations) -> int:
 
 	# It's an error to have the animations misconfigured
 	if dir == -1:
-		escoria.report_errors("player", ["No direction found for " + str(deg)])
+		escoria.report_errors("escplayer.gd:_get_dir_deg()", ["No direction found for " + str(deg)])
 	
 	return dir
 

@@ -153,10 +153,10 @@ func add_level(p_event, p_root : bool):
 
 func instance_level(p_event : esctypes.ESCEvent, p_root : bool):
 	var new_level = {
-		"ip": 0,
-		"instructions": p_event.ev_level,
-		"waiting": false,
-		"break_stop": p_root,
+		"ip": 0,								# Current instruction id
+		"instructions": p_event.ev_level,		# List of instructions (commands)
+		"waiting": false,						# If true, wait for current command to be finished (esc_runner_level.finished())
+		"break_stop": p_root,					
 		"labels": {},
 		"flags": p_event.ev_flags
 	}
@@ -514,8 +514,9 @@ func activate(p_action : String, p_param : Array):
 						else:
 							var errors = ["Attempted to execute inexisting action " + \
 								p_action + " between item " + combine_with.global_id + " and item " + what.global_id]
-							if combine_with.combine_is_one_way:
-								errors.append("Reason: " + combine_with.global_id + "'s item interaction is one-way.")
+							if combine_with.get("combine_is_one_way") != null \
+								and combine_with.combine_is_one_way:
+									errors.append("Reason: " + combine_with.global_id + "'s item interaction is one-way.")
 							escoria.report_warnings("esc_runner.gd:activate()", errors)
 								
 							return esctypes.EVENT_LEVEL_STATE.YIELD
@@ -595,15 +596,24 @@ func set_state(global_id : String, p_params : Array):
 	
 	if animation_node:
 		animation_node.stop()
-		if animation_node.has_animation(p_params[0]):
+		var actual_animator
+		if animation_node is AnimationPlayer:
+			actual_animator = animation_node
+		elif animation_node is AnimatedSprite:
+			actual_animator = animation_node.frames
+			
+		if actual_animator.has_animation(p_params[0]):
 			if !immediate:
 				animation_node.play(p_params[0])
 			else:
 				# The animation is not played, we directly set it at its last frame
-				animation_node.current_animation = p_params[0]
-				var animation = animation_node.get_animation(p_params[0])
-				var animation_length = animation.length
-				animation_node.seek(animation_length)
+				if animation_node is AnimatedSprite:
+					animation_node.animation = p_params[0]
+				else:
+					animation_node.current_animation = p_params[0]
+					var animation = actual_animator.get_animation(p_params[0])
+					var animation_length = animation.length
+					animation_node.seek(animation_length)
 
 
 """
@@ -611,10 +621,11 @@ When object is active, it is VISIBLE.
 When object is inactive, it is HIDDEN.
 """
 func set_active(name : String, active):
-	if objects[name] is ESCInventoryItem:
-		return
 	actives[name] = active
 	if objects.has(name) and is_instance_valid(objects[name]):
+		if objects[name] is ESCInventoryItem:
+			return
+		
 		if active:
 			objects[name].show()
 		else:
@@ -656,3 +667,11 @@ func object_exit_scene(name : String):
 #				break
 #			else:
 #				stack.remove(stack.size()-1)
+
+
+func check_obj(name, cmd):
+	var obj = escoria.esc_runner.get_object(name)
+	if obj == null:
+		escoria.report_errors("", ["Global id "+name+" not found for " + cmd])
+		return false
+	return true

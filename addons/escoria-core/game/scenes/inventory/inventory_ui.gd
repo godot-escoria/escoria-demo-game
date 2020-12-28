@@ -45,6 +45,10 @@ func add_new_item_by_id(item_id : String) -> void:
 	if item_id.begins_with("i/"):
 		item_id = item_id.rsplit("i/", false)[0]
 	if !items_ids_in_inventory.has(item_id):
+		if !escoria.esc_runner.check_obj(item_id, "add_new_item_by_id"):
+			escoria.report_errors("inventory_ui.gd:add_new_item_by_id()",
+				["Item global id '"+ item_id + "' does not exist.", 
+				"Check item's id in ESCORIA_ALL_ITEMS scene."])
 		var item_inventory_button = all_items.get_inventory_item(item_id).duplicate()
 		items_ids_in_inventory[item_id] = item_inventory_button
 		get_node(items_container).add_item(item_inventory_button)

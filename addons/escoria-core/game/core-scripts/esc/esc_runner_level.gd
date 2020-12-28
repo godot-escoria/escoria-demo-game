@@ -20,14 +20,6 @@ func finished(context = null):
 		escoria.current_state = escoria.GAME_STATE.DEFAULT
 
 
-func check_obj(name, cmd):
-	var obj = escoria.esc_runner.get_object(name)
-	if obj == null:
-		escoria.report_errors("", ["Global id "+name+" not found for " + cmd])
-		return false
-	return true
-
-
 func resume(context):
 	current_context = context
 	if context.waiting:
@@ -111,7 +103,7 @@ Optional parameters:
 	flip_y flips the y axis of the object's sprites when true (object's root node needs to be Node2D)
 """
 func anim(command_params : Array):
-	if !check_obj(command_params[0], "anim"):
+	if !escoria.esc_runner.check_obj(command_params[0], "anim"):
 		return esctypes.EVENT_LEVEL_STATE.RETURN
 	private_play_animation(command_params)
 	return esctypes.EVENT_LEVEL_STATE.RETURN
@@ -248,7 +240,7 @@ Optional parameters:
 	(object's root node needs to be Node2D)
 """
 func cut_scene(command_params : Array):
-	if !check_obj(command_params[0], "cut_scene"):
+	if !escoria.esc_runner.check_obj(command_params[0], "cut_scene"):
 		return esctypes.EVENT_LEVEL_STATE.RETURN
 	private_play_animation(command_params)
 	return esctypes.EVENT_LEVEL_STATE.YIELD
@@ -437,7 +429,7 @@ Sets object as active or inactive. Active objects are displayed in scene and res
 to inputs. Inactives are hidden.
 """
 func set_active(command_params : Array):
-	if !check_obj(command_params[0], "set_active"):
+	if !escoria.esc_runner.check_obj(command_params[0], "set_active"):
 		return esctypes.EVENT_LEVEL_STATE.RETURN
 	var name : String = command_params[0]
 	var value = command_params[1]
@@ -448,7 +440,7 @@ Set the angle of an object.
 Usage: set_angle object_id angle_degrees
 """
 func set_angle(command_params : Array):
-	if !check_obj(command_params[0], "set_angle"):
+	if !escoria.esc_runner.check_obj(command_params[0], "set_angle"):
 		return esctypes.EVENT_LEVEL_STATE.RETURN
 	var obj = escoria.esc_runner.get_object(command_params[0])
 	obj.set_angle(int(command_params[1]))
@@ -539,9 +531,9 @@ angle to angle_degrees.
 Usage: teleport obj1 obj2 [angle_degrees]
 """
 func teleport(command_params : Array):
-	if !check_obj(command_params[0], "teleport"):
+	if !escoria.esc_runner.check_obj(command_params[0], "teleport"):
 		return esctypes.EVENT_LEVEL_STATE.RETURN
-	if !check_obj(command_params[1], "teleport"):
+	if !escoria.esc_runner.check_obj(command_params[1], "teleport"):
 		return esctypes.EVENT_LEVEL_STATE.RETURN
 
 	var angle
@@ -585,7 +577,19 @@ Make object1 walk towards object2. This command is not blocking (user input not 
 Usage: walk object_id1 object_id2
 """
 func walk(command_params : Array):
+	current_context.waiting = true
 	escoria.do("walk", command_params)
+	return esctypes.EVENT_LEVEL_STATE.YIELD
+
+"""
+Make object1 walk towards object2. This command is not blocking (user input not disabled)
+Usage: walk_to_pos object_id1 pos_x pos_y
+"""
+func walk_to_pos(command_params : Array):
+	current_context.waiting = true
+	var destination_pos = Vector2(command_params[1], command_params[2])
+	escoria.do("walk", [command_params[0], destination_pos])
+	return esctypes.EVENT_LEVEL_STATE.YIELD
 
 
 """

@@ -1,0 +1,128 @@
+[gd_scene load_steps=48 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=1]
+[ext_resource path="res://game/characters/android/png/03_07.png" type="Texture" id=2]
+[ext_resource path="res://game/characters/android/png/02_05.png" type="Texture" id=3]
+[ext_resource path="res://game/characters/android/png/06_02.png" type="Texture" id=4]
+[ext_resource path="res://game/characters/android/png/03_04.png" type="Texture" id=5]
+[ext_resource path="res://game/characters/android/png/02_08.png" type="Texture" id=6]
+[ext_resource path="res://game/characters/android/png/03_01.png" type="Texture" id=7]
+[ext_resource path="res://game/characters/android/png/04_06.png" type="Texture" id=8]
+[ext_resource path="res://game/characters/android/png/04_08.png" type="Texture" id=9]
+[ext_resource path="res://game/characters/tools/debug_label.tscn" type="PackedScene" id=10]
+[ext_resource path="res://game/characters/android/png/03_05.png" type="Texture" id=11]
+[ext_resource path="res://game/characters/android/png/05_07.png" type="Texture" id=12]
+[ext_resource path="res://game/characters/android/png/04_03.png" type="Texture" id=13]
+[ext_resource path="res://game/characters/android/png/02_06.png" type="Texture" id=14]
+[ext_resource path="res://game/characters/android/png/06_08.png" type="Texture" id=15]
+[ext_resource path="res://game/characters/android/png/04_09.png" type="Texture" id=16]
+[ext_resource path="res://game/characters/android/png/05_08.png" type="Texture" id=17]
+[ext_resource path="res://game/characters/android/png/03_06.png" type="Texture" id=18]
+[ext_resource path="res://game/characters/android/png/06_03.png" type="Texture" id=19]
+[ext_resource path="res://game/characters/android/png/06_04.png" type="Texture" id=20]
+[ext_resource path="res://game/characters/android/png/02_04.png" type="Texture" id=21]
+[ext_resource path="res://game/characters/android/png/03_03.png" type="Texture" id=22]
+[ext_resource path="res://game/characters/android/png/06_09.png" type="Texture" id=23]
+[ext_resource path="res://game/characters/android/png/06_05.png" type="Texture" id=24]
+[ext_resource path="res://game/characters/android/png/03_08.png" type="Texture" id=25]
+[ext_resource path="res://game/characters/android/png/06_06.png" type="Texture" id=26]
+[ext_resource path="res://game/characters/android/png/05_06.png" type="Texture" id=27]
+[ext_resource path="res://game/characters/android/png/04_07.png" type="Texture" id=28]
+[ext_resource path="res://game/characters/android/png/02_02.png" type="Texture" id=29]
+[ext_resource path="res://game/characters/android/png/04_04.png" type="Texture" id=30]
+[ext_resource path="res://game/characters/android/png/05_09.png" type="Texture" id=31]
+[ext_resource path="res://game/characters/android/png/06_07.png" type="Texture" id=32]
+[ext_resource path="res://game/characters/android/png/02_01.png" type="Texture" id=33]
+[ext_resource path="res://game/characters/android/png/05_03.png" type="Texture" id=34]
+[ext_resource path="res://game/characters/android/png/04_02.png" type="Texture" id=35]
+[ext_resource path="res://game/characters/android/png/03_02.png" type="Texture" id=36]
+[ext_resource path="res://game/characters/android/png/02_03.png" type="Texture" id=37]
+[ext_resource path="res://game/characters/android/png/05_04.png" type="Texture" id=38]
+[ext_resource path="res://game/characters/android/png/06_01.png" type="Texture" id=39]
+[ext_resource path="res://game/characters/android/png/02_09.png" type="Texture" id=40]
+[ext_resource path="res://game/characters/android/png/04_01.png" type="Texture" id=41]
+[ext_resource path="res://game/characters/android/png/04_05.png" type="Texture" id=42]
+[ext_resource path="res://game/characters/android/png/02_07.png" type="Texture" id=43]
+[ext_resource path="res://game/characters/android/png/03_09.png" type="Texture" id=44]
+[ext_resource path="res://game/characters/android/png/05_05.png" type="Texture" id=45]
+[ext_resource path="res://game/characters/android/android_anims.gd" type="Script" id=46]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 34 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 39 ), ExtResource( 4 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 24 ), ExtResource( 26 ), ExtResource( 32 ), ExtResource( 15 ), ExtResource( 23 ) ],
+"loop": true,
+"name": "walk_down",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 34 ) ],
+"loop": true,
+"name": "idle_down_right",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ), ExtResource( 36 ), ExtResource( 22 ), ExtResource( 5 ), ExtResource( 11 ), ExtResource( 18 ), ExtResource( 2 ), ExtResource( 25 ), ExtResource( 44 ) ],
+"loop": true,
+"name": "walk_up_right",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 41 ), ExtResource( 35 ), ExtResource( 13 ), ExtResource( 30 ), ExtResource( 42 ), ExtResource( 8 ), ExtResource( 28 ), ExtResource( 9 ), ExtResource( 16 ) ],
+"loop": true,
+"name": "walk_right",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 32 ) ],
+"loop": true,
+"name": "idle_down",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 33 ), ExtResource( 29 ), ExtResource( 37 ), ExtResource( 21 ), ExtResource( 3 ), ExtResource( 14 ), ExtResource( 43 ), ExtResource( 6 ), ExtResource( 40 ) ],
+"loop": true,
+"name": "walk_up",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 29 ) ],
+"loop": true,
+"name": "idle_up",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 18 ) ],
+"loop": true,
+"name": "idle_up_right",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 34 ), ExtResource( 38 ), ExtResource( 45 ), ExtResource( 27 ), ExtResource( 12 ), ExtResource( 17 ), ExtResource( 31 ) ],
+"loop": true,
+"name": "walk_down_right",
+"speed": 8.0
+} ]
+
+[node name="android" type="Sprite"]
+script = ExtResource( 1 )
+global_id = "android"
+esc_script = "res://game/rooms/room6/esc/android.esc"
+tooltip_name = "Man"
+default_action = "talk"
+dialog_color = Color( 1, 0, 0, 1 )
+animations = ExtResource( 46 )
+
+[node name="dialog_position" type="Position2D" parent="."]
+position = Vector2( 6.35642, -321.19 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="texture" type="AnimatedSprite" parent="."]
+position = Vector2( -4.01764, -117.666 )
+scale = Vector2( 0.6, 0.6 )
+frames = SubResource( 1 )
+
+[node name="debug" parent="." instance=ExtResource( 10 )]
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PoolVector2Array( 6.2341, -279.169, -17.8076, -269.27, -16.3933, -235.329, -38.3136, -223.308, -37.3678, -123.59, -22.7573, -86.8364, -30.5355, -1.27643, 20.3762, 24.1794, 45.8321, 12.1586, 23.2047, -8.3475, 35.2255, -149.062, 65.6311, -108.757, 77.6519, -126.434, 39.4681, -200.681, 27.4473, -265.734 )

@@ -73,6 +73,7 @@ var commands = {
 	"turn_to": { "min_args": 2 },
 	"wait": true,
 	"walk": { "min_args": 2 },
+	"walk_to_pos": { "min_args": 3},
 	"walk_block": { "min_args": 2 },
 	
 	"%": { "alias": "label", "min_args": 1},

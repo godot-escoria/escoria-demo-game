@@ -6,7 +6,7 @@
 [ext_resource path="res://game/characters/guybrush/guybrush.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=5]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escroom.gd" type="Script" id=6]
-[ext_resource path="res://game/characters/character/android.tscn" type="PackedScene" id=7]
+[ext_resource path="res://game/characters/android/android.tscn" type="PackedScene" id=7]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, 129.634, 615.792, 1143.08, 613.35, -9.16094, 803.802, 84.5821, 654.06, -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698 )
@@ -173,13 +173,10 @@ polygon = PoolVector2Array( 1169.35, 41.7644, 1168.09, 347.925, 1275.18, 407.141
 [node name="android" parent="Hotspots" instance=ExtResource( 7 )]
 position = Vector2( 373.401, 415.66 )
 scale = Vector2( -1, 1 )
-esc_script = "res://game/rooms/room6/esc/android.esc"
-interact_positions = {
-"default": Vector2( 151.165, 438.337 )
-}
+interaction_direction = 3
 
 [node name="Position2D" type="Position2D" parent="Hotspots/android"]
-position = Vector2( 222.236, 22.6772 )
+position = Vector2( 157.809, 3.1992 )
 
 [node name="player_start" type="Position2D" parent="."]
 position = Vector2( 76.7617, 437.649 )

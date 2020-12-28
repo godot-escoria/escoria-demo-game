@@ -31,8 +31,4 @@ say player "I don't think he'd like that."
 		say android 	"Go away, kid."
 		stop
 		
-:give filled_sheet
-say android "Hey! That's perfect!"
-say android "I can finally got away from here!"
-walk android 1200,400
-set_angle android 45
+

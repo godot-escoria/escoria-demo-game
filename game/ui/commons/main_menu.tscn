@@ -1,8 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://game/ui/ui_mouse_icons/main_menu.gd" type="Script" id=1]
-
-
+[ext_resource path="res://game/ui/commons/main_menu.gd" type="Script" id=1]
 
 [node name="main_menu" type="Control"]
 anchor_right = 1.0
@@ -50,6 +48,7 @@ text = "Quit"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="pressed" from="VBoxContainer/new_game" to="." method="_on_new_game_pressed"]
 [connection signal="pressed" from="VBoxContainer/load_game" to="." method="_on_load_game_pressed"]
 [connection signal="pressed" from="VBoxContainer/quit" to="." method="_on_quit_pressed"]

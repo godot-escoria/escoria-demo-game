@@ -19,3 +19,4 @@
 #set_global i/r5_empty_sheet true
 #set_active r5_empty_sheet false
 
+inventory_add r5_filled_sheet
