@@ -3,7 +3,7 @@
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escterrain.gd" type="Script" id=1]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escbackground.gd" type="Script" id=2]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/eschotspot.gd" type="Script" id=3]
-[ext_resource path="res://game/characters/guybrush/guybrush.tscn" type="PackedScene" id=4]
+[ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escroom.gd" type="Script" id=6]
 [ext_resource path="res://game/rooms/room4/assets/background.png" type="Texture" id=7]
 [ext_resource path="res://game/rooms/room4/assets/depth_reduced.png" type="Texture" id=8]
@@ -18,10 +18,12 @@ script = ExtResource( 6 )
 global_id = "room4"
 esc_script = "res://game/rooms/room4/esc/room4.esc"
 player_scene = ExtResource( 4 )
+camera_limits = [ Rect2( 0, 0, 1666, 574 ) ]
+editor_debug_mode = 1
 
 [node name="background" type="TextureRect" parent="."]
-margin_right = 1663.0
-margin_bottom = 549.0
+margin_right = 1666.0
+margin_bottom = 574.0
 mouse_filter = 2
 script = ExtResource( 2 )
 __meta__ = {
@@ -55,7 +57,6 @@ debug_mode = 0
 scale_min = 0.4
 
 [node name="platform" type="NavigationPolygonInstance" parent="walkable_area"]
-visible = false
 position = Vector2( 6.73163, -264.779 )
 navpoly = SubResource( 1 )
 __meta__ = {
@@ -63,7 +64,7 @@ __meta__ = {
 }
 
 [node name="player_start" type="Position2D" parent="."]
-position = Vector2( 697.275, 203.998 )
+position = Vector2( 1506.21, 410.473 )
 
 [node name="Hotspots" type="Node2D" parent="."]
 
@@ -75,7 +76,7 @@ esc_script = "res://game/rooms/room4/esc/left_exit.esc"
 tooltip_name = "Exit"
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
-"default": Vector2( 84.5736, 279.703 )
+"default": Vector2( 83.6298, 279.703 )
 }
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
@@ -92,7 +93,7 @@ esc_script = "res://game/rooms/room4/esc/right_exit.esc"
 tooltip_name = "Exit"
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
-"default": Vector2( 1612.4, 301.017 )
+"default": Vector2( 1611.46, 301.017 )
 }
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]

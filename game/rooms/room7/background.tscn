@@ -3,25 +3,37 @@
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escbackground.gd" type="Script" id=1]
 
 [node name="background" type="TextureRect"]
-margin_right = 1289.0
-margin_bottom = 555.0
+margin_right = 2092.0
+margin_bottom = 1970.0
 mouse_filter = 2
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="l_platform" type="Line2D" parent="."]
-position = Vector2( 2, -266 )
+[node name="low_platform" type="Line2D" parent="."]
+position = Vector2( 2, 1139.32 )
 points = PoolVector2Array( -2.96298, 712.01, 129.973, 614.429, 1983.92, 613.668, 2076.67, 670.75, 2079.05, 812.694, 2.36697, 811.043, 2.36697, 713.389 )
 
-[node name="l_door" type="Line2D" parent="."]
-position = Vector2( 0, -266 )
+[node name="low_stairs" type="Line2D" parent="low_platform"]
+position = Vector2( -2, 266 )
+points = PoolVector2Array( 1049.73, 346.599, 1051.16, 24.8604, 832.783, 25.3764, 829.419, 346.599, 829.364, 347.648, 828.734, 314.26, 1044.72, 313.433, 1045.16, 292.5, 862.657, 293, 836.294, 309.85, 864.157, 290, 864.657, 264, 1043.66, 263.5, 1043.16, 245.5, 889.657, 244.5, 864.157, 262.5, 890.657, 242, 890.657, 219, 1046.16, 218.36, 1046.16, 196.86, 916.157, 197.36, 889.157, 216.36, 918.657, 193.86, 919.157, 172.36, 1045.66, 171.36, 1048.29, 148.878, 969.081, 147.031, 916.657, 169.36 )
+
+[node name="l_door" type="Line2D" parent="low_platform"]
+position = Vector2( -2, 0 )
 points = PoolVector2Array( 6.61201, 704.409, 6.61203, 389.558, 87.755, 339.775, 87.5463, 649.784 )
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="r_door" type="Line2D" parent="."]
-position = Vector2( 808.661, -267.828 )
+[node name="r_door" type="Line2D" parent="low_platform"]
+position = Vector2( 806.661, -1.828 )
 points = PoolVector2Array( 1175.07, 620.086, 1171.24, 311.267, 1274.8, 356.87, 1271.64, 671.735, 1188.64, 624.843 )
+
+[node name="upper_platform" type="Line2D" parent="."]
+position = Vector2( 3.56348, 1405.32 )
+points = PoolVector2Array( 2079.3, -389.423, 15.1762, -952.628, 13.387, -1281.56, 310.131, -1283.61, 2112.1, -1390.9, 310.131, -1283.61, 311.013, -960.022, 19.414, -956.866, 309.824, -958.833, 2080.98, -643.198, 2082.47, -392.598 )
+
+[node name="upper_stairs" type="Line2D" parent="upper_platform"]
+position = Vector2( 401.921, -1166.13 )
+points = PoolVector2Array( 1054.04, 411.089, 1051.16, 24.8604, 818.179, 7.1228, 818.571, 365.834, 867.079, 342.133, 1049.09, 372.198 )

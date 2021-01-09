@@ -15,6 +15,16 @@ var zoom_target
 # This is needed to adjust dialog positions and such, see dialog_instance.gd
 var zoom_transform
 
+"""
+Sets camera limits so it doesn't go out of the scene. If kwargs is null, default
+limits are used. See Camera2D limits for more details.
+- kwargs Dictionary (can be null) Limits to set.
+	- limit_left int Left limit.
+	- limit_right int Right limit.
+	- limit_top int Top limit.
+	- limit_bottom int Bottom limit.
+	- set_default bool (Facultative) If true, the given limits are save as default limits.
+"""
 func set_limits(kwargs=null):
 	if not kwargs:
 		kwargs = {

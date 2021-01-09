@@ -1,23 +1,24 @@
 :start
 
-# Simple scene
+# 1/ Simple scene
 #change_scene res://game/rooms/room1/room1.tscn
 
-# Button bridge
+# 2/ Button bridge
 #change_scene res://game/rooms/room2/room2.tscn
 
-# Broken button
+# 3/ Broken button
 #change_scene res://game/rooms/room3/room3.tscn
 
-# wide room
+# 4/ wide room
 #change_scene res://game/rooms/room4/room4.tscn
 
-# items rooms
+# 5/ items rooms
 #change_scene res://game/rooms/room5/room5.tscn
 
-# character room
+# 6/ character room
 change_scene res://game/rooms/room6/room6.tscn
 
-# long room with camera shift to object 2 if look on object 1
+# 7/ long room with camera shift to object 2 if look on object 1
+# and stairs with camera shift too
 #change_scene res://game/rooms/room7/room7.tscn
 

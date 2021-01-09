@@ -60,6 +60,7 @@ func _enter_tree():
 	add_child(area)
 
 func _ready():
+#	escoria.register_object(self)
 	mouse_filter = MOUSE_FILTER_IGNORE
 	area.connect("input_event", self, "manage_input")
 	connect("gui_input", self, "manage_input_texturerect")
@@ -71,6 +72,11 @@ func _ready():
 #		connect("mouse_moved_on_bg", escoria.inputs_manager, "_on_mouse_moved_on_bg")
 
 func manage_input(_viewport, event, _shape_idx):
+	if event.is_action_pressed("switch_action_verb"):
+		if event.button_index == BUTTON_WHEEL_UP:
+			escoria.inputs_manager._on_mousewheel_action(-1)
+		elif event.button_index == BUTTON_WHEEL_DOWN:
+			escoria.inputs_manager._on_mousewheel_action(1)
 	if event is InputEventMouseButton:
 		var p = get_global_mouse_position()
 		if event.doubleclick:
@@ -95,3 +101,21 @@ func manage_input_texturerect(event):
 			emit_signal("right_click_on_bg", event.position)
 	else:
 		pass
+
+
+func get_full_area_rect2() -> Rect2:
+	var area_rect2 : Rect2 = Rect2()
+	var pos = get_global_position()
+	var size : Vector2
+	if get_texture():
+		size = get_texture().get_size()
+	else:
+		size = rect_size
+		
+	if rect_scale.x != 1 or rect_scale.y != 1:
+		size.x *= rect_scale.x
+		size.y *= rect_scale.y
+
+	area_rect2 = area_rect2.expand(pos)
+	area_rect2 = area_rect2.expand(pos + size)
+	return area_rect2

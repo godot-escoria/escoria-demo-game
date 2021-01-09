@@ -134,7 +134,11 @@ func camera_push(command_params : Array):
 	var target = escoria.esc_runner.get_object(command_params[0])
 	var time = command_params[1] if command_params.size() > 1 else 1
 	var type = command_params[2] if command_params.size() > 2 else "QUAD"
-	escoria.main.current_scene.game.get_node("camera").push(target, time, type)
+	escoria.esc_runner.get_object("camera").push(target, time, type)
+
+
+func camera_set_limits(command_params : Array):
+	escoria.main.set_camera_limits(command_params[0])
 
 
 """
@@ -163,8 +167,10 @@ This is the default behavior (default follow object is "player").
 If there's more than 1 object, the camera follows the average position of all 
 the objects specified.
 """
-func camera_set_target():
-	pass
+func camera_set_target(command_params : Array):
+	var speed = command_params[0]
+	var target = escoria.esc_runner.get_object(command_params[1])
+	escoria.esc_runner.get_object("camera").set_target(target, speed)
 
 
 """
@@ -180,7 +186,7 @@ func camera_set_zoom():
 
 """
 camera_set_zoom_height pixels [time] 
-Similar to the command abo/ve, but uses pixel height instead of magnitude to zoom.
+Similar to the command above, but uses pixel height instead of magnitude to zoom.
 """
 func camera_set_zoom_height():
 	pass

@@ -10,6 +10,8 @@
 
 :ready
 
+camera_push player 0 LINEAR
+
 camera_push r7_object2 1 LINEAR
 wait 3
 camera_push player 1 LINEAR

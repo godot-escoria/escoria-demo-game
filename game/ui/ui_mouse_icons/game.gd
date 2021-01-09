@@ -22,12 +22,12 @@ Implement methods to react to inputs.
 signal element_focused(element_global_id)
 
 
-func _input(event):
-	if event.is_action_pressed("switch_action_verb"):
-		if event.button_index == BUTTON_WHEEL_UP:
-			$ui/verbs_layer/verbs_menu.iterate_actions_cursor(-1)
-		elif event.button_index == BUTTON_WHEEL_DOWN:
-			$ui/verbs_layer/verbs_menu.iterate_actions_cursor(1)
+#func _input(event):
+#	if event.is_action_pressed("switch_action_verb"):
+#		if event.button_index == BUTTON_WHEEL_UP:
+#			$ui/verbs_layer/verbs_menu.iterate_actions_cursor(-1)
+#		elif event.button_index == BUTTON_WHEEL_DOWN:
+#			$ui/verbs_layer/verbs_menu.iterate_actions_cursor(1)
 
 ## BACKGROUND ## 
 
@@ -110,3 +110,6 @@ func open_inventory():
 
 func close_inventory():
 	$ui/inventory_layer/inventory_ui/inventory_button.close_inventory()
+
+func mousewheel_action(direction : int):
+	$ui/verbs_layer/verbs_menu.iterate_actions_cursor(direction)

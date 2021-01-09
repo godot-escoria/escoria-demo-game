@@ -96,6 +96,9 @@ func register_object(object : Object):
 	if object is ESCTerrain:
 		room_terrain = object
 	
+#	if object is ESCBackground:
+#		$esc_runner.register_object(object_id, object, true)
+	
 	if object is ESCCamera:
 		$esc_runner.register_object(object_id, object, true)
 	

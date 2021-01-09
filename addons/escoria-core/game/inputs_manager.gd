@@ -99,3 +99,9 @@ func _on_mouse_left_double_clicked_item(item_global_id : String, event : InputEv
 func _on_mouse_right_clicked_item(item_global_id : String, event : InputEvent) -> void:
 	printt("Item right clicked", item_global_id, event)
 	escoria.main.current_scene.game.right_click_on_item(item_global_id, event)
+
+
+##################################################################################
+
+func _on_mousewheel_action(direction : int):
+	escoria.main.current_scene.game.mousewheel_action(direction)

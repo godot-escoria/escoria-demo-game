@@ -117,26 +117,14 @@ func _on_wait_finished():
 	escoria.esc_level_runner.finished(wait_level)
 
 
-func set_camera_limits():
+func set_camera_limits(camera_limit_id : int = 0):
 	var limits = {}
-	var scene_camera_limits = current_scene.camera_limits
+	var scene_camera_limits = current_scene.camera_limits[camera_limit_id]
 	if scene_camera_limits.size.x == 0 and scene_camera_limits.size.y == 0:
 		var area = Rect2()
 		for child in current_scene.get_children():
 			if child is ESCBackground:
-				var pos = child.get_global_position()
-				var size : Vector2
-				if child.get_texture():
-					size = child.get_texture().get_size()
-				else:
-					size = child.rect_size
-					
-				if child.rect_scale.x != 1 or child.rect_scale.y != 1:
-					size.x *= child.rect_scale.x
-					size.y *= child.rect_scale.y
-
-				area = area.expand(pos)
-				area = area.expand(pos + size)
+				area = child.get_full_area_rect2()
 				break
 
 		# if the background is smaller than the viewport, we want the camera to stick centered on the background

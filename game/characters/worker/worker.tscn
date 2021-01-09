@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/core-scripts/eschotspot.gd" type="Script" id=2]
+[ext_resource path="res://game/characters/worker/png/worker.png" type="Texture" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 40.4907, 142.11 )
+
+[node name="worker" type="Area2D"]
+script = ExtResource( 2 )
+global_id = "worker"
+interaction_direction = 3
+dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": null
+}
+
+[node name="sprite" type="Sprite" parent="."]
+position = Vector2( 0.0280151, -0.221287 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 4 )
+offset = Vector2( -0.0280151, -30.9602 )
+hframes = 24
+region_rect = Rect2( 0, 0, 25, 70 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -1.162, -120.608 )
+shape = SubResource( 1 )
+
+[node name="dialog_pos" type="Position2D" parent="."]
+position = Vector2( 0.0280151, -310.487 )
+scale = Vector2( 4, 4 )

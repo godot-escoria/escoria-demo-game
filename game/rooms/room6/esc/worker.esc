@@ -1,0 +1,34 @@
+:look
+say player "He's looking a bit odd."
+
+:pickup
+say player "I don't think he'd like that."
+
+:talk
+> [!talked_once]
+	say player "Uhm..."
+	say worker "Yeah?"
+	set_global talked_once true
+
+? option1 1000 option2 true
+	- "What are you doing here?"
+		say player 	"What are you doing here?"
+		say worker 	"I'm working! Can't you see that?"
+		say worker	"My colleague is supposed to bring me an important report. And he's not coming!"
+		?
+			- "I'll bring you this report!"
+				say player	"I'll bring you this report!"
+				say worker	"You will? Great!"
+				say worker	"Now please hurry up so I can leave and have lunch."
+				stop
+			- "I've got better things to do."
+				say player	"I've got better things to do."
+				say worker	"Eh! I'm not asking you anythin'!"
+				stop
+	
+	- "I'm selling these fine leather jackets."
+		say player	"I'm selling these fine leather jackets."
+		say worker 	"Go away, kid."
+		stop
+		
+

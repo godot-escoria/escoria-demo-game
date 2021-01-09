@@ -3,7 +3,7 @@
 [ext_resource path="res://game/rooms/room1/walkable_area.tscn" type="PackedScene" id=1]
 [ext_resource path="res://game/rooms/room1/background.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/eschotspot.gd" type="Script" id=3]
-[ext_resource path="res://game/characters/character2/character.tscn" type="PackedScene" id=4]
+[ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escroom.gd" type="Script" id=6]
 
 [node name="room1" type="Node2D"]
@@ -14,6 +14,7 @@ __meta__ = {
 global_id = "room1"
 esc_script = "res://game/rooms/room1/esc/room1.esc"
 player_scene = ExtResource( 4 )
+camera_limits = [ Rect2( 0, 0, 1289, 555 ) ]
 
 [node name="background" parent="." instance=ExtResource( 2 )]
 

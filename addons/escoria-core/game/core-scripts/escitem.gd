@@ -245,6 +245,7 @@ func update_terrain(on_event_finished_name = null):
 		return
 		
 	var pos = position
+	var gpos = global_position
 	z_index = pos.y if pos.y <= VisualServer.CANVAS_ITEM_Z_MAX else VisualServer.CANVAS_ITEM_Z_MAX
 
 	var color

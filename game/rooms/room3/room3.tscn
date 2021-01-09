@@ -3,7 +3,7 @@
 [ext_resource path="res://game/rooms/room3/walkable_area.tscn" type="PackedScene" id=1]
 [ext_resource path="res://game/rooms/room3/background.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/eschotspot.gd" type="Script" id=3]
-[ext_resource path="res://game/characters/character2/character.tscn" type="PackedScene" id=4]
+[ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escroom.gd" type="Script" id=6]
 
 [node name="room3" type="Node2D"]
@@ -24,8 +24,14 @@ __meta__ = {
 "_editor_description_": ""
 }
 global_id = "r3_right_platform"
+is_exit = false
 esc_script = "res://game/rooms/room3/esc/right_platform.esc"
+is_interactive = true
+player_orients_on_arrival = true
+interaction_direction = 0
 tooltip_name = "Right platform"
+default_action = ""
+combine_if_action_used_among = PoolStringArray(  )
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
 "default": Vector2( 430.893, 451.052 )
@@ -48,7 +54,12 @@ script = ExtResource( 3 )
 global_id = "r3_r_exit"
 is_exit = true
 esc_script = "res://game/rooms/room3/esc/right_exit.esc"
+is_interactive = true
+player_orients_on_arrival = true
+interaction_direction = 0
 tooltip_name = "Exit"
+default_action = ""
+combine_if_action_used_among = PoolStringArray(  )
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
 "default": Vector2( 1225.47, 353.99 )
@@ -65,7 +76,12 @@ script = ExtResource( 3 )
 global_id = "r3_l_exit"
 is_exit = true
 esc_script = "res://game/rooms/room3/esc/left_exit.esc"
+is_interactive = true
+player_orients_on_arrival = true
+interaction_direction = 0
 tooltip_name = "Exit"
+default_action = ""
+combine_if_action_used_among = PoolStringArray(  )
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
 "default": Vector2( 44.1375, 384.691 )
