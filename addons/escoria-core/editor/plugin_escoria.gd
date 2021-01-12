@@ -13,9 +13,7 @@ func _enter_tree():
 			load("res://addons/escoria-core/game/core-scripts/escbackground.gd"), null)
 	add_custom_type("ESCCharacter", "KinematicBody2D", 
 			load("res://addons/escoria-core/game/core-scripts/esccharacter.gd"), null)
-	add_custom_type("ESCHotspot", "Area2D", 
-			load("res://addons/escoria-core/game/core-scripts/eschotspot.gd"), null)
-	add_custom_type("ESCItem", "Sprite", 
+	add_custom_type("ESCItem", "Area2D", 
 			load("res://addons/escoria-core/game/core-scripts/escitem.gd"), null)
 	add_custom_type("ESCItemsInventory", "GridContainer", 
 			load("res://addons/escoria-core/game/core-scripts/items_inventory.gd"), null)
@@ -148,7 +146,6 @@ func remove_autoloads():
 func _exit_tree():
 	remove_custom_type("ESCBackground")
 	remove_custom_type("ESCCharacter")
-	remove_custom_type("ESCHotspot")
 	remove_custom_type("ESCItem")
 	remove_custom_type("ESCInventoryItem")
 	remove_custom_type("ESCItemsInventory")

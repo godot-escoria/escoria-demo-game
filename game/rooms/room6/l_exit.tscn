@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=1]
+
+[node name="l_exit" type="Area2D"]
+script = ExtResource( 1 )
+global_id = "r6_l_exit"
+esc_script = "res://game/rooms/room6/esc/left_exit.esc"
+is_exit = true
+tooltip_name = "Left exit"
+dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": Vector2( 0, 0 )
+}
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 0.328762, 440.897, 1.85199, 119.926, 85.9517, 74.6212, 87.1409, 377.869 )

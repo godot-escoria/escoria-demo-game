@@ -32,11 +32,15 @@ tracks/0/keys = {
 "values": [ Vector2( 1.417, -160.142 ), Vector2( 0, 0 ) ]
 }
 
-[node name="bridge" type="Sprite"]
+[node name="bridge" type="Area2D"]
 script = ExtResource( 1 )
 global_id = "r2_bridge"
 is_interactive = false
+player_orients_on_arrival = false
 dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": Vector2( 0, 0 )
+}
 
 [node name="bridge_lines" type="Line2D" parent="."]
 position = Vector2( -2.36194, -105.8 )
@@ -46,7 +50,5 @@ points = PoolVector2Array( 496.624, 640.806, 823.362, 644.635, 856.546, 776.097,
 anims/bridge_close = SubResource( 1 )
 anims/bridge_open = SubResource( 2 )
 
-[node name="area" type="Area2D" parent="."]
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="area"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PoolVector2Array( 493.501, 532.894, 463.501, 670.894, 861.501, 670.894, 823.501, 530.894 )

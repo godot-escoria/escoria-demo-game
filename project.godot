@@ -29,11 +29,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/scenes/dialogs/dialog_player.gd"
 }, {
-"base": "Area2D",
-"class": "ESCHotspot",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/eschotspot.gd"
-}, {
 "base": "Control",
 "class": "ESCInventory",
 "language": "GDScript",
@@ -44,7 +39,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/inventory_item.gd"
 }, {
-"base": "Sprite",
+"base": "Area2D",
 "class": "ESCItem",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/escitem.gd"
@@ -68,20 +63,25 @@ _global_script_classes=[ {
 "class": "ESCTriggerZone",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esctriggerzone.gd"
+}, {
+"base": "Node",
+"class": "Movable",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/behaviors/movable.gd"
 } ]
 _global_script_class_icons={
 "ESCBackground": "",
 "ESCCamera": "",
 "ESCCharacter": "",
 "ESCDialogsPlayer": "",
-"ESCHotspot": "",
 "ESCInventory": "",
 "ESCInventoryItem": "",
 "ESCItem": "",
 "ESCPlayer": "",
 "ESCRoom": "",
 "ESCTerrain": "",
-"ESCTriggerZone": ""
+"ESCTriggerZone": "",
+"Movable": ""
 }
 
 [application]

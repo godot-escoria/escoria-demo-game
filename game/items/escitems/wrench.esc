@@ -7,10 +7,4 @@ stop
 set_global i/r5_wrench true
 set_active r5_wrench false
 
-:use r5_wall_item
-> [r5_wall_item_state_round]
-	set_state r5_wall_item state_square	
-	set_global r5_wall_item_state_round false
-	stop
-set_state r5_wall_item state_round
-set_global r5_wall_item_state_round true
+

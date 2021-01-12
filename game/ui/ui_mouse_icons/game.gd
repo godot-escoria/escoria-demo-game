@@ -56,18 +56,6 @@ func element_unfocused() -> void:
 	pass
 
 
-## HOTSPOTS ##
-
-func left_click_on_hotspot(hotspot_global_id : String, event : InputEvent) -> void:
-	escoria.do("hotspot_left_click", [hotspot_global_id, event])
-
-func right_click_on_hotspot(hotspot_global_id : String, event : InputEvent) -> void:
-	escoria.do("hotspot_right_click", [hotspot_global_id, event])
-
-func left_double_click_on_hotspot(hotspot_global_id : String, event : InputEvent) -> void:
-	escoria.do("hotspot_left_click", [hotspot_global_id, event])
-
-
 ## ITEMS ##
 
 func left_click_on_item(item_global_id : String, event : InputEvent) -> void:

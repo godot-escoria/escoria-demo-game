@@ -1,14 +1,18 @@
 extends RichTextLabel
 
-signal dialog_line_finished
+#signal dialog_line_started
+#signal dialog_line_finished
 
-export(String) var current_character
 onready var tween = $Tween
 onready var text_node = self
 
 export(float, 0.0, 0.3) var text_speed_per_character = 0.1
 export(float) var fast_text_speed_per_character = 0.25
 export(float) var max_time_to_text_disappear = 2.0
+
+# Current character speaking, to keep track of reference for animation purposes
+var current_character
+
 
 func _ready():
 	bbcode_enabled = true
@@ -29,15 +33,17 @@ func say(character : String, params : Dictionary) :
 		return
 	
 	# Position the RichTextLabel on the character's dialog position, if any.
-	var character_node = escoria.esc_runner.get_object(character)
-	rect_position = character_node.get_node("dialog_position").get_global_transform_with_canvas().origin
+	current_character = escoria.esc_runner.get_object(character)
+	rect_position = current_character.get_node("dialog_position").get_global_transform_with_canvas().origin
 	rect_position.x -= rect_size.x / 2
 	
+	current_character.start_talking()
+	
 	# Set text color to color set in the actor
-	var text_color = character_node.dialog_color
+	var text_color = current_character.dialog_color
 	var text_color_html = text_color.to_html(false)
 	
-	text_node.bbcode_text = "[center][color=#" + text_color_html + "]".format(text_color_html) + params["line"] + "[/color][center]"
+	text_node.bbcode_text = "[center][color=#" + text_color_html + "]".format([text_color_html]) + params["line"] + "[/color][center]"
 	
 	text_node.percent_visible = 0.0
 	var time_show_full_text = text_speed_per_character * len(params["line"])
@@ -61,7 +67,7 @@ func _on_dialog_line_typed(object, key):
 	$Timer.connect("timeout", self, "_on_dialog_finished")
 
 func _on_dialog_finished():
-#	emit_signal("dialog_line_finished")
+	current_character.stop_talking()
 	escoria.esc_level_runner.finished()
 	escoria.dialog_player.is_speaking = false
 	escoria.current_state = escoria.GAME_STATE.DEFAULT

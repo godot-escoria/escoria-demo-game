@@ -11,12 +11,25 @@ visible = false
 script = ExtResource( 5 )
 
 [node name="empty_sheet" parent="." instance=ExtResource( 1 )]
+interact_positions = {
+"default": Vector2( 0, 0 )
+}
 
 [node name="filled_sheet" parent="." instance=ExtResource( 4 )]
 position = Vector2( -29.7823, 133.569 )
+dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": Vector2( -29.7823, 133.569 )
+}
 
 [node name="pen" parent="." instance=ExtResource( 2 )]
 position = Vector2( 136.277, 13.5374 )
+interact_positions = {
+"default": Vector2( 136.277, 13.5374 )
+}
 
 [node name="wrench" parent="." instance=ExtResource( 3 )]
 position = Vector2( 293.311, 2.70747 )
+interact_positions = {
+"default": Vector2( 293.311, 2.70747 )
+}

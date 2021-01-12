@@ -17,6 +17,11 @@
 	teleport player r3_r_exit
 	# Set player look left
 	set_angle player 270
+	
+	# If bridge not closed
+	> [!r3_bridge_closed]
+		set_interactive r3_right_platform false
+	
 	stop
 > [!last_scene]
 	teleport player player_start

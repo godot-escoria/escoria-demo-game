@@ -93,13 +93,20 @@ points = PoolVector2Array( 1175.07, 620.086, 1171.24, 311.267, 1274.8, 356.87, 1
 
 [node name="bridge" parent="." instance=ExtResource( 2 )]
 global_id = "r3_bridge"
+interact_positions = {
+"default": Vector2( 0, 0 )
+}
 
-[node name="button" type="Sprite" parent="."]
+[node name="button" type="Area2D" parent="."]
 script = ExtResource( 4 )
 global_id = "r3_button"
 esc_script = "res://game/rooms/room3/esc/button.esc"
-tooltip_name = "button"
+tooltip_name = "Button"
+default_action = "use"
 dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": Vector2( 347.767, 378.011 )
+}
 
 [node name="lines" type="Line2D" parent="button"]
 position = Vector2( 0, -266.591 )
@@ -128,7 +135,5 @@ anims/button_repaired = SubResource( 7 )
 [node name="interact_pos" type="Position2D" parent="button"]
 position = Vector2( 347.767, 378.011 )
 
-[node name="area" type="Area2D" parent="button"]
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="button/area"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="button"]
 polygon = PoolVector2Array( 319.633, 122.126, 320.427, 177.685, 371.224, 176.098, 372.811, 121.332 )

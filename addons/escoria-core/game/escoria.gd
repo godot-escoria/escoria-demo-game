@@ -151,14 +151,14 @@ func do(action : String, params : Array = []) -> void:
 						
 						moving_obj.walk_to(target_position, walk_context)
 							
-			"hotspot_left_click", "item_left_click":
+			"item_left_click":
 				if params[0] is String:
 					printt("escoria.do : item_left_click on item ", params[0])
 					
 					# call : ev_left_click_on_item()
 					ev_left_click_on_item($esc_runner.get_object(params[0]), params[1])
 					
-			"hotspot_right_click", "item_right_click":
+			"item_right_click":
 				if params[0] is String:
 					printt("escoria.do : item_right_click on item ", params[0])
 					
@@ -257,6 +257,6 @@ func ev_left_click_on_item(obj, event, default_action = false):
 				else:
 					esc_runner.activate(esc_runner.current_action, [obj])
 		
-	else:
-#		escoria.fallback("")
-		pass
+#	else:
+##		escoria.fallback("")
+#		pass

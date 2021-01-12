@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escterrain.gd" type="Script" id=1]
 [ext_resource path="res://game/rooms/room7/background.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/eschotspot.gd" type="Script" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
+[ext_resource path="res://game/ui/commons/fonts/caslonantique.tres" type="DynamicFont" id=5]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escroom.gd" type="Script" id=6]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=7]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1976.63, 640.557, 1987.95, 588.863, 2070.07, 622.872, 2066.3, 799.721, 1015.72, 626.818, 1956.81, 616.096, -9.16094, 803.802, -6.44019, 711.297, 911.239, 554.152, 991.239, 554.152, 858.566, 628.405, 741.099, 620.468, 84.5821, 654.06, 3.15687, 646.051, 59.2201, 628.698, 129.634, 615.792 )
@@ -31,6 +32,19 @@ editor_debug_mode = 1
 margin_right = 2098.0
 margin_bottom = 1961.0
 
+[node name="room_label_1" type="Label" parent="background"]
+margin_right = 40.0
+margin_bottom = 14.0
+custom_fonts/font = ExtResource( 5 )
+text = "ROOM 7 - upstairs"
+
+[node name="room_label_2" type="Label" parent="background"]
+margin_top = 1354.53
+margin_right = 136.0
+margin_bottom = 1368.53
+custom_fonts/font = ExtResource( 5 )
+text = "ROOM 7 - downstairs"
+
 [node name="walkable_area" type="Navigation2D" parent="."]
 script = ExtResource( 1 )
 
@@ -50,10 +64,13 @@ enabled = false
 
 [node name="l_exit" type="Area2D" parent="Hotspots"]
 position = Vector2( 0, 1409.59 )
-script = ExtResource( 3 )
+script = ExtResource( 7 )
+__meta__ = {
+"_editor_description_": ""
+}
 global_id = "r7_l_exit"
-is_exit = true
 esc_script = "res://game/rooms/room7/esc/left_exit.esc"
+is_exit = true
 tooltip_name = "Exit"
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
@@ -68,10 +85,13 @@ position = Vector2( 37.4521, 392.045 )
 
 [node name="r_exit" type="Area2D" parent="Hotspots"]
 position = Vector2( 0, 1409.59 )
-script = ExtResource( 3 )
+script = ExtResource( 7 )
+__meta__ = {
+"_editor_description_": ""
+}
 global_id = "r7_r_exit"
-is_exit = true
 esc_script = "res://game/rooms/room7/esc/right_exit.esc"
+is_exit = true
 is_interactive = false
 interaction_direction = 1
 tooltip_name = "Exit"
@@ -93,7 +113,10 @@ __meta__ = {
 
 [node name="object2" type="Area2D" parent="Hotspots"]
 position = Vector2( 1600.63, 1358.99 )
-script = ExtResource( 3 )
+script = ExtResource( 7 )
+__meta__ = {
+"_editor_description_": ""
+}
 global_id = "r7_object2"
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
@@ -108,10 +131,13 @@ points = PoolVector2Array( -74.0056, 70.7457, 2.32182, 28.0921, 89.8739, 77.4804
 
 [node name="lower_stairs" type="Area2D" parent="Hotspots"]
 position = Vector2( 0, 1409.59 )
-script = ExtResource( 3 )
+script = ExtResource( 7 )
+__meta__ = {
+"_editor_description_": ""
+}
 global_id = "r7_lower_stairs"
-is_exit = true
 esc_script = "res://game/rooms/room7/esc/lower_stairs.esc"
+is_exit = true
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
 "default": Vector2( 953.985, 1725.12 )
@@ -125,14 +151,11 @@ position = Vector2( 953.985, 315.526 )
 
 [node name="upper_stairs" type="Area2D" parent="Hotspots"]
 position = Vector2( 1347.64, 473.026 )
-script = ExtResource( 3 )
+script = ExtResource( 7 )
 global_id = "r7_upper_stairs"
-is_exit = true
 esc_script = "res://game/rooms/room7/esc/upper_stairs.esc"
-dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 1375.17, 604.793 )
-}
+is_exit = true
+tooltip_name = "Stairs"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/upper_stairs"]
 position = Vector2( -1334.92, 936.565 )

@@ -11,6 +11,7 @@
 	stop
 > [!last_scene]
 	teleport player player_start
+	set_angle player 90
 	stop
 
 :ready

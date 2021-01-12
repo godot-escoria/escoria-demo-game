@@ -449,7 +449,10 @@ func set_angle(command_params : Array):
 	if !escoria.esc_runner.check_obj(command_params[0], "set_angle"):
 		return esctypes.EVENT_LEVEL_STATE.RETURN
 	var obj = escoria.esc_runner.get_object(command_params[0])
-	obj.set_angle(int(command_params[1]))
+	# HACK Countering the fact that angle_to_point() function gives
+	# angle against X axis not Y, we need to check direction using (angle-90°).
+	# Since the ESC command already gives the right angle, we add 90.
+	obj.set_angle(int(command_params[1] + 90))
 	return esctypes.EVENT_LEVEL_STATE.RETURN
 
 

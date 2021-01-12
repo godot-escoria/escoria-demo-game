@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://addons/escoria-core/game/core-scripts/eschotspot.gd" type="Script" id=1]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=1]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 28.6442, 23.5021 )
@@ -38,10 +38,16 @@ tracks/0/keys = {
 [node name="button" type="Area2D"]
 position = Vector2( 346.18, 151.013 )
 script = ExtResource( 1 )
+__meta__ = {
+"_editor_description_": ""
+}
 global_id = "button"
 esc_script = "res://game/rooms/room3/esc/button.esc"
 tooltip_name = "Button"
 dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": Vector2( 346.18, 151.013 )
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )

@@ -1,32 +1,47 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://addons/escoria-core/game/core-scripts/eschotspot.gd" type="Script" id=2]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=1]
+[ext_resource path="res://game/characters/worker/worker_anims.gd" type="Script" id=2]
 [ext_resource path="res://game/characters/worker/png/worker.png" type="Texture" id=4]
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 24, 70 )
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ SubResource( 1 ) ],
+"loop": true,
+"name": "idle_front",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 40.4907, 142.11 )
 
 [node name="worker" type="Area2D"]
-script = ExtResource( 2 )
+script = ExtResource( 1 )
 global_id = "worker"
-interaction_direction = 3
-dialog_color = Color( 1, 1, 1, 1 )
+esc_script = "res://game/rooms/room6/esc/worker.esc"
+tooltip_name = "Worker"
+default_action = "look"
+dialog_color = Color( 0.196078, 0, 1, 1 )
 interact_positions = {
-"default": null
+"default": Vector2( -1.662, -141.108 )
 }
+animations = ExtResource( 2 )
 
-[node name="sprite" type="Sprite" parent="."]
-position = Vector2( 0.0280151, -0.221287 )
+[node name="sprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0.0280151, -16.7213 )
 scale = Vector2( 4, 4 )
-texture = ExtResource( 4 )
+frames = SubResource( 2 )
+animation = "idle_front"
 offset = Vector2( -0.0280151, -30.9602 )
-hframes = 24
-region_rect = Rect2( 0, 0, 25, 70 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -1.162, -120.608 )
-shape = SubResource( 1 )
+position = Vector2( -1.662, -141.108 )
+shape = SubResource( 3 )
 
-[node name="dialog_pos" type="Position2D" parent="."]
-position = Vector2( 0.0280151, -310.487 )
+[node name="dialog_position" type="Position2D" parent="."]
+position = Vector2( 0.0280151, -352.44 )
 scale = Vector2( 4, 4 )

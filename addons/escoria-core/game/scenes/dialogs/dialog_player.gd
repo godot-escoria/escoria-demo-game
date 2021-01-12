@@ -48,6 +48,7 @@ func say(character : String, params : Dictionary):
 	dialog_ui = get_resource(params.ui).instance()
 	get_parent().add_child(dialog_ui)
 	dialog_ui.say(character, params)
+	
 
 func finish_fast():
 	dialog_ui.finish_fast()

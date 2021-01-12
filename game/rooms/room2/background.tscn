@@ -45,6 +45,5 @@ visible = false
 polygon = PoolVector2Array( 343.993, 396.767, 323.298, 415.689, 344.585, 438.158, 365.872, 417.463 )
 
 [node name="bridge" parent="." instance=ExtResource( 2 )]
-player_orients_on_arrival = false
 
 [editable path="bridge"]

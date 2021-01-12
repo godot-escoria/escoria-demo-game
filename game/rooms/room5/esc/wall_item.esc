@@ -9,6 +9,15 @@
 	stop
 > [eq dialog_advance 2]
 	say player "No, SERIOUSLY, I have no idea what that is!"
+	set_angle player 180
 	say player "Please stop asking me that!"
 	stop
 
+
+:use r5_wrench
+> [r5_wall_item_state_round]
+	set_state r5_wall_item state_square	
+	set_global r5_wall_item_state_round false
+	stop
+set_state r5_wall_item state_round
+set_global r5_wall_item_state_round true

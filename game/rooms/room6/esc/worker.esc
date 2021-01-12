@@ -32,3 +32,21 @@ say player "I don't think he'd like that."
 		stop
 		
 
+:use r5_filled_sheet
+say player "I'll give you this!"
+
+:give r5_filled_sheet
+inventory_remove r5_filled_sheet
+
+say worker "Hey! That's perfect!"
+say worker "I can finally get away from here!"
+walk_to_pos worker 1200 400
+#set_angle worker 45
+
+# Open the door
+set_state r6_door r_door_open
+set_global r6_door_open true
+
+# Disappear!
+wait 1
+set_active worker false

@@ -2,21 +2,4 @@
 say player "'Dear Escoria developer: I hope you're having fun right now!'"
 stop
 
-:use android
-say player "I'll give you this!"
 
-:give android
-inventory_remove r5_filled_sheet
-
-say android "Hey! That's perfect!"
-say android "I can finally get away from here!"
-walk_to_pos android 1200 400
-#set_angle android 45
-
-# Open the door
-set_state r6_door r_door_open
-set_global r6_door_open true
-
-# Disappear!
-wait 1
-set_active android false

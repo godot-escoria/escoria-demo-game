@@ -2,13 +2,14 @@
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escterrain.gd" type="Script" id=1]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escbackground.gd" type="Script" id=2]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/eschotspot.gd" type="Script" id=3]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=3]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escroom.gd" type="Script" id=4]
 
 [sub_resource type="NavigationPolygon" id=1]
 
 [node name="room" type="Node2D"]
 script = ExtResource( 4 )
+camera_limits = [ Rect2( 0, 0, 1289, 555 ) ]
 
 [node name="ESCBackground" type="TextureRect" parent="."]
 margin_right = 40.0
@@ -27,9 +28,9 @@ navpoly = SubResource( 1 )
 
 [node name="Hotspots" type="Node2D" parent="."]
 
-[node name="ESCHotspot" type="Area2D" parent="Hotspots"]
+[node name="ESCItem" type="Area2D" parent="Hotspots"]
 script = ExtResource( 3 )
 dialog_color = Color( 1, 1, 1, 1 )
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/ESCHotspot"]
-polygon = PoolVector2Array( 105, 65, 157, 47, 186, 118, 87, 134, 77, 87 )
+interact_positions = {
+"default": null
+}

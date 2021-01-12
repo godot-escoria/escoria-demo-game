@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://game/rooms/room1/walkable_area.tscn" type="PackedScene" id=1]
 [ext_resource path="res://game/rooms/room1/background.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/eschotspot.gd" type="Script" id=3]
+[ext_resource path="res://game/ui/commons/fonts/caslonantique.tres" type="DynamicFont" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=5]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escroom.gd" type="Script" id=6]
 
 [node name="room1" type="Node2D"]
@@ -23,18 +24,34 @@ margin_left = 371.033
 margin_top = 214.057
 margin_right = 551.033
 margin_bottom = 245.057
+custom_fonts/font = ExtResource( 3 )
 text = "Move : left click
 Fast move : double left click"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="room_label" type="Label" parent="background"]
+margin_right = 40.0
+margin_bottom = 14.0
+custom_fonts/font = ExtResource( 3 )
+text = "ROOM 1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="walkable_area" parent="." instance=ExtResource( 1 )]
 
 [node name="Hotspots" type="Node2D" parent="."]
 
 [node name="r_door" type="Area2D" parent="Hotspots"]
-script = ExtResource( 3 )
+script = ExtResource( 5 )
+__meta__ = {
+"_editor_description_": ""
+}
 global_id = "r1_r_exit"
-is_exit = true
 esc_script = "res://game/rooms/room1/esc/right_exit.esc"
+is_exit = true
 tooltip_name = "Exit"
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
@@ -48,10 +65,11 @@ polygon = PoolVector2Array( 1177.94, 348.61, 1175.95, 45.3759, 1276.06, 92.0953,
 position = Vector2( 1225.47, 353.99 )
 
 [node name="item" type="Area2D" parent="Hotspots"]
-script = ExtResource( 3 )
-global_id = "r1_item"
+script = ExtResource( 5 )
+global_id = "r1_wall_item"
 esc_script = "res://game/rooms/room1/esc/wall_item.esc"
 tooltip_name = "Item on the wall"
+default_action = "look"
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
 "default": Vector2( 671.798, 373.035 )

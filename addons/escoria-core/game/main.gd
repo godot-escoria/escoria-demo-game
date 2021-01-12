@@ -166,10 +166,6 @@ func check_game_scene_methods():
 	assert(current_scene.game.has_method("element_focused"))
 	assert(current_scene.game.has_method("element_unfocused"))
 	
-	assert(current_scene.game.has_method("left_click_on_hotspot"))
-	assert(current_scene.game.has_method("right_click_on_hotspot"))
-	assert(current_scene.game.has_method("left_double_click_on_hotspot"))
-	
 	assert(current_scene.game.has_method("left_click_on_item"))
 	assert(current_scene.game.has_method("right_click_on_item"))
 	assert(current_scene.game.has_method("left_double_click_on_item"))
