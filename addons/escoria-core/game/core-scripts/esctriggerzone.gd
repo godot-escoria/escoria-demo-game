@@ -2,30 +2,30 @@ tool
 extends Area2D
 class_name ESCTriggerZone
 
-signal left_click_on_trigger
-signal left_dblclick_on_trigger
-signal right_click_on_trigger
-signal mouse_enter_trigger
-signal mouse_exit_trigger
+func get_class():
+	return "ESCTriggerZone"
 
-func mouse_enter():
-	emit_signal("mouse_enter_trigger", self)
 
-func mouse_exit():
-	emit_signal("mouse_exit_trigger", self)
+export(String) var global_id
+export(String, FILE, "*.esc") var esc_script
 
-func body_entered(body):
-#	if body is esc_type.PLAYER:
-#		if self.visible:
-#			run_event("enter")
-	pass
+func _ready():
+	assert(!global_id.empty())
+	escoria.register_object(self)
+	connect("area_entered", self, "element_entered")
+	connect("area_exited", self, "element_exited")
+	connect("body_entered", self, "element_entered")
+	connect("body_exited", self, "element_exited")
+	
 
-func body_exited(body):
-#	if body is esc_type.PLAYER:
-#		if self.visible:
-#			run_event("exit")
-	pass
+func element_entered(body):
+	if body is ESCBackground or body.get_parent() is ESCBackground:
+		return
+	escoria.do("trigger_in", [global_id, body.global_id])
 
+
+func element_exited(body):
+	escoria.do("trigger_out", [global_id, body.global_id])
 
 
 

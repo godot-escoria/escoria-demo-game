@@ -25,8 +25,6 @@ func _enter_tree():
 			load("res://addons/escoria-core/game/core-scripts/escroom.gd"), null)
 	add_custom_type("ESCTerrain", "Navigation2D", 
 			load("res://addons/escoria-core/game/core-scripts/escterrain.gd"), null)
-	add_custom_type("ESCTriggerZone", "Area2D", 
-			load("res://addons/escoria-core/game/core-scripts/esctriggerzone.gd"), null)
 	
 	set_escoria_main_settings()
 	set_escoria_debug_settings()
@@ -152,7 +150,6 @@ func _exit_tree():
 	remove_custom_type("ESCPlayer")
 	remove_custom_type("ESCRoom")
 	remove_custom_type("ESCTerrain")
-	remove_custom_type("ESCTriggerZone")
 	
 	remove_autoloads()
 	

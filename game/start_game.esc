@@ -16,9 +16,9 @@
 #change_scene res://game/rooms/room5/room5.tscn
 
 # 6/ character room
-change_scene res://game/rooms/room6/room6.tscn
+#change_scene res://game/rooms/room6/room6.tscn
 
 # 7/ long room with camera shift to object 2 if look on object 1
 # and stairs with camera shift too
-#change_scene res://game/rooms/room7/room7.tscn
+change_scene res://game/rooms/room7/room7.tscn
 

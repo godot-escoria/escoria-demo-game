@@ -1,3 +1,7 @@
+:ready
+set_state r3_button button_broken
+
+
 :look
 say player "That button must activate the bridge, but it is broken." [button_broken]
 say player "It should work now." [!button_broken]

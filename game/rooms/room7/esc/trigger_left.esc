@@ -1,0 +1,4 @@
+:trigger_in
+set_state r7_light_left red
+
+:trigger_out

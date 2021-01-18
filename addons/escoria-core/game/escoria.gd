@@ -87,7 +87,7 @@ func register_object(object : Object):
 	if object is ESCPlayer:
 		$esc_runner.register_object(object_id, object, true)
 		
-	if object is ESCHotspot or object is Position2D:
+	if object is Position2D:
 		$esc_runner.register_object(object_id, object, true)
 	
 	if object is ESCItem:
@@ -104,6 +104,9 @@ func register_object(object : Object):
 	
 	if object is ESCInventory:
 		inventory = object
+	
+	if object is ESCTriggerZone:
+		$esc_runner.register_object(object_id, object, true)
 		
 
 """
@@ -154,17 +157,28 @@ func do(action : String, params : Array = []) -> void:
 			"item_left_click":
 				if params[0] is String:
 					printt("escoria.do : item_left_click on item ", params[0])
-					
-					# call : ev_left_click_on_item()
-					ev_left_click_on_item($esc_runner.get_object(params[0]), params[1])
+					var item = $esc_runner.get_object(params[0])
+					ev_left_click_on_item(item, params[1])
 					
 			"item_right_click":
 				if params[0] is String:
 					printt("escoria.do : item_right_click on item ", params[0])
-					
-					# call : ev_left_click_on_item()
 					ev_left_click_on_item($esc_runner.get_object(params[0]), params[1], true)
-				
+			
+			"trigger_in":
+				var trigger_id = params[0]
+				var object_id = params[1]
+				var trigger_in_verb = params[2]
+				printt("escoria.do() : trigger_in ", trigger_id, " by ", object_id)
+				esc_runner.run_event(esc_runner.objects_events_table[trigger_id][trigger_in_verb])
+			
+			"trigger_out":
+				var trigger_id = params[0]
+				var object_id = params[1]
+				var trigger_out_verb = params[2]
+				printt("escoria.do() : trigger_out ", trigger_id, " by ", object_id)
+				esc_runner.run_event(esc_runner.objects_events_table[trigger_id][trigger_out_verb])
+			
 			_:
 #				$esc_runner.activate(action, params[0])
 				report_warnings("escoria.gd:do()", ["Action received:", action, "with params ", params])

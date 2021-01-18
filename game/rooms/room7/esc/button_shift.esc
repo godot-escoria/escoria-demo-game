@@ -1,0 +1,7 @@
+:look
+say player "That button triggers a camera shift effect."
+
+:use
+camera_shift 700 0 5 LINEAR
+wait 1
+

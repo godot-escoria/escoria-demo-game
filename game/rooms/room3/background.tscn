@@ -1,70 +1,7 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escbackground.gd" type="Script" id=1]
 [ext_resource path="res://game/rooms/room2/bridge.tscn" type="PackedScene" id=2]
-[ext_resource path="res://game/rooms/room3/smoke.png" type="Texture" id=3]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=4]
-
-[sub_resource type="Gradient" id=1]
-offsets = PoolRealArray( 0, 0.830189 )
-colors = PoolColorArray( 1, 1, 1, 1, 0.353516, 0.353516, 0.353516, 1 )
-
-[sub_resource type="GradientTexture" id=2]
-gradient = SubResource( 1 )
-
-[sub_resource type="Curve" id=3]
-_data = [ Vector2( 0, 0.0886364 ), 0.0, 0.0, 0, 0, Vector2( 0.612766, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.770213, 0.95 ), -1.55372, -1.55372, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=4]
-curve = SubResource( 3 )
-
-[sub_resource type="ParticlesMaterial" id=5]
-lifetime_randomness = 0.2
-emission_shape = 1
-emission_sphere_radius = 1.0
-flag_disable_z = true
-gravity = Vector3( 0, -9.81, 0 )
-angular_velocity = 14.47
-orbit_velocity = 0.0
-orbit_velocity_random = 1.0
-radial_accel = 3.97
-radial_accel_random = 0.63
-angle = 160.0
-angle_random = 1.0
-scale = 0.5
-scale_random = 0.45
-scale_curve = SubResource( 4 )
-color_ramp = SubResource( 2 )
-
-[sub_resource type="Animation" id=6]
-resource_name = "button_broken"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Particles2D:emitting")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-
-[sub_resource type="Animation" id=7]
-resource_name = "button_repaired"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Particles2D:emitting")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
 
 [node name="background" type="TextureRect"]
 margin_right = 1300.0
@@ -96,44 +33,3 @@ global_id = "r3_bridge"
 interact_positions = {
 "default": Vector2( 0, 0 )
 }
-
-[node name="button" type="Area2D" parent="."]
-script = ExtResource( 4 )
-global_id = "r3_button"
-esc_script = "res://game/rooms/room3/esc/button.esc"
-tooltip_name = "Button"
-default_action = "use"
-dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 347.767, 378.011 )
-}
-
-[node name="lines" type="Line2D" parent="button"]
-position = Vector2( 0, -266.591 )
-points = PoolVector2Array( 322.305, 390.985, 322.305, 439.068, 368.698, 440.037, 368.974, 392.399, 319.028, 391.549 )
-
-[node name="Polygon2D" type="Polygon2D" parent="button/lines"]
-visible = false
-polygon = PoolVector2Array( 343.993, 396.767, 323.298, 415.689, 344.585, 438.158, 365.872, 417.463 )
-
-[node name="Particles2D" type="Particles2D" parent="button"]
-position = Vector2( 344.768, 142.144 )
-amount = 16
-lifetime = 4.0
-preprocess = 1.99
-speed_scale = 1.39
-process_material = SubResource( 5 )
-texture = ExtResource( 3 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="button"]
-anims/button_broken = SubResource( 6 )
-anims/button_repaired = SubResource( 7 )
-
-[node name="interact_pos" type="Position2D" parent="button"]
-position = Vector2( 347.767, 378.011 )
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="button"]
-polygon = PoolVector2Array( 319.633, 122.126, 320.427, 177.685, 371.224, 176.098, 372.811, 121.332 )

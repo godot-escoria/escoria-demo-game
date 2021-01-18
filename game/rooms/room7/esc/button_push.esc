@@ -1,0 +1,7 @@
+:look
+say player "That button triggers a camera push effect."
+
+:use
+camera_push r7_object2 1 LINEAR
+wait 3
+camera_push player 1 LINEAR

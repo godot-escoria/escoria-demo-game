@@ -14,7 +14,17 @@ Implement methods to react to inputs.
 - right_click_on_item(item_global_id : String, event : InputEvent)
 - left_double_click_on_item(item_global_id : String, event : InputEvent)
 
+- left_click_on_inventory_item(inventory_item_global_id : String, event : InputEvent)
+- right_click_on_inventory_item(inventory_item_global_id : String, event : InputEvent)
+- left_double_click_on_inventory_item(inventory_item_global_id : String, event : InputEvent)
+- inventory_item_focused(inventory_item_global_id : String)
+- inventory_item_unfocused()
+- open_inventory()
+- close_inventory()
+
 - mousewheel_action(direction : int)
+
+
 """
 
 signal element_focused(element_global_id)
@@ -40,7 +50,7 @@ func left_double_click_on_bg(position : Vector2) -> void:
 	escoria.do("walk", ["player", position, true])
 
 
-## ITEM/HOTSPOT FOCUS ## 
+## ITEM FOCUS ## 
 
 func element_focused(element_id : String) -> void:
 	#emit_signal("element_focused", element_id)

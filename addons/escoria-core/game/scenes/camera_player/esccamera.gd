@@ -15,6 +15,7 @@ var zoom_target
 # This is needed to adjust dialog positions and such, see dialog_instance.gd
 var zoom_transform
 
+
 """
 Sets camera limits so it doesn't go out of the scene. If kwargs is null, default
 limits are used. See Camera2D limits for more details.
@@ -64,6 +65,7 @@ func resolve_target_pos():
 func set_drag_margin_enabled(p_dm_h_enabled, p_dm_v_enabled):
 	self.drag_margin_h_enabled = p_dm_h_enabled
 	self.drag_margin_v_enabled = p_dm_v_enabled
+
 
 func set_target(p_target, p_speed : float = 0.0):
 	speed = p_speed
@@ -157,15 +159,14 @@ func shift(p_x, p_y, p_time, p_type):
 		escoria.report_warnings("camera", 
 			["Tween still active running camera_shift: " + tweenstat])
 		tween.emit_signal("tween_completed")
-
+	
 	tween.interpolate_property(self, "global_position", self.global_position, 
-		new_pos, time, tween.get(type), Tween.EASE_IN_OUT)
+		new_pos, float(time), tween.get(type), Tween.EASE_IN_OUT)
 	tween.start()
 
 
-func target_reached(_obj=null, _key=null):
+func target_reached():
 	tween.stop_all()
-
 
 func _process(_delta):
 	zoom_transform = self.get_canvas_transform()

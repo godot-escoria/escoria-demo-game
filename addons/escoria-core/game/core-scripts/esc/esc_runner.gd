@@ -440,28 +440,19 @@ func register_object(name : String, val : Object, force : bool = false):
 
 	# Most objects have states/animations, but don't count on it
 #	if val.has_method("set_state"):
-	if val is ESCItem or val is ESCPlayer or val is ESCCharacter or val is ESCHotspot:
+	if val is ESCItem or val is ESCPlayer or val is ESCCharacter:
 		if name in states:
 			set_state(name, [states[name], true])
 		else:
 			set_state(name, [esctypes.OBJ_DEFAULT_STATE])
 	
-	if val is ESCItem or val is ESCHotspot:
+	if val is ESCItem:
 		if val.is_interactive:
 			set_interactive(name, true)
-		
 
-#	if val.has_method("set_active"):
-#		if name in actives:
-#			val.set_active(actives[name])
-
-#	if val.has_method("set_interactive"):
-#		if name in interactives:
-#			val.set_interactive(interactives[name])
-	
 	if val.get("esc_script") != null and !val.get("esc_script").empty():
 		objects_events_table[name] = escoria.esc_compiler.load_esc_file(val.esc_script)
-	
+		
 
 func get_object(name):
 	if !(name in objects):
@@ -588,11 +579,6 @@ func set_state(global_id : String, p_params : Array):
 		#	animation_node = obj.get("animation")
 		if obj.get_animation_player() != null:
 			animation_node = obj.get_animation_player()
-	elif obj is ESCHotspot and obj.get_item_child_if_any() != null:
-		#if obj.get_item_child_if_any().get("animation") != null:
-		#	animation_node = obj.get_item_child_if_any().animation
-		if obj.get_item_child_if_any().get_animation_player() != null:
-			animation_node = obj.get_item_child_if_any().get_animation_player()
 	
 	if animation_node:
 		animation_node.stop()
@@ -614,7 +600,7 @@ func set_state(global_id : String, p_params : Array):
 					var animation = actual_animator.get_animation(p_params[0])
 					var animation_length = animation.length
 					animation_node.seek(animation_length)
-
+	print_debug("Item " + obj.global_id + " changed state to: " + p_params[0])
 
 """
 When object is active, it is VISIBLE.

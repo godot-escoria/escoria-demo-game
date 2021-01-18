@@ -20,10 +20,23 @@ var MovableScript = load("res://addons/escoria-core/game/core-scripts/behaviors/
 
 export(String) var global_id
 export(String, FILE, "*.esc") var esc_script
+
 # If true, the ESC script may have an ":exit_scene" event to manage scene changes
 export(bool) var is_exit
+
+# is_trigger If true, object is considered as trigger. Allows using :trigger_in and
+# :trigger_out verbs in ESC scripts. 
+export(bool) var is_trigger
+export(String) var trigger_in_verb = "trigger_in"
+export(String) var trigger_out_verb = "trigger_out"
+
+# is_interactive : If true, object is not "focusable".
 export(bool) var is_interactive = true
+
+# player_orients_on_arrival : If true, player orients towards 'interaction_direction' as
+# player character arrives.
 export(bool) var player_orients_on_arrival = true
+
 export(ESCPlayer.Directions) var interaction_direction
 export(String) var tooltip_name
 export(String) var default_action
@@ -97,6 +110,7 @@ var last_deg : int
 var last_dir : int
 
 func _ready():
+	assert(!global_id.empty())
 	
 	# Adds movable behavior
 	Movable = Node.new()
@@ -120,11 +134,17 @@ func _ready():
 		
 	if !Engine.is_editor_hint():
 		escoria.register_object(self)
-		connect("mouse_entered_item", escoria.inputs_manager, "_on_mouse_entered_item")
-		connect("mouse_exited_item", escoria.inputs_manager, "_on_mouse_exited_item")
-		connect("mouse_left_clicked_item", escoria.inputs_manager, "_on_mouse_left_clicked_item")
-		connect("mouse_double_left_clicked_item", escoria.inputs_manager, "_on_mouse_left_double_clicked_item")
-		connect("mouse_right_clicked_item", escoria.inputs_manager, "_on_mouse_right_clicked_item")
+		if !is_trigger:
+			connect("mouse_entered_item", escoria.inputs_manager, "_on_mouse_entered_item")
+			connect("mouse_exited_item", escoria.inputs_manager, "_on_mouse_exited_item")
+			connect("mouse_left_clicked_item", escoria.inputs_manager, "_on_mouse_left_clicked_item")
+			connect("mouse_double_left_clicked_item", escoria.inputs_manager, "_on_mouse_left_double_clicked_item")
+			connect("mouse_right_clicked_item", escoria.inputs_manager, "_on_mouse_right_clicked_item")
+		else:
+			connect("area_entered", self, "element_entered")
+			connect("area_exited", self, "element_exited")
+			connect("body_entered", self, "element_entered")
+			connect("body_exited", self, "element_exited")
 	
 	if !is_exit:
 		last_scale = scale
@@ -184,12 +204,32 @@ func _on_mouse_exited():
 
 ################################################################################
 
+# TRIGGER functions 
+
+func element_entered(body):
+	if body is ESCBackground or body.get_parent() is ESCBackground:
+		return
+	escoria.do("trigger_in", [global_id, body.global_id, trigger_in_verb])
+
+
+func element_exited(body):
+	if body is ESCBackground or body.get_parent() is ESCBackground:
+		return
+	escoria.do("trigger_out", [global_id, body.global_id, trigger_out_verb])
+
+################################################################################
+
+# MOVING OBJECT functions
+
 func teleport(target, angle : Object = null) -> void:
 	Movable.teleport(target, angle)
 
 func walk_to(pos : Vector2, p_walk_context = null):
 	Movable.walk_to(pos, p_walk_context)
 
+################################################################################
+
+# TALKATIVE object functions
 
 func start_talking():
 #	if animation_sprite.is_playing():

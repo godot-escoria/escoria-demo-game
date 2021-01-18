@@ -13,14 +13,13 @@ var waiting_for_target2 = false
 
 func _ready():
 	escoria.esc_runner.connect("action_changed", self, "on_action_selected")
-	escoria.inputs_manager.connect("element_focused", self, "on_element_focused")
 
 
 func on_action_selected() -> void:
 	current_action = escoria.esc_runner.current_action
 	update_tooltip_text()
 
-func on_element_focused(element_id : String) -> void:
+func element_focused(element_id : String) -> void:
 	printt("action_target_tooltip.gd:on_element_focused()", "Element focused: ", element_id)
 	
 	if element_id == "":

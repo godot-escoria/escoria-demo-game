@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escterrain.gd" type="Script" id=1]
 [ext_resource path="res://game/rooms/room7/background.tscn" type="PackedScene" id=2]
+[ext_resource path="res://game/items/escitems/button.tscn" type="PackedScene" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
 [ext_resource path="res://game/ui/commons/fonts/caslonantique.tres" type="DynamicFont" id=5]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escroom.gd" type="Script" id=6]
@@ -16,6 +17,72 @@ outlines = [ PoolVector2Array( -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628
 vertices = PoolVector2Array( 2031.55, -451.45, 135.719, -939.662, 287.172, -941.444, 1235.09, -777.519, 2027.99, -629.63, 1390.1, -752.574, 1343.78, -834.537, 1425.74, -843.446, 1448.12, -803.5 )
 polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 5, 4, 3 ), PoolIntArray( 5, 3, 6, 7, 8 ) ]
 outlines = [ PoolVector2Array( 2027.99, -629.63, 1390.1, -752.574, 1448.12, -803.5, 1425.74, -843.446, 1343.78, -834.537, 1235.09, -777.519, 287.172, -941.444, 135.719, -939.662, 2031.55, -451.45 ) ]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 79.0288, 129.758 )
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 35.4361
+
+[sub_resource type="Animation" id=5]
+resource_name = "green"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Polygon2D:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.0313726, 0.996078, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "red"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Polygon2D:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 0, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "green"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Polygon2D:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.0313726, 0.996078, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "red"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Polygon2D:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 0, 0, 1 ) ]
+}
 
 [node name="room7" type="Node2D"]
 script = ExtResource( 6 )
@@ -37,6 +104,9 @@ margin_right = 40.0
 margin_bottom = 14.0
 custom_fonts/font = ExtResource( 5 )
 text = "ROOM 7 - upstairs"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="room_label_2" type="Label" parent="background"]
 margin_top = 1354.53
@@ -111,8 +181,25 @@ __meta__ = {
 "_editor_description_": ""
 }
 
+[node name="object_1" type="Area2D" parent="Hotspots"]
+position = Vector2( 358.099, -1195.07 )
+script = ExtResource( 7 )
+global_id = "r7_object_1"
+dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": Vector2( 818.94, 320.88 )
+}
+
+[node name="Line2D" type="Line2D" parent="Hotspots/object_1"]
+position = Vector2( 0, 1345.52 )
+points = PoolVector2Array( 398.738, 142.591, 518.947, 64.809, 516.118, 275.527 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/object_1"]
+position = Vector2( 460.841, 1515.95 )
+shape = SubResource( 3 )
+
 [node name="object2" type="Area2D" parent="Hotspots"]
-position = Vector2( 1600.63, 1358.99 )
+position = Vector2( 1770.63, 1358.99 )
 script = ExtResource( 7 )
 __meta__ = {
 "_editor_description_": ""
@@ -156,6 +243,10 @@ global_id = "r7_upper_stairs"
 esc_script = "res://game/rooms/room7/esc/upper_stairs.esc"
 is_exit = true
 tooltip_name = "Stairs"
+dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": Vector2( 1375.17, 604.793 )
+}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/upper_stairs"]
 position = Vector2( -1334.92, 936.565 )
@@ -164,9 +255,197 @@ polygon = PoolVector2Array( 1221.86, -804.627, 1220.52, -1158.36, 1450.46, -1134
 [node name="Position2D" type="Position2D" parent="Hotspots/upper_stairs"]
 position = Vector2( 27.5337, 131.767 )
 
-[node name="object_1" type="Line2D" parent="Hotspots"]
-position = Vector2( 0, 1345.52 )
-points = PoolVector2Array( 398.738, 142.591, 518.947, 64.809, 516.118, 275.527 )
+[node name="button_camera_push" parent="Hotspots" instance=ExtResource( 3 )]
+position = Vector2( -167.43, 1463.23 )
+global_id = "r7_button_push"
+esc_script = "res://game/rooms/room7/esc/button_push.esc"
+interact_positions = {
+"default": Vector2( 279.618, 1763.84 )
+}
+
+[node name="Position2D" type="Position2D" parent="Hotspots/button_camera_push"]
+position = Vector2( 343.048, 300.613 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Label" type="Label" parent="Hotspots/button_camera_push"]
+margin_left = 304.871
+margin_top = 97.219
+margin_right = 384.871
+margin_bottom = 113.219
+custom_fonts/font = ExtResource( 5 )
+text = "Camera_push"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="button_camera_shift" parent="Hotspots" instance=ExtResource( 3 )]
+position = Vector2( 9.393, 1464.03 )
+global_id = "r7_button_push"
+esc_script = "res://game/rooms/room7/esc/button_shift.esc"
+interact_positions = {
+"default": Vector2( 463.651, 1765.65 )
+}
+
+[node name="Position2D" type="Position2D" parent="Hotspots/button_camera_shift"]
+position = Vector2( 350.258, 301.616 )
+
+[node name="Label" type="Label" parent="Hotspots/button_camera_shift"]
+margin_left = 305.626
+margin_top = 97.515
+margin_right = 387.626
+margin_bottom = 113.515
+custom_fonts/font = ExtResource( 5 )
+text = "Camera_shift"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="button_camera_follow" parent="Hotspots" instance=ExtResource( 3 )]
+position = Vector2( 172.527, 1464.03 )
+global_id = "r7_button_follow"
+esc_script = "res://game/rooms/room7/esc/button_follow.esc"
+interact_positions = {
+"default": Vector2( 463.651, 1765.65 )
+}
+
+[node name="Position2D" type="Position2D" parent="Hotspots/button_camera_follow"]
+position = Vector2( 350.258, 301.616 )
+
+[node name="Label" type="Label" parent="Hotspots/button_camera_follow"]
+margin_left = 305.626
+margin_top = 97.515
+margin_right = 387.626
+margin_bottom = 113.515
+custom_fonts/font = ExtResource( 5 )
+text = "Camera_follow"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="button_camera_zoom" parent="Hotspots" instance=ExtResource( 3 )]
+position = Vector2( 332.527, 1464.03 )
+global_id = "r7_button_zoom"
+esc_script = "res://game/rooms/room7/esc/button_zoom.esc"
+interact_positions = {
+"default": Vector2( 522.785, 1765.65 )
+}
+
+[node name="Position2D" type="Position2D" parent="Hotspots/button_camera_zoom"]
+position = Vector2( 350.258, 301.616 )
+
+[node name="Label" type="Label" parent="Hotspots/button_camera_zoom"]
+margin_left = 305.626
+margin_top = 97.515
+margin_right = 387.626
+margin_bottom = 113.515
+custom_fonts/font = ExtResource( 5 )
+text = "Camera_zoom"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="trigger_left" type="Area2D" parent="Hotspots"]
+position = Vector2( 406, 0 )
+script = ExtResource( 7 )
+global_id = "trigger_left"
+esc_script = "res://game/rooms/room7/esc/trigger_left.esc"
+is_trigger = true
+is_interactive = false
+player_orients_on_arrival = false
+dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": null
+}
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/trigger_left"]
+polygon = PoolVector2Array( 724.356, 1944.36, 716.865, 1752.57, 800.77, 1752.57, 814.254, 1942.86 )
+
+[node name="Label" type="Label" parent="Hotspots/trigger_left"]
+margin_left = 672.764
+margin_top = 1705.64
+margin_right = 812.764
+margin_bottom = 1740.64
+custom_fonts/font = ExtResource( 5 )
+text = "This trigger is activated 
+once if player walks on it"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="trigger_right" type="Area2D" parent="Hotspots"]
+position = Vector2( 220, 0 )
+script = ExtResource( 7 )
+global_id = "trigger_right"
+esc_script = "res://game/rooms/room7/esc/trigger_right.esc"
+is_trigger = true
+is_interactive = false
+player_orients_on_arrival = false
+dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": null
+}
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/trigger_right"]
+position = Vector2( 372.68, 4.12805 )
+polygon = PoolVector2Array( 724.356, 1944.36, 716.865, 1752.57, 800.77, 1752.57, 814.254, 1942.86 )
+
+[node name="Label" type="Label" parent="Hotspots/trigger_right"]
+margin_left = 1068.46
+margin_top = 1707.64
+margin_right = 1218.46
+margin_bottom = 1742.64
+custom_fonts/font = ExtResource( 5 )
+text = "This trigger activates when
+ player walks in AND out"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="light_left" type="Area2D" parent="Hotspots"]
+position = Vector2( 412, 0 )
+script = ExtResource( 7 )
+global_id = "r7_light_left"
+is_interactive = false
+dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": null
+}
+
+[node name="Polygon2D" type="Polygon2D" parent="Hotspots/light_left"]
+color = Color( 0.0313726, 0.996078, 0, 1 )
+polygon = PoolVector2Array( 718.946, 1494.91, 709.047, 1518.24, 717.885, 1540.16, 740.837, 1551.8, 764.908, 1541.57, 774.1, 1519.65, 763.847, 1494.2, 742.336, 1484.38 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/light_left"]
+position = Vector2( 742.194, 1518.8 )
+shape = SubResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/light_left"]
+anims/green = SubResource( 5 )
+anims/red = SubResource( 9 )
+
+[node name="light_right" type="Area2D" parent="Hotspots"]
+position = Vector2( 613.333, -1.13 )
+script = ExtResource( 7 )
+global_id = "r7_light_right"
+is_interactive = false
+dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": Vector2( 742.194, 1518.8 )
+}
+
+[node name="Polygon2D" type="Polygon2D" parent="Hotspots/light_right"]
+color = Color( 1, 0, 0, 1 )
+polygon = PoolVector2Array( 718.946, 1494.91, 709.047, 1518.24, 717.885, 1540.16, 740.837, 1551.8, 764.908, 1541.57, 774.1, 1519.65, 763.847, 1494.2, 742.336, 1484.38 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/light_right"]
+position = Vector2( 742.194, 1518.8 )
+shape = SubResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/light_right"]
+anims/green = SubResource( 7 )
+anims/red = SubResource( 10 )
 
 [node name="player_start" type="Position2D" parent="."]
 position = Vector2( 76.7617, 1847.24 )

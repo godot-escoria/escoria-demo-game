@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://game/rooms/room3/walkable_area.tscn" type="PackedScene" id=1]
 [ext_resource path="res://game/rooms/room3/background.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=5]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escroom.gd" type="Script" id=6]
+[ext_resource path="res://game/items/escitems/button.tscn" type="PackedScene" id=7]
 
 [node name="room3" type="Node2D"]
 script = ExtResource( 6 )
@@ -89,6 +90,17 @@ polygon = PoolVector2Array( -2.71457, 437.818, 6.6293, 121.462, 89.3893, 74.7422
 
 [node name="Position2D" type="Position2D" parent="Hotspots/l_door"]
 position = Vector2( 44.1375, 384.691 )
+
+[node name="button" parent="Hotspots" instance=ExtResource( 7 )]
+interact_positions = {
+"default": Vector2( 347.767, 378.011 )
+}
+
+[node name="Position2D" type="Position2D" parent="Hotspots/button"]
+position = Vector2( 347.767, 378.011 )
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="player_start" type="Position2D" parent="."]
 position = Vector2( 63.3074, 444.653 )

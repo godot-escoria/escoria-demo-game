@@ -1,0 +1,5 @@
+:trigger_in
+set_state r7_light_right green
+
+:trigger_out
+set_state r7_light_right red

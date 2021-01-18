@@ -82,9 +82,7 @@ func set_current_scene(p_scene, run_events=true):
 			if "setup" in escoria.esc_runner.game:
 				escoria.esc_runner.run_event(escoria.esc_runner.game["setup"])
 				yield(escoria.esc_runner, "event_done")
-
-		# Because 1) changing a scene and 2) having a scene become ready
-		# both call `set_current_scene`, we don't want to duplicate thing
+			
 		if not escoria.esc_runner.running_event:
 			escoria.esc_runner.run_game()
 
@@ -179,3 +177,5 @@ func check_game_scene_methods():
 	
 	assert(current_scene.game.has_method("inventory_item_focused"))
 	assert(current_scene.game.has_method("inventory_item_unfocused"))
+	
+	assert(current_scene.game.has_method("mousewheel_action"))

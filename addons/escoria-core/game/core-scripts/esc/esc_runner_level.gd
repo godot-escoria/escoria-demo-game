@@ -156,9 +156,12 @@ camera_set_pos speed x y
 Moves the camera to a position defined by "x" and "y", at the speed defined by 
 "speed" in pixels per second. If speed is 0, camera is teleported to the position.
 """
-func camera_set_pos():
+func camera_set_pos(command_params : Array):
+#	var speed = command_params[0]
+#	var x = command_params[1]
+#	var y = command_params[2]
+#	escoria.esc_runner.get_object("camera").set_pos(speed, x, y)
 	pass
-
 
 """
 camera_set_target speed object [object2 object3 ...] 
@@ -180,8 +183,10 @@ the camera out, and smaller values zooms in, relative to the default value of 1.
 An optional time in seconds controls how long it takes for the camera to zoom 
 into position.
 """
-func camera_set_zoom():
-	pass
+func camera_set_zoom(command_params : Array):
+	var zoom_level = command_params[0]
+	var speed = command_params[0] if command_params.size() > 1 else 0
+	escoria.esc_runner.get_object("camera").set_camera_zoom(zoom_level, speed)
 
 
 """
@@ -198,8 +203,12 @@ Shift camera by x and y pixels over time seconds.
 - type is any of the Tween.TransitionType values without the prefix, eg. LINEAR, 
 	QUART or CIRC; defaults to QUART.
 """
-func camera_shift():
-	pass
+func camera_shift(command_params : Array):
+	var x = command_params[0]
+	var y = command_params[1]
+	var time = command_params[2]
+	var type = command_params[3] if command_params.size() > 3 else "QUAD"
+	escoria.esc_runner.get_object("camera").shift(x, y, time, type)
 
 
 """
