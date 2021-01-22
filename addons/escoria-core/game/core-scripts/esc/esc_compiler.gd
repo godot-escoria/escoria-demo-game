@@ -69,6 +69,7 @@ var commands = {
 	"slide_block": { "min_args": 2 },
 	"spawn": { "min_args": 1 },
 	"stop": true,
+	"superpose_scene": { "min_args": 1, "types": [TYPE_STRING, TYPE_BOOL] },
 	"teleport": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING, TYPE_INT] },
 	"teleport_pos": { "min_args": 3 },
 	"turn_to": { "min_args": 2 },

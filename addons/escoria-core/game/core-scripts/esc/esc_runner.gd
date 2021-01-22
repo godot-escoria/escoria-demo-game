@@ -393,6 +393,68 @@ func change_scene(params, context, run_events=true):
 #	cam_target = null
 #	autosave_pending = true
 
+
+func superpose_scene(params, context, run_events=true):
+	printt("superposing scene ", params[0], " with run_events ", run_events)
+#	check_cache()
+#	main.clear_scene()
+#	camera = null
+#	event_queue = []
+
+	# Regular events need to be reset immediately, so we don't
+	# accidentally `yield()` on them, for performance reasons.
+	# This does not affect `stack` so execution is fine anyway.
+	if running_event and running_event.ev_name != "load":
+		emit_signal("event_done", running_event.ev_name)
+		running_event = null
+
+	var res_room = resource_cache.get_resource(params[0])
+	var res_game = resource_cache.get_resource(ProjectSettings.get_setting("escoria/ui/game_scene"))
+	if !res_room:
+		escoria.report_errors("esc_runner.gd:superpose_scene()", 
+			["Resource not found: " + params[0]])
+	if !res_game:
+		escoria.report_errors("esc_runner.gd:superpose_scene()", 
+			["Resource not found: " + ProjectSettings.get_setting("escoria/ui/game_scene")])
+		
+	resource_cache.clear()
+	
+	# Load game scene
+	var game_scene = res_game.instance()
+	if !game_scene:
+		escoria.report_errors("esc_runner.gd:superpose_scene()", 
+			["Failed loading scene " + ProjectSettings.get_setting("escoria/ui/game_scene")])
+	
+	# Load room scene
+	var room_scene = res_room.instance()
+	if room_scene:
+		get_node("/root").add_child(room_scene)
+	
+		
+		escoria.inputs_manager.is_hotspot_focused = false
+		if !scenes_cache_list.has(params[0]):
+			scenes_cache_list.push_back(params[0])
+			if room_scene.get("global_id"):
+				scenes_cache[room_scene.global_id] = params[0]
+			else:
+				scenes_cache[room_scene.name] = params[0]
+	else:
+		escoria.report_errors("esc_runner.gd:superpose_scene()", 
+			["Failed loading scene " + params[0]])
+
+	if context != null:
+		context.waiting = false
+	
+	# Re-apply actives
+	for active in actives:
+		set_active(active, actives[active])
+	
+#	cam_target = null
+#	autosave_pending = true
+
+
+
+
 func run_game(actions : Dictionary):
 	set_process(true)
 	# `load` and `ready` are exclusive because you probably don't want to

@@ -39,7 +39,7 @@ tracks/0/keys = {
 "values": [ Color( 0.0313726, 0.996078, 0, 1 ) ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=6]
 resource_name = "red"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Polygon2D:color")
@@ -69,7 +69,7 @@ tracks/0/keys = {
 "values": [ Color( 0.0313726, 0.996078, 0, 1 ) ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=8]
 resource_name = "red"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Polygon2D:color")
@@ -162,7 +162,6 @@ __meta__ = {
 global_id = "r7_r_exit"
 esc_script = "res://game/rooms/room7/esc/right_exit.esc"
 is_exit = true
-is_interactive = false
 interaction_direction = 1
 tooltip_name = "Exit"
 dialog_color = Color( 1, 1, 1, 1 )
@@ -207,7 +206,7 @@ __meta__ = {
 global_id = "r7_object2"
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
-"default": Vector2( 1600.63, 1358.99 )
+"default": Vector2( 1770.63, 1358.99 )
 }
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/object2"]
@@ -260,7 +259,7 @@ position = Vector2( -167.43, 1463.23 )
 global_id = "r7_button_push"
 esc_script = "res://game/rooms/room7/esc/button_push.esc"
 interact_positions = {
-"default": Vector2( 279.618, 1763.84 )
+"default": Vector2( 175.618, 1763.84 )
 }
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_camera_push"]
@@ -285,7 +284,7 @@ position = Vector2( 9.393, 1464.03 )
 global_id = "r7_button_push"
 esc_script = "res://game/rooms/room7/esc/button_shift.esc"
 interact_positions = {
-"default": Vector2( 463.651, 1765.65 )
+"default": Vector2( 359.651, 1765.65 )
 }
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_camera_shift"]
@@ -307,7 +306,7 @@ position = Vector2( 172.527, 1464.03 )
 global_id = "r7_button_follow"
 esc_script = "res://game/rooms/room7/esc/button_follow.esc"
 interact_positions = {
-"default": Vector2( 463.651, 1765.65 )
+"default": Vector2( 522.785, 1765.65 )
 }
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_camera_follow"]
@@ -329,7 +328,7 @@ position = Vector2( 332.527, 1464.03 )
 global_id = "r7_button_zoom"
 esc_script = "res://game/rooms/room7/esc/button_zoom.esc"
 interact_positions = {
-"default": Vector2( 522.785, 1765.65 )
+"default": Vector2( 682.785, 1765.65 )
 }
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_camera_zoom"]
@@ -356,7 +355,7 @@ is_interactive = false
 player_orients_on_arrival = false
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
-"default": null
+"default": Vector2( 406, 0 )
 }
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/trigger_left"]
@@ -384,7 +383,7 @@ is_interactive = false
 player_orients_on_arrival = false
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
-"default": null
+"default": Vector2( 592.68, 4.12805 )
 }
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/trigger_right"]
@@ -410,7 +409,7 @@ global_id = "r7_light_left"
 is_interactive = false
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
-"default": null
+"default": Vector2( 1154.19, 1518.8 )
 }
 
 [node name="Polygon2D" type="Polygon2D" parent="Hotspots/light_left"]
@@ -423,7 +422,7 @@ shape = SubResource( 4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/light_left"]
 anims/green = SubResource( 5 )
-anims/red = SubResource( 9 )
+anims/red = SubResource( 6 )
 
 [node name="light_right" type="Area2D" parent="Hotspots"]
 position = Vector2( 613.333, -1.13 )
@@ -432,7 +431,7 @@ global_id = "r7_light_right"
 is_interactive = false
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
-"default": Vector2( 742.194, 1518.8 )
+"default": Vector2( 1355.53, 1517.67 )
 }
 
 [node name="Polygon2D" type="Polygon2D" parent="Hotspots/light_right"]
@@ -445,7 +444,7 @@ shape = SubResource( 4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/light_right"]
 anims/green = SubResource( 7 )
-anims/red = SubResource( 10 )
+anims/red = SubResource( 8 )
 
 [node name="player_start" type="Position2D" parent="."]
 position = Vector2( 76.7617, 1847.24 )

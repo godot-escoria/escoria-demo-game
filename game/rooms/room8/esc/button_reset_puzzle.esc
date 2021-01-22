@@ -1,0 +1,6 @@
+:look
+say player "That must be the command to open the door."
+
+:use
+set_global r8_m_door_open false
+set_state r8_m_door door_close

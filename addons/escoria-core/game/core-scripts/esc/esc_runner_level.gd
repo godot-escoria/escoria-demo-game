@@ -543,6 +543,35 @@ func spawn(command_params : Array):
 func stop(command_params : Array):
 	return esctypes.EVENT_LEVEL_STATE.BREAK
 
+
+"""
+superpose_scene path [run_events]
+Loads a new scene, specified by "path" and displays it OVER the current one. 
+This is useful to display puzzle scenes over the current room, so that you don't 
+loose any progression and continuity.
+- path String Path to the scene to superpose.
+- run_events Boolean (default true) which you never want to set 
+manually! It's there only to benefit save games, so they don't conflict with the 
+scene's events.
+"""
+func superpose_scene(command_params : Array):
+	# Savegames must have events disabled, so saving the game adds a false to params
+	var run_events = true
+	if command_params.size() == 2:
+		run_events = bool(command_params[1])
+	
+	# looking for localized string format in scene. this should be somewhere else
+	var sep = command_params[0].find(":\"")
+	if sep >= 0:
+		var path = command_params[0].substr(sep + 2, command_params[0].length() - (sep + 2))
+		escoria.esc_runner.call_deferred("superpose_scene", [path], current_context, run_events)
+	else:
+		escoria.esc_runner.call_deferred("superpose_scene", command_params, current_context, run_events)
+	
+	current_context.waiting = true
+	return esctypes.EVENT_LEVEL_STATE.YIELD
+
+
 """
 Teleports obj1 at obj2's position. If angle_degrees is set (int), sets obj1's 
 angle to angle_degrees.

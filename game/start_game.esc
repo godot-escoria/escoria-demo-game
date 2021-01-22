@@ -20,5 +20,7 @@
 
 # 7/ long room with camera shift to object 2 if look on object 1
 # and stairs with camera shift too
-change_scene res://game/rooms/room7/room7.tscn
+#change_scene res://game/rooms/room7/room7.tscn
 
+# 8/ puzzle in superposed scene
+change_scene res://game/rooms/room8/room8.tscn

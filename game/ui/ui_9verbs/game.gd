@@ -112,3 +112,15 @@ func close_inventory():
 
 func mousewheel_action(direction : int):
 	pass
+
+func hide_ui():
+	$ui/panel_down.hide()
+	$ui/verbs_layer/verbs_menu.hide()
+	$ui/inventory_layer/inventory_ui.hide()
+	$ui/tooltip_layer/tooltip.hide()
+
+func show_ui():
+	$ui/panel_down.show()
+	$ui/verbs_layer/verbs_menu.show()
+	$ui/inventory_layer/inventory_ui.show()
+	$ui/tooltip_layer/tooltip.show()

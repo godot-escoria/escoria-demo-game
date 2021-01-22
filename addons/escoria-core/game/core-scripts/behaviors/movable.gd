@@ -182,6 +182,8 @@ func walk_stop(pos):
 #		escoria.esc_level_runner.finished(walk_context)
 		escoria.esc_level_runner.finished()
 		parent.walk_context = null
+	
+	yield(parent.animation_sprite, "animation_finished")
 	parent.emit_signal("arrived")
 
 
