@@ -24,13 +24,6 @@ var terrain : ESCTerrain
 var terrain_is_scalenodes : bool
 var check_maps = true
 
-var walk_path : Array = []
-var walk_destination : Vector2
-var walk_context
-var target_object : Object = null
-var moved : bool
-var path_ofs : float 
-
 export(int) var speed : int = 300
 export(float) var v_speed_damp : float = 1.0
 var orig_speed : float
@@ -69,11 +62,6 @@ enum Directions {
 	LEFT = 6,
 	TOP_LEFT = 7,
 }
-
-var last_deg : int
-var last_dir : int
-var last_scale : Vector2
-var pose_scale : int
 
 # Animations script (for walking, idling...)
 export(Script) var animations
@@ -138,7 +126,6 @@ func _ready():
 		return
 	
 	terrain = escoria.room_terrain
-	last_scale = scale
 	
 	set_process(true)
 
@@ -148,34 +135,6 @@ func _process(time):
 		return
 	$debug.text = str(z_index)
 
-
-"""
-Sets player angle and plays according animation.
-- deg int angle to set the character 
-- immediate bool (currently unused, see TODO below)
-	If true, direction is switched immediately. Else, successive animations are
-	used so that the character turns to target angle. 
-
-TODO: depending on current angle and current angle, the character may directly turn around
-with no "progression". We may enhance this by calculating successive directions to turn the
-character to, so that he doesn't switch to opposite direction too fast.
-For example, if character looks WEST and set_angle(EAST) is called, we may want the character
-to first turn SOUTHWEST, then SOUTH, then SOUTHEAST and finally EAST, all more or less fast. 
-Whatever the implementation, this should be activated using "parameter "immediate" set to false.
-"""
-func set_angle(deg : int, immediate = true):
-	if deg < 0 or deg > 360:
-			escoria.report_errors("escplayer.gd:set_angle()", ["Invalid degree to turn to " + str(deg)])
-	moved = true
-	last_deg = deg
-	last_dir = Movable._get_dir_deg(deg, animations)
-
-	# The player may have a state animation from before, which would be
-	# resumed, so we immediately force the correct idle animation
-	if animation_sprite.animation != animations.idles[last_dir][0]:
-		animation_sprite.play(animations.idles[last_dir][0])
-	pose_scale = animations.idles[last_dir][1]
-	Movable.update_terrain()
 
 
 func anim_finished():
@@ -192,12 +151,12 @@ func get_animations_list() -> PoolStringArray:
 func start_talking():
 	if animation_sprite.is_playing():
 		animation_sprite.stop()
-	animation_sprite.play(animations.speaks[last_dir][0])
+	animation_sprite.play(animations.speaks[Movable.last_dir][0])
 
 func stop_talking():
 	if animation_sprite.is_playing():
 		animation_sprite.stop()
-	animation_sprite.play(animations.idles[last_dir][0])
+	animation_sprite.play(animations.idles[Movable.last_dir][0])
 
 
 func teleport(target, angle : Object = null) -> void:
@@ -206,3 +165,7 @@ func teleport(target, angle : Object = null) -> void:
 
 func walk_to(pos : Vector2, p_walk_context = null):
 	Movable.walk_to(pos, p_walk_context)
+
+
+func set_angle(deg : int, immediate = true):
+	Movable.set_angle(deg, immediate)

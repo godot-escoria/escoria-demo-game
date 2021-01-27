@@ -13,22 +13,22 @@ onready var parent = get_parent()
 # If character misses an animation, bypass it and proceed.
 onready var bypass_missing_animation = false
 
-#var walk_path : Array = []
-#var walk_destination : Vector2
-#var walk_context
-#var moved : bool
-#var path_ofs : float 
-#
-#var last_deg : int
-#var last_dir : int
-#var last_scale : Vector2
-#var pose_scale : int
+var walk_path : Array = []
+var walk_destination : Vector2
+var walk_context
+var moved : bool
+var path_ofs : float 
+
+var last_deg : int
+var last_dir : int
+var last_scale : Vector2
+var pose_scale : int
 
 
 
 func _ready():
 	parent.add_user_signal("arrived")
-	parent.last_scale = parent.scale
+	last_scale = parent.scale
 
 func _process(time):
 	if Engine.is_editor_hint():
@@ -38,14 +38,14 @@ func _process(time):
 		var pos = parent.get_position()
 		var old_pos = pos
 		var next
-		if parent.walk_path.size() > 1:
-			next = parent.walk_path[parent.path_ofs + 1]
+		if walk_path.size() > 1:
+			next = walk_path[path_ofs + 1]
 		else:
-			next = parent.walk_path[parent.path_ofs]
+			next = walk_path[path_ofs]
 
-		var dist = parent.speed * time * pow(parent.last_scale.x, 2) * \
+		var dist = parent.speed * time * pow(last_scale.x, 2) * \
 			parent.terrain.player_speed_multiplier
-		if parent.walk_context and "fast" in parent.walk_context and parent.walk_context.fast:
+		if walk_context and "fast" in walk_context and walk_context.fast:
 			dist *= parent.terrain.player_doubleclick_speed_multiplier
 		var dir = (next - pos).normalized()
 
@@ -57,12 +57,12 @@ func _process(time):
 		var new_pos
 		if pos.distance_to(next) < dist:
 			new_pos = next
-			parent.path_ofs += 1
+			path_ofs += 1
 		else:
 			new_pos = pos + dir * dist
 
-		if parent.path_ofs >= parent.walk_path.size() - 1:
-			walk_stop(parent.walk_destination)
+		if path_ofs >= walk_path.size() - 1:
+			walk_stop(walk_destination)
 			return
 
 		pos = new_pos
@@ -71,8 +71,8 @@ func _process(time):
 		parent.set_position(pos)
 
 		if parent.task == parent.PLAYER_TASKS.WALK:
-			parent.last_deg = escoria.utils._get_deg_from_rad(angle)
-			parent.last_dir = _get_dir_deg(parent.last_deg, parent.animations)
+			last_deg = escoria.utils._get_deg_from_rad(angle)
+			last_dir = _get_dir_deg(last_deg, parent.animations)
 
 			var current_animation = ""
 			if parent.animation_sprite != null:
@@ -82,7 +82,7 @@ func _process(time):
 			
 			bypass_missing_animation = false
 			if !bypass_missing_animation:
-				var animation_to_play = parent.animations.directions[parent.last_dir][0]
+				var animation_to_play = parent.animations.directions[last_dir][0]
 				if current_animation != animation_to_play:
 					if parent.animation_sprite.frames.has_animation(animation_to_play):
 						parent.animation_sprite.play(animation_to_play)
@@ -93,11 +93,11 @@ func _process(time):
 							["Character " + parent.global_id + " has no animation " + animation_to_play,
 							"Bypassing missing animation and proceed movement."])
 			
-			parent.pose_scale = parent.animations.directions[parent.last_dir][1]
+			pose_scale = parent.animations.directions[last_dir][1]
 
 		update_terrain()
 	else:
-		parent.moved = false
+		moved = false
 		set_process(false)
 
 
@@ -127,18 +127,18 @@ func walk_to(pos : Vector2, p_walk_context = null):
 		return
 	if parent.interact_status == parent.INTERACT_STATES.INTERACT_STARTED:
 		parent.interact_status = parent.INTERACT_STATES.INTERACT_WALKING
-	parent.walk_path = parent.terrain.get_terrain_path(parent.get_position(), pos)
-	parent.walk_context = p_walk_context
-	if parent.walk_path.size() == 0:
+	walk_path = parent.terrain.get_terrain_path(parent.get_position(), pos)
+	walk_context = p_walk_context
+	if walk_path.size() == 0:
 		parent.task = parent.PLAYER_TASKS.NONE
 		walk_stop(parent.get_position())
 		set_process(false)
 		return
-	parent.moved = true
-	parent.walk_destination = parent.walk_path[parent.walk_path.size()-1]
+	moved = true
+	walk_destination = walk_path[walk_path.size()-1]
 	if parent.terrain.is_solid(pos):
-		parent.walk_destination = parent.walk_path[parent.walk_path.size()-1]
-	parent.path_ofs = 0.0
+		walk_destination = walk_path[walk_path.size()-1]
+	path_ofs = 0.0
 	parent.task = parent.PLAYER_TASKS.WALK
 	set_process(true)
 
@@ -153,27 +153,27 @@ func walk(target_pos, p_speed, context = null):
 func walk_stop(pos):
 	parent.position = pos
 	parent.interact_status = parent.INTERACT_STATES.INTERACT_NONE
-	parent.walk_path = []
+	walk_path = []
 
 	if parent.orig_speed:
 		parent.speed = parent.orig_speed
 		parent.orig_speed = 0.0
 
 	parent.task = parent.PLAYER_TASKS.NONE
-	parent.moved = false
+	moved = false
 	set_process(false)
 	if parent.params_queue != null && !parent.params_queue.empty():
 		if parent.animations.dir_angles.size() > 0:
 			if parent.arams_queue[0].interact_angle == -1:
 				escoria.tools.resolve_angle_to(parent.params_queue[0])
 			else:
-				parent.last_dir = _get_dir_deg(parent.params_queue[0].interact_angle, parent.animations)
-			parent.animation_sprite.play(parent.animations.idles[parent.last_dir][0])
-			parent.pose_scale = parent.animations.idles[parent.last_dir][1]
+				last_dir = _get_dir_deg(parent.params_queue[0].interact_angle, parent.animations)
+			parent.animation_sprite.play(parent.animations.idles[last_dir][0])
+			pose_scale = parent.animations.idles[last_dir][1]
 			update_terrain()
 		else:
-			parent.animation_sprite.play(parent.animations.idles[parent.last_dir][0])
-			parent.pose_scale = parent.animations.idles[parent.last_dir][1]
+			parent.animation_sprite.play(parent.animations.idles[last_dir][0])
+			pose_scale = parent.animations.idles[last_dir][1]
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFAULT, "game", "interact", parent.params_queue)
 		# Clear params queue to prevent the same action from being triggered again
 		parent.params_queue = []
@@ -181,25 +181,25 @@ func walk_stop(pos):
 		
 		# If we're heading to an object and reached its interaction position,
 		# orient towards the defined interaction direction set on the object (if any)
-		if parent.walk_context.has("target_object") \
-				and parent.walk_context.target_object.player_orients_on_arrival \
-				and escoria.esc_runner.get_interactive(parent.walk_context.target_object.global_id):
-			var orientation = parent.walk_context["target_object"].interaction_direction
-			parent.last_dir = orientation
+		if walk_context.has("target_object") \
+				and walk_context.target_object.player_orients_on_arrival \
+				and escoria.esc_runner.get_interactive(walk_context.target_object.global_id):
+			var orientation = walk_context["target_object"].interaction_direction
+			last_dir = orientation
 			parent.animation_sprite.play(parent.animations.idles[orientation][0])
-			parent.pose_scale = parent.animations.idles[orientation][1]
+			pose_scale = parent.animations.idles[orientation][1]
 		else:
-			parent.animation_sprite.play(parent.animations.idles[parent.last_dir][0])
-			parent.pose_scale = parent.animations.idles[parent.last_dir][1]
+			parent.animation_sprite.play(parent.animations.idles[last_dir][0])
+			pose_scale = parent.animations.idles[last_dir][1]
 	update_terrain()
 	
-	if parent.walk_context != null:
-		escoria.esc_level_runner.finished(parent.walk_context)
+	if walk_context != null:
+		escoria.esc_level_runner.finished(walk_context)
 #		escoria.esc_level_runner.finished()
 #		walk_context = null
 	
 	yield(parent.animation_sprite, "animation_finished")
-	parent.emit_signal("arrived", parent.walk_context)
+	parent.emit_signal("arrived", walk_context)
 
 
 func update_terrain(on_event_finished_name = null):
@@ -215,21 +215,21 @@ func update_terrain(on_event_finished_name = null):
 
 	var color
 	if parent.terrain_is_scalenodes:
-		parent.last_scale = parent.terrain.get_terrain(pos)
-		parent.scale = parent.last_scale
+		last_scale = parent.terrain.get_terrain(pos)
+		parent.scale = last_scale
 	elif parent.check_maps:
 		color = parent.terrain.get_terrain(pos)
 		var scal = parent.terrain.get_scale_range(color.b)
 		if scal != parent.get_scale():
-			parent.last_scale = scal
-			parent.scale = parent.last_scale
+			last_scale = scal
+			parent.scale = last_scale
 
 	# Do not flip the entire character, because that would conflict
 	# with shadows that expect to be siblings of $texture
-	if parent.pose_scale == -1 and parent.get_node("sprite").scale.x > 0:
-		parent.get_node("sprite").scale.x *= parent.pose_scale
-		parent.collision.scale.x *= parent.pose_scale
-	elif parent.pose_scale == 1 and parent.get_node("sprite").scale.x < 0:
+	if pose_scale == -1 and parent.get_node("sprite").scale.x > 0:
+		parent.get_node("sprite").scale.x *= pose_scale
+		parent.collision.scale.x *= pose_scale
+	elif pose_scale == 1 and parent.get_node("sprite").scale.x < 0:
 		parent.get_node("sprite").scale.x *= -1
 		parent.collision.scale.x *= -1
 
@@ -306,13 +306,13 @@ Whatever the implementation, this should be activated using "parameter "immediat
 func set_angle(deg : int, immediate = true):
 	if deg < 0 or deg > 360:
 			escoria.report_errors("movable.gd:set_angle()", ["Invalid degree to turn to " + str(deg)])
-	parent.moved = true
-	parent.last_deg = deg
-	parent.last_dir = _get_dir_deg(deg, parent.animations)
+	moved = true
+	last_deg = deg
+	last_dir = _get_dir_deg(deg, parent.animations)
 
 	# The character may have a state animation from before, which would be
 	# resumed, so we immediately force the correct idle animation
-	if parent.animation_sprite.animation != parent.animations.idles[parent.last_dir][0]:
-		parent.animation_sprite.play(parent.animations.idles[parent.last_dir][0])
-	parent.pose_scale = parent.animations.idles[parent.last_dir][1]
+	if parent.animation_sprite.animation != parent.animations.idles[last_dir][0]:
+		parent.animation_sprite.play(parent.animations.idles[last_dir][0])
+	pose_scale = parent.animations.idles[last_dir][1]
 	update_terrain()

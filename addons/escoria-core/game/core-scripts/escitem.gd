@@ -84,12 +84,6 @@ enum INTERACT_STATES {
 }
 var interact_status		# Current interact status, type INTERACT_STATES
 
-var walk_path : Array = []
-var walk_destination : Vector2
-var walk_context
-var target_object : Object = null
-var moved : bool
-var path_ofs : float 
 export(int) var speed : int = 300
 export(float) var v_speed_damp : float = 1.0
 var orig_speed : float

@@ -174,7 +174,8 @@ func _process(_delta):
 	if target and not tween.is_active():
 		if typeof(target) == TYPE_VECTOR2 or typeof(target) == TYPE_ARRAY:
 			self.global_position = resolve_target_pos()
-		elif "moved" in target and target.moved:
+		elif "moved" in target and target.moved \
+		or "moved" in target.Movable and target.Movable.moved:
 			self.global_position = resolve_target_pos()
 
 func _ready():
