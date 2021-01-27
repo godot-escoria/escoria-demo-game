@@ -4,11 +4,9 @@
 [ext_resource path="res://game/rooms/room2/background.tscn" type="PackedScene" id=2]
 [ext_resource path="res://game/ui/commons/fonts/caslonantique.tres" type="DynamicFont" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
+[ext_resource path="res://game/rooms/room2/button/button.tscn" type="PackedScene" id=5]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escroom.gd" type="Script" id=6]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=7]
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 28.6442, 23.5021 )
 
 [node name="room2" type="Node2D"]
 script = ExtResource( 6 )
@@ -82,47 +80,33 @@ polygon = PoolVector2Array( -1.37926, 443.158, 7.96461, 122.796, 84.0504, 77.411
 [node name="Position2D" type="Position2D" parent="Hotspots/l_door"]
 position = Vector2( 52.1462, 384.691 )
 
-[node name="button_left" type="Area2D" parent="Hotspots"]
-script = ExtResource( 7 )
-global_id = "r2_button"
-esc_script = "res://game/rooms/room2/esc/button.esc"
-tooltip_name = "Button"
-default_action = "use"
-dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 338.117, 370.025 )
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/button_left"]
-position = Vector2( 346.507, 150.721 )
-shape = SubResource( 1 )
-
-[node name="action_pos" type="Position2D" parent="Hotspots/button_left"]
-position = Vector2( 338.117, 370.025 )
-
-[node name="dialog_position" type="Position2D" parent="Hotspots/button_left"]
-position = Vector2( 333.879, 84.4147 )
-
-[node name="button_right" type="Area2D" parent="Hotspots"]
-script = ExtResource( 7 )
+[node name="button_right" parent="Hotspots" instance=ExtResource( 5 )]
 global_id = "r2_button_right"
 esc_script = "res://game/rooms/room2/esc/button.esc"
-tooltip_name = "Button"
-default_action = "use"
-dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
-"default": Vector2( 962.822, 370.025 )
+"default": Vector2( 971.212, 150.721 )
 }
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/button_right"]
-position = Vector2( 971.212, 150.721 )
-shape = SubResource( 1 )
+[node name="button_left" parent="Hotspots/button_right" instance=ExtResource( 5 )]
+visible = false
+position = Vector2( -625.523, 0 )
+global_id = "r2_button"
+esc_script = "res://game/rooms/room2/esc/button.esc"
+interact_positions = {
+"default": Vector2( 971.212, 150.721 )
+}
 
-[node name="action_pos" type="Position2D" parent="Hotspots/button_right"]
+[node name="Position2D" type="Position2D" parent="Hotspots/button_right"]
 position = Vector2( 962.822, 370.025 )
+__meta__ = {
+"_editor_description_": ""
+}
 
-[node name="dialog_position" type="Position2D" parent="Hotspots/button_right"]
-position = Vector2( 958.584, 84.4147 )
+[node name="Position2D2" type="Position2D" parent="Hotspots/button_right"]
+position = Vector2( 337.299, 370.025 )
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="player_start" type="Position2D" parent="."]
 position = Vector2( 76.7617, 437.649 )

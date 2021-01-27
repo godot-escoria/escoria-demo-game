@@ -12,7 +12,7 @@ vertices = PoolVector2Array( 1143.08, 613.35, 1267.68, 669.029, 1275.03, 799.721
 polygons = [ PoolIntArray( 0, 1, 2, 3, 4, 5, 6 ), PoolIntArray( 7, 8, 9, 10 ), PoolIntArray( 4, 11, 12, 5 ), PoolIntArray( 5, 13, 14, 15 ), PoolIntArray( 7, 10, 6, 15 ), PoolIntArray( 6, 16, 0 ), PoolIntArray( 6, 5, 15 ) ]
 outlines = [ PoolVector2Array( -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698, 84.5821, 654.06, 129.634, 615.792, 530.631, 612.332, 550.79, 623.672, 581.028, 613.592, 583.548, 574.535, 707.02, 574.535, 714.58, 611.072, 742.298, 623.672, 783.875, 609.812, 1143.08, 613.35, 1267.68, 669.029, 1275.03, 799.721, -9.16094, 803.802 ) ]
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "door_close"
 tracks/0/type = "value"
 tracks/0/path = NodePath("door:polygon")
@@ -39,7 +39,7 @@ tracks/1/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 resource_name = "door_open"
 tracks/0/type = "value"
 tracks/0/path = NodePath("door:polygon")
@@ -66,7 +66,7 @@ tracks/1/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 20.3273, 18.0047 )
 
 [node name="room8" type="Node2D"]
@@ -155,7 +155,7 @@ esc_script = "res://game/rooms/room8/esc/middle_exit.esc"
 tooltip_name = "Exit"
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
-"default": Vector2( 1225.47, 353.99 )
+"default": Vector2( 653.466, 366.589 )
 }
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/m_door"]
@@ -169,8 +169,8 @@ color = Color( 0.4, 0.501961, 1, 1 )
 polygon = PoolVector2Array( 557.104, 45.8, 743.623, 45.8, 746.798, 345.025, 557.898, 347.406 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/m_door"]
-anims/door_close = SubResource( 3 )
-anims/door_open = SubResource( 4 )
+anims/door_close = SubResource( 2 )
+anims/door_open = SubResource( 3 )
 
 [node name="r8_mini_puzzle_button" type="Area2D" parent="Hotspots"]
 script = ExtResource( 5 )
@@ -180,7 +180,7 @@ tooltip_name = "Button"
 default_action = "use"
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
-"default": null
+"default": Vector2( 474.801, 369.29 )
 }
 
 [node name="button" type="Line2D" parent="Hotspots/r8_mini_puzzle_button"]
@@ -190,7 +190,7 @@ default_color = Color( 0.4, 0.501961, 1, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/r8_mini_puzzle_button"]
 position = Vector2( 474.343, 201.414 )
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r8_mini_puzzle_button"]
 position = Vector2( 474.801, 369.29 )
@@ -215,7 +215,7 @@ tooltip_name = "Button"
 default_action = "use"
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
-"default": Vector2( 474.801, 369.29 )
+"default": Vector2( 335.616, 369.29 )
 }
 
 [node name="button" type="Line2D" parent="Hotspots/r8_reset_puzzle_button"]
@@ -225,7 +225,7 @@ default_color = Color( 0.4, 0.501961, 1, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/r8_reset_puzzle_button"]
 position = Vector2( 474.343, 201.414 )
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r8_reset_puzzle_button"]
 position = Vector2( 474.801, 369.29 )

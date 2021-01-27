@@ -240,7 +240,9 @@ func ev_left_click_on_item(obj, event, default_action = false):
 		main.current_scene.player.walk_to(destination_position, walk_context)
 		
 		# Wait for the player to arrive before continuing with action.
-		yield(main.current_scene.player, "arrived")
+		var context = yield(main.current_scene.player, "arrived")
+		if context.target_object != walk_context.target_object:
+			dont_interact = true
 	
 	# If no interaction should happen after player has arrived, leave immediately.
 	if dont_interact:

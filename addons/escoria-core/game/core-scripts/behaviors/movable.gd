@@ -13,8 +13,22 @@ onready var parent = get_parent()
 # If character misses an animation, bypass it and proceed.
 onready var bypass_missing_animation = false
 
+#var walk_path : Array = []
+#var walk_destination : Vector2
+#var walk_context
+#var moved : bool
+#var path_ofs : float 
+#
+#var last_deg : int
+#var last_dir : int
+#var last_scale : Vector2
+#var pose_scale : int
+
+
+
 func _ready():
 	parent.add_user_signal("arrived")
+	parent.last_scale = parent.scale
 
 func _process(time):
 	if Engine.is_editor_hint():
@@ -167,7 +181,8 @@ func walk_stop(pos):
 		
 		# If we're heading to an object and reached its interaction position,
 		# orient towards the defined interaction direction set on the object (if any)
-		if parent.walk_context.has("target_object") and parent.walk_context.target_object.player_orients_on_arrival \
+		if parent.walk_context.has("target_object") \
+				and parent.walk_context.target_object.player_orients_on_arrival \
 				and escoria.esc_runner.get_interactive(parent.walk_context.target_object.global_id):
 			var orientation = parent.walk_context["target_object"].interaction_direction
 			parent.last_dir = orientation
@@ -179,12 +194,12 @@ func walk_stop(pos):
 	update_terrain()
 	
 	if parent.walk_context != null:
-#		escoria.esc_level_runner.finished(walk_context)
-		escoria.esc_level_runner.finished()
-		parent.walk_context = null
+		escoria.esc_level_runner.finished(parent.walk_context)
+#		escoria.esc_level_runner.finished()
+#		walk_context = null
 	
 	yield(parent.animation_sprite, "animation_finished")
-	parent.emit_signal("arrived")
+	parent.emit_signal("arrived", parent.walk_context)
 
 
 func update_terrain(on_event_finished_name = null):
@@ -209,7 +224,7 @@ func update_terrain(on_event_finished_name = null):
 			parent.last_scale = scal
 			parent.scale = parent.last_scale
 
-	# Do not flip the entire player character, because that would conflict
+	# Do not flip the entire character, because that would conflict
 	# with shadows that expect to be siblings of $texture
 	if parent.pose_scale == -1 and parent.get_node("sprite").scale.x > 0:
 		parent.get_node("sprite").scale.x *= parent.pose_scale
@@ -273,3 +288,31 @@ func is_angle_in_interval(angle: float, interval : Array) -> bool:
 			return true
 	
 	return false
+
+"""
+Sets character's angle and plays according animation.
+- deg int angle to set the character 
+- immediate bool (currently unused, see TODO below)
+	If true, direction is switched immediately. Else, successive animations are
+	used so that the character turns to target angle. 
+
+TODO: depending on current angle and current angle, the character may directly turn around
+with no "progression". We may enhance this by calculating successive directions to turn the
+character to, so that he doesn't switch to opposite direction too fast.
+For example, if character looks WEST and set_angle(EAST) is called, we may want the character
+to first turn SOUTHWEST, then SOUTH, then SOUTHEAST and finally EAST, all more or less fast. 
+Whatever the implementation, this should be activated using "parameter "immediate" set to false.
+"""
+func set_angle(deg : int, immediate = true):
+	if deg < 0 or deg > 360:
+			escoria.report_errors("movable.gd:set_angle()", ["Invalid degree to turn to " + str(deg)])
+	parent.moved = true
+	parent.last_deg = deg
+	parent.last_dir = _get_dir_deg(deg, parent.animations)
+
+	# The character may have a state animation from before, which would be
+	# resumed, so we immediately force the correct idle animation
+	if parent.animation_sprite.animation != parent.animations.idles[parent.last_dir][0]:
+		parent.animation_sprite.play(parent.animations.idles[parent.last_dir][0])
+	parent.pose_scale = parent.animations.idles[parent.last_dir][1]
+	update_terrain()

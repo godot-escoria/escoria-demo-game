@@ -55,6 +55,14 @@ margin_bottom = 14.0
 custom_fonts/font = ExtResource( 3 )
 text = "ROOM 4"
 
+[node name="Label" type="Label" parent="background"]
+margin_left = 214.299
+margin_top = 93.6566
+margin_right = 1008.3
+margin_bottom = 109.657
+custom_fonts/font = ExtResource( 3 )
+text = "This room demonstrates how to use a background image AND using a large image width AND setting a depth map on the ESCTerrain node"
+
 [node name="walkable_area" type="Navigation2D" parent="."]
 script = ExtResource( 1 )
 scales = ExtResource( 8 )

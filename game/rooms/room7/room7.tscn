@@ -281,7 +281,7 @@ __meta__ = {
 
 [node name="button_camera_shift" parent="Hotspots" instance=ExtResource( 3 )]
 position = Vector2( 9.393, 1464.03 )
-global_id = "r7_button_push"
+global_id = "r7_button_shift"
 esc_script = "res://game/rooms/room7/esc/button_shift.esc"
 interact_positions = {
 "default": Vector2( 359.651, 1765.65 )

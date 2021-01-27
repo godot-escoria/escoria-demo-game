@@ -3,10 +3,19 @@
 
 :setup
 set_state r7_button_push button_repaired
+set_state r7_button_shift button_repaired
+set_state r7_button_follow button_repaired
+set_state r7_button_zoom button_repaired
+
 > [eq ESC_LAST_SCENE room6]
 	teleport player r7_l_exit
 	# Set player look right
 	set_angle player 180
+	stop
+> [eq ESC_LAST_SCENE room8]
+	teleport player r7_r_exit
+	# Set player look left
+	set_angle player 270
 	stop
 > [!last_scene]
 	teleport player player_start

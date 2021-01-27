@@ -19,7 +19,6 @@ export var global_id : String
 
 var params_queue : Array 
 var terrain : ESCTerrain
-var camera : ESCCamera
 
 # If the terrain node type is scalenodes
 var terrain_is_scalenodes : bool

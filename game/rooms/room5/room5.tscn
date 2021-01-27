@@ -129,7 +129,7 @@ esc_script = "res://game/rooms/room5/esc/wall_item.esc"
 tooltip_name = "Item on the wall"
 default_action = "look"
 interact_positions = {
-"default": Vector2( 657, 377 )
+"default": Vector2( 622.513, 359.162 )
 }
 
 [node name="Position2D2" type="Position2D" parent="Hotspots/item_wall"]
@@ -150,12 +150,14 @@ position = Vector2( -77.4207, 0 )
 
 [node name="pen" parent="Hotspots" instance=ExtResource( 10 )]
 position = Vector2( 909.908, 443.451 )
+dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
 "default": Vector2( 909.908, 443.451 )
 }
 
 [node name="empty_sheet" parent="Hotspots" instance=ExtResource( 9 )]
 position = Vector2( 1059.84, 440.932 )
+dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
 "default": Vector2( 1059.84, 440.932 )
 }
