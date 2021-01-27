@@ -130,10 +130,12 @@ func _ready():
 	connect("input_event", self, "manage_input")
 		
 	init_interact_position_with_node()
-	terrain = escoria.room_terrain
+	
 		
 	if !Engine.is_editor_hint():
 		escoria.register_object(self)
+		terrain = escoria.room_terrain
+		
 		if !is_trigger:
 			connect("mouse_entered_item", escoria.inputs_manager, "_on_mouse_entered_item")
 			connect("mouse_exited_item", escoria.inputs_manager, "_on_mouse_exited_item")
