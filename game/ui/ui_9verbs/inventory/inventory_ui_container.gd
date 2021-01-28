@@ -37,6 +37,3 @@ func remove_item(inventory_item : ESCInventoryItem):
 	remove_child(node_to_remove)
 	node_to_remove.queue_free()
 	
-func _on_gui_input(event : InputEvent, inventory_item : ESCInventoryItem):
-	if event is InputEventMouseButton and event.is_pressed():
-		inventory_item._on_inventory_item_pressed()

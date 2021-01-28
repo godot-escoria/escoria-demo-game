@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=1]
+
+[node name="magical_closet" type="Area2D"]
+script = ExtResource( 1 )
+dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": null
+}
+
+[node name="Line2D" type="Line2D" parent="."]

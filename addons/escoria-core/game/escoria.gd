@@ -26,6 +26,10 @@ enum GAME_STATE {
 }
 onready var current_state = GAME_STATE.DEFAULT
 
+
+# Logging
+onready var is_reported : bool = false
+
 ##################################################################################
 func _ready():
 	pass
@@ -46,14 +50,18 @@ func change_scene_path(scene_path):
 func set_main_menu(scene):
 	main_menu_instance = scene
 
-func report_warnings(p_path : String, warnings : Array) -> void:
-	var text = "Warnings in file "+p_path+"\n"
-	for w in warnings:
-		if w is Array:
-			text += str(w)+"\n"
-		else:
-			text += w+"\n"
-	printerr("warning is: ", text)
+func report_warnings(p_path : String, warnings : Array, report_once = false) -> void:
+	if !is_reported:
+		var text = "Warnings in file "+p_path+"\n"
+		for w in warnings:
+			if w is Array:
+				text += str(w)+"\n"
+			else:
+				text += w+"\n"
+		printerr("warning is: ", text)
+	
+	if report_once:
+		is_reported = true
 
 
 func report_errors(p_path : String, errors : Array) -> void:

@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 28.6442, 29.8513 )
+
+[node name="button_right" type="Area2D"]
+script = ExtResource( 1 )
+tooltip_name = "Button"
+default_action = "use"
+dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": Vector2( 971.212, 150.721 )
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 971.212, 150.721 )
+shape = SubResource( 1 )

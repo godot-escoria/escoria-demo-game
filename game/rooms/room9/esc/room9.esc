@@ -1,0 +1,9 @@
+# :SETUP is called EVERY TIME the room is loaded
+# :READY is called only the FIRST TIME the room is loaded
+
+:setup
+
+
+
+:ready
+

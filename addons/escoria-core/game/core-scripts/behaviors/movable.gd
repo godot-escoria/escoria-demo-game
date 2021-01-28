@@ -90,7 +90,7 @@ func _process(time):
 						current_animation = animation_to_play
 						escoria.report_warnings("movable.gd:_process()", 
 							["Character " + parent.global_id + " has no animation " + animation_to_play,
-							"Bypassing missing animation and proceed movement."])
+							"Bypassing missing animation and proceed movement."], true)
 			
 			pose_scale = parent.animations.directions[last_dir][1]
 
@@ -132,7 +132,6 @@ func walk_to(pos : Vector2, p_walk_context = null):
 				walk_context["fast"] = p_walk_context["fast"]
 				return true
 		else:
-#			return false
 			pass
 	if parent.task == parent.PLAYER_TASKS.NONE:
 		parent.task = parent.PLAYER_TASKS.WALK
@@ -197,6 +196,7 @@ func walk_stop(pos):
 			last_dir = orientation
 			parent.animation_sprite.play(parent.animations.idles[orientation][0])
 			pose_scale = parent.animations.idles[orientation][1]
+			
 		else:
 			parent.animation_sprite.play(parent.animations.idles[last_dir][0])
 			pose_scale = parent.animations.idles[last_dir][1]
@@ -204,10 +204,11 @@ func walk_stop(pos):
 	
 	if walk_context != null:
 		escoria.esc_level_runner.finished(walk_context)
-#		escoria.esc_level_runner.finished()
+		escoria.esc_level_runner.finished()
 #		walk_context = null
 	
 	yield(parent.animation_sprite, "animation_finished")
+	printt(parent.global_id + " arrived at ", walk_context)
 	parent.emit_signal("arrived", walk_context)
 
 

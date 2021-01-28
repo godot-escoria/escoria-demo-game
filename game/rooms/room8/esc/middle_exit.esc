@@ -1,2 +1,2 @@
 :exit_scene
-#change_scene "res://game/rooms/room9/room9.tscn"
+change_scene "res://game/rooms/room9/room9.tscn"

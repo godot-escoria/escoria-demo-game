@@ -84,16 +84,7 @@ position = Vector2( 52.1462, 384.691 )
 global_id = "r2_button_right"
 esc_script = "res://game/rooms/room2/esc/button.esc"
 interact_positions = {
-"default": Vector2( 971.212, 150.721 )
-}
-
-[node name="button_left" parent="Hotspots/button_right" instance=ExtResource( 5 )]
-visible = false
-position = Vector2( -625.523, 0 )
-global_id = "r2_button"
-esc_script = "res://game/rooms/room2/esc/button.esc"
-interact_positions = {
-"default": Vector2( 971.212, 150.721 )
+"default": Vector2( 337.299, 370.025 )
 }
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_right"]
@@ -102,8 +93,16 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Position2D2" type="Position2D" parent="Hotspots/button_right"]
-position = Vector2( 337.299, 370.025 )
+[node name="button_left" parent="Hotspots" instance=ExtResource( 5 )]
+position = Vector2( -625.523, 0 )
+global_id = "r2_button"
+esc_script = "res://game/rooms/room2/esc/button.esc"
+interact_positions = {
+"default": Vector2( 345.689, 150.721 )
+}
+
+[node name="Position2D" type="Position2D" parent="Hotspots/button_left"]
+position = Vector2( 962.822, 370.025 )
 __meta__ = {
 "_editor_description_": ""
 }
