@@ -134,7 +134,7 @@ func do(action : String, params : Array = []) -> void:
 					var is_fast : bool = false
 					if params.size() > 2 and params[2] == true:
 						is_fast = true
-					var walk_context = {"fast": is_fast} 
+					var walk_context = {"fast": is_fast, "target": target_position} 
 					moving_obj.walk_to(target_position, walk_context)
 					
 				# Walk to object from its id
@@ -237,15 +237,24 @@ func ev_left_click_on_item(obj, event, default_action = false):
 			destination_position = event.position
 			dont_interact = true
 		
-		main.current_scene.player.walk_to(destination_position, walk_context)
+		# Use esc_runner for this?
+		var is_already_walking = main.current_scene.player.walk_to(destination_position, walk_context)
 		
 		# Wait for the player to arrive before continuing with action.
 		var context = yield(main.current_scene.player, "arrived")
-		if context.target_object != walk_context.target_object:
-			dont_interact = true
+		printt("context arrived: ", context)
+		if context.has("target_object") and walk_context.has("target_object"):
+			if (context.target_object.global_id != walk_context.target_object.global_id) \
+				or (context.target_object.global_id == walk_context.target_object.global_id and is_already_walking):
+				dont_interact = true
+		elif context.has("target") and walk_context.has("target"):
+			if (context.target.global_id != walk_context.target.global_id) \
+				or (context.target.global_id == walk_context.target.global_id and is_already_walking):
+				dont_interact = true
 	
 	# If no interaction should happen after player has arrived, leave immediately.
 	if dont_interact:
+		print("DONT INTERACT WAS TRUE")
 		return
 	
 	var player_global_pos = main.current_scene.player.global_position

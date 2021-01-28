@@ -373,6 +373,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Line2D" type="Line2D" parent="Hotspots/trigger_left"]
+points = PoolVector2Array( 718.237, 1756.04, 724.544, 1950.34, 815.761, 1947.51, 801.579, 1756.32, 719.359, 1756.32 )
+width = 2.0
+
 [node name="trigger_right" type="Area2D" parent="Hotspots"]
 position = Vector2( 220, 0 )
 script = ExtResource( 7 )
@@ -401,6 +405,10 @@ text = "This trigger activates when
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Line2D" type="Line2D" parent="Hotspots/trigger_right"]
+points = PoolVector2Array( 1089.37, 1757.17, 1097.85, 1949.99, 1187.37, 1947.87, 1174.21, 1755.79, 1090.78, 1756.18 )
+width = 2.0
 
 [node name="light_left" type="Area2D" parent="Hotspots"]
 position = Vector2( 412, 0 )

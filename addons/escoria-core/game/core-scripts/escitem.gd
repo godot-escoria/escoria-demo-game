@@ -71,18 +71,7 @@ var terrain : ESCTerrain
 # If the terrain node type is scalenodes
 var terrain_is_scalenodes : bool
 var check_maps = true
-var pose_scale : int
-var last_scale : Vector2
 var collision
-
-# WALKING
-# State machine defining the current interact state of the player
-enum INTERACT_STATES {
-	INTERACT_STARTED,	# 
-	INTERACT_NONE,		#
-	INTERACT_WALKING	# Player is walking
-}
-var interact_status		# Current interact status, type INTERACT_STATES
 
 export(int) var speed : int = 300
 export(float) var v_speed_damp : float = 1.0
@@ -93,7 +82,7 @@ enum PLAYER_TASKS {
 	WALK,
 	SLIDE
 }
-var task # type PLAYER_TASKS
+onready var task = PLAYER_TASKS.NONE # type PLAYER_TASKS
 var params_queue : Array 
 
 
@@ -102,6 +91,7 @@ var params_queue : Array
 var size : Vector2
 var last_deg : int
 var last_dir : int
+
 
 func _ready():
 	assert(!global_id.empty())
@@ -143,7 +133,7 @@ func _ready():
 			connect("body_exited", self, "element_exited")
 	
 	if !is_exit:
-		last_scale = scale
+		Movable.last_scale = scale
 		Movable.update_terrain()
 
 
@@ -153,7 +143,7 @@ func get_animation_player():
 			if n is AnimationPlayer:
 				animation_sprite = n
 	return animation_sprite
-	
+
 
 """
 Initialize the interact_position attribute by searching for a Position2D
@@ -180,7 +170,7 @@ func init_interact_position_with_node():
 	
 func manage_input(viewport : Viewport, event : InputEvent, shape_idx : int):
 	if event is InputEventMouseButton:
-#		var p = get_global_mouse_position()
+				
 		if event.doubleclick:
 			if event.button_index == BUTTON_LEFT:
 				emit_signal("mouse_double_left_clicked_item", global_id, event)
@@ -188,7 +178,7 @@ func manage_input(viewport : Viewport, event : InputEvent, shape_idx : int):
 			if event.is_pressed():
 				if event.button_index == BUTTON_LEFT:
 					emit_signal("mouse_left_clicked_item", global_id, event)
-				if event.button_index == BUTTON_RIGHT:
+				elif event.button_index == BUTTON_RIGHT:
 					emit_signal("mouse_right_clicked_item", global_id, event)
 		
 

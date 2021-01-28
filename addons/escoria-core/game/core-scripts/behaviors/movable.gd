@@ -28,7 +28,6 @@ var pose_scale : int
 
 func _ready():
 	parent.add_user_signal("arrived")
-	last_scale = parent.scale
 
 func _process(time):
 	if Engine.is_editor_hint():
@@ -122,11 +121,21 @@ func teleport(target, angle : Object = null) -> void:
 func walk_to(pos : Vector2, p_walk_context = null):
 	if not parent.terrain:
 		return walk_stop(parent.get_position())
-
-	if parent.interact_status == parent.INTERACT_STATES.INTERACT_WALKING:
-		return
-	if parent.interact_status == parent.INTERACT_STATES.INTERACT_STARTED:
-		parent.interact_status = parent.INTERACT_STATES.INTERACT_WALKING
+		
+	if parent.task == parent.PLAYER_TASKS.WALK:
+		if walk_context.has("target_object") and p_walk_context.has("target_object"):
+			if walk_context["target_object"] == p_walk_context["target_object"]:
+				walk_context["fast"] = p_walk_context["fast"]
+				return true
+		elif walk_context.has("target") and p_walk_context.has("target"):
+			if walk_context["target"] == p_walk_context["target"]:
+				walk_context["fast"] = p_walk_context["fast"]
+				return true
+		else:
+#			return false
+			pass
+	if parent.task == parent.PLAYER_TASKS.NONE:
+		parent.task = parent.PLAYER_TASKS.WALK
 	walk_path = parent.terrain.get_terrain_path(parent.get_position(), pos)
 	walk_context = p_walk_context
 	if walk_path.size() == 0:
@@ -152,7 +161,7 @@ func walk(target_pos, p_speed, context = null):
 # PRIVATE FUNCTION
 func walk_stop(pos):
 	parent.position = pos
-	parent.interact_status = parent.INTERACT_STATES.INTERACT_NONE
+#	parent.interact_status = parent.INTERACT_STATES.INTERACT_NONE
 	walk_path = []
 
 	if parent.orig_speed:

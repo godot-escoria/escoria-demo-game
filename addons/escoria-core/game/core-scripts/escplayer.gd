@@ -33,15 +33,7 @@ enum PLAYER_TASKS {
 	WALK,
 	SLIDE
 }
-var task # type PLAYER_TASKS
-
-# State machine defining the current interact state of the player
-enum INTERACT_STATES {
-	INTERACT_STARTED,	# 
-	INTERACT_NONE,		#
-	INTERACT_WALKING	# Player is walking
-}
-var interact_status		# Current interact status, type INTERACT_STATES
+onready var task = PLAYER_TASKS.NONE # type PLAYER_TASKS
 
 
 enum Directions {
@@ -126,8 +118,9 @@ func _ready():
 		return
 	
 	terrain = escoria.room_terrain
+	Movable.last_scale = scale
 	
-	set_process(true)
+#	set_process(true)
 
 
 func _process(time):
@@ -164,7 +157,7 @@ func teleport(target, angle : Object = null) -> void:
 
 
 func walk_to(pos : Vector2, p_walk_context = null):
-	Movable.walk_to(pos, p_walk_context)
+	return Movable.walk_to(pos, p_walk_context)
 
 
 func set_angle(deg : int, immediate = true):

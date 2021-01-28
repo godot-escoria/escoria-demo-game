@@ -159,6 +159,7 @@ interact_positions = {
 }
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/m_door"]
+visible = false
 polygon = PoolVector2Array( 557.522, 348.813, 551.222, 42.6524, 743.99, 43.9123, 750.289, 345.033 )
 
 [node name="Position2D" type="Position2D" parent="Hotspots/m_door"]
