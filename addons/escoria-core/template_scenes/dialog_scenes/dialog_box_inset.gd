@@ -11,7 +11,7 @@ onready var tween = text_node.get_node("Tween")
 
 export(float, 0.0, 0.3) var text_speed_per_character = 0.1
 export(float) var fast_text_speed_per_character = 0.25
-export(float) var max_time_to_text_disappear = 2.0
+export(float) var max_time_to_text_disappear = 1.0
 
 func _ready():
 	var centered_position_on_screen = Vector2(
@@ -70,7 +70,10 @@ func _on_dialog_line_typed(object, key):
 	$Timer.connect("timeout", self, "_on_dialog_finished")
 
 func _on_dialog_finished():
-	emit_signal("dialog_line_finished")
+	escoria.esc_level_runner.finished()
+	escoria.dialog_player.is_speaking = false
+	escoria.current_state = escoria.GAME_STATE.DEFAULT
+#	emit_signal("dialog_line_finished")
 	queue_free()
 	
 	

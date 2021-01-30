@@ -407,8 +407,10 @@ func repeat(command_params : Array):
 
 
 """
+say speaker_id "text_to_say" [dialog_ui_name]
 Make a character say one line.
-Usage: say object_id line [dialog_ui_name]
+- dialog_ui_name String if set, uses the dialog UI by its name as defined 
+	in game.tscn/dialog_layer/dialog_player
 """
 func say(command_params : Array) -> esctypes:
 	current_context.waiting = true

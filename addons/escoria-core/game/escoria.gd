@@ -190,8 +190,8 @@ func do(action : String, params : Array = []) -> void:
 			_:
 #				$esc_runner.activate(action, params[0])
 				report_warnings("escoria.gd:do()", ["Action received:", action, "with params ", params])
-	elif current_state == GAME_STATE.DIALOG:
-		dialog_player.finish_fast()
+#	elif current_state == GAME_STATE.DIALOG:
+#		dialog_player.finish_fast()
 	elif current_state == GAME_STATE.WAIT:
 		pass
 		

@@ -1,0 +1,8 @@
+# :SETUP is called EVERY TIME the room is loaded
+# :READY is called only the FIRST TIME the room is loaded
+
+:use
+set_global open_closets 0
+set_state r9_closet_left closed
+set_state r9_closet_middle closed
+set_state r9_closet_right closed

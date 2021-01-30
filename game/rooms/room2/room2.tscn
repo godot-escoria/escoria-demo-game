@@ -81,28 +81,29 @@ polygon = PoolVector2Array( -1.37926, 443.158, 7.96461, 122.796, 84.0504, 77.411
 position = Vector2( 52.1462, 384.691 )
 
 [node name="button_right" parent="Hotspots" instance=ExtResource( 5 )]
+position = Vector2( 958.107, 176.401 )
 global_id = "r2_button_right"
 esc_script = "res://game/rooms/room2/esc/button.esc"
 interact_positions = {
-"default": Vector2( 337.299, 370.025 )
+"default": Vector2( 987.537, 371.812 )
 }
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_right"]
-position = Vector2( 962.822, 370.025 )
+position = Vector2( 29.4302, 195.411 )
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="button_left" parent="Hotspots" instance=ExtResource( 5 )]
-position = Vector2( -625.523, 0 )
+position = Vector2( 288.82, 171.439 )
 global_id = "r2_button"
 esc_script = "res://game/rooms/room2/esc/button.esc"
 interact_positions = {
-"default": Vector2( 345.689, 150.721 )
+"default": Vector2( 313.488, 368.437 )
 }
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_left"]
-position = Vector2( 962.822, 370.025 )
+position = Vector2( 24.6681, 196.998 )
 __meta__ = {
 "_editor_description_": ""
 }

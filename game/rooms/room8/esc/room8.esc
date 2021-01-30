@@ -1,0 +1,22 @@
+# :SETUP is called EVERY TIME the room is loaded
+# :READY is called only the FIRST TIME the room is loaded
+
+:setup
+
+> [eq ESC_LAST_SCENE room7]
+	teleport player r8_l_exit
+	# Set player look right
+	set_angle player 90
+	stop
+> [eq ESC_LAST_SCENE room9]
+	teleport player r8_m_door
+	# Set player look down
+	set_angle player 180
+	stop
+> [!last_scene]
+	teleport player player_start
+	stop
+
+
+:ready
+

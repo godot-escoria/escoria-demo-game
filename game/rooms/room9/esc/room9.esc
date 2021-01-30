@@ -2,8 +2,24 @@
 # :READY is called only the FIRST TIME the room is loaded
 
 :setup
+> [eq ESC_LAST_SCENE room8]
+	teleport player r9_l_exit
+	# Set player look right
+	set_angle player 180
+	stop
+> [eq ESC_LAST_SCENE room10]
+	teleport player r9_r_exit
+	# Set player look left
+	set_angle player 270
+	stop
+> [!last_scene]
+	teleport player player_start
+	stop
 
 
 
 :ready
-
+set_global open_closets 0
+#set_state r9_closet_left closed
+#set_state r9_closet_middle closed
+#set_state r9_closet_right closed

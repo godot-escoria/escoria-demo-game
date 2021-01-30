@@ -14,6 +14,9 @@ interact_positions = {
 "default": Vector2( 971.212, 150.721 )
 }
 
+[node name="Line2D" type="Line2D" parent="."]
+points = PoolVector2Array( 2.86993, 4.8189, 2.86993, 53.646, 50.8979, 53.9476, 50.5746, 3.69644, -1.72314, 4.51215 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 971.212, 150.721 )
+position = Vector2( 26.9811, 29.4218 )
 shape = SubResource( 1 )

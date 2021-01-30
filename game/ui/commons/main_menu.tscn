@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://game/ui/commons/main_menu.gd" type="Script" id=1]
+[ext_resource path="res://game/ui/commons/fonts/caslonantique.tres" type="DynamicFont" id=2]
 
 [node name="main_menu" type="Control"]
 anchor_right = 1.0
@@ -16,34 +17,39 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -92.0
-margin_top = -34.0
+margin_top = -73.5
 margin_right = 92.0
-margin_bottom = 34.0
+margin_bottom = 73.5
+custom_constants/separation = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="new_game" type="Button" parent="VBoxContainer"]
 margin_right = 184.0
-margin_bottom = 20.0
+margin_bottom = 83.0
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 2 )
 text = "New game"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="load_game" type="Button" parent="VBoxContainer"]
-margin_top = 24.0
+margin_top = 93.0
 margin_right = 184.0
-margin_bottom = 44.0
+margin_bottom = 115.0
+custom_fonts/font = ExtResource( 2 )
 text = "Load game"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="quit" type="Button" parent="VBoxContainer"]
-margin_top = 48.0
+margin_top = 125.0
 margin_right = 184.0
-margin_bottom = 68.0
+margin_bottom = 147.0
+custom_fonts/font = ExtResource( 2 )
 text = "Quit"
 __meta__ = {
 "_edit_use_anchors_": false
