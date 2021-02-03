@@ -60,7 +60,7 @@ func _on_mouse_entered_item(item : ESCItem) -> void:
 	printt("Item focused : ", item.global_id)
 	
 	if !hover_stack.empty():
-		if item.z_index < hover_stack.back().z_index:
+		if item.z_index > hover_stack.back().z_index:
 			hover_stack.insert(hover_stack.size()-1, item)
 		else:
 			hover_stack.push_back(item)
@@ -82,17 +82,18 @@ func _on_mouse_exited_item(item : ESCItem) -> void:
 		escoria.main.current_scene.game.element_focused(hotspot_focused)
 	
 	
-func _on_mouse_left_clicked_item(item_global_id : String, event : InputEvent) -> void:
-	printt("Item left clicked", item_global_id, event)
-	escoria.main.current_scene.game.left_click_on_item(item_global_id, event)
+func _on_mouse_left_clicked_item(item : ESCItem, event : InputEvent) -> void:
+	if hover_stack.empty() or hover_stack.back() == item:
+		printt("Item left clicked", item.global_id, event)
+		escoria.main.current_scene.game.left_click_on_item(item.global_id, event)
 
-func _on_mouse_left_double_clicked_item(item_global_id : String, event : InputEvent) -> void:
-	printt("Item left double clicked", item_global_id, event)
-	escoria.main.current_scene.game.left_double_click_on_item(item_global_id, event)
-
-func _on_mouse_right_clicked_item(item_global_id : String, event : InputEvent) -> void:
-	printt("Item right clicked", item_global_id, event)
-	escoria.main.current_scene.game.right_click_on_item(item_global_id, event)
+func _on_mouse_left_double_clicked_item(item : ESCItem, event : InputEvent) -> void:
+	printt("Item left double clicked", item.global_id, event)
+	escoria.main.current_scene.game.left_double_click_on_item(item.global_id, event)
+	
+func _on_mouse_right_clicked_item(item : ESCItem, event : InputEvent) -> void:
+	printt("Item right clicked", item.global_id, event)
+	escoria.main.current_scene.game.right_click_on_item(item.global_id, event)
 
 
 ##################################################################################

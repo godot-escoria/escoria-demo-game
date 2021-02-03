@@ -173,13 +173,13 @@ func manage_input(viewport : Viewport, event : InputEvent, shape_idx : int):
 				
 		if event.doubleclick:
 			if event.button_index == BUTTON_LEFT:
-				emit_signal("mouse_double_left_clicked_item", global_id, event)
+				emit_signal("mouse_double_left_clicked_item", self, event)
 		else:
 			if event.is_pressed():
 				if event.button_index == BUTTON_LEFT:
-					emit_signal("mouse_left_clicked_item", global_id, event)
+					emit_signal("mouse_left_clicked_item", self, event)
 				elif event.button_index == BUTTON_RIGHT:
-					emit_signal("mouse_right_clicked_item", global_id, event)
+					emit_signal("mouse_right_clicked_item", self, event)
 		
 
 func _on_mouse_entered():

@@ -1,9 +1,7 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=1]
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 20.13, 26.023 )
+[ext_resource path="res://game/items/escitems/bottle_escitem.tscn" type="PackedScene" id=2]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 66.4415, 154.457 )
@@ -47,7 +45,7 @@ tracks/2/keys = {
 "values": [ false ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("statue:visible")
+tracks/3/path = NodePath("bottle:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -98,7 +96,7 @@ tracks/2/keys = {
 "values": [ false ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("statue:visible")
+tracks/3/path = NodePath("bottle:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -149,7 +147,7 @@ tracks/2/keys = {
 "values": [ true ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("statue:visible")
+tracks/3/path = NodePath("bottle:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -221,26 +219,16 @@ default_color = Color( 0.4, 0.501961, 1, 1 )
 color = Color( 0.4, 0.501961, 1, 1 )
 polygon = PoolVector2Array( 1.07718, 7.2891, -37.6216, 23.335, -37.6216, 328.206, 2.02106, 302.722 )
 
-[node name="statue" type="Area2D" parent="."]
+[node name="bottle" parent="." instance=ExtResource( 2 )]
 visible = false
-position = Vector2( 1.12247, 0 )
-z_index = 1
-script = ExtResource( 1 )
-global_id = "statue"
-tooltip_name = "Statue"
-dialog_color = Color( 1, 1, 1, 1 )
+position = Vector2( 51.1535, 45.7845 )
+scale = Vector2( 0.507, 0.507 )
 interact_positions = {
-"default": Vector2( 59.3937, 58.8658 )
+"default": Vector2( 51.1535, 45.7845 )
 }
 
-[node name="object" type="Polygon2D" parent="statue"]
-position = Vector2( 1.18921, 7.13524 )
-color = Color( 0.662745, 0.529412, 0, 1 )
-polygon = PoolVector2Array( 52.338, 36.2829, 57.6774, 26.2716, 62.3493, 36.9503, 70.3583, 35.6154, 70.692, 27.2727, 76.3651, 26.6053, 76.3651, 29.9424, 72.9964, 30.7421, 72.9964, 39.2744, 61.4878, 45.624, 69.2264, 73.602, 43.4311, 73.4035, 53.7492, 45.4256, 41.4468, 39.8697, 41.6453, 31.139, 37.8752, 30.3453, 37.6768, 26.5752, 44.4232, 27.7657, 44.4232, 34.1154 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="statue"]
-position = Vector2( 58.2712, 58.8658 )
-shape = SubResource( 1 )
+[node name="Position2D" type="Position2D" parent="bottle"]
+position = Vector2( 298.463, 596.926 )
 
 [node name="CollisionPolygon2D" type="CollisionShape2D" parent="."]
 position = Vector2( 64.2172, 153.408 )
