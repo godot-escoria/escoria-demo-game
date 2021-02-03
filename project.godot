@@ -88,6 +88,9 @@ _global_script_class_icons={
 
 config/name="Escoria-reloaded"
 run/main_scene="res://addons/escoria-core/game/main_scene.tscn"
+boot_splash/image="res://addons/escoria-core/logo/escoria-logo-small.png"
+boot_splash/fullsize=false
+boot_splash/use_filter=false
 config/icon="res://icon.png"
 
 [autoload]
