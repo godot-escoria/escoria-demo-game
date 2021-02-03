@@ -19,31 +19,31 @@ func on_action_selected() -> void:
 	current_action = escoria.esc_runner.current_action
 	update_tooltip_text()
 
-func element_focused(element_id : String) -> void:
-	printt("action_target_tooltip.gd:on_element_focused()", "Element focused: ", element_id)
-	
-	if element_id == "":
-		set_target("")
-		return
-	
-	var object = escoria.esc_runner.get_object(element_id)
-	
-	if object == null or !is_instance_valid(object):
-		escoria.report_warnings("action_target_tooltip.gd:on_element_focused()",
-			["Object exists but is not loaded for id " + element_id])
-		set_target(element_id)
-		return
-	
-	if !escoria.esc_runner.get_interactive(element_id) and !object is ESCInventoryItem:
-		set_target("")
-		return
-	
-	var wait_for_target = false
-	if object is ESCItem or object is ESCInventoryItem:
-		if current_action in object.combine_if_action_used_among:
-			wait_for_target = true
-	
-	set_target(object.tooltip_name, wait_for_target)
+#func element_focused(element_id : String) -> void:
+#	printt("action_target_tooltip.gd:on_element_focused()", "Element focused: ", element_id)
+#
+#	if element_id == "":
+#		set_target("")
+#		return
+#
+#	var object = escoria.esc_runner.get_object(element_id)
+#
+#	if object == null or !is_instance_valid(object):
+#		escoria.report_warnings("action_target_tooltip.gd:on_element_focused()",
+#			["Object exists but is not loaded for id " + element_id])
+#		set_target(element_id)
+#		return
+#
+#	if !escoria.esc_runner.get_interactive(element_id) and !object is ESCInventoryItem:
+#		set_target("")
+#		return
+#
+#	var wait_for_target = false
+#	if object is ESCItem or object is ESCInventoryItem:
+#		if current_action in object.combine_if_action_used_among:
+#			wait_for_target = true
+#
+#	set_target(object.tooltip_name, wait_for_target)
 
 
 func set_target(target : String, needs_second_target : bool = false) -> void:

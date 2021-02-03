@@ -2,7 +2,6 @@
 
 [ext_resource path="res://game/ui/ui_9verbs/verbs_menu.gd" type="Script" id=1]
 
-
 [node name="verbs_menu" type="Control"]
 margin_left = 1.0
 margin_right = 1.0

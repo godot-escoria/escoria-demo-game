@@ -24,10 +24,14 @@ Implement methods to react to inputs.
 
 - mousewheel_action(direction : int)
 
+- hide_ui()
+- show_ui()
 
+- _on_event_done(event_name: String)
 """
 
-signal element_focused(element_global_id)
+func _ready():
+	escoria.esc_runner.connect("event_done", self, "_on_event_done")
 
 
 func _input(event):
@@ -42,29 +46,27 @@ func _input(event):
 
 func left_click_on_bg(position : Vector2) -> void:
 	escoria.do("walk", ["player", position])
+	escoria.esc_runner.clear_current_action()
+	$ui/verbs_layer/verbs_menu.unselect_actions()
 	
 func right_click_on_bg(position : Vector2) -> void:
 	escoria.do("walk", ["player", position])
+	escoria.esc_runner.clear_current_action()
+	$ui/verbs_layer/verbs_menu.unselect_actions()
 	
 func left_double_click_on_bg(position : Vector2) -> void:
 	escoria.do("walk", ["player", position, true])
+	escoria.esc_runner.clear_current_action()
+	$ui/verbs_layer/verbs_menu.unselect_actions()
 
 
 ## ITEM FOCUS ## 
 
 func element_focused(element_id : String) -> void:
-	#emit_signal("element_focused", element_id)
-#	var target_obj = escoria.esc_runner.get_object(element_id)
-#	if escoria.esc_runner.current_action != "use" && escoria.esc_runner.current_tool == null:
-#		if target_obj is ESCItem or target_obj is ESCHotspot:
-#			$ui/verbs_layer/verbs_menu.set_by_name(target_obj.default_action)
-	pass
-
+	$ui/tooltip_layer/tooltip.set_target(escoria.esc_runner.get_object(element_id).tooltip_name)
 
 func element_unfocused() -> void:
-	#emit_signal("element_focused", "")
-	#$ui/verbs_layer/verbs_menu.set_by_name("walk")
-	pass
+	$ui/tooltip_layer/tooltip.set_target("")
 
 
 ## ITEMS ##
@@ -97,10 +99,10 @@ func left_double_click_on_inventory_item(inventory_item_global_id : String, even
 	pass
 
 func inventory_item_focused(inventory_item_global_id : String) -> void:
-	emit_signal("element_focused", inventory_item_global_id)
+	$ui/tooltip_layer/tooltip.set_target(escoria.esc_runner.get_object(inventory_item_global_id).tooltip_name)
 
 func inventory_item_unfocused() -> void:
-	emit_signal("element_focused", "")
+	$ui/tooltip_layer/tooltip.set_target("")
 
 
 func open_inventory():
@@ -124,3 +126,7 @@ func show_ui():
 	$ui/verbs_layer/verbs_menu.show()
 	$ui/inventory_layer/inventory_ui.show()
 	$ui/tooltip_layer/tooltip.show()
+
+func _on_event_done(event_name: String):
+	escoria.esc_runner.clear_current_action()
+	$ui/verbs_layer/verbs_menu.unselect_actions()

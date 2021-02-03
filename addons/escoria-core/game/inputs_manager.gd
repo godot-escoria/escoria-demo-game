@@ -1,7 +1,9 @@
 tool
 extends Node
 
-var is_hotspot_focused : bool
+onready var hover_stack : Array = []
+onready var hotspot_focused : String = ""
+
 
 func _ready():
 	set_process_input(true)
@@ -13,19 +15,19 @@ func _input(event):
 ###################################################################################
 
 func _on_left_click_on_bg(position : Vector2):
-	if !is_hotspot_focused:
+	if hotspot_focused.empty():
 		printt("Left click on background at ", str(position))
 		escoria.main.current_scene.game.left_click_on_bg(position)
 
 
 func _on_double_left_click_on_bg(position : Vector2):
-	if !is_hotspot_focused:
+	if hotspot_focused.empty():
 		printt("Double left click on background at ", str(position))
 		escoria.main.current_scene.game.left_double_click_on_bg(position)
 
 
 func _on_right_click_on_bg(position : Vector2):
-	if !is_hotspot_focused:
+	if hotspot_focused.empty():
 		printt("Right click on background at ", str(position))
 		escoria.main.current_scene.game.right_click_on_bg(position)
 
@@ -54,15 +56,31 @@ func _on_mouse_exited_inventory_item() -> void:
 
 ##################################################################################
 
-func _on_mouse_entered_item(item_global_id : String) -> void:
-	printt("Item focused : ", item_global_id)
-	is_hotspot_focused = true
-	escoria.main.current_scene.game.element_focused(item_global_id)
+func _on_mouse_entered_item(item : ESCItem) -> void:
+	printt("Item focused : ", item.global_id)
+	
+	if !hover_stack.empty():
+		if item.z_index < hover_stack.back().z_index:
+			hover_stack.insert(hover_stack.size()-1, item)
+		else:
+			hover_stack.push_back(item)
+	else:
+		hover_stack.push_back(item)
+	
+	hotspot_focused = hover_stack.back().global_id
+	escoria.main.current_scene.game.element_focused(item.global_id)
 
-func _on_mouse_exited_item() -> void:
-	print("Item unfocused")
-	is_hotspot_focused = false
-	escoria.main.current_scene.game.element_unfocused()
+
+func _on_mouse_exited_item(item : ESCItem) -> void:
+	printt("Item unfocused : ", item.global_id)
+	hover_stack.erase(item)
+	if hover_stack.empty():
+		hotspot_focused = ""
+		escoria.main.current_scene.game.element_unfocused()
+	else:
+		hotspot_focused = hover_stack.back().global_id
+		escoria.main.current_scene.game.element_focused(hotspot_focused)
+	
 	
 func _on_mouse_left_clicked_item(item_global_id : String, event : InputEvent) -> void:
 	printt("Item left clicked", item_global_id, event)

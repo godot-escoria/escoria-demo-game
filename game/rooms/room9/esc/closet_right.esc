@@ -2,6 +2,10 @@
 
 
 :open
+> [right_closet_open]
+	stop
+
+set_global right_closet_open true
 inc_global open_closets 1
 	
 > [lt open_closets 3]

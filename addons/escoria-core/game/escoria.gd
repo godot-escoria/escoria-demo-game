@@ -126,7 +126,7 @@ func do(action : String, params : Array = []) -> void:
 		match action:
 			"walk":
 				# Reset current action. 
-				esc_runner.set_current_action("")
+				esc_runner.clear_current_action()
 				
 				# Check moving object.
 				if !escoria.esc_runner.check_obj(params[0], "escoria.do(walk)"):
@@ -262,7 +262,6 @@ func ev_left_click_on_item(obj, event, default_action = false):
 	
 	# If no interaction should happen after player has arrived, leave immediately.
 	if dont_interact:
-		print("DONT INTERACT WAS TRUE")
 		return
 	
 	var player_global_pos = main.current_scene.player.global_position

@@ -53,6 +53,7 @@ script = ExtResource( 7 )
 global_id = "r2_r_exit"
 esc_script = "res://game/rooms/room2/esc/right_exit.esc"
 is_exit = true
+tooltip_name = "Right exit"
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
 "default": Vector2( 1225.47, 353.99 )
@@ -69,6 +70,7 @@ script = ExtResource( 7 )
 global_id = "r2_l_exit"
 esc_script = "res://game/rooms/room2/esc/left_exit.esc"
 is_exit = true
+tooltip_name = "Left exit"
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
 "default": Vector2( 52.1462, 384.691 )
@@ -84,6 +86,7 @@ position = Vector2( 52.1462, 384.691 )
 position = Vector2( 958.107, 176.401 )
 global_id = "r2_button_right"
 esc_script = "res://game/rooms/room2/esc/button.esc"
+dialog_color = Color( 0, 1, 0.109804, 1 )
 interact_positions = {
 "default": Vector2( 987.537, 371.812 )
 }
@@ -98,6 +101,7 @@ __meta__ = {
 position = Vector2( 288.82, 171.439 )
 global_id = "r2_button"
 esc_script = "res://game/rooms/room2/esc/button.esc"
+dialog_color = Color( 0, 1, 0.109804, 1 )
 interact_positions = {
 "default": Vector2( 313.488, 368.437 )
 }

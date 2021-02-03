@@ -375,7 +375,7 @@ func change_scene(params, context, run_events=true):
 		# Finally we add the setup on to of the events stack so that it is ran first
 		run_event(events["setup"])
 		
-		escoria.inputs_manager.is_hotspot_focused = false
+		escoria.inputs_manager.hotspot_focused = ""
 		if !scenes_cache_list.has(params[0]):
 			scenes_cache_list.push_back(params[0])
 			scenes_cache[room_scene.global_id] = params[0]
@@ -431,7 +431,7 @@ func superpose_scene(params, context, run_events=true):
 		get_node("/root").add_child(room_scene)
 	
 		
-		escoria.inputs_manager.is_hotspot_focused = false
+		escoria.inputs_manager.hotspot_focused = false
 		if !scenes_cache_list.has(params[0]):
 			scenes_cache_list.push_back(params[0])
 			if room_scene.get("global_id"):

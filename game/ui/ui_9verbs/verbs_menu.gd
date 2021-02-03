@@ -17,3 +17,6 @@ func _on_action_selected(action : String):
 	for but in $actions.get_children():
 		but.set_pressed(but.get_name() == action)
 	
+func unselect_actions():
+	for but in $actions.get_children():
+		but.set_pressed(false)

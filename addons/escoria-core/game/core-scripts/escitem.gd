@@ -9,8 +9,8 @@ func get_class():
 ESCItem is a Sprite that defines an item, potentially interactive
 """
 
-signal mouse_entered_item(global_id)
-signal mouse_exited_item
+signal mouse_entered_item(item)
+signal mouse_exited_item(item)
 signal mouse_left_clicked_item(global_id)
 signal mouse_double_left_clicked_item(global_id)
 signal mouse_right_clicked_item(global_id)
@@ -183,10 +183,10 @@ func manage_input(viewport : Viewport, event : InputEvent, shape_idx : int):
 		
 
 func _on_mouse_entered():
-	emit_signal("mouse_entered_item", global_id)
+	emit_signal("mouse_entered_item", self)
 
 func _on_mouse_exited():
-	emit_signal("mouse_exited_item")
+	emit_signal("mouse_exited_item",  self)
 
 ################################################################################
 

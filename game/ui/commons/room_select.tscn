@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://game/ui/commons/room_select.gd" type="Script" id=1]
+
+[node name="room_select" type="HBoxContainer"]
+margin_right = 63.0
+margin_bottom = 40.0005
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="option" type="OptionButton" parent="."]
+margin_right = 29.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+
+[node name="button" type="Button" parent="."]
+margin_left = 33.0
+margin_right = 63.0
+margin_bottom = 40.0
+text = "Go"
+
+[connection signal="item_selected" from="option" to="option" method="_on_option_item_selected"]
+[connection signal="pressed" from="button" to="option" method="_on_button_pressed"]
