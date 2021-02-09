@@ -33,7 +33,7 @@ say player "I don't think he'd like that."
 		
 
 :use r5_filled_sheet
-say player "I'll give you this!"
+jump give r5_filled_sheet
 
 :give r5_filled_sheet
 inventory_remove r5_filled_sheet

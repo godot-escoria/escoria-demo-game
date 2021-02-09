@@ -95,6 +95,8 @@ polygon = PoolVector2Array( -2.71457, 437.818, 6.6293, 121.462, 89.3893, 74.7422
 position = Vector2( 44.1375, 384.691 )
 
 [node name="button" parent="Hotspots" instance=ExtResource( 7 )]
+global_id = "r3_button"
+esc_script = "res://game/rooms/room3/esc/button.esc"
 interact_positions = {
 "default": Vector2( 347.767, 378.011 )
 }

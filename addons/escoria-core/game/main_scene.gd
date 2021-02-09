@@ -5,6 +5,8 @@ extends Node
 
 func _ready():
 	var main_menu_path = ProjectSettings.get_setting("escoria/main/main_menu_scene")
-	var main_menu = escoria.change_scene_path(main_menu_path)
-	escoria.set_main_menu(main_menu)
+	var main_menu_scene = load(main_menu_path).instance()
+	get_tree().get_root().call_deferred("add_child", main_menu_scene)
+	escoria.set_main_menu(main_menu_scene)
+	
 

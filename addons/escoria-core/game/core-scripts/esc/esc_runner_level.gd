@@ -1,13 +1,9 @@
 extends Node
 
-# This script runs the ESCCommands contained in the ESCEvent.
+# This script implements the ESCCommands contained in the ESCEvent.
+# TODO : this script should use "Command" pattern.
 
 var current_context
-onready var esc_runner = get_parent()
-
-
-func _ready():
-	pass
 
 
 func finished(context = null):
@@ -26,10 +22,10 @@ func resume(context):
 		return esctypes.EVENT_LEVEL_STATE.YIELD
 	var count = context.instructions.size()
 	while context.ip < count:
-		var top = esc_runner.levels_stack.size()
+		var top = escoria.esc_runner.levels_stack.size()
 		var ret = run(context)
 		context.ip += 1
-		if top < esc_runner.levels_stack.size():
+		if top < escoria.esc_runner.levels_stack.size():
 			return esctypes.EVENT_LEVEL_STATE.CALL
 		if ret == esctypes.EVENT_LEVEL_STATE.YIELD:
 			return esctypes.EVENT_LEVEL_STATE.YIELD
@@ -52,11 +48,11 @@ func run(context):
 	var cmd = context.instructions[context.ip]
 	if cmd.name == "label":
 		return esctypes.EVENT_LEVEL_STATE.RETURN
-	if !esc_runner.test(cmd):
+	if !escoria.esc_runner.test(cmd):
 		return esctypes.EVENT_LEVEL_STATE.RETURN
 	#print("name is ", cmd.name)
 	#if !(cmd.name in self):
-	#	esc_runner.report_errors("", ["Unexisting command "+cmd.name])
+	#	escoria.logger.report_errors("", ["Unexisting command "+cmd.name])
 	return call(cmd.name, cmd.params)
 
 
@@ -137,18 +133,28 @@ func camera_push(command_params : Array):
 	escoria.esc_runner.get_object("camera").push(target, time, type)
 
 
+"""
+camera_set_limits camlimits_id 
+Sets the camera limits to the one defined under "camlimits_id" in ESCRoom's 
+camera_limits array.
+- camlimits_id : int : id of the camera limits to apply (defined in ESCRoom's 
+camera_limits array)
+"""
 func camera_set_limits(command_params : Array):
 	escoria.main.set_camera_limits(command_params[0])
 
 
 """
-camera_set_drag_margin_enabled h v 
-- "h" and "v" are booleans for whether or not horizontal and vertical drag 
+camera_set_drag_margin_enabled horizontal_enabled vertical_enabled 
+- horizontal_enabled : bool
+- vertical_enabled : bool are booleans for whether or not horizontal and vertical drag 
 margins are enabled. You will likely want to set them false for advanced camera 
 motions and true for regular gameplay and/or tracking NPCs.
 """
-func camera_set_drag_margin_enabled():
-	pass
+func camera_set_drag_margin_enabled(command_params : Array):
+	var horizontal_enabled = command_params[0]
+	var vertical_enabled = command_params[1]
+	escoria.esc_runner.get_object("camera").set_drag_margin_enabled(horizontal_enabled, vertical_enabled)
 
 
 """
@@ -157,11 +163,10 @@ Moves the camera to a position defined by "x" and "y", at the speed defined by
 "speed" in pixels per second. If speed is 0, camera is teleported to the position.
 """
 func camera_set_pos(command_params : Array):
-#	var speed = command_params[0]
-#	var x = command_params[1]
-#	var y = command_params[2]
-#	escoria.esc_runner.get_object("camera").set_pos(speed, x, y)
-	pass
+	var speed = command_params[0]
+	var pos = Vector2(command_params[1], command_params[2])
+	escoria.esc_runner.get_object("camera").set_target(pos, speed)
+	
 
 """
 camera_set_target speed object [object2 object3 ...] 
@@ -193,8 +198,10 @@ func camera_set_zoom(command_params : Array):
 camera_set_zoom_height pixels [time] 
 Similar to the command above, but uses pixel height instead of magnitude to zoom.
 """
-func camera_set_zoom_height():
-	pass
+func camera_set_zoom_height(command_params : Array):
+	var magnitude = command_params[0] / escoria.game_size.y
+	var time = command_params[1] if command_params.size() > 1 else 0
+	escoria.esc_runner.get_object("camera").set_camera_zoom(magnitude, float(time))
 
 
 """
@@ -369,18 +376,25 @@ func inventory_remove(command_params : Array):
 
 
 """
-TODO: This is dependant to the user UI. It must remain flexible enough.
+inventory_open true/false
+Shows or hides inventory. Uses code in game.tscn scene, thus developed outside of Escoria.
 """
-func inventory_open(command_params : Array):
-	pass
+func inventory_display(command_params : Array):
+	var display : bool = bool(command_params[0])
+	if display:
+		escoria.main.current_scene.game.open_inventory()
+	else:
+		escoria.main.current_scene.game.close_inventory()
 
 
 """
+jump label_name
+Jump to label_name block. Labels are blocks defined the same way as action_verbs:
+	:label
 """
 func jump(command_params : Array):
-#	escoria.esc_runner.jump(command_params[0])
-#	return esctypes.EVENT_LEVEL_STATE.JUMP
-	pass
+	escoria.esc_runner.jump(command_params[0])
+	return esctypes.EVENT_LEVEL_STATE.JUMP
 
 """
 """
@@ -389,21 +403,34 @@ func play_snd(command_params : Array):
 
 
 """
+queue_animation object animation
 """
 func queue_animation(command_params : Array):
 	pass
 
 
 """
+queue_resource path [front_of_queue]
+Queues the load of a resource in a background thread. The path must be a full 
+path inside your game, for example "res://scenes/next_scene.tscn". 
+The "front_of_queue" parameter is optional (default value false), to put the 
+resource in the front of the queue. Queued resources are cleared when a change 
+scene happens (but after the scene is loaded, meaning you can queue resources 
+that belong to the next scene).
 """
 func queue_resource(command_params : Array):
-	pass
+	var path : String = command_params[0]
+	var in_front : bool = command_params[1] if command_params.size() > 1 else false
+	escoria.esc_runner.resource_cache.queue_resource(path, in_front)
 
 
 """
+repeat
+Restarts the execution of the current scope at the start. A scope can be a group
+or an event.
 """
 func repeat(command_params : Array):
-	pass
+	return esctypes.EVENT_LEVEL_STATE.REPEAT
 
 
 """
@@ -419,7 +446,9 @@ func say(command_params : Array) -> esctypes:
 	var dialog_scene_name = ProjectSettings.get_setting("escoria/ui/default_dialog_scene")
 	
 	if dialog_scene_name.empty():
-		escoria.report_errors("level_esc_runners.gd:say()", ["Project setting 'escoria/ui/default_dialog_scene' is not set. Please set a default dialog scene."])
+		escoria.logger.report_errors("level_esc_runners.gd:say()", 
+			["Project setting 'escoria/ui/default_dialog_scene' is not set.", 
+			"Please set a default dialog scene."])
 	var file = dialog_scene_name.get_file()
 	var extension = dialog_scene_name.get_extension()
 	dialog_scene_name = file.rstrip("." + extension)
@@ -442,8 +471,9 @@ func say(command_params : Array) -> esctypes:
 
 
 """
-Sets object as active or inactive. Active objects are displayed in scene and respond
-to inputs. Inactives are hidden.
+set_active global_id true/false
+Sets object as active or inactive. Active objects are displayed in scene and 
+respond to inputs. Inactives are hidden.
 """
 func set_active(command_params : Array):
 	if !escoria.esc_runner.check_obj(command_params[0], "set_active"):
@@ -453,8 +483,8 @@ func set_active(command_params : Array):
 	escoria.esc_runner.set_active(name, value)
 
 """
+set_angle object_id angle_degrees
 Set the angle of an object. 
-Usage: set_angle object_id angle_degrees
 """
 func set_angle(command_params : Array):
 	if !escoria.esc_runner.check_obj(command_params[0], "set_angle"):
@@ -468,6 +498,9 @@ func set_angle(command_params : Array):
 
 
 """
+set_state object_id state_name
+Set object state to state_name. States are recorded in escoria.states[].
+If the object has an animation named 'state_name', Escoria plays it.
 """
 func set_state(command_params : Array):
 	var global_id : String = command_params[0]
@@ -476,9 +509,14 @@ func set_state(command_params : Array):
 
 
 """
+set_hud_visible true/false
+Hides the UI. Uses code in game.tscn scene, thus developed outside of Escoria.
 """
 func set_hud_visible(command_params : Array):
-	pass
+	if command_params[0]:
+		escoria.main.current_scene.game.show_ui()
+	else:
+		escoria.main.current_scene.game.hide_ui()
 
 
 """
@@ -488,6 +526,8 @@ func sched_event(command_params : Array):
 
 
 """
+set_global global_variable value 
+Sets a global variable value. Value can be string, integer or boolean.
 """
 func set_global(command_params : Array):
 	var name : String = command_params[0]
@@ -509,22 +549,38 @@ func set_globals(command_params : Array):
 
 
 """
+set_interactive global_id true/false
+Sets object as interactive or not. Interactive objects can be pointed and 
+interacted with.
 """
 func set_interactive(command_params : Array):
-	var name : String = command_params[0]
+	var global_id : String = command_params[0]
 	var value = command_params[1]
-	escoria.esc_runner.set_interactive(name, value)
+	escoria.esc_runner.set_interactive(global_id, value)
 
 
 """
+set_speed global_id speed_value
+Sets the speed of object defined by 'global_id' to 'speed_value'
 """
 func set_speed(command_params : Array):
-	pass
+	if !escoria.esc_runner.check_obj(command_params[0], "set_speed"):
+		return esctypes.EVENT_LEVEL_STATE.RETURN
+	
+	var global_id : String = command_params[0]
+	var speed_value = command_params[1]
+	escoria.get_object(global_id).set_speed(speed_value)
 
 
 """
 """
 func slide(command_params : Array):
+	pass
+
+
+"""
+"""
+func slide_to_pos(command_params : Array):
 	pass
 
 
@@ -536,11 +592,22 @@ func slide_block(command_params : Array):
 
 """
 """
-func spawn(command_params : Array):
+func slide_to_pos_block(command_params : Array):
 	pass
 
 
 """
+spawn path [object2]
+Instances a scene determined by "path", and places in the position of object2 
+(object2 is optional)
+"""
+func spawn(command_params : Array):
+	superpose_scene(command_params)
+
+"""
+stop
+Stops the execution of the current script when it reaches the 'stop' instruction.
+Usually used in the end of commands blocks.
 """
 func stop(command_params : Array):
 	return esctypes.EVENT_LEVEL_STATE.BREAK
@@ -560,7 +627,10 @@ func superpose_scene(command_params : Array):
 	# Savegames must have events disabled, so saving the game adds a false to params
 	var run_events = true
 	if command_params.size() == 2:
-		run_events = bool(command_params[1])
+		if command_params[1] in ["true", "false"]:
+			run_events = true if command_params[1] == "true" else false
+		else:
+			current_context["set_position"] = command_params[1]
 	
 	# looking for localized string format in scene. this should be somewhere else
 	var sep = command_params[0].find(":\"")
@@ -575,9 +645,9 @@ func superpose_scene(command_params : Array):
 
 
 """
+teleport obj1 obj2 [angle_degrees]
 Teleports obj1 at obj2's position. If angle_degrees is set (int), sets obj1's 
 angle to angle_degrees.
-Usage: teleport obj1 obj2 [angle_degrees]
 """
 func teleport(command_params : Array):
 	if !escoria.esc_runner.check_obj(command_params[0], "teleport"):
@@ -595,9 +665,22 @@ func teleport(command_params : Array):
 
 
 """
+teleport obj1 x y [angle_degrees]
+Teleports obj1 at (x,y). If angle_degrees is set (int), sets obj1's 
+angle to angle_degrees.
 """
 func teleport_pos(command_params : Array):
-	pass
+	if !escoria.esc_runner.check_obj(command_params[0], "teleport"):
+		return esctypes.EVENT_LEVEL_STATE.RETURN
+	var x = command_params[1]
+	var y = command_params[2]
+
+	var angle
+	if command_params.size() > 2:
+		angle = int(command_params[3])
+
+	escoria.esc_runner.get_object(command_params[0]).teleport(Vector2(x,y), angle)
+	return esctypes.EVENT_LEVEL_STATE.RETURN
 
 
 """
@@ -622,29 +705,48 @@ func wait(command_params : Array):
 
 
 """
+walk object_id1 object_id2
 Make object1 walk towards object2. This command is not blocking (user input not disabled)
-Usage: walk object_id1 object_id2
 """
 func walk(command_params : Array):
+	current_context.waiting = false
+	escoria.do("walk", command_params)
+	return esctypes.EVENT_LEVEL_STATE.RETURN
+
+
+"""
+walk_block object_id1 object_id2
+Make object1 walk towards object2. This command is blocking (user input disabled)
+"""
+func walk_block(command_params : Array):
 	current_context.waiting = true
 	escoria.do("walk", command_params)
 	return esctypes.EVENT_LEVEL_STATE.YIELD
 
+
 """
+walk_to_pos object_id1 pos_x pos_y
 Make object1 walk towards object2. This command is not blocking (user input not disabled)
-Usage: walk_to_pos object_id1 pos_x pos_y
 """
 func walk_to_pos(command_params : Array):
+	current_context.waiting = false
+	var destination_pos = Vector2(command_params[1], command_params[2])
+	escoria.do("walk", [command_params[0], destination_pos])
+	return esctypes.EVENT_LEVEL_STATE.RETURN
+	
+"""
+walk_to_pos_block object_id1 pos_x pos_y
+Make object1 walk towards object2. This command is blocking (user input disabled)
+"""
+func walk_to_pos_block(command_params : Array):
 	current_context.waiting = true
 	var destination_pos = Vector2(command_params[1], command_params[2])
 	escoria.do("walk", [command_params[0], destination_pos])
 	return esctypes.EVENT_LEVEL_STATE.YIELD
 
 
-"""
-"""
-func walk_block(command_params : Array):
-	pass
+
+
 
 
 

@@ -23,7 +23,7 @@ func add_item(inventory_item : ESCInventoryItem):
 	center_container.size_flags_horizontal = SIZE_EXPAND_FILL
 	center_container.connect("mouse_entered", inventory_item, "_on_inventory_item_mouse_enter")
 	center_container.connect("mouse_exited", inventory_item, "_on_inventory_item_mouse_exit")
-	center_container.connect("gui_input", self, "_on_gui_input", [inventory_item])
+#	center_container.connect("gui_input", self, "_on_gui_input", [inventory_item])
 	center_container.add_child(inventory_item)
 	add_child(center_container)
 	current_nodes_in_container[inventory_item] = center_container
@@ -33,7 +33,7 @@ func remove_item(inventory_item : ESCInventoryItem):
 	current_nodes_in_container.erase(node_to_remove)
 	node_to_remove.disconnect("mouse_entered", inventory_item, "_on_inventory_item_mouse_enter")
 	node_to_remove.disconnect("mouse_exited", inventory_item, "_on_inventory_item_mouse_exit")
-	node_to_remove.disconnect("pressed", self, "_on_gui_input")
+#	node_to_remove.disconnect("pressed", self, "_on_gui_input")
 	remove_child(node_to_remove)
 	node_to_remove.queue_free()
 	

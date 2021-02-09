@@ -43,7 +43,7 @@ func say(character : String, params : Dictionary) :
 	set_current_character(character)
 	
 	if !params["line"]:
-		escoria.report_errors("dialog_box_inset.gd:say()", ["No line field in params!"])
+		escoria.logger.report_errors("dialog_box_inset.gd:say()", ["No line field in params!"])
 		return
 	
 	text_node.bbcode_text = params["line"]

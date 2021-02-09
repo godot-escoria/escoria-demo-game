@@ -132,7 +132,6 @@ func load_autosave(p_callback):
 
 
 func _do_load(fname):
-
 	var f = File.new()
 	if !f.file_exists(fname):
 		return null

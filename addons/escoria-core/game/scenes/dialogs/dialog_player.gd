@@ -40,7 +40,7 @@ func preload_resources(path : String):
 						add_resource(basename, dialog_scene)
 			file_name = dialog_folder.get_next()
 	else:
-		escoria.report_errors("dialog_player.gd:preload_resources()", ["An error occurred when trying to access the path: {_}.".format(path)])
+		escoria.logger.report_errors("dialog_player.gd:preload_resources()", ["An error occurred when trying to access the path: {_}.".format(path)])
 
 
 func say(character : String, params : Dictionary):
@@ -60,7 +60,7 @@ func finish_fast():
 #    timeout_option: (default value 0) option selected when timeout is reached.
 func start_dialog_choices(answers : Array, options : Array):
 	if answers.empty():
-		escoria.report_errors("dialog_player.gd:start_dialog_choices()", ["Received answers array was empty."])
+		escoria.logger.report_errors("dialog_player.gd:start_dialog_choices()", ["Received answers array was empty."])
 	dialog_chooser_ui = get_resource("text_dialog_choice").instance()
 	get_parent().add_child(dialog_chooser_ui)
 	dialog_chooser_ui.set_answers(answers)

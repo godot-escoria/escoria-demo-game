@@ -6,8 +6,9 @@ onready var tween = $"tween"
 var default_limits = {}  # This does not change once set
 
 var speed = 0.0
+# Target can be object or Vector2. See resove_target_pos()
 var target
-var target_pos
+var target_pos : Vector2
 
 var zoom_time
 var zoom_target
@@ -72,6 +73,7 @@ func set_target(p_target, p_speed : float = 0.0):
 	target = p_target
 
 	resolve_target_pos()
+	escoria.logger.info("Current camera position = " + str(self.global_position))
 
 	if speed == 0.0:
 		self.global_position = target_pos
@@ -80,7 +82,7 @@ func set_target(p_target, p_speed : float = 0.0):
 
 		if tween.is_active():
 			var tweenstat = String(tween.tell()) + "/" + String(tween.get_runtime())
-			escoria.report_warnings("camera.gd:set_target()", 
+			escoria.logger.report_warnings("camera.gd:set_target()", 
 				["Tween still active running camera_set_target: " + tweenstat])
 			tween.emit_signal("tween_completed")
 
@@ -90,7 +92,7 @@ func set_target(p_target, p_speed : float = 0.0):
 
 func set_camera_zoom(p_zoom_level, p_time):
 	if p_zoom_level <= 0.0:
-		escoria.report_errors("camera.gd:set_camera_zoom()", 
+		escoria.logger.report_errors("camera.gd:set_camera_zoom()", 
 			["Tried to set negative or zero zoom level"])
 
 	zoom_time = p_time
@@ -101,7 +103,7 @@ func set_camera_zoom(p_zoom_level, p_time):
 	else:
 		if tween.is_active():
 			var tweenstat = String(tween.tell()) + "/" + String(tween.get_runtime())
-			escoria.report_warnings("camera", 
+			escoria.logger.report_warnings("camera", 
 				["Tween still active running camera_set_zoom: " + tweenstat])
 			tween.emit_signal("tween_completed")
 
@@ -132,7 +134,7 @@ func push(p_target, p_time, p_type):
 	else:
 		if tween.is_active():
 			var tweenstat = String(tween.tell()) + "/" + String(tween.get_runtime())
-			escoria.report_warnings("camera", 
+			escoria.logger.report_warnings("camera", 
 				["Tween still active running camera_push: " + tweenstat])
 			tween.emit_signal("tween_completed")
 
@@ -156,7 +158,7 @@ func shift(p_x, p_y, p_time, p_type):
 
 	if tween.is_active():
 		var tweenstat = String(tween.tell()) + "/" + String(tween.get_runtime())
-		escoria.report_warnings("camera", 
+		escoria.logger.report_warnings("camera", 
 			["Tween still active running camera_shift: " + tweenstat])
 		tween.emit_signal("tween_completed")
 	

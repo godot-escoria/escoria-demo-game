@@ -345,6 +345,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="button_camera_set_pos" parent="Hotspots" instance=ExtResource( 3 )]
+position = Vector2( 910.482, 1464.03 )
+global_id = "r7_button_set_pos"
+esc_script = "res://game/rooms/room7/esc/button_set_pos.esc"
+interact_positions = {
+"default": Vector2( 682.785, 1765.65 )
+}
+
+[node name="Position2D" type="Position2D" parent="Hotspots/button_camera_set_pos"]
+position = Vector2( 350.258, 301.616 )
+
+[node name="Label" type="Label" parent="Hotspots/button_camera_set_pos"]
+margin_left = 292.919
+margin_top = 96.8108
+margin_right = 390.919
+margin_bottom = 112.811
+custom_fonts/font = ExtResource( 5 )
+text = "Camera_set_pos"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="trigger_left" type="Area2D" parent="Hotspots"]
 position = Vector2( 406, 0 )
 script = ExtResource( 7 )

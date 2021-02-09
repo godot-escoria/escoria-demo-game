@@ -88,7 +88,7 @@ func _process(time):
 					else:
 						bypass_missing_animation = true
 						current_animation = animation_to_play
-						escoria.report_warnings("movable.gd:_process()", 
+						escoria.logger.report_warnings("movable.gd:_process()", 
 							["Character " + parent.global_id + " has no animation " + animation_to_play,
 							"Bypassing missing animation and proceed movement."], true)
 			
@@ -106,16 +106,18 @@ func teleport(target, angle : Object = null) -> void:
 	target can be Vector2 or Object
 	"""
 	if typeof(target) == TYPE_VECTOR2:
-		printt("Item teleported at position", target, "with angle", angle)
+		escoria.logger.info("Object " + target + " teleported at position" + 
+			str(target) + "with angle", [angle])
 		parent.position = target
 	elif typeof(target) == TYPE_OBJECT:
 		if target.get("interact_positions") != null:
 			parent.position = target.interact_positions.default #.global_position
 		else:
 			parent.position = target.position
-		printt("Item teleported at", target.name, "position", parent.position, "with angle", angle)
+		escoria.logger.info("Object " + target.name + " teleported at position " 
+			+ str(parent.position) + " with angle ", str(angle))
 	else:
-		escoria.report_errors("escitem.gd:teleport()", ["Target to teleport to is null or unusable (" + target + ")"])
+		escoria.logger.report_errors("escitem.gd:teleport()", ["Target to teleport to is null or unusable (" + target + ")"])
 
 # PUBLIC FUNCTION
 func walk_to(pos : Vector2, p_walk_context = null):
@@ -208,7 +210,7 @@ func walk_stop(pos):
 #		walk_context = null
 	
 	yield(parent.animation_sprite, "animation_finished")
-	printt(parent.global_id + " arrived at ", walk_context)
+	escoria.logger.info(parent.global_id + " arrived at " + str(walk_context))
 	parent.emit_signal("arrived", walk_context)
 
 
@@ -271,7 +273,7 @@ func _get_dir_deg(deg : int, animations) -> int:
 
 	# It's an error to have the animations misconfigured
 	if dir == -1:
-		escoria.report_errors("escitem.gd:_get_dir_deg()", ["No direction found for " + str(deg)])
+		escoria.logger.report_errors("escitem.gd:_get_dir_deg()", ["No direction found for " + str(deg)])
 	
 	return dir
 
@@ -315,7 +317,7 @@ Whatever the implementation, this should be activated using "parameter "immediat
 """
 func set_angle(deg : int, immediate = true):
 	if deg < 0 or deg > 360:
-			escoria.report_errors("movable.gd:set_angle()", ["Invalid degree to turn to " + str(deg)])
+		escoria.logger.report_errors("movable.gd:set_angle()", ["Invalid degree to turn to " + str(deg)])
 	moved = true
 	last_deg = deg
 	last_dir = _get_dir_deg(deg, parent.animations)

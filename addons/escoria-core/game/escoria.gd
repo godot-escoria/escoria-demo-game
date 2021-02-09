@@ -26,9 +26,8 @@ enum GAME_STATE {
 }
 onready var current_state = GAME_STATE.DEFAULT
 
+onready var game_size = get_viewport().size
 
-# Logging
-onready var is_reported : bool = false
 
 ##################################################################################
 func _ready():
@@ -41,42 +40,9 @@ func new_game():
 	$esc_runner.run_game(actions)
 
 
-func change_scene_path(scene_path):
-	var scene = load(scene_path).instance()
-	get_tree().get_root().call_deferred("add_child", scene)
-	return scene
-
-
 func set_main_menu(scene):
 	main_menu_instance = scene
 
-func report_warnings(p_path : String, warnings : Array, report_once = false) -> void:
-	if !is_reported:
-		var text = "Warnings in file "+p_path+"\n"
-		for w in warnings:
-			if w is Array:
-				text += str(w)+"\n"
-			else:
-				text += w+"\n"
-		printerr("warning is: ", text)
-	
-	if report_once:
-		is_reported = true
-
-
-func report_errors(p_path : String, errors : Array) -> void:
-	var text = "Errors in file "+p_path+"\n"
-	for e in errors:
-		if e is Array:
-			text += str(e)+"\n"
-		else:
-			text += e+"\n"
-	printerr("error is: ", text)
-	if ProjectSettings.get_setting("escoria/debug/terminate_on_errors"):
-		print_stack()
-		assert(false)
-		# If your game stopped here, you may want to look at the Output tab and check for 
-		# the error that caused the game to stop.
 
 
 """
@@ -113,8 +79,6 @@ func register_object(object : Object):
 	if object is ESCInventory:
 		inventory = object
 	
-	if object is ESCTriggerZone:
-		$esc_runner.register_object(object_id, object, true)
 		
 
 """
@@ -130,7 +94,7 @@ func do(action : String, params : Array = []) -> void:
 				
 				# Check moving object.
 				if !escoria.esc_runner.check_obj(params[0], "escoria.do(walk)"):
-					report_errors("escoria.gd:do()", 
+					escoria.logger.report_errors("escoria.gd:do()", 
 						["Walk action requested on inexisting object: " + params[0]])
 					return
 				
@@ -148,7 +112,7 @@ func do(action : String, params : Array = []) -> void:
 				# Walk to object from its id
 				elif params[1] is String:
 					if !escoria.esc_runner.check_obj(params[1], "escoria.do(walk)"):
-						report_errors("escoria.gd:do()", 
+						escoria.logger.report_errors("escoria.gd:do()", 
 							["Walk action requested TOWARDS inexisting object: " + params[1]])
 						return
 					
@@ -164,34 +128,32 @@ func do(action : String, params : Array = []) -> void:
 							
 			"item_left_click":
 				if params[0] is String:
-					printt("escoria.do : item_left_click on item ", params[0])
+					escoria.logger.info("escoria.do() : item_left_click on item ", [params[0]])
 					var item = $esc_runner.get_object(params[0])
 					ev_left_click_on_item(item, params[1])
 					
 			"item_right_click":
 				if params[0] is String:
-					printt("escoria.do : item_right_click on item ", params[0])
+					escoria.logger.info("escoria.do() : item_right_click on item ", [params[0]])
 					ev_left_click_on_item($esc_runner.get_object(params[0]), params[1], true)
 			
 			"trigger_in":
 				var trigger_id = params[0]
 				var object_id = params[1]
 				var trigger_in_verb = params[2]
-				printt("escoria.do() : trigger_in ", trigger_id, " by ", object_id)
+				escoria.logger.info("escoria.do() : trigger_in " + trigger_id + " by " + object_id)
 				esc_runner.run_event(esc_runner.objects_events_table[trigger_id][trigger_in_verb])
 			
 			"trigger_out":
 				var trigger_id = params[0]
 				var object_id = params[1]
 				var trigger_out_verb = params[2]
-				printt("escoria.do() : trigger_out ", trigger_id, " by ", object_id)
+				escoria.logger.info("escoria.do() : trigger_out " + trigger_id + " by " + object_id)
 				esc_runner.run_event(esc_runner.objects_events_table[trigger_id][trigger_out_verb])
 			
 			_:
-#				$esc_runner.activate(action, params[0])
-				report_warnings("escoria.gd:do()", ["Action received:", action, "with params ", params])
-#	elif current_state == GAME_STATE.DIALOG:
-#		dialog_player.finish_fast()
+				escoria.logger.report_warnings("escoria.gd:do()", 
+					["Action received:", action, "with params ", params])
 	elif current_state == GAME_STATE.WAIT:
 		pass
 		
@@ -206,7 +168,7 @@ func ev_left_click_on_item(obj, event, default_action = false):
 	"""
 	if obj is String:
 		obj = esc_runner.objects[obj]
-	printt(obj.global_id, "left-clicked with", event)
+	escoria.logger.info(obj.global_id + " left-clicked with event ", [event])
 	
 	var need_combine = false
 	# Check if current_action and current_tool are already set
@@ -250,7 +212,7 @@ func ev_left_click_on_item(obj, event, default_action = false):
 		
 		# Wait for the player to arrive before continuing with action.
 		var context = yield(main.current_scene.player, "arrived")
-		printt("context arrived: ", context)
+		escoria.logger.info("Context arrived: ", [context])
 		if context.has("target_object") and walk_context.has("target_object"):
 			if (context.target_object.global_id != walk_context.target_object.global_id) \
 				or (context.target_object.global_id == walk_context.target_object.global_id and is_already_walking):

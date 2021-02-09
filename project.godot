@@ -59,11 +59,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/escterrain.gd"
 }, {
-"base": "Area2D",
-"class": "ESCTriggerZone",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esctriggerzone.gd"
-}, {
 "base": "Node",
 "class": "Movable",
 "language": "GDScript",
@@ -80,7 +75,6 @@ _global_script_class_icons={
 "ESCPlayer": "",
 "ESCRoom": "",
 "ESCTerrain": "",
-"ESCTriggerZone": "",
 "Movable": ""
 }
 
@@ -91,6 +85,7 @@ run/main_scene="res://addons/escoria-core/game/main_scene.tscn"
 boot_splash/image="res://addons/escoria-core/logo/escoria-logo-small.png"
 boot_splash/fullsize=false
 boot_splash/use_filter=false
+boot_splash/bg_color=Color( 0.960784, 0.384314, 0, 1 )
 config/icon="res://icon.png"
 
 [autoload]

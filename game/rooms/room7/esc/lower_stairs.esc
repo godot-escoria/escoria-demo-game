@@ -2,16 +2,6 @@
 
 say player "movin up"
 
-
-#camera_push player 1 LINEAR
-#camera_set_drag_margin_enabled bool bool
-#camera_set_pos real int int
-#camera_set_target real
-#camera_set_zoom real
-#camera_set_zoom_height int
-#camera_shift int int
-
-
 teleport player r7_upper_stairs
 set_angle player 270
 camera_set_limits 2

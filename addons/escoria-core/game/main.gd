@@ -20,7 +20,7 @@ func set_scene(p_scene, run_events=true):
 	If run_events=true, plays the events defined in :setup event
 	"""
 	if !p_scene:
-		escoria.report_errors("main", ["Trying to set empty scene"])
+		escoria.logger.report_errors("main", ["Trying to set empty scene"])
 	
 	if current_scene != null:
 		clear_scene()
@@ -69,10 +69,10 @@ func set_current_scene(p_scene, run_events=true):
 			# Having a game with `:setup` means we must wait for it to finish
 			if "setup" in escoria.esc_runner.game:
 				if not escoria.esc_runner.running_event:
-					escoria.report_errors("main.gd:set_current_scene()", ["escoria.esc_runner.game has setup but no running_event"])
+					escoria.logger.report_errors("main.gd:set_current_scene()", ["escoria.esc_runner.game has setup but no running_event"])
 
 				if escoria.esc_runner.running_event.ev_name != "setup":
-					escoria.report_errors("main.gd:set_current_scene()", ["escoria.esc_runner.game has setup but it is not running: " + escoria.esc_runner.running_event.ev_name])
+					escoria.logger.report_errors("main.gd:set_current_scene()", ["escoria.esc_runner.game has setup but it is not running: " + escoria.esc_runner.running_event.ev_name])
 
 				yield(escoria.esc_runner, "event_done")
 		else:
@@ -127,10 +127,11 @@ func set_camera_limits(camera_limit_id : int = 0):
 
 		# if the background is smaller than the viewport, we want the camera to stick centered on the background
 		if area.size.x == 0 or area.size.y == 0 or area.size < get_viewport().size:
-			printt("No limit area! Using viewport")
+			escoria.logger.report_warning("main.gd:set_camera_limits()", 
+				"No limit area! Using viewport.")
 			area.size = get_viewport().size
 
-		printt("setting camera limits from scene ", area)
+		escoria.logger.info("Setting camera limits from scene ", [area])
 		limits = {
 			"limit_left": area.position.x,
 			"limit_right": area.position.x + area.size.x,
@@ -146,7 +147,7 @@ func set_camera_limits(camera_limit_id : int = 0):
 			"limit_bottom": scene_camera_limits.position.y + scene_camera_limits.size.y + screen_ofs.y * 2,
 			"set_default": true,
 		}
-		printt("setting camera limits from parameter ", scene_camera_limits)
+		escoria.logger.info("Setting camera limits from parameter ", [scene_camera_limits])
 
 	current_scene.game.get_node("camera").set_limits(limits)
 	current_scene.game.get_node("camera").set_offset(screen_ofs * 2)

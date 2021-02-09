@@ -129,17 +129,19 @@ func _process(time):
 	$debug.text = str(z_index)
 
 
-
 func anim_finished():
 	pass
+
 
 func get_camera_pos():
 	if camera_position_node and get_node(camera_position_node):
 		return get_node(camera_position_node).global_position
 	return global_position
 
+
 func get_animations_list() -> PoolStringArray:
 	return animation_sprite.get_sprite_frames().get_animation_names()
+
 
 func start_talking():
 	if animation_sprite.is_playing():
@@ -162,3 +164,8 @@ func walk_to(pos : Vector2, p_walk_context = null):
 
 func set_angle(deg : int, immediate = true):
 	Movable.set_angle(deg, immediate)
+
+
+func set_speed(speed_value : int) -> void:
+	speed = speed_value
+

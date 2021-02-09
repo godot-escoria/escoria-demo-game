@@ -1,11 +1,15 @@
 extends Node
 
-# This is the script that runs in background, checking for events in the events stack
-# and executing them.
-# Events are managed using 2 structures:
-#	- event_queue: a queue for scheduled events. On each iteration, every event in the queue is updated
-#	according time delta. If an event time occurs, it is run (see check_event_queue()).
-#	- levels_stack: stack of events to be run immediately (from an event in ESC file usually)
+"""
+This is the script that runs in background, checking for events in the events 
+stack and executing them.
+Events are managed using 2 structures:
+- event_queue: a queue for scheduled events. On each iteration, every event 
+	in the queue is updated according time delta. If an event time occurs, it is run 
+	(see check_event_queue()).
+- levels_stack: stack of events to be run immediately (from an event in ESC file 
+	usually)
+"""
 
 signal global_changed(global_name)
 signal inventory_changed
@@ -18,7 +22,6 @@ signal action_changed
 signal paused(p_paused)
 
 onready var resource_cache = load("res://addons/escoria-core/game/core-scripts/resource_queue.gd").new()
-#save_data = load(ProjectSettings.get_setting("escoria/internals/save_data")).new()
 onready var save_data = load("res://addons/escoria-core/game/core-scripts/save_data/save_data.gd").new()
 
 # Cached scenes
@@ -80,14 +83,14 @@ func _ready():
 	randomize()
 	save_data.load_settings([self, "settings_loaded"])
 	
-	printt("calling res cache start")
+	printt("Calling resource cache start")
 	resource_cache.start()
 
 	if !ProjectSettings.get_setting("escoria/platform/skip_cache"):
 		scenes_cache_list.push_back(ProjectSettings.get_setting("escoria/main/curtain"))
 		scenes_cache_list.push_back(ProjectSettings.get_setting("escoria/main/hud"))
 
-		printt("cache list ", scenes_cache_list)
+		printt("Cache list ", [scenes_cache_list])
 		for s in scenes_cache_list:
 			if s != null:
 				resource_cache.queue_resource(s, false, true)
@@ -265,7 +268,7 @@ func get_global(name):
 # 
 func set_global(name, val, force_change_reserved : bool = false):
 	if name in reserved_globals and !force_change_reserved:
-		escoria.report_warnings("esc_runner.gd:set_global()", 
+		escoria.logger.report_warnings("esc_runner.gd:set_global()", 
 			["Global " + name + " is reserved. Value not modified."])
 		return
 	globals[name] = val
@@ -304,12 +307,28 @@ func is_global_less_than(name, val):
 	if global and val and int(global) < int(val):
 		return true
 
+func jump(p_label):
+	while levels_stack.size() > 0:
+		var top = levels_stack[levels_stack.size()-1]
+		printt("top labels: ", top.labels, p_label)
+		if p_label in top.labels:
+			top.ip = top.labels[p_label]
+			return
+		else:
+			if top.break_stop || levels_stack.size() == 1:
+				escoria.logger.report_errors("esc_runner.gd:jump()", 
+					["ESC: Jump to inexisting label: " + p_label])
+				levels_stack.remove(levels_stack.size()-1)
+				break
+			else:
+				levels_stack.remove(levels_stack.size()-1)
+
 func check_autosave():
 	pass
 
 func set_current_action(action : String):
 	if ! action is String:
-		escoria.report_errors("esc_runner.gd", 
+		escoria.logger.report_errors("esc_runner.gd", 
 			["Trying to set_current_action: " + str(typeof(action))])
 
 	if action != current_action:
@@ -325,7 +344,7 @@ func clear_current_tool():
 	current_tool = null
 
 func change_scene(params, context, run_events=true):
-	printt("change scene to ", params[0], " with run_events ", run_events)
+	escoria.logger.info("Change scene to " + params[0] + " with run_events " + str(run_events))
 #	check_cache()
 #	main.clear_scene()
 #	camera = null
@@ -341,10 +360,10 @@ func change_scene(params, context, run_events=true):
 	var res_room = resource_cache.get_resource(params[0])
 	var res_game = resource_cache.get_resource(ProjectSettings.get_setting("escoria/ui/game_scene"))
 	if !res_room:
-		escoria.report_errors("esc_runner.gd:change_scene()", 
+		escoria.logger.report_errors("esc_runner.gd:change_scene()", 
 			["Resource not found: " + params[0]])
 	if !res_game:
-		escoria.report_errors("esc_runner.gd:change_scene()", 
+		escoria.logger.report_errors("esc_runner.gd:change_scene()", 
 			["Resource not found: " + ProjectSettings.get_setting("escoria/ui/game_scene")])
 		
 	resource_cache.clear()
@@ -352,7 +371,7 @@ func change_scene(params, context, run_events=true):
 	# Load game scene
 	var game_scene = res_game.instance()
 	if !game_scene:
-		escoria.report_errors("esc_runner.gd:change_scene()", 
+		escoria.logger.report_errors("esc_runner.gd:change_scene()", 
 			["Failed loading scene " + ProjectSettings.get_setting("escoria/ui/game_scene")])
 	
 	# Load room scene
@@ -380,7 +399,7 @@ func change_scene(params, context, run_events=true):
 			scenes_cache_list.push_back(params[0])
 			scenes_cache[room_scene.global_id] = params[0]
 	else:
-		escoria.report_errors("esc_runner.gd:change_scene()", 
+		escoria.logger.report_errors("esc_runner.gd:change_scene()", 
 			["Failed loading scene " + params[0]])
 
 	if context != null:
@@ -411,10 +430,10 @@ func superpose_scene(params, context, run_events=true):
 	var res_room = resource_cache.get_resource(params[0])
 	var res_game = resource_cache.get_resource(ProjectSettings.get_setting("escoria/ui/game_scene"))
 	if !res_room:
-		escoria.report_errors("esc_runner.gd:superpose_scene()", 
+		escoria.logger.report_errors("esc_runner.gd:superpose_scene()", 
 			["Resource not found: " + params[0]])
 	if !res_game:
-		escoria.report_errors("esc_runner.gd:superpose_scene()", 
+		escoria.logger.report_errors("esc_runner.gd:superpose_scene()", 
 			["Resource not found: " + ProjectSettings.get_setting("escoria/ui/game_scene")])
 		
 	resource_cache.clear()
@@ -422,14 +441,21 @@ func superpose_scene(params, context, run_events=true):
 	# Load game scene
 	var game_scene = res_game.instance()
 	if !game_scene:
-		escoria.report_errors("esc_runner.gd:superpose_scene()", 
+		escoria.logger.report_errors("esc_runner.gd:superpose_scene()", 
 			["Failed loading scene " + ProjectSettings.get_setting("escoria/ui/game_scene")])
 	
 	# Load room scene
 	var room_scene = res_room.instance()
 	if room_scene:
 		get_node("/root").add_child(room_scene)
-	
+		
+		var target = context.get("set_position")
+		if target:
+			if target is Vector2:
+				room_scene.set_position(target)
+			if target is String:
+				var obj  = get_object(target)
+				room_scene.set_position(obj.get_global_position())
 		
 		escoria.inputs_manager.hotspot_focused = false
 		if !scenes_cache_list.has(params[0]):
@@ -439,7 +465,7 @@ func superpose_scene(params, context, run_events=true):
 			else:
 				scenes_cache[room_scene.name] = params[0]
 	else:
-		escoria.report_errors("esc_runner.gd:superpose_scene()", 
+		escoria.logger.report_errors("esc_runner.gd:superpose_scene()", 
 			["Failed loading scene " + params[0]])
 
 	if context != null:
@@ -448,11 +474,9 @@ func superpose_scene(params, context, run_events=true):
 	# Re-apply actives
 	for active in actives:
 		set_active(active, actives[active])
-	
+
 #	cam_target = null
 #	autosave_pending = true
-
-
 
 
 func run_game(actions : Dictionary):
@@ -487,11 +511,11 @@ func clear():
 
 func register_object(name : String, val : Object, force : bool = false):
 	if !name:
-		escoria.report_errors("esc_runner.gd:register_object()", 
+		escoria.logger.report_errors("esc_runner.gd:register_object()", 
 			["global_id not given for " + val.get_class() + " " + val.name])
 
 	if name in objects and not force:
-		escoria.report_errors("esc_runner.gd:register_object()", 
+		escoria.logger.report_errors("esc_runner.gd:register_object()", 
 			["Trying to register already registered object " + name + ": " \
 			+ val.get_class() + " (" + val.name + ")"])
 
@@ -528,7 +552,7 @@ func get_object(name):
 # p_params Array 
 #	- 0 Object Target object
 func activate(p_action : String, p_param : Array):
-	printt("Action", p_action, "with params", p_param)
+	escoria.logger.info("Action " + p_action + " with params ", [p_param])
 #	if p_param[0].global_id:
 #		printt("("+p_param[0].global_id+")")
 	var what = p_param[0]
@@ -539,8 +563,8 @@ func activate(p_action : String, p_param : Array):
 		if what is ESCItem and what.use_from_inventory_only:
 			if !inventory_has(what.global_id):
 				# TODO Either use fallback here, or run pickup action before use
-				escoria.report_warnings("esc_runner.gd:activate()", ["Trying to " 
-					+ p_action + " on object " + what.global_id 
+				escoria.logger.report_warnings("esc_runner.gd:activate()", 
+					["Trying to " + p_action + " on object " + what.global_id 
 					+ " but item must be in inventory."])
 				return esctypes.EVENT_LEVEL_STATE.YIELD
 			else: 
@@ -570,7 +594,7 @@ func activate(p_action : String, p_param : Array):
 							if combine_with.get("combine_is_one_way") != null \
 								and combine_with.combine_is_one_way:
 									errors.append("Reason: " + combine_with.global_id + "'s item interaction is one-way.")
-							escoria.report_warnings("esc_runner.gd:activate()", errors)
+							escoria.logger.report_warnings("esc_runner.gd:activate()", errors)
 								
 							return esctypes.EVENT_LEVEL_STATE.YIELD
 					else:
@@ -588,13 +612,13 @@ func activate(p_action : String, p_param : Array):
 		if p_action in objects_events_table[what.global_id]:
 			run_event(objects_events_table[what.global_id][p_action])
 		else:
-			escoria.report_warnings("esc_runner.gd:activate()", 
+			escoria.logger.report_warnings("esc_runner.gd:activate()", 
 				["Action '" + p_action + "' requested on object '" \
 				+ what.global_id + "' but action doesn't exist in attached ESC file.",
 				"TODO: manage fallbacks."])
 			return esctypes.EVENT_LEVEL_STATE.RETURN
 	else:
-		escoria.report_warnings("esc_runner.gd:activate()", 
+		escoria.logger.report_warnings("esc_runner.gd:activate()", 
 				["Action '" + p_action + "' requested on object '" + what.global_id \
 				+ "' but object does not exist in objects_events_table.", \
 				"Does object " + what.global_id + " have an attached ESC file?"])
@@ -662,7 +686,7 @@ func set_state(global_id : String, p_params : Array):
 					var animation = actual_animator.get_animation(p_params[0])
 					var animation_length = animation.length
 					animation_node.seek(animation_length)
-	print_debug("Item " + obj.global_id + " changed state to: " + p_params[0])
+	escoria.logger.info("Item " + obj.global_id + " changed state to: " + p_params[0])
 
 """
 When object is active, it is VISIBLE.
@@ -698,7 +722,7 @@ func object_exit_scene(name : String):
 	if inventory_has(name):
 		objects[name] = objects[name].duplicate()
 	else:
-		printt("Object " + name + " removed from scene.")
+		escoria.logger.info("Object " + name + " removed from scene.")
 		objects.erase(name)
 
 #func jump(p_label):
@@ -710,7 +734,7 @@ func object_exit_scene(name : String):
 #			return
 #		else:
 #			if top.break_stop || stack.size() == 1:
-#				report_errors("", ["Label not found: "+p_label+", can't jump"])
+#				escoria.logger.report_errors("", ["Label not found: "+p_label+", can't jump"])
 #				stack.remove(stack.size()-1)
 #				break
 #			else:
@@ -720,6 +744,6 @@ func object_exit_scene(name : String):
 func check_obj(name, cmd):
 	var obj = escoria.esc_runner.get_object(name)
 	if obj == null:
-		escoria.report_errors("", ["Global id "+name+" not found for " + cmd])
+		escoria.logger.report_errors("", ["Global id "+name+" not found for " + cmd])
 		return false
 	return true

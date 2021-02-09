@@ -49,7 +49,7 @@ var commands = {
 	"inc_global": { "min_args": 2, "types": [TYPE_STRING, TYPE_INT] },
 	"inventory_add": { "min_args": 1 },
 	"inventory_remove": { "min_args": 1 },
-	"inventory_open": { "min_args": 1, "types": [TYPE_BOOL] },
+	"inventory_display": { "min_args": 1, "types": [TYPE_BOOL] },
 	"jump": { "min_args": 1 },
 	"play_snd": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING, TYPE_BOOL] },
 	"queue_animation": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING, TYPE_BOOL] },
@@ -76,6 +76,7 @@ var commands = {
 	"wait": true,
 	"walk": { "min_args": 2 },
 	"walk_to_pos": { "min_args": 3},
+	"walk_to_pos_block": { "min_args": 3},
 	"walk_block": { "min_args": 2 },
 	
 	"%": { "alias": "label", "min_args": 1},
@@ -96,7 +97,7 @@ var debug_commands = {
 func load_esc_file(esc_file_path : String) -> Dictionary:
 	var f = File.new()
 	if !f.file_exists(esc_file_path):
-		escoria.report_errors("esc_compiler.gd:load_esc_file()", ["File " + esc_file_path + " not found."])
+		escoria.logger.report_errors("esc_compiler.gd:load_esc_file()", ["File " + esc_file_path + " not found."])
 		return {}
 	return compile_script(esc_file_path)
 
@@ -114,7 +115,7 @@ func compile_script(p_path : String) -> Dictionary:
 		var errors = []
 		ev_table = compile(p_path, errors)
 		if errors.size() > 0:
-			escoria.call_deferred("report_errors", p_path, errors)
+			escoria.logger.call_deferred("report_errors", p_path, errors)
 	return ev_table
 	
 func check_command(commands_list : Dictionary, cmd : esctypes.ESCCommand, state : esctypes.ESCState, errors : Array):

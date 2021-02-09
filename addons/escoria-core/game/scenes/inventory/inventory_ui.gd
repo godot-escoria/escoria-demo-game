@@ -31,7 +31,7 @@ func _ready():
 	escoria.register_object(self)
 	
 	if items_container == null or items_container.is_empty():
-		escoria.report_errors(self.get_path(), ["Items container is empty."])
+		escoria.logger.report_errors(self.get_path(), ["Items container is empty."])
 		return
 	for c in get_node(items_container).get_items():
 		items_ids_in_inventory[c.item_id] = c
@@ -46,11 +46,11 @@ func add_new_item_by_id(item_id : String) -> void:
 		item_id = item_id.rsplit("i/", false)[0]
 	if !items_ids_in_inventory.has(item_id):
 		if !escoria.esc_runner.check_obj(item_id, "add_new_item_by_id"):
-			escoria.report_errors("inventory_ui.gd:add_new_item_by_id()",
+			escoria.logger.report_errors("inventory_ui.gd:add_new_item_by_id()",
 				["Item global id '"+ item_id + "' does not exist.", 
 				"Check item's id in ESCORIA_ALL_ITEMS scene."])
 		if !all_items.get_inventory_item(item_id):
-			escoria.report_errors("inventory_ui.gd:add_new_item_by_id()",
+			escoria.logger.report_errors("inventory_ui.gd:add_new_item_by_id()",
 				["Item global id '"+ item_id + "' doesn't have corresponding inventory item.", 
 				"Check item's id in ESCORIA_ALL_ITEMS scene."])
 		var item_inventory_button = all_items.get_inventory_item(item_id).duplicate()
@@ -104,7 +104,7 @@ func _on_escoria_global_changed(global : String) -> void:
 		elif escoria.esc_runner.globals[global] == "false":
 			remove_item_by_id(item[0])
 		else:
-			escoria.report_warnings("inventory_ui.gd:_on_escoria_global_changed()", \
+			escoria.logger.report_warnings("inventory_ui.gd:_on_escoria_global_changed()", \
 				["Inventory global " + global + " is neither 'true' nor 'false' (was " + escoria.esc_runner.globals[global] + "). "])
 	else:
-		escoria.report_errors("inventory_ui.gd:_on_escoria_global_changed()", ["Global must contain 1 item name.", "(received: " + global + ")"])
+		escoria.logger.report_errors("inventory_ui.gd:_on_escoria_global_changed()", ["Global must contain 1 item name.", "(received: " + global + ")"])

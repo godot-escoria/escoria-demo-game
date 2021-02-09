@@ -66,8 +66,6 @@ tracks/0/keys = {
 
 [node name="button" type="Area2D"]
 script = ExtResource( 1 )
-global_id = "r3_button"
-esc_script = "res://game/rooms/room3/esc/button.esc"
 tooltip_name = "Button"
 default_action = "use"
 dialog_color = Color( 1, 1, 1, 1 )
@@ -85,6 +83,7 @@ polygon = PoolVector2Array( 343.993, 396.767, 323.298, 415.689, 344.585, 438.158
 
 [node name="Particles2D" type="Particles2D" parent="."]
 position = Vector2( 344.768, 142.144 )
+emitting = false
 amount = 16
 lifetime = 4.0
 preprocess = 1.99

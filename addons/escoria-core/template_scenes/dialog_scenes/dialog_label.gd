@@ -29,7 +29,7 @@ func say(character : String, params : Dictionary) :
 	show()
 	
 	if !params["line"]:
-		escoria.report_errors("dialog_box_inset.gd:say()", ["No line field in params!"])
+		escoria.logger.report_errors("dialog_box_inset.gd:say()", ["No line field in params!"])
 		return
 	
 	# Position the RichTextLabel on the character's dialog position, if any.

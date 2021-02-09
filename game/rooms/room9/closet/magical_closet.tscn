@@ -3,10 +3,10 @@
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=1]
 [ext_resource path="res://game/items/escitems/bottle_escitem.tscn" type="PackedScene" id=2]
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 66.4415, 154.457 )
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("base/closed:visible")
@@ -31,6 +31,57 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("base/open_object:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("bottle:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=3]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("base/closed:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("base/open_no_object:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("base/open_object:visible")
@@ -58,57 +109,6 @@ tracks/3/keys = {
 }
 
 [sub_resource type="Animation" id=4]
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath("base/closed:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("base/open_no_object:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("base/open_object:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("bottle:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-
-[sub_resource type="Animation" id=5]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("base/closed:visible")
@@ -163,7 +163,7 @@ tracks/3/keys = {
 script = ExtResource( 1 )
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
-"default": null
+"default": Vector2( 64.2172, 153.408 )
 }
 
 [node name="base" type="Line2D" parent="."]
@@ -224,17 +224,17 @@ visible = false
 position = Vector2( 51.1535, 45.7845 )
 scale = Vector2( 0.507, 0.507 )
 interact_positions = {
-"default": Vector2( 51.1535, 45.7845 )
+"default": Vector2( 45.4966, 321.556 )
 }
 
 [node name="Position2D" type="Position2D" parent="bottle"]
-position = Vector2( 298.463, 596.926 )
+position = Vector2( -11.1576, 543.928 )
 
 [node name="CollisionPolygon2D" type="CollisionShape2D" parent="."]
 position = Vector2( 64.2172, 153.408 )
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/closed = SubResource( 3 )
-anims/open_no_object = SubResource( 4 )
-anims/open_object = SubResource( 5 )
+anims/closed = SubResource( 2 )
+anims/open_no_object = SubResource( 3 )
+anims/open_object = SubResource( 4 )

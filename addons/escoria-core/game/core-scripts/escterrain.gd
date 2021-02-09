@@ -16,7 +16,7 @@ func _ready():
 		if n is NavigationPolygonInstance:
 			if n.enabled:
 				if navigation_enabled_found:
-					escoria.report_errors("escterrain.gd:_ready()", ["Multiple NavigationPolygonInstances enabled at the same time."])
+					escoria.logger.report_errors("escterrain.gd:_ready()", ["Multiple NavigationPolygonInstances enabled at the same time."])
 				navigation_enabled_found = true
 				current_active_navigation_instance = n
 	

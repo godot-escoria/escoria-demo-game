@@ -6,19 +6,19 @@ var options_paths = []
 func _ready():
 	var rooms_folder = "res://game/rooms/"
 	var dir = Directory.new()
-	var i = 1
+	
 	if dir.open(rooms_folder) == OK:
 		dir.list_dir_begin(true)
 		var file_name = dir.get_next()
 		while file_name != "":
 			if dir.current_is_dir():
 				add_item(file_name)
-				options_paths.push_back("res://game/rooms/" + file_name + "/" + file_name + ".tscn")
-				i += 1
+				options_paths.push_back("res://game/rooms/" + file_name + "/" + 
+					file_name + ".tscn")
 			file_name = dir.get_next()
 
 	else:
-		escoria.report_errors("room_select.gd:_ready()", 
+		escoria.logger.report_errors("room_select.gd:_ready()", 
 			["A problem occurred while opening rooms folder."])
 	
 
@@ -30,7 +30,7 @@ func _on_button_pressed():
 	
 	if errors.empty():
 		#past_actions.text += str(events)
-		var ret = escoria.esc_runner.run_event(events["debug"])
+		var _ret = escoria.esc_runner.run_event(events["debug"])
 
 func _on_option_item_selected(index):
 	selected_id = index

@@ -94,7 +94,6 @@ var last_dir : int
 
 
 func _ready():
-	assert(!global_id.empty())
 	
 	# Adds movable behavior
 	Movable = Node.new()
@@ -210,8 +209,11 @@ func element_exited(body):
 func teleport(target, angle : Object = null) -> void:
 	Movable.teleport(target, angle)
 
-func walk_to(pos : Vector2, p_walk_context = null):
+func walk_to(pos : Vector2, p_walk_context = null) -> void:
 	Movable.walk_to(pos, p_walk_context)
+
+func set_speed(speed_value : int) -> void:
+	speed = speed_value
 
 ################################################################################
 
