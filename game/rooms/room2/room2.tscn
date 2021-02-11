@@ -54,6 +54,7 @@ global_id = "r2_r_exit"
 esc_script = "res://game/rooms/room2/esc/right_exit.esc"
 is_exit = true
 tooltip_name = "Right exit"
+default_action = "walk"
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
 "default": Vector2( 1225.47, 353.99 )
@@ -71,6 +72,7 @@ global_id = "r2_l_exit"
 esc_script = "res://game/rooms/room2/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Left exit"
+default_action = "walk"
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
 "default": Vector2( 52.1462, 384.691 )

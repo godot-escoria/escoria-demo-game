@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://addons/escoria-core/testing/rtl_screen_offset_testing.gd" type="Script" id=1]
-[ext_resource path="res://addons/escoria-core/template_scenes/label/target_tooltip.tscn" type="PackedScene" id=2]
+[ext_resource path="res://game/ui/ui_mouse_icons/tooltip/target_tooltip.tscn" type="PackedScene" id=2]
 
 [sub_resource type="ButtonGroup" id=1]
 
@@ -72,7 +72,7 @@ margin_top = 56.0
 margin_right = 624.0
 margin_bottom = 80.0
 group = SubResource( 1 )
-text = "Une phrase extremement<br>longue pour tester<br>le comportement de ce RichTextLabel..."
+text = "A super extremely long sentence to test<br>the behaviour of that RichTextLabel node..."
 
 [node name="tooltip" parent="." instance=ExtResource( 2 )]
 margin_left = 238.815
@@ -81,7 +81,8 @@ margin_right = 638.815
 margin_bottom = 231.18
 rect_min_size = Vector2( 400, 0 )
 bbcode_text = "Tooltip content"
-fit_content_height = true
+text = "Tooltip content"
+
 [connection signal="mouse_moved" from="." to="." method="_on_Control_mouse_moved"]
 [connection signal="text_selected" from="." to="." method="_on_Control_text_selected"]
 [connection signal="text_changed" from="VBoxContainer/HBoxContainer/clamp_distance" to="." method="_on_clamp_distance_text_changed"]

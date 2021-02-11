@@ -10,6 +10,8 @@ signal text_selected(text)
 export(NodePath) var path_to_richtextlabel
 const ONE_LINE_HEIGHT = 16
 export(int) var max_width = 200
+const MIN_HEIGHT = 30
+const MAX_HEIGHT = 500
 
 func _ready():
 	assert(!path_to_richtextlabel.is_empty())
@@ -139,27 +141,27 @@ func update_size():
 #	var nblines = float(rtl_node.get_content_height()) / float(ONE_LINE_HEIGHT)
 	var nblines = nb_visible_lines
 	if nblines >= 1:
-		# reset size
-		#get_parent().rect_size.x = 10
-		#get_parent().rect_size.y = ONE_LINE_HEIGHT
 		
+		yield(get_tree(), "idle_frame")
+		yield(get_tree(), "idle_frame")
 		var text_height = rtl_node.get_content_height()
+		if text_height > MAX_HEIGHT:
+			text_height = MAX_HEIGHT
+		if text_height <= MIN_HEIGHT:
+			text_height = MIN_HEIGHT
+		
 		var parent_width = rtl_node.rect_size.x
 		
 		# first, try to increase width until it goes above max_width
 		while parent_width < max_width && float(text_height) / float(ONE_LINE_HEIGHT) > 1.0:
 			rtl_node.rect_size.x += 1
 			parent_width = rtl_node.rect_size.x
-			yield(get_tree(), "idle_frame")
-			yield(get_tree(), "idle_frame")
-#			text_height = get_parent().rect_size.y
+		
 		
 		rtl_node.rect_size.y = text_height
 		
 		if rtl_node.rect_size.x >= max_width:
 			rtl_node.rect_size.x = max_width
-		
-		
 		
 	## END RECT_SIZE ##
 	rtl_node.anchor_top = 0.0

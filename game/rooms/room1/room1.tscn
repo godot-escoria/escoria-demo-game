@@ -53,6 +53,7 @@ global_id = "r1_r_exit"
 esc_script = "res://game/rooms/room1/esc/right_exit.esc"
 is_exit = true
 tooltip_name = "Exit"
+default_action = "walk"
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
 "default": Vector2( 1225.47, 353.99 )

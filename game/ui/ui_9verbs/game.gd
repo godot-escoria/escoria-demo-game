@@ -1,4 +1,5 @@
-extends Node
+tool
+extends ESCGame
 
 """
 Implement methods to react to inputs.

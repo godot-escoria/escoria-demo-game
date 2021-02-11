@@ -53,6 +53,10 @@ margin_bottom = 132.0
 texture = ExtResource( 4 )
 
 [node name="mouse_position" type="Control" parent="."]
+margin_left = 323.435
+margin_top = 57.9191
+margin_right = 323.435
+margin_bottom = 57.9191
 mouse_filter = 2
 
 [node name="tool" type="TextureRect" parent="mouse_position"]

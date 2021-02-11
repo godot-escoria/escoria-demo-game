@@ -1,4 +1,5 @@
-extends Node
+tool
+extends ESCGame
 
 """
 Implement methods to react to inputs.
@@ -17,43 +18,49 @@ Implement methods to react to inputs.
 - left_click_on_item(item_global_id : String, event : InputEvent)
 - right_click_on_item(item_global_id : String, event : InputEvent)
 - left_double_click_on_item(item_global_id : String, event : InputEvent)
+
+- inventory_item_focused(inventory_item_global_id : String) -> void
+- inventory_item_unfocused() -> void
+
+- open_inventory()
+- close_inventory()
+
+- mousewheel_action(direction : int)
+
+- hide_ui()
+- show_ui()
+
+- _on_event_done(event_name: String)
+- update_tooltip_position(p_position : Vector2)
+
 """
-
-signal element_focused(element_global_id)
-
-
-#func _input(event):
-#	if event.is_action_pressed("switch_action_verb"):
-#		if event.button_index == BUTTON_WHEEL_UP:
-#			$ui/verbs_layer/verbs_menu.iterate_actions_cursor(-1)
-#		elif event.button_index == BUTTON_WHEEL_DOWN:
-#			$ui/verbs_layer/verbs_menu.iterate_actions_cursor(1)
 
 ## BACKGROUND ## 
 
 func left_click_on_bg(position : Vector2) -> void:
 	escoria.do("walk", ["player", position])
+	$ui/verbs_layer/verbs_menu.set_by_name("walk")
 	
 func right_click_on_bg(position : Vector2) -> void:
 	escoria.do("walk", ["player", position])
+	$ui/verbs_layer/verbs_menu.set_by_name("walk")
 	
 func left_double_click_on_bg(position : Vector2) -> void:
 	escoria.do("walk", ["player", position, true])
-
+	$ui/verbs_layer/verbs_menu.set_by_name("walk")
 
 ## ITEM/HOTSPOT FOCUS ## 
 
 func element_focused(element_id : String) -> void:
-	#emit_signal("element_focused", element_id)
 	var target_obj = escoria.esc_runner.get_object(element_id)
+	$ui/tooltip_layer/tooltip.text = target_obj.tooltip_name
+	
 	if escoria.esc_runner.current_action != "use" && escoria.esc_runner.current_tool == null:
-		if target_obj is ESCItem or target_obj is ESCHotspot:
+		if target_obj is ESCItem:
 			$ui/verbs_layer/verbs_menu.set_by_name(target_obj.default_action)
 
 func element_unfocused() -> void:
-	#emit_signal("element_focused", "")
-	#$ui/verbs_layer/verbs_menu.set_by_name("walk")
-	pass
+	$ui/tooltip_layer/tooltip.text = ""
 
 
 ## ITEMS ##
@@ -86,10 +93,10 @@ func left_double_click_on_inventory_item(inventory_item_global_id : String, even
 	pass
 
 func inventory_item_focused(inventory_item_global_id : String) -> void:
-	emit_signal("element_focused", inventory_item_global_id)
+	$ui/tooltip_layer/tooltip.set_target(escoria.esc_runner.get_object(inventory_item_global_id).tooltip_name)
 
 func inventory_item_unfocused() -> void:
-	emit_signal("element_focused", "")
+	$ui/tooltip_layer/tooltip.set_target("")
 
 
 func open_inventory():
@@ -101,3 +108,17 @@ func close_inventory():
 
 func mousewheel_action(direction : int):
 	$ui/verbs_layer/verbs_menu.iterate_actions_cursor(direction)
+
+func hide_ui():
+	$ui/inventory_layer/inventory_ui.hide()
+	
+func show_ui():
+	$ui/inventory_layer/inventory_ui.show()
+
+func _on_event_done(event_name: String):
+	escoria.esc_runner.clear_current_action()
+
+
+func update_tooltip_position(p_position : Vector2):
+#	 + Vector2(-200,-50)
+	$ui/tooltip_layer/tooltip.global_position = p_position

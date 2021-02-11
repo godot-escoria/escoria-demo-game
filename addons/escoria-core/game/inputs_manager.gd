@@ -12,6 +12,11 @@ func _ready():
 func _input(event):
 	if event.is_action_pressed("esc_show_debug_prompt"):
 		escoria.main.get_node("layers/debug_layer/esc_prompt_popup").popup()
+	
+	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
+		if !hotspot_focused.empty():
+			if event is InputEventMouseMotion:
+				escoria.main.current_scene.game.update_tooltip_position(event.position)
 
 ###################################################################################
 
@@ -79,7 +84,7 @@ func _on_mouse_entered_item(item : ESCItem) -> void:
 
 func _on_mouse_exited_item(item : ESCItem) -> void:
 	escoria.logger.info("Item unfocused : ", [item.global_id])
-	hover_stack.erase(item)
+	hover_stack_pop(item)
 	if hover_stack.empty():
 		hotspot_focused = ""
 		escoria.main.current_scene.game.element_unfocused()
@@ -116,3 +121,6 @@ func clean_hover_stack():
 	for e in hover_stack:
 		if e == null or !is_instance_valid(e):
 			hover_stack.erase(e)
+
+func hover_stack_pop(item):
+	hover_stack.erase(item)
