@@ -16,11 +16,12 @@ default_action = "look"
 combine_if_action_used_among = PoolStringArray( "use", "give" )
 use_from_inventory_only = true
 inventory_item_scene_file = ExtResource( 3 )
+dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
-"default": null
+"default": Vector2( 0, 0 )
 }
 
-[node name="pen" type="Sprite" parent="."]
+[node name="sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

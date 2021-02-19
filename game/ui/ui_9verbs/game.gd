@@ -31,9 +31,6 @@ Implement methods to react to inputs.
 - _on_event_done(event_name: String)
 """
 
-func _ready():
-	escoria.esc_runner.connect("event_done", self, "_on_event_done")
-
 
 func _input(event):
 	if event.is_action_pressed("switch_action_verb"):

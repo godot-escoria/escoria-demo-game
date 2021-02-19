@@ -16,8 +16,18 @@ player_scene = ExtResource( 4 )
 camera_limits = [ Rect2( 0, 0, 1289, 555 ) ]
 
 [node name="walkable_area" parent="." instance=ExtResource( 1 )]
+scales = null
+bitmaps_scale = Vector2( 1, 1 )
+lightmap = null
+player_speed_multiplier = 1.0
+player_doubleclick_speed_multiplier = 1.5
+lightmap_modulate = Color( 1, 1, 1, 1 )
+debug_mode = 1
+scale_min = 0.3
+scale_max = 1.0
 
 [node name="background" parent="." instance=ExtResource( 2 )]
+esc_script = ""
 
 [node name="room_label" type="Label" parent="background"]
 margin_right = 40.0
@@ -34,13 +44,26 @@ __meta__ = {
 script = ExtResource( 7 )
 global_id = "r2_right_platform"
 esc_script = "res://game/rooms/room2/esc/right_platform.esc"
+is_exit = false
+is_trigger = false
+trigger_in_verb = "trigger_in"
+trigger_out_verb = "trigger_out"
+is_interactive = true
+player_orients_on_arrival = true
 interaction_direction = 3
 tooltip_name = "Right platform"
 default_action = "look"
+combine_if_action_used_among = PoolStringArray(  )
+combine_is_one_way = false
+use_from_inventory_only = false
+inventory_item_scene_file = null
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
 "default": Vector2( 430.893, 451.052 )
 }
+animations = null
+speed = 300
+v_speed_damp = 1.0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_platform"]
 polygon = PoolVector2Array( 870.974, 538.342, 827.536, 353.995, 1181.4, 357.174, 1287.34, 413.325, 1289.46, 545.758 )
@@ -53,12 +76,25 @@ script = ExtResource( 7 )
 global_id = "r2_r_exit"
 esc_script = "res://game/rooms/room2/esc/right_exit.esc"
 is_exit = true
+is_trigger = false
+trigger_in_verb = "trigger_in"
+trigger_out_verb = "trigger_out"
+is_interactive = true
+player_orients_on_arrival = true
+interaction_direction = 0
 tooltip_name = "Right exit"
 default_action = "walk"
+combine_if_action_used_among = PoolStringArray(  )
+combine_is_one_way = false
+use_from_inventory_only = false
+inventory_item_scene_file = null
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
 "default": Vector2( 1225.47, 353.99 )
 }
+animations = null
+speed = 300
+v_speed_damp = 1.0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
 polygon = PoolVector2Array( 1177.94, 348.61, 1175.95, 45.3759, 1276.06, 92.0953, 1277.95, 399.407 )
@@ -71,12 +107,25 @@ script = ExtResource( 7 )
 global_id = "r2_l_exit"
 esc_script = "res://game/rooms/room2/esc/left_exit.esc"
 is_exit = true
+is_trigger = false
+trigger_in_verb = "trigger_in"
+trigger_out_verb = "trigger_out"
+is_interactive = true
+player_orients_on_arrival = true
+interaction_direction = 0
 tooltip_name = "Left exit"
 default_action = "walk"
+combine_if_action_used_among = PoolStringArray(  )
+combine_is_one_way = false
+use_from_inventory_only = false
+inventory_item_scene_file = null
 dialog_color = Color( 1, 1, 1, 1 )
 interact_positions = {
 "default": Vector2( 52.1462, 384.691 )
 }
+animations = null
+speed = 300
+v_speed_damp = 1.0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
 polygon = PoolVector2Array( -1.37926, 443.158, 7.96461, 122.796, 84.0504, 77.4118, 88.055, 377.751 )
@@ -88,10 +137,24 @@ position = Vector2( 52.1462, 384.691 )
 position = Vector2( 958.107, 176.401 )
 global_id = "r2_button_right"
 esc_script = "res://game/rooms/room2/esc/button.esc"
+is_exit = false
+is_trigger = false
+trigger_in_verb = "trigger_in"
+trigger_out_verb = "trigger_out"
+is_interactive = true
+player_orients_on_arrival = true
+interaction_direction = 0
+combine_if_action_used_among = PoolStringArray(  )
+combine_is_one_way = false
+use_from_inventory_only = false
+inventory_item_scene_file = null
 dialog_color = Color( 0, 1, 0.109804, 1 )
 interact_positions = {
 "default": Vector2( 987.537, 371.812 )
 }
+animations = null
+speed = 300
+v_speed_damp = 1.0
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_right"]
 position = Vector2( 29.4302, 195.411 )
@@ -103,10 +166,24 @@ __meta__ = {
 position = Vector2( 288.82, 171.439 )
 global_id = "r2_button"
 esc_script = "res://game/rooms/room2/esc/button.esc"
+is_exit = false
+is_trigger = false
+trigger_in_verb = "trigger_in"
+trigger_out_verb = "trigger_out"
+is_interactive = true
+player_orients_on_arrival = true
+interaction_direction = 0
+combine_if_action_used_among = PoolStringArray(  )
+combine_is_one_way = false
+use_from_inventory_only = false
+inventory_item_scene_file = null
 dialog_color = Color( 0, 1, 0.109804, 1 )
 interact_positions = {
 "default": Vector2( 313.488, 368.437 )
 }
+animations = null
+speed = 300
+v_speed_damp = 1.0
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_left"]
 position = Vector2( 24.6681, 196.998 )

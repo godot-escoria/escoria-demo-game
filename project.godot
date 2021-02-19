@@ -64,6 +64,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/escterrain.gd"
 }, {
+"base": "RichTextLabel",
+"class": "ESCTooltip",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esctooltip.gd"
+}, {
 "base": "Node",
 "class": "Movable",
 "language": "GDScript",
@@ -81,6 +86,7 @@ _global_script_class_icons={
 "ESCPlayer": "",
 "ESCRoom": "",
 "ESCTerrain": "",
+"ESCTooltip": "",
 "Movable": ""
 }
 
@@ -119,11 +125,11 @@ main/force_quit=true
 debug/terminate_on_warnings=false
 debug/terminate_on_errors=true
 debug/development_lang="en"
-ui/tooltip_follows_mouse=false
+ui/tooltip_follows_mouse=true
 ui/dialogs_folder="res://game/ui/commons/dialogs"
 ui/default_dialog_scene="res://game/ui/commons/dialogs/dialog_label.tscn"
 ui/main_menu_scene="res://game/ui/commons/main_menu.tscn"
-ui/game_scene="res://game/ui/ui_9verbs/game.tscn"
+ui/game_scene="res://game/ui/ui_mouse_icons/game.tscn"
 internals/save_data=""
 
 [input]

@@ -54,7 +54,7 @@ margin_right = 470.0
 margin_bottom = 380.0
 
 [node name="foo" type="CheckBox" parent="HBoxContainer2"]
-margin_right = 624.0
+margin_right = 588.0
 margin_bottom = 24.0
 pressed = true
 group = SubResource( 1 )
@@ -62,14 +62,14 @@ text = "Foo"
 
 [node name="foobar" type="CheckBox" parent="HBoxContainer2"]
 margin_top = 28.0
-margin_right = 624.0
+margin_right = 588.0
 margin_bottom = 52.0
 group = SubResource( 1 )
 text = "Foo bar"
 
 [node name="whatisit" type="CheckBox" parent="HBoxContainer2"]
 margin_top = 56.0
-margin_right = 624.0
+margin_right = 588.0
 margin_bottom = 80.0
 group = SubResource( 1 )
 text = "A super extremely long sentence to test<br>the behaviour of that RichTextLabel node..."
@@ -80,8 +80,8 @@ margin_top = 131.18
 margin_right = 638.815
 margin_bottom = 231.18
 rect_min_size = Vector2( 400, 0 )
-bbcode_text = "Tooltip content"
-text = "Tooltip content"
+bbcode_text = "[center][color=#200606][/color][/center]"
+text = "[center][color=#200606][/color][/center]"
 
 [connection signal="mouse_moved" from="." to="." method="_on_Control_mouse_moved"]
 [connection signal="text_selected" from="." to="." method="_on_Control_text_selected"]

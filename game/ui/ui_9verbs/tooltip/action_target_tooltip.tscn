@@ -1,7 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/assets/fonts/onesize/ONESIZE_.TTF" type="DynamicFontData" id=1]
-[ext_resource path="res://game/ui/ui_9verbs/tooltip/action_target_tooltip.gd" type="Script" id=2]
 
 [sub_resource type="DynamicFont" id=1]
 size = 30
@@ -11,16 +10,44 @@ font_data = ExtResource( 1 )
 size = 30
 font_data = ExtResource( 1 )
 
+[sub_resource type="GDScript" id=3]
+script/source = "extends ESCTooltip
+
+
+func update_tooltip_text():
+	bbcode_text = \"[center]\"
+	
+	if !current_action.empty():
+		bbcode_text += current_action
+		bbcode_text += \"\\t\"
+		
+	bbcode_text += current_target
+	
+	if waiting_for_target2 and current_target2.empty():
+		bbcode_text += \"\\t\"
+		bbcode_text += current_prep
+		
+	if !current_target2.empty():
+		bbcode_text += \"\\t\"
+		bbcode_text += current_prep
+		bbcode_text += \"\\t\"
+		bbcode_text += current_target2
+	
+	bbcode_text += \"[/center]\"
+"
+
 [node name="tooltip" type="RichTextLabel"]
-anchor_right = 0.526
+anchor_right = 0.7
 anchor_bottom = 0.06
-margin_right = -0.280029
+margin_left = 1.49829
+margin_right = 1.21826
 margin_bottom = -10.0
 custom_fonts/mono_font = SubResource( 1 )
 custom_fonts/normal_font = SubResource( 2 )
 bbcode_enabled = true
+bbcode_text = "[center][/center]"
 scroll_active = false
-script = ExtResource( 2 )
+script = SubResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

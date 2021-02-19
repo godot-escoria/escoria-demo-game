@@ -79,6 +79,10 @@ func register_object(object : Object):
 	if object is ESCInventory:
 		inventory = object
 	
+	if object is ESCTooltip:
+		if main.current_scene:
+			main.current_scene.game.tooltip_node = object
+	
 		
 
 """

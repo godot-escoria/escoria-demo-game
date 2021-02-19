@@ -20,7 +20,7 @@ func _ready():
 	# Add a white TextureRect behind the RTL to see its actual size
 	var texturerect_node = TextureRect.new()
 	get_node(path_to_richtextlabel).add_child(texturerect_node)
-	texturerect_node.texture = load("res://addons/escoria-core/testing/white.png")
+	texturerect_node.texture = load("res://addons/escoria-core/game/assets/images/white.png")
 	texturerect_node.expand = true
 	texturerect_node.stretch_mode = TextureRect.STRETCH_TILE
 	texturerect_node.size_flags_horizontal = SIZE_EXPAND_FILL
@@ -64,17 +64,17 @@ func _on_new_text_pressed():
 	emit_signal("text_selected", pressed_button.text)
 
 
-func tooltip_distance_to_edge_top(position_y):
-	return position_y
+func tooltip_distance_to_edge_top(position : Vector2):
+	return position.y
 
-func tooltip_distance_to_edge_bottom(position_y):
-	return screen_height - position_y
+func tooltip_distance_to_edge_bottom(position: Vector2):
+	return screen_height - position.y
 
-func tooltip_distance_to_edge_left(position_x):
-	return position_x
+func tooltip_distance_to_edge_left(position : Vector2):
+	return position.x
 
-func tooltip_distance_to_edge_right(position_x):
-	return screen_width - position_x
+func tooltip_distance_to_edge_right(position : Vector2):
+	return screen_width - position.x
 
 func _on_Control_mouse_moved(mouse_pos):
 #	printt("mousepos", mouse_pos)
@@ -84,19 +84,19 @@ func _on_Control_mouse_moved(mouse_pos):
 	var corrected_position = mouse_pos
 	
 	# clamp TOP
-	if tooltip_distance_to_edge_top(mouse_pos.y) <= global_distance_to_clamp:
+	if tooltip_distance_to_edge_top(mouse_pos) <= global_distance_to_clamp:
 		corrected_position.y = global_distance_to_clamp
 	
 	# clamp BOTTOM
-	if tooltip_distance_to_edge_bottom(mouse_pos.y + get_node(path_to_richtextlabel).rect_size.y) <= global_distance_to_clamp:
+	if tooltip_distance_to_edge_bottom(mouse_pos + get_node(path_to_richtextlabel).rect_size) <= global_distance_to_clamp:
 		corrected_position.y = screen_height - global_distance_to_clamp - get_node(path_to_richtextlabel).rect_size.y
 	
 	# clamp LEFT
-	if tooltip_distance_to_edge_left(mouse_pos.x - get_node(path_to_richtextlabel).rect_size.x/2) <= global_distance_to_clamp:
+	if tooltip_distance_to_edge_left(mouse_pos - get_node(path_to_richtextlabel).rect_size/2) <= global_distance_to_clamp:
 		corrected_position.x = global_distance_to_clamp
 
 	# clamp RIGHT
-	if tooltip_distance_to_edge_right(mouse_pos.x + get_node(path_to_richtextlabel).rect_size.x/2) <= global_distance_to_clamp:
+	if tooltip_distance_to_edge_right(mouse_pos + get_node(path_to_richtextlabel).rect_size/2) <= global_distance_to_clamp:
 		corrected_position.x = screen_width - global_distance_to_clamp - get_node(path_to_richtextlabel).rect_size.x
 	
 	get_node(path_to_richtextlabel).anchor_right = 0.2
@@ -110,11 +110,6 @@ func _on_Control_text_selected(text):
 func _on_clamp_distance_text_changed(new_text):
 	global_distance_to_clamp = int(new_text)
 	update_line2d()
-
-func _on_rtl_sizex_text_changed(text):
-	pass
-	get_node(path_to_richtextlabel).rect_size.x = float(text)
-	update_size()
 
 
 func _offset(position):

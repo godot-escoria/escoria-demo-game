@@ -20,6 +20,11 @@ func _ready():
 	connect("mouse_exited", self, "_on_inventory_item_mouse_exit")
 
 func _on_inventory_item_gui_input(event : InputEvent):
+	if event.is_action_pressed("switch_action_verb"):
+		if event.button_index == BUTTON_WHEEL_UP:
+			escoria.inputs_manager._on_mousewheel_action(-1)
+		elif event.button_index == BUTTON_WHEEL_DOWN:
+			escoria.inputs_manager._on_mousewheel_action(1)
 	if event is InputEventMouseButton:
 #		var p = get_global_mouse_position()
 		if event.doubleclick:

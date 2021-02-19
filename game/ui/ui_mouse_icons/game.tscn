@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://game/ui/ui_mouse_icons/inventory/inventory_ui.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/escoria-core/game/scenes/dialogs/dialog_player.tscn" type="PackedScene" id=2]
@@ -6,9 +6,11 @@
 [ext_resource path="res://game/ui/ui_mouse_icons/verbs_mouseicons.tscn" type="PackedScene" id=4]
 [ext_resource path="res://game/ui/ui_mouse_icons/game.gd" type="Script" id=5]
 [ext_resource path="res://game/ui/ui_mouse_icons/tooltip/target_tooltip.tscn" type="PackedScene" id=6]
+[ext_resource path="res://game/ui/commons/room_select.tscn" type="PackedScene" id=7]
 
 [node name="game" type="Node2D"]
 script = ExtResource( 5 )
+editor_debug_mode = 1
 
 [node name="ui" type="CanvasLayer" parent="."]
 
@@ -35,10 +37,20 @@ layer = 2
 
 [node name="tooltip" parent="ui/tooltip_layer" instance=ExtResource( 6 )]
 mouse_filter = 2
+bbcode_text = "[center][color=#000000][/color][/center]"
+color = Color( 0, 0, 0, 1 )
+offset_from_cursor = Vector2( 75, 10 )
+debug_mode = true
 
 [node name="dialog_layer" type="CanvasLayer" parent="ui"]
 layer = 3
 
 [node name="dialog_player" parent="ui/dialog_layer" instance=ExtResource( 2 )]
+
+[node name="room_select" parent="ui" instance=ExtResource( 7 )]
+margin_left = 75.5099
+margin_top = 751.323
+margin_right = 138.51
+margin_bottom = 791.324
 
 [node name="camera" parent="." instance=ExtResource( 3 )]

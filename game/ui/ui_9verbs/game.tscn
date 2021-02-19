@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://game/ui/ui_9verbs/tooltip/action_target_tooltip.tscn" type="PackedScene" id=1]
 [ext_resource path="res://game/ui/ui_9verbs/inventory/inventory_ui.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://game/ui/ui_9verbs/game.gd" type="Script" id=5]
 [ext_resource path="res://addons/escoria-core/game/scenes/camera_player/camera.tscn" type="PackedScene" id=6]
 [ext_resource path="res://game/ui/commons/room_select.tscn" type="PackedScene" id=7]
+[ext_resource path="res://game/ui/ui_9verbs/tooltip/tooltip_action_target.gd" type="Script" id=8]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.6, 0.6, 0.6, 0.5 )
@@ -54,14 +55,15 @@ margin_bottom = 615.331
 layer = 2
 
 [node name="tooltip" parent="ui/tooltip_layer" instance=ExtResource( 1 )]
-anchor_left = 0.208
-anchor_top = 0.722
-anchor_right = 0.734
-anchor_bottom = 0.77
-margin_left = 0.383453
-margin_top = 0.364075
-margin_right = 0.103394
-margin_bottom = -0.0359497
+anchor_left = 0.132
+anchor_top = 0.719
+anchor_right = 0.832
+anchor_bottom = 0.767
+margin_left = 0.0272522
+margin_top = 0.320557
+margin_right = -0.252686
+margin_bottom = -0.0794678
+script = ExtResource( 8 )
 
 [node name="dialog_layer" type="CanvasLayer" parent="ui"]
 layer = 3
