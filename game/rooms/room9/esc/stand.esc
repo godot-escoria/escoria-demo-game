@@ -1,0 +1,4 @@
+
+:use r9_bottle
+set_state r9_stand set_bottle
+set_state r9_right_exit open

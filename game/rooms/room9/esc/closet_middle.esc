@@ -1,5 +1,20 @@
 # Magical closet: the object is always in the LAST opened closet 
 
+:use
+> [middle_closet_open]
+	stop
+
+set_global middle_closet_open true
+inc_global open_closets 1
+
+> [lt open_closets 3]
+	set_state r9_closet_middle open_no_object
+	stop
+
+> [eq open_closets 3]
+	set_state r9_closet_middle open_object
+	stop
+
 
 :open
 > [middle_closet_open]

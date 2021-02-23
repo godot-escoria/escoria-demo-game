@@ -1,0 +1,133 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=1]
+
+[sub_resource type="Animation" id=1]
+resource_name = "r_door_close"
+tracks/0/type = "value"
+tracks/0/path = NodePath("r_door_closed:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("r_door_opened:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:is_exit")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:default_action")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "look" ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "r_door_open"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("r_door_closed:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("r_door_opened:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:is_exit")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:default_action")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "walk" ]
+}
+
+[node name="r_door" type="Area2D"]
+script = ExtResource( 1 )
+global_id = "r9_door"
+esc_script = "res://game/rooms/room9/esc/r9_door.esc"
+tooltip_name = "Door"
+default_action = "look"
+dialog_color = Color( 1, 1, 1, 1 )
+interact_positions = {
+"default": Vector2( 0, 0 )
+}
+
+[node name="r_door_closed" type="Polygon2D" parent="."]
+color = Color( 0.482353, 0.568627, 1, 1 )
+polygon = PoolVector2Array( 1172.3, 44.8186, 1172.3, 348.012, 1273.9, 401.983, 1277.07, 89.2657 )
+
+[node name="r_door_opened" type="Polygon2D" parent="."]
+visible = false
+color = Color( 0.482353, 0.568627, 1, 1 )
+polygon = PoolVector2Array( 1172.3, 44.8186, 1172.3, 348.012, 1029.82, 349.887, 1025.19, 42.1269 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/r_door_close = SubResource( 1 )
+anims/r_door_open = SubResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 1169.35, 41.7644, 1168.09, 347.925, 1275.18, 407.141, 1278.96, 88.3814 )

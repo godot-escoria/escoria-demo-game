@@ -1,4 +1,3 @@
-tool
 extends ESCTooltip
 
 func update_tooltip_text():

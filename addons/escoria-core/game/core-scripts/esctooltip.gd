@@ -80,7 +80,7 @@ func set_target2(target2 : String) -> void:
 
 func update_tooltip_text():
 	"""
-	Overriden method. Should not be called.
+	Overriden method. Should not be called directly.
 	"""
 	pass
 

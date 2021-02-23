@@ -51,6 +51,7 @@ var commands = {
 	"inventory_remove": { "min_args": 1 },
 	"inventory_display": { "min_args": 1, "types": [TYPE_BOOL] },
 	"jump": { "min_args": 1 },
+	"label": { "min_args": 1 },
 	"play_snd": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING, TYPE_BOOL] },
 	"queue_animation": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING, TYPE_BOOL] },
 	"queue_resource": { "min_args": 1, "types": [TYPE_STRING, TYPE_BOOL] },
@@ -75,9 +76,9 @@ var commands = {
 	"turn_to": { "min_args": 2 },
 	"wait": true,
 	"walk": { "min_args": 2 },
+	"walk_block": { "min_args": 2 },
 	"walk_to_pos": { "min_args": 3},
 	"walk_to_pos_block": { "min_args": 3},
-	"walk_block": { "min_args": 2 },
 	
 	"%": { "alias": "label", "min_args": 1},
 	"?": { "alias": "dialog"},

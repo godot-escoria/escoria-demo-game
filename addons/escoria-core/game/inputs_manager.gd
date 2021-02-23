@@ -14,7 +14,7 @@ func _input(event):
 		escoria.main.get_node("layers/debug_layer/esc_prompt_popup").popup()
 	
 	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
-		if !hotspot_focused.empty():
+		if escoria.main.current_scene and escoria.main.current_scene.game:
 			if event is InputEventMouseMotion:
 				escoria.main.current_scene.game.update_tooltip_following_mouse_position(event.position)
 

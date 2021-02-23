@@ -389,12 +389,14 @@ func inventory_display(command_params : Array):
 
 """
 jump label_name
-Jump to label_name block. Labels are blocks defined the same way as action_verbs:
-	:label
+Jump to label_name block. This is used to build more complex dialog trees.
+Labels must be defined at the same level as the 'jump' command, using either
+'label label_name' command or '% label_name'.
 """
 func jump(command_params : Array):
 	escoria.esc_runner.jump(command_params[0])
 	return esctypes.EVENT_LEVEL_STATE.JUMP
+
 
 """
 """
