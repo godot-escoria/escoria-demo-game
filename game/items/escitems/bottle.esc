@@ -4,5 +4,7 @@ stop
 
 :pickup
 inventory_add r9_bottle true
-set_active r9_bottle false
+set_active r9_bottle_left false
+set_active r9_bottle_middle false
+set_active r9_bottle_right false
 

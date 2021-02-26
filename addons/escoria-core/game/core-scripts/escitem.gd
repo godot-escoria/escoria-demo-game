@@ -53,12 +53,13 @@ export(bool) var use_from_inventory_only = false
 # Scene used in inventory for the object if it is picked up
 export(PackedScene) var inventory_item_scene_file : PackedScene 
 
+# Color used for dialogs
 export(Color) var dialog_color = ColorN("white")
 
 
 # Detected interact position set by a Position2D node OUTSIDE OF THE SCENE.
 # You have to add a child to the INSTANCED SCENE, IN THE ROOM SCENE.
-export(Dictionary) var interact_positions : Dictionary = { "default": null}
+#var interact_positions : Dictionary = { "default": null}
 
 # Animation node (null if none was found)
 var animation_sprite
@@ -72,6 +73,9 @@ var terrain : ESCTerrain
 var terrain_is_scalenodes : bool
 var check_maps = true
 var collision
+# If dont_apply_terrain_scaling is true, terrain scaling will not be applied and
+# node will remain at the scale set in the scene.
+export(bool) var dont_apply_terrain_scaling = false
 
 export(int) var speed : int = 300
 export(float) var v_speed_damp : float = 1.0
@@ -111,10 +115,13 @@ func _ready():
 	connect("mouse_entered", self, "_on_mouse_entered")
 	connect("mouse_exited", self, "_on_mouse_exited")
 	connect("input_event", self, "manage_input")
-		
-	init_interact_position_with_node()
 	
-		
+	# Initialize collision variable.
+	for c in get_children():
+		if c is CollisionShape2D or c is CollisionPolygon2D:
+			collision = c
+	
+	# Register and connect all elements to Escoria backoffice.
 	if !Engine.is_editor_hint():
 		escoria.register_object(self)
 		terrain = escoria.room_terrain
@@ -131,7 +138,8 @@ func _ready():
 			connect("body_entered", self, "element_entered")
 			connect("body_exited", self, "element_exited")
 	
-	if !is_exit:
+	# Perform a first terrain scaling if we have to.
+	if !is_exit or dont_apply_terrain_scaling:
 		Movable.last_scale = scale
 		Movable.update_terrain()
 
@@ -144,28 +152,46 @@ func get_animation_player():
 	return animation_sprite
 
 
-"""
-Initialize the interact_position attribute by searching for a Position2D
-node in children nodes. 
-If any is found, the first one is used as interaction position with this hotspot.
-If none is found, we use the CollisionShape2D or CollisionPolygon2D child node's 
-position instead.
-"""
-func init_interact_position_with_node():
-	interact_positions.default = null
+#"""
+#Initialize the interact_position attribute by searching for a Position2D
+#node in children nodes. 
+#If any is found, the first one is used as interaction position with this hotspot.
+#If none is found, we use the CollisionShape2D or CollisionPolygon2D child node's 
+#position instead.
+#"""
+#func init_interact_position_with_node():
+#	interact_positions.default = null
+#	for c in get_children():
+#		if c is Position2D:
+#			# If the position2D node is part of the hotspot, it means it is not an interact position
+#			# but a dialog position for example. Interact position node must be set in the room scene.
+#			if c.get_owner() == self:
+#				continue
+#			var globalpos = c.global_position
+#			interact_positions.default = c.global_position
+#
+#		if c is CollisionShape2D or c is CollisionPolygon2D:
+#			collision = c
+#			if interact_positions.default == null:
+#				interact_positions.default = c.global_position
+
+func get_interact_position() -> Vector2:
+	var interact_position = null
 	for c in get_children():
 		if c is Position2D:
 			# If the position2D node is part of the hotspot, it means it is not an interact position
 			# but a dialog position for example. Interact position node must be set in the room scene.
 			if c.get_owner() == self:
 				continue
-			interact_positions.default = c.global_position
+			interact_position = c.global_position
 			
 		if c is CollisionShape2D or c is CollisionPolygon2D:
-			collision = c
-			if interact_positions.default == null:
-				interact_positions.default = c.global_position	
+			if interact_position == null:
+				interact_position = c.global_position
 		
+	return interact_position
+
+	
 	
 func manage_input(viewport : Viewport, event : InputEvent, shape_idx : int):
 	if event is InputEventMouseButton:

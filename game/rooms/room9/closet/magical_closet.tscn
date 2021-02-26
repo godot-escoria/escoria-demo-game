@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=1]
-[ext_resource path="res://game/items/escitems/bottle_escitem.tscn" type="PackedScene" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 66.4415, 154.457 )
@@ -21,7 +20,7 @@ tracks/0/keys = {
 "values": [ true ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("base/open_no_object:visible")
+tracks/1/path = NodePath("base/open:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -33,7 +32,7 @@ tracks/1/keys = {
 "values": [ false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("base/open_object:visible")
+tracks/2/path = NodePath(".:default_action")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -42,22 +41,11 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ false ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("bottle:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
+"values": [ "use" ]
 }
 
 [sub_resource type="Animation" id=3]
+resource_name = "open"
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("base/closed:visible")
@@ -72,7 +60,7 @@ tracks/0/keys = {
 "values": [ false ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("base/open_no_object:visible")
+tracks/1/path = NodePath("base/open:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -84,7 +72,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("base/open_object:visible")
+tracks/2/path = NodePath(".:default_action")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -93,78 +81,13 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ false ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("bottle:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-
-[sub_resource type="Animation" id=4]
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath("base/closed:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("base/open_no_object:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("base/open_object:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("bottle:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
+"values": [ "walk" ]
 }
 
 [node name="closet" type="Area2D"]
 script = ExtResource( 1 )
+default_action = "use"
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 64.2172, 153.408 )
-}
 
 [node name="base" type="Line2D" parent="."]
 position = Vector2( 1.12247, 0 )
@@ -189,46 +112,20 @@ polygon = PoolVector2Array( 29.051, 47.3419, 29.9949, 71.8826, 105.033, 71.8826,
 points = PoolVector2Array( 106.643, 175.739, 105.894, 144.275 )
 default_color = Color( 0.478431, 0.478431, 0.478431, 1 )
 
-[node name="open_no_object" type="Node2D" parent="base"]
+[node name="open" type="Node2D" parent="base"]
 visible = false
 
-[node name="black" type="Polygon2D" parent="base/open_no_object"]
+[node name="black" type="Polygon2D" parent="base/open"]
 color = Color( 0.141176, 0.141176, 0.141176, 1 )
 polygon = PoolVector2Array( 5.79657, 8.23298, 5.79657, 297.059, 121.893, 299.89, 123.781, 6.34522 )
 
-[node name="shelf" type="Line2D" parent="base/open_no_object"]
+[node name="shelf" type="Line2D" parent="base/open"]
 points = PoolVector2Array( 10.112, 86.2807, 118.234, 86.2807 )
 default_color = Color( 0.4, 0.501961, 1, 1 )
 
-[node name="door" type="Polygon2D" parent="base/open_no_object"]
+[node name="door" type="Polygon2D" parent="base/open"]
 color = Color( 0.4, 0.501961, 1, 1 )
 polygon = PoolVector2Array( 1.07718, 7.2891, -37.6216, 23.335, -37.6216, 328.206, 2.02106, 302.722 )
-
-[node name="open_object" type="Node2D" parent="base"]
-visible = false
-
-[node name="black" type="Polygon2D" parent="base/open_object"]
-color = Color( 0.141176, 0.141176, 0.141176, 1 )
-polygon = PoolVector2Array( 5.79657, 8.23298, 5.79657, 297.059, 121.893, 299.89, 123.781, 6.34522 )
-
-[node name="shelf" type="Line2D" parent="base/open_object"]
-points = PoolVector2Array( 10.112, 86.2807, 118.234, 86.2807 )
-default_color = Color( 0.4, 0.501961, 1, 1 )
-
-[node name="door" type="Polygon2D" parent="base/open_object"]
-color = Color( 0.4, 0.501961, 1, 1 )
-polygon = PoolVector2Array( 1.07718, 7.2891, -37.6216, 23.335, -37.6216, 328.206, 2.02106, 302.722 )
-
-[node name="bottle" parent="." instance=ExtResource( 2 )]
-visible = false
-position = Vector2( 51.1535, 45.7845 )
-scale = Vector2( 0.507, 0.507 )
-interact_positions = {
-"default": Vector2( 45.4966, 321.556 )
-}
-
-[node name="Position2D" type="Position2D" parent="bottle"]
-position = Vector2( -11.1576, 543.928 )
 
 [node name="CollisionPolygon2D" type="CollisionShape2D" parent="."]
 position = Vector2( 64.2172, 153.408 )
@@ -236,5 +133,4 @@ shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/closed = SubResource( 2 )
-anims/open_no_object = SubResource( 3 )
-anims/open_object = SubResource( 4 )
+anims/open = SubResource( 3 )

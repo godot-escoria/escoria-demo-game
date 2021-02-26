@@ -8,11 +8,12 @@ set_global right_closet_open true
 inc_global open_closets 1
 	
 > [lt open_closets 3]
-	set_state r9_closet_right open_no_object
+	set_state r9_closet_right open
 	stop
 
 > [eq open_closets 3]
-	set_state r9_closet_right open_object
+	set_state r9_closet_right open
+	set_active r9_bottle_right true
 	stop
 
 
@@ -24,9 +25,10 @@ set_global right_closet_open true
 inc_global open_closets 1
 	
 > [lt open_closets 3]
-	set_state r9_closet_right open_no_object
+	set_state r9_closet_right open
 	stop
 
 > [eq open_closets 3]
-	set_state r9_closet_right open_object
+	set_state r9_closet_right open
+	set_active r9_bottle_right true
 	stop

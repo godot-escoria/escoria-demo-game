@@ -105,15 +105,20 @@ func teleport(target, angle : Object = null) -> void:
 	Teleports the item on target position.
 	target can be Vector2 or Object
 	"""
-	if typeof(target) == TYPE_VECTOR2:
-		escoria.logger.info("Object " + target + " teleported at position" + 
-			str(target) + "with angle", [angle])
+	if typeof(target) == TYPE_VECTOR2 :
+		escoria.logger.info("Object " + parent.global_id + " teleported at position " + 
+			str(target) + " with angle", [angle])
 		parent.position = target
+	elif target is Position2D:
+		escoria.logger.info("Object " + parent.global_id + " teleported at position " + 
+			str(target.position) + " with angle", [angle])
+		parent.position = target.position
 	elif typeof(target) == TYPE_OBJECT:
-		if target.get("interact_positions") != null:
-			parent.position = target.interact_positions.default #.global_position
-		else:
-			parent.position = target.position
+#		if target.get("interact_positions") != null:
+#			parent.position = target.interact_positions.default #.global_position
+#		else:
+#			parent.position = target.position
+		parent.position = target.get_interact_position()
 		escoria.logger.info("Object " + target.name + " teleported at position " 
 			+ str(parent.position) + " with angle ", str(angle))
 	else:
@@ -220,6 +225,8 @@ func update_terrain(on_event_finished_name = null):
 	if on_event_finished_name != null and on_event_finished_name != "setup":
 		return
 	if parent.get("is_exit"):
+		return
+	if parent.get("dont_apply_terrain_scaling"):
 		return
 		
 	var pos = parent.position

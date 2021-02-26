@@ -31,6 +31,8 @@ Implement methods to react to inputs.
 - _on_event_done(event_name: String)
 """
 
+func _ready():
+	ProjectSettings.set_setting("escoria/ui/tooltip_follows_mouse", false)
 
 func _input(event):
 	if event.is_action_pressed("switch_action_verb"):
@@ -61,11 +63,16 @@ func left_double_click_on_bg(position : Vector2) -> void:
 ## ITEM FOCUS ## 
 
 func element_focused(element_id : String) -> void:
-	$ui/tooltip_layer/tooltip.set_target(escoria.esc_runner.get_object(element_id).tooltip_name)
+	var target_obj = escoria.esc_runner.get_object(element_id)
+	$ui/tooltip_layer/tooltip.set_target(target_obj.tooltip_name)
+	
+	if escoria.esc_runner.current_action != "use" && escoria.esc_runner.current_tool == null:
+		if target_obj is ESCItem:
+			$ui/verbs_layer/verbs_menu.set_by_name(target_obj.default_action)
 
 func element_unfocused() -> void:
-	$ui/tooltip_layer/tooltip.set_target("")
-
+	$ui/tooltip_layer/tooltip.clear()
+	$ui/verbs_layer/verbs_menu.unselect_actions()
 
 ## ITEMS ##
 
@@ -73,6 +80,7 @@ func left_click_on_item(item_global_id : String, event : InputEvent) -> void:
 	escoria.do("item_left_click", [item_global_id, event])
 
 func right_click_on_item(item_global_id : String, event : InputEvent) -> void:
+	escoria.esc_runner.set_current_action($ui/verbs_layer/verbs_menu.selected_action)
 	escoria.do("item_right_click", [item_global_id, event])
 
 func left_double_click_on_item(item_global_id : String, event : InputEvent) -> void:

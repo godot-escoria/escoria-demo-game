@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/escterrain.gd" type="Script" id=1]
 [ext_resource path="res://game/rooms/room9/background.tscn" type="PackedScene" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://game/rooms/room2/button/button.tscn" type="PackedScene" id=8]
 [ext_resource path="res://game/rooms/room9/r_door.tscn" type="PackedScene" id=9]
 [ext_resource path="res://game/items/textures/genericItem_color_127.png" type="Texture" id=10]
+[ext_resource path="res://game/items/escitems/bottle_escitem.tscn" type="PackedScene" id=11]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, 1143.08, 613.35, -9.16094, 803.802, -6.44019, 711.297, 846.646, 637.49, 3.15687, 646.051, 59.2201, 628.698, 84.5821, 654.06, 864.626, 613.518, 428.618, 640.487, 386.666, 618.012, 129.634, 615.792 )
@@ -54,15 +55,6 @@ __meta__ = {
 
 [node name="walkable_area" type="Navigation2D" parent="."]
 script = ExtResource( 1 )
-scales = null
-bitmaps_scale = Vector2( 1, 1 )
-lightmap = null
-player_speed_multiplier = 1.0
-player_doubleclick_speed_multiplier = 1.5
-lightmap_modulate = Color( 1, 1, 1, 1 )
-debug_mode = 1
-scale_min = 0.3
-scale_max = 1.0
 
 [node name="platform" type="NavigationPolygonInstance" parent="walkable_area"]
 position = Vector2( 6.73163, -264.779 )
@@ -81,9 +73,6 @@ is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 37.4521, 392.045 )
-}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
 polygon = PoolVector2Array( 0.328762, 440.897, 1.85199, 119.926, 85.9517, 74.6212, 87.1409, 377.869 )
@@ -93,9 +82,6 @@ position = Vector2( 37.4521, 392.045 )
 
 [node name="r_door" parent="Hotspots" instance=ExtResource( 9 )]
 esc_script = "res://game/rooms/room9/esc/right_exit.esc"
-interact_positions = {
-"default": Vector2( 1198.65, 391.058 )
-}
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r_door"]
 position = Vector2( 1198.65, 391.058 )
@@ -105,47 +91,62 @@ position = Vector2( 435.233, 64.1518 )
 global_id = "r9_closet_left"
 esc_script = "res://game/rooms/room9/esc/closet_left.esc"
 tooltip_name = "Left closet"
-default_action = "use"
-interact_positions = {
-"default": Vector2( 505.158, 383.05 )
-}
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_left"]
 position = Vector2( 69.9246, 318.898 )
+
+[node name="bottle_left" parent="Hotspots/r9_closet_left" instance=ExtResource( 11 )]
+visible = false
+position = Vector2( 46.4878, 47.8335 )
+scale = Vector2( 0.5, 0.5 )
+global_id = "r9_bottle_left"
+dont_apply_terrain_scaling = true
+
+[node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_left/bottle_left"]
+position = Vector2( -26.727, 543.448 )
 
 [node name="r9_closet_middle" parent="Hotspots" instance=ExtResource( 5 )]
 position = Vector2( 572.963, 65.2113 )
 global_id = "r9_closet_middle"
 esc_script = "res://game/rooms/room9/esc/closet_middle.esc"
 tooltip_name = "Middle closet"
-default_action = "use"
-interact_positions = {
-"default": Vector2( 638.65, 383.05 )
-}
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_middle"]
 position = Vector2( 65.6867, 317.839 )
+
+[node name="bottle_middle" parent="Hotspots/r9_closet_middle" instance=ExtResource( 11 )]
+visible = false
+position = Vector2( 45.9562, 46.774 )
+scale = Vector2( 0.5, 0.5 )
+global_id = "r9_bottle_middle"
+dont_apply_terrain_scaling = true
+
+[node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_middle/bottle_middle"]
+position = Vector2( -26.727, 543.448 )
 
 [node name="r9_closet_right" parent="Hotspots" instance=ExtResource( 5 )]
 position = Vector2( 710.693, 66.2707 )
 global_id = "r9_closet_right"
 esc_script = "res://game/rooms/room9/esc/closet_right.esc"
 tooltip_name = "Right closet"
-default_action = "use"
-interact_positions = {
-"default": Vector2( 775.32, 383.05 )
-}
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_right"]
 position = Vector2( 64.6273, 316.779 )
+
+[node name="bottle_right" parent="Hotspots/r9_closet_right" instance=ExtResource( 11 )]
+visible = false
+position = Vector2( 47.2065, 45.7146 )
+scale = Vector2( 0.5, 0.5 )
+global_id = "r9_bottle_right"
+dont_apply_terrain_scaling = true
+
+[node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_right/bottle_right"]
+position = Vector2( -26.727, 543.448 )
 
 [node name="button" parent="Hotspots" instance=ExtResource( 8 )]
 position = Vector2( 240.688, 160.459 )
 global_id = "r9_button_reset"
 esc_script = "res://game/rooms/room9/esc/button_reset.esc"
-interact_positions = {
-"default": Vector2( 270.892, 369.999 )
-}
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button"]
 position = Vector2( 30.204, 209.54 )
@@ -166,13 +167,10 @@ position = Vector2( -125.617, 0.8909 )
 script = ExtResource( 7 )
 global_id = "r9_stand"
 esc_script = "res://game/rooms/room9/esc/stand.esc"
+interaction_direction = 2
 tooltip_name = "Stand"
 default_action = "look"
-use_from_inventory_only = true
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( -125.617, 0.8909 )
-}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/stand"]
 polygon = PoolVector2Array( 1086.57, 357.819, 1087.46, 226.857, 1134.68, 228.639, 1133.79, 358.71 )
@@ -190,7 +188,7 @@ texture = ExtResource( 10 )
 anims/set_bottle = SubResource( 2 )
 
 [node name="Position2D" type="Position2D" parent="Hotspots/stand"]
-position = Vector2( 1111.74, 380.57 )
+position = Vector2( 1043.27, 359.243 )
 
 [node name="player_start" type="Position2D" parent="."]
 position = Vector2( 76.7617, 437.649 )

@@ -77,15 +77,6 @@ text = "ROOM 5"
 
 [node name="walkable_area" type="Navigation2D" parent="."]
 script = ExtResource( 1 )
-scales = null
-bitmaps_scale = Vector2( 1, 1 )
-lightmap = null
-player_speed_multiplier = 1.0
-player_doubleclick_speed_multiplier = 1.5
-lightmap_modulate = Color( 1, 1, 1, 1 )
-debug_mode = 1
-scale_min = 0.3
-scale_max = 1.0
 
 [node name="platform" type="NavigationPolygonInstance" parent="walkable_area"]
 position = Vector2( 6.73163, -264.779 )
@@ -103,9 +94,6 @@ esc_script = "res://game/rooms/room5/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Left exit"
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 37.4521, 392.045 )
-}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
 polygon = PoolVector2Array( 0.328762, 440.897, 1.85199, 119.926, 85.9517, 74.6212, 87.1409, 377.869 )
@@ -121,9 +109,6 @@ esc_script = "res://game/rooms/room5/esc/right_exit.esc"
 is_exit = true
 tooltip_name = "Right exit"
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 1224.47, 353.99 )
-}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
 polygon = PoolVector2Array( 1177.94, 348.61, 1175.95, 45.3759, 1276.06, 92.0953, 1277.95, 399.407 )
@@ -137,9 +122,6 @@ global_id = "r5_wall_item"
 esc_script = "res://game/rooms/room5/esc/wall_item.esc"
 tooltip_name = "Item on the wall"
 default_action = "look"
-interact_positions = {
-"default": Vector2( 622.513, 359.162 )
-}
 
 [node name="Position2D2" type="Position2D" parent="Hotspots/item_wall"]
 position = Vector2( 620.135, 613.652 )
@@ -150,25 +132,16 @@ __meta__ = {
 [node name="wrench" parent="Hotspots" instance=ExtResource( 8 )]
 position = Vector2( 257.269, 435.892 )
 interaction_direction = 2
-interact_positions = {
-"default": Vector2( 179.848, 435.892 )
-}
 
 [node name="Position2D" type="Position2D" parent="Hotspots/wrench"]
 position = Vector2( -77.4207, 0 )
 
 [node name="pen" parent="Hotspots" instance=ExtResource( 10 )]
 position = Vector2( 909.908, 443.451 )
-interact_positions = {
-"default": Vector2( 909.908, 443.451 )
-}
 
 [node name="empty_sheet" parent="Hotspots" instance=ExtResource( 9 )]
 position = Vector2( 1059.84, 440.932 )
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 1059.84, 440.932 )
-}
 
 [node name="player_start" type="Position2D" parent="."]
 position = Vector2( 76.7617, 437.649 )

@@ -29,8 +29,11 @@ Implement methods to react to inputs.
 - show_ui()
 
 - _on_event_done(event_name: String)
-
 """
+
+func _ready():
+	ProjectSettings.set_setting("escoria/ui/tooltip_follows_mouse", true)
+
 
 ## BACKGROUND ## 
 
@@ -54,7 +57,6 @@ func left_double_click_on_bg(position : Vector2) -> void:
 func element_focused(element_id : String) -> void:
 	var target_obj = escoria.esc_runner.get_object(element_id)
 	$ui/tooltip_layer/tooltip.set_target(target_obj.tooltip_name)
-	$ui/tooltip_layer/tooltip.show()
 
 	if escoria.esc_runner.current_action != "use" && escoria.esc_runner.current_tool == null:
 		if target_obj is ESCItem:
@@ -62,7 +64,6 @@ func element_focused(element_id : String) -> void:
 
 func element_unfocused() -> void:
 	$ui/tooltip_layer/tooltip.set_target("")
-	$ui/tooltip_layer/tooltip.hide()
 
 
 ## ITEMS ##

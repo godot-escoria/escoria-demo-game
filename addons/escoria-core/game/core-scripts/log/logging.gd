@@ -8,8 +8,15 @@ func warning(string : String, args = []):
 
 
 func info(string : String, args = []):
-	var argsstr = str(args) if !args.empty() else ""
-	print("(I)\t" + string + " \t" + argsstr)
+	var argsstr = []
+	if !args.empty():
+		for arg in args:
+			if arg is Array:
+				for p in arg:
+					argsstr.append(p.global_id)
+			else:
+				argsstr.append(str(arg))
+	print("(I)\t" + string + " \t" + str(argsstr))
 	
 	
 func error(string : String, args = []):

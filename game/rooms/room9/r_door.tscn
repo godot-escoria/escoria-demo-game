@@ -112,9 +112,6 @@ esc_script = "res://game/rooms/room9/esc/r9_door.esc"
 tooltip_name = "Door"
 default_action = "look"
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 0, 0 )
-}
 
 [node name="r_door_closed" type="Polygon2D" parent="."]
 color = Color( 0.482353, 0.568627, 1, 1 )

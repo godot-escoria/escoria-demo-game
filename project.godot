@@ -125,11 +125,10 @@ main/force_quit=true
 debug/terminate_on_warnings=false
 debug/terminate_on_errors=true
 debug/development_lang="en"
-ui/tooltip_follows_mouse=true
 ui/dialogs_folder="res://game/ui/commons/dialogs"
 ui/default_dialog_scene="res://game/ui/commons/dialogs/dialog_label.tscn"
 ui/main_menu_scene="res://game/ui/commons/main_menu.tscn"
-ui/game_scene="res://game/ui/ui_mouse_icons/game.tscn"
+ui/game_scene="res://game/ui/ui_9verbs/game.tscn"
 internals/save_data=""
 
 [input]

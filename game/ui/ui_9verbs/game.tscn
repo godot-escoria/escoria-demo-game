@@ -63,7 +63,9 @@ margin_left = 0.0272522
 margin_top = 0.320557
 margin_right = -0.252686
 margin_bottom = -0.0794678
+rect_min_size = Vector2( 0, 32 )
 script = ExtResource( 8 )
+color = Color( 1, 1, 1, 1 )
 
 [node name="dialog_layer" type="CanvasLayer" parent="ui"]
 layer = 3

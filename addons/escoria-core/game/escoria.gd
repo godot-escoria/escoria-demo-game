@@ -202,8 +202,13 @@ func ev_left_click_on_item(obj, event, default_action = false):
 		var clicked_object_has_interact_position = false
 
 		if esc_runner.get_interactive(obj.global_id):
-			if obj.interact_positions.default != null:
-				destination_position = obj.interact_positions.default#.global_position
+#			if obj.interact_positions.default != null:
+#				destination_position = obj.interact_positions.default#.global_position
+#				clicked_object_has_interact_position = true
+#			else:
+#				destination_position = obj.position
+			if obj.get_interact_position() != null:
+				destination_position = obj.get_interact_position()
 				clicked_object_has_interact_position = true
 			else:
 				destination_position = obj.position

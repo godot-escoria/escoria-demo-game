@@ -46,6 +46,15 @@ width = 4.0
 
 [node name="walkable_area" type="Navigation2D" parent="."]
 script = ExtResource( 1 )
+scales = null
+bitmaps_scale = Vector2( 1, 1 )
+lightmap = null
+player_speed_multiplier = 1.0
+player_doubleclick_speed_multiplier = 1.5
+lightmap_modulate = Color( 1, 1, 1, 1 )
+debug_mode = 1
+scale_min = 0.3
+scale_max = 1.0
 
 [node name="platform" type="NavigationPolygonInstance" parent="walkable_area"]
 position = Vector2( 6.73163, -264.779 )
@@ -57,9 +66,6 @@ __meta__ = {
 [node name="Hotspots" type="Node2D" parent="."]
 
 [node name="l_exit" parent="Hotspots" instance=ExtResource( 3 )]
-interact_positions = {
-"default": Vector2( 37.4521, 392.045 )
-}
 
 [node name="Position2D" type="Position2D" parent="Hotspots/l_exit"]
 position = Vector2( 37.4521, 392.045 )
@@ -68,9 +74,6 @@ __meta__ = {
 }
 
 [node name="r_door" parent="Hotspots" instance=ExtResource( 5 )]
-interact_positions = {
-"default": Vector2( 1180.52, 395.193 )
-}
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r_door"]
 position = Vector2( 1180.52, 395.193 )
@@ -81,9 +84,6 @@ __meta__ = {
 [node name="worker" parent="Hotspots" instance=ExtResource( 7 )]
 position = Vector2( 480, 430 )
 interaction_direction = 2
-interact_positions = {
-"default": Vector2( 322.472, 428.374 )
-}
 
 [node name="Position2D2" type="Position2D" parent="Hotspots/worker"]
 position = Vector2( -157.528, -1.62589 )

@@ -94,7 +94,7 @@ func update_size():
 	var nb_visible_characters = visible_characters
 	var nb_visible_lines = get_visible_line_count()
 	
-	printt("BEFORE", "text_height", content_height, "rtl_height", rect_size.y)
+#	printt("BEFORE", "text_height", content_height, "rtl_height", rect_size.y)
 	
 	# if text is too long and is wrapped
 #	var nblines = float(get_content_height()) / float(ONE_LINE_HEIGHT)
@@ -127,7 +127,7 @@ func update_size():
 	anchor_right = 0.0
 	anchor_bottom = 0.0
 	anchor_left = 0.0
-	printt("AFTER", "text_height", get_content_height(), "rtl_height", rect_size.y)
+#	printt("AFTER", "text_height", get_content_height(), "rtl_height", rect_size.y)
 
 
 func _offset(position):
@@ -151,3 +151,8 @@ func tooltip_distance_to_edge_left(position : Vector2):
 
 func tooltip_distance_to_edge_right(position : Vector2):
 	return escoria.game_size.x - position.x
+
+
+func clear():
+	set_target("")
+	set_target2("")
