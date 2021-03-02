@@ -99,16 +99,24 @@ func left_click_on_inventory_item(inventory_item_global_id : String, event : Inp
 			
 
 func right_click_on_inventory_item(inventory_item_global_id : String, event : InputEvent) -> void:
+	escoria.esc_runner.set_current_action($ui/verbs_layer/verbs_menu.selected_action)
 	escoria.do("item_right_click", [inventory_item_global_id, event])
 
 func left_double_click_on_inventory_item(inventory_item_global_id : String, event : InputEvent) -> void:
 	pass
 
 func inventory_item_focused(inventory_item_global_id : String) -> void:
-	$ui/tooltip_layer/tooltip.set_target(escoria.esc_runner.get_object(inventory_item_global_id).tooltip_name)
+	var target_obj = escoria.esc_runner.get_object(inventory_item_global_id)
+	$ui/tooltip_layer/tooltip.set_target(target_obj.tooltip_name)
+	
+	if escoria.esc_runner.current_action != "use" && escoria.esc_runner.current_tool == null:
+		if target_obj is ESCItem:
+			$ui/verbs_layer/verbs_menu.set_by_name(target_obj.default_action_inventory)
+	
 
 func inventory_item_unfocused() -> void:
 	$ui/tooltip_layer/tooltip.set_target("")
+	$ui/verbs_layer/verbs_menu.unselect_actions()
 
 
 func open_inventory():

@@ -130,6 +130,7 @@ ui/default_dialog_scene="res://game/ui/commons/dialogs/dialog_label.tscn"
 ui/main_menu_scene="res://game/ui/commons/main_menu.tscn"
 ui/game_scene="res://game/ui/ui_9verbs/game.tscn"
 internals/save_data=""
+ui/tooltip_follows_mouse=false
 
 [input]
 

@@ -184,12 +184,14 @@ func ev_left_click_on_item(obj, event, default_action = false):
 				esc_runner.current_tool = obj
 		else:
 			if default_action:
-				esc_runner.current_action = obj.default_action
+				if esc_runner.inventory_has(obj.global_id):
+					esc_runner.current_action = obj.default_action_inventory
+				else:
+					esc_runner.current_action = obj.default_action
 			elif esc_runner.current_action in obj.combine_if_action_used_among:
 				esc_runner.current_tool = obj
 				
 	
-	var action = "walk"
 	# Don't interact after player movement towards object (because object is inactive for example)
 	var dont_interact = false
 	var destination_position : Vector2 = main.current_scene.player.global_position

@@ -39,7 +39,12 @@ export(bool) var player_orients_on_arrival = true
 
 export(ESCPlayer.Directions) var interaction_direction
 export(String) var tooltip_name
+
+# Default action to use if object is not in the inventory
 export(String) var default_action
+# Default action to use if object is in the inventory
+export(String) var default_action_inventory
+
 # If action used by player is in the list, game will wait for a second click on another item
 # to combine objects together (typical USE <X> WITH <Y>, GIVE <X> TO <Y>)
 export(PoolStringArray) var combine_if_action_used_among = []
@@ -98,7 +103,6 @@ var last_dir : int
 
 
 func _ready():
-	
 	# Adds movable behavior
 	Movable = Node.new()
 	Movable.set_script(MovableScript)
@@ -137,6 +141,11 @@ func _ready():
 			connect("area_exited", self, "element_exited")
 			connect("body_entered", self, "element_entered")
 			connect("body_exited", self, "element_exited")
+		
+	# If object can be in the inventory, set default_action_inventory to same as
+	# default_action, if default_action_inventory is not set
+	if use_from_inventory_only and default_action_inventory.empty():
+		default_action_inventory = default_action
 	
 	# Perform a first terrain scaling if we have to.
 	if !is_exit or dont_apply_terrain_scaling:

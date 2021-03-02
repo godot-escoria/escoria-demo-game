@@ -14,6 +14,7 @@ global_id = "r9_bottle"
 esc_script = "res://game/items/escitems/bottle.esc"
 tooltip_name = "Bottle"
 default_action = "pickup"
+default_action_inventory = "look"
 combine_if_action_used_among = PoolStringArray( "use" )
 use_from_inventory_only = true
 inventory_item_scene_file = ExtResource( 3 )

@@ -5,7 +5,6 @@ func get_class():
 	return "ESCInventoryItem"
 
 export(String) var global_id
-#export(String, FILE, "*.esc") var esc_script
 
 signal mouse_left_inventory_item(item_id)
 signal mouse_right_inventory_item(item_id)
