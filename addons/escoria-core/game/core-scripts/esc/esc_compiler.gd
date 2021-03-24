@@ -52,7 +52,7 @@ var commands = {
 	"inventory_display": { "min_args": 1, "types": [TYPE_BOOL] },
 	"jump": { "min_args": 1 },
 	"label": { "min_args": 1 },
-	"play_snd": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING, TYPE_BOOL] },
+	"set_sound_state": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING, TYPE_BOOL] },
 	"queue_animation": { "min_args": 2, "types": [TYPE_STRING, TYPE_STRING, TYPE_BOOL] },
 	"queue_resource": { "min_args": 1, "types": [TYPE_STRING, TYPE_BOOL] },
 	"repeat": true,

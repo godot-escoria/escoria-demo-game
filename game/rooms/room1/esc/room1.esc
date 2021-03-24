@@ -8,3 +8,5 @@
 	teleport player player_start
 	stop
 
+:ready
+set_sound_state bg_music res://game/sfx/contemplation.ogg true

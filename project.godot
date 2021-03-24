@@ -14,15 +14,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/escbackground.gd"
 }, {
+"base": "Control",
+"class": "ESCBackgroundMusic",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/scenes/sound/bg_music.gd"
+}, {
+"base": "Control",
+"class": "ESCBackgroundSound",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/scenes/sound/bg_sound.gd"
+}, {
 "base": "Camera2D",
 "class": "ESCCamera",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/scenes/camera_player/esccamera.gd"
-}, {
-"base": "Node",
-"class": "ESCCharacter",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esccharacter.gd"
 }, {
 "base": "ResourcePreloader",
 "class": "ESCDialogsPlayer",
@@ -42,7 +47,7 @@ _global_script_classes=[ {
 "base": "TextureButton",
 "class": "ESCInventoryItem",
 "language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/inventory_item.gd"
+"path": "res://addons/escoria-core/game/core-scripts/escinventoryitem.gd"
 }, {
 "base": "Area2D",
 "class": "ESCItem",
@@ -76,8 +81,9 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "ESCBackground": "",
+"ESCBackgroundMusic": "",
+"ESCBackgroundSound": "",
 "ESCCamera": "",
-"ESCCharacter": "",
 "ESCDialogsPlayer": "",
 "ESCGame": "",
 "ESCInventory": "",
@@ -108,7 +114,9 @@ esctypes="*res://addons/escoria-core/game/core-scripts/escoria_types.gd"
 [display]
 
 window/size/width=1280
-window/size/height=800
+window/size/height=900
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
 
 [editor]
 
@@ -116,7 +124,7 @@ search_in_file_extensions=PoolStringArray( "gd", "shader", "esc" )
 
 [editor_plugins]
 
-enabled=PoolStringArray( "escoria-core" )
+enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg" )
 
 [escoria]
 
@@ -125,12 +133,15 @@ main/force_quit=true
 debug/terminate_on_warnings=false
 debug/terminate_on_errors=true
 debug/development_lang="en"
+ui/tooltip_follows_mouse=false
 ui/dialogs_folder="res://game/ui/commons/dialogs"
 ui/default_dialog_scene="res://game/ui/commons/dialogs/dialog_label.tscn"
-ui/main_menu_scene="res://game/ui/commons/main_menu.tscn"
+ui/main_menu_scene="res://game/ui/commons/main_menu/main_menu.tscn"
+ui/pause_menu_scene="res://game/ui/commons/pause_menu/pause_menu.tscn"
 ui/game_scene="res://game/ui/ui_9verbs/game.tscn"
 internals/save_data=""
-ui/tooltip_follows_mouse=false
+sound/music_volume=5
+sound/sound_volume=8
 
 [input]
 

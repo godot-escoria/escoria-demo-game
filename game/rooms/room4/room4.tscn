@@ -20,6 +20,7 @@ global_id = "room4"
 esc_script = "res://game/rooms/room4/esc/room4.esc"
 player_scene = ExtResource( 4 )
 camera_limits = [ Rect2( 0, 0, 1666, 574 ) ]
+editor_debug_mode = 1
 
 [node name="background" type="TextureRect" parent="."]
 margin_right = 1666.0
@@ -34,20 +35,6 @@ __meta__ = {
 scale = Vector2( 0.692794, 0.692794 )
 texture = ExtResource( 7 )
 centered = false
-
-[node name="l_platform" type="Line2D" parent="background"]
-visible = false
-position = Vector2( 2, -266 )
-points = PoolVector2Array( 80.1882, 575.221, 161.613, 664.655, 472.392, 662.45, 685.125, 526.838, 860.996, 526.838, 1114.43, 647.617, 2242.97, 610.492, 2385.84, 672.401, 2389.93, 804.937, 1000, 795.942, 805.904, 564.979, 733.86, 562.86, 580.457, 806.537, -4.3772, 811.004, 4.10239, 576.556, 78.8534, 576.556 )
-
-[node name="r_door" type="Line2D" parent="background"]
-visible = false
-position = Vector2( 0, -267.828 )
-points = PoolVector2Array( 2252.91, 610.733, 2251.32, 332.938, 2384.66, 386.909, 2386.25, 674.229, 2254.5, 615.495 )
-
-[node name="l_door" type="Line2D" parent="background"]
-visible = false
-points = PoolVector2Array( 6.10242, 307.886, 2.0979, 129.017, 84.858, 129.017, 84.858, 311.89, 4.76758, 307.886 )
 
 [node name="room_label" type="Label" parent="background"]
 margin_right = 40.0
@@ -88,9 +75,6 @@ global_id = "l_exit"
 esc_script = "res://game/rooms/room4/esc/left_exit.esc"
 is_exit = true
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 83.6298, 279.703 )
-}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
 polygon = PoolVector2Array( 29.1046, 292.156, 31.0151, 76.8949, 147.177, 74.4792, 151.415, 293.788 )
@@ -104,9 +88,6 @@ global_id = "r_exit"
 esc_script = "res://game/rooms/room4/esc/right_exit.esc"
 is_exit = true
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 1611.46, 301.017 )
-}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
 polygon = PoolVector2Array( 1567.92, 294.848, 1573.21, 92.4902, 1657.34, 129.485, 1654.79, 343.583 )

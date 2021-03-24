@@ -1,0 +1,81 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://game/ui/commons/main_menu/main_menu.gd" type="Script" id=1]
+[ext_resource path="res://game/ui/commons/fonts/caslonantique.tres" type="DynamicFont" id=2]
+[ext_resource path="res://addons/escoria-core/logo/escoria-logo-small.png" type="Texture" id=3]
+
+[node name="main_menu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="TextureRect" type="TextureRect" parent="Panel"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -308.0
+margin_top = 52.0
+margin_right = 308.0
+margin_bottom = 288.0
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -179.0
+margin_top = -35.746
+margin_right = 179.0
+margin_bottom = 227.254
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="new_game" type="Button" parent="Panel/VBoxContainer"]
+margin_right = 358.0
+margin_bottom = 189.0
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 2 )
+text = "New game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="load_game" type="Button" parent="Panel/VBoxContainer"]
+margin_top = 199.0
+margin_right = 358.0
+margin_bottom = 226.0
+custom_fonts/font = ExtResource( 2 )
+text = "Load game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="quit" type="Button" parent="Panel/VBoxContainer"]
+margin_top = 236.0
+margin_right = 358.0
+margin_bottom = 263.0
+custom_fonts/font = ExtResource( 2 )
+text = "Quit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="Panel/VBoxContainer/new_game" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/load_game" to="." method="_on_load_game_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/quit" to="." method="_on_quit_pressed"]

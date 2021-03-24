@@ -81,6 +81,7 @@ polygon = PoolVector2Array( 0.328762, 440.897, 1.85199, 119.926, 85.9517, 74.621
 position = Vector2( 37.4521, 392.045 )
 
 [node name="r_door" parent="Hotspots" instance=ExtResource( 9 )]
+global_id = "r9_r_exit"
 esc_script = "res://game/rooms/room9/esc/right_exit.esc"
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r_door"]

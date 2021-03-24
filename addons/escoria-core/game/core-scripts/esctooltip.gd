@@ -57,7 +57,8 @@ func set_debug_mode(p_debug_mode : bool):
 		debug_texturerect_node.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		move_child(debug_texturerect_node, 2)
 	else:
-		remove_child(debug_texturerect_node)
+		if debug_texturerect_node:
+			remove_child(debug_texturerect_node)
 	
 
 func on_action_selected() -> void:

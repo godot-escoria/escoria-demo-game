@@ -1,0 +1,5 @@
+:exit_scene
+set_sound_state bg_sound res://game/sfx/sounds/doorOpen_2.ogg false
+change_scene "res://game/rooms/room9/room9.tscn"
+
+

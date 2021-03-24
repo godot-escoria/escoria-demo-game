@@ -399,9 +399,16 @@ func jump(command_params : Array):
 
 
 """
+set_sound_state bg_music|bg_sound off|default|<path/to/music.file> true|false
 """
-func play_snd(command_params : Array):
-	pass
+func set_sound_state(command_params : Array):
+	var snd_player = command_params[0]
+	var snd_id = command_params[1]
+	var loop = false
+	if command_params.size() == 3 and command_params[2]:
+		loop = true
+	escoria.main.get_node(snd_player).set_state(snd_id, loop)
+	return esctypes.EVENT_LEVEL_STATE.RETURN
 
 
 """

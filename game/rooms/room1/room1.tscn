@@ -15,11 +15,12 @@ __meta__ = {
 global_id = "room1"
 esc_script = "res://game/rooms/room1/esc/room1.esc"
 player_scene = ExtResource( 4 )
-camera_limits = [ Rect2( 0, 0, 1289, 555 ) ]
+camera_limits = [ Rect2( 0, 0, 1285, 550 ) ]
+editor_debug_mode = 1
 
 [node name="background" parent="." instance=ExtResource( 2 )]
 
-[node name="Advice" type="Label" parent="background"]
+[node name="advice" type="Label" parent="background"]
 margin_left = 90.2752
 margin_top = 120.824
 margin_right = 270.275
@@ -41,6 +42,7 @@ __meta__ = {
 }
 
 [node name="walkable_area" parent="." instance=ExtResource( 1 )]
+position = Vector2( 3.5636, 0 )
 
 [node name="Hotspots" type="Node2D" parent="."]
 
@@ -55,9 +57,6 @@ is_exit = true
 tooltip_name = "Exit"
 default_action = "walk"
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 1225.47, 353.99 )
-}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
 polygon = PoolVector2Array( 1177.94, 348.61, 1175.95, 45.3759, 1276.06, 92.0953, 1277.95, 399.407 )
@@ -73,9 +72,6 @@ esc_script = "res://game/rooms/room1/esc/wall_item.esc"
 tooltip_name = "Item on the wall"
 default_action = "look"
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 454.608, 373.035 )
-}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/item"]
 polygon = PoolVector2Array( 635.586, 253.345, 568.928, 60.1716, 709.047, 120.028, 699.524, 247.903 )
@@ -109,9 +105,6 @@ esc_script = "res://game/rooms/room1/esc/wall_item_popupdialog.esc"
 tooltip_name = "Item on the wall"
 default_action = "look"
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 861.442, 373.035 )
-}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/item2"]
 polygon = PoolVector2Array( 635.586, 253.345, 568.928, 60.1716, 709.047, 120.028, 699.524, 247.903 )

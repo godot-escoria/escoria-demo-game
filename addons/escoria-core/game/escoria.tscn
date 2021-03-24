@@ -24,7 +24,4 @@ script = ExtResource( 4 )
 
 [node name="main" parent="." instance=ExtResource( 2 )]
 
-[node name="Viewport" type="Viewport" parent="."]
-usage = 0
-
 [editable path="main"]

@@ -349,7 +349,10 @@ func change_scene(params, context, run_events=true):
 #	main.clear_scene()
 #	camera = null
 	event_queue = []
-
+	
+	escoria.main.scene_transition.fade_out()
+	yield(escoria.main.scene_transition, "transition_done")
+	
 	# Regular events need to be reset immediately, so we don't
 	# accidentally `yield()` on them, for performance reasons.
 	# This does not affect `stack` so execution is fine anyway.
@@ -380,6 +383,9 @@ func change_scene(params, context, run_events=true):
 		room_scene.add_child(game_scene)
 		room_scene.move_child(game_scene, 0)
 		var events = escoria.main.set_scene(room_scene, run_events)
+		
+		escoria.main.scene_transition.fade_in()
+		yield(escoria.main.scene_transition, "transition_done")
 		
 		# If scene was never visited, add "ready" event to the events stack
 		if !scenes_cache.has(room_scene.global_id) \
@@ -526,7 +532,7 @@ func register_object(name : String, val : Object, force : bool = false):
 
 	# Most objects have states/animations, but don't count on it
 #	if val.has_method("set_state"):
-	if val is ESCItem or val is ESCPlayer or val is ESCCharacter:
+	if val is ESCItem or val is ESCPlayer:
 		if name in states:
 			set_state(name, [states[name], true])
 		else:
@@ -722,23 +728,9 @@ func object_exit_scene(name : String):
 	if inventory_has(name):
 		objects[name] = objects[name].duplicate()
 	else:
-		escoria.logger.info("Object " + name + " removed from scene.")
-		objects.erase(name)
-
-#func jump(p_label):
-#	while stack.size() > 0:
-#		var top = stack[stack.size()-1]
-#		printt("top labels: ", top.labels, p_label)
-#		if p_label in top.labels:
-#			top.ip = top.labels[p_label]
-#			return
-#		else:
-#			if top.break_stop || stack.size() == 1:
-#				escoria.logger.report_errors("", ["Label not found: "+p_label+", can't jump"])
-#				stack.remove(stack.size()-1)
-#				break
-#			else:
-#				stack.remove(stack.size()-1)
+		if name != "bg_music":
+			escoria.logger.info("Object " + name + " removed from scene.")
+			objects.erase(name)
 
 
 func check_obj(name, cmd):
@@ -747,3 +739,4 @@ func check_obj(name, cmd):
 		escoria.logger.report_errors("", ["Global id "+name+" not found for " + cmd])
 		return false
 	return true
+

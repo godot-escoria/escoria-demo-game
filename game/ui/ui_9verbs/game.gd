@@ -31,6 +31,9 @@ Implement methods to react to inputs.
 - _on_event_done(event_name: String)
 """
 
+onready var verbs_menu = $ui/panel_down/verbs_layer/verbs_menu
+onready var tooltip = $ui/panel_down/tooltip_layer/tooltip
+
 func _ready():
 	ProjectSettings.set_setting("escoria/ui/tooltip_follows_mouse", false)
 
@@ -47,32 +50,32 @@ func _input(event):
 func left_click_on_bg(position : Vector2) -> void:
 	escoria.do("walk", ["player", position])
 	escoria.esc_runner.clear_current_action()
-	$ui/verbs_layer/verbs_menu.unselect_actions()
+	verbs_menu.unselect_actions()
 	
 func right_click_on_bg(position : Vector2) -> void:
 	escoria.do("walk", ["player", position])
 	escoria.esc_runner.clear_current_action()
-	$ui/verbs_layer/verbs_menu.unselect_actions()
+	verbs_menu.unselect_actions()
 	
 func left_double_click_on_bg(position : Vector2) -> void:
 	escoria.do("walk", ["player", position, true])
 	escoria.esc_runner.clear_current_action()
-	$ui/verbs_layer/verbs_menu.unselect_actions()
+	verbs_menu.unselect_actions()
 
 
 ## ITEM FOCUS ## 
 
 func element_focused(element_id : String) -> void:
 	var target_obj = escoria.esc_runner.get_object(element_id)
-	$ui/tooltip_layer/tooltip.set_target(target_obj.tooltip_name)
+	tooltip.set_target(target_obj.tooltip_name)
 	
 	if escoria.esc_runner.current_action != "use" && escoria.esc_runner.current_tool == null:
 		if target_obj is ESCItem:
-			$ui/verbs_layer/verbs_menu.set_by_name(target_obj.default_action)
+			verbs_menu.set_by_name(target_obj.default_action)
 
 func element_unfocused() -> void:
-	$ui/tooltip_layer/tooltip.clear()
-	$ui/verbs_layer/verbs_menu.unselect_actions()
+	tooltip.clear()
+	verbs_menu.unselect_actions()
 
 ## ITEMS ##
 
@@ -80,7 +83,7 @@ func left_click_on_item(item_global_id : String, event : InputEvent) -> void:
 	escoria.do("item_left_click", [item_global_id, event])
 
 func right_click_on_item(item_global_id : String, event : InputEvent) -> void:
-	escoria.esc_runner.set_current_action($ui/verbs_layer/verbs_menu.selected_action)
+	escoria.esc_runner.set_current_action(verbs_menu.selected_action)
 	escoria.do("item_right_click", [item_global_id, event])
 
 func left_double_click_on_item(item_global_id : String, event : InputEvent) -> void:
@@ -93,54 +96,70 @@ func left_click_on_inventory_item(inventory_item_global_id : String, event : Inp
 #	if escoria.esc_runner.current_action == "use":
 #		var item = escoria.esc_runner.get_object(inventory_item_global_id)
 #		if item.texture:
-#			$ui/verbs_layer/verbs_menu.set_tool_texture(item.texture)
+#			verbs_menu.set_tool_texture(item.texture)
 #		elif item.inventory_item_scene_file.instance().texture_normal:
-#			$ui/verbs_layer/verbs_menu.set_tool_texture(item.inventory_item_scene_file.instance().texture_normal)
+#			verbs_menu.set_tool_texture(item.inventory_item_scene_file.instance().texture_normal)
 			
 
 func right_click_on_inventory_item(inventory_item_global_id : String, event : InputEvent) -> void:
-	escoria.esc_runner.set_current_action($ui/verbs_layer/verbs_menu.selected_action)
+	escoria.esc_runner.set_current_action(verbs_menu.selected_action)
 	escoria.do("item_right_click", [inventory_item_global_id, event])
 
-func left_double_click_on_inventory_item(inventory_item_global_id : String, event : InputEvent) -> void:
+func left_double_click_on_inventory_item(_inventory_item_global_id : String, _event : InputEvent) -> void:
 	pass
 
 func inventory_item_focused(inventory_item_global_id : String) -> void:
 	var target_obj = escoria.esc_runner.get_object(inventory_item_global_id)
-	$ui/tooltip_layer/tooltip.set_target(target_obj.tooltip_name)
+	tooltip.set_target(target_obj.tooltip_name)
 	
 	if escoria.esc_runner.current_action != "use" && escoria.esc_runner.current_tool == null:
 		if target_obj is ESCItem:
-			$ui/verbs_layer/verbs_menu.set_by_name(target_obj.default_action_inventory)
+			verbs_menu.set_by_name(target_obj.default_action_inventory)
 	
 
 func inventory_item_unfocused() -> void:
-	$ui/tooltip_layer/tooltip.set_target("")
-	$ui/verbs_layer/verbs_menu.unselect_actions()
+	tooltip.set_target("")
+	verbs_menu.unselect_actions()
 
 
 func open_inventory():
-	$ui/inventory_layer/inventory_ui/inventory_button.show_inventory()
+	pass
 
 
 func close_inventory():
-	$ui/inventory_layer/inventory_ui/inventory_button.close_inventory()
-
-func mousewheel_action(direction : int):
 	pass
+
+
+func mousewheel_action(_direction : int):
+	pass
+
 
 func hide_ui():
 	$ui/panel_down.hide()
-	$ui/verbs_layer/verbs_menu.hide()
-	$ui/inventory_layer/inventory_ui.hide()
-	$ui/tooltip_layer/tooltip.hide()
+	verbs_menu.hide()
+	$ui/panel_down/inventory_layer/inventory_ui.hide()
+	tooltip.hide()
+
 
 func show_ui():
 	$ui/panel_down.show()
-	$ui/verbs_layer/verbs_menu.show()
-	$ui/inventory_layer/inventory_ui.show()
-	$ui/tooltip_layer/tooltip.show()
+	verbs_menu.show()
+	$ui/panel_down/inventory_layer/inventory_ui.show()
+	tooltip.show()
 
-func _on_event_done(event_name: String):
+func _on_event_done(_event_name: String):
 	escoria.esc_runner.clear_current_action()
-	$ui/verbs_layer/verbs_menu.unselect_actions()
+	verbs_menu.unselect_actions()
+
+
+func pause_game():
+	if $ui/pause_menu.visible:
+		$ui/pause_menu.hide()
+		escoria.main.current_scene.game.get_node("camera").current = true
+		escoria.main.current_scene.game.show_ui()
+		escoria.main.current_scene.show()
+	else:
+		$ui/pause_menu.show()
+		escoria.main.current_scene.game.get_node("camera").current = false
+		escoria.main.current_scene.game.hide_ui()
+		escoria.main.current_scene.hide()

@@ -1,9 +1,11 @@
 :look
 say player "He's looking a bit odd."
 
+####################################################################################################
 :pickup
 say player "I don't think he'd like that."
 
+####################################################################################################
 :talk
 > [!talked_once]
 	say player "Uhm..."
@@ -31,16 +33,17 @@ say player "I don't think he'd like that."
 		say worker 	"Go away, kid."
 		stop
 		
-
+####################################################################################################
 :use r5_filled_sheet
 jump give r5_filled_sheet
 
+####################################################################################################
 :give r5_filled_sheet
 inventory_remove r5_filled_sheet
-
 say worker "Hey! That's perfect!"
 say worker "I can finally get away from here!"
-walk_to_pos worker 1200 400
+walk_to_pos_block worker 1200 400
+
 #set_angle worker 45
 
 # Open the door

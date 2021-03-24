@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://addons/escoria-core/game/core-scripts/inventory_item.gd" type="Script" id=1]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/escinventoryitem.gd" type="Script" id=1]
 [ext_resource path="res://addons/escoria-core/game/assets/images/no_image.png" type="Texture" id=2]
 
 [node name="inventory_item" type="TextureButton"]

@@ -26,9 +26,6 @@ esc_script = "res://game/rooms/room6/esc/worker.esc"
 tooltip_name = "Worker"
 default_action = "look"
 dialog_color = Color( 0.196078, 0, 1, 1 )
-interact_positions = {
-"default": Vector2( -1.662, -141.108 )
-}
 animations = ExtResource( 2 )
 
 [node name="sprite" type="AnimatedSprite" parent="."]

@@ -11,6 +11,10 @@ var wait_level
 
 var screen_ofs = Vector2(0, 0)
 
+# ESCBackgroundMusic node
+onready var bg_music = $bg_music
+onready var scene_transition = $layers/curtain/scene_transition
+
 func _ready():
 	$layers/wait_timer.connect("timeout", self, "_on_wait_finished")
 
@@ -25,7 +29,8 @@ func set_scene(p_scene, run_events=true):
 	if current_scene != null:
 		clear_scene()
 
-	get_node("/root").add_child(p_scene)
+#	get_node("/root").add_child(p_scene) 
+	add_child(p_scene) 
 
 	# Ensure we don't have a regular event running when changing scenes
 	if escoria.esc_runner.running_event:

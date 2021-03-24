@@ -1,0 +1,2 @@
+:use
+set_sound_state bg_music res://game/sfx/contemplation.ogg true

@@ -13,6 +13,9 @@ func _input(event):
 	if event.is_action_pressed("esc_show_debug_prompt"):
 		escoria.main.get_node("layers/debug_layer/esc_prompt_popup").popup()
 	
+	if event.is_action_pressed("ui_cancel"):
+		_on_pause_menu_requested()
+	
 	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
 		if escoria.main.current_scene and escoria.main.current_scene.game:
 			if event is InputEventMouseMotion:
@@ -124,3 +127,8 @@ func clean_hover_stack():
 
 func hover_stack_pop(item):
 	hover_stack.erase(item)
+
+################################################################################
+
+func _on_pause_menu_requested():
+	escoria.main.current_scene.game.pause_game()

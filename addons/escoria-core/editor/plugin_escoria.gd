@@ -6,30 +6,56 @@ const autoloads = {
 	"esctypes": "res://addons/escoria-core/game/core-scripts/escoria_types.gd"
 }
 
+const custom_types = [
+	{
+		"type_name": "ESCBackground",
+		"parent_type": "Sprite",
+		"script_res": "res://addons/escoria-core/game/core-scripts/escbackground.gd"
+	},
+	{
+		"type_name": "ESCItem",
+		"parent_type": "Area2D",
+		"script_res": "res://addons/escoria-core/game/core-scripts/escitem.gd"
+	},
+	{
+		"type_name": "ESCItemsInventory",
+		"parent_type": "GridContainer",
+		"script_res": "res://addons/escoria-core/game/core-scripts/items_inventory.gd"
+	},
+	{
+		"type_name": "ESCInventoryItem",
+		"parent_type": "TextureButton",
+		"script_res": "res://addons/escoria-core/game/core-scripts/escinventoryitem.gd"
+	},
+	{
+		"type_name": "ESCPlayer",
+		"parent_type": "KinematicBody2D",
+		"script_res": "res://addons/escoria-core/game/core-scripts/escplayer.gd"
+	},
+	{
+		"type_name": "ESCRoom",
+		"parent_type": "Node2D",
+		"script_res": "res://addons/escoria-core/game/core-scripts/escroom.gd"
+	},
+	{
+		"type_name": "ESCTerrain",
+		"parent_type": "Navigation2D",
+		"script_res": "res://addons/escoria-core/game/core-scripts/escterrain.gd"
+	}
+]
+
 func _enter_tree():
 	add_autoloads()
 	
-	add_custom_type("ESCBackground", "Sprite", 
-			load("res://addons/escoria-core/game/core-scripts/escbackground.gd"), null)
-	add_custom_type("ESCCharacter", "KinematicBody2D", 
-			load("res://addons/escoria-core/game/core-scripts/esccharacter.gd"), null)
-	add_custom_type("ESCItem", "Area2D", 
-			load("res://addons/escoria-core/game/core-scripts/escitem.gd"), null)
-	add_custom_type("ESCItemsInventory", "GridContainer", 
-			load("res://addons/escoria-core/game/core-scripts/items_inventory.gd"), null)
-	add_custom_type("ESCInventoryItem", "TextureButton", 
-			load("res://addons/escoria-core/game/core-scripts/inventory_item.gd"), null)
-	add_custom_type("ESCPlayer", "KinematicBody2D", 
-			load("res://addons/escoria-core/game/core-scripts/escplayer.gd"), null)
-	add_custom_type("ESCRoom", "Node2D", 
-			load("res://addons/escoria-core/game/core-scripts/escroom.gd"), null)
-	add_custom_type("ESCTerrain", "Navigation2D", 
-			load("res://addons/escoria-core/game/core-scripts/escterrain.gd"), null)
+	for custom_type in custom_types:
+		add_custom_type(custom_type.type_name, custom_type.parent_type, 
+			load(custom_type.script_res), null)
 	
 	set_escoria_main_settings()
 	set_escoria_debug_settings()
 	set_escoria_ui_settings()
 	set_escoria_internal_settings()
+	set_escoria_sound_settings()
 	
 	
 func set_escoria_ui_settings():
@@ -64,6 +90,16 @@ func set_escoria_ui_settings():
 			"hint_string": "*.tscn, *.scn"
 		}
 		ProjectSettings.add_property_info(main_menu_scene_property_info)
+	
+	if !ProjectSettings.has_setting("escoria/ui/pause_menu_scene"):
+		ProjectSettings.set_setting("escoria/ui/pause_menu_scene", "")
+		var pause_menu_scene_property_info = {
+			"name": "escoria/ui/pause_menu_scene",
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_FILE,
+			"hint_string": "*.tscn, *.scn"
+		}
+		ProjectSettings.add_property_info(pause_menu_scene_property_info)
 	
 	if !ProjectSettings.has_setting("escoria/ui/game_scene"):
 		ProjectSettings.set_setting("escoria/ui/game_scene", "")
@@ -122,6 +158,30 @@ func set_escoria_internal_settings():
 		}
 		ProjectSettings.add_property_info(save_data_property_info)
 
+
+func set_escoria_sound_settings():
+	if !ProjectSettings.has_setting("escoria/sound/music_volume"):
+		ProjectSettings.set_setting("escoria/sound/music_volume", 5)
+		var music_data_property_info = {
+			"name": "escoria/sound/music_volume",
+			"type": TYPE_INT,
+			"hint": PROPERTY_HINT_RANGE,
+			"hint_string": "0,15"
+		}
+		ProjectSettings.add_property_info(music_data_property_info)
+		
+	if !ProjectSettings.has_setting("escoria/sound/sound_volume"):
+		ProjectSettings.set_setting("escoria/sound/sound_volume", 8)
+		var sound_data_property_info = {
+			"name": "escoria/sound/sound_volume",
+			"type": TYPE_INT,
+			"hint": PROPERTY_HINT_RANGE,
+			"hint_string": "0,15"
+		}
+		ProjectSettings.add_property_info(sound_data_property_info)
+	
+
+
 # Defines platform-specific parameters. Those are the ones that must be re-set for each platform export.
 func set_escoria_platform_settings():
 	# Skip cache - certain platforms (esp. mobile) lack memory for caching scenes
@@ -143,7 +203,6 @@ func remove_autoloads():
 
 func _exit_tree():
 	remove_custom_type("ESCBackground")
-	remove_custom_type("ESCCharacter")
 	remove_custom_type("ESCItem")
 	remove_custom_type("ESCInventoryItem")
 	remove_custom_type("ESCItemsInventory")

@@ -11,6 +11,7 @@ onready var utils = load("res://addons/escoria-core/game/core-scripts/utils/util
 
 # INSTANCES
 var main_menu_instance
+
 ## Dialog player instantiator. This instance is called directly for dialogs.
 var dialog_player 
 ## Inventory scene
@@ -30,18 +31,14 @@ onready var game_size = get_viewport().size
 
 
 ##################################################################################
-func _ready():
-	pass
-
 
 # Called by Main menu "start new game"
 func new_game():
 	var actions = esc_compiler.load_esc_file(ProjectSettings.get_setting("escoria/main/game_start_script"))
 	$esc_runner.run_game(actions)
-
-
-func set_main_menu(scene):
-	main_menu_instance = scene
+	
+	escoria.main.scene_transition.fade_in()
+	yield(escoria.main.scene_transition, "transition_done")
 
 
 
@@ -83,6 +80,13 @@ func register_object(object : Object):
 		if main.current_scene:
 			main.current_scene.game.tooltip_node = object
 	
+	if object is ESCBackgroundMusic:
+		$esc_runner.register_object(object_id, object, true)
+	
+	if object is ESCBackgroundSound:
+		$esc_runner.register_object(object_id, object, true)
+	
+		
 		
 
 """

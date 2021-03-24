@@ -4,7 +4,6 @@ const OBJ_DEFAULT_STATE = "default"
 
 ## Custom nodes:
 #var ESCBackground = preload("res://addons/escoria-core/game/core-scripts/escbackground.gd")
-#var ESCCharacter = preload("res://addons/escoria-core/game/core-scripts/esccharacter.gd")
 #var ESCItem	= preload("res://addons/escoria-core/game/core-scripts/escitem.gd")
 #var ESCItemsInventory = preload("res://addons/escoria-core/game/core-scripts/items_inventory.gd")
 #var ESCInventoryItem = preload("res://addons/escoria-core/game/core-scripts/inventory_item.gd")
