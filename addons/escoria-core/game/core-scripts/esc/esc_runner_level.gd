@@ -465,9 +465,18 @@ func say(command_params : Array) -> esctypes:
 	# Manage specific dialog scene
 	if command_params.size() > 2:
 		dialog_scene_name = command_params[2]
-		
+	
+	# Manage translation/voice lines keys in the form of :
+	#	line_key:"Default line text"
+	# If a line_key exists, we'll set it a label as it will automatically be
+	# translated
+	var dialog_key_line = command_params[1].split(":", true, 1)
+	if dialog_key_line.size() > 1:
+		dialog_key_line[1] = dialog_key_line[1].trim_prefix("\"")
+	
 	dict = {
-		"line": command_params[1],
+		"key": dialog_key_line[0],
+		"line": dialog_key_line[1] if dialog_key_line.size() > 1 else dialog_key_line[0],
 		"ui": dialog_scene_name
 		#"ui": "dialog_label"
 		#"ui": "dialog_box_inset"

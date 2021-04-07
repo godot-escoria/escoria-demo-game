@@ -40,7 +40,8 @@ func preload_resources(path : String):
 						add_resource(basename, dialog_scene)
 			file_name = dialog_folder.get_next()
 	else:
-		escoria.logger.report_errors("dialog_player.gd:preload_resources()", ["An error occurred when trying to access the path: {_}.".format(path)])
+		escoria.logger.report_errors("dialog_player.gd:preload_resources()", 
+			["An error occurred when trying to access the path: {_}.".format(path)])
 
 
 func say(character : String, params : Dictionary):

@@ -1,0 +1,75 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://game/ui/commons/fonts/caslonantique.tres" type="DynamicFont" id=1]
+[ext_resource path="res://game/ui/commons/main_menu/flags/en_EN_small.png" type="Texture" id=2]
+[ext_resource path="res://game/ui/commons/main_menu/flags/fr_FR_small.png" type="Texture" id=3]
+[ext_resource path="res://game/ui/commons/main_menu/options.gd" type="Script" id=4]
+
+[node name="options" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="back" type="Button" parent="."]
+margin_left = 130.0
+margin_top = 329.0
+margin_right = 304.0
+margin_bottom = 383.0
+custom_fonts/font = ExtResource( 1 )
+text = "OPTIONS_BACK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="options_grid" type="GridContainer" parent="."]
+anchor_left = 0.217
+anchor_top = 0.427
+anchor_right = 0.803
+anchor_bottom = 0.574
+margin_left = 0.23999
+margin_top = -0.300018
+margin_right = 17.1599
+margin_bottom = 0.400024
+custom_constants/hseparation = 167
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="options_language" type="Label" parent="options_grid"]
+margin_top = 56.0
+margin_right = 220.0
+margin_bottom = 77.0
+custom_fonts/font = ExtResource( 1 )
+text = "OPTIONS_LANGUAGE"
+
+[node name="flags" type="HBoxContainer" parent="options_grid"]
+margin_left = 387.0
+margin_right = 767.0
+margin_bottom = 133.0
+size_flags_vertical = 3
+custom_constants/separation = 30
+alignment = 1
+
+[node name="fr_FR" type="TextureRect" parent="options_grid/flags"]
+margin_right = 150.0
+margin_bottom = 133.0
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="en_EN" type="TextureRect" parent="options_grid/flags"]
+margin_left = 180.0
+margin_right = 380.0
+margin_bottom = 133.0
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="gui_input" from="options_grid/flags/fr_FR" to="." method="_on_language_input" binds= [ "fr_FR" ]]
+[connection signal="gui_input" from="options_grid/flags/en_EN" to="." method="_on_language_input" binds= [ "en_EN" ]]

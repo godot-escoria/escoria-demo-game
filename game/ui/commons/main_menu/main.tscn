@@ -1,0 +1,54 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://game/ui/commons/fonts/caslonantique.tres" type="DynamicFont" id=1]
+
+[node name="main" type="VBoxContainer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -179.0
+margin_top = -35.746
+margin_right = 179.0
+margin_bottom = 227.254
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="new_game" type="Button" parent="."]
+margin_right = 358.0
+margin_bottom = 152.0
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 1 )
+text = "NEW_GAME"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="load_game" type="Button" parent="."]
+margin_top = 162.0
+margin_right = 358.0
+margin_bottom = 189.0
+custom_fonts/font = ExtResource( 1 )
+text = "LOAD_GAME"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="options" type="Button" parent="."]
+margin_top = 199.0
+margin_right = 358.0
+margin_bottom = 226.0
+custom_fonts/font = ExtResource( 1 )
+text = "OPTIONS"
+
+[node name="quit" type="Button" parent="."]
+margin_top = 236.0
+margin_right = 358.0
+margin_bottom = 263.0
+custom_fonts/font = ExtResource( 1 )
+text = "QUIT"
+__meta__ = {
+"_edit_use_anchors_": false
+}

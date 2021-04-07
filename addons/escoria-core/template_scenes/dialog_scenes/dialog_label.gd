@@ -43,7 +43,12 @@ func say(character : String, params : Dictionary) :
 	var text_color = current_character.dialog_color
 	var text_color_html = text_color.to_html(false)
 	
-	text_node.bbcode_text = "[center][color=#" + text_color_html + "]".format([text_color_html]) + params["line"] + "[/color][center]"
+	if params["key"] != params["line"]:
+		text_node.bbcode_text = "[center][color=#" + text_color_html + "]" \
+			.format([text_color_html]) + tr(params["key"]) + "[/color][center]"
+	else:
+		text_node.bbcode_text = "[center][color=#" + text_color_html + "]" \
+			.format([text_color_html]) + params["line"] + "[/color][center]"
 	
 	text_node.percent_visible = 0.0
 	var time_show_full_text = text_speed_per_character * len(params["line"])

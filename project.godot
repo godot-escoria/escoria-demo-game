@@ -157,6 +157,10 @@ switch_action_verb={
  ]
 }
 
+[locale]
+
+translations=PoolStringArray( "res://game/translations/game.csv", "res://game/translations/main_menu.csv", "res://game/translations/game.en.translation", "res://game/translations/game.fr.translation", "res://game/translations/main_menu.en.translation", "res://game/translations/main_menu.fr.translation" )
+
 [rendering]
 
 environment/default_environment="res://default_env.tres"
