@@ -98,7 +98,6 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-items_container = NodePath("inventory_button/panel/MarginContainer/ScrollContainer/container")
 
 [node name="ESCORIA_ALL_ITEMS" parent="." instance=ExtResource( 7 )]
 position = Vector2( 269.391, 275.003 )
