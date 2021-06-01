@@ -1,6 +1,6 @@
 :look
 > [! dialog_popup_advance]
-	say player ROOM1_look_wall_item_1"I don't know what that stuff is." dialog_box_inset
+	say player ROOM1_look_wall_item_1:"I don't know what that stuff is." dialog_box_inset
 	set_global dialog_popup_advance 1
 	stop
 > [eq dialog_popup_advance 1]

@@ -1,4 +1,6 @@
 
 :use r9_bottle
+inventory_remove r9_bottle
 set_state r9_stand set_bottle
 set_state r9_r_exit r_door_open
+

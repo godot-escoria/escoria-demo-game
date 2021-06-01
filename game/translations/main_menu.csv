@@ -5,3 +5,6 @@ OPTIONS,Options,Options
 QUIT,Quit,Quitter
 OPTIONS_BACK,Back,Retour
 OPTIONS_LANGUAGE,Language,Langue
+GENERAL_VOLUME,General,Général
+MUSIC_VOLUME,Music,Musique
+SOUND_VOLUME,Sound effects,Effets sonores

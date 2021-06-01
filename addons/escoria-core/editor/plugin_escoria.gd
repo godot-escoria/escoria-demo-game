@@ -132,8 +132,30 @@ func set_escoria_main_settings():
 		ProjectSettings.add_property_info(force_quit_property_info)
 	
 	ProjectSettings.set_setting("application/run/main_scene", "res://addons/escoria-core/game/main_scene.tscn")
-
-
+	
+	if !ProjectSettings.has_setting("escoria/main/text_lang"):
+		ProjectSettings.set_setting("escoria/main/text_lang", TranslationServer.get_locale())
+		var text_lang_property_info = {
+			"name": "escoria/main/text_lang",
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_NONE
+		}
+		ProjectSettings.add_property_info(text_lang_property_info)
+	
+	if !ProjectSettings.has_setting("escoria/main/voice_lang"):
+		ProjectSettings.set_setting("escoria/main/voice_lang", TranslationServer.get_locale())
+		var voice_lang_property_info = {
+			"name": "escoria/main/voice_lang",
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_NONE
+		}
+		ProjectSettings.add_property_info(voice_lang_property_info)
+	
+	
+	
+	
+	
+	
 	
 func set_escoria_debug_settings():
 	if !ProjectSettings.has_setting("escoria/debug/terminate_on_warnings"):
@@ -160,25 +182,45 @@ func set_escoria_internal_settings():
 
 
 func set_escoria_sound_settings():
+	if !ProjectSettings.has_setting("escoria/sound/master_volume"):
+		ProjectSettings.set_setting("escoria/sound/master_volume", 1)
+		var master_data_property_info = {
+			"name": "escoria/sound/master_volume",
+			"type": TYPE_INT,
+			"hint": PROPERTY_HINT_RANGE,
+			"hint_string": "0,1"
+		}
+		ProjectSettings.add_property_info(master_data_property_info)
+		
 	if !ProjectSettings.has_setting("escoria/sound/music_volume"):
-		ProjectSettings.set_setting("escoria/sound/music_volume", 5)
+		ProjectSettings.set_setting("escoria/sound/music_volume", 1)
 		var music_data_property_info = {
 			"name": "escoria/sound/music_volume",
 			"type": TYPE_INT,
 			"hint": PROPERTY_HINT_RANGE,
-			"hint_string": "0,15"
+			"hint_string": "0,1"
 		}
 		ProjectSettings.add_property_info(music_data_property_info)
 		
-	if !ProjectSettings.has_setting("escoria/sound/sound_volume"):
-		ProjectSettings.set_setting("escoria/sound/sound_volume", 8)
+	if !ProjectSettings.has_setting("escoria/sound/sfx_volume"):
+		ProjectSettings.set_setting("escoria/sound/sfx_volume", 1)
 		var sound_data_property_info = {
-			"name": "escoria/sound/sound_volume",
+			"name": "escoria/sound/sfx_volume",
 			"type": TYPE_INT,
 			"hint": PROPERTY_HINT_RANGE,
-			"hint_string": "0,15"
+			"hint_string": "0,1"
 		}
 		ProjectSettings.add_property_info(sound_data_property_info)
+	
+	if !ProjectSettings.has_setting("escoria/sound/speech_volume"):
+		ProjectSettings.set_setting("escoria/sound/speech_volume", 1)
+		var speech_data_property_info = {
+			"name": "escoria/sound/speech_volume",
+			"type": TYPE_INT,
+			"hint": PROPERTY_HINT_RANGE,
+			"hint_string": "0,1"
+		}
+		ProjectSettings.add_property_info(speech_data_property_info)
 	
 
 

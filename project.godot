@@ -64,6 +64,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/escroom.gd"
 }, {
+"base": "Script",
+"class": "ESCScript",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/resources/esc_script_resource.gd"
+}, {
 "base": "Navigation2D",
 "class": "ESCTerrain",
 "language": "GDScript",
@@ -91,6 +96,7 @@ _global_script_class_icons={
 "ESCItem": "",
 "ESCPlayer": "",
 "ESCRoom": "",
+"ESCScript": "",
 "ESCTerrain": "",
 "ESCTooltip": "",
 "Movable": ""
@@ -138,10 +144,14 @@ ui/dialogs_folder="res://game/ui/commons/dialogs"
 ui/default_dialog_scene="res://game/ui/commons/dialogs/dialog_label.tscn"
 ui/main_menu_scene="res://game/ui/commons/main_menu/main_menu.tscn"
 ui/pause_menu_scene="res://game/ui/commons/pause_menu/pause_menu.tscn"
-ui/game_scene="res://game/ui/ui_9verbs/game.tscn"
+ui/game_scene="res://game/ui/ui_mouse_icons/game.tscn"
 internals/save_data=""
-sound/music_volume=5
-sound/sound_volume=8
+main/text_lang="fr_FR"
+main/voice_lang="fr_FR"
+sound/music_volume=1
+sound/sfx_volume=1
+sound/speech_volume=1
+sound/master_volume=1
 
 [input]
 
@@ -159,7 +169,7 @@ switch_action_verb={
 
 [locale]
 
-translations=PoolStringArray( "res://game/translations/game.csv", "res://game/translations/main_menu.csv", "res://game/translations/game.en.translation", "res://game/translations/game.fr.translation", "res://game/translations/main_menu.en.translation", "res://game/translations/main_menu.fr.translation" )
+translations=PoolStringArray( "res://game/translations/game.en.translation", "res://game/translations/game.fr.translation", "res://game/translations/main_menu.en.translation", "res://game/translations/main_menu.fr.translation" )
 
 [rendering]
 

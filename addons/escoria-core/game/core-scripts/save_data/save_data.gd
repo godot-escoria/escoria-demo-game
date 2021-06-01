@@ -10,8 +10,8 @@ var settings
 
 func save_settings(p_data, p_callback):
 	var f = File.new()
-	f.open("user://settings.bin", File.WRITE)
-	f.store_var(p_data)
+	f.open("user://settings.json", File.WRITE)
+	f.store_string(to_json(p_data))
 	f.close()
 
 	if typeof(p_callback) != typeof(null):
@@ -19,21 +19,37 @@ func save_settings(p_data, p_callback):
 
 	return OK
 
+
+func check_settings():
+	var f = File.new()
+	var error = f.open("user://settings.json", File.READ)
+	if !f.is_open() and error != OK:
+		match error:
+			ERR_FILE_NOT_FOUND:
+				f.close()
+				save_settings(escoria.settings_default, null)
+				
+
 func load_settings(p_callback):
 	var f = File.new()
-	f.open("user://settings.bin", File.READ)
-	if !f.is_open():
+	var error = f.open("user://settings.json", File.READ)
+	if !f.is_open() and error != OK:
+		escoria.logger.report_warnings("save_data.gd:load_settings()", 
+			["Failed opening settings file user://settings.json.", 
+			"File.open() returned " + error])
+			
 		if typeof(p_callback) != typeof(null):
 			p_callback[0].call_deferred(p_callback[1], null)
 		return FAILED
 
-	settings = f.get_var()
+	settings = f.get_as_text()
 	f.close()
 
 	if typeof(p_callback) != typeof(null):
 		p_callback[0].call_deferred(p_callback[1], settings)
 
-	return OK
+	return settings
+	
 
 func _get_fname(p_slot):
 
@@ -117,6 +133,7 @@ func load_slot(p_slot, p_callback):
 	p_callback[0].call_deferred(p_callback[1], data)
 
 	return OK
+
 
 func load_autosave(p_callback):
 	if p_callback == null:

@@ -81,19 +81,22 @@ func _ready():
 
 	get_tree().set_auto_accept_quit(ProjectSettings.get('escoria/main/force_quit'))
 	randomize()
-	save_data.load_settings([self, "settings_loaded"])
+	save_data.check_settings()
+	var settings = save_data.load_settings(null)
+	escoria.settings = parse_json(settings)
+	escoria._on_settings_loaded(escoria.settings)
 	
 	printt("Calling resource cache start")
 	resource_cache.start()
 
-	if !ProjectSettings.get_setting("escoria/platform/skip_cache"):
-		scenes_cache_list.push_back(ProjectSettings.get_setting("escoria/main/curtain"))
-		scenes_cache_list.push_back(ProjectSettings.get_setting("escoria/main/hud"))
-
-		printt("Cache list ", [scenes_cache_list])
-		for s in scenes_cache_list:
-			if s != null:
-				resource_cache.queue_resource(s, false, true)
+#	if !ProjectSettings.get_setting("escoria/platform/skip_cache"):
+#		scenes_cache_list.push_back(ProjectSettings.get_setting("escoria/main/curtain"))
+#		scenes_cache_list.push_back(ProjectSettings.get_setting("escoria/main/hud"))
+#
+#		printt("Cache list ", [scenes_cache_list])
+#		for s in scenes_cache_list:
+#			if s != null:
+#				resource_cache.queue_resource(s, false, true)
 	set_process(true)
 
 func _process(delta : float):
@@ -736,7 +739,9 @@ func object_exit_scene(name : String):
 func check_obj(name, cmd):
 	var obj = escoria.esc_runner.get_object(name)
 	if obj == null:
-		escoria.logger.report_errors("", ["Global id "+name+" not found for " + cmd])
+		escoria.logger.report_errors("esc_runner.gd:check_obj()", 
+			["Global id "+name+" not found for " + cmd])
 		return false
 	return true
+
 

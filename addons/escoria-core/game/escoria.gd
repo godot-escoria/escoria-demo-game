@@ -29,6 +29,35 @@ onready var current_state = GAME_STATE.DEFAULT
 
 onready var game_size = get_viewport().size
 
+# These are settings that the player can affect and save/load later
+var settings : Dictionary
+# These are default settings
+var settings_default : Dictionary = {
+	# Text language
+	"text_lang": ProjectSettings.get_setting("escoria/main/text_lang"),
+	# Voice language
+	"voice_lang": ProjectSettings.get_setting("escoria/main/voice_lang"),
+	# Speech enabled
+	"speech_enabled": ProjectSettings.get_setting("escoria/sound/speech_enabled"),
+	# Master volume (max is 1.0)
+	"master_volume": ProjectSettings.get_setting("escoria/sound/master_volume"),
+	# Music volume (max is 1.0)
+	"music_volume": ProjectSettings.get_setting("escoria/sound/music_volume"),
+	# Sound effects volume (max is 1.0)
+	"sfx_volume": ProjectSettings.get_setting("escoria/sound/sfx_volume"),
+	# Voice volume (for speech only, max is 1.0)
+	"voice_volume": ProjectSettings.get_setting("escoria/sound/speech_volume"),
+	# Set fullscreen
+	"fullscreen": false,
+	# Allow dialog skipping
+	"skip_dialog": true,
+	# XXX: What is this? `achievements.gd` looks like iOS-only
+	"rate_shown": false,
+}
+
+
+func _init():
+	logger = load("res://addons/escoria-core/game/core-scripts/log/logging.gd").new()
 
 ##################################################################################
 
@@ -269,3 +298,24 @@ func ev_left_click_on_item(obj, event, default_action = false):
 #	else:
 ##		escoria.fallback("")
 #		pass
+
+func _on_settings_loaded(p_settings : Dictionary):
+	escoria.logger.info("******* settings loaded", p_settings)
+	if p_settings != null:
+		settings = p_settings
+	else:
+		settings = {}
+
+	for k in settings_default:
+		if !(k in settings):
+			settings[k] = settings_default[k]
+
+	# TODO Apply globally
+#	AudioServer.set_fx_global_volume_scale(settings.sfx_volume)
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear2db(settings.master_volume))
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), linear2db(settings.sfx_volume))
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear2db(settings.music_volume))
+	TranslationServer.set_locale(settings.text_lang)
+#	music_volume_changed()
+
+
