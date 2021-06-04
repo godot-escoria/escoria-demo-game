@@ -133,6 +133,16 @@ func set_escoria_main_settings():
 	
 	ProjectSettings.set_setting("application/run/main_scene", "res://addons/escoria-core/game/main_scene.tscn")
 	
+	if not ProjectSettings.has_setting("escoria/main/command_directories"):
+		ProjectSettings.set_setting("escoria/main/command_directories", [
+			"res://addons/escoria-core/game/core-scripts/esc/commands"
+		])
+		ProjectSettings.add_property_info({
+			"name": "escoria/main/command_directories",
+			"type": TYPE_ARRAY,
+		})
+
+	
 	if !ProjectSettings.has_setting("escoria/main/text_lang"):
 		ProjectSettings.set_setting("escoria/main/text_lang", TranslationServer.get_locale())
 		var text_lang_property_info = {
@@ -168,6 +178,17 @@ func set_escoria_debug_settings():
 	if !ProjectSettings.has_setting("escoria/debug/development_lang"):
 		ProjectSettings.set_setting("escoria/debug/development_lang", "en")
 		
+	# Assure log level preference
+	if not ProjectSettings.has_setting("escoria/debug/log_level"):
+		ProjectSettings.set_setting("escoria/debug/log_level", "ERROR")
+		var property_info = {
+			"name": "escoria/debug/log_level",
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_ENUM,
+			"hint_string": "ERROR,WARNING,INFO,DEBUG"
+		}
+		ProjectSettings.add_property_info(property_info)
+
 
 func set_escoria_internal_settings():
 	if !ProjectSettings.has_setting("escoria/internals/save_data"):

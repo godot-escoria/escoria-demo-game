@@ -1,76 +1,108 @@
+# Escoria dialog player
 tool
 extends ResourcePreloader
 class_name ESCDialogsPlayer
 
-func get_class():
-	return "ESCDialogsPlayer"
 
-# This scene is in charge of ALL dialogs management :
-# - characters sayings
-# - player dialog options panel display/hiding and choices
+# Emitted when an answer as chosem
+# 
+# ##### Parameters
+#
+# - option: The dialog option that was chosen
+signal option_chosen(option)
 
-var path_to_dialog_scenes : String
+# Emitted when a dialog line was finished
+signal dialog_line_finished
 
+
+# Wether the player is currently speaking
 var is_speaking = false
-var dialog_ui = null
-var dialog_chooser_ui = null
 
+# Reference to the dialog UI
+var _dialog_ui = null
+
+# Reference to the dialog chooser UI
+var _dialog_chooser_ui = null
+
+
+# Register the dialog player and load the dialog resources
 func _ready():
 	if !Engine.is_editor_hint():
-		escoria.register_object(self)
+		escoria.dialog_player = self
 	preload_resources(ProjectSettings.get_setting("escoria/ui/dialogs_folder"))
 
-func preload_resources(path : String):
-	path_to_dialog_scenes = path
 
+# Preload the dialog UI resources
+#
+# #### Parameters
+#
+# - path: Path where the actual dialog UI resources are located
+func preload_resources(path: String) -> void:
 	var dialog_folder := Directory.new()
-	if !path_to_dialog_scenes.empty() and dialog_folder.open(path_to_dialog_scenes) == OK:
+	if !path.empty() and dialog_folder.open(path) == OK:
 		dialog_folder.list_dir_begin()
 		var file_name = dialog_folder.get_next()
 		while file_name != "":
-			if !dialog_folder.current_is_dir() and file_name.get_extension() == "tscn":
+			if !dialog_folder.current_is_dir() \
+					and file_name.get_extension() == "tscn":
 				var extension = "." + file_name.get_extension()
 				var basename = file_name.replace(extension, "")
 				
 				if !has_resource(basename):
-					var file_path = dialog_folder.get_current_dir() + "/" + file_name
+					var file_path = "%s/%s" % [
+						dialog_folder.get_current_dir(),
+						file_name
+					]
 					var dialog_scene = load(file_path)
 					
 					if dialog_scene != null:
 						add_resource(basename, dialog_scene)
 			file_name = dialog_folder.get_next()
 	else:
-		escoria.logger.report_errors("dialog_player.gd:preload_resources()", 
-			["An error occurred when trying to access the path: {_}.".format(path)])
+		escoria.logger.report_errors(
+			"dialog_player.gd:preload_resources()", 
+			[
+				"An error occurred when trying to access the path: %s." % path
+			]
+		)
 
 
-func say(character : String, params : Dictionary):
+# A short one line dialog
+#
+# #### Parameters
+#
+# - character: Character that is talking
+# - params: A dictionary of parameters. Currently only "line" is supported and
+#   holds the line the character should say
+func say(character: String, params: Dictionary) -> void:
 	is_speaking = true
-	dialog_ui = get_resource(params.ui).instance()
-	get_parent().add_child(dialog_ui)
-	dialog_ui.say(character, params)
+	_dialog_ui = get_resource(params.ui).instance()
+	get_parent().add_child(_dialog_ui)
+	_dialog_ui.say(character, params)
+	yield(_dialog_ui, "dialog_line_finished")
+	emit_signal("dialog_line_finished")
 	
 
-func finish_fast():
-	dialog_ui.finish_fast()
+# Called when a dialog line is skipped
+func finish_fast() -> void:
+	_dialog_ui.finish_fast()
 
-# Options:
-#    type: (default value "default") the type of dialog menu to use. All types are in the "dd_player" scene.
-#    avatar: (default value "default") the avatar to use in the dialog ui.
-#    timeout: (default value 0) timeout to select an option. After the time has passed, the "timeout_option" will be selected automatically. If the value is 0, there's no timeout.
-#    timeout_option: (default value 0) option selected when timeout is reached.
-func start_dialog_choices(answers : Array, options : Array):
-	if answers.empty():
-		escoria.logger.report_errors("dialog_player.gd:start_dialog_choices()", ["Received answers array was empty."])
-	dialog_chooser_ui = get_resource("text_dialog_choice").instance()
-	get_parent().add_child(dialog_chooser_ui)
-	dialog_chooser_ui.set_answers(answers)
 
-func play_dialog_option_chosen(level_to_run : Array):
-#	escoria.esc_runner.finished(context)
-	var ev_level = level_to_run
-	var ev = esctypes.ESCEvent.new("dialog_choice_done", ev_level, [])
-	escoria.esc_runner.add_level(ev, false)
-	dialog_chooser_ui.hide()
-#	stop()
+# Display a list of choices
+func start_dialog_choices(dialog: ESCDialog):
+	if dialog.options.empty():
+		escoria.logger.report_errors(
+			"dialog_player.gd:start_dialog_choices()", 
+			["Received answers array was empty."]
+		)
+	_dialog_chooser_ui = get_resource("text_dialog_choice").instance()
+	get_parent().add_child(_dialog_chooser_ui)
+	
+	_dialog_chooser_ui.set_answers(dialog.options)
+
+
+# Called when an option was chosen
+func play_dialog_option_chosen(option: ESCDialogOption):
+	emit_signal("option_chosen", option)
+	_dialog_chooser_ui.hide()
 

@@ -185,5 +185,11 @@ func _ready():
 		target = Vector2(0, 0)
 
 	tween.connect("tween_completed", self, "target_reached")
-	escoria.register_object(self)
+	escoria.object_manager.register_object(
+		ESCObject.new(
+			self.name,
+			self
+		),
+		true
+	)
 

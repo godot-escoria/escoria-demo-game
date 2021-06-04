@@ -50,8 +50,8 @@ func win():
 	
 	escoria.main.current_scene.game.show_ui()
 	escoria.main.current_scene.show()
-	escoria.esc_runner.set_global("r8_m_door_open", "true")
-	escoria.esc_runner.set_state("r8_m_door", ["door_open"])
+	escoria.globals_manager.set_global("r8_m_door_open", true)
+	escoria.object_manager.get_object("r8_m_door").set_state("door_open")
 
 
 func _on_quit_pressed():

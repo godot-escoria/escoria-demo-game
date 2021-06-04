@@ -27,12 +27,12 @@ say player "I don't think he'd like that."
 				say player	"I've got better things to do."
 				say worker	"Eh! I'm not asking you anythin'!"
 				stop
-	
+        !
 	- "I'm selling these fine leather jackets."
 		say player	"I'm selling these fine leather jackets."
 		say worker 	"Go away, kid."
 		stop
-		
+!		
 ####################################################################################################
 :use r5_filled_sheet
 jump give r5_filled_sheet

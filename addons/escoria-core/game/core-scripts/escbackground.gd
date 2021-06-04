@@ -60,7 +60,6 @@ func _enter_tree():
 	add_child(area)
 
 func _ready():
-#	escoria.register_object(self)
 	mouse_filter = MOUSE_FILTER_IGNORE
 	area.connect("input_event", self, "manage_input")
 	connect("gui_input", self, "manage_input_texturerect")

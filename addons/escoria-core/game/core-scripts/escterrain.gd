@@ -21,7 +21,7 @@ func _ready():
 				current_active_navigation_instance = n
 	
 	if !Engine.is_editor_hint():
-		escoria.register_object(self)
+		escoria.room_terrain = self
 	#path = ImagePathFinder.new()
 	_update_texture()
 

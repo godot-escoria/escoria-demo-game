@@ -1,9 +1,10 @@
+# A cache for resources
+extends Object
+class_name ResourceCache
+
 var thread : Thread
 var mutex : Mutex
 var sem : Semaphore
-
-#warning-ignore:unused_class_variable
-var time_max = 100 # msec
 
 var queue : Array = []
 var pending : Dictionary = {}
@@ -137,6 +138,13 @@ func get_resource(path):
 			return res
 	else:
 		_unlock("return")
+		if not ProjectSettings.get_setting("escoria/platform/skip_cache"):
+			var res = ResourceLoader.load(path)
+			pending[path] = { 
+				"res": res, 
+				"permanent": true 
+			}
+			return res
 		return ResourceLoader.load(path)
 
 func thread_process():

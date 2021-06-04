@@ -23,14 +23,13 @@ func _ready():
 	
 
 func _on_button_pressed():
-	var actual_command = ":debug\nchange_scene " + options_paths[selected_id] + "\n"
 	
-	var errors = []
-	var events = escoria.esc_compiler.compile_str(actual_command, errors)
+	var script = escoria.esc_compiler.compile([
+		":debug",
+		"change_scene %s" % options_paths[selected_id]
+	])
 	
-	if errors.empty():
-		#past_actions.text += str(events)
-		var _ret = escoria.esc_runner.run_event(events["debug"])
+	escoria.event_manager.queue_event(script.events['debug'])
 
 func _on_option_item_selected(index):
 	selected_id = index

@@ -11,8 +11,10 @@ export var global_id = "bg_music"
 
 func game_cleared():
 	set_state("off", true)
-	self.disconnect("tree_exited", escoria.esc_runner, "object_exit_scene")
-	escoria.register_object(self)
+	escoria.object_manager.register_object(
+		ESCObject.new(global_id, self), 
+		true
+	)
 
 
 func set_state(p_state, p_force = false):
@@ -38,5 +40,8 @@ func set_state(p_state, p_force = false):
 		stream.play()
 
 func _ready():
-	escoria.register_object(self)
+	escoria.object_manager.register_object(
+		ESCObject.new(global_id, self),
+		true
+	)
 

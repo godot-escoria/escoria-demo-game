@@ -143,9 +143,6 @@ esc_script = "res://game/rooms/room7/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Exit"
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 37.4521, 1801.64 )
-}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_exit"]
 polygon = PoolVector2Array( 0.328762, 440.897, 1.85199, 119.926, 85.9517, 74.6212, 87.1409, 377.869 )
@@ -165,11 +162,6 @@ is_exit = true
 interaction_direction = 1
 tooltip_name = "Exit"
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 2038.8, 1756.78 ),
-"r6_r_exit_closed": NodePath("r_door_closed/Position2D"),
-"r6_r_exit_opened": NodePath("r_door_opened/Position2D")
-}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_exit"]
 polygon = PoolVector2Array( 1982.34, 349.116, 1980.1, 46.0513, 2081.12, 86.4599, 2075, 394 )
@@ -185,9 +177,6 @@ position = Vector2( 358.099, -1195.07 )
 script = ExtResource( 7 )
 global_id = "r7_object_1"
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 818.94, 320.88 )
-}
 
 [node name="Line2D" type="Line2D" parent="Hotspots/object_1"]
 position = Vector2( 0, 1345.52 )
@@ -205,9 +194,6 @@ __meta__ = {
 }
 global_id = "r7_object2"
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 1770.63, 1358.99 )
-}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/object2"]
 polygon = PoolVector2Array( -112.101, 14.6226, -103.122, 288.503, 130.35, 286.258, 125.861, 16.8675 )
@@ -225,9 +211,6 @@ global_id = "r7_lower_stairs"
 esc_script = "res://game/rooms/room7/esc/lower_stairs.esc"
 is_exit = true
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 953.985, 1725.12 )
-}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/lower_stairs"]
 polygon = PoolVector2Array( 831.375, 344.577, 829.788, 19.1602, 1058.37, 19.1602, 1052.02, 347.752 )
@@ -243,9 +226,6 @@ esc_script = "res://game/rooms/room7/esc/upper_stairs.esc"
 is_exit = true
 tooltip_name = "Stairs"
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 1375.17, 604.793 )
-}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/upper_stairs"]
 position = Vector2( -1334.92, 936.565 )
@@ -258,9 +238,6 @@ position = Vector2( 27.5337, 131.767 )
 position = Vector2( -167.43, 1463.23 )
 global_id = "r7_button_push"
 esc_script = "res://game/rooms/room7/esc/button_push.esc"
-interact_positions = {
-"default": Vector2( 175.618, 1763.84 )
-}
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_camera_push"]
 position = Vector2( 343.048, 300.613 )
@@ -283,9 +260,6 @@ __meta__ = {
 position = Vector2( 9.393, 1464.03 )
 global_id = "r7_button_shift"
 esc_script = "res://game/rooms/room7/esc/button_shift.esc"
-interact_positions = {
-"default": Vector2( 359.651, 1765.65 )
-}
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_camera_shift"]
 position = Vector2( 350.258, 301.616 )
@@ -305,9 +279,6 @@ __meta__ = {
 position = Vector2( 172.527, 1464.03 )
 global_id = "r7_button_follow"
 esc_script = "res://game/rooms/room7/esc/button_follow.esc"
-interact_positions = {
-"default": Vector2( 522.785, 1765.65 )
-}
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_camera_follow"]
 position = Vector2( 350.258, 301.616 )
@@ -327,9 +298,6 @@ __meta__ = {
 position = Vector2( 332.527, 1464.03 )
 global_id = "r7_button_zoom"
 esc_script = "res://game/rooms/room7/esc/button_zoom.esc"
-interact_positions = {
-"default": Vector2( 682.785, 1765.65 )
-}
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_camera_zoom"]
 position = Vector2( 350.258, 301.616 )
@@ -349,9 +317,6 @@ __meta__ = {
 position = Vector2( 910.482, 1464.03 )
 global_id = "r7_button_set_pos"
 esc_script = "res://game/rooms/room7/esc/button_set_pos.esc"
-interact_positions = {
-"default": Vector2( 682.785, 1765.65 )
-}
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_camera_set_pos"]
 position = Vector2( 350.258, 301.616 )
@@ -376,9 +341,6 @@ is_trigger = true
 is_interactive = false
 player_orients_on_arrival = false
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 406, 0 )
-}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/trigger_left"]
 polygon = PoolVector2Array( 724.356, 1944.36, 716.865, 1752.57, 800.77, 1752.57, 814.254, 1942.86 )
@@ -408,9 +370,6 @@ is_trigger = true
 is_interactive = false
 player_orients_on_arrival = false
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 592.68, 4.12805 )
-}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/trigger_right"]
 position = Vector2( 372.68, 4.12805 )
@@ -438,9 +397,6 @@ script = ExtResource( 7 )
 global_id = "r7_light_left"
 is_interactive = false
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 1154.19, 1518.8 )
-}
 
 [node name="Polygon2D" type="Polygon2D" parent="Hotspots/light_left"]
 color = Color( 0.0313726, 0.996078, 0, 1 )
@@ -460,9 +416,6 @@ script = ExtResource( 7 )
 global_id = "r7_light_right"
 is_interactive = false
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 1355.53, 1517.67 )
-}
 
 [node name="Polygon2D" type="Polygon2D" parent="Hotspots/light_right"]
 color = Color( 1, 0, 0, 1 )

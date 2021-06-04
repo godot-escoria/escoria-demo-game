@@ -14,7 +14,7 @@ func _ready():
 		but.toggle_mode = true
 
 func _on_action_selected(action : String):
-	escoria.esc_runner.set_current_action(action)
+	escoria.action_manager.set_current_action(action)
 
 	for but in get_children():
 		but.set_pressed(but.get_name() == action)

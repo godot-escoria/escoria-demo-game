@@ -18,16 +18,18 @@ func _on_command_text_entered(p_command_str : String):
 	var actual_command = ":debug\n" + p_command_str + "\n"
 	
 	var errors = []
-	var events = escoria.esc_compiler.compile_str(actual_command, errors)
+	var script = escoria.esc_compiler.compile([
+		":debug",
+		p_command_str
+	])
 	
-	if errors.empty():
-		#past_actions.text += str(events)
-		var ret = escoria.esc_runner.run_event(events["debug"])
-		if ret != null:
-			past_actions.text += str(ret)
-	else:
-		# Display first error only
-		past_actions.text += str(errors[0].split(":")[1].strip_edges())
+	if script:
+		escoria.event_manager.run(script.events["debug"])
+		var ret = yield(escoria.event_manager, "event_finished")
+		while ret[1] != "debug":
+			ret = yield(escoria.event_manager, "event_finished")
+		if not ret[0] == ESCExecution.RC_OK:
+			past_actions.text += "Returned code: %d" % ret[0]
 		
 
 func _on_event_done(event_name : String):

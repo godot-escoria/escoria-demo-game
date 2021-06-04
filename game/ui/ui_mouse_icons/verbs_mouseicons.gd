@@ -32,7 +32,7 @@ func iterate_actions_cursor(direction : int):
 		current_cursor_id = cursors.size() - 1
 		
 	Input.set_custom_mouse_cursor(cursors[current_cursor_id].texture)
-	escoria.esc_runner.set_current_action(cursors[current_cursor_id].name)
+	escoria.action_manager.set_current_action(cursors[current_cursor_id].name)
 	if $mouse_position/tool.texture != null:
 		clear_tool_texture()
 
@@ -43,7 +43,7 @@ func set_by_name(name : String) -> void:
 			break
 		
 	Input.set_custom_mouse_cursor(cursors[current_cursor_id].texture)
-	escoria.esc_runner.set_current_action(cursors[current_cursor_id].name)
+	escoria.action_manager.set_current_action(cursors[current_cursor_id].name)
 
 func set_tool_texture(texture : Texture):
 	set_process(true)

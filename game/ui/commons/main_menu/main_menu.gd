@@ -2,8 +2,23 @@ extends Control
 
 
 func _ready():
-	escoria.esc_level_runner.set_sound_state(["bg_music", 
-		"res://game/sfx/Game-Menu_Looping.mp3", true])
+	var event = ESCEvent.new(":music")
+	event.statements.append(
+		ESCCommand.new(
+			"set_sound_state bg_music res://game/sfx/Game-Menu_Looping.mp3 true"
+		)
+	)
+	escoria.event_manager.queue_event(event)
+	var rc = yield(event, "finished")
+	
+	if rc != ESCExecution.RC_OK:
+		escoria.logger.report_errors(
+			"main_menu: Can't start menu music",
+			[
+				"set_sound_state returned %d" % rc
+			]
+		)
+		return false
 
 
 func _on_continue_pressed():

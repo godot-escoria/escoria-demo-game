@@ -49,27 +49,28 @@ func _input(event):
 
 func left_click_on_bg(position : Vector2) -> void:
 	escoria.do("walk", ["player", position])
-	escoria.esc_runner.clear_current_action()
+	escoria.action_manager.clear_current_action()
 	verbs_menu.unselect_actions()
 	
 func right_click_on_bg(position : Vector2) -> void:
 	escoria.do("walk", ["player", position])
-	escoria.esc_runner.clear_current_action()
+	escoria.action_manager.clear_current_action()
 	verbs_menu.unselect_actions()
 	
 func left_double_click_on_bg(position : Vector2) -> void:
 	escoria.do("walk", ["player", position, true])
-	escoria.esc_runner.clear_current_action()
+	escoria.action_manager.clear_current_action()
 	verbs_menu.unselect_actions()
 
 
 ## ITEM FOCUS ## 
 
 func element_focused(element_id : String) -> void:
-	var target_obj = escoria.esc_runner.get_object(element_id)
+	var target_obj = escoria.object_manager.get_object(element_id).node
 	tooltip.set_target(target_obj.tooltip_name)
 	
-	if escoria.esc_runner.current_action != "use" && escoria.esc_runner.current_tool == null:
+	if escoria.action_manager.current_action != "use" \
+			and escoria.action_manager.current_tool == null:
 		if target_obj is ESCItem:
 			verbs_menu.set_by_name(target_obj.default_action)
 
@@ -83,7 +84,7 @@ func left_click_on_item(item_global_id : String, event : InputEvent) -> void:
 	escoria.do("item_left_click", [item_global_id, event])
 
 func right_click_on_item(item_global_id : String, event : InputEvent) -> void:
-	escoria.esc_runner.set_current_action(verbs_menu.selected_action)
+	escoria.action_manager.set_current_action(verbs_menu.selected_action)
 	escoria.do("item_right_click", [item_global_id, event])
 
 func left_double_click_on_item(item_global_id : String, event : InputEvent) -> void:
@@ -93,26 +94,23 @@ func left_double_click_on_item(item_global_id : String, event : InputEvent) -> v
 ## INVENTORY ##
 func left_click_on_inventory_item(inventory_item_global_id : String, event : InputEvent) -> void:
 	escoria.do("item_left_click", [inventory_item_global_id, event])
-#	if escoria.esc_runner.current_action == "use":
-#		var item = escoria.esc_runner.get_object(inventory_item_global_id)
-#		if item.texture:
-#			verbs_menu.set_tool_texture(item.texture)
-#		elif item.inventory_item_scene_file.instance().texture_normal:
-#			verbs_menu.set_tool_texture(item.inventory_item_scene_file.instance().texture_normal)
 			
 
 func right_click_on_inventory_item(inventory_item_global_id : String, event : InputEvent) -> void:
-	escoria.esc_runner.set_current_action(verbs_menu.selected_action)
+	escoria.action_manager.set_current_action(verbs_menu.selected_action)
 	escoria.do("item_right_click", [inventory_item_global_id, event])
 
 func left_double_click_on_inventory_item(_inventory_item_global_id : String, _event : InputEvent) -> void:
 	pass
 
 func inventory_item_focused(inventory_item_global_id : String) -> void:
-	var target_obj = escoria.esc_runner.get_object(inventory_item_global_id)
+	var target_obj = escoria.object_manager.get_object(
+		inventory_item_global_id
+	).node
 	tooltip.set_target(target_obj.tooltip_name)
 	
-	if escoria.esc_runner.current_action != "use" && escoria.esc_runner.current_tool == null:
+	if escoria.action_manager.current_action != "use" \
+			and escoria.action_manager.current_tool == null:
 		if target_obj is ESCItem:
 			verbs_menu.set_by_name(target_obj.default_action_inventory)
 	
@@ -148,7 +146,7 @@ func show_ui():
 	tooltip.show()
 
 func _on_event_done(_event_name: String):
-	escoria.esc_runner.clear_current_action()
+	escoria.action_manager.clear_current_action()
 	verbs_menu.unselect_actions()
 
 

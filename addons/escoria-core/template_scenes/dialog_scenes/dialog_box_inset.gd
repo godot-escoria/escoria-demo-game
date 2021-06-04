@@ -1,6 +1,7 @@
 tool
 extends PanelContainer
 
+signal dialog_line_started
 signal dialog_line_finished
 
 export(String) var current_character setget set_current_character
@@ -40,6 +41,7 @@ params: Dictionary
 """
 func say(character : String, params : Dictionary) :
 	show()
+	emit_signal("dialog_line_started")
 	set_current_character(character)
 	
 	if !params["line"]:
@@ -70,10 +72,8 @@ func _on_dialog_line_typed(object, key):
 	$Timer.connect("timeout", self, "_on_dialog_finished")
 
 func _on_dialog_finished():
-	escoria.esc_level_runner.finished()
-	escoria.dialog_player.is_speaking = false
 	escoria.current_state = escoria.GAME_STATE.DEFAULT
-#	emit_signal("dialog_line_finished")
+	emit_signal("dialog_line_finished")
 	queue_free()
 	
 	

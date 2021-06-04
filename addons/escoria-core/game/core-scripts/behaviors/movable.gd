@@ -198,7 +198,9 @@ func walk_stop(pos):
 		# orient towards the defined interaction direction set on the object (if any)
 		if walk_context.has("target_object") \
 				and walk_context.target_object.player_orients_on_arrival \
-				and escoria.esc_runner.get_interactive(walk_context.target_object.global_id):
+				and escoria.object_manager.get_object(
+					walk_context.target_object.global_id
+				).interactive:
 			var orientation = walk_context["target_object"].interaction_direction
 			last_dir = orientation
 			parent.animation_sprite.play(parent.animations.idles[orientation][0])
@@ -208,11 +210,6 @@ func walk_stop(pos):
 			parent.animation_sprite.play(parent.animations.idles[last_dir][0])
 			pose_scale = parent.animations.idles[last_dir][1]
 	update_terrain()
-	
-	if walk_context != null:
-		escoria.esc_level_runner.finished(walk_context)
-		escoria.esc_level_runner.finished()
-#		walk_context = null
 	
 	yield(parent.animation_sprite, "animation_finished")
 	escoria.logger.info(parent.global_id + " arrived at " + str(walk_context))

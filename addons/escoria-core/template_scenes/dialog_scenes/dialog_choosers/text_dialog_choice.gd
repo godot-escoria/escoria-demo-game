@@ -12,12 +12,11 @@ func _ready():
 		c.queue_free()
 
 
-func set_answers(p_commands : Array):
-	commands = p_commands
-	var c = 0
+func set_answers(options : Array):
+	commands = options
 	for option in commands:
 		var new_answer_label = RichTextLabel.new()
-		new_answer_label.text = option.params[0]
+		new_answer_label.text = option.option
 		new_answer_label.fit_content_height = true
 		new_answer_label.add_font_override("normal_font", font)
 		
@@ -27,13 +26,10 @@ func set_answers(p_commands : Array):
 		new_answer_label.connect("focus_exited", self, "_on_answer_focus_exited", [new_answer_label])		# Focus exited
 		new_answer_label.connect("mouse_entered", self, "_on_answer_mouse_entered", [new_answer_label])	# Mouse entered
 		new_answer_label.connect("mouse_exited", self, "_on_answer_mouse_exited", [new_answer_label])		# Mouse exited
-		new_answer_label.connect("gui_input", self, "_on_answer_gui_input", [c]) 			# Clicks
-		c += 1
+		new_answer_label.connect("gui_input", self, "_on_answer_gui_input", [option]) 			# Clicks
 
-func _on_answer_gui_input(event : InputEvent, answer_id : int):
+func _on_answer_gui_input(event : InputEvent, answer : ESCDialogOption):
 	if event is InputEventMouseButton and event.is_pressed(): 
-		var answer = commands[answer_id].params[1]
-		printt(answer)
 		escoria.dialog_player.play_dialog_option_chosen(answer)
 
 func _on_answer_mouse_entered(answer_node : Node):

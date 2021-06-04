@@ -10,4 +10,3 @@ func _ready():
 	escoria.call_deferred("add_child", main_menu_scene)
 	escoria.main_menu_instance = main_menu_scene
 	
-

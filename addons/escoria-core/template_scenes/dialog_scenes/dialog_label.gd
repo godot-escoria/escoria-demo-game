@@ -1,7 +1,7 @@
 extends RichTextLabel
 
-#signal dialog_line_started
-#signal dialog_line_finished
+signal dialog_line_started
+signal dialog_line_finished
 
 onready var tween = $Tween
 onready var text_node = self
@@ -28,12 +28,14 @@ params: Dictionary
 func say(character : String, params : Dictionary) :
 	show()
 	
+	emit_signal("dialog_line_started")
+	
 	if !params["line"]:
 		escoria.logger.report_errors("dialog_box_inset.gd:say()", ["No line field in params!"])
 		return
 	
 	# Position the RichTextLabel on the character's dialog position, if any.
-	current_character = escoria.esc_runner.get_object(character)
+	current_character = escoria.object_manager.get_object(character).node
 	rect_position = current_character.get_node("dialog_position").get_global_transform_with_canvas().origin
 	rect_position.x -= rect_size.x / 2
 	
@@ -73,7 +75,7 @@ func _on_dialog_line_typed(object, key):
 
 func _on_dialog_finished():
 	current_character.stop_talking()
-	escoria.esc_level_runner.finished()
+	emit_signal("dialog_line_finished")
 	escoria.dialog_player.is_speaking = false
 	escoria.current_state = escoria.GAME_STATE.DEFAULT
 	queue_free()

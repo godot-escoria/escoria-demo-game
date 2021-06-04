@@ -17,9 +17,6 @@ enum EDITOR_GAME_DEBUG_DISPLAY {
 export(EDITOR_GAME_DEBUG_DISPLAY) var editor_debug_mode = EDITOR_GAME_DEBUG_DISPLAY.NONE setget set_editor_debug_mode
 
 
-func _ready():
-	escoria.esc_runner.connect("event_done", self, "_on_event_done")
-
 
 func set_editor_debug_mode(p_editor_debug_mode : int) -> void:
 	editor_debug_mode = p_editor_debug_mode
@@ -103,10 +100,6 @@ func hide_ui():
 func show_ui():
 	pass
 
-
-## EVENTS
-func _on_event_done(event_name: String):
-	pass
 
 
 ## FUNCTIONS BELOW THIS POINT DON'T NEED TO BE REIMPLEMENTED BY USER
