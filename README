@@ -11,6 +11,18 @@ the needs of your specific game and team.
 Escoria should always be compatible with the current stable version of Godot Engine, and you should use
 If you're encountering issues or incompatibilities, please raise an issue on [Escoria's Github repository](https://github.com/godotengine/escoria/issues).
 
+## Authors
+
+In alphabetical order:
+
+ArturM
+Sylvain Beucler - beuc
+Fleskevor
+Ariel Manzur - punto (original author)
+Julian Murgia - StraToN
+Dennis Ploeger - dploeger
+Markus Törnqvist - mjtorn
+
 ## History
 
 This framework was initially developed for the adventure game
@@ -23,18 +35,14 @@ to the backers of the Dog Mendonça Kickstarter campaign.
 
 ## Documentation
 
+
 ## Licensing
 
 This framework (scripts, scenes) is distributed under the MIT license,
 as described in the LICENSE file.
 
-### Art credits
+### Art, sound, fonts credits
 
-
-### Sound credits
-
-
-### Font
-
+See CREDITS file.
 
 
