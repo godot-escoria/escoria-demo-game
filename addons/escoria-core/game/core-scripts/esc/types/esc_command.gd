@@ -80,7 +80,7 @@ func _init(command_string):
 # Check, if conditions match
 func is_valid() -> bool:
 	var command_found = false
-	for base_path in ProjectSettings.get("escoria/esc/command_directories"):
+	for base_path in ProjectSettings.get("escoria/main/command_directories"):
 		var command_path = "%s/%s.gd" % [
 			base_path,
 			self.name
