@@ -1,4 +1,6 @@
 :setup
+  set_global dialog_advance 0 
+  set_global dialog_popup_advance 0
 > [eq ESC_LAST_SCENE room2]
 	teleport player r1_r_exit
 	# Set player look left
