@@ -82,7 +82,7 @@ func is_valid() -> bool:
 	var command_found = false
 	for base_path in ProjectSettings.get("escoria/main/command_directories"):
 		var command_path = "%s/%s.gd" % [
-			base_path,
+			base_path.trim_suffix("/"),
 			self.name
 		]
 		if ResourceLoader.exists(command_path):

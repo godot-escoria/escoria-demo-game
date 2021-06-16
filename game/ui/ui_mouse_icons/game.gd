@@ -88,8 +88,8 @@ func left_click_on_inventory_item(inventory_item_global_id : String, event : Inp
 		).node
 		if item.get_node("sprite").texture:
 			$ui/verbs_layer/verbs_menu.set_tool_texture(item.get_node("sprite").texture)
-		elif item.inventory_item_scene_file.instance().texture_normal:
-			$ui/verbs_layer/verbs_menu.set_tool_texture(item.inventory_item_scene_file.instance().texture_normal)
+		elif item.inventory_item.texture_normal:
+			$ui/verbs_layer/verbs_menu.set_tool_texture(item.inventory_item.texture_normal)
 			
 
 func right_click_on_inventory_item(inventory_item_global_id : String, event : InputEvent) -> void:

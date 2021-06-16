@@ -19,7 +19,10 @@ func load_command(command_name: String) -> ESCBaseCommand:
 	):
 		if ResourceLoader.exists("%s/%s.gd" % [command_directory, command_name]):
 			registry[command_name] = load(
-				"%s/%s.gd" % [command_directory, command_name]
+				"%s/%s.gd" % [
+					command_directory.trim_suffix("/"), 
+					command_name
+				]
 			).new()
 			return registry[command_name]
 	

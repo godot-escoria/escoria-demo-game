@@ -87,7 +87,7 @@ _global_script_classes=[ {
 "base": "TextureRect",
 "class": "ESCBackground",
 "language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/escbackground.gd"
+"path": "res://addons/escoria-core/game/core-scripts/esc_background.gd"
 }, {
 "base": "Control",
 "class": "ESCBackgroundMusic",
@@ -167,7 +167,7 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "ESCGame",
 "language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/escgame.gd"
+"path": "res://addons/escoria-core/game/core-scripts/esc_game.gd"
 }, {
 "base": "Resource",
 "class": "ESCGlobalsManager",
@@ -187,7 +187,7 @@ _global_script_classes=[ {
 "base": "TextureButton",
 "class": "ESCInventoryItem",
 "language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/escinventoryitem.gd"
+"path": "res://addons/escoria-core/game/core-scripts/esc_inventory_item.gd"
 }, {
 "base": "Object",
 "class": "ESCInventoryManager",
@@ -197,12 +197,17 @@ _global_script_classes=[ {
 "base": "Area2D",
 "class": "ESCItem",
 "language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/escitem.gd"
+"path": "res://addons/escoria-core/game/core-scripts/esc_item.gd"
 }, {
 "base": "Object",
 "class": "ESCLogger",
 "language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/log/logging.gd"
+"path": "res://addons/escoria-core/game/core-scripts/log/esc_logger.gd"
+}, {
+"base": "Node",
+"class": "ESCMovable",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/behaviors/esc_movable.gd"
 }, {
 "base": "Node",
 "class": "ESCObject",
@@ -214,15 +219,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/esc_object_manager.gd"
 }, {
-"base": "KinematicBody2D",
+"base": "ESCItem",
 "class": "ESCPlayer",
 "language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/escplayer.gd"
+"path": "res://addons/escoria-core/game/core-scripts/esc_player.gd"
+}, {
+"base": "Object",
+"class": "ESCResourceCache",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc_resource_cache.gd"
 }, {
 "base": "Node2D",
 "class": "ESCRoom",
 "language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/escroom.gd"
+"path": "res://addons/escoria-core/game/core-scripts/esc_room.gd"
 }, {
 "base": "Object",
 "class": "ESCScheduledEvent",
@@ -242,12 +252,22 @@ _global_script_classes=[ {
 "base": "Navigation2D",
 "class": "ESCTerrain",
 "language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/escterrain.gd"
+"path": "res://addons/escoria-core/game/core-scripts/esc_terrain.gd"
 }, {
 "base": "RichTextLabel",
 "class": "ESCTooltip",
 "language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esctooltip.gd"
+"path": "res://addons/escoria-core/game/core-scripts/esc_tooltip.gd"
+}, {
+"base": "Object",
+"class": "ESCUtils",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/utils/esc_utils.gd"
+}, {
+"base": "Object",
+"class": "ESCWalkContext",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc_walk_context.gd"
 }, {
 "base": "ESCBaseCommand",
 "class": "EnableTerrainCommand",
@@ -274,11 +294,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/inventory_remove.gd"
 }, {
-"base": "Node",
-"class": "Movable",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/behaviors/movable.gd"
-}, {
 "base": "ESCBaseCommand",
 "class": "PlaySndCommand",
 "language": "GDScript",
@@ -298,11 +313,6 @@ _global_script_classes=[ {
 "class": "RepeatCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/repeat.gd"
-}, {
-"base": "Object",
-"class": "ResourceCache",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/resource_queue.gd"
 }, {
 "base": "ESCBaseCommand",
 "class": "SayCommand",
@@ -454,26 +464,28 @@ _global_script_class_icons={
 "ESCInventoryManager": "",
 "ESCItem": "",
 "ESCLogger": "",
+"ESCMovable": "",
 "ESCObject": "",
 "ESCObjectManager": "",
 "ESCPlayer": "",
+"ESCResourceCache": "",
 "ESCRoom": "",
 "ESCScheduledEvent": "",
 "ESCScript": "",
 "ESCStatement": "",
 "ESCTerrain": "",
 "ESCTooltip": "",
+"ESCUtils": "",
+"ESCWalkContext": "",
 "EnableTerrainCommand": "",
 "GameOverCommand": "",
 "IncGlobalCommand": "",
 "InventoryAddCommand": "",
 "InventoryRemoveCommand": "",
-"Movable": "",
 "PlaySndCommand": "",
 "QueueAnimationCommand": "",
 "QueueResourceCommand": "",
 "RepeatCommand": "",
-"ResourceCache": "",
 "SayCommand": "",
 "SchedEventCommand": "",
 "SetActiveCommand": "",
@@ -511,7 +523,6 @@ config/icon="res://icon.png"
 [autoload]
 
 escoria="*res://addons/escoria-core/game/escoria.tscn"
-esctypes="*res://addons/escoria-core/game/core-scripts/escoria_types.gd"
 
 [display]
 
@@ -550,6 +561,9 @@ sound/speech_volume=1
 sound/master_volume=1
 main/command_directories=[ "res://addons/escoria-core/game/core-scripts/esc/commands" ]
 debug/log_level="DEBUG"
+platform/skip_cache=false
+platform/skip_cache.mobile=true
+ui/items_autoregister_path="res://game/items/escitems/"
 
 [input]
 

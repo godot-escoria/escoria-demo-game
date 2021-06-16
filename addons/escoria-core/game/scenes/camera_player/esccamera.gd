@@ -177,7 +177,7 @@ func _process(_delta):
 		if typeof(target) == TYPE_VECTOR2 or typeof(target) == TYPE_ARRAY:
 			self.global_position = resolve_target_pos()
 		elif "moved" in target and target.moved \
-		or "moved" in target.Movable and target.Movable.moved:
+		or "moved" in target.movable and target.movable.moved:
 			self.global_position = resolve_target_pos()
 
 func _ready():

@@ -1,12 +1,12 @@
 [gd_scene load_steps=16 format=2]
 
-[ext_resource path="res://addons/escoria-core/game/core-scripts/escterrain.gd" type="Script" id=1]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
 [ext_resource path="res://game/rooms/room7/background.tscn" type="PackedScene" id=2]
 [ext_resource path="res://game/items/escitems/button.tscn" type="PackedScene" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
 [ext_resource path="res://game/ui/commons/fonts/caslonantique.tres" type="DynamicFont" id=5]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/escroom.gd" type="Script" id=6]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=7]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1976.63, 640.557, 1987.95, 588.863, 2070.07, 622.872, 2066.3, 799.721, 1015.72, 626.818, 1956.81, 616.096, -9.16094, 803.802, -6.44019, 711.297, 911.239, 554.152, 991.239, 554.152, 858.566, 628.405, 741.099, 620.468, 84.5821, 654.06, 3.15687, 646.051, 59.2201, 628.698, 129.634, 615.792 )

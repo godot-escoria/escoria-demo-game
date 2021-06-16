@@ -19,6 +19,11 @@ const RESERVED_GLOBALS = [
 export(Dictionary) var _globals = {}
 
 
+
+func _init():
+	set_global("ESC_LAST_SCENE", "", true)
+
+
 # Check if a global was registered
 #
 # #### Parameters

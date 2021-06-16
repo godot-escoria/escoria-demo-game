@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/scenes/inventory/inventory_ui.gd" type="Script" id=1]
-[ext_resource path="res://game/items/ESCORIA_ALL_ITEMS.tscn" type="PackedScene" id=2]
 [ext_resource path="res://game/ui/ui_9verbs/inventory/inventory_ui_container.gd" type="Script" id=3]
 
 [node name="inventory_ui" type="PanelContainer"]
@@ -26,6 +25,3 @@ custom_constants/vseparation = 16
 custom_constants/hseparation = 16
 columns = 4
 script = ExtResource( 3 )
-
-[node name="ESCORIA_ALL_ITEMS" parent="." instance=ExtResource( 2 )]
-position = Vector2( 269.391, 275.003 )

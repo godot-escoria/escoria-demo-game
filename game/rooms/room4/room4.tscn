@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://addons/escoria-core/game/core-scripts/escterrain.gd" type="Script" id=1]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/escbackground.gd" type="Script" id=2]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_background.gd" type="Script" id=2]
 [ext_resource path="res://game/ui/commons/fonts/caslonantique.tres" type="DynamicFont" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=5]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/escroom.gd" type="Script" id=6]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=5]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
 [ext_resource path="res://game/rooms/room4/assets/background.png" type="Texture" id=7]
 [ext_resource path="res://game/rooms/room4/assets/depth_reduced.png" type="Texture" id=8]
 
@@ -49,13 +49,16 @@ margin_right = 1008.3
 margin_bottom = 109.657
 custom_fonts/font = ExtResource( 3 )
 text = "This room demonstrates how to use a background image AND using a large image width AND setting a depth map on the ESCTerrain node"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="walkable_area" type="Navigation2D" parent="."]
 script = ExtResource( 1 )
 scales = ExtResource( 8 )
-player_doubleclick_speed_multiplier = 1.8
-debug_mode = 0
 scale_min = 0.4
+lightmap = ExtResource( 8 )
+player_doubleclick_speed_multiplier = 1.8
 
 [node name="platform" type="NavigationPolygonInstance" parent="walkable_area"]
 position = Vector2( 6.73163, -264.779 )

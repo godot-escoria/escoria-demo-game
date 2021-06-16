@@ -1,15 +1,15 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://addons/escoria-core/game/core-scripts/escterrain.gd" type="Script" id=1]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
 [ext_resource path="res://game/rooms/room5/background.tscn" type="PackedScene" id=2]
 [ext_resource path="res://game/ui/commons/fonts/caslonantique.tres" type="DynamicFont" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
 [ext_resource path="res://game/rooms/room5/item_wall/item_wall.tscn" type="PackedScene" id=5]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/escroom.gd" type="Script" id=6]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/escitem.gd" type="Script" id=7]
-[ext_resource path="res://game/items/escitems/wrench_escitem.tscn" type="PackedScene" id=8]
-[ext_resource path="res://game/items/escitems/empty_sheet_escitem.tscn" type="PackedScene" id=9]
-[ext_resource path="res://game/items/escitems/pen_escitem.tscn" type="PackedScene" id=10]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
+[ext_resource path="res://game/items/escitems/r5_wrench.tscn" type="PackedScene" id=8]
+[ext_resource path="res://game/items/escitems/r5_empty_sheet.tscn" type="PackedScene" id=9]
+[ext_resource path="res://game/items/escitems/r5_pen.tscn" type="PackedScene" id=10]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, 129.634, 615.792, 1143.08, 613.35, -9.16094, 803.802, 84.5821, 654.06, -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698 )

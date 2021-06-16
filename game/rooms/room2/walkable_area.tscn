@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://addons/escoria-core/game/core-scripts/escterrain.gd" type="Script" id=1]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 129.634, 615.792, 488.56, 617.98, 454.637, 800.726, 2.69714, 805.103, 75.8943, 663.384, 3.79144, 707.712, 5.9538, 653.476, 63.1848, 626.267, 1284.99, 804.433, 868.119, 803.394, 828.615, 621.468, 1152.31, 619.946, 1181.97, 640.075, 1260.04, 615.231, 1282.91, 680.724, 1190.39, 590.281 )

@@ -1,9 +1,7 @@
-# `teleport object1 object2 [angle]`
+# `teleport object1 object2
 #
-# Sets the position of object1 to the position of object2. By default,
-# object2's interact_angle is used to turn object1, but angle will override 
-# this. Useful for doors and such with an interact_angle you don't always want 
-# to adhere to when re-entering a room.
+# Sets the position of object1 to the position of object2.
+# FIXME re-add the angle parameter here
 #
 # @ESC
 extends ESCBaseCommand
@@ -14,8 +12,8 @@ class_name TeleportCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2, 
-		[TYPE_STRING, TYPE_STRING, TYPE_INT],
-		[null, null, null]
+		[TYPE_STRING, TYPE_STRING],
+		[null, null]
 	)
 	
 	
@@ -42,9 +40,8 @@ func validate(arguments: Array):
 
 # Run the command
 func run(command_params: Array) -> int:
-	escoria.object_manager.get_object(command_params[0]).node\
+	(escoria.object_manager.get_object(command_params[0]).node as ESCPlayer)\
 		.teleport(
-			escoria.object_manager.get_object(command_params[1]).node, 
-			command_params[2]
+			escoria.object_manager.get_object(command_params[1]).node
 		)
 	return ESCExecution.RC_OK

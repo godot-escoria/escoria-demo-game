@@ -46,23 +46,30 @@ func add_new_item_by_id(item_id : String) -> void:
 		item_id = item_id.rsplit("i/", false)[0]
 	if not items_ids_in_inventory.has(item_id):
 		if not escoria.object_manager.has(item_id):
-			escoria.logger.report_errors(
-				"inventory_ui.gd:add_new_item_by_id()",
-				[
-					"Item global id '%s' does not exist." % item_id, 
-					"Check item's id in ESCORIA_ALL_ITEMS scene."
-				]
-			)
-		if not all_items.get_inventory_item(item_id):
-			escoria.logger.report_errors(
-				"inventory_ui.gd:add_new_item_by_id()",
-				[
-					"Item global id '%s' doesn't have a " +\
-							"corresponding inventory item." % item_id, 
-					"Check item's id in ESCORIA_ALL_ITEMS scene."
-				]
-			)
-		var item_inventory_button = all_items.get_inventory_item(item_id).duplicate()
+			var inventory_file = "%s/%s.tscn" % [
+				ProjectSettings.get_setting(
+					"escoria/ui/items_autoregister_path"
+				).trim_suffix("/"),
+				item_id
+			]
+			if ResourceLoader.exists(inventory_file):
+				escoria.object_manager.register_object(
+					ESCObject.new(
+						item_id,
+						ResourceLoader.load(inventory_file).instance()
+					)
+				)
+			else:
+				escoria.logger.report_errors(
+					"inventory_ui.gd:add_new_item_by_id()",
+					[
+						"Item global id '%s' does not exist." % item_id, 
+						"Check item's id in ESCORIA_ALL_ITEMS scene."
+					]
+				)
+		var item_inventory_button = (
+			escoria.object_manager.get_object(item_id).node as ESCItem
+			).inventory_item.duplicate()
 		items_ids_in_inventory[item_id] = item_inventory_button
 		get_node(inventory_ui_container).add_item(item_inventory_button)
 		

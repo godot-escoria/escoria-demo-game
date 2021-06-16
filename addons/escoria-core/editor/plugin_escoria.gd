@@ -1,63 +1,42 @@
+# Plugin script to initialize Escoria
 tool
 extends EditorPlugin
 
+
+# Autoloads to instantiate
 const autoloads = {
 	"escoria": "res://addons/escoria-core/game/escoria.tscn",
-	"esctypes": "res://addons/escoria-core/game/core-scripts/escoria_types.gd"
 }
 
+# Custom types to generate outside of Classes
 const custom_types = [
-	{
-		"type_name": "ESCBackground",
-		"parent_type": "Sprite",
-		"script_res": "res://addons/escoria-core/game/core-scripts/escbackground.gd"
-	},
-	{
-		"type_name": "ESCItem",
-		"parent_type": "Area2D",
-		"script_res": "res://addons/escoria-core/game/core-scripts/escitem.gd"
-	},
 	{
 		"type_name": "ESCItemsInventory",
 		"parent_type": "GridContainer",
 		"script_res": "res://addons/escoria-core/game/core-scripts/items_inventory.gd"
-	},
-	{
-		"type_name": "ESCInventoryItem",
-		"parent_type": "TextureButton",
-		"script_res": "res://addons/escoria-core/game/core-scripts/escinventoryitem.gd"
-	},
-	{
-		"type_name": "ESCPlayer",
-		"parent_type": "KinematicBody2D",
-		"script_res": "res://addons/escoria-core/game/core-scripts/escplayer.gd"
-	},
-	{
-		"type_name": "ESCRoom",
-		"parent_type": "Node2D",
-		"script_res": "res://addons/escoria-core/game/core-scripts/escroom.gd"
-	},
-	{
-		"type_name": "ESCTerrain",
-		"parent_type": "Navigation2D",
-		"script_res": "res://addons/escoria-core/game/core-scripts/escterrain.gd"
 	}
 ]
 
+
+# Setup Escoria
 func _enter_tree():
-	add_autoloads()
+	for key in autoloads.keys():
+		add_autoload_singleton(key, autoloads[key])
 	
 	for custom_type in custom_types:
 		add_custom_type(custom_type.type_name, custom_type.parent_type, 
 			load(custom_type.script_res), null)
 	
+	# Prepare settings
 	set_escoria_main_settings()
 	set_escoria_debug_settings()
 	set_escoria_ui_settings()
 	set_escoria_internal_settings()
 	set_escoria_sound_settings()
-	
-	
+	set_escoria_platform_settings()
+
+
+# Prepare the settings in the Escoria UI category
 func set_escoria_ui_settings():
 	if !ProjectSettings.has_setting("escoria/ui/tooltip_follows_mouse"):
 		ProjectSettings.set_setting("escoria/ui/tooltip_follows_mouse", true)
@@ -110,8 +89,21 @@ func set_escoria_ui_settings():
 			"hint_string": "*.tscn, *.scn"
 		}
 		ProjectSettings.add_property_info(game_scene_property_info)
+		
+	if !ProjectSettings.has_setting("escoria/ui/items_autoregister_path"):
+		ProjectSettings.set_setting(
+			"escoria/ui/items_autoregister_path", 
+			"res://game/items/escitems/"
+		)
+		var game_scene_property_info = {
+			"name": "escoria/ui/items_autoregister_path",
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_DIR
+		}
+		ProjectSettings.add_property_info(game_scene_property_info)
 	
 
+# Prepare the settings in the Escoria main category
 func set_escoria_main_settings():
 	if !ProjectSettings.has_setting("escoria/main/game_start_script"):
 		ProjectSettings.set_setting("escoria/main/game_start_script", "")
@@ -132,7 +124,7 @@ func set_escoria_main_settings():
 		ProjectSettings.add_property_info(force_quit_property_info)
 	
 	ProjectSettings.set_setting("application/run/main_scene", "res://addons/escoria-core/game/main_scene.tscn")
-	
+
 	if not ProjectSettings.has_setting("escoria/main/command_directories"):
 		ProjectSettings.set_setting("escoria/main/command_directories", [
 			"res://addons/escoria-core/game/core-scripts/esc/commands"
@@ -142,7 +134,7 @@ func set_escoria_main_settings():
 			"type": TYPE_ARRAY,
 		})
 
-	
+
 	if !ProjectSettings.has_setting("escoria/main/text_lang"):
 		ProjectSettings.set_setting("escoria/main/text_lang", TranslationServer.get_locale())
 		var text_lang_property_info = {
@@ -151,7 +143,7 @@ func set_escoria_main_settings():
 			"hint": PROPERTY_HINT_NONE
 		}
 		ProjectSettings.add_property_info(text_lang_property_info)
-	
+
 	if !ProjectSettings.has_setting("escoria/main/voice_lang"):
 		ProjectSettings.set_setting("escoria/main/voice_lang", TranslationServer.get_locale())
 		var voice_lang_property_info = {
@@ -160,13 +152,9 @@ func set_escoria_main_settings():
 			"hint": PROPERTY_HINT_NONE
 		}
 		ProjectSettings.add_property_info(voice_lang_property_info)
-	
-	
-	
-	
-	
-	
-	
+
+
+# Prepare the settings in the Escoria debug category
 func set_escoria_debug_settings():
 	if !ProjectSettings.has_setting("escoria/debug/terminate_on_warnings"):
 		ProjectSettings.set_setting("escoria/debug/terminate_on_warnings", false)
@@ -190,6 +178,7 @@ func set_escoria_debug_settings():
 		ProjectSettings.add_property_info(property_info)
 
 
+# Prepare the settings in the Escoria internal category
 func set_escoria_internal_settings():
 	if !ProjectSettings.has_setting("escoria/internals/save_data"):
 		ProjectSettings.set_setting("escoria/internals/save_data", "")
@@ -202,6 +191,7 @@ func set_escoria_internal_settings():
 		ProjectSettings.add_property_info(save_data_property_info)
 
 
+# Prepare the settings in the Escoria sound settings
 func set_escoria_sound_settings():
 	if !ProjectSettings.has_setting("escoria/sound/master_volume"):
 		ProjectSettings.set_setting("escoria/sound/master_volume", 1)
@@ -212,7 +202,7 @@ func set_escoria_sound_settings():
 			"hint_string": "0,1"
 		}
 		ProjectSettings.add_property_info(master_data_property_info)
-		
+
 	if !ProjectSettings.has_setting("escoria/sound/music_volume"):
 		ProjectSettings.set_setting("escoria/sound/music_volume", 1)
 		var music_data_property_info = {
@@ -242,37 +232,26 @@ func set_escoria_sound_settings():
 			"hint_string": "0,1"
 		}
 		ProjectSettings.add_property_info(speech_data_property_info)
-	
 
 
-# Defines platform-specific parameters. Those are the ones that must be re-set for each platform export.
+# Prepare the settings in the Escoria platform category and may need special
+# setting per build
 func set_escoria_platform_settings():
-	# Skip cache - certain platforms (esp. mobile) lack memory for caching scenes
-	# If true, all generic scenes (UI, inventory, etc) will be loaded as any other scene.
+	# Skip cache - certain platforms (esp. mobile) lack memory for caching
+	# scenes.
+	# If set to true, all generic scenes (UI, inventory, etc) will be loaded
+	# as any other scene.
 	if !ProjectSettings.has_setting("escoria/platform/skip_cache"):
 		ProjectSettings.set_setting("escoria/platform/skip_cache", false)
-	
-	
+	if !ProjectSettings.has_setting("escoria/platform/skip_cache.mobile"):
+		ProjectSettings.set_setting("escoria/platform/skip_cache.mobile", true)
 
-func add_autoloads():
-	for key in autoloads.keys():
-		add_autoload_singleton(key, autoloads[key])
-
-func remove_autoloads():
+# Uninstall plugin
+func _exit_tree():
 	for key in autoloads.keys():
 		if ProjectSettings.has_setting(key):
 			remove_autoload_singleton(key)
-	
-
-func _exit_tree():
-	remove_custom_type("ESCBackground")
-	remove_custom_type("ESCItem")
-	remove_custom_type("ESCInventoryItem")
-	remove_custom_type("ESCItemsInventory")
-	remove_custom_type("ESCPlayer")
-	remove_custom_type("ESCRoom")
-	remove_custom_type("ESCTerrain")
-	
-	remove_autoloads()
+	for custom_type in custom_types:
+		remove_custom_type(custom_type.type_name)
 	
 	
