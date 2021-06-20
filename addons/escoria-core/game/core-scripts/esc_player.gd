@@ -12,6 +12,11 @@ class_name ESCPlayer
 export(NodePath) var camera_position_node
 
 
+# A player is always movable
+func _init():
+	is_movable = true
+
+
 # Return the camera position if a camera_position_node exists or the
 # global position of the player
 func get_camera_pos():

@@ -1,15 +1,23 @@
+# A debug window which can run esc commands
 extends WindowDialog
 
+
+# Reference to the past actions display
 onready var past_actions = $VBoxContainer/past_actions
+
+# Reference to the command input
 onready var command = $VBoxContainer/command
 
-var last_event_done := true
 
+# Run a command
+#
+# #### Parameters
+#
+# - p_command_str: Command to execute
 func _on_command_text_entered(p_command_str : String):
 	if p_command_str.empty():
 		return
 	
-	last_event_done = false
 	command.text = ""
 	past_actions.text += "\n"
 	past_actions.text += "# " + p_command_str
@@ -24,19 +32,13 @@ func _on_command_text_entered(p_command_str : String):
 	])
 	
 	if script:
-		escoria.event_manager.run(script.events["debug"])
+		escoria.event_manager.queue_event(script.events["debug"])
 		var ret = yield(escoria.event_manager, "event_finished")
 		while ret[1] != "debug":
 			ret = yield(escoria.event_manager, "event_finished")
-		if not ret[0] == ESCExecution.RC_OK:
-			past_actions.text += "Returned code: %d" % ret[0]
-		
-
-func _on_event_done(event_name : String):
-	if event_name == "debug" and !last_event_done:
-		last_event_done = true
-#		past_actions.text += "\nDone.\n"
+		past_actions.text += "Returned code: %d" % ret[0]
 
 
+# Set the focus to the command
 func _on_esc_prompt_popup_about_to_show():
 	command.grab_focus()

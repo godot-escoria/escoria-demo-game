@@ -69,6 +69,9 @@ export(String) var trigger_out_verb = "trigger_out"
 # If true, the player can interact with this item
 export(bool) var is_interactive = true
 
+# Wether this item is movable
+export(bool) var is_movable = false
+
 # If true, player orients towards 'interaction_direction' as
 # player character arrives.
 export(bool) var player_orients_on_arrival = true
@@ -121,7 +124,7 @@ export(float) var v_speed_damp : float = 1.0
 export(Script) var animations
 
 # The movable subnode
-var movable: ESCMovable = null
+var _movable: ESCMovable = null
 
 # Reference to the animation node (null if none was found)
 var animation_sprite = null
@@ -140,9 +143,6 @@ var inventory_item: ESCInventoryItem = null setget ,_get_inventory_item
 # Add the movable node, connect signals, detect child nodes
 # and register this item
 func _ready():
-	movable = ESCMovable.new()
-
-	add_child(movable)
 	
 	_detect_children()
 	
@@ -152,6 +152,12 @@ func _ready():
 	
 	# Register and connect all elements to Escoria backoffice.
 	if not Engine.is_editor_hint():
+		
+		if is_movable:
+			_movable = ESCMovable.new()
+
+			add_child(_movable)
+	
 		escoria.event_manager.connect("event_finished", self, "_update_terrain")
 		
 		escoria.object_manager.register_object(
@@ -182,9 +188,9 @@ func _ready():
 		default_action_inventory = default_action
 	
 	# Perform a first terrain scaling if we have to.
-	if !is_exit or dont_apply_terrain_scaling:
-		movable.last_scale = scale
-		movable.update_terrain()
+	if (!is_exit or dont_apply_terrain_scaling) and is_movable:
+		_movable.last_scale = scale
+		_movable.update_terrain()
 
 
 # Return the animation player node
@@ -272,7 +278,7 @@ func element_exited(body):
 #
 # - target: Target item to teleport to
 func teleport(target: Node) -> void:
-	movable.teleport(target)
+	_movable.teleport(target)
 
 
 # Use the movable node to make the item walk to the given position
@@ -282,7 +288,7 @@ func teleport(target: Node) -> void:
 # - pos: Position to walk to
 # - p_walk_context: Walk context to use
 func walk_to(pos : Vector2, p_walk_context: ESCWalkContext = null) -> void:
-	movable.walk_to(pos, p_walk_context)
+	_movable.walk_to(pos, p_walk_context)
 
 
 # Set the moving speed
@@ -292,6 +298,11 @@ func walk_to(pos : Vector2, p_walk_context: ESCWalkContext = null) -> void:
 # - speed_value: Set the new speed
 func set_speed(speed_value : int) -> void:
 	speed = speed_value
+	
+
+# Check wether this item moved
+func has_moved() -> bool:
+	return _movable.moved if is_movable else false
 
 
 # Set the angle
@@ -300,21 +311,21 @@ func set_speed(speed_value : int) -> void:
 #
 # Set the angle
 func set_angle(deg : int, immediate = true):
-	movable.set_angle(deg, immediate)
+	_movable.set_angle(deg, immediate)
 	
 
 # Play the talking animation
 func start_talking():
 	if animation_sprite.is_playing():
 		animation_sprite.stop()
-	animation_sprite.play(animations.speaks[movable.last_dir][0])
+	animation_sprite.play(animations.speaks[_movable.last_dir][0])
 
 
 # Stop playing the talking animation
 func stop_talking():
 	if animation_sprite.is_playing():
 		animation_sprite.stop()
-	animation_sprite.play(animations.idles[movable.last_dir][0])
+	animation_sprite.play(animations.idles[_movable.last_dir][0])
 
 
 # Detect the child nodes and set respective references
@@ -336,7 +347,8 @@ func _detect_children() -> void:
 
 # Upate the terrain when an event finished
 func _update_terrain(rc: int, event_name: String) -> void:
-	movable.update_terrain(event_name)
+	if is_movable:
+		_movable.update_terrain(event_name)
 
 
 # Get inventory item from the inventory item scene

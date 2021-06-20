@@ -1,23 +1,28 @@
+# Background sound player
 extends Control
 class_name ESCBackgroundSound
 
-func get_class():
-	return "ESCBackgroundSound"
 
-onready var stream = $AudioStreamPlayer
-var state = "default"
-export var global_id = "bg_sound"
+# Global id of the background sound player
+export var global_id: String = "bg_sound"
 
 
-func game_cleared():
-	stream.stream = null
-	escoria.object_manager.register_object(
-		ESCObject.new(global_id, self),
-		true
-	)
+# The state of the sound player. "default" or "off" disable sound
+# Any other state refers to a sound stream that should be played
+var state: String = "default"
 
 
-func set_state(p_state, p_force = false):
+# Reference to the audio player
+onready var stream: AudioStreamPlayer = $AudioStreamPlayer
+
+
+# Set the state of this player
+#
+# #### Parameters
+#
+# - p_state: New state to use
+# - p_force: Override the existing state even if the stream is still playing
+func set_state(p_state: String, p_force: bool = false):
 	# If already playing this stream, keep playing, unless p_force
 	if p_state == state and not p_force and stream.is_playing():
 		return
@@ -40,6 +45,7 @@ func set_state(p_state, p_force = false):
 		stream.play()
 
 
+# Register to the object registry
 func _ready():
 	escoria.object_manager.register_object(
 		ESCObject.new(global_id, self),

@@ -92,23 +92,21 @@ func set_camera_limits(camera_limit_id : int = 0) -> void:
 			area.size = get_viewport().size
 
 		escoria.logger.info("Setting camera limits from scene ", [area])
-		limits = {
-			"limit_left": area.position.x,
-			"limit_right": area.position.x + area.size.x,
-			"limit_top": area.position.y,
-			"limit_bottom": area.position.y + area.size.y,
-			"set_default": true,
-		}
+		limits = ESCCameraLimits.new(
+			area.position.x,
+			area.position.x + area.size.x,
+			area.position.y,
+			area.position.y + area.size.y
+		)
 	else:
-		limits = {
-			"limit_left": scene_camera_limits.position.x,
-			"limit_right": scene_camera_limits.position.x + \
+		limits = ESCCameraLimits.new(
+			scene_camera_limits.position.x,
+			scene_camera_limits.position.x + \
 					scene_camera_limits.size.x,
-			"limit_top": scene_camera_limits.position.y,
-			"limit_bottom": scene_camera_limits.position.y + \
-					scene_camera_limits.size.y + screen_ofs.y * 2,
-			"set_default": true,
-		}
+			scene_camera_limits.position.y,
+			scene_camera_limits.position.y + \
+					scene_camera_limits.size.y + screen_ofs.y * 2
+		)
 		escoria.logger.info(
 			"Setting camera limits from parameter ", 
 			[scene_camera_limits]

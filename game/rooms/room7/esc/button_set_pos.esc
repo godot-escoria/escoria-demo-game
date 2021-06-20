@@ -6,8 +6,6 @@ camera_set_limits 2
 camera_set_pos 500 150 150
 wait 6
 
-camera_set_pos 1 1080 1000
-wait 1
 camera_set_limits 0
 
 camera_set_target 0 player

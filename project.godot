@@ -107,7 +107,12 @@ _global_script_classes=[ {
 "base": "Camera2D",
 "class": "ESCCamera",
 "language": "GDScript",
-"path": "res://addons/escoria-core/game/scenes/camera_player/esccamera.gd"
+"path": "res://addons/escoria-core/game/scenes/camera_player/esc_camera.gd"
+}, {
+"base": "Object",
+"class": "ESCCameraLimits",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/scenes/camera_player/esc_camera_limits.gd"
 }, {
 "base": "ESCStatement",
 "class": "ESCCommand",
@@ -445,6 +450,7 @@ _global_script_class_icons={
 "ESCBackgroundSound": "",
 "ESCBaseCommand": "",
 "ESCCamera": "",
+"ESCCameraLimits": "",
 "ESCCommand": "",
 "ESCCommandArgumentDescriptor": "",
 "ESCCommandRegistry": "",

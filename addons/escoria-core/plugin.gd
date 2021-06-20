@@ -8,24 +8,11 @@ const autoloads = {
 	"escoria": "res://addons/escoria-core/game/escoria.tscn",
 }
 
-# Custom types to generate outside of Classes
-const custom_types = [
-	{
-		"type_name": "ESCItemsInventory",
-		"parent_type": "GridContainer",
-		"script_res": "res://addons/escoria-core/game/core-scripts/items_inventory.gd"
-	}
-]
-
 
 # Setup Escoria
 func _enter_tree():
 	for key in autoloads.keys():
 		add_autoload_singleton(key, autoloads[key])
-	
-	for custom_type in custom_types:
-		add_custom_type(custom_type.type_name, custom_type.parent_type, 
-			load(custom_type.script_res), null)
 	
 	# Prepare settings
 	set_escoria_main_settings()
@@ -251,7 +238,5 @@ func _exit_tree():
 	for key in autoloads.keys():
 		if ProjectSettings.has_setting(key):
 			remove_autoload_singleton(key)
-	for custom_type in custom_types:
-		remove_custom_type(custom_type.type_name)
 	
 	
