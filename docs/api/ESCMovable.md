@@ -1,6 +1,6 @@
 <!-- Auto-generated from JSON by GDScript docs maker. Do not edit this document directly. -->
 
-# Movable
+# ESCMovable
 
 **Extends:** [Node](../Node)
 
@@ -8,6 +8,19 @@
 
 Node that performs the moving (walk, teleport, terrain scaling...) actions on
 its parent node.
+
+## Enumerations
+
+### MovableTask
+
+```gdscript
+const MovableTask: Dictionary = {"NONE":0,"SLIDE":2,"WALK":1}
+```
+
+Tasks carried out by this walkable node
+NONE - The node is inactive
+WALK - The node walks the parent somewhere
+SLIDE - The node slides the parent somewhere
 
 ## Property Descriptions
 
@@ -38,12 +51,10 @@ The destination where the character should be moving to
 ### walk\_context
 
 ```gdscript
-var walk_context: Dictionary
+var walk_context: ESCWalkContext
 ```
 
-A dictionary with context information about the walk command
-fast => Wether to walk fast or slow
-target => Walk target
+The walk context currently carried out by this movable node
 
 ### moved
 
@@ -99,7 +110,15 @@ Shortcut variable that references the node's parent
 var bypass_missing_animation
 ```
 
- If character misses an animation, bypass it and proceed.
+If character misses an animation, bypass it and proceed.
+
+### task
+
+```gdscript
+var task
+```
+
+Currenly running task
 
 ## Method Descriptions
 
@@ -120,7 +139,7 @@ can be removed
 ### walk\_to
 
 ```gdscript
-func walk_to(pos: Vector2, p_walk_context = null) -> void
+func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void
 ```
 
 Walk to a given position

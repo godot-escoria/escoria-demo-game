@@ -4,20 +4,27 @@ class_name ESCCondition
 
 
 # Valid comparison types
-enum {COMPARISON_NONE, COMPARISON_EQ, COMPARISON_GT, COMPARISON_LT}
+enum {
+	COMPARISON_NONE, 
+	COMPARISON_EQ, 
+	COMPARISON_GT, 
+	COMPARISON_LT, 
+	COMPARISON_ACTIVITY
+}
 
 
 # Regex that matches condition lines
 const REGEX = \
-	'^(?<is_negated>!)?(?<comparison>eq|gt|lt)? ?' +\
-	'(?<is_inventory>i\/)?(?<flag>[^ ]+)( (?<comparison_value>.+))?$'
+	'^(?<is_negated>!)?(?<comparison>eq|gt|lt)? ?(?<is_inventory>i\/)?' + \
+	'(?<is_activity>a\/)?(?<flag>[^ ]+)( (?<comparison_value>.+))?$'
 
 
 const COMPARISON_DESCRIPTION = [
 	"Checking if %s %s %s true%s",
 	"Checking if %s %s %s equals %s",
 	"Checking if %s %s %s greater than %s",
-	"Checking if %s %s %s less than %s"
+	"Checking if %s %s %s less than %s",
+	"Checking if %s is %s active%s"
 ]
 
 
@@ -73,6 +80,8 @@ func _init(comparison_string: String):
 				)
 			if "is_inventory" in result.names:
 				self.inventory = true
+			if "is_activity" in result.names:
+				self.comparison = COMPARISON_ACTIVITY
 			if "flag" in result.names:
 				self.flag = escoria.utils.get_re_group(result, "flag")
 	else:
@@ -93,7 +102,8 @@ func run() -> bool:
 			"inventory item" if self.inventory else "global value",
 			self.flag,
 			"is not" if self.negated else "is",
-			"" if self.comparison == COMPARISON_NONE else self.comparison_value
+			"" if self.comparison in [COMPARISON_NONE, COMPARISON_ACTIVITY] \
+					else self.comparison_value
 		]
 	)
 	
@@ -118,6 +128,10 @@ func run() -> bool:
 	elif self.comparison == COMPARISON_LT and \
 			escoria.globals_manager.get_global(global_name) < \
 				self.comparison_value:
+		return_value = true
+	elif self.comparison == COMPARISON_ACTIVITY and \
+			escoria.object_manager.has_object(global_name) and \
+				escoria.object_manager.get_object(global_name).active:
 		return_value = true
 		
 	if self.negated:

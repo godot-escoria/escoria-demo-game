@@ -10,9 +10,11 @@ All objects in the game have a global ID, which is used to identify them in comm
 
 Each object can have a "state". The state is stored in the global state of the game, and the savegame, and it's set on the object when the scene is instanced. States can also be animations with the same name in the object's scene, in that case the animation is run when the state is set.
 
+For the [bg_sound](api/EscBackgroundSound.md) and [bg_music](api/EscBackgroundMusic.md) objects, the state also means the currently running music or sound.
+
 ### Active objects
 
-Objects can be active or not active. Non-active objects are hidden and non clickable.
+Objects can be active or inactive. Inactive objects are hidden and non clickable.
 
 Item activity is also handled as a special case of global flags. If the check starts with "a/", like "a/elaine", you're checking if "elaine" is active.
 
@@ -22,91 +24,52 @@ Item activity is also handled as a special case of global flags. If the check st
     say player player_no_elaine_yet:"It would appear Elaine hasn't arrived yet."
 ```
 
-Caveat: This works only when `set_active` has been called. Therefore if "elaine" is not set `active` in the editor but `set_active elaine true` is
-called later, everything works as expected. If you have an item that can be picked up, even if it's `active` in the editor, but its state *may* toggle,
-you must use this pattern:
-
-```
-:setup
-set_active broom true [!i/inv_broom]
-```
-
-Now it has been explicitly set and it will work. The underlying technical rationale is way beyond the scope of this reference; just trust us
-that it's the best way to go.
-
 ### Interactive objects
 
-If you have something that only blocks the terrain, something you can move behind, you probably don't want to hassle with interaction areas
-and tooltip texts. In this case, just set `is_interactive` to `false` and the item will not be checked for areas and its mouse events will
-not be connected.
+If you have something that only blocks the terrain, something you can move behind, you probably don't want to hassle with interaction areas and tooltip texts. In this case, just set `is_interactive` to `false` and the item will not be checked for areas and its mouse events will not be connected.
 
 ## Global flags
 
-Global flags define the state of the game, and can have a value of true, false or an integer. All commands or groups can be conditioned to the value of a global flag.
+Global flags define the state of the game, and can have any value (true/false, numbers and strings). All commands or groups can be conditioned to the value of a global flag.
 
 ### Inventory
 
 The inventory is handled as a special case of global flags. All flags with a name starting with "i/" are considered an inventory object, with the object's global id following. Example:
 
 ```
-# adds the object "key" to the inventory
-set_global i/key true
+# Waits for 5 seconds if the player has the key in its inventory
+wait 5 [i/key]
 ```
-
-```
-# removes the object "key" to the inventory
-set_global i/key false
-```
-
-## Game global state
-
-The following values are saved in the global game state and savegames:
-
-* Global flags
-* Object's "state" values
-* Object's "active" values
-* Object's potisions if moved
 
 ## Events
 
-When a scene is loaded, it may have events. We will not cover `:load` as it is used only internally for save games, nor will we cover `:start` here.
+All ESC scripts are divided into a series of events, which in turn run commands or dialogs.
+
+An event has a name and the prefix ":" like this:
+
+`:setup`
+
+While you can use arbitrary event names (for example to schedule them with the `sched_event`command), there are some special events that are called by Escoria when certaiin things happen:
+
+* `:setup` (on an ESCScene object): Called everytime when the scene is loaded
+* `:ready`(on an ESCScene object): Called only when the scene is loaded the first time
+* `:use <global id>`(on an ESCItem object): Called when the inventory item `<global id>`was used with this item
+* `:<verb>`(on an ESCItem object): Called when a special verb was used on the item (e.g. `:look`)
 
 To initialize a room properly, you may want to use `:setup` like this:
 
 ```
 :setup
-teleport player door1 [eq last_exit door1]
-teleport player door2 [eq last_exit door2]
+teleport player door1 [eq ESC_LAST_SCENE scene1]
+teleport player door2 [eq ESC_LAST_SCENE scene2]
 ```
 
-It covers the fact that your `player` can be set anywhere in the room and be visible for just a moment before the `teleport` happens.
+This will teleport the player to the respective point in the scene, depending on the last visited scene, which is stored in the special global state `ESC_LAST_SCENE`.
 
-It's not mandatory, nor mutually exclusive with `:setup` to have a `:ready` event.
+Events understand a series of flags. These flags are currently implemented:
 
-```
-:ready
-say player player_wants_out:"I want out! To live my life and to be free!" [want_out]
-```
-
-When the player interacts with an object in the game, the object receives an even. Each event executes a series of commands.
-
-Events start with the character ":" in the Events file. Example:
-
-```
-:use
-```
-
-Especially useful for fallbacks, you can give flags to events:
-
-```
-:use | TK
-say player player_does_not_wanna:"I don't wanna."
-```
-
-These flags are implemented:
-
-* `TK` stands for "telekinetic". It means the player won't walk over to the item to say the line.
-* `NO_TT` stands for "No tooltip". It hides the tooltip for the duration of the event. Probably not very useful, because events having multiple `say` commands in them are automatically hidden.
+* `TK` stands for "telekinetic". It means the player won't walk over to the item to say the line
+* `NO_TT` stands for "No tooltip". It hides the tooltip for the duration of the event
 * `NO_HUD` stands for "No HUD". It hides the HUD for the duration of the event. Useful when you want something to look like a cut scene but not disable input for skipping dialog.
 * `NO_SAVE` disables saving. Use this in cut scenes and anywhere a badly-timed autosave would leave your game in a messed-up state.
 * `CUT_BLACK` applies only to `:setup`. It makes the screen go black during the setup phase. You will probably see a quick black flash, so use it only if you prefer it over the standard cut.
@@ -114,16 +77,16 @@ These flags are implemented:
 
 ## Commands
 
-Commands consist of one word followed by parameters. Parameters can be one word, or strings in quotes. A string can also be preceeded by an ID for localization and the ":" character. Example:
+Commands consist of one word followed by parameters. Parameters can be one word, or strings in quotes.
 
 ```
-# one parameter "player", another parameter "hello world", with id "dialog_hello"
-say player dialog_hello:"hello world"
+# one parameter "player", another parameter "hello world"
+say player "hello world"
 ```
 
 ### Conditions
 
-In order to run a command conditionally dependin on the value of a flag, use [] with a list of conditions. All conditions in the list must be true. The character "!" before a flag can be used to negate it.
+In order to run a command conditionally depending on the value of a flag, use `[]` with a list of comma separated conditions. All conditions in the list must be true. The character "!" before a flag can be used to negate it.
 
 Example:
 
@@ -153,9 +116,20 @@ Commands can be grouped using the character ">" to start a group, and incrementi
 ```
 >
 	set_global door_open true
-	animation player pick_up
+	anim player pick_up
 # end of group
 ```
+
+Groups cann also use conditions:
+
+```
+# Present the key if the player already has it
+> [i/key]
+	say player "I got the key!"
+	anim player show_key
+```
+
+
 
 ### Blocking
 
@@ -163,198 +137,270 @@ Some commands will block execution of the event until they finish, others won't.
 
 ### List of commands
 
-#### `debug string [string2 ...]`
+<!-- ESCCOMMANDS -->
+#### <a name="AcceptInputCommand.md"></a>`accept_input [ALL|NONE|SKIP]` [API-Doc](api/AcceptInputCommand.md)
+
+**This command is currently not fully implemented.**
+
+What type of input does the game accept. ALL is the default, SKIP allows
+skipping of dialog but nothing else, NONE denies all input. Including opening
+the menu etc. SKIP and NONE also disable autosaves.
+
+*Note* that SKIP gets reset to ALL when the event is done, but NONE persists.
+This allows you to create cut scenes with SKIP where the dialog can be
+skipped, but also initiate locked#### down cutscenes with accept_input
+NONE in :setup and accept_input ALL later in :ready.
+#### <a name="AnimCommand.md"></a>`anim object name [reverse]` [API-Doc](api/AnimCommand.md)
+
+Executes the animation specificed with the "name" parameter on the object,
+without blocking. The next command in the event will be executed immediately
+after. Optional parameters:
+
+* reverse: plays the animation in reverse when true
+#### <a name="CameraPushCommand.md"></a>`camera_push target [time] [type]` [API-Doc](api/CameraPushCommand.md)
+
+Push camera to `target`. Target must have camera_pos set. If it's of type
+Camera2D, its zoom will be used as well as position. `type` is any of the
+Tween.TransitionType values without the prefix, eg. LINEAR, QUART or CIRC;
+defaults to QUART. A `time` value of 0 will set the camera immediately.
+#### <a name="CameraSetLimitsCommand.md"></a>`camera_set_limits camlimits_id` [API-Doc](api/CameraSetLimitsCommand.md)
+
+Sets the camera limits to the one defined under `camlimits_id` in ESCRoom's
+camera_limits array.
+- camlimits_id : int : id of the camera limits to apply (defined in ESCRoom's
+  camera_limits array)
+#### <a name="CameraSetPosCommand.md"></a>`camera_set_pos speed x y` [API-Doc](api/CameraSetPosCommand.md)
+
+Moves the camera to a position defined by "x" and "y", at the speed defined
+by "speed" in pixels per second. If speed is 0, camera is teleported to the
+position.
+#### <a name="CameraSetTargetCommand.md"></a>`camera_set_target speed object` [API-Doc](api/CameraSetTargetCommand.md)
+
+Configures the camera to set the target to the given `object`using `speed`
+as speed limit.
+This is the default behavior (default follow object is "player").
+#### <a name="CameraSetZoomCommand.md"></a>`camera_set_zoom magnitude [time]` [API-Doc](api/CameraSetZoomCommand.md)
+
+Zooms the camera in/out to the desired `magnitude`. Values larger than 1 zooms
+the camera out, and smaller values zooms in, relative to the default value
+of 1. An optional `time` in seconds controls how long it takes for the camera
+to zoom into position.
+#### <a name="CameraSetZoomHeightCommand.md"></a>`camera_set_zoom_height pixels [time] [API-Doc](api/CameraSetZoomHeightCommand.md)
+
+Zooms the camera in/out to the desired `pixels` height.
+An optional `time` in seconds controls how long it takes for the camera
+to zoom into position.
+#### <a name="CameraShiftCommand.md"></a>`camera_shift x y [time] [type]` [API-Doc](api/CameraShiftCommand.md)
+
+Shift camera by `x` and `y` pixels over `time` seconds. `type` is any of the
+Tween.TransitionType values without the prefix, eg. LINEAR, QUART or CIRC;
+defaults to QUART.
+#### <a name="ChangeSceneCommand.md"></a>`change_scene path run_events` [API-Doc](api/ChangeSceneCommand.md)
+
+Loads a new scene, specified by "path". The `run_events` variable is a
+boolean (default true) which you never want to set manually! It's there only
+to benefit save games, so they don't conflict with the scene's events.
+#### <a name="CustomCommand.md"></a>`custom object node func_name [params]` [API-Doc](api/CustomCommand.md)
+
+Calls the function `func_name` of the node `node` of object `object` with
+the optional `params`. This is a blocking function
+#### <a name="CutSceneCommand.md"></a>`cut_scene object name [reverse]` [API-Doc](api/CutSceneCommand.md)
+
+Executes the animation specificed with the "name" parameter on the object,
+blocking. The next command in the event will be executed when the animation
+is finished playing. Optional parameters:
+
+* reverse plays the animation in reverse when true
+#### <a name="DebugCommand.md"></a>`debug string [string2 ...]` [API-Doc](api/DebugCommand.md)
 
 Takes 1 or more strings, prints them to the console.
+#### <a name="DecGlobalCommand.md"></a>`dec_global name value` [API-Doc](api/DecGlobalCommand.md)
 
-#### `set_global name value`
+Subtracts the value from global with given "name". Value and global must
+both be integers.
+#### <a name="EnableTerrainCommand.md"></a>`enable_terrain node_name` [API-Doc](api/EnableTerrainCommand.md)
 
-Changes the value of the global "name" with the value. Value can be "true", "false" or an integer.
+Enable the ESCTerrain's NavigationPolygonInstance defined by given node name.
+Disables previously activated NavigationPolygonInstance.
+#### <a name="GameOverCommand.md"></a>`game_over continue_enabled show_credits` [API-Doc](api/GameOverCommand.md)
 
-#### `dec_global name value`
+**This command is currently not fully implemented.**
 
-Subtracts the value from global with given "name". Value and global must both be integers.
+Ends the game. Use the "continue_enabled" parameter to enable or disable the
+continue button in the main menu afterwards. The "show_credits" parameter
+loads the ui/end_credits scene if true. You can configure it to your regular
+credits scene if you want.
+#### <a name="IncGlobalCommand.md"></a>`inc_global name value` [API-Doc](api/IncGlobalCommand.md)
 
-#### `inc_global name value`
+Adds the value to global with given "name". Value and global must both be
+integers.
+#### <a name="InventoryAddCommand.md"></a>`inventory_add item` [API-Doc](api/InventoryAddCommand.md)
 
-Adds the value to global with given "name". Value and global must both be integers.
+Add an item to the inventory
+#### <a name="InventoryRemoveCommand.md"></a>`inventory_remove item` [API-Doc](api/InventoryRemoveCommand.md)
 
-#### `set_globals pattern value`
+Remove an item from the inventory.
+#### <a name="PlaySndCommand.md"></a>`play_snd object file [loop]` [API-Doc](api/PlaySndCommand.md)
 
-Changes the value of multiple globals using a wildcard pattern. Example:
+**This command is currently not fully implemented.**
 
-```
-# clears the inventory
-set_globals i/#### false
-```
+Plays the sound specificed with the "file" parameter on the object, without
+blocking. You can play background sounds, eg. during scene changes, with
+`play_snd bg_snd res://...`
+#### <a name="QueueAnimationCommand.md"></a>`queue_animation object animation` [API-Doc](api/QueueAnimationCommand.md)
 
-#### `accept_input [ALL|NONE|SKIP]`
+**This command is currently not fully implemented.**
 
-What type of input does the game accept. `ALL` is the default, `SKIP` allows skipping of dialog but nothing else, `NONE` denies all input. Including opening the menu etc.
-`SKIP` and `NONE` also disable autosaves.
+Similar to queue_resource, queues the resources necessary to have an
+animation loaded on an item. The resource paths are taken from the item
+placeholders.
+#### <a name="QueueResourceCommand.md"></a>`queue_resource path [front_of_queue]` [API-Doc](api/QueueResourceCommand.md)
 
-Note that `SKIP` gets reset to `ALL` when the event is done, but `NONE` persists. This allows you to create cut scenes with `SKIP` where the dialog can be skipped, but also
-initiate locked#### down cutscenes with `accept_input NONE` in `:setup` and `accept_input ALL` later in `:ready`.
+Queues the load of a resource in a background thread. The `path` must be a
+full path inside your game, for example "res://scenes/next_scene.tscn". The
+"front_of_queue" parameter is optional (default value false), to put the
+resource in the front of the queue. Queued resources are cleared when a
+change scene happens (but after the scene is loaded, meaning you can queue
+resources that belong to the next scene).
+#### <a name="RepeatCommand.md"></a>`repeat` [API-Doc](api/RepeatCommand.md)
 
-#### `set_state object state` (Currently not available)
+Restarts the execution of the current scope at the start. A scope can be a
+group or an event.
+#### <a name="SayCommand.md"></a>`say object text [type] [avatar]` [API-Doc](api/SayCommand.md)
 
-Changes the state of an object, and executes the state animation if present. The command can be used to change the appearance of an item or a player character.
-
-When used on a player object, the command is used to dress the player in a costume identified by the state parameter. An `AnimationPlayer` with the given parameter should be a child of the player node, although one named "animation" is always the fallback when trying set a missing costume.
-
-Items can also change state by playing animations from an `AnimationPlayer` named "animation". The `AnimationPlayer` is typically used to change the texture of a `Sprite` node, but it's also possible to add additional tracks for changing the tooltip and other properties of the item scene. By using keyframes and looping, any given state can also use multiple textures to bring more life to the item.
-
-#### `set_hud_visible visible` (Currently not available)
-
-If you have a cut#### scene#### like sequence where the player doesn't have control, and you also have HUD elements visible, use this to hide the HUD. You want to do that because it explicitly signals the player that there is no control over the game at the moment. "visible" is true or false.
-
-#### `say object text [type] [avatar]`
-
-Runs the specified string as a dialog said by the object. Blocks execution until the dialog finishes playing. Optional parameters:
+Runs the specified string as a dialog said by the object. Blocks execution
+until the dialog finishes playing. Optional parameters:
 
 * "type" determines the type of dialog UI to use. Default value is "default"
-* "avatar" determines the avatar to use for the dialog. Default value is "default"
+* "avatar" determines the avatar to use for the dialog. Default value is
+  "default"
+#### <a name="SchedEventCommand.md"></a>`sched_event time object event` [API-Doc](api/SchedEventCommand.md)
 
-#### `anim object name [reverse] [flip_x] [flip_y]`
+Schedules the execution of an "event" found in "object" in a time in seconds.
+If another event is running at the time, execution starts when the running
+event ends.
+#### <a name="SetActiveCommand.md"></a>`set_active object value` [API-Doc](api/SetActiveCommand.md)
 
-Executes the animation specificed with the "name" parameter on the object, without blocking. The next command in the event will be executed immediately after. Optional parameters:
+Changes the "active" state of the object, value can be true or false.
+Inactive objects are hidden in the scene.
+#### <a name="SetAngleCommand.md"></a>`set_angle object degrees` [API-Doc](api/SetAngleCommand.md)
 
-* reverse plays the animation in reverse when true
-* flip_x flips the x axis of the object's sprites when true (object's root node needs to be Node2D)
-* flip_y flips the y axis of the object's sprites when true (object's root node needs to be Node2D)
+Turns object to a degrees angle without animations. 0 sets object facing
+forward, 90 sets it 90 degrees clockwise ("east") etc. When turning to the
+destination angle, animations are played if they're defined in animations.
 
-#### `cut_scene object name [reverse] [flip_x] [flip_y]`
+object must be player or interactive. degrees must be between [0, 360] or an
+error is reported.
+#### <a name="SetGlobalCommand.md"></a>`set_global name value` [API-Doc](api/SetGlobalCommand.md)
 
-Executes the animation specificed with the "name" parameter on the object, blocking. The next command in the event will be executed when the animation is finished playing. Optional parameters:
+Changes the value of the global "name" with the value. Value can be "true",
+"false" or an integer.
+#### <a name="SetGlobalsCommand.md"></a>`set_globals pattern value` [API-Doc](api/SetGlobalsCommand.md)
 
-* reverse plays the animation in reverse when true
-* flip_x flips the x axis of the object's sprites when true (object's root node needs to be Node2D)
-* flip_y flips the y axis of the object's sprites when true (object's root node needs to be Node2D)
+Changes the value of multiple globals using a wildcard pattern, where "*"
+matches zero or more arbitrary characters and "?" matches any single
+character except a period (".").
+#### <a name="SetHudVisibleCommand.md"></a>`set_hud_visible visible` [API-Doc](api/SetHudVisibleCommand.md)
 
-#### `play_snd object file [loop]` (Currently not available)
+If you have a cutscene like sequence where the player doesn't have control,
+and you also have HUD elements visible, use this to hide the HUD. You want
+to do that because it explicitly signals the player that there is no control
+over the game at the moment. "visible" is true or false.
+#### <a name="SetInteractiveCommand.md"></a>`set_interactive object value` [API-Doc](api/SetInteractiveCommand.md)
 
-Plays the sound specificed with the "file" parameter on the object, without blocking. You can play background sounds, eg. during scene changes, with `play_snd bg_snd res://...`
+Sets whether or not an object should be interactive.
+#### <a name="SetSoundStateCommand.md"></a>`set_sound_state player sound loop` [API-Doc](api/SetSoundStateCommand.md)
 
-#### `set_active object value`
+Change the sound playing on `player` to `sound` with optional looping if
+`loop` is true.
+Valid players are "bg_music" and "bg_sound".
+Aside from paths to sound or music files, the values *off* and *default*.
+*default* is the default value.
+are also valid for `sound`
+#### <a name="SetSpeedCommand.md"></a>`set_speed object speed` [API-Doc](api/SetSpeedCommand.md)
 
-Changes the "active" state of the object, value can be true or false. Inactive objects are hidden in the scene.
+Sets how fast object moves. Speed is an integer.
+#### <a name="SetStateCommand.md"></a>`set_state object state [immediate]` [API-Doc](api/SetStateCommand.md)
 
-#### `set_interactive object value`
+Changes the state of an object, and executes the state animation if present.
+The command can be used to change the appearance of an item or a player
+character.
+If `immediate` is set to true, the animation is run directly
+#### <a name="SlideBlockCommand.md"></a>`slide_block object1 object2 [speed]` [API-Doc](api/SlideBlockCommand.md)
 
-Sets whether or not an action menu should be used, and a tooltip shown, on object. It must use the `item.gd` script. Value can be true or false. Useful for "soft#### disabling" objects without removing them by `set_active`.
+**This command is currently not fully implemented.**
 
-#### `wait seconds`
+Moves object1 towards the position of object2, at the speed determined by
+object1's "speed" property, unless overridden. This command is blocking.
+It does not respect the room's navigation polygons, so you can move items
+where the player can't walk.
+#### <a name="SlideCommand.md"></a>`slide object1 object2 [speed]` [API-Doc](api/SlideCommand.md)
 
-Blocks execution of the current script for a number of seconds specified by the "seconds" parameter.
+**This command is currently not fully implemented.**
 
-#### `change_scene path run_events`
+Moves object1 towards the position of object2, at the speed determined by
+object1's "speed" property, unless overridden. This command is non-blocking.
+It does not respect the room's navigation polygons, so you can move items
+where the player can't walk.
+#### <a name="SpawnCommand.md"></a>`spawn path [object2]` [API-Doc](api/SpawnCommand.md)
 
-Loads a new scene, specified by "path". The `run_events` variable is a boolean (default true) which you never want to set manually! It's there only to benefit save games, so they don't conflict with the scene's events.
-
-#### `set_speed object speed`
-
-Sets how fast object moves. It must use the `interactive.gd` script or something extended from it. Value is an integer.
-
-#### `teleport object1 object2 [angle]`
-
-Sets the position of object1 to the position of object2. By default object2's `interact_angle` is used to turn `object1`, but `angle` will override this.
-Useful for doors and such with an `interact_angle` you don't always want to adhere to when re#### entering a room.
-
-#### `slide object1 object2 [speed]`
-
-Moves object1 towards the position of object2, at the speed determined by object1's "speed" property, unless overridden. This command is non#### blocking. It does not respect the room's navigation polygons, so you can move items where the player can't walk.
-
-#### `slide_block object1 object2 [speed]`
-
-Moves object1 towards the position of object2, at the speed determined by object1's "speed" propert, unless overriddeny. This command is blocking. It does not respect the room's navigation polygons, so you can move items where the player can't walk.
-
-#### `walk object1 object2 [speed]`
-
-Walks, using the walk animation, object1 towards the position of object2, at the speed determined by object1's "speed" property, unless overridden. This command is non#### blocking.
-
-#### `walk_block object1 object2 [speed]`
-
-Walks, using the walk animation, object1 towards the position of object2, at the speed determined by object1's "speed" property, unless overridden. This command is blocking.
-
-#### `turn_to object degrees`
-
-Turns `object` to a `degrees` angle with a `directions` animation.
-
-0 sets `object` facing forward, 90 sets it 90 degrees clockwise ("east") etc. When turning to the destination angle, animations are played if they're defined in `animations`.
-`object` must be player or interactive.
-`degrees` must be between [0, 360] or an error is reported.
-
-#### `set_angle object degrees`
-
-Turns `object` to a `degrees` angle without animations.
-0 sets `object` facing forward, 90 sets it 90 degrees clockwise ("east") etc. When turning to the destination angle, animations are played if they're defined in `animations`.
-
-`object` must be player or interactive.
-`degrees` must be between [0, 360] or an error is reported.
-
-#### `spawn path [object2]`
-
-Instances a scene determined by "path", and places in the position of object2 (object2 is optional)
-
-#### `stop`
+Instances a scene determined by "path", and places in the position of
+object2 (object2 is optional)
+#### <a name="StopCommand.md"></a>`stop` [API-Doc](api/StopCommand.md)
 
 Stops the event's execution.
+#### <a name="TeleportCommand.md"></a>`teleport object1 object2 [API-Doc](api/TeleportCommand.md)
 
-#### `repeat`
+Sets the position of object1 to the position of object2.
+FIXME re-add the angle parameter here
+#### <a name="TurnToCommand.md"></a>`turn_to object degrees` [API-Doc](api/TurnToCommand.md)
 
-Restarts the execution of the current scope at the start. A scope can be a group or an event.
+**This command is currently not fully implemented.**
 
-#### `sched_event time object event`
+Turns object to a degrees angle with a directions animation.
 
-Schedules the execution of an "event" found in "object" in a time in seconds. If another event is running at the time, execution starts when the running event ends.
-`event` can consist of multiple words like in `sched_event 0 tow_hook use inv_rope`
+0 sets object facing forward, 90 sets it 90 degrees clockwise ("east") etc.
+When turning to the destination angle, animations are played if they're
+defined in animations. object must be player or interactive. degrees must
+be between [0, 360] or an error is reported.
+#### <a name="WaitCommand.md"></a>`wait seconds` [API-Doc](api/WaitCommand.md)
 
-#### `custom obj func_name [params]`
+Blocks execution of the current script for a number of seconds specified by the "seconds" parameter.
+#### <a name="WalkBlockCommand.md"></a>`walk_block object1 object2 [speed]` [API-Doc](api/WalkBlockCommand.md)
 
-If `obj` has a `(Node2D) custom` node, `func_name` will be searched for in its script and called with `params`. See device/contrib/custom/spine.gd for an example.
+Walks, using the walk animation, object1 towards the position of object2,
+at the speed determined by object1's "speed" property,
+unless overridden. This command is blocking.
+#### <a name="WalkCommand.md"></a>`walk object1 object2 [speed]` [API-Doc](api/WalkCommand.md)
 
-#### `camera_set_pos speed x y`
+Walks, using the walk animation, object1 towards the position of object2,
+at the speed determined by object1's "speed" property,
+unless overridden. This command is non-blocking.
+#### <a name="WalkToPosBlockCommand.md"></a>`walk_to_pos_block player x y` [API-Doc](api/WalkToPosBlockCommand.md)
 
-Moves the camera to a position defined by "x" and "y", at the speed defined by "speed" in pixels per second. If speed is 0, camera is teleported to the position.
+Makes the `player` walk to the position `x`/`y`. This is a blocking command.
+#### <a name="WalkToPosCommand.md"></a>`walk_to_pos player x y` [API-Doc](api/WalkToPosCommand.md)
 
-#### `camera_set_target speed object [object2 object3 ...]`
+Makes the `player` walk to the position `x`/`y`.
 
-Configures the camera to follow 1 or more objects, using "speed" as speed limit. This is the default behavior (default follow object is "player"). If there's more than 1 object, the camera follows the average position of all the objects specified.
+<!-- /ESCCOMMANDS -->
 
-#### `camera_set_zoom magnitude [time]`yx
 
-Zooms the camera in/out to the desired magnitude. Values larger than 1 zooms the camera out, and smaller values zooms in, relative to the default value of 1. An optional time in seconds controls how long it takes for the camera to zoom into position.
 
-#### `camera_set_zoom_height pixels [time]`
 
-Similar to the command above, but uses pixel height instead of magnitude to zoom.
 
-#### `camera_push target [time] [type]`
 
-Push camera to target. Target must have `camera_pos` set. If it's of type `Camera2D`, its zoom will be used as well as position.
-`type` is any of the `Tween.TransitionType` values without the prefix, eg. `LINEAR`, `QUART` or `CIRC`; defaults to `QUART`.
-A `time` value of 0 will set the camera immediately.
-
-#### `camera_shift x y [time] [type]`
-
-Shift camera by `x` and `y` pixels over `time` seconds.
-`type` is any of the `Tween.TransitionType` values without the prefix, eg. `LINEAR`, `QUART` or `CIRC`; defaults to `QUART`.
-
-#### `queue_resource path front_of_queue`
-
-Queues the load of a resource in a background thread. The path must be a full path inside your game, for example "res://scenes/next_scene.tscn". The "front_of_queue" parameter is optional (default value false), to put the resource in the front of the queue. Queued resources are cleared when a change scene happens (but after the scene is loaded, meaning you can queue resources that belong to the next scene).
-
-#### `queue_animation object animation`
-
-Similar to queue_resource, queues the resources necessary to have an animation loaded on an item. The resource paths are taken from the item placeholders.
-
-#### `game_over continue_enabled show_credits`
-
-Ends the game. Use the "continue_enabled" parameter to enable or disable the continue button in the main menu afterwards. The "show_credits" parameter loads the `ui/end_credits` scene if true. You can configure it to your regular credits scene if you want.
 
 ## Dialogs
 
-To start a dialog, use the "?" character, with some parameters, followed by a list of dialog options. This hides the HUD. Each option starts with the "-" character, followed by a parameter with the text to display in the dialog interface. Inside the option, a group of commands is specified using indentation. Use "!" to signify the dialog is over and the HUD may be restored. The HUD will not be restored if the running event is flagged NO_HUD. Either way the Escoria virtual machine will know if the game is in a dialog context.
+Dialogs are specified by writing `?` with optional parameters, followed by a list of dialog options starting with `-`. Use `!` to end the dialog.
+
+The following parameters are available:
+
+* type: (default value "default") the type of dialog menu to use.
+* avatar: (default value "default") the avatar to use in the dialog ui.
+* timeout: (default value 0) timeout to select an option. After the time has passed, the "timeout_option" will be selected automatically. If the value is 0, there's no timeout.
+* timeout_option: (default value 0) option selected when timeout is reached.
 
 Example:
 
@@ -392,11 +438,4 @@ Example:
 		stop
 repeat
 ```
-
-All parameters are options:
-
-* type: (default value "default") the type of dialog menu to use. All types are in the "dd_player" scene.
-* avatar: (default value "default") the avatar to use in the dialog ui.
-* timeout: (default value 0) timeout to select an option. After the time has passed, the "timeout_option" will be selected automatically. If the value is 0, there's no timeout.
-* timeout_option: (default value 0) option selected when timeout is reached.
 

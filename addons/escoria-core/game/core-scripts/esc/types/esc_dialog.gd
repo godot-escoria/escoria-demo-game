@@ -15,6 +15,7 @@ const END_REGEX = \
 
 
 # Dialog type
+# FIXME, currently unused, but needs reimplementation
 var type: String = ""
 
 # Avatar used in the dialog

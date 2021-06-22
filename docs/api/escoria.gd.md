@@ -16,12 +16,92 @@ The escorie main script
 const GAME_STATE: Dictionary = {"DEFAULT":0,"DIALOG":1,"WAIT":2}
 ```
 
-An enum of game states
-* DEFAULT - Default mode
-* DIALOG - Game is running a dialog
-* WAIT - Game is currently waiting for a specified time
+Current game state
+* DEFAULT: Common game function
+* DIALOG: Game is playing a dialog
+* WAIT: Game is waiting
 
 ## Property Descriptions
+
+### logger
+
+```gdscript
+var logger: ESCLogger
+```
+
+Logger used
+
+### utils
+
+```gdscript
+var utils: ESCUtils
+```
+
+Several utilities
+
+### inventory\_manager
+
+```gdscript
+var inventory_manager: ESCInventoryManager
+```
+
+The inventory manager instance
+
+### action\_manager
+
+```gdscript
+var action_manager: ESCActionManager
+```
+
+The action manager instance
+
+### esc\_compiler
+
+```gdscript
+var esc_compiler: ESCCompiler
+```
+
+ESC compiler instance
+
+### event\_manager
+
+```gdscript
+var event_manager: ESCEventManager
+```
+
+ESC Event manager instance
+
+### globals\_manager
+
+```gdscript
+var globals_manager: ESCGlobalsManager
+```
+
+ESC globals registry instance
+
+### object\_manager
+
+```gdscript
+var object_manager: ESCObjectManager
+```
+
+ESC object manager instance
+
+### command\_registry
+
+```gdscript
+var command_registry: ESCCommandRegistry
+```
+
+ESC command registry instance
+
+### resource\_cache
+
+```gdscript
+var resource_cache: ESCResourceCache
+```
+
+Resource cache handler
 
 ### main\_menu\_instance
 
@@ -29,7 +109,15 @@ An enum of game states
 var main_menu_instance
 ```
 
-The instance of the used main menu scene
+Instance of the main menu
+
+### room\_terrain
+
+```gdscript
+var room_terrain
+```
+
+Terrain of the current room
 
 ### dialog\_player
 
@@ -45,71 +133,23 @@ Dialog player instantiator. This instance is called directly for dialogs.
 var inventory
 ```
 
-The inventory scene used
+Inventory scene
 
-### room\_terrain
-
-```gdscript
-var room_terrain
-```
-
-The terrain of the current main room
-
-### esc\_compiler
+### settings
 
 ```gdscript
-var esc_compiler
+var settings: Dictionary
 ```
 
-The ESC compiler instance
+These are settings that the player can affect and save/load later
 
-### logger
+### settings\_default
 
 ```gdscript
-var logger
+var settings_default: Dictionary
 ```
 
-The logger instance
-
-### main
-
-```gdscript
-var main
-```
-
-The main scene
-
-### esc\_runner
-
-```gdscript
-var esc_runner
-```
-
-The ESC main loop
-
-### esc\_level\_runner
-
-```gdscript
-var esc_level_runner
-```
-
-The ESC interpreter
-
-### inputs\_manager
-
-```gdscript
-var inputs_manager
-```
-
-The escoria inputs manager
-
-### utils
-
-```gdscript
-var utils
-```
-
-Several utilities
+These are default settings
 
 ### current\_state
 
@@ -127,6 +167,30 @@ var game_size
 
 The game resolution
 
+### main
+
+```gdscript
+var main
+```
+
+The main scene
+
+### inputs\_manager
+
+```gdscript
+var inputs_manager
+```
+
+The escoria inputs manager
+
+### save\_data
+
+```gdscript
+var save_data
+```
+
+Savegame management
+
 ## Method Descriptions
 
 ### new\_game
@@ -136,19 +200,6 @@ func new_game()
 ```
 
 Called by Main menu "start new game"
-
-### register\_object
-
-```gdscript
-func register_object(object: Object)
-```
-
-Register an object to the matching manager. (A dialog player as the
-main dialog player, an item in the ESC runner, etc.)
-
-#### Parameters
-
-- object: The object to register
 
 ### do
 
