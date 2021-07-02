@@ -10,7 +10,7 @@
 #]
 
 # Angle is [from_angle, area_angle]
-# example : on a clock, [180, 45] starts exactly from 6 o'clock (180°) 
+# example: on a clock, [180, 45] starts exactly from 6 o'clock (180°) 
 # and stops between 7 o'clock and 8 o'clock (45° from 6 o'clock)
 const dir_angles = [
 	[340, 40], 		# 0 UP
@@ -24,7 +24,7 @@ const dir_angles = [
 ]
 
 # Array of animations for each direction, from UP to RIGHT_UP clockwise
-# [animation_name, scale] : scale parameter can be set to -1 to mirror the animation
+# [animation_name, scale]: scale parameter can be set to -1 to mirror the animation
 const directions = [
 	["walk_up", 1],				# 0 UP
 	["walk_up", 1],				# 1 RIGHT UP

@@ -107,9 +107,9 @@ func manage_input(_viewport, event, _shape_idx) -> void:
 # Texture or set size
 # **Returns** The correct area size
 func get_full_area_rect2() -> Rect2:
-	var area_rect2 : Rect2 = Rect2()
+	var area_rect2: Rect2 = Rect2()
 	var pos = get_global_position()
-	var size : Vector2
+	var size: Vector2
 	if get_texture():
 		size = get_texture().get_size()
 	else:

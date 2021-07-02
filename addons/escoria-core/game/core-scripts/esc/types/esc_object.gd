@@ -70,3 +70,21 @@ func set_state(p_state: String, immediate: bool = false):
 func _set_active(value: bool):
 	active = value
 	self.node.visible = value
+
+
+# Return the data of the object to be inserted in a savegame file.
+#
+# **Returns**
+# A dictionary containing the data to be saved for this object. 
+func get_save_data() -> Dictionary:
+	var save_data: Dictionary = {} 
+	save_data["active"] = self.active
+	save_data["interactive"] = self.interactive
+	save_data["state"] = self.state
+
+	if self.node.get("is_movable") and self.node.is_movable:
+		save_data["global_transform"] = self.node.global_transform
+		save_data["last_deg"] = wrapi(self.node._movable._get_angle() + 1, 0, 360)
+		save_data["last_dir"] = self.node._movable.last_dir
+	
+	return save_data

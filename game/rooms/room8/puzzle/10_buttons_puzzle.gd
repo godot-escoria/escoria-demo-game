@@ -1,7 +1,7 @@
 extends Panel
 
-var numbers_array : Array
-var next_to_be_pressed : int = 1
+var numbers_array: Array
+var next_to_be_pressed: int = 1
 
 func _ready():
 	randomize()
@@ -32,8 +32,8 @@ func reset():
 		i += 1
 
 
-func _button_pressed(button : Button):
-	var number : String= button.text
+func _button_pressed(button: Button):
+	var number: String= button.text
 	if int(number) != next_to_be_pressed:
 		reset()
 	else:

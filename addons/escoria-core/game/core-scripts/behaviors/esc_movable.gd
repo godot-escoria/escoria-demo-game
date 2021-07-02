@@ -32,16 +32,16 @@ var walk_context: ESCWalkContext = null
 var moved: bool
 
 # Angle degrees to the last position (TODO is that correct?)
-var last_deg : int
+var last_deg: int
 
 # Direction of the last position (TODO is that correct?)
-var last_dir : int
+var last_dir: int
 
 # Scale of the last position (TODO is that correct?)
-var last_scale : Vector2
+var last_scale: Vector2
 
 # TODO Isn't this actually the flip state of the current animation?
-var pose_scale : int
+var pose_scale: int
 
 
 var _orig_speed: float = 0.0
@@ -157,16 +157,9 @@ func _process(delta: float) -> void:
 #
 # #### Parameters
 #
-# - target: Vector2, Position2d or ESCItem
-func teleport(target, angle : Object = null) -> void:
-	if typeof(target) == TYPE_VECTOR2 :
-		escoria.logger.info(
-			"Object %s teleported at position %s with angle" %
-			[parent.global_id, str(target)],
-			[angle]
-		)
-		parent.position = target
-	elif target is Position2D:
+# - target: Position2d or ESCItem to teleport to
+func teleport(target: Node, angle: Object = null) -> void:
+	if target is Position2D:
 		escoria.logger.info(
 			"Object %s teleported at position %s with angle" %
 			[parent.global_id, str(target.position)],
@@ -185,7 +178,27 @@ func teleport(target, angle : Object = null) -> void:
 			+ str(parent.position) + " with angle ", str(angle))
 	else:
 		escoria.logger.report_errors("escitem.gd:teleport()",
-		["Target to teleport to is null or unusable (" + target + ")"])
+		["Target to teleport to is null or unusable (" + str(target) + ")"])
+
+
+# Teleports this item to the target position.
+# TODO angle is only used for logging and has no further use, so it probably
+# can be removed
+#
+# #### Parameters
+#
+# - target: Vector2 target position to teleport to 
+func teleport_to(target: Vector2, angle: Object = null) -> void:
+	if typeof(target) == TYPE_VECTOR2 :
+		escoria.logger.info(
+			"Object %s teleported at position %s with angle" %
+			[parent.global_id, str(target)],
+			[angle]
+		)
+		parent.position = target
+	else:
+		escoria.logger.report_errors("escitem.gd:teleport_to()",
+		["Target to teleport to is null or unusable (" + str(target) + ")"])
 
 
 # Walk to a given position
@@ -194,7 +207,7 @@ func teleport(target, angle : Object = null) -> void:
 #
 # - pos: Position to walk to
 # - p_walk_context: Walk context to use
-func walk_to(pos : Vector2, p_walk_context: ESCWalkContext = null) -> void:
+func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 	if not parent.terrain:
 		walk_stop(parent.get_position())
 		return
@@ -334,7 +347,7 @@ func update_terrain(on_event_finished_name = null) -> void:
 #
 # - angle: The rotation angle
 # - animations: The list of character animations
-func _get_dir(angle : float, animations) -> int:
+func _get_dir(angle: float, animations) -> int:
 	var deg = escoria.utils.get_deg_from_rad(angle)
 	return _get_dir_deg(deg, animations)
 
@@ -377,10 +390,10 @@ func _get_dir_deg(deg: int, animations: Script) -> int:
 # #### Parameters
 #
 # - angle: Angle to test
-# - interval : Array of size 2, containing the starting angle, and the size of
+# - interval: Array of size 2, containing the starting angle, and the size of
 #   interval
 #   eg: [90, 40] corresponds to angle between 90° and 130°
-func is_angle_in_interval(angle: float, interval : Array) -> bool:
+func is_angle_in_interval(angle: float, interval: Array) -> bool:
 	angle = wrapi(angle, 0, 360)
 	if angle == 0:
 		angle = 360
@@ -419,7 +432,7 @@ func is_angle_in_interval(angle: float, interval : Array) -> bool:
 # - immediate bool (currently unused, see TODO below)
 #	If true, direction is switched immediately. Else, successive animations are
 #	used so that the character turns to target angle.
-func set_angle(deg : int, immediate = true) -> void:
+func set_angle(deg: int, immediate = true) -> void:
 	if deg < 0 or deg > 360:
 		escoria.logger.report_errors(
 			"movable.gd:set_angle()",
@@ -436,3 +449,8 @@ func set_angle(deg : int, immediate = true) -> void:
 		parent.animation_sprite.play(parent.animations.idles[last_dir][0])
 	pose_scale = parent.animations.idles[last_dir][1]
 	update_terrain()
+
+# Returns the angle that corresponds to the current direction of the object.
+func _get_angle() -> int:
+	return parent.animations.dir_angles[last_dir][0]
+	

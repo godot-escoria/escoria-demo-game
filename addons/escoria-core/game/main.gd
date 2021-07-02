@@ -71,7 +71,7 @@ func _on_wait_finished() -> void:
 # #### Parameters
 #
 # * camera_limits_id: The id of the room's camera limits to set
-func set_camera_limits(camera_limit_id : int = 0) -> void:
+func set_camera_limits(camera_limit_id: int = 0) -> void:
 	var limits = {}
 	var scene_camera_limits = current_scene.camera_limits[camera_limit_id]
 	if scene_camera_limits.size.x == 0 and scene_camera_limits.size.y == 0:
@@ -114,6 +114,13 @@ func set_camera_limits(camera_limit_id : int = 0) -> void:
 
 	current_scene.game.get_node("camera").set_limits(limits)
 	current_scene.game.get_node("camera").set_offset(screen_ofs * 2)
+
+
+func save_game(p_savegame_res: Resource) -> void:
+	p_savegame_res.main = {
+		ESCSaveGame.MAIN_LAST_SCENE_GLOBAL_ID_KEY: last_scene_global_id,
+		ESCSaveGame.MAIN_CURRENT_SCENE_FILENAME_KEY: current_scene.filename
+	}
 
 
 # Sanity check that the game.tscn scene's root node script MUST

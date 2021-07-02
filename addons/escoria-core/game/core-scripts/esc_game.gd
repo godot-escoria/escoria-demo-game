@@ -20,7 +20,7 @@ export(float) var mouse_tooltip_margin = 50.0
 
 
 # A reference to the node handling tooltips
-var tooltip_node : Object
+var tooltip_node: Object
 
 
 # Which (if any) debug mode for the editor is used
@@ -36,7 +36,7 @@ func _draw():
 		return
 	
 	if editor_debug_mode == EDITOR_GAME_DEBUG_DISPLAY.MOUSE_TOOLTIP_LIMITS:
-		var mouse_limits : Rect2 = get_viewport_rect().grow(-mouse_tooltip_margin)
+		var mouse_limits: Rect2 = get_viewport_rect().grow(-mouse_tooltip_margin)
 		print(mouse_limits)
 		
 		# Draw lines for tooltip limits
@@ -173,7 +173,7 @@ func left_double_click_on_inventory_item(
 # #### Parameters
 #
 # - inventory_item_global_id: Global id of the inventory item that was focused
-func inventory_item_focused(inventory_item_global_id : String) -> void:
+func inventory_item_focused(inventory_item_global_id: String) -> void:
 	pass
 
 
@@ -201,7 +201,7 @@ func close_inventory():
 # #### Parameter
 #
 # - direction: The direction in which the mouse wheel was rotated
-func mousewheel_action(direction : int):
+func mousewheel_action(direction: int):
 	pass
 
 
@@ -222,7 +222,7 @@ func show_ui():
 # #### Parameters
 #
 # - p_position: Position of the mouse
-func update_tooltip_following_mouse_position(p_position : Vector2):
+func update_tooltip_following_mouse_position(p_position: Vector2):
 	var corrected_position = p_position
 	
 	# clamp TOP
@@ -246,6 +246,6 @@ func update_tooltip_following_mouse_position(p_position : Vector2):
 
 
 # Set the Editor debug mode
-func _set_editor_debug_mode(p_editor_debug_mode : int) -> void:
+func _set_editor_debug_mode(p_editor_debug_mode: int) -> void:
 	editor_debug_mode = p_editor_debug_mode
 	update()

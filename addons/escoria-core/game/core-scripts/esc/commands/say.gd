@@ -30,7 +30,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 # Run the command
 func run(command_params: Array) -> int:
 	
-	var dict : Dictionary
+	var dict: Dictionary
 	var dialog_scene_name = ProjectSettings.get_setting(
 		"escoria/ui/default_dialog_scene"
 	)

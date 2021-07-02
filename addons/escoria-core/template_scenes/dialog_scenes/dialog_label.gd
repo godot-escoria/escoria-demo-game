@@ -25,7 +25,7 @@ character: global id of the character who speaks
 params: Dictionary
 	line: line of dialog to say
 """
-func say(character : String, params : Dictionary) :
+func say(character: String, params: Dictionary) :
 	show()
 	
 	emit_signal("dialog_line_started")

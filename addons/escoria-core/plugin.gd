@@ -2,7 +2,6 @@
 tool
 extends EditorPlugin
 
-
 # Autoloads to instantiate
 const autoloads = {
 	"escoria": "res://addons/escoria-core/game/escoria.tscn",
@@ -18,7 +17,6 @@ func _enter_tree():
 	set_escoria_main_settings()
 	set_escoria_debug_settings()
 	set_escoria_ui_settings()
-	set_escoria_internal_settings()
 	set_escoria_sound_settings()
 	set_escoria_platform_settings()
 
@@ -92,6 +90,15 @@ func set_escoria_ui_settings():
 
 # Prepare the settings in the Escoria main category
 func set_escoria_main_settings():
+	
+	if !ProjectSettings.has_setting("escoria/main/game_version"):
+		ProjectSettings.set_setting("escoria/main/game_version", "")
+		var game_version_property_info = {
+			"name": "escoria/main/game_version",
+			"type": TYPE_STRING
+		}
+		ProjectSettings.add_property_info(game_version_property_info)
+	
 	if !ProjectSettings.has_setting("escoria/main/game_start_script"):
 		ProjectSettings.set_setting("escoria/main/game_start_script", "")
 		var game_start_script_property_info = {
@@ -121,7 +128,6 @@ func set_escoria_main_settings():
 			"type": TYPE_ARRAY,
 		})
 
-
 	if !ProjectSettings.has_setting("escoria/main/text_lang"):
 		ProjectSettings.set_setting("escoria/main/text_lang", TranslationServer.get_locale())
 		var text_lang_property_info = {
@@ -139,6 +145,30 @@ func set_escoria_main_settings():
 			"hint": PROPERTY_HINT_NONE
 		}
 		ProjectSettings.add_property_info(voice_lang_property_info)
+		
+	if !ProjectSettings.has_setting("escoria/main/savegames_path"):
+		ProjectSettings.set_setting(
+			"escoria/main/savegames_path", 
+			"user://saves/"
+		)
+		var savegames_path_property_info = {
+			"name": "escoria/main/savegames_path",
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_DIR
+		}
+		ProjectSettings.add_property_info(savegames_path_property_info)
+	
+	if !ProjectSettings.has_setting("escoria/main/settings_path"):
+		ProjectSettings.set_setting(
+			"escoria/main/settings_path", 
+			"user://"
+		)
+		var settings_path_property_info = {
+			"name": "escoria/main/settings_path",
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_DIR
+		}
+		ProjectSettings.add_property_info(settings_path_property_info)
 
 
 # Prepare the settings in the Escoria debug category
@@ -163,19 +193,6 @@ func set_escoria_debug_settings():
 			"hint_string": "ERROR,WARNING,INFO,DEBUG"
 		}
 		ProjectSettings.add_property_info(property_info)
-
-
-# Prepare the settings in the Escoria internal category
-func set_escoria_internal_settings():
-	if !ProjectSettings.has_setting("escoria/internals/save_data"):
-		ProjectSettings.set_setting("escoria/internals/save_data", "")
-		var save_data_property_info = {
-			"name": "escoria/internals/save_data",
-			"type": TYPE_STRING,
-			"hint": PROPERTY_HINT_FILE,
-			"hint_string": "*.tscn, *.scn"
-		}
-		ProjectSettings.add_property_info(save_data_property_info)
 
 
 # Prepare the settings in the Escoria sound settings
@@ -219,6 +236,14 @@ func set_escoria_sound_settings():
 			"hint_string": "0,1"
 		}
 		ProjectSettings.add_property_info(speech_data_property_info)
+	
+	if !ProjectSettings.has_setting("escoria/sound/speech_enabled"):
+		ProjectSettings.set_setting("escoria/sound/speech_enabled", 1)
+		var speech_enabled_property_info = {
+			"name": "escoria/sound/speech_enabled",
+			"type": TYPE_BOOL
+		}
+		ProjectSettings.add_property_info(speech_enabled_property_info)
 
 
 # Prepare the settings in the Escoria platform category and may need special

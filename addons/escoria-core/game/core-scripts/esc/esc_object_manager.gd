@@ -4,7 +4,8 @@ class_name ESCObjectManager
 
 
 const RESERVED_OBJECTS = [
-	"bg_music"
+	"bg_music",
+	"bg_sound"
 ]
 
 
@@ -23,7 +24,7 @@ func _process(_delta):
 #
 # #### Parameters
 #
-# - object: Obejct to register
+# - object: Object to register
 # - force: Register the object, even if it has already been registered
 func register_object(object: ESCObject, force: bool = false) -> void:
 	if objects.has(object.global_id) and not force:
@@ -70,6 +71,11 @@ func has(global_id: String) -> bool:
 
 
 # Get the object from the object registry
+#
+# #### Parameters
+#
+# - global_id: The global id of the object to retrieve
+# **Returns** The retrieved object, or null if not found 
 func get_object(global_id: String) -> ESCObject:
 	if objects.has(global_id):
 		return objects[global_id]
@@ -93,3 +99,17 @@ func unregister_object(object: ESCObject) -> void:
 			and not object.global_id in RESERVED_OBJECTS:
 		
 		objects.erase(object.global_id)
+
+
+# Insert data to save into savegame.
+#
+# #### Parameters
+#
+# - p_savegame: The savegame resource
+func save_game(p_savegame: ESCSaveGame) -> void:
+	p_savegame.objects = {}
+	for obj_global_id in objects:
+		if !objects[obj_global_id] is ESCObject:
+			continue
+		p_savegame.objects[obj_global_id] = \
+			objects[obj_global_id].get_save_data()

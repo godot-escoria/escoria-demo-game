@@ -19,7 +19,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Run the command
 func run(command_params: Array) -> int:
-	var name : String = command_params[0]
+	var name: String = command_params[0]
 	if escoria.room_terrain.has_node(name):
 		var new_active_navigation_instance = \
 				escoria.room_terrain.get_node(name)

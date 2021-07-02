@@ -8,10 +8,10 @@ extends Node2D
 # Clicking under his feet is angle 180.
 # etc.
 
-var number_of_directions : int
-var angle_horizontal_axes : float
-var angle_vertical_axes : float
-var angle_diagonal_axes : float
+var number_of_directions: int
+var angle_horizontal_axes: float
+var angle_vertical_axes: float
+var angle_diagonal_axes: float
 const POLYGON_DISTANCE = 400
 
 enum Directions {
@@ -50,55 +50,55 @@ var colors = [
 var result_angles = []
 
 #onready var result_angles_anim = {
-#		"angle_offset_rad" : PI/2,
-#		Directions.NORTH : {
-#			"direction_base_angle_rad" : 0,
-#			"angle_start_deg" : 0,
-#			"angle_area_deg" : 0,
-#			"animations" : {}
+#		"angle_offset_rad": PI/2,
+#		Directions.NORTH: {
+#			"direction_base_angle_rad": 0,
+#			"angle_start_deg": 0,
+#			"angle_area_deg": 0,
+#			"animations": {}
 #		},
-#		Directions.NORTHEAST : {
-#			"direction_base_angle_rad" : PI/4,
-#			"angle_start_deg" : 0,
-#			"angle_area_deg" : 0,
-#			"animation" : ""
+#		Directions.NORTHEAST: {
+#			"direction_base_angle_rad": PI/4,
+#			"angle_start_deg": 0,
+#			"angle_area_deg": 0,
+#			"animation": ""
 #		},
-#		Directions.EAST : {
-#			"direction_base_angle_rad" : PI/2,
-#			"angle_start_deg" : 0,
-#			"angle_area_deg" : 0,
-#			"animation" : ""
+#		Directions.EAST: {
+#			"direction_base_angle_rad": PI/2,
+#			"angle_start_deg": 0,
+#			"angle_area_deg": 0,
+#			"animation": ""
 #		},
-#		Directions.SOUTHEAST : {
-#			"direction_base_angle_rad" : 3*PI/4,
-#			"angle_start_deg" : 0,
-#			"angle_area_deg" : 0,
-#			"animation" : ""
+#		Directions.SOUTHEAST: {
+#			"direction_base_angle_rad": 3*PI/4,
+#			"angle_start_deg": 0,
+#			"angle_area_deg": 0,
+#			"animation": ""
 #		},
-#		Directions.SOUTH : {
-#			"direction_base_angle_rad" : PI,
-#			"angle_start_deg" : 0,
-#			"angle_area_deg" : 0,
-#			"animation" : ""
+#		Directions.SOUTH: {
+#			"direction_base_angle_rad": PI,
+#			"angle_start_deg": 0,
+#			"angle_area_deg": 0,
+#			"animation": ""
 #
 #		},
-#		Directions.SOUTHWEST : {
-#			"direction_base_angle_rad" : 5*PI/4,
-#			"angle_start_deg" : 0,
-#			"angle_area_deg" : 0,
-#			"animation" : ""
+#		Directions.SOUTHWEST: {
+#			"direction_base_angle_rad": 5*PI/4,
+#			"angle_start_deg": 0,
+#			"angle_area_deg": 0,
+#			"animation": ""
 #		},
-#		Directions.WEST : {
-#			"direction_base_angle_rad" : 3*PI/2,
-#			"angle_start_deg" : 0,
-#			"angle_area_deg" : 0,
-#			"animation" : ""
+#		Directions.WEST: {
+#			"direction_base_angle_rad": 3*PI/2,
+#			"angle_start_deg": 0,
+#			"angle_area_deg": 0,
+#			"animation": ""
 #		},
-#		Directions.NORTHWEST : {
-#			"direction_base_angle_rad" : 7*PI/4,
-#			"angle_start_deg" : 0,
-#			"angle_area_deg" : 0,
-#			"animation" : ""
+#		Directions.NORTHWEST: {
+#			"direction_base_angle_rad": 7*PI/4,
+#			"angle_start_deg": 0,
+#			"angle_area_deg": 0,
+#			"animation": ""
 #		}
 #	}
 
@@ -111,7 +111,7 @@ func _ready():
 		$player_animations.add_item(anim_name)
 	
 	# Set initial angles 
-	var initial_angle : float = 360.0 / 8.0
+	var initial_angle: float = 360.0 / 8.0
 	$VBoxContainer/angle_x/angle_horiz.text = str(40)
 	$VBoxContainer/angle_y/angle_vert.text = str(40)
 	$VBoxContainer/angle_diag/angle_diag.text = str(50)
@@ -122,7 +122,7 @@ func _ready():
 	calculate_areas()
 
 
-func _on_number_of_directions_text_changed(new_text : String):
+func _on_number_of_directions_text_changed(new_text: String):
 	if !new_text.is_valid_integer():
 		return
 	number_of_directions = int(new_text)
@@ -134,12 +134,12 @@ func clear_areas_node():
 		n.queue_free()
 
 
-func calculate_areas(nb_directions : int = 8):
+func calculate_areas(nb_directions: int = 8):
 	clear_areas_node()
 	var angles = []
 	for i in range(nb_directions):
-		var angle_area : float = 0.0
-		var start_angle : float = 0.0
+		var angle_area: float = 0.0
+		var start_angle: float = 0.0
 		# MANUAL
 		match i:
 			Directions.EAST,Directions.WEST:
@@ -162,8 +162,8 @@ func calculate_areas(nb_directions : int = 8):
 	$VBoxContainer/VBoxContainer/angles/angle_array.text = str(result_angles)
 	construct_scene_nodes(angles)
 
+
 func construct_scene_nodes(angles):
-	
 	var areas_nodes = []
 	for i in angles.size():
 			var polygon_node = Polygon2D.new()
@@ -188,7 +188,7 @@ func construct_scene_nodes(angles):
 			$areas.add_child(polygon_node)
 
 
-func _on_angle_horiz_text_changed(new_text : String):
+func _on_angle_horiz_text_changed(new_text: String):
 	if !new_text.is_valid_float():
 		return
 	angle_horizontal_axes = float(new_text)
@@ -197,7 +197,7 @@ func _on_angle_horiz_text_changed(new_text : String):
 	calculate_areas()
 	
 
-func _on_angle_vert_text_changed(new_text : String):
+func _on_angle_vert_text_changed(new_text: String):
 	if !new_text.is_valid_float():
 		return
 	angle_vertical_axes = float(new_text)
@@ -206,7 +206,7 @@ func _on_angle_vert_text_changed(new_text : String):
 	calculate_areas()
 
 
-func _on_angle_diag_text_changed(new_text : String):
+func _on_angle_diag_text_changed(new_text: String):
 	if !new_text.is_valid_float():
 		return
 	angle_diagonal_axes = float(new_text)
@@ -217,11 +217,11 @@ func _on_angle_diag_text_changed(new_text : String):
 	calculate_areas()
 
 
-func _on_area_click(viewport: Object, event: InputEvent, shape_idx: int, area_name : String):
+func _on_area_click(viewport: Object, event: InputEvent, shape_idx: int, area_name: String):
 	if event is InputEventMouseButton and event.is_pressed():
 		pass
 	
-func clamp360(angle : float):
+func clamp360(angle: float):
 	if angle < 0.0:
 		while angle < 0.0:
 			angle += 360.0

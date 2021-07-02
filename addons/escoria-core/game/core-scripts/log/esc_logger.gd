@@ -5,7 +5,7 @@ class_name ESCLogger
 
 # The path of the ESC file that was reported last (used for removing
 # duplicate warnings
-var warning_path : String
+var warning_path: String
 
 
 # Valid log levels
@@ -27,7 +27,7 @@ var _level_map: Dictionary = {
 # 
 # * string: Text to log
 # * args: Additional information
-func debug(string : String, args = []):
+func debug(string: String, args = []):
 	if _get_log_level() >= LOG_DEBUG:
 		var argsstr = str(args) if !args.empty() else ""
 		printerr("(D)\t" + string + " \t" + argsstr)
@@ -39,7 +39,7 @@ func debug(string : String, args = []):
 # 
 # * string: Text to log
 # * args: Additional information
-func info(string : String, args = []):
+func info(string: String, args = []):
 	if _get_log_level() >= LOG_INFO:
 		var argsstr = []
 		if !args.empty():
@@ -58,7 +58,7 @@ func info(string : String, args = []):
 # 
 # * string: Text to log
 # * args: Additional information
-func warning(string : String, args = []):
+func warning(string: String, args = []):
 	if _get_log_level() >= LOG_WARNING:
 		var argsstr = str(args) if !args.empty() else ""
 		printerr("(W)\t" + string + " \t" + argsstr)
@@ -73,7 +73,7 @@ func warning(string : String, args = []):
 # 
 # * string: Text to log
 # * args: Additional information
-func error(string : String, args = []):
+func error(string: String, args = []):
 	if _get_log_level() >= LOG_ERROR:
 		var argsstr = str(args) if !args.empty() else ""
 		printerr("(E)\t" + string + " \t" + argsstr)
@@ -89,7 +89,7 @@ func error(string : String, args = []):
 # * p_path: Path to the file
 # * warnings: Array of warnings to put out
 # * report_once: Additional messages about the same file will be ignored
-func report_warnings(p_path : String, warnings : Array, report_once = false) -> void:
+func report_warnings(p_path: String, warnings: Array, report_once = false) -> void:
 	var warning_is_reported = false
 	if p_path == warning_path:
 		warning_is_reported = true
@@ -113,7 +113,7 @@ func report_warnings(p_path : String, warnings : Array, report_once = false) -> 
 # 
 # * p_path: Path to the file
 # * errors: Array of errors to put out
-func report_errors(p_path : String, errors : Array) -> void:
+func report_errors(p_path: String, errors: Array) -> void:
 	var text = "Errors in file "+p_path+"\n"
 	for e in errors:
 		if e is Array:

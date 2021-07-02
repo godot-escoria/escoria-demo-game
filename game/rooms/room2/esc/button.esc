@@ -39,6 +39,7 @@ say player "Hey!"
 	enable_terrain bridge_open
 	set_global r2_bridge_closed false
 	#set_interactive r2_right_platform true
+	set_interactive r2_bridge false
 	stop
 > [!r2_bridge_closed]
 	set_state r2_bridge bridge_close 

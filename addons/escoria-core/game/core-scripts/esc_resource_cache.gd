@@ -2,12 +2,12 @@
 extends Object
 class_name ESCResourceCache
 
-var thread : Thread
-var mutex : Mutex
-var sem : Semaphore
+var thread: Thread
+var mutex: Mutex
+var sem: Semaphore
 
-var queue : Array = []
-var pending : Dictionary = {}
+var queue: Array = []
+var pending: Dictionary = {}
 
 signal resource_loading_progress(path, progress)
 signal resource_loading_done(path)
@@ -31,7 +31,7 @@ func _wait(caller):
 	sem.wait()
 
 
-func queue_resource(path : String, p_in_front : bool = false, p_permanent : bool = false):
+func queue_resource(path: String, p_in_front: bool = false, p_permanent: bool = false):
 	_lock("queue_resource")
 	if path in pending:
 		_unlock("queue_resource")

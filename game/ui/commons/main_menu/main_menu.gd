@@ -25,23 +25,24 @@ func _on_continue_pressed():
 	pass
 
 
-
-
-
-func switch_language(lang : String):
+func switch_language(lang: String):
 	TranslationServer.set_locale(lang)
 
 
 func _on_new_game_pressed():
 	escoria.new_game()
 
+
 func _on_load_game_pressed():
-	#  Show Loading screen
-	pass
+	$Panel/main.hide()
+	$Panel/load_game.refresh_savegames()
+	$Panel/load_game.show()
+
 
 func _on_options_pressed():
 	$Panel/main.hide()
 	$Panel/options.show()
+
 
 func _on_quit_pressed():
 	get_tree().quit()
@@ -50,8 +51,12 @@ func _on_quit_pressed():
 ###########################################################################
 # OPTIONS
 
-
-func _on_back_pressed():
+func _on_options_back_button_pressed():
 	$Panel/options.hide()
+	$Panel/main.show()
+
+
+func _on_load_game_back_button_pressed():
+	$Panel/load_game.hide()
 	$Panel/main.show()
 	

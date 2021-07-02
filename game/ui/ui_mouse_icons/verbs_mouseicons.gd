@@ -2,8 +2,8 @@ tool
 extends Control
 
 
-var current_cursor_id : int = 0
-onready var cursors : Array = $actions.get_children()
+var current_cursor_id: int = 0
+onready var cursors: Array = $actions.get_children()
 
 
 """
@@ -24,7 +24,7 @@ func _process(delta):
 	$mouse_position.rect_global_position = get_global_mouse_position()
 
 
-func iterate_actions_cursor(direction : int):
+func iterate_actions_cursor(direction: int):
 	current_cursor_id += direction
 	if current_cursor_id > cursors.size() - 1:
 		current_cursor_id = 0
@@ -36,7 +36,7 @@ func iterate_actions_cursor(direction : int):
 	if $mouse_position/tool.texture != null:
 		clear_tool_texture()
 
-func set_by_name(name : String) -> void:
+func set_by_name(name: String) -> void:
 	for i in cursors.size():
 		if cursors[i].name == name:
 			current_cursor_id = i
@@ -45,7 +45,7 @@ func set_by_name(name : String) -> void:
 	Input.set_custom_mouse_cursor(cursors[current_cursor_id].texture)
 	escoria.action_manager.set_current_action(cursors[current_cursor_id].name)
 
-func set_tool_texture(texture : Texture):
+func set_tool_texture(texture: Texture):
 	set_process(true)
 	$mouse_position/tool.texture = texture
 

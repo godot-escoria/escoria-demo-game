@@ -1,6 +1,6 @@
 extends Control
 
-var showed : bool = false
+var showed: bool = false
 
 func _ready():
 	pass

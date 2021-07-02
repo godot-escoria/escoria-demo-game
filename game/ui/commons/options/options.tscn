@@ -3,7 +3,7 @@
 [ext_resource path="res://game/ui/commons/fonts/caslonantique.tres" type="DynamicFont" id=1]
 [ext_resource path="res://game/ui/commons/main_menu/flags/en_EN_small.png" type="Texture" id=2]
 [ext_resource path="res://game/ui/commons/main_menu/flags/fr_FR_small.png" type="Texture" id=3]
-[ext_resource path="res://game/ui/commons/main_menu/options.gd" type="Script" id=4]
+[ext_resource path="res://game/ui/commons/options/options.gd" type="Script" id=4]
 
 [node name="options" type="Control"]
 anchor_right = 1.0
@@ -125,8 +125,21 @@ max_value = 1.0
 step = 0.001
 value = 0.001
 
+[node name="apply" type="Button" parent="."]
+margin_left = 364.0
+margin_top = 712.0
+margin_right = 544.0
+margin_bottom = 767.0
+custom_fonts/font = ExtResource( 1 )
+text = "APPLY"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="back" to="." method="_on_back_pressed"]
 [connection signal="gui_input" from="options/flags/fr" to="." method="_on_language_input" binds= [ "fr" ]]
 [connection signal="gui_input" from="options/flags/en" to="." method="_on_language_input" binds= [ "en" ]]
 [connection signal="value_changed" from="options/general_volume" to="." method="_on_general_volume_changed"]
 [connection signal="value_changed" from="options/sound_volume" to="." method="_on_sound_volume_changed"]
 [connection signal="value_changed" from="options/music_volume" to="." method="_on_music_volume_changed"]
+[connection signal="pressed" from="apply" to="." method="_on_apply_pressed"]

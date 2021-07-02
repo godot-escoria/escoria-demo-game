@@ -74,6 +74,7 @@ func _ready():
 				navigation_enabled_found = true
 				current_active_navigation_instance = n
 	
+	
 	if !Engine.is_editor_hint():
 		escoria.room_terrain = self
 	_update_texture()

@@ -4,26 +4,26 @@ extends ESCGame
 """
 Implement methods to react to inputs.
 
-- left_click_on_bg(position : Vector2)
-- right_click_on_bg(position : Vector2)
-- left_double_click_on_bg(position : Vector2)
+- left_click_on_bg(position: Vector2)
+- right_click_on_bg(position: Vector2)
+- left_double_click_on_bg(position: Vector2)
 
-- element_focused(element_id : String)
+- element_focused(element_id: String)
 - element_unfocused()
 
-- left_click_on_item(item_global_id : String, event : InputEvent)
-- right_click_on_item(item_global_id : String, event : InputEvent)
-- left_double_click_on_item(item_global_id : String, event : InputEvent)
+- left_click_on_item(item_global_id: String, event: InputEvent)
+- right_click_on_item(item_global_id: String, event: InputEvent)
+- left_double_click_on_item(item_global_id: String, event: InputEvent)
 
-- left_click_on_inventory_item(inventory_item_global_id : String, event : InputEvent)
-- right_click_on_inventory_item(inventory_item_global_id : String, event : InputEvent)
-- left_double_click_on_inventory_item(inventory_item_global_id : String, event : InputEvent)
-- inventory_item_focused(inventory_item_global_id : String)
+- left_click_on_inventory_item(inventory_item_global_id: String, event: InputEvent)
+- right_click_on_inventory_item(inventory_item_global_id: String, event: InputEvent)
+- left_double_click_on_inventory_item(inventory_item_global_id: String, event: InputEvent)
+- inventory_item_focused(inventory_item_global_id: String)
 - inventory_item_unfocused()
 - open_inventory()
 - close_inventory()
 
-- mousewheel_action(direction : int)
+- mousewheel_action(direction: int)
 
 - hide_ui()
 - show_ui()
@@ -47,17 +47,17 @@ func _input(event):
 
 ## BACKGROUND ## 
 
-func left_click_on_bg(position : Vector2) -> void:
+func left_click_on_bg(position: Vector2) -> void:
 	escoria.do("walk", ["player", position])
 	escoria.action_manager.clear_current_action()
 	verbs_menu.unselect_actions()
 	
-func right_click_on_bg(position : Vector2) -> void:
+func right_click_on_bg(position: Vector2) -> void:
 	escoria.do("walk", ["player", position])
 	escoria.action_manager.clear_current_action()
 	verbs_menu.unselect_actions()
 	
-func left_double_click_on_bg(position : Vector2) -> void:
+func left_double_click_on_bg(position: Vector2) -> void:
 	escoria.do("walk", ["player", position, true])
 	escoria.action_manager.clear_current_action()
 	verbs_menu.unselect_actions()
@@ -65,7 +65,7 @@ func left_double_click_on_bg(position : Vector2) -> void:
 
 ## ITEM FOCUS ## 
 
-func element_focused(element_id : String) -> void:
+func element_focused(element_id: String) -> void:
 	var target_obj = escoria.object_manager.get_object(element_id).node
 	tooltip.set_target(target_obj.tooltip_name)
 	
@@ -80,30 +80,30 @@ func element_unfocused() -> void:
 
 ## ITEMS ##
 
-func left_click_on_item(item_global_id : String, event : InputEvent) -> void:
+func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
 	escoria.do("item_left_click", [item_global_id, event])
 
-func right_click_on_item(item_global_id : String, event : InputEvent) -> void:
+func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
 	escoria.action_manager.set_current_action(verbs_menu.selected_action)
 	escoria.do("item_right_click", [item_global_id, event])
 
-func left_double_click_on_item(item_global_id : String, event : InputEvent) -> void:
+func left_double_click_on_item(item_global_id: String, event: InputEvent) -> void:
 	escoria.do("item_left_click", [item_global_id, event]) 
 
 
 ## INVENTORY ##
-func left_click_on_inventory_item(inventory_item_global_id : String, event : InputEvent) -> void:
+func left_click_on_inventory_item(inventory_item_global_id: String, event: InputEvent) -> void:
 	escoria.do("item_left_click", [inventory_item_global_id, event])
 			
 
-func right_click_on_inventory_item(inventory_item_global_id : String, event : InputEvent) -> void:
+func right_click_on_inventory_item(inventory_item_global_id: String, event: InputEvent) -> void:
 	escoria.action_manager.set_current_action(verbs_menu.selected_action)
 	escoria.do("item_right_click", [inventory_item_global_id, event])
 
-func left_double_click_on_inventory_item(_inventory_item_global_id : String, _event : InputEvent) -> void:
+func left_double_click_on_inventory_item(_inventory_item_global_id: String, _event: InputEvent) -> void:
 	pass
 
-func inventory_item_focused(inventory_item_global_id : String) -> void:
+func inventory_item_focused(inventory_item_global_id: String) -> void:
 	var target_obj = escoria.object_manager.get_object(
 		inventory_item_global_id
 	).node
@@ -128,13 +128,14 @@ func close_inventory():
 	pass
 
 
-func mousewheel_action(_direction : int):
+func mousewheel_action(_direction: int):
 	pass
 
 
 func hide_ui():
 	$ui/panel_down.hide()
 	verbs_menu.hide()
+	$ui/panel_down/verbs_layer/room_select.hide()
 	$ui/panel_down/inventory_layer/inventory_ui.hide()
 	tooltip.hide()
 
@@ -142,6 +143,7 @@ func hide_ui():
 func show_ui():
 	$ui/panel_down.show()
 	verbs_menu.show()
+	$ui/panel_down/verbs_layer/room_select.show()
 	$ui/panel_down/inventory_layer/inventory_ui.show()
 	tooltip.show()
 

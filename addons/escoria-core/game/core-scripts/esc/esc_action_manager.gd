@@ -8,14 +8,14 @@ signal action_changed
 
 
 # Current verb used
-var current_action : String = "" setget set_current_action
+var current_action: String = "" setget set_current_action
 
 # Current tool (ESCItem/ESCInventoryItem) used
 var current_tool: ESCObject
 
 
 # Set the current action
-func set_current_action(action : String):
+func set_current_action(action: String):
 	if action != current_action:
 		clear_current_tool()
 		

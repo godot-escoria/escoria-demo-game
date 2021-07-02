@@ -10,7 +10,7 @@ export(NodePath) var inventory_ui_container
 
 
 # A registry of inventory ESCInventoryItem nodes
-var items_ids_in_inventory : Dictionary = {}
+var items_ids_in_inventory: Dictionary = {}
 
 
 # Fill the items the player has from the start, do sanity checks and
@@ -36,7 +36,7 @@ func _ready():
 
 
 # add item to Inventory UI using its id set in its scene
-func add_new_item_by_id(item_id : String) -> void:
+func add_new_item_by_id(item_id: String) -> void:
 	if item_id.begins_with("i/"):
 		item_id = item_id.rsplit("i/", false)[0]
 	if not items_ids_in_inventory.has(item_id):
@@ -108,7 +108,7 @@ func add_new_item_by_id(item_id : String) -> void:
 
 
 # remove item fromInventory UI using its id set in its scene
-func remove_item_by_id(item_id : String) -> void:
+func remove_item_by_id(item_id: String) -> void:
 	if items_ids_in_inventory.has(item_id):
 		var item_inventory_button = items_ids_in_inventory[item_id]
 		
@@ -144,7 +144,7 @@ func remove_item_by_id(item_id : String) -> void:
 
 
 # React to changes to inventory globals adding items or removing them
-func _on_escoria_global_changed(global : String, old_value, new_value) -> void:
+func _on_escoria_global_changed(global: String, old_value, new_value) -> void:
 	if !global.begins_with("i/"):
 		return 
 	var item = global.rsplit("i/", false)

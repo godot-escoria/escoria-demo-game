@@ -52,7 +52,7 @@ func _ready():
 # #### Parameters
 #
 # - event: The event received
-func _on_inventory_item_gui_input(event : InputEvent):
+func _on_inventory_item_gui_input(event: InputEvent):
 	if event.is_action_pressed("switch_action_verb"):
 		if event.button_index == BUTTON_WHEEL_UP:
 			escoria.inputs_manager._on_mousewheel_action(-1)

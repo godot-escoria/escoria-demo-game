@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://game/ui/commons/pause_menu/pause_menu.gd" type="Script" id=1]
 [ext_resource path="res://game/ui/commons/fonts/caslonantique.tres" type="DynamicFont" id=2]
 [ext_resource path="res://addons/escoria-core/logo/escoria-logo-small.png" type="Texture" id=3]
+[ext_resource path="res://game/ui/commons/save/save_game.tscn" type="PackedScene" id=4]
+[ext_resource path="res://game/ui/commons/load/load_game.tscn" type="PackedScene" id=5]
 
 [node name="pause_menu" type="Control"]
 anchor_right = 1.0
@@ -87,7 +89,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="save_game" parent="." instance=ExtResource( 4 )]
+visible = false
+
+[node name="load_game" parent="." instance=ExtResource( 5 )]
+visible = false
+
 [connection signal="pressed" from="Panel/VBoxContainer/continue" to="." method="_on_continue_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/save_game" to="." method="_on_save_game_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/load_game" to="." method="_on_load_game_pressed"]
 [connection signal="pressed" from="Panel/VBoxContainer/quit" to="." method="_on_quit_pressed"]
+[connection signal="back_button_pressed" from="save_game" to="." method="_on_save_game_back_button_pressed"]
+[connection signal="back_button_pressed" from="load_game" to="." method="_on_load_game_back_button_pressed"]

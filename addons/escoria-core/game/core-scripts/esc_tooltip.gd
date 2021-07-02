@@ -7,13 +7,13 @@ func get_class():
 
 
 # Infinitive verb
-var current_action : String
+var current_action: String
 # Target item/hotspot
-var current_target : String setget set_target
+var current_target: String setget set_target
 # Preposition: on, with...
-var current_prep : String = "with"
+var current_prep: String = "with"
 # Target 2 item/hotspot
-var current_target2 : String
+var current_target2: String
 # True if tooltip is waiting for a click on second target (use x with y)
 var waiting_for_target2 = false
 
@@ -21,7 +21,7 @@ export(Color) var color setget set_color
 export(Vector2) var offset_from_cursor = Vector2(10,0)
 
 export(bool) var debug_mode = false setget set_debug_mode
-var debug_texturerect_node : TextureRect
+var debug_texturerect_node: TextureRect
 
 const MAX_WIDTH = 200
 const MIN_HEIGHT = 30
@@ -36,12 +36,12 @@ func _ready():
 	escoria.action_manager.connect("action_changed", self, "on_action_selected")
 	
 
-func set_color(p_color : Color):
+func set_color(p_color: Color):
 	color = p_color
 	update_tooltip_text()
 
 
-func set_debug_mode(p_debug_mode : bool):
+func set_debug_mode(p_debug_mode: bool):
 	debug_mode = p_debug_mode
 	if debug_mode:
 		# Add a white TextureRect behind the RTL to see its actual size
@@ -67,14 +67,14 @@ func on_action_selected() -> void:
 	update_tooltip_text()
 
 
-func set_target(target : String, needs_second_target : bool = false) -> void:
+func set_target(target: String, needs_second_target: bool = false) -> void:
 	current_target = target
 	if needs_second_target:
 		waiting_for_target2 = true
 	update_tooltip_text()
 
 
-func set_target2(target2 : String) -> void:
+func set_target2(target2: String) -> void:
 	current_target2 = target2
 	update_tooltip_text()
 
@@ -142,16 +142,16 @@ func _offset(position):
 	return position
 
 
-func tooltip_distance_to_edge_top(position : Vector2):
+func tooltip_distance_to_edge_top(position: Vector2):
 	return position.y
 
 func tooltip_distance_to_edge_bottom(position: Vector2):
 	return escoria.game_size.y - position.y
 
-func tooltip_distance_to_edge_left(position : Vector2):
+func tooltip_distance_to_edge_left(position: Vector2):
 	return position.x
 
-func tooltip_distance_to_edge_right(position : Vector2):
+func tooltip_distance_to_edge_right(position: Vector2):
 	return escoria.game_size.x - position.x
 
 

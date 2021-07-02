@@ -5,10 +5,10 @@ extends Node
 
 
 # A LIFO stack of hovered items
-onready var hover_stack : Array = []
+onready var hover_stack: Array = []
 
 # The global id fo the topmost item from the hover_stack
-onready var hotspot_focused : String = ""
+onready var hotspot_focused: String = ""
 
 
 # Input event handler
@@ -117,7 +117,7 @@ func _on_mouse_exited_inventory_item() -> void:
 #
 # - item: The Escoria item hovered
 func _on_mouse_entered_item(item: ESCItem) -> void:
-	escoria.logger.info("Item focused : ", [item.global_id])
+	escoria.logger.info("Item focused: ", [item.global_id])
 	_clean_hover_stack()
 	
 	if !hover_stack.empty():
@@ -137,8 +137,8 @@ func _on_mouse_entered_item(item: ESCItem) -> void:
 # #### Parameters
 #
 # - item: The Escoria item hovered
-func _on_mouse_exited_item(item : ESCItem) -> void:
-	escoria.logger.info("Item unfocused : ", [item.global_id])
+func _on_mouse_exited_item(item: ESCItem) -> void:
+	escoria.logger.info("Item unfocused: ", [item.global_id])
 	_hover_stack_pop(item)
 	if hover_stack.empty():
 		hotspot_focused = ""
@@ -154,7 +154,7 @@ func _on_mouse_exited_item(item : ESCItem) -> void:
 #
 # - item: The Escoria item clicked
 # - event: The input event from the click
-func _on_mouse_left_clicked_item(item : ESCItem, event : InputEvent) -> void:
+func _on_mouse_left_clicked_item(item: ESCItem, event: InputEvent) -> void:
 	if hover_stack.empty() or hover_stack.back() == item:
 		escoria.logger.info("Item left clicked", [item.global_id, event])
 		escoria.main.current_scene.game.left_click_on_item(item.global_id, event)
@@ -166,7 +166,7 @@ func _on_mouse_left_clicked_item(item : ESCItem, event : InputEvent) -> void:
 #
 # - item: The Escoria item clicked
 # - event: The input event from the click
-func _on_mouse_left_double_clicked_item(item : ESCItem, event : InputEvent) -> void:
+func _on_mouse_left_double_clicked_item(item: ESCItem, event: InputEvent) -> void:
 	escoria.logger.info("Item left double clicked", [item.global_id, event])
 	escoria.main.current_scene.game.left_double_click_on_item(item.global_id, event)
 
@@ -177,7 +177,7 @@ func _on_mouse_left_double_clicked_item(item : ESCItem, event : InputEvent) -> v
 #
 # - item: The Escoria item clicked
 # - event: The input event from the click
-func _on_mouse_right_clicked_item(item : ESCItem, event : InputEvent) -> void:
+func _on_mouse_right_clicked_item(item: ESCItem, event: InputEvent) -> void:
 	escoria.logger.info("Item right clicked", [item.global_id, event])
 	escoria.main.current_scene.game.right_click_on_item(item.global_id, event)
 
@@ -187,7 +187,7 @@ func _on_mouse_right_clicked_item(item : ESCItem, event : InputEvent) -> void:
 # #### Parameters
 # 
 # - direction: The direction the wheel was turned. 1 = up, -1 = down
-func _on_mousewheel_action(direction : int):
+func _on_mousewheel_action(direction: int):
 	escoria.main.current_scene.game.mousewheel_action(direction)
 
 

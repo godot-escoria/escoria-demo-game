@@ -64,16 +64,16 @@ func _on_new_text_pressed():
 	emit_signal("text_selected", pressed_button.text)
 
 
-func tooltip_distance_to_edge_top(position : Vector2):
+func tooltip_distance_to_edge_top(position: Vector2):
 	return position.y
 
 func tooltip_distance_to_edge_bottom(position: Vector2):
 	return screen_height - position.y
 
-func tooltip_distance_to_edge_left(position : Vector2):
+func tooltip_distance_to_edge_left(position: Vector2):
 	return position.x
 
-func tooltip_distance_to_edge_right(position : Vector2):
+func tooltip_distance_to_edge_right(position: Vector2):
 	return screen_width - position.x
 
 func _on_Control_mouse_moved(mouse_pos):

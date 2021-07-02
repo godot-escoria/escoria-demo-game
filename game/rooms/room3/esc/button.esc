@@ -15,6 +15,7 @@ say player "I must USE this."
 	enable_terrain bridge_closed
 	set_global r3_bridge_closed true
 	set_interactive r3_right_platform false
+	set_interactive r3_bridge false
 	stop
 
 > [!button_broken, r3_bridge_closed]

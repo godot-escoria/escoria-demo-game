@@ -28,7 +28,7 @@
 	stop
 
 :ready
-set_global bridge_closed false
+set_global r3_bridge_closed false
 set_state r3_button button_broken
 set_global button_broken true
 

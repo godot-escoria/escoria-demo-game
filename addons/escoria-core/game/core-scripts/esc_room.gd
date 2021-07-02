@@ -23,7 +23,7 @@ export(String, FILE, "*.esc") var esc_script = ""
 export(PackedScene) var player_scene
 
 # The camera limits available in this room
-export(Array, Rect2) var camera_limits : Array = [Rect2()] setget set_camera_limits
+export(Array, Rect2) var camera_limits: Array = [Rect2()] setget set_camera_limits
 
 # The editor debug display mode
 export(int) var editor_debug_mode = EditorRoomDebugDisplay.NONE setget set_editor_debug_mode
@@ -89,7 +89,7 @@ func _draw():
 	if editor_debug_mode == EditorRoomDebugDisplay.NONE:
 		return
 		
-	var camera_limits_colors : Array = [
+	var camera_limits_colors: Array = [
 		ColorN("red"), ColorN("blue"), ColorN("green")
 	]
 	

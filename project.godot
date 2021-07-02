@@ -239,6 +239,21 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc_room.gd"
 }, {
+"base": "Resource",
+"class": "ESCSaveGame",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/save_data/esc_savegame.gd"
+}, {
+"base": "Reference",
+"class": "ESCSaveManager",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/save_data/esc_save_manager.gd"
+}, {
+"base": "Resource",
+"class": "ESCSaveSettings",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/save_data/esc_savesettings.gd"
+}, {
 "base": "Object",
 "class": "ESCScheduledEvent",
 "language": "GDScript",
@@ -400,6 +415,11 @@ _global_script_classes=[ {
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/teleport.gd"
 }, {
 "base": "ESCBaseCommand",
+"class": "TeleportPosCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/commands/teleport_pos.gd"
+}, {
+"base": "ESCBaseCommand",
 "class": "TurnToCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/turn_to.gd"
@@ -476,6 +496,9 @@ _global_script_class_icons={
 "ESCPlayer": "",
 "ESCResourceCache": "",
 "ESCRoom": "",
+"ESCSaveGame": "",
+"ESCSaveManager": "",
+"ESCSaveSettings": "",
 "ESCScheduledEvent": "",
 "ESCScript": "",
 "ESCStatement": "",
@@ -508,6 +531,7 @@ _global_script_class_icons={
 "SpawnCommand": "",
 "StopCommand": "",
 "TeleportCommand": "",
+"TeleportPosCommand": "",
 "TurnToCommand": "",
 "WaitCommand": "",
 "WalkBlockCommand": "",
@@ -570,6 +594,11 @@ debug/log_level="DEBUG"
 platform/skip_cache=false
 platform/skip_cache.mobile=true
 ui/items_autoregister_path="res://game/items/escitems/"
+main/game_version="0.1.0"
+main/savegames_path="res://saves/"
+main/settings_path="user://"
+main/escoria_version=""
+sound/speech_enabled=1
 
 [input]
 

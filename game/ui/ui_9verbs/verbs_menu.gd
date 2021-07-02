@@ -13,7 +13,7 @@ func _ready():
 		but.connect("pressed", self, "_on_action_selected", [but.name])
 		but.toggle_mode = true
 
-func _on_action_selected(action : String):
+func _on_action_selected(action: String):
 	escoria.action_manager.set_current_action(action)
 
 	for but in get_children():
@@ -23,7 +23,7 @@ func unselect_actions():
 	for but in get_children():
 		but.set_pressed(false)
 
-func set_by_name(action_name : String):
+func set_by_name(action_name: String):
 	selected_action = action_name
 	for but in get_children():
 		but.set_pressed(but.get_name() == action_name)
