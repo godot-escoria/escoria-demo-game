@@ -330,6 +330,11 @@ _global_script_classes=[ {
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/queue_resource.gd"
 }, {
 "base": "ESCBaseCommand",
+"class": "RandGlobalCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/commands/rand_global.gd"
+}, {
+"base": "ESCBaseCommand",
 "class": "RepeatCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/repeat.gd"
@@ -514,6 +519,7 @@ _global_script_class_icons={
 "PlaySndCommand": "",
 "QueueAnimationCommand": "",
 "QueueResourceCommand": "",
+"RandGlobalCommand": "",
 "RepeatCommand": "",
 "SayCommand": "",
 "SchedEventCommand": "",

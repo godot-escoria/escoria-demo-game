@@ -152,11 +152,12 @@ func activate(
 				escoria.logger.report_warnings(
 					"ESCActionManager.activate: Invalid action on item", 
 					[
-						"Trying to run %s on object %s, "+
-						"but item must be in inventory." % [
+						"Trying to run %s on object %s, " %
+						[
 							action,
-							target.global_id
+							target.node.global_id
 						]
+						+ "but item must be in inventory."
 					]
 				)	
 	
