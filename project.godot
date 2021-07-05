@@ -573,7 +573,7 @@ search_in_file_extensions=PoolStringArray( "gd", "shader", "esc" )
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-ui-9verbs/plugin.cfg" )
 
 [escoria]
 
@@ -587,7 +587,6 @@ ui/dialogs_folder="res://game/ui/commons/dialogs"
 ui/default_dialog_scene="res://game/ui/commons/dialogs/dialog_label.tscn"
 ui/main_menu_scene="res://game/ui/commons/main_menu/main_menu.tscn"
 ui/pause_menu_scene="res://game/ui/commons/pause_menu/pause_menu.tscn"
-ui/game_scene="res://game/ui/ui_9verbs/game.tscn"
 internals/save_data=""
 main/text_lang="fr_FR"
 main/voice_lang="fr_FR"
@@ -605,6 +604,7 @@ main/savegames_path="res://saves/"
 main/settings_path="user://"
 main/escoria_version=""
 sound/speech_enabled=1
+ui/game_scene="res://addons/escoria-ui-9verbs/game.tscn"
 
 [input]
 

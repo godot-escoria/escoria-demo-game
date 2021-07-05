@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://game/ui/ui_9verbs/verbs_menu.gd" type="Script" id=1]
+[ext_resource path="res://addons/escoria-ui-9verbs/verbs_menu.gd" type="Script" id=1]
 
 [node name="actions" type="GridContainer"]
 margin_right = 493.0
