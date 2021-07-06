@@ -40,7 +40,8 @@ func add_new_item_by_id(item_id: String) -> void:
 	if item_id.begins_with("i/"):
 		item_id = item_id.rsplit("i/", false)[0]
 	if not items_ids_in_inventory.has(item_id):
-		if not escoria.object_manager.has(item_id):
+		if not escoria.object_manager.has(item_id) or not is_instance_valid( \
+				escoria.object_manager.get_object(item_id).node):
 			var inventory_file = "%s/%s.tscn" % [
 				ProjectSettings.get_setting(
 					"escoria/ui/items_autoregister_path"
@@ -52,7 +53,8 @@ func add_new_item_by_id(item_id: String) -> void:
 					ESCObject.new(
 						item_id,
 						ResourceLoader.load(inventory_file).instance()
-					)
+					),
+					true
 				)
 			else:
 				escoria.logger.report_errors(
