@@ -23,6 +23,7 @@ extents = Vector2( 40.4907, 142.11 )
 script = ExtResource( 1 )
 global_id = "worker"
 esc_script = "res://game/rooms/room6/esc/worker.esc"
+is_movable = true
 tooltip_name = "Worker"
 default_action = "look"
 dialog_color = Color( 0.196078, 0, 1, 1 )

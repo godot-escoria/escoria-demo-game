@@ -6,16 +6,21 @@ var options_paths = []
 func _ready():
 	var rooms_folder = "res://game/rooms/"
 	var dir = Directory.new()
+	var rooms_list: Array = []
 	
 	if dir.open(rooms_folder) == OK:
 		dir.list_dir_begin(true)
 		var file_name = dir.get_next()
 		while file_name != "":
 			if dir.current_is_dir():
-				add_item(file_name)
-				options_paths.push_back("res://game/rooms/" + file_name + "/" + 
-					file_name + ".tscn")
+				rooms_list.push_back(file_name)
 			file_name = dir.get_next()
+		
+		rooms_list.sort()
+		for room in rooms_list:
+			add_item(room)
+			options_paths.push_back("res://game/rooms/" + room + "/" + 
+				room + ".tscn")
 
 	else:
 		escoria.logger.report_errors("room_select.gd:_ready()", 

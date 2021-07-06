@@ -1,0 +1,22 @@
+:exit_scene
+change_scene "res://game/rooms/room07/room07.tscn" [r6_door_open]
+
+:ready
+set_global r6_door_open false
+
+:use
+> [!r6_door_open]
+#	set_state r6_door r_door_open
+#	set_global r6_door_open true
+	say player "It's closed. I think I can't open it myself."
+	stop
+> [r6_door_open]
+#	set_state r6_door r_door_close
+#	set_global r6_door_open false
+	say player "I'll leave it open. I don't know if I'll be able to reopen it if I close it."
+
+
+:look
+say player "It's open." [r6_door_open]
+say player "It's closed." [!r6_door_open]
+

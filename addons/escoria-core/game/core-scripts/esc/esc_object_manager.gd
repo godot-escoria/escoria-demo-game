@@ -56,7 +56,7 @@ func register_object(object: ESCObject, force: bool = false) -> void:
 				object.node.esc_script
 			)
 			object.events = script.events
-
+		
 		objects[object.global_id] = object
 		
 		
@@ -97,7 +97,6 @@ func get_object(global_id: String) -> ESCObject:
 func unregister_object(object: ESCObject) -> void:
 	if not escoria.inventory_manager.inventory_has(object.global_id) \
 			and not object.global_id in RESERVED_OBJECTS:
-		
 		objects.erase(object.global_id)
 
 

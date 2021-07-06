@@ -6,7 +6,7 @@
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
-[ext_resource path="res://game/rooms/room2/button/button.tscn" type="PackedScene" id=8]
+[ext_resource path="res://game/rooms/room02/button/button.tscn" type="PackedScene" id=8]
 [ext_resource path="res://game/rooms/room10/r_door.tscn" type="PackedScene" id=9]
 
 [sub_resource type="NavigationPolygon" id=1]
