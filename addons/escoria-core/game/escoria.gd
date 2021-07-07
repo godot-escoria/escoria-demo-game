@@ -93,13 +93,11 @@ func _init():
 	self.resource_cache.start()
 	self.save_manager = ESCSaveManager.new()
 
-
 # Load settings
 func _ready():
 	settings = ESCSaveSettings.new()
 	settings = save_manager.load_settings()
 	escoria._on_settings_loaded(escoria.settings)
-
 
 # Called by Main menu "start new game"
 func new_game():

@@ -7,12 +7,12 @@ onready var backup_settings
 
 
 func _ready():
-	initialize_options(escoria.settings)
+	pass
 
 
 func show():
 	backup_settings = escoria.settings.duplicate()
-	initialize_options(backup_settings)
+	initialize_options(escoria.settings)
 	visible = true
 
 

@@ -192,7 +192,7 @@ func save_settings():
 			["There was an issue writing settings %s" % save_path])
 
 # Load the game settings from the settings file
-func load_settings():
+func load_settings() -> Resource:
 	var save_settings_path: String = settings_folder.plus_file(SETTINGS_TEMPLATE)
 	var file: File = File.new()
 	if not file.file_exists(save_settings_path):
@@ -201,7 +201,5 @@ func load_settings():
 			["Settings file %s doesn't exist" % save_settings_path,
 			"Setting default settings."])
 		save_settings()
-		return
 
-	var settings_resource: Resource = load(save_settings_path)
-	escoria._on_settings_loaded(settings_resource)
+	return load(save_settings_path)
