@@ -38,33 +38,7 @@ In alphabetical order:
 
 ## Roadmap
 
-The rewrite is currently ongoing and certain features of Escoria are missing or require optimization:
-
-### Basic features
-
-* [ ] Implement load/save games
-* [ ] Implement switching player characters
-* [ ] Visualize scaling in editor
-
-### Optimizations
-
-* [ ] Add the currently unfocused inventory item to the `inventory_item_unfocused` signal of `ESCInventoryItem`
-
-* [ ] The `_hover_stack_pop` method in `main_scene` doesn't pop (=remove the last element from the stack) but rather erases the given item from the stack. This may either be a hidden bug or a naming issue
-
-* [ ] The variable `screen_ofs` of main.gd is always set to Vector2(0, 0). Either it's unused or its function has yet to be documented
-
-* [ ] Should we keep defining the animations in a script instead of a real object? Providing a script as a parameter to a function seems weird
-
-* [ ] Fix all TODO and FIXME places in the code
-
-* [ ] Reimplement all missing ESC commands
-
-### Future features
-
-* [ ] Integrated ESC editor
-* [ ] Graphical visualizer of room links
-* [ ] Optimize character angles and animation helper
+The rewrite is currently ongoing and certain features of Escoria are missing or require optimization. See the issues tab for open issues.
 
 ## Licensing
 
