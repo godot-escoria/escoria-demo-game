@@ -16,6 +16,10 @@ and later streamlined for broader usages and open sourced as promised to the bac
 
 Because of maintainability issues and to make the framework easier for new developers and bring it closer to Godot's standards, the framework was completely rewritten and optimized.
 
+## Roadmap
+
+Escoria's development is organized using Github [issues](https://github.com/godotengine/escoria/issues). Take a look, what's planned for the next version.
+
 ## Authors
 
 In alphabetical order:
