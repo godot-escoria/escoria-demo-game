@@ -22,7 +22,7 @@ func initialize_options(p_settings):
 	$options/music_volume.value = p_settings["music_volume"]
 
 
-func greyout_other_languages(except_lang: String) -> void:
+func greyout_other_languages(_except_lang: String) -> void:
 	pass
 
 

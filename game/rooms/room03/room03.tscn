@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://game/rooms/room03/walkable_area.tscn" type="PackedScene" id=1]
 [ext_resource path="res://game/rooms/room03/background.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=5]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
 [ext_resource path="res://game/items/escitems/button.tscn" type="PackedScene" id=7]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=8]
 
 [node name="room3" type="Node2D"]
 script = ExtResource( 6 )
@@ -47,6 +48,7 @@ __meta__ = {
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r_platform"]
 position = Vector2( 430.893, 451.052 )
+script = ExtResource( 8 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -67,6 +69,7 @@ polygon = PoolVector2Array( 1177.94, 348.61, 1175.95, 45.3759, 1276.06, 92.0953,
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r_door"]
 position = Vector2( 1225.47, 353.99 )
+script = ExtResource( 8 )
 
 [node name="l_door" type="Area2D" parent="Hotspots"]
 script = ExtResource( 5 )
@@ -84,6 +87,7 @@ polygon = PoolVector2Array( -2.71457, 437.818, 6.6293, 121.462, 89.3893, 74.7422
 
 [node name="Position2D" type="Position2D" parent="Hotspots/l_door"]
 position = Vector2( 44.1375, 384.691 )
+script = ExtResource( 8 )
 
 [node name="button" parent="Hotspots" instance=ExtResource( 7 )]
 global_id = "r3_button"
@@ -91,6 +95,7 @@ esc_script = "res://game/rooms/room03/esc/button.esc"
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button"]
 position = Vector2( 347.767, 378.011 )
+script = ExtResource( 8 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -109,3 +114,4 @@ __meta__ = {
 
 [node name="player_start" type="Position2D" parent="."]
 position = Vector2( 63.3074, 444.653 )
+script = ExtResource( 8 )

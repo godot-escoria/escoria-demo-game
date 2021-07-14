@@ -64,6 +64,7 @@ polygon = PoolVector2Array( 1177.94, 348.61, 1175.95, 45.3759, 1276.06, 92.0953,
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r_door"]
 position = Vector2( 1225.47, 353.99 )
+script = ExtResource( 7 )
 
 [node name="item" type="Area2D" parent="Hotspots"]
 position = Vector2( -217.19, 0 )
