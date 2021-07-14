@@ -192,6 +192,7 @@ func save_settings():
 			["There was an issue writing settings %s" % save_path])
 
 # Load the game settings from the settings file
+# **Returns** The Resource structure loaded from settings file
 func load_settings() -> Resource:
 	var save_settings_path: String = settings_folder.plus_file(SETTINGS_TEMPLATE)
 	var file: File = File.new()

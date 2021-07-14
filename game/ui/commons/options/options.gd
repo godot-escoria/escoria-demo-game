@@ -3,11 +3,7 @@ extends Control
 signal back_button_pressed
 
 onready var settings_changed = false
-onready var backup_settings
-
-
-func _ready():
-	pass
+var backup_settings
 
 
 func show():
