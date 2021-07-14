@@ -12,3 +12,4 @@
 
 :ready
 set_sound_state bg_music res://game/sfx/contemplation.ogg true
+walk player r1_destination_point
