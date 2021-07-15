@@ -3,16 +3,12 @@ extends Control
 signal back_button_pressed
 
 onready var settings_changed = false
-onready var backup_settings
-
-
-func _ready():
-	initialize_options(escoria.settings)
+var backup_settings
 
 
 func show():
 	backup_settings = escoria.settings.duplicate()
-	initialize_options(backup_settings)
+	initialize_options(escoria.settings)
 	visible = true
 
 

@@ -385,5 +385,4 @@ func _on_settings_loaded(p_settings: ESCSaveSettings) -> void:
 		linear2db(settings.music_volume)
 	)
 	TranslationServer.set_locale(settings.text_lang)
-#	music_volume_changed()
 
