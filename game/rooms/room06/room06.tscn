@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
 [ext_resource path="res://game/rooms/room06/background.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
 [ext_resource path="res://game/characters/worker/worker.tscn" type="PackedScene" id=7]
 [ext_resource path="res://game/ui/commons/fonts/caslonantique.tres" type="DynamicFont" id=8]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=9]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, 129.634, 615.792, 1143.08, 613.35, -9.16094, 803.802, 84.5821, 654.06, -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698 )
@@ -61,6 +62,7 @@ esc_script = "res://game/rooms/room06/esc/left_exit.esc"
 
 [node name="Position2D" type="Position2D" parent="Hotspots/l_exit"]
 position = Vector2( 37.4521, 392.045 )
+script = ExtResource( 9 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -70,6 +72,7 @@ esc_script = "res://game/rooms/room06/esc/r6_door.esc"
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r_door"]
 position = Vector2( 1180.52, 395.193 )
+script = ExtResource( 9 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -79,8 +82,10 @@ position = Vector2( 480, 430 )
 esc_script = "res://game/rooms/room06/esc/worker.esc"
 interaction_direction = 2
 
-[node name="Position2D2" type="Position2D" parent="Hotspots/worker"]
+[node name="Position2D" type="Position2D" parent="Hotspots/worker"]
 position = Vector2( -157.528, -1.62589 )
+script = ExtResource( 9 )
 
 [node name="player_start" type="Position2D" parent="."]
 position = Vector2( 76.7617, 437.649 )
+script = ExtResource( 9 )

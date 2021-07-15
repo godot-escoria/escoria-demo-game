@@ -172,8 +172,12 @@ func do(action: String, params: Array = []) -> void:
 					
 					var object = self.object_manager.get_object(params[1])
 					if object:
-						var target_position: Vector2 = \
-								object.node.interact_position
+						var target_position: Vector2
+						if object.node is ESCLocation:
+							target_position = object.node.global_position
+						else:
+							target_position = object.node.interact_position
+							
 						var is_fast: bool = false
 						if params.size() > 2 and params[2] == true:
 							is_fast = true
