@@ -92,6 +92,12 @@ Set the camera limits
 
 * camera_limits_id: The id of the room's camera limits to set
 
+### save\_game
+
+```gdscript
+func save_game(p_savegame_res: Resource) -> void
+```
+
 ### check\_game\_scene\_methods
 
 ```gdscript

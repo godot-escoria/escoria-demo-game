@@ -1,15 +1,14 @@
 <!-- Auto-generated from JSON by GDScript docs maker. Do not edit this document directly. -->
 
-# TeleportCommand
+# RandGlobalCommand
 
 **Extends:** [ESCBaseCommand](../ESCBaseCommand) < [Node](../Node)
 
 ## Description
 
-`teleport object1 object2`
+`rand_global name max_value`
 
-Sets the position of object1 to the position of object2.
-FIXME re-add the angle parameter here
+Fills the "name" global with a random value between 0 and max-value-1.
 
 @ESC
 

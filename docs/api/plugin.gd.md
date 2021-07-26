@@ -44,14 +44,6 @@ func set_escoria_debug_settings()
 
 Prepare the settings in the Escoria debug category
 
-### set\_escoria\_internal\_settings
-
-```gdscript
-func set_escoria_internal_settings()
-```
-
-Prepare the settings in the Escoria internal category
-
 ### set\_escoria\_sound\_settings
 
 ```gdscript

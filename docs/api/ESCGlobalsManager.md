@@ -92,6 +92,17 @@ for the pattern format
 - pattern: The wildcard pattern to match
 - value: The new value
 
+### save\_game
+
+```gdscript
+func save_game(p_savegame: ESCSaveGame) -> void
+```
+
+Save the state of globals in the savegame.
+
+#### Parameters
+- p_savegame: ESCSaveGame resource that holds all data of the save
+
 ## Signals
 
 - signal global_changed(global, old_value, new_value): Emitted when a global is changed

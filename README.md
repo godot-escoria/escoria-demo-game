@@ -97,16 +97,15 @@ Requirements:
 
 * git
 * Current Godot version
-* Current master of [GDScript docs maker](https://github.com/GDQuest/gdscript-docs-maker)
-* Python (>=3) if you changed the ESC commands
+* Docker (for updating the API docs)
+* Python (>=3) (for updating the ESC reference)
 
-During development, run the following to update the class list:
+After pushing something to the repository, the API docs will be updated. If you want to update them during
+development, run the following from the game directory:
 
 ```
-cd gdscripts-docs-maker
-rm -rf export &>/dev/null
-./generate_reference <path to escoria> -d "addons/escoria"
-cp export/* <path to escoria>/docs/api
+rm -rf docs/api
+docker run --rm -v $(pwd):/game -v $(pwd)/docs/api:/export gdquest/gdscript-docs-maker:1 /game -o /export -d addons/escoria-core
 ```
 
 If you changed ESC commands, update the command reference by running 

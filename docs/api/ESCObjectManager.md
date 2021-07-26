@@ -13,7 +13,7 @@ A manager for ESC objects
 ### RESERVED\_OBJECTS
 
 ```gdscript
-const RESERVED_OBJECTS: Array = ["bg_music"]
+const RESERVED_OBJECTS: Array = ["bg_music","bg_sound"]
 ```
 
 ## Property Descriptions
@@ -38,7 +38,7 @@ Register the object in the manager
 
 #### Parameters
 
-- object: Obejct to register
+- object: Object to register
 - force: Register the object, even if it has already been registered
 
 ### has
@@ -62,6 +62,11 @@ func get_object(global_id: String) -> ESCObject
 
 Get the object from the object registry
 
+#### Parameters
+
+- global_id: The global id of the object to retrieve
+**Returns** The retrieved object, or null if not found
+
 ### unregister\_object
 
 ```gdscript
@@ -73,3 +78,15 @@ Remove an object from the registry
 #### Parameters
 
 - object: The object to unregister
+
+### save\_game
+
+```gdscript
+func save_game(p_savegame: ESCSaveGame) -> void
+```
+
+Insert data to save into savegame.
+
+#### Parameters
+
+- p_savegame: The savegame resource
