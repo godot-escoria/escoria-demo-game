@@ -1,4 +1,4 @@
-# `camera_set_zoom_height pixels [time]
+# `camera_set_zoom_height pixels [time]`
 #
 # Zooms the camera in/out to the desired `pixels` height. 
 # An optional `time` in seconds controls how long it takes for the camera 
