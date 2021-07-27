@@ -79,3 +79,14 @@ Set the state and start a possible animation
 
 - p_state: State to set
 - immediate: If true, skip directly to the end
+
+### get\_save\_data
+
+```gdscript
+func get_save_data() -> Dictionary
+```
+
+Return the data of the object to be inserted in a savegame file.
+
+**Returns**
+A dictionary containing the data to be saved for this object.

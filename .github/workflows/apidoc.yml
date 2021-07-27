@@ -1,0 +1,35 @@
+name: "Update API docs"
+
+on:
+    - push
+
+concurrency: api-${{ github.ref }}
+
+jobs:
+    update:
+        if: "${{ github.event.head_commit.message != 'docs: Automatic update of API docs' }}"
+        name: Update
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+            - name: Remove existing docs
+              run: |
+                rm -rf docs/api
+            - name: "Update docs"
+              uses: docker://gdquest/gdscript-docs-maker:1
+              with:
+                entrypoint: "bash"
+                args: "-c \"cd /app && ./generate_reference /github/workspace -o /github/workspace/docs/api -d addons/escoria-core\""
+            - name: "Update ESC reference"
+              run: |
+                apt update && apt install -y python3
+                python3 extractesc.py
+            - name: "Commit"
+              uses: EndBug/add-and-commit@v7.2.1
+              with:
+                add: "docs"
+                message: 'docs: Automatic update of API docs'
+                push: true
+
+               

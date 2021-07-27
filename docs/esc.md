@@ -167,7 +167,7 @@ defaults to QUART. A `time` value of 0 will set the camera immediately.
 
 Sets the camera limits to the one defined under `camlimits_id` in ESCRoom's
 camera_limits array.
-- camlimits_id : int : id of the camera limits to apply (defined in ESCRoom's
+- camlimits_id: int: id of the camera limits to apply (defined in ESCRoom's
   camera_limits array)
 #### <a name="CameraSetPosCommand.md"></a>`camera_set_pos speed x y` [API-Doc](api/CameraSetPosCommand.md)
 
@@ -185,7 +185,7 @@ Zooms the camera in/out to the desired `magnitude`. Values larger than 1 zooms
 the camera out, and smaller values zooms in, relative to the default value
 of 1. An optional `time` in seconds controls how long it takes for the camera
 to zoom into position.
-#### <a name="CameraSetZoomHeightCommand.md"></a>`camera_set_zoom_height pixels [time] [API-Doc](api/CameraSetZoomHeightCommand.md)
+#### <a name="CameraSetZoomHeightCommand.md"></a>`camera_set_zoom_height pixels [time]` [API-Doc](api/CameraSetZoomHeightCommand.md)
 
 Zooms the camera in/out to the desired `pixels` height.
 An optional `time` in seconds controls how long it takes for the camera
@@ -262,6 +262,9 @@ full path inside your game, for example "res://scenes/next_scene.tscn". The
 resource in the front of the queue. Queued resources are cleared when a
 change scene happens (but after the scene is loaded, meaning you can queue
 resources that belong to the next scene).
+#### <a name="RandGlobalCommand.md"></a>`rand_global name max_value` [API-Doc](api/RandGlobalCommand.md)
+
+Fills the "name" global with a random value between 0 and max-value-1.
 #### <a name="RepeatCommand.md"></a>`repeat` [API-Doc](api/RepeatCommand.md)
 
 Restarts the execution of the current scope at the start. A scope can be a
@@ -349,9 +352,13 @@ object2 (object2 is optional)
 #### <a name="StopCommand.md"></a>`stop` [API-Doc](api/StopCommand.md)
 
 Stops the event's execution.
-#### <a name="TeleportCommand.md"></a>`teleport object1 object2 [API-Doc](api/TeleportCommand.md)
+#### <a name="TeleportCommand.md"></a>`teleport object1 object2` [API-Doc](api/TeleportCommand.md)
 
 Sets the position of object1 to the position of object2.
+FIXME re-add the angle parameter here
+#### <a name="TeleportPosCommand.md"></a>`teleport_pos object1 x y` [API-Doc](api/TeleportPosCommand.md)
+
+Sets the position of object1 to the position (x,y).
 FIXME re-add the angle parameter here
 #### <a name="TurnToCommand.md"></a>`turn_to object degrees` [API-Doc](api/TurnToCommand.md)
 
@@ -384,6 +391,9 @@ Makes the `player` walk to the position `x`/`y`. This is a blocking command.
 Makes the `player` walk to the position `x`/`y`.
 
 <!-- /ESCCOMMANDS -->
+
+
+
 
 
 

@@ -289,7 +289,19 @@ Use the movable node to teleport this item to the target item
 
 #### Parameters
 
-- target: Target item to teleport to
+- target: Target node to teleport to
+
+### teleport\_to
+
+```gdscript
+func teleport_to(target: Vector2) -> void
+```
+
+Use the movable node to teleport this item to the target position
+
+#### Parameters
+
+- target: Vector2 position to teleport to
 
 ### walk\_to
 

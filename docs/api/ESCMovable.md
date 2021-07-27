@@ -125,7 +125,7 @@ Currenly running task
 ### teleport
 
 ```gdscript
-func teleport(target, angle: Object = null) -> void
+func teleport(target: Node, angle: Object = null) -> void
 ```
 
 Teleports this item to the target position.
@@ -134,7 +134,21 @@ can be removed
 
 #### Parameters
 
-- target: Vector2, Position2d or ESCItem
+- target: Position2d or ESCItem to teleport to
+
+### teleport\_to
+
+```gdscript
+func teleport_to(target: Vector2, angle: Object = null) -> void
+```
+
+Teleports this item to the target position.
+TODO angle is only used for logging and has no further use, so it probably
+can be removed
+
+#### Parameters
+
+- target: Vector2 target position to teleport to
 
 ### walk\_to
 
@@ -194,7 +208,7 @@ TODO Refactor to make this stuff understandable :D
 #### Parameters
 
 - angle: Angle to test
-- interval : Array of size 2, containing the starting angle, and the size of
+- interval: Array of size 2, containing the starting angle, and the size of
   interval
   eg: [90, 40] corresponds to angle between 90° and 130°
 

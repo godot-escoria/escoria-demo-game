@@ -6,7 +6,7 @@
 
 ## Description
 
-The escorie main script
+The escoria main script
 
 ## Enumerations
 
@@ -20,6 +20,16 @@ Current game state
 * DEFAULT: Common game function
 * DIALOG: Game is playing a dialog
 * WAIT: Game is waiting
+
+## Constants Descriptions
+
+### ESCORIA\_VERSION
+
+```gdscript
+const ESCORIA_VERSION: String = "0.1.0"
+```
+
+Escoria version number
 
 ## Property Descriptions
 
@@ -138,18 +148,10 @@ Inventory scene
 ### settings
 
 ```gdscript
-var settings: Dictionary
+var settings: ESCSaveSettings
 ```
 
 These are settings that the player can affect and save/load later
-
-### settings\_default
-
-```gdscript
-var settings_default: Dictionary
-```
-
-These are default settings
 
 ### current\_state
 
@@ -183,13 +185,13 @@ var inputs_manager
 
 The escoria inputs manager
 
-### save\_data
+### save\_manager
 
 ```gdscript
-var save_data
+var save_manager: ESCSaveManager
 ```
 
-Savegame management
+Savegames and settings manager
 
 ## Method Descriptions
 
