@@ -13,7 +13,7 @@ Basic features and informations about ESC executions
 ### RC\_CANCEL
 
 ```gdscript
-const RC_ERROR: int = 2
+const RC_OK: int = 0
 ```
 
 Return codes handled by events
@@ -25,7 +25,7 @@ Return codes handled by events
 ### RC\_ERROR
 
 ```gdscript
-const RC_ERROR: int = 2
+const RC_OK: int = 0
 ```
 
 Return codes handled by events
@@ -37,7 +37,7 @@ Return codes handled by events
 ### RC\_OK
 
 ```gdscript
-const RC_ERROR: int = 2
+const RC_OK: int = 0
 ```
 
 Return codes handled by events
@@ -49,7 +49,7 @@ Return codes handled by events
 ### RC\_REPEAT
 
 ```gdscript
-const RC_ERROR: int = 2
+const RC_OK: int = 0
 ```
 
 Return codes handled by events
