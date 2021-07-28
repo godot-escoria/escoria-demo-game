@@ -107,3 +107,7 @@ func check_game_scene_methods()
 Sanity check that the game.tscn scene's root node script MUST
 implement the following methods. If they do not exist, stop immediately.
 Implement them, even if empty
+
+## Signals
+
+- signal room_ready(): 
