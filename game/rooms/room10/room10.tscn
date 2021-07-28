@@ -132,8 +132,9 @@ __meta__ = {
 }
 
 [node name="button_accept_input" parent="Hotspots" instance=ExtResource( 8 )]
-position = Vector2( 823.113, 154.827 )
+position = Vector2( 823.113, 155.354 )
 global_id = "test_accept_input"
+esc_script = "res://game/rooms/room10/esc/button_accept_input_test.esc"
 tooltip_name = "Test Accept Input"
 
 [node name="Label" type="Label" parent="Hotspots/button_accept_input"]
@@ -150,6 +151,7 @@ __meta__ = {
 [node name="ESCLocation" type="Position2D" parent="Hotspots/button_accept_input"]
 position = Vector2( -1.05322, 214.863 )
 script = ExtResource( 5 )
+global_id = "accept_input_location"
 
 [node name="player_start" type="Position2D" parent="."]
 position = Vector2( 542.824, 468.193 )

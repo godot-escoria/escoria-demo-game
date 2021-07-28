@@ -63,7 +63,7 @@ func _on_left_click_on_bg(position: Vector2) -> void:
 func _on_double_left_click_on_bg(position: Vector2) -> void:
 	if input_mode == INPUT_ALL and hotspot_focused.empty():
 		escoria.logger.info(
-			"Double left click on background at % " % str(position)
+			"Double left click on background at %s" % str(position)
 		)
 		escoria.main.current_scene.game.left_double_click_on_bg(position)
 

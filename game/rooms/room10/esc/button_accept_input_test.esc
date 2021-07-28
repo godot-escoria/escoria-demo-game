@@ -1,0 +1,11 @@
+# Test the accept_input command
+
+:use
+say player "Hello. I will now walk a bit and won't listen at what you say!"
+accept_input NONE
+walk_block player player_start
+walk_block player accept_input_location
+say player "Ha! Now you can't even skip this text!" dialog_box_inset
+accept_input SKIP
+say player "Okay, you can skip this text, but still not move me."
+accept_input ALL

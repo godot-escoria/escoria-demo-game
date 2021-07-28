@@ -52,7 +52,7 @@ var main_menu_instance
 var room_terrain
 
 # Dialog player instantiator. This instance is called directly for dialogs.
-var dialog_player 
+var dialog_player: ESCDialogsPlayer
 
 # Inventory scene
 var inventory
