@@ -1,11 +1,11 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://game/ui/ui_mouse_icons/verbs_mouseicons.gd" type="Script" id=1]
-[ext_resource path="res://game/ui/ui_mouse_icons/cursors/cursor_examine.png" type="Texture" id=2]
-[ext_resource path="res://game/ui/ui_mouse_icons/cursors/cursor_tool.png" type="Texture" id=3]
-[ext_resource path="res://game/ui/ui_mouse_icons/cursors/cursor_pen.png" type="Texture" id=4]
-[ext_resource path="res://game/ui/ui_mouse_icons/cursors/cursor_foot.png" type="Texture" id=5]
-[ext_resource path="res://game/ui/ui_mouse_icons/cursors/cursor_hand.png" type="Texture" id=6]
+[ext_resource path="res://addons/escoria-ui-simplemouse/verbs_mouseicons.gd" type="Script" id=1]
+[ext_resource path="res://addons/escoria-ui-simplemouse/cursors/cursor_examine.png" type="Texture" id=2]
+[ext_resource path="res://addons/escoria-ui-simplemouse/cursors/cursor_tool.png" type="Texture" id=3]
+[ext_resource path="res://addons/escoria-ui-simplemouse/cursors/cursor_pen.png" type="Texture" id=4]
+[ext_resource path="res://addons/escoria-ui-simplemouse/cursors/cursor_foot.png" type="Texture" id=5]
+[ext_resource path="res://addons/escoria-ui-simplemouse/cursors/cursor_hand.png" type="Texture" id=6]
 
 [node name="verbs_menu" type="Control"]
 script = ExtResource( 1 )
@@ -53,10 +53,10 @@ margin_bottom = 132.0
 texture = ExtResource( 4 )
 
 [node name="mouse_position" type="Control" parent="."]
-margin_left = 323.435
-margin_top = 57.9191
-margin_right = 323.435
-margin_bottom = 57.9191
+margin_left = 546.519
+margin_top = 524.76
+margin_right = 546.519
+margin_bottom = 524.76
 mouse_filter = 2
 
 [node name="tool" type="TextureRect" parent="mouse_position"]
