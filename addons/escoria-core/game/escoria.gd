@@ -315,7 +315,7 @@ func _ev_left_click_on_item(obj, event, default_action = false):
 			"arrived"
 		)
 		
-		self.logger.info("Context arrived: ", [context])
+		self.logger.info("Context arrived: %s" % var2str(context))
 		
 		if context.target_object and \
 				context.target_object.global_id != walk_context.\

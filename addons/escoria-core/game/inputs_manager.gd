@@ -120,9 +120,9 @@ func _on_mouse_entered_item(item: ESCItem) -> void:
 	escoria.logger.info("Item focused: ", [item.global_id])
 	_clean_hover_stack()
 	
-	if !hover_stack.empty():
-		if item.z_index > hover_stack.back().z_index:
-			hover_stack.insert(hover_stack.size()-1, item)
+	if not hover_stack.empty():
+		if item.z_index < hover_stack.back().z_index:
+			hover_stack.insert(hover_stack.size() - 1, item)
 		else:
 			hover_stack.push_back(item)
 	else:
