@@ -139,7 +139,7 @@ func _on_mouse_entered_item(item: ESCItem) -> void:
 # - item: The Escoria item hovered
 func _on_mouse_exited_item(item: ESCItem) -> void:
 	escoria.logger.info("Item unfocused: ", [item.global_id])
-	_hover_stack_pop(item)
+	_hover_stack_erase_item(item)
 	if hover_stack.empty():
 		hotspot_focused = ""
 		escoria.main.current_scene.game.element_unfocused()
@@ -204,5 +204,8 @@ func _clean_hover_stack():
 
 
 # Remove the given item from the stack
-func _hover_stack_pop(item):
+#
+# #### Parameters
+# - item: the item to remove from the hover stack
+func _hover_stack_erase_item(item):
 	hover_stack.erase(item)
