@@ -184,6 +184,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_group.gd"
 }, {
+"base": "Node",
+"class": "ESCInputsManager",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/inputs_manager.gd"
+}, {
 "base": "Control",
 "class": "ESCInventory",
 "language": "GDScript",
@@ -495,6 +500,7 @@ _global_script_class_icons={
 "ESCGame": "",
 "ESCGlobalsManager": "",
 "ESCGroup": "",
+"ESCInputsManager": "",
 "ESCInventory": "",
 "ESCInventoryItem": "",
 "ESCInventoryManager": "",

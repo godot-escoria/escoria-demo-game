@@ -85,7 +85,8 @@ func say(character: String, params: Dictionary) -> void:
 
 # Called when a dialog line is skipped
 func finish_fast() -> void:
-	_dialog_ui.finish_fast()
+	if escoria.inputs_manager.input_mode != escoria.inputs_manager.INPUT_NONE:
+		_dialog_ui.finish_fast()
 
 
 # Display a list of choices
