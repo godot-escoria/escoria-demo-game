@@ -51,3 +51,7 @@ func _ready():
 		ESCObject.new(global_id, self),
 		true
 	)
+
+# Set state to default when finished playing.
+func _on_sound_finished():
+	state = "default"

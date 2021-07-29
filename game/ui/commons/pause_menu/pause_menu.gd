@@ -1,6 +1,10 @@
 extends Control
 
 
+func _ready():
+	hide()
+
+
 func _on_continue_pressed():
 	escoria.main.current_scene.game.pause_game()
 

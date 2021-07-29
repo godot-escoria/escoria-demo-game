@@ -123,15 +123,32 @@ func open_inventory():
 func close_inventory():
 	$ui/inventory_layer/inventory_ui/inventory_button.close_inventory()
 
+
 func mousewheel_action(direction: int):
 	$ui/verbs_layer/verbs_menu.iterate_actions_cursor(direction)
+
 
 func hide_ui():
 	$ui/inventory_layer/inventory_ui.hide()
 	
+	
 func show_ui():
 	$ui/inventory_layer/inventory_ui.show()
+
 
 func _on_event_done(event_name: String):
 	escoria.action_manager.clear_current_action()
 	$ui/verbs_layer/verbs_menu.clear_tool_texture()
+
+
+func pause_game():
+	if $ui/pause_menu.visible:
+		$ui/pause_menu.hide()
+		escoria.main.current_scene.game.get_node("camera").current = true
+		escoria.main.current_scene.game.show_ui()
+		escoria.main.current_scene.show()
+	else:
+		$ui/pause_menu.show()
+		escoria.main.current_scene.game.get_node("camera").current = false
+		escoria.main.current_scene.game.hide_ui()
+		escoria.main.current_scene.hide()
