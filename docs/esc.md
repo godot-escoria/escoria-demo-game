@@ -336,7 +336,7 @@ FIXME re-add the angle parameter here
 
 Sets the position of object1 to the position (x,y).
 FIXME re-add the angle parameter here
-#### <a name="TurnToCommand.md"></a>`turn_to object degrees` [API-Doc](api/TurnToCommand.md)
+#### <a name="TurnToCommand.md"></a>`turn_to object degrees [immediate]` [API-Doc](api/TurnToCommand.md)
 
 **This command is currently not fully implemented.**
 
@@ -346,6 +346,9 @@ Turns object to a degrees angle with a directions animation.
 When turning to the destination angle, animations are played if they're
 defined in animations. object must be player or interactive. degrees must
 be between [0, 360] or an error is reported.
+
+Set immediate to true to show directly switch to the direction and not
+show intermediate angles
 #### <a name="WaitCommand.md"></a>`wait seconds` [API-Doc](api/WaitCommand.md)
 
 Blocks execution of the current script for a number of seconds specified by the "seconds" parameter.

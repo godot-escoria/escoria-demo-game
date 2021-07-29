@@ -346,7 +346,9 @@ Set the angle
 
 #### Parameters
 
-Set the angle
+- deg: The angle degree to set
+- immediate: Set the angle immediately. If false will show intermediate
+	angles
 
 ### start\_talking
 

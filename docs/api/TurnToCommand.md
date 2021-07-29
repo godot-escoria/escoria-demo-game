@@ -6,7 +6,7 @@
 
 ## Description
 
-`turn_to object degrees`
+`turn_to object degrees [immediate]`
 
 Turns object to a degrees angle with a directions animation.
 
@@ -14,6 +14,9 @@ Turns object to a degrees angle with a directions animation.
 When turning to the destination angle, animations are played if they're
 defined in animations. object must be player or interactive. degrees must
 be between [0, 360] or an error is reported.
+
+Set immediate to true to show directly switch to the direction and not
+show intermediate angles
 
 @STUB
 @ESC

@@ -2,7 +2,7 @@
 
 # SlideBlockCommand
 
-**Extends:** [ESCBaseCommand](../ESCBaseCommand) < [Node](../Node)
+**Extends:** [SlideCommand](../SlideCommand) < [ESCBaseCommand](../ESCBaseCommand) < [Node](../Node)
 
 ## Description
 
@@ -18,26 +18,10 @@ where the player can't walk.
 
 ## Method Descriptions
 
-### configure
-
-```gdscript
-func configure() -> ESCCommandArgumentDescriptor
-```
-
-Return the descriptor of the arguments of this command
-
-### validate
-
-```gdscript
-func validate(arguments: Array)
-```
-
-Validate wether the given arguments match the command descriptor
-
 ### run
 
 ```gdscript
-func run(command_params: Array) -> int
+func run(command_params: Array) -> var
 ```
 
 Run the command
