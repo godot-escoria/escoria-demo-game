@@ -35,7 +35,7 @@ Preload the dialog UI resources
 ### say
 
 ```gdscript
-func say(character: String, params: Dictionary) -> var
+func say(character: String, ui: String, line: String) -> var
 ```
 
 A short one line dialog
@@ -43,8 +43,8 @@ A short one line dialog
 #### Parameters
 
 - character: Character that is talking
-- params: A dictionary of parameters. Currently only "line" is supported and
-  holds the line the character should say
+- ui: UI to use for the dialog
+- line: Line to say
 
 ### finish\_fast
 

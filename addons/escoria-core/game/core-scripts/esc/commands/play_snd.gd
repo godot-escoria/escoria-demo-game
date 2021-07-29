@@ -1,10 +1,8 @@
-# `play_snd object file [loop]`
+# `play_snd file [player]`
 # 
-# Plays the sound specificed with the "file" parameter on the object, without 
-# blocking. You can play background sounds, eg. during scene changes, with 
-# `play_snd bg_snd res://...`
+# Plays the sound specificed with the "file" parameter on the sound player
+# `player`, without blocking. (player defaults to bg_sound)
 #
-# @STUB
 # @ESC
 extends ESCBaseCommand
 class_name PlaySndCommand
@@ -14,15 +12,31 @@ class_name PlaySndCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2, 
-		[TYPE_STRING, TYPE_STRING, TYPE_BOOL],
-		[null, null, false]
+		[TYPE_STRING, TYPE_STRING],
+		[null, "bg_sound"]
 	)
+	
+
+# Validate wether the given arguments match the command descriptor
+func validate(arguments: Array):
+	if not escoria.object_manager.has(arguments[0]):
+		escoria.logger.report_errors(
+			"play_snd: invalid sound player",
+			["Sound player %s not registered" % arguments[0]]
+		)
+		return false
+	if not ResourceLoader.exists(arguments[1]):
+		escoria.logger.report_errors(
+			"play_snd: invalid parameter",
+			["File %s not found" % arguments[1]]
+		)
+		return false
+	return .validate(arguments)
 
 
 # Run the command
 func run(command_params: Array) -> int:
-	escoria.logger.report_errors(
-		"play_snd: command not implemented",
-		[]
+	escoria.object_manager.get_object(command_params[1]).node.set_state(
+		command_params[0]
 	)
-	return ESCExecution.RC_ERROR
+	return ESCExecution.RC_OK

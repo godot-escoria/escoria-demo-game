@@ -15,3 +15,10 @@ var timeout: float
 func _init(p_event: ESCEvent, p_timeout: float):
 	self.event = p_event
 	self.timeout = p_timeout
+
+
+# Run the event
+#
+# **Returns** The execution code
+func run() -> int:
+	return event.run()

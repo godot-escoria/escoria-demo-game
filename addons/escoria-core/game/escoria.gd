@@ -52,7 +52,7 @@ var main_menu_instance
 var room_terrain
 
 # Dialog player instantiator. This instance is called directly for dialogs.
-var dialog_player 
+var dialog_player: ESCDialogsPlayer
 
 # Inventory scene
 var inventory
@@ -71,7 +71,7 @@ onready var game_size = get_viewport().size
 onready var main = $main
 
 # The escoria inputs manager
-onready var inputs_manager = $inputs_manager
+var inputs_manager: ESCInputsManager
 
 # Savegames and settings manager
 var save_manager: ESCSaveManager
@@ -92,6 +92,7 @@ func _init():
 	self.resource_cache = ESCResourceCache.new()
 	self.resource_cache.start()
 	self.save_manager = ESCSaveManager.new()
+	self.inputs_manager = ESCInputsManager.new()
 
 
 # Load settings

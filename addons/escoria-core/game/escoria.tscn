@@ -1,14 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/main.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/escoria-core/game/escoria.gd" type="Script" id=3]
-[ext_resource path="res://addons/escoria-core/game/inputs_manager.gd" type="Script" id=5]
 
 [node name="escoria" type="Node"]
 script = ExtResource( 3 )
-
-[node name="inputs_manager" type="Node" parent="."]
-script = ExtResource( 5 )
 
 [node name="main" parent="." instance=ExtResource( 2 )]
 

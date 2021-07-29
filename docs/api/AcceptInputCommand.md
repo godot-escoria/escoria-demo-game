@@ -17,7 +17,6 @@ This allows you to create cut scenes with SKIP where the dialog can be
 skipped, but also initiate locked#### down cutscenes with accept_input
 NONE in :setup and accept_input ALL later in :ready.
 
-@STUB
 @ESC
 
 ## Method Descriptions

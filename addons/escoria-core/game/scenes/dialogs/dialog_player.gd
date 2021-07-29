@@ -32,6 +32,13 @@ func _ready():
 	preload_resources(ProjectSettings.get_setting("escoria/ui/dialogs_folder"))
 
 
+# Trigger the finish fast function on the dialog ui
+func _input(event):
+	if event is InputEventMouseButton and \
+			event.pressed:
+		finish_fast()
+
+
 # Preload the dialog UI resources
 #
 # #### Parameters
@@ -72,20 +79,23 @@ func preload_resources(path: String) -> void:
 # #### Parameters
 #
 # - character: Character that is talking
-# - params: A dictionary of parameters. Currently only "line" is supported and
-#   holds the line the character should say
-func say(character: String, params: Dictionary) -> void:
+# - ui: UI to use for the dialog
+# - line: Line to say
+func say(character: String, ui: String, line: String) -> void:
 	is_speaking = true
-	_dialog_ui = get_resource(params.ui).instance()
+	_dialog_ui = get_resource(ui).instance()
 	get_parent().add_child(_dialog_ui)
-	_dialog_ui.say(character, params)
+	_dialog_ui.say(character, line)
 	yield(_dialog_ui, "dialog_line_finished")
+	is_speaking = false
 	emit_signal("dialog_line_finished")
 	
 
 # Called when a dialog line is skipped
 func finish_fast() -> void:
-	_dialog_ui.finish_fast()
+	if is_speaking and\
+			escoria.inputs_manager.input_mode != escoria.inputs_manager.INPUT_NONE:
+		_dialog_ui.finish_fast()
 
 
 # Display a list of choices

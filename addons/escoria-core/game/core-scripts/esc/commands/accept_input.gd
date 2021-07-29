@@ -9,7 +9,6 @@
 # skipped, but also initiate locked#### down cutscenes with accept_input 
 # NONE in :setup and accept_input ALL later in :ready.
 #
-# @STUB
 # @ESC
 extends ESCBaseCommand
 class_name AcceptInputCommand
@@ -40,8 +39,12 @@ func validate(arguments: Array):
 
 # Run the command
 func run(command_params: Array) -> int:
-	escoria.logger.report_errors(
-		"accept_input: command not implemented",
-		[]
-	)
-	return ESCExecution.RC_ERROR
+	var mode = escoria.inputs_manager.INPUT_ALL
+	match command_params[0]:
+		"NONE":
+			mode = escoria.inputs_manager.INPUT_NONE
+		"SKIP":
+			mode = escoria.inputs_manager.INPUT_SKIP
+	
+	escoria.inputs_manager.input_mode = mode
+	return ESCExecution.RC_OK

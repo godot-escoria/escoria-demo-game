@@ -1,38 +1,50 @@
+# A dialog UI using a label above the head of the character
 extends RichTextLabel
 
+
+# Signal emitted when a dialog line has started
 signal dialog_line_started
+
+# Signal emitted when a dialog line has finished
 signal dialog_line_finished
 
-onready var tween = $Tween
-onready var text_node = self
 
+# The text speed per character for normal display
 export(float, 0.0, 0.3) var text_speed_per_character = 0.1
+
+# The text speed per character if the dialog line is skipped
 export(float) var fast_text_speed_per_character = 0.25
+
+# The time to wait before the dialog is finished
 export(float) var max_time_to_text_disappear = 2.0
+
 
 # Current character speaking, to keep track of reference for animation purposes
 var current_character
 
 
+# Tween node for text animation
+onready var tween = $Tween
+
+# The node showing the text
+onready var text_node = self
+
+
+# Enable bbcode and catch the signal when a tween completed
 func _ready():
 	bbcode_enabled = true
 	$Tween.connect("tween_completed", self, "_on_dialog_line_typed")
 
-"""
-Make a character say something.
 
-character: global id of the character who speaks
-params: Dictionary
-	line: line of dialog to say
-"""
-func say(character: String, params: Dictionary) :
+# Make a character say something
+#
+# #### Parameters
+# - character: The global id of the character speaking
+# - line: Line to say
+func say(character: String, line: String) :
 	show()
 	
 	emit_signal("dialog_line_started")
-	
-	if !params["line"]:
-		escoria.logger.report_errors("dialog_box_inset.gd:say()", ["No line field in params!"])
-		return
 	
 	# Position the RichTextLabel on the character's dialog position, if any.
 	current_character = escoria.object_manager.get_object(character).node
@@ -45,21 +57,19 @@ func say(character: String, params: Dictionary) :
 	var text_color = current_character.dialog_color
 	var text_color_html = text_color.to_html(false)
 	
-	if params["key"] != params["line"]:
-		text_node.bbcode_text = "[center][color=#" + text_color_html + "]" \
-			.format([text_color_html]) + tr(params["key"]) + "[/color][center]"
-	else:
-		text_node.bbcode_text = "[center][color=#" + text_color_html + "]" \
-			.format([text_color_html]) + params["line"] + "[/color][center]"
+	text_node.bbcode_text = "[center][color=#" + text_color_html + "]" \
+		.format([text_color_html]) + tr(line) + "[/color][center]"
 	
 	text_node.percent_visible = 0.0
-	var time_show_full_text = text_speed_per_character * len(params["line"])
+	var time_show_full_text = text_speed_per_character * len(line)
 	
 	tween.interpolate_property(text_node, "percent_visible",
 		0.0, 1.0, time_show_full_text,
 		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.start()
 
+
+# Called by the dialog player when the 
 func finish_fast():
 	tween.stop(text_node)
 	tween.interpolate_property(text_node, "percent_visible",
@@ -68,11 +78,15 @@ func finish_fast():
 	tween.start()
 
 
+# The dialog line was printed, start the waiting time and then finish
+# the dialog
 func _on_dialog_line_typed(object, key):
 	text_node.visible_characters = -1
 	$Timer.start(max_time_to_text_disappear)
 	$Timer.connect("timeout", self, "_on_dialog_finished")
 
+
+# Ending the dialog
 func _on_dialog_finished():
 	current_character.stop_talking()
 	emit_signal("dialog_line_finished")

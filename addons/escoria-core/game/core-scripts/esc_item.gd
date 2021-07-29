@@ -318,7 +318,9 @@ func has_moved() -> bool:
 #
 # #### Parameters
 #
-# Set the angle
+# - deg: The angle degree to set
+# - immediate: Set the angle immediately. If false will show intermediate
+#	angles
 func set_angle(deg: int, immediate = true):
 	_movable.set_angle(deg, immediate)
 	

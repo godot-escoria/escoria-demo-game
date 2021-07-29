@@ -35,3 +35,13 @@ func _init(p_event: ESCEvent, p_timeout: float)
 ```
 
 Create a new scheduled event
+
+### run
+
+```gdscript
+func run() -> int
+```
+
+Run the event
+
+**Returns** The execution code

@@ -131,6 +131,81 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="player_start" type="Position2D" parent="."]
-position = Vector2( 76.7617, 437.649 )
+[node name="button_accept_input" parent="Hotspots" instance=ExtResource( 8 )]
+position = Vector2( 823.113, 155.354 )
+global_id = "test_accept_input"
+esc_script = "res://game/rooms/room10/esc/button_accept_input_test.esc"
+tooltip_name = "Test Accept Input"
+
+[node name="Label" type="Label" parent="Hotspots/button_accept_input"]
+margin_left = -3.6864
+margin_top = -38.4435
+margin_right = 71.3136
+margin_bottom = -7.44354
+text = "Test Accept
+ Input"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/button_accept_input"]
+position = Vector2( -1.05322, 214.863 )
 script = ExtResource( 5 )
+global_id = "accept_input_location"
+
+[node name="button_slide" parent="Hotspots" instance=ExtResource( 8 )]
+position = Vector2( 939.497, 154.301 )
+global_id = "button_slide"
+esc_script = "res://game/rooms/room10/esc/button_slide.esc"
+tooltip_name = "Test slide"
+
+[node name="Label" type="Label" parent="Hotspots/button_slide"]
+margin_left = -3.6864
+margin_top = -38.4435
+margin_right = 71.3136
+margin_bottom = -7.44354
+text = "Test Slide"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/button_slide"]
+position = Vector2( 4.21295, 214.863 )
+script = ExtResource( 5 )
+global_id = "slide_location"
+
+[node name="button_turn_to" parent="Hotspots" instance=ExtResource( 8 )]
+position = Vector2( 1041.66, 152.721 )
+global_id = "button_turn_to"
+esc_script = "res://game/rooms/room10/esc/button_turn_to.esc"
+tooltip_name = "Test turn_to"
+
+[node name="Label" type="Label" parent="Hotspots/button_turn_to"]
+margin_left = -3.6864
+margin_top = -38.4435
+margin_right = 71.3136
+margin_bottom = -7.44354
+text = "Test turn_to"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/button_turn_to"]
+position = Vector2( 4.21295, 214.863 )
+script = ExtResource( 5 )
+global_id = "slide_location"
+
+[node name="slide_pos_1" type="Position2D" parent="."]
+position = Vector2( 469.097, 65.8522 )
+script = ExtResource( 5 )
+global_id = "slide_pos_1"
+
+[node name="slide_pos_2" type="Position2D" parent="."]
+position = Vector2( 958.33, 638.293 )
+script = ExtResource( 5 )
+global_id = "slide_pos_2"
+
+[node name="player_start" type="Position2D" parent="."]
+position = Vector2( 542.824, 468.193 )
+script = ExtResource( 5 )
+global_id = "player_start"
