@@ -31,5 +31,5 @@ for filename in sorted(Path("docs/api").glob("*.md")):
 
 esc_doc = Path("docs/esc.md").read_text()
 
-esc_doc = re.sub(r"(?s)<!-- ESCCOMMANDS -->.*<!-- /ESCCOMMANDS -->", "<!-- ESCCOMMANDS -->\n%s\n<!-- /ESCCOMMANDS -->\n" % esc_commands, esc_doc)
+esc_doc = re.sub(r"(?s)<!-- ESCCOMMANDS -->.*<!-- /ESCCOMMANDS -->", "<!-- ESCCOMMANDS -->\n%s\n<!-- /ESCCOMMANDS -->" % esc_commands, esc_doc)
 Path("docs/esc.md").write_text(esc_doc)
