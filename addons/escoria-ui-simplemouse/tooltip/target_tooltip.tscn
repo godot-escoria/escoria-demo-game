@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/assets/fonts/onesize/ONESIZE_.TTF" type="DynamicFontData" id=1]
-[ext_resource path="res://game/ui/ui_mouse_icons/tooltip/tooltip_target.gd" type="Script" id=2]
+[ext_resource path="res://addons/escoria-ui-simplemouse/tooltip/tooltip_target.gd" type="Script" id=2]
 
 [sub_resource type="DynamicFont" id=1]
 size = 30

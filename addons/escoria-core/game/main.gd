@@ -3,6 +3,10 @@ extends Node
 
 # This script is basically the scene-switcher.
 
+
+signal room_ready
+
+
 # Global id of the last scene the player was before current scene
 var last_scene_global_id: String
 
@@ -46,6 +50,8 @@ func set_scene(p_scene: Node) -> void:
 	check_game_scene_methods()
 
 	set_camera_limits()
+	
+	emit_signal("room_ready")
 
 
 # Cleanup the current scene

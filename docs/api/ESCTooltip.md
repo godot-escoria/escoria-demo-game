@@ -6,6 +6,8 @@
 
 ## Description
 
+A tooltip displaying <verb> <item1> [<item2>]
+
 ## Constants Descriptions
 
 ### MAX\_HEIGHT
@@ -14,11 +16,15 @@
 const MAX_HEIGHT: int = 500
 ```
 
+Maximum height of the label
+
 ### MAX\_WIDTH
 
 ```gdscript
 const MAX_WIDTH: int = 200
 ```
+
+Maximum width of the label
 
 ### MIN\_HEIGHT
 
@@ -26,11 +32,15 @@ const MAX_WIDTH: int = 200
 const MIN_HEIGHT: int = 30
 ```
 
+ Minimum height of the label
+
 ### ONE\_LINE\_HEIGHT
 
 ```gdscript
 const ONE_LINE_HEIGHT: int = 16
 ```
+
+Height of one line in the label
 
 ## Property Descriptions
 
@@ -84,11 +94,15 @@ export var color = "0,0,0,1"
 
 - **Setter**: `set_color`
 
+Color of the label
+
 ### offset\_from\_cursor
 
 ```gdscript
 export var offset_from_cursor = "(10, 0)"
 ```
+
+Vector2 defining the offset from the cursor
 
 ### debug\_mode
 
@@ -98,19 +112,17 @@ export var debug_mode = false
 
 - **Setter**: `set_debug_mode`
 
+Activates debug mode. If enabled, shows the label with a white background.
+
 ### debug\_texturerect\_node
 
 ```gdscript
 var debug_texturerect_node: TextureRect
 ```
 
+Node containing the debug white background
+
 ## Method Descriptions
-
-### get\_class
-
-```gdscript
-func get_class()
-```
 
 ### set\_color
 
@@ -118,17 +130,22 @@ func get_class()
 func set_color(p_color: Color)
 ```
 
+ Set the color of the label
+
+## Parameters
+ - p_color: the color to set the label
+
 ### set\_debug\_mode
 
 ```gdscript
 func set_debug_mode(p_debug_mode: bool)
 ```
 
-### on\_action\_selected
+ Enable/disable debug mode of the label. If enabled, the label is displayed
+with a white background.
 
-```gdscript
-func on_action_selected() -> void
-```
+## Parameters
+- p_debug_mode: if true, enable debug mode. False to disable
 
 ### set\_target
 
@@ -136,11 +153,22 @@ func on_action_selected() -> void
 func set_target(target: String, needs_second_target: bool = false) -> void
 ```
 
+ Set the first target of the label.
+
+## Parameters
+- target: String the target to add to the label
+- needs_second_target: if true, the label will prepare for a second target
+
 ### set\_target2
 
 ```gdscript
 func set_target2(target2: String) -> void
 ```
+
+ Set the second target of the label
+
+## Parameters
+- target2: String the second target to add to the label
 
 ### update\_tooltip\_text
 
@@ -148,11 +176,15 @@ func set_target2(target2: String) -> void
 func update_tooltip_text()
 ```
 
+Update the tooltip text.
+
 ### update\_size
 
 ```gdscript
 func update_size()
 ```
+
+Update the tooltip size according to the text.
 
 ### tooltip\_distance\_to\_edge\_top
 
@@ -160,11 +192,27 @@ func update_size()
 func tooltip_distance_to_edge_top(position: Vector2)
 ```
 
+Return the tooltip distance to top edge.
+
+## Parameters
+- position: the position to test
+
+**Return**
+The distance to the edge.
+
 ### tooltip\_distance\_to\_edge\_bottom
 
 ```gdscript
 func tooltip_distance_to_edge_bottom(position: Vector2)
 ```
+
+Return the tooltip distance to bottom edge.
+
+## Parameters
+- position: the position to test
+
+**Return**
+The distance to the edge.
 
 ### tooltip\_distance\_to\_edge\_left
 
@@ -172,11 +220,27 @@ func tooltip_distance_to_edge_bottom(position: Vector2)
 func tooltip_distance_to_edge_left(position: Vector2)
 ```
 
+Return the tooltip distance to left edge.
+
+## Parameters
+- position: the position to test
+
+**Return**
+The distance to the edge.
+
 ### tooltip\_distance\_to\_edge\_right
 
 ```gdscript
 func tooltip_distance_to_edge_right(position: Vector2)
 ```
+
+Return the tooltip distance to right edge.
+
+## Parameters
+- position: the position to test
+
+**Return**
+The distance to the edge.
 
 ### clear
 
@@ -184,3 +248,4 @@ func tooltip_distance_to_edge_right(position: Vector2)
 func clear()
 ```
 
+Clear the tooltip targets texts
