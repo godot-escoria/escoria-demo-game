@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/core-scripts/resources/esc_animationresource.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+dir_angles = [ PoolIntArray( 340, 40 ), PoolIntArray( 20, 50 ), PoolIntArray( 70, 40 ), PoolIntArray( 110, 50 ), PoolIntArray( 160, 40 ), PoolIntArray( 200, 50 ), PoolIntArray( 250, 40 ), PoolIntArray( 290, 50 ) ]
+directions = [ [ "walk_up", 1 ], [ "walk_up", 1 ], [ "walk_right", 1 ], [ "walk_down", 1 ], [ "walk_down", 1 ], [ "walk_down", 1 ], [ "walk_right", -1 ], [ "walk_up", 1 ] ]
+idles = [ [ "idle_up", 1 ], [ "idle_up", 1 ], [ "idle_right", 1 ], [ "idle_down_right", 1 ], [ "idle_down", 1 ], [ "idle_down_left", 1 ], [ "idle_left", 1 ], [ "idle_up", 1 ] ]
+speaks = [ [ "speak_up", 1 ], [ "speak_up", 1 ], [ "speak_right", 1 ], [ "speak_down", 1 ], [ "speak_down", 1 ], [ "speak_down", 1 ], [ "speak_right", -1 ], [ "speak_up", 1 ] ]

@@ -120,8 +120,8 @@ export(int) var speed: int = 300
 # Speed damp of this item if movable
 export(float) var v_speed_damp: float = 1.0
 
-# Animations script (for walking, idling...)
-export(Script) var animations
+# ESCAnimationsResource (for walking, idling...)
+export(Resource) var animations
 
 # The movable subnode
 var _movable: ESCMovable = null

@@ -358,7 +358,7 @@ func _get_dir(angle: float, animations) -> int:
 #
 # - deg: Degrees
 # - animations: Player animations script
-func _get_dir_deg(deg: int, animations: Script) -> int:
+func _get_dir_deg(deg: int, animations: ESCAnimationResource) -> int:
 	# We turn the angle by -90° because angle_to_point gives the angle
 	# against X axis, not Y
 	deg = wrapi(deg - 90, 0, 360)
