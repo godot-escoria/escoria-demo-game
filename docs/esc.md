@@ -140,8 +140,6 @@ Some commands will block execution of the event until they finish, others won't.
 <!-- ESCCOMMANDS -->
 #### <a name="AcceptInputCommand.md"></a>`accept_input [ALL|NONE|SKIP]` [API-Doc](api/AcceptInputCommand.md)
 
-**This command is currently not fully implemented.**
-
 What type of input does the game accept. ALL is the default, SKIP allows
 skipping of dialog but nothing else, NONE denies all input. Including opening
 the menu etc. SKIP and NONE also disable autosaves.
@@ -222,14 +220,6 @@ both be integers.
 
 Enable the ESCTerrain's NavigationPolygonInstance defined by given node name.
 Disables previously activated NavigationPolygonInstance.
-#### <a name="GameOverCommand.md"></a>`game_over continue_enabled show_credits` [API-Doc](api/GameOverCommand.md)
-
-**This command is currently not fully implemented.**
-
-Ends the game. Use the "continue_enabled" parameter to enable or disable the
-continue button in the main menu afterwards. The "show_credits" parameter
-loads the ui/end_credits scene if true. You can configure it to your regular
-credits scene if you want.
 #### <a name="IncGlobalCommand.md"></a>`inc_global name value` [API-Doc](api/IncGlobalCommand.md)
 
 Adds the value to global with given "name". Value and global must both be
@@ -240,20 +230,10 @@ Add an item to the inventory
 #### <a name="InventoryRemoveCommand.md"></a>`inventory_remove item` [API-Doc](api/InventoryRemoveCommand.md)
 
 Remove an item from the inventory.
-#### <a name="PlaySndCommand.md"></a>`play_snd object file [loop]` [API-Doc](api/PlaySndCommand.md)
+#### <a name="PlaySndCommand.md"></a>`play_snd file [player]` [API-Doc](api/PlaySndCommand.md)
 
-**This command is currently not fully implemented.**
-
-Plays the sound specificed with the "file" parameter on the object, without
-blocking. You can play background sounds, eg. during scene changes, with
-`play_snd bg_snd res://...`
-#### <a name="QueueAnimationCommand.md"></a>`queue_animation object animation` [API-Doc](api/QueueAnimationCommand.md)
-
-**This command is currently not fully implemented.**
-
-Similar to queue_resource, queues the resources necessary to have an
-animation loaded on an item. The resource paths are taken from the item
-placeholders.
+Plays the sound specificed with the "file" parameter on the sound player
+`player`, without blocking. (player defaults to bg_sound)
 #### <a name="QueueResourceCommand.md"></a>`queue_resource path [front_of_queue]` [API-Doc](api/QueueResourceCommand.md)
 
 Queues the load of a resource in a background thread. The `path` must be a
@@ -345,10 +325,6 @@ Moves object1 towards the position of object2, at the speed determined by
 object1's "speed" property, unless overridden. This command is non-blocking.
 It does not respect the room's navigation polygons, so you can move items
 where the player can't walk.
-#### <a name="SpawnCommand.md"></a>`spawn path [object2]` [API-Doc](api/SpawnCommand.md)
-
-Instances a scene determined by "path", and places in the position of
-object2 (object2 is optional)
 #### <a name="StopCommand.md"></a>`stop` [API-Doc](api/StopCommand.md)
 
 Stops the event's execution.
@@ -391,7 +367,6 @@ Makes the `player` walk to the position `x`/`y`. This is a blocking command.
 Makes the `player` walk to the position `x`/`y`.
 
 <!-- /ESCCOMMANDS -->
-
 
 
 

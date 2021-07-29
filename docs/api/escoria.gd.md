@@ -132,7 +132,7 @@ Terrain of the current room
 ### dialog\_player
 
 ```gdscript
-var dialog_player
+var dialog_player: ESCDialogsPlayer
 ```
 
 Dialog player instantiator. This instance is called directly for dialogs.
@@ -180,7 +180,7 @@ The main scene
 ### inputs\_manager
 
 ```gdscript
-var inputs_manager
+var inputs_manager: ESCInputsManager
 ```
 
 The escoria inputs manager

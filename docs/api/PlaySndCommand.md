@@ -6,13 +6,11 @@
 
 ## Description
 
-`play_snd object file [loop]`
+`play_snd file [player]`
 
-Plays the sound specificed with the "file" parameter on the object, without
-blocking. You can play background sounds, eg. during scene changes, with
-`play_snd bg_snd res://...`
+Plays the sound specificed with the "file" parameter on the sound player
+`player`, without blocking. (player defaults to bg_sound)
 
-@STUB
 @ESC
 
 ## Method Descriptions
@@ -24,6 +22,14 @@ func configure() -> ESCCommandArgumentDescriptor
 ```
 
 Return the descriptor of the arguments of this command
+
+### validate
+
+```gdscript
+func validate(arguments: Array)
+```
+
+Validate wether the given arguments match the command descriptor
 
 ### run
 
