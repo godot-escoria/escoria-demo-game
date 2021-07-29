@@ -153,6 +153,37 @@ position = Vector2( -1.05322, 214.863 )
 script = ExtResource( 5 )
 global_id = "accept_input_location"
 
+[node name="button_slide" parent="Hotspots" instance=ExtResource( 8 )]
+position = Vector2( 939.497, 154.301 )
+global_id = "button_slide"
+esc_script = "res://game/rooms/room10/esc/button_slide.esc"
+tooltip_name = "Test slide"
+
+[node name="Label" type="Label" parent="Hotspots/button_slide"]
+margin_left = -3.6864
+margin_top = -38.4435
+margin_right = 71.3136
+margin_bottom = -7.44354
+text = "Test Slide"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/button_slide"]
+position = Vector2( 4.21295, 214.863 )
+script = ExtResource( 5 )
+global_id = "slide_location"
+
+[node name="slide_pos_1" type="Position2D" parent="."]
+position = Vector2( 469.097, 65.8522 )
+script = ExtResource( 5 )
+global_id = "slide_pos_1"
+
+[node name="slide_pos_2" type="Position2D" parent="."]
+position = Vector2( 958.33, 638.293 )
+script = ExtResource( 5 )
+global_id = "slide_pos_2"
+
 [node name="player_start" type="Position2D" parent="."]
 position = Vector2( 542.824, 468.193 )
 script = ExtResource( 5 )

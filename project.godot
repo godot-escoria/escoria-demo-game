@@ -394,7 +394,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_state.gd"
 }, {
-"base": "ESCBaseCommand",
+"base": "SlideCommand",
 "class": "SlideBlockCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/slide_block.gd"
@@ -582,7 +582,7 @@ main/force_quit=true
 debug/terminate_on_warnings=false
 debug/terminate_on_errors=true
 debug/development_lang="en"
-ui/tooltip_follows_mouse=true
+ui/tooltip_follows_mouse=false
 ui/dialogs_folder="res://game/ui/commons/dialogs"
 ui/default_dialog_scene="res://game/ui/commons/dialogs/dialog_label.tscn"
 ui/main_menu_scene="res://game/ui/commons/main_menu/main_menu.tscn"
@@ -604,13 +604,13 @@ main/savegames_path="res://saves/"
 main/settings_path="user://"
 main/escoria_version=""
 sound/speech_enabled=1
-ui/game_scene="res://addons/escoria-ui-simplemouse/game.tscn"
+ui/game_scene="res://addons/escoria-ui-9verbs/game.tscn"
 
 [input]
 
 esc_show_debug_prompt={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777245,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777245,"unicode":0,"echo":false,"script":null)
  ]
 }
 switch_action_verb={
