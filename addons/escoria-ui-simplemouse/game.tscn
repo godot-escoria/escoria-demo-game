@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://addons/escoria-ui-simplemouse/inventory/inventory_ui.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/escoria-core/game/scenes/dialogs/dialog_player.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://addons/escoria-ui-simplemouse/game.gd" type="Script" id=5]
 [ext_resource path="res://addons/escoria-ui-simplemouse/tooltip/target_tooltip.tscn" type="PackedScene" id=6]
 [ext_resource path="res://game/ui/commons/room_select.tscn" type="PackedScene" id=7]
+[ext_resource path="res://game/ui/commons/pause_menu/pause_menu.tscn" type="PackedScene" id=8]
 
 [node name="game" type="Node2D"]
 script = ExtResource( 5 )
@@ -50,5 +51,8 @@ margin_left = 75.5099
 margin_top = 751.323
 margin_right = 138.51
 margin_bottom = 791.324
+
+[node name="pause_menu" parent="ui" instance=ExtResource( 8 )]
+visible = false
 
 [node name="camera" parent="." instance=ExtResource( 3 )]

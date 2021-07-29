@@ -151,14 +151,21 @@ func load_game(id: int):
 		if save_game.objects[object_global_id].has("global_transform"):
 			load_statements.append(ESCCommand.new("teleport_pos %s %s %s" \
 				% [object_global_id, 
-				save_game.objects[object_global_id] \
-					["global_transform"].origin.x,
-				save_game.objects[object_global_id] \
-					["global_transform"].origin.y])
+				int(save_game.objects[object_global_id] \
+					["global_transform"].origin.x),
+				int(save_game.objects[object_global_id] \
+					["global_transform"].origin.y)]
+				)
 			)
 			load_statements.append(ESCCommand.new("set_angle %s %s" \
 				% [object_global_id, 
 				save_game.objects[object_global_id]["last_deg"]])
+			)
+		
+		if object_global_id == "bg_music" or object_global_id == "bg_sound":
+			load_statements.append(ESCCommand.new("set_sound_state %s %s true" \
+				% [object_global_id,
+				save_game.objects[object_global_id]["state"]])
 			)
 	
 	load_event.statements = load_statements

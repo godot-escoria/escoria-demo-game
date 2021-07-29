@@ -15,3 +15,5 @@ __meta__ = {
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 bus = "SFX"
+
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_sound_finished"]
