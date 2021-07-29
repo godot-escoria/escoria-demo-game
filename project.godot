@@ -305,11 +305,6 @@ _global_script_classes=[ {
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/enable_terrain.gd"
 }, {
 "base": "ESCBaseCommand",
-"class": "GameOverCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/game_over.gd"
-}, {
-"base": "ESCBaseCommand",
 "class": "IncGlobalCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/inc_global.gd"
@@ -328,11 +323,6 @@ _global_script_classes=[ {
 "class": "PlaySndCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/play_snd.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "QueueAnimationCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/queue_animation.gd"
 }, {
 "base": "ESCBaseCommand",
 "class": "QueueResourceCommand",
@@ -524,12 +514,10 @@ _global_script_class_icons={
 "ESCUtils": "",
 "ESCWalkContext": "",
 "EnableTerrainCommand": "",
-"GameOverCommand": "",
 "IncGlobalCommand": "",
 "InventoryAddCommand": "",
 "InventoryRemoveCommand": "",
 "PlaySndCommand": "",
-"QueueAnimationCommand": "",
 "QueueResourceCommand": "",
 "RandGlobalCommand": "",
 "RepeatCommand": "",
