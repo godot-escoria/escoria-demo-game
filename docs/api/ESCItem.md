@@ -194,7 +194,7 @@ Speed damp of this item if movable
 export var animations = "[Object:null]"
 ```
 
- Animations script (for walking, idling...)
+ ESCAnimationsResource (for walking, idling...)
 
 ### animation\_sprite
 
