@@ -2,7 +2,7 @@
 
 # AnimationName
 
-**Extends:** [Resource](../Resource)
+**Extends:** [Object](../Object)
 
 ## Description
 
