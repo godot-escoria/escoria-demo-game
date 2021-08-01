@@ -2,7 +2,7 @@
 
 # DirectionAngle
 
-**Extends:** [Resource](../Resource)
+**Extends:** [Object](../Object)
 
 ## Description
 
