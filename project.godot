@@ -19,7 +19,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/anim.gd"
 }, {
-"base": "Resource",
+"base": "Object",
 "class": "AnimationName",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/resources/esc_animationname.gd"
@@ -84,7 +84,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/dec_global.gd"
 }, {
-"base": "Resource",
+"base": "Object",
 "class": "DirectionAngle",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/resources/esc_directionangle.gd"

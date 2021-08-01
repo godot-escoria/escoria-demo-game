@@ -1,6 +1,6 @@
 # Class defining an animation to use for an angle.
 
-extends Resource
+extends Object
 class_name AnimationName
 
 # Name of the animation
