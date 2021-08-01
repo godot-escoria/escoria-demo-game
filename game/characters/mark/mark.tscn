@@ -1,19 +1,11 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_player.gd" type="Script" id=1]
 [ext_resource path="res://game/characters/mark/png/mark_talk_down.png" type="Texture" id=2]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/resources/esc_animationresource.gd" type="Script" id=3]
 [ext_resource path="res://game/characters/mark/png/mark.png" type="Texture" id=4]
 [ext_resource path="res://game/characters/mark/png/mark_talk_down_right.png" type="Texture" id=5]
 [ext_resource path="res://game/characters/mark/png/mark_talk_up.png" type="Texture" id=6]
 [ext_resource path="res://game/characters/mark/png/mark_talk_right.png" type="Texture" id=7]
-
-[sub_resource type="Resource" id=33]
-script = ExtResource( 3 )
-dir_angles = [  ]
-directions = [  ]
-idles = [  ]
-speaks = [  ]
 
 [sub_resource type="AtlasTexture" id=15]
 atlas = ExtResource( 7 )
@@ -210,7 +202,7 @@ height = 0.0
 script = ExtResource( 1 )
 is_movable = true
 dialog_color = Color( 1, 1, 1, 1 )
-animations = SubResource( 33 )
+animations = null
 
 [node name="sprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -140.938 )
