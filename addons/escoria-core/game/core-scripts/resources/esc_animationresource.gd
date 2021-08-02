@@ -1,6 +1,6 @@
 # Resource containing all defined animations and angles for 
 # characters movement.
- 
+tool
 extends Resource
 class_name ESCAnimationResource
 
@@ -35,24 +35,24 @@ func _get_property_list():
 		"name": "dir_angles",
 		"type": TYPE_ARRAY,
 		"hint": 19,
-		"hint_string": "17/17:DirectionAngle"
+		"hint_string": "17/17:ESCDirectionAngle"
 	})
 	properties.append({
 		"name": "directions",
 		"type": TYPE_ARRAY,
 		"hint": 19,
-		"hint_string": "17/17:AnimationName"
+		"hint_string": "17/17:ESCAnimationName"
 	})
 	properties.append({
 		"name": "idles",
 		"type": TYPE_ARRAY,
 		"hint": 19,
-		"hint_string": "17/17:AnimationName"
+		"hint_string": "17/17:ESCAnimationName"
 	})
 	properties.append({
 		"name": "speaks",
 		"type": TYPE_ARRAY,
 		"hint": 19,
-		"hint_string": "17/17:AnimationName"
+		"hint_string": "17/17:ESCAnimationName"
 	})
 	return properties
