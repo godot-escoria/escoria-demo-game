@@ -1,8 +1,8 @@
 <!-- Auto-generated from JSON by GDScript docs maker. Do not edit this document directly. -->
 
-# DirectionAngle
+# ESCDirectionAngle
 
-**Extends:** [Object](../Object)
+**Extends:** [Resource](../Resource)
 
 ## Description
 
