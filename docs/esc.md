@@ -331,11 +331,9 @@ Stops the event's execution.
 #### <a name="TeleportCommand.md"></a>`teleport object1 object2` [API-Doc](api/TeleportCommand.md)
 
 Sets the position of object1 to the position of object2.
-FIXME re-add the angle parameter here
 #### <a name="TeleportPosCommand.md"></a>`teleport_pos object1 x y` [API-Doc](api/TeleportPosCommand.md)
 
 Sets the position of object1 to the position (x,y).
-FIXME re-add the angle parameter here
 #### <a name="TurnToCommand.md"></a>`turn_to object degrees [immediate]` [API-Doc](api/TurnToCommand.md)
 
 **This command is currently not fully implemented.**
