@@ -9,7 +9,6 @@
 `teleport object1 object2`
 
 Sets the position of object1 to the position of object2.
-FIXME re-add the angle parameter here
 
 @ESC
 

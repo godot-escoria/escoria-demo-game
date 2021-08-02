@@ -35,7 +35,6 @@ var type: String = ""
 ```
 
 Dialog type
-FIXME, currently unused, but needs reimplementation
 
 ### avatar
 

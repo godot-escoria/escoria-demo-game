@@ -16,8 +16,6 @@ var current_scene: Node
 # The Escoria context currently in wait state
 var wait_level
 
-# FIXME Document this variable
-var screen_ofs = Vector2(0, 0)
 
 # Reference to the ESCBackgroundMusic node
 onready var bg_music = $bg_music
@@ -111,7 +109,7 @@ func set_camera_limits(camera_limit_id: int = 0) -> void:
 					scene_camera_limits.size.x,
 			scene_camera_limits.position.y,
 			scene_camera_limits.position.y + \
-					scene_camera_limits.size.y + screen_ofs.y * 2
+					scene_camera_limits.size.y
 		)
 		escoria.logger.info(
 			"Setting camera limits from parameter ", 
@@ -119,7 +117,6 @@ func set_camera_limits(camera_limit_id: int = 0) -> void:
 		)
 
 	current_scene.game.get_node("camera").set_limits(limits)
-	current_scene.game.get_node("camera").set_offset(screen_ofs * 2)
 
 
 func save_game(p_savegame_res: Resource) -> void:

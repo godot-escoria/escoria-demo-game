@@ -89,11 +89,3 @@ export var skip_dialog: bool = true
 ```
 
 True if skipping dialogs is allowed
-
-### rate\_shown
-
-```gdscript
-export var rate_shown: bool = false
-```
-
- FIXME: to be defined (achievements?)

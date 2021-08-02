@@ -34,14 +34,6 @@ var wait_level
 
 The Escoria context currently in wait state
 
-### screen\_ofs
-
-```gdscript
-var screen_ofs
-```
-
-FIXME Document this variable
-
 ### bg\_music
 
 ```gdscript

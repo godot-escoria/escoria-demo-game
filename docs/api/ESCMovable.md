@@ -70,7 +70,7 @@ Wether the character was moved at all
 var last_deg: int
 ```
 
-Angle degrees to the last position (TODO is that correct?)
+Angle degrees from the last position to the next
 
 ### last\_dir
 
@@ -78,7 +78,7 @@ Angle degrees to the last position (TODO is that correct?)
 var last_dir: int
 ```
 
-Direction of the last position (TODO is that correct?)
+Player Direction used to reflect the movement to the new position
 
 ### last\_scale
 
@@ -86,7 +86,7 @@ Direction of the last position (TODO is that correct?)
 var last_scale: Vector2
 ```
 
-Scale of the last position (TODO is that correct?)
+The last scaling applied to the parent
 
 ### pose\_scale
 
@@ -94,7 +94,7 @@ Scale of the last position (TODO is that correct?)
 var pose_scale: int
 ```
 
-TODO Isn't this actually the flip state of the current animation?
+Wether the current direction animation is flipped
 
 ### parent
 
@@ -103,14 +103,6 @@ var parent
 ```
 
 Shortcut variable that references the node's parent
-
-### bypass\_missing\_animation
-
-```gdscript
-var bypass_missing_animation
-```
-
-If character misses an animation, bypass it and proceed.
 
 ### task
 
@@ -125,12 +117,10 @@ Currenly running task
 ### teleport
 
 ```gdscript
-func teleport(target: Node, angle: Object = null) -> void
+func teleport(target: Node) -> void
 ```
 
 Teleports this item to the target position.
-TODO angle is only used for logging and has no further use, so it probably
-can be removed
 
 #### Parameters
 
@@ -139,12 +129,10 @@ can be removed
 ### teleport\_to
 
 ```gdscript
-func teleport_to(target: Vector2, angle: Object = null) -> void
+func teleport_to(target: Vector2) -> void
 ```
 
 Teleports this item to the target position.
-TODO angle is only used for logging and has no further use, so it probably
-can be removed
 
 #### Parameters
 
@@ -162,14 +150,6 @@ Walk to a given position
 
 - pos: Position to walk to
 - p_walk_context: Walk context to use
-
-### walk
-
-```gdscript
-func walk(target_pos, p_speed, context = null) -> void
-```
-
-FIXME this function doesn't seem to be used anywhere
 
 ### walk\_stop
 
@@ -203,7 +183,6 @@ func is_angle_in_interval(angle: float, interval: Array) -> bool
 
 Returns true if given angle is inside the interval given by a starting_angle
 and the size.
-TODO Refactor to make this stuff understandable :D
 
 #### Parameters
 
@@ -220,19 +199,9 @@ func set_angle(deg: int, immediate = true) -> void
 
 Sets character's angle and plays according animation.
 
-TODO: depending on current angle and current angle, the character may
-directly turn around with no "progression". We may enhance this by
-calculating successive directions to turn the character to, so that he
-doesn't switch to opposite direction too fast.
-For example, if character looks WEST and set_angle(EAST) is called, we may
-want the character to first turn SOUTHWEST, then SOUTH, then SOUTHEAST and
-finally EAST, all more or less fast.
-Whatever the implementation, this should be activated using "parameter
-"immediate" set to false.
-
 #### Parameters
 
 - deg int angle to set the character
-- immediate bool (currently unused, see TODO below)
+- immediate
 	If true, direction is switched immediately. Else, successive animations are
 	used so that the character turns to target angle.

@@ -36,7 +36,6 @@ func manage_input(_viewport, event, _shape_idx) -> void
 ```
 
 Manage inputs reaching the Area2D and emit the events to the input manager
-TODO: Don't change private variables here, use an event for BUTTON_WHEEL
 
 #### Parameters
 - _viewport: (not used)

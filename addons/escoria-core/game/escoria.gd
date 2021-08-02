@@ -244,7 +244,6 @@ func do(action: String, params: Array = []) -> void:
 
 
 # Event handler when an object/item was clicked
-# FIXME this method is way to complex
 #
 # #### Parameters
 #
@@ -375,8 +374,6 @@ func _on_settings_loaded(p_settings: ESCSaveSettings) -> void:
 	else:
 		settings = ESCSaveSettings.new()
 
-	# TODO Apply globally
-#	AudioServer.set_fx_global_volume_scale(settings.sfx_volume)
 	AudioServer.set_bus_volume_db(
 		AudioServer.get_bus_index("Master"), 
 		linear2db(settings.master_volume)
