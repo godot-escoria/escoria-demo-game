@@ -1,7 +1,6 @@
 # `teleport_pos object1 x y`
 #
 # Sets the position of object1 to the position (x,y).
-# FIXME re-add the angle parameter here
 #
 # @ESC
 extends ESCBaseCommand

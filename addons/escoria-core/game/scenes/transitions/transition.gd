@@ -1,5 +1,4 @@
 # A transition player for scene changes
-# FIXME Add configuration to select a specific mask
 extends ColorRect
 
 

@@ -1,8 +1,4 @@
 # A playable character
-# TODO
-# - Currently the sprite node needs to be named "sprite". This is bad.
-# - Animation management doesn't allow using AnimationPlayer yet. Need to find 
-#  the best solution to manage both AnimatedSprite and AnimationPlayer.
 tool
 extends ESCItem
 class_name ESCPlayer

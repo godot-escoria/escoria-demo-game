@@ -11,9 +11,9 @@ anchor_top = 0.334
 anchor_right = 0.845
 anchor_bottom = 0.666
 margin_left = 0.100006
-margin_top = -0.199982
+margin_top = -0.200012
 margin_right = -0.100098
-margin_bottom = 0.200012
+margin_bottom = 0.199951
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -23,7 +23,7 @@ __meta__ = {
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 876.0
-margin_bottom = 259.0
+margin_bottom = 292.2
 custom_constants/margin_right = 20
 custom_constants/margin_top = 20
 custom_constants/margin_left = 20
@@ -36,35 +36,35 @@ __meta__ = {
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 849.0
-margin_bottom = 232.0
+margin_bottom = 265.0
 custom_constants/separation = 35
 dragger_visibility = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HSplitContainer"]
 margin_right = 174.0
-margin_bottom = 212.0
+margin_bottom = 245.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 
 [node name="avatar" type="TextureRect" parent="MarginContainer/HSplitContainer/VBoxContainer"]
 margin_right = 174.0
-margin_bottom = 184.0
+margin_bottom = 217.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource( 2 )
 expand = true
 
 [node name="name" type="Label" parent="MarginContainer/HSplitContainer/VBoxContainer"]
-margin_top = 188.0
+margin_top = 221.0
 margin_right = 174.0
-margin_bottom = 212.0
+margin_bottom = 245.0
 custom_fonts/font = ExtResource( 1 )
 valign = 1
 
 [node name="text" type="RichTextLabel" parent="MarginContainer/HSplitContainer"]
 margin_left = 209.0
 margin_right = 829.0
-margin_bottom = 212.0
+margin_bottom = 245.0
 size_flags_horizontal = 3
 custom_fonts/normal_font = ExtResource( 1 )
 bbcode_enabled = true

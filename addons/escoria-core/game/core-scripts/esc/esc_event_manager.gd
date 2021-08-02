@@ -18,7 +18,6 @@ var scheduled_events: Array = []
 func _process(delta: float) -> void:
 	if events_queue.size() > 0:
 		var running_event = events_queue.pop_front()
-		# TODO: Handle event flags
 		if not running_event.is_connected(
 			"finished", self, "_on_event_finished"
 		):

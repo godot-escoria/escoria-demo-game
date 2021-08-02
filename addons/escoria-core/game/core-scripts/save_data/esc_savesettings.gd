@@ -35,6 +35,3 @@ export var fullscreen: bool = false
 
 # True if skipping dialogs is allowed
 export var skip_dialog: bool = true
-
-# FIXME: to be defined (achievements?)
-export var rate_shown: bool = false

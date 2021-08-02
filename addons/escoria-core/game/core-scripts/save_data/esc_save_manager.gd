@@ -185,7 +185,6 @@ func save_settings():
 	settings_res.voice_volume = escoria.settings.voice_volume
 	settings_res.fullscreen = escoria.settings.fullscreen
 	settings_res.skip_dialog = escoria.settings.skip_dialog
-	settings_res.rate_shown = escoria.settings.rate_shown
 
 	var directory: Directory = Directory.new()
 	if not directory.dir_exists(settings_folder):
