@@ -19,7 +19,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/anim.gd"
 }, {
-"base": "Object",
+"base": "Resource",
 "class": "AnimationName",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/resources/esc_animationname.gd"
@@ -83,11 +83,6 @@ _global_script_classes=[ {
 "class": "DecGlobalCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/dec_global.gd"
-}, {
-"base": "Object",
-"class": "DirectionAngle",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/resources/esc_directionangle.gd"
 }, {
 "base": "Object",
 "class": "ESCActionManager",
@@ -168,6 +163,11 @@ _global_script_classes=[ {
 "class": "ESCDialogsPlayer",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/scenes/dialogs/dialog_player.gd"
+}, {
+"base": "Resource",
+"class": "ESCDirectionAngle",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/resources/esc_directionangle.gd"
 }, {
 "base": "ESCStatement",
 "class": "ESCEvent",
@@ -485,7 +485,6 @@ _global_script_class_icons={
 "CutSceneCommand": "",
 "DebugCommand": "",
 "DecGlobalCommand": "",
-"DirectionAngle": "",
 "ESCActionManager": "",
 "ESCAnimationResource": "",
 "ESCBackground": "",
@@ -502,6 +501,7 @@ _global_script_class_icons={
 "ESCDialog": "",
 "ESCDialogOption": "",
 "ESCDialogsPlayer": "",
+"ESCDirectionAngle": "",
 "ESCEvent": "",
 "ESCEventManager": "",
 "ESCExecution": "",

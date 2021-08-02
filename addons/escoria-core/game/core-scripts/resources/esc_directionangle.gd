@@ -1,11 +1,11 @@
 # Class defining an angle, with a start angle (between 0 and 360) and a size.
-
-extends Object
-class_name DirectionAngle
+tool
+extends Resource
+class_name ESCDirectionAngle
 
 
 # Start angle of the directional angle.
-export var angle_start: int 
+export(int) var angle_start: int 
 
 # Size of the angle
-export var angle_size: int
+export(int) var angle_size: int
