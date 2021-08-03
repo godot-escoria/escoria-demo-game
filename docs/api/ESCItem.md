@@ -191,10 +191,10 @@ Speed damp of this item if movable
 ### animations
 
 ```gdscript
-export var animations = "[Object:null]"
+var animations: ESCAnimationResource
 ```
 
- Animations script (for walking, idling...)
+ ESCAnimationsResource (for walking, idling...)
 
 ### animation\_sprite
 

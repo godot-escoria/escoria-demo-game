@@ -120,8 +120,8 @@ export(int) var speed: int = 300
 # Speed damp of this item if movable
 export(float) var v_speed_damp: float = 1.0
 
-# Animations script (for walking, idling...)
-export(Script) var animations
+# ESCAnimationsResource (for walking, idling...)
+var animations: ESCAnimationResource
 
 # The movable subnode
 var _movable: ESCMovable = null
@@ -369,5 +369,14 @@ func _get_inventory_item() -> ESCInventoryItem:
 		inventory_item = inventory_item_scene_file.instance()
 		inventory_item.global_id = self.global_id
 	return inventory_item
-		
 
+
+func _get_property_list():
+	var properties = []
+	properties.append({
+		"name": "animations",
+		"type": TYPE_OBJECT,
+		"hint": PROPERTY_HINT_RESOURCE_TYPE,
+		"hint_string": "ESCAnimationResource"
+	})
+	return properties
