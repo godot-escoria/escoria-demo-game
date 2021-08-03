@@ -113,7 +113,7 @@ func _process(delta: float) -> void:
 				current_animation = parent.animation_sprite.animation
 			
 			var animation_to_play = \
-					parent.animations.directions[last_dir][0]
+					parent.animations.directions[last_dir].animation
 			if current_animation != animation_to_play:
 				if parent.animation_sprite.frames.has_animation(
 					animation_to_play
@@ -132,7 +132,8 @@ func _process(delta: float) -> void:
 						true
 					)
 			
-			pose_scale = parent.animations.directions[last_dir][1]
+			pose_scale = -1 if parent.animations.directions[last_dir].mirrored \
+				else 1
 
 		update_terrain()
 	else:
@@ -242,12 +243,12 @@ func walk_stop(pos: Vector2) -> void:
 		var orientation = walk_context.target_object.node.interaction_direction
 		last_dir = orientation
 		parent.animation_sprite.play(
-			parent.animations.idles[orientation][0]
+			parent.animations.idles[orientation].animation
 		)
-		pose_scale = parent.animations.idles[orientation][1]
+		pose_scale = -1 if parent.animations.idles[orientation].mirrored else 1
 	else:
-		parent.animation_sprite.play(parent.animations.idles[last_dir][0])
-		pose_scale = parent.animations.idles[last_dir][1]
+		parent.animation_sprite.play(parent.animations.idles[last_dir].animation)
+		pose_scale = -1 if parent.animations.idles[last_dir].mirrored else 1
 	
 	update_terrain()
 
@@ -323,8 +324,8 @@ func _get_dir_deg(deg: int, animations: ESCAnimationResource) -> int:
 	var dir = -1
 	var i = 0
 	
-	for arr_angle_zone in animations.dir_angles:
-		if is_angle_in_interval(deg, arr_angle_zone):
+	for direction_angle in animations.dir_angles:
+		if is_angle_in_interval(deg, direction_angle):
 			dir = i
 			break
 		else:
@@ -347,22 +348,23 @@ func _get_dir_deg(deg: int, animations: ESCAnimationResource) -> int:
 # #### Parameters
 #
 # - angle: Angle to test
-# - interval: Array of size 2, containing the starting angle, and the size of
-#   interval
-#   eg: [90, 40] corresponds to angle between 90° and 130°
-func is_angle_in_interval(angle: float, interval: Array) -> bool:
+# - direction_angle: ESCDirectionAngle resource, containing the starting angle,
+#  and the size of interval 
+# eg: angle_start=90, angle_size=40 corresponds to angle between 90° and 130°
+func is_angle_in_interval(angle: float, direction_angle: ESCDirectionAngle) -> bool:
 	angle = wrapi(angle, 0, 360)
 	if angle == 0:
 		angle = 360
-	var start_angle = wrapi(interval[0], 0, 360)
-	var angle_area = interval[1]
-	var end_angle = wrapi(interval[0] + angle_area, 0, 360) 
+	var start_angle = wrapi(direction_angle.angle_start, 0, 360)
+	var angle_area = direction_angle.angle_size
+	var end_angle = wrapi(direction_angle.angle_start + angle_area, 0, 360) 
 	
 	if ((angle >= 270 and angle <= 360) \
 			or (angle >= 0 and angle <= 90)) \
-			and wrapi(angle + 180, 0, 360) > wrapi(interval[0] + 180, 0, 360) \
+			and wrapi(angle + 180, 0, 360) > wrapi(direction_angle.angle_start 
+				+ 180, 0, 360) \
 			and wrapi(angle + 180, 0, 360) <= wrapi(
-				interval[0] + angle_area + 180, 0, 360
+				direction_angle.angle_start + angle_area + 180, 0, 360
 			):
 		return true
 	elif wrapi(angle, 0, 360) > start_angle \
@@ -392,12 +394,12 @@ func set_angle(deg: int, immediate = true) -> void:
 	# The character may have a state animation from before, which would be
 	# resumed, so we immediately force the correct idle animation
 	if parent.animation_sprite.animation != \
-			parent.animations.idles[last_dir][0]:
-		parent.animation_sprite.play(parent.animations.idles[last_dir][0])
-	pose_scale = parent.animations.idles[last_dir][1]
+			parent.animations.idles[last_dir].animation:
+		parent.animation_sprite.play(parent.animations.idles[last_dir].animation)
+	pose_scale = -1 if parent.animations.idles[last_dir].mirrored else 1
 	update_terrain()
 
 # Returns the angle that corresponds to the current direction of the object.
 func _get_angle() -> int:
-	return parent.animations.dir_angles[last_dir][0]
+	return parent.animations.dir_angles[last_dir].animation
 	

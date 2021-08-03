@@ -6,5 +6,5 @@ class_name ESCAnimationName
 # Name of the animation
 export(String) var animation: String
 
-# Animation mirror (1 is no mirror, -1 is mirrored)
-export(int) var mirrored: int
+# Animation mirror (false is no mirror, true is mirrored)
+export(bool) var mirrored: bool
