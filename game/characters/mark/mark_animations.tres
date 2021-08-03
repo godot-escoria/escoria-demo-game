@@ -1,7 +1,8 @@
-[gd_resource type="Resource" load_steps=11 format=2]
+[gd_resource type="Resource" load_steps=36 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/resources/esc_animationresource.gd" type="Script" id=1]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/resources/esc_directionangle.gd" type="Script" id=2]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/resources/esc_animationname.gd" type="Script" id=3]
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 2 )
@@ -43,9 +44,129 @@ script = ExtResource( 2 )
 angle_start = 290
 angle_size = 50
 
+[sub_resource type="Resource" id=9]
+script = ExtResource( 3 )
+animation = "walk_up"
+mirrored = false
+
+[sub_resource type="Resource" id=10]
+script = ExtResource( 3 )
+animation = "walk_up"
+mirrored = false
+
+[sub_resource type="Resource" id=11]
+script = ExtResource( 3 )
+animation = "walk_right"
+mirrored = false
+
+[sub_resource type="Resource" id=12]
+script = ExtResource( 3 )
+animation = "walk_down"
+mirrored = false
+
+[sub_resource type="Resource" id=13]
+script = ExtResource( 3 )
+animation = "walk_down"
+mirrored = false
+
+[sub_resource type="Resource" id=14]
+script = ExtResource( 3 )
+animation = "walk_down"
+mirrored = false
+
+[sub_resource type="Resource" id=15]
+script = ExtResource( 3 )
+animation = "walk_right"
+mirrored = true
+
+[sub_resource type="Resource" id=16]
+script = ExtResource( 3 )
+animation = "walk_up"
+mirrored = false
+
+[sub_resource type="Resource" id=17]
+script = ExtResource( 3 )
+animation = "idle_up"
+mirrored = false
+
+[sub_resource type="Resource" id=18]
+script = ExtResource( 3 )
+animation = "idle_up"
+mirrored = false
+
+[sub_resource type="Resource" id=19]
+script = ExtResource( 3 )
+animation = "idle_right"
+mirrored = false
+
+[sub_resource type="Resource" id=20]
+script = ExtResource( 3 )
+animation = "idle_down_right"
+mirrored = false
+
+[sub_resource type="Resource" id=21]
+script = ExtResource( 3 )
+animation = "idle_down"
+mirrored = false
+
+[sub_resource type="Resource" id=22]
+script = ExtResource( 3 )
+animation = "idle_down_left"
+mirrored = false
+
+[sub_resource type="Resource" id=23]
+script = ExtResource( 3 )
+animation = "idle_left"
+mirrored = false
+
+[sub_resource type="Resource" id=24]
+script = ExtResource( 3 )
+animation = "idle_up"
+mirrored = false
+
+[sub_resource type="Resource" id=25]
+script = ExtResource( 3 )
+animation = "speak_up"
+mirrored = false
+
+[sub_resource type="Resource" id=26]
+script = ExtResource( 3 )
+animation = "speak_up"
+mirrored = false
+
+[sub_resource type="Resource" id=27]
+script = ExtResource( 3 )
+animation = "speak_right"
+mirrored = false
+
+[sub_resource type="Resource" id=28]
+script = ExtResource( 3 )
+animation = "speak_down"
+mirrored = false
+
+[sub_resource type="Resource" id=29]
+script = ExtResource( 3 )
+animation = "speak_down"
+mirrored = false
+
+[sub_resource type="Resource" id=30]
+script = ExtResource( 3 )
+animation = "speak_down"
+mirrored = false
+
+[sub_resource type="Resource" id=31]
+script = ExtResource( 3 )
+animation = "speak_right"
+mirrored = true
+
+[sub_resource type="Resource" id=32]
+script = ExtResource( 3 )
+animation = "speak_up"
+mirrored = false
+
 [resource]
 script = ExtResource( 1 )
 dir_angles = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ]
-directions = [  ]
-idles = [  ]
-speaks = [  ]
+directions = [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ]
+idles = [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ) ]
+speaks = [ SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ) ]
