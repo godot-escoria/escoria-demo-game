@@ -178,7 +178,7 @@ Update the sprite scale and lighting
 ### is\_angle\_in\_interval
 
 ```gdscript
-func is_angle_in_interval(angle: float, interval: Array) -> bool
+func is_angle_in_interval(angle: float, direction_angle: ESCDirectionAngle) -> bool
 ```
 
 Returns true if given angle is inside the interval given by a starting_angle
@@ -187,9 +187,9 @@ and the size.
 #### Parameters
 
 - angle: Angle to test
-- interval: Array of size 2, containing the starting angle, and the size of
-  interval
-  eg: [90, 40] corresponds to angle between 90° and 130°
+- direction_angle: ESCDirectionAngle resource, containing the starting angle,
+ and the size of interval
+eg: angle_start=90, angle_size=40 corresponds to angle between 90° and 130°
 
 ### set\_angle
 

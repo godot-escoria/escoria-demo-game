@@ -21,7 +21,7 @@ Name of the animation
 ### mirrored
 
 ```gdscript
-export var mirrored: int = 0
+export var mirrored: bool = false
 ```
 
-Animation mirror (1 is no mirror, -1 is mirrored)
+Animation mirror (false is no mirror, true is mirrored)
