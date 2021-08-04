@@ -6,7 +6,7 @@
 
 ## Description
 
-`set_angle object degrees`
+`set_angle object degrees [immediate]`
 
 Turns object to a degrees angle without animations. 0 sets object facing
 forward, 90 sets it 90 degrees clockwise ("east") etc. When turning to the
