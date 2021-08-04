@@ -70,8 +70,7 @@ func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
 	
-	if task == MovableTask.WALK or \
-				task == MovableTask.SLIDE:
+	if task == MovableTask.WALK or task == MovableTask.SLIDE:
 		var pos = parent.get_position()
 		var old_pos = pos
 		var next
@@ -247,7 +246,9 @@ func walk_stop(pos: Vector2) -> void:
 		)
 		pose_scale = -1 if parent.animations.idles[orientation].mirrored else 1
 	else:
-		parent.animation_sprite.play(parent.animations.idles[last_dir].animation)
+		parent.animation_sprite.play(
+			parent.animations.idles[last_dir].animation
+		)
 		pose_scale = -1 if parent.animations.idles[last_dir].mirrored else 1
 	
 	update_terrain()
@@ -351,7 +352,10 @@ func _get_dir_deg(deg: int, animations: ESCAnimationResource) -> int:
 # - direction_angle: ESCDirectionAngle resource, containing the starting angle,
 #  and the size of interval 
 # eg: angle_start=90, angle_size=40 corresponds to angle between 90° and 130°
-func is_angle_in_interval(angle: float, direction_angle: ESCDirectionAngle) -> bool:
+func is_angle_in_interval(
+		angle: float, 
+		direction_angle: ESCDirectionAngle
+) -> bool:
 	angle = wrapi(angle, 0, 360)
 	if angle == 0:
 		angle = 360
@@ -379,8 +383,8 @@ func is_angle_in_interval(angle: float, direction_angle: ESCDirectionAngle) -> b
 #
 # - deg int angle to set the character
 # - immediate
-#	If true, direction is switched immediately. Else, successive animations are
-#	used so that the character turns to target angle.
+#	If true, direction is switched immediately. Else, successive 
+#	animations are used so that the character turns to target angle.
 func set_angle(deg: int, immediate = true) -> void:
 	if deg < 0 or deg > 360:
 		escoria.logger.report_errors(
@@ -388,18 +392,102 @@ func set_angle(deg: int, immediate = true) -> void:
 			["Invalid degree to turn to " + str(deg)]
 		)
 	moved = true
-	last_deg = deg
-	last_dir = _get_dir_deg(deg, parent.animations)
+	
+	if immediate:
+		last_deg = deg
+		last_dir = _get_dir_deg(deg, parent.animations)
 
-	# The character may have a state animation from before, which would be
-	# resumed, so we immediately force the correct idle animation
-	if parent.animation_sprite.animation != \
-			parent.animations.idles[last_dir].animation:
-		parent.animation_sprite.play(parent.animations.idles[last_dir].animation)
-	pose_scale = -1 if parent.animations.idles[last_dir].mirrored else 1
+		# The character may have a state animation from before, which would be
+		# resumed, so we immediately force the correct idle animation
+		if parent.animation_sprite.animation != \
+				parent.animations.idles[last_dir].animation:
+			parent.animation_sprite.play(
+				parent.animations.idles[last_dir].animation
+			)
+		pose_scale = -1 if parent.animations.idles[last_dir].mirrored else 1
+	else:
+		var current_dir = last_dir
+		last_deg = deg
+		var target_dir = _get_dir_deg(deg, parent.animations)
+		
+		if target_dir - current_dir > 1:
+			var way_to_turn = get_shortest_way_to_dir(current_dir, target_dir)
+		
+			var dir = current_dir
+			while dir != target_dir:
+				dir += way_to_turn
+				if dir >= parent.animations.dir_angles.size():
+					dir = 0
+				if dir < 0:
+					dir = parent.animations.dir_angles.size() - 1
+				
+#				if parent.animation_sprite.animation != \
+#						parent.animations.idles[last_dir].animation:
+				parent.animation_sprite.play(
+					parent.animations.idles[dir].animation
+				)
+				yield(parent.animation_sprite, "animation_finished")
+				pose_scale = -1 if parent.animations.idles[dir].mirrored else 1
+			
+				
+			
+		else:
+			# The character may have a state animation from before, which would be
+			# resumed, so we immediately force the correct idle animation
+			if parent.animation_sprite.animation != \
+					parent.animations.idles[last_dir].animation:
+				parent.animation_sprite.play(
+					parent.animations.idles[last_dir].animation
+				)
+			pose_scale = -1 if parent.animations.idles[last_dir].mirrored else 1
+		
 	update_terrain()
+
 
 # Returns the angle that corresponds to the current direction of the object.
 func _get_angle() -> int:
 	return parent.animations.dir_angles[last_dir].animation
+
 	
+# Return the shortest way to turn from a direction to another. Returned way is
+# either: 
+# -1 (shortest way is to turn anti-clockwise) 
+# 0 (already at the right direction)
+# 1 (clockwise).
+#
+# ####Parameters
+# - current_dir: integer corresponding to the starting direction as defined in
+# the attached ESCAnimationResource.directions.
+# - target_dir: integer corresponding to the target direction as defined in
+# the attached ESCAnimationResource.directions.
+#
+# *Returns*
+# Integer: -1 (anti-clockwise), 1 (clockwise) or 0 (no movement needed).
+func get_shortest_way_to_dir(current_dir: int, target_dir: int) -> int:
+	if current_dir < 0 or current_dir > parent.animations.dir_angles.size() - 1:
+		escoria.logger.report_errors(
+			"esc_movable.gd:get_shortest_way_to_dir()",
+			["Invalid direction (current_dir) " + str(current_dir)]
+		)
+	
+	if target_dir < 0 or target_dir > parent.animations.dir_angles.size() - 1:
+		escoria.logger.report_errors(
+			"esc_movable.gd:get_shortest_way_to_dir()",
+			["Invalid direction (target_dir) " + str(target_dir)]
+		)
+	
+	if current_dir == target_dir:
+		return 0
+	
+	var internal = false
+	if max(current_dir, target_dir) - min(current_dir, target_dir) \
+			< parent.animations.dir_angles.size()/2:
+		internal = true
+	else:
+		internal = false
+	
+	if internal and current_dir < target_dir or \
+			(not internal and current_dir > target_dir):
+		return 1
+	else:
+		return -1

@@ -1,8 +1,7 @@
 # A transition player for scene changes
 extends ColorRect
 
-
-# Emitted when the transition was player
+# Emitted when the transition was played
 signal transition_done
 
 
