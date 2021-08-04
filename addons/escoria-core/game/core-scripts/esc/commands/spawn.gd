@@ -49,7 +49,7 @@ func run(command_params: Array) -> int:
 		if command_params[1]:
 			var obj = escoria.object_manager.get_object(command_params[1])
 			scene.set_position(obj.get_global_position())
-		escoria.inputs_manager.hotspot_focused = false
+		escoria.inputs_manager.hotspot_focused = ""
 	else:
 		escoria.logger.report_errors(
 			"spawn: Invalid scene", 
