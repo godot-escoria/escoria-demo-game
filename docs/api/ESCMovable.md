@@ -181,20 +181,10 @@ Update the sprite scale and lighting
 func is_angle_in_interval(angle: float, direction_angle: ESCDirectionAngle) -> bool
 ```
 
-Returns true if given angle is inside the interval given by a starting_angle
-and the size.
-
-#### Parameters
-
-- angle: Angle to test
-- direction_angle: ESCDirectionAngle resource, containing the starting angle,
- and the size of interval
-eg: angle_start=90, angle_size=40 corresponds to angle between 90° and 130°
-
 ### set\_angle
 
 ```gdscript
-func set_angle(deg: int, immediate = true) -> void
+func set_angle(deg: int, immediate = true) -> var
 ```
 
 Sets character's angle and plays according animation.
@@ -203,5 +193,26 @@ Sets character's angle and plays according animation.
 
 - deg int angle to set the character
 - immediate
-	If true, direction is switched immediately. Else, successive animations are
-	used so that the character turns to target angle.
+	If true, direction is switched immediately. Else, successive
+	animations are used so that the character turns to target angle.
+
+### get\_shortest\_way\_to\_dir
+
+```gdscript
+func get_shortest_way_to_dir(current_dir: int, target_dir: int) -> int
+```
+
+ Return the shortest way to turn from a direction to another. Returned way is
+either:
+-1 (shortest way is to turn anti-clockwise)
+0 (already at the right direction)
+1 (clockwise).
+
+####Parameters
+- current_dir: integer corresponding to the starting direction as defined in
+the attached ESCAnimationResource.directions.
+- target_dir: integer corresponding to the target direction as defined in
+the attached ESCAnimationResource.directions.
+
+*Returns*
+Integer: -1 (anti-clockwise), 1 (clockwise) or 0 (no movement needed).
