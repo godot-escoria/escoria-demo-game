@@ -59,7 +59,7 @@ onready var task = MovableTask.NONE
 # the destination position was reached
 func _ready() -> void:
 	parent.add_user_signal("arrived")
-
+	
 
 # Main processing loop
 #
@@ -410,37 +410,22 @@ func set_angle(deg: int, immediate = true) -> void:
 		last_deg = deg
 		var target_dir = _get_dir_deg(deg, parent.animations)
 		
-		if target_dir - current_dir > 1:
-			var way_to_turn = get_shortest_way_to_dir(current_dir, target_dir)
-		
-			var dir = current_dir
-			while dir != target_dir:
-				dir += way_to_turn
-				if dir >= parent.animations.dir_angles.size():
-					dir = 0
-				if dir < 0:
-					dir = parent.animations.dir_angles.size() - 1
-				
-#				if parent.animation_sprite.animation != \
-#						parent.animations.idles[last_dir].animation:
-				parent.animation_sprite.play(
-					parent.animations.idles[dir].animation
-				)
-				yield(parent.animation_sprite, "animation_finished")
-				pose_scale = -1 if parent.animations.idles[dir].mirrored else 1
+		var way_to_turn = get_shortest_way_to_dir(current_dir, target_dir)
+	
+		var dir = current_dir
+		while dir != target_dir:
+			dir += way_to_turn
+			if dir >= parent.animations.dir_angles.size():
+				dir = 0
+			if dir < 0:
+				dir = parent.animations.dir_angles.size() - 1
 			
-				
+			parent.animation_sprite.play(
+				parent.animations.idles[dir].animation
+			)
+			yield(parent.animation_sprite, "animation_finished")
+			pose_scale = -1 if parent.animations.idles[dir].mirrored else 1
 			
-		else:
-			# The character may have a state animation from before, which would be
-			# resumed, so we immediately force the correct idle animation
-			if parent.animation_sprite.animation != \
-					parent.animations.idles[last_dir].animation:
-				parent.animation_sprite.play(
-					parent.animations.idles[last_dir].animation
-				)
-			pose_scale = -1 if parent.animations.idles[last_dir].mirrored else 1
-		
 	update_terrain()
 
 
@@ -448,7 +433,7 @@ func set_angle(deg: int, immediate = true) -> void:
 func _get_angle() -> int:
 	return parent.animations.dir_angles[last_dir].animation
 
-	
+
 # Return the shortest way to turn from a direction to another. Returned way is
 # either: 
 # -1 (shortest way is to turn anti-clockwise) 
@@ -467,13 +452,13 @@ func get_shortest_way_to_dir(current_dir: int, target_dir: int) -> int:
 	if current_dir < 0 or current_dir > parent.animations.dir_angles.size() - 1:
 		escoria.logger.report_errors(
 			"esc_movable.gd:get_shortest_way_to_dir()",
-			["Invalid direction (current_dir) " + str(current_dir)]
+			["Invalid direction (current_dir) %s" % str(current_dir)]
 		)
 	
 	if target_dir < 0 or target_dir > parent.animations.dir_angles.size() - 1:
 		escoria.logger.report_errors(
 			"esc_movable.gd:get_shortest_way_to_dir()",
-			["Invalid direction (target_dir) " + str(target_dir)]
+			["Invalid direction (target_dir) %s " % str(target_dir)]
 		)
 	
 	if current_dir == target_dir:
@@ -481,7 +466,7 @@ func get_shortest_way_to_dir(current_dir: int, target_dir: int) -> int:
 	
 	var internal = false
 	if max(current_dir, target_dir) - min(current_dir, target_dir) \
-			< parent.animations.dir_angles.size()/2:
+			< parent.animations.dir_angles.size() / 2:
 		internal = true
 	else:
 		internal = false

@@ -36,9 +36,7 @@ func validate(arguments: Array):
 
 # Run the command
 func run(command_params: Array) -> int:
-	var immediate = true
-	if command_params.size() > 2:
-		immediate = command_params[2]
+	var immediate = command_params[2]
 	
 	# HACK Countering the fact that angle_to_point() function gives
 	# angle against X axis not Y, we need to check direction using (angle-90°).
