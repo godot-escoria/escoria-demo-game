@@ -38,17 +38,18 @@ func _ready():
 ## BACKGROUND ## 
 
 func left_click_on_bg(position: Vector2) -> void:
-	escoria.do("walk", ["player", position])
+	escoria.do("walk", [escoria.main.current_scene.player.global_id, position])
 	$ui/verbs_layer/verbs_menu.set_by_name("walk")
 	$ui/verbs_layer/verbs_menu.clear_tool_texture()
 	
 func right_click_on_bg(position: Vector2) -> void:
-	escoria.do("walk", ["player", position])
+	escoria.do("walk", [escoria.main.current_scene.player.global_id, position])
 	$ui/verbs_layer/verbs_menu.set_by_name("walk")
 	$ui/verbs_layer/verbs_menu.clear_tool_texture()
 	
 func left_double_click_on_bg(position: Vector2) -> void:
-	escoria.do("walk", ["player", position, true])
+	escoria.do("walk", [escoria.main.current_scene.player.global_id, position, \
+		true])
 	$ui/verbs_layer/verbs_menu.set_by_name("walk")
 	$ui/verbs_layer/verbs_menu.clear_tool_texture()
 

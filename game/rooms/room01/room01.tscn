@@ -58,6 +58,7 @@ is_exit = true
 tooltip_name = "Exit"
 default_action = "walk"
 dialog_color = Color( 1, 1, 1, 1 )
+animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
 polygon = PoolVector2Array( 1177.94, 348.61, 1175.95, 45.3759, 1276.06, 92.0953, 1277.95, 399.407 )
@@ -74,6 +75,7 @@ esc_script = "res://game/rooms/room01/esc/wall_item.esc"
 tooltip_name = "Item on the wall"
 default_action = "look"
 dialog_color = Color( 1, 1, 1, 1 )
+animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/item"]
 polygon = PoolVector2Array( 635.586, 253.345, 568.928, 60.1716, 709.047, 120.028, 699.524, 247.903 )
@@ -109,6 +111,7 @@ esc_script = "res://game/rooms/room01/esc/wall_item_popupdialog.esc"
 tooltip_name = "Item on the wall"
 default_action = "look"
 dialog_color = Color( 1, 1, 1, 1 )
+animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/item2"]
 polygon = PoolVector2Array( 635.586, 253.345, 568.928, 60.1716, 709.047, 120.028, 699.524, 247.903 )
@@ -140,6 +143,7 @@ __meta__ = {
 position = Vector2( 76.7617, 437.649 )
 script = ExtResource( 7 )
 global_id = "r1_start"
+is_start_location = true
 
 [node name="destination_point" type="Position2D" parent="."]
 position = Vector2( 476.984, 487.146 )

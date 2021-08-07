@@ -4,6 +4,7 @@ extends Node
 # This script is basically the scene-switcher.
 
 
+# Signal sent when the room is loaded and ready.
 signal room_ready
 
 

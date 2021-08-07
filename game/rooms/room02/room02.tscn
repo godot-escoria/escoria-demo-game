@@ -40,6 +40,7 @@ interaction_direction = 3
 tooltip_name = "Right platform"
 default_action = "look"
 dialog_color = Color( 1, 1, 1, 1 )
+animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_platform"]
 polygon = PoolVector2Array( 870.974, 538.342, 827.536, 353.995, 1181.4, 357.174, 1287.34, 413.325, 1289.46, 545.758 )
@@ -56,6 +57,7 @@ is_exit = true
 tooltip_name = "Right exit"
 default_action = "walk"
 dialog_color = Color( 1, 1, 1, 1 )
+animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
 polygon = PoolVector2Array( 1177.94, 348.61, 1175.95, 45.3759, 1276.06, 92.0953, 1277.95, 399.407 )
@@ -72,6 +74,7 @@ is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
 dialog_color = Color( 1, 1, 1, 1 )
+animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
 polygon = PoolVector2Array( -1.37926, 443.158, 7.96461, 122.796, 84.0504, 77.4118, 88.055, 377.751 )
@@ -85,6 +88,7 @@ position = Vector2( 958.107, 176.401 )
 global_id = "r2_button_right"
 esc_script = "res://game/rooms/room02/esc/button.esc"
 dialog_color = Color( 0, 1, 0.109804, 1 )
+animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_right"]
 position = Vector2( 29.4302, 195.411 )
@@ -98,6 +102,7 @@ position = Vector2( 288.82, 171.439 )
 global_id = "r2_button"
 esc_script = "res://game/rooms/room02/esc/button.esc"
 dialog_color = Color( 0, 1, 0.109804, 1 )
+animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_left"]
 position = Vector2( 24.6681, 196.998 )
@@ -110,3 +115,4 @@ __meta__ = {
 position = Vector2( 76.7617, 437.649 )
 script = ExtResource( 8 )
 global_id = "r2_player_start"
+is_start_location = true
