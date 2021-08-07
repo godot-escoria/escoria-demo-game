@@ -1,6 +1,13 @@
 # THIS ROOMS FEATURES AN OPEN BRIDGE WITH A ***BROKEN*** BUTTON TO USE IN ORDER TO OPEN
 
-:setup
+
+:ready
+
+> [!room3_visited]
+	set_global room3_visited true
+	set_global r3_bridge_closed false
+	set_state r3_button button_broken
+	set_global button_broken true
 
 > [r3_bridge_closed]
 	# Make set_state IMMEDIATE to reach the final frame immediately
@@ -21,16 +28,13 @@
 	# If bridge not closed
 	> [!r3_bridge_closed]
 		set_interactive r3_right_platform false
-	
 	stop
 > [!last_scene]
 	teleport player player_start
 	stop
 
-:ready
-set_global r3_bridge_closed false
-set_state r3_button button_broken
-set_global button_broken true
+
+
 
 # DEBUG
 #set_state r3_bridge bridge_close 

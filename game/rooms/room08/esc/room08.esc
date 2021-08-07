@@ -1,7 +1,4 @@
-# :SETUP is called EVERY TIME the room is loaded
-# :READY is called only the FIRST TIME the room is loaded
-
-:setup
+:ready
 
 > [r8_m_door_open]
 	set_state r8_m_door door_open true
@@ -19,8 +16,4 @@
 > [!last_scene]
 	teleport player player_start
 	stop
-
-
-
-:ready
 

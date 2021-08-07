@@ -329,14 +329,14 @@ func set_angle(deg: int, immediate = true):
 func start_talking():
 	if animation_sprite.is_playing():
 		animation_sprite.stop()
-	animation_sprite.play(animations.speaks[_movable.last_dir][0])
+	animation_sprite.play(animations.speaks[_movable.last_dir].animation)
 
 
 # Stop playing the talking animation
 func stop_talking():
 	if animation_sprite.is_playing():
 		animation_sprite.stop()
-	animation_sprite.play(animations.idles[_movable.last_dir][0])
+	animation_sprite.play(animations.idles[_movable.last_dir].animation)
 
 
 # Detect the child nodes and set respective references

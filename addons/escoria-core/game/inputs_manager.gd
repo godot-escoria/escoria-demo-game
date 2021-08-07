@@ -146,7 +146,7 @@ func _on_mouse_double_left_click_inventory_item(
 #	that is hovered
 func _on_mouse_entered_inventory_item(inventory_item_global_id: String) -> void:
 	escoria.logger.info(
-		"Inventory item focused " % inventory_item_global_id
+		"Inventory item focused %s" % inventory_item_global_id
 	)
 	escoria.main.current_scene.game.inventory_item_focused(
 		inventory_item_global_id

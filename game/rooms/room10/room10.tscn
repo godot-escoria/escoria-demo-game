@@ -84,10 +84,10 @@ position = Vector2( 22.6786, 212.927 )
 script = ExtResource( 5 )
 
 [node name="Label" type="Label" parent="Hotspots/button_stop_bg_music"]
-margin_left = -8.81946
-margin_top = -30.2381
-margin_right = 61.1805
-margin_bottom = -14.2381
+margin_left = -20.8195
+margin_top = -29.2381
+margin_right = 87.1805
+margin_bottom = -8.2381
 custom_fonts/font = ExtResource( 3 )
 text = "Stop bg music"
 __meta__ = {
@@ -105,10 +105,10 @@ position = Vector2( 22.6786, 212.927 )
 script = ExtResource( 5 )
 
 [node name="Label" type="Label" parent="Hotspots/button_play_bg_music"]
-margin_left = -8.81946
-margin_top = -30.2381
-margin_right = 61.1805
-margin_bottom = -14.2381
+margin_left = -18.8195
+margin_top = -29.2381
+margin_right = 85.1805
+margin_bottom = -8.2381
 custom_fonts/font = ExtResource( 3 )
 text = "Play bg music"
 __meta__ = {
@@ -126,10 +126,10 @@ position = Vector2( 22.6786, 212.927 )
 script = ExtResource( 5 )
 
 [node name="Label" type="Label" parent="Hotspots/button_play_sound"]
-margin_left = -8.81946
-margin_top = -30.2381
-margin_right = 61.1805
-margin_bottom = -14.2381
+margin_left = -10.8195
+margin_top = -29.2381
+margin_right = 72.1805
+margin_bottom = -8.2381
 custom_fonts/font = ExtResource( 3 )
 text = "Play sound"
 __meta__ = {
@@ -145,9 +145,10 @@ animations = null
 
 [node name="Label" type="Label" parent="Hotspots/button_accept_input"]
 margin_left = -3.6864
-margin_top = -38.4435
-margin_right = 71.3136
-margin_bottom = -7.44354
+margin_top = -44.4435
+margin_right = 85.3136
+margin_bottom = 0.556503
+custom_fonts/font = ExtResource( 3 )
 text = "Test Accept
  Input"
 __meta__ = {
@@ -167,10 +168,11 @@ tooltip_name = "Test slide"
 animations = null
 
 [node name="Label" type="Label" parent="Hotspots/button_slide"]
-margin_left = -3.6864
-margin_top = -38.4435
-margin_right = 71.3136
-margin_bottom = -7.44354
+margin_left = -9.6864
+margin_top = -28.4435
+margin_right = 66.3136
+margin_bottom = 2.55646
+custom_fonts/font = ExtResource( 3 )
 text = "Test Slide"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -189,10 +191,11 @@ tooltip_name = "Test turn_to"
 animations = null
 
 [node name="Label" type="Label" parent="Hotspots/button_turn_to"]
-margin_left = -3.6864
-margin_top = -38.4435
-margin_right = 71.3136
-margin_bottom = -7.44354
+margin_left = -14.6864
+margin_top = -26.4435
+margin_right = 80.3136
+margin_bottom = 4.55646
+custom_fonts/font = ExtResource( 3 )
 text = "Test turn_to"
 __meta__ = {
 "_edit_use_anchors_": false

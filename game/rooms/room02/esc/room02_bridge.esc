@@ -1,7 +1,7 @@
 # THIS ROOMS FEATURES AN OPEN BRIDGE WITH A BUTTON TO USE IN ORDER TO OPEN
 
 
-:setup
+:ready
 
 > [r2_bridge_closed]
 	# Make set_state IMMEDIATE to reach the final frame immediately

@@ -1,7 +1,5 @@
-# :SETUP is called EVERY TIME the room is loaded
-# :READY is called only the FIRST TIME the room is loaded
 
-:setup
+:ready
 set_state r7_button_push button_repaired
 set_state r7_button_shift button_repaired
 set_state r7_button_follow button_repaired
@@ -21,8 +19,6 @@ set_state r7_button_zoom button_repaired
 	teleport player player_start
 	stop
 
-
-:ready
 
 #camera_push player 0 LINEAR
 #camera_push r7_object2 1 LINEAR

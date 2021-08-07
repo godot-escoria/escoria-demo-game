@@ -47,12 +47,12 @@ All ESC scripts are divided into a series of events, which in turn run commands 
 
 An event has a name and the prefix ":" like this:
 
-`:setup`
+`:ready`
 
-While you can use arbitrary event names (for example to schedule them with the `sched_event`command), there are some special events that are called by Escoria when certaiin things happen:
+While you can use arbitrary event names (for example to schedule them with the `sched_event`command), there are some special events that are called by Escoria when certain things happen:
 
-* `:setup` (on an ESCScene object): Called everytime when the scene is loaded
-* `:ready`(on an ESCScene object): Called only when the scene is loaded the first time
+* `:setup` (on an ESCScene object): Called before the transition is performed.
+* `:ready`(on an ESCScene object): Called after the transition is performed.
 * `:use <global id>`(on an ESCItem object): Called when the inventory item `<global id>`was used with this item
 * `:<verb>`(on an ESCItem object): Called when a special verb was used on the item (e.g. `:look`)
 
