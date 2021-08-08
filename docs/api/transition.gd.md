@@ -36,4 +36,4 @@ Fade in the transition
 
 ## Signals
 
-- signal transition_done(): Emitted when the transition was player
+- signal transition_done(): Emitted when the transition was played

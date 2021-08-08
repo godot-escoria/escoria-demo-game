@@ -1,4 +1,4 @@
-# `set_angle object degrees`
+# `set_angle object degrees [immediate]`
 #
 # Turns object to a degrees angle without animations. 0 sets object facing 
 # forward, 90 sets it 90 degrees clockwise ("east") etc. When turning to the 
@@ -16,8 +16,8 @@ class_name SetAngleCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2, 
-		[TYPE_STRING, TYPE_INT],
-		[null, null]
+		[TYPE_STRING, TYPE_INT, TYPE_BOOL],
+		[null, null, true]
 	)
 	
 
@@ -36,10 +36,12 @@ func validate(arguments: Array):
 
 # Run the command
 func run(command_params: Array) -> int:
+	var immediate = command_params[2]
+	
 	# HACK Countering the fact that angle_to_point() function gives
 	# angle against X axis not Y, we need to check direction using (angle-90°).
 	# Since the ESC command already gives the right angle, we add 90.
 	escoria.object_manager.get_object(command_params[0]).node\
-			.set_angle(wrapi(int(command_params[1]) + 90, 0, 360))
+			.set_angle(wrapi(int(command_params[1]) + 90, 0, 360), immediate)
 	return ESCExecution.RC_OK
 	

@@ -2,7 +2,7 @@
 extends ColorRect
 
 
-# Emitted when the transition was player
+# Emitted when the transition was played
 signal transition_done
 
 

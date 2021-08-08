@@ -266,7 +266,7 @@ event ends.
 
 Changes the "active" state of the object, value can be true or false.
 Inactive objects are hidden in the scene.
-#### <a name="SetAngleCommand.md"></a>`set_angle object degrees` [API-Doc](api/SetAngleCommand.md)
+#### <a name="SetAngleCommand.md"></a>`set_angle object degrees [immediate]` [API-Doc](api/SetAngleCommand.md)
 
 Turns object to a degrees angle without animations. 0 sets object facing
 forward, 90 sets it 90 degrees clockwise ("east") etc. When turning to the
