@@ -1,5 +1,5 @@
 
-:ready
+:setup
 
 > [!room09_visited]
 	set_global room09_visited true

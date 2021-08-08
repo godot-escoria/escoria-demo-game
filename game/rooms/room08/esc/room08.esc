@@ -1,4 +1,4 @@
-:ready
+:setup
 
 > [r8_m_door_open]
 	set_state r8_m_door door_open true

@@ -1,7 +1,7 @@
 # THIS ROOMS FEATURES AN OPEN BRIDGE WITH A ***BROKEN*** BUTTON TO USE IN ORDER TO OPEN
 
 
-:ready
+:setup
 
 > [!room3_visited]
 	set_global room3_visited true
@@ -34,7 +34,7 @@
 	stop
 
 
-
+:ready
 
 # DEBUG
 #set_state r3_bridge bridge_close 

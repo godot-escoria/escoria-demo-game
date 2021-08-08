@@ -1,4 +1,4 @@
-:ready
+:setup
 > [eq ESC_LAST_SCENE room5]
 	teleport player r6_l_exit
 	# Set player look right

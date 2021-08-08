@@ -1,7 +1,6 @@
 # THIS ROOMS FEATURES AN OPEN BRIDGE WITH A BUTTON TO USE IN ORDER TO OPEN
 
-
-:ready
+:setup
 
 > [r2_bridge_closed]
 	# Make set_state IMMEDIATE to reach the final frame immediately
@@ -25,15 +24,14 @@
 	#set_global r2_bridge_closed true
 	set_interactive r2_right_platform false
 	#set_interactive r2_bridge false
-	
 	stop
+	
 > [!last_scene]
 	teleport player player_start
 	stop
 
-#teleport player player_start
 
-
+:ready
 
 # DEBUG
 #set_state r2_bridge bridge_close 

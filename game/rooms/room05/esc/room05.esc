@@ -1,4 +1,4 @@
-:ready
+:setup
 
 # Disable wrench item if present in the inventory
 > [i/r5_wrench]
