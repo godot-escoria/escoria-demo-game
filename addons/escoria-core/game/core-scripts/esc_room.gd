@@ -69,14 +69,12 @@ func _ready():
 		)
 		game.get_node("camera").set_target(player)
 	
-	if has_node("player_start"):
-		escoria.object_manager.register_object(
-			ESCObject.new(
-				$player_start.name,
-				$player_start
-			),
-			true
-		)
+	for n in get_children():
+		if n is ESCLocation and n.is_start_location:
+			escoria.object_manager.register_object(
+				ESCObject.new(n.name, n),
+				true
+			)
 	
 	if global_id.empty():
 		global_id = name

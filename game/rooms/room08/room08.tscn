@@ -136,6 +136,7 @@ esc_script = "res://game/rooms/room08/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Exit"
 dialog_color = Color( 1, 1, 1, 1 )
+animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
 polygon = PoolVector2Array( 2.93237, 447.051, 2.93237, 127.051, 88.9324, 71.0505, 90.9324, 379.051 )
@@ -153,6 +154,7 @@ global_id = "r8_m_door"
 esc_script = "res://game/rooms/room08/esc/middle_exit.esc"
 tooltip_name = "Exit"
 dialog_color = Color( 1, 1, 1, 1 )
+animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/m_door"]
 visible = false
@@ -177,6 +179,7 @@ esc_script = "res://game/rooms/room08/esc/button_puzzle.esc"
 tooltip_name = "Button"
 default_action = "use"
 dialog_color = Color( 1, 1, 1, 1 )
+animations = null
 
 [node name="button" type="Line2D" parent="Hotspots/r8_mini_puzzle_button"]
 position = Vector2( -588.313, 5.65686 )
@@ -210,6 +213,7 @@ esc_script = "res://game/rooms/room08/esc/button_reset_puzzle.esc"
 tooltip_name = "Button"
 default_action = "use"
 dialog_color = Color( 1, 1, 1, 1 )
+animations = null
 
 [node name="button" type="Line2D" parent="Hotspots/r8_reset_puzzle_button"]
 position = Vector2( -588.313, 5.65686 )
@@ -238,3 +242,5 @@ __meta__ = {
 [node name="player_start" type="Position2D" parent="."]
 position = Vector2( 76.7617, 437.649 )
 script = ExtResource( 7 )
+global_id = "r8_player_start"
+is_start_location = true

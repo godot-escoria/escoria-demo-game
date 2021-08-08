@@ -74,6 +74,7 @@ is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
 dialog_color = Color( 1, 1, 1, 1 )
+animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
 polygon = PoolVector2Array( 0.328762, 440.897, 1.85199, 119.926, 85.9517, 74.6212, 87.1409, 377.869 )
@@ -85,6 +86,7 @@ script = ExtResource( 12 )
 [node name="r_door" parent="Hotspots" instance=ExtResource( 9 )]
 global_id = "r9_r_exit"
 esc_script = "res://game/rooms/room09/esc/right_exit.esc"
+animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r_door"]
 position = Vector2( 1198.65, 391.058 )
@@ -95,6 +97,7 @@ position = Vector2( 435.233, 64.1518 )
 global_id = "r9_closet_left"
 esc_script = "res://game/rooms/room09/esc/closet_left.esc"
 tooltip_name = "Left closet"
+animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_left"]
 position = Vector2( 69.9246, 318.898 )
@@ -106,6 +109,7 @@ position = Vector2( 46.4878, 47.8335 )
 scale = Vector2( 0.5, 0.5 )
 global_id = "r9_bottle_left"
 dont_apply_terrain_scaling = true
+animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_left/bottle_left"]
 position = Vector2( -26.727, 543.448 )
@@ -116,6 +120,7 @@ position = Vector2( 572.963, 65.2113 )
 global_id = "r9_closet_middle"
 esc_script = "res://game/rooms/room09/esc/closet_middle.esc"
 tooltip_name = "Middle closet"
+animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_middle"]
 position = Vector2( 65.6867, 317.839 )
@@ -127,6 +132,7 @@ position = Vector2( 45.9562, 46.774 )
 scale = Vector2( 0.5, 0.5 )
 global_id = "r9_bottle_middle"
 dont_apply_terrain_scaling = true
+animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_middle/bottle_middle"]
 position = Vector2( -26.727, 543.448 )
@@ -137,6 +143,7 @@ position = Vector2( 710.693, 66.2707 )
 global_id = "r9_closet_right"
 esc_script = "res://game/rooms/room09/esc/closet_right.esc"
 tooltip_name = "Right closet"
+animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_right"]
 position = Vector2( 64.6273, 316.779 )
@@ -148,6 +155,7 @@ position = Vector2( 47.2065, 45.7146 )
 scale = Vector2( 0.5, 0.5 )
 global_id = "r9_bottle_right"
 dont_apply_terrain_scaling = true
+animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_right/bottle_right"]
 position = Vector2( -26.727, 543.448 )
@@ -157,6 +165,7 @@ script = ExtResource( 12 )
 position = Vector2( 240.688, 160.459 )
 global_id = "r9_button_reset"
 esc_script = "res://game/rooms/room09/esc/button_reset.esc"
+animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button"]
 position = Vector2( 30.204, 209.54 )
@@ -182,6 +191,7 @@ interaction_direction = 2
 tooltip_name = "Stand"
 default_action = "look"
 dialog_color = Color( 1, 1, 1, 1 )
+animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/stand"]
 polygon = PoolVector2Array( 1086.57, 357.819, 1087.46, 226.857, 1134.68, 228.639, 1133.79, 358.71 )
@@ -205,3 +215,5 @@ script = ExtResource( 12 )
 [node name="player_start" type="Position2D" parent="."]
 position = Vector2( 76.7617, 437.649 )
 script = ExtResource( 12 )
+global_id = "r9_player_start"
+is_start_location = true

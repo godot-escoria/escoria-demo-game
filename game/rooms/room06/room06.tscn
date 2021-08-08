@@ -59,6 +59,7 @@ __meta__ = {
 
 [node name="l_exit" parent="Hotspots" instance=ExtResource( 3 )]
 esc_script = "res://game/rooms/room06/esc/left_exit.esc"
+animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/l_exit"]
 position = Vector2( 37.4521, 392.045 )
@@ -69,6 +70,7 @@ __meta__ = {
 
 [node name="r_door" parent="Hotspots" instance=ExtResource( 5 )]
 esc_script = "res://game/rooms/room06/esc/r6_door.esc"
+animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r_door"]
 position = Vector2( 1180.52, 395.193 )
@@ -89,3 +91,5 @@ script = ExtResource( 9 )
 [node name="player_start" type="Position2D" parent="."]
 position = Vector2( 76.7617, 437.649 )
 script = ExtResource( 9 )
+global_id = "r6_player_start"
+is_start_location = true

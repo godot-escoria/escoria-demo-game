@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=1]
-[ext_resource path="res://game/characters/worker/worker_anims.gd" type="Script" id=2]
 [ext_resource path="res://game/characters/worker/png/worker.png" type="Texture" id=4]
 
 [sub_resource type="AtlasTexture" id=1]
@@ -27,7 +26,7 @@ is_movable = true
 tooltip_name = "Worker"
 default_action = "look"
 dialog_color = Color( 0.196078, 0, 1, 1 )
-animations = ExtResource( 2 )
+animations = null
 
 [node name="sprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0.0280151, -16.7213 )

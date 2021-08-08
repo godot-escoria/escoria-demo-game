@@ -102,4 +102,4 @@ Implement them, even if empty
 
 ## Signals
 
-- signal room_ready(): 
+- signal room_ready(): Signal sent when the room is loaded and ready.

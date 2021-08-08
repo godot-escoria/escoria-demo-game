@@ -56,6 +56,7 @@ is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
 dialog_color = Color( 1, 1, 1, 1 )
+animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
 polygon = PoolVector2Array( 0.328762, 440.897, 1.85199, 119.926, 85.9517, 74.6212, 87.1409, 377.869 )
@@ -66,6 +67,7 @@ script = ExtResource( 5 )
 
 [node name="r_door" parent="Hotspots" instance=ExtResource( 9 )]
 esc_script = "res://game/rooms/room10/esc/right_exit.esc"
+animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r_door"]
 position = Vector2( 1198.65, 391.058 )
@@ -75,6 +77,7 @@ script = ExtResource( 5 )
 position = Vector2( 243.165, 154.97 )
 global_id = "r10_btn_stop_bg_music"
 esc_script = "res://game/rooms/room10/esc/button_stop_bg_music.esc"
+animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_stop_bg_music"]
 position = Vector2( 22.6786, 212.927 )
@@ -95,6 +98,7 @@ __meta__ = {
 position = Vector2( 377.976, 154.97 )
 global_id = "r10_btn_play_bg_music"
 esc_script = "res://game/rooms/room10/esc/button_play_bg_music.esc"
+animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_play_bg_music"]
 position = Vector2( 22.6786, 212.927 )
@@ -115,6 +119,7 @@ __meta__ = {
 position = Vector2( 646.339, 154.97 )
 global_id = "r10_btn_play_snd"
 esc_script = "res://game/rooms/room10/esc/button_play_snd.esc"
+animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_play_sound"]
 position = Vector2( 22.6786, 212.927 )
@@ -136,6 +141,7 @@ position = Vector2( 823.113, 155.354 )
 global_id = "test_accept_input"
 esc_script = "res://game/rooms/room10/esc/button_accept_input_test.esc"
 tooltip_name = "Test Accept Input"
+animations = null
 
 [node name="Label" type="Label" parent="Hotspots/button_accept_input"]
 margin_left = -3.6864
@@ -158,6 +164,7 @@ position = Vector2( 939.497, 154.301 )
 global_id = "button_slide"
 esc_script = "res://game/rooms/room10/esc/button_slide.esc"
 tooltip_name = "Test slide"
+animations = null
 
 [node name="Label" type="Label" parent="Hotspots/button_slide"]
 margin_left = -3.6864
@@ -179,6 +186,7 @@ position = Vector2( 1041.66, 152.721 )
 global_id = "button_turn_to"
 esc_script = "res://game/rooms/room10/esc/button_turn_to.esc"
 tooltip_name = "Test turn_to"
+animations = null
 
 [node name="Label" type="Label" parent="Hotspots/button_turn_to"]
 margin_left = -3.6864
@@ -208,4 +216,5 @@ global_id = "slide_pos_2"
 [node name="player_start" type="Position2D" parent="."]
 position = Vector2( 542.824, 468.193 )
 script = ExtResource( 5 )
-global_id = "player_start"
+global_id = "r10_player_start"
+is_start_location = true

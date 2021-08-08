@@ -3,8 +3,12 @@
 extends Position2D
 class_name ESCLocation
 
+
 # The global ID of this item
 export(String) var global_id
+
+# If true, this ESCLocation is considered as a player start location
+export(bool) var is_start_location = false
 
 # If true, player orients towards 'interaction_direction' as
 # player character arrives.

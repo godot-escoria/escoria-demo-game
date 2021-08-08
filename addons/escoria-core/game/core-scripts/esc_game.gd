@@ -36,7 +36,9 @@ func _draw():
 		return
 	
 	if editor_debug_mode == EDITOR_GAME_DEBUG_DISPLAY.MOUSE_TOOLTIP_LIMITS:
-		var mouse_limits: Rect2 = get_viewport_rect().grow(-mouse_tooltip_margin)
+		var mouse_limits: Rect2 = get_viewport_rect().grow(
+			-mouse_tooltip_margin
+		)
 		print(mouse_limits)
 		
 		# Draw lines for tooltip limits
@@ -50,7 +52,7 @@ func _draw():
 #
 # - position: Position clicked
 func left_click_on_bg(position: Vector2) -> void:
-	escoria.do("walk", ["player", position])
+	escoria.do("walk", [escoria.main.current_scene.player.global_id, position])
 
 
 # Called when the player right clicks on the background
@@ -60,7 +62,7 @@ func left_click_on_bg(position: Vector2) -> void:
 #
 # - position: Position clicked	
 func right_click_on_bg(position: Vector2) -> void:
-	escoria.do("walk", ["player", position])
+	escoria.do("walk", [escoria.main.current_scene.player.global_id, position])
 
 
 # Called when the player double clicks on the background
@@ -70,8 +72,8 @@ func right_click_on_bg(position: Vector2) -> void:
 #
 # - position: Position clicked
 func left_double_click_on_bg(position: Vector2) -> void:
-	escoria.do("walk", ["player", position, true])
-
+	escoria.do("walk", [escoria.main.current_scene.player.global_id, position, \
+		 true])
 
 # Called when an element in the scene was focused
 # (Needs to be overridden, if supported)

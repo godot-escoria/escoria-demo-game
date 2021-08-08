@@ -19,6 +19,14 @@ export var global_id = ""
 
 The global ID of this item
 
+### is\_start\_location
+
+```gdscript
+export var is_start_location = false
+```
+
+If true, this ESCLocation is considered as a player start location
+
 ### player\_orients\_on\_arrival
 
 ```gdscript

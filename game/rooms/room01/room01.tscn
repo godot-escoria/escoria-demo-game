@@ -143,6 +143,7 @@ __meta__ = {
 position = Vector2( 653.761, 443.306 )
 script = ExtResource( 7 )
 global_id = "r1_start"
+is_start_location = true
 
 [node name="destination_point" type="Position2D" parent="."]
 position = Vector2( 476.984, 487.146 )

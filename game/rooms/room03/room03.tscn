@@ -39,6 +39,7 @@ __meta__ = {
 global_id = "r3_right_platform"
 esc_script = "res://game/rooms/room03/esc/right_platform.esc"
 dialog_color = Color( 1, 1, 1, 1 )
+animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_platform"]
 polygon = PoolVector2Array( 870.974, 538.342, 827.536, 353.995, 1181.4, 357.174, 1287.34, 413.325, 1289.46, 545.758 )
@@ -63,6 +64,7 @@ esc_script = "res://game/rooms/room03/esc/right_exit.esc"
 is_exit = true
 tooltip_name = "Exit"
 dialog_color = Color( 1, 1, 1, 1 )
+animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
 polygon = PoolVector2Array( 1177.94, 348.61, 1175.95, 45.3759, 1276.06, 92.0953, 1277.95, 399.407 )
@@ -81,6 +83,7 @@ esc_script = "res://game/rooms/room03/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Exit"
 dialog_color = Color( 1, 1, 1, 1 )
+animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
 polygon = PoolVector2Array( -2.71457, 437.818, 6.6293, 121.462, 89.3893, 74.7422, 88.0545, 376.416 )
@@ -92,6 +95,7 @@ script = ExtResource( 8 )
 [node name="button" parent="Hotspots" instance=ExtResource( 7 )]
 global_id = "r3_button"
 esc_script = "res://game/rooms/room03/esc/button.esc"
+animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button"]
 position = Vector2( 347.767, 378.011 )
@@ -115,3 +119,5 @@ __meta__ = {
 [node name="player_start" type="Position2D" parent="."]
 position = Vector2( 63.3074, 444.653 )
 script = ExtResource( 8 )
+global_id = "r3_player_start"
+is_start_location = true
