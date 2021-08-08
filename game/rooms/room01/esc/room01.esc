@@ -1,3 +1,14 @@
+:setup
+> [eq ESC_LAST_SCENE room2]
+	teleport player r1_r_exit
+	# Set player look left
+	set_angle player 270
+	stop
+> [!eq ESC_LAST_SCENE room2]
+	teleport player player_start
+	stop
+
+
 
 :ready
 
@@ -14,12 +25,4 @@ set_sound_state bg_music res://game/sfx/contemplation.ogg true
 	wait 2
 	set_angle player 225 false
 	
-> [eq ESC_LAST_SCENE room2]
-	teleport player r1_r_exit
-	# Set player look left
-	set_angle player 270
-	stop
-> [!eq ESC_LAST_SCENE room2]
-	teleport player player_start
-	stop
 
