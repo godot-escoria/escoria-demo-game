@@ -9,11 +9,7 @@
 	# Set player look left
 	set_angle player 270
 	stop
-> [eq ESC_LAST_SCENE ""]
+> [!last_scene]
 	teleport player player_start
 	stop
-
-teleport player player_start
-#walk player r_exit
-
 

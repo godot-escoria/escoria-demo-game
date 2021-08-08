@@ -9,10 +9,6 @@ extends ESCBaseCommand
 class_name ChangeSceneCommand
 
 
-# An array of scenes that have already been loaded
-var readied_scenes: Array = []
-
-
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
@@ -103,10 +99,8 @@ func run(command_params: Array) -> int:
 			
 			escoria.main.scene_transition.fade_in()
 			yield(escoria.main.scene_transition, "transition_done")
-			
-			# If scene was never visited, add "ready" event to the events stack
-			if not command_params[0] in self.readied_scenes \
-					and script.events.has("ready"):
+		
+			if script.events.has("ready"):
 				escoria.event_manager.queue_event(script.events["ready"])
 				var rc = yield(escoria.event_manager, "event_finished")
 				while rc[1] != "ready":
@@ -114,8 +108,6 @@ func run(command_params: Array) -> int:
 				if rc[0] != ESCExecution.RC_OK:
 					return rc[0]
 				
-		self.readied_scenes.append(command_params[0])
-		
 		# Clear queued resources
 		escoria.resource_cache.clear()
 		

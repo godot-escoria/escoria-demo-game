@@ -14,16 +14,6 @@ to benefit save games, so they don't conflict with the scene's events.
 
 @ESC
 
-## Property Descriptions
-
-### readied\_scenes
-
-```gdscript
-var readied_scenes: Array
-```
-
-An array of scenes that have already been loaded
-
 ## Method Descriptions
 
 ### configure

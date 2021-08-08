@@ -29,7 +29,6 @@
 	stop
 
 
-:ready
 #walk player r5_wrench
 #set_global i/r5_wrench true
 #set_active r5_wrench false
