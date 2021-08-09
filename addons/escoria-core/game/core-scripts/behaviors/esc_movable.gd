@@ -107,17 +107,16 @@ func _process(delta: float) -> void:
 			last_deg = escoria.utils.get_deg_from_rad(angle)
 			last_dir = _get_dir_deg(last_deg, parent.animations)
 
-			var current_animation = ""
-			if parent.animation_sprite != null:
-				current_animation = parent.animation_sprite.animation
+			var animation_player: ESCAnimationPlayer = \
+					parent.get_animation_player()
+			
+			var current_animation = animation_player.get_animation()
 			
 			var animation_to_play = \
 					parent.animations.directions[last_dir].animation
 			if current_animation != animation_to_play:
-				if parent.animation_sprite.frames.has_animation(
-					animation_to_play
-				):
-					parent.animation_sprite.play(animation_to_play)
+				if animation_player.has_animation(animation_to_play):
+					animation_player.play(animation_to_play)
 				else:
 					current_animation = animation_to_play
 					escoria.logger.report_warnings(
@@ -241,19 +240,19 @@ func walk_stop(pos: Vector2) -> void:
 			walk_context.target_object.interactive:
 		var orientation = walk_context.target_object.node.interaction_direction
 		last_dir = orientation
-		parent.animation_sprite.play(
+		parent.get_animation_player().play(
 			parent.animations.idles[orientation].animation
 		)
 		pose_scale = -1 if parent.animations.idles[orientation].mirrored else 1
 	else:
-		parent.animation_sprite.play(
+		parent.get_animation_player().play(
 			parent.animations.idles[last_dir].animation
 		)
 		pose_scale = -1 if parent.animations.idles[last_dir].mirrored else 1
 	
 	update_terrain()
 
-	yield(parent.animation_sprite, "animation_finished")
+	yield(parent.get_animation_player(), "animation_finished")
 	if walk_context.target_object:
 		escoria.logger.debug(
 			"%s arrived at %s" % [
@@ -399,9 +398,9 @@ func set_angle(deg: int, immediate = true) -> void:
 
 		# The character may have a state animation from before, which would be
 		# resumed, so we immediately force the correct idle animation
-		if parent.animation_sprite.animation != \
+		if parent.get_animation_player().get_animation() != \
 				parent.animations.idles[last_dir].animation:
-			parent.animation_sprite.play(
+			parent.get_animation_player().play(
 				parent.animations.idles[last_dir].animation
 			)
 		pose_scale = -1 if parent.animations.idles[last_dir].mirrored else 1
@@ -420,10 +419,10 @@ func set_angle(deg: int, immediate = true) -> void:
 			if dir < 0:
 				dir = parent.animations.dir_angles.size() - 1
 			
-			parent.animation_sprite.play(
+			parent.get_animation_player().play(
 				parent.animations.idles[dir].animation
 			)
-			yield(parent.animation_sprite, "animation_finished")
+			yield(parent.get_animation_player(), "animation_finished")
 			pose_scale = -1 if parent.animations.idles[dir].mirrored else 1
 			
 	update_terrain()

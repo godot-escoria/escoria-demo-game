@@ -107,7 +107,7 @@ var result_angles = []
 func _ready():
 	# Find player animations
 	$player_animations.add_item("")
-	for anim_name in $player.get_animation_player.get_sprite_frames().get_animation_names():
+	for anim_name in $player.get_animation_player().get_animations():
 		$player_animations.add_item(anim_name)
 	
 	# Set initial angles 
