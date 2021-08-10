@@ -188,6 +188,14 @@ export var v_speed_damp: float = 1
 
 Speed damp of this item if movable
 
+### animation\_player\_node
+
+```gdscript
+export var animation_player_node: NodePath = ""
+```
+
+The node used to play animations
+
 ### animations
 
 ```gdscript
@@ -195,14 +203,6 @@ var animations: ESCAnimationResource
 ```
 
  ESCAnimationsResource (for walking, idling...)
-
-### animation\_sprite
-
-```gdscript
-var animation_sprite
-```
-
-Reference to the animation node (null if none was found)
 
 ### terrain
 
@@ -234,7 +234,7 @@ be loaded, if inventory_item_scene_file is set.
 ### get\_animation\_player
 
 ```gdscript
-func get_animation_player()
+func get_animation_player() -> Node
 ```
 
 Return the animation player node

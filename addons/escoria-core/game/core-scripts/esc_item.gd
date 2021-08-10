@@ -120,14 +120,12 @@ export(int) var speed: int = 300
 # Speed damp of this item if movable
 export(float) var v_speed_damp: float = 1.0
 
+# The node used to play animations
+export(NodePath) var animation_player_node: NodePath = "" \
+		setget _set_animation_player_node
+
 # ESCAnimationsResource (for walking, idling...)
 var animations: ESCAnimationResource
-
-# The movable subnode
-var _movable: ESCMovable = null
-
-# Reference to the animation node (null if none was found)
-var animation_sprite = null
 
 # Reference to the current terrain
 var terrain: ESCTerrain
@@ -138,6 +136,13 @@ var collision: Node
 # The representation of this item in the scene. Will
 # be loaded, if inventory_item_scene_file is set.
 var inventory_item: ESCInventoryItem = null setget ,_get_inventory_item
+
+
+# The movable subnode
+var _movable: ESCMovable = null
+
+# The identified animation player
+var _animation_player: ESCAnimationPlayer = null
 
 
 # Add the movable node, connect signals, detect child nodes
@@ -194,8 +199,20 @@ func _ready():
 
 
 # Return the animation player node
-func get_animation_player():
-	return animation_sprite
+func get_animation_player() -> Node:
+	if _animation_player == null:
+		var player_node_path = animation_player_node
+		if player_node_path == "":
+			for child in self.get_children():
+				if child is AnimatedSprite or \
+						child is AnimationPlayer:
+					player_node_path = child.get_path()
+		if not has_node(player_node_path):
+			escoria.logger.error(
+				"Can not find node at path %s" % player_node_path
+			)
+		_animation_player = ESCAnimationPlayer.new(get_node(player_node_path))
+	return _animation_player
 
 
 # Return the position the player needs to walk to to interact with this
@@ -327,29 +344,20 @@ func set_angle(deg: int, immediate = true):
 
 # Play the talking animation
 func start_talking():
-	if animation_sprite.is_playing():
-		animation_sprite.stop()
-	animation_sprite.play(animations.speaks[_movable.last_dir].animation)
+	if get_animation_player().is_playing():
+		get_animation_player().stop()
+	get_animation_player().play(animations.speaks[_movable.last_dir].animation)
 
 
 # Stop playing the talking animation
 func stop_talking():
-	if animation_sprite.is_playing():
-		animation_sprite.stop()
-	animation_sprite.play(animations.idles[_movable.last_dir].animation)
+	if get_animation_player().is_playing():
+		get_animation_player().stop()
+	get_animation_player().play(animations.idles[_movable.last_dir].animation)
 
 
 # Detect the child nodes and set respective references
 func _detect_children() -> void:
-	# Detect animation player
-	for n in get_children():
-		if n is AnimatedSprite:
-			animation_sprite = n
-			continue
-		if n is AnimationPlayer:
-			animation_sprite = n
-			continue
-	
 	# Initialize collision variable.
 	for c in get_children():
 		if c is CollisionShape2D or c is CollisionPolygon2D:
@@ -380,3 +388,23 @@ func _get_property_list():
 		"hint_string": "ESCAnimationResource"
 	})
 	return properties
+
+
+# Set the node path to the animation player
+#
+# #### Parameters
+#
+# - node_path: Path to the player node
+func _set_animation_player_node(node_path: NodePath):
+	if node_path == "":
+		animation_player_node = node_path
+		return
+		
+	assert(has_node(node_path), "Node with path %s not found" % node_path)
+	assert(
+		get_node(node_path) is AnimatedSprite or \
+				get_node(node_path) is AnimationPlayer,
+		"Selected node has to be an AnimatedSprite or AnimationPlayer node"
+	)
+	
+	animation_player_node = node_path

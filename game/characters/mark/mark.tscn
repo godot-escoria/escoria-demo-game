@@ -14,99 +14,99 @@ region = Rect2( 120, 0, 24, 70 )
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 4 )
-region = Rect2( 0, 0, 24, 70 )
+region = Rect2( 24, 0, 24, 70 )
 
 [sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 24, 70 )
 
 [sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 5 )
 region = Rect2( 24, 0, 24, 70 )
 
 [sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 5 )
 region = Rect2( 48, 0, 24, 70 )
 
 [sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 6 )
+region = Rect2( 0, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 6 )
+region = Rect2( 24, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 2 )
+region = Rect2( 24, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 2 )
+region = Rect2( 48, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=11]
 atlas = ExtResource( 4 )
 region = Rect2( 48, 0, 24, 70 )
 
-[sub_resource type="AtlasTexture" id=7]
+[sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 0, 24, 70 )
 
-[sub_resource type="AtlasTexture" id=8]
+[sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 7 )
 region = Rect2( 24, 0, 24, 70 )
 
-[sub_resource type="AtlasTexture" id=9]
+[sub_resource type="AtlasTexture" id=14]
 atlas = ExtResource( 7 )
 region = Rect2( 48, 0, 24, 70 )
 
-[sub_resource type="AtlasTexture" id=10]
+[sub_resource type="AtlasTexture" id=15]
 atlas = ExtResource( 7 )
 region = Rect2( 72, 0, 24, 70 )
 
-[sub_resource type="AtlasTexture" id=11]
+[sub_resource type="AtlasTexture" id=16]
 atlas = ExtResource( 7 )
 region = Rect2( 96, 0, 24, 70 )
 
-[sub_resource type="AtlasTexture" id=12]
+[sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 4 )
 region = Rect2( 144, 0, 24, 70 )
 
-[sub_resource type="AtlasTexture" id=13]
+[sub_resource type="AtlasTexture" id=18]
 atlas = ExtResource( 4 )
 region = Rect2( 168, 0, 24, 70 )
 
-[sub_resource type="AtlasTexture" id=14]
+[sub_resource type="AtlasTexture" id=19]
 atlas = ExtResource( 4 )
 region = Rect2( 192, 0, 24, 70 )
 
-[sub_resource type="AtlasTexture" id=15]
+[sub_resource type="AtlasTexture" id=20]
 atlas = ExtResource( 4 )
 region = Rect2( 216, 0, 24, 70 )
 
-[sub_resource type="AtlasTexture" id=16]
+[sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 4 )
 region = Rect2( 240, 0, 24, 70 )
 
-[sub_resource type="AtlasTexture" id=17]
+[sub_resource type="AtlasTexture" id=22]
 atlas = ExtResource( 4 )
 region = Rect2( 264, 0, 24, 70 )
 
-[sub_resource type="AtlasTexture" id=18]
+[sub_resource type="AtlasTexture" id=23]
 atlas = ExtResource( 4 )
 region = Rect2( 288, 0, 24, 70 )
 
-[sub_resource type="AtlasTexture" id=19]
+[sub_resource type="AtlasTexture" id=24]
 atlas = ExtResource( 4 )
 region = Rect2( 312, 0, 24, 70 )
 
-[sub_resource type="AtlasTexture" id=20]
-atlas = ExtResource( 4 )
-region = Rect2( 24, 0, 24, 70 )
-
-[sub_resource type="AtlasTexture" id=21]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 24, 70 )
-
-[sub_resource type="AtlasTexture" id=22]
-atlas = ExtResource( 5 )
-region = Rect2( 24, 0, 24, 70 )
-
-[sub_resource type="AtlasTexture" id=23]
-atlas = ExtResource( 5 )
-region = Rect2( 48, 0, 24, 70 )
-
-[sub_resource type="AtlasTexture" id=24]
-atlas = ExtResource( 6 )
-region = Rect2( 0, 0, 24, 70 )
-
 [sub_resource type="AtlasTexture" id=25]
-atlas = ExtResource( 6 )
-region = Rect2( 24, 0, 24, 70 )
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 24, 70 )
 
 [sub_resource type="AtlasTexture" id=26]
 atlas = ExtResource( 4 )
@@ -137,48 +137,48 @@ animations = [ {
 }, {
 "frames": [ SubResource( 2 ) ],
 "loop": true,
-"name": "idle_down",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 4 ), SubResource( 5 ) ],
-"loop": true,
-"name": "speak_down",
-"speed": 6.0
-}, {
-"frames": [ SubResource( 6 ) ],
-"loop": true,
-"name": "idle_right",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
-"loop": true,
-"name": "speak_right",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 13 ) ],
-"loop": true,
-"name": "walk_down",
-"speed": 6.0
-}, {
-"frames": [ SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ) ],
-"loop": true,
-"name": "walk_right",
-"speed": 6.0
-}, {
-"frames": [ SubResource( 20 ) ],
-"loop": true,
 "name": "idle_down_right",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 21 ), SubResource( 22 ), SubResource( 23 ) ],
+"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ],
 "loop": true,
 "name": "speak_down_right",
 "speed": 6.0
 }, {
-"frames": [ SubResource( 24 ), SubResource( 25 ), SubResource( 24 ), SubResource( 25 ), SubResource( 25 ) ],
+"frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 6 ), SubResource( 7 ), SubResource( 7 ) ],
 "loop": true,
 "name": "speak_up",
 "speed": 3.0
+}, {
+"frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 9 ), SubResource( 10 ) ],
+"loop": true,
+"name": "speak_down",
+"speed": 6.0
+}, {
+"frames": [ SubResource( 11 ) ],
+"loop": true,
+"name": "idle_right",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ],
+"loop": true,
+"name": "speak_right",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 18 ) ],
+"loop": true,
+"name": "walk_down",
+"speed": 6.0
+}, {
+"frames": [ SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ) ],
+"loop": true,
+"name": "walk_right",
+"speed": 6.0
+}, {
+"frames": [ SubResource( 25 ) ],
+"loop": true,
+"name": "idle_down",
+"speed": 5.0
 }, {
 "frames": [ SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 27 ) ],
 "loop": true,
