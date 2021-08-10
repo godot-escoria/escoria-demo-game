@@ -87,9 +87,9 @@ func left_click_on_inventory_item(inventory_item_global_id: String, event: Input
 		var item = escoria.object_manager.get_object(
 			inventory_item_global_id
 		).node
-		if item.get_node("sprite").texture:
+		if item.has_method("get_sprite") and item.get_sprite().texture:
 			$ui/verbs_layer/verbs_menu.set_tool_texture(
-				item.get_node("sprite").texture
+				item.get_sprite().texture
 			)
 		elif item.inventory_item.texture_normal:
 			$ui/verbs_layer/verbs_menu.set_tool_texture(

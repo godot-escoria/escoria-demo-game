@@ -301,13 +301,15 @@ func update_terrain(on_event_finished_name = null) -> void:
 	var color = parent.terrain.get_light(pos)
 	parent.modulate = color
 
+	var sprite: Node = parent.get_sprite()
+	
 	# Do not flip the entire character, because that would conflict
 	# with shadows that expect to be siblings of $texture
-	if pose_scale == -1 and parent.get_node("sprite").scale.x > 0:
-		parent.get_node("sprite").scale.x *= pose_scale
+	if pose_scale == -1 and sprite.scale.x > 0:
+		sprite.scale.x *= pose_scale
 		parent.collision.scale.x *= pose_scale
-	elif pose_scale == 1 and parent.get_node("sprite").scale.x < 0:
-		parent.get_node("sprite").scale.x *= -1
+	elif pose_scale == 1 and sprite.scale.x < 0:
+		sprite.scale.x *= -1
 		parent.collision.scale.x *= -1
 
 
