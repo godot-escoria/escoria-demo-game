@@ -336,6 +336,14 @@ func has_moved() -> bool
 
 Check wether this item moved
 
+### get\_sprite
+
+```gdscript
+func get_sprite() -> Node
+```
+
+Return the sprite node
+
 ### set\_angle
 
 ```gdscript

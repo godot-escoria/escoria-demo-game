@@ -127,6 +127,12 @@ export(NodePath) var animation_player_node: NodePath = "" \
 # ESCAnimationsResource (for walking, idling...)
 var animations: ESCAnimationResource
 
+# Reference to the animation node (null if none was found)
+var animation_sprite = null
+
+# Reference to the sprite node
+var _sprite_node: Node = null
+
 # Reference to the current terrain
 var terrain: ESCTerrain
 
@@ -329,6 +335,19 @@ func set_speed(speed_value: int) -> void:
 # Check wether this item moved
 func has_moved() -> bool:
 	return _movable.moved if is_movable else false
+
+
+# Return the sprite node
+func get_sprite() -> Node:
+	if _sprite_node == null:
+		for child in self.get_children():
+			if child is AnimatedSprite or child is Sprite:
+				_sprite_node = child
+	if _sprite_node == null:
+		escoria.logger.error(
+			"No sprite node found in the scene %s" % get_path()
+		)
+	return _sprite_node
 
 
 # Set the angle
