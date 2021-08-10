@@ -34,6 +34,12 @@ signal left_click_on_bg(position)
 # - position: The position where the player clicked
 signal right_click_on_bg(position)
 
+# Emitted when the mouse wheel was turned up
+signal mouse_wheel_up
+
+# Emitted when the mouse wheel was turned down
+signal mouse_wheel_down
+
 
 # The ESC script connected to this background
 export(String, FILE, "*.esc") var esc_script = ""
@@ -72,9 +78,7 @@ func _ready():
 	mouse_filter = MOUSE_FILTER_IGNORE
 	
 	if !Engine.is_editor_hint():
-		connect("left_click_on_bg", escoria.inputs_manager, "_on_left_click_on_bg")
-		connect("right_click_on_bg", escoria.inputs_manager, "_on_right_click_on_bg")
-		connect("double_left_click_on_bg", escoria.inputs_manager, "_on_double_left_click_on_bg")
+		escoria.inputs_manager.register_background(self)
 
 
 # Manage inputs reaching the Area2D and emit the events to the input manager
@@ -86,9 +90,9 @@ func _ready():
 func manage_input(_viewport, event, _shape_idx) -> void:
 	if event.is_action_pressed("switch_action_verb"):
 		if event.button_index == BUTTON_WHEEL_UP:
-			escoria.inputs_manager._on_mousewheel_action(-1)
+			emit_signal("mouse_wheel_up")
 		elif event.button_index == BUTTON_WHEEL_DOWN:
-			escoria.inputs_manager._on_mousewheel_action(1)
+			emit_signal("mouse_wheel_down")
 	if event is InputEventMouseButton:
 		var p = get_global_mouse_position()
 		if event.doubleclick:

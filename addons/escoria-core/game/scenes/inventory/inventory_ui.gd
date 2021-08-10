@@ -81,32 +81,7 @@ func add_new_item_by_id(item_id: String) -> void:
 		
 		item_inventory_button.visible = true
 			
-		item_inventory_button.connect(
-			"mouse_left_inventory_item", 
-			escoria.inputs_manager, 
-			"_on_mouse_left_click_inventory_item"
-		)
-		item_inventory_button.connect(
-			"mouse_double_left_inventory_item", 
-			escoria.inputs_manager, 
-			"_on_mouse_double_left_click_inventory_item"
-		)
-		item_inventory_button.connect(
-			"mouse_right_inventory_item", 
-			escoria.inputs_manager,
-			"_on_mouse_right_click_inventory_item"
-		)
-		
-		item_inventory_button.connect(
-			"inventory_item_focused", 
-			escoria.inputs_manager, 
-			"_on_mouse_entered_inventory_item"
-		)
-		item_inventory_button.connect(
-			"inventory_item_unfocused", 
-			escoria.inputs_manager, 
-			"_on_mouse_exited_inventory_item"
-		)
+		escoria.inputs_manager.register_inventory_item(item_inventory_button)
 
 
 # remove item fromInventory UI using its id set in its scene
