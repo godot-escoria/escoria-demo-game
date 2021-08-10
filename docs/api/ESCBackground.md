@@ -69,3 +69,5 @@ Texture or set size
 #### Parameters
 
 - position: The position where the player clicked
+- signal mouse_wheel_up(): Emitted when the mouse wheel was turned up
+- signal mouse_wheel_down(): Emitted when the mouse wheel was turned down

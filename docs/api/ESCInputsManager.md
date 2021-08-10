@@ -54,3 +54,20 @@ var hotspot_focused: String = ""
 ```
 
 The global id fo the topmost item from the hover_stack
+
+## Method Descriptions
+
+### register\_inventory\_item
+
+```gdscript
+func register_inventory_item(item: Node)
+```
+
+Connect the item signals to the local methods
+
+### register\_background
+
+```gdscript
+func register_background(background: ESCBackground)
+```
+
