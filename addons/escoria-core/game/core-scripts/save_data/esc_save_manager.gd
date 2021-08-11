@@ -170,7 +170,7 @@ func load_game(id: int):
 	
 	load_event.statements = load_statements
 	
-	escoria.set_game_unpaused()
+	escoria.set_game_paused(false)
 	
 	escoria.event_manager.queue_event(load_event)
 	

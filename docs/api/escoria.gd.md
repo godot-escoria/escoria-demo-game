@@ -215,3 +215,16 @@ Run a generic action
 
 - action: type of the action to run
 - params: Parameters for the action
+
+### set\_game\_paused
+
+```gdscript
+func set_game_paused()
+```
+
+### set\_game\_unpaused
+
+```gdscript
+func set_game_unpaused()
+```
+

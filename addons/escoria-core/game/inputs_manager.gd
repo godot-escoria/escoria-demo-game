@@ -18,12 +18,20 @@ enum {
 # The current input mode
 var input_mode = INPUT_ALL
 
-
 # A LIFO stack of hovered items
 var hover_stack: Array = []
 
 # The global id fo the topmost item from the hover_stack
 var hotspot_focused: String = ""
+
+
+# Register core signals (from escoria.gd)
+func register_core():
+	escoria.connect(
+		"request_pause_menu",
+		self,
+		"_on_pause_menu_requested"
+	)
 
 
 # Connect the item signals to the local methods

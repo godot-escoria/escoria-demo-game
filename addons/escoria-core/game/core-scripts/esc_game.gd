@@ -251,6 +251,3 @@ func update_tooltip_following_mouse_position(p_position: Vector2):
 func _set_editor_debug_mode(p_editor_debug_mode: int) -> void:
 	editor_debug_mode = p_editor_debug_mode
 	update()
-
-
-
