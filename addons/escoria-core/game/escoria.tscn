@@ -4,6 +4,7 @@
 [ext_resource path="res://addons/escoria-core/game/escoria.gd" type="Script" id=3]
 
 [node name="escoria" type="Node"]
+pause_mode = 2
 script = ExtResource( 3 )
 
 [node name="main" parent="." instance=ExtResource( 2 )]

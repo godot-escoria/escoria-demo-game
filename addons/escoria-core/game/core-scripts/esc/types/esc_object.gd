@@ -40,7 +40,7 @@ func set_state(p_state: String, immediate: bool = false):
 	if node.has_method("get_animation_player"):
 		var animation_node: ESCAnimationPlayer = node.get_animation_player()
 	
-		if animation_node:
+		if animation_node.is_valid():
 			animation_node.stop()
 			var actual_animator
 			if animation_node.has_animation(p_state):

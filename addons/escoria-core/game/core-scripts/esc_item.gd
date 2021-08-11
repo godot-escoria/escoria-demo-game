@@ -154,6 +154,7 @@ var _animation_player: ESCAnimationPlayer = null
 # Add the movable node, connect signals, detect child nodes
 # and register this item
 func _ready():
+	self.pause_mode = Node.PAUSE_MODE_STOP
 	
 	_detect_children()
 	
@@ -214,7 +215,7 @@ func get_animation_player() -> Node:
 						child is AnimationPlayer:
 					player_node_path = child.get_path()
 		if not has_node(player_node_path):
-			escoria.logger.error(
+			escoria.logger.warning(
 				"Can not find node at path %s" % player_node_path
 			)
 		_animation_player = ESCAnimationPlayer.new(get_node(player_node_path))

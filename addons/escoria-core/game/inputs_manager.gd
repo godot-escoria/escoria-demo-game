@@ -86,24 +86,6 @@ func register_background(background: ESCBackground):
 	)
 
 
-# Input event handler
-#
-# #### Parameters
-#
-# - event: Godot input event received
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("esc_show_debug_prompt"):
-		escoria.main.get_node("layers/debug_layer/esc_prompt_popup").popup()
-	
-	if input_mode == INPUT_ALL and event.is_action_pressed("ui_cancel"):
-		_on_pause_menu_requested()
-	
-	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
-		if escoria.main.current_scene and escoria.main.current_scene.game:
-			if event is InputEventMouseMotion:
-				escoria.main.current_scene.game.update_tooltip_following_mouse_position(event.position)
-
-
 # The background was clicked with the LMB
 #
 # #### Parameters

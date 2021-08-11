@@ -12,3 +12,6 @@ CANCEL,Cancel,Annuler
 OK,OK,OK
 ENTER_SAVE_NAME,Enter the save name:,Entrez un nom de sauvegarde
 APPLY,Apply,Appliquer
+CONFIRM_OVERWRITE,Overwrite the savegame?,Écraser la sauvegarde ?
+YES,Yes,Oui
+NO,No,Non

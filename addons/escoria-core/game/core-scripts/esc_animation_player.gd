@@ -137,3 +137,11 @@ func seek_end(name: String):
 # - name: Name of the animation played
 func _on_animation_finished(name: String):
 	emit_signal("animation_finished", name)
+
+
+# Return true if the ESCAnimationPlayer node is valid, ie. it has a valid player
+# node.
+# **Returns: true if the ESCAnimationPlayer has a valid player node, 
+# else false**
+func is_valid() -> bool:
+	return _player_node != null and _player_node is Node

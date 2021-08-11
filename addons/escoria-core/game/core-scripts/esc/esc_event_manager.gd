@@ -14,6 +14,10 @@ var events_queue: Array = []
 var scheduled_events: Array = []
 
 
+func _ready():
+	self.pause_mode = Node.PAUSE_MODE_STOP
+	
+
 # Handle the events queue and scheduled events
 func _process(delta: float) -> void:
 	if events_queue.size() > 0:
