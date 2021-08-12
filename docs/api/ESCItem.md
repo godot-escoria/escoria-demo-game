@@ -204,6 +204,14 @@ var animations: ESCAnimationResource
 
  ESCAnimationsResource (for walking, idling...)
 
+### animation\_sprite
+
+```gdscript
+var animation_sprite
+```
+
+Reference to the animation node (null if none was found)
+
 ### terrain
 
 ```gdscript
