@@ -415,6 +415,9 @@ func _get_property_list():
 #
 # - node_path: Path to the player node
 func _set_animation_player_node(node_path: NodePath):
+	if not Engine.is_editor_hint():
+		return
+	
 	if node_path == "":
 		animation_player_node = node_path
 		return
