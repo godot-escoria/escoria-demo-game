@@ -204,6 +204,7 @@ script = ExtResource( 1 )
 global_id = "player"
 is_movable = true
 dialog_color = Color( 1, 1, 1, 1 )
+animation_player_node = NodePath("sprite")
 animations = ExtResource( 3 )
 
 [node name="sprite" type="AnimatedSprite" parent="."]
