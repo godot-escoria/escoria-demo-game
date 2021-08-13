@@ -48,6 +48,7 @@ position = Vector2( 3.5636, 0 )
 [node name="Hotspots" type="Node2D" parent="."]
 
 [node name="r_door" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 script = ExtResource( 5 )
 __meta__ = {
 "_editor_description_": ""
@@ -68,6 +69,7 @@ position = Vector2( 1225.47, 353.99 )
 script = ExtResource( 7 )
 
 [node name="item" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 position = Vector2( -217.19, 0 )
 script = ExtResource( 5 )
 global_id = "r1_wall_item1"
@@ -104,6 +106,7 @@ __meta__ = {
 }
 
 [node name="item2" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 position = Vector2( 189.644, 0 )
 script = ExtResource( 5 )
 global_id = "r1_wall_item2"

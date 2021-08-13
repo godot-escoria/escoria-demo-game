@@ -432,7 +432,7 @@ func set_angle(deg: int, immediate = true) -> void:
 
 # Returns the angle that corresponds to the current direction of the object.
 func _get_angle() -> int:
-	return parent.animations.dir_angles[last_dir].animation
+	return parent.animations.dir_angles[last_dir].angle_start
 
 
 # Return the shortest way to turn from a direction to another. Returned way is

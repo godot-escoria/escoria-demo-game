@@ -108,6 +108,17 @@ Play an animation and directly skip to the end
 
 - name: Name of the animation to play
 
+### is\_valid
+
+```gdscript
+func is_valid() -> bool
+```
+
+Return true if the ESCAnimationPlayer node is valid, ie. it has a valid player
+node.
+**Returns: true if the ESCAnimationPlayer has a valid player node,
+else false**
+
 ## Signals
 
 - signal animation_finished(name): 

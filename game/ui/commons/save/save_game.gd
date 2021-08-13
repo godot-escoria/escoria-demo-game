@@ -13,7 +13,7 @@ func _ready():
 func _on_slot_pressed(p_slot_n: int):
 	slot_pressed = p_slot_n
 	if escoria.save_manager.save_game_exists(p_slot_n):
-		pass
+		$overwrite_confirm_popup.popup()
 	else:
 		$save_name_popup.popup()
 
@@ -56,3 +56,7 @@ func _on_save_name_popup_savegame_name_ok(p_savename: String):
 
 func _on_save_name_popup_savegame_cancel():
 	pass 
+
+
+func _on_overwrite_confirm_popup_confirm_yes():
+	$save_name_popup.popup()

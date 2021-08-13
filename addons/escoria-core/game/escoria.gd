@@ -1,6 +1,10 @@
 # The escoria main script
 extends Node
 
+# Signal sent when pause menu has to be displayed
+signal request_pause_menu
+
+
 # Escoria version number
 const ESCORIA_VERSION = "0.1.0"
 
@@ -97,6 +101,7 @@ func _init():
 
 # Load settings
 func _ready():
+	inputs_manager.register_core()
 	settings = ESCSaveSettings.new()
 	settings = save_manager.load_settings()
 	escoria._on_settings_loaded(escoria.settings)
@@ -388,3 +393,25 @@ func _on_settings_loaded(p_settings: ESCSaveSettings) -> void:
 	)
 	TranslationServer.set_locale(settings.text_lang)
 
+
+# Input function to manage specific input keys
+func _input(event):
+	if event.is_action_pressed("esc_show_debug_prompt"):
+		escoria.main.get_node("layers/debug_layer/esc_prompt_popup").popup()
+	
+	if event.is_action_pressed("ui_cancel"):
+		emit_signal("request_pause_menu")
+	
+	if ProjectSettings.get_setting("escoria/ui/tooltip_follows_mouse"):
+		if escoria.main.current_scene and escoria.main.current_scene.game:
+			if event is InputEventMouseMotion:
+				escoria.main.current_scene.game. \
+					update_tooltip_following_mouse_position(event.position)
+
+
+# Pauses or unpause the game
+#
+# #### Parameters
+# - p_paused: if true, pauses the game. If false, unpauses the game.
+func set_game_paused(p_paused: bool):
+	get_tree().paused = p_paused

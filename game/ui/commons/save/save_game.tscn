@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://game/ui/commons/load_save_slot/load_save_slot.tscn" type="PackedScene" id=1]
 [ext_resource path="res://game/ui/commons/save/save_game.gd" type="Script" id=2]
 [ext_resource path="res://game/ui/commons/fonts/caslonantique.tres" type="DynamicFont" id=3]
 [ext_resource path="res://game/ui/commons/save/save_name_popup.tscn" type="PackedScene" id=4]
+[ext_resource path="res://game/ui/commons/save/overwrite_confirm_popup.tscn" type="PackedScene" id=5]
 
 [node name="save_game" type="Control"]
 anchor_right = 1.0
@@ -49,6 +50,9 @@ __meta__ = {
 
 [node name="save_name_popup" parent="." instance=ExtResource( 4 )]
 
+[node name="overwrite_confirm_popup" parent="." instance=ExtResource( 5 )]
+
 [connection signal="pressed" from="back" to="." method="_on_back_pressed"]
 [connection signal="savegame_cancel" from="save_name_popup" to="." method="_on_save_name_popup_savegame_cancel"]
 [connection signal="savegame_name_ok" from="save_name_popup" to="." method="_on_save_name_popup_savegame_name_ok"]
+[connection signal="confirm_yes" from="overwrite_confirm_popup" to="." method="_on_overwrite_confirm_popup_confirm_yes"]

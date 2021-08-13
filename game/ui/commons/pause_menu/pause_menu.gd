@@ -2,6 +2,7 @@ extends Control
 
 
 func _ready():
+	self.pause_mode = Node.PAUSE_MODE_PROCESS
 	hide()
 
 
