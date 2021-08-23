@@ -16,20 +16,7 @@ class_name ESCController
 # to
 # - is_fast: if true, the walk is performed at fast speed (defined in the moving
 # object.
-func perform_walk(moving_obj_id: String, destination, is_fast: bool = false):
-	# Check moving object.
-	if not escoria.object_manager.has(moving_obj_id):
-		escoria.logger.report_errors(
-			"escoria.gd:do()",
-			[
-				"Walk action requested on inexisting " + \
-				"object: %s " % moving_obj_id
-			]
-		)
-		return
-	
-	var moving_obj = escoria.object_manager.get_object(moving_obj_id)
-	
+func perform_walk(moving_obj: ESCObject, destination, is_fast: bool = false):
 	# Walk to Position2D.
 	if destination is Vector2:
 		var walk_context = ESCWalkContext.new(
@@ -104,7 +91,7 @@ func perform_inputevent_on_object(
 			  In this case, perform the default_action on the item.
 	"""
 	
-	escoria.logger.info(obj.global_id + " left-clicked with event ", [event])
+	escoria.logger.info("%s left-clicked with event " % obj.global_id, [event])
 	
 	# Don't interact after player movement towards object 
 	# (because object is inactive for example)
@@ -115,33 +102,47 @@ func perform_inputevent_on_object(
 	
 	# If clicked object not in inventory, player walks towards it
 	if not escoria.inventory_manager.inventory_has(obj.global_id):
-		var context = yield(_walk_towards_object(obj, 
-			event.position, event.doubleclick), "completed")
+		var context = _walk_towards_object(
+			obj, 
+			event.position, 
+			event.doubleclick
+		)
+		if context is GDScriptFunctionState:
+			context = yield(_walk_towards_object(
+				obj, 
+				event.position, 
+				event.doubleclick
+			), "completed")
 		destination_position = context.target_position
 		dont_interact = context.dont_interact_on_arrival
 	
-	# If no interaction should happen after player has arrived, leave immediately.
+	# If no interaction should happen after player has arrived, leave 
+	# immediately.
 	if dont_interact:
 		return
 	
 	var player_global_pos = escoria.main.current_scene.player.global_position
 	var clicked_position = event.position
 	
-	# If player has arrived at the position he was supposed to reach so he can interact
+	# If player has arrived at the position he was supposed to reach 
+	# so he can interact
 	if player_global_pos == destination_position:
 		# Manage exits
-		if obj.node.is_exit and escoria.action_manager.current_action in ["", "walk"]:
+		if obj.node.is_exit and escoria.action_manager.current_action \
+				in ["", "walk"]:
 			escoria.action_manager.activate("exit_scene", obj)
 		else:
 			# Manage movements towards object before activating it
-			if escoria.action_manager.current_action in ["", "walk"]:
-				if destination_position != clicked_position \
-						and not escoria.inventory_manager.inventory_has(obj.global_id):
+			if escoria.action_manager.current_action in ["", "walk"] and \
+				not escoria.inventory_manager.inventory_has(obj.global_id):
 					escoria.action_manager.activate("arrived", obj)
 			# Manage action on object
 			elif not escoria.action_manager.current_action in ["", "walk"]:
 				# Check if clicked item awaits a combination
-				var need_combine = _check_item_needs_combine(obj, default_action)
+				var need_combine = _check_item_needs_combine(
+					obj, 
+					default_action
+				)
 				
 				# If apply_interact, perform combine between items
 				if need_combine:
@@ -167,24 +168,23 @@ func perform_inputevent_on_object(
 func _check_item_needs_combine(obj: ESCObject, default_action: bool) -> bool:
 	var need_combine = false
 	# Check if current_action and current_tool are already set
-	if escoria.action_manager.current_action:
-		if escoria.action_manager.current_tool:
+	if escoria.action_manager.current_action and \
+		escoria.action_manager.current_tool:
 			if escoria.action_manager.current_action in escoria.action_manager\
 					.current_tool.node.combine_if_action_used_among:
 				need_combine = true
 			else:
 				escoria.action_manager.current_tool = obj
+	elif default_action:
+		if escoria.inventory_manager.inventory_has(obj.global_id):
+			escoria.action_manager.current_action = \
+					obj.node.default_action_inventory
 		else:
-			if default_action:
-				if escoria.inventory_manager.inventory_has(obj.global_id):
-					escoria.action_manager.current_action = \
-							obj.node.default_action_inventory
-				else:
-					escoria.action_manager.current_action = \
-							obj.node.default_action
-			elif escoria.action_manager.current_action in \
-					obj.node.combine_if_action_used_among:
-				escoria.action_manager.current_tool = obj
+			escoria.action_manager.current_action = \
+					obj.node.default_action
+	elif escoria.action_manager.current_action in \
+			obj.node.combine_if_action_used_among:
+		escoria.action_manager.current_tool = obj
 	return need_combine
 
 

@@ -146,7 +146,20 @@ func do(action: String, params: Array = []) -> void:
 				if params.size() > 2:
 					walk_fast = true if params[2] else false
 					
-				self.controller.perform_walk(params[0], params[1], walk_fast)
+				# Check moving object.
+				if not escoria.object_manager.has(params[0]):
+					escoria.logger.report_errors(
+						"escoria.gd:do()",
+						[
+							"Walk action requested on inexisting " + \
+							"object: %s " % params[0]
+						]
+					)
+					return
+				
+				var moving_obj = escoria.object_manager.get_object(params[0])
+					
+				self.controller.perform_walk(moving_obj, params[1], walk_fast)
 				
 							
 			"item_left_click":
