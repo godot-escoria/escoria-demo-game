@@ -33,13 +33,21 @@ The target position
 var fast: bool
 ```
 
-Wether to move fast
+Whether to move fast
+
+### dont\_interact\_on\_arrival
+
+```gdscript
+var dont_interact_on_arrival: bool
+```
+
+Whether an interaction should NOT happen after walk reaches destination
 
 ## Method Descriptions
 
 ### \_init
 
 ```gdscript
-func _init(p_target_object: ESCObject, p_target_position: Vector2, p_fast: bool)
+func _init(p_target_object: ESCObject, p_target_position: Vector2, p_fast: bool, p_dont_interact_on_arrival: bool)
 ```
 

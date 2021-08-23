@@ -57,6 +57,14 @@ The global id fo the topmost item from the hover_stack
 
 ## Method Descriptions
 
+### register\_core
+
+```gdscript
+func register_core()
+```
+
+Register core signals (from escoria.gd)
+
 ### register\_inventory\_item
 
 ```gdscript

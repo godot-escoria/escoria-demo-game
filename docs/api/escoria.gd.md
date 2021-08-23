@@ -193,6 +193,15 @@ var save_manager: ESCSaveManager
 
 Savegames and settings manager
 
+### controller
+
+```gdscript
+var controller: ESCController
+```
+
+The controller in charge of converting an action verb on a game object
+into an actual action
+
 ## Method Descriptions
 
 ### new\_game
@@ -219,12 +228,14 @@ Run a generic action
 ### set\_game\_paused
 
 ```gdscript
-func set_game_paused()
+func set_game_paused(p_paused: bool)
 ```
 
-### set\_game\_unpaused
+Pauses or unpause the game
 
-```gdscript
-func set_game_unpaused()
-```
+#### Parameters
+- p_paused: if true, pauses the game. If false, unpauses the game.
 
+## Signals
+
+- signal request_pause_menu(): Signal sent when pause menu has to be displayed
