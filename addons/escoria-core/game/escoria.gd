@@ -80,6 +80,10 @@ var inputs_manager: ESCInputsManager
 # Savegames and settings manager
 var save_manager: ESCSaveManager
 
+# The controller in charge of converting an action verb on a game object
+# into an actual action
+var controller: ESCController
+
 
 # Initialize various objects
 func _init():
@@ -97,6 +101,7 @@ func _init():
 	self.resource_cache.start()
 	self.save_manager = ESCSaveManager.new()
 	self.inputs_manager = ESCInputsManager.new()
+	self.controller = ESCController.new()
 
 
 # Load settings
@@ -137,63 +142,12 @@ func do(action: String, params: Array = []) -> void:
 			"walk":
 				self.action_manager.clear_current_action()
 				
-				# Check moving object.
-				if not self.object_manager.has(params[0]):
-					self.logger.report_errors(
-						"escoria.gd:do()",
-						[
-							"Walk action requested on inexisting " + \
-							"object: %s " % params[0]
-						]
-					)
-					return
-				
-				var moving_obj = self.object_manager.get_object(params[0])\
-						.node
-				
-				# Walk to Position2D.
-				if params[1] is Vector2:
-					var target_position = params[1]
-					var is_fast: bool = false
-					if params.size() > 2 and params[2] == true:
-						is_fast = true
-					var walk_context = ESCWalkContext.new(
-						null,
-						target_position,
-						is_fast
-					) 
-					moving_obj.walk_to(target_position, walk_context)
+				var walk_fast = false
+				if params.size() > 2:
+					walk_fast = true if params[2] else false
 					
-				# Walk to object from its id
-				elif params[1] is String:
-					if not self.object_manager.has(params[1]):
-						self.logger.report_errors(
-							"escoria.gd:do()",
-							[
-								"Walk action requested TOWARDS " +\
-								"inexisting object: %s" % params[1]
-							]
-						)
-						return
-					
-					var object = self.object_manager.get_object(params[1])
-					if object:
-						var target_position: Vector2
-						if object.node is ESCLocation:
-							target_position = object.node.global_position
-						else:
-							target_position = object.node.interact_position
-							
-						var is_fast: bool = false
-						if params.size() > 2 and params[2] == true:
-							is_fast = true
-						var walk_context = ESCWalkContext.new(
-							object, 
-							Vector2(), 
-							is_fast
-						)
-						
-						moving_obj.walk_to(target_position, walk_context)
+				self.controller.perform_walk(params[0], params[1], walk_fast)
+				
 							
 			"item_left_click":
 				if params[0] is String:
@@ -202,7 +156,7 @@ func do(action: String, params: Array = []) -> void:
 						[params[0]]
 					)
 					var item = self.object_manager.get_object(params[0])
-					_ev_left_click_on_item(item, params[1])
+					self.controller.perform_inputevent_on_object(item, params[1])
 					
 			"item_right_click":
 				if params[0] is String:
@@ -211,7 +165,7 @@ func do(action: String, params: Array = []) -> void:
 						[params[0]]
 					)
 					var item = self.object_manager.get_object(params[0])
-					_ev_left_click_on_item(item, params[1], true)
+					self.controller.perform_inputevent_on_object(item, params[1], true)
 			
 			"trigger_in":
 				var trigger_id = params[0]
@@ -247,124 +201,6 @@ func do(action: String, params: Array = []) -> void:
 	elif current_state == GAME_STATE.WAIT:
 		pass
 
-
-# Event handler when an object/item was clicked
-#
-# #### Parameters
-#
-# - ob: Object that was left clicked
-# - event: Input event that was received
-# - default_action: Run the inventory default action
-func _ev_left_click_on_item(obj, event, default_action = false):
-	if obj is String:
-		obj = object_manager.get_object(obj)
-	self.logger.info(obj.global_id + " left-clicked with event ", [event])
-	
-	var need_combine = false
-	# Check if current_action and current_tool are already set
-	if self.action_manager.current_action:
-		if self.action_manager.current_tool:
-			if self.action_manager.current_action in self.action_manager\
-					.current_tool.node.combine_if_action_used_among:
-				need_combine = true
-			else:
-				self.action_manager.current_tool = obj
-		else:
-			if default_action:
-				if self.inventory_manager.inventory_has(obj.global_id):
-					self.action_manager.current_action = \
-							obj.node.default_action_inventory
-				else:
-					self.action_manager.current_action = \
-							obj.node.default_action
-			elif self.action_manager.current_action in \
-					obj.node.combine_if_action_used_among:
-				self.action_manager.current_tool = obj
-				
-	
-	# Don't interact after player movement towards object 
-	# (because object is inactive for example)
-	var dont_interact = false
-	var destination_position: Vector2 = main.current_scene.player.\
-			global_position
-	
-	# Create walk context 
-	var walk_context = ESCWalkContext.new(
-		obj,
-		Vector2(),
-		event.doubleclick
-	)
-	
-	# If object not in inventory, player walks towards it
-	if not inventory_manager.inventory_has(obj.global_id):
-		var clicked_object_has_interact_position = false
-
-		if object_manager.get_object(obj.global_id).interactive:
-			if obj.node.get_interact_position() != null:
-				destination_position = obj.node.get_interact_position()
-				clicked_object_has_interact_position = true
-			else:
-				destination_position = obj.node.position
-		else:
-			destination_position = event.position
-			dont_interact = true
-		
-		main.current_scene.player.walk_to(
-			destination_position, 
-			walk_context
-		)
-		
-		# Wait for the player to arrive before continuing with action.
-		var context: ESCWalkContext = yield(
-			main.current_scene.player,
-			"arrived"
-		)
-		
-		self.logger.info("Context arrived: %s" % context)
-		
-		if context.target_object and \
-				context.target_object.global_id != walk_context.\
-				target_object.global_id:
-			dont_interact = true
-		elif context.target_position != walk_context.target_position:
-			dont_interact = true
-	
-	# If no interaction should happen after player has arrived, leave immediately.
-	if dont_interact:
-		return
-	
-	var player_global_pos = main.current_scene.player.global_position
-	var clicked_position = event.position
-	
-	# If player has arrived at the position he was supposed to reach so he can interact
-	if player_global_pos == destination_position:
-		# Manage exits
-		if obj.node.is_exit and self.action_manager.current_action == "" \
-				or self.action_manager.current_action == "walk":
-			self.action_manager.activate("exit_scene", obj)
-		else:
-			# Manage movements towards object before activating it
-			if self.action_manager.current_action == "" \
-					or self.action_manager.current_action == "walk":
-				if destination_position != clicked_position \
-						and not inventory_manager.inventory_has(obj.global_id):
-					self.action_manager.activate("arrived", obj)
-			# Manage action on object
-			elif self.action_manager.current_action != "" and \
-					self.action_manager.current_action != "walk":
-				# If apply_interact, perform combine between items
-				if need_combine:
-					self.action_manager.activate(
-						self.action_manager.current_action,
-						self.action_manager.current_tool,
-						obj
-					)
-						
-				else:
-					self.action_manager.activate(
-						self.action_manager.current_action,
-						obj
-					)
 
 
 # Apply the loaded settings

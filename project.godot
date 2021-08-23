@@ -154,6 +154,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_condition.gd"
 }, {
+"base": "Reference",
+"class": "ESCController",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc_controller.gd"
+}, {
 "base": "ESCStatement",
 "class": "ESCDialog",
 "language": "GDScript",
@@ -504,6 +509,7 @@ _global_script_class_icons={
 "ESCCommandRegistry": "",
 "ESCCompiler": "",
 "ESCCondition": "",
+"ESCController": "",
 "ESCDialog": "",
 "ESCDialogOption": "",
 "ESCDialogsPlayer": "",
@@ -647,6 +653,10 @@ switch_action_verb={
 [locale]
 
 translations=PoolStringArray( "res://game/translations/game.en.translation", "res://game/translations/game.fr.translation", "res://game/translations/main_menu.en.translation", "res://game/translations/main_menu.fr.translation" )
+
+[network]
+
+limits/debugger_stdout/max_chars_per_second=99999999
 
 [rendering]
 
