@@ -7,7 +7,7 @@
 ### perform\_walk
 
 ```gdscript
-func perform_walk(moving_obj_id: String, destination, is_fast: bool = false)
+func perform_walk(moving_obj: ESCObject, destination, is_fast: bool = false)
 ```
 
 Makes an object walk to a destination. This can be either a 2D position or

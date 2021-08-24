@@ -166,8 +166,7 @@ func do(action: String, params: Array = []) -> void:
 					target = params[1]
 				
 				self.controller.perform_walk(moving_obj, target, walk_fast)
-				
-							
+						
 			"item_left_click":
 				if params[0] is String:
 					self.logger.info(
