@@ -402,7 +402,7 @@ func _angle_is_between(
 	start_angle: float, 
 	end_angle: float
 ) -> bool:
-	return wrapi(angle, 0, 360) > wrapi(start_angle, 0, 360) \
+	return wrapi(angle, 0, 360) >= wrapi(start_angle, 0, 360) \
 		and wrapi(angle, 0, 360) <= wrapi(end_angle, 0, 360)
 
 
