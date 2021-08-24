@@ -175,12 +175,6 @@ Update the sprite scale and lighting
 
 - on_event_finished_name: Used if this function is called from an ESC event
 
-### is\_angle\_in\_interval
-
-```gdscript
-func is_angle_in_interval(angle: float, direction_angle: ESCDirectionAngle) -> bool
-```
-
 ### set\_angle
 
 ```gdscript
