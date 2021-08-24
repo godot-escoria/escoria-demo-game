@@ -160,7 +160,17 @@ func do(action: String, params: Array = []) -> void:
 				var moving_obj = escoria.object_manager.get_object(params[0])
 				var target
 				
-				if params[1] is String and escoria.object_manager.has(params[1]):
+				if params[1] is String:
+					if not escoria.object_manager.has(params[1]):
+						escoria.logger.report_errors(
+							"escoria.gd:do()",
+							[
+								"Walk action requested to inexisting " + \
+								"object: %s " % params[1]
+							]
+						)
+						return
+						
 					target = escoria.object_manager.get_object(params[1])
 				elif params[1] is Vector2:
 					target = params[1]

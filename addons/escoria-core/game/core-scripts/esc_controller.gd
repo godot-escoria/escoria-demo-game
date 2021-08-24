@@ -48,6 +48,16 @@ func perform_walk(
 			)
 			
 			moving_obj.node.walk_to(target_position, walk_context)
+	
+	else:
+		escoria.logger.report_errors(
+			"esc_controller.gd:perform_walk()",
+			[
+				"Function expected either a Vector2 or ESCObject type " + \
+				"for destination parameter. Actual was: %s " % destination
+			]
+		)
+		return
 
 
 # Event handler when an object/item was clicked
