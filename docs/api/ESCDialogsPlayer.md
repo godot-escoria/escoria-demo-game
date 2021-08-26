@@ -20,18 +20,6 @@ Wether the player is currently speaking
 
 ## Method Descriptions
 
-### preload\_resources
-
-```gdscript
-func preload_resources(path: String) -> void
-```
-
-Preload the dialog UI resources
-
-#### Parameters
-
-- path: Path where the actual dialog UI resources are located
-
 ### say
 
 ```gdscript
@@ -62,13 +50,21 @@ func start_dialog_choices(dialog: ESCDialog)
 
 Display a list of choices
 
+#### Parameters
+
+- dialog: The dialog to start
+
 ### play\_dialog\_option\_chosen
 
 ```gdscript
 func play_dialog_option_chosen(option: ESCDialogOption)
 ```
 
-Called when an option was chosen
+Called when an option was chosen and emits the option_chosen signal
+
+#### Parameters
+
+- option: Option, that was chosen.
 
 ## Signals
 
