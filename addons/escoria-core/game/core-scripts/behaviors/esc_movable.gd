@@ -31,9 +31,6 @@ var walk_context: ESCWalkContext = null
 # Wether the character was moved at all
 var moved: bool
 
-# Angle degrees from the last position to the next
-var last_deg: int
-
 # Player Direction used to reflect the movement to the new position
 var last_dir: int
 
@@ -71,72 +68,109 @@ func _process(delta: float) -> void:
 		return
 	
 	if task == MovableTask.WALK or task == MovableTask.SLIDE:
-		var pos = parent.get_position()
-		var old_pos = pos
-		var next
-		if walk_path.size() > 1:
-			next = walk_path[path_ofs + 1]
-		else:
-			next = walk_path[path_ofs]
-
-		var dist = parent.speed * delta * pow(last_scale.x, 2) * \
-			parent.terrain.player_speed_multiplier
-		if walk_context.fast:
-			dist *= parent.terrain.player_doubleclick_speed_multiplier
-		var dir = (next - pos).normalized()
-
-		dir = dir * (dir.x * dir.x +  dir.y * dir.y * parent.v_speed_damp)
-
-		var new_pos
-		if pos.distance_to(next) < dist:
-			new_pos = next
-			path_ofs += 1
-		else:
-			new_pos = pos + dir * dist
-
-		if path_ofs >= walk_path.size() - 1:
-			walk_stop(walk_destination)
+		var old_pos = parent.get_position()
+		var new_pos = _calculate_movement(delta)
+		if new_pos == null:
 			return
-
-		pos = new_pos
-
-		var angle = (old_pos.angle_to_point(pos))
-		parent.set_position(pos)
-
+		
 		if task == MovableTask.WALK:
-			last_deg = escoria.utils.get_deg_from_rad(angle)
-			last_dir = _get_dir_deg(last_deg, parent.animations)
-
-			var animation_player: ESCAnimationPlayer = \
-					parent.get_animation_player()
-			
-			var current_animation = animation_player.get_animation()
-			
-			var animation_to_play = \
-					parent.animations.directions[last_dir].animation
-			if current_animation != animation_to_play:
-				if animation_player.has_animation(animation_to_play):
-					animation_player.play(animation_to_play)
-				else:
-					current_animation = animation_to_play
-					escoria.logger.report_warnings(
-						"movable.gd:_process()",
-						[
-							"Character %s has no animation %s "
-							% [parent.global_id, animation_to_play],
-							"Bypassing missing animation and " +
-							"proceed movement."
-						],
-						true
-					)
-			
-			pose_scale = -1 if parent.animations.directions[last_dir].mirrored \
-				else 1
+			# Get the angle of the object to face the position to reach.
+			var angle: float = (old_pos.angle_to_point(new_pos))
+			_perform_walk_orientation(angle)
 
 		update_terrain()
 	else:
 		moved = false
 		set_process(false)
+
+
+# Calculates the next position of the object.
+#
+# #### Parameters
+#
+# - delta: the time elapsed from last frame
+#
+# *Returns*
+# The new Vector2 position of the object, or null if stop walking.
+func _calculate_movement(delta: float):
+	# Initialize the current pos and previous pos variables
+	var pos: Vector2 = parent.get_position()
+	var old_pos: Vector2 = pos
+	
+	# Get next waypoint from the walkpath array.
+	var next: Vector2
+	if walk_path.size() > 1:
+		next = walk_path[path_ofs + 1]
+	else:
+		next = walk_path[path_ofs]
+	
+	# Movement speed calculation 
+	var movement_speed: float = parent.speed * delta * pow(last_scale.x, 2) * \
+		parent.terrain.player_speed_multiplier
+	if walk_context.fast:
+		movement_speed *= parent.terrain.player_doubleclick_speed_multiplier
+	
+	# Calculate the direction vector from current position and next waypoint
+	var dir: Vector2 = (next - pos).normalized()
+	
+	# If we're close to the next waypoint (ie. distance < necessary movement 
+	# speed to get to this waypoint, we consider the waypoint reached
+	# and pass to the next one.
+	# Else, calculate the new position.
+	var new_pos: Vector2
+	if pos.distance_to(next) < movement_speed:
+		new_pos = next
+		path_ofs += 1
+	else:
+		new_pos = pos + dir * movement_speed * parent.v_speed_damp
+
+	# If current waypoint id is >= the number of waypoints, were're at the
+	# end of the walk: stop walking.
+	if path_ofs >= walk_path.size() - 1:
+		walk_stop(walk_destination)
+		return
+	
+	# Update current position variable
+	pos = new_pos
+	parent.set_position(pos)
+	return pos
+
+# Calculates the orientation of the object while walking, to play the right 
+# animation according to this orientation.
+#
+# #### Parameters
+#
+# - angle: the angle X axis and object's facing direction. 
+func _perform_walk_orientation(angle: float):
+	last_dir = _get_dir_deg(escoria.utils.get_deg_from_rad(angle),
+		parent.animations)
+
+	var animation_player: ESCAnimationPlayer = \
+			parent.get_animation_player()
+	
+	var current_animation = animation_player.get_animation()
+	
+	var animation_to_play = \
+			parent.animations.directions[last_dir].animation
+	if current_animation != animation_to_play and \
+			animation_player.has_animation(animation_to_play):
+		animation_player.play(animation_to_play)
+	elif current_animation != animation_to_play and \
+			not animation_player.has_animation(animation_to_play):
+		current_animation = animation_to_play
+		escoria.logger.report_warnings(
+			"movable.gd:_process()",
+			[
+				"Character %s has no animation %s "
+				% [parent.global_id, animation_to_play],
+				"Bypassing missing animation and " +
+				"proceed movement."
+			],
+			true
+		)
+	
+	pose_scale = -1 if parent.animations.directions[last_dir].mirrored \
+		else 1
 
 
 # Teleports this item to the target position.
@@ -423,7 +457,6 @@ func set_angle(deg: int, immediate = true) -> void:
 	moved = true
 	
 	if immediate:
-		last_deg = deg
 		last_dir = _get_dir_deg(deg, parent.animations)
 
 		# The character may have a state animation from before, which would be
@@ -436,7 +469,6 @@ func set_angle(deg: int, immediate = true) -> void:
 		pose_scale = -1 if parent.animations.idles[last_dir].mirrored else 1
 	else:
 		var current_dir = last_dir
-		last_deg = deg
 		var target_dir = _get_dir_deg(deg, parent.animations)
 		
 		var way_to_turn = get_shortest_way_to_dir(current_dir, target_dir)

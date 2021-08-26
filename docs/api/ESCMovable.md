@@ -64,14 +64,6 @@ var moved: bool
 
 Wether the character was moved at all
 
-### last\_deg
-
-```gdscript
-var last_deg: int
-```
-
-Angle degrees from the last position to the next
-
 ### last\_dir
 
 ```gdscript
