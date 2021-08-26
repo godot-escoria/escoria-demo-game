@@ -224,6 +224,8 @@ Run a generic action
 
 - action: type of the action to run
 - params: Parameters for the action
+- can_interrupt: if true, this command will interrupt any ongoing event
+before it is finished
 
 ### set\_game\_paused
 
