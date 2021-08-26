@@ -26,14 +26,15 @@ func set_escoria_ui_settings():
 	if !ProjectSettings.has_setting("escoria/ui/tooltip_follows_mouse"):
 		ProjectSettings.set_setting("escoria/ui/tooltip_follows_mouse", true)
 	
-	if !ProjectSettings.has_setting("escoria/ui/dialogs_folder"):
-		ProjectSettings.set_setting("escoria/ui/dialogs_folder", "")
-		var dialogs_folder_property_info = {
-			"name": "escoria/ui/dialogs_folder",
+	if !ProjectSettings.has_setting("escoria/ui/dialogs_chooser"):
+		ProjectSettings.set_setting("escoria/ui/dialogs_chooser", "")
+		var dialogs_chooser_property_info = {
+			"name": "escoria/ui/dialogs_chooser",
 			"type": TYPE_STRING,
-			"hint": PROPERTY_HINT_DIR
+			"hint": PROPERTY_HINT_FILE,
+			"hint_string": "*.tscn, *.scn"
 		}
-		ProjectSettings.add_property_info(dialogs_folder_property_info)
+		ProjectSettings.add_property_info(dialogs_chooser_property_info)
 		
 	if !ProjectSettings.has_setting("escoria/ui/default_dialog_scene"):
 		ProjectSettings.set_setting("escoria/ui/default_dialog_scene", "")

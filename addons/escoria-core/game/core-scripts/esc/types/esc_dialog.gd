@@ -5,7 +5,7 @@ class_name ESCDialog
 
 # Regex that matches dialog lines
 const REGEX = \
-	'^(\\s*)\\?( (?<type>[^ ]+))?( (?<avatar>[^ ]+))?' +\
+	'^(\\s*)\\?( (?<avatar>[^ ]+))?' +\
 	'( (?<timeout>[^ ]+))?( (?<timeout_option>.+))?$'
 
 
@@ -14,11 +14,8 @@ const END_REGEX = \
 	'^(?<indent>\\s*)!.*$'
 
 
-# Dialog type
-var type: String = ""
-
 # Avatar used in the dialog
-var avatar: String = ""
+var avatar: String = "-"
 
 # Timeout until the timeout_option option is selected. Use 0 for no timeout
 var timeout: int = 0
@@ -37,8 +34,6 @@ func _init(dialog_string: String):
 	
 	if dialog_regex.search(dialog_string):
 		for result in dialog_regex.search_all(dialog_string):
-			if "type" in result.names:
-				self.type = escoria.utils.get_re_group(result, "type")
 			if "avatar" in result.names:
 				self.avatar = escoria.utils.get_re_group(result, "avatar")
 			if "timeout" in result.names:
@@ -58,8 +53,22 @@ func _init(dialog_string: String):
 		)
 
 
-# Dialogs have no conditions, just return true
+# Check if dialog is valid
 func is_valid() -> bool:
+	if self.avatar != "-" and not ResourceLoader.exists(self.avatar):
+		escoria.logger.report_errors(
+			"Avatar scene not found: %s" % self.avatar,
+			[]
+		)
+		return false
+	if self.timeout_option > self.options.size() \
+			or self.timeout_option < 0:
+		escoria.logger.report_errors(
+			"Invalid timeout_option parameter given: %d" % self.timeout_option,
+			[]
+		)
+		return false
+		
 	return true
 
 

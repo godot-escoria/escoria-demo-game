@@ -12,7 +12,7 @@ say player "I don't think he'd like that."
 	say worker "Yeah?"
 	set_global talked_once true
 
-? option1 1000 option2 true
+? res://game/characters/mark/mark_talk.tscn 5 1
 	- "What are you doing here?"
 		say player 	"What are you doing here?"
 		say worker 	"I'm working! Can't you see that?"
@@ -27,7 +27,7 @@ say player "I don't think he'd like that."
 				say player	"I've got better things to do."
 				say worker	"Eh! I'm not asking you anythin'!"
 				stop
-        !
+		!
 	- "I'm selling these fine leather jackets."
 		say player	"I'm selling these fine leather jackets."
 		say worker 	"Go away, kid."
