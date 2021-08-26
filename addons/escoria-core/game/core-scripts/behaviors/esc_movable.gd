@@ -31,9 +31,6 @@ var walk_context: ESCWalkContext = null
 # Wether the character was moved at all
 var moved: bool
 
-# Angle degrees from the last position to the next
-var last_deg: int
-
 # Player Direction used to reflect the movement to the new position
 var last_dir: int
 
@@ -107,26 +104,25 @@ func _calculate_movement(delta: float):
 	else:
 		next = walk_path[path_ofs]
 	
-	# Movement quantity calculation 
-	var movement_quantity: float = parent.speed * delta * pow(last_scale.x, 2) * \
+	# Movement speed calculation 
+	var movement_speed: float = parent.speed * delta * pow(last_scale.x, 2) * \
 		parent.terrain.player_speed_multiplier
 	if walk_context.fast:
-		movement_quantity *= parent.terrain.player_doubleclick_speed_multiplier
+		movement_speed *= parent.terrain.player_doubleclick_speed_multiplier
 	
 	# Calculate the direction vector from current position and next waypoint
 	var dir: Vector2 = (next - pos).normalized()
-	dir = dir * (dir.x * dir.x +  dir.y * dir.y * parent.v_speed_damp)
 	
 	# If we're close to the next waypoint (ie. distance < necessary movement 
-	# quantity to get to this waypoint, we consider the waypoint reached
+	# speed to get to this waypoint, we consider the waypoint reached
 	# and pass to the next one.
 	# Else, calculate the new position.
 	var new_pos: Vector2
-	if pos.distance_to(next) < movement_quantity:
+	if pos.distance_to(next) < movement_speed:
 		new_pos = next
 		path_ofs += 1
 	else:
-		new_pos = pos + dir * movement_quantity
+		new_pos = pos + dir * movement_speed * parent.v_speed_damp
 
 	# If current waypoint id is >= the number of waypoints, were're at the
 	# end of the walk: stop walking.
@@ -146,8 +142,8 @@ func _calculate_movement(delta: float):
 #
 # - angle: the angle X axis and object's facing direction. 
 func _perform_walk_orientation(angle: float):
-	last_deg = escoria.utils.get_deg_from_rad(angle)
-	last_dir = _get_dir_deg(last_deg, parent.animations)
+	last_dir = _get_dir_deg(escoria.utils.get_deg_from_rad(angle),
+		parent.animations)
 
 	var animation_player: ESCAnimationPlayer = \
 			parent.get_animation_player()
@@ -156,21 +152,22 @@ func _perform_walk_orientation(angle: float):
 	
 	var animation_to_play = \
 			parent.animations.directions[last_dir].animation
-	if current_animation != animation_to_play:
-		if animation_player.has_animation(animation_to_play):
-			animation_player.play(animation_to_play)
-		else:
-			current_animation = animation_to_play
-			escoria.logger.report_warnings(
-				"movable.gd:_process()",
-				[
-					"Character %s has no animation %s "
-					% [parent.global_id, animation_to_play],
-					"Bypassing missing animation and " +
-					"proceed movement."
-				],
-				true
-			)
+	if current_animation != animation_to_play and \
+			animation_player.has_animation(animation_to_play):
+		animation_player.play(animation_to_play)
+	elif current_animation != animation_to_play and \
+			not animation_player.has_animation(animation_to_play):
+		current_animation = animation_to_play
+		escoria.logger.report_warnings(
+			"movable.gd:_process()",
+			[
+				"Character %s has no animation %s "
+				% [parent.global_id, animation_to_play],
+				"Bypassing missing animation and " +
+				"proceed movement."
+			],
+			true
+		)
 	
 	pose_scale = -1 if parent.animations.directions[last_dir].mirrored \
 		else 1
@@ -460,7 +457,6 @@ func set_angle(deg: int, immediate = true) -> void:
 	moved = true
 	
 	if immediate:
-		last_deg = deg
 		last_dir = _get_dir_deg(deg, parent.animations)
 
 		# The character may have a state animation from before, which would be
@@ -473,7 +469,6 @@ func set_angle(deg: int, immediate = true) -> void:
 		pose_scale = -1 if parent.animations.idles[last_dir].mirrored else 1
 	else:
 		var current_dir = last_dir
-		last_deg = deg
 		var target_dir = _get_dir_deg(deg, parent.animations)
 		
 		var way_to_turn = get_shortest_way_to_dir(current_dir, target_dir)
