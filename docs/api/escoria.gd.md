@@ -215,7 +215,7 @@ Called by Main menu "start new game"
 ### do
 
 ```gdscript
-func do(action: String, params: Array) -> void
+func do(action: String, params: Array, can_interrupt: bool = false) -> void
 ```
 
 Run a generic action
