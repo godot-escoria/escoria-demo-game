@@ -18,60 +18,39 @@ signal dialog_line_finished
 # Wether the player is currently speaking
 var is_speaking = false
 
+
 # Reference to the dialog UI
 var _dialog_ui = null
 
 # Reference to the dialog chooser UI
-var _dialog_chooser_ui = null
+var _dialog_chooser_ui: ESCDialogOptionsChooser = null
 
 
 # Register the dialog player and load the dialog resources
 func _ready():
 	if !Engine.is_editor_hint():
 		escoria.dialog_player = self
-	preload_resources(ProjectSettings.get_setting("escoria/ui/dialogs_folder"))
+		_dialog_chooser_ui = ResourceLoader.load(
+			ProjectSettings.get_setting("escoria/ui/dialogs_chooser")
+		).instance()
+		assert(_dialog_chooser_ui is ESCDialogOptionsChooser)
+		_dialog_chooser_ui.connect(
+			"option_chosen", 
+			self, 
+			"play_dialog_option_chosen"
+		)
+		get_parent().call_deferred("add_child", _dialog_chooser_ui)
 
 
 # Trigger the finish fast function on the dialog ui
+#
+# #### Parameters
+#
+# - event: The input event
 func _input(event):
 	if event is InputEventMouseButton and \
 			event.pressed:
 		finish_fast()
-
-
-# Preload the dialog UI resources
-#
-# #### Parameters
-#
-# - path: Path where the actual dialog UI resources are located
-func preload_resources(path: String) -> void:
-	var dialog_folder := Directory.new()
-	if !path.empty() and dialog_folder.open(path) == OK:
-		dialog_folder.list_dir_begin()
-		var file_name = dialog_folder.get_next()
-		while file_name != "":
-			if !dialog_folder.current_is_dir() \
-					and file_name.get_extension() == "tscn":
-				var extension = "." + file_name.get_extension()
-				var basename = file_name.replace(extension, "")
-				
-				if !has_resource(basename):
-					var file_path = "%s/%s" % [
-						dialog_folder.get_current_dir(),
-						file_name
-					]
-					var dialog_scene = load(file_path)
-					
-					if dialog_scene != null:
-						add_resource(basename, dialog_scene)
-			file_name = dialog_folder.get_next()
-	else:
-		escoria.logger.report_errors(
-			"dialog_player.gd:preload_resources()", 
-			[
-				"An error occurred when trying to access the path: %s." % path
-			]
-		)
 
 
 # A short one line dialog
@@ -99,20 +78,26 @@ func finish_fast() -> void:
 
 
 # Display a list of choices
+#
+# #### Parameters
+#
+# - dialog: The dialog to start
 func start_dialog_choices(dialog: ESCDialog):
 	if dialog.options.empty():
 		escoria.logger.report_errors(
 			"dialog_player.gd:start_dialog_choices()", 
 			["Received answers array was empty."]
 		)
-	_dialog_chooser_ui = get_resource("text_dialog_choice").instance()
-	get_parent().add_child(_dialog_chooser_ui)
-	
-	_dialog_chooser_ui.set_answers(dialog.options)
+	_dialog_chooser_ui.set_dialog(dialog)
+	_dialog_chooser_ui.show_chooser()
 
 
-# Called when an option was chosen
+# Called when an option was chosen and emits the option_chosen signal
+#
+# #### Parameters
+#
+# - option: Option, that was chosen.
 func play_dialog_option_chosen(option: ESCDialogOption):
 	emit_signal("option_chosen", option)
-	_dialog_chooser_ui.hide()
+	_dialog_chooser_ui.hide_chooser()
 

@@ -394,17 +394,16 @@ Dialogs are specified by writing `?` with optional parameters, followed by a lis
 
 The following parameters are available:
 
-* type: (default value "default") the type of dialog menu to use.
-* avatar: (default value "default") the avatar to use in the dialog ui.
+* avatar: the path to a scene displaying an avatar used in the UI. Defaults to no avatar. To only set the remaining options, set this field to "-"
 * timeout: (default value 0) timeout to select an option. After the time has passed, the "timeout_option" will be selected automatically. If the value is 0, there's no timeout.
-* timeout_option: (default value 0) option selected when timeout is reached.
+* timeout_option: (default value 0) index of option (starting from 1) selected when timeout is reached.
 
 Example:
 
 ```
 # character's "talk" event
 :talk
-? type avatar timeout timeout_option
+? avatar timeout timeout_option
 	- "I'd like to buy a map." [!player_has_map]
 		say player "I'd like to buy a map"
 		say map_vendor "Do you know the secret code?"

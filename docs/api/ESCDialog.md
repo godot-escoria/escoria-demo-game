@@ -21,25 +21,17 @@ A Regex that matches the end of a dialog
 ### REGEX
 
 ```gdscript
-const REGEX: String = "^(\\s*)\\?( (?<type>[^ ]+))?( (?<avatar>[^ ]+))?( (?<timeout>[^ ]+))?( (?<timeout_option>.+))?$"
+const REGEX: String = "^(\\s*)\\?( (?<avatar>[^ ]+))?( (?<timeout>[^ ]+))?( (?<timeout_option>.+))?$"
 ```
 
 Regex that matches dialog lines
 
 ## Property Descriptions
 
-### type
-
-```gdscript
-var type: String = ""
-```
-
-Dialog type
-
 ### avatar
 
 ```gdscript
-var avatar: String = ""
+var avatar: String = "-"
 ```
 
 Avatar used in the dialog
@@ -84,7 +76,7 @@ Construct a dialog from a dialog string
 func is_valid() -> bool
 ```
 
-Dialogs have no conditions, just return true
+Check if dialog is valid
 
 ### run
 

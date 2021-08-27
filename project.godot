@@ -169,6 +169,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_dialog_option.gd"
 }, {
+"base": "Node",
+"class": "ESCDialogOptionsChooser",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/scenes/dialogs/esc_dialog_options_chooser.gd"
+}, {
 "base": "ResourcePreloader",
 "class": "ESCDialogsPlayer",
 "language": "GDScript",
@@ -512,6 +517,7 @@ _global_script_class_icons={
 "ESCController": "",
 "ESCDialog": "",
 "ESCDialogOption": "",
+"ESCDialogOptionsChooser": "",
 "ESCDialogsPlayer": "",
 "ESCDirectionAngle": "",
 "ESCEvent": "",
@@ -635,6 +641,7 @@ main/settings_path="user://"
 main/escoria_version=""
 sound/speech_enabled=1
 ui/game_scene="res://addons/escoria-ui-9verbs/game.tscn"
+ui/dialogs_chooser="res://game/ui/commons/dialogs/text_dialog_choice.tscn"
 
 [input]
 

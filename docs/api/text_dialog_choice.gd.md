@@ -2,7 +2,7 @@
 
 # text\_dialog\_choice.gd
 
-**Extends:** [Control](../Control)
+**Extends:** [ESCDialogOptionsChooser](../ESCDialogOptionsChooser) < [Node](../Node)
 
 ## Description
 
@@ -26,17 +26,17 @@ export var color_hover = "165,42,42,1"
 export var font = "[Object:null]"
 ```
 
-### commands
-
-```gdscript
-var commands
-```
-
 ## Method Descriptions
 
-### set\_answers
+### show\_chooser
 
 ```gdscript
-func set_answers(options: Array)
+func show_chooser()
+```
+
+### hide\_chooser
+
+```gdscript
+func hide_chooser()
 ```
 
