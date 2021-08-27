@@ -44,6 +44,15 @@ func schedule_event(event: ESCEvent, timeout: float) -> void
 
 Schedule an event to run after a timeout
 
+### interrupt\_running\_event
+
+```gdscript
+func interrupt_running_event()
+```
+
+Interrupt the event currently running.
+
 ## Signals
 
 - signal event_finished(event_name, return_code): Emitted when the event did finish running
+- signal event_interrupted(event_name, return_code): Emitted when the event was interrupted

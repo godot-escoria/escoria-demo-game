@@ -52,7 +52,11 @@ func _draw():
 #
 # - position: Position clicked
 func left_click_on_bg(position: Vector2) -> void:
-	escoria.do("walk", [escoria.main.current_scene.player.global_id, position])
+	escoria.do(
+		"walk",
+		[escoria.main.current_scene.player.global_id, position],
+		true
+	)
 
 
 # Called when the player right clicks on the background
@@ -62,7 +66,11 @@ func left_click_on_bg(position: Vector2) -> void:
 #
 # - position: Position clicked	
 func right_click_on_bg(position: Vector2) -> void:
-	escoria.do("walk", [escoria.main.current_scene.player.global_id, position])
+	escoria.do(
+		"walk", 
+		[escoria.main.current_scene.player.global_id, position],
+		true
+	)
 
 
 # Called when the player double clicks on the background
@@ -72,8 +80,11 @@ func right_click_on_bg(position: Vector2) -> void:
 #
 # - position: Position clicked
 func left_double_click_on_bg(position: Vector2) -> void:
-	escoria.do("walk", [escoria.main.current_scene.player.global_id, position, \
-		 true])
+	escoria.do(
+		"walk", 
+		[escoria.main.current_scene.player.global_id, position, true],
+		true
+	)
 
 # Called when an element in the scene was focused
 # (Needs to be overridden, if supported)
@@ -99,7 +110,11 @@ func element_unfocused() -> void:
 # - item_global_id: Global id of the item that was clicked
 # - event: The received input event
 func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
-	escoria.do("item_left_click", [item_global_id, event])
+	escoria.do(
+		"item_left_click", 
+		[item_global_id, event],
+		true
+	)
 
 
 # Called when an item was right clicked
@@ -110,7 +125,11 @@ func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
 # - item_global_id: Global id of the item that was clicked
 # - event: The received input event
 func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
-	escoria.do("item_right_click", [item_global_id, event])
+	escoria.do(
+		"item_right_click", 
+		[item_global_id, event],
+		true
+	)
 
 
 # Called when an item was double clicked
@@ -124,7 +143,11 @@ func left_double_click_on_item(
 	item_global_id: String, 
 	event: InputEvent
 ) -> void:
-	escoria.do("item_left_click", [item_global_id, event]) 
+	escoria.do(
+		"item_left_click", 
+		[item_global_id, event],
+		true
+	) 
 
 
 # Called when an inventory item was left clicked

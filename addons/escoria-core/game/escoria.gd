@@ -136,10 +136,15 @@ func new_game():
 #
 # - action: type of the action to run
 # - params: Parameters for the action
-func do(action: String, params: Array = []) -> void:
+# - can_interrupt: if true, this command will interrupt any ongoing event 
+# before it is finished
+func do(action: String, params: Array = [], can_interrupt: bool = false) -> void:
 	if current_state == GAME_STATE.DEFAULT:
 		match action:
 			"walk":
+				if can_interrupt:
+					event_manager.interrupt_running_event()
+					
 				self.action_manager.clear_current_action()
 				
 				var walk_fast = false
@@ -183,6 +188,10 @@ func do(action: String, params: Array = []) -> void:
 						"escoria.do(): item_left_click on item ", 
 						[params[0]]
 					)
+					
+					if can_interrupt:
+						event_manager.interrupt_running_event()
+					
 					var item = self.object_manager.get_object(params[0])
 					self.controller.perform_inputevent_on_object(item, params[1])
 					
@@ -192,6 +201,10 @@ func do(action: String, params: Array = []) -> void:
 						"escoria.do(): item_right_click on item ", 
 						[params[0]]
 					)
+					
+					if can_interrupt:
+						event_manager.interrupt_running_event()
+						
 					var item = self.object_manager.get_object(params[0])
 					self.controller.perform_inputevent_on_object(item, params[1], true)
 			

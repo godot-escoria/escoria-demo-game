@@ -215,7 +215,7 @@ Called by Main menu "start new game"
 ### do
 
 ```gdscript
-func do(action: String, params: Array) -> void
+func do(action: String, params: Array, can_interrupt: bool = false) -> void
 ```
 
 Run a generic action
@@ -224,6 +224,8 @@ Run a generic action
 
 - action: type of the action to run
 - params: Parameters for the action
+- can_interrupt: if true, this command will interrupt any ongoing event
+before it is finished
 
 ### set\_game\_paused
 

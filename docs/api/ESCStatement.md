@@ -36,6 +36,15 @@ func run() -> var
 
 Execute this statement and return its return code
 
+### interrupt
+
+```gdscript
+func interrupt()
+```
+
+Interrupt the statement in the middle of its execution.
+
 ## Signals
 
 - signal finished(return_code): Emitted when the event did finish running
+- signal interrupted(return_code): Emitted when the event was interrupted

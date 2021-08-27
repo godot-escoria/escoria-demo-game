@@ -38,18 +38,29 @@ func _ready():
 ## BACKGROUND ## 
 
 func left_click_on_bg(position: Vector2) -> void:
-	escoria.do("walk", [escoria.main.current_scene.player.global_id, position])
+	escoria.do(
+		"walk", 
+		[escoria.main.current_scene.player.global_id, position],
+		true
+	)
 	$ui/verbs_layer/verbs_menu.set_by_name("walk")
 	$ui/verbs_layer/verbs_menu.clear_tool_texture()
 	
 func right_click_on_bg(position: Vector2) -> void:
-	escoria.do("walk", [escoria.main.current_scene.player.global_id, position])
+	escoria.do(
+		"walk", 
+		[escoria.main.current_scene.player.global_id, position],
+		true
+	)
 	$ui/verbs_layer/verbs_menu.set_by_name("walk")
 	$ui/verbs_layer/verbs_menu.clear_tool_texture()
 	
 func left_double_click_on_bg(position: Vector2) -> void:
-	escoria.do("walk", [escoria.main.current_scene.player.global_id, position, \
-		true])
+	escoria.do(
+		"walk", 
+		[escoria.main.current_scene.player.global_id, position, true],
+		true
+	)
 	$ui/verbs_layer/verbs_menu.set_by_name("walk")
 	$ui/verbs_layer/verbs_menu.clear_tool_texture()
 
@@ -71,13 +82,13 @@ func element_unfocused() -> void:
 ## ITEMS ##
 
 func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
-	escoria.do("item_left_click", [item_global_id, event])
+	escoria.do("item_left_click", [item_global_id, event], true)
 
 func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
-	escoria.do("item_right_click", [item_global_id, event])
+	escoria.do("item_right_click", [item_global_id, event], true)
 
 func left_double_click_on_item(item_global_id: String, event: InputEvent) -> void:
-	escoria.do("item_left_click", [item_global_id, event]) 
+	escoria.do("item_left_click", [item_global_id, event], true) 
 
 
 ## INVENTORY ##
@@ -98,7 +109,7 @@ func left_click_on_inventory_item(inventory_item_global_id: String, event: Input
 			
 
 func right_click_on_inventory_item(inventory_item_global_id: String, event: InputEvent) -> void:
-	escoria.do("item_right_click", [inventory_item_global_id, event])
+	escoria.do("item_right_click", [inventory_item_global_id, event], true)
 
 
 func left_double_click_on_inventory_item(inventory_item_global_id: String, event: InputEvent) -> void:
