@@ -584,7 +584,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Escoria-reloaded"
+config/name="Escoria"
 run/main_scene="res://addons/escoria-core/game/main_scene.tscn"
 boot_splash/image="res://addons/escoria-core/logo/escoria-logo-small.png"
 boot_splash/fullsize=false
@@ -659,7 +659,8 @@ switch_action_verb={
 
 [locale]
 
-translations=PoolStringArray( "res://game/translations/game.en.translation", "res://game/translations/game.fr.translation", "res://game/translations/main_menu.en.translation", "res://game/translations/main_menu.fr.translation" )
+translations=PoolStringArray( "res://game/translations/game.en.translation", "res://game/translations/game.fr.translation", "res://game/translations/main_menu.en.translation", "res://game/translations/main_menu.fr.translation", "res://game/translations/game.de.translation", "res://game/translations/main_menu.de.translation" )
+locale_filter=[ 0, [  ] ]
 
 [network]
 

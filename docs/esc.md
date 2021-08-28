@@ -373,21 +373,6 @@ Makes the `player` walk to the position `x`/`y`.
 
 <!-- /ESCCOMMANDS -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Dialogs
 
 Dialogs are specified by writing `?` with optional parameters, followed by a list of dialog options starting with `-`. Use `!` to end the dialog.
@@ -398,17 +383,19 @@ The following parameters are available:
 * timeout: (default value 0) timeout to select an option. After the time has passed, the "timeout_option" will be selected automatically. If the value is 0, there's no timeout.
 * timeout_option: (default value 0) index of option (starting from 1) selected when timeout is reached.
 
+Options support translation keys by prepending and separating them with a `:` from the rest of the text.
+
 Example:
 
 ```
 # character's "talk" event
 :talk
 ? avatar timeout timeout_option
-	- "I'd like to buy a map." [!player_has_map]
+	- MAP:"I'd like to buy a map." [!player_has_map]
 		say player "I'd like to buy a map"
 		say map_vendor "Do you know the secret code?"
 		?
-			- "Uncle Sven sends regards."
+			- UNCLE_SVEN:"Uncle Sven sends regards."
 				say player "Uncle Sven sends regards."
 
 				>	[player_has_money]

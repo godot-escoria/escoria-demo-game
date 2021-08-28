@@ -11,12 +11,12 @@ func _on_continue_pressed():
 
 
 func _on_save_game_pressed():
-	$Panel/VBoxContainer.hide()
+	$Panel/CenterContainer/VBoxContainer.hide()
 	$save_game.show()
 
 
 func _on_load_game_pressed():
-	$Panel/VBoxContainer.hide()
+	$Panel/CenterContainer/VBoxContainer.hide()
 	$load_game.refresh_savegames()
 	$load_game.show()
 
@@ -26,10 +26,10 @@ func _on_quit_pressed():
 
 
 func _on_save_game_back_button_pressed():
-	$Panel/VBoxContainer.show()
+	$Panel/CenterContainer/VBoxContainer.show()
 	$save_game.hide()
 
 
 func _on_load_game_back_button_pressed():
-	$Panel/VBoxContainer.show()
+	$Panel/CenterContainer/VBoxContainer.show()
 	$load_game.hide()

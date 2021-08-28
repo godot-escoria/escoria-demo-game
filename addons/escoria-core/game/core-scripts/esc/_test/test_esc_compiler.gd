@@ -18,6 +18,7 @@ func _test_basic() -> bool:
 >
 	say player "Test5"
 	say player  "Test 6"
+	say player TEST:"Test 7"
 	"""
 	var script = escoria.esc_compiler.compile(esc.split("\n"))
 	
@@ -70,12 +71,17 @@ func _test_basic() -> bool:
 	
 	subject = script.events["test"].statements[1]
 	assert(subject is ESCGroup)
-	assert(subject.statements.size() == 2)
+	assert(subject.statements.size() == 3)
 	
 	subject = script.events["test"].statements[1].statements[1]
 	assert(subject is ESCCommand)
 	assert(subject.name == "say")
-	assert(subject.parameters[1] == "Test 6")
+	assert(subject.parameters[1] == "Test 6")	
+	
+	subject = script.events["test"].statements[1].statements[2]
+	assert(subject is ESCCommand)
+	assert(subject.name == "say")
+	assert(subject.parameters[1] == "TEST:Test 7")
 	
 	return true
 	
@@ -222,6 +228,8 @@ func _test_dialog() -> bool:
 	- "Option 3"
 		>
 			say player "test3"
+	- TEST:"Option 4"
+		say player "test4"
 !
 	"""
 	var script = escoria.esc_compiler.compile(esc.split("\n"))
@@ -230,7 +238,7 @@ func _test_dialog() -> bool:
 	assert(subject.size() == 1)
 
 	assert(subject[0] is ESCDialog)
-	assert(subject[0].options.size() == 3)
+	assert(subject[0].options.size() == 4)
 	
 	subject = script.events["test"].statements[0].options[0]
 	assert(subject is ESCDialogOption)
@@ -275,6 +283,10 @@ func _test_dialog() -> bool:
 	assert(subject[0].statements.size() == 1)
 	assert(subject[0].statements[0] is ESCCommand)
 	assert(subject[0].statements[0].parameters.size() == 2)
+	
+	subject = script.events["test"].statements[0].options[3]
+	assert(subject is ESCDialogOption)
+	assert(subject.option == "TEST:Option 4")
 	
 	return true
 	

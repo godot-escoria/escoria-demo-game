@@ -1,7 +1,14 @@
 # `say object text [type] [avatar]`
 #
 # Runs the specified string as a dialog said by the object. Blocks execution 
-# until the dialog finishes playing. Optional parameters:
+# until the dialog finishes playing. 
+#
+# The text supports translation keys by prepending the key and separating
+# it with a `:` from the text.
+# 
+# Example: `say player ROOM1_PICTURE:"Picture's looking good."`
+#
+# Optional parameters:
 # 
 # * "type" determines the type of dialog UI to use. Default value is "default"
 # * "avatar" determines the avatar to use for the dialog. Default value is 
@@ -64,11 +71,15 @@ func run(command_params: Array) -> int:
 			]
 		)
 		return ESCExecution.RC_ERROR
-		
+	
+	var _line = command_params[1]
+	if ":" in _line:
+		_line = tr(_line.split(":")[0])
+	
 	escoria.dialog_player.say(
 		command_params[0], 
 		dialog_scene_name, 
-		command_params[1]
+		_line
 	)
 	yield(escoria.dialog_player, "dialog_line_finished")
 	return ESCExecution.RC_OK

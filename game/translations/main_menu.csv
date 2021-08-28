@@ -1,17 +1,19 @@
-keys,en,fr
-NEW_GAME,New game,Nouvelle partie
-LOAD_GAME,Load game,Charger
-OPTIONS,Options,Options
-QUIT,Quit,Quitter
-OPTIONS_BACK,Back,Retour
-OPTIONS_LANGUAGE,Language,Langue
-GENERAL_VOLUME,General,Général
-MUSIC_VOLUME,Music,Musique
-SOUND_VOLUME,Sound effects,Effets sonores
-CANCEL,Cancel,Annuler
-OK,OK,OK
-ENTER_SAVE_NAME,Enter the save name:,Entrez un nom de sauvegarde
-APPLY,Apply,Appliquer
-CONFIRM_OVERWRITE,Overwrite the savegame?,Écraser la sauvegarde ?
-YES,Yes,Oui
-NO,No,Non
+keys,en,fr,de
+NEW_GAME,New game,Nouvelle partie,Neues Spiel
+CONTINUE_GAME,Continue game,Continuer la partie,Weiterspielen
+LOAD_GAME,Load game,Charger,Spiel laden
+SAVE_GAME,Save game,Sauvegarder,Spiel speichern
+OPTIONS,Options,Options,Einstellungen
+QUIT,Quit,Quitter,Beenden
+OPTIONS_BACK,Back,Retour,Zurück
+OPTIONS_LANGUAGE,Language,Langue,Sprache
+GENERAL_VOLUME,General,Général,Allgemein
+MUSIC_VOLUME,Music,Musique,Musik
+SOUND_VOLUME,Sound effects,Effets sonores,Soundeffekte
+CANCEL,Cancel,Annuler,Abbrechen
+OK,OK,Ok,Ok
+ENTER_SAVE_NAME,Enter the save name:,Entrez un nom de sauvegarde,Bitte gib einen Namen für das Spiel ein:
+APPLY,Apply,Appliquer,Anwenden
+CONFIRM_OVERWRITE,Overwrite the savegame?,Écraser la sauvegarde ?,Soll das Spiel überschrieben werden?
+YES,Yes,Oui,Ja
+NO,No,Non,Nein
