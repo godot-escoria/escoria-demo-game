@@ -160,7 +160,7 @@ func _on_mouse_right_click_inventory_item(
 ) -> void:
 	if input_mode == INPUT_ALL:
 		escoria.logger.info(
-			"Inventory item right clicked " % inventory_item_global_id
+			"Inventory item right clicked %s" % inventory_item_global_id
 		)
 		escoria.main.current_scene.game.right_click_on_inventory_item(
 			inventory_item_global_id, 
@@ -180,7 +180,7 @@ func _on_mouse_double_left_click_inventory_item(
 ) -> void:
 	if input_mode == INPUT_ALL:
 		escoria.logger.info(
-			"Inventory item double left clicked " % inventory_item_global_id
+			"Inventory item double left clicked %s" % inventory_item_global_id
 		)
 		escoria.main.current_scene.game.left_double_click_on_inventory_item(
 			inventory_item_global_id, 
