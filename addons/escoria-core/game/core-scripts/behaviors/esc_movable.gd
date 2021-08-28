@@ -1,6 +1,5 @@
 # Node that performs the moving (walk, teleport, terrain scaling...) actions on
 # its parent node.
-tool
 extends Node
 class_name ESCMovable
 
