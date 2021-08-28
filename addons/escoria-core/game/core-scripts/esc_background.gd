@@ -10,7 +10,7 @@
 # receive no input.
 tool
 extends TextureRect
-class_name ESCBackground
+class_name ESCBackground, "res://addons/escoria-core/design/esc_background.svg"
 
 
 # The background was double clicked

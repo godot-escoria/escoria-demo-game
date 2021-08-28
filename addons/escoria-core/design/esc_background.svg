@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>esc_background</title>
+    <defs>
+        <linearGradient x1="0%" y1="78.125%" x2="100%" y2="21.875%" id="linearGradient-1">
+            <stop stop-color="#D4FF2A" offset="0%"></stop>
+            <stop stop-color="#81D135" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="esc_background" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle" stroke="#1B2F0D" fill="url(#linearGradient-1)" transform="translate(7.500000, 4.835358) scale(1, -1) translate(-7.500000, -4.835358) " x="3.5" y="1.83535782" width="8" height="6" rx="1"></rect>
+        <line x1="3.5" y1="8.5" x2="11.5" y2="8.5" id="Line-3" stroke="#1B2F0D" stroke-linecap="round" stroke-linejoin="round"></line>
+        <line x1="7.5" y1="8.5" x2="7.5" y2="14.5" id="Line-2" stroke="#1B2F0D" stroke-linecap="round"></line>
+        <line x1="6.5" y1="8.5" x2="3.5" y2="14.5" id="Line" stroke="#1B2F0D" stroke-linecap="round" stroke-linejoin="bevel"></line>
+        <line x1="12.1583333" y1="8.5" x2="9.15833333" y2="14.5" id="Line-Copy" stroke="#1B2F0D" stroke-linecap="round" stroke-linejoin="bevel" transform="translate(10.329167, 11.500000) scale(-1, 1) translate(-10.329167, -11.500000) "></line>
+    </g>
+</svg>

@@ -1,7 +1,7 @@
 # A simple node extending Position2D with a global ID so that it can be
 # referenced in ESC Scripts.
 extends Position2D
-class_name ESCLocation
+class_name ESCLocation, "res://addons/escoria-core/design/esc_location.svg"
 
 
 # The global ID of this item

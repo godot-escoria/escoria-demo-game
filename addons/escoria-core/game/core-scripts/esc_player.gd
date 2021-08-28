@@ -1,7 +1,7 @@
 # A playable character
 tool
 extends ESCItem
-class_name ESCPlayer
+class_name ESCPlayer, "res://addons/escoria-core/design/esc_player.svg"
 
 
 # The node that references the camera position

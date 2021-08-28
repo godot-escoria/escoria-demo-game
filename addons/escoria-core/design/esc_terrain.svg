@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>esc_terrain</title>
+    <defs>
+        <linearGradient x1="23.0422805%" y1="44.7555583%" x2="96.9021896%" y2="75.5102041%" id="linearGradient-1">
+            <stop stop-color="#D4FF2A" offset="0%"></stop>
+            <stop stop-color="#81D135" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="esc_terrain" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M10.5986658,2.5 L15,12.5 L1,12.5 L5.77792486,5.1574418 L7.54781394,7.5 L10.5986658,2.5 Z" id="Rectangle-Copy" fill="url(#linearGradient-1)" fill-rule="nonzero"></path>
+        <path d="M10.5986658,2.5 L15,12.5 L1,12.5 L5.77792486,5.1574418 L7.54781394,7.5 L10.5986658,2.5 Z M13.467,11.499 L10.454,4.655 L7.63592431,9.27547964 L5.839,6.897 L2.844,11.499 L13.467,11.499 Z" id="Rectangle" fill="#1B2F0D" fill-rule="nonzero"></path>
+    </g>
+</svg>

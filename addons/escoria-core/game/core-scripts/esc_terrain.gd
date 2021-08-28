@@ -1,7 +1,7 @@
 # A walkable Terrains
 tool
 extends Navigation2D
-class_name ESCTerrain
+class_name ESCTerrain, "res://addons/escoria-core/design/esc_terrain.svg"
 
 
 # Visualize scales or the lightmap for debugging purposes
