@@ -1,5 +1,4 @@
 # Escoria dialog player
-tool
 extends ResourcePreloader
 class_name ESCDialogsPlayer
 

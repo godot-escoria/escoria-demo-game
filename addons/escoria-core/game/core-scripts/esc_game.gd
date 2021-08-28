@@ -1,7 +1,6 @@
 # A base class for ESC game scenes
 # An extending class can be used in the project settings and is responsible
 # for managing very basic game features and controls
-tool
 extends Node2D
 class_name ESCGame
 

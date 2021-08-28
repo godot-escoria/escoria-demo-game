@@ -1,7 +1,7 @@
 # ESCItem is a Sprite that defines an item, potentially interactive
 tool
 extends Area2D
-class_name ESCItem
+class_name ESCItem, "res://addons/escoria-core/design/esc_item.svg"
 
 
 # Emitted when the mouse has entered this item

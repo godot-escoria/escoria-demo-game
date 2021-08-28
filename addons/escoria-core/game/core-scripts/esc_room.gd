@@ -1,7 +1,7 @@
 # A room in an Escora based game
 tool
 extends Node2D
-class_name ESCRoom
+class_name ESCRoom, "res://addons/escoria-core/design/esc_room.svg"
 
 
 # Debugging displays for a room

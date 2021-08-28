@@ -1,6 +1,7 @@
 # The inventory representation of an ESC item if pickable
 extends TextureButton
-class_name ESCInventoryItem
+class_name ESCInventoryItem, \
+		"res://addons/escoria-core/design/esc_inventory_item.svg"
 
 
 # Signal emitted when the item was left clicked

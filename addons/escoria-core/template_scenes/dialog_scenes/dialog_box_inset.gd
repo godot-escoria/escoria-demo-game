@@ -1,5 +1,4 @@
 # A dialog GUI showing a dialog box and character portraits
-tool
 extends PanelContainer
 
 
