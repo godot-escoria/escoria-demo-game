@@ -13,7 +13,7 @@ An option of an ESC dialog
 ### REGEX
 
 ```gdscript
-const REGEX: String = "^[^-]*- \"(?<option>[^\"]+)\"( \\[(?<conditions>[^\\]]+)\\])?$"
+const REGEX: String = "^[^-]*- (?<trans_key>[^:]+)?:?\"(?<option>[^\"]+)\"( \\[(?<conditions>[^\\]]+)\\])?$"
 ```
 
 Regex that matches dialog option lines
@@ -25,6 +25,8 @@ Regex that matches dialog option lines
 ```gdscript
 var option: String
 ```
+
+- **Getter**: `get_option`
 
 Option displayed in the HUD
 
@@ -45,6 +47,12 @@ func _init(option_string: String)
 ```
 
 Create a dialog option from a string
+
+### get\_option
+
+```gdscript
+func get_option()
+```
 
 ### is\_valid
 
