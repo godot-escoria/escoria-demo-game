@@ -33,7 +33,7 @@ In alphabetical order:
 * [Getting started](docs/getting_started.md)
 * [Architecture](docs/architecture.md)
 * [Configuration](docs/configuration.md)
-* [ESC language documentation](api/esc.md)
+* [ESC language documentation](docs/esc.md)
 * [API reference](docs/api)
 
 ## Roadmap
