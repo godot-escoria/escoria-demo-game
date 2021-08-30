@@ -6,6 +6,29 @@ onready var settings_changed = false
 var backup_settings
 
 
+# A list of languages already added to the language selection
+var _loaded_languages: Array = []
+
+
+func _ready() -> void:
+	var _flags_container: HBoxContainer = \
+			$CenterContainer/VBoxContainer/MarginContainer/options/flags
+	for child in _flags_container.get_children():
+		_flags_container.remove_child(child)
+		
+	_loaded_languages = []
+	
+	for lang in TranslationServer.get_loaded_locales():
+		if not lang in _loaded_languages:
+			_loaded_languages.append(lang)
+			var _lang = TextureRect.new()
+			_lang.texture = load(
+				"res://game/ui/commons/options/flags/%s.png" % lang
+			)
+			_flags_container.add_child(_lang)
+			_lang.connect("gui_input", self, "_on_language_input", [lang])
+
+
 func show():
 	backup_settings = escoria.settings.duplicate()
 	initialize_options(escoria.settings)
@@ -13,13 +36,10 @@ func show():
 
 
 func initialize_options(p_settings):
-	$options/general_volume.value = p_settings["master_volume"]
-	$options/sound_volume.value = p_settings["sfx_volume"]
-	$options/music_volume.value = p_settings["music_volume"]
-
-
-func greyout_other_languages(_except_lang: String) -> void:
-	pass
+	var _options = $CenterContainer/VBoxContainer/MarginContainer/options
+	_options.get_node("general_volume").value = p_settings["master_volume"]
+	_options.get_node("sound_volume").value = p_settings["sfx_volume"]
+	_options.get_node("music_volume").value = p_settings["music_volume"]
 
 
 func _on_language_input(event: InputEvent, language: String):

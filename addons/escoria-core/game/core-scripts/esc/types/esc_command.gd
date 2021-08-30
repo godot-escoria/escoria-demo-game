@@ -46,6 +46,9 @@ func _init(command_string):
 						parameters.append(
 							parameter.substr(1, parameter.length() - 2)
 						)
+					elif ":" in parameter and '"' in parameter:
+						quote_open = true
+						parameter_values.append(parameter.replace('"', ''))
 					elif parameter.begins_with('"'):
 						quote_open = true
 						parameter_values.append(parameter.substr(1))

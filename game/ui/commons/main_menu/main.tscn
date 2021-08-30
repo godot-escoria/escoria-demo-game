@@ -19,6 +19,7 @@ __meta__ = {
 [node name="new_game" type="Button" parent="."]
 margin_right = 358.0
 margin_bottom = 152.0
+rect_min_size = Vector2( 0, 150 )
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 1 )
 text = "NEW_GAME"

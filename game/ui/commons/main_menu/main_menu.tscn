@@ -22,19 +22,46 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="TextureRect" type="TextureRect" parent="Panel"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -308.0
-margin_top = 52.0
-margin_right = 308.0
-margin_bottom = 288.0
+[node name="CenterContainer" type="CenterContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="main" type="VBoxContainer" parent="Panel/CenterContainer"]
+margin_left = 332.0
+margin_top = 150.0
+margin_right = 948.0
+margin_bottom = 749.0
+custom_constants/separation = 100
+
+[node name="TextureRect" type="TextureRect" parent="Panel/CenterContainer/main"]
+margin_right = 616.0
+margin_bottom = 236.0
 texture = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="main" parent="Panel" instance=ExtResource( 2 )]
+[node name="buttons" parent="Panel/CenterContainer/main" instance=ExtResource( 2 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 0.0
+margin_top = 336.0
+margin_right = 616.0
+margin_bottom = 599.0
+
+[node name="new_game" parent="Panel/CenterContainer/main/buttons" index="0"]
+margin_right = 616.0
+
+[node name="load_game" parent="Panel/CenterContainer/main/buttons" index="1"]
+margin_right = 616.0
+
+[node name="options" parent="Panel/CenterContainer/main/buttons" index="2"]
+margin_right = 616.0
+
+[node name="quit" parent="Panel/CenterContainer/main/buttons" index="3"]
+margin_right = 616.0
 
 [node name="options" parent="Panel" instance=ExtResource( 4 )]
 visible = false
@@ -42,11 +69,11 @@ visible = false
 [node name="load_game" parent="Panel" instance=ExtResource( 5 )]
 visible = false
 
-[connection signal="pressed" from="Panel/main/new_game" to="." method="_on_new_game_pressed"]
-[connection signal="pressed" from="Panel/main/load_game" to="." method="_on_load_game_pressed"]
-[connection signal="pressed" from="Panel/main/options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="Panel/main/quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Panel/CenterContainer/main/buttons/new_game" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="Panel/CenterContainer/main/buttons/load_game" to="." method="_on_load_game_pressed"]
+[connection signal="pressed" from="Panel/CenterContainer/main/buttons/options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Panel/CenterContainer/main/buttons/quit" to="." method="_on_quit_pressed"]
 [connection signal="back_button_pressed" from="Panel/options" to="." method="_on_options_back_button_pressed"]
 [connection signal="back_button_pressed" from="Panel/load_game" to="." method="_on_load_game_back_button_pressed"]
 
-[editable path="Panel/main"]
+[editable path="Panel/CenterContainer/main/buttons"]

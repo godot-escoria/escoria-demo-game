@@ -13,7 +13,7 @@ say player "I don't think he'd like that."
 	set_global talked_once true
 
 ? res://game/characters/mark/mark_talk.tscn 5 1
-	- "What are you doing here?"
+	- ROOM6_dialog_1:"What are you doing here?"
 		say player 	"What are you doing here?"
 		say worker 	"I'm working! Can't you see that?"
 		say worker	"My colleague is supposed to bring me an important report. And he's not coming!"
@@ -28,7 +28,7 @@ say player "I don't think he'd like that."
 				say worker	"Eh! I'm not asking you anythin'!"
 				stop
 		!
-	- "I'm selling these fine leather jackets."
+	- ROOM6_dialog_2:"I'm selling these fine leather jackets."
 		say player	"I'm selling these fine leather jackets."
 		say worker 	"Go away, kid."
 		stop

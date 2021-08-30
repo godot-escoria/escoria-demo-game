@@ -13,38 +13,48 @@ __meta__ = {
 }
 slot_ui_scene = ExtResource( 2 )
 
-[node name="back" type="Button" parent="."]
-margin_left = 130.0
-margin_top = 329.0
-margin_right = 304.0
-margin_bottom = 383.0
-custom_fonts/font = ExtResource( 1 )
-text = "OPTIONS_BACK"
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
-anchor_left = 0.291
-anchor_top = 0.369
-anchor_right = 0.709
-anchor_bottom = 0.941
-margin_left = -0.480011
-margin_top = -1.10001
-margin_right = 0.479919
-margin_bottom = -0.900024
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 390.0
+margin_top = 184.0
+margin_right = 890.0
+margin_bottom = 715.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer/VBoxContainer"]
+margin_right = 500.0
+margin_bottom = 500.0
+rect_min_size = Vector2( 500, 500 )
 scroll_horizontal_enabled = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="slots" type="VBoxContainer" parent="ScrollContainer"]
-margin_right = 536.0
-margin_bottom = 515.0
+[node name="slots" type="VBoxContainer" parent="CenterContainer/VBoxContainer/ScrollContainer"]
+margin_right = 500.0
+margin_bottom = 500.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="pressed" from="back" to="." method="_on_back_pressed"]
+[node name="back" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_top = 504.0
+margin_right = 500.0
+margin_bottom = 531.0
+custom_fonts/font = ExtResource( 1 )
+text = "OPTIONS_BACK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/back" to="." method="_on_back_pressed"]

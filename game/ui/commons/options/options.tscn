@@ -1,8 +1,6 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://game/ui/commons/fonts/caslonantique.tres" type="DynamicFont" id=1]
-[ext_resource path="res://game/ui/commons/main_menu/flags/en_EN_small.png" type="Texture" id=2]
-[ext_resource path="res://game/ui/commons/main_menu/flags/fr_FR_small.png" type="Texture" id=3]
 [ext_resource path="res://game/ui/commons/options/options.gd" type="Script" id=4]
 
 [node name="options" type="Control"]
@@ -13,133 +11,139 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="back" type="Button" parent="."]
-margin_left = 130.0
-margin_top = 329.0
-margin_right = 304.0
-margin_bottom = 383.0
-custom_fonts/font = ExtResource( 1 )
-text = "OPTIONS_BACK"
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 482.0
+margin_top = 366.0
+margin_right = 798.0
+margin_bottom = 533.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="options" type="GridContainer" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -275.5
-margin_top = -75.0
-margin_right = 275.5
-margin_bottom = 75.0
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer"]
+margin_right = 316.0
+margin_bottom = 136.0
+size_flags_vertical = 6
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="options" type="GridContainer" parent="CenterContainer/VBoxContainer/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 296.0
+margin_bottom = 116.0
+size_flags_vertical = 6
 custom_constants/hseparation = 40
 columns = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="label" type="Label" parent="options"]
-margin_top = 27.0
+[node name="label" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer/options"]
 margin_right = 220.0
-margin_bottom = 48.0
+margin_bottom = 21.0
 custom_fonts/font = ExtResource( 1 )
 text = "OPTIONS_LANGUAGE"
 
-[node name="flags" type="HBoxContainer" parent="options"]
+[node name="flags" type="HBoxContainer" parent="CenterContainer/VBoxContainer/MarginContainer/options"]
 margin_left = 260.0
-margin_right = 553.0
-margin_bottom = 75.0
+margin_right = 276.0
+margin_bottom = 21.0
 size_flags_vertical = 3
 custom_constants/separation = 30
 alignment = 1
 
-[node name="fr" type="TextureRect" parent="options/flags"]
-margin_right = 113.0
-margin_bottom = 75.0
-texture = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="en" type="TextureRect" parent="options/flags"]
-margin_left = 143.0
-margin_right = 293.0
-margin_bottom = 75.0
-texture = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="label2" type="Label" parent="options"]
-margin_top = 79.0
+[node name="label2" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer/options"]
+margin_top = 25.0
 margin_right = 220.0
-margin_bottom = 100.0
+margin_bottom = 46.0
 custom_fonts/font = ExtResource( 1 )
 text = "GENERAL_VOLUME"
 
-[node name="general_volume" type="HSlider" parent="options"]
+[node name="general_volume" type="HSlider" parent="CenterContainer/VBoxContainer/MarginContainer/options"]
 margin_left = 260.0
-margin_top = 79.0
-margin_right = 553.0
-margin_bottom = 95.0
+margin_top = 25.0
+margin_right = 276.0
+margin_bottom = 41.0
 size_flags_horizontal = 3
 min_value = 0.001
 max_value = 1.0
 step = 0.001
 value = 0.001
 
-[node name="label3" type="Label" parent="options"]
-margin_top = 104.0
+[node name="label3" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer/options"]
+margin_top = 50.0
 margin_right = 220.0
-margin_bottom = 125.0
+margin_bottom = 71.0
 custom_fonts/font = ExtResource( 1 )
 text = "SOUND_VOLUME"
 
-[node name="sound_volume" type="HSlider" parent="options"]
+[node name="sound_volume" type="HSlider" parent="CenterContainer/VBoxContainer/MarginContainer/options"]
 margin_left = 260.0
-margin_top = 104.0
-margin_right = 553.0
-margin_bottom = 120.0
+margin_top = 50.0
+margin_right = 276.0
+margin_bottom = 66.0
 size_flags_horizontal = 3
 min_value = 0.001
 max_value = 1.0
 step = 0.001
 value = 0.001
 
-[node name="label4" type="Label" parent="options"]
-margin_top = 129.0
+[node name="label4" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer/options"]
+margin_top = 75.0
 margin_right = 220.0
-margin_bottom = 150.0
+margin_bottom = 96.0
 custom_fonts/font = ExtResource( 1 )
 text = "MUSIC_VOLUME"
 
-[node name="music_volume" type="HSlider" parent="options"]
+[node name="music_volume" type="HSlider" parent="CenterContainer/VBoxContainer/MarginContainer/options"]
 margin_left = 260.0
-margin_top = 129.0
-margin_right = 553.0
-margin_bottom = 145.0
+margin_top = 75.0
+margin_right = 276.0
+margin_bottom = 91.0
 size_flags_horizontal = 3
 min_value = 0.001
 max_value = 1.0
 step = 0.001
 value = 0.001
 
-[node name="apply" type="Button" parent="."]
-margin_left = 364.0
-margin_top = 712.0
-margin_right = 544.0
-margin_bottom = 767.0
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+margin_top = 140.0
+margin_right = 316.0
+margin_bottom = 167.0
+custom_constants/separation = 20
+alignment = 1
+
+[node name="back" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+margin_left = 22.0
+margin_right = 196.0
+margin_bottom = 27.0
+custom_fonts/font = ExtResource( 1 )
+text = "OPTIONS_BACK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="apply" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+margin_left = 216.0
+margin_right = 293.0
+margin_bottom = 27.0
 custom_fonts/font = ExtResource( 1 )
 text = "APPLY"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="pressed" from="back" to="." method="_on_back_pressed"]
-[connection signal="gui_input" from="options/flags/fr" to="." method="_on_language_input" binds= [ "fr" ]]
-[connection signal="gui_input" from="options/flags/en" to="." method="_on_language_input" binds= [ "en" ]]
-[connection signal="value_changed" from="options/general_volume" to="." method="_on_general_volume_changed"]
-[connection signal="value_changed" from="options/sound_volume" to="." method="_on_sound_volume_changed"]
-[connection signal="value_changed" from="options/music_volume" to="." method="_on_music_volume_changed"]
-[connection signal="pressed" from="apply" to="." method="_on_apply_pressed"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/MarginContainer/options/general_volume" to="." method="_on_general_volume_changed"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/MarginContainer/options/sound_volume" to="." method="_on_sound_volume_changed"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/MarginContainer/options/music_volume" to="." method="_on_music_volume_changed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/apply" to="." method="_on_apply_pressed"]

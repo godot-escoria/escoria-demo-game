@@ -252,7 +252,14 @@ group or an event.
 #### <a name="SayCommand.md"></a>`say object text [type] [avatar]` [API-Doc](api/SayCommand.md)
 
 Runs the specified string as a dialog said by the object. Blocks execution
-until the dialog finishes playing. Optional parameters:
+until the dialog finishes playing.
+
+The text supports translation keys by prepending the key and separating
+it with a `:` from the text.
+
+Example: `say player ROOM1_PICTURE:"Picture's looking good."`
+
+Optional parameters:
 
 * "type" determines the type of dialog UI to use. Default value is "default"
 * "avatar" determines the avatar to use for the dialog. Default value is
@@ -373,21 +380,6 @@ Makes the `player` walk to the position `x`/`y`.
 
 <!-- /ESCCOMMANDS -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Dialogs
 
 Dialogs are specified by writing `?` with optional parameters, followed by a list of dialog options starting with `-`. Use `!` to end the dialog.
@@ -398,17 +390,19 @@ The following parameters are available:
 * timeout: (default value 0) timeout to select an option. After the time has passed, the "timeout_option" will be selected automatically. If the value is 0, there's no timeout.
 * timeout_option: (default value 0) index of option (starting from 1) selected when timeout is reached.
 
+Options support translation keys by prepending and separating them with a `:` from the rest of the text.
+
 Example:
 
 ```
 # character's "talk" event
 :talk
 ? avatar timeout timeout_option
-	- "I'd like to buy a map." [!player_has_map]
+	- MAP:"I'd like to buy a map." [!player_has_map]
 		say player "I'd like to buy a map"
 		say map_vendor "Do you know the secret code?"
 		?
-			- "Uncle Sven sends regards."
+			- UNCLE_SVEN:"Uncle Sven sends regards."
 				say player "Uncle Sven sends regards."
 
 				>	[player_has_money]

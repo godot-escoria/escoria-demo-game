@@ -19,7 +19,7 @@ func _ready():
 			]
 		)
 		return false
-
+	
 
 func _on_continue_pressed():
 	pass
@@ -34,13 +34,13 @@ func _on_new_game_pressed():
 
 
 func _on_load_game_pressed():
-	$Panel/main.hide()
+	$Panel/CenterContainer/main.hide()
 	$Panel/load_game.refresh_savegames()
 	$Panel/load_game.show()
 
 
 func _on_options_pressed():
-	$Panel/main.hide()
+	$Panel/CenterContainer/main.hide()
 	$Panel/options.show()
 
 
@@ -53,10 +53,10 @@ func _on_quit_pressed():
 
 func _on_options_back_button_pressed():
 	$Panel/options.hide()
-	$Panel/main.show()
+	$Panel/CenterContainer/main.show()
 
 
 func _on_load_game_back_button_pressed():
 	$Panel/load_game.hide()
-	$Panel/main.show()
+	$Panel/CenterContainer/main.show()
 	
