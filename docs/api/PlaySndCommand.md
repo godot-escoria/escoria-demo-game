@@ -9,7 +9,7 @@
 `play_snd file [player]`
 
 Plays the sound specificed with the "file" parameter on the sound player
-`player`, without blocking. (player defaults to bg_sound)
+`player`, without blocking. (player defaults to _sound)
 
 @ESC
 

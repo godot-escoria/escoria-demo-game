@@ -10,7 +10,7 @@
 
 Change the sound playing on `player` to `sound` with optional looping if
 `loop` is true.
-Valid players are "bg_music" and "bg_sound".
+Valid players are "_music" and "_sound".
 Aside from paths to sound or music files, the values *off* and *default*.
 *default* is the default value.
 are also valid for `sound`
