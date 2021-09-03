@@ -72,14 +72,10 @@ func run(command_params: Array) -> int:
 		)
 		return ESCExecution.RC_ERROR
 	
-	var _line = command_params[1]
-	if ":" in _line:
-		_line = tr(_line.split(":")[0])
-	
 	escoria.dialog_player.say(
 		command_params[0], 
 		dialog_scene_name, 
-		_line
+		command_params[1]
 	)
 	yield(escoria.dialog_player, "dialog_line_finished")
 	return ESCExecution.RC_OK

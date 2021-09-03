@@ -267,6 +267,10 @@ func _on_settings_loaded(p_settings: ESCSaveSettings) -> void:
 	AudioServer.set_bus_volume_db(
 		AudioServer.get_bus_index("Music"), 
 		linear2db(settings.music_volume)
+	)	
+	AudioServer.set_bus_volume_db(
+		AudioServer.get_bus_index("Speech"), 
+		linear2db(settings.speech_volume)
 	)
 	TranslationServer.set_locale(settings.text_lang)
 

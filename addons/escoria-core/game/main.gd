@@ -17,10 +17,6 @@ var current_scene: Node
 # The Escoria context currently in wait state
 var wait_level
 
-
-# Reference to the ESCBackgroundMusic node
-onready var bg_music = $bg_music
-
 # Reference to the scene transition node
 onready var scene_transition = $layers/curtain/scene_transition
 

@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/main.gd" type="Script" id=1]
 [ext_resource path="res://addons/escoria-core/game/scenes/esc_prompt/esc_prompt_popup.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/escoria-core/game/scenes/sound/bg_music.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/escoria-core/game/scenes/sound/esc_music_player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/escoria-core/game/scenes/transitions/transition.tscn" type="PackedScene" id=4]
-[ext_resource path="res://addons/escoria-core/game/scenes/sound/bg_sound.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/escoria-core/game/scenes/sound/esc_sound_player.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/escoria-core/game/scenes/sound/esc_speech_player.tscn" type="PackedScene" id=6]
 
 [node name="main" type="Node"]
 script = ExtResource( 1 )
@@ -27,3 +28,5 @@ layer = 20
 [node name="bg_music" parent="." instance=ExtResource( 3 )]
 
 [node name="bg_sound" parent="." instance=ExtResource( 5 )]
+
+[node name="speech" parent="." instance=ExtResource( 6 )]

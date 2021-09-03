@@ -4,8 +4,9 @@ class_name ESCObjectManager
 
 
 const RESERVED_OBJECTS = [
-	"bg_music",
-	"bg_sound"
+	"_music",
+	"_sound",
+	"_speech"
 ]
 
 

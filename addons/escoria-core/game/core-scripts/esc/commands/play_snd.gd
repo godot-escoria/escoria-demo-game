@@ -1,7 +1,7 @@
 # `play_snd file [player]`
 # 
 # Plays the sound specificed with the "file" parameter on the sound player
-# `player`, without blocking. (player defaults to bg_sound)
+# `player`, without blocking. (player defaults to _sound)
 #
 # @ESC
 extends ESCBaseCommand
@@ -13,7 +13,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2, 
 		[TYPE_STRING, TYPE_STRING],
-		[null, "bg_sound"]
+		[null, "_sound"]
 	)
 	
 

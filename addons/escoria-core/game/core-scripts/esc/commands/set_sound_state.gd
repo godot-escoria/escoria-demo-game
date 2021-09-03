@@ -2,7 +2,7 @@
 #
 # Change the sound playing on `player` to `sound` with optional looping if 
 # `loop` is true.
-# Valid players are "bg_music" and "bg_sound".
+# Valid players are "_music" and "_sound".
 # Aside from paths to sound or music files, the values *off* and *default*.
 # *default* is the default value.
 # are also valid for `sound`
@@ -23,7 +23,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate wether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not arguments[0] in ["bg_music", "bg_sound"]:
+	if not arguments[0] in ["_music", "_sound", "_speech"]:
 		escoria.logger.report_errors(
 			"SetSoundStateCommand.validate: invalid player",
 			[
@@ -45,6 +45,6 @@ func validate(arguments: Array):
 
 # Run the command
 func run(command_params: Array) -> int:
-	escoria.main.get_node(command_params[0])\
+	escoria.object_manager.get_object(command_params[0]).node\
 			.set_state(command_params[1], command_params[2])
 	return ESCExecution.RC_OK

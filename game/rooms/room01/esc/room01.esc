@@ -11,7 +11,7 @@
 
 
 :ready
-set_sound_state bg_music res://game/sfx/contemplation.ogg true
+set_sound_state _music res://game/sfx/contemplation.ogg true
 
 > [!room1_visited]
 	set_global room1_visited true

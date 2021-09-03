@@ -50,6 +50,31 @@ func _input(event):
 	if event is InputEventMouseButton and \
 			event.pressed:
 		finish_fast()
+		
+
+func _get_voice_file(key: String, start: String = "") -> String:
+	if start == "":
+		start = ProjectSettings.get("escoria/sound/speech_folder")
+	var _dir = Directory.new()
+	if _dir.open(start) == OK:
+		_dir.list_dir_begin(true, true)
+		var file_name = _dir.get_next()
+		while file_name != "":
+			if _dir.current_is_dir():
+				var _voice_file = _get_voice_file(
+					key, 
+					start.plus_file(file_name)
+				)
+				if _voice_file != "":
+					return _voice_file
+			else:
+				if file_name == "%s.%s" % [
+					key, 
+					ProjectSettings.get("escoria/sound/speech_extension")
+				]:
+					return start.plus_file(file_name)
+			file_name = _dir.get_next()
+	return ""
 
 
 # A short one line dialog
@@ -63,7 +88,15 @@ func say(character: String, ui: String, line: String) -> void:
 	is_speaking = true
 	_dialog_ui = get_resource(ui).instance()
 	get_parent().add_child(_dialog_ui)
-	_dialog_ui.say(character, line)
+	var _key_line = line.split(":")
+	if _key_line.size() == 2:
+		var _speech_resource = _get_voice_file(_key_line[0])
+		if _speech_resource != "":
+			(
+				escoria.object_manager.get_object("_speech").node\
+				 as ESCSpeechPlayer
+			).set_state(_speech_resource)
+	_dialog_ui.say(character, _key_line[1])
 	yield(_dialog_ui, "dialog_line_finished")
 	is_speaking = false
 	emit_signal("dialog_line_finished")

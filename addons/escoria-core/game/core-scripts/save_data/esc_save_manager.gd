@@ -162,7 +162,7 @@ func load_game(id: int):
 				save_game.objects[object_global_id]["last_deg"]])
 			)
 		
-		if object_global_id == "bg_music" or object_global_id == "bg_sound":
+		if object_global_id == "_music" or object_global_id == "_sound":
 			load_statements.append(ESCCommand.new("set_sound_state %s %s true" \
 				% [object_global_id,
 				save_game.objects[object_global_id]["state"]])
@@ -185,7 +185,7 @@ func save_settings():
 	settings_res.master_volume = escoria.settings.master_volume
 	settings_res.music_volume = escoria.settings.music_volume
 	settings_res.sfx_volume = escoria.settings.sfx_volume
-	settings_res.voice_volume = escoria.settings.voice_volume
+	settings_res.speech_volume = escoria.settings.speech_volume
 	settings_res.fullscreen = escoria.settings.fullscreen
 	settings_res.skip_dialog = escoria.settings.skip_dialog
 

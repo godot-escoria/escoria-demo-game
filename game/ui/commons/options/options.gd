@@ -40,6 +40,7 @@ func initialize_options(p_settings):
 	_options.get_node("general_volume").value = p_settings["master_volume"]
 	_options.get_node("sound_volume").value = p_settings["sfx_volume"]
 	_options.get_node("music_volume").value = p_settings["music_volume"]
+	_options.get_node("speech_volume").value = p_settings["speech_volume"]
 
 
 func _on_language_input(event: InputEvent, language: String):
@@ -77,3 +78,9 @@ func _on_back_pressed():
 	escoria.settings = backup_settings
 	escoria._on_settings_loaded(escoria.settings)
 	emit_signal("back_button_pressed")
+
+
+func _on_speech_volume_value_changed(value: float) -> void:
+	escoria.settings["speech_volume"] = value
+	escoria._on_settings_loaded(escoria.settings)
+	settings_changed = true

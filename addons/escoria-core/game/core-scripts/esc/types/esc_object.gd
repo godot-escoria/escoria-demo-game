@@ -75,7 +75,7 @@ func get_save_data() -> Dictionary:
 		save_data["last_deg"] = wrapi(self.node._movable._get_angle() + 1, 0, 360)
 		save_data["last_dir"] = self.node._movable.last_dir
 	
-	if (self.global_id == "bg_music" or self.global_id == "bg_sound") \
+	if (self.global_id == "_music" or self.global_id == "_sound") \
 			and self.node.get("state"):
 		save_data["state"] = self.node.get("state")
 	
