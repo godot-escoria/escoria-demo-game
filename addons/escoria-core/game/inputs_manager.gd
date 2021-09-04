@@ -92,6 +92,11 @@ func register_background(background: ESCBackground):
 		"_on_mousewheel_action",
 		[-1]
 	)
+	
+	
+# Clear the stack of hovered items
+func clear_stack():
+	hover_stack = []
 
 
 # The background was clicked with the LMB

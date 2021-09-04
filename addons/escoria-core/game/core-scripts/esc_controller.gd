@@ -104,7 +104,8 @@ func perform_inputevent_on_object(
 			global_position
 	
 	# If clicked object not in inventory, player walks towards it
-	if not escoria.inventory_manager.inventory_has(obj.global_id):
+	if not obj.node is ESCPlayer and \
+			not escoria.inventory_manager.inventory_has(obj.global_id):
 		var context = _walk_towards_object(
 			obj, 
 			event.position, 
