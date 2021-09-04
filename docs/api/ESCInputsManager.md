@@ -79,3 +79,10 @@ Connect the item signals to the local methods
 func register_background(background: ESCBackground)
 ```
 
+### clear\_stack
+
+```gdscript
+func clear_stack()
+```
+
+Clear the stack of hovered items

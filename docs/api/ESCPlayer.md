@@ -18,6 +18,14 @@ export var camera_position_node = ""
 
 The node that references the camera position
 
+### selectable
+
+```gdscript
+export var selectable = false
+```
+
+Wether the player can be selected like an item
+
 ## Method Descriptions
 
 ### get\_camera\_pos
