@@ -21,7 +21,7 @@ export var transition_name: String = ""
 ### transition\_out
 
 ```gdscript
-func transition_out() -> var
+func transition_out(p_transition_name: String = "") -> var
 ```
 
 Transition out
@@ -29,7 +29,7 @@ Transition out
 ### transition\_in
 
 ```gdscript
-func transition_in() -> var
+func transition_in(p_transition_name: String = "") -> var
 ```
 
 Transition in
