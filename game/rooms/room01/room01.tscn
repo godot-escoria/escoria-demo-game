@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://game/rooms/room01/walkable_area.tscn" type="PackedScene" id=1]
 [ext_resource path="res://game/rooms/room01/background.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=5]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=7]
+[ext_resource path="res://game/rooms/room01/r_door.tscn" type="PackedScene" id=8]
 
 [node name="room1" type="Node2D"]
 script = ExtResource( 6 )
@@ -47,26 +48,7 @@ position = Vector2( 3.5636, 0 )
 
 [node name="Hotspots" type="Node2D" parent="."]
 
-[node name="r_door" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-script = ExtResource( 5 )
-__meta__ = {
-"_editor_description_": ""
-}
-global_id = "r1_r_exit"
-esc_script = "res://game/rooms/room01/esc/right_exit.esc"
-is_exit = true
-tooltip_name = "Exit"
-default_action = "walk"
-dialog_color = Color( 1, 1, 1, 1 )
-animations = null
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
-polygon = PoolVector2Array( 1177.94, 348.61, 1175.95, 45.3759, 1276.06, 92.0953, 1277.95, 399.407 )
-
-[node name="Position2D" type="Position2D" parent="Hotspots/r_door"]
-position = Vector2( 1225.47, 353.99 )
-script = ExtResource( 7 )
+[node name="r_door" parent="Hotspots" instance=ExtResource( 8 )]
 
 [node name="item" type="Area2D" parent="Hotspots"]
 pause_mode = 1

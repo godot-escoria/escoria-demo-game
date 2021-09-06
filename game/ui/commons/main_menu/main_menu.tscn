@@ -2,7 +2,7 @@
 
 [ext_resource path="res://game/ui/commons/main_menu/main_menu.gd" type="Script" id=1]
 [ext_resource path="res://game/ui/commons/main_menu/main.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/escoria-core/logo/escoria-logo-small.png" type="Texture" id=3]
+[ext_resource path="res://addons/escoria-core/design/escoria-logo-small.png" type="Texture" id=3]
 [ext_resource path="res://game/ui/commons/options/options.tscn" type="PackedScene" id=4]
 [ext_resource path="res://game/ui/commons/load/load_game.tscn" type="PackedScene" id=5]
 
@@ -28,9 +28,9 @@ anchor_bottom = 1.0
 
 [node name="main" type="VBoxContainer" parent="Panel/CenterContainer"]
 margin_left = 332.0
-margin_top = 150.0
+margin_top = 151.0
 margin_right = 948.0
-margin_bottom = 749.0
+margin_bottom = 748.0
 custom_constants/separation = 100
 
 [node name="TextureRect" type="TextureRect" parent="Panel/CenterContainer/main"]
@@ -49,19 +49,26 @@ anchor_bottom = 0.0
 margin_left = 0.0
 margin_top = 336.0
 margin_right = 616.0
-margin_bottom = 599.0
+margin_bottom = 597.0
 
 [node name="new_game" parent="Panel/CenterContainer/main/buttons" index="0"]
 margin_right = 616.0
+margin_bottom = 150.0
 
 [node name="load_game" parent="Panel/CenterContainer/main/buttons" index="1"]
+margin_top = 160.0
 margin_right = 616.0
+margin_bottom = 187.0
 
 [node name="options" parent="Panel/CenterContainer/main/buttons" index="2"]
+margin_top = 197.0
 margin_right = 616.0
+margin_bottom = 224.0
 
 [node name="quit" parent="Panel/CenterContainer/main/buttons" index="3"]
+margin_top = 234.0
 margin_right = 616.0
+margin_bottom = 261.0
 
 [node name="options" parent="Panel" instance=ExtResource( 4 )]
 visible = false

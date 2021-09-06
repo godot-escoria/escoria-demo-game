@@ -27,3 +27,12 @@ change_scene res://game/rooms/room01/room01.tscn
 
 # 9/ Indy4 3 closets
 #change_scene res://game/rooms/room09/room09.tscn
+
+# 10/ 
+#change_scene res://game/rooms/room10/room10.tscn
+
+# 11/ Event flags tests
+#change_scene res://game/rooms/room11/room11.tscn
+
+# 12/ Event flags tests 2
+#change_scene res://game/rooms/room12/room12.tscn

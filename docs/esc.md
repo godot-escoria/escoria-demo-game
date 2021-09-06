@@ -193,11 +193,15 @@ to zoom into position.
 Shift camera by `x` and `y` pixels over `time` seconds. `type` is any of the
 Tween.TransitionType values without the prefix, eg. LINEAR, QUART or CIRC;
 defaults to QUART.
-#### <a name="ChangeSceneCommand.md"></a>`change_scene path run_events` [API-Doc](api/ChangeSceneCommand.md)
+#### <a name="ChangeSceneCommand.md"></a>`change_scene path [disable_automatic_transition] [run_events]` [API-Doc](api/ChangeSceneCommand.md)
 
-Loads a new scene, specified by "path". The `run_events` variable is a
-boolean (default true) which you never want to set manually! It's there only
-to benefit save games, so they don't conflict with the scene's events.
+Loads a new scene, specified by "path".
+ The `disable_automatic_transition` is a boolean (default false) can be set
+to true to disable automatic transitions between scenes, to allow you
+to control your transitions manually using the `transition` command.
+The `run_events` variable is a boolean (default true) which you never want
+to set manually! It's there only to benefit save games, so they don't
+conflict with the scene's events.
 #### <a name="CustomCommand.md"></a>`custom object node func_name [params]` [API-Doc](api/CustomCommand.md)
 
 Calls the function `func_name` of the node `node` of object `object` with
@@ -220,6 +224,9 @@ both be integers.
 
 Enable the ESCTerrain's NavigationPolygonInstance defined by given node name.
 Disables previously activated NavigationPolygonInstance.
+#### <a name="FadeCommand.md"></a>`transition transition_name in|out` [API-Doc](api/FadeCommand.md)
+
+Performs a fade in or fade out transition manually.
 #### <a name="IncGlobalCommand.md"></a>`inc_global name value` [API-Doc](api/IncGlobalCommand.md)
 
 Adds the value to global with given "name". Value and global must both be

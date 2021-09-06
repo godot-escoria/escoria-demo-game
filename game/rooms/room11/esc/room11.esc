@@ -1,0 +1,18 @@
+
+:setup
+set_state bg_music off false
+
+> [eq ESC_LAST_SCENE room10]
+	teleport player r11_l_exit
+	# Set player look right
+	set_angle player 180
+	stop
+> [eq ESC_LAST_SCENE room12]
+	teleport player r11_r_exit
+	# Set player look left
+	set_angle player 270
+	stop
+> [!last_scene]
+	teleport player player_start
+	stop
+

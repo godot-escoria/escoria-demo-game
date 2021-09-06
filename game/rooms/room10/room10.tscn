@@ -49,6 +49,7 @@ __meta__ = {
 [node name="Hotspots" type="Node2D" parent="."]
 
 [node name="l_door" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 script = ExtResource( 7 )
 global_id = "r10_l_exit"
 esc_script = "res://game/rooms/room10/esc/left_exit.esc"
@@ -66,14 +67,15 @@ position = Vector2( 37.4521, 392.045 )
 script = ExtResource( 5 )
 
 [node name="r_door" parent="Hotspots" instance=ExtResource( 9 )]
+global_id = "r10_r_exit"
 esc_script = "res://game/rooms/room10/esc/right_exit.esc"
-animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r_door"]
 position = Vector2( 1198.65, 391.058 )
 script = ExtResource( 5 )
 
 [node name="button_stop_bg_music" parent="Hotspots" instance=ExtResource( 8 )]
+pause_mode = 1
 position = Vector2( 243.165, 154.97 )
 global_id = "r10_btn_stop_bg_music"
 esc_script = "res://game/rooms/room10/esc/button_stop_bg_music.esc"
@@ -95,6 +97,7 @@ __meta__ = {
 }
 
 [node name="button_play_bg_music" parent="Hotspots" instance=ExtResource( 8 )]
+pause_mode = 1
 position = Vector2( 377.976, 154.97 )
 global_id = "r10_btn_play_bg_music"
 esc_script = "res://game/rooms/room10/esc/button_play_bg_music.esc"
@@ -116,6 +119,7 @@ __meta__ = {
 }
 
 [node name="button_play_sound" parent="Hotspots" instance=ExtResource( 8 )]
+pause_mode = 1
 position = Vector2( 646.339, 154.97 )
 global_id = "r10_btn_play_snd"
 esc_script = "res://game/rooms/room10/esc/button_play_snd.esc"
@@ -137,6 +141,7 @@ __meta__ = {
 }
 
 [node name="button_accept_input" parent="Hotspots" instance=ExtResource( 8 )]
+pause_mode = 1
 position = Vector2( 823.113, 155.354 )
 global_id = "test_accept_input"
 esc_script = "res://game/rooms/room10/esc/button_accept_input_test.esc"
@@ -161,6 +166,7 @@ script = ExtResource( 5 )
 global_id = "accept_input_location"
 
 [node name="button_slide" parent="Hotspots" instance=ExtResource( 8 )]
+pause_mode = 1
 position = Vector2( 939.497, 154.301 )
 global_id = "button_slide"
 esc_script = "res://game/rooms/room10/esc/button_slide.esc"
@@ -184,6 +190,7 @@ script = ExtResource( 5 )
 global_id = "slide_location"
 
 [node name="button_turn_to" parent="Hotspots" instance=ExtResource( 8 )]
+pause_mode = 1
 position = Vector2( 1041.66, 152.721 )
 global_id = "button_turn_to"
 esc_script = "res://game/rooms/room10/esc/button_turn_to.esc"

@@ -18,21 +18,21 @@ export var transition_name: String = ""
 
 ## Method Descriptions
 
-### fade\_out
+### transition\_out
 
 ```gdscript
-func fade_out() -> var
+func transition_out() -> var
 ```
 
-Fade out the transition
+Transition out
 
-### fade\_in
+### transition\_in
 
 ```gdscript
-func fade_in() -> var
+func transition_in() -> var
 ```
 
-Fade in the transition
+Transition in
 
 ## Signals
 
