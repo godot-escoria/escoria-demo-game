@@ -7,6 +7,9 @@ class_name ESCPlayer, "res://addons/escoria-core/design/esc_player.svg"
 # The node that references the camera position
 export(NodePath) var camera_position_node
 
+# Wether the player can be selected like an item
+export(bool) var selectable = false
+
 
 # A player is always movable
 func _init():
@@ -15,8 +18,11 @@ func _init():
 
 # Ready function
 func _ready():
-	# For ESCPlayer, avoid the CollisionShape2D used for movement to catch inputs
-	disconnect("input_event", self, "manage_input")
+	if selectable:
+		._ready()
+	else:
+		tooltip_name = ""
+		disconnect("input_event", self, "manage_input")
 
 
 # Return the camera position if a camera_position_node exists or the
