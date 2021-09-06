@@ -23,6 +23,10 @@ func _enter_tree():
 
 # Prepare the settings in the Escoria UI category
 func set_escoria_ui_settings():
+	ProjectSettings.set_setting(
+		"audio/default_bus_layout", 
+		"res://addons/escoria-core/default_bus_layout.tres"
+	)
 	if !ProjectSettings.has_setting("escoria/ui/tooltip_follows_mouse"):
 		ProjectSettings.set_setting("escoria/ui/tooltip_follows_mouse", true)
 	
@@ -245,6 +249,25 @@ func set_escoria_sound_settings():
 			"type": TYPE_BOOL
 		}
 		ProjectSettings.add_property_info(speech_enabled_property_info)
+	if !ProjectSettings.has_setting("escoria/sound/speech_folder"):
+		ProjectSettings.set_setting(
+			"escoria/sound/speech_folder",
+			"res://speech"
+		)
+		ProjectSettings.add_property_info({
+			"name": "escoria/sound/speech_folder",
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_DIR
+		})
+	if !ProjectSettings.has_setting("escoria/sound/speech_extension"):
+		ProjectSettings.set_setting(
+			"escoria/sound/speech_extension",
+			"ogg"
+		)
+		ProjectSettings.add_property_info({
+			"name": "escoria/sound/speech_extension",
+			"type": TYPE_STRING
+		})
 
 
 # Prepare the settings in the Escoria platform category and may need special

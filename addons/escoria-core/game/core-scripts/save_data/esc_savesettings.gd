@@ -6,10 +6,14 @@ class_name ESCSaveSettings
 export var escoria_version: String
 
 # Language of displayed text
-export var text_lang: String = ProjectSettings.get_setting("escoria/main/text_lang")
+export var text_lang: String = ProjectSettings.get_setting(
+	"escoria/main/text_lang"
+)
 
 # Language of voice speech
-export var voice_lang: String = ProjectSettings.get_setting("escoria/main/voice_lang")
+export var voice_lang: String = ProjectSettings.get_setting(
+	"escoria/main/voice_lang"
+)
 
 # Whether speech is enabled
 export var speech_enabled: bool = ProjectSettings.get_setting(
@@ -24,10 +28,12 @@ export var music_volume: float = ProjectSettings.get_setting(
 	"escoria/sound/music_volume")
 
 # Volume of SFX only
-export var sfx_volume: float = ProjectSettings.get_setting("escoria/sound/sfx_volume")
+export var sfx_volume: float = ProjectSettings.get_setting(
+	"escoria/sound/sfx_volume"
+)
 
-# Voice volume only
-export var voice_volume: float = ProjectSettings.get_setting(
+# Speech volume only
+export var speech_volume: float = ProjectSettings.get_setting(
 	"escoria/sound/speech_volume")
 
 # True if game has to be fullscreen

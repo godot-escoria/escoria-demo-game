@@ -104,16 +104,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc_background.gd"
 }, {
-"base": "Control",
-"class": "ESCBackgroundMusic",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/scenes/sound/bg_music.gd"
-}, {
-"base": "Control",
-"class": "ESCBackgroundSound",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/scenes/sound/bg_sound.gd"
-}, {
 "base": "Node",
 "class": "ESCBaseCommand",
 "language": "GDScript",
@@ -177,7 +167,7 @@ _global_script_classes=[ {
 "base": "ResourcePreloader",
 "class": "ESCDialogsPlayer",
 "language": "GDScript",
-"path": "res://addons/escoria-core/game/scenes/dialogs/dialog_player.gd"
+"path": "res://addons/escoria-core/game/scenes/dialogs/esc_dialog_player.gd"
 }, {
 "base": "Resource",
 "class": "ESCDirectionAngle",
@@ -254,6 +244,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/behaviors/esc_movable.gd"
 }, {
+"base": "Control",
+"class": "ESCMusicPlayer",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/scenes/sound/esc_music_player.gd"
+}, {
 "base": "Node",
 "class": "ESCObject",
 "language": "GDScript",
@@ -303,6 +298,16 @@ _global_script_classes=[ {
 "class": "ESCScript",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_script.gd"
+}, {
+"base": "Control",
+"class": "ESCSoundPlayer",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/scenes/sound/esc_sound_player.gd"
+}, {
+"base": "Control",
+"class": "ESCSpeechPlayer",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/scenes/sound/esc_speech_player.gd"
 }, {
 "base": "Object",
 "class": "ESCStatement",
@@ -504,8 +509,6 @@ _global_script_class_icons={
 "ESCAnimationPlayer": "",
 "ESCAnimationResource": "",
 "ESCBackground": "res://addons/escoria-core/design/esc_background.svg",
-"ESCBackgroundMusic": "",
-"ESCBackgroundSound": "",
 "ESCBaseCommand": "",
 "ESCCamera": "",
 "ESCCameraLimits": "",
@@ -534,6 +537,7 @@ _global_script_class_icons={
 "ESCLocation": "res://addons/escoria-core/design/esc_location.svg",
 "ESCLogger": "",
 "ESCMovable": "",
+"ESCMusicPlayer": "",
 "ESCObject": "",
 "ESCObjectManager": "",
 "ESCPlayer": "res://addons/escoria-core/design/esc_player.svg",
@@ -544,6 +548,8 @@ _global_script_class_icons={
 "ESCSaveSettings": "",
 "ESCScheduledEvent": "",
 "ESCScript": "",
+"ESCSoundPlayer": "",
+"ESCSpeechPlayer": "",
 "ESCStatement": "",
 "ESCTerrain": "res://addons/escoria-core/design/esc_terrain.svg",
 "ESCTooltip": "",
@@ -591,6 +597,10 @@ boot_splash/fullsize=false
 boot_splash/use_filter=false
 boot_splash/bg_color=Color( 0.960784, 0.384314, 0, 1 )
 config/icon="res://icon.png"
+
+[audio]
+
+default_bus_layout="res://addons/escoria-core/default_bus_layout.tres"
 
 [autoload]
 
@@ -642,6 +652,8 @@ main/escoria_version=""
 sound/speech_enabled=1
 ui/game_scene="res://addons/escoria-ui-9verbs/game.tscn"
 ui/dialogs_chooser="res://game/ui/commons/dialogs/text_dialog_choice.tscn"
+sound/speech_folder="res://game/speech"
+sound/speech_extension="ogg"
 
 [input]
 
@@ -661,6 +673,12 @@ switch_action_verb={
 
 translations=PoolStringArray( "res://game/translations/game.en.translation", "res://game/translations/game.fr.translation", "res://game/translations/main_menu.en.translation", "res://game/translations/main_menu.fr.translation", "res://game/translations/game.de.translation", "res://game/translations/main_menu.de.translation" )
 locale_filter=[ 0, [  ] ]
+translation_remaps={
+"res://game/speech/room01/ROOM1_look_wall_item_1.ogg": PoolStringArray( "res://game/speech/room01/ROOM1_look_wall_item_1_de.ogg:de" ),
+"res://game/speech/room01/ROOM1_look_wall_item_2.ogg": PoolStringArray( "res://game/speech/room01/ROOM1_look_wall_item_2_de.ogg:de" ),
+"res://game/speech/room01/ROOM1_look_wall_item_3.ogg": PoolStringArray( "res://game/speech/room01/ROOM1_look_wall_item_3_de.ogg:de" ),
+"res://game/speech/room01/ROOM1_look_wall_item_4.ogg": PoolStringArray( "res://game/speech/room01/ROOM1_look_wall_item_4_de.ogg:de" )
+}
 
 [network]
 

@@ -1,14 +1,14 @@
-# Background sound player
+# Background music player
 extends Control
-class_name ESCBackgroundSound
+class_name ESCMusicPlayer
 
 
-# Global id of the background sound player
-export var global_id: String = "bg_sound"
+# Global id of the background music player
+export var global_id: String = "_music"
 
 
-# The state of the sound player. "default" or "off" disable sound
-# Any other state refers to a sound stream that should be played
+# The state of the music player. "default" or "off" disable music
+# Any other state refers to a music stream that should be played
 var state: String = "default"
 
 
@@ -22,7 +22,7 @@ onready var stream: AudioStreamPlayer = $AudioStreamPlayer
 #
 # - p_state: New state to use
 # - p_force: Override the existing state even if the stream is still playing
-func set_state(p_state: String, p_force: bool = false):
+func set_state(p_state: String, p_force: bool = false) -> void:
 	# If already playing this stream, keep playing, unless p_force
 	if p_state == state and not p_force and stream.is_playing():
 		return
@@ -39,9 +39,9 @@ func set_state(p_state: String, p_force: bool = false):
 	stream.stream = resource
 
 	if stream.stream:
-		resource.set_loop(false)
-		if ProjectSettings.has_setting("escoria/sound/sound_volume"):
-			stream.volume_db = ProjectSettings.get_setting("escoria/sound/sound_volume")
+		resource.set_loop(true)
+		if ProjectSettings.has_setting("escoria/sound/music_volume"):
+			stream.volume_db = ProjectSettings.get_setting("escoria/sound/music_volume")
 		stream.play()
 
 
@@ -52,6 +52,3 @@ func _ready():
 		true
 	)
 
-# Set state to default when finished playing.
-func _on_sound_finished():
-	state = "default"

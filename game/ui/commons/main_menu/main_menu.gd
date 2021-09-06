@@ -5,7 +5,7 @@ func _ready():
 	var event = ESCEvent.new(":music")
 	event.statements.append(
 		ESCCommand.new(
-			"set_sound_state bg_music res://game/sfx/Game-Menu_Looping.mp3 true"
+			"set_sound_state _music res://game/sfx/Game-Menu_Looping.mp3 true"
 		)
 	)
 	escoria.event_manager.queue_event(event)

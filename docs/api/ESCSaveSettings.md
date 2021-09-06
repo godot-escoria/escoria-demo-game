@@ -66,13 +66,13 @@ export var sfx_volume: float = 0
 
  Volume of SFX only
 
-### voice\_volume
+### speech\_volume
 
 ```gdscript
-export var voice_volume: float = 0
+export var speech_volume: float = 0
 ```
 
-Voice volume only
+Speech volume only
 
 ### fullscreen
 

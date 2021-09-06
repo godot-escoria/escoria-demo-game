@@ -233,7 +233,7 @@ Remove an item from the inventory.
 #### <a name="PlaySndCommand.md"></a>`play_snd file [player]` [API-Doc](api/PlaySndCommand.md)
 
 Plays the sound specificed with the "file" parameter on the sound player
-`player`, without blocking. (player defaults to bg_sound)
+`player`, without blocking. (player defaults to _sound)
 #### <a name="QueueResourceCommand.md"></a>`queue_resource path [front_of_queue]` [API-Doc](api/QueueResourceCommand.md)
 
 Queues the load of a resource in a background thread. The `path` must be a
@@ -303,7 +303,7 @@ Sets whether or not an object should be interactive.
 
 Change the sound playing on `player` to `sound` with optional looping if
 `loop` is true.
-Valid players are "bg_music" and "bg_sound".
+Valid players are "_music" and "_sound".
 Aside from paths to sound or music files, the values *off* and *default*.
 *default* is the default value.
 are also valid for `sound`

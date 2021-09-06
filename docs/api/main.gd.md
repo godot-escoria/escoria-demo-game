@@ -34,14 +34,6 @@ var wait_level
 
 The Escoria context currently in wait state
 
-### bg\_music
-
-```gdscript
-var bg_music
-```
-
-Reference to the ESCBackgroundMusic node
-
 ### scene\_transition
 
 ```gdscript

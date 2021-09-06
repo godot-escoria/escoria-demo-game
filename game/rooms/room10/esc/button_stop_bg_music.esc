@@ -1,2 +1,2 @@
 :use
-set_sound_state bg_music off true
+set_sound_state _music off true

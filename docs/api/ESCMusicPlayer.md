@@ -1,22 +1,22 @@
 <!-- Auto-generated from JSON by GDScript docs maker. Do not edit this document directly. -->
 
-# ESCBackgroundSound
+# ESCMusicPlayer
 
 **Extends:** [Control](../Control)
 
 ## Description
 
-Background sound player
+Background music player
 
 ## Property Descriptions
 
 ### global\_id
 
 ```gdscript
-export var global_id: String = "bg_sound"
+export var global_id: String = "_music"
 ```
 
-Global id of the background sound player
+Global id of the background music player
 
 ### state
 
@@ -24,8 +24,8 @@ Global id of the background sound player
 var state: String = "default"
 ```
 
-The state of the sound player. "default" or "off" disable sound
-Any other state refers to a sound stream that should be played
+The state of the music player. "default" or "off" disable music
+Any other state refers to a music stream that should be played
 
 ### stream
 
@@ -40,7 +40,7 @@ Reference to the audio player
 ### set\_state
 
 ```gdscript
-func set_state(p_state: String, p_force: bool = false)
+func set_state(p_state: String, p_force: bool = false) -> void
 ```
 
 Set the state of this player
