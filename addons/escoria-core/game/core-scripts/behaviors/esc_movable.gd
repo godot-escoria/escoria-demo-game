@@ -285,7 +285,6 @@ func walk_stop(pos: Vector2) -> void:
 	
 	update_terrain()
 
-	yield(parent.get_animation_player(), "animation_finished")
 	if walk_context.target_object:
 		escoria.logger.debug(
 			"%s arrived at %s" % [

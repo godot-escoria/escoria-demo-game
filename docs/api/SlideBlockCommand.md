@@ -13,7 +13,6 @@ object1's "speed" property, unless overridden. This command is blocking.
 It does not respect the room's navigation polygons, so you can move items
 where the player can't walk.
 
-@STUB
 @ESC
 
 ## Method Descriptions

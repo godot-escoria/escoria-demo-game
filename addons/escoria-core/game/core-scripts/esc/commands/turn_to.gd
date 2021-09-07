@@ -10,7 +10,6 @@
 # Set immediate to true to show directly switch to the direction and not
 # show intermediate angles
 #  
-# @STUB
 # @ESC
 extends ESCBaseCommand
 class_name TurnToCommand

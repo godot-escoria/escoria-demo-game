@@ -1,17 +1,14 @@
 <!-- Auto-generated from JSON by GDScript docs maker. Do not edit this document directly. -->
 
-# SlideCommand
+# SetAnimationsCommand
 
 **Extends:** [ESCBaseCommand](../ESCBaseCommand) < [Node](../Node)
 
 ## Description
 
-`slide object1 object2 [speed]`
+`set_animations object animations`
 
-Moves object1 towards the position of object2, at the speed determined by
-object1's "speed" property, unless overridden. This command is non-blocking.
-It does not respect the room's navigation polygons, so you can move items
-where the player can't walk.
+Set the animation resource for the given ESCPlayer
 
 @ESC
 

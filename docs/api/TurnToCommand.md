@@ -18,7 +18,6 @@ be between [0, 360] or an error is reported.
 Set immediate to true to show directly switch to the direction and not
 show intermediate angles
 
-@STUB
 @ESC
 
 ## Method Descriptions
