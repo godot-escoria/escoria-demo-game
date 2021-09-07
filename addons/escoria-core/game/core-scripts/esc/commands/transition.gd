@@ -1,10 +1,10 @@
 # `transition transition_name in|out`
 #
-# Performs a fade in or fade out transition manually.
+# Performs a transition in our out manually.
 # 
 # @ESC
 extends ESCBaseCommand
-class_name FadeCommand
+class_name TransitionCommand
 
 
 # Return the descriptor of the arguments of this command
