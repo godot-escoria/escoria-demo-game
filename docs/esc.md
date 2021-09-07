@@ -281,6 +281,9 @@ destination angle, animations are played if they're defined in animations.
 
 object must be player or interactive. degrees must be between [0, 360] or an
 error is reported.
+#### <a name="SetAnimationsCommand.md"></a>`set_animations object animations` [API-Doc](api/SetAnimationsCommand.md)
+
+Set the animation resource for the given ESCPlayer
 #### <a name="SetGlobalCommand.md"></a>`set_global name value` [API-Doc](api/SetGlobalCommand.md)
 
 Changes the value of the global "name" with the value. Value can be "true",
@@ -318,15 +321,11 @@ character.
 If `immediate` is set to true, the animation is run directly
 #### <a name="SlideBlockCommand.md"></a>`slide_block object1 object2 [speed]` [API-Doc](api/SlideBlockCommand.md)
 
-**This command is currently not fully implemented.**
-
 Moves object1 towards the position of object2, at the speed determined by
 object1's "speed" property, unless overridden. This command is blocking.
 It does not respect the room's navigation polygons, so you can move items
 where the player can't walk.
 #### <a name="SlideCommand.md"></a>`slide object1 object2 [speed]` [API-Doc](api/SlideCommand.md)
-
-**This command is currently not fully implemented.**
 
 Moves object1 towards the position of object2, at the speed determined by
 object1's "speed" property, unless overridden. This command is non-blocking.
@@ -346,8 +345,6 @@ Sets the position of object1 to the position of object2.
 
 Sets the position of object1 to the position (x,y).
 #### <a name="TurnToCommand.md"></a>`turn_to object degrees [immediate]` [API-Doc](api/TurnToCommand.md)
-
-**This command is currently not fully implemented.**
 
 Turns object to a degrees angle with a directions animation.
 

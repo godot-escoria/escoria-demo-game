@@ -146,7 +146,7 @@ Walk to a given position
 ### walk\_stop
 
 ```gdscript
-func walk_stop(pos: Vector2) -> var
+func walk_stop(pos: Vector2) -> void
 ```
 
 We have finished walking. Set the idle pose and complete
