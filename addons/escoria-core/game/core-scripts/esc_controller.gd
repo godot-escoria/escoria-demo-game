@@ -319,6 +319,12 @@ func _on_no_tooltip_event_finished(_return_code: int, _event_name: String):
 		)
 
 
+# Called when an event having "NO_HUD" flag is finished.
+#
+# ## Parameters
+#
+# - _return_code: The ESCExecution return code sent by the events manager.
+# - _event_name: the name of the event
 func _on_no_hud_event_finished(_return_code: int, _event_name: String):
 	escoria.main.current_scene.game.show_ui()
 	if escoria.event_manager.is_connected(
@@ -331,7 +337,14 @@ func _on_no_hud_event_finished(_return_code: int, _event_name: String):
 			self,
 			"_on_no_hud_event_finished"
 		)
-	
+
+
+# Called when an event having "NO_SAVE" flag is finished.
+#
+# ## Parameters
+#
+# - _return_code: The ESCExecution return code sent by the events manager.
+# - _event_name: the name of the event
 func _on_no_save_event_finished(_return_code: int, _event_name: String):
 	escoria.save_manager.save_enabled = true
 	if escoria.event_manager.is_connected(
