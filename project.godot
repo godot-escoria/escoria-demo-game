@@ -465,6 +465,11 @@ _global_script_classes=[ {
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/teleport_pos.gd"
 }, {
 "base": "ESCBaseCommand",
+"class": "TransitionCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/commands/transition.gd"
+}, {
+"base": "ESCBaseCommand",
 "class": "TurnToCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/turn_to.gd"
@@ -586,6 +591,7 @@ _global_script_class_icons={
 "StopCommand": "",
 "TeleportCommand": "",
 "TeleportPosCommand": "",
+"TransitionCommand": "",
 "TurnToCommand": "",
 "WaitCommand": "",
 "WalkBlockCommand": "",
@@ -598,7 +604,7 @@ _global_script_class_icons={
 
 config/name="Escoria"
 run/main_scene="res://addons/escoria-core/game/main_scene.tscn"
-boot_splash/image="res://addons/escoria-core/logo/escoria-logo-small.png"
+boot_splash/image="res://addons/escoria-core/design/escoria-logo-small.png"
 boot_splash/fullsize=false
 boot_splash/use_filter=false
 boot_splash/bg_color=Color( 0.960784, 0.384314, 0, 1 )

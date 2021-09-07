@@ -178,6 +178,7 @@ func pause_game():
 		escoria.main.current_scene.show()
 		escoria.set_game_paused(false)
 	else:
+		$ui/pause_menu.set_save_enabled(escoria.save_manager.save_enabled)
 		$ui/pause_menu.show()
 		escoria.main.current_scene.game.get_node("camera").current = false
 		escoria.main.current_scene.game.hide_ui()

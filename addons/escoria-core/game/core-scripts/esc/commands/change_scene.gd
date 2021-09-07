@@ -1,8 +1,12 @@
-# `change_scene path run_events`
+# `change_scene path [disable_automatic_transition] [run_events]`
 #
-# Loads a new scene, specified by "path". The `run_events` variable is a 
-# boolean (default true) which you never want to set manually! It's there only 
-# to benefit save games, so they don't conflict with the scene's events.
+# Loads a new scene, specified by "path". 
+# The `disable_automatic_transition` is a boolean (default false) can be set 
+# to true to disable automatic transitions between scenes, to allow you
+# to control your transitions manually using the `transition` command.
+# The `run_events` variable is a boolean (default true) which you never want 
+# to set manually! It's there only to benefit save games, so they don't
+# conflict with the scene's events.
 #
 # @ESC
 extends ESCBaseCommand
@@ -13,8 +17,8 @@ class_name ChangeSceneCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1, 
-		[TYPE_STRING, TYPE_BOOL],
-		[null, true]
+		[TYPE_STRING, TYPE_BOOL, TYPE_BOOL],
+		[null, false, true]
 	)
 	
 	
@@ -42,9 +46,11 @@ func validate(arguments: Array) -> bool:
 
 # Run the command
 func run(command_params: Array) -> int:
-	escoria.logger.info("Changing scene to %s (run_events = %s)" % [
-		command_params[0], 
-		command_params[1]
+	escoria.logger.info(
+		"Changing scene to %s (disable_automatic_transition = %s, run_events = %s)" % [
+		command_params[0],
+		command_params[1],
+		command_params[2]
 	])
 	
 	if escoria.main.current_scene:
@@ -53,9 +59,10 @@ func run(command_params: Array) -> int:
 			escoria.main.current_scene.global_id, 
 			true
 		)
-		
-	escoria.main.scene_transition.fade_out()
-	yield(escoria.main.scene_transition, "transition_done")
+	
+	if !command_params[1]:
+		escoria.main.scene_transition.transition_out()
+		yield(escoria.main.scene_transition, "transition_done")
 	
 	escoria.inputs_manager.clear_stack()
 	
@@ -85,7 +92,7 @@ func run(command_params: Array) -> int:
 		escoria.main.set_scene(room_scene)
 		
 		if "esc_script" in room_scene and room_scene.esc_script \
-				and command_params[1]:
+				and command_params[2]:
 			
 			var script = escoria.esc_compiler.load_esc_file(
 				room_scene.esc_script
@@ -99,8 +106,9 @@ func run(command_params: Array) -> int:
 				if rc[0] != ESCExecution.RC_OK:
 					return rc[0]
 			
-			escoria.main.scene_transition.fade_in()
-			yield(escoria.main.scene_transition, "transition_done")
+			if !command_params[1]:
+				escoria.main.scene_transition.transition_in()
+				yield(escoria.main.scene_transition, "transition_done")
 		
 			if script.events.has("ready"):
 				escoria.event_manager.queue_event(script.events["ready"])
@@ -109,6 +117,11 @@ func run(command_params: Array) -> int:
 					rc = yield(escoria.event_manager, "event_finished")
 				if rc[0] != ESCExecution.RC_OK:
 					return rc[0]
+				
+		else:
+			if !command_params[1]:
+				escoria.main.scene_transition.transition_in()
+				yield(escoria.main.scene_transition, "transition_done")
 				
 		# Clear queued resources
 		escoria.resource_cache.clear()

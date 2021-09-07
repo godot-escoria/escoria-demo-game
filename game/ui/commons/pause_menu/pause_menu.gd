@@ -33,3 +33,7 @@ func _on_save_game_back_button_pressed():
 func _on_load_game_back_button_pressed():
 	$Panel/CenterContainer/VBoxContainer.show()
 	$load_game.hide()
+	
+	
+func set_save_enabled(p_enabled: bool):
+	$Panel/CenterContainer/VBoxContainer/menuitems/save_game.disabled = !p_enabled

@@ -173,7 +173,6 @@ func _test_event_flags() -> bool:
 :test | TK
 :test2 | TK NO_TT
 :test3 | TK NO_TT NO_HUD
-:test4 | TK NO_TT CUT_BLACK
 	"""
 	var script = escoria.esc_compiler.compile(esc.split("\n"))
 	
@@ -200,12 +199,6 @@ func _test_event_flags() -> bool:
 	assert(subject.flags & ESCEvent.FLAG_NO_TT != 0)
 	assert(subject.flags & ESCEvent.FLAG_NO_HUD != 0)
 		
-	subject = script.events["test4"]
-	assert(subject.name == "test4")
-	assert(subject.flags & ESCEvent.FLAG_TK != 0)
-	assert(subject.flags & ESCEvent.FLAG_NO_TT != 0)
-	assert(subject.flags & ESCEvent.FLAG_NO_HUD == 0)
-	assert(subject.flags & ESCEvent.FLAG_CUT_BLACK != 0)
 	return true
 	
 

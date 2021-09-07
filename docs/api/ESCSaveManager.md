@@ -22,6 +22,14 @@ Template for settings filename
 
 ## Property Descriptions
 
+### save\_enabled
+
+```gdscript
+var save_enabled: bool = true
+```
+
+If true, saving a game is enabled. Else, saving is disabled
+
 ### save\_folder
 
 ```gdscript

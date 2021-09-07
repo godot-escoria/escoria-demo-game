@@ -1,0 +1,5 @@
+:use
+transition curtain out
+wait 2
+transition fade_black in
+

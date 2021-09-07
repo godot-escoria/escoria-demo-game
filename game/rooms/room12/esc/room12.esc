@@ -1,0 +1,21 @@
+
+:setup
+
+> [eq ESC_LAST_SCENE room11]
+	teleport player r12_l_exit
+	# Set player look right
+	set_angle player 180
+	stop
+> [eq ESC_LAST_SCENE room13]
+	teleport player r12_r_exit
+	# Set player look left
+	set_angle player 270
+	stop
+> [!last_scene]
+	teleport player player_start
+	stop
+
+
+:ready
+
+transition fade_white in

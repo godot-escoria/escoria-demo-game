@@ -1,6 +1,9 @@
 # Saves and loads savegame and settings files
 class_name ESCSaveManager
 
+# If true, saving a game is enabled. Else, saving is disabled
+var save_enabled: bool = true
+
 # Variable containing the saves folder obtained from Project Settings
 var save_folder: String
 
@@ -65,6 +68,12 @@ func save_game_exists(id: int) -> bool:
 # - id: integer suffix of the savegame file
 # - p_savename: name of the savegame
 func save_game(id: int, p_savename: String):
+	if not save_enabled:
+		escoria.logger.debug(
+			"esc_save_data_resources.gd",
+			["Save requested while saving is not possible. Save canceled."])
+		return
+	
 	var save_game := ESCSaveGame.new()
 	save_game.escoria_version = escoria.ESCORIA_VERSION
 	save_game.game_version = ProjectSettings.get_setting(

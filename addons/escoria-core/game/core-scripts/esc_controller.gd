@@ -96,6 +96,12 @@ func perform_inputevent_on_object(
 	
 	escoria.logger.info("%s left-clicked with event " % obj.global_id, [event])
 	
+	var event_flags = 0
+	var has_current_action: bool = false
+	if obj.events.has(escoria.action_manager.current_action):
+		event_flags = obj.events[escoria.action_manager.current_action].flags
+		has_current_action = true
+	
 	# Don't interact after player movement towards object 
 	# (because object is inactive for example)
 	var dont_interact = false
@@ -105,20 +111,21 @@ func perform_inputevent_on_object(
 	
 	# If clicked object not in inventory, player walks towards it
 	if not obj.node is ESCPlayer and \
-			not escoria.inventory_manager.inventory_has(obj.global_id):
-		var context = _walk_towards_object(
-			obj, 
-			event.position, 
-			event.doubleclick
-		)
-		if context is GDScriptFunctionState:
-			context = yield(_walk_towards_object(
+		not escoria.inventory_manager.inventory_has(obj.global_id) and \
+		(not has_current_action or not event_flags & ESCEvent.FLAG_TK):
+			var context = _walk_towards_object(
 				obj, 
 				event.position, 
 				event.doubleclick
-			), "completed")
-		destination_position = context.target_position
-		dont_interact = context.dont_interact_on_arrival
+			)
+			if context is GDScriptFunctionState:
+				context = yield(_walk_towards_object(
+					obj, 
+					event.position, 
+					event.doubleclick
+				), "completed")
+			destination_position = context.target_position
+			dont_interact = context.dont_interact_on_arrival
 	
 	# If no interaction should happen after player has arrived, leave 
 	# immediately.
@@ -131,6 +138,50 @@ func perform_inputevent_on_object(
 	# If player has arrived at the position he was supposed to reach 
 	# so he can interact
 	if player_global_pos == destination_position:
+		
+		# If NO_TT flag is active, hide tooltip and connect for
+		# event finished to show it back
+		if event_flags & ESCEvent.FLAG_NO_TT \
+			and not escoria.event_manager.is_connected(
+				"event_finished", 
+				self,
+				"_on_no_tooltip_event_finished"
+			):
+			escoria.main.current_scene.game.tooltip_node.hide()
+			escoria.event_manager.connect(
+				"event_finished", 
+				self,
+				"_on_no_tooltip_event_finished"
+			)
+		
+		if event_flags & ESCEvent.FLAG_NO_HUD and \
+			not escoria.event_manager.is_connected(
+				"event_finished", 
+				self,
+				"_on_no_hud_event_finished"
+			):
+			escoria.main.current_scene.game.hide_ui()
+			escoria.event_manager.connect(
+				"event_finished", 
+				self,
+				"_on_no_hud_event_finished"
+			)
+		
+		if event_flags & ESCEvent.FLAG_NO_SAVE and \
+			not escoria.event_manager.is_connected(
+				"event_finished", 
+				self,
+				"_on_no_save_event_finished"
+			):
+			escoria.save_manager.save_enabled = false
+			escoria.event_manager.connect(
+				"event_finished", 
+				self,
+				"_on_no_save_event_finished"
+			)
+			pass
+		
+		
 		# Manage exits
 		if obj.node.is_exit and escoria.action_manager.current_action \
 				in ["", "walk"]:
@@ -246,3 +297,63 @@ func _walk_towards_object(
 		walk_context.dont_interact_on_arrival = true
 	
 	return context
+
+
+# Called when an event having "NO_TT" flag is finished.
+#
+# ## Parameters
+#
+# - _return_code: The ESCExecution return code sent by the events manager.
+# - _event_name: the name of the event
+func _on_no_tooltip_event_finished(_return_code: int, _event_name: String):
+	escoria.main.current_scene.game.tooltip_node.show()
+	if escoria.event_manager.is_connected(
+			"event_finished", 
+			self,
+			"_on_no_tooltip_event_finished"
+		):
+		escoria.event_manager.disconnect(
+			"event_finished", 
+			self,
+			"_on_no_tooltip_event_finished"
+		)
+
+
+# Called when an event having "NO_HUD" flag is finished.
+#
+# ## Parameters
+#
+# - _return_code: The ESCExecution return code sent by the events manager.
+# - _event_name: the name of the event
+func _on_no_hud_event_finished(_return_code: int, _event_name: String):
+	escoria.main.current_scene.game.show_ui()
+	if escoria.event_manager.is_connected(
+			"event_finished", 
+			self,
+			"_on_no_hud_event_finished"
+		):
+		escoria.event_manager.disconnect(
+			"event_finished", 
+			self,
+			"_on_no_hud_event_finished"
+		)
+
+
+# Called when an event having "NO_SAVE" flag is finished.
+#
+# ## Parameters
+#
+# - _return_code: The ESCExecution return code sent by the events manager.
+# - _event_name: the name of the event
+func _on_no_save_event_finished(_return_code: int, _event_name: String):
+	escoria.save_manager.save_enabled = true
+	if escoria.event_manager.is_connected(
+			"event_finished", 
+			self,
+			"_on_no_save_event_finished"
+		):
+		escoria.event_manager.disconnect(
+			"event_finished", 
+			self,
+			"_on_no_save_event_finished"
+		)

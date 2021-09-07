@@ -1,0 +1,243 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
+[ext_resource path="res://game/rooms/room11/background.tscn" type="PackedScene" id=2]
+[ext_resource path="res://game/ui/commons/fonts/caslonantique.tres" type="DynamicFont" id=3]
+[ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=5]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
+[ext_resource path="res://game/rooms/room11/r_door.tscn" type="PackedScene" id=8]
+
+[sub_resource type="NavigationPolygon" id=1]
+vertices = PoolVector2Array( 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, 864.626, 613.518, 1143.08, 613.35, -9.16094, 803.802, 386.666, 618.012, 129.634, 615.792, 84.5821, 654.06, -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 0, 3, 6, 7 ), PoolIntArray( 8, 7, 6, 9 ), PoolIntArray( 9, 6, 10, 11, 12 ) ]
+outlines = [ PoolVector2Array( -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698, 84.5821, 654.06, 129.634, 615.792, 386.666, 618.012, 864.626, 613.518, 1143.08, 613.35, 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, -9.16094, 803.802 ) ]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 53.6249
+
+[node name="room11" type="Node2D"]
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_vertical_guides_": [  ]
+}
+global_id = "room11"
+esc_script = "res://game/rooms/room11/esc/room11.esc"
+player_scene = ExtResource( 4 )
+camera_limits = [ Rect2( 0, 0, 1289, 555 ) ]
+
+[node name="background" parent="." instance=ExtResource( 2 )]
+
+[node name="room_label" type="Label" parent="background"]
+margin_right = 92.0
+margin_bottom = 21.0
+custom_fonts/font = ExtResource( 3 )
+text = "ROOM 11"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="walkable_area" type="Navigation2D" parent="."]
+script = ExtResource( 1 )
+
+[node name="platform" type="NavigationPolygonInstance" parent="walkable_area"]
+position = Vector2( 6.73163, -264.779 )
+navpoly = SubResource( 1 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Hotspots" type="Node2D" parent="."]
+
+[node name="l_door" type="Area2D" parent="Hotspots"]
+pause_mode = 1
+script = ExtResource( 7 )
+global_id = "r11_l_exit"
+esc_script = "res://game/rooms/room11/esc/left_exit.esc"
+is_exit = true
+tooltip_name = "Left exit"
+default_action = "walk"
+dialog_color = Color( 1, 1, 1, 1 )
+animations = null
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
+polygon = PoolVector2Array( 0.328762, 440.897, 1.85199, 119.926, 85.9517, 74.6212, 87.1409, 377.869 )
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/l_door"]
+position = Vector2( 37.4521, 392.045 )
+script = ExtResource( 5 )
+
+[node name="r_door" parent="Hotspots" instance=ExtResource( 8 )]
+global_id = "r11_r_exit"
+esc_script = "res://game/rooms/room11/esc/right_exit.esc"
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/r_door"]
+position = Vector2( 1236.02, 366.281 )
+script = ExtResource( 5 )
+
+[node name="circleTK" type="Area2D" parent="Hotspots"]
+pause_mode = 1
+position = Vector2( -422.136, 0 )
+script = ExtResource( 7 )
+global_id = "r11_circle_tk"
+esc_script = "res://game/rooms/room11/esc/mysterious_circle_tk.esc"
+tooltip_name = "Mysterious circle"
+dialog_color = Color( 1, 1, 1, 1 )
+animations = null
+
+[node name="Polygon2D" type="Polygon2D" parent="Hotspots/circleTK"]
+position = Vector2( 50.9425, -76.4136 )
+polygon = PoolVector2Array( 555.881, 185.538, 519.921, 215.504, 525.914, 257.456, 552.884, 282.928, 587.345, 284.426, 623.305, 260.453, 623.305, 219.999, 594.837, 187.036 )
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/circleTK"]
+position = Vector2( 624.794, 379.072 )
+script = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/circleTK"]
+position = Vector2( 623.668, 159.806 )
+shape = SubResource( 2 )
+
+[node name="Label" type="Label" parent="Hotspots/circleTK"]
+margin_left = 700.416
+margin_top = 152.655
+margin_right = 756.416
+margin_bottom = 166.655
+text = "FLAG: TK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="circleNoTT" type="Area2D" parent="Hotspots"]
+pause_mode = 1
+position = Vector2( -151.623, 0 )
+script = ExtResource( 7 )
+global_id = "r11_circle_nott"
+esc_script = "res://game/rooms/room11/esc/mysterious_circle_nott.esc"
+tooltip_name = "Mysterious circle"
+dialog_color = Color( 1, 1, 1, 1 )
+animations = null
+
+[node name="Polygon2D" type="Polygon2D" parent="Hotspots/circleNoTT"]
+position = Vector2( 50.9425, -76.4136 )
+polygon = PoolVector2Array( 555.881, 185.538, 519.921, 215.504, 525.914, 257.456, 552.884, 282.928, 587.345, 284.426, 623.305, 260.453, 623.305, 219.999, 594.837, 187.036 )
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/circleNoTT"]
+position = Vector2( 624.794, 379.072 )
+script = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/circleNoTT"]
+position = Vector2( 623.668, 159.806 )
+shape = SubResource( 2 )
+
+[node name="Label" type="Label" parent="Hotspots/circleNoTT"]
+margin_left = 691.437
+margin_top = 152.655
+margin_right = 773.437
+margin_bottom = 166.655
+text = "FLAG: NO_TT"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="circleNoHUD" type="Area2D" parent="Hotspots"]
+pause_mode = 1
+position = Vector2( 118.891, 0 )
+script = ExtResource( 7 )
+global_id = "r11_circle_nohud"
+esc_script = "res://game/rooms/room11/esc/mysterious_circle_nohud.esc"
+tooltip_name = "Mysterious circle"
+dialog_color = Color( 1, 1, 1, 1 )
+animations = null
+
+[node name="Polygon2D" type="Polygon2D" parent="Hotspots/circleNoHUD"]
+position = Vector2( 50.9425, -76.4136 )
+polygon = PoolVector2Array( 555.881, 185.538, 519.921, 215.504, 525.914, 257.456, 552.884, 282.928, 587.345, 284.426, 623.305, 260.453, 623.305, 219.999, 594.837, 187.036 )
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/circleNoHUD"]
+position = Vector2( 624.794, 379.072 )
+script = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/circleNoHUD"]
+position = Vector2( 623.668, 159.806 )
+shape = SubResource( 2 )
+
+[node name="Label" type="Label" parent="Hotspots/circleNoHUD"]
+margin_left = 691.437
+margin_top = 152.655
+margin_right = 773.437
+margin_bottom = 166.655
+text = "FLAG: NO_HUD"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="circleNoSave" type="Area2D" parent="Hotspots"]
+pause_mode = 1
+position = Vector2( 366.891, 0 )
+script = ExtResource( 7 )
+global_id = "r11_circle_nosave"
+esc_script = "res://game/rooms/room11/esc/mysterious_circle_nosave.esc"
+tooltip_name = "Mysterious circle"
+dialog_color = Color( 1, 1, 1, 1 )
+animations = null
+
+[node name="Polygon2D" type="Polygon2D" parent="Hotspots/circleNoSave"]
+position = Vector2( 50.9425, -76.4136 )
+polygon = PoolVector2Array( 555.881, 185.538, 519.921, 215.504, 525.914, 257.456, 552.884, 282.928, 587.345, 284.426, 623.305, 260.453, 623.305, 219.999, 594.837, 187.036 )
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/circleNoSave"]
+position = Vector2( 624.794, 379.072 )
+script = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/circleNoSave"]
+position = Vector2( 623.668, 159.806 )
+shape = SubResource( 2 )
+
+[node name="Label" type="Label" parent="Hotspots/circleNoSave"]
+margin_left = 691.437
+margin_top = 152.655
+margin_right = 773.437
+margin_bottom = 166.655
+text = "FLAG: NO_SAVE"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="circleFadeIn" type="Area2D" parent="Hotspots"]
+pause_mode = 1
+position = Vector2( -11.1087, 107 )
+script = ExtResource( 7 )
+global_id = "r11_circle_fadein"
+esc_script = "res://game/rooms/room11/esc/mysterious_circle_fadein.esc"
+tooltip_name = "Mysterious circle"
+dialog_color = Color( 1, 1, 1, 1 )
+animations = null
+
+[node name="Polygon2D" type="Polygon2D" parent="Hotspots/circleFadeIn"]
+position = Vector2( 50.9425, -76.4136 )
+polygon = PoolVector2Array( 555.881, 185.538, 519.921, 215.504, 525.914, 257.456, 552.884, 282.928, 587.345, 284.426, 623.305, 260.453, 623.305, 219.999, 594.837, 187.036 )
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/circleFadeIn"]
+position = Vector2( 624.794, 274.072 )
+script = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/circleFadeIn"]
+position = Vector2( 623.668, 159.806 )
+shape = SubResource( 2 )
+
+[node name="Label" type="Label" parent="Hotspots/circleFadeIn"]
+margin_left = 691.437
+margin_top = 152.655
+margin_right = 773.437
+margin_bottom = 166.655
+text = "FADE OUT -> FADE IN"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="player_start" type="Position2D" parent="."]
+position = Vector2( 542.824, 468.193 )
+script = ExtResource( 5 )
+global_id = "player_start"
+is_start_location = true

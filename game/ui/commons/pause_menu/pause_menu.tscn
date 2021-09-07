@@ -2,7 +2,7 @@
 
 [ext_resource path="res://game/ui/commons/pause_menu/pause_menu.gd" type="Script" id=1]
 [ext_resource path="res://game/ui/commons/fonts/caslonantique.tres" type="DynamicFont" id=2]
-[ext_resource path="res://addons/escoria-core/logo/escoria-logo-small.png" type="Texture" id=3]
+[ext_resource path="res://addons/escoria-core/design/escoria-logo-small.png" type="Texture" id=3]
 [ext_resource path="res://game/ui/commons/save/save_game.tscn" type="PackedScene" id=4]
 [ext_resource path="res://game/ui/commons/load/load_game.tscn" type="PackedScene" id=5]
 

@@ -6,11 +6,15 @@
 
 ## Description
 
-`change_scene path run_events`
+`change_scene path [disable_automatic_transition] [run_events]`
 
-Loads a new scene, specified by "path". The `run_events` variable is a
-boolean (default true) which you never want to set manually! It's there only
-to benefit save games, so they don't conflict with the scene's events.
+Loads a new scene, specified by "path".
+ The `disable_automatic_transition` is a boolean (default false) can be set
+to true to disable automatic transitions between scenes, to allow you
+to control your transitions manually using the `transition` command.
+The `run_events` variable is a boolean (default true) which you never want
+to set manually! It's there only to benefit save games, so they don't
+conflict with the scene's events.
 
 @ESC
 
