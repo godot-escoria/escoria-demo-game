@@ -1,6 +1,6 @@
 <!-- Auto-generated from JSON by GDScript docs maker. Do not edit this document directly. -->
 
-# FadeCommand
+# TransitionCommand
 
 **Extends:** [ESCBaseCommand](../ESCBaseCommand) < [Node](../Node)
 
@@ -8,7 +8,7 @@
 
 `transition transition_name in|out`
 
-Performs a fade in or fade out transition manually.
+Performs a transition in our out manually.
 
 @ESC
 

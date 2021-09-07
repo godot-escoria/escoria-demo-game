@@ -224,9 +224,6 @@ both be integers.
 
 Enable the ESCTerrain's NavigationPolygonInstance defined by given node name.
 Disables previously activated NavigationPolygonInstance.
-#### <a name="FadeCommand.md"></a>`transition transition_name in|out` [API-Doc](api/FadeCommand.md)
-
-Performs a fade in or fade out transition manually.
 #### <a name="IncGlobalCommand.md"></a>`inc_global name value` [API-Doc](api/IncGlobalCommand.md)
 
 Adds the value to global with given "name". Value and global must both be
@@ -352,6 +349,9 @@ Sets the position of object1 to the position of object2.
 #### <a name="TeleportPosCommand.md"></a>`teleport_pos object1 x y` [API-Doc](api/TeleportPosCommand.md)
 
 Sets the position of object1 to the position (x,y).
+#### <a name="TransitionCommand.md"></a>`transition transition_name in|out` [API-Doc](api/TransitionCommand.md)
+
+Performs a transition in our out manually.
 #### <a name="TurnToCommand.md"></a>`turn_to object degrees [immediate]` [API-Doc](api/TurnToCommand.md)
 
 **This command is currently not fully implemented.**
