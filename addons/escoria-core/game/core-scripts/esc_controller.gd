@@ -97,8 +97,10 @@ func perform_inputevent_on_object(
 	escoria.logger.info("%s left-clicked with event " % obj.global_id, [event])
 	
 	var event_flags = 0
+	var has_current_action: bool = false
 	if obj.events.has(escoria.action_manager.current_action):
 		event_flags = obj.events[escoria.action_manager.current_action].flags
+		has_current_action = true
 	
 	# Don't interact after player movement towards object 
 	# (because object is inactive for example)
@@ -110,9 +112,7 @@ func perform_inputevent_on_object(
 	# If clicked object not in inventory, player walks towards it
 	if not obj.node is ESCPlayer and \
 		not escoria.inventory_manager.inventory_has(obj.global_id) and \
-		(not obj.events.has(escoria.action_manager.current_action) \
-		or not obj.events[escoria.action_manager.current_action].flags \
-				& ESCEvent.FLAG_TK):
+		(not has_current_action or not event_flags & ESCEvent.FLAG_TK):
 			var context = _walk_towards_object(
 				obj, 
 				event.position, 

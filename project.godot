@@ -596,7 +596,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Escoria-reloaded"
+config/name="Escoria"
 run/main_scene="res://addons/escoria-core/game/main_scene.tscn"
 boot_splash/image="res://addons/escoria-core/design/escoria-logo-small.png"
 boot_splash/fullsize=false

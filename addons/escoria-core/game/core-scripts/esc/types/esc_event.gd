@@ -78,6 +78,4 @@ func _init(event_string: String):
 # Execute this statement and return its return code
 func run() -> int:
 	escoria.logger.debug("Starting event %s" % name)
-	
-	
 	return .run()
