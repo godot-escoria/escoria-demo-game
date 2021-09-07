@@ -18,11 +18,19 @@ func configure() -> ESCCommandArgumentDescriptor:
 	
 # Validate wether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not arguments[0] in ["in", "out"]:
+	if not escoria.main.scene_transition.has_transition(arguments[0]):
 		escoria.logger.report_errors(
-			"fade: argument invalid",
+			"transition: argument invalid",
 			[
-				"'in' or 'out' expected, but got '%s'" % arguments[0]
+				"transition with name '%s' doesn't exist" % arguments[0]
+			]
+		)
+		return false
+	if not arguments[1] in ["in", "out"]:
+		escoria.logger.report_errors(
+			"transition: argument invalid",
+			[
+				"'in' or 'out' expected, but got '%s'" % arguments[1]
 			]
 		)
 		return false

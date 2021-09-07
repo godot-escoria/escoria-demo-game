@@ -118,6 +118,11 @@ func run(command_params: Array) -> int:
 				if rc[0] != ESCExecution.RC_OK:
 					return rc[0]
 				
+		else:
+			if !command_params[1]:
+				escoria.main.scene_transition.transition_in()
+				yield(escoria.main.scene_transition, "transition_done")
+				
 		# Clear queued resources
 		escoria.resource_cache.clear()
 		
