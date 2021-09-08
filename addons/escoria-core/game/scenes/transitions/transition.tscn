@@ -3,7 +3,7 @@
 [ext_resource path="res://addons/escoria-core/game/scenes/transitions/transition.gd" type="Script" id=1]
 [ext_resource path="res://addons/escoria-core/game/scenes/transitions/shaders/transition.material" type="Material" id=2]
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=1]
 resource_name = "curtain"
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:material:shader_param/cutoff")
@@ -42,8 +42,7 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=1]
-resource_name = "fade_black"
+[sub_resource type="Animation" id=2]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
@@ -82,8 +81,7 @@ tracks/2/keys = {
 "values": [ Color( 0, 0, 0, 1 ) ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "fade_white"
+[sub_resource type="Animation" id=3]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
@@ -123,7 +121,6 @@ tracks/2/keys = {
 }
 
 [node name="scene_transition" type="ColorRect"]
-modulate = Color( 0, 0, 0, 0 )
 material = ExtResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -135,6 +132,6 @@ __meta__ = {
 transition_name = "curtain"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/curtain = SubResource( 3 )
-anims/fade_black = SubResource( 1 )
-anims/fade_white = SubResource( 2 )
+anims/curtain = SubResource( 1 )
+anims/fade_black = SubResource( 2 )
+anims/fade_white = SubResource( 3 )

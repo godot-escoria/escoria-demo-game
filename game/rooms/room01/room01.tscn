@@ -50,6 +50,10 @@ position = Vector2( 3.5636, 0 )
 
 [node name="r_door" parent="Hotspots" instance=ExtResource( 8 )]
 
+[node name="ESCLocation" type="Position2D" parent="Hotspots/r_door"]
+position = Vector2( 1229.68, 355.298 )
+script = ExtResource( 7 )
+
 [node name="item" type="Area2D" parent="Hotspots"]
 pause_mode = 1
 position = Vector2( -217.19, 0 )
