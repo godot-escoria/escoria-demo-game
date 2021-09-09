@@ -95,7 +95,7 @@ script = ExtResource( 7 )
 global_id = "r1_start"
 is_start_location = true
 
-[node name="orients_on_arrival" type="Position2D" parent="."]
+[node name="orients_down_on_arrival" type="Position2D" parent="."]
 position = Vector2( 400.129, 432.969 )
 script = ExtResource( 7 )
 global_id = "r1_destination_point"

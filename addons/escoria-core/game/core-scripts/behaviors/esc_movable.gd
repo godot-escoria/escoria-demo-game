@@ -496,10 +496,14 @@ func set_angle(deg: int, immediate = true) -> void:
 #	If true, direction is switched immediately. Else, successive 
 #	animations are used so that the character turns to target angle.
 func turn_to(item: Node, immediate = true) -> void:
-	var self_pos = parent.get_position()
-	var item_pos = item.get_position()
-	var angle = wrapi(rad2deg(self_pos.angle_to_point(item_pos)), 0, 360)
-	set_angle(angle, immediate)
+	set_angle(
+		wrapi(
+			rad2deg(parent.get_position().angle_to_point(item.get_position())), 
+			0, 
+			360
+		),
+		immediate
+	)
 	
 
 # Returns the angle that corresponds to the current direction of the object.
