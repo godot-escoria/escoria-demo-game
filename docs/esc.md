@@ -351,14 +351,9 @@ Sets the position of object1 to the position (x,y).
 #### <a name="TransitionCommand.md"></a>`transition transition_name in|out` [API-Doc](api/TransitionCommand.md)
 
 Performs a transition in our out manually.
-#### <a name="TurnToCommand.md"></a>`turn_to object degrees [immediate]` [API-Doc](api/TurnToCommand.md)
+#### <a name="TurnToCommand.md"></a>`turn_to object object_to_face [immediate]` [API-Doc](api/TurnToCommand.md)
 
-Turns object to a degrees angle with a directions animation.
-
-0 sets object facing forward, 90 sets it 90 degrees clockwise ("east") etc.
-When turning to the destination angle, animations are played if they're
-defined in animations. object must be player or interactive. degrees must
-be between [0, 360] or an error is reported.
+Turns object to face another object.
 
 Set immediate to true to show directly switch to the direction and not
 show intermediate angles
