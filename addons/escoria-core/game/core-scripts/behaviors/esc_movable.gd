@@ -267,10 +267,9 @@ func walk_stop(pos: Vector2) -> void:
 	
 	# If we're heading to an object and reached its interaction position,
 	# orient towards the defined interaction direction set on the object
-	# (if any)
+	# (if any), can be ESCItem or ESCLocation
 	if walk_context.target_object and \
-			walk_context.target_object.node.player_orients_on_arrival and \
-			walk_context.target_object.interactive:
+			walk_context.target_object.node.player_orients_on_arrival:
 		var orientation = walk_context.target_object.node.interaction_direction
 		last_dir = orientation
 		parent.get_animation_player().play(
@@ -487,6 +486,25 @@ func set_angle(deg: int, immediate = true) -> void:
 			
 	update_terrain()
 
+
+# Turns the character to face another item or character.
+#
+# #### Parameters
+#
+# - item_id id of the object to face.
+# - immediate
+#	If true, direction is switched immediately. Else, successive 
+#	animations are used so that the character turns to target angle.
+func turn_to(item: Node, immediate = true) -> void:
+	set_angle(
+		wrapi(
+			rad2deg(parent.get_position().angle_to_point(item.get_position())), 
+			0, 
+			360
+		),
+		immediate
+	)
+	
 
 # Returns the angle that corresponds to the current direction of the object.
 func _get_angle() -> int:

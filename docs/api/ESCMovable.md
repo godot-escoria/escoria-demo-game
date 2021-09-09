@@ -182,6 +182,21 @@ Sets character's angle and plays according animation.
 	If true, direction is switched immediately. Else, successive
 	animations are used so that the character turns to target angle.
 
+### turn\_to
+
+```gdscript
+func turn_to(item: Node, immediate = true) -> void
+```
+
+Turns the character to face another item or character.
+
+#### Parameters
+
+- item_id id of the object to face.
+- immediate
+	If true, direction is switched immediately. Else, successive
+	animations are used so that the character turns to target angle.
+
 ### get\_shortest\_way\_to\_dir
 
 ```gdscript

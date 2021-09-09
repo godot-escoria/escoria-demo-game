@@ -17,10 +17,14 @@ set_sound_state _music res://game/sfx/contemplation.ogg true
 	set_global room1_visited true
 	set_global dialog_advance 0 
 	set_global dialog_popup_advance 0
-	walk player r1_destination_point
+	walk_block player r1_destination_point
 	wait 2
-	walk player r1_destination_point2
+	walk_block player r1_destination_point2
 	wait 2
 	set_angle player 225 false
+	wait 2
+	walk_block player r1_destination_point3
+	wait 1
+	turn_to player r1_r_exit false
 	
 

@@ -8,6 +8,7 @@
 extents = Vector2( 28.3873, 74.7806 )
 
 [node name="bottle" type="Area2D"]
+pause_mode = 1
 z_index = 1
 script = ExtResource( 3 )
 global_id = "r9_bottle"
@@ -19,6 +20,7 @@ combine_if_action_used_among = PoolStringArray( "use" )
 use_from_inventory_only = true
 inventory_item_scene_file = ExtResource( 2 )
 dialog_color = Color( 1, 1, 1, 1 )
+animations = null
 
 [node name="sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )

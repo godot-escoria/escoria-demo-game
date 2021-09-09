@@ -366,6 +366,20 @@ Set the angle
 - immediate: Set the angle immediately. If false will show intermediate
 	angles
 
+### turn\_to
+
+```gdscript
+func turn_to(object: Node, immediate = true)
+```
+
+Turn to face another object
+
+#### Parameters
+
+- deg: The angle degree to set
+- immediate: Set the angle immediately. If false will show intermediate
+	angles
+
 ### start\_talking
 
 ```gdscript
