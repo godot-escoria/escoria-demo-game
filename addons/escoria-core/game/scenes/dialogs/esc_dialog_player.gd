@@ -89,14 +89,18 @@ func say(character: String, ui: String, line: String) -> void:
 	_dialog_ui = get_resource(ui).instance()
 	get_parent().add_child(_dialog_ui)
 	var _key_line = line.split(":")
-	if _key_line.size() == 2:
+	if _key_line.size() == 1:
+		line = _key_line[0]
+	elif _key_line.size() >= 2:
 		var _speech_resource = _get_voice_file(_key_line[0])
 		if _speech_resource != "":
 			(
 				escoria.object_manager.get_object("_speech").node\
 				 as ESCSpeechPlayer
 			).set_state(_speech_resource)
-	_dialog_ui.say(character, _key_line[1])
+		line = tr(_key_line[0])
+		
+	_dialog_ui.say(character, line)
 	yield(_dialog_ui, "dialog_line_finished")
 	is_speaking = false
 	emit_signal("dialog_line_finished")
