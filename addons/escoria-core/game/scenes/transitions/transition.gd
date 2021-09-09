@@ -32,9 +32,9 @@ func _ready() -> void:
 # the default transition)
 func transition_out(p_transition_name: String = "") -> void:
 	if p_transition_name.empty():
-		_anim_player.play(transition_name)
+		_anim_player.play_backwards(transition_name)
 	else:
-		_anim_player.play(p_transition_name)
+		_anim_player.play_backwards(p_transition_name)
 	yield(_anim_player, "animation_finished")
 	emit_signal("transition_done")
 	_anim_player.seek(0.0)
@@ -48,9 +48,9 @@ func transition_out(p_transition_name: String = "") -> void:
 # the default transition)
 func transition_in(p_transition_name: String = "") -> void:
 	if p_transition_name.empty():
-		_anim_player.play_backwards(transition_name)
+		_anim_player.play(transition_name)
 	else:
-		_anim_player.play_backwards(p_transition_name)
+		_anim_player.play(p_transition_name)
 	yield(_anim_player, "animation_finished")
 	emit_signal("transition_done")
 	_anim_player.seek(0.0)
