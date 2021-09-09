@@ -231,6 +231,7 @@ func get_interact_position() -> Vector2:
 	for c in get_children():
 		if c is Position2D:
 			if c.get_owner() == self:
+				interact_position = global_position
 				continue
 			interact_position = c.global_position
 			
@@ -360,7 +361,18 @@ func get_sprite() -> Node:
 #	angles
 func set_angle(deg: int, immediate = true):
 	_movable.set_angle(deg, immediate)
-	
+
+
+# Turn to face another object
+#
+# #### Parameters
+#
+# - deg: The angle degree to set
+# - immediate: Set the angle immediately. If false will show intermediate
+#	angles
+func turn_to(object: Node, immediate = true):
+	_movable.turn_to(object, immediate)
+
 
 # Play the talking animation
 func start_talking():

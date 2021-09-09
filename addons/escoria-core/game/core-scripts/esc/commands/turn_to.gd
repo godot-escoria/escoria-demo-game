@@ -1,11 +1,6 @@
-# `turn_to object degrees [immediate]`
+# `turn_to object object_to_face [immediate]`
 # 
-# Turns object to a degrees angle with a directions animation.
-#
-# 0 sets object facing forward, 90 sets it 90 degrees clockwise ("east") etc.
-# When turning to the destination angle, animations are played if they're 
-# defined in animations. object must be player or interactive. degrees must 
-# be between [0, 360] or an error is reported.
+# Turns object to face another object. 
 #
 # Set immediate to true to show directly switch to the direction and not
 # show intermediate angles
@@ -19,7 +14,7 @@ class_name TurnToCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2, 
-		[TYPE_STRING, TYPE_INT, TYPE_BOOL],
+		[TYPE_STRING, TYPE_STRING, TYPE_BOOL],
 		[null, null, false]
 	)
 	
@@ -34,11 +29,11 @@ func validate(arguments: Array):
 			]
 		)
 		return false
-	if arguments[1] < 0 or arguments[1] > 360:
+	if not escoria.object_manager.objects.has(arguments[1]):
 		escoria.logger.report_errors(
-			"turn_to: invalid degrees",
+			"turn_to: invalid target object",
 			[
-				"Degree %d not between 0 and 360" % arguments[1]
+				"Object with global id %s not found" % arguments[1]
 			]
 		)
 		return false
@@ -48,8 +43,8 @@ func validate(arguments: Array):
 # Run the command
 func run(command_params: Array) -> int:
 	(escoria.object_manager.get_object(command_params[0]).node as ESCItem)\
-		.set_angle(
-			command_params[1],
+		.turn_to(
+			escoria.object_manager.get_object(command_params[1]).node,
 			command_params[2]
 		)
 	return ESCExecution.RC_OK

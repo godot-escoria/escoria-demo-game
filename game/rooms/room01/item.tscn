@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=1]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=2]
+
+[node name="item" type="Area2D"]
+pause_mode = 1
+script = ExtResource( 1 )
+tooltip_name = "Item on the wall"
+default_action = "look"
+dialog_color = Color( 1, 1, 1, 1 )
+animations = null
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2( -652.737, -162.85 )
+polygon = PoolVector2Array( 635.586, 253.345, 568.928, 60.1716, 709.047, 120.028, 699.524, 247.903 )
+
+[node name="Line2D" type="Line2D" parent="."]
+position = Vector2( -655.406, -430.678 )
+points = PoolVector2Array( 634.097, 516.751, 578.861, 335.008, 701.805, 386.68, 696.459, 509.624, 634.097, 516.751 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="ESCLocation" type="Position2D" parent="."]
+position = Vector2( 0, 236.267 )
+script = ExtResource( 2 )

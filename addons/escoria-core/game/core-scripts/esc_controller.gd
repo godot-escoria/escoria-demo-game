@@ -41,8 +41,8 @@ func perform_walk(
 				target_position = destination.node.interact_position
 				
 			var walk_context = ESCWalkContext.new(
-				destination.node, 
-				Vector2(), 
+				destination, 
+				target_position, 
 				is_fast,
 				true
 			)
