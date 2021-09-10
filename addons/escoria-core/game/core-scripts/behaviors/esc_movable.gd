@@ -54,7 +54,8 @@ onready var task = MovableTask.NONE
 # Add the signal "arrived" to the parent node, which is emitted when
 # the destination position was reached
 func _ready() -> void:
-	parent.add_user_signal("arrived")
+	if not parent.has_user_signal("arrived"):
+		parent.add_user_signal("arrived")
 	
 
 # Main processing loop

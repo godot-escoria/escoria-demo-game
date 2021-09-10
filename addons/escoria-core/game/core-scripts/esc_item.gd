@@ -158,9 +158,12 @@ func _ready():
 	
 	_detect_children()
 	
-	connect("mouse_entered", self, "_on_mouse_entered")
-	connect("mouse_exited", self, "_on_mouse_exited")
-	connect("input_event", self, "manage_input")
+	if not self.is_connected("mouse_entered", self, "_on_mouse_entered"):
+		connect("mouse_entered", self, "_on_mouse_entered")
+	if not self.is_connected("mouse_exited", self, "_on_mouse_exited"):
+		connect("mouse_exited", self, "_on_mouse_exited")
+	if not self.is_connected("input_event", self, "manage_input"):
+		connect("input_event", self, "manage_input")
 	
 	# Register and connect all elements to Escoria backoffice.
 	if not Engine.is_editor_hint():
@@ -170,7 +173,16 @@ func _ready():
 
 			add_child(_movable)
 	
-		escoria.event_manager.connect("event_finished", self, "_update_terrain")
+		if not escoria.event_manager.is_connected(
+			"event_finished",
+			self, 
+			"_update_terrain"
+		):
+			escoria.event_manager.connect(
+				"event_finished", 
+				self, 
+				"_update_terrain"
+			)
 		
 		escoria.object_manager.register_object(
 			ESCObject.new(
@@ -183,16 +195,65 @@ func _ready():
 		terrain = escoria.room_terrain
 		
 		if !is_trigger:
-			connect("mouse_entered_item", escoria.inputs_manager, "_on_mouse_entered_item")
-			connect("mouse_exited_item", escoria.inputs_manager, "_on_mouse_exited_item")
-			connect("mouse_left_clicked_item", escoria.inputs_manager, "_on_mouse_left_clicked_item")
-			connect("mouse_double_left_clicked_item", escoria.inputs_manager, "_on_mouse_left_double_clicked_item")
-			connect("mouse_right_clicked_item", escoria.inputs_manager, "_on_mouse_right_clicked_item")
+			if not self.is_connected(
+				"mouse_entered_item", 
+				escoria.inputs_manager, 
+				"_on_mouse_entered_item"
+			):
+				connect(
+					"mouse_entered_item", 
+					escoria.inputs_manager, 
+					"_on_mouse_entered_item"
+				)
+			if not self.is_connected(
+				"mouse_exited_item", 
+				escoria.inputs_manager, 
+				"_on_mouse_exited_item"
+			):
+				connect(
+					"mouse_exited_item", 
+					escoria.inputs_manager, 
+					"_on_mouse_exited_item"
+				)
+			if not self.is_connected(
+				"mouse_left_clicked_item", 
+				escoria.inputs_manager, 
+				"_on_mouse_left_clicked_item"
+			):
+				connect(
+					"mouse_left_clicked_item", 
+					escoria.inputs_manager, 
+					"_on_mouse_left_clicked_item"
+				)
+			if not self.is_connected(
+				"mouse_double_left_clicked_item", 
+				escoria.inputs_manager, 
+				"_on_mouse_left_double_clicked_item"
+			):
+				connect(
+					"mouse_double_left_clicked_item", 
+					escoria.inputs_manager, 
+					"_on_mouse_left_double_clicked_item"
+				)
+			if not self.is_connected(
+				"mouse_right_clicked_item", 
+				escoria.inputs_manager, 
+				"_on_mouse_right_clicked_item"
+			):
+				connect(
+					"mouse_right_clicked_item", 
+					escoria.inputs_manager, 
+					"_on_mouse_right_clicked_item"
+				)
 		else:
-			connect("area_entered", self, "element_entered")
-			connect("area_exited", self, "element_exited")
-			connect("body_entered", self, "element_entered")
-			connect("body_exited", self, "element_exited")
+			if not self.is_connected("area_entered", self, "element_entered"):
+				connect("area_entered", self, "element_entered")
+			if not self.is_connected("area_exited", self, "element_exited"):
+				connect("area_exited", self, "element_exited")
+			if not self.is_connected("body_entered", self, "element_entered"):
+				connect("body_entered", self, "element_entered")
+			if not self.is_connected("body_exited", self, "element_exited"):
+				connect("body_exited", self, "element_exited")
 		
 	# If object can be in the inventory, set default_action_inventory to same as
 	# default_action, if default_action_inventory is not set
