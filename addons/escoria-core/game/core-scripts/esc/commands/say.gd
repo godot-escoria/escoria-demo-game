@@ -78,4 +78,5 @@ func run(command_params: Array) -> int:
 		command_params[1]
 	)
 	yield(escoria.dialog_player, "dialog_line_finished")
+	escoria.current_state = escoria.GAME_STATE.DEFAULT
 	return ESCExecution.RC_OK
