@@ -258,12 +258,6 @@ item. That can either be a direct Position2D child or a collision shape
 
 **Returns** The interaction position
 
-### manage\_input
-
-```gdscript
-func manage_input(_viewport: Viewport, event: InputEvent, _shape_idx: int) -> void
-```
-
 ### element\_entered
 
 ```gdscript
