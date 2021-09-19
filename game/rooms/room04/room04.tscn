@@ -74,9 +74,10 @@ script = ExtResource( 9 )
 global_id = "r4_player_start"
 is_start_location = true
 
-[node name="Hotspots" type="Node2D" parent="."]
+[node name="Hotspots" type="Node" parent="."]
 
 [node name="l_door" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 script = ExtResource( 5 )
 global_id = "l_exit"
 esc_script = "res://game/rooms/room04/esc/left_exit.esc"
@@ -92,6 +93,7 @@ position = Vector2( 83.6298, 279.703 )
 script = ExtResource( 9 )
 
 [node name="r_door" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 script = ExtResource( 5 )
 global_id = "r_exit"
 esc_script = "res://game/rooms/room04/esc/right_exit.esc"

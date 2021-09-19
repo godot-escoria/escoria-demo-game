@@ -30,9 +30,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Hotspots" type="Node2D" parent="."]
-
-[node name="r_platform" type="Area2D" parent="Hotspots"]
+[node name="r_platform" type="Area2D" parent="."]
+pause_mode = 1
 script = ExtResource( 7 )
 global_id = "r2_right_platform"
 esc_script = "res://game/rooms/room02/esc/right_platform.esc"
@@ -42,14 +41,15 @@ default_action = "look"
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_platform"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="r_platform"]
 polygon = PoolVector2Array( 870.974, 538.342, 827.536, 353.995, 1181.4, 357.174, 1287.34, 413.325, 1289.46, 545.758 )
 
-[node name="action_pos" type="Position2D" parent="Hotspots/r_platform"]
+[node name="action_pos" type="Position2D" parent="r_platform"]
 position = Vector2( 430.893, 451.052 )
 script = ExtResource( 8 )
 
-[node name="r_door" type="Area2D" parent="Hotspots"]
+[node name="r_door" type="Area2D" parent="."]
+pause_mode = 1
 script = ExtResource( 7 )
 global_id = "r2_r_exit"
 esc_script = "res://game/rooms/room02/esc/right_exit.esc"
@@ -59,14 +59,15 @@ default_action = "walk"
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="r_door"]
 polygon = PoolVector2Array( 1177.94, 348.61, 1175.95, 45.3759, 1276.06, 92.0953, 1277.95, 399.407 )
 
-[node name="Position2D" type="Position2D" parent="Hotspots/r_door"]
+[node name="Position2D" type="Position2D" parent="r_door"]
 position = Vector2( 1225.47, 353.99 )
 script = ExtResource( 8 )
 
-[node name="l_door" type="Area2D" parent="Hotspots"]
+[node name="l_door" type="Area2D" parent="."]
+pause_mode = 1
 script = ExtResource( 7 )
 global_id = "r2_l_exit"
 esc_script = "res://game/rooms/room02/esc/left_exit.esc"
@@ -76,35 +77,35 @@ default_action = "walk"
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="l_door"]
 polygon = PoolVector2Array( -1.37926, 443.158, 7.96461, 122.796, 84.0504, 77.4118, 88.055, 377.751 )
 
-[node name="Position2D" type="Position2D" parent="Hotspots/l_door"]
+[node name="Position2D" type="Position2D" parent="l_door"]
 position = Vector2( 52.1462, 384.691 )
 script = ExtResource( 8 )
 
-[node name="button_right" parent="Hotspots" instance=ExtResource( 5 )]
+[node name="button_right" parent="." instance=ExtResource( 5 )]
+pause_mode = 1
 position = Vector2( 958.107, 176.401 )
 global_id = "r2_button_right"
 esc_script = "res://game/rooms/room02/esc/button.esc"
 dialog_color = Color( 0, 1, 0.109804, 1 )
-animations = null
 
-[node name="Position2D" type="Position2D" parent="Hotspots/button_right"]
+[node name="Position2D" type="Position2D" parent="button_right"]
 position = Vector2( 29.4302, 195.411 )
 script = ExtResource( 8 )
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="button_left" parent="Hotspots" instance=ExtResource( 5 )]
+[node name="button_left" parent="." instance=ExtResource( 5 )]
+pause_mode = 1
 position = Vector2( 288.82, 171.439 )
 global_id = "r2_button"
 esc_script = "res://game/rooms/room02/esc/button.esc"
 dialog_color = Color( 0, 1, 0.109804, 1 )
-animations = null
 
-[node name="Position2D" type="Position2D" parent="Hotspots/button_left"]
+[node name="Position2D" type="Position2D" parent="button_left"]
 position = Vector2( 24.6681, 196.998 )
 script = ExtResource( 8 )
 __meta__ = {

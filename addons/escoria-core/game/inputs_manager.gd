@@ -21,7 +21,7 @@ var input_mode = INPUT_ALL
 # A LIFO stack of hovered items
 var hover_stack: Array = []
 
-# The global id fo the topmost item from the hover_stack
+# The global id of the topmost item from the hover_stack
 var hotspot_focused: String = ""
 
 
@@ -261,6 +261,7 @@ func _on_mouse_left_clicked_item(item: ESCItem, event: InputEvent) -> void:
 	if input_mode == INPUT_ALL:
 		if hover_stack.empty() or hover_stack.back() == item:
 			escoria.logger.info("Item left clicked", [item.global_id, event])
+			hotspot_focused = item.global_id
 			escoria.main.current_scene.game.left_click_on_item(
 				item.global_id, 
 				event
@@ -279,6 +280,7 @@ func _on_mouse_left_double_clicked_item(
 ) -> void:
 	if input_mode == INPUT_ALL:
 		escoria.logger.info("Item left double clicked", [item.global_id, event])
+		hotspot_focused = item.global_id
 		escoria.main.current_scene.game.left_double_click_on_item(
 			item.global_id, 
 			event
@@ -294,6 +296,7 @@ func _on_mouse_left_double_clicked_item(
 func _on_mouse_right_clicked_item(item: ESCItem, event: InputEvent) -> void:
 	if input_mode == INPUT_ALL:
 		escoria.logger.info("Item right clicked", [item.global_id, event])
+		hotspot_focused = item.global_id
 		escoria.main.current_scene.game.right_click_on_item(
 			item.global_id, 
 			event

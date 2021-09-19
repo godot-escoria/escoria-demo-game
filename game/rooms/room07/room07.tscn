@@ -131,9 +131,10 @@ position = Vector2( 0, 1403.26 )
 navpoly = SubResource( 2 )
 enabled = false
 
-[node name="Hotspots" type="Node2D" parent="."]
+[node name="Hotspots" type="Node" parent="."]
 
 [node name="l_exit" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 position = Vector2( 0, 1409.59 )
 script = ExtResource( 7 )
 __meta__ = {
@@ -154,6 +155,7 @@ position = Vector2( 37.4521, 392.045 )
 script = ExtResource( 8 )
 
 [node name="r_exit" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 position = Vector2( 0, 1409.59 )
 script = ExtResource( 7 )
 __meta__ = {
@@ -178,6 +180,7 @@ __meta__ = {
 }
 
 [node name="object_1" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 position = Vector2( 358.099, -1195.07 )
 script = ExtResource( 7 )
 global_id = "r7_object_1"
@@ -193,6 +196,7 @@ position = Vector2( 460.841, 1515.95 )
 shape = SubResource( 3 )
 
 [node name="object2" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 position = Vector2( 1770.63, 1358.99 )
 script = ExtResource( 7 )
 __meta__ = {
@@ -209,6 +213,7 @@ polygon = PoolVector2Array( -112.101, 14.6226, -103.122, 288.503, 130.35, 286.25
 points = PoolVector2Array( -74.0056, 70.7457, 2.32182, 28.0921, 89.8739, 77.4804, -82.9853, 268.299, 110.078, 261.564 )
 
 [node name="lower_stairs" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 position = Vector2( 0, 1409.59 )
 script = ExtResource( 7 )
 __meta__ = {
@@ -228,6 +233,7 @@ position = Vector2( 953.985, 315.526 )
 script = ExtResource( 8 )
 
 [node name="upper_stairs" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 position = Vector2( 1347.64, 473.026 )
 script = ExtResource( 7 )
 global_id = "r7_upper_stairs"
@@ -246,6 +252,7 @@ position = Vector2( 27.5337, 131.767 )
 script = ExtResource( 8 )
 
 [node name="button_camera_push" parent="Hotspots" instance=ExtResource( 3 )]
+pause_mode = 1
 position = Vector2( -167.43, 1463.23 )
 global_id = "r7_button_push"
 esc_script = "res://game/rooms/room07/esc/button_push.esc"
@@ -270,6 +277,7 @@ __meta__ = {
 }
 
 [node name="button_camera_shift" parent="Hotspots" instance=ExtResource( 3 )]
+pause_mode = 1
 position = Vector2( 9.393, 1464.03 )
 global_id = "r7_button_shift"
 esc_script = "res://game/rooms/room07/esc/button_shift.esc"
@@ -291,6 +299,7 @@ __meta__ = {
 }
 
 [node name="button_camera_follow" parent="Hotspots" instance=ExtResource( 3 )]
+pause_mode = 1
 position = Vector2( 172.527, 1464.03 )
 global_id = "r7_button_follow"
 esc_script = "res://game/rooms/room07/esc/button_follow.esc"
@@ -312,6 +321,7 @@ __meta__ = {
 }
 
 [node name="button_camera_zoom" parent="Hotspots" instance=ExtResource( 3 )]
+pause_mode = 1
 position = Vector2( 332.527, 1464.03 )
 global_id = "r7_button_zoom"
 esc_script = "res://game/rooms/room07/esc/button_zoom.esc"
@@ -333,6 +343,7 @@ __meta__ = {
 }
 
 [node name="button_camera_set_pos" parent="Hotspots" instance=ExtResource( 3 )]
+pause_mode = 1
 position = Vector2( 910.482, 1464.03 )
 global_id = "r7_button_set_pos"
 esc_script = "res://game/rooms/room07/esc/button_set_pos.esc"
@@ -354,6 +365,7 @@ __meta__ = {
 }
 
 [node name="trigger_left" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 position = Vector2( 406, 0 )
 script = ExtResource( 7 )
 global_id = "trigger_left"
@@ -384,6 +396,7 @@ points = PoolVector2Array( 718.237, 1756.04, 724.544, 1950.34, 815.761, 1947.51,
 width = 2.0
 
 [node name="trigger_right" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 position = Vector2( 220, 0 )
 script = ExtResource( 7 )
 global_id = "trigger_right"
@@ -415,6 +428,7 @@ points = PoolVector2Array( 1089.37, 1757.17, 1097.85, 1949.99, 1187.37, 1947.87,
 width = 2.0
 
 [node name="light_left" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 position = Vector2( 412, 0 )
 script = ExtResource( 7 )
 global_id = "r7_light_left"
@@ -435,6 +449,7 @@ anims/green = SubResource( 5 )
 anims/red = SubResource( 6 )
 
 [node name="light_right" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 position = Vector2( 613.333, -1.13 )
 script = ExtResource( 7 )
 global_id = "r7_light_right"

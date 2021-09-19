@@ -162,8 +162,6 @@ func _ready():
 		connect("mouse_entered", self, "_on_mouse_entered")
 	if not self.is_connected("mouse_exited", self, "_on_mouse_exited"):
 		connect("mouse_exited", self, "_on_mouse_exited")
-	if not self.is_connected("input_event", self, "manage_input"):
-		connect("input_event", self, "manage_input")
 	
 	# Register and connect all elements to Escoria backoffice.
 	if not Engine.is_editor_hint():
@@ -265,6 +263,38 @@ func _ready():
 		_movable.last_scale = scale
 		_movable.update_terrain()
 
+# Manage mouse button clicks on this item by sending out signals
+#
+# #### Parameters
+#
+# - event: Triggered event
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.is_pressed():
+		var p = get_global_mouse_position()
+		var mouse_in_shape: bool = false
+		var colliders = get_world_2d().direct_space_state.intersect_point(
+			p,
+			32, 
+			[], 
+			2147483647,
+			true,
+			true
+		)
+		for _owner in get_shape_owners():
+			for _shape_id in range(0, shape_owner_get_shape_count(_owner)):
+				for _collider in colliders:
+					if _collider.collider == self and\
+							_collider.shape == _shape_id:
+						mouse_in_shape = true
+		if mouse_in_shape:
+			print("%s was clicked" % name)
+			if event.doubleclick and event.button_index == BUTTON_LEFT:
+				emit_signal("mouse_double_left_clicked_item", self, event)
+			elif event.button_index == BUTTON_LEFT:
+				emit_signal("mouse_left_clicked_item", self, event)
+			elif event.button_index == BUTTON_RIGHT:
+				emit_signal("mouse_right_clicked_item", self, event)
+
 
 # Return the animation player node
 func get_animation_player() -> Node:
@@ -300,31 +330,6 @@ func get_interact_position() -> Vector2:
 		interact_position = collision.global_position
 		
 	return interact_position
-
-
-# Manage mouse button clicks on this item by sending out signals
-#
-# #### Parameters
-#
-# - _viewport: not used
-# - event: Triggered event
-# - _shape_idx: not used
-func manage_input(
-	_viewport: Viewport, 
-	event: InputEvent, 
-	_shape_idx: int
-) -> void:
-	if event is InputEventMouseButton:
-				
-		if event.doubleclick:
-			if event.button_index == BUTTON_LEFT:
-				emit_signal("mouse_double_left_clicked_item", self, event)
-		else:
-			if event.is_pressed():
-				if event.button_index == BUTTON_LEFT:
-					emit_signal("mouse_left_clicked_item", self, event)
-				elif event.button_index == BUTTON_RIGHT:
-					emit_signal("mouse_right_clicked_item", self, event)
 
 
 # React to the mouse entering the item by emitting the respective signal

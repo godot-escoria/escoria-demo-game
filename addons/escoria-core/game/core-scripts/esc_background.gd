@@ -67,9 +67,6 @@ func _enter_tree():
 	shape.set_extents(size / 2)
 	area.shape_owner_add_shape(sid, shape)
 	
-	# Handle inputs to the Area2D ourself
-	area.connect("input_event", self, "manage_input")
-
 	add_child(area)
 
 # Disable mouse filter events and connect our own events to the ESC input
@@ -84,27 +81,28 @@ func _ready():
 # Manage inputs reaching the Area2D and emit the events to the input manager
 #
 # #### Parameters
-# - _viewport: (not used)
 # - event: Event received
-# - _shape_idx: (not used)
-func manage_input(_viewport, event, _shape_idx) -> void:
+func _input(event) -> void:
 	if event.is_action_pressed("switch_action_verb"):
 		if event.button_index == BUTTON_WHEEL_UP:
 			emit_signal("mouse_wheel_up")
 		elif event.button_index == BUTTON_WHEEL_DOWN:
 			emit_signal("mouse_wheel_down")
-	if event is InputEventMouseButton:
+	if event is InputEventMouseButton and event.is_pressed():
 		var p = get_global_mouse_position()
-		if event.doubleclick:
-			if event.button_index == BUTTON_LEFT:
-				emit_signal("double_left_click_on_bg", p)
+		var size
+		if get_texture():
+			size = get_texture().get_size()
 		else:
-			if event.is_pressed():
-				if event.button_index == BUTTON_LEFT:
-					emit_signal("left_click_on_bg", p)
-				if event.button_index == BUTTON_RIGHT:
-					emit_signal("right_click_on_bg", p)
-				
+			size = rect_size
+		if Rect2(rect_position, size).has_point(p):
+			if event.doubleclick and event.button_index == BUTTON_LEFT:
+				emit_signal("double_left_click_on_bg", p)
+			elif event.button_index == BUTTON_LEFT:
+				emit_signal("left_click_on_bg", p)
+			elif event.button_index == BUTTON_RIGHT:
+				emit_signal("right_click_on_bg", p)
+
 
 # Calculate the actual area taken by this background depending on its
 # Texture or set size

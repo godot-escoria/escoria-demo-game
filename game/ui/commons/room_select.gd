@@ -7,8 +7,11 @@ func _ready():
 	var rooms_folder = "res://game/rooms/"
 	var dir = Directory.new()
 	var rooms_list: Array = []
-	
-	if dir.open(rooms_folder) == OK:
+	var path = ProjectSettings.globalize_path(rooms_folder)
+	if not OS.has_feature("editor"):
+		path = OS.get_executable_path().get_base_dir().plus_file(path)
+	var tmp = dir.open(path)
+	if tmp == OK:
 		dir.list_dir_begin(true)
 		var file_name = dir.get_next()
 		while file_name != "":
@@ -23,7 +26,7 @@ func _ready():
 				room + ".tscn")
 
 	else:
-		escoria.logger.report_errors("room_select.gd:_ready()", 
+		escoria.logger.report_warnings("room_select.gd:_ready()", 
 			["A problem occurred while opening rooms folder."])
 	
 

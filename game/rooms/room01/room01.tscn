@@ -46,7 +46,7 @@ __meta__ = {
 [node name="walkable_area" parent="." instance=ExtResource( 1 )]
 position = Vector2( 3.5636, 0 )
 
-[node name="Hotspots" type="Node2D" parent="."]
+[node name="Hotspots" type="Node" parent="."]
 
 [node name="r_door" parent="Hotspots" instance=ExtResource( 8 )]
 position = Vector2( 1225.9, 217.966 )

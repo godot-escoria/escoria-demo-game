@@ -30,8 +30,14 @@ Implement methods to react to inputs.
 - _on_event_done(event_name: String)
 """
 
-onready var verbs_menu = $ui/panel_down/verbs_layer/verbs_menu
-onready var tooltip = $ui/panel_down/tooltip_layer/tooltip
+onready var verbs_menu = $ui/Control/panel_down/VBoxContainer/HBoxContainer\
+		/VerbsMargin/verbs_menu
+onready var tooltip = $ui/Control/panel_down/VBoxContainer/tooltip
+onready var room_select = $ui/Control/panel_down/VBoxContainer/HBoxContainer\
+		/MainMargin/VBoxContainer/room_select
+onready var pause_menu = $ui/pause_menu
+onready var inventory_ui = $ui/Control/panel_down/VBoxContainer/HBoxContainer\
+		/InventoryMargin/inventory_ui
 
 func _ready():
 	ProjectSettings.set_setting("escoria/ui/tooltip_follows_mouse", false)
@@ -151,18 +157,18 @@ func mousewheel_action(_direction: int):
 
 
 func hide_ui():
-	$ui/panel_down.hide()
+	$ui/Control.hide()
 	verbs_menu.hide()
-	$ui/panel_down/verbs_layer/room_select.hide()
-	$ui/panel_down/inventory_layer/inventory_ui.hide()
+	room_select.hide()
+	inventory_ui.hide()
 	tooltip.hide()
 
 
 func show_ui():
-	$ui/panel_down.show()
+	$ui/Control.show()
 	verbs_menu.show()
-	$ui/panel_down/verbs_layer/room_select.show()
-	$ui/panel_down/inventory_layer/inventory_ui.show()
+	room_select.show()
+	inventory_ui.show()
 	tooltip.show()
 
 func _on_event_done(_event_name: String):
@@ -171,16 +177,20 @@ func _on_event_done(_event_name: String):
 
 
 func pause_game():
-	if $ui/pause_menu.visible:
-		$ui/pause_menu.hide()
+	if pause_menu.visible:
+		pause_menu.hide()
 		escoria.main.current_scene.game.get_node("camera").current = true
 		escoria.main.current_scene.game.show_ui()
 		escoria.main.current_scene.show()
 		escoria.set_game_paused(false)
 	else:
-		$ui/pause_menu.set_save_enabled(escoria.save_manager.save_enabled)
-		$ui/pause_menu.show()
+		pause_menu.set_save_enabled(escoria.save_manager.save_enabled)
+		pause_menu.show()
 		escoria.main.current_scene.game.get_node("camera").current = false
 		escoria.main.current_scene.game.hide_ui()
 		escoria.main.current_scene.hide()
 		escoria.set_game_paused(true)
+
+
+func _on_MenuButton_pressed() -> void:
+	pause_game()
