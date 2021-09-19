@@ -29,19 +29,6 @@ The ESC script connected to this background
 
 ## Method Descriptions
 
-### manage\_input
-
-```gdscript
-func manage_input(_viewport, event, _shape_idx) -> void
-```
-
-Manage inputs reaching the Area2D and emit the events to the input manager
-
-#### Parameters
-- _viewport: (not used)
-- event: Event received
-- _shape_idx: (not used)
-
 ### get\_full\_area\_rect2
 
 ```gdscript
