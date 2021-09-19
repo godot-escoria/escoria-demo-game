@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=1]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=2]
 
 [node name="item" type="Area2D"]
 pause_mode = 1
@@ -20,3 +21,7 @@ points = PoolVector2Array( 634.097, 516.751, 578.861, 335.008, 701.805, 386.68, 
 __meta__ = {
 "_editor_description_": ""
 }
+
+[node name="ESCLocation" type="Position2D" parent="."]
+position = Vector2( 0, 236.267 )
+script = ExtResource( 2 )
