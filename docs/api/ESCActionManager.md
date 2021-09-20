@@ -63,3 +63,4 @@ func activate(action: String, target: ESCObject, combine_with: ESCObject = null)
 ## Signals
 
 - signal action_changed(): The current action was changed
+- signal action_finished(): Emitted, when an action has been completed

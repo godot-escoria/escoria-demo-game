@@ -28,6 +28,14 @@ var items_ids_in_inventory: Dictionary
 
 A registry of inventory ESCInventoryItem nodes
 
+### inventory\_visible
+
+```gdscript
+var inventory_visible: bool = false
+```
+
+Wether the inventory is visible currently
+
 ## Method Descriptions
 
 ### add\_new\_item\_by\_id
@@ -45,3 +53,16 @@ func remove_item_by_id(item_id: String) -> void
 ```
 
 remove item fromInventory UI using its id set in its scene
+
+### show\_inventory
+
+```gdscript
+func show_inventory()
+```
+
+### hide\_inventory
+
+```gdscript
+func hide_inventory()
+```
+
