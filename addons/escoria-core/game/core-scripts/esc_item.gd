@@ -269,6 +269,8 @@ func _ready():
 #
 # - event: Triggered event
 func _input(event: InputEvent) -> void:
+	if not escoria.current_state == escoria.GAME_STATE.DEFAULT:
+		return
 	if event is InputEventMouseButton and event.is_pressed():
 		var p = get_global_mouse_position()
 		var mouse_in_shape: bool = false
@@ -287,7 +289,6 @@ func _input(event: InputEvent) -> void:
 							_collider.shape == _shape_id:
 						mouse_in_shape = true
 		if mouse_in_shape:
-			print("%s was clicked" % name)
 			if event.doubleclick and event.button_index == BUTTON_LEFT:
 				emit_signal("mouse_double_left_clicked_item", self, event)
 			elif event.button_index == BUTTON_LEFT:
@@ -321,9 +322,6 @@ func get_interact_position() -> Vector2:
 	var interact_position = null
 	for c in get_children():
 		if c is Position2D:
-			if c.get_owner() == self:
-				interact_position = global_position
-				continue
 			interact_position = c.global_position
 			
 	if interact_position == null and collision != null:

@@ -120,8 +120,8 @@ func activate(
 							]
 							if combine_with.node.combine_is_one_way:
 								errors.append(
-									"Reason: %s's item interaction " +\
-									"is one-way." % combine_with.global_id
+									("Reason: %s's item interaction " +\
+									"is one-way.") % combine_with.global_id
 								)
 							escoria.logger.report_warnings(
 								"ESCActionManager.activate: Invalid action", 

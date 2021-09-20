@@ -83,6 +83,8 @@ func _ready():
 # #### Parameters
 # - event: Event received
 func _input(event) -> void:
+	if not escoria.current_state == escoria.GAME_STATE.DEFAULT:
+		return
 	if event.is_action_pressed("switch_action_verb"):
 		if event.button_index == BUTTON_WHEEL_UP:
 			emit_signal("mouse_wheel_up")

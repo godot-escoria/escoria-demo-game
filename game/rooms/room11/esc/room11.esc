@@ -1,6 +1,6 @@
 
 :setup
-set_state bg_music off false
+set_state _music off false
 
 > [eq ESC_LAST_SCENE room10]
 	teleport player r11_l_exit

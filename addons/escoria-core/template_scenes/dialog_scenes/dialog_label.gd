@@ -91,5 +91,4 @@ func _on_dialog_finished():
 	current_character.stop_talking()
 	emit_signal("dialog_line_finished")
 	escoria.dialog_player.is_speaking = false
-	escoria.current_state = escoria.GAME_STATE.DEFAULT
 	queue_free()

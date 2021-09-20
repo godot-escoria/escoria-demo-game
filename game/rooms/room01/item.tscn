@@ -23,5 +23,5 @@ __meta__ = {
 }
 
 [node name="ESCLocation" type="Position2D" parent="."]
-position = Vector2( 0, 236.267 )
+position = Vector2( 0, 236.681 )
 script = ExtResource( 2 )

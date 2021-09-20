@@ -68,11 +68,11 @@ func _get_voice_file(key: String, start: String = "") -> String:
 				if _voice_file != "":
 					return _voice_file
 			else:
-				if file_name == "%s.%s" % [
+				if file_name == "%s.%s.import" % [
 					key, 
 					ProjectSettings.get("escoria/sound/speech_extension")
 				]:
-					return start.plus_file(file_name)
+					return start.plus_file(file_name.trim_suffix(".import"))
 			file_name = _dir.get_next()
 	return ""
 

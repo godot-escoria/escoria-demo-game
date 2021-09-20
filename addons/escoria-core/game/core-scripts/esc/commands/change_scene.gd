@@ -59,6 +59,8 @@ func run(command_params: Array) -> int:
 			escoria.main.current_scene.global_id, 
 			true
 		)
+		
+	escoria.event_manager.interrupt_running_event()
 	
 	if !command_params[1]:
 		escoria.main.scene_transition.transition_out()
