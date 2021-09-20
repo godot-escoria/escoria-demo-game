@@ -631,7 +631,7 @@ search_in_file_extensions=PoolStringArray( "gd", "shader", "esc" )
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-ui-9verbs/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-ui-simplemouse/plugin.cfg" )
 
 [escoria]
 
@@ -640,7 +640,7 @@ main/force_quit=true
 debug/terminate_on_warnings=false
 debug/terminate_on_errors=true
 debug/development_lang="en"
-ui/tooltip_follows_mouse=false
+ui/tooltip_follows_mouse=true
 ui/dialogs_folder="res://game/ui/commons/dialogs"
 ui/default_dialog_scene="res://game/ui/commons/dialogs/dialog_label.tscn"
 ui/main_menu_scene="res://game/ui/commons/main_menu/main_menu.tscn"
@@ -662,7 +662,7 @@ main/savegames_path="res://saves/"
 main/settings_path="user://"
 main/escoria_version=""
 sound/speech_enabled=1
-ui/game_scene="res://addons/escoria-ui-9verbs/game.tscn"
+ui/game_scene="res://addons/escoria-ui-simplemouse/game.tscn"
 ui/dialogs_chooser="res://game/ui/commons/dialogs/text_dialog_choice.tscn"
 sound/speech_folder="res://game/speech"
 sound/speech_extension="ogg"

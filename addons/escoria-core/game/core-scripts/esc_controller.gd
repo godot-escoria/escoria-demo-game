@@ -3,7 +3,6 @@
 # "click on background" -> player walks to position
 # "click on item" -> player walks to item then performs the action defined
 # by current verb
-
 class_name ESCController
 
 

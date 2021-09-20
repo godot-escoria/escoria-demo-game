@@ -1,143 +1,79 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/scenes/inventory/inventory_ui.gd" type="Script" id=1]
 [ext_resource path="res://addons/escoria-ui-simplemouse/images/inventory_bg.png" type="Texture" id=2]
 [ext_resource path="res://addons/escoria-ui-simplemouse/inventory/inventory_ui_container.gd" type="Script" id=3]
-[ext_resource path="res://addons/escoria-ui-simplemouse/inventory/inventory_showhide.gd" type="Script" id=4]
 [ext_resource path="res://addons/escoria-ui-simplemouse/images/frame.png" type="Texture" id=5]
 [ext_resource path="res://addons/escoria-ui-simplemouse/images/inventory_icon.png" type="Texture" id=6]
 
-[sub_resource type="Animation" id=1]
-resource_name = "hide"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("../inventory_button:rect_position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("../inventory_button/panel:rect_position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( -1682.88, -52 ), Vector2( 268, -52 ) ]
-}
-
-[sub_resource type="Animation" id=2]
-resource_name = "show"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("../inventory_button:rect_position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("../inventory_button/panel:rect_position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 268, -52 ), Vector2( -1682.88, -52 ) ]
-}
-
 [node name="inventory_ui" type="Control"]
-anchor_right = 0.609
-anchor_bottom = 0.135
-margin_right = -779.52
-margin_bottom = -108.0
+anchor_right = 0.4
+anchor_bottom = 0.4
+margin_right = 768.0
+margin_bottom = 540.0
+rect_min_size = Vector2( 90, 90 )
 rect_scale = Vector2( 0.4, 0.4 )
+size_flags_horizontal = 0
+size_flags_vertical = 3
 script = ExtResource( 1 )
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": true
 }
-inventory_ui_container = NodePath("inventory_button/panel/MarginContainer/ScrollContainer/container")
+inventory_ui_container = NodePath("FloatingInventory/panel/MarginContainer/ScrollContainer/container")
 
-[node name="inventory_button" type="TextureButton" parent="."]
-margin_right = 256.0
-margin_bottom = 322.0
-texture_normal = ExtResource( 6 )
-script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="frame" type="TextureRect" parent="inventory_button"]
-margin_right = 2643.0
-margin_bottom = 2630.0
-rect_scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 5 )
-stretch_mode = 1
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
-
-[node name="panel" type="TextureRect" parent="inventory_button"]
-margin_left = 268.0
-margin_top = -52.0
-margin_right = 1957.0
-margin_bottom = 270.0
-grow_horizontal = 0
-rect_min_size = Vector2( 1689, 322 )
-texture = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="MarginContainer" type="MarginContainer" parent="inventory_button/panel"]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 57.0
-margin_top = 37.0
-margin_right = -68.0
-margin_bottom = -71.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="inventory_button" type="TextureButton" parent="HBoxContainer"]
+margin_right = 1280.0
+margin_bottom = 900.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = ExtResource( 6 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="frame" type="TextureRect" parent="HBoxContainer/inventory_button"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FloatingInventory" type="CanvasLayer" parent="."]
+
+[node name="panel" type="TextureRect" parent="FloatingInventory"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -516.0
+margin_top = -160.0
+rect_min_size = Vector2( 0, 160 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="FloatingInventory/panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_constants/margin_right = 20
 custom_constants/margin_top = 20
 custom_constants/margin_left = 20
@@ -146,23 +82,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScrollContainer" type="ScrollContainer" parent="inventory_button/panel/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="FloatingInventory/panel/MarginContainer"]
 margin_left = 20.0
-margin_top = 20.0
-margin_right = 1544.0
-margin_bottom = 194.0
+margin_top = 80.0
+margin_right = 496.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
 scroll_vertical_enabled = false
 
-[node name="container" type="HBoxContainer" parent="inventory_button/panel/MarginContainer/ScrollContainer"]
-margin_right = 1524.0
-margin_bottom = 174.0
+[node name="container" type="HBoxContainer" parent="FloatingInventory/panel/MarginContainer/ScrollContainer"]
+margin_right = 476.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 20
 script = ExtResource( 3 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="inventory_button"]
-anims/hide = SubResource( 1 )
-anims/show = SubResource( 2 )
+[node name="InventoryTween" type="Tween" parent="FloatingInventory"]
 
-[connection signal="pressed" from="inventory_button" to="inventory_button" method="_on_inventory_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/inventory_button" to="." method="_on_inventory_button_pressed"]

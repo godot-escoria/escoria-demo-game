@@ -41,13 +41,11 @@ onready var inventory_ui = $ui/Control/panel_down/VBoxContainer/HBoxContainer\
 
 func _ready():
 	ProjectSettings.set_setting("escoria/ui/tooltip_follows_mouse", false)
-
-func _input(event):
-	if event.is_action_pressed("switch_action_verb"):
-		if event.button_index == BUTTON_WHEEL_UP:
-			escoria.inputs_manager._on_mousewheel_action(-1)
-		elif event.button_index == BUTTON_WHEEL_DOWN:
-			escoria.inputs_manager._on_mousewheel_action(1)
+	escoria.action_manager.connect(
+		"action_finished", 
+		self, 
+		"_on_action_finished"
+	)
 
 
 ## BACKGROUND ## 
@@ -96,7 +94,6 @@ func element_focused(element_id: String) -> void:
 
 func element_unfocused() -> void:
 	tooltip.clear()
-	verbs_menu.unselect_actions()
 
 
 ## ITEMS ##
@@ -194,3 +191,7 @@ func pause_game():
 
 func _on_MenuButton_pressed() -> void:
 	pause_game()
+	
+	
+func _on_action_finished() -> void:
+	verbs_menu.unselect_actions()

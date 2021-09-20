@@ -12,6 +12,9 @@ export(NodePath) var inventory_ui_container
 # A registry of inventory ESCInventoryItem nodes
 var items_ids_in_inventory: Dictionary = {}
 
+# Wether the inventory is visible currently
+var inventory_visible: bool = false
+
 
 # Fill the items the player has from the start, do sanity checks and
 # listen when a global has changed
@@ -33,6 +36,10 @@ func _ready():
 		self, 
 		"_on_escoria_global_changed"
 	)
+	
+	# Hide inventory by default
+	$FloatingInventory/panel.rect_position.x = \
+		ProjectSettings.get_setting("display/window/size/width")
 
 
 # add item to Inventory UI using its id set in its scene
@@ -139,3 +146,48 @@ func _on_escoria_global_changed(global: String, old_value, new_value) -> void:
 				"(received: %s)" % global
 			]
 		)
+
+
+func _on_inventory_button_pressed():
+	if $FloatingInventory/InventoryTween.is_active():
+		return
+	if inventory_visible:
+		hide_inventory()
+	else:
+		show_inventory()
+		
+
+func show_inventory():
+	$FloatingInventory/InventoryTween.stop_all()
+	$FloatingInventory/InventoryTween.remove_all()
+	$FloatingInventory/InventoryTween.interpolate_property(
+		$FloatingInventory/panel,
+		"rect_position:x",
+		$FloatingInventory/panel.rect_position.x,
+		$FloatingInventory/panel.rect_position.x - \
+				$FloatingInventory/panel.rect_size.x - \
+				$HBoxContainer/inventory_button.rect_size.x,
+		0.6
+	)
+	$FloatingInventory/InventoryTween.start()
+	yield($FloatingInventory/InventoryTween,"tween_all_completed")
+	$FloatingInventory/InventoryTween.stop_all()
+	inventory_visible = true
+
+
+func hide_inventory():
+	$FloatingInventory/InventoryTween.stop_all()
+	$FloatingInventory/InventoryTween.remove_all()
+	$FloatingInventory/InventoryTween.interpolate_property(
+		$FloatingInventory/panel,
+		"rect_position:x",
+		$FloatingInventory/panel.rect_position.x,
+		$FloatingInventory/panel.rect_position.x + \
+				$FloatingInventory/panel.rect_size.x + \
+				$HBoxContainer/inventory_button.rect_size.x,
+		0.6
+	)
+	$FloatingInventory/InventoryTween.start()
+	yield($FloatingInventory/InventoryTween,"tween_all_completed")
+	$FloatingInventory/InventoryTween.stop_all()
+	inventory_visible = false

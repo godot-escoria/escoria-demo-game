@@ -13,46 +13,68 @@
 script = ExtResource( 5 )
 editor_debug_mode = 1
 
-[node name="ui" type="CanvasLayer" parent="."]
+[node name="camera" parent="." instance=ExtResource( 3 )]
 
-[node name="inventory_layer" type="CanvasLayer" parent="ui"]
+[node name="pause_menu" parent="." instance=ExtResource( 8 )]
+visible = false
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ui" type="Control" parent="CanvasLayer"]
+anchor_top = 0.9
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ui"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="room_select" parent="CanvasLayer/ui/HBoxContainer" instance=ExtResource( 7 )]
+margin_top = 35.0
+margin_right = 200.0
+margin_bottom = 55.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 2
+size_flags_vertical = 6
+
+[node name="verbs_menu" parent="CanvasLayer/ui/HBoxContainer" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 299.0
+margin_right = 299.0
+margin_bottom = 90.0
+grow_horizontal = 0
+size_flags_horizontal = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="inventory_ui" parent="CanvasLayer/ui/HBoxContainer" instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1190.0
+margin_right = 1280.0
+margin_bottom = 90.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="dialog_layer" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="dialog_player" parent="dialog_layer" instance=ExtResource( 2 )]
+
+[node name="tooltip_layer" type="CanvasLayer" parent="."]
 layer = 2
 
-[node name="inventory_ui" parent="ui/inventory_layer" instance=ExtResource( 1 )]
-margin_left = 1173.73
-margin_top = 695.268
-margin_right = 394.205
-margin_bottom = 587.268
-
-[node name="verbs_layer" type="CanvasLayer" parent="ui"]
-layer = 2
-
-[node name="verbs_menu" parent="ui/verbs_layer" instance=ExtResource( 4 )]
-margin_left = 2234.6
-margin_top = -583.507
-margin_right = 2234.6
-margin_bottom = -583.507
-
-[node name="tooltip_layer" type="CanvasLayer" parent="ui"]
-layer = 2
-
-[node name="tooltip" parent="ui/tooltip_layer" instance=ExtResource( 6 )]
+[node name="tooltip" parent="tooltip_layer" instance=ExtResource( 6 )]
 mouse_filter = 2
 bbcode_text = "[center][color=#000000][/color][/center]"
 offset_from_cursor = Vector2( 75, 10 )
-
-[node name="dialog_layer" type="CanvasLayer" parent="ui"]
-layer = 3
-
-[node name="dialog_player" parent="ui/dialog_layer" instance=ExtResource( 2 )]
-
-[node name="room_select" parent="ui" instance=ExtResource( 7 )]
-margin_left = 75.5099
-margin_top = 751.323
-margin_right = 138.51
-margin_bottom = 791.324
-
-[node name="pause_menu" parent="ui" instance=ExtResource( 8 )]
-visible = false
-
-[node name="camera" parent="." instance=ExtResource( 3 )]

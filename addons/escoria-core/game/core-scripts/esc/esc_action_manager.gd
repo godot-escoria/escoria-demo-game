@@ -6,6 +6,9 @@ class_name ESCActionManager
 # The current action was changed
 signal action_changed
 
+# Emitted, when an action has been completed
+signal action_finished
+
 
 # Current verb used
 var current_action: String = "" setget set_current_action
@@ -109,6 +112,7 @@ func activate(
 							if event_returned[0] == ESCExecution.RC_OK:
 								escoria.action_manager\
 										.clear_current_action()
+							emit_signal("action_finished")
 							return event_returned[0]
 						else:
 							var errors = [
@@ -127,7 +131,7 @@ func activate(
 								"ESCActionManager.activate: Invalid action", 
 								errors
 							)
-								
+							emit_signal("action_finished")
 							return ESCExecution.RC_ERROR
 					else:
 						escoria.logger.report_warnings(
@@ -140,13 +144,15 @@ func activate(
 									combine_with.global_id
 								]
 							]
-						)	
+						)
+						emit_signal("action_finished")
 						return ESCExecution.RC_ERROR
 				else:
 					# We're missing a target here. 
 					# Tell the Label to add a conjunction and wait for another 
 					# click to add the target to p_param. Until then, return
 					current_tool = target
+					emit_signal("action_finished")
 					return ESCExecution.RC_OK
 			else: 
 				escoria.logger.report_warnings(
@@ -175,6 +181,7 @@ func activate(
 			)
 		if event_returned[0] == ESCExecution.RC_OK:
 			escoria.action_manager.clear_current_action()
+		emit_signal("action_finished")
 		return event_returned[0]
 	else:
 		escoria.logger.report_warnings(
@@ -186,4 +193,5 @@ func activate(
 				]
 			]
 		)
+		emit_signal("action_finished")
 		return ESCExecution.RC_ERROR

@@ -8,48 +8,66 @@
 [ext_resource path="res://addons/escoria-ui-simplemouse/cursors/cursor_hand.png" type="Texture" id=6]
 
 [node name="verbs_menu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="actions" type="GridContainer" parent="."]
+[node name="actions" type="HBoxContainer" parent="."]
 visible = false
-margin_right = 333.0
-margin_bottom = 175.0
-columns = 3
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="walk" type="TextureRect" parent="actions"]
-margin_right = 64.0
-margin_bottom = 64.0
+margin_left = 94.0
+margin_top = 418.0
+margin_right = 158.0
+margin_bottom = 482.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
 texture = ExtResource( 5 )
 
 [node name="look" type="TextureRect" parent="actions"]
-margin_left = 68.0
-margin_right = 132.0
-margin_bottom = 64.0
+margin_left = 350.0
+margin_top = 418.0
+margin_right = 414.0
+margin_bottom = 482.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
 texture = ExtResource( 2 )
 
 [node name="pickup" type="TextureRect" parent="actions"]
-margin_left = 136.0
-margin_right = 200.0
-margin_bottom = 64.0
+margin_left = 607.0
+margin_top = 418.0
+margin_right = 671.0
+margin_bottom = 482.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
 texture = ExtResource( 6 )
 
 [node name="use" type="TextureRect" parent="actions"]
-margin_top = 68.0
-margin_right = 64.0
-margin_bottom = 132.0
+margin_left = 864.0
+margin_top = 418.0
+margin_right = 928.0
+margin_bottom = 482.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
 texture = ExtResource( 3 )
 
 [node name="talk" type="TextureRect" parent="actions"]
-margin_left = 68.0
-margin_top = 68.0
-margin_right = 132.0
-margin_bottom = 132.0
+margin_left = 1121.0
+margin_top = 418.0
+margin_right = 1185.0
+margin_bottom = 482.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
 texture = ExtResource( 4 )
 
 [node name="mouse_position" type="Control" parent="."]
