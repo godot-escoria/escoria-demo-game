@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://addons/escoria-core/game/scenes/inventory/inventory_ui.gd" type="Script" id=1]
+[ext_resource path="res://addons/escoria-ui-simplemouse/inventory/inventory_ui.gd" type="Script" id=1]
 [ext_resource path="res://addons/escoria-ui-simplemouse/images/inventory_bg.png" type="Texture" id=2]
 [ext_resource path="res://addons/escoria-ui-simplemouse/inventory/inventory_ui_container.gd" type="Script" id=3]
 [ext_resource path="res://addons/escoria-ui-simplemouse/images/frame.png" type="Texture" id=5]

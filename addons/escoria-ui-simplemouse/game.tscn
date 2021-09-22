@@ -15,9 +15,6 @@ editor_debug_mode = 1
 
 [node name="camera" parent="." instance=ExtResource( 3 )]
 
-[node name="pause_menu" parent="." instance=ExtResource( 8 )]
-visible = false
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ui" type="Control" parent="CanvasLayer"]
@@ -39,10 +36,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="room_select" parent="CanvasLayer/ui/HBoxContainer" instance=ExtResource( 7 )]
-margin_top = 35.0
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ui/HBoxContainer"]
 margin_right = 200.0
-margin_bottom = 55.0
+margin_bottom = 90.0
+
+[node name="MenuButton" type="Button" parent="CanvasLayer/ui/HBoxContainer/VBoxContainer"]
+margin_right = 200.0
+margin_bottom = 20.0
+text = "Menu"
+
+[node name="room_select" parent="CanvasLayer/ui/HBoxContainer/VBoxContainer" instance=ExtResource( 7 )]
+margin_top = 47.0
+margin_right = 200.0
+margin_bottom = 67.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 2
 size_flags_vertical = 6
@@ -50,8 +56,8 @@ size_flags_vertical = 6
 [node name="verbs_menu" parent="CanvasLayer/ui/HBoxContainer" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 299.0
-margin_right = 299.0
+margin_left = 204.0
+margin_right = 204.0
 margin_bottom = 90.0
 grow_horizontal = 0
 size_flags_horizontal = 2
@@ -66,6 +72,9 @@ margin_right = 1280.0
 margin_bottom = 90.0
 rect_scale = Vector2( 1, 1 )
 
+[node name="pause_menu" parent="CanvasLayer" instance=ExtResource( 8 )]
+visible = false
+
 [node name="dialog_layer" type="CanvasLayer" parent="."]
 layer = 3
 
@@ -77,4 +86,7 @@ layer = 2
 [node name="tooltip" parent="tooltip_layer" instance=ExtResource( 6 )]
 mouse_filter = 2
 bbcode_text = "[center][color=#000000][/color][/center]"
+fit_content_height = true
 offset_from_cursor = Vector2( 75, 10 )
+
+[connection signal="pressed" from="CanvasLayer/ui/HBoxContainer/VBoxContainer/MenuButton" to="." method="_on_MenuButton_pressed"]
