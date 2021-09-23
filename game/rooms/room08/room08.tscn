@@ -124,9 +124,10 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Hotspots" type="Node2D" parent="."]
+[node name="Hotspots" type="Node" parent="."]
 
 [node name="l_door" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 script = ExtResource( 5 )
 __meta__ = {
 "_editor_description_": ""
@@ -146,6 +147,7 @@ position = Vector2( 45.47, 383.99 )
 script = ExtResource( 7 )
 
 [node name="m_door" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 script = ExtResource( 5 )
 __meta__ = {
 "_editor_description_": ""
@@ -173,6 +175,7 @@ anims/door_close = SubResource( 2 )
 anims/door_open = SubResource( 3 )
 
 [node name="r8_mini_puzzle_button" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 script = ExtResource( 5 )
 global_id = "r8_button_puzzle"
 esc_script = "res://game/rooms/room08/esc/button_puzzle.esc"
@@ -206,6 +209,7 @@ __meta__ = {
 }
 
 [node name="r8_reset_puzzle_button" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 position = Vector2( -139.185, 0 )
 script = ExtResource( 5 )
 global_id = "r8_button_reset_puzzle"

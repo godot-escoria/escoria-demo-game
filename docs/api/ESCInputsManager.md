@@ -53,7 +53,7 @@ A LIFO stack of hovered items
 var hotspot_focused: String = ""
 ```
 
-The global id fo the topmost item from the hover_stack
+The global id of the topmost item from the hover_stack
 
 ## Method Descriptions
 

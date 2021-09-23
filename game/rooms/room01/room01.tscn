@@ -46,7 +46,7 @@ __meta__ = {
 [node name="walkable_area" parent="." instance=ExtResource( 1 )]
 position = Vector2( 3.5636, 0 )
 
-[node name="Hotspots" type="Node2D" parent="."]
+[node name="Hotspots" type="Node" parent="."]
 
 [node name="r_door" parent="Hotspots" instance=ExtResource( 8 )]
 position = Vector2( 1225.9, 217.966 )
@@ -73,7 +73,7 @@ __meta__ = {
 }
 
 [node name="item2" parent="Hotspots" instance=ExtResource( 9 )]
-position = Vector2( 839.614, 146.832 )
+position = Vector2( 839.614, 147.455 )
 global_id = "r1_wall_item2"
 esc_script = "res://game/rooms/room01/esc/wall_item_popupdialog.esc"
 
@@ -112,3 +112,5 @@ position = Vector2( 660.468, 381.489 )
 script = ExtResource( 7 )
 global_id = "r1_destination_point3"
 player_orients_on_arrival = false
+
+[editable path="Hotspots/item"]

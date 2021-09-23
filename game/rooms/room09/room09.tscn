@@ -64,9 +64,10 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Hotspots" type="Node2D" parent="."]
+[node name="Hotspots" type="Node" parent="."]
 
 [node name="l_door" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 script = ExtResource( 7 )
 global_id = "r9_l_exit"
 esc_script = "res://game/rooms/room09/esc/left_exit.esc"
@@ -84,6 +85,7 @@ position = Vector2( 37.4521, 392.045 )
 script = ExtResource( 12 )
 
 [node name="r_door" parent="Hotspots" instance=ExtResource( 9 )]
+pause_mode = 1
 global_id = "r9_r_exit"
 esc_script = "res://game/rooms/room09/esc/right_exit.esc"
 animations = null
@@ -93,6 +95,7 @@ position = Vector2( 1198.65, 391.058 )
 script = ExtResource( 12 )
 
 [node name="r9_closet_left" parent="Hotspots" instance=ExtResource( 5 )]
+pause_mode = 1
 position = Vector2( 435.233, 64.1518 )
 global_id = "r9_closet_left"
 esc_script = "res://game/rooms/room09/esc/closet_left.esc"
@@ -109,13 +112,13 @@ position = Vector2( 46.4878, 47.8335 )
 scale = Vector2( 0.5, 0.5 )
 global_id = "r9_bottle_left"
 dont_apply_terrain_scaling = true
-animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_left/bottle_left"]
 position = Vector2( -26.727, 543.448 )
 script = ExtResource( 12 )
 
 [node name="r9_closet_middle" parent="Hotspots" instance=ExtResource( 5 )]
+pause_mode = 1
 position = Vector2( 572.963, 65.2113 )
 global_id = "r9_closet_middle"
 esc_script = "res://game/rooms/room09/esc/closet_middle.esc"
@@ -132,13 +135,13 @@ position = Vector2( 45.9562, 46.774 )
 scale = Vector2( 0.5, 0.5 )
 global_id = "r9_bottle_middle"
 dont_apply_terrain_scaling = true
-animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_middle/bottle_middle"]
 position = Vector2( -26.727, 543.448 )
 script = ExtResource( 12 )
 
 [node name="r9_closet_right" parent="Hotspots" instance=ExtResource( 5 )]
+pause_mode = 1
 position = Vector2( 710.693, 66.2707 )
 global_id = "r9_closet_right"
 esc_script = "res://game/rooms/room09/esc/closet_right.esc"
@@ -155,13 +158,13 @@ position = Vector2( 47.2065, 45.7146 )
 scale = Vector2( 0.5, 0.5 )
 global_id = "r9_bottle_right"
 dont_apply_terrain_scaling = true
-animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_right/bottle_right"]
 position = Vector2( -26.727, 543.448 )
 script = ExtResource( 12 )
 
 [node name="button" parent="Hotspots" instance=ExtResource( 8 )]
+pause_mode = 1
 position = Vector2( 240.688, 160.459 )
 global_id = "r9_button_reset"
 esc_script = "res://game/rooms/room09/esc/button_reset.esc"
@@ -183,6 +186,7 @@ __meta__ = {
 }
 
 [node name="stand" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 position = Vector2( -125.617, 0.8909 )
 script = ExtResource( 7 )
 global_id = "r9_stand"

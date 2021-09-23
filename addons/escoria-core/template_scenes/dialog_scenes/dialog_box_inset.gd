@@ -103,7 +103,6 @@ func _on_dialog_line_typed(object, key):
 
 # Ending the dialog
 func _on_dialog_finished():
-	escoria.current_state = escoria.GAME_STATE.DEFAULT
 	emit_signal("dialog_line_finished")
 	queue_free()
 	

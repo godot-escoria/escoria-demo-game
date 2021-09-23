@@ -86,9 +86,10 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Hotspots" type="Node2D" parent="."]
+[node name="Hotspots" type="Node" parent="."]
 
 [node name="l_door" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 script = ExtResource( 7 )
 global_id = "r5_l_exit"
 esc_script = "res://game/rooms/room05/esc/left_exit.esc"
@@ -105,6 +106,7 @@ position = Vector2( 37.4521, 392.045 )
 script = ExtResource( 11 )
 
 [node name="r_door" type="Area2D" parent="Hotspots"]
+pause_mode = 1
 position = Vector2( -1, 0 )
 script = ExtResource( 7 )
 global_id = "r5_r_exit"
@@ -122,6 +124,7 @@ position = Vector2( 1225.47, 353.99 )
 script = ExtResource( 11 )
 
 [node name="item_wall" parent="Hotspots" instance=ExtResource( 5 )]
+pause_mode = 1
 position = Vector2( 2.37842, -254.49 )
 global_id = "r5_wall_item"
 esc_script = "res://game/rooms/room05/esc/wall_item.esc"
@@ -137,6 +140,7 @@ __meta__ = {
 }
 
 [node name="wrench" parent="Hotspots" instance=ExtResource( 8 )]
+pause_mode = 1
 position = Vector2( 257.269, 435.892 )
 interaction_direction = 2
 animations = null
@@ -146,10 +150,12 @@ position = Vector2( -77.4207, 0 )
 script = ExtResource( 11 )
 
 [node name="pen" parent="Hotspots" instance=ExtResource( 10 )]
+pause_mode = 1
 position = Vector2( 909.908, 443.451 )
 animations = null
 
 [node name="empty_sheet" parent="Hotspots" instance=ExtResource( 9 )]
+pause_mode = 1
 position = Vector2( 1059.84, 440.932 )
 animations = null
 
