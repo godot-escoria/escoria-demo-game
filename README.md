@@ -76,6 +76,12 @@ Licence: CC-BY
 * “Mystical Ocean Puzzle Game” (Licence CC-BY 4.0)
   by Eric Matyas
   www.soundimage.org
+  
+### Cursors
+* Pointers part 4 by "yd"
+  Licence: CC0 Licence
+  https://opengameart.org/content/pointers-part-4x
+  edited by Julian Murgia
 
 ### Font
 
