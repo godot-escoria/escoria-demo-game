@@ -113,7 +113,8 @@ func run() -> int:
 		var prepared_arguments = argument_descriptor.prepare_arguments(
 			self.parameters
 		)
-		if argument_descriptor.validate(self.name, prepared_arguments):
+		if argument_descriptor.validate(self.name, prepared_arguments) and\
+				command_object.validate(prepared_arguments):
 			escoria.logger.debug("Running command %s with parameters %s" % [
 				self.name,
 				prepared_arguments
