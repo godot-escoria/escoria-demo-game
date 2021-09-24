@@ -32,7 +32,7 @@ func validate(arguments: Array):
 		)
 		return false
 	if not arguments[1] in ["default", "off"] \
-			or not ResourceLoader.exists(arguments[1]):
+			and not ResourceLoader.exists(arguments[1]):
 		escoria.logger.report_errors(
 			"SetSoundStateCommand.validate: invalid sound",
 			[
