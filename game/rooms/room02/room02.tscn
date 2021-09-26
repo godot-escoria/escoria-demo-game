@@ -90,6 +90,7 @@ position = Vector2( 958.107, 176.401 )
 global_id = "r2_button_right"
 esc_script = "res://game/rooms/room02/esc/button.esc"
 dialog_color = Color( 0, 1, 0.109804, 1 )
+animations = null
 
 [node name="Position2D" type="Position2D" parent="button_right"]
 position = Vector2( 29.4302, 195.411 )
@@ -104,6 +105,7 @@ position = Vector2( 288.82, 171.439 )
 global_id = "r2_button"
 esc_script = "res://game/rooms/room02/esc/button.esc"
 dialog_color = Color( 0, 1, 0.109804, 1 )
+animations = null
 
 [node name="Position2D" type="Position2D" parent="button_left"]
 position = Vector2( 24.6681, 196.998 )

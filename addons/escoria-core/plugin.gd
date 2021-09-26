@@ -92,6 +92,29 @@ func set_escoria_ui_settings():
 		}
 		ProjectSettings.add_property_info(game_scene_property_info)
 	
+	if !ProjectSettings.has_setting("escoria/ui/default_transition"):
+		ProjectSettings.set_setting(
+			"escoria/ui/default_transition",
+			"curtain"
+		)
+		ProjectSettings.add_property_info({
+			"name": "escoria/ui/default_transition",
+			"type": TYPE_STRING
+		})
+		
+	if !ProjectSettings.has_setting("escoria/ui/transition_paths"):
+		ProjectSettings.set_setting(
+			"escoria/ui/transition_paths",
+			[
+				"res://addons/escoria-core/game/scenes/transitions/shaders/"
+			]
+		)
+		ProjectSettings.add_property_info({
+			"name": "escoria/ui/transition_paths",
+			"type": TYPE_STRING_ARRAY,
+			"hint": PROPERTY_HINT_DIR
+		})
+	
 
 # Prepare the settings in the Escoria main category
 func set_escoria_main_settings():

@@ -1,6 +1,12 @@
-# `transition transition_name in|out`
+# `transition transition_name in|out [delay]`
 #
 # Performs a transition in our out manually.
+# 
+# Parameters:
+# - transition_name: Name of the transition shader from one of the transition
+#   directories
+# - in|out: Wether to play the transition in IN- or OUT-mode
+# - delay: Delay for the transition to take. Defaults to 1 second
 # 
 # @ESC
 extends ESCBaseCommand
@@ -11,8 +17,8 @@ class_name TransitionCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2, 
-		[TYPE_STRING, TYPE_STRING],
-		[null, null]
+		[TYPE_STRING, TYPE_STRING, TYPE_REAL],
+		[null, null, 1.0]
 	)
 	
 	
@@ -39,7 +45,14 @@ func validate(arguments: Array):
 
 # Run the command
 func run(command_params: Array) -> int:
-	var transition_player = escoria.main.scene_transition
-	transition_player.call("transition_%s" % command_params[1], command_params[0])
-	var animation_finished = yield(transition_player, "transition_done")
+	escoria.main.scene_transition.transition(
+		command_params[0],
+		ESCTransitionPlayer.TRANSITION_MODE.OUT if command_params[1] == "out" \
+				else ESCTransitionPlayer.TRANSITION_MODE.IN,
+		command_params[2]
+	)
+	yield(
+		escoria.main.scene_transition, 
+		"transition_done"
+	)
 	return ESCExecution.RC_OK

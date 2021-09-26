@@ -18,11 +18,13 @@ var current_scene: Node
 var wait_level
 
 # Reference to the scene transition node
-onready var scene_transition = $layers/curtain/scene_transition
+onready var scene_transition: ESCTransitionPlayer
 
 
 # Connect the wait timer event
 func _ready() -> void:
+	scene_transition = ESCTransitionPlayer.new()
+	$layers/curtain.add_child(scene_transition)
 	$layers/wait_timer.connect("timeout", self, "_on_wait_finished")
 
 
