@@ -443,10 +443,8 @@ func _angle_is_between(
 # #### Parameters
 #
 # - deg int angle to set the character
-# - immediate
-#	If true, direction is switched immediately. Else, successive 
-#	animations are used so that the character turns to target angle.
-func set_angle(deg: int, immediate = true) -> void:
+# - wait float Wait this amount of seconds until continuing with turning around
+func set_angle(deg: int, wait: float = 0.0) -> void:
 	if deg < 0 or deg > 360:
 		escoria.logger.report_errors(
 			"movable.gd:set_angle()",
@@ -454,37 +452,35 @@ func set_angle(deg: int, immediate = true) -> void:
 		)
 	moved = true
 	
-	if immediate:
-		last_dir = _get_dir_deg(deg, parent.animations)
-
-		# The character may have a state animation from before, which would be
-		# resumed, so we immediately force the correct idle animation
-		if parent.get_animation_player().get_animation() != \
-				parent.animations.idles[last_dir].animation:
-			parent.get_animation_player().play(
-				parent.animations.idles[last_dir].animation
-			)
-		pose_scale = -1 if parent.animations.idles[last_dir].mirrored else 1
-	else:
-		var current_dir = last_dir
-		var target_dir = _get_dir_deg(deg, parent.animations)
-		
-		var way_to_turn = get_shortest_way_to_dir(current_dir, target_dir)
+	var current_dir = last_dir
+	var target_dir = _get_dir_deg(deg, parent.animations)
 	
-		var dir = current_dir
-		while dir != target_dir:
-			dir += way_to_turn
-			if dir >= parent.animations.dir_angles.size():
-				dir = 0
-			if dir < 0:
-				dir = parent.animations.dir_angles.size() - 1
+	var way_to_turn = get_shortest_way_to_dir(current_dir, target_dir)
+
+	var dir = current_dir
+	while dir != target_dir:
+		dir += way_to_turn
+		if dir >= parent.animations.dir_angles.size():
+			dir = 0
+		if dir < 0:
+			dir = parent.animations.dir_angles.size() - 1
+		
+		parent.get_animation_player().play(
+			parent.animations.idles[dir].animation
+		)
+		if wait > 0.0: 
+			yield(get_tree().create_timer(wait), "timeout")
+		pose_scale = -1 if parent.animations.idles[dir].mirrored else 1
 			
-			parent.get_animation_player().play(
-				parent.animations.idles[dir].animation
-			)
-			yield(parent.get_animation_player(), "animation_finished")
-			pose_scale = -1 if parent.animations.idles[dir].mirrored else 1
-			
+	last_dir = _get_dir_deg(deg, parent.animations)
+
+	# The character may have a state animation from before, which would be
+	# resumed, so we immediately force the correct idle animation
+	if parent.get_animation_player().get_animation() != \
+			parent.animations.idles[last_dir].animation:
+		parent.get_animation_player().play(
+			parent.animations.idles[last_dir].animation
+		)
 	update_terrain()
 
 
@@ -493,17 +489,15 @@ func set_angle(deg: int, immediate = true) -> void:
 # #### Parameters
 #
 # - item_id id of the object to face.
-# - immediate
-#	If true, direction is switched immediately. Else, successive 
-#	animations are used so that the character turns to target angle.
-func turn_to(item: Node, immediate = true) -> void:
+# - float Wait this amount of seconds until continuing with turning around
+func turn_to(item: Node, wait: float = 0.0) -> void:
 	set_angle(
 		wrapi(
 			rad2deg(parent.get_position().angle_to_point(item.get_position())), 
 			0, 
 			360
 		),
-		immediate
+		wait
 	)
 	
 
