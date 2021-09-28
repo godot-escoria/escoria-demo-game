@@ -421,10 +421,9 @@ func get_sprite() -> Node:
 # #### Parameters
 #
 # - deg: The angle degree to set
-# - immediate: Set the angle immediately. If false will show intermediate
-#	angles
-func set_angle(deg: int, immediate = true):
-	_movable.set_angle(deg, immediate)
+# - wait: Wait this amount of seconds until continuing with turning around
+func set_angle(deg: int, wait: float = 0.0):
+	_movable.set_angle(deg, wait)
 
 
 # Turn to face another object
@@ -432,10 +431,9 @@ func set_angle(deg: int, immediate = true):
 # #### Parameters
 #
 # - deg: The angle degree to set
-# - immediate: Set the angle immediately. If false will show intermediate
-#	angles
-func turn_to(object: Node, immediate = true):
-	_movable.turn_to(object, immediate)
+# - float Wait this amount of seconds until continuing with turning around
+func turn_to(object: Node, wait: float = 0.0):
+	_movable.turn_to(object, wait)
 
 
 # Play the talking animation

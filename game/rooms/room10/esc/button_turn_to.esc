@@ -2,8 +2,8 @@
 
 say player "Huh?"
 
-turn_to player 180 true
+turn_to player slide_pos_1
 
 say player "Nothing."
 
-turn_to player 0
+turn_to player slide_pos_2 0.2
