@@ -324,6 +324,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc_tooltip.gd"
 }, {
+"base": "ColorRect",
+"class": "ESCTransitionPlayer",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/scenes/transitions/esc_transition_player.gd"
+}, {
 "base": "Object",
 "class": "ESCUtils",
 "language": "GDScript",
@@ -563,6 +568,7 @@ _global_script_class_icons={
 "ESCStatement": "",
 "ESCTerrain": "res://addons/escoria-core/design/esc_terrain.svg",
 "ESCTooltip": "",
+"ESCTransitionPlayer": "",
 "ESCUtils": "",
 "ESCWalkContext": "",
 "EnableTerrainCommand": "",
@@ -666,6 +672,8 @@ ui/game_scene="res://addons/escoria-ui-simplemouse/game.tscn"
 ui/dialogs_chooser="res://game/ui/commons/dialogs/text_dialog_choice.tscn"
 sound/speech_folder="res://game/speech"
 sound/speech_extension="ogg"
+ui/transition_paths=[ "res://addons/escoria-core/game/scenes/transitions/shaders/" ]
+ui/default_transition="curtain"
 
 [input]
 

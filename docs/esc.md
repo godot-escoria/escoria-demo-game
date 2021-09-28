@@ -277,7 +277,7 @@ event ends.
 
 Changes the "active" state of the object, value can be true or false.
 Inactive objects are hidden in the scene.
-#### <a name="SetAngleCommand.md"></a>`set_angle object degrees [immediate]` [API-Doc](api/SetAngleCommand.md)
+#### <a name="SetAngleCommand.md"></a>`set_angle object degrees [wait]` [API-Doc](api/SetAngleCommand.md)
 
 Turns object to a degrees angle without animations. 0 sets object facing
 forward, 90 sets it 90 degrees clockwise ("east") etc. When turning to the
@@ -285,6 +285,9 @@ destination angle, animations are played if they're defined in animations.
 
 object must be player or interactive. degrees must be between [0, 360] or an
 error is reported.
+
+The wait parameter sets how long to wait for each intermediate angle. It
+defaults to 0, meaning the turnaround is immediate.
 #### <a name="SetAnimationsCommand.md"></a>`set_animations object animations` [API-Doc](api/SetAnimationsCommand.md)
 
 Set the animation resource for the given ESCPlayer
@@ -348,15 +351,21 @@ Sets the position of object1 to the position of object2.
 #### <a name="TeleportPosCommand.md"></a>`teleport_pos object1 x y` [API-Doc](api/TeleportPosCommand.md)
 
 Sets the position of object1 to the position (x,y).
-#### <a name="TransitionCommand.md"></a>`transition transition_name in|out` [API-Doc](api/TransitionCommand.md)
+#### <a name="TransitionCommand.md"></a>`transition transition_name in|out [delay]` [API-Doc](api/TransitionCommand.md)
 
 Performs a transition in our out manually.
-#### <a name="TurnToCommand.md"></a>`turn_to object object_to_face [immediate]` [API-Doc](api/TurnToCommand.md)
+
+Parameters:
+- transition_name: Name of the transition shader from one of the transition
+  directories
+- in|out: Wether to play the transition in IN- or OUT-mode
+- delay: Delay for the transition to take. Defaults to 1 second
+#### <a name="TurnToCommand.md"></a>`turn_to object object_to_face [wait]` [API-Doc](api/TurnToCommand.md)
 
 Turns object to face another object.
 
-Set immediate to true to show directly switch to the direction and not
-show intermediate angles
+The wait parameter sets how long to wait for each intermediate angle. It
+defaults to 0, meaning the turnaround is immediate.
 #### <a name="WaitCommand.md"></a>`wait seconds` [API-Doc](api/WaitCommand.md)
 
 Blocks execution of the current script for a number of seconds specified by the "seconds" parameter.

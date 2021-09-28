@@ -6,9 +6,15 @@
 
 ## Description
 
-`transition transition_name in|out`
+`transition transition_name in|out [delay]`
 
 Performs a transition in our out manually.
+
+Parameters:
+- transition_name: Name of the transition shader from one of the transition
+  directories
+- in|out: Wether to play the transition in IN- or OUT-mode
+- delay: Delay for the transition to take. Defaults to 1 second
 
 @ESC
 

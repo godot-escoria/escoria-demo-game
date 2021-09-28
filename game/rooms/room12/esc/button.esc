@@ -1,0 +1,31 @@
+:use
+
+say player "Default"
+transition "" out
+wait 1
+transition "" in
+
+say player "Fade white"
+transition fade_white out
+wait 1
+transition fade_white in
+
+say player "Fade black"
+transition fade_black out
+wait 1
+transition fade_black in
+
+say player "From Center"
+transition from_center out
+wait 1
+transition from_center in
+
+say player "Shards"
+transition shards out
+wait 1
+transition shards in
+
+say player "Blackout"
+transition fade_black out 0.0
+wait 1
+transition fade_black in 0.0

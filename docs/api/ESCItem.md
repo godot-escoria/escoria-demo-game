@@ -349,7 +349,7 @@ Return the sprite node
 ### set\_angle
 
 ```gdscript
-func set_angle(deg: int, immediate = true)
+func set_angle(deg: int, wait: float = 0)
 ```
 
 Set the angle
@@ -357,13 +357,12 @@ Set the angle
 #### Parameters
 
 - deg: The angle degree to set
-- immediate: Set the angle immediately. If false will show intermediate
-	angles
+- wait: Wait this amount of seconds until continuing with turning around
 
 ### turn\_to
 
 ```gdscript
-func turn_to(object: Node, immediate = true)
+func turn_to(object: Node, wait: float = 0)
 ```
 
 Turn to face another object
@@ -371,8 +370,7 @@ Turn to face another object
 #### Parameters
 
 - deg: The angle degree to set
-- immediate: Set the angle immediately. If false will show intermediate
-	angles
+- float Wait this amount of seconds until continuing with turning around
 
 ### start\_talking
 

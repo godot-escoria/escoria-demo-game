@@ -63,7 +63,10 @@ func run(command_params: Array) -> int:
 	escoria.event_manager.interrupt_running_event()
 	
 	if !command_params[1]:
-		escoria.main.scene_transition.transition_out()
+		escoria.main.scene_transition.transition(
+			"", 
+			ESCTransitionPlayer.TRANSITION_MODE.OUT
+		)
 		yield(escoria.main.scene_transition, "transition_done")
 	
 	escoria.inputs_manager.clear_stack()
@@ -109,7 +112,7 @@ func run(command_params: Array) -> int:
 					return rc[0]
 			
 			if !command_params[1]:
-				escoria.main.scene_transition.transition_in()
+				escoria.main.scene_transition.transition()
 				yield(escoria.main.scene_transition, "transition_done")
 		
 			if script.events.has("ready"):
@@ -122,7 +125,7 @@ func run(command_params: Array) -> int:
 				
 		else:
 			if !command_params[1]:
-				escoria.main.scene_transition.transition_in()
+				escoria.main.scene_transition.transition()
 				yield(escoria.main.scene_transition, "transition_done")
 				
 		# Clear queued resources

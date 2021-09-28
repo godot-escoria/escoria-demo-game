@@ -37,7 +37,7 @@ The Escoria context currently in wait state
 ### scene\_transition
 
 ```gdscript
-var scene_transition
+var scene_transition: ESCTransitionPlayer
 ```
 
 Reference to the scene transition node

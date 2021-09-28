@@ -17,7 +17,3 @@
 
 
 :ready
-
-transition fade_white in
-wait 2
-transition fade_white out

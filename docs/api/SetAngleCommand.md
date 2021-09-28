@@ -6,7 +6,7 @@
 
 ## Description
 
-`set_angle object degrees [immediate]`
+`set_angle object degrees [wait]`
 
 Turns object to a degrees angle without animations. 0 sets object facing
 forward, 90 sets it 90 degrees clockwise ("east") etc. When turning to the
@@ -14,6 +14,9 @@ destination angle, animations are played if they're defined in animations.
 
 object must be player or interactive. degrees must be between [0, 360] or an
 error is reported.
+
+The wait parameter sets how long to wait for each intermediate angle. It
+defaults to 0, meaning the turnaround is immediate.
 
 @ESC
 
