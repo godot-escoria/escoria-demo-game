@@ -6,12 +6,12 @@
 
 ## Description
 
-`turn_to object object_to_face [immediate]`
+`turn_to object object_to_face [wait]`
 
 Turns object to face another object.
 
-Set immediate to true to show directly switch to the direction and not
-show intermediate angles
+The wait parameter sets how long to wait for each intermediate angle. It
+defaults to 0, meaning the turnaround is immediate.
 
 @ESC
 

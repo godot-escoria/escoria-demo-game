@@ -170,7 +170,7 @@ Update the sprite scale and lighting
 ### set\_angle
 
 ```gdscript
-func set_angle(deg: int, immediate = true) -> var
+func set_angle(deg: int, wait: float = 0) -> var
 ```
 
 Sets character's angle and plays according animation.
@@ -178,14 +178,12 @@ Sets character's angle and plays according animation.
 #### Parameters
 
 - deg int angle to set the character
-- immediate
-	If true, direction is switched immediately. Else, successive
-	animations are used so that the character turns to target angle.
+- wait float Wait this amount of seconds until continuing with turning around
 
 ### turn\_to
 
 ```gdscript
-func turn_to(item: Node, immediate = true) -> void
+func turn_to(item: Node, wait: float = 0) -> void
 ```
 
 Turns the character to face another item or character.
@@ -193,9 +191,7 @@ Turns the character to face another item or character.
 #### Parameters
 
 - item_id id of the object to face.
-- immediate
-	If true, direction is switched immediately. Else, successive
-	animations are used so that the character turns to target angle.
+- float Wait this amount of seconds until continuing with turning around
 
 ### get\_shortest\_way\_to\_dir
 
