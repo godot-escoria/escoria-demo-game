@@ -105,112 +105,111 @@ func perform_inputevent_on_object(
 	# (because object is inactive for example)
 	var dont_interact = false
 	
-	var destination_position: Vector2 = escoria.main.current_scene.player.\
-			global_position
-	
-	# If clicked object not in inventory, player walks towards it
-	if not obj.node is ESCPlayer and \
-		not escoria.inventory_manager.inventory_has(obj.global_id) and \
-		(not has_current_action or not event_flags & ESCEvent.FLAG_TK):
-			var context = _walk_towards_object(
-				obj, 
-				event.position, 
-				event.doubleclick
-			)
-			if context is GDScriptFunctionState:
-				context = yield(_walk_towards_object(
+	if escoria.main.current_scene.player:
+		var destination_position: Vector2 = escoria.main.current_scene.player.\
+				global_position
+		
+		# If clicked object not in inventory, player walks towards it
+		if not obj.node is ESCPlayer and \
+			not escoria.inventory_manager.inventory_has(obj.global_id) and \
+			(not has_current_action or not event_flags & ESCEvent.FLAG_TK):
+				var context = _walk_towards_object(
 					obj, 
 					event.position, 
 					event.doubleclick
-				), "completed")
-			destination_position = context.target_position
-			dont_interact = context.dont_interact_on_arrival
+				)
+				if context is GDScriptFunctionState:
+					context = yield(_walk_towards_object(
+						obj, 
+						event.position, 
+						event.doubleclick
+					), "completed")
+				destination_position = context.target_position
+				dont_interact = context.dont_interact_on_arrival
+				
+		var player_global_pos = escoria.main.current_scene.player.global_position
+		var clicked_position = event.position
+	
+		if not player_global_pos == destination_position:
+			dont_interact = true
 	
 	# If no interaction should happen after player has arrived, leave 
 	# immediately.
 	if dont_interact:
 		return
 	
-	var player_global_pos = escoria.main.current_scene.player.global_position
-	var clicked_position = event.position
+	# If NO_TT flag is active, hide tooltip and connect for
+	# event finished to show it back
+	if event_flags & ESCEvent.FLAG_NO_TT \
+		and not escoria.event_manager.is_connected(
+			"event_finished", 
+			self,
+			"_on_no_tooltip_event_finished"
+		):
+		escoria.main.current_scene.game.tooltip_node.hide()
+		escoria.event_manager.connect(
+			"event_finished", 
+			self,
+			"_on_no_tooltip_event_finished"
+		)
 	
-	# If player has arrived at the position he was supposed to reach 
-	# so he can interact
-	if player_global_pos == destination_position:
-		
-		# If NO_TT flag is active, hide tooltip and connect for
-		# event finished to show it back
-		if event_flags & ESCEvent.FLAG_NO_TT \
-			and not escoria.event_manager.is_connected(
-				"event_finished", 
-				self,
-				"_on_no_tooltip_event_finished"
-			):
-			escoria.main.current_scene.game.tooltip_node.hide()
-			escoria.event_manager.connect(
-				"event_finished", 
-				self,
-				"_on_no_tooltip_event_finished"
+	if event_flags & ESCEvent.FLAG_NO_HUD and \
+		not escoria.event_manager.is_connected(
+			"event_finished", 
+			self,
+			"_on_no_hud_event_finished"
+		):
+		escoria.main.current_scene.game.hide_ui()
+		escoria.event_manager.connect(
+			"event_finished", 
+			self,
+			"_on_no_hud_event_finished"
+		)
+	
+	if event_flags & ESCEvent.FLAG_NO_SAVE and \
+		not escoria.event_manager.is_connected(
+			"event_finished", 
+			self,
+			"_on_no_save_event_finished"
+		):
+		escoria.save_manager.save_enabled = false
+		escoria.event_manager.connect(
+			"event_finished", 
+			self,
+			"_on_no_save_event_finished"
+		)
+		pass
+	
+	# Manage exits
+	if obj.node.is_exit and escoria.action_manager.current_action \
+			in ["", "walk"]:
+		escoria.action_manager.activate("exit_scene", obj)
+	else:
+		# Manage movements towards object before activating it
+		if escoria.action_manager.current_action in ["", "walk"] and \
+			not escoria.inventory_manager.inventory_has(obj.global_id):
+				escoria.action_manager.activate("arrived", obj)
+		# Manage action on object
+		elif not escoria.action_manager.current_action in ["", "walk"]:
+			# Check if clicked item awaits a combination
+			var need_combine = _check_item_needs_combine(
+				obj, 
+				default_action
 			)
-		
-		if event_flags & ESCEvent.FLAG_NO_HUD and \
-			not escoria.event_manager.is_connected(
-				"event_finished", 
-				self,
-				"_on_no_hud_event_finished"
-			):
-			escoria.main.current_scene.game.hide_ui()
-			escoria.event_manager.connect(
-				"event_finished", 
-				self,
-				"_on_no_hud_event_finished"
-			)
-		
-		if event_flags & ESCEvent.FLAG_NO_SAVE and \
-			not escoria.event_manager.is_connected(
-				"event_finished", 
-				self,
-				"_on_no_save_event_finished"
-			):
-			escoria.save_manager.save_enabled = false
-			escoria.event_manager.connect(
-				"event_finished", 
-				self,
-				"_on_no_save_event_finished"
-			)
-			pass
-		
-		
-		# Manage exits
-		if obj.node.is_exit and escoria.action_manager.current_action \
-				in ["", "walk"]:
-			escoria.action_manager.activate("exit_scene", obj)
-		else:
-			# Manage movements towards object before activating it
-			if escoria.action_manager.current_action in ["", "walk"] and \
-				not escoria.inventory_manager.inventory_has(obj.global_id):
-					escoria.action_manager.activate("arrived", obj)
-			# Manage action on object
-			elif not escoria.action_manager.current_action in ["", "walk"]:
-				# Check if clicked item awaits a combination
-				var need_combine = _check_item_needs_combine(
-					obj, 
-					default_action
+			
+			# If apply_interact, perform combine between items
+			if need_combine:
+				escoria.action_manager.activate(
+					escoria.action_manager.current_action,
+					escoria.action_manager.current_tool,
+					obj
 				)
-				
-				# If apply_interact, perform combine between items
-				if need_combine:
-					escoria.action_manager.activate(
-						escoria.action_manager.current_action,
-						escoria.action_manager.current_tool,
-						obj
-					)
-						
-				else:
-					escoria.action_manager.activate(
-						escoria.action_manager.current_action,
-						obj
-					)
+					
+			else:
+				escoria.action_manager.activate(
+					escoria.action_manager.current_action,
+					obj
+				)
 
 # Checks if object requires a combination with another, according to 
 # currently selected action verb (or check with default action of the item).
