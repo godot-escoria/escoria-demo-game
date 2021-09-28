@@ -348,9 +348,15 @@ Sets the position of object1 to the position of object2.
 #### <a name="TeleportPosCommand.md"></a>`teleport_pos object1 x y` [API-Doc](api/TeleportPosCommand.md)
 
 Sets the position of object1 to the position (x,y).
-#### <a name="TransitionCommand.md"></a>`transition transition_name in|out` [API-Doc](api/TransitionCommand.md)
+#### <a name="TransitionCommand.md"></a>`transition transition_name in|out [delay]` [API-Doc](api/TransitionCommand.md)
 
 Performs a transition in our out manually.
+
+Parameters:
+- transition_name: Name of the transition shader from one of the transition
+  directories
+- in|out: Wether to play the transition in IN- or OUT-mode
+- delay: Delay for the transition to take. Defaults to 1 second
 #### <a name="TurnToCommand.md"></a>`turn_to object object_to_face [immediate]` [API-Doc](api/TurnToCommand.md)
 
 Turns object to face another object.
