@@ -202,6 +202,14 @@ var controller: ESCController
 The controller in charge of converting an action verb on a game object
 into an actual action
 
+### game\_scene
+
+```gdscript
+var game_scene: ESCGame
+```
+
+ The game scene loaded
+
 ## Method Descriptions
 
 ### new\_game
