@@ -99,6 +99,11 @@ func unregister_object(object: ESCObject) -> void:
 	if not escoria.inventory_manager.inventory_has(object.global_id) \
 			and not object.global_id in RESERVED_OBJECTS:
 		objects.erase(object.global_id)
+	else:
+		if not object.global_id in RESERVED_OBJECTS:
+			# Re-instance the node if it is an item present in inventory.
+			objects[object.global_id].node = objects[object.global_id].node \
+				.duplicate()
 
 
 # Insert data to save into savegame.

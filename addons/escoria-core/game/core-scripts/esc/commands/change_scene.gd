@@ -93,30 +93,8 @@ func run(command_params: Array) -> int:
 		room_scene.game = escoria.game_scene
 		escoria.main.set_scene(room_scene)
 		
-		if "esc_script" in room_scene and room_scene.esc_script \
-				and command_params[2]:
-			
-			var exec = room_scene.run_script_event("setup")
-			var rc = yield(escoria.event_manager, "event_finished")
-			while rc[1] != "setup":
-				rc = yield(escoria.event_manager, "event_finished")
-			if rc[0] != ESCExecution.RC_OK:
-				return rc[0]
-			
-			
-			if !command_params[1]:
-				escoria.main.scene_transition.transition()
-				yield(escoria.main.scene_transition, "transition_done")
-		
-			room_scene.run_script_event("ready")
-			rc = yield(escoria.event_manager, "event_finished")
-			while rc[1] != "ready":
-				rc = yield(escoria.event_manager, "event_finished")
-			if rc[0] != ESCExecution.RC_OK:
-				return rc[0]
-				
-		else:
-			if !command_params[1]:
+		if not "esc_script" in room_scene or not room_scene.esc_script \
+			or not command_params[2] and !command_params[1]:
 				escoria.main.scene_transition.transition()
 				yield(escoria.main.scene_transition, "transition_done")
 				

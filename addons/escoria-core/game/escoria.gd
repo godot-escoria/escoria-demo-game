@@ -108,6 +108,8 @@ func _init():
 	self.game_scene = resource_cache.get_resource(
 		ProjectSettings.get_setting("escoria/ui/game_scene")
 	).instance()
+	
+
 
 # Load settings
 func _ready():
@@ -115,7 +117,9 @@ func _ready():
 	settings = ESCSaveSettings.new()
 	settings = save_manager.load_settings()
 	escoria._on_settings_loaded(escoria.settings)
-
+	self.main_menu_instance = resource_cache.get_resource(
+			ProjectSettings.get_setting("escoria/ui/main_menu_scene")
+		).instance()
 
 # Called by Main menu "start new game"
 func new_game():

@@ -37,6 +37,10 @@ var player
 var game
 
 
+# Compiled ESCScript
+var compiled_script: ESCScript 
+
+
 # Start the random number generator when the camera limits should be displayed
 func _enter_tree():
 	if editor_debug_mode == EditorRoomDebugDisplay.CAMERA_LIMITS:
@@ -55,13 +59,11 @@ func _ready():
 	if Engine.is_editor_hint():
 		return
 	
-	var run_events = false
 	game = $game
 	if game == null:
 		game = escoria.game_scene
 		add_child(game)
 		move_child(game, 0)
-		run_events = true
 	
 	if escoria.main.current_scene == null:
 		escoria.main.set_scene(self)
@@ -88,7 +90,7 @@ func _ready():
 	if global_id.empty():
 		global_id = name
 		
-	if run_events and esc_script:
+	if esc_script:
 		run_script_event("setup")
 		var rc = yield(escoria.event_manager, "event_finished")
 		while rc[1] != "setup":
@@ -159,7 +161,8 @@ func set_editor_debug_mode(p_editor_debug_mode: int) -> void:
 func run_script_event(event_name: String):
 	if !esc_script:
 		return
-	var script = escoria.esc_compiler.load_esc_file(esc_script)
+	if compiled_script == null:
+		compiled_script = escoria.esc_compiler.load_esc_file(esc_script)
 	
-	if script.events.has(event_name):
-		escoria.event_manager.queue_event(script.events[event_name])
+	if compiled_script.events.has(event_name):
+		escoria.event_manager.queue_event(compiled_script.events[event_name])
