@@ -84,6 +84,9 @@ var save_manager: ESCSaveManager
 # into an actual action
 var controller: ESCController
 
+# The game scene loaded
+var game_scene: ESCGame
+
 
 # Initialize various objects
 func _init():
@@ -102,7 +105,9 @@ func _init():
 	self.save_manager = ESCSaveManager.new()
 	self.inputs_manager = ESCInputsManager.new()
 	self.controller = ESCController.new()
-
+	self.game_scene = resource_cache.get_resource(
+		ProjectSettings.get_setting("escoria/ui/game_scene")
+	).instance()
 
 # Load settings
 func _ready():

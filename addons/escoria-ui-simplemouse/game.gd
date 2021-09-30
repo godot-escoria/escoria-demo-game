@@ -30,7 +30,7 @@ Implement methods to react to inputs.
 - _on_event_done(event_name: String)
 """
 
-func _ready():
+func _enter_tree():
 	ProjectSettings.set_setting("escoria/ui/tooltip_follows_mouse", true)
 	escoria.action_manager.connect(
 		"action_finished", 

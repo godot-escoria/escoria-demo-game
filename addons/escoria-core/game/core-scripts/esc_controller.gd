@@ -1,8 +1,5 @@
-# This script contains functions called by gamedev's game.gd.
-# These functions convert input actions into game actions. For example:
-# "click on background" -> player walks to position
-# "click on item" -> player walks to item then performs the action defined
-# by current verb
+# This class performs certain tasks as a reaction to certain inputs, such as
+# player walking, player walking towards an object, etc.
 class_name ESCController
 
 

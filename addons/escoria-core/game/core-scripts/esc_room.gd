@@ -55,7 +55,16 @@ func _ready():
 	if Engine.is_editor_hint():
 		return
 	
+	var run_events = false
 	game = $game
+	if game == null:
+		game = escoria.game_scene
+		add_child(game)
+		move_child(game, 0)
+		run_events = true
+	
+	if escoria.main.current_scene == null:
+		escoria.main.set_scene(self)
 	
 	if player_scene:
 		player = player_scene.instance()
@@ -78,7 +87,24 @@ func _ready():
 	
 	if global_id.empty():
 		global_id = name
-
+		
+	if run_events and esc_script:
+		run_script_event("setup")
+		var rc = yield(escoria.event_manager, "event_finished")
+		while rc[1] != "setup":
+			rc = yield(escoria.event_manager, "event_finished")
+		if rc[0] != ESCExecution.RC_OK:
+			return rc[0]
+		
+		escoria.main.scene_transition.transition()
+		yield(escoria.main.scene_transition, "transition_done")
+	
+		run_script_event("ready")
+		rc = yield(escoria.event_manager, "event_finished")
+		while rc[1] != "ready":
+			rc = yield(escoria.event_manager, "event_finished")
+		if rc[0] != ESCExecution.RC_OK:
+			return rc[0]
 
 # Draw the camera limits visualization if enabled
 func _draw():
@@ -123,3 +149,17 @@ func set_camera_limits(p_camera_limits: Array) -> void:
 func set_editor_debug_mode(p_editor_debug_mode: int) -> void:
 	editor_debug_mode = p_editor_debug_mode
 	update()
+
+
+# Runs the script event from the script attached, if any
+#
+# #### Parameters
+#
+# - event_name: the name of the event to run
+func run_script_event(event_name: String):
+	if !esc_script:
+		return
+	var script = escoria.esc_compiler.load_esc_file(esc_script)
+	
+	if script.events.has(event_name):
+		escoria.event_manager.queue_event(script.events[event_name])

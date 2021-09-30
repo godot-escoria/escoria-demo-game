@@ -74,13 +74,9 @@ func run(command_params: Array) -> int:
 	escoria.main_menu_instance.hide()
 	
 	var res_room = escoria.resource_cache.get_resource(command_params[0])
-	var res_game = escoria.resource_cache.get_resource(
-		ProjectSettings.get_setting("escoria/ui/game_scene")
-	)
 		
 	# Load game scene
-	var game_scene = res_game.instance()
-	if not game_scene:
+	if not escoria.game_scene:
 		escoria.logger.report_errors(
 			"ChangeSceneCommand.run: Failed loading game scene",
 			[
@@ -92,36 +88,32 @@ func run(command_params: Array) -> int:
 	# Load room scene
 	var room_scene = res_room.instance()
 	if room_scene:
-		room_scene.add_child(game_scene)
-		room_scene.move_child(game_scene, 0)
+		room_scene.add_child(escoria.game_scene)
+		room_scene.move_child(escoria.game_scene, 0)
+		room_scene.game = escoria.game_scene
 		escoria.main.set_scene(room_scene)
 		
 		if "esc_script" in room_scene and room_scene.esc_script \
 				and command_params[2]:
 			
-			var script = escoria.esc_compiler.load_esc_file(
-				room_scene.esc_script
-			)
+			var exec = room_scene.run_script_event("setup")
+			var rc = yield(escoria.event_manager, "event_finished")
+			while rc[1] != "setup":
+				rc = yield(escoria.event_manager, "event_finished")
+			if rc[0] != ESCExecution.RC_OK:
+				return rc[0]
 			
-			if script.events.has("setup"):
-				escoria.event_manager.queue_event(script.events["setup"])
-				var rc = yield(escoria.event_manager, "event_finished")
-				while rc[1] != "setup":
-					rc = yield(escoria.event_manager, "event_finished")
-				if rc[0] != ESCExecution.RC_OK:
-					return rc[0]
 			
 			if !command_params[1]:
 				escoria.main.scene_transition.transition()
 				yield(escoria.main.scene_transition, "transition_done")
 		
-			if script.events.has("ready"):
-				escoria.event_manager.queue_event(script.events["ready"])
-				var rc = yield(escoria.event_manager, "event_finished")
-				while rc[1] != "ready":
-					rc = yield(escoria.event_manager, "event_finished")
-				if rc[0] != ESCExecution.RC_OK:
-					return rc[0]
+			room_scene.run_script_event("ready")
+			rc = yield(escoria.event_manager, "event_finished")
+			while rc[1] != "ready":
+				rc = yield(escoria.event_manager, "event_finished")
+			if rc[0] != ESCExecution.RC_OK:
+				return rc[0]
 				
 		else:
 			if !command_params[1]:
