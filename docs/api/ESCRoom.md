@@ -82,6 +82,14 @@ var game
 
 The game scene instance
 
+### compiled\_script
+
+```gdscript
+var compiled_script: ESCScript
+```
+
+Compiled ESCScript
+
 ## Method Descriptions
 
 ### set\_camera\_limits
