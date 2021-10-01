@@ -6,9 +6,14 @@ extends Node
 # Start the main menu
 func _ready():
 	if escoria.main_menu_instance == null:
-		escoria.main_menu_instance = escoria.resource_cache.get_resource(
-			ProjectSettings.get_setting("escoria/ui/main_menu_scene")
-		).instance()
+		if ProjectSettings.get_setting("escoria/ui/main_menu_scene") == "":
+			escoria.logger.report_errors("escoria.gd", 
+				["Parameter escoria/ui/main_menu_scene is not set!"]
+			)
+		else:
+			escoria.main_menu_instance = escoria.resource_cache.get_resource(
+				ProjectSettings.get_setting("escoria/ui/main_menu_scene")
+			).instance()
 	escoria.call_deferred("add_child", escoria.main_menu_instance)
 	
 	
