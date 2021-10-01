@@ -647,11 +647,9 @@ debug/terminate_on_warnings=false
 debug/terminate_on_errors=true
 debug/development_lang="en"
 ui/tooltip_follows_mouse=true
-ui/dialogs_folder="res://game/ui/commons/dialogs"
 ui/default_dialog_scene="res://game/ui/commons/dialogs/dialog_label.tscn"
 ui/main_menu_scene="res://game/ui/commons/main_menu/main_menu.tscn"
 ui/pause_menu_scene="res://game/ui/commons/pause_menu/pause_menu.tscn"
-internals/save_data=""
 main/text_lang="fr_FR"
 main/voice_lang="fr_FR"
 sound/music_volume=1
@@ -672,8 +670,9 @@ ui/game_scene="res://addons/escoria-ui-simplemouse/game.tscn"
 ui/dialogs_chooser="res://game/ui/commons/dialogs/text_dialog_choice.tscn"
 sound/speech_folder="res://game/speech"
 sound/speech_extension="ogg"
-ui/transition_paths=[ "res://addons/escoria-core/game/scenes/transitions/shaders/" ]
 ui/default_transition="curtain"
+ui/transition_paths=[ "res://addons/escoria-core/game/scenes/transitions/shaders/" ]
+internals/save_data=""
 
 [input]
 

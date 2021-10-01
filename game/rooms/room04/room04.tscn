@@ -6,9 +6,9 @@
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=5]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
-[ext_resource path="res://game/rooms/room04/assets/background.png" type="Texture" id=7]
 [ext_resource path="res://game/rooms/room04/assets/depth_reduced.png" type="Texture" id=8]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=9]
+[ext_resource path="res://game/rooms/room04/assets/background_reduced.png" type="Texture" id=10]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 371.757, 688.152, 542.371, 788.052, 2.46706, 794.786, 11.4468, 698.255, 189.918, 682.54, 1564.36, 574.459, 1578.66, 529.011, 1635.23, 551.638, 1624.42, 800.399, 1536.87, 579.274, 1012.68, 786.929, 1197.79, 675.666, 908.294, 488.354, 996.968, 451.313, 600.739, 456.925, 673.699, 490.599, 127.06, 573.661, 23.7938, 614.07, 42.8757, 527.64, 125.717, 528.797 )
@@ -27,15 +27,11 @@ editor_debug_mode = 1
 margin_right = 1666.0
 margin_bottom = 574.0
 mouse_filter = 2
+texture = ExtResource( 10 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Sprite" type="Sprite" parent="background"]
-scale = Vector2( 0.692794, 0.692794 )
-texture = ExtResource( 7 )
-centered = false
 
 [node name="room_label" type="Label" parent="background"]
 margin_right = 40.0

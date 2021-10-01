@@ -58,6 +58,8 @@ func clear_scene() -> void:
 
 	escoria.action_manager.clear_current_action()
 	escoria.action_manager.clear_current_tool()
+	
+	current_scene.remove_child(escoria.game_scene)
 
 	remove_child(current_scene)
 	current_scene.free()

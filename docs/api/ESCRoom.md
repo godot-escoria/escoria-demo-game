@@ -82,6 +82,14 @@ var game
 
 The game scene instance
 
+### compiled\_script
+
+```gdscript
+var compiled_script: ESCScript
+```
+
+Compiled ESCScript
+
 ## Method Descriptions
 
 ### set\_camera\_limits
@@ -107,3 +115,15 @@ Set the editor debug mode
 #### Parameters
 
 - p_editor_debug_mode: The debug mode to set for the room
+
+### run\_script\_event
+
+```gdscript
+func run_script_event(event_name: String)
+```
+
+Runs the script event from the script attached, if any
+
+ #### Parameters
+
+- event_name: the name of the event to run
