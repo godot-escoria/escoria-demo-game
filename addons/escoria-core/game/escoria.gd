@@ -105,21 +105,35 @@ func _init():
 	self.save_manager = ESCSaveManager.new()
 	self.inputs_manager = ESCInputsManager.new()
 	self.controller = ESCController.new()
-	self.game_scene = resource_cache.get_resource(
-		ProjectSettings.get_setting("escoria/ui/game_scene")
-	).instance()
 	
+	settings = ESCSaveSettings.new()
+	settings = save_manager.load_settings()
+	_on_settings_loaded(settings)
+	
+	if ProjectSettings.get_setting("escoria/ui/game_scene") == "":
+		logger.report_errors("escoria.gd", 
+			["Parameter escoria/ui/game_scene is not set!"]
+		)
+	else:
+		self.game_scene = resource_cache.get_resource(
+			ProjectSettings.get_setting("escoria/ui/game_scene")
+		).instance()
+		
+	if ProjectSettings.get_setting("escoria/ui/main_menu_scene") == "":
+		logger.report_errors("escoria.gd", 
+			["Parameter escoria/ui/main_menu_scene is not set!"]
+		)
+	else:
+		self.main_menu_instance = resource_cache.get_resource(
+			ProjectSettings.get_setting("escoria/ui/main_menu_scene")
+		).instance()
 
 
 # Load settings
 func _ready():
 	inputs_manager.register_core()
-	settings = ESCSaveSettings.new()
-	settings = save_manager.load_settings()
-	escoria._on_settings_loaded(escoria.settings)
-	self.main_menu_instance = resource_cache.get_resource(
-			ProjectSettings.get_setting("escoria/ui/main_menu_scene")
-		).instance()
+	
+	
 
 # Called by Main menu "start new game"
 func new_game():
@@ -259,7 +273,7 @@ func do(action: String, params: Array = [], can_interrupt: bool = false) -> void
 #
 # * p_settings: Loaded settings
 func _on_settings_loaded(p_settings: ESCSaveSettings) -> void:
-	escoria.logger.info("******* settings loaded")
+	logger.info("******* settings loaded")
 	if p_settings != null:
 		settings = p_settings
 	else:
