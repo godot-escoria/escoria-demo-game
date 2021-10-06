@@ -50,26 +50,6 @@ func set_escoria_ui_settings():
 		}
 		ProjectSettings.add_property_info(default_dialog_scene_property_info)
 	
-	if !ProjectSettings.has_setting("escoria/ui/main_menu_scene"):
-		ProjectSettings.set_setting("escoria/ui/main_menu_scene", "")
-		var main_menu_scene_property_info = {
-			"name": "escoria/ui/main_menu_scene",
-			"type": TYPE_STRING,
-			"hint": PROPERTY_HINT_FILE,
-			"hint_string": "*.tscn, *.scn"
-		}
-		ProjectSettings.add_property_info(main_menu_scene_property_info)
-	
-	if !ProjectSettings.has_setting("escoria/ui/pause_menu_scene"):
-		ProjectSettings.set_setting("escoria/ui/pause_menu_scene", "")
-		var pause_menu_scene_property_info = {
-			"name": "escoria/ui/pause_menu_scene",
-			"type": TYPE_STRING,
-			"hint": PROPERTY_HINT_FILE,
-			"hint_string": "*.tscn, *.scn"
-		}
-		ProjectSettings.add_property_info(pause_menu_scene_property_info)
-	
 	if !ProjectSettings.has_setting("escoria/ui/game_scene"):
 		ProjectSettings.set_setting("escoria/ui/game_scene", "")
 		var game_scene_property_info = {

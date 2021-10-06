@@ -4,7 +4,7 @@ say player "That must be the command to open the door."
 :use
 > [!r8_m_door_open]
 	#superpose_scene "res://game/rooms/room08/puzzle/10_buttons_puzzle.tscn"
-	spawn "res://game/rooms/room08/puzzle/10_buttons_puzzle.tscn"
+	spawn puzzle "res://game/rooms/room08/puzzle/10_buttons_puzzle.tscn"
 	
 > [r8_m_door_open]
 	say player "The door is already open."

@@ -1,7 +1,19 @@
-:start
+:init
+spawn _main_menu res://game/ui/commons/main_menu/main_menu.tscn
+
+
+:newgame
+
+# Hide main menu
+set_active _main_menu false
 
 # 1/ Simple scene
 change_scene res://game/rooms/room01/room01.tscn
+
+
+
+
+
 
 # 2/ Button bridge
 #change_scene res://game/rooms/room02/room02.tscn
@@ -36,3 +48,5 @@ change_scene res://game/rooms/room01/room01.tscn
 
 # 12/ Event flags tests 2
 #change_scene res://game/rooms/room12/room12.tscn
+
+
