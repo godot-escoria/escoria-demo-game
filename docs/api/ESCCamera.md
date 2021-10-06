@@ -48,6 +48,8 @@ Target zoom of the camera
 var zoom_time
 ```
 
+Time of zoom
+
 ### zoom\_transform
 
 ```gdscript
