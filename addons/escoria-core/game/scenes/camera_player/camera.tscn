@@ -7,5 +7,3 @@ current = true
 drag_margin_h_enabled = true
 drag_margin_v_enabled = true
 script = ExtResource( 1 )
-
-[node name="tween" type="Tween" parent="."]

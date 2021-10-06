@@ -176,14 +176,14 @@ func _on_event_done(_event_name: String):
 func pause_game():
 	if pause_menu.visible:
 		pause_menu.hide()
-		escoria.main.current_scene.game.get_node("camera").current = true
+		escoria.object_manager.get_object("_camera").node.current = true
 		escoria.main.current_scene.game.show_ui()
 		escoria.main.current_scene.show()
 		escoria.set_game_paused(false)
 	else:
 		pause_menu.set_save_enabled(escoria.save_manager.save_enabled)
 		pause_menu.show()
-		escoria.main.current_scene.game.get_node("camera").current = false
+		escoria.object_manager.get_object("_camera").node.current = false
 		escoria.main.current_scene.game.hide_ui()
 		escoria.main.current_scene.hide()
 		escoria.set_game_paused(true)

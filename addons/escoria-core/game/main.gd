@@ -117,7 +117,7 @@ func set_camera_limits(camera_limit_id: int = 0) -> void:
 			[scene_camera_limits]
 		)
 
-	current_scene.game.get_node("camera").set_limits(limits)
+	escoria.object_manager.get_object("_camera").node.set_limits(limits)
 
 
 func save_game(p_savegame_res: Resource) -> void:

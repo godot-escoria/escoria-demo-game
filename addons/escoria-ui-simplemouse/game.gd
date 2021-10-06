@@ -156,7 +156,7 @@ func _on_event_done(event_name: String):
 func pause_game():
 	if $CanvasLayer/pause_menu.visible:
 		$CanvasLayer/pause_menu.hide()
-		escoria.main.current_scene.game.get_node("camera").current = true
+		escoria.object_manager.get_object("_camera").node.current = true
 		escoria.main.current_scene.game.show_ui()
 		escoria.main.current_scene.show()
 	else:
@@ -164,7 +164,7 @@ func pause_game():
 			escoria.save_manager.save_enabled
 		)
 		$CanvasLayer/pause_menu.show()
-		escoria.main.current_scene.game.get_node("camera").current = false
+		escoria.object_manager.get_object("_camera").node.current = false
 		escoria.main.current_scene.game.hide_ui()
 		escoria.main.current_scene.hide()
 
