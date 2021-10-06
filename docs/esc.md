@@ -338,7 +338,7 @@ Moves object1 towards the position of object2, at the speed determined by
 object1's "speed" property, unless overridden. This command is non-blocking.
 It does not respect the room's navigation polygons, so you can move items
 where the player can't walk.
-#### <a name="SpawnCommand.md"></a>`spawn path [object2]` [API-Doc](api/SpawnCommand.md)
+#### <a name="SpawnCommand.md"></a>`spawn identifier path [object2]` [API-Doc](api/SpawnCommand.md)
 
 Instances a scene determined by "path", and places in the position of
 object2 (object2 is optional)
