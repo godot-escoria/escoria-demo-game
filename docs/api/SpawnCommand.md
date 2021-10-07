@@ -6,7 +6,7 @@
 
 ## Description
 
-`spawn path [object2]`
+`spawn identifier path [is_active=true] [object2] `
 
 Instances a scene determined by "path", and places in the position of
 object2 (object2 is optional)

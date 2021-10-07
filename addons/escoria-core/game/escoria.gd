@@ -49,9 +49,6 @@ var command_registry: ESCCommandRegistry
 # Resource cache handler
 var resource_cache: ESCResourceCache
 
-# Instance of the main menu
-var main_menu_instance
-
 # Terrain of the current room
 var room_terrain
 
@@ -63,7 +60,6 @@ var inventory
 
 # These are settings that the player can affect and save/load later
 var settings: ESCSaveSettings
-
 
 # The current state of the game
 onready var current_state = GAME_STATE.DEFAULT
@@ -86,6 +82,11 @@ var controller: ESCController
 
 # The game scene loaded
 var game_scene: ESCGame
+
+# The compiled start script loaded from ProjectSettings 
+# escoria/main/game_start_script
+var start_script : ESCScript
+
 
 
 # Initialize various objects
@@ -119,38 +120,25 @@ func _init():
 			ProjectSettings.get_setting("escoria/ui/game_scene")
 		).instance()
 		
-	if ProjectSettings.get_setting("escoria/ui/main_menu_scene") == "":
-		logger.report_errors("escoria.gd", 
-			["Parameter escoria/ui/main_menu_scene is not set!"]
-		)
-	else:
-		self.main_menu_instance = resource_cache.get_resource(
-			ProjectSettings.get_setting("escoria/ui/main_menu_scene")
-		).instance()
-
 
 # Load settings
 func _ready():
 	inputs_manager.register_core()
-	
-	
+	start_script = self.esc_compiler.load_esc_file(
+		ProjectSettings.get_setting("escoria/main/game_start_script")
+	)
+
+
+# Called by Escoria's main_scene as very very first event EVER.
+# Usually you'll want to show some logos animations before spawning the main
+# menu in the escoria/main/game_start_script 's :init event
+func init():
+	run_event_from_script(start_script, "init")
+
 
 # Called by Main menu "start new game"
 func new_game():
-	var script = self.esc_compiler.load_esc_file(
-		ProjectSettings.get_setting("escoria/main/game_start_script")
-	)
-	event_manager.queue_event(script.events["start"])
-	var rc = yield(event_manager, "event_finished")
-	while rc[1] != "start":
-		rc = yield(event_manager, "event_finished")
-
-	if rc[0] != ESCExecution.RC_OK:
-		self.logger.report_errors(
-			"Start event of the start script returned unsuccessful: %d" % rc[0],
-			[]
-		)
-		return
+	run_event_from_script(start_script, "newgame")
 
 
 # Run a generic action
@@ -319,3 +307,29 @@ func _input(event):
 # - p_paused: if true, pauses the game. If false, unpauses the game.
 func set_game_paused(p_paused: bool):
 	get_tree().paused = p_paused
+
+
+# Runs the event "event_name" from the "script" ESC script.
+#
+# #### Parameters
+# - script: ESC script containing the event to run. The script must have been 
+# loaded.
+# - event_name: Name of the event to run
+func run_event_from_script(script: ESCScript, event_name: String):
+	if script == null:
+		logger.report_errors(
+			"escoria.gd:run_event_from_script()", 
+			["Requested action %s on unloaded script %s" % [event_name, script],
+			"Please load the ESC script using esc_compiler.load_esc_file()."]
+		)
+	event_manager.queue_event(script.events[event_name])
+	var rc = yield(event_manager, "event_finished")
+	while rc[1] != event_name:
+		rc = yield(event_manager, "event_finished")
+
+	if rc[0] != ESCExecution.RC_OK:
+		self.logger.report_errors(
+			"Start event of the start script returned unsuccessful: %d" % rc[0],
+			[]
+		)
+		return

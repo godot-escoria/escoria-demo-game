@@ -71,8 +71,6 @@ func run(command_params: Array) -> int:
 	
 	escoria.inputs_manager.clear_stack()
 	
-	escoria.main_menu_instance.hide()
-	
 	var res_room = escoria.resource_cache.get_resource(command_params[0])
 		
 	# Load game scene
