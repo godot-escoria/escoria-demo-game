@@ -4,7 +4,7 @@ class_name ESCCamera
 
 
 # Reference to the tween node for animating camera movements
-onready var tween = $"tween"
+var tween
 
 # Target position of the camera
 var target: Vector2 = Vector2()
@@ -15,6 +15,7 @@ var follow_target: Node = null
 # Target zoom of the camera
 var zoom_target: Vector2
 
+# Time of zoom
 var zoom_time
 
 
@@ -198,10 +199,12 @@ func _process(_delta):
 		self.global_position = follow_target.global_position
 
 func _ready():
+	tween = Tween.new()
+	add_child(tween)
 	tween.connect("tween_all_completed", self, "target_reached")
 	escoria.object_manager.register_object(
 		ESCObject.new(
-			self.name,
+			"_camera",
 			self
 		),
 		true

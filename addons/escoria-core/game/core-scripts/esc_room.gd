@@ -78,7 +78,7 @@ func _ready():
 			),
 			true
 		)
-		game.get_node("camera").set_target(player)
+		escoria.object_manager.get_object("_camera").node.set_target(player)
 	
 	for n in get_children():
 		if n is ESCLocation and n.is_start_location:

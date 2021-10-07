@@ -34,7 +34,7 @@ func validate(arguments: Array):
 
 # Run the command
 func run(command_params: Array) -> int:
-	(escoria.object_manager.get_object("camera").node as ESCCamera)\
+	(escoria.object_manager.get_object("_camera").node as ESCCamera)\
 		.set_camera_zoom(
 			command_params[0] / escoria.game_size.y,
 			command_params[1]

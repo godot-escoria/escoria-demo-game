@@ -13,7 +13,7 @@ A manager for ESC objects
 ### RESERVED\_OBJECTS
 
 ```gdscript
-const RESERVED_OBJECTS: Array = ["_music","_sound","_speech"]
+const RESERVED_OBJECTS: Array = ["_music","_sound","_speech","_camera"]
 ```
 
 ## Property Descriptions
