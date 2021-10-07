@@ -31,20 +31,6 @@ func switch_language(lang: String):
 
 func _on_new_game_pressed():
 	escoria.new_game()
-#	var script = self.esc_compiler.load_esc_file(
-#		ProjectSettings.get_setting("escoria/main/game_start_script")
-#	)
-#	escoria.event_manager.queue_event(script.events["start"])
-#	var rc = yield(escoria.event_manager, "event_finished")
-#	while rc[1] != "start":
-#		rc = yield(escoria.event_manager, "event_finished")
-#
-#	if rc[0] != ESCExecution.RC_OK:
-#		escoria.logger.report_errors(
-#			"Start event of the start script returned unsuccessful: %d" % rc[0],
-#			[]
-#		)
-#		return
 
 
 func _on_load_game_pressed():

@@ -1,5 +1,7 @@
 :init
-spawn _main_menu res://game/ui/commons/main_menu/main_menu.tscn
+
+spawn _main_menu res://game/ui/commons/main_menu/main_menu.tscn false
+set_active _main_menu true
 
 
 :newgame
@@ -9,11 +11,6 @@ set_active _main_menu false
 
 # 1/ Simple scene
 change_scene res://game/rooms/room01/room01.tscn
-
-
-
-
-
 
 # 2/ Button bridge
 #change_scene res://game/rooms/room02/room02.tscn
