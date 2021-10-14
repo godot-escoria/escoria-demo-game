@@ -108,8 +108,6 @@ func _init():
 	self.controller = ESCController.new()
 	
 	settings = ESCSaveSettings.new()
-	settings = save_manager.load_settings()
-	_on_settings_loaded(settings)
 	
 	if ProjectSettings.get_setting("escoria/ui/game_scene") == "":
 		logger.report_errors("escoria.gd", 
@@ -123,7 +121,14 @@ func _init():
 
 # Load settings
 func _ready():
+	settings = save_manager.load_settings()
+	_on_settings_loaded(settings)
 	inputs_manager.register_core()
+	if ProjectSettings.get_setting("escoria/main/game_start_script").empty():
+		logger.report_errors("escoria.gd", 
+		[
+			"Project setting 'escoria/main/game_start_script' is not set!"
+		])
 	start_script = self.esc_compiler.load_esc_file(
 		ProjectSettings.get_setting("escoria/main/game_start_script")
 	)
