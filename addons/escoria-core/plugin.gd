@@ -12,6 +12,10 @@ const autoloads = {
 func _enter_tree():
 	for key in autoloads.keys():
 		add_autoload_singleton(key, autoloads[key])
+		
+	# Add input actions in InputMap
+	InputMap.add_action("switch_action_verb")
+	InputMap.add_action("esc_show_debug_prompt")
 	
 	# Prepare settings
 	set_escoria_main_settings()
@@ -290,5 +294,8 @@ func _exit_tree():
 	for key in autoloads.keys():
 		if ProjectSettings.has_setting(key):
 			remove_autoload_singleton(key)
+	
+	InputMap.erase_action("switch_action_verb")
+	InputMap.erase_action("esc_show_debug_prompt")
 	
 	

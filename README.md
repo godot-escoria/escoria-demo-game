@@ -1,4 +1,6 @@
-# Escoria Rewrite
+# Escoria
+
+![Escoria Logo](https://raw.githubusercontent.com/godot-escoria/escoria-demo-game/main/addons/escoria-core/design/escoria-logo-small.png)
 
 Libre framework for the creation of point-and-click adventure games with the MIT-licensed multi-platform game engine [Godot Engine](https://godotengine.org).
 
@@ -36,9 +38,17 @@ In alphabetical order:
 * [ESC language documentation](docs/esc.md)
 * [API reference](docs/api)
 
+## Issues & support
+
+Escoria's development is organized using Github issues. 
+If you encounter an issue, a bug or a question to developers, please submit a ticket in our [issues page](https://github.com/godot-escoria/escoria-issues/issues). 
+You can also find support on our official Discord server.
+
+[![Join our Discord](https://img.shields.io/discord/884336424780984330.svg?label=Join%20our%20Discord&logo=Discord&colorB=7289da&style=for-the-badge)](https://discord.com/invite/jMxJjuBY5Z)
+
 ## Roadmap
 
-Escoria's development is organized using Github [issues](https://github.com/godotengine/escoria/issues). Take a look, what's planned for the next version.
+Take a look, what's planned for the next version in our [projects boards](https://github.com/godot-escoria/escoria-demo-game/projects).
 
 ## Licensing
 
