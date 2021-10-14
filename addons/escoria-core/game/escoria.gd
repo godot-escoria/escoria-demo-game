@@ -108,8 +108,6 @@ func _init():
 	self.controller = ESCController.new()
 	
 	settings = ESCSaveSettings.new()
-	settings = save_manager.load_settings()
-	_on_settings_loaded(settings)
 	
 	if ProjectSettings.get_setting("escoria/ui/game_scene") == "":
 		logger.report_errors("escoria.gd", 
@@ -123,7 +121,14 @@ func _init():
 
 # Load settings
 func _ready():
+	settings = save_manager.load_settings()
+	_on_settings_loaded(settings)
 	inputs_manager.register_core()
+	if ProjectSettings.get_setting("escoria/main/game_start_script").empty():
+		logger.report_errors("escoria.gd", 
+		[
+			"Project setting 'escoria/main/game_start_script' is not set!"
+		])
 	start_script = self.esc_compiler.load_esc_file(
 		ProjectSettings.get_setting("escoria/main/game_start_script")
 	)
@@ -288,7 +293,8 @@ func _on_settings_loaded(p_settings: ESCSaveSettings) -> void:
 
 # Input function to manage specific input keys
 func _input(event):
-	if event.is_action_pressed("esc_show_debug_prompt"):
+	if InputMap.has_action("esc_show_debug_prompt") \
+			and event.is_action_pressed("esc_show_debug_prompt"):
 		escoria.main.get_node("layers/debug_layer/esc_prompt_popup").popup()
 	
 	if event.is_action_pressed("ui_cancel"):
