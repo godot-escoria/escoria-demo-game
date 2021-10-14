@@ -293,7 +293,8 @@ func _on_settings_loaded(p_settings: ESCSaveSettings) -> void:
 
 # Input function to manage specific input keys
 func _input(event):
-	if event.is_action_pressed("esc_show_debug_prompt"):
+	if InputMap.has_action("esc_show_debug_prompt") \
+			and event.is_action_pressed("esc_show_debug_prompt"):
 		escoria.main.get_node("layers/debug_layer/esc_prompt_popup").popup()
 	
 	if event.is_action_pressed("ui_cancel"):
