@@ -1,7 +1,9 @@
 name: "Update API docs"
 
 on:
-    - push
+  push:
+    branches:
+      - "develop"
 
 concurrency: api-${{ github.ref }}
 
