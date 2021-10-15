@@ -1,4 +1,4 @@
-name: "Fan out changes to distinict repositories"
+name: "Fan out changes to distinct repositories"
 
 on:
   push:
