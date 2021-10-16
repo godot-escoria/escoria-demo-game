@@ -1,9 +1,9 @@
-name: "Release new version"
+name: "Release new prerelease version"
 
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   prerelease:
@@ -17,11 +17,13 @@ jobs:
           token: ${{ secrets.DEPLOYMENT_TOKEN }}
       - name: Calculate version
         id: calculate_version
-        uses: mathieudutour/github-tag-action@v5.5
+        uses: mathieudutour/github-tag-action@v5.6
         with:
-          tag_prefix: ""
           github_token: ${{ secrets.DEPLOYMENT_TOKEN }}
           dry_run: true
+          pre_release_branches: "develop"
+          append_to_pre_release_tag: "alpha"
+          default_bump: "release"
       - name: "Write changelog"
         run: |
           CHANGELOG=""
