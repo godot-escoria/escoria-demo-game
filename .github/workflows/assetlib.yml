@@ -16,4 +16,4 @@ jobs:
         with:
           username: escoria
           password: ${{ secrets.ASSET_STORE_PASSWORD }}
-          assetId: 4376
+          assetId: 1080
