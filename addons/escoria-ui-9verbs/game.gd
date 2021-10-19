@@ -39,9 +39,16 @@ onready var pause_menu = $ui/pause_menu
 onready var inventory_ui = $ui/Control/panel_down/VBoxContainer/HBoxContainer\
 		/InventoryMargin/inventory_ui
 
-func _ready():
+func _enter_tree():
 	ProjectSettings.set_setting("escoria/ui/tooltip_follows_mouse", false)
 	escoria.action_manager.connect(
+		"action_finished", 
+		self, 
+		"_on_action_finished"
+	)
+
+func _exit_tree():
+	escoria.action_manager.disconnect(
 		"action_finished", 
 		self, 
 		"_on_action_finished"

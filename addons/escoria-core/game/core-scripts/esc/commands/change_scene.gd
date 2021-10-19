@@ -83,6 +83,10 @@ func run(command_params: Array) -> int:
 			]
 		)
 	
+	if escoria.main.current_scene \
+		and escoria.game_scene.get_parent() == escoria.main.current_scene:
+		escoria.main.current_scene.remove_child(escoria.game_scene)
+	
 	# Load room scene
 	var room_scene = res_room.instance()
 	if room_scene:
