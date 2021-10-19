@@ -38,17 +38,24 @@ func _enter_tree():
 		"_on_action_finished"
 	)
 
+func _exit_tree():
+	escoria.action_manager.disconnect(
+		"action_finished", 
+		self, 
+		"_on_action_finished"
+	)
 
 ## BACKGROUND ## 
 
 func left_click_on_bg(position: Vector2) -> void:
-	escoria.do(
-		"walk", 
-		[escoria.main.current_scene.player.global_id, position],
-		true
-	)
-	$CanvasLayer/ui/HBoxContainer/verbs_menu.set_by_name("walk")
-	$CanvasLayer/ui/HBoxContainer/verbs_menu.clear_tool_texture()
+	if escoria.main.current_scene.player:
+		escoria.do(
+			"walk", 
+			[escoria.main.current_scene.player.global_id, position],
+			true
+		)
+		$CanvasLayer/ui/HBoxContainer/verbs_menu.set_by_name("walk")
+		$CanvasLayer/ui/HBoxContainer/verbs_menu.clear_tool_texture()
 	
 func right_click_on_bg(position: Vector2) -> void:
 	mousewheel_action(1)

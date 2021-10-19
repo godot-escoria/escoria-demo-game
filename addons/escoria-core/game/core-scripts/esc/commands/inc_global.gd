@@ -27,7 +27,7 @@ func validate(arguments: Array):
 			]
 		)
 		return false
-	if not escoria.globals_manager.get(arguments[0]) is int:
+	if not escoria.globals_manager.get_global(arguments[0]) is int:
 		escoria.logger.report_errors(
 			"inc_global: invalid global",
 			[
