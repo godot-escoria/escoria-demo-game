@@ -40,9 +40,9 @@ func set_scene(p_scene: Node) -> void:
 	if current_scene != null:
 		clear_scene()
 
-	add_child(p_scene) 
+	if not p_scene in get_children():
+		add_child(p_scene) 
 	move_child(p_scene, 0)
-
 	current_scene = p_scene
 	check_game_scene_methods()
 
@@ -59,7 +59,8 @@ func clear_scene() -> void:
 	escoria.action_manager.clear_current_action()
 	escoria.action_manager.clear_current_tool()
 	
-	current_scene.remove_child(escoria.game_scene)
+	if escoria.game_scene.get_parent() == current_scene:
+		current_scene.remove_child(escoria.game_scene)
 
 	remove_child(current_scene)
 	current_scene.free()

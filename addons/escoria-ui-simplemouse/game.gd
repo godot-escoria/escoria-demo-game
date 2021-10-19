@@ -38,6 +38,12 @@ func _enter_tree():
 		"_on_action_finished"
 	)
 
+func _exit_tree():
+	escoria.action_manager.disconnect(
+		"action_finished", 
+		self, 
+		"_on_action_finished"
+	)
 
 ## BACKGROUND ## 
 
