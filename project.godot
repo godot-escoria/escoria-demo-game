@@ -672,7 +672,6 @@ ui/default_transition="curtain"
 ui/transition_paths=[ "res://addons/escoria-core/game/scenes/transitions/shaders/" ]
 ui/main_menu_scene="res://game/ui/commons/main_menu/main_menu.tscn"
 ui/pause_menu_scene="res://game/ui/commons/pause_menu/pause_menu.tscn"
-internals/save_data=""
 
 [input]
 

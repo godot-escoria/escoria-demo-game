@@ -195,7 +195,7 @@ func target_reached():
 func _process(_delta):
 	zoom_transform = self.get_canvas_transform()
 
-	if follow_target and not tween.is_active() and follow_target.has_moved():
+	if is_instance_valid(follow_target) and not tween.is_active() and follow_target.has_moved():
 		self.global_position = follow_target.global_position
 
 func _ready():
