@@ -64,12 +64,15 @@ func add_new_item_by_id(item_id: String) -> void:
 						"Check item's id in ESCORIA_ALL_ITEMS scene."
 					]
 				)
-		var item_inventory_button = ESCInventoryItem.new(
-			escoria.object_manager.get_object(item_id).node
+		var item_inventory_button = get_node(
+			inventory_ui_container
+		).add_item(
+			ESCInventoryItem.new(
+				escoria.object_manager.get_object(item_id).node
+			)
 		)
 		
 		items_ids_in_inventory[item_id] = item_inventory_button
-		get_node(inventory_ui_container).add_item(item_inventory_button)
 		
 		if not escoria.object_manager.has(item_id):
 			escoria.object_manager.register_object(
@@ -80,8 +83,6 @@ func add_new_item_by_id(item_id: String) -> void:
 				true
 			)
 		
-		item_inventory_button.visible = true
-			
 		escoria.inputs_manager.register_inventory_item(item_inventory_button)
 
 
