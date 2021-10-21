@@ -146,14 +146,13 @@ export var use_from_inventory_only = false
 If true, then the object must have been picked up before using it.
 A false value is useful for items in the background, such as buttons.
 
-### inventory\_item\_scene\_file
+### inventory\_texture
 
 ```gdscript
-export var inventory_item_scene_file: PackedScene = "[Object:null]"
+export var inventory_texture: Texture = "[Object:null]"
 ```
 
-Scene based on ESCInventoryItem used in inventory for the object if it is
-picked up, that displays and handles the item
+The visual representation for this item when its in the inventory
 
 ### dialog\_color
 
@@ -227,15 +226,6 @@ var collision: Node
 ```
 
 Reference to this items collision shape node
-
-### inventory\_item
-
-```gdscript
-var inventory_item: ESCInventoryItem
-```
-
-The representation of this item in the scene. Will
-be loaded, if inventory_item_scene_file is set.
 
 ## Method Descriptions
 

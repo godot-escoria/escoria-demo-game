@@ -2,43 +2,29 @@
 
 # ESCInventoryItem
 
-**Extends:** [TextureButton](../TextureButton)
-
-## Description
-
-The inventory representation of an ESC item if pickable
-
 ## Property Descriptions
 
 ### global\_id
 
 ```gdscript
-var global_id
+var global_id: String = ""
 ```
 
 Global ID of the ESCItem that uses this ESCInventoryItem
-Will be set by ESCItem automatically
 
-## Signals
+### texture
 
-- signal mouse_left_inventory_item(item_id): Signal emitted when the item was left clicked
+```gdscript
+var texture: Texture
+```
 
-#### Parameters
+The texture for the item
 
-- item_id: Global ID of the clicked item
-- signal mouse_right_inventory_item(item_id): Signal emitted when the item was right clicked
+## Method Descriptions
 
-#### Parameters
+### \_init
 
-- item_id: Global ID of the clicked item
-- signal mouse_double_left_inventory_item(item_id): Signal emitted when the item was double clicked
+```gdscript
+func _init(p_item: ESCItem) -> void
+```
 
-#### Parameters
-
-- item_id: Global ID of the clicked item
-- signal inventory_item_focused(item_id): Signal emitted when the item was focused
-
-#### Parameters
-
-- item_id: Global ID of the clicked item
-- signal inventory_item_unfocused(): Signal emitted when the item is not focused anymore
