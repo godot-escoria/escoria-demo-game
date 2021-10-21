@@ -64,25 +64,26 @@ func add_new_item_by_id(item_id: String) -> void:
 						"Check item's id in ESCORIA_ALL_ITEMS scene."
 					]
 				)
-		var item_inventory_button = (
-			escoria.object_manager.get_object(item_id).node as ESCItem
-			).inventory_item.duplicate()
-		item_inventory_button.global_id = item_id
-		items_ids_in_inventory[item_id] = item_inventory_button
-		get_node(inventory_ui_container).add_item(item_inventory_button)
+				
+		var inventory_item = ESCInventoryItem.new(
+			escoria.object_manager.get_object(item_id).node
+		)
+		var inventory_item_button = get_node(
+			inventory_ui_container
+		).add_item(inventory_item)
+		
+		items_ids_in_inventory[item_id] = inventory_item
 		
 		if not escoria.object_manager.has(item_id):
 			escoria.object_manager.register_object(
 				ESCObject.new(
 					item_id, 
-					item_inventory_button
+					inventory_item_button
 				),
 				true
 			)
 		
-		item_inventory_button.visible = true
-			
-		escoria.inputs_manager.register_inventory_item(item_inventory_button)
+		escoria.inputs_manager.register_inventory_item(inventory_item_button)
 
 
 # remove item fromInventory UI using its id set in its scene
@@ -117,7 +118,6 @@ func remove_item_by_id(item_id: String) -> void:
 		)
 		
 		get_node(inventory_ui_container).remove_item(item_inventory_button)
-		item_inventory_button.queue_free()
 		items_ids_in_inventory.erase(item_id)
 
 

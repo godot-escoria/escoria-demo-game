@@ -10,7 +10,7 @@
 [ext_resource path="res://game/rooms/room02/button/button.tscn" type="PackedScene" id=8]
 [ext_resource path="res://game/rooms/room09/r_door.tscn" type="PackedScene" id=9]
 [ext_resource path="res://game/items/textures/genericItem_color_127.png" type="Texture" id=10]
-[ext_resource path="res://game/items/escitems/r9_bottle.tscn" type="PackedScene" id=11]
+[ext_resource path="res://game/items/inventory/r9_bottle.tscn" type="PackedScene" id=11]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=12]
 
 [sub_resource type="NavigationPolygon" id=1]
@@ -95,12 +95,10 @@ position = Vector2( 1198.65, 391.058 )
 script = ExtResource( 12 )
 
 [node name="r9_closet_left" parent="Hotspots" instance=ExtResource( 5 )]
-pause_mode = 1
 position = Vector2( 435.233, 64.1518 )
 global_id = "r9_closet_left"
 esc_script = "res://game/rooms/room09/esc/closet_left.esc"
 tooltip_name = "Left closet"
-animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_left"]
 position = Vector2( 69.9246, 318.898 )
@@ -118,12 +116,10 @@ position = Vector2( -26.727, 543.448 )
 script = ExtResource( 12 )
 
 [node name="r9_closet_middle" parent="Hotspots" instance=ExtResource( 5 )]
-pause_mode = 1
 position = Vector2( 572.963, 65.2113 )
 global_id = "r9_closet_middle"
 esc_script = "res://game/rooms/room09/esc/closet_middle.esc"
 tooltip_name = "Middle closet"
-animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_middle"]
 position = Vector2( 65.6867, 317.839 )
@@ -141,12 +137,10 @@ position = Vector2( -26.727, 543.448 )
 script = ExtResource( 12 )
 
 [node name="r9_closet_right" parent="Hotspots" instance=ExtResource( 5 )]
-pause_mode = 1
 position = Vector2( 710.693, 66.2707 )
 global_id = "r9_closet_right"
 esc_script = "res://game/rooms/room09/esc/closet_right.esc"
 tooltip_name = "Right closet"
-animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_right"]
 position = Vector2( 64.6273, 316.779 )
@@ -194,6 +188,7 @@ esc_script = "res://game/rooms/room09/esc/stand.esc"
 interaction_direction = 2
 tooltip_name = "Stand"
 default_action = "look"
+inventory_texture = ExtResource( 10 )
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 

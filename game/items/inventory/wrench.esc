@@ -4,7 +4,7 @@ say player "It seems even more useful now that I picked it up." [i/r5_wrench]
 stop
 
 :pickup
-set_global i/r5_wrench true
+inventory_add r5_wrench
 set_active r5_wrench false
 
 

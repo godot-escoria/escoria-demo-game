@@ -7,9 +7,9 @@
 [ext_resource path="res://game/rooms/room05/item_wall/item_wall.tscn" type="PackedScene" id=5]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
-[ext_resource path="res://game/items/escitems/r5_wrench.tscn" type="PackedScene" id=8]
-[ext_resource path="res://game/items/escitems/r5_empty_sheet.tscn" type="PackedScene" id=9]
-[ext_resource path="res://game/items/escitems/r5_pen.tscn" type="PackedScene" id=10]
+[ext_resource path="res://game/items/inventory/r5_wrench.tscn" type="PackedScene" id=8]
+[ext_resource path="res://game/items/inventory/r5_empty_sheet.tscn" type="PackedScene" id=9]
+[ext_resource path="res://game/items/inventory/r5_pen.tscn" type="PackedScene" id=10]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=11]
 
 [sub_resource type="NavigationPolygon" id=1]
@@ -140,24 +140,18 @@ __meta__ = {
 }
 
 [node name="wrench" parent="Hotspots" instance=ExtResource( 8 )]
-pause_mode = 1
 position = Vector2( 257.269, 435.892 )
 interaction_direction = 2
-animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/wrench"]
 position = Vector2( -77.4207, 0 )
 script = ExtResource( 11 )
 
 [node name="pen" parent="Hotspots" instance=ExtResource( 10 )]
-pause_mode = 1
 position = Vector2( 909.908, 443.451 )
-animations = null
 
 [node name="empty_sheet" parent="Hotspots" instance=ExtResource( 9 )]
-pause_mode = 1
 position = Vector2( 1059.84, 440.932 )
-animations = null
 
 [node name="player_start" type="Position2D" parent="."]
 position = Vector2( 76.7617, 437.649 )

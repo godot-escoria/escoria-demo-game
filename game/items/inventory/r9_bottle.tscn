@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://game/items/textures/genericItem_color_127.png" type="Texture" id=1]
-[ext_resource path="res://game/items/inventory/bottle.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -12,13 +11,13 @@ pause_mode = 1
 z_index = 1
 script = ExtResource( 3 )
 global_id = "r9_bottle"
-esc_script = "res://game/items/escitems/bottle.esc"
+esc_script = "res://game/items/inventory/bottle.esc"
 tooltip_name = "Bottle"
 default_action = "pickup"
 default_action_inventory = "look"
 combine_if_action_used_among = PoolStringArray( "use" )
 use_from_inventory_only = true
-inventory_item_scene_file = ExtResource( 2 )
+inventory_texture = ExtResource( 1 )
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 

@@ -215,6 +215,16 @@ _global_script_classes=[ {
 "path": "res://addons/escoria-core/game/scenes/inventory/inventory_ui.gd"
 }, {
 "base": "TextureButton",
+"class": "ESCInventoryButton",
+"language": "GDScript",
+"path": "res://addons/escoria-core/library/inventory/esc_inventory_button.gd"
+}, {
+"base": "Control",
+"class": "ESCInventoryContainer",
+"language": "GDScript",
+"path": "res://addons/escoria-core/library/inventory/esc_inventory_container.gd"
+}, {
+"base": "Reference",
 "class": "ESCInventoryItem",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc_inventory_item.gd"
@@ -546,7 +556,9 @@ _global_script_class_icons={
 "ESCGroup": "",
 "ESCInputsManager": "",
 "ESCInventory": "",
-"ESCInventoryItem": "res://addons/escoria-core/design/esc_inventory_item.svg",
+"ESCInventoryButton": "",
+"ESCInventoryContainer": "",
+"ESCInventoryItem": "",
 "ESCInventoryManager": "",
 "ESCItem": "res://addons/escoria-core/design/esc_item.svg",
 "ESCLocation": "res://addons/escoria-core/design/esc_location.svg",
@@ -637,7 +649,7 @@ search_in_file_extensions=PoolStringArray( "gd", "shader", "esc" )
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-ui-simplemouse/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-ui-9verbs/plugin.cfg" )
 
 [escoria]
 
@@ -646,7 +658,7 @@ main/force_quit=true
 debug/terminate_on_warnings=false
 debug/terminate_on_errors=true
 debug/development_lang="en"
-ui/tooltip_follows_mouse=true
+ui/tooltip_follows_mouse=false
 ui/default_dialog_scene="res://game/ui/commons/dialogs/dialog_label.tscn"
 main/text_lang="fr_FR"
 main/voice_lang="fr_FR"
@@ -658,13 +670,13 @@ main/command_directories=[ "res://addons/escoria-core/game/core-scripts/esc/comm
 debug/log_level="DEBUG"
 platform/skip_cache=false
 platform/skip_cache.mobile=true
-ui/items_autoregister_path="res://game/items/escitems/"
+ui/items_autoregister_path="res://game/items/inventory"
 main/game_version="0.1.0"
 main/savegames_path="res://saves/"
 main/settings_path="user://"
 main/escoria_version=""
 sound/speech_enabled=1
-ui/game_scene="res://addons/escoria-ui-simplemouse/game.tscn"
+ui/game_scene="res://addons/escoria-ui-9verbs/game.tscn"
 ui/dialogs_chooser="res://game/ui/commons/dialogs/text_dialog_choice.tscn"
 sound/speech_folder="res://game/speech"
 sound/speech_extension="ogg"
@@ -672,6 +684,7 @@ ui/default_transition="curtain"
 ui/transition_paths=[ "res://addons/escoria-core/game/scenes/transitions/shaders/" ]
 ui/main_menu_scene="res://game/ui/commons/main_menu/main_menu.tscn"
 ui/pause_menu_scene="res://game/ui/commons/pause_menu/pause_menu.tscn"
+ui/inventory_item_size=Vector2( 72, 72 )
 
 [input]
 
