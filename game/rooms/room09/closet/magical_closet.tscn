@@ -85,9 +85,11 @@ tracks/2/keys = {
 }
 
 [node name="closet" type="Area2D"]
+pause_mode = 1
 script = ExtResource( 1 )
 default_action = "use"
 dialog_color = Color( 1, 1, 1, 1 )
+animations = null
 
 [node name="base" type="Line2D" parent="."]
 position = Vector2( 1.12247, 0 )

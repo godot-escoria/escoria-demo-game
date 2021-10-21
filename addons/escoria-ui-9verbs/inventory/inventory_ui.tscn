@@ -17,10 +17,14 @@ margin_left = 7.0
 margin_top = 7.0
 margin_right = 593.0
 margin_bottom = 168.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="GridContainer" type="GridContainer" parent="ScrollContainer"]
 margin_right = 586.0
+margin_bottom = 161.0
 size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_constants/vseparation = 16
 custom_constants/hseparation = 16
 columns = 4

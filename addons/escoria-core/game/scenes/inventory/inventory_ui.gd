@@ -64,10 +64,10 @@ func add_new_item_by_id(item_id: String) -> void:
 						"Check item's id in ESCORIA_ALL_ITEMS scene."
 					]
 				)
-		var item_inventory_button = (
-			escoria.object_manager.get_object(item_id).node as ESCItem
-			).inventory_item.duplicate()
-		item_inventory_button.global_id = item_id
+		var item_inventory_button = ESCInventoryItem.new(
+			escoria.object_manager.get_object(item_id).node
+		)
+		
 		items_ids_in_inventory[item_id] = item_inventory_button
 		get_node(inventory_ui_container).add_item(item_inventory_button)
 		

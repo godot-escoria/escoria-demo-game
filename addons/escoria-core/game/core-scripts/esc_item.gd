@@ -103,9 +103,9 @@ export(bool) var combine_is_one_way = false
 # A false value is useful for items in the background, such as buttons.
 export(bool) var use_from_inventory_only = false
 
-# Scene based on ESCInventoryItem used in inventory for the object if it is 
-# picked up, that displays and handles the item
-export(PackedScene) var inventory_item_scene_file: PackedScene 
+# The visual representation for this item when its in the inventory
+export(Texture) var inventory_texture: Texture = null \
+		setget ,_get_inventory_texture
 
 # Color used for dialogs
 export(Color) var dialog_color = ColorN("white")
@@ -124,14 +124,12 @@ export(float) var v_speed_damp: float = 1.0
 export(NodePath) var animation_player_node: NodePath = "" \
 		setget _set_animation_player_node
 
+
 # ESCAnimationsResource (for walking, idling...)
 var animations: ESCAnimationResource
 
 # Reference to the animation node (null if none was found)
 var animation_sprite = null
-
-# Reference to the sprite node
-var _sprite_node: Node = null
 
 # Reference to the current terrain
 var terrain: ESCTerrain
@@ -139,10 +137,9 @@ var terrain: ESCTerrain
 # Reference to this items collision shape node
 var collision: Node
 
-# The representation of this item in the scene. Will
-# be loaded, if inventory_item_scene_file is set.
-var inventory_item: ESCInventoryItem = null setget ,_get_inventory_item
 
+# Reference to the sprite node
+var _sprite_node: Node = null
 
 # The movable subnode
 var _movable: ESCMovable = null
@@ -464,15 +461,6 @@ func _update_terrain(rc: int, event_name: String) -> void:
 		_movable.update_terrain(event_name)
 
 
-# Get inventory item from the inventory item scene
-# **Returns** The inventory item of this ESCitem
-func _get_inventory_item() -> ESCInventoryItem:
-	if not inventory_item and inventory_item_scene_file:
-		inventory_item = inventory_item_scene_file.instance()
-		inventory_item.global_id = self.global_id
-	return inventory_item
-
-
 func _get_property_list():
 	var properties = []
 	properties.append({
@@ -505,3 +493,15 @@ func _set_animation_player_node(node_path: NodePath):
 	)
 	
 	animation_player_node = node_path
+
+
+# Returns either the set inventory texture or the texture of a TextureRect
+# found as a child if it is null
+func _get_inventory_texture() -> Texture:
+	if inventory_texture == null:
+		for c in get_children():
+			if c is TextureRect or c is Sprite:
+				return c.texture
+		return null
+	else:
+		return inventory_texture

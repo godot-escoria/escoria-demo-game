@@ -546,7 +546,7 @@ _global_script_class_icons={
 "ESCGroup": "",
 "ESCInputsManager": "",
 "ESCInventory": "",
-"ESCInventoryItem": "res://addons/escoria-core/design/esc_inventory_item.svg",
+"ESCInventoryItem": "",
 "ESCInventoryManager": "",
 "ESCItem": "res://addons/escoria-core/design/esc_item.svg",
 "ESCLocation": "res://addons/escoria-core/design/esc_location.svg",
@@ -658,7 +658,7 @@ main/command_directories=[ "res://addons/escoria-core/game/core-scripts/esc/comm
 debug/log_level="DEBUG"
 platform/skip_cache=false
 platform/skip_cache.mobile=true
-ui/items_autoregister_path="res://game/items/escitems/"
+ui/items_autoregister_path="res://game/items/inventory"
 main/game_version="0.1.0"
 main/savegames_path="res://saves/"
 main/settings_path="user://"
@@ -672,6 +672,7 @@ ui/default_transition="curtain"
 ui/transition_paths=[ "res://addons/escoria-core/game/scenes/transitions/shaders/" ]
 ui/main_menu_scene="res://game/ui/commons/main_menu/main_menu.tscn"
 ui/pause_menu_scene="res://game/ui/commons/pause_menu/pause_menu.tscn"
+ui/inventory_item_size=Vector2( 72, 72 )
 
 [input]
 

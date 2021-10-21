@@ -1,7 +1,7 @@
-# The inventory representation of an ESC item if pickable
+# The inventory representation of an ESC item if pickable (only used by
+# the inventory components)
 extends TextureButton
-class_name ESCInventoryItem, \
-		"res://addons/escoria-core/design/esc_inventory_item.svg"
+class_name ESCInventoryItem
 
 
 # Signal emitted when the item was left clicked
@@ -37,9 +37,21 @@ signal inventory_item_unfocused()
 
 
 # Global ID of the ESCItem that uses this ESCInventoryItem
-# Will be set by ESCItem automatically
-var global_id
+var global_id: String = ""
 
+
+func _init(p_item: ESCItem) -> void:
+	global_id = p_item.global_id
+	texture_normal = p_item._get_inventory_texture()
+	expand = true
+	stretch_mode = TextureButton.STRETCH_KEEP_ASPECT
+
+
+func _process(_delta: float) -> void:
+	rect_size = ProjectSettings.get_setting("escoria/ui/inventory_item_size")
+	rect_min_size = ProjectSettings.get_setting(
+		"escoria/ui/inventory_item_size"
+	)
 
 # Connect input handlers
 func _ready():

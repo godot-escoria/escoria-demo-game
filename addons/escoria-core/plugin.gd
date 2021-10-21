@@ -98,6 +98,16 @@ func set_escoria_ui_settings():
 			"type": TYPE_STRING_ARRAY,
 			"hint": PROPERTY_HINT_DIR
 		})
+		
+	if !ProjectSettings.has_setting("escoria/ui/inventory_item_size"):
+		ProjectSettings.set_setting(
+			"escoria/ui/inventory_item_size",
+			Vector2(72, 72)
+		)
+		ProjectSettings.add_property_info({
+			"name": "escoria/ui/inventory_item_size",
+			"type": TYPE_VECTOR2
+		})
 	
 
 # Prepare the settings in the Escoria main category

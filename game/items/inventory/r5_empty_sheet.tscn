@@ -1,23 +1,24 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://game/items/inventory/empty_sheet.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=2]
-[ext_resource path="res://game/rooms/room05/items/empty_sheet.png" type="Texture" id=3]
+[ext_resource path="res://game/items/inventory/empty_sheet.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 86.9568, 115.211 )
 
 [node name="empty_sheet" type="Area2D"]
+pause_mode = 1
 script = ExtResource( 2 )
 global_id = "r5_empty_sheet"
-esc_script = "res://game/items/escitems/empty_sheet.esc"
+esc_script = "res://game/items/inventory/empty_sheet.esc"
 tooltip_name = "Empty sheet"
 default_action = "look"
 default_action_inventory = "look"
 combine_if_action_used_among = PoolStringArray( "use", "give" )
 use_from_inventory_only = true
-inventory_item_scene_file = ExtResource( 1 )
+inventory_texture = ExtResource( 3 )
 dialog_color = Color( 1, 1, 1, 1 )
+animations = null
 
 [node name="sprite" type="Sprite" parent="."]
 texture = ExtResource( 3 )
