@@ -26,7 +26,7 @@ export(PackedScene) var player_scene
 export(Array, Rect2) var camera_limits: Array = [Rect2()] setget set_camera_limits
 
 # The editor debug display mode
-export(int) var editor_debug_mode = EditorRoomDebugDisplay.NONE setget set_editor_debug_mode
+export(EditorRoomDebugDisplay) var editor_debug_mode = EditorRoomDebugDisplay.NONE setget set_editor_debug_mode
 
 
 # The player scene instance
