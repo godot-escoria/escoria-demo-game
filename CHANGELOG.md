@@ -1,3 +1,12 @@
+## [4.0.0-alpha.5](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.5) (2021-10-21)
+
+
+### Features
+
+* Rewrote inventory handling basing on ESCItems ([#417](https://github.com/godot-escoria/escoria-demo-game/issues/417)) ([af26521](https://github.com/godot-escoria/escoria-demo-game/commit/af26521d3da603d81641eed0d9d03ff72d298460))
+
+
+
 ## [4.0.0-alpha.4](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.4) (2021-10-19)
 
 
