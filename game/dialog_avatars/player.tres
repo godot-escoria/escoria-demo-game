@@ -1,0 +1,14 @@
+[gd_resource type="AnimatedTexture" load_steps=4 format=2]
+
+[ext_resource path="res://game/dialog_avatars/mark_talk_down_right_1.png" type="Texture" id=1]
+[ext_resource path="res://game/dialog_avatars/mark_talk_down_right_3.png" type="Texture" id=2]
+[ext_resource path="res://game/dialog_avatars/mark_talk_down_right_2.png" type="Texture" id=3]
+
+[resource]
+flags = 4
+frames = 3
+frame_0/texture = ExtResource( 1 )
+frame_1/texture = ExtResource( 3 )
+frame_1/delay_sec = 0.0
+frame_2/texture = ExtResource( 2 )
+frame_2/delay_sec = 0.0

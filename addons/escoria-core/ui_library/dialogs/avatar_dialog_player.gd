@@ -1,5 +1,5 @@
 # A dialog GUI showing a dialog box and character portraits
-extends PanelContainer
+extends Popup
 
 
 # Signal emitted when a dialog line has started
@@ -23,13 +23,15 @@ export(float) var max_time_to_text_disappear = 1.0
 
 
 # The node holding the avatar
-onready var avatar_node = $MarginContainer/HSplitContainer/VBoxContainer/avatar
+onready var avatar_node = $Panel/MarginContainer/HSplitContainer/VBoxContainer\
+		/avatar
 
 # The node holding the player name
-onready var name_node = $MarginContainer/HSplitContainer/VBoxContainer/name
+onready var name_node = $Panel/MarginContainer/HSplitContainer/VBoxContainer\
+		/name
 
 # The node showing the text
-onready var text_node = $MarginContainer/HSplitContainer/text
+onready var text_node = $Panel/MarginContainer/HSplitContainer/text
 
 # The tween node for text animations
 onready var tween = text_node.get_node("Tween")
@@ -43,7 +45,7 @@ func _ready():
 	) - rect_size / 2
 	rect_position = centered_position_on_screen
 	text_node.bbcode_enabled = true
-	$MarginContainer/HSplitContainer/text/Tween.connect(
+	$Panel/MarginContainer/HSplitContainer/text/Tween.connect(
 		"tween_completed", 
 		self, 
 		"_on_dialog_line_typed"
@@ -55,12 +57,12 @@ func _ready():
 # #### Parameters
 # - name: The name of the current character
 func set_current_character(name: String):
+	# TODO: Make this configurable in #47
+	var avatar = "res://game/dialog_avatars/%s.tres" % name
+	if ResourceLoader.exists(avatar):
+		$Panel/MarginContainer/HSplitContainer/VBoxContainer/avatar.texture = \
+			ResourceLoader.load(avatar)
 	current_character = name
-	if $dialog_avatars:
-		if $dialog_avatars.has_node(name):
-			avatar_node.texture = ($dialog_avatars.get_node(name) as TextureRect).texture
-		else:
-			avatar_node.texture = null
 
 
 # Make a character say something
@@ -69,7 +71,7 @@ func set_current_character(name: String):
 # - character: The global id of the character speaking
 # - line: Line to say
 func say(character: String, line: String) :
-	show()
+	popup_centered()
 	emit_signal("dialog_line_started")
 	set_current_character(character)
 	

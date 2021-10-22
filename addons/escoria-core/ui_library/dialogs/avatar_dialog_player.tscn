@@ -1,0 +1,74 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/escoria-core/ui_library/dialogs/avatar_dialog_player.gd" type="Script" id=1]
+
+[node name="dialog_box" type="Popup"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -782.0
+margin_bottom = -734.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSplitContainer" type="HSplitContainer" parent="Panel/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 478.0
+margin_bottom = 146.0
+custom_constants/separation = 35
+dragger_visibility = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/HSplitContainer"]
+margin_right = 88.0
+margin_bottom = 126.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+
+[node name="avatar" type="TextureRect" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer"]
+margin_right = 88.0
+margin_bottom = 108.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+expand = true
+
+[node name="name" type="Label" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer"]
+margin_top = 112.0
+margin_right = 88.0
+margin_bottom = 126.0
+valign = 1
+
+[node name="text" type="RichTextLabel" parent="Panel/MarginContainer/HSplitContainer"]
+margin_left = 123.0
+margin_right = 458.0
+margin_bottom = 126.0
+size_flags_horizontal = 3
+bbcode_enabled = true
+bbcode_text = "Here be some text"
+text = "Here be some text"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="Panel/MarginContainer/HSplitContainer/text"]

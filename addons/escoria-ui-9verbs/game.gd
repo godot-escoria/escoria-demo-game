@@ -47,9 +47,13 @@ func _enter_tree():
 		self, 
 		"_on_action_finished"
 	)
-	if ProjectSettings.get_setting("escoria/debug/enable_room_selector"):
-		$ui/Control/panel_down/VBoxContainer/HBoxContainer/MainMargin\
-				/VBoxContainer.add_child(
+	
+	var room_selector_parent = $ui/Control/panel_down/VBoxContainer\
+			/HBoxContainer/MainMargin/VBoxContainer
+	
+	if ProjectSettings.get_setting("escoria/debug/enable_room_selector") and \
+			room_selector_parent.get_node_or_null("room_select") == null:
+		room_selector_parent.add_child(
 			preload(
 				"res://addons/escoria-core/ui_library/tools/room_select" +\
 				"/room_select.tscn"

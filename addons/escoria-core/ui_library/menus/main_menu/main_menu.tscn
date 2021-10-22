@@ -13,7 +13,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="."]
+[node name="load_game" parent="." instance=ExtResource( 5 )]
+visible = false
+
+[node name="options" parent="." instance=ExtResource( 4 )]
+visible = false
+
+[node name="main" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Panel" type="Panel" parent="main"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
@@ -21,35 +31,37 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="CenterContainer" type="CenterContainer" parent="Panel"]
-anchor_right = 1.0
+[node name="main" type="VBoxContainer" parent="main"]
+anchor_left = 0.5
+anchor_right = 0.5
 anchor_bottom = 1.0
-
-[node name="main" type="VBoxContainer" parent="Panel/CenterContainer"]
-margin_left = 332.0
-margin_top = 162.0
-margin_right = 948.0
-margin_bottom = 738.0
+margin_left = -308.0
+margin_right = 308.0
 custom_constants/separation = 100
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="TextureRect" type="TextureRect" parent="Panel/CenterContainer/main"]
+[node name="TextureRect" type="TextureRect" parent="main/main"]
+margin_top = 162.0
 margin_right = 616.0
-margin_bottom = 236.0
+margin_bottom = 398.0
 texture = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="buttons" type="VBoxContainer" parent="Panel/CenterContainer/main"]
-margin_top = 336.0
+[node name="buttons" type="VBoxContainer" parent="main/main"]
+margin_top = 498.0
 margin_right = 616.0
-margin_bottom = 576.0
+margin_bottom = 738.0
 custom_constants/separation = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="new_game" type="Button" parent="Panel/CenterContainer/main/buttons"]
+[node name="new_game" type="Button" parent="main/main/buttons"]
 margin_right = 616.0
 margin_bottom = 150.0
 rect_min_size = Vector2( 0, 150 )
@@ -59,7 +71,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="load_game" type="Button" parent="Panel/CenterContainer/main/buttons"]
+[node name="load_game" type="Button" parent="main/main/buttons"]
 margin_top = 160.0
 margin_right = 616.0
 margin_bottom = 180.0
@@ -68,13 +80,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="options" type="Button" parent="Panel/CenterContainer/main/buttons"]
+[node name="options" type="Button" parent="main/main/buttons"]
 margin_top = 190.0
 margin_right = 616.0
 margin_bottom = 210.0
 text = "OPTIONS"
 
-[node name="quit" type="Button" parent="Panel/CenterContainer/main/buttons"]
+[node name="quit" type="Button" parent="main/main/buttons"]
 margin_top = 220.0
 margin_right = 616.0
 margin_bottom = 240.0
@@ -83,15 +95,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="options" parent="Panel" instance=ExtResource( 4 )]
-visible = false
-
-[node name="load_game" parent="Panel" instance=ExtResource( 5 )]
-visible = false
-
-[connection signal="pressed" from="Panel/CenterContainer/main/buttons/new_game" to="." method="_on_new_game_pressed"]
-[connection signal="pressed" from="Panel/CenterContainer/main/buttons/load_game" to="." method="_on_load_game_pressed"]
-[connection signal="pressed" from="Panel/CenterContainer/main/buttons/options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="Panel/CenterContainer/main/buttons/quit" to="." method="_on_quit_pressed"]
-[connection signal="back_button_pressed" from="Panel/options" to="." method="_on_options_back_button_pressed"]
-[connection signal="back_button_pressed" from="Panel/load_game" to="." method="_on_load_game_back_button_pressed"]
+[connection signal="back_button_pressed" from="load_game" to="." method="_on_load_game_back_button_pressed"]
+[connection signal="back_button_pressed" from="options" to="." method="_on_options_back_button_pressed"]
+[connection signal="pressed" from="main/main/buttons/new_game" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="main/main/buttons/load_game" to="." method="_on_load_game_pressed"]
+[connection signal="pressed" from="main/main/buttons/options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="main/main/buttons/quit" to="." method="_on_quit_pressed"]

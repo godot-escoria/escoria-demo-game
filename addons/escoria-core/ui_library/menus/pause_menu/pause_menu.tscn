@@ -20,38 +20,43 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CenterContainer" type="CenterContainer" parent="Panel"]
-anchor_right = 1.0
+[node name="save_game" parent="." instance=ExtResource( 4 )]
+visible = false
+
+[node name="load_game" parent="." instance=ExtResource( 5 )]
+visible = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
 anchor_bottom = 1.0
+margin_left = -308.0
+margin_right = 308.0
+custom_constants/separation = 100
+alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/CenterContainer"]
-margin_left = 332.0
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
 margin_top = 162.0
-margin_right = 948.0
-margin_bottom = 738.0
-custom_constants/separation = 100
-
-[node name="TextureRect" type="TextureRect" parent="Panel/CenterContainer/VBoxContainer"]
 margin_right = 616.0
-margin_bottom = 236.0
+margin_bottom = 398.0
 texture = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="menuitems" type="VBoxContainer" parent="Panel/CenterContainer/VBoxContainer"]
-margin_top = 336.0
+[node name="menuitems" type="VBoxContainer" parent="VBoxContainer"]
+margin_top = 498.0
 margin_right = 616.0
-margin_bottom = 576.0
+margin_bottom = 738.0
 custom_constants/separation = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="continue" type="Button" parent="Panel/CenterContainer/VBoxContainer/menuitems"]
+[node name="continue" type="Button" parent="VBoxContainer/menuitems"]
 margin_right = 616.0
 margin_bottom = 150.0
 rect_min_size = Vector2( 0, 150 )
@@ -61,7 +66,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="save_game" type="Button" parent="Panel/CenterContainer/VBoxContainer/menuitems"]
+[node name="save_game" type="Button" parent="VBoxContainer/menuitems"]
 margin_top = 160.0
 margin_right = 616.0
 margin_bottom = 180.0
@@ -71,7 +76,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="load_game" type="Button" parent="Panel/CenterContainer/VBoxContainer/menuitems"]
+[node name="load_game" type="Button" parent="VBoxContainer/menuitems"]
 margin_top = 190.0
 margin_right = 616.0
 margin_bottom = 210.0
@@ -81,7 +86,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="quit" type="Button" parent="Panel/CenterContainer/VBoxContainer/menuitems"]
+[node name="quit" type="Button" parent="VBoxContainer/menuitems"]
 margin_top = 220.0
 margin_right = 616.0
 margin_bottom = 240.0
@@ -91,15 +96,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="save_game" parent="." instance=ExtResource( 4 )]
-visible = false
-
-[node name="load_game" parent="." instance=ExtResource( 5 )]
-visible = false
-
-[connection signal="pressed" from="Panel/CenterContainer/VBoxContainer/menuitems/continue" to="." method="_on_continue_pressed"]
-[connection signal="pressed" from="Panel/CenterContainer/VBoxContainer/menuitems/save_game" to="." method="_on_save_game_pressed"]
-[connection signal="pressed" from="Panel/CenterContainer/VBoxContainer/menuitems/load_game" to="." method="_on_load_game_pressed"]
-[connection signal="pressed" from="Panel/CenterContainer/VBoxContainer/menuitems/quit" to="." method="_on_quit_pressed"]
 [connection signal="back_button_pressed" from="save_game" to="." method="_on_save_game_back_button_pressed"]
 [connection signal="back_button_pressed" from="load_game" to="." method="_on_load_game_back_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/menuitems/continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="VBoxContainer/menuitems/save_game" to="." method="_on_save_game_pressed"]
+[connection signal="pressed" from="VBoxContainer/menuitems/load_game" to="." method="_on_load_game_pressed"]
+[connection signal="pressed" from="VBoxContainer/menuitems/quit" to="." method="_on_quit_pressed"]

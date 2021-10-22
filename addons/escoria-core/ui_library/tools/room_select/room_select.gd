@@ -1,8 +1,16 @@
+# A small utility to quickly switch to a room while developing
 extends OptionButton
 
-var selected_id = 0
-var options_paths = []
 
+# The selected option
+var _selected_id = 0
+
+
+# The path to available rooms
+var _options_paths = []
+
+
+# Build up the list of rooms
 func _ready():
 	var rooms_folder = ProjectSettings.get_setting(
 		"escoria/debug/room_selector_room_dir"
@@ -27,7 +35,7 @@ func _ready():
 		rooms_list.sort()
 		for room in rooms_list:
 			add_item(room)
-			options_paths.push_back("%s/%s/%s.tscn" %[
+			_options_paths.push_back("%s/%s/%s.tscn" %[
 				rooms_folder,
 				room,
 				room
@@ -38,14 +46,19 @@ func _ready():
 			["A problem occurred while opening rooms folder."])
 	
 
+# Switch to the selected room
 func _on_button_pressed():
-	
 	var script = escoria.esc_compiler.compile([
 		":debug",
-		"change_scene %s" % options_paths[selected_id]
+		"change_scene %s" % _options_paths[_selected_id]
 	])
 	escoria.event_manager.interrupt_running_event()
 	escoria.event_manager.queue_event(script.events['debug'])
 
+
+# A room was selected, store the selection
+#
+# #### Parameters
+# - index: The index of the selected room in the paths list
 func _on_option_item_selected(index):
-	selected_id = index
+	_selected_id = index

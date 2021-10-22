@@ -6,7 +6,7 @@ say player "Hello. I will now walk a bit and won't listen at what you say!"
 accept_input NONE
 walk_block player player_start
 walk_block player accept_input_location
-say player "Ha! Now you can't even skip this text!" dialog_box_inset
+say player "Ha! Now you can't even skip this text!" avatar_dialog_player
 accept_input SKIP
 say player "Okay, you can skip this text, but still not move me until 3 seconds have passed."
 wait 3
