@@ -85,4 +85,7 @@ func _on_event_finished(return_code: int, event: ESCEvent) -> void:
 func interrupt_running_event():
 	if _running_event == null:
 		return
+	for event in events_queue:
+		event.interrupt()
+	events_queue.clear()
 	_running_event.interrupt()

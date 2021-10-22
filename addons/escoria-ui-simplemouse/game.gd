@@ -61,13 +61,14 @@ func right_click_on_bg(position: Vector2) -> void:
 	mousewheel_action(1)
 	
 func left_double_click_on_bg(position: Vector2) -> void:
-	escoria.do(
-		"walk", 
-		[escoria.main.current_scene.player.global_id, position, true],
-		true
-	)
-	$CanvasLayer/ui/HBoxContainer/verbs_menu.set_by_name("walk")
-	$CanvasLayer/ui/HBoxContainer/verbs_menu.clear_tool_texture()
+	if escoria.main.current_scene.player:
+		escoria.do(
+			"walk", 
+			[escoria.main.current_scene.player.global_id, position, true],
+			true
+		)
+		$CanvasLayer/ui/HBoxContainer/verbs_menu.set_by_name("walk")
+		$CanvasLayer/ui/HBoxContainer/verbs_menu.clear_tool_texture()
 
 ## ITEM/HOTSPOT FOCUS ## 
 

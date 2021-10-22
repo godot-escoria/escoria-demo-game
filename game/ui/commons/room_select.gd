@@ -36,7 +36,7 @@ func _on_button_pressed():
 		":debug",
 		"change_scene %s" % options_paths[selected_id]
 	])
-	
+	escoria.event_manager.interrupt_running_event()
 	escoria.event_manager.queue_event(script.events['debug'])
 
 func _on_option_item_selected(index):
