@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/scenes/inventory/inventory_ui.gd" type="Script" id=1]
-[ext_resource path="res://addons/escoria-core/library/inventory/esc_inventory_container.gd" type="Script" id=3]
+[ext_resource path="res://addons/escoria-core/ui_library/inventory/esc_inventory_container.gd" type="Script" id=3]
 
 [node name="inventory_ui" type="PanelContainer"]
 margin_right = 600.0

@@ -32,7 +32,8 @@ Implement methods to react to inputs.
 
 onready var verbs_menu = $ui/Control/panel_down/VBoxContainer/HBoxContainer\
 		/VerbsMargin/verbs_menu
-onready var tooltip = $ui/Control/panel_down/VBoxContainer/tooltip
+onready var tooltip = $ui/Control/panel_down/VBoxContainer/MarginContainer\
+		/tooltip
 onready var room_select = $ui/Control/panel_down/VBoxContainer/HBoxContainer\
 		/MainMargin/VBoxContainer/room_select
 onready var pause_menu = $ui/pause_menu
@@ -46,6 +47,14 @@ func _enter_tree():
 		self, 
 		"_on_action_finished"
 	)
+	if ProjectSettings.get_setting("escoria/debug/enable_room_selector"):
+		$ui/Control/panel_down/VBoxContainer/HBoxContainer/MainMargin\
+				/VBoxContainer.add_child(
+			preload(
+				"res://addons/escoria-core/ui_library/tools/room_select" +\
+				"/room_select.tscn"
+			).instance()
+		)
 
 func _exit_tree():
 	escoria.action_manager.disconnect(

@@ -1,0 +1,160 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/escoria-core/ui_library/menus/options/options.gd" type="Script" id=4]
+
+[node name="options" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 523.0
+margin_top = 371.0
+margin_right = 756.0
+margin_bottom = 529.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer"]
+margin_right = 233.0
+margin_bottom = 134.0
+size_flags_vertical = 6
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="options" type="GridContainer" parent="CenterContainer/VBoxContainer/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 213.0
+margin_bottom = 114.0
+size_flags_vertical = 6
+custom_constants/hseparation = 40
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="label" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer/options"]
+margin_right = 137.0
+margin_bottom = 14.0
+text = "OPTIONS_LANGUAGE"
+
+[node name="flags" type="HBoxContainer" parent="CenterContainer/VBoxContainer/MarginContainer/options"]
+margin_left = 177.0
+margin_right = 193.0
+margin_bottom = 14.0
+size_flags_vertical = 3
+custom_constants/separation = 30
+alignment = 1
+
+[node name="label2" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer/options"]
+margin_top = 19.0
+margin_right = 137.0
+margin_bottom = 33.0
+text = "GENERAL_VOLUME"
+
+[node name="general_volume" type="HSlider" parent="CenterContainer/VBoxContainer/MarginContainer/options"]
+margin_left = 177.0
+margin_top = 18.0
+margin_right = 193.0
+margin_bottom = 34.0
+size_flags_horizontal = 3
+min_value = 0.001
+max_value = 1.0
+step = 0.001
+value = 0.001
+
+[node name="label3" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer/options"]
+margin_top = 39.0
+margin_right = 137.0
+margin_bottom = 53.0
+text = "SOUND_VOLUME"
+
+[node name="sound_volume" type="HSlider" parent="CenterContainer/VBoxContainer/MarginContainer/options"]
+margin_left = 177.0
+margin_top = 38.0
+margin_right = 193.0
+margin_bottom = 54.0
+size_flags_horizontal = 3
+min_value = 0.001
+max_value = 1.0
+step = 0.001
+value = 0.001
+
+[node name="label4" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer/options"]
+margin_top = 59.0
+margin_right = 137.0
+margin_bottom = 73.0
+text = "MUSIC_VOLUME"
+
+[node name="music_volume" type="HSlider" parent="CenterContainer/VBoxContainer/MarginContainer/options"]
+margin_left = 177.0
+margin_top = 58.0
+margin_right = 193.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+min_value = 0.001
+max_value = 1.0
+step = 0.001
+value = 0.001
+
+[node name="label5" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer/options"]
+margin_top = 79.0
+margin_right = 137.0
+margin_bottom = 93.0
+text = "SPEECH_VOLUME"
+
+[node name="speech_volume" type="HSlider" parent="CenterContainer/VBoxContainer/MarginContainer/options"]
+margin_left = 177.0
+margin_top = 78.0
+margin_right = 193.0
+margin_bottom = 94.0
+size_flags_horizontal = 3
+min_value = 0.001
+max_value = 1.0
+step = 0.001
+value = 0.001
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+margin_top = 138.0
+margin_right = 233.0
+margin_bottom = 158.0
+custom_constants/separation = 20
+alignment = 1
+
+[node name="back" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+margin_left = 25.0
+margin_right = 136.0
+margin_bottom = 20.0
+text = "OPTIONS_BACK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="apply" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+margin_left = 156.0
+margin_right = 207.0
+margin_bottom = 20.0
+text = "APPLY"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/MarginContainer/options/general_volume" to="." method="_on_general_volume_changed"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/MarginContainer/options/sound_volume" to="." method="_on_sound_volume_changed"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/MarginContainer/options/music_volume" to="." method="_on_music_volume_changed"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/MarginContainer/options/speech_volume" to="." method="_on_speech_volume_value_changed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/apply" to="." method="_on_apply_pressed"]

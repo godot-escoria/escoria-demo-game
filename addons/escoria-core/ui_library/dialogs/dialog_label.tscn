@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/escoria-core/ui_library/dialogs/dialog_label.gd" type="Script" id=2]
+
+[node name="dialog_label" type="RichTextLabel"]
+margin_right = 643.0
+margin_bottom = 60.0
+bbcode_enabled = true
+bbcode_text = "[center]Here be some text.[/center]"
+text = "Here be some text."
+fit_content_height = true
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+text_speed_per_character = 0.0
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="Timer" type="Timer" parent="."]

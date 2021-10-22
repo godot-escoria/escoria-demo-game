@@ -217,12 +217,12 @@ _global_script_classes=[ {
 "base": "TextureButton",
 "class": "ESCInventoryButton",
 "language": "GDScript",
-"path": "res://addons/escoria-core/library/inventory/esc_inventory_button.gd"
+"path": "res://addons/escoria-core/ui_library/inventory/esc_inventory_button.gd"
 }, {
 "base": "Control",
 "class": "ESCInventoryContainer",
 "language": "GDScript",
-"path": "res://addons/escoria-core/library/inventory/esc_inventory_container.gd"
+"path": "res://addons/escoria-core/ui_library/inventory/esc_inventory_container.gd"
 }, {
 "base": "Reference",
 "class": "ESCInventoryItem",
@@ -659,7 +659,7 @@ debug/terminate_on_warnings=false
 debug/terminate_on_errors=true
 debug/development_lang="en"
 ui/tooltip_follows_mouse=false
-ui/default_dialog_scene="res://game/ui/commons/dialogs/dialog_label.tscn"
+ui/default_dialog_scene="res://addons/escoria-core/ui_library/dialogs/dialog_label.tscn"
 main/text_lang="fr_FR"
 main/voice_lang="fr_FR"
 sound/music_volume=1
@@ -677,14 +677,14 @@ main/settings_path="user://"
 main/escoria_version=""
 sound/speech_enabled=1
 ui/game_scene="res://addons/escoria-ui-9verbs/game.tscn"
-ui/dialogs_chooser="res://game/ui/commons/dialogs/text_dialog_choice.tscn"
+ui/dialogs_chooser="res://addons/escoria-core/ui_library/dialogs/text_dialog_choice.tscn"
 sound/speech_folder="res://game/speech"
 sound/speech_extension="ogg"
 ui/default_transition="curtain"
 ui/transition_paths=[ "res://addons/escoria-core/game/scenes/transitions/shaders/" ]
-ui/main_menu_scene="res://game/ui/commons/main_menu/main_menu.tscn"
-ui/pause_menu_scene="res://game/ui/commons/pause_menu/pause_menu.tscn"
 ui/inventory_item_size=Vector2( 72, 72 )
+debug/enable_room_selector=true
+debug/room_selector_room_dir="res://game/rooms"
 
 [input]
 

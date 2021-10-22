@@ -1,6 +1,6 @@
 :init
 
-spawn _main_menu res://game/ui/commons/main_menu/main_menu.tscn false
+spawn _main_menu res://addons/escoria-core/ui_library/menus/main_menu/main_menu.tscn false
 set_active _main_menu true
 
 
