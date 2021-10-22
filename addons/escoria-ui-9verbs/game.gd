@@ -58,33 +58,36 @@ func _exit_tree():
 ## BACKGROUND ## 
 
 func left_click_on_bg(position: Vector2) -> void:
-	escoria.do(
-		"walk", 
-		[escoria.main.current_scene.player.global_id, position],
-		true
-	)
-	escoria.action_manager.clear_current_action()
-	verbs_menu.unselect_actions()
+	if escoria.main.current_scene.player:
+		escoria.do(
+			"walk", 
+			[escoria.main.current_scene.player.global_id, position],
+			true
+		)
+		escoria.action_manager.clear_current_action()
+		verbs_menu.unselect_actions()
 	
 	
 func right_click_on_bg(position: Vector2) -> void:
-	escoria.do(
-		"walk", 
-		[escoria.main.current_scene.player.global_id, position],
-		true
-	)
-	escoria.action_manager.clear_current_action()
-	verbs_menu.unselect_actions()
+	if escoria.main.current_scene.player:
+		escoria.do(
+			"walk", 
+			[escoria.main.current_scene.player.global_id, position],
+			true
+		)
+		escoria.action_manager.clear_current_action()
+		verbs_menu.unselect_actions()
 	
 	
 func left_double_click_on_bg(position: Vector2) -> void:
-	escoria.do(
-		"walk", 
-		[escoria.main.current_scene.player.global_id, position, true], 
-		true
-	)
-	escoria.action_manager.clear_current_action()
-	verbs_menu.unselect_actions()
+	if escoria.main.current_scene.player:
+		escoria.do(
+			"walk", 
+			[escoria.main.current_scene.player.global_id, position, true], 
+			true
+		)
+		escoria.action_manager.clear_current_action()
+		verbs_menu.unselect_actions()
 
 
 ## ITEM FOCUS ## 

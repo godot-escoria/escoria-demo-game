@@ -39,6 +39,9 @@ say player "I don't think he'd like that."
 
 ####################################################################################################
 :give r5_filled_sheet
+set_hud_visible false
+accept_input SKIP
+
 inventory_remove r5_filled_sheet
 say worker "Hey! That's perfect!"
 say worker "I can finally get away from here!"
@@ -53,3 +56,8 @@ set_global r6_door_open true
 # Disappear!
 wait 1
 set_active worker false
+
+set_hud_visible true
+accept_input ALL
+
+
