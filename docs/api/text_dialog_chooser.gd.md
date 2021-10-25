@@ -1,10 +1,13 @@
 <!-- Auto-generated from JSON by GDScript docs maker. Do not edit this document directly. -->
 
-# text\_dialog\_choice.gd
+# text\_dialog\_chooser.gd
 
 **Extends:** [ESCDialogOptionsChooser](../ESCDialogOptionsChooser) < [Node](../Node)
 
 ## Description
+
+A simple dialog chooser that shows selectable lines of text
+Supports timeout and avatar display
 
 ## Property Descriptions
 
@@ -34,9 +37,12 @@ export var font = "[Object:null]"
 func show_chooser()
 ```
 
+Show the chooser
+
 ### hide\_chooser
 
 ```gdscript
 func hide_chooser()
 ```
 
+Hide the chooser

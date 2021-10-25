@@ -1,14 +1,24 @@
 <!-- Auto-generated from JSON by GDScript docs maker. Do not edit this document directly. -->
 
-# dialog\_label.gd
+# avatar\_dialog\_player.gd
 
-**Extends:** [RichTextLabel](../RichTextLabel)
+**Extends:** [Popup](../Popup)
 
 ## Description
 
-A dialog UI using a label above the head of the character
+A dialog GUI showing a dialog box and character portraits
 
 ## Property Descriptions
+
+### current\_character
+
+```gdscript
+export var current_character = ""
+```
+
+- **Setter**: `set_current_character`
+
+The currently speaking character
 
 ### text\_speed\_per\_character
 
@@ -29,26 +39,26 @@ The text speed per character if the dialog line is skipped
 ### max\_time\_to\_text\_disappear
 
 ```gdscript
-export var max_time_to_text_disappear = 2
+export var max_time_to_text_disappear = 1
 ```
 
 The time to wait before the dialog is finished
 
-### current\_character
+### avatar\_node
 
 ```gdscript
-var current_character
+var avatar_node
 ```
 
-Current character speaking, to keep track of reference for animation purposes
+The node holding the avatar
 
-### tween
+### name\_node
 
 ```gdscript
-var tween
+var name_node
 ```
 
-Tween node for text animation
+The node holding the player name
 
 ### text\_node
 
@@ -58,7 +68,26 @@ var text_node
 
 The node showing the text
 
+### tween
+
+```gdscript
+var tween
+```
+
+The tween node for text animations
+
 ## Method Descriptions
+
+### set\_current\_character
+
+```gdscript
+func set_current_character(name: String)
+```
+
+Switch the current character
+
+#### Parameters
+- name: The name of the current character
 
 ### say
 
