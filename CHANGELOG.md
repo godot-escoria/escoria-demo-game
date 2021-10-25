@@ -1,3 +1,12 @@
+## [4.0.0-alpha.10](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.10) (2021-10-25)
+
+
+### Documentation
+
+* Automatic update of API docs ([ee03321](https://github.com/godot-escoria/escoria-demo-game/commit/ee03321b37ee3e18239dfeaa8ffd4af508210f2e))
+
+
+
 ## [4.0.0-alpha.9](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.9) (2021-10-25)
 
 
