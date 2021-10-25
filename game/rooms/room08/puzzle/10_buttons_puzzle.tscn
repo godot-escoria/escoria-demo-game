@@ -1,20 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://game/ui/commons/fonts/caslonantique.tres" type="DynamicFont" id=1]
+[ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=1]
 [ext_resource path="res://game/rooms/room08/puzzle/10_buttons_puzzle.gd" type="Script" id=2]
-[ext_resource path="res://addons/escoria-core/game/assets/fonts/efmi/efmi.TTF" type="DynamicFontData" id=3]
-
-[sub_resource type="DynamicFont" id=1]
-size = 50
-font_data = ExtResource( 3 )
-
-[sub_resource type="DynamicFont" id=2]
-size = 50
-font_data = ExtResource( 3 )
-
-[sub_resource type="DynamicFont" id=3]
-size = 50
-font_data = ExtResource( 3 )
 
 [node name="10_buttons_puzzle" type="Panel"]
 anchor_right = 1.0
@@ -29,7 +16,7 @@ margin_left = 174.813
 margin_top = 79.6769
 margin_right = 899.813
 margin_bottom = 126.677
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = ExtResource( 1 )
 text = "Click the buttons in the increasing order"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -40,7 +27,7 @@ margin_left = 558.177
 margin_top = 674.983
 margin_right = 719.177
 margin_bottom = 721.983
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "Well done!"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -61,7 +48,7 @@ margin_right = 191.0
 margin_bottom = 214.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = ExtResource( 1 )
 toggle_mode = true
 
 [node name="Button2" type="Button" parent="GridContainer"]
@@ -70,7 +57,7 @@ margin_right = 386.0
 margin_bottom = 214.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = ExtResource( 1 )
 toggle_mode = true
 
 [node name="Button3" type="Button" parent="GridContainer"]
@@ -79,7 +66,7 @@ margin_right = 581.0
 margin_bottom = 214.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = ExtResource( 1 )
 toggle_mode = true
 
 [node name="Button4" type="Button" parent="GridContainer"]
@@ -88,7 +75,7 @@ margin_right = 776.0
 margin_bottom = 214.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = ExtResource( 1 )
 toggle_mode = true
 
 [node name="Button5" type="Button" parent="GridContainer"]
@@ -97,7 +84,7 @@ margin_right = 971.0
 margin_bottom = 214.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = ExtResource( 1 )
 toggle_mode = true
 
 [node name="Button6" type="Button" parent="GridContainer"]
@@ -106,7 +93,7 @@ margin_right = 191.0
 margin_bottom = 432.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = ExtResource( 1 )
 toggle_mode = true
 
 [node name="Button7" type="Button" parent="GridContainer"]
@@ -116,7 +103,7 @@ margin_right = 386.0
 margin_bottom = 432.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = ExtResource( 1 )
 toggle_mode = true
 
 [node name="Button8" type="Button" parent="GridContainer"]
@@ -126,7 +113,7 @@ margin_right = 581.0
 margin_bottom = 432.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = ExtResource( 1 )
 toggle_mode = true
 
 [node name="Button9" type="Button" parent="GridContainer"]
@@ -136,7 +123,7 @@ margin_right = 776.0
 margin_bottom = 432.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = ExtResource( 1 )
 toggle_mode = true
 
 [node name="Button10" type="Button" parent="GridContainer"]
@@ -146,7 +133,7 @@ margin_right = 971.0
 margin_bottom = 432.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = ExtResource( 1 )
 toggle_mode = true
 
 [node name="quit" type="Button" parent="."]

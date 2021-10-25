@@ -2,7 +2,7 @@
 
 [ext_resource path="res://game/rooms/room02/walkable_area.tscn" type="PackedScene" id=1]
 [ext_resource path="res://game/rooms/room02/background.tscn" type="PackedScene" id=2]
-[ext_resource path="res://game/ui/commons/fonts/caslonantique.tres" type="DynamicFont" id=3]
+[ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
 [ext_resource path="res://game/rooms/room02/button/button.tscn" type="PackedScene" id=5]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]

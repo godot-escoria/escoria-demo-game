@@ -1,16 +1,6 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://addons/escoria-core/game/assets/fonts/onesize/ONESIZE_.TTF" type="DynamicFontData" id=1]
-
-[sub_resource type="DynamicFont" id=1]
-size = 30
-font_data = ExtResource( 1 )
-
-[sub_resource type="DynamicFont" id=2]
-size = 30
-font_data = ExtResource( 1 )
-
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=1]
 script/source = "extends ESCTooltip
 
 
@@ -37,17 +27,12 @@ func update_tooltip_text():
 "
 
 [node name="tooltip" type="RichTextLabel"]
-anchor_right = 0.7
-anchor_bottom = 0.06
-margin_left = 1.49829
-margin_right = 1.21826
-margin_bottom = -10.0
-custom_fonts/mono_font = SubResource( 1 )
-custom_fonts/normal_font = SubResource( 2 )
+anchor_right = 1.0
+anchor_bottom = 1.0
 bbcode_enabled = true
 bbcode_text = "[center][/center]"
 scroll_active = false
-script = SubResource( 3 )
+script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

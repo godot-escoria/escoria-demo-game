@@ -6,9 +6,9 @@
 [ext_resource path="res://addons/escoria-core/game/scenes/dialogs/esc_dialog_player.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/escoria-ui-9verbs/game.gd" type="Script" id=5]
 [ext_resource path="res://addons/escoria-core/game/scenes/camera_player/camera.tscn" type="PackedScene" id=6]
-[ext_resource path="res://game/ui/commons/room_select.tscn" type="PackedScene" id=7]
 [ext_resource path="res://addons/escoria-ui-9verbs/tooltip/tooltip_action_target.gd" type="Script" id=8]
-[ext_resource path="res://game/ui/commons/pause_menu/pause_menu.tscn" type="PackedScene" id=9]
+[ext_resource path="res://addons/escoria-core/ui_library/menus/pause_menu/pause_menu.tscn" type="PackedScene" id=9]
+[ext_resource path="res://addons/escoria-ui-9verbs/theme.tres" type="Theme" id=10]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.6, 0.6, 0.6, 0.5 )
@@ -22,6 +22,7 @@ script = ExtResource( 5 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
+theme = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -40,13 +41,20 @@ __meta__ = {
 margin_right = 1280.0
 margin_bottom = 270.0
 
-[node name="tooltip" parent="ui/Control/panel_down/VBoxContainer" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 0.0
+[node name="MarginContainer" type="MarginContainer" parent="ui/Control/panel_down/VBoxContainer"]
 margin_right = 1280.0
 margin_bottom = 32.0
-rect_min_size = Vector2( 0, 32 )
+custom_constants/margin_top = 10
+
+[node name="tooltip" parent="ui/Control/panel_down/VBoxContainer/MarginContainer" instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 10.0
+margin_right = 1280.0
+margin_bottom = 32.0
+bbcode_text = "[center]Test[/center]"
+text = "Test"
+fit_content_height = true
 script = ExtResource( 8 )
 color = Color( 1, 1, 1, 1 )
 
@@ -96,9 +104,9 @@ margin_bottom = 200.0
 
 [node name="MarginContainer" type="MarginContainer" parent="ui/Control/panel_down/VBoxContainer/HBoxContainer/MainMargin/VBoxContainer"]
 margin_left = 142.0
-margin_top = 58.0
+margin_top = 70.0
 margin_right = 242.0
-margin_bottom = 98.0
+margin_bottom = 110.0
 rect_min_size = Vector2( 100, 40 )
 size_flags_horizontal = 6
 size_flags_vertical = 6
@@ -107,12 +115,6 @@ size_flags_vertical = 6
 margin_right = 100.0
 margin_bottom = 40.0
 text = "Menu"
-
-[node name="room_select" parent="ui/Control/panel_down/VBoxContainer/HBoxContainer/MainMargin/VBoxContainer" instance=ExtResource( 7 )]
-margin_top = 160.0
-margin_right = 384.0
-margin_bottom = 180.0
-size_flags_horizontal = 3
 
 [node name="InventoryMargin" type="MarginContainer" parent="ui/Control/panel_down/VBoxContainer/HBoxContainer"]
 margin_left = 856.0
@@ -148,6 +150,7 @@ __meta__ = {
 
 [node name="pause_menu" parent="ui" instance=ExtResource( 9 )]
 visible = false
+theme = ExtResource( 10 )
 
 [node name="camera" parent="." instance=ExtResource( 6 )]
 

@@ -215,6 +215,24 @@ func set_escoria_debug_settings():
 			"hint_string": "ERROR,WARNING,INFO,DEBUG"
 		}
 		ProjectSettings.add_property_info(property_info)
+	
+	# Room selector preference
+	if not ProjectSettings.has_setting("escoria/debug/enable_room_selector"):
+		ProjectSettings.set_setting("escoria/debug/enable_room_selector", false)
+		var property_info = {
+			"name": "escoria/debug/enable_room_selector",
+			"type": TYPE_BOOL
+		}
+		ProjectSettings.add_property_info(property_info)
+		
+	if not ProjectSettings.has_setting("escoria/debug/room_selector_room_dir"):
+		ProjectSettings.set_setting("escoria/debug/room_selector_room_dir", "")
+		var property_info = {
+			"name": "escoria/debug/room_selector_room_dir",
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_DIR
+		}
+		ProjectSettings.add_property_info(property_info)
 
 
 # Prepare the settings in the Escoria sound settings

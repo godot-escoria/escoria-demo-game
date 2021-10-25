@@ -1,6 +1,7 @@
 :init
 
-spawn _main_menu res://game/ui/commons/main_menu/main_menu.tscn false
+set_sound_state _music res://game/sfx/Game-Menu_Looping.mp3 true
+spawn _main_menu res://addons/escoria-core/ui_library/menus/main_menu/main_menu.tscn false
 set_active _main_menu true
 
 
