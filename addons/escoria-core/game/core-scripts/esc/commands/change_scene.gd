@@ -96,10 +96,10 @@ func run(command_params: Array) -> int:
 		room_scene.game = escoria.game_scene
 		escoria.main.set_scene(room_scene)
 		
-		if not "esc_script" in room_scene or not room_scene.esc_script \
-			or not command_params[2] and !command_params[1]:
-				escoria.main.scene_transition.transition()
-				yield(escoria.main.scene_transition, "transition_done")
+		# If automatic transition is not disabled, play the transition
+		if not command_params[1]:
+			escoria.main.scene_transition.transition()
+			yield(escoria.main.scene_transition, "transition_done")
 				
 		# Clear queued resources
 		escoria.resource_cache.clear()
