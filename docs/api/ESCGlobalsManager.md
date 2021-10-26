@@ -15,7 +15,7 @@ values. Values can be bool, integer or strings
 ### RESERVED\_GLOBALS
 
 ```gdscript
-const RESERVED_GLOBALS: Array = ["ESC_LAST_SCENE"]
+const RESERVED_GLOBALS: Array = ["ESC_LAST_SCENE","BYPASS_LAST_SCENE"]
 ```
 
 A list of reserved globals which can not be overridden

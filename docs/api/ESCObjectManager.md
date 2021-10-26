@@ -90,3 +90,10 @@ Insert data to save into savegame.
 #### Parameters
 
 - p_savegame: The savegame resource
+
+### get\_start\_location
+
+```gdscript
+func get_start_location() -> ESCLocation
+```
+
