@@ -88,7 +88,9 @@ func _on_dialog_line_typed(object, key):
 
 # Ending the dialog
 func _on_dialog_finished():
-	current_character.stop_talking()
+	# Make the speaking item animation stop talking, if it is still alive
+	if is_instance_valid(current_character) and current_character != null:
+		current_character.stop_talking()
 	emit_signal("dialog_line_finished")
 	escoria.dialog_player.is_speaking = false
 	queue_free()
