@@ -20,13 +20,14 @@ animations = [ {
 extents = Vector2( 40.4907, 142.11 )
 
 [node name="worker" type="Area2D"]
+pause_mode = 1
 script = ExtResource( 1 )
 global_id = "worker"
 esc_script = "res://game/rooms/room6/esc/worker.esc"
 is_movable = true
 tooltip_name = "Worker"
 default_action = "look"
-dialog_color = Color( 0.196078, 0, 1, 1 )
+dialog_color = Color( 0.501961, 0.882353, 1, 1 )
 animations = ExtResource( 2 )
 
 [node name="sprite" type="AnimatedSprite" parent="."]

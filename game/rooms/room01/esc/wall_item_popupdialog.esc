@@ -1,13 +1,13 @@
 :look
 > [eq dialog_popup_advance 0]
-	say player ROOM1_look_wall_item_1:"I don't know what that stuff is." avatar_dialog_player
+	say player ROOM1_look_wall_item_1:"I don't know what that stuff is." avatar
 	set_global dialog_popup_advance 1
 	stop
 > [eq dialog_popup_advance 1]
-	say player ROOM1_look_wall_item_2:"I REALLY don't know what that stuff is." avatar_dialog_player
+	say player ROOM1_look_wall_item_2:"I REALLY don't know what that stuff is." avatar
 	set_global dialog_popup_advance 2
 	stop
 > [eq dialog_popup_advance 2]
-	say player ROOM1_look_wall_item_3:"No, SERIOUSLY, I have no idea what that is!" avatar_dialog_player
+	say player ROOM1_look_wall_item_3:"No, SERIOUSLY, I have no idea what that is!" avatar
 	say player ROOM1_look_wall_item_4:"Please stop asking me that!" avatar_dialog_player
 	stop

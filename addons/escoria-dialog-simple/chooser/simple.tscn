@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://addons/escoria-core/ui_library/dialogs/text_dialog_chooser.gd" type="Script" id=1]
+[ext_resource path="res://addons/escoria-dialog-simple/chooser/simple.gd" type="Script" id=1]
 
 [sub_resource type="Gradient" id=1]
 colors = PoolColorArray( 1, 0, 0, 1, 1, 0, 0, 1 )
@@ -8,8 +8,13 @@ colors = PoolColorArray( 1, 0, 0, 1, 1, 0, 0, 1 )
 [sub_resource type="GradientTexture" id=2]
 gradient = SubResource( 1 )
 
-[node name="text_dialog_choice" type="Node"]
+[node name="text_dialog_choice" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 margin_left = 20.0

@@ -34,25 +34,13 @@ func set_escoria_ui_settings():
 	if !ProjectSettings.has_setting("escoria/ui/tooltip_follows_mouse"):
 		ProjectSettings.set_setting("escoria/ui/tooltip_follows_mouse", true)
 	
-	if !ProjectSettings.has_setting("escoria/ui/dialogs_chooser"):
-		ProjectSettings.set_setting("escoria/ui/dialogs_chooser", "")
-		var dialogs_chooser_property_info = {
-			"name": "escoria/ui/dialogs_chooser",
-			"type": TYPE_STRING,
-			"hint": PROPERTY_HINT_FILE,
-			"hint_string": "*.tscn, *.scn"
+	_register_setting(
+		"escoria/ui/default_dialog_type",
+		"",
+		{
+			"type": TYPE_STRING
 		}
-		ProjectSettings.add_property_info(dialogs_chooser_property_info)
-		
-	if !ProjectSettings.has_setting("escoria/ui/default_dialog_scene"):
-		ProjectSettings.set_setting("escoria/ui/default_dialog_scene", "")
-		var default_dialog_scene_property_info = {
-			"name": "escoria/ui/default_dialog_scene",
-			"type": TYPE_STRING,
-			"hint": PROPERTY_HINT_FILE,
-			"hint_string": "*.tscn, *.scn"
-		}
-		ProjectSettings.add_property_info(default_dialog_scene_property_info)
+	)
 	
 	if !ProjectSettings.has_setting("escoria/ui/game_scene"):
 		ProjectSettings.set_setting("escoria/ui/game_scene", "")
@@ -109,6 +97,13 @@ func set_escoria_ui_settings():
 			"type": TYPE_VECTOR2
 		})
 	
+	_register_setting(
+		"escoria/ui/dialog_managers",
+		[],
+		{
+			"type": TYPE_STRING_ARRAY
+		}
+	)
 
 # Prepare the settings in the Escoria main category
 func set_escoria_main_settings():
@@ -277,32 +272,47 @@ func set_escoria_sound_settings():
 		}
 		ProjectSettings.add_property_info(speech_data_property_info)
 	
-	if !ProjectSettings.has_setting("escoria/sound/speech_enabled"):
-		ProjectSettings.set_setting("escoria/sound/speech_enabled", 1)
-		var speech_enabled_property_info = {
-			"name": "escoria/sound/speech_enabled",
+	_register_setting(
+		"escoria/sound/speech_enabled",
+		1,
+		{
 			"type": TYPE_BOOL
 		}
-		ProjectSettings.add_property_info(speech_enabled_property_info)
-	if !ProjectSettings.has_setting("escoria/sound/speech_folder"):
-		ProjectSettings.set_setting(
-			"escoria/sound/speech_folder",
-			"res://speech"
-		)
-		ProjectSettings.add_property_info({
-			"name": "escoria/sound/speech_folder",
+	)
+
+	_register_setting(
+		"escoria/sound/speech_folder",
+		"res://speech",
+		{
 			"type": TYPE_STRING,
 			"hint": PROPERTY_HINT_DIR
-		})
-	if !ProjectSettings.has_setting("escoria/sound/speech_extension"):
-		ProjectSettings.set_setting(
-			"escoria/sound/speech_extension",
-			"ogg"
-		)
-		ProjectSettings.add_property_info({
-			"name": "escoria/sound/speech_extension",
+		}
+	)
+	
+	_register_setting(
+		"escoria/sound/speech_extension", 
+		"ogg", 
+		{
 			"type": TYPE_STRING
-		})
+		}
+	)
+
+
+# Register a new project setting if it hasn't been defined already
+#
+# #### Parameters
+#
+# - name: Name of the project setting
+# - default: Default value
+# - info: Property info for the setting
+func _register_setting(name: String, default, info: Dictionary):
+	if not ProjectSettings.has_setting(name):
+		ProjectSettings.set_setting(
+			name,
+			default
+		)
+		info.name = name
+		ProjectSettings.add_property_info(info)
 
 
 # Prepare the settings in the Escoria platform category and may need special

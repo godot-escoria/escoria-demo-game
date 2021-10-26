@@ -3,7 +3,7 @@
 [ext_resource path="res://addons/escoria-ui-9verbs/tooltip/action_target_tooltip.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/escoria-ui-9verbs/inventory/inventory_ui.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/escoria-ui-9verbs/verbs_menu.tscn" type="PackedScene" id=3]
-[ext_resource path="res://addons/escoria-core/game/scenes/dialogs/esc_dialog_player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/escoria-core/game/scenes/dialogs/esc_dialog_player.gd" type="Script" id=4]
 [ext_resource path="res://addons/escoria-ui-9verbs/game.gd" type="Script" id=5]
 [ext_resource path="res://addons/escoria-core/game/scenes/camera_player/camera.tscn" type="PackedScene" id=6]
 [ext_resource path="res://addons/escoria-ui-9verbs/tooltip/tooltip_action_target.gd" type="Script" id=8]
@@ -137,7 +137,12 @@ size_flags_vertical = 3
 [node name="dialog_layer" type="CanvasLayer" parent="ui"]
 layer = 3
 
-[node name="dialog_player" parent="ui/dialog_layer" instance=ExtResource( 4 )]
+[node name="ESCDialogsPlayer" type="Control" parent="ui/dialog_layer"]
+theme = ExtResource( 10 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="hover_stack" type="Label" parent="ui"]
 margin_left = 1085.0
