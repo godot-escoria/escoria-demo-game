@@ -26,10 +26,6 @@
 	#set_interactive r2_bridge false
 	stop
 	
-> [!last_scene]
-	teleport player player_start
-	stop
-
 
 :ready
 

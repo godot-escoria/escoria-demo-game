@@ -4,9 +4,6 @@
 	# Set player look left
 	set_angle player 270
 	stop
-> [!eq ESC_LAST_SCENE room2]
-	teleport player player_start
-	stop
 
 
 

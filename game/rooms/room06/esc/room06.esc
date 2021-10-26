@@ -9,9 +9,6 @@
 	# Set player look left
 	set_angle player 270
 	stop
-> [!last_scene]
-	teleport player player_start
-	stop
 
 #set_global i/r5_pen true
 #set_active r5_pen false

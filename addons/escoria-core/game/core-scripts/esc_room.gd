@@ -98,6 +98,13 @@ func _ready():
 		if rc[0] != ESCExecution.RC_OK:
 			return rc[0]
 		
+		if (escoria.globals_manager.get_global("ESC_LAST_SCENE") == null \
+			or escoria.globals_manager.get_global("ESC_LAST_SCENE").empty()) \
+			and player != null \
+			and escoria.object_manager.get_start_location() != null:
+			player.teleport(escoria.object_manager.get_start_location().node)
+			
+		
 		escoria.main.scene_transition.transition()
 		yield(escoria.main.scene_transition, "transition_done")
 	

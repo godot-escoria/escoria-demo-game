@@ -90,4 +90,3 @@ position = Vector2( 340.052, 298.812 )
 position = Vector2( 542.824, 468.193 )
 script = ExtResource( 5 )
 global_id = "player_start"
-is_start_location = true

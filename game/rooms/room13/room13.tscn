@@ -32,8 +32,7 @@ camera_limits = [ Rect2( 0, 0, 1289, 555 ) ]
 margin_right = 92.0
 margin_bottom = 21.0
 custom_fonts/font = ExtResource( 3 )
-text = "ROOM 12
-"
+text = "ROOM 13"
 __meta__ = {
 "_edit_use_anchors_": false
 }

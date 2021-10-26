@@ -13,7 +13,4 @@
 	# Set player look down
 	set_angle player 180
 	stop
-> [!last_scene]
-	teleport player player_start
-	stop
 
