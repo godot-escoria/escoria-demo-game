@@ -11,7 +11,8 @@ signal global_changed(global, old_value, new_value)
 
 # A list of reserved globals which can not be overridden
 const RESERVED_GLOBALS = [
-	"ESC_LAST_SCENE"
+	"ESC_LAST_SCENE",
+	"BYPASS_LAST_SCENE"
 ]
 
 
@@ -22,6 +23,7 @@ export(Dictionary) var _globals = {}
 
 func _init():
 	set_global("ESC_LAST_SCENE", "", true)
+	set_global("BYPASS_LAST_SCENE", false, true)
 
 
 # Check if a global was registered

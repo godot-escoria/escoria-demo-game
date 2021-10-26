@@ -48,12 +48,14 @@ func _ready():
 
 # Switch to the selected room
 func _on_button_pressed():
+	escoria.globals_manager.set_global("BYPASS_LAST_SCENE", true, true)
 	var script = escoria.esc_compiler.compile([
 		":debug",
 		"change_scene %s" % _options_paths[_selected_id]
 	])
 	escoria.event_manager.interrupt_running_event()
 	escoria.event_manager.queue_event(script.events['debug'])
+	
 
 
 # A room was selected, store the selection

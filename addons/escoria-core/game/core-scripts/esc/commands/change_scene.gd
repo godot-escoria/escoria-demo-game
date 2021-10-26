@@ -53,7 +53,8 @@ func run(command_params: Array) -> int:
 		command_params[2]
 	])
 	
-	if escoria.main.current_scene:
+	if escoria.main.current_scene \
+		and not escoria.globals_manager.get_global("BYPASS_LAST_SCENE"):
 		escoria.globals_manager.set_global(
 			"ESC_LAST_SCENE", 
 			escoria.main.current_scene.global_id, 
@@ -112,5 +113,13 @@ func run(command_params: Array) -> int:
 			]
 		)
 		return ESCExecution.RC_ERROR
+	
+	# If the ESC_LAST_SCENE global was bypassed, reset bypass variable to false
+	if escoria.globals_manager.get_global("BYPASS_LAST_SCENE"):
+		escoria.globals_manager.set_global(
+			"BYPASS_LAST_SCENE", 
+			false, 
+			true
+		)
 
 	return ESCExecution.RC_OK

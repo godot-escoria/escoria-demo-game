@@ -83,8 +83,9 @@ func get_object(global_id: String) -> ESCObject:
 		return objects[global_id]
 	else:
 		escoria.logger.report_warnings(
-			"Invalid object retrieved",
+			"esc_object_manager.gd:get_object()",
 			[
+				"Invalid object retrieved",
 				"Object with global id %s not found" % global_id
 			]
 		)
@@ -119,3 +120,17 @@ func save_game(p_savegame: ESCSaveGame) -> void:
 			continue
 		p_savegame.objects[obj_global_id] = \
 			objects[obj_global_id].get_save_data()
+
+
+func get_start_location() -> ESCLocation:
+	for object in objects.values():
+		if object.node is ESCLocation and object.node.is_start_location:
+			return object
+	escoria.logger.report_warnings(
+			"esc_object_manager.gd:get_start_location()",
+			[
+				"Room has no ESCLocation node with 'is_start_location' enabled.",
+				"Player will be set at position (0,0) by default."
+			]
+		)
+	return null

@@ -29,9 +29,6 @@
 	> [!r3_bridge_closed]
 		set_interactive r3_right_platform false
 	stop
-> [!last_scene]
-	teleport player player_start
-	stop
 
 
 :ready
