@@ -15,6 +15,9 @@ var _fast_text_speed_per_character
 # The time to wait before the dialog is finished
 var _max_time_to_text_disappear
 
+# Wether the current dialog is speeding up
+var _is_speeding_up: bool = false
+
 
 # The node holding the avatar
 onready var avatar_node = $Panel/MarginContainer/HSplitContainer/VBoxContainer\
@@ -64,7 +67,8 @@ func set_current_character(name: String):
 # #### Parameters
 # - character: The global id of the character speaking
 # - line: Line to say
-func say(character: String, line: String) :
+func say(character: String, line: String):
+	_is_speeding_up = false
 	popup_centered()
 	set_current_character(character)
 	
@@ -81,11 +85,13 @@ func say(character: String, line: String) :
 
 # Called by the dialog player when the 
 func speedup():
-	tween.stop(text_node)
-	tween.interpolate_property(text_node, "percent_visible",
-		text_node.percent_visible, 1.0, _fast_text_speed_per_character,
-		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tween.start()
+	if not _is_speeding_up:
+		_is_speeding_up = true
+		tween.stop(text_node)
+		tween.interpolate_property(text_node, "percent_visible",
+			text_node.percent_visible, 1.0, _fast_text_speed_per_character,
+			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		tween.start()
 
 
 # The dialog line was printed, start the waiting time and then finish

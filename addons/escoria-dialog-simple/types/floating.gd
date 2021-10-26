@@ -19,6 +19,9 @@ var _max_time_to_text_disappear
 # Current character speaking, to keep track of reference for animation purposes
 var _current_character
 
+# Wether the current dialog is speeding up
+var _is_speeding_up: bool = false
+
 
 # Tween node for text animation
 onready var tween = $Tween
@@ -50,6 +53,8 @@ func _ready():
 func say(character: String, line: String) :
 	show()
 	
+	_is_speeding_up = false
+	
 	# Position the RichTextLabel on the character's dialog position, if any.
 	_current_character = escoria.object_manager.get_object(character).node
 	rect_position = _current_character.get_node("dialog_position").get_global_transform_with_canvas().origin
@@ -75,11 +80,13 @@ func say(character: String, line: String) :
 
 # Called by the dialog player when the 
 func speedup():
-	tween.stop(text_node)
-	tween.interpolate_property(text_node, "percent_visible",
-		text_node.percent_visible, 1.0, _fast_text_speed_per_character,
-		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tween.start()
+	if not _is_speeding_up:
+		_is_speeding_up = true
+		tween.stop(text_node)
+		tween.interpolate_property(text_node, "percent_visible",
+			text_node.percent_visible, 1.0, _fast_text_speed_per_character,
+			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		tween.start()
 
 
 # The dialog line was printed, start the waiting time and then finish
