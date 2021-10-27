@@ -20,6 +20,8 @@ jobs:
             repo: "godot-escoria/escoria-ui-9verbs"
           - dir: "addons/escoria-core"
             repo: "godot-escoria/escoria-game-template"
+          - dir: "addons/escoria-dialog-simple"
+            repo: "godot-escoria/escoria-dialog-simple"
     name: "Fanout ${{ matrix.parts.dir }} to ${{ matrix.parts.repo }}"
     runs-on: "ubuntu-latest"
     env:

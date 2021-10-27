@@ -62,6 +62,8 @@ func run(command_params: Array) -> int:
 		)
 		
 	escoria.event_manager.interrupt_running_event()
+	if escoria.dialog_player:
+		escoria.dialog_player.interrupt()
 	
 	if !command_params[1]:
 		escoria.main.scene_transition.transition(

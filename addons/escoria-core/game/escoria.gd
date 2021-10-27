@@ -53,7 +53,7 @@ var resource_cache: ESCResourceCache
 var room_terrain
 
 # Dialog player instantiator. This instance is called directly for dialogs.
-var dialog_player: ESCDialogsPlayer
+var dialog_player: ESCDialogPlayer
 
 # Inventory scene
 var inventory

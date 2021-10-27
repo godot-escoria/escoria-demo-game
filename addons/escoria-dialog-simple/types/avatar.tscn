@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://addons/escoria-core/ui_library/dialogs/avatar_dialog_player.gd" type="Script" id=1]
+[ext_resource path="res://addons/escoria-dialog-simple/types/avatar.gd" type="Script" id=1]
 
 [node name="dialog_box" type="Popup"]
 anchor_right = 1.0
@@ -52,12 +52,6 @@ margin_bottom = 108.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 expand = true
-
-[node name="name" type="Label" parent="Panel/MarginContainer/HSplitContainer/VBoxContainer"]
-margin_top = 112.0
-margin_right = 88.0
-margin_bottom = 126.0
-valign = 1
 
 [node name="text" type="RichTextLabel" parent="Panel/MarginContainer/HSplitContainer"]
 margin_left = 123.0

@@ -1,6 +1,6 @@
 # Escoria dialog player
-extends ResourcePreloader
-class_name ESCDialogsPlayer
+extends Node
+class_name ESCDialogPlayer
 
 
 # Emitted when an answer as chosem
@@ -10,38 +10,25 @@ class_name ESCDialogsPlayer
 # - option: The dialog option that was chosen
 signal option_chosen(option)
 
-# Emitted when a dialog line was finished
-signal dialog_line_finished
+# Emitted when a say command finished
+signal say_finished
 
 
 # Wether the player is currently speaking
-var is_speaking = false
+var is_speaking: bool = false
 
 
-# Reference to the dialog UI
-var _dialog_ui = null
-
-# Reference to the dialog chooser UI
-var _dialog_chooser_ui: ESCDialogOptionsChooser = null
+# Reference to the currently playing dialog manager
+var _dialog_manager: ESCDialogManager = null
 
 
 # Register the dialog player and load the dialog resources
 func _ready():
 	if !Engine.is_editor_hint():
 		escoria.dialog_player = self
-		_dialog_chooser_ui = ResourceLoader.load(
-			ProjectSettings.get_setting("escoria/ui/dialogs_chooser")
-		).instance()
-		assert(_dialog_chooser_ui is ESCDialogOptionsChooser)
-		_dialog_chooser_ui.connect(
-			"option_chosen", 
-			self, 
-			"play_dialog_option_chosen"
-		)
-		get_parent().call_deferred("add_child", _dialog_chooser_ui)
 
 
-# Trigger the finish fast function on the dialog ui
+# Trigger the speedup function in the dialog manager
 #
 # #### Parameters
 #
@@ -49,9 +36,17 @@ func _ready():
 func _input(event):
 	if event is InputEventMouseButton and \
 			event.pressed:
-		finish_fast()
+		speedup()
 		
 
+# Find the matching voice output file for the given key
+#
+# #### Parameters
+#
+# - key: Text key provided
+# - start: Starting folder to search for voices
+#
+# *Returns* The path to the matching voice file
 func _get_voice_file(key: String, start: String = "") -> String:
 	if start == "":
 		start = ProjectSettings.get("escoria/sound/speech_folder")
@@ -77,40 +72,54 @@ func _get_voice_file(key: String, start: String = "") -> String:
 	return ""
 
 
-# A short one line dialog
+# Make a character say a text
 #
 # #### Parameters
 #
 # - character: Character that is talking
-# - ui: UI to use for the dialog
-# - line: Line to say
-func say(character: String, ui: String, line: String) -> void:
+# - type: UI to use for the dialog
+# - text: Text to say
+func say(character: String, type: String, text: String) -> void:
 	is_speaking = true
-	_dialog_ui = get_resource(ui).instance()
-	get_parent().add_child(_dialog_ui)
-	var _key_line = line.split(":")
-	if _key_line.size() == 1:
-		line = _key_line[0]
-	elif _key_line.size() >= 2:
-		var _speech_resource = _get_voice_file(_key_line[0])
+	for _manager_class in ProjectSettings.get_setting(
+			"escoria/ui/dialog_managers"
+	):
+		if ResourceLoader.exists(_manager_class):
+			var _manager: ESCDialogManager = load(_manager_class).new()
+			if _manager.has_type(type):
+				_dialog_manager = _manager
+	
+	if _dialog_manager == null:
+		escoria.logger.report_errors(
+			"esc_dialog_player.gd: Unknown type",
+			[
+				"No dialog manager supports the type %s" % type
+			]
+		)
+	var _key_text = text.split(":")
+	if _key_text.size() == 1:
+		text = _key_text[0]
+	elif _key_text.size() >= 2:
+		var _speech_resource = _get_voice_file(_key_text[0])
 		if _speech_resource != "":
 			(
 				escoria.object_manager.get_object("_speech").node\
 				 as ESCSpeechPlayer
 			).set_state(_speech_resource)
-		line = tr(_key_line[0])
-		
-	_dialog_ui.say(character, line)
-	yield(_dialog_ui, "dialog_line_finished")
+		text = tr(_key_text[0])
+	
+	_dialog_manager.say(self, character, text, type)	
+	yield(_dialog_manager, "say_finished")
 	is_speaking = false
-	emit_signal("dialog_line_finished")
+	emit_signal("say_finished")
 	
 
 # Called when a dialog line is skipped
-func finish_fast() -> void:
-	if is_speaking and\
-			escoria.inputs_manager.input_mode != escoria.inputs_manager.INPUT_NONE:
-		_dialog_ui.finish_fast()
+func speedup() -> void:
+	if is_speaking and escoria.inputs_manager.input_mode != \
+			escoria.inputs_manager.INPUT_NONE and \
+			_dialog_manager != null:
+		_dialog_manager.speedup()
 
 
 # Display a list of choices
@@ -118,22 +127,37 @@ func finish_fast() -> void:
 # #### Parameters
 #
 # - dialog: The dialog to start
-func start_dialog_choices(dialog: ESCDialog):
+func start_dialog_choices(dialog: ESCDialog, type: String = "simple"):
 	if dialog.options.empty():
 		escoria.logger.report_errors(
 			"dialog_player.gd:start_dialog_choices()", 
 			["Received answers array was empty."]
 		)
-	_dialog_chooser_ui.set_dialog(dialog)
-	_dialog_chooser_ui.show_chooser()
-
-
-# Called when an option was chosen and emits the option_chosen signal
-#
-# #### Parameters
-#
-# - option: Option, that was chosen.
-func play_dialog_option_chosen(option: ESCDialogOption):
+	
+	var _dialog_chooser_ui: ESCDialogManager = null
+	
+	for _manager_class in ProjectSettings.get_setting(
+			"escoria/ui/dialog_managers"
+	):
+		if ResourceLoader.exists(_manager_class):
+			var _manager: ESCDialogManager = load(_manager_class).new()
+			if _manager.has_chooser_type(type):
+				_dialog_chooser_ui = _manager
+	
+	if _dialog_chooser_ui == null:
+		escoria.logger.report_errors(
+			"esc_dialog_player.gd: Unknown chooser type",
+			[
+				"No dialog manager supports the chooser type %s" % type
+			]
+		)
+	
+	_dialog_chooser_ui.choose(self, dialog)
+	var option = yield(_dialog_chooser_ui, "option_chosen")
 	emit_signal("option_chosen", option)
-	_dialog_chooser_ui.hide_chooser()
 
+
+# Interrupt the currently running dialog
+func interrupt():
+	if _dialog_manager != null:
+		_dialog_manager.interrupt()

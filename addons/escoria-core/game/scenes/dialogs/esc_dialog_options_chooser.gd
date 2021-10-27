@@ -1,5 +1,5 @@
 # Base class for all dialog options implementations
-extends Node
+extends Control
 class_name ESCDialogOptionsChooser
 
 
