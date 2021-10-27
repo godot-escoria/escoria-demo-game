@@ -24,10 +24,10 @@ var _is_speeding_up: bool = false
 
 
 # Tween node for text animation
-onready var tween = $Tween
+onready var tween: Tween = $Tween
 
 # The node showing the text
-onready var text_node = self
+onready var text_node: RichTextLabel = self
 
 
 # Enable bbcode and catch the signal when a tween completed
@@ -82,7 +82,7 @@ func say(character: String, line: String) :
 func speedup():
 	if not _is_speeding_up:
 		_is_speeding_up = true
-		tween.stop(text_node)
+		tween.remove_all()
 		tween.interpolate_property(text_node, "percent_visible",
 			text_node.percent_visible, 1.0, _fast_text_speed_per_character,
 			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)

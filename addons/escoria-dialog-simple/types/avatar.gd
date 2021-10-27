@@ -87,7 +87,7 @@ func say(character: String, line: String):
 func speedup():
 	if not _is_speeding_up:
 		_is_speeding_up = true
-		tween.stop(text_node)
+		tween.remove_all()
 		tween.interpolate_property(text_node, "percent_visible",
 			text_node.percent_visible, 1.0, _fast_text_speed_per_character,
 			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
