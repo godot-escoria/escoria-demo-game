@@ -37,10 +37,9 @@ jobs:
         run: |
           curl -s https://raw.githubusercontent.com/newren/git-filter-repo/main/git-filter-repo -o git-filter-repo
           chmod +x git-filter-repo
-          export PATH=$PATH:.
           cd demo-game
           git remote -v
-          git filter-repo --path $DIR --prune-empty auto --force
+          ../git-filter-repo --path $DIR --prune-empty auto --force
           git clean -fd
           git status
       - name: "Checkout"
