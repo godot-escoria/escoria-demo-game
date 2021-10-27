@@ -253,9 +253,9 @@ Fills the "name" global with a random value between 0 and max-value-1.
 
 Restarts the execution of the current scope at the start. A scope can be a
 group or an event.
-#### <a name="SayCommand.md"></a>`say object text [type] [avatar]` [API-Doc](api/SayCommand.md)
+#### <a name="SayCommand.md"></a>`say player text [type]` [API-Doc](api/SayCommand.md)
 
-Runs the specified string as a dialog said by the object. Blocks execution
+Runs the specified string as a dialog said by the player. Blocks execution
 until the dialog finishes playing.
 
 The text supports translation keys by prepending the key and separating
@@ -266,8 +266,6 @@ Example: `say player ROOM1_PICTURE:"Picture's looking good."`
 Optional parameters:
 
 * "type" determines the type of dialog UI to use. Default value is "default"
-* "avatar" determines the avatar to use for the dialog. Default value is
-  "default"
 #### <a name="SchedEventCommand.md"></a>`sched_event time object event` [API-Doc](api/SchedEventCommand.md)
 
 Schedules the execution of an "event" found in "object" in a time in seconds.

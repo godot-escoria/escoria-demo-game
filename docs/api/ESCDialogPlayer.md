@@ -1,8 +1,8 @@
 <!-- Auto-generated from JSON by GDScript docs maker. Do not edit this document directly. -->
 
-# ESCDialogsPlayer
+# ESCDialogPlayer
 
-**Extends:** [ResourcePreloader](../ResourcePreloader)
+**Extends:** [Node](../Node)
 
 ## Description
 
@@ -13,7 +13,7 @@ Escoria dialog player
 ### is\_speaking
 
 ```gdscript
-var is_speaking
+var is_speaking: bool = false
 ```
 
 Wether the player is currently speaking
@@ -23,21 +23,21 @@ Wether the player is currently speaking
 ### say
 
 ```gdscript
-func say(character: String, ui: String, line: String) -> var
+func say(character: String, type: String, text: String) -> var
 ```
 
-A short one line dialog
+Make a character say a text
 
 #### Parameters
 
 - character: Character that is talking
-- ui: UI to use for the dialog
-- line: Line to say
+- type: UI to use for the dialog
+- text: Text to say
 
-### finish\_fast
+### speedup
 
 ```gdscript
-func finish_fast() -> void
+func speedup() -> void
 ```
 
 Called when a dialog line is skipped
@@ -45,7 +45,7 @@ Called when a dialog line is skipped
 ### start\_dialog\_choices
 
 ```gdscript
-func start_dialog_choices(dialog: ESCDialog)
+func start_dialog_choices(dialog: ESCDialog, type: String = "simple")
 ```
 
 Display a list of choices
@@ -54,17 +54,13 @@ Display a list of choices
 
 - dialog: The dialog to start
 
-### play\_dialog\_option\_chosen
+### interrupt
 
 ```gdscript
-func play_dialog_option_chosen(option: ESCDialogOption)
+func interrupt()
 ```
 
-Called when an option was chosen and emits the option_chosen signal
-
-#### Parameters
-
-- option: Option, that was chosen.
+Interrupt the currently running dialog
 
 ## Signals
 
@@ -73,4 +69,4 @@ Called when an option was chosen and emits the option_chosen signal
 ##### Parameters
 
 - option: The dialog option that was chosen
-- signal dialog_line_finished(): Emitted when a dialog line was finished
+- signal say_finished(): Emitted when a say command finished

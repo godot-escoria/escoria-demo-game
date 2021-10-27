@@ -124,7 +124,7 @@ Terrain of the current room
 ### dialog\_player
 
 ```gdscript
-var dialog_player: ESCDialogsPlayer
+var dialog_player: ESCDialogPlayer
 ```
 
 Dialog player instantiator. This instance is called directly for dialogs.

@@ -2,7 +2,7 @@
 
 # ESCDialogOptionsChooser
 
-**Extends:** [Node](../Node)
+**Extends:** [Control](../Control)
 
 ## Description
 
