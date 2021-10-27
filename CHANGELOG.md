@@ -1,3 +1,12 @@
+## [4.0.0-alpha.14](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.14) (2021-10-27)
+
+
+### Features
+
+* Made dialogs pluggable ([#424](https://github.com/godot-escoria/escoria-demo-game/issues/424)) ([57ce7fb](https://github.com/godot-escoria/escoria-demo-game/commit/57ce7fbcaeb5693f49c4bc7ee3950ff71be1424c))
+
+
+
 ## [4.0.0-alpha.13](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.13) (2021-10-26)
 
 
