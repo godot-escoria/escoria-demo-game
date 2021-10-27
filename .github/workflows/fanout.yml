@@ -24,7 +24,7 @@ jobs:
           - dir: "addons/escoria-dialog-simple"
             repo: "godot-escoria/escoria-dialog-simple"
     name: "Fanout ${{ matrix.parts.dir }} to ${{ matrix.parts.repo }}"
-    runs-on: "ubuntu-latest"
+    runs-on: "ubuntu-20.04"
     env:
       DIR: "${{matrix.parts.dir}}"
       REPO: "${{matrix.parts.repo}}"
