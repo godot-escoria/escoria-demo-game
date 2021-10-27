@@ -180,19 +180,19 @@ func _perform_walk_orientation(angle: float):
 # - target: Position2d or ESCItem to teleport to
 func teleport(target: Node) -> void:
 	if target.has_method("get_interact_position"):
-		parent.position = target.get_interact_position()
+		parent.global_position = target.get_interact_position()
 		escoria.logger.info(
 			"Object %s is teleported at position %s" % [
 				target.name,
-				parent.position
+				parent.global_position
 			] 
 		)
 	elif "position" in target:
 		escoria.logger.info(
 			"Object %s teleported at position %s" %
-			[parent.global_id, str(target.position)]
+			[parent.global_id, str(target.global_position)]
 		)
-		parent.position = target.position
+		parent.global_position = target.global_position
 	else:
 		escoria.logger.report_errors(
 			"ESCMovable#teleport()",
@@ -210,7 +210,7 @@ func teleport_to(target: Vector2) -> void:
 		"Object %s teleported to position %s" %
 		[parent.global_id, str(target)]
 	)
-	parent.position = target
+	parent.global_position = target
 
 
 # Walk to a given position
@@ -254,7 +254,7 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 #
 # - pos: Final target position
 func walk_stop(pos: Vector2) -> void:
-	parent.position = pos
+	parent.global_position = pos
 #	parent.interact_status = parent.INTERACT_STATES.INTERACT_NONE
 	walk_path = []
 
@@ -318,7 +318,7 @@ func update_terrain(on_event_finished_name = null) -> void:
 	if parent.get("dont_apply_terrain_scaling"):
 		return
 		
-	var pos = parent.position
+	var pos = parent.global_position
 	if pos.y <= VisualServer.CANVAS_ITEM_Z_MAX:
 		parent.z_index = pos.y
 	else:
