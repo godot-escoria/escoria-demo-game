@@ -36,8 +36,8 @@ jobs:
       - name: "Filtering out ${{ env.DIR }}"
         run: |
           curl -s https://raw.githubusercontent.com/newren/git-filter-repo/main/git-filter-repo -o git-filter-repo
-          cp -a git-filter-repo $(git --exec-path)
-          chmod +x $(git --exec-path)/git-filter-repo
+          chmod +x git-filter-repo
+          export PATH=$PATH:.
           cd demo-game
           git remote -v
           git filter-repo --path $DIR --prune-empty auto --force
