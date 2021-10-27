@@ -29,10 +29,22 @@ jobs:
       DIR: "${{matrix.parts.dir}}"
       REPO: "${{matrix.parts.repo}}"
     steps:
+      - name: "Configure git"
+        run: |
+          if ! git --version | grep 2.33 >/dev/null
+          then
+              sudo add-apt-repository ppa:git-core/ppa -y
+              sudo apt-get update
+              sudo apt-get install git -y
+          fi
       - name: "Checkout"
         uses: "actions/checkout@v2"
         with:
+          repository: "godot-escoria/escoria-demo-game"
+          ref: "develop"
           path: "demo-game"
+          token: "${{ secrets.DEPLOYMENT_TOKEN }}"
+          fetch-depth: 0
       - name: "Filtering out ${{ env.DIR }}"
         run: |
           curl -s https://raw.githubusercontent.com/newren/git-filter-repo/main/git-filter-repo -o git-filter-repo
