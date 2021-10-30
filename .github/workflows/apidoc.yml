@@ -8,32 +8,46 @@ on:
 concurrency: api-${{ github.ref }}
 
 jobs:
-    update:
-        if: "${{ github.event.head_commit.message != 'docs: Automatic update of API docs' }}"
-        name: Update
+    apidoc:
+#        if: "${{ github.event.head_commit.message != 'docs: Automatic update of API docs' }}"
+        name: Update API docs
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
               uses: actions/checkout@v2
               with:
                 token: ${{ secrets.DEPLOYMENT_TOKEN }}
+                repository: godot-escoria/escoria-demo-game
+                ref: "develop"
+                path: game
+            - name: "Checkout docs repo"
+              uses: actions/checkout@v2
+              with:
+                token: ${{ secrets.DEPLOYMENT_TOKEN }}
+                repository: godot-escoria/escoria-docs
+                ref: "devel"
+                fetch-depth: 0
+                path: docs
             - name: Remove existing docs
               run: |
-                rm -rf docs/api
+                rm -rf docs/api/*
             - name: "Update docs"
               uses: docker://gdquest/gdscript-docs-maker:1
               with:
                 entrypoint: "bash"
-                args: "-c \"cd /app && ./generate_reference /github/workspace -o /github/workspace/docs/api -d addons/escoria-core\""
+                args: "-c \"BASEDIR=$(pwd) && cd /app && ./generate_reference $BASEDIR/game -o $BASEDIR/docs/api -d addons/escoria-core\""
             - name: "Update ESC reference"
               run: |
                 apt update && apt install -y python3
+                cd docs
                 python3 extractesc.py
-            - name: "Commit"
-              uses: EndBug/add-and-commit@v7.2.1
-              with:
-                add: "docs"
-                message: 'docs: Automatic update of API docs'
-                push: true
+                git status
+#            - name: "Commit"
+#              uses: EndBug/add-and-commit@v7.2.1
+#              with:
+#                add: "api"
+#                message: 'docs: Automatic update of API docs'
+#                push: true
+#                cwd: "docs"
 
                
