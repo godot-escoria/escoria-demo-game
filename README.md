@@ -48,7 +48,7 @@ You can also find support on our official Discord server.
 
 ## Roadmap
 
-Take a look, what's planned for the next version in our [projects boards](https://github.com/godot-escoria/projects).
+Take a look, what's planned for the next version in our [projects boards](https://github.com/orgs/godot-escoria/projects).
 
 ## Licensing
 
