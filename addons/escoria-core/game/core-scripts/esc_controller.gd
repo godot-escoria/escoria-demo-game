@@ -221,7 +221,7 @@ func _check_item_needs_combine(obj: ESCObject, default_action: bool) -> bool:
 	if escoria.action_manager.current_action and \
 		escoria.action_manager.current_tool:
 			if escoria.action_manager.current_action in escoria.action_manager\
-					.current_tool.node.combine_if_action_used_among:
+					.current_tool.node.combine_when_selected_action_is_in:
 				need_combine = true
 			else:
 				escoria.action_manager.current_tool = obj
@@ -233,7 +233,7 @@ func _check_item_needs_combine(obj: ESCObject, default_action: bool) -> bool:
 			escoria.action_manager.current_action = \
 					obj.node.default_action
 	elif escoria.action_manager.current_action in \
-			obj.node.combine_if_action_used_among:
+			obj.node.combine_when_selected_action_is_in:
 		escoria.action_manager.current_tool = obj
 	return need_combine
 
