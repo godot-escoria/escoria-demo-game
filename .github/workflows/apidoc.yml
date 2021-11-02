@@ -48,5 +48,6 @@ jobs:
                 message: 'docs: Automatic update of API docs'
                 push: true
                 cwd: "docs"
+                branch: "devel"
 
                
