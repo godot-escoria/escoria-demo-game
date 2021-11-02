@@ -29,7 +29,9 @@ jobs:
                 path: docs
             - name: Remove existing docs
               run: |
+                mv docs/api/index.rst .
                 rm -rf docs/api/*
+                mv index.rst docs/api
             - name: "Update docs"
               uses: docker://gdquest/gdscript-docs-maker:1
               with:
