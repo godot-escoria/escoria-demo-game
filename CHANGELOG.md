@@ -1,3 +1,12 @@
+## [4.0.0-alpha.27](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.27) (2021-11-02)
+
+
+### Bug Fixes
+
+* Corrected variable name ([#428](https://github.com/godot-escoria/escoria-demo-game/issues/428)) ([d42c973](https://github.com/godot-escoria/escoria-demo-game/commit/d42c9733691cd89ce3ad75f20ce66b7254c69625))
+
+
+
 ## [4.0.0-alpha.26](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.26) (2021-11-02)
 
 
