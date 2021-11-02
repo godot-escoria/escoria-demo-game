@@ -1,3 +1,12 @@
+## [4.0.0-alpha.24](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.24) (2021-11-02)
+
+
+### Documentation
+
+* Reorganized docs to the docs repo ([#426](https://github.com/godot-escoria/escoria-demo-game/issues/426)) ([94f77cf](https://github.com/godot-escoria/escoria-demo-game/commit/94f77cf6463717c18d294e6ddce4747898640e4b))
+
+
+
 ## [4.0.0-alpha.23](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.23) (2021-11-01)
 
 
