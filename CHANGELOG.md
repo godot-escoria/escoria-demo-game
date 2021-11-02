@@ -1,3 +1,12 @@
+## [4.0.0-alpha.26](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.26) (2021-11-02)
+
+
+### Documentation
+
+* Fixed doc generation ([092df6c](https://github.com/godot-escoria/escoria-demo-game/commit/092df6c7eee67f849c76935537a66d62cb74f0f0))
+
+
+
 ## [4.0.0-alpha.25](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.25) (2021-11-02)
 
 
