@@ -1,3 +1,12 @@
+## [4.0.0-alpha.28](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.28) (2021-11-02)
+
+
+### Bug Fixes
+
+* Don't delete index file in the api directory ([8f378d4](https://github.com/godot-escoria/escoria-demo-game/commit/8f378d40e89082cdcab950a86c725d3baf078f65))
+
+
+
 ## [4.0.0-alpha.27](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.27) (2021-11-02)
 
 
