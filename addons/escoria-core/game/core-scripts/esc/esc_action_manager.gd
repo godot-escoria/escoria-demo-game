@@ -53,7 +53,7 @@ func activate(
 	
 	# If we're using an action which item requires to combine
 	if target.node is ESCItem\
-			and action in target.node.combine_if_action_used_among:
+			and action in target.node.combine_when_selected_action_is_in:
 		# Check if object must be in inventory to be used
 		if target.node.use_from_inventory_only:
 			if escoria.inventory_manager.inventory_has(target.global_id):

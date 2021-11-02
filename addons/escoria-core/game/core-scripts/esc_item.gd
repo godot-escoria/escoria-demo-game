@@ -92,7 +92,7 @@ export(String) var default_action_inventory
 # If action used by player is in this list, the game will wait for a second 
 # click on another item to combine objects together (typical 
 # `USE <X> WITH <Y>`, `GIVE <X> TO <Y>`)
-export(PoolStringArray) var combine_if_action_used_among = []
+export(PoolStringArray) var combine_when_selected_action_is_in = []
 
 # If true, combination must be done in the way it is written in ESC script
 # ie. :use ON_ITEM

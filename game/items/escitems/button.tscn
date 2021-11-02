@@ -65,13 +65,12 @@ tracks/0/keys = {
 }
 
 [node name="button" type="Area2D"]
+pause_mode = 1
 script = ExtResource( 1 )
 tooltip_name = "Button"
 default_action = "use"
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 0, 0 )
-}
+animations = null
 
 [node name="lines" type="Line2D" parent="."]
 position = Vector2( 0, -266.591 )
