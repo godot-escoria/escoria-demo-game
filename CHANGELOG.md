@@ -1,3 +1,12 @@
+## [4.0.0-alpha.29](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.29) (2021-11-07)
+
+
+### Bug Fixes
+
+* Fixes skipping empty or comment lines in groups and dialogs ([#429](https://github.com/godot-escoria/escoria-demo-game/issues/429)) ([8b70448](https://github.com/godot-escoria/escoria-demo-game/commit/8b70448bf7feea2387d4b82aa23e9b7ca9f73717))
+
+
+
 ## [4.0.0-alpha.28](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.28) (2021-11-02)
 
 
