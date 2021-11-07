@@ -13,6 +13,7 @@ func _test_basic() -> bool:
 	say player "Test3" [test2]
 	# Third group
 	>
+	
 		say player "Test4"
 # Fourth group
 >
@@ -177,11 +178,10 @@ func _test_event_flags() -> bool:
 	var script = escoria.esc_compiler.compile(esc.split("\n"))
 	
 	var subject = script.events
-	assert(subject.keys().size() == 4)
+	assert(subject.keys().size() == 3)
 	assert("test" in subject.keys())
 	assert("test2" in subject.keys())
 	assert("test3" in subject.keys())
-	assert("test4" in subject.keys())
 	
 	subject = script.events["test"]
 	assert(subject.name == "test")
@@ -279,7 +279,7 @@ func _test_dialog() -> bool:
 	
 	subject = script.events["test"].statements[0].options[3]
 	assert(subject is ESCDialogOption)
-	assert(subject.option == "TEST:Option 4")
+	assert(subject.option == "TEST")
 	
 	return true
 	

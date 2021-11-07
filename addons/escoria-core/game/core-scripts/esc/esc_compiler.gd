@@ -139,6 +139,9 @@ func _compile(lines: Array) -> Array:
 			var group_lines = []
 			while lines.size() > 0:
 				var next_line = lines.pop_front()
+				if comment_regex.search(next_line) or \
+						empty_regex.search(next_line):
+					continue
 				var next_line_indent = \
 						escoria.utils.get_re_group(
 							indent_regex.search(next_line), 
@@ -162,6 +165,9 @@ func _compile(lines: Array) -> Array:
 			var dialog_lines = []
 			while lines.size() > 0:
 				var next_line = lines.pop_front()
+				if comment_regex.search(next_line) or \
+						empty_regex.search(next_line):
+					continue
 				var end_line = dialog_end_regex.search(next_line)
 				if end_line and \
 						escoria.utils.get_re_group(
@@ -189,6 +195,9 @@ func _compile(lines: Array) -> Array:
 			var dialog_option_lines = []
 			while lines.size() > 0:
 				var next_line = lines.pop_front()
+				if comment_regex.search(next_line) or \
+						empty_regex.search(next_line):
+					continue
 				var next_line_indent = \
 						escoria.utils.get_re_group(
 							indent_regex.search(next_line), 
