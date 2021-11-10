@@ -45,6 +45,13 @@ func _ready():
 	$Tween.connect("tween_completed", self, "_on_dialog_line_typed")
 
 
+func _process(delta):
+	# Position the RichTextLabel on the character's dialog position, if any.
+	rect_position = _current_character.get_node("dialog_position") \
+		.get_global_transform_with_canvas().origin
+	rect_position.x -= rect_size.x / 2
+	
+
 # Make a character say something
 #
 # #### Parameters
@@ -57,9 +64,11 @@ func say(character: String, line: String) :
 	
 	# Position the RichTextLabel on the character's dialog position, if any.
 	_current_character = escoria.object_manager.get_object(character).node
-	rect_position = _current_character.get_node("dialog_position").get_global_transform_with_canvas().origin
+	rect_position = _current_character.get_node("dialog_position") \
+		.get_global_transform_with_canvas().origin
 	rect_position.x -= rect_size.x / 2
 	
+	# Start talking animation
 	_current_character.start_talking()
 	
 	# Set text color to color set in the actor
@@ -76,9 +85,10 @@ func say(character: String, line: String) :
 		0.0, 1.0, time_show_full_text,
 		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.start()
+	set_process(true)
 
 
-# Called by the dialog player when the 
+# Called by the dialog player when user wants to finish dialog fast.
 func speedup():
 	if not _is_speeding_up:
 		_is_speeding_up = true
@@ -102,4 +112,5 @@ func _on_dialog_finished():
 	# Make the speaking item animation stop talking, if it is still alive
 	if is_instance_valid(_current_character) and _current_character != null:
 		_current_character.stop_talking()
+	set_process(false)
 	emit_signal("say_finished")
