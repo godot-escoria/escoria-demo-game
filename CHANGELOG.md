@@ -1,3 +1,12 @@
+## [4.0.0-alpha.30](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.30) (2021-11-11)
+
+
+### Bug Fixes
+
+* Make float dialog follow character ([#430](https://github.com/godot-escoria/escoria-demo-game/issues/430)) ([b908a2a](https://github.com/godot-escoria/escoria-demo-game/commit/b908a2aeeed62d2d1e96e29e0b1c904e51097cd1))
+
+
+
 ## [4.0.0-alpha.29](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.29) (2021-11-07)
 
 
