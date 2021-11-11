@@ -173,7 +173,7 @@ func _test_event_flags() -> bool:
 	var esc = """
 :test | TK
 :test2 | TK NO_TT
-:test3 | TK NO_TT NO_HUD
+:test3 | TK NO_TT NO_UI
 	"""
 	var script = escoria.esc_compiler.compile(esc.split("\n"))
 	
@@ -197,7 +197,7 @@ func _test_event_flags() -> bool:
 	assert(subject.name == "test3")
 	assert(subject.flags & ESCEvent.FLAG_TK != 0)
 	assert(subject.flags & ESCEvent.FLAG_NO_TT != 0)
-	assert(subject.flags & ESCEvent.FLAG_NO_HUD != 0)
+	assert(subject.flags & ESCEvent.FLAG_NO_UI != 0)
 		
 	return true
 	
