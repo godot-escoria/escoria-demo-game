@@ -27,8 +27,11 @@ var timeout_option: int = 0
 var options: Array
 
 
-# Construct a dialog from a dialog string
-func _init(dialog_string: String):
+# Construct a dialog from an ESC dialog string
+#
+# #### Parameters
+# - dialog_string: ESC dialog string
+func load_string(dialog_string: String):
 	var dialog_regex = RegEx.new()
 	dialog_regex.compile(REGEX)
 	
