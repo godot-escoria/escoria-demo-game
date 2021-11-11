@@ -4,6 +4,13 @@ extends Node2D
 class_name ESCRoom, "res://addons/escoria-core/design/esc_room.svg"
 
 
+# Emitted when room has finished ":setup" event.
+signal room_setup_done
+
+# Emitted when room has finished ":ready" event.
+signal room_ready_done
+
+
 # Debugging displays for a room
 # NONE: No debug display
 # CAMERA_LIMITS: Display the camera limits
@@ -23,22 +30,31 @@ export(String, FILE, "*.esc") var esc_script = ""
 export(PackedScene) var player_scene
 
 # The camera limits available in this room
-export(Array, Rect2) var camera_limits: Array = [Rect2()] setget set_camera_limits
+export(Array, Rect2) var camera_limits: Array \
+	= [Rect2()] setget set_camera_limits
 
 # The editor debug display mode
-export(EditorRoomDebugDisplay) var editor_debug_mode = EditorRoomDebugDisplay.NONE setget set_editor_debug_mode
+export(EditorRoomDebugDisplay) var editor_debug_mode \
+	= EditorRoomDebugDisplay.NONE setget set_editor_debug_mode
 
 
 # The player scene instance
 var player
 
-
 # The game scene instance
 var game
 
-
 # Compiled ESCScript
-var compiled_script: ESCScript 
+var compiled_script: ESCScript
+
+# Whether automatic transition are enabled or not
+var enabled_automatic_transitions = true
+
+# Whether this room was run directly with Play Scene (F6)
+var is_run_directly = false
+
+# Whether this room was accessed from an exit in a previous room
+var exited_previous_room = false
 
 
 # Start the random number generator when the camera limits should be displayed
@@ -59,7 +75,8 @@ func _ready():
 	if Engine.is_editor_hint():
 		return
 	
-	game = $game
+	if has_node("game"):
+		game = $game
 	if game == null:
 		game = escoria.game_scene
 		add_child(game)
@@ -89,31 +106,121 @@ func _ready():
 	
 	if global_id.empty():
 		global_id = name
+	
+	# Determine whether this room was run from change_scene or directly
+	if escoria.main.has_node(name):
+		is_run_directly = false
+	else:
+		is_run_directly = true
+	
+	perform_script_events()
+
+
+func perform_script_events():
+	if esc_script and escoria.event_manager._running_event == null \
+			or (escoria.event_manager._running_event != null \
+			and escoria.event_manager._running_event.name != "load"):
 		
-	if esc_script:
-		run_script_event("setup")
-		var rc = yield(escoria.event_manager, "event_finished")
-		while rc[1] != "setup":
-			rc = yield(escoria.event_manager, "event_finished")
-		if rc[0] != ESCExecution.RC_OK:
-			return rc[0]
-		
+		# Manage player location at room start
 		if (escoria.globals_manager.get_global("ESC_LAST_SCENE") == null \
-			or escoria.globals_manager.get_global("ESC_LAST_SCENE").empty()) \
-			and player != null \
-			and escoria.object_manager.get_start_location() != null:
+				or escoria.globals_manager \
+				.get_global("ESC_LAST_SCENE").empty()) \
+				and player != null \
+				and escoria.object_manager.get_start_location() != null:
 			player.teleport(escoria.object_manager.get_start_location().node)
+		
+		# If the room was loaded from change_scene and automatic transitions
+		# are not disabled, do the transition out now
+		if enabled_automatic_transitions \
+				and not is_run_directly \
+				and not exited_previous_room:
+			var script_transition_out = escoria.esc_compiler.compile([
+				":transition_out",
+				"transition %s out" % ProjectSettings.get_setting(
+					"escoria/ui/default_transition"
+				),
+				"hide_menu main"
+			])
+			escoria.event_manager.queue_event(
+				script_transition_out.events['transition_out']
+			)
 			
 		
-		escoria.main.scene_transition.transition()
-		yield(escoria.main.scene_transition, "transition_done")
+		# Run the setup event
+		_run_script_event("setup")
+		
+		if enabled_automatic_transitions \
+				or (
+					not enabled_automatic_transitions \
+					and escoria.globals_manager.get_global("BYPASS_LAST_SCENE")
+				):
+			var script_transition_in = escoria.esc_compiler.compile([
+				":transition_in",
+				"transition %s in" % ProjectSettings.get_setting(
+					"escoria/ui/default_transition"
+				),
+				"wait 0.1"
+			])
+			escoria.event_manager.queue_event(
+				script_transition_in.events['transition_in']
+			)
+		
+		var ready_event_added: bool = false
+		# Run the ready event, if there is one.
+		if escoria.event_manager._running_event == null \
+				or (escoria.event_manager._running_event != null \
+				and escoria.event_manager._running_event.name != "load"):
+			ready_event_added = _run_script_event("ready")
+		
+		if ready_event_added:
+			# Wait for ready event to be done
+			var rc = yield(escoria.event_manager, "event_finished")
+			while rc[1] != "ready":
+				rc = yield(escoria.event_manager, "event_finished")
+			if rc[0] != ESCExecution.RC_OK:
+				return rc[0]
+		
+		# Now that :ready is finished, if BYPASS_LAST_SCENE was true, reset it 
+		# to false and set ESC_LAST_SCENE to current scene
+		if escoria.globals_manager.get_global("BYPASS_LAST_SCENE"):
+			escoria.globals_manager.set_global(
+				"BYPASS_LAST_SCENE", 
+				false, 
+				true
+			)
+			escoria.globals_manager.set_global(
+				"ESC_LAST_SCENE",
+				escoria.main.current_scene.global_id, 
+				true
+			)
+
+# Runs the script event from the script attached, if any.
+#
+# #### Parameters
+#
+# - event_name: the name of the event to run
+#
+# *Returns* true if the event was correctly added. Will be false if the event
+# does not exist in the script.
+func _run_script_event(event_name: String):
+	if !esc_script:
+		return false
+	if compiled_script == null:
+		compiled_script = escoria.esc_compiler.load_esc_file(esc_script)
 	
-		run_script_event("ready")
-		rc = yield(escoria.event_manager, "event_finished")
-		while rc[1] != "ready":
-			rc = yield(escoria.event_manager, "event_finished")
-		if rc[0] != ESCExecution.RC_OK:
-			return rc[0]
+	if compiled_script.events.has(event_name):
+		escoria.logger.debug(
+			"esc_room:_run_script_event", 
+			[
+				"Queuing room script event %s" % event_name,
+				"Composed of %s statements" % str(compiled_script.events[event_name].statements.size())
+			]
+		)
+		escoria.event_manager.queue_event(compiled_script.events[event_name])
+		return true
+	else:
+		return false
+
 
 # Draw the camera limits visualization if enabled
 func _draw():
@@ -160,16 +267,4 @@ func set_editor_debug_mode(p_editor_debug_mode: int) -> void:
 	update()
 
 
-# Runs the script event from the script attached, if any
-#
-# #### Parameters
-#
-# - event_name: the name of the event to run
-func run_script_event(event_name: String):
-	if !esc_script:
-		return
-	if compiled_script == null:
-		compiled_script = escoria.esc_compiler.load_esc_file(esc_script)
-	
-	if compiled_script.events.has(event_name):
-		escoria.event_manager.queue_event(compiled_script.events[event_name])
+

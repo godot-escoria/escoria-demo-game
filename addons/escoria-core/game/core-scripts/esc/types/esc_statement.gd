@@ -12,8 +12,11 @@ signal interrupted(return_code)
 # The list of ESC commands
 var statements: Array = []
 
-# Indicated whether this event was interrupted.
+# Indicates whether this event was interrupted.
 var _is_interrupted: bool = false
+
+# Indicates whether this event was finished.
+var is_finished: bool = false
 
 
 # Check wether the statement should be run based on its conditions
@@ -37,8 +40,16 @@ func run() -> int:
 			var rc = statement.run()
 			if rc is GDScriptFunctionState:
 				rc = yield(rc, "completed")
+				escoria.logger.debug(
+					"esc_statement",
+					["Statement (%s) was completed." 
+						% statement]
+				)
+				statement.is_finished = true
 			if rc == ESCExecution.RC_REPEAT:
 				return self.run()
+			elif rc == ESCExecution.RC_OK:
+				statement.is_finished = true
 			elif rc != ESCExecution.RC_OK:
 				final_rc = rc
 				break
@@ -52,4 +63,11 @@ func interrupt():
 	escoria.logger.info("Interrupting event %s" % str(self))
 	_is_interrupted = true
 	for statement in statements:
-		statement.interrupt()
+		if statement.is_finished:
+			escoria.logger.debug(
+				"event manager",
+				["Event %s (%s) is already finished. Won't interrupt." 
+					% [statement.name, str(statement)]]
+			)
+		else:
+			statement.interrupt()

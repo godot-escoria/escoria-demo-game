@@ -5,6 +5,10 @@
 	teleport player r12_l_exit
 	# Set player look right
 	set_angle player 180
+	
+	# Transition in
+	transition curtain in
+	
 	stop
 > [eq ESC_LAST_SCENE room13]
 	teleport player r12_r_exit

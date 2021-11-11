@@ -45,14 +45,19 @@ func validate(arguments: Array):
 
 # Run the command
 func run(command_params: Array) -> int:
-	escoria.main.scene_transition.transition(
+	var transition_id = escoria.main.scene_transition.transition(
 		command_params[0],
 		ESCTransitionPlayer.TRANSITION_MODE.OUT if command_params[1] == "out" \
 				else ESCTransitionPlayer.TRANSITION_MODE.IN,
 		command_params[2]
 	)
-	yield(
+	escoria.logger.debug("Starting transition #%s [%s, %s]" 
+		% [transition_id, command_params[0], command_params[1]])
+	while yield(
 		escoria.main.scene_transition, 
 		"transition_done"
-	)
+	) != transition_id:
+		pass
+	escoria.logger.debug("Ending transition #%s [%s, %s]" 
+		% [transition_id, command_params[0], command_params[1]])
 	return ESCExecution.RC_OK

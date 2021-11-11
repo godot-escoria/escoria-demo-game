@@ -307,7 +307,10 @@ func get_animation_player() -> Node:
 			escoria.logger.warning(
 				"Can not find node at path %s" % player_node_path
 			)
-		_animation_player = ESCAnimationPlayer.new(get_node(player_node_path))
+		else:
+			_animation_player = ESCAnimationPlayer.new(
+				get_node(player_node_path)
+			)
 	return _animation_player
 
 

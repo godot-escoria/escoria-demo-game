@@ -2,6 +2,8 @@
 extends Node
 class_name ESCEventManager
 
+# Emitted when the event started execution
+signal event_started(event_name)
 
 # Emitted when the event did finish running
 signal event_finished(event_name, return_code)
@@ -19,6 +21,9 @@ var scheduled_events: Array = []
 # Currently running event
 var _running_event: ESCEvent
 
+# Whether the event manager is allowed to proceed with next event.
+var can_process_next_event = true
+
 
 func _ready():
 	self.pause_mode = Node.PAUSE_MODE_STOP
@@ -26,8 +31,17 @@ func _ready():
 
 # Handle the events queue and scheduled events
 func _process(delta: float) -> void:
-	if events_queue.size() > 0:
+	if events_queue.size() > 0 and can_process_next_event:
+		can_process_next_event = false
 		_running_event = events_queue.pop_front()
+		escoria.logger.debug(
+			"esc_event_manager",
+			[
+				"Popping event %s from event_queue" \
+				% _running_event.name if _running_event.get("name") != null \
+				else str(_running_event)
+			]
+		)
 		if not _running_event.is_connected(
 			"finished", self, "_on_event_finished"
 		):
@@ -47,12 +61,13 @@ func _process(delta: float) -> void:
 				[_running_event]
 			)
 		
+		emit_signal("event_started", _running_event.name)
 		_running_event.run()
 	for event in self.scheduled_events:
 		(event as ESCScheduledEvent).timeout -= delta
 		if (event as ESCScheduledEvent).timeout <= 0:
 			self.scheduled_events.erase(event)
-			self.events_queue.append(event)
+			self.events_queue.append(event.event)
 
 
 # Queue a new event to run
@@ -73,10 +88,9 @@ func _on_event_finished(return_code: int, event: ESCEvent) -> void:
 	event.disconnect("finished", self, "_on_event_finished")
 	event.disconnect("interrupted", self, "_on_event_finished")
 	_running_event = null
+	can_process_next_event = true
 	match(return_code):
 		ESCExecution.RC_CANCEL:
-			self.scheduled_events = []
-			self.events_queue = []
 			return_code = ESCExecution.RC_OK
 	emit_signal("event_finished", return_code, event.name)
 
@@ -85,7 +99,8 @@ func _on_event_finished(return_code: int, event: ESCEvent) -> void:
 func interrupt_running_event():
 	if _running_event == null:
 		return
-	for event in events_queue:
-		event.interrupt()
-	events_queue.clear()
 	_running_event.interrupt()
+
+# Clears the event queue.
+func clear_event_queue():
+	events_queue.clear()

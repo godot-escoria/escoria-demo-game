@@ -9,7 +9,7 @@ var warning_path: String
 
 
 # Valid log levels
-enum { LOG_ERROR, LOG_WARNING, LOG_INFO, LOG_DEBUG }
+enum { LOG_ERROR, LOG_WARNING, LOG_INFO, LOG_DEBUG, LOG_TRACE }
 
 
 # A map of log level names to log level ints
@@ -18,8 +18,20 @@ var _level_map: Dictionary = {
 	"WARNING": LOG_WARNING,
 	"INFO": LOG_INFO,
 	"DEBUG": LOG_DEBUG,
+	"TRACE": LOG_TRACE,
 }
 
+
+# Log a trace message
+#
+# #### Parameters
+# 
+# * string: Text to log
+# * args: Additional information
+func trace(string: String, args = []):
+	if _get_log_level() >= LOG_TRACE:
+		var argsstr = str(args) if !args.empty() else ""
+		printerr("(T)\t" + string + " \t" + argsstr)
 
 # Log a debug message
 #

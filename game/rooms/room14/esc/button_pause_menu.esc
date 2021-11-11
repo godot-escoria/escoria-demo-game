@@ -1,0 +1,13 @@
+
+:use
+
+# Show pause menu, automatic transition are disabled by default
+# So we can manage them manually using `transition` ESC command
+show_menu pause
+
+# wait 2 seconds
+wait 2
+
+# Hide pause menu, automatic transition are disabled by default
+# So we can manage them manually using `transition` ESC command
+hide_menu pause
