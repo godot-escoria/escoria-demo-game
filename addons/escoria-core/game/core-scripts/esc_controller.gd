@@ -150,17 +150,17 @@ func perform_inputevent_on_object(
 			"_on_no_tooltip_event_finished"
 		)
 	
-	if event_flags & ESCEvent.FLAG_NO_HUD and \
+	if event_flags & ESCEvent.FLAG_NO_UI and \
 		not escoria.event_manager.is_connected(
 			"event_finished", 
 			self,
-			"_on_no_hud_event_finished"
+			"_on_no_ui_event_finished"
 		):
 		escoria.main.current_scene.game.hide_ui()
 		escoria.event_manager.connect(
 			"event_finished", 
 			self,
-			"_on_no_hud_event_finished"
+			"_on_no_ui_event_finished"
 		)
 	
 	if event_flags & ESCEvent.FLAG_NO_SAVE and \
@@ -314,23 +314,23 @@ func _on_no_tooltip_event_finished(_return_code: int, _event_name: String):
 		)
 
 
-# Called when an event having "NO_HUD" flag is finished.
+# Called when an event having "NO_UI" flag is finished.
 #
 # ## Parameters
 #
 # - _return_code: The ESCExecution return code sent by the events manager.
 # - _event_name: the name of the event
-func _on_no_hud_event_finished(_return_code: int, _event_name: String):
+func _on_no_ui_event_finished(_return_code: int, _event_name: String):
 	escoria.main.current_scene.game.show_ui()
 	if escoria.event_manager.is_connected(
 			"event_finished", 
 			self,
-			"_on_no_hud_event_finished"
+			"_on_no_ui_event_finished"
 		):
 		escoria.event_manager.disconnect(
 			"event_finished", 
 			self,
-			"_on_no_hud_event_finished"
+			"_on_no_ui_event_finished"
 		)
 
 

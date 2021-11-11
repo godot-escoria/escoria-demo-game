@@ -13,7 +13,7 @@ class_name ESCEvent
 # Regex identifying an ESC event
 const REGEX = \
 	'^:(?<name>[^|]+)( \\|\\s*(?<flags>( ' + \
-	'(TK|NO_TT|NO_HUD|NO_SAVE)' + \
+	'(TK|NO_TT|NO_UI|NO_SAVE)' + \
 	')+))?$'
 
 
@@ -23,15 +23,15 @@ const REGEX = \
 # * NO_TT: stands for "No tooltip". It hides the tooltip for the duration of 
 #   the event. Probably not very useful, because events having multiple
 #   say commands in them are automatically hidden.
-# * NO_HUD: stands for "No HUD". It hides the HUD for the duration of the
-#   event. Useful when you want something to look like a cut scene but not 
+# * NO_UI: stands for "No User Inteface". It hides the UI for the duration of 
+#   the event. Useful when you want something to look like a cut scene but not 
 #   disable input for skipping dialog.
 # * NO_SAVE: disables saving. Use this in cut scenes and anywhere a 
 #   badly-timed autosave would leave your game in a messed-up state.
 enum {
 	FLAG_TK = 1, 
 	FLAG_NO_TT = 2, 
-	FLAG_NO_HUD = 4, 
+	FLAG_NO_UI = 4, 
 	FLAG_NO_SAVE = 8
 }
 
@@ -62,8 +62,8 @@ func _init(event_string: String):
 					self.flags |= FLAG_TK
 				if "NO_TT" in _flags:
 					self.flags |= FLAG_NO_TT
-				if "NO_HUD" in _flags:
-					self.flags |= FLAG_NO_HUD
+				if "NO_UI" in _flags:
+					self.flags |= FLAG_NO_UI
 				if "NO_SAVE" in _flags:
 					self.flags |= FLAG_NO_SAVE
 	else:
