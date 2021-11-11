@@ -1,0 +1,13 @@
+
+:use
+
+
+# Show main menu, automatic transitions ENABLED
+show_menu main true
+
+# wait 2 seconds
+wait 2
+
+# Hide main menu, automatic transitions ENABLED
+hide_menu main true
+

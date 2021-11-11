@@ -106,7 +106,7 @@ func _calculate_movement(delta: float):
 	
 	# Movement speed calculation 
 	var movement_speed: float = parent.speed * delta * pow(last_scale.x, 2) * \
-		parent.terrain.player_speed_multiplier
+			parent.terrain.player_speed_multiplier
 	if walk_context.fast:
 		movement_speed *= parent.terrain.player_doubleclick_speed_multiplier
 	
@@ -226,7 +226,8 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 		
 	if task == MovableTask.WALK:
 		if walk_context.target_object == p_walk_context.target_object \
-		or walk_context.target_position == p_walk_context.target_position:
+				or walk_context.target_position \
+				== p_walk_context.target_position:
 			walk_context.fast = p_walk_context.fast
 	
 	walk_context = p_walk_context

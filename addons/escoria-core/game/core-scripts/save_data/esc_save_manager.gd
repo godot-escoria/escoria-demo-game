@@ -124,17 +124,24 @@ func load_game(id: int):
 	var load_event = ESCEvent.new(":load")
 	var load_statements = []
 	
+	load_statements.append(
+		ESCCommand.new(
+			"transition %s out" % 
+			[ProjectSettings.get_setting("escoria/ui/default_transition")]
+		)
+	)
+	
 	## GLOBALS
 	for k in save_game.globals.keys():
 		load_statements.append(
 			ESCCommand.new("set_global %s \"%s\"\n" \
-				% [k, save_game.globals[k]])
+					% [k, save_game.globals[k]])
 		)
 	
 	## ROOM
 	load_statements.append(
 		ESCCommand.new("change_scene %s true" \
-			% save_game.main["current_scene_filename"])
+				% save_game.main["current_scene_filename"])
 	)
 	
 	## OBJECTS
@@ -147,35 +154,42 @@ func load_game(id: int):
 		
 		if save_game.objects[object_global_id].has("interactive"):
 			load_statements.append(ESCCommand.new("set_interactive %s %s" \
-				% [object_global_id,
+					% [object_global_id,
 				save_game.objects[object_global_id]["interactive"]])
 			)
 			
 		if save_game.objects[object_global_id].has("state"):
 			load_statements.append(ESCCommand.new("set_state %s %s true" \
-				% [object_global_id,
+					% [object_global_id,
 				save_game.objects[object_global_id]["state"]])
 			)
 			
 		if save_game.objects[object_global_id].has("global_transform"):
 			load_statements.append(ESCCommand.new("teleport_pos %s %s %s" \
-				% [object_global_id, 
+					% [object_global_id, 
 				int(save_game.objects[object_global_id] \
-					["global_transform"].origin.x),
+						["global_transform"].origin.x),
 				int(save_game.objects[object_global_id] \
-					["global_transform"].origin.y)]
+						["global_transform"].origin.y)]
 				)
 			)
 			load_statements.append(ESCCommand.new("set_angle %s %s" \
-				% [object_global_id, 
+					% [object_global_id, 
 				save_game.objects[object_global_id]["last_deg"]])
 			)
 		
 		if object_global_id == "_music" or object_global_id == "_sound":
 			load_statements.append(ESCCommand.new("set_sound_state %s %s true" \
-				% [object_global_id,
+					% [object_global_id,
 				save_game.objects[object_global_id]["state"]])
 			)
+	
+	load_statements.append(
+		ESCCommand.new(
+			"transition %s in" % 
+			[ProjectSettings.get_setting("escoria/ui/default_transition")]
+		)
+	)
 	
 	load_event.statements = load_statements
 	
@@ -212,7 +226,8 @@ func save_settings():
 # Load the game settings from the settings file
 # **Returns** The Resource structure loaded from settings file
 func load_settings() -> Resource:
-	var save_settings_path: String = settings_folder.plus_file(SETTINGS_TEMPLATE)
+	var save_settings_path: String = \
+			settings_folder.plus_file(SETTINGS_TEMPLATE)
 	var file: File = File.new()
 	if not file.file_exists(save_settings_path):
 		escoria.logger.report_warnings(

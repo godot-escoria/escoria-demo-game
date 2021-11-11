@@ -122,7 +122,7 @@ func _init():
 # Load settings
 func _ready():
 	settings = save_manager.load_settings()
-	_on_settings_loaded(settings)
+	apply_settings(settings)
 	inputs_manager.register_core()
 	if ProjectSettings.get_setting("escoria/main/game_start_script").empty():
 		logger.report_errors("escoria.gd", 
@@ -265,7 +265,7 @@ func do(action: String, params: Array = [], can_interrupt: bool = false) -> void
 # #### Parameters
 #
 # * p_settings: Loaded settings
-func _on_settings_loaded(p_settings: ESCSaveSettings) -> void:
+func apply_settings(p_settings: ESCSaveSettings) -> void:
 	logger.info("******* settings loaded")
 	if p_settings != null:
 		settings = p_settings

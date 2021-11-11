@@ -26,10 +26,25 @@ editor_debug_mode = 1
 [node name="advice" type="Label" parent="background"]
 anchor_right = 0.023274
 anchor_bottom = 0.018018
+margin_left = 90.0
+margin_top = 59.0
+margin_right = 338.0
+margin_bottom = 118.0
+custom_fonts/font = ExtResource( 3 )
+text = "Don't click immediately! 
+Player will walk around the room, 
+but you can interrupt him if you want."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="advice2" type="Label" parent="background"]
+anchor_right = 0.023274
+anchor_bottom = 0.018018
 margin_left = 90.2752
-margin_top = 120.824
+margin_top = 170.824
 margin_right = 270.275
-margin_bottom = 155.824
+margin_bottom = 205.824
 custom_fonts/font = ExtResource( 3 )
 text = "Move : left click
 Fast move : double left click"

@@ -1,5 +1,6 @@
 :setup
 
+
 # Disable wrench item if present in the inventory
 > [i/r5_wrench]
 	set_active r5_wrench false

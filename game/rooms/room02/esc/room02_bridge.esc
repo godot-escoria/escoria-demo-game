@@ -2,6 +2,7 @@
 
 :setup
 
+
 > [r2_bridge_closed]
 	# Make set_state IMMEDIATE to reach the final frame immediately
 	set_state r2_bridge bridge_close true
@@ -13,6 +14,7 @@
 	# Set player look left
 	set_angle player 180
 	stop
+	
 > [eq ESC_LAST_SCENE room3]
 	teleport player r2_r_exit
 	# Set player look left
@@ -25,7 +27,8 @@
 	set_interactive r2_right_platform false
 	#set_interactive r2_bridge false
 	stop
-	
+
+
 
 :ready
 

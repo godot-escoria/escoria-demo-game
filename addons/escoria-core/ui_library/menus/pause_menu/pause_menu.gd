@@ -10,7 +10,7 @@ func _ready():
 
 # Continue the game
 func _on_continue_pressed():
-	escoria.main.current_scene.game.pause_game()
+	escoria.main.current_scene.game.unpause_game()
 
 
 # Show the save slots

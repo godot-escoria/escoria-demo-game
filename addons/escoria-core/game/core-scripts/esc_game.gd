@@ -14,18 +14,28 @@ enum EDITOR_GAME_DEBUG_DISPLAY {
 }
 
 
+# The main menu node
+export(NodePath) var main_menu
+
+# The main menu node
+export(NodePath) var pause_menu
+
 # The safe margin around tooltips
 export(float) var mouse_tooltip_margin = 50.0
+
+# Which (if any) debug mode for the editor is used
+export(EDITOR_GAME_DEBUG_DISPLAY) var editor_debug_mode = \
+		EDITOR_GAME_DEBUG_DISPLAY.NONE setget _set_editor_debug_mode
 
 
 # A reference to the node handling tooltips
 var tooltip_node: Object
 
 
-# Which (if any) debug mode for the editor is used
-export(EDITOR_GAME_DEBUG_DISPLAY) var editor_debug_mode = \
-		EDITOR_GAME_DEBUG_DISPLAY.NONE setget _set_editor_debug_mode
-
+# Ready function
+func _ready():
+	escoria.apply_settings(escoria.settings)
+	
 
 # Handle debugging visualizations
 func _draw():
@@ -273,3 +283,23 @@ func update_tooltip_following_mouse_position(p_position: Vector2):
 func _set_editor_debug_mode(p_editor_debug_mode: int) -> void:
 	editor_debug_mode = p_editor_debug_mode
 	update()
+
+
+# Pauses the game. Reimplement to eventually show a specific UI.
+func pause_game():
+	pass
+
+
+# Unpause the game. Reimplement to eventually hide a specific UI.
+func unpause_game():
+	pass
+
+
+# Shows the main menu. Reimplement to show a specific UI.
+func show_main_menu():
+	pass
+
+
+# Hides the main menu. Reimplement to hide a specific UI.
+func hide_main_menu():
+	pass

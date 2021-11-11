@@ -27,6 +27,11 @@ Implement methods to react to inputs.
 - hide_ui()
 - show_ui()
 
+- pause_game()
+- unpause_game()
+- show_main_menu()
+- hide_main_menu()
+
 - _on_event_done(event_name: String)
 """
 
@@ -171,18 +176,27 @@ func _on_event_done(event_name: String):
 	escoria.action_manager.clear_current_action()
 	$CanvasLayer/ui/HBoxContainer/verbs_menu.clear_tool_texture()
 
+func hide_main_menu():
+	if get_node(main_menu).visible:
+		 get_node(main_menu).hide()
 
-func pause_game():
-	if $CanvasLayer/pause_menu.visible:
-		$CanvasLayer/pause_menu.hide()
+func show_main_menu():
+	if not get_node(main_menu).visible:
+		 get_node(main_menu).show()
+
+func unpause_game():
+	if get_node(pause_menu).visible:
+		get_node(pause_menu).hide()
 		escoria.object_manager.get_object("_camera").node.current = true
 		escoria.main.current_scene.game.show_ui()
 		escoria.main.current_scene.show()
-	else:
-		$CanvasLayer/pause_menu.set_save_enabled(
+
+func pause_game():
+	if not get_node(pause_menu).visible:
+		get_node(pause_menu).set_save_enabled(
 			escoria.save_manager.save_enabled
 		)
-		$CanvasLayer/pause_menu.show()
+		get_node(pause_menu).show()
 		escoria.object_manager.get_object("_camera").node.current = false
 		escoria.main.current_scene.game.hide_ui()
 		escoria.main.current_scene.hide()

@@ -1,14 +1,13 @@
 :init
 
 set_sound_state _music res://game/sfx/Game-Menu_Looping.mp3 true
-spawn _main_menu res://addons/escoria-core/ui_library/menus/main_menu/main_menu.tscn false
-set_active _main_menu true
+
+# Showing main menu with automatic transition DISABLED
+show_menu main
+
 
 
 :newgame
-
-# Hide main menu
-set_active _main_menu false
 
 # 1/ Simple scene
 change_scene res://game/rooms/room01/room01.tscn
@@ -47,4 +46,9 @@ change_scene res://game/rooms/room01/room01.tscn
 # 12/ Event flags tests 2
 #change_scene res://game/rooms/room12/room12.tscn
 
+# 13/ 
+#change_scene res://game/rooms/room13/room13.tscn
+
+# 14/ 
+#change_scene res://game/rooms/room14/room14.tscn
 

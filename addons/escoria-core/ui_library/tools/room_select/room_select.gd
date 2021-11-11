@@ -16,7 +16,9 @@ func _ready():
 		"escoria/debug/room_selector_room_dir"
 	)
 	if rooms_folder == "" or \
-		not ProjectSettings.get_setting("escoria/debug/enable_room_selector"):
+			not ProjectSettings.get_setting(
+				"escoria/debug/enable_room_selector"
+			):
 		return
 	var dir = Directory.new()
 	var rooms_list: Array = []
@@ -50,11 +52,12 @@ func _ready():
 func _on_button_pressed():
 	escoria.globals_manager.set_global("BYPASS_LAST_SCENE", true, true)
 	var script = escoria.esc_compiler.compile([
-		":debug",
+		":room_selector",
 		"change_scene %s" % _options_paths[_selected_id]
 	])
 	escoria.event_manager.interrupt_running_event()
-	escoria.event_manager.queue_event(script.events['debug'])
+	escoria.event_manager.clear_event_queue()
+	escoria.event_manager.queue_event(script.events['room_selector'])
 	
 
 

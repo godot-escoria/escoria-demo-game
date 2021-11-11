@@ -104,10 +104,10 @@ func _compile(lines: Array) -> Array:
 	
 	while lines.size() > 0:
 		var line = lines.pop_front()
-		escoria.logger.debug("Parsing line %s" % line)
+		escoria.logger.trace("Parsing line %s" % line)
 		if comment_regex.search(line) or empty_regex.search(line):
 			# Ignore comments and empty lines
-			escoria.logger.debug("Line is empty or a comment. Skipping.")
+			escoria.logger.trace("Line is empty or a comment. Skipping.")
 			continue
 		var indent = \
 				escoria.utils.get_re_group(
@@ -117,7 +117,7 @@ func _compile(lines: Array) -> Array:
 		
 		if event_regex.search(line):
 			var event = ESCEvent.new(line)
-			escoria.logger.debug("Line is the event %s" % event.name)
+			escoria.logger.trace("Line is the event %s" % event.name)
 			var event_lines = []
 			while lines.size() > 0:
 				var next_line = lines.pop_front()
@@ -127,7 +127,7 @@ func _compile(lines: Array) -> Array:
 					lines.push_front(next_line)
 					break
 			if event_lines.size() > 0:
-				escoria.logger.debug(
+				escoria.logger.trace(
 					"Compiling the next %d lines into the event" % \
 							event_lines.size()
 				)
@@ -135,7 +135,7 @@ func _compile(lines: Array) -> Array:
 			returned.append(event)
 		elif group_regex.search(line):
 			var group = ESCGroup.new(line)
-			escoria.logger.debug("Line is a group")
+			escoria.logger.trace("Line is a group")
 			var group_lines = []
 			while lines.size() > 0:
 				var next_line = lines.pop_front()
@@ -153,7 +153,7 @@ func _compile(lines: Array) -> Array:
 					lines.push_front(next_line)
 					break
 			if group_lines.size() > 0:
-				escoria.logger.debug(
+				escoria.logger.trace(
 					"Compiling the next %d lines into the group" % \
 							group_lines.size()
 				)
@@ -161,7 +161,7 @@ func _compile(lines: Array) -> Array:
 			returned.append(group)
 		elif dialog_regex.search(line):
 			var dialog = ESCDialog.new(line)
-			escoria.logger.debug("Line is a dialog")
+			escoria.logger.trace("Line is a dialog")
 			var dialog_lines = []
 			while lines.size() > 0:
 				var next_line = lines.pop_front()
@@ -178,7 +178,7 @@ func _compile(lines: Array) -> Array:
 				else:
 					dialog_lines.append(next_line)
 			if dialog_lines.size() > 0:
-				escoria.logger.debug(
+				escoria.logger.trace(
 					"Compiling the next %d lines into the dialog" % \
 							dialog_lines.size()
 				)
@@ -188,7 +188,7 @@ func _compile(lines: Array) -> Array:
 			returned.append(dialog)
 		elif dialog_option_regex.search(line):
 			var dialog_option = ESCDialogOption.new(line)
-			escoria.logger.debug(
+			escoria.logger.trace(
 				"Line is the dialog option %s" % \
 						dialog_option.option
 			)
@@ -209,7 +209,7 @@ func _compile(lines: Array) -> Array:
 					lines.push_front(next_line)
 					break
 			if dialog_option_lines.size() > 0:
-				escoria.logger.debug(
+				escoria.logger.trace(
 					"Compiling the next %d lines into the event" % \
 							dialog_option_lines.size()
 				)
@@ -217,7 +217,7 @@ func _compile(lines: Array) -> Array:
 			returned.append(dialog_option)
 		elif command_regex.search(line):
 			var command = ESCCommand.new(line)
-			escoria.logger.debug("Line is the command %s" % command.name)
+			escoria.logger.trace("Line is the command %s" % command.name)
 			returned.append(command)
 		else:
 			escoria.logger.report_errors(
