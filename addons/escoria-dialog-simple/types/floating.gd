@@ -112,5 +112,4 @@ func _on_dialog_finished():
 	# Make the speaking item animation stop talking, if it is still alive
 	if is_instance_valid(_current_character) and _current_character != null:
 		_current_character.stop_talking()
-	set_process(false)
 	emit_signal("say_finished")
