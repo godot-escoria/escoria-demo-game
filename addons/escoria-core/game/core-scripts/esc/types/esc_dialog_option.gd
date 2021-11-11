@@ -16,8 +16,11 @@ var option: String setget ,get_option
 var conditions: Array = []
 
 
-# Create a dialog option from a string
-func _init(option_string: String):
+# Create a dialog option from an ESC string
+#
+# #### Parameter
+# - option_string: ESC string for the dialog option
+func load_string(option_string: String):
 	var option_regex = RegEx.new()
 	option_regex.compile(REGEX)
 	
