@@ -438,16 +438,22 @@ func turn_to(object: Node, wait: float = 0.0):
 
 # Play the talking animation
 func start_talking():
-	if get_animation_player().is_playing():
-		get_animation_player().stop()
-	get_animation_player().play(animations.speaks[_movable.last_dir].animation)
+	if get_animation_player():
+		if get_animation_player().is_playing():
+			get_animation_player().stop()
+		get_animation_player().play(
+			animations.speaks[_movable.last_dir].animation
+		)
 
 
 # Stop playing the talking animation
 func stop_talking():
-	if get_animation_player().is_playing():
-		get_animation_player().stop()
-	get_animation_player().play(animations.idles[_movable.last_dir].animation)
+	if get_animation_player():
+		if get_animation_player().is_playing():
+			get_animation_player().stop()
+		get_animation_player().play(
+			animations.idles[_movable.last_dir].animation
+		)
 
 
 # Detect the child nodes and set respective references

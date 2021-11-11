@@ -160,7 +160,8 @@ func _compile(lines: Array) -> Array:
 				group.statements = self._compile(group_lines)
 			returned.append(group)
 		elif dialog_regex.search(line):
-			var dialog = ESCDialog.new(line)
+			var dialog = ESCDialog.new()
+			dialog.load_string(line)
 			escoria.logger.trace("Line is a dialog")
 			var dialog_lines = []
 			while lines.size() > 0:
@@ -187,7 +188,8 @@ func _compile(lines: Array) -> Array:
 			lines.pop_front()
 			returned.append(dialog)
 		elif dialog_option_regex.search(line):
-			var dialog_option = ESCDialogOption.new(line)
+			var dialog_option = ESCDialogOption.new()
+			dialog_option.load_string(line)
 			escoria.logger.trace(
 				"Line is the dialog option %s" % \
 						dialog_option.option

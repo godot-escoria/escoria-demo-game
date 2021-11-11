@@ -64,12 +64,6 @@ func say(character: String, line: String) :
 	
 	# Position the RichTextLabel on the character's dialog position, if any.
 	_current_character = escoria.object_manager.get_object(character).node
-	rect_position = _current_character.get_node("dialog_position") \
-		.get_global_transform_with_canvas().origin
-	rect_position.x -= rect_size.x / 2
-	
-	# Start talking animation
-	_current_character.start_talking()
 	
 	# Set text color to color set in the actor
 	var text_color = _current_character.dialog_color
@@ -77,6 +71,18 @@ func say(character: String, line: String) :
 	
 	text_node.bbcode_text = "[center][color=#" + text_color_html + "]" \
 		.format([text_color_html]) + tr(line) + "[/color][center]"
+	
+	if _current_character.is_inside_tree() and \
+			_current_character.has_node("dialog_position"):
+		rect_position = _current_character.get_node(
+			"dialog_position"
+		).get_global_transform_with_canvas().origin
+		rect_position.x -= rect_size.x / 2
+	else:
+		rect_position.x = 0
+		rect_size.x = ProjectSettings.get_setting("display/window/size/width")
+		
+	_current_character.start_talking()
 	
 	text_node.percent_visible = 0.0
 	var time_show_full_text = _text_speed_per_character * len(line)
