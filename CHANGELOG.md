@@ -1,3 +1,12 @@
+## [4.0.0-alpha.35](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.35) (2021-11-12)
+
+
+### Bug Fixes
+
+* Fixed apidoc workflow to comply with latest doc changes ([bf8929b](https://github.com/godot-escoria/escoria-demo-game/commit/bf8929ba2d4be5165e0d463eb72cef2f97576475))
+
+
+
 ## [4.0.0-alpha.34](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.34) (2021-11-12)
 
 
