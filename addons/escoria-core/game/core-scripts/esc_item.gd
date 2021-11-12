@@ -124,6 +124,10 @@ export(float) var v_speed_damp: float = 1.0
 export(NodePath) var animation_player_node: NodePath = "" \
 		setget _set_animation_player_node
 
+# The node that references the camera position and zoom if this item is used
+# as a camera target
+export(NodePath) var camera_node
+
 
 # ESCAnimationsResource (for walking, idling...)
 var animations: ESCAnimationResource
@@ -454,6 +458,15 @@ func stop_talking():
 		get_animation_player().play(
 			animations.idles[_movable.last_dir].animation
 		)
+
+
+
+# Return the camera position if a camera_position_node exists or the
+# global position of the player
+func get_camera_node():
+	if camera_node and get_node(camera_node):
+		return get_node(camera_node)
+	return self
 
 
 # Detect the child nodes and set respective references
