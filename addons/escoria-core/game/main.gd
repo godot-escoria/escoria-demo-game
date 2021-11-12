@@ -40,10 +40,11 @@ func set_scene(p_scene: Node) -> void:
 	if current_scene != null:
 		clear_scene()
 
-	if not p_scene.is_inside_tree() or not p_scene in get_children():
-		add_child(p_scene) 
-	elif p_scene in get_children():
-		move_child(p_scene, 0)
+	if p_scene.is_inside_tree() and not p_scene.get_parent() != self:
+		p_scene.get_parent().remove_child(p_scene)
+
+	add_child(p_scene) 
+	move_child(p_scene, 0)
 	current_scene = p_scene
 	check_game_scene_methods()
 

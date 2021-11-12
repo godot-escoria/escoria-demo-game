@@ -124,7 +124,9 @@ func save_game(p_savegame: ESCSaveGame) -> void:
 
 func get_start_location() -> ESCLocation:
 	for object in objects.values():
-		if object.node is ESCLocation and object.node.is_start_location:
+		if is_instance_valid(object.node) \
+				and object.node is ESCLocation \
+				and object.node.is_start_location:
 			return object
 	escoria.logger.report_warnings(
 			"esc_object_manager.gd:get_start_location()",
