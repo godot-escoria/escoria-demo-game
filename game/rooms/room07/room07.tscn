@@ -252,11 +252,9 @@ position = Vector2( 27.5337, 131.767 )
 script = ExtResource( 8 )
 
 [node name="button_camera_push" parent="Hotspots" instance=ExtResource( 3 )]
-pause_mode = 1
 position = Vector2( -167.43, 1463.23 )
 global_id = "r7_button_push"
 esc_script = "res://game/rooms/room07/esc/button_push.esc"
-animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_camera_push"]
 position = Vector2( 343.048, 300.613 )
@@ -277,11 +275,9 @@ __meta__ = {
 }
 
 [node name="button_camera_shift" parent="Hotspots" instance=ExtResource( 3 )]
-pause_mode = 1
 position = Vector2( 9.393, 1464.03 )
 global_id = "r7_button_shift"
 esc_script = "res://game/rooms/room07/esc/button_shift.esc"
-animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_camera_shift"]
 position = Vector2( 350.258, 301.616 )
@@ -299,11 +295,9 @@ __meta__ = {
 }
 
 [node name="button_camera_follow" parent="Hotspots" instance=ExtResource( 3 )]
-pause_mode = 1
 position = Vector2( 172.527, 1464.03 )
 global_id = "r7_button_follow"
 esc_script = "res://game/rooms/room07/esc/button_follow.esc"
-animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_camera_follow"]
 position = Vector2( 350.258, 301.616 )
@@ -321,11 +315,9 @@ __meta__ = {
 }
 
 [node name="button_camera_zoom" parent="Hotspots" instance=ExtResource( 3 )]
-pause_mode = 1
 position = Vector2( 332.527, 1464.03 )
 global_id = "r7_button_zoom"
 esc_script = "res://game/rooms/room07/esc/button_zoom.esc"
-animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_camera_zoom"]
 position = Vector2( 350.258, 301.616 )
@@ -343,11 +335,9 @@ __meta__ = {
 }
 
 [node name="button_camera_set_pos" parent="Hotspots" instance=ExtResource( 3 )]
-pause_mode = 1
 position = Vector2( 910.482, 1464.03 )
 global_id = "r7_button_set_pos"
 esc_script = "res://game/rooms/room07/esc/button_set_pos.esc"
-animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button_camera_set_pos"]
 position = Vector2( 350.258, 301.616 )

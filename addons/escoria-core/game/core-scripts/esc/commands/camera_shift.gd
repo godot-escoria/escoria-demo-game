@@ -13,7 +13,12 @@ class_name CameraShiftCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2, 
-		[TYPE_INT, TYPE_INT, [TYPE_INT, TYPE_REAL], TYPE_STRING],
+		[
+			[TYPE_INT, TYPE_REAL], 
+			[TYPE_INT, TYPE_REAL], 
+			[TYPE_INT, TYPE_REAL], 
+			TYPE_STRING
+		],
 		[null, null, 1, "QUAD"]
 	)
 	
@@ -22,9 +27,11 @@ func configure() -> ESCCommandArgumentDescriptor:
 func run(command_params: Array) -> int:
 	(escoria.object_manager.get_object("_camera").node as ESCCamera)\
 		.shift(
-			command_params[0],
-			command_params[1],
+			Vector2(
+				command_params[0],
+				command_params[1]
+			),
 			command_params[2],
-			command_params[3]
+			Tween.new().get("TRANS_%s" % command_params[3])
 		)
 	return ESCExecution.RC_OK
