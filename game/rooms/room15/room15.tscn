@@ -20,6 +20,7 @@ __meta__ = {
 "_edit_vertical_guides_": [  ]
 }
 global_id = "room15"
+esc_script = "res://game/rooms/room15/esc/wrong_file.esc"
 player_scene = ExtResource( 4 )
 camera_limits = [ Rect2( 0, 0, 1289, 555 ) ]
 
@@ -63,7 +64,7 @@ __meta__ = {
 [node name="l_door" type="Area2D" parent="Hotspots"]
 pause_mode = 1
 script = ExtResource( 7 )
-global_id = "r14_l_exit"
+global_id = "r15_l_exit"
 esc_script = "res://game/rooms/room15/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Left exit"
@@ -80,8 +81,8 @@ script = ExtResource( 5 )
 global_id = "r12_l_exit"
 
 [node name="r_door" parent="Hotspots" instance=ExtResource( 8 )]
-global_id = "r14_r_exit"
-esc_script = "res://game/rooms/room15/esc/right_exit.esc"
+global_id = "r15_r_exit"
+esc_script = ""
 default_action = "use"
 
 [node name="ESCLocation" type="Position2D" parent="Hotspots/r_door"]
