@@ -1,3 +1,12 @@
+## [4.0.0-alpha.34](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.34) (2021-11-12)
+
+
+### Features
+
+* Optimized ESCCamera ([#434](https://github.com/godot-escoria/escoria-demo-game/issues/434)) ([15b3e30](https://github.com/godot-escoria/escoria-demo-game/commit/15b3e30e28e977fc62922e33d543b848bb513e15))
+
+
+
 ## [4.0.0-alpha.33](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.33) (2021-11-11)
 
 
