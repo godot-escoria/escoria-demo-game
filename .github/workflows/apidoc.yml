@@ -39,7 +39,8 @@ jobs:
                 args: "-c \"BASEDIR=$(pwd) && cd /app && ./generate_reference $BASEDIR/game -o $BASEDIR/docs/api -d addons/escoria-core\""
             - name: "Update ESC reference"
               run: |
-                apt update && apt install -y python3
+                apt update && apt install -y python3 python3-pip
+                pip3 install m2r2
                 cd docs
                 python3 extractesc.py
                 git status
