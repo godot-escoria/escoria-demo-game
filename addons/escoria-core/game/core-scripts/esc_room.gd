@@ -82,9 +82,6 @@ func _ready():
 		add_child(game)
 		move_child(game, 0)
 	
-#	if escoria.main.current_scene == null:
-#		escoria.main.set_scene(self)
-	
 	if player_scene:
 		player = player_scene.instance()
 		add_child(player)
@@ -114,18 +111,15 @@ func _ready():
 		is_run_directly = true
 	
 	# Manage player location at room start
-#	if (escoria.globals_manager.get_global("ESC_LAST_SCENE") == null \
-#			or escoria.globals_manager.get_global("ESC_LAST_SCENE").empty()) \
-#			and player != null \
-#			and escoria.object_manager.get_start_location() != null:
 	if player != null \
 			and escoria.object_manager.get_start_location() != null:
 		player.teleport(escoria.object_manager.get_start_location().node)
 	
 	perform_script_events()
-	
 
 
+# Performs the ESC script events "setup" and "ready", in this order, if they are
+# present. Also manages automatic transitions.
 func perform_script_events():
 	if esc_script and escoria.event_manager._running_event == null \
 			or (escoria.event_manager._running_event != null \
@@ -147,7 +141,6 @@ func perform_script_events():
 				script_transition_out.events['transition_out']
 			)
 			
-		
 		# Run the setup event
 		_run_script_event("setup")
 		
@@ -195,6 +188,7 @@ func perform_script_events():
 				escoria.main.current_scene.global_id, 
 				true
 			)
+
 
 # Runs the script event from the script attached, if any.
 #
