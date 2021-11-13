@@ -4,13 +4,6 @@ extends Node2D
 class_name ESCRoom, "res://addons/escoria-core/design/esc_room.svg"
 
 
-# Emitted when room has finished ":setup" event.
-signal room_setup_done
-
-# Emitted when room has finished ":ready" event.
-signal room_ready_done
-
-
 # Debugging displays for a room
 # NONE: No debug display
 # CAMERA_LIMITS: Display the camera limits
@@ -82,6 +75,14 @@ func _ready():
 		add_child(game)
 		move_child(game, 0)
 	
+	# Determine whether this room was run from change_scene or directly
+	if escoria.main.has_node(name):
+		is_run_directly = false
+	else:
+		is_run_directly = true
+		if escoria.main.current_scene == null:
+			escoria.main.set_scene(self)
+	
 	if player_scene:
 		player = player_scene.instance()
 		add_child(player)
@@ -104,11 +105,7 @@ func _ready():
 	if global_id.empty():
 		global_id = name
 	
-	# Determine whether this room was run from change_scene or directly
-	if escoria.main.has_node(name):
-		is_run_directly = false
-	else:
-		is_run_directly = true
+	
 	
 	# Manage player location at room start
 	if player != null \

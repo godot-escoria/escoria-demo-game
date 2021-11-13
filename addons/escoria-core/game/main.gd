@@ -40,7 +40,7 @@ func set_scene(p_scene: Node) -> void:
 	if current_scene != null:
 		clear_scene()
 
-	if p_scene.is_inside_tree() and not p_scene.get_parent() != self:
+	if p_scene.is_inside_tree() and p_scene.get_parent() != self:
 		p_scene.get_parent().remove_child(p_scene)
 
 	add_child(p_scene) 
