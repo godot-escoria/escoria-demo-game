@@ -7,6 +7,9 @@ var save_enabled: bool = true
 # Variable containing the saves folder obtained from Project Settings
 var save_folder: String
 
+# Filename of the latest crash savegame file
+var crash_savegame_filename: String
+
 # Template for savegames filenames
 const SAVE_NAME_TEMPLATE: String = "save_%03d.tres"
 
@@ -108,7 +111,7 @@ func save_game_crash():
 	var save_file_path: String = ProjectSettings.get_setting(
 		"escoria/debug/log_file_path"
 	)
-	var save_path = save_file_path.plus_file(
+	crash_savegame_filename = save_file_path.plus_file(
 		CRASH_SAVE_NAME_TEMPLATE % [
 			str(datetime["year"]) + str(datetime["month"]) 
 					+ str(datetime["day"]),
@@ -116,11 +119,13 @@ func save_game_crash():
 					+ str(datetime["second"])
 		]
 	)
-	var error: int = ResourceSaver.save(save_path, save_game)
+	
+	var error: int = ResourceSaver.save(crash_savegame_filename, save_game)
 	if error != OK:
 		escoria.logger.report_errors(
 			"esc_save_data_resources.gd",
-			["There was an issue writing the crash save to %s" % save_path])
+			["There was an issue writing the crash save to %s" 
+				% crash_savegame_filename])
 	return error
 
 

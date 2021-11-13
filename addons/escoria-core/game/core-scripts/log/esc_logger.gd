@@ -13,6 +13,12 @@ var warning_path: String
 # Log file handler
 var log_file: File
 
+# Crash save filename
+var crash_savegame_filename
+
+# Did we crash already?
+onready var crashed = false
+
 
 # Valid log levels
 enum { LOG_ERROR, LOG_WARNING, LOG_INFO, LOG_DEBUG, LOG_TRACE }
@@ -32,16 +38,16 @@ var _level_map: Dictionary = {
 func _init():
 	# Open logfile in write mode
 	log_file = File.new()
-	var file_path: String = ProjectSettings.get_setting(
+	var log_file_path = ProjectSettings.get_setting(
 		"escoria/debug/log_file_path"
 	)
 	var date = OS.get_datetime()
-	file_path = file_path.plus_file(LOG_FILE_FORMAT % [
+	log_file_path = log_file_path.plus_file(LOG_FILE_FORMAT % [
 			str(date["year"]) + str(date["month"]) + str(date["day"]),
 			str(date["hour"]) + str(date["minute"]) + str(date["second"])
 		])
 	log_file.open(
-		file_path, 
+		log_file_path, 
 		File.WRITE
 	)
 
@@ -53,7 +59,7 @@ func _init():
 # * string: Text to log
 # * args: Additional information
 func trace(string: String, args = []):
-	if _get_log_level() >= LOG_TRACE:
+	if _get_log_level() >= LOG_TRACE and !crashed:
 		var argsstr = str(args) if !args.empty() else ""
 		_log("(T)\t" + string + " \t" + argsstr)
 
@@ -65,7 +71,7 @@ func trace(string: String, args = []):
 # * string: Text to log
 # * args: Additional information
 func debug(string: String, args = []):
-	if _get_log_level() >= LOG_DEBUG:
+	if _get_log_level() >= LOG_DEBUG and !crashed:
 		var argsstr = str(args) if !args.empty() else ""
 		_log("(D)\t" + string + " \t" + argsstr)
 
@@ -77,7 +83,7 @@ func debug(string: String, args = []):
 # * string: Text to log
 # * args: Additional information
 func info(string: String, args = []):
-	if _get_log_level() >= LOG_INFO:
+	if _get_log_level() >= LOG_INFO and !crashed:
 		var argsstr = []
 		if !args.empty():
 			for arg in args:
@@ -96,15 +102,21 @@ func info(string: String, args = []):
 # * string: Text to log
 # * args: Additional information
 func warning(string: String, args = []):
-	if _get_log_level() >= LOG_WARNING:
+	if _get_log_level() >= LOG_WARNING and !crashed:
 		var argsstr = str(args) if !args.empty() else ""
 		_log("(W)\t" + string + " \t" + argsstr, true)
 		if ProjectSettings.get_setting("escoria/debug/terminate_on_warnings"):
-			_log(
-				ProjectSettings.get_setting("escoria/debug/crash_message") 
-					+ "\n"
-			)
 			_perform_stack_trace_log()
+			var message: String = ProjectSettings.get_setting(
+				"escoria/debug/crash_message"
+			) % [
+					log_file.get_path_absolute().get_base_dir().plus_file(
+						escoria.save_manager.crash_savegame_filename.get_file()
+					),
+					log_file.get_path_absolute()
+				]
+			_log("\n" + message + "\n")
+			crashed = true
 			escoria.quit()
 			assert(false)
 			
@@ -117,20 +129,26 @@ func warning(string: String, args = []):
 # * string: Text to log
 # * args: Additional information
 func error(string: String, args = [], do_savegame: bool = true):
-	if _get_log_level() >= LOG_ERROR:
+	if _get_log_level() >= LOG_ERROR and !crashed:
 		var argsstr = str(args) if !args.empty() else ""
 		_log("(E)\t" + string + " \t" + argsstr, true)
 		if ProjectSettings.get_setting("escoria/debug/terminate_on_errors"):
-			_log(
-				ProjectSettings.get_setting("escoria/debug/crash_message") 
-					+ "\n"
-			)
 			_perform_stack_trace_log()
 			if do_savegame:
 				_perform_save_game_log()
+			
+			var message: String = ProjectSettings.get_setting(
+				"escoria/debug/crash_message"
+			) % [
+					log_file.get_path_absolute().get_base_dir().plus_file(
+						escoria.save_manager.crash_savegame_filename.get_file()
+					),
+					log_file.get_path_absolute()
+				]
+			_log("\n" + message + "\n")
+			crashed = true
 			escoria.quit()
 			assert(false)
-			
 
 
 # Log a warning message about an ESC file
@@ -230,8 +248,17 @@ func _write_logfile(message: String) -> void:
 
 # Write the stacktrace in the output logfile
 func _write_stack_logfile():
-	for stack in get_stack():
-		_write_logfile(str(stack))
+	var frame_number = 0
+	for stack in get_stack().slice(2, get_stack().size()):
+		_write_logfile(
+			"Frame %s - %s:%s in function '%s'" % [
+				str(frame_number),
+				stack["source"],
+				stack["line"],
+				stack["function"],
+			]
+		)
+		frame_number += 1
 
 
 # Close the log file cleanly
