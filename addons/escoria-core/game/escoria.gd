@@ -134,6 +134,16 @@ func _ready():
 	)
 
 
+func _notification(what):
+	match what:
+		MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
+			escoria.logger.close_logs()
+			get_tree().quit()
+		MainLoop.NOTIFICATION_WM_GO_BACK_REQUEST:
+			escoria.logger.close_logs()
+			get_tree().quit()
+
+
 # Called by Escoria's main_scene as very very first event EVER.
 # Usually you'll want to show some logos animations before spawning the main
 # menu in the escoria/main/game_start_script 's :init event
@@ -339,3 +349,8 @@ func run_event_from_script(script: ESCScript, event_name: String):
 			[]
 		)
 		return
+
+
+# Function called to quit the game.
+func quit():
+	get_tree().notification(MainLoop.NOTIFICATION_WM_QUIT_REQUEST)

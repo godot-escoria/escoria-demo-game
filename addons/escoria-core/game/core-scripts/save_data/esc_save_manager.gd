@@ -10,6 +10,9 @@ var save_folder: String
 # Template for savegames filenames
 const SAVE_NAME_TEMPLATE: String = "save_%03d.tres"
 
+# Template for crash savegames filenames
+const CRASH_SAVE_NAME_TEMPLATE: String = "crash_autosave_%s_%s.tres"
+
 # Variable containing the settings folder obtained from Project Settings
 var settings_folder: String
 
@@ -74,7 +77,59 @@ func save_game(id: int, p_savename: String):
 			["Save requested while saving is not possible. Save canceled."])
 		return
 	
-	var save_game := ESCSaveGame.new()
+	var save_game := _do_save_game(p_savename)
+
+	var directory: Directory = Directory.new()
+	if not directory.dir_exists(save_folder):
+		directory.make_dir_recursive(save_folder)
+
+	var save_path = save_folder.plus_file(SAVE_NAME_TEMPLATE % id)
+	var error: int = ResourceSaver.save(save_path, save_game)
+	if error != OK:
+		escoria.logger.report_errors(
+			"esc_save_data_resources.gd",
+			["There was an issue writing the save %s to %s" % [id, save_path]]
+		)
+
+
+# Performs an emergency savegame in case of crash.
+func save_game_crash():
+	var datetime = OS.get_datetime()
+	var datetime_string = "%02d/%02d/%02d %02d:%02d" % [
+		datetime["day"],
+		datetime["month"],
+		datetime["year"],
+		datetime["hour"],
+		datetime["minute"],
+	]
+	
+	var save_game := _do_save_game("Crash %s" % datetime_string)
+	
+	var save_file_path: String = ProjectSettings.get_setting(
+		"escoria/debug/log_file_path"
+	)
+	var save_path = save_file_path.plus_file(
+		CRASH_SAVE_NAME_TEMPLATE % [
+			str(datetime["year"]) + str(datetime["month"]) 
+					+ str(datetime["day"]),
+			str(datetime["hour"]) + str(datetime["minute"]) 
+					+ str(datetime["second"])
+		]
+	)
+	var error: int = ResourceSaver.save(save_path, save_game)
+	if error != OK:
+		escoria.logger.report_errors(
+			"esc_save_data_resources.gd",
+			["There was an issue writing the crash save to %s" % save_path])
+	return error
+
+
+# Actual savegame function. 
+#
+# ## Parameters
+# - p_savename: name of the savegame
+func _do_save_game(p_savename: String) -> ESCSaveGame:
+	var save_game = ESCSaveGame.new()
 	save_game.escoria_version = escoria.ESCORIA_VERSION
 	save_game.game_version = ProjectSettings.get_setting(
 		"escoria/main/game_version"
@@ -94,17 +149,8 @@ func save_game(id: int, p_savename: String):
 	escoria.globals_manager.save_game(save_game)
 	escoria.object_manager.save_game(save_game)
 	escoria.main.save_game(save_game)
+	return save_game
 
-	var directory: Directory = Directory.new()
-	if not directory.dir_exists(save_folder):
-		directory.make_dir_recursive(save_folder)
-
-	var save_path = save_folder.plus_file(SAVE_NAME_TEMPLATE % id)
-	var error: int = ResourceSaver.save(save_path, save_game)
-	if error != OK:
-		escoria.logger.report_errors(
-			"esc_save_data_resources.gd",
-			["There was an issue writing the save %s to %s" % [id, save_path]])
 
 # Load a savegame file from its id.
 #

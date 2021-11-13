@@ -22,7 +22,7 @@ func _on_options_pressed():
 
 # Quit the game
 func _on_quit_pressed():
-	get_tree().quit()
+	escoria.quit()
 
 
 # Hide the options panel again
