@@ -34,9 +34,10 @@ func _ready():
 #
 # - event: The input event
 func _input(event):
-	if event is InputEventMouseButton and \
-			event.pressed:
+	if event is InputEventMouseButton and event.pressed \
+			and is_speaking:
 		speedup()
+		get_tree().set_input_as_handled()
 		
 
 # Find the matching voice output file for the given key
