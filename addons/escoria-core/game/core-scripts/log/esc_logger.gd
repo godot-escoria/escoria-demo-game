@@ -109,12 +109,7 @@ func warning(string: String, args = []):
 			_perform_stack_trace_log()
 			var message: String = ProjectSettings.get_setting(
 				"escoria/debug/crash_message"
-			) % [
-					log_file.get_path_absolute().get_base_dir().plus_file(
-						escoria.save_manager.crash_savegame_filename.get_file()
-					),
-					log_file.get_path_absolute()
-				]
+			) + "\n- " + log_file.get_path_absolute()
 			_log("\n" + message + "\n")
 			crashed = true
 			escoria.quit()
