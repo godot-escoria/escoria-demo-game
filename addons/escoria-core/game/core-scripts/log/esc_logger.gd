@@ -2,10 +2,22 @@
 extends Object
 class_name ESCLogger
 
+# Log file format
+const  LOG_FILE_FORMAT: String = "log_%s_%s.log"
+
 
 # The path of the ESC file that was reported last (used for removing
 # duplicate warnings
 var warning_path: String
+
+# Log file handler
+var log_file: File
+
+# Crash save filename
+var crash_savegame_filename
+
+# Did we crash already?
+onready var crashed = false
 
 
 # Valid log levels
@@ -22,6 +34,24 @@ var _level_map: Dictionary = {
 }
 
 
+# Logger constructor
+func _init():
+	# Open logfile in write mode
+	log_file = File.new()
+	var log_file_path = ProjectSettings.get_setting(
+		"escoria/debug/log_file_path"
+	)
+	var date = OS.get_datetime()
+	log_file_path = log_file_path.plus_file(LOG_FILE_FORMAT % [
+			str(date["year"]) + str(date["month"]) + str(date["day"]),
+			str(date["hour"]) + str(date["minute"]) + str(date["second"])
+		])
+	log_file.open(
+		log_file_path, 
+		File.WRITE
+	)
+
+
 # Log a trace message
 #
 # #### Parameters
@@ -29,9 +59,10 @@ var _level_map: Dictionary = {
 # * string: Text to log
 # * args: Additional information
 func trace(string: String, args = []):
-	if _get_log_level() >= LOG_TRACE:
+	if _get_log_level() >= LOG_TRACE and !crashed:
 		var argsstr = str(args) if !args.empty() else ""
-		printerr("(T)\t" + string + " \t" + argsstr)
+		_log("(T)\t" + string + " \t" + argsstr)
+
 
 # Log a debug message
 #
@@ -40,9 +71,9 @@ func trace(string: String, args = []):
 # * string: Text to log
 # * args: Additional information
 func debug(string: String, args = []):
-	if _get_log_level() >= LOG_DEBUG:
+	if _get_log_level() >= LOG_DEBUG and !crashed:
 		var argsstr = str(args) if !args.empty() else ""
-		printerr("(D)\t" + string + " \t" + argsstr)
+		_log("(D)\t" + string + " \t" + argsstr)
 
 
 # Log an info message
@@ -52,7 +83,7 @@ func debug(string: String, args = []):
 # * string: Text to log
 # * args: Additional information
 func info(string: String, args = []):
-	if _get_log_level() >= LOG_INFO:
+	if _get_log_level() >= LOG_INFO and !crashed:
 		var argsstr = []
 		if !args.empty():
 			for arg in args:
@@ -61,7 +92,7 @@ func info(string: String, args = []):
 						argsstr.append(p.global_id)
 				else:
 					argsstr.append(str(arg))
-		print("(I)\t" + string + " \t" + str(argsstr))
+		_log("(I)\t" + string + " \t" + str(argsstr))
 
 
 # Log a warning message
@@ -71,11 +102,17 @@ func info(string: String, args = []):
 # * string: Text to log
 # * args: Additional information
 func warning(string: String, args = []):
-	if _get_log_level() >= LOG_WARNING:
+	if _get_log_level() >= LOG_WARNING and !crashed:
 		var argsstr = str(args) if !args.empty() else ""
-		printerr("(W)\t" + string + " \t" + argsstr)
+		_log("(W)\t" + string + " \t" + argsstr, true)
 		if ProjectSettings.get_setting("escoria/debug/terminate_on_warnings"):
-			print_stack()
+			_perform_stack_trace_log()			
+			_log("%s\n- %s" % [ 
+				ProjectSettings.get_setting("escoria/debug/crash_message"), 
+				log_file.get_path_absolute() 
+			])
+			crashed = true
+			escoria.quit()
 			assert(false)
 
 
@@ -85,12 +122,25 @@ func warning(string: String, args = []):
 # 
 # * string: Text to log
 # * args: Additional information
-func error(string: String, args = []):
-	if _get_log_level() >= LOG_ERROR:
+func error(string: String, args = [], do_savegame: bool = true):
+	if _get_log_level() >= LOG_ERROR and !crashed:
 		var argsstr = str(args) if !args.empty() else ""
-		printerr("(E)\t" + string + " \t" + argsstr)
+		_log("(E)\t" + string + " \t" + argsstr, true)
 		if ProjectSettings.get_setting("escoria/debug/terminate_on_errors"):
-			print_stack()
+			_perform_stack_trace_log()
+			if do_savegame:
+				_perform_save_game_log()
+				
+			_log("%s\n- %s\n- %s" % [ 
+				ProjectSettings.get_setting("escoria/debug/crash_message"), 
+				log_file.get_path_absolute().get_base_dir().plus_file(
+					escoria.save_manager.crash_savegame_filename.get_file()
+				),
+				log_file.get_path_absolute() 
+			])
+			
+			crashed = true
+			escoria.quit()
 			assert(false)
 
 
@@ -135,7 +185,76 @@ func report_errors(p_path: String, errors: Array) -> void:
 	error(text)
 
 
+# Write message:
+# - in logfile
+# - in stdout, or stderr if err is true.
+#
+# #### Parameters
+# 
+# * message: Message to log
+# * err: if true, write in stderr
+func _log(message:String, err: bool = false):
+	if err:
+		printerr(message)
+	else:
+		print(message)
+	_write_logfile(message)
+
+
 # Returns the currently set log level
 # **Returns** Log level as set in the configuration
 func _get_log_level() -> int:
 	return _level_map[ProjectSettings.get_setting("escoria/debug/log_level")]
+
+
+# Creates a savegame file and save it in output log location
+func _perform_save_game_log():
+	_log("Performing emergency savegame.")
+	var error = escoria.save_manager.save_game_crash()
+	if error == OK:
+		_log(
+			"Emergency savegame created successfully in folder: %s" %
+				ProjectSettings.get_setting(
+					"escoria/debug/log_file_path"
+				)
+		)
+	else:
+		_log("Emergency savegame creation failed!", false)
+
+
+# Logs and writes the stack trace into stdout and log file.
+func _perform_stack_trace_log():
+	_log("Stack trace:")
+	print_stack()
+	_write_stack_logfile()
+
+
+# Write a message in the output logfile
+#
+# #### Parameters
+# 
+# * message: Message to write
+func _write_logfile(message: String) -> void:
+	if log_file.is_open():
+		log_file.store_string(message + "\n")
+
+
+# Write the stacktrace in the output logfile
+func _write_stack_logfile():
+	var frame_number = 0
+	for stack in get_stack().slice(2, get_stack().size()):
+		_write_logfile(
+			"Frame %s - %s:%s in function '%s'" % [
+				str(frame_number),
+				stack["source"],
+				stack["line"],
+				stack["function"],
+			]
+		)
+		frame_number += 1
+
+
+# Close the log file cleanly
+func close_logs():
+	_log("Closing logs peacefully.")
+	log_file.close()

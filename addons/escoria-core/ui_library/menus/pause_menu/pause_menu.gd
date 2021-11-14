@@ -28,7 +28,7 @@ func _on_load_game_pressed():
 
 # Quit the game
 func _on_quit_pressed():
-	get_tree().quit()
+	escoria.quit()
 
 
 # Hide the save slots again

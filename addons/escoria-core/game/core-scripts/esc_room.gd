@@ -105,8 +105,6 @@ func _ready():
 	if global_id.empty():
 		global_id = name
 	
-	
-	
 	# Manage player location at room start
 	if player != null \
 			and escoria.object_manager.get_start_location() != null:

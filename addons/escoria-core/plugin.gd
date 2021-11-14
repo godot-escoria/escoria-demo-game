@@ -211,6 +211,30 @@ func set_escoria_debug_settings():
 		}
 		ProjectSettings.add_property_info(property_info)
 	
+	# Define output log file path
+	if not ProjectSettings.has_setting("escoria/debug/log_file_path"):
+		ProjectSettings.set_setting("escoria/debug/log_file_path", "user://")
+		var property_info = {
+			"name": "escoria/debug/log_file_path",
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_DIR
+		}
+		ProjectSettings.add_property_info(property_info)
+	
+	# Define crash message
+	if not ProjectSettings.has_setting("escoria/debug/crash_message"):
+		ProjectSettings.set_setting(
+			"escoria/debug/crash_message", 
+			"We're sorry, but the game crashed. Please send us the " +
+			"following files:\n"
+		)
+		var property_info = {
+			"name": "escoria/debug/crash_message",
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_MULTILINE_TEXT
+		}
+		ProjectSettings.add_property_info(property_info)
+	
 	# Room selector preference
 	if not ProjectSettings.has_setting("escoria/debug/enable_room_selector"):
 		ProjectSettings.set_setting("escoria/debug/enable_room_selector", false)
