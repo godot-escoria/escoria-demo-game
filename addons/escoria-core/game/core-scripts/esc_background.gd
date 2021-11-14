@@ -82,7 +82,7 @@ func _ready():
 #
 # #### Parameters
 # - event: Event received
-func _input(event) -> void:
+func _unhandled_input(event) -> void:
 	if not escoria.current_state == escoria.GAME_STATE.DEFAULT:
 		return
 	if InputMap.has_action("switch_action_verb") \
