@@ -1,3 +1,12 @@
+## [4.0.0-alpha.45](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.45) (2021-11-15)
+
+
+### Bug Fixes
+
+* Fixed more input events ([#442](https://github.com/godot-escoria/escoria-demo-game/issues/442)) ([b626973](https://github.com/godot-escoria/escoria-demo-game/commit/b626973f117420da25bd0af361776c0cc86d4947))
+
+
+
 ## [4.0.0-alpha.44](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.44) (2021-11-15)
 
 
