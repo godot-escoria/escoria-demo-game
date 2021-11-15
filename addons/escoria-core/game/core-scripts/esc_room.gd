@@ -180,7 +180,8 @@ func perform_script_events():
 			)
 			escoria.globals_manager.set_global(
 				"ESC_LAST_SCENE",
-				escoria.main.current_scene.global_id, 
+				escoria.main.current_scene.global_id \
+						if escoria.main.current_scene != null else "", 
 				true
 			)
 

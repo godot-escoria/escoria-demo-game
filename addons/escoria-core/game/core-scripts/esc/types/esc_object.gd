@@ -70,7 +70,8 @@ func get_save_data() -> Dictionary:
 	save_data["interactive"] = self.interactive
 	save_data["state"] = self.state
 
-	if self.node.get("is_movable") and self.node.is_movable:
+	if is_instance_valid(self.node) and \
+			self.node.get("is_movable") and self.node.is_movable:
 		save_data["global_transform"] = self.node.global_transform
 		save_data["last_deg"] = wrapi(self.node._movable._get_angle() + 1, 0, 360)
 		save_data["last_dir"] = self.node._movable.last_dir
