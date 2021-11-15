@@ -1,3 +1,12 @@
+## [4.0.0-alpha.46](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.46) (2021-11-15)
+
+
+### Bug Fixes
+
+* Resets the current verb after the action has finished ([#443](https://github.com/godot-escoria/escoria-demo-game/issues/443)) ([9068bb8](https://github.com/godot-escoria/escoria-demo-game/commit/9068bb8e94c423e69596e11b01ab1e6bee2124d4))
+
+
+
 ## [4.0.0-alpha.45](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.45) (2021-11-15)
 
 
