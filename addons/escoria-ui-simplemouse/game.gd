@@ -204,6 +204,7 @@ func pause_game():
 
 func _on_action_finished():
 	$mouse_layer/verbs_menu.clear_tool_texture()
+	$mouse_layer/verbs_menu.iterate_actions_cursor(0)
 
 
 func _on_MenuButton_pressed() -> void:
