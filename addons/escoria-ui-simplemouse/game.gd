@@ -70,8 +70,8 @@ func left_click_on_bg(position: Vector2) -> void:
 			[escoria.main.current_scene.player.global_id, position],
 			true
 		)
-		$CanvasLayer/ui/HBoxContainer/verbs_menu.set_by_name("walk")
-		$CanvasLayer/ui/HBoxContainer/verbs_menu.clear_tool_texture()
+		$mouse_layer/verbs_menu.set_by_name("walk")
+		$mouse_layer/verbs_menu.clear_tool_texture()
 	
 func right_click_on_bg(position: Vector2) -> void:
 	mousewheel_action(1)
@@ -83,8 +83,8 @@ func left_double_click_on_bg(position: Vector2) -> void:
 			[escoria.main.current_scene.player.global_id, position, true],
 			true
 		)
-		$CanvasLayer/ui/HBoxContainer/verbs_menu.set_by_name("walk")
-		$CanvasLayer/ui/HBoxContainer/verbs_menu.clear_tool_texture()
+		$mouse_layer/verbs_menu.set_by_name("walk")
+		$mouse_layer/verbs_menu.clear_tool_texture()
 
 ## ITEM/HOTSPOT FOCUS ## 
 
@@ -95,7 +95,7 @@ func element_focused(element_id: String) -> void:
 	if escoria.action_manager.current_action != "use" \
 			and escoria.action_manager.current_tool == null:
 		if target_obj is ESCItem:
-			$CanvasLayer/ui/HBoxContainer/verbs_menu.set_by_name(
+			$mouse_layer/verbs_menu.set_by_name(
 				target_obj.default_action
 			)
 
@@ -123,11 +123,11 @@ func left_click_on_inventory_item(inventory_item_global_id: String, event: Input
 			inventory_item_global_id
 		).node
 		if item.has_method("get_sprite") and item.get_sprite().texture:
-			$CanvasLayer/ui/HBoxContainer/verbs_menu.set_tool_texture(
+			$mouse_layer/verbs_menu.set_tool_texture(
 				item.get_sprite().texture
 			)
 		elif item.inventory_item.texture_normal:
-			$CanvasLayer/ui/HBoxContainer/verbs_menu.set_tool_texture(
+			$mouse_layer/verbs_menu.set_tool_texture(
 				item.inventory_item.texture_normal
 			)
 			
@@ -161,7 +161,7 @@ func close_inventory():
 
 
 func mousewheel_action(direction: int):
-	$CanvasLayer/ui/HBoxContainer/verbs_menu.iterate_actions_cursor(direction)
+	$mouse_layer/verbs_menu.iterate_actions_cursor(direction)
 
 
 func hide_ui():
@@ -174,7 +174,7 @@ func show_ui():
 
 func _on_event_done(event_name: String):
 	escoria.action_manager.clear_current_action()
-	$CanvasLayer/ui/HBoxContainer/verbs_menu.clear_tool_texture()
+	$mouse_layer/verbs_menu.clear_tool_texture()
 
 func hide_main_menu():
 	if get_node(main_menu).visible:
@@ -203,7 +203,7 @@ func pause_game():
 
 
 func _on_action_finished():
-	$CanvasLayer/ui/HBoxContainer/verbs_menu.clear_tool_texture()
+	$mouse_layer/verbs_menu.clear_tool_texture()
 
 
 func _on_MenuButton_pressed() -> void:

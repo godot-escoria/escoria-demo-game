@@ -49,16 +49,11 @@ margin_right = 58.0
 margin_bottom = 27.0
 text = "Menu"
 
-[node name="verbs_menu" parent="CanvasLayer/ui/HBoxContainer" instance=ExtResource( 4 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Spacer" type="Control" parent="CanvasLayer/ui/HBoxContainer"]
 margin_left = 62.0
-margin_right = 62.0
+margin_right = 1186.0
 margin_bottom = 90.0
-grow_horizontal = 0
-size_flags_horizontal = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 3.0
+size_flags_horizontal = 3
 
 [node name="inventory_ui" parent="CanvasLayer/ui/HBoxContainer" instance=ExtResource( 1 )]
 anchor_right = 0.0
@@ -94,5 +89,20 @@ theme = ExtResource( 9 )
 bbcode_text = "[center][color=#000000][/color][/center]"
 fit_content_height = true
 offset_from_cursor = Vector2( 75, 10 )
+
+[node name="mouse_layer" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="verbs_menu" parent="mouse_layer" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 156.0
+margin_top = 810.0
+margin_right = 156.0
+margin_bottom = 900.0
+grow_horizontal = 0
+size_flags_horizontal = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
 
 [connection signal="pressed" from="CanvasLayer/ui/HBoxContainer/VBoxContainer/MenuButton" to="." method="_on_MenuButton_pressed"]

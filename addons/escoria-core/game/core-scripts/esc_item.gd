@@ -269,7 +269,7 @@ func _ready():
 # #### Parameters
 #
 # - event: Triggered event
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if not escoria.current_state == escoria.GAME_STATE.DEFAULT:
 		return
 	if event is InputEventMouseButton and event.is_pressed():

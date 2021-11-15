@@ -84,7 +84,7 @@ func register_background(background: ESCBackground):
 		"mouse_wheel_up",
 		self,
 		"_on_mousewheel_action",
-		[-1]
+		[1]
 	)
 	background.connect(
 		"mouse_wheel_down",
