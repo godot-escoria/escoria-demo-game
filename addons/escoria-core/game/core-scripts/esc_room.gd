@@ -62,8 +62,10 @@ func _ready():
 	if camera_limits.empty():
 		camera_limits.push_back(Rect2())
 	if camera_limits.size() == 1 and camera_limits[0].has_no_area():
-		camera_limits[0] = \
-				Rect2(0, 0, $background.rect_size.x, $background.rect_size.y)
+		for child in get_children():
+			if child is ESCBackground:
+				camera_limits[0] = \
+					Rect2(0, 0, child.rect_size.x, child.rect_size.y)
 		
 	if Engine.is_editor_hint():
 		return

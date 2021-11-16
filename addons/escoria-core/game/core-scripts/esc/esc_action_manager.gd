@@ -137,8 +137,10 @@ func activate(
 						escoria.logger.report_warnings(
 							"ESCActionManager.activate: Invalid action on item", 
 							[
-								"Trying to combine object %s with %s, "+
-								"but %s is not in inventory." % [
+								(
+									"Trying to combine object %s with %s, "+
+									"but %s is not in inventory."
+								) % [
 									target.global_id,
 									combine_with.global_id,
 									combine_with.global_id
