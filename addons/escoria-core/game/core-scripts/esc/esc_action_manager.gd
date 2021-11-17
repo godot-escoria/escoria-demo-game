@@ -92,6 +92,7 @@ func activate(
 							if event_returned[0] == ESCExecution.RC_OK:
 								escoria.action_manager\
 										.clear_current_action()
+							emit_signal("action_finished")
 							return event_returned[0]
 						elif combine_with.events.has(combine_with_event)\
 								and not combine_with.node.combine_is_one_way:
