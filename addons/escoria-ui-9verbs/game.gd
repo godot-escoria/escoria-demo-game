@@ -183,7 +183,8 @@ func mousewheel_action(_direction: int):
 func hide_ui():
 	$ui/Control.hide()
 	verbs_menu.hide()
-	room_select.hide()
+	if ProjectSettings.get("escoria/debug/enable_room_selector") == true:
+		room_select.hide()
 	inventory_ui.hide()
 	tooltip.hide()
 
@@ -191,7 +192,8 @@ func hide_ui():
 func show_ui():
 	$ui/Control.show()
 	verbs_menu.show()
-	room_select.show()
+	if ProjectSettings.get("escoria/debug/enable_room_selector") == true:
+		room_select.show()
 	inventory_ui.show()
 	tooltip.show()
 
