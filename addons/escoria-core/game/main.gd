@@ -161,4 +161,3 @@ func check_game_scene_methods():
 	assert(current_scene.game.has_method("show_ui"))
 	assert(current_scene.game.has_method("_on_event_done"))
 	
-	assert(current_scene.game.has_method("show_crash_popup"))
