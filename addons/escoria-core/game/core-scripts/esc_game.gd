@@ -39,7 +39,8 @@ var tooltip_node: Object
 # Ready function
 func _ready():
 	escoria.apply_settings(escoria.settings)
-	
+	connect("crash_popup_confirmed", escoria, "quit", 
+		[], CONNECT_ONESHOT)
 
 # Handle debugging visualizations
 func _draw():
@@ -315,8 +316,6 @@ func hide_main_menu():
 #
 # - files: Array of strings containing the paths to the files generated on crash
 func show_crash_popup(files: Array = []) -> void:
-	connect("crash_popup_confirmed", escoria, "quit", 
-		[], CONNECT_ONESHOT)
 	var crash_popup = AcceptDialog.new()
 	crash_popup.popup_exclusive = true
 	crash_popup.pause_mode = Node.PAUSE_MODE_PROCESS
