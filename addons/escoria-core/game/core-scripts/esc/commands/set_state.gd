@@ -1,9 +1,15 @@
 # `set_state object state [immediate]`
 #
-# Changes the state of an object, and executes the state animation if present. 
+# Changes the state of an object to the given state.
+#
+# If the associated animation player has an animation with the same name,
+# it also plays that animation.
+#
 # The command can be used to change the appearance of an item or a player 
-# character.
-# If `immediate` is set to true, the animation is run directly
+# character. See https://docs.escoria-framework.org/states for details.
+#
+# If `immediate` is set to true, the animation is directly skipped to the last 
+# frame
 #
 # @ESC
 extends ESCBaseCommand

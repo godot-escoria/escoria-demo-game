@@ -136,6 +136,12 @@ func seek_end(name: String):
 #
 # - name: Name of the animation played
 func _on_animation_finished(name: String):
+	if _is_animation_player:
+		_animation_player.stop()
+		_animation_player.seek(0)
+	else:
+		_animated_sprite.stop()
+		_animated_sprite.frame = 0
 	emit_signal("animation_finished", name)
 
 
