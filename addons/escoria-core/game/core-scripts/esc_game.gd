@@ -310,5 +310,25 @@ func hide_main_menu():
 
 
 # Shows the crash popup when a crash occurs
-func show_crash_popup() -> void:
-	pass
+#
+# #### Parameters
+#
+# - files: Array of strings containing the paths to the files generated on crash
+func show_crash_popup(files: Array = []) -> void:
+	connect("crash_popup_confirmed", escoria, "quit", 
+		[], CONNECT_ONESHOT)
+	var crash_popup = AcceptDialog.new()
+	crash_popup.popup_exclusive = true
+	crash_popup.pause_mode = Node.PAUSE_MODE_PROCESS
+	add_child(crash_popup)
+	var files_to_send: String = ""
+	for file in files:
+		files_to_send += "- %s\n" % file
+	crash_popup.dialog_text = tr(ProjectSettings.get_setting(
+		"escoria/debug/crash_message")
+	) % files_to_send
+	crash_popup.popup_centered()
+	escoria.set_game_paused(true)
+	yield(crash_popup, "confirmed")
+	emit_signal("crash_popup_confirmed")
+

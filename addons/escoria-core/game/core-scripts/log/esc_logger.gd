@@ -116,7 +116,7 @@ func warning(string: String, args = []):
 			) % files 
 			
 			_log(message, true)
-			
+			escoria.set_game_paused(true)
 			escoria.main.current_scene.game.show_crash_popup(
 				[log_file.get_path_absolute()]
 			)
@@ -153,7 +153,7 @@ func error(string: String, args = [], do_savegame: bool = true):
 			) % files 
 			
 			_log(message, true)
-			
+			escoria.set_game_paused(true)
 			escoria.main.current_scene.game.show_crash_popup(files_to_send)
 			assert(false)
 
