@@ -117,7 +117,7 @@ func _init():
 		self.game_scene = resource_cache.get_resource(
 			ProjectSettings.get_setting("escoria/ui/game_scene")
 		).instance()
-		
+	
 
 # Load settings
 func _ready():

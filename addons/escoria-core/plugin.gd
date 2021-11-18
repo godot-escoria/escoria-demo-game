@@ -226,7 +226,7 @@ func set_escoria_debug_settings():
 		ProjectSettings.set_setting(
 			"escoria/debug/crash_message", 
 			"We're sorry, but the game crashed. Please send us the " +
-			"following files:\n"
+			"following files:\n\n%s"
 		)
 		var property_info = {
 			"name": "escoria/debug/crash_message",
