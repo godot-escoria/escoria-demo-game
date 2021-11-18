@@ -120,7 +120,8 @@ func warning(string: String, args = []):
 			escoria.main.current_scene.game.show_crash_popup(
 				[log_file.get_path_absolute()]
 			)
-
+			assert(false)
+			
 
 # Log an error message
 #
@@ -154,6 +155,7 @@ func error(string: String, args = [], do_savegame: bool = true):
 			_log(message, true)
 			
 			escoria.main.current_scene.game.show_crash_popup(files_to_send)
+			assert(false)
 
 
 # Log a warning message about an ESC file
