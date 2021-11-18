@@ -224,9 +224,31 @@ func pause_game():
 		escoria.main.current_scene.hide()
 		escoria.set_game_paused(true)
 
+
 func _on_MenuButton_pressed() -> void:
 	pause_game()
 	
 	
 func _on_action_finished() -> void:
 	verbs_menu.unselect_actions()
+
+
+func show_crash_popup(files = []) -> void:
+	connect("crash_popup_confirmed", escoria, "quit", 
+		[], CONNECT_ONESHOT)
+	var crash_popup = escoria.resource_cache.get_resource(
+		"res://addons/escoria-core/ui_library/crash_popup/crash_popup.tscn"
+	).instance()
+	add_child(crash_popup)
+	move_child(crash_popup, 0)
+	var files_to_send: String = ""
+	for file in files:
+		files_to_send += "- %s\n" % file
+	crash_popup.set_message(
+		ProjectSettings.get_setting("escoria/debug/crash_message") 
+			% files_to_send
+	)
+	crash_popup.popup_centered()
+	escoria.set_game_paused(true)
+	yield(crash_popup, "confirmed")
+	emit_signal("crash_popup_confirmed")

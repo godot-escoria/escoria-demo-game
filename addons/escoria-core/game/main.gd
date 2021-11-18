@@ -40,11 +40,9 @@ func set_scene(p_scene: Node) -> void:
 	if current_scene != null:
 		clear_scene()
 
-	if p_scene.is_inside_tree() and p_scene.get_parent() != self:
-		p_scene.get_parent().remove_child(p_scene)
-
-	add_child(p_scene) 
-	move_child(p_scene, 0)
+	if not p_scene.is_inside_tree():
+		add_child(p_scene) 
+		move_child(p_scene, 0)
 	current_scene = p_scene
 	check_game_scene_methods()
 
@@ -163,3 +161,4 @@ func check_game_scene_methods():
 	assert(current_scene.game.has_method("show_ui"))
 	assert(current_scene.game.has_method("_on_event_done"))
 	
+	assert(current_scene.game.has_method("show_crash_popup"))

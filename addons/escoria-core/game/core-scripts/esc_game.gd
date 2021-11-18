@@ -5,6 +5,10 @@ extends Node2D
 class_name ESCGame
 
 
+# Emitted when the user has confirmed the crash popup
+signal crash_popup_confirmed
+
+
 # Editor debug modes
 # NONE - No debugging
 # MOUSE_TOOLTIP_LIMITS - Visualize the tooltip limits
@@ -302,4 +306,9 @@ func show_main_menu():
 
 # Hides the main menu. Reimplement to hide a specific UI.
 func hide_main_menu():
+	pass
+
+
+# Shows the crash popup when a crash occurs
+func show_crash_popup() -> void:
 	pass

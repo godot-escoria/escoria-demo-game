@@ -105,15 +105,21 @@ func warning(string: String, args = []):
 	if _get_log_level() >= LOG_WARNING and !crashed:
 		var argsstr = str(args) if !args.empty() else ""
 		_log("(W)\t" + string + " \t" + argsstr, true)
+		
 		if ProjectSettings.get_setting("escoria/debug/terminate_on_warnings"):
-			_perform_stack_trace_log()			
-			_log("%s\n- %s" % [ 
-				ProjectSettings.get_setting("escoria/debug/crash_message"), 
-				log_file.get_path_absolute() 
-			])
+			_perform_stack_trace_log()
 			crashed = true
-			escoria.quit()
-			assert(false)
+			
+			var files = "- %s" % log_file.get_path_absolute()
+			var message = ProjectSettings.get_setting(
+				"escoria/debug/crash_message"
+			) % files 
+			
+			_log(message, true)
+			
+			escoria.main.current_scene.game.show_crash_popup(
+				[log_file.get_path_absolute()]
+			)
 
 
 # Log an error message
@@ -126,22 +132,28 @@ func error(string: String, args = [], do_savegame: bool = true):
 	if _get_log_level() >= LOG_ERROR and !crashed:
 		var argsstr = str(args) if !args.empty() else ""
 		_log("(E)\t" + string + " \t" + argsstr, true)
+		
 		if ProjectSettings.get_setting("escoria/debug/terminate_on_errors"):
 			_perform_stack_trace_log()
+			crashed = true
 			if do_savegame:
 				_perform_save_game_log()
-				
-			_log("%s\n- %s\n- %s" % [ 
-				ProjectSettings.get_setting("escoria/debug/crash_message"), 
+			
+			var files_to_send: Array = [
 				log_file.get_path_absolute().get_base_dir().plus_file(
 					escoria.save_manager.crash_savegame_filename.get_file()
 				),
 				log_file.get_path_absolute() 
-			])
+			]
 			
-			crashed = true
-			escoria.quit()
-			assert(false)
+			var files = "- %s\n- %s" % files_to_send
+			var message = ProjectSettings.get_setting(
+				"escoria/debug/crash_message"
+			) % files 
+			
+			_log(message, true)
+			
+			escoria.main.current_scene.game.show_crash_popup(files_to_send)
 
 
 # Log a warning message about an ESC file
