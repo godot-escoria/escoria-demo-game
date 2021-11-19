@@ -39,7 +39,7 @@ say player "I don't think he'd like that."
 
 ####################################################################################################
 :give r5_filled_sheet
-set_hud_visible false
+set_gui_visible false
 accept_input SKIP
 
 inventory_remove r5_filled_sheet
@@ -57,7 +57,7 @@ set_global r6_door_open true
 wait 1
 set_active worker false
 
-set_hud_visible true
+set_gui_visible true
 accept_input ALL
 
 

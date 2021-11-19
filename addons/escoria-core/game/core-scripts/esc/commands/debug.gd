@@ -1,6 +1,10 @@
 # `debug string [string2 ...]`
 #
-# Takes 1 or more strings, prints them to the console.
+# Prints a debug log message
+#
+# **Parameters**
+#
+# - *string*: One or more strings to log
 #
 # @ESC
 extends ESCBaseCommand

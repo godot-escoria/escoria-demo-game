@@ -1,9 +1,21 @@
 # `camera_push target [time] [type]`
 #
-# Push camera to `target`. Target must have camera_pos set. If it's of type 
-# Camera2D, its zoom will be used as well as position. `type` is any of the 
-# Tween.TransitionType values without the prefix, eg. LINEAR, QUART or CIRC; 
-# defaults to QUART. A `time` value of 0 will set the camera immediately.
+# Push camera to point to a specific `target`.
+#
+# **Parameters**
+#
+# - *target*: Global ID of the target ESCItem to push the camera to. If that 
+#   has a child node called `camera_node`, its location will be used. If not,
+#   the location of the target will be used directly
+# - *time*: Number of seconds the transition should take (1)
+# - *type*: Transition type to use (QUAD)
+#
+# The transitions, that are supported are the names of the values used 
+# in the TransitionType enum of the Tween type (without the TRANS_ prefix):
+#
+# https://docs.godotengine.org/en/stable/classes/class_tween.html?highlight=tween#enumerations
+#
+# For more details see: https://docs.escoria-framework.org/camera
 #
 # @ESC
 extends ESCBaseCommand

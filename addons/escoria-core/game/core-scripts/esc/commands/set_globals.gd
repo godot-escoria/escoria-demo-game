@@ -4,6 +4,11 @@
 # matches zero or more arbitrary characters and "?" matches any single 
 # character except a period (".").
 #
+# **Parameters**
+#
+# - *pattern*: Pattern for the names of the globals to change
+# - *value*: Value to set (can be of type string, boolean, integer or float)
+#
 # @ESC
 extends ESCBaseCommand
 class_name SetGlobalsCommand

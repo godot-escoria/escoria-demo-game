@@ -1,12 +1,13 @@
-# `transition transition_name in|out [delay]`
+# `transition transition_name mode [delay]`
 #
-# Performs a transition in our out manually.
+# Performs a transition in our out programatically.
 # 
-# Parameters:
-# - transition_name: Name of the transition shader from one of the transition
+# **Parameters**
+#
+# - *transition_name*: Name of the transition shader from one of the transition
 #   directories
-# - in|out: Wether to play the transition in IN- or OUT-mode
-# - delay: Delay for the transition to take. Defaults to 1 second
+# - *mode*: Set to `in` to transition in or `out` to transition out
+# - *delay*: Delay of seconds for the transition to take (1)
 # 
 # @ESC
 extends ESCBaseCommand

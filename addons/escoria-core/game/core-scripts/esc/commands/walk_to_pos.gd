@@ -1,7 +1,14 @@
-# `walk_to_pos player x y`
+# `walk_to_pos object x y`
 #
-# Makes the `player` walk to the position `x`/`y`.
+# Moves the movable ESCItem or ESCPlayer to the target position while playing
+# the object's walking animation. This command is non-blocking.
 #
+# **Parameters**
+#
+# - *object*: Global ID of the object to move
+# - *x*: X position
+# - *y*: Y position
+# 
 # @ESC
 extends ESCBaseCommand
 class_name WalkToPosCommand

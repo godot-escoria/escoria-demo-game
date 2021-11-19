@@ -1,9 +1,14 @@
-# `slide object1 object2 [speed]`
+# `slide object target [speed]`
 #
-# Moves object1 towards the position of object2, at the speed determined by 
-# object1's "speed" property, unless overridden. This command is non-blocking. 
-# It does not respect the room's navigation polygons, so you can move items 
-# where the player can't walk.
+# Moves the object towards the position of the target object, This command is
+# non-blocking. 
+#
+# - *object*: Global ID of the object to move
+# - *target*: Global ID of the target object
+# - *speed*: Speed for the movement (defaults to the object's default speed)
+#
+# **Warning** This command does not respect the room's navigation polygons, so
+# so the object can be moved even outside walkable areas.
 #
 # @ESC
 extends ESCBaseCommand

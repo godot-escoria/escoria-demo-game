@@ -8,8 +8,11 @@
 # The command can be used to change the appearance of an item or a player 
 # character. See https://docs.escoria-framework.org/states for details.
 #
-# If `immediate` is set to true, the animation is directly skipped to the last 
-# frame
+# **Parameters**
+#
+# - *object*: Global ID of the object for which the state is changed
+# - *immediate*: If an animation for the state exists, it is directly skipped
+#   to the last frame
 #
 # @ESC
 extends ESCBaseCommand

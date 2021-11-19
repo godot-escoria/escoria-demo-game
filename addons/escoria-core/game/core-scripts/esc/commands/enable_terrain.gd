@@ -1,7 +1,11 @@
 # `enable_terrain node_name`
 #
-# Enable the ESCTerrain's NavigationPolygonInstance defined by given node name. 
+# Enable the ESCTerrain's NavigationPolygonInstance defined by given node name.
 # Disables previously activated NavigationPolygonInstance.
+#
+# **Parameters**
+#
+# - *node_name*: name of the NavigationPolygonInstance node to activate
 #
 # @ESC
 extends ESCBaseCommand

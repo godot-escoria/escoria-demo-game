@@ -2,9 +2,13 @@
 #
 # Executes the animation specificed with the "name" parameter on the object, 
 # blocking. The next command in the event will be executed when the animation 
-# is finished playing. Optional parameters:
+# is finished playing.
 #
-# * `reverse`: plays the animation in reverse when true
+# **Parameters**
+#
+# * *object*: Global ID of the object with the animation
+# * *name*: Name of the animation
+# * *reverse*: Plays the animation in reverse when true
 # 
 # @ESC
 extends ESCBaseCommand

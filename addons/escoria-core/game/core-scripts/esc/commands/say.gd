@@ -1,16 +1,18 @@
 # `say player text [type]`
 #
 # Runs the specified string as a dialog said by the player. Blocks execution 
-# until the dialog finishes playing. 
+# until the dialog finished playing.
+#
+# **Parameters**
+#
+# - *player*: Global id of the ESCPlayer or ESCItem object that is active
+# - *text*: Text to say
+# - *type*: Dialog type to use (default dialog type)
 #
 # The text supports translation keys by prepending the key and separating
 # it with a `:` from the text.
 # 
 # Example: `say player ROOM1_PICTURE:"Picture's looking good."`
-#
-# Optional parameters:
-# 
-# * "type" determines the type of dialog UI to use. Default value is "default"
 #
 # @ESC
 extends ESCBaseCommand

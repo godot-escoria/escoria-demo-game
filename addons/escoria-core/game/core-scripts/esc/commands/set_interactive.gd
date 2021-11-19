@@ -1,6 +1,11 @@
-# `set_interactive object value`
+# `set_interactive object interactive`
 #
 # Sets whether or not an object should be interactive.
+#
+# **Parameters**
+#
+# - *object*: Global ID of the object to change
+# - *interactive*: Wether to make the object interactive or not
 #
 # @ESC
 extends ESCBaseCommand

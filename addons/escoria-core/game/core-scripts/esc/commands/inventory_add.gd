@@ -2,6 +2,10 @@
 #
 # Add an item to the inventory
 #
+# **Parameters**
+#
+# - *item*: global id of ESCItem to add
+#
 # @ESC
 extends ESCBaseCommand
 class_name InventoryAddCommand

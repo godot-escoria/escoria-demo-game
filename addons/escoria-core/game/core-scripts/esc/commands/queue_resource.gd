@@ -1,11 +1,12 @@
 # `queue_resource path [front_of_queue]`
 #
-# Queues the load of a resource in a background thread. The `path` must be a 
-# full path inside your game, for example "res://scenes/next_scene.tscn". The 
-# "front_of_queue" parameter is optional (default value false), to put the 
-# resource in the front of the queue. Queued resources are cleared when a 
-# change scene happens (but after the scene is loaded, meaning you can queue 
-# resources that belong to the next scene).
+# Queues loading the given resource into the resource cache.
+#
+# **Parameters**
+# 
+# - *path*: Path of the resource to cache
+# - *front_of_queue*: Put it at the front of the queue to load it as soon as
+#   possible (false)
 #
 # @ESC
 extends ESCBaseCommand

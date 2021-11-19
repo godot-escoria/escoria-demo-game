@@ -440,19 +440,14 @@ _global_script_classes=[ {
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_globals.gd"
 }, {
 "base": "ESCBaseCommand",
-"class": "SetHudVisibleCommand",
+"class": "SetGuiVisibleCommand",
 "language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_hud_visible.gd"
+"path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_gui_visible.gd"
 }, {
 "base": "ESCBaseCommand",
 "class": "SetInteractiveCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_interactive.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "SetSoundStateCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_sound_state.gd"
 }, {
 "base": "ESCBaseCommand",
 "class": "SetSpeedCommand",
@@ -488,6 +483,11 @@ _global_script_classes=[ {
 "class": "StopCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/stop.gd"
+}, {
+"base": "ESCBaseCommand",
+"class": "StopSndCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/commands/stop_snd.gd"
 }, {
 "base": "ESCBaseCommand",
 "class": "TeleportCommand",
@@ -621,9 +621,8 @@ _global_script_class_icons={
 "SetAnimationsCommand": "",
 "SetGlobalCommand": "",
 "SetGlobalsCommand": "",
-"SetHudVisibleCommand": "",
+"SetGuiVisibleCommand": "",
 "SetInteractiveCommand": "",
-"SetSoundStateCommand": "",
 "SetSpeedCommand": "",
 "SetStateCommand": "",
 "ShowMenuCommand": "",
@@ -631,6 +630,7 @@ _global_script_class_icons={
 "SlideCommand": "",
 "SpawnCommand": "",
 "StopCommand": "",
+"StopSndCommand": "",
 "TeleportCommand": "",
 "TeleportPosCommand": "",
 "TransitionCommand": "",
@@ -714,6 +714,10 @@ dialog_simple/avatars_path="res://game/dialog_avatars"
 dialog_simple/text_speed_per_character=0.1
 dialog_simple/fast_text_speed_per_character=0.25
 dialog_simple/max_time_to_disappear=1.0
+debug/log_file_path="user://"
+debug/crash_message="We're sorry, but the game crashed. Please send us the following files:
+
+%s"
 
 [input]
 

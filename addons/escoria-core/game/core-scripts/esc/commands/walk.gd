@@ -1,8 +1,13 @@
-# `walk object1 object2 [speed]`
+# `walk object target [speed]`
 #
-# Walks, using the walk animation, object1 towards the position of object2, 
-# at the speed determined by object1's "speed" property, 
-# unless overridden. This command is non-blocking.
+# Moves the movable ESCItem or ESCPlayer to the target while playing the
+# object's walking animation. This command is non-blocking.
+#
+# **Parameters**
+#
+# - *object*: Global ID of the object to move
+# - *target*: Global ID of the target object
+# - *speed*: Walking speed to use (defaults to the object's default speed)
 # 
 # @ESC
 extends ESCBaseCommand

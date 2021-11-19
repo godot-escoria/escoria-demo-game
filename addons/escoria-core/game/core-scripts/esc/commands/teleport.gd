@@ -1,6 +1,11 @@
-# `teleport object1 object2`
+# `teleport object target`
 #
-# Sets the position of object1 to the position of object2.
+# Moves an object directly to a new position
+#
+# **Parameters**
+#
+# - *object*: Global ID of the object to move
+# - *target*: Global ID of the target object
 #
 # @ESC
 extends ESCBaseCommand

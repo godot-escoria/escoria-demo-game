@@ -229,10 +229,12 @@ func load_game(id: int):
 				save_game.objects[object_global_id]["last_deg"]])
 			)
 		
-		if object_global_id == "_music" or object_global_id == "_sound":
-			load_statements.append(ESCCommand.new("set_sound_state %s %s true" \
-					% [object_global_id,
-				save_game.objects[object_global_id]["state"]])
+		if object_global_id in ["_music", "_sound", "_speech"]:
+			load_statements.append(
+				ESCCommand.new("play_snd %s %s" % [
+					save_game.objects[object_global_id]["state"],
+					object_global_id,
+				])
 			)
 	
 	load_statements.append(

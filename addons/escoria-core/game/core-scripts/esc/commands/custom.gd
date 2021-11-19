@@ -1,8 +1,15 @@
 # `custom object node func_name [params]`
 # 
-# Calls the function `func_name` of the node `node` of object `object` with 
-# the optional `params`. This is a blocking function
-# 
+# Calls the given Godot function on the target node of a registered ESCitem.
+#
+# **Parameters**
+#
+# - *object*: Global ID of the target object
+# - *node*: Name of the child node of the target object
+# - *func_name*: Name of the function to call
+# - *params*: Additional parameters to the function. Accepts an array
+#   by using a comma separated list (no parameters)
+#
 # @ESC
 extends ESCBaseCommand
 class_name CustomCommand

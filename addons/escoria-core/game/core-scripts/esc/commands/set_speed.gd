@@ -1,6 +1,11 @@
 # `set_speed object speed`
 #
-# Sets how fast object moves. Speed is an integer.
+# Sets the speed of a movable ESCItem or ESCPlayer.
+#
+# **Parameters**
+#
+# - *object*: Global ID of the movable ESCItem or ESCPlayer
+# - *speed*: Speed value for the object
 #
 # @ESC
 extends ESCBaseCommand

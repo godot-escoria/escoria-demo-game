@@ -1,7 +1,11 @@
 # `set_global name value`
 #
-# Changes the value of the global "name" with the value. Value can be "true", 
-# "false" or an integer.
+# Changes the value of a global.
+#
+# **Parameters**
+#
+# - *name*: Name of the global
+# - *value*: Value to set (can be of type string, boolean, integer or float)
 #
 # @ESC
 extends ESCBaseCommand

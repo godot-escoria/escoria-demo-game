@@ -28,13 +28,16 @@ func show_chooser():
 	_remove_avatar()
 	
 	for option in self.dialog.options:
-		var _option_node = Button.new()
-		_option_node.text = (option as ESCDialogOption).option
-		_option_node.flat = true
-		_option_node.add_color_override("font_color", color_normal)
-		_option_node.add_color_override("font_color_hover", color_hover)
-		_vbox.add_child(_option_node)
-		_option_node.connect("pressed", self, "_on_answer_selected", [option])
+		if option.is_valid():
+			var _option_node = Button.new()
+			_option_node.text = (option as ESCDialogOption).option
+			_option_node.flat = true
+			_option_node.add_color_override("font_color", color_normal)
+			_option_node.add_color_override("font_color_hover", color_hover)
+			_vbox.add_child(_option_node)
+			_option_node.connect("pressed", self, "_on_answer_selected", [
+				option
+			])
 	
 	if self.dialog.avatar != "-":
 		$AvatarContainer.add_child(

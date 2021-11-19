@@ -1,48 +1,41 @@
-# `play_snd file [player]`
+# `stop_snd [player]`
 # 
-# Plays the sound without blocking the event.
+# Stops the stream of the given sound player
 #
 # **Parameters**
 #
-# - *file*: Sound file to play
 # - *player*: Sound player to use. Either _sound, which is used to play non-
 #   looping sound effects or _music, which plays looping music or _speech, which
-#   plays non-looping voice files (_sound)
+#   plays non-looping voice files (_music)
 #
 # @ESC
 extends ESCBaseCommand
-class_name PlaySndCommand
+class_name StopSndCommand
 
 
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
-		[TYPE_STRING, TYPE_STRING],
-		[null, "_sound"]
+		0, 
+		[TYPE_STRING],
+		["_music"]
 	)
 	
 
 # Validate wether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not escoria.object_manager.has(arguments[1]):
+	if not escoria.object_manager.has(arguments[0]):
 		escoria.logger.report_errors(
 			"play_snd: invalid sound player",
 			["Sound player %s not registered" % arguments[1]]
 		)
 		return false
-	if not ResourceLoader.exists(arguments[0]):
-		escoria.logger.report_errors(
-			"play_snd: invalid parameter",
-			["File %s not found" % arguments[0]]
-		)
-		return false
 	return .validate(arguments)
-
+	
 
 # Run the command
 func run(command_params: Array) -> int:
 	escoria.object_manager.get_object(command_params[1]).node.set_state(
-		command_params[0]
+		"off"
 	)
 	return ESCExecution.RC_OK

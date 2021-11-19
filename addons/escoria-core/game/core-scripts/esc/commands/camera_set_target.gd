@@ -1,8 +1,13 @@
 # `camera_set_target speed object`
 #
-# Configures the camera to set the target to the given `object`using `speed`
-# as speed limit. 
-# This is the default behavior (default follow object is "player"). 
+# Configure the camera to follow the specified target object
+#
+# **Parameters**
+#
+# - *speed*: Number of seconds the transition should take
+# - *object*: Global ID of the target object
+#
+# For more details see: https://docs.escoria-framework.org/camera
 #
 # @ESC
 extends ESCBaseCommand

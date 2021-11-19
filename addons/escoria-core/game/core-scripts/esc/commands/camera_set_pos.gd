@@ -1,8 +1,14 @@
 # `camera_set_pos speed x y`
 #
-# Moves the camera to a position defined by "x" and "y", at the speed defined 
-# by "speed" in pixels per second. If speed is 0, camera is teleported to the 
-# position.
+# Moves the camera to the given position.
+#
+# **Parameters**
+#
+# - *speed*: Number of seconds the transition should take
+# - *x*: target X position
+# - "y*: target Y position
+#
+# For more details see: https://docs.escoria-framework.org/camera
 #
 # @ESC
 extends ESCBaseCommand

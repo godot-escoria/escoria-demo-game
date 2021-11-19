@@ -3,6 +3,13 @@
 # Schedules the execution of an "event" found in "object" in a time in seconds. 
 # If another event is running at the time, execution starts when the running 
 # event ends.
+# Schedules the execution to run at a later time
+#
+# **Parameters**
+#
+# - *time*: Time in seconds until the scheduled event starts
+# - *object*: Global ID of the ESCItem that holds the ESC script
+# - *event*: Name of the event to schedule
 #
 # @ESC
 extends ESCBaseCommand

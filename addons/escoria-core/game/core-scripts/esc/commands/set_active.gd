@@ -1,7 +1,12 @@
-# `set_active object value`
+# `set_active object active`
 # 
 # Changes the "active" state of the object, value can be true or false. 
 # Inactive objects are hidden in the scene.
+#
+# **Parameters**
+#
+# - *object* Global ID of the object
+# - *active* Wether the object should be active or not
 #
 # @ESC
 extends ESCBaseCommand

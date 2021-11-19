@@ -1,7 +1,14 @@
-# `spawn identifier path [is_active=true] [object2] `
+# `spawn identifier path [is_active] [position_target]`
 #
-# Instances a scene determined by "path", and places in the position of 
-# object2 (object2 is optional)
+# Programatically adds a new item into the scene.
+#
+# **Parameters**
+#
+# - *identifier*: Global ID to use for the new object
+# - *path*: Path to the scene file of the object
+# - *is_active*: Wether the new object is active (true)
+# - *position_target*: Global ID of another object, that will be used to
+#   position the new object (when not specified, the position is not specified)
 #
 # @ESC
 extends ESCBaseCommand
@@ -36,11 +43,11 @@ func validate(arguments: Array):
 			]
 		)
 		return false
-	if arguments[3] and not escoria.object_manager.objects.has(arguments[2]):
+	if arguments[3] and not escoria.object_manager.objects.has(arguments[3]):
 		escoria.logger.report_errors(
 			"spawn: invalid object",
 			[
-				"Object with global id %s not found" % arguments[2]
+				"Object with global id %s not found" % arguments[3]
 			]
 		)
 		return false
