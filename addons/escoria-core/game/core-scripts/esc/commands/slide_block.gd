@@ -1,4 +1,4 @@
-# `slide object target [speed]`
+# `slide_block object target [speed]`
 #
 # Moves `object` towards the position of `target`. This command is
 # blocking. 

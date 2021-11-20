@@ -26,7 +26,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 func validate(arguments: Array):
 	if not escoria.object_manager.has(arguments[0]):
 		escoria.logger.report_errors(
-			"play_snd: invalid sound player",
+			"stop_snd: invalid sound player",
 			["Sound player %s not registered" % arguments[1]]
 		)
 		return false
