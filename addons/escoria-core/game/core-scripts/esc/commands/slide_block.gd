@@ -1,14 +1,14 @@
 # `slide object target [speed]`
 #
-# Moves the object towards the position of the target object, This command is
+# Moves `object` towards the position of `target`. This command is
 # blocking. 
 #
 # - *object*: Global ID of the object to move
 # - *target*: Global ID of the target object
-# - *speed*: Speed for the movement (defaults to the object's default speed)
+# - *speed*: Movement speed (default: the default speed of `object`)
 #
 # **Warning** This command does not respect the room's navigation polygons, so
-# so the object can be moved even outside walkable areas.
+# `object` can be moved even when outside walkable areas.
 #
 # @ESC
 extends SlideCommand

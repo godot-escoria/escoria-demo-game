@@ -1,16 +1,17 @@
 # `camera_shift x y [time] [type]`
 #
-# Shift the camera by the given location.
+# Shifts the camera by the given horizontal and vertical amounts.
 #
 # **Parameters**
 #
-# - *x*: Shift by x position
-# - *y*: Shift by y position
-# - *time*: Number of seconds the transition should take (1)
-# - *type*: Transition type to use (QUAD)
+# - *x*: Shift by x pixels along the x-axis
+# - *y*: Shift by y pixels along the y-axis
+# - *time*: Number of seconds the transition should take, with a value of `0`
+#   meaning the zoom should happen instantly (default: `1`)
+# - *type*: Transition type to use (default: `QUAD`)
 #
-# The transitions, that are supported are the names of the values used 
-# in the TransitionType enum of the Tween type (without the TRANS_ prefix):
+# Supported transitions include the names of the values used 
+# in the "TransitionType" enum of the "Tween" type (without the "TRANS_" prefix):
 #
 # https://docs.godotengine.org/en/stable/classes/class_tween.html?highlight=tween#enumerations
 #

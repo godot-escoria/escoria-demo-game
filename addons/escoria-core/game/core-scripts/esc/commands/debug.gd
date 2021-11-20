@@ -1,6 +1,6 @@
 # `debug string [string2 ...]`
 #
-# Prints a debug log message
+# Prints a DEBUG-level message to the log.
 #
 # **Parameters**
 #

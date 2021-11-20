@@ -1,13 +1,13 @@
 # `change_scene path [enable_automatic_transition] [run_events]`
 #
-# Switch to another scene
+# Switches the current scene to another scene
 #
 # **Parameters**
 #
 # - *path*: Path of the new scene
 # - *enable_automatic_transition*: Automatically transition to the new scene 
-#   (true)
-# - *run_events*: Run the standard ESC events of the new scene (true)
+#   (default: `true`)
+# - *run_events*: Run the standard ESC events of the new scene (default: `true`)
 #
 # @ESC
 extends ESCBaseCommand

@@ -1,10 +1,10 @@
 # `inventory_add item`
 #
-# Add an item to the inventory
+# Adds an item to the inventory.
 #
 # **Parameters**
 #
-# - *item*: global id of ESCItem to add
+# - *item*: Global ID of the `ESCItem` to add to the inventory
 #
 # @ESC
 extends ESCBaseCommand

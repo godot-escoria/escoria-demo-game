@@ -1,6 +1,6 @@
 # `camera_set_target speed object`
 #
-# Configure the camera to follow the specified target object
+# Configures the camera to follow the specified target `object`
 #
 # **Parameters**
 #

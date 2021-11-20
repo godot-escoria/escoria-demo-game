@@ -1,12 +1,12 @@
 # `stop_snd [player]`
 # 
-# Stops the stream of the given sound player
+# Stops the given sound player's stream.
 #
 # **Parameters**
 #
-# - *player*: Sound player to use. Either _sound, which is used to play non-
-#   looping sound effects or _music, which plays looping music or _speech, which
-#   plays non-looping voice files (_music)
+# - *player*: Sound player to use. Either `_sound`, which is used to play non-
+#   looping sound effects; `_music`, which plays looping music; or `_speech`, which
+#   plays non-looping voice files (default: `_music`)
 #
 # @ESC
 extends ESCBaseCommand

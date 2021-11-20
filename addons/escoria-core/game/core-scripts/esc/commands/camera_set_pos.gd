@@ -5,8 +5,8 @@
 # **Parameters**
 #
 # - *speed*: Number of seconds the transition should take
-# - *x*: target X position
-# - "y*: target Y position
+# - *x*: Target X coordinate
+# - "y*: Target Y coordinate
 #
 # For more details see: https://docs.escoria-framework.org/camera
 #

@@ -1,11 +1,11 @@
 # `rand_global name max_value`
 #
-# Set the given global to a randomized value.
+# Sets the given global to a random integer between 0 and `max_value` (inclusive).
 #
 # **Parameters**
 #
 # - *name*: Name of the global to set
-# - *max_value*: Maximum value to set
+# - *max_value*: Maximum possible integer value (inclusive)
 #
 # @ESC
 extends ESCBaseCommand

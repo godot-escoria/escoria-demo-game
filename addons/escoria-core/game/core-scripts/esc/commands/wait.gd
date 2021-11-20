@@ -4,7 +4,7 @@
 #
 # **Parameters**
 #
-# - *seconds*: Number of seconds to wait
+# - *seconds*: Number of seconds to block
 #
 # @ESC
 extends ESCBaseCommand

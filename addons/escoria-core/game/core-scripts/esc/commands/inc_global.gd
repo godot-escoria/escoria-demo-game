@@ -1,11 +1,11 @@
 # `inc_global name value`
 # 
-# Add the given value to the global.
+# Adds the given value to the specified global.
 #
 # **Parameters**
 #
-# - *name*: Name of the global, that should be changed
-# - *value*: Value that should be added
+# - *name*: Name of the global to be changed
+# - *value*: Value to be added
 #
 # @ESC
 extends ESCBaseCommand

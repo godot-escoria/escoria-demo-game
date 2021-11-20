@@ -1,12 +1,12 @@
 # `set_globals pattern value`
 #
-# Changes the value of multiple globals using a wildcard pattern, where "*" 
-# matches zero or more arbitrary characters and "?" matches any single 
+# Changes the value of multiple globals using a wildcard pattern, where `*`
+# matches zero or more arbitrary characters and `?` matches any single 
 # character except a period (".").
 #
 # **Parameters**
 #
-# - *pattern*: Pattern for the names of the globals to change
+# - *pattern*: Pattern to use to match the names of the globals to change
 # - *value*: Value to set (can be of type string, boolean, integer or float)
 #
 # @ESC

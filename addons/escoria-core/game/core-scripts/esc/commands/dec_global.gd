@@ -1,11 +1,11 @@
 # `dec_global name value`
 # 
-# Subtract the given value from the global.
+# Subtract the given value from the specified global.
 #
 # **Parameters**
 #
-# - *name*: Name of the global, that should be changed
-# - *value*: Value that should be subtracted
+# - *name*: Name of the global to be changed
+# - *value*: Value to be subtracted
 #
 # @ESC
 extends ESCBaseCommand
