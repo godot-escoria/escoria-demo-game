@@ -5,7 +5,7 @@
 # **Parameters**
 #
 # - *name*: Name of the global to set
-# - *max_value*: Maximum possible integer value (inclusive)
+# - *max_value*: Maximum possible integer value (exclusive)
 #
 # @ESC
 extends ESCBaseCommand
