@@ -82,7 +82,6 @@ __meta__ = {
 }
 
 [node name="worker" parent="Hotspots" instance=ExtResource( 7 )]
-pause_mode = 1
 position = Vector2( 480, 430 )
 esc_script = "res://game/rooms/room06/esc/worker.esc"
 interaction_direction = 2

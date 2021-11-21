@@ -27,3 +27,4 @@
 
 
 :ready
+	queue_event worker moveworker

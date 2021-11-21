@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
 [ext_resource path="res://game/rooms/room14/background.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
 [ext_resource path="res://game/rooms/room14/r_door.tscn" type="PackedScene" id=8]
 [ext_resource path="res://game/items/escitems/button.tscn" type="PackedScene" id=9]
+[ext_resource path="res://game/characters/worker/worker.tscn" type="PackedScene" id=10]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, 864.626, 613.518, 1143.08, 613.35, -9.16094, 803.802, 386.666, 618.012, 129.634, 615.792, 84.5821, 654.06, -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698 )
@@ -149,3 +150,12 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="worker" parent="." instance=ExtResource( 10 )]
+position = Vector2( 204.268, 376.233 )
+esc_script = "res://game/rooms/room14/esc/worker.esc"
+
+[node name="worker_target" type="Position2D" parent="."]
+position = Vector2( 970.51, 374.808 )
+script = ExtResource( 5 )
+global_id = "worker_target"

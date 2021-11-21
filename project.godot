@@ -390,6 +390,11 @@ _global_script_classes=[ {
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/play_snd.gd"
 }, {
 "base": "ESCBaseCommand",
+"class": "QueueEventCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/commands/queue_event.gd"
+}, {
+"base": "ESCBaseCommand",
 "class": "QueueResourceCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/queue_resource.gd"
@@ -611,6 +616,7 @@ _global_script_class_icons={
 "InventoryAddCommand": "",
 "InventoryRemoveCommand": "",
 "PlaySndCommand": "",
+"QueueEventCommand": "",
 "QueueResourceCommand": "",
 "RandGlobalCommand": "",
 "RepeatCommand": "",
@@ -690,7 +696,7 @@ sound/sfx_volume=1
 sound/speech_volume=1
 sound/master_volume=1
 main/command_directories=[ "res://addons/escoria-core/game/core-scripts/esc/commands" ]
-debug/log_level="DEBUG"
+debug/log_level="TRACE"
 platform/skip_cache=false
 platform/skip_cache.mobile=true
 ui/items_autoregister_path="res://game/items/inventory"
@@ -714,6 +720,10 @@ dialog_simple/avatars_path="res://game/dialog_avatars"
 dialog_simple/text_speed_per_character=0.1
 dialog_simple/fast_text_speed_per_character=0.25
 dialog_simple/max_time_to_disappear=1.0
+debug/log_file_path="user://"
+debug/crash_message="We're sorry, but the game crashed. Please send us the following files:
+
+%s"
 
 [input]
 

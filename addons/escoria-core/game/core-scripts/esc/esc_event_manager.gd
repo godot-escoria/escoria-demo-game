@@ -24,7 +24,9 @@ signal background_event_finished(return_code, event_name, channel_name)
 var scheduled_events: Array = []
 
 # A list of constantly running events in multiple background channels
-var events_queue: Dictionary = {}
+var events_queue: Dictionary = {
+	"_front": []
+}
 
 # Currently running event in background channels
 var _running_events: Dictionary = {}
@@ -46,9 +48,7 @@ func _process(delta: float) -> void:
 	for channel_name in events_queue.keys():
 		if events_queue[channel_name].size() == 0:
 			continue
-		if (not channel_name in _channels_state) or \
-				(channel_name in _channels_state and \
-				_channels_state[channel_name]):
+		if is_channel_free(channel_name):
 			_channels_state[channel_name] = false
 			_running_events[channel_name] = \
 				events_queue[channel_name].pop_front()
@@ -129,39 +129,6 @@ func queue_background_event(channel_name: String, event: ESCEvent) -> void:
 	events_queue[channel_name].append(event)
 
 
-# The event finished running
-#
-# #### Parameters
-# - return_code: Return code of the finished event
-# - channel_name: Name of the channel that the event came from
-func _on_event_finished(return_code: int, channel_name: String) -> void:
-	var event = _running_events[channel_name]
-	escoria.logger.debug(
-		"Event %s ended with return code %d" % [event.name, return_code]
-	)
-	event.disconnect("finished", self, "_on_event_finished")
-	event.disconnect("interrupted", self, "_on_event_finished")
-	
-	if return_code == ESCExecution.RC_CANCEL:
-		return_code = ESCExecution.RC_OK
-	
-	if channel_name == "_front":
-		emit_signal(
-			"event_finished", 
-			return_code,
-			event.name
-		)
-	else:
-		_running_events[channel_name] = null
-		_channels_state[channel_name] = true
-		emit_signal(
-			"background_event_finished", 
-			return_code,
-			event.name, 
-			channel_name
-		)
-
-
 # Interrupt the events currently running.
 func interrupt_running_event():
 	for channel_name in _running_events.keys():
@@ -181,4 +148,47 @@ func clear_event_queue():
 # - name: Name of the channel to test
 # **Returns** Wether the channel can currently accept a new event
 func is_channel_free(name: String) -> bool:
-	return _channels_state[name]
+	return _channels_state[name] if name in _channels_state else true
+
+
+# Get the currently running event in a channel
+#
+# #### Parameters
+# - name: Name of the channel
+# **Returns** The currently running event or null
+func get_running_event(name: String) -> ESCEvent:
+	return _running_events[name] if name in _running_events else null
+
+
+# The event finished running
+#
+# #### Parameters
+# - return_code: Return code of the finished event
+# - channel_name: Name of the channel that the event came from
+func _on_event_finished(return_code: int, channel_name: String) -> void:
+	var event = _running_events[channel_name]
+	escoria.logger.debug(
+		"Event %s ended with return code %d" % [event.name, return_code]
+	)
+	event.disconnect("finished", self, "_on_event_finished")
+	event.disconnect("interrupted", self, "_on_event_finished")
+	
+	if return_code == ESCExecution.RC_CANCEL:
+		return_code = ESCExecution.RC_OK
+
+	_running_events[channel_name] = null
+	_channels_state[channel_name] = true
+	
+	if channel_name == "_front":
+		emit_signal(
+			"event_finished", 
+			return_code,
+			event.name
+		)
+	else:
+		emit_signal(
+			"background_event_finished", 
+			return_code,
+			event.name, 
+			channel_name
+		)

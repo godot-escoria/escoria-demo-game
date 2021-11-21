@@ -13,7 +13,7 @@
 #
 # @ESC
 extends ESCBaseCommand
-class_name Command
+class_name QueueEventCommand
 
 
 # Return the descriptor of the arguments of this command
@@ -46,7 +46,7 @@ func validate(arguments: Array):
 			]
 		)
 		return false
-	var esc_script = escoria.esc_compiler.compile(node.esc_script)
+	var esc_script = escoria.esc_compiler.load_esc_file(node.esc_script)
 	if not arguments[1] in esc_script.events:
 		escoria.logger.report_errors(
 			"queue_event.gd:validate",
@@ -71,7 +71,7 @@ func run(arguments: Array) -> int:
 	var node = escoria.object_manager.objects.get(
 		arguments[0]
 	).node
-	var esc_script = escoria.esc_compiler.compile(node.esc_script)
+	var esc_script = escoria.esc_compiler.load_esc_file(node.esc_script)
 	if arguments[2] == "_front":
 		escoria.event_manager.queue_event(esc_script.events[arguments[1]])
 	else:
