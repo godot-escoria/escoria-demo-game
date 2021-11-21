@@ -1,0 +1,52 @@
+[gd_resource type="Resource" load_steps=12 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/core-scripts/resources/esc_animationresource.gd" type="Script" id=1]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/resources/esc_directionangle.gd" type="Script" id=2]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/resources/esc_animationname.gd" type="Script" id=3]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 2 )
+angle_start = 0
+angle_size = 180
+
+[sub_resource type="Resource" id=2]
+script = ExtResource( 2 )
+angle_start = 180
+angle_size = 180
+
+[sub_resource type="Resource" id=3]
+script = ExtResource( 3 )
+animation = "walk_right"
+mirrored = false
+
+[sub_resource type="Resource" id=4]
+script = ExtResource( 3 )
+animation = "walk_right"
+mirrored = true
+
+[sub_resource type="Resource" id=5]
+script = ExtResource( 3 )
+animation = "idle_right"
+mirrored = false
+
+[sub_resource type="Resource" id=6]
+script = ExtResource( 3 )
+animation = "idle_left"
+mirrored = false
+
+[sub_resource type="Resource" id=7]
+script = ExtResource( 3 )
+animation = "speak_right"
+mirrored = false
+
+[sub_resource type="Resource" id=8]
+script = ExtResource( 3 )
+animation = "speak_right"
+mirrored = true
+
+[resource]
+script = ExtResource( 1 )
+dir_angles = [ SubResource( 1 ), SubResource( 2 ) ]
+directions = [ SubResource( 3 ), SubResource( 4 ) ]
+idles = [ SubResource( 5 ), SubResource( 6 ) ]
+speaks = [ SubResource( 7 ), SubResource( 8 ) ]

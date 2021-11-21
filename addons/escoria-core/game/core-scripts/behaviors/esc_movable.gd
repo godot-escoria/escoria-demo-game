@@ -395,48 +395,34 @@ func _is_angle_in_interval(
 		angle = 360
 	var start_angle = wrapi(direction_angle.angle_start, 0, 360)
 	var angle_area = direction_angle.angle_size
-	var end_angle = wrapi(direction_angle.angle_start + angle_area, 0, 360) 
+	var end_angle = wrapi(direction_angle.angle_start + angle_area, 0, 360)
+	if start_angle >= 0 and end_angle == 0:
+		end_angle = 360
 	
-	# First we want to test if angle is in upper part of the clock.
-	# If it is, we add 180 to all angles so that we test in lower part of the
-	# clock, so we avoid messing with calculations wrapping around 360° and 0°.
-	if _angle_is_between_270_to_90(angle):
-		return _angle_is_between(
-				angle + 180, 
-				start_angle + 180,
-				start_angle + angle_area + 180
-			)
-	else:
-		return _angle_is_between(angle, start_angle, end_angle)
+	return _angle_is_between(angle, start_angle, end_angle)
 	
 
-# Returns true if angle is in upper part of trigonometric circle
-# ie. between 0 and PI
-# ie. between 270° and 90°
-# ie. between 9 o'clock and 3 o'clock
+# Returns true if angle is between start angle and end angle. 
 #
 # #### Parameters
 #
-# - angle: the angle in degrees
-func _angle_is_between_270_to_90(angle: float) -> bool:
-	return (angle >= 270 and angle <= 360) or (angle >= 0 and angle <= 90)
-
-
-# Returns true if angle is between start angle and end angle. All angle values 
-# will clamped between 0 and 360 degrees.
-#
-# #### Parameters
-#
-# - angle: the angle in degrees
-# - start_angle: the start value of the angle interval
-# - end_angle: the end value of the angle interval
+# - p_angle: the angle in degrees
+# - p_start_angle: the start value of the angle interval
+# - p_end_angle: the end value of the angle interval
 func _angle_is_between(
-	angle: float, 
-	start_angle: float, 
-	end_angle: float
+	p_angle: float, 
+	p_start_angle: float, 
+	p_end_angle: float
 ) -> bool:
-	return wrapi(angle, 0, 360) >= wrapi(start_angle, 0, 360) \
-		and wrapi(angle, 0, 360) <= wrapi(end_angle, 0, 360)
+	var angle = wrapi(p_angle, 0, 360)
+	var start_angle = wrapi(p_start_angle, 0, 360)
+	var end_angle = wrapi(p_end_angle, 0, 360)
+	if start_angle >= 0 and end_angle == 0:
+		end_angle = 360
+	if end_angle < start_angle:
+		end_angle = p_end_angle
+		
+	return angle >= start_angle and angle <= end_angle
 
 
 # Sets character's angle and plays according animation.

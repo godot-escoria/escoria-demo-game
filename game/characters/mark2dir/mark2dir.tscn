@@ -2,7 +2,7 @@
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_player.gd" type="Script" id=1]
 [ext_resource path="res://game/characters/mark/png/mark_talk_down.png" type="Texture" id=2]
-[ext_resource path="res://game/characters/mark/mark_animations.tres" type="Resource" id=3]
+[ext_resource path="res://game/characters/mark2dir/mark_animations.tres" type="Resource" id=3]
 [ext_resource path="res://game/characters/mark/png/mark.png" type="Texture" id=4]
 [ext_resource path="res://game/characters/mark/png/mark_talk_down_right.png" type="Texture" id=5]
 [ext_resource path="res://game/characters/mark/png/mark_talk_up.png" type="Texture" id=6]
@@ -204,7 +204,7 @@ height = 217.78
 pause_mode = 1
 script = ExtResource( 1 )
 global_id = "player"
-esc_script = "res://game/characters/mark/mark.esc"
+esc_script = "res://game/characters/mark2dir/mark.esc"
 is_movable = true
 tooltip_name = "Me"
 dialog_color = Color( 1, 1, 1, 1 )
