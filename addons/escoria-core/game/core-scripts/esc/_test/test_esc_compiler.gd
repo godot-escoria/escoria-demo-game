@@ -42,7 +42,7 @@ func _test_basic() -> bool:
 	assert(subject.name == "say")
 	assert(subject.parameters.size() == 2)
 	assert(subject.parameters[0] == "player")
-	assert(subject.parameters[1] == "Test")
+	assert(subject.parameters[1] == '"Test"')
 	
 	subject = script.events["test"].statements[0].statements[1]
 	assert(subject is ESCGroup)
@@ -55,14 +55,14 @@ func _test_basic() -> bool:
 	assert(subject.name == "say")
 	assert(subject.parameters.size() == 2)
 	assert(subject.parameters[0] == "player")
-	assert(subject.parameters[1] == "Test2 BLANK")
+	assert(subject.parameters[1] == '"Test2 BLANK"')
 	
 	subject = script.events["test"].statements[0].statements[2]
 	assert(subject is ESCCommand)
 	assert(subject.name == "say")
 	assert(subject.parameters.size() == 2)
 	assert(subject.parameters[0] == "player")
-	assert(subject.parameters[1] == "Test3")
+	assert(subject.parameters[1] == '"Test3"')
 	assert(subject.conditions.size() == 1)
 	assert(subject.conditions[0].flag == "test2")
 	
@@ -77,12 +77,12 @@ func _test_basic() -> bool:
 	subject = script.events["test"].statements[1].statements[1]
 	assert(subject is ESCCommand)
 	assert(subject.name == "say")
-	assert(subject.parameters[1] == "Test 6")	
+	assert(subject.parameters[1] == '"Test 6"')	
 	
 	subject = script.events["test"].statements[1].statements[2]
 	assert(subject is ESCCommand)
 	assert(subject.name == "say")
-	assert(subject.parameters[1] == "TEST:Test 7")
+	assert(subject.parameters[1] == "TEST:\"Test 7\"")
 	
 	return true
 	
@@ -245,11 +245,11 @@ func _test_dialog() -> bool:
 	assert(subject[1] is ESCCommand)
 	assert(subject[1].name == "say")
 	assert(subject[1].parameters.size() == 2)
-	assert(subject[1].parameters[1] == "testb")	
+	assert(subject[1].parameters[1] == '"testb"')
 	assert(subject[2] is ESCCommand)
 	assert(subject[2].name == "say")
 	assert(subject[2].parameters.size() == 2)
-	assert(subject[2].parameters[1] == "testb?")
+	assert(subject[2].parameters[1] == '"testb?"')
 	
 	subject = script.events["test"].statements[0].options[1]
 	assert(subject is ESCDialogOption)

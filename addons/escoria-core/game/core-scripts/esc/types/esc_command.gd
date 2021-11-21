@@ -44,18 +44,18 @@ func _init(command_string):
 				for parameter in parsed_parameters.split(" "):
 					if parameter.begins_with('"') and parameter.ends_with('"'):
 						parameters.append(
-							parameter.substr(1, parameter.length() - 2)
+							parameter
 						)
 					elif ":" in parameter and '"' in parameter:
 						quote_open = true
-						parameter_values.append(parameter.replace('"', ''))
+						parameter_values.append(parameter)
 					elif parameter.begins_with('"'):
 						quote_open = true
-						parameter_values.append(parameter.substr(1))
+						parameter_values.append(parameter)
 					elif parameter.ends_with('"'):
 						quote_open = false
 						parameter_values.append(
-							parameter.substr(0, len(parameter) - 1)
+							parameter.substr(0, len(parameter))
 						)
 						parameters.append(parameter_values.join(" "))
 						parameter_values.resize(0)

@@ -219,9 +219,7 @@ func _compile(lines: Array) -> Array:
 			returned.append(dialog_option)
 		elif command_regex.search(line):
 			var command = ESCCommand.new(line)
-			if command.is_valid():
-				escoria.logger.trace("Line is the command %s" % command.name)
-				returned.append(command)
+			returned.append(command)
 		else:
 			escoria.logger.report_errors(
 				"Invalid ESC line detected",

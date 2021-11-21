@@ -4,7 +4,7 @@ class_name ESCDialogPlayer
 
 
 # A regular expression that separates the translation key from the text
-const KEYTEXT_REGEX = "^((?<key>[^:]+):)?(?<text>.+)"
+const KEYTEXT_REGEX = "^((?<key>[^:]+):)?\"(?<text>.+)\""
 
 
 # Emitted when an answer as chosem
