@@ -34,12 +34,12 @@ jobs:
               CHANGELOG=$(cat CHANGELOG.md)
           fi
           echo -e "${{steps.calculate_version.outputs.changelog}}\n\n${CHANGELOG}" > CHANGELOG.md
-#      - name: "Commit"
-#        if: "steps.calculate_version.outputs.changelog != ''"
-#        uses: EndBug/add-and-commit@v7.2.1
-#        with:
-#          message: "chore: storing version and changelog"
-#          push: true
+      - name: "Commit"
+        if: "steps.calculate_version.outputs.changelog != ''"
+        uses: EndBug/add-and-commit@v7.2.1
+        with:
+          message: "chore: storing version and changelog"
+          push: true
   release:
     if: "github.event.head_commit.message == 'chore: storing version and changelog'"
     name: Release
