@@ -1,0 +1,3 @@
+:use
+
+say player "This is a very long text and it will most likely span over the border of the screen if not handled well. Let's see" floating

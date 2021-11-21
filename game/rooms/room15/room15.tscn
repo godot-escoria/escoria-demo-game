@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
 [ext_resource path="res://game/rooms/room15/background.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
 [ext_resource path="res://game/rooms/room15/r_door.tscn" type="PackedScene" id=8]
+[ext_resource path="res://game/items/escitems/button.tscn" type="PackedScene" id=9]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, 864.626, 613.518, 1143.08, 613.35, -9.16094, 803.802, 386.666, 618.012, 129.634, 615.792, 84.5821, 654.06, -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698 )
@@ -94,3 +95,21 @@ script = ExtResource( 5 )
 global_id = "start"
 is_start_location = true
 interaction_direction = 180
+
+[node name="say_long" parent="Hotspots" instance=ExtResource( 9 )]
+position = Vector2( 675.509, 0.950089 )
+global_id = "say_long"
+esc_script = "res://game/rooms/room15/esc/say_long.esc"
+tooltip_name = "Say long test right"
+
+[node name="Position2D" type="Position2D" parent="Hotspots/say_long"]
+position = Vector2( 362.457, 358.656 )
+
+[node name="say_long_left" parent="Hotspots" instance=ExtResource( 9 )]
+position = Vector2( -205.218, 2.85024 )
+global_id = "say_long_left"
+esc_script = "res://game/rooms/room15/esc/say_long.esc"
+tooltip_name = "Say long test left"
+
+[node name="Position2D" type="Position2D" parent="Hotspots/say_long_left"]
+position = Vector2( 362.457, 358.656 )
