@@ -1,3 +1,12 @@
+## [4.0.0-alpha.54](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.54) (2021-11-21)
+
+
+### Bug Fixes
+
+* Optimized ESC command docs ([#450](https://github.com/godot-escoria/escoria-demo-game/issues/450)) ([012d978](https://github.com/godot-escoria/escoria-demo-game/commit/012d978d668b8f5322d16532220a4e014176361c))
+
+
+
 ## [4.0.0-alpha.53](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.53) (2021-11-21)
 
 
