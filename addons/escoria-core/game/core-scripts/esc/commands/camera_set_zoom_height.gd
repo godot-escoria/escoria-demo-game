@@ -1,8 +1,14 @@
 # `camera_set_zoom_height pixels [time]`
 #
-# Zooms the camera in/out to the desired `pixels` height. 
-# An optional `time` in seconds controls how long it takes for the camera 
-# to zoom into position.
+# Zooms the camera in/out so it occupies the given height in pixels
+#
+# **Parameters**
+#
+# - *pixels*: Target height in pixels
+# - *time*: Number of seconds the transition should take, with a value of `0`
+#   meaning the zoom should happen instantly (default: `0`)
+#
+# For more details see: https://docs.escoria-framework.org/camera
 #
 # @ESC
 extends ESCBaseCommand

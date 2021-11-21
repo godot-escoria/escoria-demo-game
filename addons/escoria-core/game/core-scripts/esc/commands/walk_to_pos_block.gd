@@ -1,7 +1,15 @@
-# `walk_to_pos_block player x y`
+# `walk_to_pos_block object x y`
 #
-# Makes the `player` walk to the position `x`/`y`. This is a blocking command.
+# Moves the specified `ESCPlayer` or movable `ESCItem` to the target 
+# position while playing `object`'s walking animation. 
+# This command is blocking.
 #
+# **Parameters**
+#
+# - *object*: Global ID of the object to move
+# - *x*: X-coordinate of target position
+# - *y*: Y-coordinate of target position
+# 
 # @ESC
 extends ESCBaseCommand
 class_name WalkToPosBlockCommand

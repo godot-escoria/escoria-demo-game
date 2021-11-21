@@ -1,10 +1,14 @@
 # `turn_to object object_to_face [wait]`
 # 
-# Turns object to face another object. 
+# Turns `object` to face another object. 
 #
-# The wait parameter sets how long to wait for each intermediate angle. It
-# defaults to 0, meaning the turnaround is immediate.
-#  
+# **Parameters**
+#
+# - *object*: Global ID of the object to be turned
+# - *object_to_face*: Global ID of the object to turn towards
+# - *wait*: Length of time to wait in seconds for each intermediate angle. 
+#   If set to 0, the turnaround is immediate (default: `0`)
+##  
 # @ESC
 extends ESCBaseCommand
 class_name TurnToCommand

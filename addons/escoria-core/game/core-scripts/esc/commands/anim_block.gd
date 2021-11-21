@@ -1,10 +1,14 @@
 # `anim_block object name [reverse]`
 #
-# Executes the animation specificed with the "name" parameter on the object, 
-# blocking. The next command in the event will be executed when the animation 
-# is finished playing. Optional parameters:
+# Executes the animation specified in "name" on "object", 
+# while blocking. The next command in the event will be executed when the animation 
+# is finished playing.
 #
-# * `reverse`: plays the animation in reverse when true
+# **Parameters**
+#
+# * *object*: Global ID of the object with the animation
+# * *name*: Name of the animation to play
+# * *reverse*: Plays the animation in reverse when true
 # 
 # @ESC
 extends ESCBaseCommand
@@ -44,6 +48,8 @@ func run(command_params: Array) -> int:
 		animator.play_backwards(anim_id)
 	else:
 		animator.play(anim_id)
+	if animator.get_length(anim_id) < 1.0:
+		return ESCExecution.RC_OK
 	var animation_finished = yield(animator, "animation_finished")
 	while animation_finished != anim_id:
 		animation_finished = yield(animator, "animation_finished")

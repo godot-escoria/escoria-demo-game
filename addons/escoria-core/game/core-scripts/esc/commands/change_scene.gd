@@ -1,12 +1,13 @@
-# `change_scene path [enable_automatic_transition=true] [run_events=true]`
+# `change_scene path [enable_automatic_transition] [run_events]`
 #
-# Loads a new scene, specified by "path". 
-# The `enable_automatic_transition` is a boolean (default true) can be set 
-# to false to disable automatic transitions between scenes, to allow you
-# to control your transitions manually using the `transition` command.
-# The `run_events` variable is a boolean (default true) which you never want 
-# to set manually! It's there only to benefit save games, so they don't
-# conflict with the scene's events.
+# Switches the current scene to another scene
+#
+# **Parameters**
+#
+# - *path*: Path of the new scene
+# - *enable_automatic_transition*: Automatically transition to the new scene 
+#   (default: `true`)
+# - *run_events*: Run the standard ESC events of the new scene (default: `true`)
 #
 # @ESC
 extends ESCBaseCommand

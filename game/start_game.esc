@@ -1,6 +1,6 @@
 :init
 
-set_sound_state _music res://game/sfx/Game-Menu_Looping.mp3 true
+play_snd res://game/sfx/Game-Menu_Looping.mp3 _music
 
 # Showing main menu with automatic transition DISABLED
 show_menu main

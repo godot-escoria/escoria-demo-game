@@ -1,12 +1,13 @@
-# `transition transition_name in|out [delay]`
+# `transition transition_name mode [delay]`
 #
-# Performs a transition in our out manually.
+# Performs a transition into or out of a room programmatically.
 # 
-# Parameters:
-# - transition_name: Name of the transition shader from one of the transition
+# **Parameters**
+#
+# - *transition_name*: Name of the transition shader from one of the transition
 #   directories
-# - in|out: Wether to play the transition in IN- or OUT-mode
-# - delay: Delay for the transition to take. Defaults to 1 second
+# - *mode*: Set to `in` to transition into or `out` to transition out of the room
+# - *delay*: Delay in seconds before starting the transition (default: `1`)
 # 
 # @ESC
 extends ESCBaseCommand

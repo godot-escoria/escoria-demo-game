@@ -1,6 +1,11 @@
 # `set_animations object animations`
 #
-# Set the animation resource for the given ESCPlayer
+# Sets the animation resource for the given `ESCPlayer` or movable `ESCItem`.
+#
+# **Parameters**
+#
+# - *object*: Global ID of the object whose animation resource is to be updated
+# - *animations*: The path of the animation resource to use
 #
 # @ESC
 extends ESCBaseCommand

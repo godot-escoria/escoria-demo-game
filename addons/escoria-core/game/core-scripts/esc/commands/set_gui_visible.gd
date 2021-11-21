@@ -1,13 +1,14 @@
-# `set_hud_visible visible`
+# `set_gui_visible visible`
 #
-# If you have a cutscene like sequence where the player doesn't have control, 
-# and you also have HUD elements visible, use this to hide the HUD. You want 
-# to do that because it explicitly signals the player that there is no control 
-# over the game at the moment. "visible" is true or false.
+# Shows or hide the GUI.
+#
+# **Parameters**
+#
+# - *visible*: Whether the GUI should be visible
 #
 # @ESC
 extends ESCBaseCommand
-class_name SetHudVisibleCommand
+class_name SetGuiVisibleCommand
 
 
 # Return the descriptor of the arguments of this command

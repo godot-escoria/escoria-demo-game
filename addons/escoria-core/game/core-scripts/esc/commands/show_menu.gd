@@ -1,9 +1,11 @@
-# `show_menu main|pause=main [enable_automatic_transition: true|false=false]`
+# `show_menu menu_type [enable_automatic_transition]`
 #
-# Shows the main or pause menu. 
-# The `enable_automatic_transition` is a boolean (default false) can be set 
-# to false to disable automatic transitions between scenes, to allow you
-# to control your transitions manually using the `transition` command. 
+# Shows either the main menu or the pause menu. 
+#
+# **Parameters**
+#
+# - *menu_type*: Type of menu to hide. Can be either `main` or `pause` (default: `main`)
+# - *enable_automatic_transition*: Whether to automatically transition to the menu (default: `false`)
 #
 # @ESC
 extends ESCBaseCommand
