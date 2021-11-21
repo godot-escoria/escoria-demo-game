@@ -7,7 +7,7 @@ on:
 
 jobs:
   prerelease:
-    if: "${{ github.event.head_commit.message != 'chore: storing version and changelog' }}"
+    if: "github.event.head_commit.message != 'chore: storing version and changelog'"
     name: Preparing release
     runs-on: ubuntu-latest
     steps:
@@ -26,6 +26,7 @@ jobs:
           default_bump: "release"
           custom_release_rules: "fix:prerelease,feat:prerelease"
       - name: "Write changelog"
+        if: "steps.calculate_version.outputs.changelog != ''"
         run: |
           CHANGELOG=""
           if [ -e CHANGELOG.md ]
@@ -33,13 +34,14 @@ jobs:
               CHANGELOG=$(cat CHANGELOG.md)
           fi
           echo -e "${{steps.calculate_version.outputs.changelog}}\n\n${CHANGELOG}" > CHANGELOG.md
-      - name: "Commit"
-        uses: EndBug/add-and-commit@v7.2.1
-        with:
-          message: "chore: storing version and changelog"
-          push: true
+#      - name: "Commit"
+#        if: "steps.calculate_version.outputs.changelog != ''"
+#        uses: EndBug/add-and-commit@v7.2.1
+#        with:
+#          message: "chore: storing version and changelog"
+#          push: true
   release:
-    if: "${{ github.event.head_commit.message == 'chore: storing version and changelog' }}"
+    if: "github.event.head_commit.message == 'chore: storing version and changelog'"
     name: Release
     runs-on: ubuntu-latest
     steps:
