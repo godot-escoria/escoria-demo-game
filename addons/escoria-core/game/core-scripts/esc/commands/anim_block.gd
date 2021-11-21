@@ -48,6 +48,8 @@ func run(command_params: Array) -> int:
 		animator.play_backwards(anim_id)
 	else:
 		animator.play(anim_id)
+	if animator.get_length(anim_id) < 1.0:
+		return ESCExecution.RC_OK
 	var animation_finished = yield(animator, "animation_finished")
 	while animation_finished != anim_id:
 		animation_finished = yield(animator, "animation_finished")
