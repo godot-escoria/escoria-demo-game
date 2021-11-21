@@ -1,13 +1,13 @@
 # `play_snd file [player]`
 # 
-# Plays the sound without blocking the event.
+# Plays the specified sound without blocking the event.
 #
 # **Parameters**
 #
 # - *file*: Sound file to play
-# - *player*: Sound player to use. Either _sound, which is used to play non-
-#   looping sound effects or _music, which plays looping music or _speech, which
-#   plays non-looping voice files (_sound)
+# - *player*: Sound player to use. Can either be `_sound`, which is used to play non-
+#   looping sound effects; `_music`, which plays looping music; or `_speech`, which
+#   plays non-looping voice files (default: `_sound`)
 #
 # @ESC
 extends ESCBaseCommand

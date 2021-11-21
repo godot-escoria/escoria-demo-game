@@ -1,12 +1,12 @@
 # `queue_resource path [front_of_queue]`
 #
-# Queues loading the given resource into the resource cache.
+# Queues the loading of the given resource into the resource cache.
 #
 # **Parameters**
 # 
 # - *path*: Path of the resource to cache
-# - *front_of_queue*: Put it at the front of the queue to load it as soon as
-#   possible (false)
+# - *front_of_queue*: Whether to put the resource at the front of the
+#   queue in order to load it as soon as possible (default: `false`)
 #
 # @ESC
 extends ESCBaseCommand

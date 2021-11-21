@@ -1,11 +1,11 @@
 # `show_menu menu_type [enable_automatic_transition]`
 #
-# Shows the main or pause menu. 
+# Shows either the main menu or the pause menu. 
 #
 # **Parameters**
 #
-# - *menu_type*: Type of menu to hide. Can be either main or pause (main)
-# - *enable_automatic_transition*: Automatically transition to the menu (false)
+# - *menu_type*: Type of menu to hide. Can be either `main` or `pause` (default: `main`)
+# - *enable_automatic_transition*: Whether to automatically transition to the menu (default: `false`)
 #
 # @ESC
 extends ESCBaseCommand

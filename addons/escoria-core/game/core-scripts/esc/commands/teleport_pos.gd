@@ -1,12 +1,12 @@
 # `teleport_pos object x y`
 #
-# Moves an object directly to a specific position
+# Instantly moves an object to the specified position
 #
 # **Parameters**
 #
 # - *object*: Global ID of the object to move
-# - *x*: X position
-# - *y*: Y position
+# - *x*: X-coordinate of destination position
+# - *y*: Y-coordinate of destination position
 #
 # @ESC
 extends ESCBaseCommand

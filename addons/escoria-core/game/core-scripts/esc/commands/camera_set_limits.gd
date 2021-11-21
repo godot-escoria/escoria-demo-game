@@ -1,11 +1,11 @@
 # `camera_set_limits camlimits_id`
 #
-# Activates the current camera limits
+# Activates the current camera's limits
 #
 # **Parameters**
 #
-# - *camlimits_id*: Index of the limit in the `camera limits` list of
-#   the current ESCRoom
+# - *camlimits_id*: Index of the camera limit in the `camera limits` 
+#   list of the current `ESCRoom`
 #
 # For more details see: https://docs.escoria-framework.org/camera
 #

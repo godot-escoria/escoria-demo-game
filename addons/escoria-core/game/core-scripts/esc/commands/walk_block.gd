@@ -1,13 +1,13 @@
-# `walk object target [speed]`
+# `walk_block object target [speed]`
 #
-# Moves the movable ESCItem or ESCPlayer to the target while playing the
-# object's walking animation. This command is blocking.
+# Moves the specified `ESCPlayer` or movable `ESCItem` to `target` 
+# while playing `object`'s walking animation. This command is blocking.
 #
 # **Parameters**
 #
 # - *object*: Global ID of the object to move
 # - *target*: Global ID of the target object
-# - *speed*: Walking speed to use (defaults to the object's default speed)
+# - *speed*: Walking speed to use (default: `object`'s default speed)
 # 
 # @ESC
 extends ESCBaseCommand

@@ -1,6 +1,6 @@
 # `camera_set_target speed object`
 #
-# Configure the camera to follow the specified target object
+# Configures the camera to follow the specified target `object`
 #
 # **Parameters**
 #
@@ -27,7 +27,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 func validate(arguments: Array):
 	if not escoria.object_manager.objects.has(arguments[1]):
 		escoria.logger.report_errors(
-			"camera_set_pos: invalid object",
+			"camera_set_target: invalid object",
 			[
 				"Object with global id %s not found" % arguments[1]
 			]

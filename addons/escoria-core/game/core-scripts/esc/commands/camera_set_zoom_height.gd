@@ -1,11 +1,12 @@
 # `camera_set_zoom_height pixels [time]`
 #
-# Zooms the camera in/out so it matches the given height in pixels
+# Zooms the camera in/out so it occupies the given height in pixels
 #
 # **Parameters**
 #
 # - *pixels*: Target height in pixels
-# - *time*: Seconds the transition should take (0)
+# - *time*: Number of seconds the transition should take, with a value of `0`
+#   meaning the zoom should happen instantly (default: `0`)
 #
 # For more details see: https://docs.escoria-framework.org/camera
 #

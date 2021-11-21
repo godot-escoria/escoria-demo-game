@@ -1,11 +1,11 @@
 # `teleport object target`
 #
-# Moves an object directly to a new position
+# Instantly moves an object to a new position
 #
 # **Parameters**
 #
 # - *object*: Global ID of the object to move
-# - *target*: Global ID of the target object
+# - *target*: Global ID of the target object to use as the destination
 #
 # @ESC
 extends ESCBaseCommand

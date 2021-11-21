@@ -1,17 +1,17 @@
 # `camera_push target [time] [type]`
 #
-# Push camera to point to a specific `target`.
+# Pushes the camera to point at a specific `target`.
 #
 # **Parameters**
 #
-# - *target*: Global ID of the target ESCItem to push the camera to. If that 
+# - *target*: Global ID of the `ESCItem` to push the camera to. If the target 
 #   has a child node called `camera_node`, its location will be used. If not,
-#   the location of the target will be used directly
-# - *time*: Number of seconds the transition should take (1)
-# - *type*: Transition type to use (QUAD)
+#   the location of the target will be used
+# - *time*: Number of seconds the transition should take (default: `1`)
+# - *type*: Transition type to use (default: `QUAD`)
 #
-# The transitions, that are supported are the names of the values used 
-# in the TransitionType enum of the Tween type (without the TRANS_ prefix):
+# Supported transitions include the names of the values used 
+# in the "TransitionType" enum of the "Tween" type (without the "TRANS_" prefix):
 #
 # https://docs.godotengine.org/en/stable/classes/class_tween.html?highlight=tween#enumerations
 #

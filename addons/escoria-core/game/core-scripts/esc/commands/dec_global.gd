@@ -1,11 +1,11 @@
 # `dec_global name value`
 # 
-# Subtract the given value from the global.
+# Subtract the given value from the specified global.
 #
 # **Parameters**
 #
-# - *name*: Name of the global, that should be changed
-# - *value*: Value that should be subtracted
+# - *name*: Name of the global to be changed
+# - *value*: Value to be subtracted
 #
 # @ESC
 extends ESCBaseCommand
@@ -23,7 +23,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate wether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not escoria.globals_manager.get(arguments[0]) is int:
+	if not escoria.globals_manager.get_global(arguments[0]) is int:
 		escoria.logger.report_errors(
 			"dec_global: invalid global",
 			[

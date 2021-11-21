@@ -1,20 +1,20 @@
 # `accept_input [type]`
 #
-# Set what type of input the game accepts from now on.
-# This allows cut scenes where the dialog can be skipped if set to SKIP or
-# even completely locked down cut scenes.
+# Sets how much input the game is to accept, allowing for cut scenes
+# in which dialog can be skipped (if [type] is set to SKIP).
+# Also allows for cut scenes that can be completely locked down.
 #
 # **Parameters**
 #
-# - *type*: Type of input to accept (ALL)
+# - *type*: Type of inputs to accept (ALL)
 #   `ALL`: Accept all types of input
 #   `SKIP`: Accept skipping dialogs but nothing else
-#   `NONE`: Denies all input (including opening menus)
+#   `NONE`: Deny all inputs (including opening menus)
 #
-# **Warning**: `SKIP` and `NONE` also disables autosaves.
+# **Warning**: `SKIP` and `NONE` also disable autosaves.
 #
 # **Note**: If `SKIP` is specified, it will be reset to `ALL` when the event has
-# finished. `NONE` persists after the event.
+# finished. `NONE` persists even after the event.
 #
 # @ESC
 extends ESCBaseCommand

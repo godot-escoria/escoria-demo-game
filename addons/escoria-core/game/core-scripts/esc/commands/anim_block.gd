@@ -1,13 +1,13 @@
 # `anim_block object name [reverse]`
 #
-# Executes the animation specificed with the "name" parameter on the object, 
-# blocking. The next command in the event will be executed when the animation 
+# Executes the animation specified in "name" on "object", 
+# while blocking. The next command in the event will be executed when the animation 
 # is finished playing.
 #
 # **Parameters**
 #
 # * *object*: Global ID of the object with the animation
-# * *name*: Name of the animation
+# * *name*: Name of the animation to play
 # * *reverse*: Plays the animation in reverse when true
 # 
 # @ESC

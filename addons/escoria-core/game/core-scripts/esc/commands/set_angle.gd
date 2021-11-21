@@ -1,13 +1,14 @@
 # `set_angle object degrees [wait]`
 #
-# Turns a movable ESCItem or ESCPlayer.
+# Turns a movable `ESCItem` or `ESCPlayer`.
 #
 # **Parameters**
 #
 # - *object*: Global ID of the object to turn
-# - *degrees*: Degrees to turn to
-# - *wait*: How many seconds to wait for each animation in between the current
-#   degrees and target degrees. Setting this to 0, will turn immediately (0)
+# - *degrees*: Number of degrees by which `object` is to be turned
+# - *wait*: Number of seconds to wait for each animation occurring between the
+#   current angle of `object` and the angle specified. A value of `0` will 
+#   complete the turn immediately (default: `0`)
 #
 # @ESC
 extends ESCBaseCommand

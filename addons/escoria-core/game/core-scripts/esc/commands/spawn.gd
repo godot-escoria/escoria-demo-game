@@ -1,14 +1,14 @@
 # `spawn identifier path [is_active] [position_target]`
 #
-# Programatically adds a new item into the scene.
+# Programmatically adds a new item to the scene.
 #
 # **Parameters**
 #
 # - *identifier*: Global ID to use for the new object
 # - *path*: Path to the scene file of the object
-# - *is_active*: Wether the new object is active (true)
-# - *position_target*: Global ID of another object, that will be used to
-#   position the new object (when not specified, the position is not specified)
+# - *is_active*: Whether the new object should be set to active (default: `true`)
+# - *position_target*: Global ID of another object that will be used to
+#   position the new object (when omitted, the new objet's position is not specified)
 #
 # @ESC
 extends ESCBaseCommand

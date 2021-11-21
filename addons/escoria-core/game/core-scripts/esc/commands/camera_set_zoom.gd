@@ -1,13 +1,14 @@
 # `camera_set_zoom magnitude [time]`
 #
-# Zooms the camera in/out to the desired `magnitude`. Values larger than 1 zooms 
-# the camera out, and smaller values zooms in, relative to the default value 
+# Zooms the camera in/out to the desired `magnitude`. Values larger than 1 zoom 
+# the camera out while smaller values zoom in, relative to the default value 
 # of 1.
 #
 # **Parameters**
 #
-# - *magnitude*: Magnitude to zoom
-# - *time*: Number of seconds the transition should take (0)
+# - *magnitude*: Magnitude of zoom
+# - *time*: Number of seconds the transition should take, with a value of `0`
+#   meaning the zoom should happen instantly (default: `0`)
 #
 # For more details see: https://docs.escoria-framework.org/camera
 #

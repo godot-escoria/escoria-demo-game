@@ -1,12 +1,12 @@
 # `stop_snd [player]`
 # 
-# Stops the stream of the given sound player
+# Stops the given sound player's stream.
 #
 # **Parameters**
 #
-# - *player*: Sound player to use. Either _sound, which is used to play non-
-#   looping sound effects or _music, which plays looping music or _speech, which
-#   plays non-looping voice files (_music)
+# - *player*: Sound player to use. Either `_sound`, which is used to play non-
+#   looping sound effects; `_music`, which plays looping music; or `_speech`, which
+#   plays non-looping voice files (default: `_music`)
 #
 # @ESC
 extends ESCBaseCommand
@@ -26,7 +26,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 func validate(arguments: Array):
 	if not escoria.object_manager.has(arguments[0]):
 		escoria.logger.report_errors(
-			"play_snd: invalid sound player",
+			"stop_snd: invalid sound player",
 			["Sound player %s not registered" % arguments[1]]
 		)
 		return false
