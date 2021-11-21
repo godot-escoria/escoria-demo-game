@@ -46,11 +46,22 @@ func _ready():
 
 
 func _process(delta):
-	# Position the RichTextLabel on the character's dialog position, if any.
-	rect_position = _current_character.get_node("dialog_position") \
-		.get_global_transform_with_canvas().origin
-	rect_position.x -= rect_size.x / 2
-	
+	if _current_character.is_inside_tree() and \
+			_current_character.has_node("dialog_position"):
+		# Position the RichTextLabel on the character's dialog position, if any.
+		rect_position = _current_character.get_node("dialog_position") \
+			.get_global_transform_with_canvas().origin
+		rect_position.x -= rect_size.x / 2
+		
+		if rect_position.x < 0:
+			rect_position.x = 0
+		
+		var screen_margin = rect_position.x + rect_size.x - \
+				ProjectSettings.get("display/window/size/width")
+					
+		if screen_margin > 0:
+			rect_position.x -= screen_margin
+
 
 # Make a character say something
 #
@@ -81,7 +92,16 @@ func say(character: String, line: String) :
 	else:
 		rect_position.x = 0
 		rect_size.x = ProjectSettings.get_setting("display/window/size/width")
-		
+	
+	if rect_position.x < 0:
+		rect_position.x = 0
+	
+	var screen_margin = rect_position.x + rect_size.x - \
+			ProjectSettings.get("display/window/size/width")
+				
+	if screen_margin > 0:
+		rect_position.x -= screen_margin
+	
 	_current_character.start_talking()
 	
 	text_node.percent_visible = 0.0

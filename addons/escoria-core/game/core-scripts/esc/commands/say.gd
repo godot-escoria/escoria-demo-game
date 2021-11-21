@@ -25,7 +25,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 		[
 			null, 
 			null, 
-			ProjectSettings.get_setting("escoria/ui/default_dialog_type")
+			""
 		]
 	)
 	

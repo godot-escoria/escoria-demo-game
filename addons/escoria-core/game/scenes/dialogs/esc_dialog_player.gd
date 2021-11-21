@@ -3,6 +3,10 @@ extends Node
 class_name ESCDialogPlayer
 
 
+# A regular expression that separates the translation key from the text
+const KEYTEXT_REGEX = "^((?<key>[^:]+):)?(?<text>.+)"
+
+
 # Emitted when an answer as chosem
 # 
 # ##### Parameters
@@ -22,8 +26,13 @@ var is_speaking: bool = false
 var _dialog_manager: ESCDialogManager = null
 
 
+# Regular expression object for the separation of key and text
+var _keytext_regex: RegEx = RegEx.new()
+
+
 # Register the dialog player and load the dialog resources
 func _ready():
+	_keytext_regex.compile(KEYTEXT_REGEX)
 	if !Engine.is_editor_hint():
 		escoria.dialog_player = self
 
@@ -81,6 +90,8 @@ func _get_voice_file(key: String, start: String = "") -> String:
 # - type: UI to use for the dialog
 # - text: Text to say
 func say(character: String, type: String, text: String) -> void:
+	if type == "":
+		type = ProjectSettings.get_setting("escoria/ui/default_dialog_type")
 	is_speaking = true
 	for _manager_class in ProjectSettings.get_setting(
 			"escoria/ui/dialog_managers"
@@ -92,22 +103,32 @@ func say(character: String, type: String, text: String) -> void:
 	
 	if _dialog_manager == null:
 		escoria.logger.report_errors(
-			"esc_dialog_player.gd: Unknown type",
+			"esc_dialog_player.gd:say",
 			[
 				"No dialog manager supports the type %s" % type
 			]
 		)
-	var _key_text = text.split(":")
-	if _key_text.size() == 1:
-		text = _key_text[0]
-	elif _key_text.size() >= 2:
-		var _speech_resource = _get_voice_file(_key_text[0])
+	var matches = _keytext_regex.search(text)
+	if not matches:
+		escoria.logger.report_errors(
+			"esc_dialog_player.gd:say",
+			[
+				"Unexpected text encountered %s" % text
+			]
+		)
+	var key = matches.get_string("key")
+	if matches.get_string("key") != "":
+		var _speech_resource = _get_voice_file(
+			matches.get_string("key")
+		)
 		if _speech_resource != "":
 			(
 				escoria.object_manager.get_object("_speech").node\
 				 as ESCSpeechPlayer
 			).set_state(_speech_resource)
-		text = tr(_key_text[0])
+		text = tr(matches.get_string("key"))
+	else:
+		text = matches.get_string("text")
 	
 	_dialog_manager.say(self, character, text, type)	
 	yield(_dialog_manager, "say_finished")
