@@ -1,6 +1,10 @@
 # `inventory_remove item`
 #
-# Remove an item from the inventory.
+# Removes an item from the inventory
+#
+# **Parameters**
+#
+# - *item*: Global ID of the `ESCItem` to remove from the inventory
 #
 # @ESC
 extends ESCBaseCommand

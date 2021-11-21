@@ -1,14 +1,14 @@
 # `set_angle object degrees [wait]`
 #
-# Turns object to a degrees angle without animations. 0 sets object facing 
-# forward, 90 sets it 90 degrees clockwise ("east") etc. When turning to the 
-# destination angle, animations are played if they're defined in animations.
+# Turns a movable `ESCItem` or `ESCPlayer`.
 #
-# object must be player or interactive. degrees must be between [0, 360] or an 
-# error is reported.
+# **Parameters**
 #
-# The wait parameter sets how long to wait for each intermediate angle. It
-# defaults to 0, meaning the turnaround is immediate.
+# - *object*: Global ID of the object to turn
+# - *degrees*: Number of degrees by which `object` is to be turned
+# - *wait*: Number of seconds to wait for each animation occurring between the
+#   current angle of `object` and the angle specified. A value of `0` will 
+#   complete the turn immediately (default: `0`)
 #
 # @ESC
 extends ESCBaseCommand

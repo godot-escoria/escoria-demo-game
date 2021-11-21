@@ -1,5 +1,5 @@
 :exit_scene
-set_sound_state _sound res://game/sfx/sounds/doorOpen_2.ogg false
+play_snd res://game/sfx/sounds/doorOpen_2.ogg
 change_scene "res://game/rooms/room13/room13.tscn"
 
 

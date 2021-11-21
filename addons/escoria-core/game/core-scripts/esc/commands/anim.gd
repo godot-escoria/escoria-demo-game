@@ -1,10 +1,14 @@
 # `anim object name [reverse]`
 #
-# Executes the animation specificed with the "name" parameter on the object, 
+# Executes the animation specified in "name" on "object", 
 # without blocking. The next command in the event will be executed immediately 
-# after. Optional parameters:
+# after.
 #
-# * `reverse`: plays the animation in reverse when true
+# **Parameters**
+#
+# * *object*: Global ID of the object with the animation
+# * *name*: Name of the animation to play
+# * *reverse*: Plays the animation in reverse when true
 #
 # @ESC
 extends ESCBaseCommand

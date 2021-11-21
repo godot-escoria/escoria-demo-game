@@ -52,6 +52,8 @@ func get_typed_value(value: String):
 		return int(value)
 	elif regex_bool.search(value.to_lower()):
 		return true if value.to_lower() == "true" else false
+	elif "," in value:
+		return value.split(",")
 	else:
 		return str(value)
 

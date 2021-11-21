@@ -130,6 +130,20 @@ func seek_end(name: String):
 		_animated_sprite.frame = _animated_sprite.frames.get_frame_count(name)
 
 
+# Get the length of the specified animation
+#
+# #### Parameters
+#
+# - name: Name of the animation
+# **Returns** The length of the animation in seconds
+func get_length(name: String) -> float:
+	if _is_animation_player:
+		return _animation_player.get_animation(name).length
+	else:
+		return _animated_sprite.frames.get_frame_count(name) - 1 * \
+				_animated_sprite.frames.get_animation_speed(name)
+
+
 # Transport the animation_finished signal
 #
 # #### Parameters

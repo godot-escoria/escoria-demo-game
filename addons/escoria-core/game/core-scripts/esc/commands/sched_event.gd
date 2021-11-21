@@ -1,8 +1,16 @@
 # `sched_event time object event`
 # 
-# Schedules the execution of an "event" found in "object" in a time in seconds. 
-# If another event is running at the time, execution starts when the running 
-# event ends.
+# Schedules the execution to run at a later time.
+#
+# If another event is already running when the scheduled
+# event is to start, execution of the scheduled event 
+# begins when the already-running event ends.
+#
+# **Parameters**
+#
+# - *time*: Time in seconds until the scheduled event starts
+# - *object*: Global ID of the ESCItem that holds the ESC script
+# - *event*: Name of the event to schedule
 #
 # @ESC
 extends ESCBaseCommand

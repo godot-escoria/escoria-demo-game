@@ -1,6 +1,6 @@
 # `stop`
 #
-# Stops the event's execution.
+# Stops the current event's execution.
 # 
 # @ESC
 extends ESCBaseCommand
