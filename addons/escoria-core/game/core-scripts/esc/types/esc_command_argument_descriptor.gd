@@ -14,13 +14,22 @@ var types: Array = []
 # The default values for the arguments
 var defaults: Array = []
 
+# Wether to strip quotes on specific arguments
+var strip_quotes: Array = []
+
 
 # Initialize the descriptor
-func _init(p_min_args: int = 0, p_types: Array = [], p_defaults: Array = []):
+func _init(
+	p_min_args: int = 0, 
+	p_types: Array = [], 
+	p_defaults: Array = [],
+	p_strip_quotes: Array = [true]
+):
 	min_args = p_min_args
 	types = p_types
 	defaults = p_defaults
-	
+	strip_quotes = p_strip_quotes
+
 
 # Combine the default argument values with the given arguments
 func prepare_arguments(arguments: Array) -> Array:
@@ -30,7 +39,16 @@ func prepare_arguments(arguments: Array) -> Array:
 		complete_arguments[index] = escoria.utils.get_typed_value(
 			arguments[index]
 		)
+		var strip = strip_quotes[0]
+		if strip_quotes.size() == complete_arguments.size():
+			strip = strip_quotes[index]
 		
+		if strip and typeof(complete_arguments[index]) == TYPE_STRING:
+			complete_arguments[index] = complete_arguments[index].replace(
+				'"',
+				''
+			)
+	
 	return complete_arguments
 
 
