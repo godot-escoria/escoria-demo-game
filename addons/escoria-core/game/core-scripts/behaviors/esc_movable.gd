@@ -395,7 +395,7 @@ func _is_angle_in_interval(
 		angle = 360
 	var start_angle = wrapi(direction_angle.angle_start, 0, 360)
 	var angle_area = direction_angle.angle_size
-	var end_angle = wrapi(direction_angle.angle_start + angle_area, 0, 360)
+	var end_angle = direction_angle.angle_start + angle_area
 	if start_angle >= 0 and end_angle == 0:
 		end_angle = 360
 	
