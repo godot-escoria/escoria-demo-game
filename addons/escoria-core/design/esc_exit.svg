@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>esc_exit</title>
+    <defs>
+        <linearGradient x1="32%" y1="0%" x2="68%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#D4FF2A" offset="0%"></stop>
+            <stop stop-color="#81D135" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="36.7305357%" y1="0%" x2="63.2694643%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#D4FF2A" offset="0%"></stop>
+            <stop stop-color="#81D135" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="esc_exit" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(4.000000, 2.000000)" fill-rule="nonzero">
+            <polygon id="Rectangle-Copy" fill="url(#linearGradient-1)" points="6 10 0 10 0 0 6 0"></polygon>
+            <path d="M7,0 L7,10 L0,10 L0,0 L7,0 Z M6,1 L1,1 L1,9 L6,9 L6,1 Z" id="Rectangle" fill="#1B2F0D"></path>
+        </g>
+        <g id="Group-Copy" transform="translate(4.000000, 2.000000)" fill-rule="nonzero">
+            <polygon id="Rectangle-Copy" fill="url(#linearGradient-2)" points="6 11.6468788 0 10 0 0 6 1.64687882"></polygon>
+            <path d="M7,1.92135862 L7,11.9213586 L0,10 L0,0 L7,1.92135862 Z M6,2.64687882 L1,1.2744798 L1,9.2744798 L6,10.6468788 L6,2.64687882 Z" id="Rectangle" fill="#1B2F0D"></path>
+        </g>
+    </g>
+</svg>
