@@ -150,10 +150,10 @@ func get_length(name: String) -> float:
 #
 # - name: Name of the animation played
 func _on_animation_finished(name: String):
-	if _is_animation_player:
+	if _is_animation_player and not _animation_player.get_animation(name).loop:
 		_animation_player.stop()
 		_animation_player.seek(0)
-	else:
+	elif not _animated_sprite.frames.get_animation_loop(name):
 		_animated_sprite.stop()
 		_animated_sprite.frame = 0
 	emit_signal("animation_finished", name)
