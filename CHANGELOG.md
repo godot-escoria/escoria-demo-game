@@ -1,3 +1,12 @@
+## [4.0.0-alpha.58](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.58) (2021-11-22)
+
+
+### Features
+
+* New streamlined exit item ([#455](https://github.com/godot-escoria/escoria-demo-game/issues/455)) ([e14373b](https://github.com/godot-escoria/escoria-demo-game/commit/e14373b1790830f45621c8ec7ca99ed0b50b6d68))
+
+
+
 ## [4.0.0-alpha.57](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.57) (2021-11-22)
 
 
