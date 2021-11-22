@@ -1,3 +1,12 @@
+## [4.0.0-alpha.57](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.57) (2021-11-22)
+
+
+### Features
+
+* This introduces background events queue in Escoria ([#444](https://github.com/godot-escoria/escoria-demo-game/issues/444)) ([9adc7bb](https://github.com/godot-escoria/escoria-demo-game/commit/9adc7bbadeaf2788a445659b774862aadd167843))
+
+
+
 ## [4.0.0-alpha.56](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.56) (2021-11-21)
 
 
