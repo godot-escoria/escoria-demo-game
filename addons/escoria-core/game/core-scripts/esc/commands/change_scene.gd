@@ -61,7 +61,7 @@ func run(command_params: Array) -> int:
 	var exited_previous_room = false
 	
 	if command_params[1] \
-			and escoria.event_manager._running_event.name \
+			and escoria.event_manager.get_running_event("_front").name \
 			in ["exit_scene", "room_selector"]:
 		exited_previous_room = true
 		escoria.main.scene_transition.transition(
@@ -111,7 +111,7 @@ func run(command_params: Array) -> int:
 	var room_scene = res_room.instance()
 	if room_scene:
 		if command_params[1] \
-				and escoria.event_manager._running_event.name \
+				and escoria.event_manager.get_running_event("_front").name \
 				== "room_selector":
 			room_scene.enabled_automatic_transitions = true
 		else:

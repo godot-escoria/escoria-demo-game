@@ -1,8 +1,31 @@
 # A tooltip displaying <verb> <item1> [<item2>] 
-
 tool
 extends RichTextLabel
 class_name ESCTooltip
+
+
+# Maximum width of the label
+const MAX_WIDTH = 200
+
+# Minimum height of the label
+const MIN_HEIGHT = 30
+
+# Maximum height of the label
+const MAX_HEIGHT = 500
+
+# Height of one line in the label
+const ONE_LINE_HEIGHT = 16
+
+
+# Color of the label
+export(Color) var color setget set_color
+
+# Vector2 defining the offset from the cursor
+export(Vector2) var offset_from_cursor = Vector2(10,0)
+
+# Activates debug mode. If enabled, shows the label with a white background.
+export(bool) var debug_mode = false setget set_debug_mode
+
 
 # Infinitive verb
 var current_action: String
@@ -19,32 +42,11 @@ var current_target2: String
 # True if tooltip is waiting for a click on second target (use x with y)
 var waiting_for_target2 = false
 
-# Color of the label
-export(Color) var color setget set_color
-
-# Vector2 defining the offset from the cursor
-export(Vector2) var offset_from_cursor = Vector2(10,0)
-
-# Activates debug mode. If enabled, shows the label with a white background.
-export(bool) var debug_mode = false setget set_debug_mode
-
 # Node containing the debug white background
 var debug_texturerect_node: TextureRect
 
-# Maximum width of the label
-const MAX_WIDTH = 200
 
-# Minimum height of the label
-const MIN_HEIGHT = 30
-
-# Maximum height of the label
-const MAX_HEIGHT = 500
-
-# Height of one line in the label
-const ONE_LINE_HEIGHT = 16
-
-
-# Ready function
+# Connect relevant functions
 func _ready():
 	escoria.main.connect("room_ready", self, "_on_room_ready")
 	escoria.action_manager.connect("action_changed", self, "_on_action_selected")
@@ -84,12 +86,6 @@ func set_debug_mode(p_debug_mode: bool):
 		if debug_texturerect_node:
 			remove_child(debug_texturerect_node)
 	
-	
-# Called when an action is selected in Escoria
-func _on_action_selected() -> void:
-	current_action = escoria.action_manager.current_action
-	update_tooltip_text()
-
 
 # Set the first target of the label.
 #
@@ -122,22 +118,19 @@ func update_tooltip_text():
 
 # Update the tooltip size according to the text.
 func update_size():
-	## RECT_SIZE ##
+	if not get_tree():
+		# We're not in the tree anymore. Return
+		return
+
 	var rtl_width = rect_size.x
 	var rtl_height = rect_size.y
 	var content_height = get_content_height()
 	var nb_visible_characters = visible_characters
 	var nb_visible_lines = get_visible_line_count()
 	
-#	printt("BEFORE", "text_height", content_height, "rtl_height", rect_size.y)
-	
 	# if text is too long and is wrapped
-#	var nblines = float(get_content_height()) / float(ONE_LINE_HEIGHT)
 	var nblines = nb_visible_lines
 	if nblines >= 1:
-		
-		yield(get_tree(), "idle_frame")
-		yield(get_tree(), "idle_frame")
 		var text_height = get_content_height()
 		if text_height > MAX_HEIGHT:
 			text_height = MAX_HEIGHT
@@ -151,7 +144,6 @@ func update_size():
 			rect_size.x += 1
 			parent_width = rect_size.x
 		
-		
 		rect_size.y = text_height
 		
 		if rect_size.x >= MAX_WIDTH:
@@ -162,7 +154,6 @@ func update_size():
 	anchor_right = 0.0
 	anchor_bottom = 0.0
 	anchor_left = 0.0
-#	printt("AFTER", "text_height", get_content_height(), "rtl_height", rect_size.y)
 
 
 # Calculate the offset of the label depending on its position.
@@ -235,3 +226,9 @@ func clear():
 # Called when the room is loaded to setup the label.
 func _on_room_ready():
 	escoria.main.current_scene.game.tooltip_node = self
+
+
+# Called when an action is selected in Escoria
+func _on_action_selected() -> void:
+	current_action = escoria.action_manager.current_action
+	update_tooltip_text()
