@@ -7,7 +7,7 @@
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=5]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
-[ext_resource path="res://game/rooms/room12/r_door.tscn" type="PackedScene" id=8]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_exit.gd" type="Script" id=8]
 [ext_resource path="res://game/items/escitems/button.tscn" type="PackedScene" id=9]
 
 [sub_resource type="NavigationPolygon" id=1]
@@ -68,23 +68,27 @@ position = Vector2( 37.4521, 392.045 )
 script = ExtResource( 5 )
 global_id = "r12_l_exit"
 
-[node name="r_door" parent="Hotspots" instance=ExtResource( 8 )]
-global_id = "r12_r_exit"
-esc_script = "res://game/rooms/room12/esc/right_exit.esc"
-
-[node name="ESCLocation" type="Position2D" parent="Hotspots/r_door"]
-position = Vector2( 1231.78, 360.624 )
-script = ExtResource( 5 )
-
 [node name="button" parent="Hotspots" instance=ExtResource( 9 )]
-pause_mode = 1
 position = Vector2( 301.706, 73.0751 )
 global_id = "r12_button"
 esc_script = "res://game/rooms/room12/esc/button.esc"
-animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button"]
 position = Vector2( 340.052, 298.812 )
+
+[node name="r_door" type="Area2D" parent="Hotspots"]
+script = ExtResource( 8 )
+global_id = "r_door"
+tooltip_name = "Right exit"
+target_scene = "res://game/rooms/room13/room13.tscn"
+switch_sound = "res://game/sfx/sounds/doorOpen_2.ogg"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
+polygon = PoolVector2Array( 1174.44, 47.7028, 1179.5, 355.197, 1277.9, 408.014, 1275.73, 91.8372 )
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/r_door"]
+position = Vector2( 1224.19, 375.505 )
+script = ExtResource( 5 )
 
 [node name="player_start" type="Position2D" parent="."]
 position = Vector2( 542.824, 468.193 )

@@ -199,6 +199,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_execution.gd"
 }, {
+"base": "ESCItem",
+"class": "ESCExit",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc_exit.gd"
+}, {
 "base": "Node2D",
 "class": "ESCGame",
 "language": "GDScript",
@@ -578,6 +583,7 @@ _global_script_class_icons={
 "ESCEvent": "",
 "ESCEventManager": "",
 "ESCExecution": "",
+"ESCExit": "res://addons/escoria-core/design/esc_exit.svg",
 "ESCGame": "",
 "ESCGlobalsManager": "",
 "ESCGroup": "",
