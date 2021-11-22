@@ -37,8 +37,9 @@ func get_re_group(re_match: RegExMatch, group: String) -> String:
 # #### Parameters
 #
 # - value: The original value
+# - type_hint: The type it should be
 # **Returns** The typed value according to the type inference
-func get_typed_value(value: String):
+func get_typed_value(value: String, type_hint = []):
 	var regex_bool = RegEx.new()
 	regex_bool.compile("^true|false$")
 	var regex_float = RegEx.new()
@@ -52,7 +53,9 @@ func get_typed_value(value: String):
 		return int(value)
 	elif regex_bool.search(value.to_lower()):
 		return true if value.to_lower() == "true" else false
-	elif "," in value:
+	elif (typeof(type_hint) != TYPE_ARRAY and type_hint == TYPE_ARRAY) or \
+			(typeof(type_hint) == TYPE_ARRAY and TYPE_ARRAY in type_hint) \
+			and "," in value:
 		return value.split(",")
 	else:
 		return str(value)

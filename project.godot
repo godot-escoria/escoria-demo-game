@@ -390,6 +390,11 @@ _global_script_classes=[ {
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/play_snd.gd"
 }, {
 "base": "ESCBaseCommand",
+"class": "QueueEventCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/commands/queue_event.gd"
+}, {
+"base": "ESCBaseCommand",
 "class": "QueueResourceCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/queue_resource.gd"
@@ -611,6 +616,7 @@ _global_script_class_icons={
 "InventoryAddCommand": "",
 "InventoryRemoveCommand": "",
 "PlaySndCommand": "",
+"QueueEventCommand": "",
 "QueueResourceCommand": "",
 "RandGlobalCommand": "",
 "RepeatCommand": "",

@@ -118,9 +118,13 @@ func _ready():
 # Performs the ESC script events "setup" and "ready", in this order, if they are
 # present. Also manages automatic transitions.
 func perform_script_events():
-	if esc_script and escoria.event_manager._running_event == null \
-			or (escoria.event_manager._running_event != null \
-			and escoria.event_manager._running_event.name != "load"):
+	if esc_script and escoria.event_manager.is_channel_free("_front") \
+			or (
+				not escoria.event_manager.is_channel_free("_front") and \
+				not escoria.event_manager.get_running_event(
+					"_front"
+				).name == "load"
+			):
 		
 		# If the room was loaded from change_scene and automatic transitions
 		# are not disabled, do the transition out now
@@ -159,10 +163,7 @@ func perform_script_events():
 		
 		var ready_event_added: bool = false
 		# Run the ready event, if there is one.
-		if escoria.event_manager._running_event == null \
-				or (escoria.event_manager._running_event != null \
-				and escoria.event_manager._running_event.name != "load"):
-			ready_event_added = _run_script_event("ready")
+		ready_event_added = _run_script_event("ready")
 		
 		if ready_event_added:
 			# Wait for ready event to be done

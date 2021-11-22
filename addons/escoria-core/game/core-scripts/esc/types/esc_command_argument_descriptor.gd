@@ -37,7 +37,8 @@ func prepare_arguments(arguments: Array) -> Array:
 	
 	for index in range(arguments.size()):
 		complete_arguments[index] = escoria.utils.get_typed_value(
-			arguments[index]
+			arguments[index],
+			types[index]
 		)
 		var strip = strip_quotes[0]
 		if strip_quotes.size() == complete_arguments.size():
