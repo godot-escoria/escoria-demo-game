@@ -13,8 +13,8 @@
 #
 # **Warning**: `SKIP` and `NONE` also disable autosaves.
 #
-# **Note**: If `SKIP` is specified, it will be reset to `ALL` when the event has
-# finished. `NONE` persists even after the event.
+# **Warning**: The type of input accepted will persist even after the current
+# event has ended.
 #
 # @ESC
 extends ESCBaseCommand
