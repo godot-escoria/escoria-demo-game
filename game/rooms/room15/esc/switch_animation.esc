@@ -1,0 +1,3 @@
+:use
+
+set_animations player res://game/characters/mark/mark_animations_weird.tres

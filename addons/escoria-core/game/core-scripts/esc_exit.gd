@@ -13,6 +13,7 @@ export(String, FILE, "*.ogg,*.mp3,*.wav") var switch_sound = ""
 func _enter_tree():
 	is_exit = true
 	player_orients_on_arrival = false
+	default_action = "walk"
 
 
 func _ready():

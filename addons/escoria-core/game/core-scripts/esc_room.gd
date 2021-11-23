@@ -95,6 +95,18 @@ func _ready():
 			),
 			true
 		)
+		if escoria.globals_manager.has(
+			escoria.globals_manager.GLOBAL_ANIMATION_RESOURCES
+		):
+			var animations = escoria.globals_manager.get_global(
+				escoria.globals_manager.GLOBAL_ANIMATION_RESOURCES
+			)
+			
+			if player.global_id in animations and \
+					ResourceLoader.exists(animations[player.global_id]):
+				player.animations = ResourceLoader.load(
+					animations[player.global_id]
+				)
 		escoria.object_manager.get_object("_camera").node.set_target(player)
 	
 	for n in get_children():
