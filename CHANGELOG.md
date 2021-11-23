@@ -1,3 +1,12 @@
+## [4.0.0-alpha.62](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.62) (2021-11-23)
+
+
+### Features
+
+* Keep current animations resource ([#459](https://github.com/godot-escoria/escoria-demo-game/issues/459)) ([7963f03](https://github.com/godot-escoria/escoria-demo-game/commit/7963f03087be6f8832a5aad231dc2834c5237256))
+
+
+
 ## [4.0.0-alpha.61](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.61) (2021-11-23)
 
 
