@@ -68,7 +68,7 @@ global_id = "r15_l_exit"
 esc_script = "res://game/rooms/room15/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Left exit"
-default_action = "use"
+default_action = "walk"
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -83,7 +83,6 @@ global_id = "r12_l_exit"
 [node name="r_door" parent="Hotspots" instance=ExtResource( 8 )]
 global_id = "r15_r_exit"
 esc_script = ""
-default_action = "use"
 
 [node name="ESCLocation" type="Position2D" parent="Hotspots/r_door"]
 position = Vector2( 1231.78, 360.624 )
@@ -103,6 +102,15 @@ esc_script = "res://game/rooms/room15/esc/say_long.esc"
 tooltip_name = "Say long test right"
 
 [node name="Position2D" type="Position2D" parent="Hotspots/say_long"]
+position = Vector2( 362.457, 358.656 )
+
+[node name="switch_animation" parent="Hotspots" instance=ExtResource( 9 )]
+position = Vector2( 510.195, 3.80031 )
+global_id = "switch_animation"
+esc_script = "res://game/rooms/room15/esc/switch_animation.esc"
+tooltip_name = "Switch animation"
+
+[node name="Position2D" type="Position2D" parent="Hotspots/switch_animation"]
 position = Vector2( 362.457, 358.656 )
 
 [node name="say_long_left" parent="Hotspots" instance=ExtResource( 9 )]

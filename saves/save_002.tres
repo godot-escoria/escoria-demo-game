@@ -6,16 +6,20 @@
 script = ExtResource( 1 )
 escoria_version = "0.1.0"
 game_version = "0.1.0"
-name = "Test2"
-date = "04/11/2021 22:59"
+name = "testwalk2"
+date = "23/11/2021 20:19"
 main = {
-"current_scene_filename": "res://game/rooms/room02/room02.tscn",
+"current_scene_filename": "res://game/rooms/room15/room15.tscn",
 "last_scene_global_id": ""
 }
 globals = {
+"ANIMATION_RESOURCES": {
+"player": "res://game/characters/mark/mark_animations_weird.tres"
+},
+"BYPASS_LAST_SCENE": false,
+"ESC_LAST_SCENE": "room1",
 "dialog_advance": 0,
 "dialog_popup_advance": 0,
-"r2_bridge_closed": true,
 "room1_visited": true
 }
 objects = {
@@ -27,12 +31,12 @@ objects = {
 "_music": {
 "active": true,
 "interactive": true,
-"state": "res://game/sfx/contemplation.ogg"
+"state": "off"
 },
 "_sound": {
 "active": true,
 "interactive": true,
-"state": "default"
+"state": "off"
 },
 "_speech": {
 "active": true,
@@ -41,50 +45,45 @@ objects = {
 },
 "player": {
 "active": true,
-"global_transform": Transform2D( 1, 0, 0, 1, 1051, 434 ),
+"global_transform": Transform2D( 1, 0, 0, 1, 606, 441 ),
 "interactive": true,
-"last_deg": 111,
-"last_dir": 3,
+"last_deg": 251,
+"last_dir": 6,
 "state": "default"
 },
-"player_start": {
-"active": true,
-"interactive": true,
-"state": "default"
-},
-"r2_bridge": {
-"active": true,
-"interactive": false,
-"state": "bridge_close"
-},
-"r2_button": {
+"r12_l_exit": {
 "active": true,
 "interactive": true,
 "state": "default"
 },
-"r2_button_right": {
+"r15_l_exit": {
 "active": true,
 "interactive": true,
 "state": "default"
 },
-"r2_l_exit": {
+"r15_r_exit": {
 "active": true,
 "interactive": true,
 "state": "default"
 },
-"r2_player_start": {
+"say_long": {
 "active": true,
 "interactive": true,
 "state": "default"
 },
-"r2_r_exit": {
+"say_long_left": {
 "active": true,
 "interactive": true,
 "state": "default"
 },
-"r2_right_platform": {
+"start": {
 "active": true,
-"interactive": false,
+"interactive": true,
+"state": "default"
+},
+"switch_animation": {
+"active": true,
+"interactive": true,
 "state": "default"
 }
 }

@@ -5,6 +5,9 @@ extends Resource
 class_name ESCGlobalsManager
 
 
+const GLOBAL_ANIMATION_RESOURCES = "ANIMATION_RESOURCES"
+
+
 # Emitted when a global is changed
 signal global_changed(global, old_value, new_value)
 
@@ -12,7 +15,8 @@ signal global_changed(global, old_value, new_value)
 # A list of reserved globals which can not be overridden
 const RESERVED_GLOBALS = [
 	"ESC_LAST_SCENE",
-	"BYPASS_LAST_SCENE"
+	"BYPASS_LAST_SCENE",
+	"ANIMATION_RESOURCES"
 ]
 
 
@@ -104,6 +108,4 @@ func set_global_wildcard(pattern: String, value) -> void:
 func save_game(p_savegame: ESCSaveGame) -> void:
 	p_savegame.globals = {}
 	for g in _globals:
-		if g in RESERVED_GLOBALS:
-			continue
 		p_savegame.globals[g] = _globals[g]

@@ -184,11 +184,12 @@ func load_game(id: int):
 	
 	## GLOBALS
 	for k in save_game.globals.keys():
-		load_statements.append(
-			ESCCommand.new("set_global %s \"%s\"\n" \
-					% [k, save_game.globals[k]])
+		escoria.globals_manager.set_global(
+			k,
+			save_game.globals[k],
+			true
 		)
-	
+		
 	## ROOM
 	load_statements.append(
 		ESCCommand.new("change_scene %s true" \
@@ -197,7 +198,8 @@ func load_game(id: int):
 	
 	## OBJECTS
 	for object_global_id in save_game.objects.keys():
-		if save_game.objects[object_global_id].has("active"):
+		if escoria.object_manager.has(object_global_id) and \
+				save_game.objects[object_global_id].has("active"):
 			load_statements.append(ESCCommand.new("set_active %s %s" \
 				% [object_global_id, 
 				save_game.objects[object_global_id]["active"]])
@@ -230,12 +232,22 @@ func load_game(id: int):
 			)
 		
 		if object_global_id in ["_music", "_sound", "_speech"]:
-			load_statements.append(
-				ESCCommand.new("play_snd %s %s" % [
-					save_game.objects[object_global_id]["state"],
-					object_global_id,
-				])
-			)
+			if save_game.objects[object_global_id]["state"] in [
+				"default", 
+				"off"
+			]:
+				load_statements.append(
+					ESCCommand.new("stop_snd %s" % [
+						object_global_id,
+					])
+				)
+			else:
+				load_statements.append(
+					ESCCommand.new("play_snd %s %s" % [
+						save_game.objects[object_global_id]["state"],
+						object_global_id,
+					])
+				)
 	
 	load_statements.append(
 		ESCCommand.new(
