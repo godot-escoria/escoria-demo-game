@@ -1,3 +1,12 @@
+## [4.0.0-alpha.61](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.61) (2021-11-23)
+
+
+### Bug Fixes
+
+* Fixes signal handling on AnimationPlayer nodes. ([#458](https://github.com/godot-escoria/escoria-demo-game/issues/458)) ([860c6ad](https://github.com/godot-escoria/escoria-demo-game/commit/860c6adc207bfbc80877dac731005d351e93824b))
+
+
+
 ## [4.0.0-alpha.60](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.60) (2021-11-22)
 
 
