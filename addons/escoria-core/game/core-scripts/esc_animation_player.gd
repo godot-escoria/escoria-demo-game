@@ -80,12 +80,19 @@ func play(name: String, backwards: bool = false):
 		self,
 		"_on_animation_finished"
 		)
-	_player_node.connect(
-		"animation_finished",
-		self,
-		"_on_animation_finished",
-		[name]
-	)
+	if _is_animation_player:
+		_player_node.connect(
+			"animation_finished",
+			self,
+			"_on_animation_finished"
+		)
+	else:
+		_player_node.connect(
+			"animation_finished",
+			self,
+			"_on_animation_finished",
+			[name]
+		)
 	if backwards and _is_animation_player:
 		_animation_player.play_backwards(name)
 	elif backwards:
