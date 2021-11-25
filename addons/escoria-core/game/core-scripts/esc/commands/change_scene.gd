@@ -58,9 +58,6 @@ func run(command_params: Array) -> int:
 	# events in there so we avoid running these multiple times)
 	escoria.event_manager.clear_event_queue()
 	
-	# Unpause escoria (in case we were on a pause menu) so we can run events
-	escoria.set_game_paused(false)
-	
 	var exited_previous_room = false
 	
 	# If auto transition is enabled, try to determine whether we just exited a 
@@ -73,7 +70,9 @@ func run(command_params: Array) -> int:
 				or (
 					escoria.event_manager.get_running_event("_front").name \
 						in ["newgame", "exit_scene", "room_selector"]
-					and escoria.globals_manager.get_global("ESC_LAST_SCENE").empty()
+						and escoria.globals_manager.get_global(
+							"ESC_LAST_SCENE"
+						).empty()
 					)
 				):
 		exited_previous_room = true
@@ -98,7 +97,7 @@ func run(command_params: Array) -> int:
 			true
 		)
 	elif escoria.main.current_scene:
-		# If FORCE_LAST_SCENE_NULL is false, set ESC_LAST_SCENE = current room id
+		# If FORCE_LAST_SCENE_NULL is false, set ESC_LAST_SCENE = current roomid
 		escoria.globals_manager.set_global(
 			"ESC_LAST_SCENE", 
 			escoria.main.current_scene.global_id, 

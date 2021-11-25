@@ -292,12 +292,12 @@ func _set_editor_debug_mode(p_editor_debug_mode: int) -> void:
 
 # Pauses the game. Reimplement to eventually show a specific UI.
 func pause_game():
-	pass
+	escoria.set_game_paused(true)
 
 
 # Unpause the game. Reimplement to eventually hide a specific UI.
 func unpause_game():
-	pass
+	escoria.set_game_paused(false)
 
 
 # Shows the main menu. Reimplement to show a specific UI.
