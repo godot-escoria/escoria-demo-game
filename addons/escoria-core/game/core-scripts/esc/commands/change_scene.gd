@@ -84,10 +84,10 @@ func run(command_params: Array) -> int:
 			"Awaiting transition %s (out) to be finished." % str(transition_id)
 		)
 		yield(escoria.main.scene_transition, "transition_done")
-		
-	# Hide main and pause menus
-	escoria.game_scene.hide_main_menu()
-	escoria.game_scene.unpause_game()
+	
+		# Hide main and pause menus
+		escoria.game_scene.hide_main_menu()
+		escoria.game_scene.unpause_game()
 
 	# If FORCE_LAST_SCENE_NULL is true, force ESC_LAST_SCENE to empty
 	if escoria.globals_manager.get_global("FORCE_LAST_SCENE_NULL"):
