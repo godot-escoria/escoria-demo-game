@@ -270,9 +270,16 @@ func _ready():
 #
 # - event: Triggered event
 func _unhandled_input(event: InputEvent) -> void:
-	if not escoria.current_state == escoria.GAME_STATE.DEFAULT:
-		return
 	if event is InputEventMouseButton and event.is_pressed():
+		if not escoria.current_state == escoria.GAME_STATE.DEFAULT or \
+			not is_interactive:
+			escoria.logger.info(
+				(
+					"Item %s is not interactive or the game state doesn't " +
+					"accept interactions"
+				) % global_id
+			)
+			return
 		var p = get_global_mouse_position()
 		var mouse_in_shape: bool = false
 		var colliders = get_world_2d().direct_space_state.intersect_point(

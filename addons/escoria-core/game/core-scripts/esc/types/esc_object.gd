@@ -10,7 +10,7 @@ var global_id: String
 var active: bool = true setget _set_active
 
 # Wether the object is interactive (clickable by the player)
-var interactive: bool = true
+var interactive: bool = true setget _set_interactive, _get_interactive
 
 # The state of the object. If the object has a respective animation, 
 # it will be played
@@ -58,6 +58,25 @@ func set_state(p_state: String, immediate: bool = false):
 func _set_active(value: bool):
 	active = value
 	self.node.visible = value
+
+
+# Get the interactive value from the node
+#
+# **Returns** Whether the node is interactive or not
+func _get_interactive() -> bool:
+	if "is_interactive" in self.node:
+		return self.node.is_interactive
+	else:
+		return true
+
+
+# Set the interactive value in the node
+#
+# #### Parameters
+# - value: Whether the object is interactive or not
+func _set_interactive(value: bool):
+	if "is_interactive" in self.node:
+		self.node.is_interactive = value
 
 
 # Return the data of the object to be inserted in a savegame file.
