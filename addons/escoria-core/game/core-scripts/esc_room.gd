@@ -137,7 +137,7 @@ func perform_script_events():
 					"_front"
 				).name == "load"
 			):
-		
+			
 		# If the room was loaded from change_scene and automatic transitions
 		# are not disabled, do the transition out now
 		if enabled_automatic_transitions \
@@ -147,11 +147,26 @@ func perform_script_events():
 				":transition_out",
 				"transition %s out" % ProjectSettings.get_setting(
 					"escoria/ui/default_transition"
-				)
+				),
+				"wait 0.1"
 			])
 			escoria.event_manager.queue_event(
 				script_transition_out.events['transition_out']
 			)
+			
+			# Unpause the game if it was
+			escoria.set_game_paused(false)
+			
+			# Wait for transition_out event to be done
+			var rc = yield(escoria.event_manager, "event_finished")
+			while rc[1] != "transition_out":
+				rc = yield(escoria.event_manager, "event_finished")
+			if rc[0] != ESCExecution.RC_OK:
+				return rc[0]
+			
+			# Hide main and pause menus
+			escoria.game_scene.hide_main_menu()
+			escoria.game_scene.unpause_game()
 			
 		# Run the setup event
 		_run_script_event("setup")
@@ -178,7 +193,6 @@ func perform_script_events():
 		
 		if ready_event_added:
 			# Wait for ready event to be done
-
 			var rc = yield(escoria.event_manager, "event_finished")
 			while rc[1] != "ready":
 				rc = yield(escoria.event_manager, "event_finished")
@@ -193,12 +207,12 @@ func perform_script_events():
 				false, 
 				true
 			)
-		escoria.globals_manager.set_global(
-			"ESC_LAST_SCENE",
-			escoria.main.current_scene.global_id \
-					if escoria.main.current_scene != null else "", 
-			true
-		)
+			escoria.globals_manager.set_global(
+				"ESC_LAST_SCENE",
+				escoria.main.current_scene.global_id \
+						if escoria.main.current_scene != null else "", 
+				true
+			)
 
 
 # Runs the script event from the script attached, if any.
