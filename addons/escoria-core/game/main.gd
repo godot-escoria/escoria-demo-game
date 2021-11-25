@@ -61,9 +61,10 @@ func clear_scene() -> void:
 	
 	if escoria.game_scene.get_parent() == current_scene:
 		current_scene.remove_child(escoria.game_scene)
-
+		
 	current_scene.get_parent().remove_child(current_scene)
-	current_scene.free()
+	
+	current_scene.queue_free()
 	current_scene = null
 
 
