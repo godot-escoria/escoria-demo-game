@@ -685,7 +685,7 @@ search_in_file_extensions=PoolStringArray( "gd", "shader", "esc" )
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-dialog-simple/plugin.cfg", "res://addons/escoria-ui-simplemouse/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-dialog-simple/plugin.cfg", "res://addons/escoria-ui-9verbs/plugin.cfg" )
 
 [escoria]
 
@@ -694,7 +694,7 @@ main/force_quit=true
 debug/terminate_on_warnings=false
 debug/terminate_on_errors=true
 debug/development_lang="en"
-ui/tooltip_follows_mouse=true
+ui/tooltip_follows_mouse=false
 main/text_lang="fr_FR"
 main/voice_lang="fr_FR"
 sound/music_volume=1
@@ -702,7 +702,7 @@ sound/sfx_volume=1
 sound/speech_volume=1
 sound/master_volume=1
 main/command_directories=[ "res://addons/escoria-core/game/core-scripts/esc/commands" ]
-debug/log_level="TRACE"
+debug/log_level="DEBUG"
 platform/skip_cache=false
 platform/skip_cache.mobile=true
 ui/items_autoregister_path="res://game/items/inventory"
@@ -711,7 +711,7 @@ main/savegames_path="res://saves/"
 main/settings_path="user://"
 main/escoria_version=""
 sound/speech_enabled=1
-ui/game_scene="res://addons/escoria-ui-simplemouse/game.tscn"
+ui/game_scene="res://addons/escoria-ui-9verbs/game.tscn"
 ui/dialogs_chooser="res://addons/escoria-core/ui_library/dialogs/text_dialog_chooser.tscn"
 sound/speech_folder="res://game/speech"
 sound/speech_extension="ogg"
@@ -730,6 +730,7 @@ debug/log_file_path="user://"
 debug/crash_message="We're sorry, but the game crashed. Please send us the following files:
 
 %s"
+ui/default_dialog_scene="res://addons/escoria-core/ui_library/dialogs/floating_dialog_player.tscn"
 
 [input]
 

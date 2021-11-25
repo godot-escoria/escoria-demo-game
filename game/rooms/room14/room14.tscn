@@ -127,24 +127,47 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="show_main_change_scene" parent="." instance=ExtResource( 9 )]
+[node name="show_pause_change_scene_manual" parent="." instance=ExtResource( 9 )]
 position = Vector2( 463.318, 0 )
 global_id = "button_main_change_scene"
 esc_script = "res://game/rooms/room14/esc/button_main_menu_change_scene.esc"
 
-[node name="ESCLocation" type="Position2D" parent="show_main_change_scene"]
+[node name="ESCLocation" type="Position2D" parent="show_pause_change_scene_manual"]
 position = Vector2( 343.887, 381.305 )
 script = ExtResource( 5 )
 
-[node name="Label" type="Label" parent="show_main_change_scene"]
+[node name="Label" type="Label" parent="show_pause_change_scene_manual"]
 margin_left = 277.027
 margin_top = 194.0
 margin_right = 428.027
 margin_bottom = 259.0
-text = "Show main menu with 
+text = "Show pause menu with 
 manual transition
 and change_scene with 
 manual transition"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="show_pause_change_scene_auto" parent="." instance=ExtResource( 9 )]
+position = Vector2( 676.318, 0 )
+global_id = "button_pause_change_scene_auto"
+esc_script = "res://game/rooms/room14/esc/button_main_menu_change_scene_auto.esc"
+
+[node name="ESCLocation" type="Position2D" parent="show_pause_change_scene_auto"]
+position = Vector2( 343.887, 381.305 )
+script = ExtResource( 5 )
+
+[node name="Label" type="Label" parent="show_pause_change_scene_auto"]
+margin_left = 277.027
+margin_top = 194.0
+margin_right = 428.027
+margin_bottom = 259.0
+text = "Show pause menu with 
+manual transition
+and change_scene with 
+automatic transition"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -155,6 +178,6 @@ position = Vector2( 204.268, 376.233 )
 esc_script = "res://game/rooms/room14/esc/worker.esc"
 
 [node name="worker_target" type="Position2D" parent="."]
-position = Vector2( 970.51, 374.808 )
+position = Vector2( 917.51, 475.808 )
 script = ExtResource( 5 )
 global_id = "worker_target"

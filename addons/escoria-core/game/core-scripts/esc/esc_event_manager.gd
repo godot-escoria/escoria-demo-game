@@ -68,7 +68,8 @@ func _process(delta: float) -> void:
 					"finished", 
 					self, 
 					"_on_event_finished",
-					[channel_name]
+					[channel_name],
+					CONNECT_ONESHOT
 				)
 			if not _running_events[channel_name].is_connected(
 				"interrupted", self, "_on_event_finished"
@@ -77,7 +78,8 @@ func _process(delta: float) -> void:
 					"interrupted", 
 					self, 
 					"_on_event_finished",
-					[channel_name]
+					[channel_name],
+					CONNECT_ONESHOT
 				)
 			
 			if channel_name == "_front":
@@ -170,8 +172,6 @@ func _on_event_finished(return_code: int, channel_name: String) -> void:
 	escoria.logger.debug(
 		"Event %s ended with return code %d" % [event.name, return_code]
 	)
-	event.disconnect("finished", self, "_on_event_finished")
-	event.disconnect("interrupted", self, "_on_event_finished")
 	
 	if return_code == ESCExecution.RC_CANCEL:
 		return_code = ESCExecution.RC_OK

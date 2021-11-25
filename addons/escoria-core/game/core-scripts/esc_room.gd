@@ -147,8 +147,7 @@ func perform_script_events():
 				":transition_out",
 				"transition %s out" % ProjectSettings.get_setting(
 					"escoria/ui/default_transition"
-				),
-				"hide_menu main"
+				)
 			])
 			escoria.event_manager.queue_event(
 				script_transition_out.events['transition_out']
@@ -160,7 +159,7 @@ func perform_script_events():
 		if enabled_automatic_transitions \
 				or (
 					not enabled_automatic_transitions \
-					and escoria.globals_manager.get_global("BYPASS_LAST_SCENE")
+					and escoria.globals_manager.get_global("FORCE_LAST_SCENE_NULL")
 				):
 			var script_transition_in = escoria.esc_compiler.compile([
 				":transition_in",
@@ -179,26 +178,27 @@ func perform_script_events():
 		
 		if ready_event_added:
 			# Wait for ready event to be done
+
 			var rc = yield(escoria.event_manager, "event_finished")
 			while rc[1] != "ready":
 				rc = yield(escoria.event_manager, "event_finished")
 			if rc[0] != ESCExecution.RC_OK:
 				return rc[0]
 		
-		# Now that :ready is finished, if BYPASS_LAST_SCENE was true, reset it 
-		# to false and set ESC_LAST_SCENE to current scene
-		if escoria.globals_manager.get_global("BYPASS_LAST_SCENE"):
+		# Now that :ready is finished, if FORCE_LAST_SCENE_NULL was true, reset it 
+		# to false
+		if escoria.globals_manager.get_global("FORCE_LAST_SCENE_NULL"):
 			escoria.globals_manager.set_global(
-				"BYPASS_LAST_SCENE", 
+				"FORCE_LAST_SCENE_NULL", 
 				false, 
 				true
 			)
-			escoria.globals_manager.set_global(
-				"ESC_LAST_SCENE",
-				escoria.main.current_scene.global_id \
-						if escoria.main.current_scene != null else "", 
-				true
-			)
+		escoria.globals_manager.set_global(
+			"ESC_LAST_SCENE",
+			escoria.main.current_scene.global_id \
+					if escoria.main.current_scene != null else "", 
+			true
+		)
 
 
 # Runs the script event from the script attached, if any.

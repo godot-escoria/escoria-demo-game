@@ -50,7 +50,11 @@ func _ready():
 
 # Switch to the selected room
 func _on_button_pressed():
-	escoria.globals_manager.set_global("BYPASS_LAST_SCENE", true, true)
+	# When next room is loaded, we don't want to consider ESC_LAST_SCENE for
+	# automatic transitions. 
+	# If FORCE_LAST_SCENE_NULL is True when change_scene starts:
+	# - ESC_LAST_SCENE is set to empty
+	escoria.globals_manager.set_global("FORCE_LAST_SCENE_NULL", true, true)
 	var script = escoria.esc_compiler.compile([
 		":room_selector",
 		"change_scene %s" % _options_paths[_selected_id]

@@ -1,0 +1,28 @@
+
+:use
+
+# This event demonstrates the following:
+#- fade out to black
+#- show the pause menu (automatic transition disabled to manage those manually)
+#- wait 2 seconds
+#- change scene (automatic transition enabled) to reload this same room
+
+set_global transition_manual false
+
+# Fade out to black
+transition fade_black out
+wait 2
+
+# Show main menu, automatic transition DISABLED
+show_menu pause
+
+# Showing menu
+transition shards in
+
+# Wait 2 seconds on menu
+wait 2
+
+# Change scene to same scene, enabled automatic transition
+change_scene res://game/rooms/room14/room14.tscn
+
+
