@@ -208,6 +208,10 @@ func report_errors(p_path: String, errors: Array) -> void:
 # * message: Message to log
 # * err: if true, write in stderr
 func _log(message:String, err: bool = false):
+	var info = OS.get_datetime()
+	info["message"] = message
+	message = "{year}-{month}-{day}T{hour}{minute}{second} {message}" \
+			.format(info)
 	if err:
 		printerr(message)
 	else:
