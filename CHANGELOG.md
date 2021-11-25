@@ -1,3 +1,12 @@
+## [4.0.0-alpha.64](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.64) (2021-11-25)
+
+
+### Features
+
+* Fix set_interactive command ([#461](https://github.com/godot-escoria/escoria-demo-game/issues/461)) ([87ef970](https://github.com/godot-escoria/escoria-demo-game/commit/87ef9708dedb7ded655efee3286bade95b54bc30))
+
+
+
 ## [4.0.0-alpha.63](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.63) (2021-11-23)
 
 
