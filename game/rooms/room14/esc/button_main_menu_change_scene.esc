@@ -3,10 +3,11 @@
 
 # This event demonstrates the following:
 #- fade out to black
-#- show the main menu (automatic transition disabled to manage those manually)
+#- show the pause menu (automatic transition disabled to manage those manually)
 #- wait 2 seconds
-#- change scene (automatic transition disabled to managed those manually) to reload this same room
+#- change scene (automatic transition disabled to manage those manually) to reload this same room
 
+set_global transition_manual true
 
 # Fade out to black
 transition fade_black out
@@ -32,6 +33,6 @@ wait 1
 # If you transition IN here instead of room's :setup event, you will show the previous room
 
 # Change scene to same scene, disabled automatic transition
-change_scene res://game/rooms/room14/room14.tscn true
+change_scene res://game/rooms/room14/room14.tscn false
 
 # Do not transition here either, as change_scene ends the execution of this script

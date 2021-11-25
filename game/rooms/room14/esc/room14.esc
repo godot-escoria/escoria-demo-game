@@ -14,8 +14,8 @@
 	stop
 
 # If we're coming from the same room as this one, we manage the player's position 
-# AND the transition IN manually
-> [eq ESC_LAST_SCENE room14]
+# AND the transition IN manually if we pushed that button
+> [eq ESC_LAST_SCENE room14, transition_manual]
 	teleport player start
 	
 	# Set player look left
@@ -23,6 +23,15 @@
 	
 	# Fade in from black
 	transition fade_black in
+	stop
+
+# If we're coming from the same room as this one, we manage the player's position only
+> [eq ESC_LAST_SCENE room14, !transition_manual]
+	teleport player start
+	
+	# Set player look left
+	set_angle player 270
+	
 	stop
 
 

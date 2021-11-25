@@ -78,7 +78,7 @@ position = Vector2( 340.052, 298.812 )
 
 [node name="r_door" type="Area2D" parent="Hotspots"]
 script = ExtResource( 8 )
-global_id = "r_door"
+global_id = "r12_r_exit"
 tooltip_name = "Right exit"
 target_scene = "res://game/rooms/room13/room13.tscn"
 switch_sound = "res://game/sfx/sounds/doorOpen_2.ogg"
@@ -94,3 +94,4 @@ script = ExtResource( 5 )
 position = Vector2( 542.824, 468.193 )
 script = ExtResource( 5 )
 global_id = "player_start"
+is_start_location = true

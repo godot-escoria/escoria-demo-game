@@ -119,4 +119,5 @@ func _on_tween_completed():
 	if not _was_canceled:
 		_tween.stop_all()
 		_tween.remove_all()
+		escoria.logger.debug("Transition %s done." % str(transition_id))
 		emit_signal("transition_done", transition_id)

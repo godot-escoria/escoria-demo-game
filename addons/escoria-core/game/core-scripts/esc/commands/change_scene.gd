@@ -58,31 +58,50 @@ func run(command_params: Array) -> int:
 	# events in there so we avoid running these multiple times)
 	escoria.event_manager.clear_event_queue()
 	
+	# Unpause escoria (in case we were on a pause menu) so we can run events
+	escoria.set_game_paused(false)
+	
 	var exited_previous_room = false
 	
+	# If auto transition is enabled, try to determine whether we just exited a 
+	# room previously, so that we must play the auto transition out or not.
+	# This must happen if ESC_LAST_SCENE is set, or if we're running an 
+	# exit_scene event. Also room selector actions require the transition.
 	if command_params[1] \
-			and escoria.event_manager.get_running_event("_front").name \
-			in ["exit_scene", "room_selector"]:
+			and (
+				not escoria.globals_manager.get_global("ESC_LAST_SCENE").empty()
+				or (
+					escoria.event_manager.get_running_event("_front").name \
+						in ["newgame", "exit_scene", "room_selector"]
+					and escoria.globals_manager.get_global("ESC_LAST_SCENE").empty()
+					)
+				):
 		exited_previous_room = true
-		escoria.main.scene_transition.transition(
+		var transition_id = escoria.main.scene_transition.transition(
 			"", 
 			ESCTransitionPlayer.TRANSITION_MODE.OUT
 		)
+		escoria.logger.debug(
+			"Awaiting transition %s (out) to be finished." % str(transition_id)
+		)
 		yield(escoria.main.scene_transition, "transition_done")
 		
-	# If BYPASS_LAST_SCENE is false, set ESC_LAST_SCENE = current room id
-	if escoria.main.current_scene \
-			and not escoria.globals_manager.get_global("BYPASS_LAST_SCENE"):
-		escoria.globals_manager.set_global(
-			"ESC_LAST_SCENE", 
-			escoria.main.current_scene.global_id, 
-			true
-		)
-	
-	if escoria.globals_manager.get_global("BYPASS_LAST_SCENE"):
+	# Hide main and pause menus
+	escoria.game_scene.hide_main_menu()
+	escoria.game_scene.unpause_game()
+
+	# If FORCE_LAST_SCENE_NULL is true, force ESC_LAST_SCENE to empty
+	if escoria.globals_manager.get_global("FORCE_LAST_SCENE_NULL"):
 		escoria.globals_manager.set_global(
 			"ESC_LAST_SCENE", 
 			null, 
+			true
+		)
+	elif escoria.main.current_scene:
+		# If FORCE_LAST_SCENE_NULL is false, set ESC_LAST_SCENE = current room id
+		escoria.globals_manager.set_global(
+			"ESC_LAST_SCENE", 
+			escoria.main.current_scene.global_id, 
 			true
 		)
 	
