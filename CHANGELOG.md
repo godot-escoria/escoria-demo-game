@@ -1,3 +1,12 @@
+## [4.0.0-alpha.66](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.66) (2021-11-25)
+
+
+### Features
+
+* Optimized animation handler and crashing ([#463](https://github.com/godot-escoria/escoria-demo-game/issues/463)) ([75c00b4](https://github.com/godot-escoria/escoria-demo-game/commit/75c00b4993aa59e7962fd50f085d12c660174945))
+
+
+
 ## [4.0.0-alpha.65](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.65) (2021-11-25)
 
 
