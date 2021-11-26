@@ -299,10 +299,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		if mouse_in_shape:
 			if event.doubleclick and event.button_index == BUTTON_LEFT:
 				emit_signal("mouse_double_left_clicked_item", self, event)
+				get_tree().set_input_as_handled()
 			elif event.button_index == BUTTON_LEFT:
 				emit_signal("mouse_left_clicked_item", self, event)
+				get_tree().set_input_as_handled()
 			elif event.button_index == BUTTON_RIGHT:
 				emit_signal("mouse_right_clicked_item", self, event)
+				get_tree().set_input_as_handled()
 
 
 # Return the animation player node

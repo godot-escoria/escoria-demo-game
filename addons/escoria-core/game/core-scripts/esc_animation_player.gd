@@ -91,9 +91,9 @@ func stop():
 # - name: The animation name to play
 # - backwards: Play backwards
 func play(name: String, backwards: bool = false):
-	if _is_animation_player:
+	if _is_animation_player and _animation_player.current_animation != "":
 		_animation_player.seek(0)
-	else:
+	elif not _is_animation_player:
 		_animated_sprite.frame = 0
 	_current_animation = name
 	if backwards and _is_animation_player:

@@ -3,31 +3,30 @@ tool
 extends EditorPlugin
 
 
+var _escoria
+
 const MANAGER_CLASS="res://addons/escoria-dialog-simple/esc_dialog_simple.gd"
 
 
+func _init() -> void:
+	 _escoria = preload("res://addons/escoria-core/game/escoria.tscn")\
+			.instance()
+
+
 # Register ourselves after setup
-func _enter_tree() -> void:
+func _ready() -> void:
 	call_deferred("_register")
 	
 
 # Unregister ourselves
 func _exit_tree() -> void:
-	_unregister()
+	_escoria.deregister_dialog_manager(MANAGER_CLASS)
 
 
 # Add ourselves to the list of dialog managers
 func _register():
-	_unregister()
-	var dialog_managers: Array = ProjectSettings.get_setting(
-		"escoria/ui/dialog_managers"
-	)
-	dialog_managers.push_back(MANAGER_CLASS)
-	ProjectSettings.set_setting(
-		"escoria/ui/dialog_managers",
-		dialog_managers
-	)
-	_register_setting(
+	_escoria.register_dialog_manager(MANAGER_CLASS)
+	_escoria.register_setting(
 		"escoria/dialog_simple/avatars_path",
 		"",
 		{
@@ -36,7 +35,7 @@ func _register():
 		}
 	)
 	
-	_register_setting(
+	_escoria.register_setting(
 		"escoria/dialog_simple/text_speed_per_character",
 		0.1,
 		{
@@ -44,7 +43,7 @@ func _register():
 		}
 	)
 	
-	_register_setting(
+	_escoria.register_setting(
 		"escoria/dialog_simple/fast_text_speed_per_character",
 		0.25,
 		{
@@ -52,41 +51,10 @@ func _register():
 		}
 	)
 	
-	_register_setting(
+	_escoria.register_setting(
 		"escoria/dialog_simple/max_time_to_disappear",
 		1.0,
 		{
 			"type": TYPE_REAL
 		}
 	)
-	
-
-# Remove ourselves from the list of dialog managers
-func _unregister():
-	var dialog_managers = ProjectSettings.get_setting(
-		"escoria/ui/dialog_managers"
-	)
-	
-	dialog_managers.erase(MANAGER_CLASS)
-	
-	ProjectSettings.set_setting(
-		"escoria/ui/dialog_managers",
-		dialog_managers
-	)
-	
-
-# Register a new project setting if it hasn't been defined already
-#
-# #### Parameters
-#
-# - name: Name of the project setting
-# - default: Default value
-# - info: Property info for the setting
-func _register_setting(name: String, default, info: Dictionary):
-	if not ProjectSettings.has_setting(name):
-		ProjectSettings.set_setting(
-			name,
-			default
-		)
-		info.name = name
-		ProjectSettings.add_property_info(info)

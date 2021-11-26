@@ -127,7 +127,7 @@ func perform_inputevent_on_object(
 		var player_global_pos = escoria.main.current_scene.player.global_position
 		var clicked_position = event.position
 	
-		if not player_global_pos == destination_position:
+		if not player_global_pos.is_equal_approx(destination_position):
 			dont_interact = true
 	
 	# If no interaction should happen after player has arrived, leave 

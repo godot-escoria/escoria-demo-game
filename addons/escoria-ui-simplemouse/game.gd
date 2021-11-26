@@ -36,7 +36,6 @@ Implement methods to react to inputs.
 """
 
 func _enter_tree():
-	ProjectSettings.set_setting("escoria/ui/tooltip_follows_mouse", true)
 	escoria.action_manager.connect(
 		"action_finished", 
 		self, 
@@ -60,6 +59,14 @@ func _exit_tree():
 		self, 
 		"_on_action_finished"
 	)
+	
+	
+func _input(event: InputEvent) -> void:
+	if escoria.main.current_scene and escoria.main.current_scene.game:
+			if event is InputEventMouseMotion:
+				escoria.main.current_scene.game. \
+					update_tooltip_following_mouse_position(event.position)
+
 
 ## BACKGROUND ## 
 
@@ -200,6 +207,34 @@ func pause_game():
 		escoria.object_manager.get_object("_camera").node.current = false
 		escoria.main.current_scene.game.hide_ui()
 		escoria.main.current_scene.hide()
+
+
+# Update the tooltip
+#
+# #### Parameters
+#
+# - p_position: Position of the mouse
+func update_tooltip_following_mouse_position(p_position: Vector2):
+	var corrected_position = p_position
+	
+	# clamp TOP
+	if tooltip_node.tooltip_distance_to_edge_top(p_position) <= mouse_tooltip_margin:
+		corrected_position.y = mouse_tooltip_margin
+	
+	# clamp BOTTOM
+	if tooltip_node.tooltip_distance_to_edge_bottom(p_position + tooltip_node.rect_size) <= mouse_tooltip_margin:
+		corrected_position.y = escoria.game_size.y - mouse_tooltip_margin - tooltip_node.rect_size.y
+	
+	# clamp LEFT
+	if tooltip_node.tooltip_distance_to_edge_left(p_position - tooltip_node.rect_size/2) <= mouse_tooltip_margin:
+		corrected_position.x = mouse_tooltip_margin
+
+	# clamp RIGHT
+	if tooltip_node.tooltip_distance_to_edge_right(p_position + tooltip_node.rect_size/2) <= mouse_tooltip_margin:
+		corrected_position.x = escoria.game_size.x - mouse_tooltip_margin - tooltip_node.rect_size.x
+	
+	tooltip_node.anchor_right = 0.2
+	tooltip_node.rect_position = corrected_position + tooltip_node.offset_from_cursor
 
 
 func _on_action_finished():
