@@ -107,6 +107,7 @@ func _ready():
 				player.animations = ResourceLoader.load(
 					animations[player.global_id]
 				)
+				player.update_idle()
 		escoria.object_manager.get_object("_camera").node.set_target(player)
 	
 	for n in get_children():

@@ -318,6 +318,8 @@ func update_terrain(on_event_finished_name = null) -> void:
 		return
 	if parent.get("dont_apply_terrain_scaling"):
 		return
+	if not parent.is_inside_tree():
+		return
 		
 	var pos = parent.global_position
 	if pos.y <= VisualServer.CANVAS_ITEM_Z_MAX:
