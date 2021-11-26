@@ -60,8 +60,7 @@ func add_new_item_by_id(item_id: String) -> void:
 				escoria.logger.report_errors(
 					"inventory_ui.gd:add_new_item_by_id()",
 					[
-						"Item global id '%s' does not exist." % item_id, 
-						"Check item's id in ESCORIA_ALL_ITEMS scene."
+						"Item global id '%s' does not exist." % item_id
 					]
 				)
 				
