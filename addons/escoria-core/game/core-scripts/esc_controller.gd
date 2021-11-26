@@ -34,7 +34,7 @@ func perform_walk(
 			if destination.node is ESCLocation:
 				target_position = destination.node.global_position
 			else:
-				target_position = destination.node.interact_position
+				target_position = destination.node.get_interact_position()
 				
 			var walk_context = ESCWalkContext.new(
 				destination, 
