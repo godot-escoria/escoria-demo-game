@@ -13,6 +13,10 @@ func _ready():
 		but.toggle_mode = true
 
 func _on_action_selected(action: String):
+	if escoria.inputs_manager.input_mode != escoria.inputs_manager.INPUT_ALL:
+		unselect_actions()
+		return
+
 	escoria.action_manager.set_current_action(action)
 
 	for but in get_children():

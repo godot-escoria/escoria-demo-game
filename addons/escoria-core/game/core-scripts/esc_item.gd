@@ -471,6 +471,12 @@ func stop_talking():
 		)
 
 
+# Replay the last idle animation
+func update_idle():
+	get_animation_player().play(
+		animations.idles[_movable.last_dir].animation
+	)
+
 
 # Return the camera position if a camera_position_node exists or the
 # global position of the player
