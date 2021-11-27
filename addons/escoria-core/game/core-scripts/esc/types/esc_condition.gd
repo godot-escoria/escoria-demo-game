@@ -24,7 +24,7 @@ const COMPARISON_DESCRIPTION = [
 	"Checking if %s %s %s equals %s",
 	"Checking if %s %s %s greater than %s",
 	"Checking if %s %s %s less than %s",
-	"Checking if %s is %s active%s"
+	"Checking if %s %s %s active%s"
 ]
 
 
@@ -96,7 +96,7 @@ func _init(comparison_string: String):
 # Run this comparison against the globals
 func run() -> bool:
 	var global_name = self.flag
-	
+
 	escoria.logger.debug(
 		COMPARISON_DESCRIPTION[self.comparison] % [
 			"inventory item" if self.inventory else "global value",
@@ -130,7 +130,7 @@ func run() -> bool:
 				self.comparison_value:
 		return_value = true
 	elif self.comparison == COMPARISON_ACTIVITY and \
-			escoria.object_manager.has_object(global_name) and \
+			escoria.object_manager.has(global_name) and \
 				escoria.object_manager.get_object(global_name).active:
 		return_value = true
 		

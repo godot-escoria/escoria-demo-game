@@ -256,34 +256,6 @@ func show_ui():
 	pass
 
 
-# Function is called if Project setting escoria/ui/tooltip_follows_mouse = true
-#
-# #### Parameters
-#
-# - p_position: Position of the mouse
-func update_tooltip_following_mouse_position(p_position: Vector2):
-	var corrected_position = p_position
-	
-	# clamp TOP
-	if tooltip_node.tooltip_distance_to_edge_top(p_position) <= mouse_tooltip_margin:
-		corrected_position.y = mouse_tooltip_margin
-	
-	# clamp BOTTOM
-	if tooltip_node.tooltip_distance_to_edge_bottom(p_position + tooltip_node.rect_size) <= mouse_tooltip_margin:
-		corrected_position.y = escoria.game_size.y - mouse_tooltip_margin - tooltip_node.rect_size.y
-	
-	# clamp LEFT
-	if tooltip_node.tooltip_distance_to_edge_left(p_position - tooltip_node.rect_size/2) <= mouse_tooltip_margin:
-		corrected_position.x = mouse_tooltip_margin
-
-	# clamp RIGHT
-	if tooltip_node.tooltip_distance_to_edge_right(p_position + tooltip_node.rect_size/2) <= mouse_tooltip_margin:
-		corrected_position.x = escoria.game_size.x - mouse_tooltip_margin - tooltip_node.rect_size.x
-	
-	tooltip_node.anchor_right = 0.2
-	tooltip_node.rect_position = corrected_position + tooltip_node.offset_from_cursor
-
-
 # Set the Editor debug mode
 func _set_editor_debug_mode(p_editor_debug_mode: int) -> void:
 	editor_debug_mode = p_editor_debug_mode
