@@ -1,3 +1,12 @@
+## [4.0.0-alpha.69](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.69) (2021-11-27)
+
+
+### Features
+
+* Several fixes and optimizations ([#467](https://github.com/godot-escoria/escoria-demo-game/issues/467)) ([47fe4df](https://github.com/godot-escoria/escoria-demo-game/commit/47fe4df8419974b8e7469b76670728e658bd1a04))
+
+
+
 ## [4.0.0-alpha.68](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.68) (2021-11-26)
 
 
