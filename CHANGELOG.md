@@ -1,3 +1,12 @@
+## [4.0.0-alpha.72](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.72) (2021-11-28)
+
+
+### Bug Fixes
+
+* Safety guards for disconnects ([#470](https://github.com/godot-escoria/escoria-demo-game/issues/470)) ([14887c7](https://github.com/godot-escoria/escoria-demo-game/commit/14887c711bb09da14057624e39444898323125bd))
+
+
+
 ## [4.0.0-alpha.71](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.71) (2021-11-28)
 
 
