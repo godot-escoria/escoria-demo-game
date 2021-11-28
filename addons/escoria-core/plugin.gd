@@ -258,7 +258,7 @@ func set_escoria_sound_settings():
 		"escoria/sound/master_volume", 
 		1,
 		{
-			"type": TYPE_INT,
+			"type": TYPE_REAL,
 			"hint": PROPERTY_HINT_RANGE,
 			"hint_string": "0,1"
 		}
@@ -268,7 +268,7 @@ func set_escoria_sound_settings():
 		"escoria/sound/music_volume", 
 		1,
 		{
-			"type": TYPE_INT,
+			"type": TYPE_REAL,
 			"hint": PROPERTY_HINT_RANGE,
 			"hint_string": "0,1"
 		}
@@ -278,7 +278,7 @@ func set_escoria_sound_settings():
 		"escoria/sound/sfx_volume", 
 		1,
 		{
-			"type": TYPE_INT,
+			"type": TYPE_REAL,
 			"hint": PROPERTY_HINT_RANGE,
 			"hint_string": "0,1"
 		}
@@ -288,7 +288,7 @@ func set_escoria_sound_settings():
 		"escoria/sound/speech_volume",
 		1,
 		{
-			"type": TYPE_INT,
+			"type": TYPE_REAL,
 			"hint": PROPERTY_HINT_RANGE,
 			"hint_string": "0,1"
 		}

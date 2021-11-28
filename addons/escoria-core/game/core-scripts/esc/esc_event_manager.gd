@@ -93,6 +93,17 @@ func _process(delta: float) -> void:
 					channel_name, 
 					_running_events[channel_name].name
 				)
+				
+			var event_flags = _running_events[channel_name].flags
+			if event_flags & ESCEvent.FLAG_NO_TT:
+				escoria.main.current_scene.game.tooltip_node.hide()
+			
+			if event_flags & ESCEvent.FLAG_NO_UI:
+				escoria.main.current_scene.game.hide_ui()
+			
+			if event_flags & ESCEvent.FLAG_NO_SAVE:
+				escoria.save_manager.save_enabled = false
+				
 			_running_events[channel_name].run()
 	for event in self.scheduled_events:
 		(event as ESCScheduledEvent).timeout -= delta
@@ -136,6 +147,7 @@ func interrupt_running_event():
 	for channel_name in _running_events.keys():
 		if _running_events[channel_name] != null:
 			_running_events[channel_name].interrupt()
+			_channels_state[channel_name] = true
 
 
 # Clears the event queues.
@@ -172,6 +184,16 @@ func _on_event_finished(return_code: int, channel_name: String) -> void:
 	escoria.logger.debug(
 		"Event %s ended with return code %d" % [event.name, return_code]
 	)
+	
+	var event_flags = event.flags
+	if event_flags & ESCEvent.FLAG_NO_TT:
+		escoria.main.current_scene.game.tooltip_node.show()
+	
+	if event_flags & ESCEvent.FLAG_NO_UI:
+		escoria.main.current_scene.game.show_ui()
+	
+	if event_flags & ESCEvent.FLAG_NO_SAVE:
+		escoria.save_manager.save_enabled = true
 	
 	if return_code == ESCExecution.RC_CANCEL:
 		return_code = ESCExecution.RC_OK
