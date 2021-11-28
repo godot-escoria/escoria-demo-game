@@ -91,31 +91,56 @@ func remove_item_by_id(item_id: String) -> void:
 	if items_ids_in_inventory.has(item_id):
 		var item_inventory_button = items_ids_in_inventory[item_id]
 		
-		item_inventory_button.disconnect(
+		if item_inventory_button.is_connected(
 			"mouse_left_inventory_item", 
 			escoria.inputs_manager, 
 			"_on_mouse_left_click_inventory_item"
-		)
-		item_inventory_button.disconnect(
+		):
+			item_inventory_button.disconnect(
+				"mouse_left_inventory_item", 
+				escoria.inputs_manager, 
+				"_on_mouse_left_click_inventory_item"
+			)
+		if item_inventory_button.is_connected(
 			"mouse_double_left_inventory_item", 
 			escoria.inputs_manager, 
 			"_on_mouse_double_left_click_inventory_item"
-		)
-		item_inventory_button.disconnect(
+		):
+			item_inventory_button.disconnect(
+				"mouse_double_left_inventory_item", 
+				escoria.inputs_manager, 
+				"_on_mouse_double_left_click_inventory_item"
+			)
+		if item_inventory_button.is_connected(
 			"mouse_right_inventory_item", 
 			escoria.inputs_manager, 
 			"_on_mouse_right_click_inventory_item"
-		)
-		item_inventory_button.disconnect(
+		):
+			item_inventory_button.disconnect(
+				"mouse_right_inventory_item", 
+				escoria.inputs_manager, 
+				"_on_mouse_right_click_inventory_item"
+			)
+		if item_inventory_button.is_connected(
 			"inventory_item_focused", 
 			escoria.inputs_manager, 
 			"_on_mouse_entered_inventory_item"
-		)
-		item_inventory_button.disconnect(
+		):
+			item_inventory_button.disconnect(
+				"inventory_item_focused", 
+				escoria.inputs_manager, 
+				"_on_mouse_entered_inventory_item"
+			)
+		if item_inventory_button.is_connected(
 			"inventory_item_unfocused", 
 			escoria.inputs_manager, 
 			"_on_mouse_exited_inventory_item"
-		)
+		):
+			item_inventory_button.disconnect(
+				"inventory_item_unfocused", 
+				escoria.inputs_manager, 
+				"_on_mouse_exited_inventory_item"
+			)
 		
 		get_node(inventory_ui_container).remove_item(item_inventory_button)
 		items_ids_in_inventory.erase(item_id)
