@@ -204,7 +204,7 @@ func load_game(id: int):
 		
 	## ROOM
 	load_statements.append(
-		ESCCommand.new("change_scene %s true" \
+		ESCCommand.new("change_scene %s false" \
 				% save_game.main["current_scene_filename"])
 	)
 	

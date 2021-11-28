@@ -372,7 +372,7 @@ func _get_dir_deg(deg: int, animations: ESCAnimationResource) -> int:
 	# It's an error to have the animations misconfigured
 	if dir == -1:
 		escoria.logger.report_errors(
-			"escitem.gd:_get_dir_deg()",
+			"esc_movable.gd:_get_dir_deg()",
 			["No direction found for " + str(deg)]
 		)
 	
