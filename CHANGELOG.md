@@ -1,3 +1,12 @@
+## [4.0.0-alpha.71](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.71) (2021-11-28)
+
+
+### Features
+
+* Support WAV files as well ([#469](https://github.com/godot-escoria/escoria-demo-game/issues/469)) ([0e295f0](https://github.com/godot-escoria/escoria-demo-game/commit/0e295f0ebbd411d4a4946f9b96d76c3524dd983f))
+
+
+
 ## [4.0.0-alpha.70](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.70) (2021-11-28)
 
 
