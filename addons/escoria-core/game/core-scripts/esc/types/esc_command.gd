@@ -83,13 +83,13 @@ func _init(command_string):
 # Check, if conditions match
 func is_valid() -> bool:
 	if not command_exists():
-		return false
 		escoria.logger.report_errors(
 			"Invalid command detected: %s" % self.name,
 			[
 				"Command implementation not found in any command directory"
 			]
 		)
+		return false
 			
 	return .is_valid()
 

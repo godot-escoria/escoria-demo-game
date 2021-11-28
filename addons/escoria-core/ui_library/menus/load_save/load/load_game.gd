@@ -5,6 +5,8 @@ extends Control
 # Emitted when the back button is pressed
 signal back_button_pressed
 
+# Emitted when a game slot is pressed
+signal load_slot_button_pressed
 
 # The scene to display a slot
 export(PackedScene) var slot_ui_scene
@@ -21,6 +23,7 @@ func _ready():
 # - slot_id: The slot that was pressed
 func _on_slot_pressed(slot_id: int) -> void:
 	escoria.save_manager.load_game(slot_id)
+	emit_signal("load_slot_button_pressed")
 
 
 # The back button was pressed

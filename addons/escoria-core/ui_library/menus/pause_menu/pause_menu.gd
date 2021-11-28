@@ -31,17 +31,22 @@ func _on_quit_pressed():
 	escoria.quit()
 
 
-# Hide the save slots again
+# Hide the save slots after clicking back button
 func _on_save_game_back_button_pressed():
 	$VBoxContainer.show()
 	$save_game.hide()
 
 
-# Hide the load slots again
+# Hide the load slots after clicking back button
 func _on_load_game_back_button_pressed():
 	$VBoxContainer.show()
 	$load_game.hide()
-	
+
+
+# Hide the load slots after clicking a save slot
+func _on_load_game_load_slot_button_pressed():
+	$VBoxContainer.show()
+	$load_game.hide()
 
 # Set wether saving is enabled currently
 #
@@ -49,3 +54,6 @@ func _on_load_game_back_button_pressed():
 # - p_enabled: Enable or disable saving
 func set_save_enabled(p_enabled: bool):
 	$VBoxContainer/menuitems/save_game.disabled = !p_enabled
+
+
+

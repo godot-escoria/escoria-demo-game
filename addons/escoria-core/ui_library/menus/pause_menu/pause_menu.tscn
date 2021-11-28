@@ -98,6 +98,7 @@ __meta__ = {
 
 [connection signal="back_button_pressed" from="save_game" to="." method="_on_save_game_back_button_pressed"]
 [connection signal="back_button_pressed" from="load_game" to="." method="_on_load_game_back_button_pressed"]
+[connection signal="load_slot_button_pressed" from="load_game" to="." method="_on_load_game_load_slot_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/menuitems/continue" to="." method="_on_continue_pressed"]
 [connection signal="pressed" from="VBoxContainer/menuitems/save_game" to="." method="_on_save_game_pressed"]
 [connection signal="pressed" from="VBoxContainer/menuitems/load_game" to="." method="_on_load_game_pressed"]

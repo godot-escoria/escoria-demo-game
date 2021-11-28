@@ -68,7 +68,8 @@ func run(command_params: Array) -> int:
 			and (
 				not escoria.globals_manager.get_global("ESC_LAST_SCENE").empty()
 				or (
-					escoria.event_manager.get_running_event("_front").name \
+					escoria.event_manager.get_running_event("_front") != null \
+					and escoria.event_manager.get_running_event("_front").name \
 						in ["newgame", "exit_scene", "room_selector"]
 						and escoria.globals_manager.get_global(
 							"ESC_LAST_SCENE"
@@ -129,6 +130,7 @@ func run(command_params: Array) -> int:
 	var room_scene = res_room.instance()
 	if room_scene:
 		if command_params[1] \
+				and escoria.event_manager.get_running_event("_front") != null \
 				and escoria.event_manager.get_running_event("_front").name \
 				== "room_selector":
 			room_scene.enabled_automatic_transitions = true
