@@ -33,22 +33,20 @@ func _on_quit_pressed():
 
 # Hide the save slots after clicking back button
 func _on_save_game_back_button_pressed():
-	$VBoxContainer.show()
-	$save_game.hide()
+	reset()
 
 
 # Hide the load slots after clicking back button
 func _on_load_game_back_button_pressed():
-	$VBoxContainer.show()
-	$load_game.hide()
+	reset()
 
 
 # Hide the load slots after clicking a save slot
 func _on_load_game_load_slot_button_pressed():
-	$VBoxContainer.show()
-	$load_game.hide()
+	reset()
 
-# Set wether saving is enabled currently
+
+# Set whether saving is enabled currently
 #
 # #### Parameters
 # - p_enabled: Enable or disable saving
@@ -56,4 +54,8 @@ func set_save_enabled(p_enabled: bool):
 	$VBoxContainer/menuitems/save_game.disabled = !p_enabled
 
 
-
+# Resets the UI to initial state
+func reset():
+	$save_game.hide()
+	$load_game.hide()
+	$VBoxContainer.show()

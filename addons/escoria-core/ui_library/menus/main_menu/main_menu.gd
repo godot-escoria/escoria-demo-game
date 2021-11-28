@@ -27,11 +27,16 @@ func _on_quit_pressed():
 
 # Hide the options panel again
 func _on_options_back_button_pressed():
-	$options.hide()
-	$main.show()
+	reset()
 
 
 # Hide the load panel
 func _on_load_game_back_button_pressed():
+	reset()
+
+
+# Resets the UI to initial state
+func reset():
 	$load_game.hide()
+	$options.hide()
 	$main.show()
