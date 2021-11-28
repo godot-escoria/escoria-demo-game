@@ -29,6 +29,19 @@ func _process(_delta):
 # - object: Object to register
 # - force: Register the object, even if it has already been registered
 func register_object(object: ESCObject, force: bool = false) -> void:
+	if object.global_id.empty():
+		object.global_id = str(object.node.get_path()).split("/root/", false)[0]
+		object.node.global_id = object.global_id
+		escoria.logger.report_warnings(
+			"esc_object_manager.gd:register_object()",
+			[
+				"Registering object with empty global_id.",
+				"Using node's full path as global_id: %s" 
+						% object.node.global_id
+			]
+		)
+		
+	
 	if objects.has(object.global_id) and not force:
 		escoria.logger.report_errors(
 			"ESCObjectManager.register_object: Object already registered",
