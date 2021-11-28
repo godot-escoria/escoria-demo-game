@@ -64,7 +64,7 @@ func _set_active(value: bool):
 #
 # **Returns** Whether the node is interactive or not
 func _get_interactive() -> bool:
-	if "is_interactive" in self.node:
+	if is_instance_valid(self.node) and "is_interactive" in self.node:
 		return self.node.is_interactive
 	else:
 		return true

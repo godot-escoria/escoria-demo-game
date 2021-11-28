@@ -77,5 +77,6 @@ func _init(event_string: String):
 
 # Execute this statement and return its return code
 func run() -> int:
+	reset_interrupt()
 	escoria.logger.debug("Event %s started" % name)
 	return .run()

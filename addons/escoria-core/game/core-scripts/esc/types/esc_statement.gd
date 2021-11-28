@@ -64,10 +64,18 @@ func interrupt():
 	_is_interrupted = true
 	for statement in statements:
 		if statement.is_finished:
+			var name = statement.name if "name" in statement else "group"
 			escoria.logger.debug(
 				"event manager",
 				["Event %s (%s) is already finished. Won't interrupt." 
-					% [statement.name, str(statement)]]
+					% [name, str(statement)]]
 			)
 		else:
 			statement.interrupt()
+
+
+# Resets an interrupted event
+func reset_interrupt():
+	_is_interrupted = false
+	for statement in statements:
+		statement.reset_interrupt()

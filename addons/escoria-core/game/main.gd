@@ -92,9 +92,11 @@ func set_camera_limits(camera_limit_id: int = 0) -> void:
 		# to stick centered on the background
 		if area.size.x == 0 or area.size.y == 0 \
 				or area.size < get_viewport().size:
-			escoria.logger.report_warning(
-				"main.gd:set_camera_limits()", 
-				"No limit area! Using viewport."
+			escoria.logger.report_warnings(
+				"main.gd:set_camera_limits()",
+				[
+					"No limit area! Using viewport."
+				]
 			)
 			area.size = get_viewport().size
 
