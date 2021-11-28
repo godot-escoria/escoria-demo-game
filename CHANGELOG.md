@@ -1,3 +1,12 @@
+## [4.0.0-alpha.70](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.70) (2021-11-28)
+
+
+### Bug Fixes
+
+* Fixes from the ETF release day ([#468](https://github.com/godot-escoria/escoria-demo-game/issues/468)) ([84fe9b6](https://github.com/godot-escoria/escoria-demo-game/commit/84fe9b64afe92d20ba7e937f45b6a69553f7b1c9))
+
+
+
 ## [4.0.0-alpha.69](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.69) (2021-11-27)
 
 
