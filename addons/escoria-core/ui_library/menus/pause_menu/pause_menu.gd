@@ -41,11 +41,6 @@ func _on_load_game_back_button_pressed():
 	reset()
 
 
-# Hide the load slots after clicking a save slot
-func _on_load_game_load_slot_button_pressed():
-	reset()
-
-
 # Set whether saving is enabled currently
 #
 # #### Parameters

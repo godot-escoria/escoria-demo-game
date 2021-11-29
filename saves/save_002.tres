@@ -6,18 +6,15 @@
 script = ExtResource( 1 )
 escoria_version = "0.1.0"
 game_version = "0.1.0"
-name = "testwalk2"
-date = "23/11/2021 20:19"
+name = "test2"
+date = "28/11/2021 16:50"
 main = {
-"current_scene_filename": "res://game/rooms/room15/room15.tscn",
+"current_scene_filename": "res://game/rooms/room02/room02.tscn",
 "last_scene_global_id": ""
 }
 globals = {
-"ANIMATION_RESOURCES": {
-"player": "res://game/characters/mark/mark_animations_weird.tres"
-},
-"BYPASS_LAST_SCENE": false,
 "ESC_LAST_SCENE": "room1",
+"FORCE_LAST_SCENE_NULL": false,
 "dialog_advance": 0,
 "dialog_popup_advance": 0,
 "room1_visited": true
@@ -31,12 +28,12 @@ objects = {
 "_music": {
 "active": true,
 "interactive": true,
-"state": "off"
+"state": "res://game/sfx/contemplation.ogg"
 },
 "_sound": {
 "active": true,
 "interactive": true,
-"state": "off"
+"state": "default"
 },
 "_speech": {
 "active": true,
@@ -45,43 +42,43 @@ objects = {
 },
 "player": {
 "active": true,
-"global_transform": Transform2D( 1, 0, 0, 1, 606, 441 ),
+"global_transform": Transform2D( 1, 0, 0, 1, 52.1462, 384.691 ),
 "interactive": true,
-"last_deg": 251,
-"last_dir": 6,
+"last_deg": 161,
+"last_dir": 4,
 "state": "default"
 },
-"r12_l_exit": {
+"r2_bridge": {
+"active": true,
+"interactive": false,
+"state": "default"
+},
+"r2_button": {
 "active": true,
 "interactive": true,
 "state": "default"
 },
-"r15_l_exit": {
+"r2_button_right": {
 "active": true,
 "interactive": true,
 "state": "default"
 },
-"r15_r_exit": {
+"r2_l_exit": {
 "active": true,
 "interactive": true,
 "state": "default"
 },
-"say_long": {
+"r2_player_start": {
 "active": true,
 "interactive": true,
 "state": "default"
 },
-"say_long_left": {
+"r2_r_exit": {
 "active": true,
 "interactive": true,
 "state": "default"
 },
-"start": {
-"active": true,
-"interactive": true,
-"state": "default"
-},
-"switch_animation": {
+"r2_right_platform": {
 "active": true,
 "interactive": true,
 "state": "default"

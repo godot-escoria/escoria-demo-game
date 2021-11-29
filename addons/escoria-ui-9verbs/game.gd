@@ -204,9 +204,10 @@ func _on_event_done(_event_name: String):
 func hide_main_menu():
 	if get_node(main_menu).visible:
 		get_node(main_menu).hide()
-
+		
 func show_main_menu():
 	if not get_node(main_menu).visible:
+		get_node(main_menu).reset()
 		get_node(main_menu).show()
 	
 func unpause_game():
@@ -219,6 +220,7 @@ func unpause_game():
 
 func pause_game():
 	if not get_node(pause_menu).visible:
+		get_node(pause_menu).reset()
 		get_node(pause_menu).set_save_enabled(escoria.save_manager.save_enabled)
 		get_node(pause_menu).show()
 		escoria.object_manager.get_object("_camera").node.current = false
