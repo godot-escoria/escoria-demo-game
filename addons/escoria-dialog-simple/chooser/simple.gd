@@ -9,6 +9,7 @@ export(Color, RGB) var color_hover = Color(165.0,42.0,42.0, 1.0)
 # Hide the chooser at the start just to be safe
 func _ready() -> void:
 	hide_chooser()
+	pause_mode = PAUSE_MODE_STOP
 	
 
 # Process the timeout display

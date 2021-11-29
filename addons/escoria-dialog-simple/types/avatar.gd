@@ -32,6 +32,7 @@ onready var tween = $Panel/MarginContainer/HSplitContainer/text/Tween
 
 # Build up the UI
 func _ready():
+	pause_mode = PAUSE_MODE_STOP
 	_text_speed_per_character = ProjectSettings.get_setting(
 		"escoria/dialog_simple/text_speed_per_character"
 	)

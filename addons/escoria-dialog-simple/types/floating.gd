@@ -32,6 +32,7 @@ onready var text_node: RichTextLabel = self
 
 # Enable bbcode and catch the signal when a tween completed
 func _ready():
+	pause_mode = PAUSE_MODE_STOP
 	_text_speed_per_character = ProjectSettings.get_setting(
 		"escoria/dialog_simple/text_speed_per_character"
 	)
