@@ -204,9 +204,11 @@ func _on_event_done(_event_name: String):
 func hide_main_menu():
 	if get_node(main_menu).visible:
 		get_node(main_menu).hide()
+		show_ui()
 		
 func show_main_menu():
 	if not get_node(main_menu).visible:
+		hide_ui()
 		get_node(main_menu).reset()
 		get_node(main_menu).show()
 	
