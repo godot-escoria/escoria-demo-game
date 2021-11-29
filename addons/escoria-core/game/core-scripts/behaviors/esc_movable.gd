@@ -424,7 +424,13 @@ func _angle_is_between(
 	if end_angle < start_angle:
 		end_angle = p_end_angle
 		
-	return angle >= start_angle and angle <= end_angle
+	if start_angle <= 360 and end_angle >= 360:
+		if angle < start_angle:
+			angle = 360 + angle
+		return angle >= start_angle and angle <= 360 \
+				or angle >= 360 and angle <= end_angle
+	else:
+		return angle >= start_angle and angle <= end_angle
 
 
 # Sets character's angle and plays according animation.
