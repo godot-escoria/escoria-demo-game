@@ -110,13 +110,6 @@ func _ready():
 				player.update_idle()
 		escoria.object_manager.get_object("_camera").node.set_target(player)
 	
-	for n in get_children():
-		if n is ESCLocation and n.is_start_location:
-			escoria.object_manager.register_object(
-				ESCObject.new(n.name, n),
-				true
-			)
-	
 	if global_id.empty():
 		global_id = name
 	

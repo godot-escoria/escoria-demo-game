@@ -185,11 +185,12 @@ func _on_event_done(event_name: String):
 
 func hide_main_menu():
 	if get_node(main_menu).visible:
-		 get_node(main_menu).hide()
+		get_node(main_menu).hide()
 
 func show_main_menu():
 	if not get_node(main_menu).visible:
-		 get_node(main_menu).show()
+		get_node(main_menu).reset()
+		get_node(main_menu).show()
 
 func unpause_game():
 	if get_node(pause_menu).visible:
@@ -200,6 +201,7 @@ func unpause_game():
 
 func pause_game():
 	if not get_node(pause_menu).visible:
+		get_node(main_menu).reset()
 		get_node(pause_menu).set_save_enabled(
 			escoria.save_manager.save_enabled
 		)

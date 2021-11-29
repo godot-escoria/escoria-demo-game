@@ -14,6 +14,15 @@ __meta__ = {
 }
 slot_ui_scene = ExtResource( 1 )
 
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -1.0
+margin_bottom = -1.0
+__meta__ = {
+"_editor_description_": ""
+}
+
 [node name="save_name_popup" parent="." instance=ExtResource( 4 )]
 visible = false
 

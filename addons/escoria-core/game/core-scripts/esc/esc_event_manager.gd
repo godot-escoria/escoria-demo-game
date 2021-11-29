@@ -177,10 +177,21 @@ func get_running_event(name: String) -> ESCEvent:
 # The event finished running
 #
 # #### Parameters
+# - finished_statement: statement object that finished
 # - return_code: Return code of the finished event
 # - channel_name: Name of the channel that the event came from
-func _on_event_finished(return_code: int, channel_name: String) -> void:
+func _on_event_finished(finished_statement: ESCStatement, return_code: int, channel_name: String) -> void:
 	var event = _running_events[channel_name]
+	if not event:
+		escoria.logger.report_warnings(
+			"esc_event_manager.gd:_on_event_finished()",
+			[
+				"Event %s finished without being in _running_events[%s]"
+					% [finished_statement.name, channel_name]
+			]
+		)
+		return
+	
 	escoria.logger.debug(
 		"Event %s ended with return code %d" % [event.name, return_code]
 	)

@@ -4,7 +4,7 @@ class_name ESCStatement
 
 
 # Emitted when the event did finish running
-signal finished(return_code)
+signal finished(event, return_code)
 
 # Emitted when the event was interrupted
 signal interrupted(return_code)
@@ -54,13 +54,18 @@ func run() -> int:
 				final_rc = rc
 				break
 	
-	emit_signal("finished", final_rc)
+	emit_signal("finished", self, final_rc)
 	return final_rc
 
 
 # Interrupt the statement in the middle of its execution.
 func interrupt():
-	escoria.logger.info("Interrupting event %s" % str(self))
+	escoria.logger.info("Interrupting event %s (%s)" % \
+		[
+			self.name if "name" in self else "group",
+			str(self)
+		]
+	)
 	_is_interrupted = true
 	for statement in statements:
 		if statement.is_finished:

@@ -166,11 +166,17 @@ func load_game(id: int):
 	var file: File = File.new()
 	if not file.file_exists(save_file_path):
 		escoria.logger.report_errors(
-			"esc_save_data_resources.gd",
+			"esc_save_manager.gd:load_game()",
 			["Save file %s doesn't exist" % save_file_path])
 		return
 
+	escoria.logger.info(
+		"esc_save_manager.gd:load_game()",
+		["Loading savegame %s" % str(id)])
+	
 	var save_game: Resource = ResourceLoader.load(save_file_path)
+	
+	escoria.event_manager.interrupt_running_event()
 
 	var load_event = ESCEvent.new(":load")
 	var load_statements = []
@@ -180,6 +186,12 @@ func load_game(id: int):
 			"transition %s out" % 
 			[ProjectSettings.get_setting("escoria/ui/default_transition")]
 		)
+	)
+	load_statements.append(
+		ESCCommand.new("hide_menu main")
+	)
+	load_statements.append(
+		ESCCommand.new("hide_menu pause")
 	)
 	
 	## GLOBALS
@@ -192,7 +204,7 @@ func load_game(id: int):
 		
 	## ROOM
 	load_statements.append(
-		ESCCommand.new("change_scene %s true" \
+		ESCCommand.new("change_scene %s false" \
 				% save_game.main["current_scene_filename"])
 	)
 	
@@ -261,6 +273,9 @@ func load_game(id: int):
 	escoria.set_game_paused(false)
 	
 	escoria.event_manager.queue_event(load_event)
+	escoria.logger.debug(
+		"esc_save_manager.gd:load_game()",
+		["Load event queued."])
 	
 	
 # Save the game settings in the settings file.
