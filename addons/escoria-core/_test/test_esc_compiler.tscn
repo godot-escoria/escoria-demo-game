@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc/_test/test_esc_compiler.gd" type="Script" id=1]
+[ext_resource path="res://addons/escoria-core/_test/test_esc_compiler.gd" type="Script" id=1]
 
 [node name="Testsuite" type="Control"]
 anchor_right = 1.0

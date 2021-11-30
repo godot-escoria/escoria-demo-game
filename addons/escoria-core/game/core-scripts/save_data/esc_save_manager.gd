@@ -174,7 +174,39 @@ func load_game(id: int):
 		"esc_save_manager.gd:load_game()",
 		["Loading savegame %s" % str(id)])
 	
-	var save_game: Resource = ResourceLoader.load(save_file_path)
+	var save_game: ESCSaveGame = ResourceLoader.load(save_file_path)
+	
+	var plugin_config = ConfigFile.new()
+	plugin_config.load("res://addons/escoria-core/plugin.cfg")
+	var escoria_version = plugin_config.get_value("plugin", "version")
+	
+	# Migrate savegame through escoria versions
+	
+	if escoria_version != save_game.escoria_version:
+		var migration_manager: ESCMigrationManager = ESCMigrationManager.new()
+		save_game = migration_manager.migrate(
+			save_game,
+			save_game.escoria_version,
+			escoria_version,
+			"res://addons/escoria-core/game/core-scripts/migrations/versions"
+		)
+		
+	# Migrate savegame through game versions
+	
+	if ProjectSettings.get_setting("escoria/main/game_version") != \
+			save_game.game_version and \
+			ProjectSettings.get_setting(
+				"escoria/main/game_migration_path"
+			) != "":
+		var migration_manager: ESCMigrationManager = ESCMigrationManager.new()
+		save_game = migration_manager.migrate(
+			save_game,
+			save_game.game_version,
+			ProjectSettings.get_setting("escoria/main/game_version"),
+			ProjectSettings.get_setting(
+				"escoria/main/game_migration_path"
+			)
+		)
 	
 	escoria.event_manager.interrupt_running_event()
 

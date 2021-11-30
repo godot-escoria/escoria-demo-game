@@ -177,6 +177,15 @@ func set_escoria_main_settings():
 			"hint": PROPERTY_HINT_DIR
 		}
 	)
+	
+	escoria.register_setting(
+		"escoria/main/game_migration_path",
+		"",
+		{
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_DIR
+		}
+	)
 
 
 # Prepare the settings in the Escoria debug category
