@@ -44,7 +44,7 @@ func _ready():
 # - event: The input event
 func _input(event):
 	if event is InputEventMouseButton and event.pressed \
-			and is_speaking:
+			and is_speaking and not _dialog_manager.type_player.is_paused:
 		speedup()
 		get_tree().set_input_as_handled()
 		
@@ -108,6 +108,9 @@ func say(character: String, type: String, text: String) -> void:
 				"No dialog manager supports the type %s" % type
 			]
 		)
+	
+	_dialog_manager.connect("say_finished", self, "_on_say_finished", [], CONNECT_ONESHOT)
+	
 	var matches = _keytext_regex.search(text)
 	if not matches:
 		escoria.logger.report_errors(
@@ -130,11 +133,14 @@ func say(character: String, type: String, text: String) -> void:
 	else:
 		text = matches.get_string("text")
 	
-	_dialog_manager.say(self, character, text, type)	
-	yield(_dialog_manager, "say_finished")
+	_dialog_manager.say(self, character, text, type)
+
+
+# Handles the end of a say function after it has emitted say_finished.
+func _on_say_finished():
 	is_speaking = false
 	emit_signal("say_finished")
-	
+
 
 # Called when a dialog line is skipped
 func speedup() -> void:

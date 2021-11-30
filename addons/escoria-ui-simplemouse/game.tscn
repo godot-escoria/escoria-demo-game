@@ -18,6 +18,16 @@ editor_debug_mode = 1
 
 [node name="camera" parent="." instance=ExtResource( 3 )]
 
+[node name="dialog_layer" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="ESCDialogsPlayer" type="Control" parent="dialog_layer"]
+theme = ExtResource( 9 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ui" type="Control" parent="CanvasLayer"]
@@ -69,16 +79,6 @@ theme = ExtResource( 9 )
 
 [node name="main_menu" parent="CanvasLayer" instance=ExtResource( 7 )]
 visible = false
-
-[node name="dialog_layer" type="CanvasLayer" parent="."]
-layer = 3
-
-[node name="ESCDialogsPlayer" type="Control" parent="dialog_layer"]
-theme = ExtResource( 9 )
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="tooltip_layer" type="CanvasLayer" parent="."]
 layer = 2

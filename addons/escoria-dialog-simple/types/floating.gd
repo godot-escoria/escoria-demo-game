@@ -29,10 +29,12 @@ onready var tween: Tween = $Tween
 # The node showing the text
 onready var text_node: RichTextLabel = self
 
+# Whether the dialog manager is paused
+onready var is_paused: bool = true
+
 
 # Enable bbcode and catch the signal when a tween completed
 func _ready():
-	pause_mode = PAUSE_MODE_STOP
 	_text_speed_per_character = ProjectSettings.get_setting(
 		"escoria/dialog_simple/text_speed_per_character"
 	)
@@ -44,7 +46,10 @@ func _ready():
 	)
 	bbcode_enabled = true
 	$Tween.connect("tween_completed", self, "_on_dialog_line_typed")
-
+	
+	escoria.connect("paused", self, "_on_paused")
+	escoria.connect("resumed", self, "_on_resumed")
+	
 
 func _process(delta):
 	if _current_character.is_inside_tree() and \
@@ -140,3 +145,17 @@ func _on_dialog_finished():
 	if is_instance_valid(_current_character) and _current_character != null:
 		_current_character.stop_talking()
 	emit_signal("say_finished")
+	
+
+# Handler managing pause notification from Escoria
+func _on_paused():
+	if tween.is_active():
+		is_paused = true
+		tween.stop_all()
+
+
+# Handler managing resume notification from Escoria
+func _on_resumed():
+	if not tween.is_active():
+		is_paused = false
+		tween.resume_all()

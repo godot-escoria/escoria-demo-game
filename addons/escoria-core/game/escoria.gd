@@ -5,6 +5,12 @@ extends Node
 # Signal sent when pause menu has to be displayed
 signal request_pause_menu
 
+# Signal sent when Escoria is paused
+signal paused
+
+# Signal sent when Escoria is resumed from pause
+signal resumed
+
 
 # Escoria version number
 const ESCORIA_VERSION = "0.1.0"
@@ -317,6 +323,10 @@ func _input(event):
 # #### Parameters
 # - p_paused: if true, pauses the game. If false, unpauses the game.
 func set_game_paused(p_paused: bool):
+	if p_paused:
+		emit_signal("paused")
+	else:
+		emit_signal("resumed")
 	get_tree().paused = p_paused
 
 
