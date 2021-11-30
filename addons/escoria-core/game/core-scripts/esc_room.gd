@@ -96,10 +96,10 @@ func _ready():
 			true
 		)
 		if escoria.globals_manager.has(
-			escoria.globals_manager.GLOBAL_ANIMATION_RESOURCES
+			escoria.room_manager.GLOBAL_ANIMATION_RESOURCES
 		):
 			var animations = escoria.globals_manager.get_global(
-				escoria.globals_manager.GLOBAL_ANIMATION_RESOURCES
+				escoria.room_manager.GLOBAL_ANIMATION_RESOURCES
 			)
 			
 			if player.global_id in animations and \
@@ -168,7 +168,8 @@ func perform_script_events():
 		if enabled_automatic_transitions \
 				or (
 					not enabled_automatic_transitions \
-					and escoria.globals_manager.get_global("FORCE_LAST_SCENE_NULL")
+					and escoria.globals_manager.get_global( \
+						escoria.room_manager.GLOBAL_FORCE_LAST_SCENE_NULL)
 				):
 			var script_transition_in = escoria.esc_compiler.compile([
 				":transition_in",
@@ -195,18 +196,28 @@ func perform_script_events():
 		
 		# Now that :ready is finished, if FORCE_LAST_SCENE_NULL was true, reset it 
 		# to false
-		if escoria.globals_manager.get_global("FORCE_LAST_SCENE_NULL"):
+		if escoria.globals_manager.get_global( \
+			escoria.room_manager.GLOBAL_FORCE_LAST_SCENE_NULL):
+
 			escoria.globals_manager.set_global(
-				"FORCE_LAST_SCENE_NULL", 
+				escoria.room_manager.GLOBAL_FORCE_LAST_SCENE_NULL, 
 				false, 
 				true
 			)
 			escoria.globals_manager.set_global(
-				"ESC_LAST_SCENE",
+				escoria.room_manager.GLOBAL_LAST_SCENE,
 				escoria.main.current_scene.global_id \
 						if escoria.main.current_scene != null else "", 
 				true
 			)
+		
+		# Make the room's global ID available for use in ESC script.
+		escoria.globals_manager.set_global(
+			escoria.room_manager.GLOBAL_CURRENT_SCENE,
+			escoria.main.current_scene.global_id \
+					if escoria.main.current_scene != null else "", 
+			true
+		)
 
 
 # Runs the script event from the script attached, if any.

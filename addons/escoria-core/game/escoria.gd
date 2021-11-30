@@ -41,6 +41,9 @@ var event_manager: ESCEventManager
 # ESC globals registry instance
 var globals_manager: ESCGlobalsManager
 
+# ESC room manager instance
+var room_manager: ESCRoomManager
+
 # ESC object manager instance
 var object_manager: ESCObjectManager
 
@@ -107,6 +110,7 @@ func _init():
 	self.save_manager = ESCSaveManager.new()
 	self.inputs_manager = ESCInputsManager.new()
 	self.controller = ESCController.new()
+	self.room_manager = ESCRoomManager.new()
 	
 	settings = ESCSaveSettings.new()
 	
@@ -124,6 +128,7 @@ func _init():
 func _ready():
 	settings = save_manager.load_settings()
 	apply_settings(settings)
+	room_manager.register_reserved_globals()
 	inputs_manager.register_core()
 	if ProjectSettings.get_setting("escoria/main/game_start_script").empty():
 		logger.report_errors("escoria.gd", 

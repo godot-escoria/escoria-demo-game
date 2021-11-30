@@ -1,0 +1,11 @@
+:use
+
+> [eq ESC_CURRENT_SCENE room16]
+	say player "This sure looks like room 16."
+	
+> [eq ESC_CURRENT_SCENE ESC_LAST_SCENE]
+	say player "I'll never say this."
+
+> [eq ESC_CURRENT_SCENE room1]
+	say player "I'll never say this, either."
+
