@@ -1,3 +1,12 @@
+## [4.0.0-alpha.75](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.75) (2021-12-01)
+
+
+### Bug Fixes
+
+* makes dialog players pausable by removing yields ([#472](https://github.com/godot-escoria/escoria-demo-game/issues/472)) ([b4d5e38](https://github.com/godot-escoria/escoria-demo-game/commit/b4d5e380e6072745688cc9420cedd553b87bc3ff))
+
+
+
 ## [4.0.0-alpha.74](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.74) (2021-11-29)
 
 
