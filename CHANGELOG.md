@@ -1,3 +1,12 @@
+## [4.0.0-alpha.77](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.77) (2021-12-01)
+
+
+### Features
+
+* Support for Escoria and Game migrations ([#473](https://github.com/godot-escoria/escoria-demo-game/issues/473)) ([b5d5217](https://github.com/godot-escoria/escoria-demo-game/commit/b5d5217aa4971769e9ff775e3b151c48fc8f286e))
+
+
+
 ## [4.0.0-alpha.76](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.76) (2021-12-01)
 
 
