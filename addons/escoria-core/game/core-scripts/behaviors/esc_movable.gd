@@ -392,39 +392,13 @@ func _is_angle_in_interval(
 		angle: float, 
 		direction_angle: ESCDirectionAngle
 ) -> bool:
-	angle = wrapi(angle, 0, 360)
-	if angle == 0:
-		angle = 360
-	var start_angle = wrapi(direction_angle.angle_start, 0, 360)
-	var angle_area = direction_angle.angle_size
-	var end_angle = direction_angle.angle_start + angle_area
-	if start_angle >= 0 and end_angle == 0:
-		end_angle = 360
+	var start_angle = direction_angle.angle_start
+	var end_angle = direction_angle.angle_start + direction_angle.angle_size
 	
-	return _angle_is_between(angle, start_angle, end_angle)
+	if end_angle > 360 and angle < start_angle:
+		angle += 360
 	
-
-# Returns true if angle is between start angle and end angle. 
-#
-# #### Parameters
-#
-# - p_angle: the angle in degrees
-# - p_start_angle: the start value of the angle interval
-# - p_end_angle: the end value of the angle interval
-func _angle_is_between(
-	p_angle: float, 
-	p_start_angle: float, 
-	p_end_angle: float
-) -> bool:
-	var angle = wrapi(p_angle, 0, 360)
-	var start_angle = wrapi(p_start_angle, 0, 360)
-	var end_angle = wrapi(p_end_angle, 0, 360)
-	if start_angle >= 0 and end_angle == 0:
-		end_angle = 360
-	if end_angle < start_angle:
-		end_angle = p_end_angle
-		
-	return angle >= start_angle and angle <= end_angle
+	return (start_angle <= angle and angle <= end_angle)
 
 
 # Sets character's angle and plays according animation.
