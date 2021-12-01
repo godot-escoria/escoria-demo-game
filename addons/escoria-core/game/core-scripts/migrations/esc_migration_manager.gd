@@ -1,5 +1,5 @@
 # Class that handles migrations between different game or escoria versions
-extends Node
+extends Object
 class_name ESCMigrationManager
 
 
@@ -73,7 +73,7 @@ func migrate(
 					"File %s is not a valid migration script" % version
 				]
 			)
-		escoria.logger.debug("Migrating using %s" % migration_script)
+		escoria.logger.debug("Migrating using %s" % version)
 		(migration_script as ESCMigration).set_savegame(savegame)
 		(migration_script as ESCMigration).migrate()
 		savegame = (migration_script as ESCMigration).get_savegame()
