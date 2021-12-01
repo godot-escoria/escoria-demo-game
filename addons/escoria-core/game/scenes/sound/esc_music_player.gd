@@ -51,6 +51,7 @@ func set_state(p_state: String, p_force: bool = false) -> void:
 
 # Register to the object registry
 func _ready():
+	pause_mode = Node.PAUSE_MODE_STOP
 	escoria.object_manager.register_object(
 		ESCObject.new(global_id, self),
 		true

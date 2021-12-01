@@ -29,10 +29,13 @@ onready var text_node = $Panel/MarginContainer/HSplitContainer/text
 # The tween node for text animations
 onready var tween = $Panel/MarginContainer/HSplitContainer/text/Tween
 
+# Whether the dialog manager is paused
+onready var is_paused: bool = true
+
+
 
 # Build up the UI
 func _ready():
-	pause_mode = PAUSE_MODE_STOP
 	_text_speed_per_character = ProjectSettings.get_setting(
 		"escoria/dialog_simple/text_speed_per_character"
 	)
@@ -48,6 +51,9 @@ func _ready():
 		self, 
 		"_on_dialog_line_typed"
 	)
+	
+	escoria.connect("paused", self, "_on_paused")
+	escoria.connect("resumed", self, "_on_resumed")
 
 
 # Switch the current character
@@ -108,3 +114,16 @@ func _on_dialog_finished():
 	emit_signal("say_finished")
 	queue_free()
 
+
+# Handler managing pause notification from Escoria
+func _on_paused():
+	if tween.is_active():
+		is_paused = true
+		tween.stop_all()
+
+
+# Handler managing resume notification from Escoria
+func _on_resumed():
+	if not tween.is_active():
+		is_paused = false
+		tween.resume_all()

@@ -49,9 +49,18 @@ func say(dialog_player: Node, global_id: String, text: String, type: String):
 		_type_player = preload(\
 			"res://addons/escoria-dialog-simple/types/avatar.tscn"\
 		).instance()
+		
+	_type_player.connect("say_finished", self, "_on_say_finished", [], CONNECT_ONESHOT)
+	
 	_dialog_player.add_child(_type_player)
 	_type_player.say(global_id, text)
-	yield(_type_player, "say_finished")
+#	yield(_type_player, "say_finished")
+#	if _dialog_player.get_children().has(_type_player):
+#		_dialog_player.remove_child(_type_player)
+#		emit_signal("say_finished")
+
+
+func _on_say_finished():
 	if _dialog_player.get_children().has(_type_player):
 		_dialog_player.remove_child(_type_player)
 		emit_signal("say_finished")
@@ -86,3 +95,10 @@ func interrupt():
 	if _dialog_player.get_children().has(_type_player):
 		_dialog_player.remove_child(_type_player)
 		emit_signal("say_finished")
+
+
+# Getter for the type player
+#
+# *Returns* the type player
+func get_type_player() -> Node:
+	return _type_player
