@@ -44,7 +44,7 @@ func _ready():
 # - event: The input event
 func _input(event):
 	if event is InputEventMouseButton and event.pressed \
-			and is_speaking and not _dialog_manager.type_player.is_paused:
+			and is_speaking and not _dialog_manager.get_type_player().is_paused:
 		speedup()
 		get_tree().set_input_as_handled()
 		

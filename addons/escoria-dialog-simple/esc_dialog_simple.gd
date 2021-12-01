@@ -4,7 +4,7 @@ class_name ESCDialogSimple
 
 
 # The currently running player
-var type_player: Node = null
+var _type_player: Node = null
 
 # Reference to the dialog player
 var _dialog_player: Node = null
@@ -42,27 +42,27 @@ func has_chooser_type(type: String) -> bool:
 func say(dialog_player: Node, global_id: String, text: String, type: String):
 	_dialog_player = dialog_player
 	if type == "floating":
-		type_player = preload(\
+		_type_player = preload(\
 			"res://addons/escoria-dialog-simple/types/floating.tscn"\
 		).instance()
 	else:
-		type_player = preload(\
+		_type_player = preload(\
 			"res://addons/escoria-dialog-simple/types/avatar.tscn"\
 		).instance()
 		
-	type_player.connect("say_finished", self, "_on_say_finished", [], CONNECT_ONESHOT)
+	_type_player.connect("say_finished", self, "_on_say_finished", [], CONNECT_ONESHOT)
 	
-	_dialog_player.add_child(type_player)
-	type_player.say(global_id, text)
-#	yield(type_player, "say_finished")
-#	if _dialog_player.get_children().has(type_player):
-#		_dialog_player.remove_child(type_player)
+	_dialog_player.add_child(_type_player)
+	_type_player.say(global_id, text)
+#	yield(_type_player, "say_finished")
+#	if _dialog_player.get_children().has(_type_player):
+#		_dialog_player.remove_child(_type_player)
 #		emit_signal("say_finished")
 
 
 func _on_say_finished():
-	if _dialog_player.get_children().has(type_player):
-		_dialog_player.remove_child(type_player)
+	if _dialog_player.get_children().has(_type_player):
+		_dialog_player.remove_child(_type_player)
 		emit_signal("say_finished")
 
 
@@ -86,19 +86,19 @@ func choose(dialog_player: Node, dialog: ESCDialog):
 
 # Trigger running the dialog faster
 func speedup():
-	if type_player != null:
-		type_player.speedup()
+	if _type_player != null:
+		_type_player.speedup()
 
 
 # The say command has been interrupted, cancel the dialog display
 func interrupt():
-	if _dialog_player.get_children().has(type_player):
-		_dialog_player.remove_child(type_player)
+	if _dialog_player.get_children().has(_type_player):
+		_dialog_player.remove_child(_type_player)
 		emit_signal("say_finished")
 
 
 # Getter for the type player
 #
 # *Returns* the type player
-func gettype_player() -> Node:
-	return type_player
+func get_type_player() -> Node:
+	return _type_player
