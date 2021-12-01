@@ -264,6 +264,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/log/esc_logger.gd"
 }, {
+"base": "Object",
+"class": "ESCMigration",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/migrations/esc_migration.gd"
+}, {
+"base": "Object",
+"class": "ESCMigrationManager",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/migrations/esc_migration_manager.gd"
+}, {
 "base": "Node",
 "class": "ESCMovable",
 "language": "GDScript",
@@ -596,6 +606,8 @@ _global_script_class_icons={
 "ESCItem": "res://addons/escoria-core/design/esc_item.svg",
 "ESCLocation": "res://addons/escoria-core/design/esc_location.svg",
 "ESCLogger": "",
+"ESCMigration": "",
+"ESCMigrationManager": "",
 "ESCMovable": "",
 "ESCMusicPlayer": "",
 "ESCObject": "",
@@ -702,7 +714,7 @@ sound/sfx_volume=1
 sound/speech_volume=1
 sound/master_volume=1
 main/command_directories=[ "res://addons/escoria-core/game/core-scripts/esc/commands" ]
-debug/log_level="DEBUG"
+debug/log_level="TRACE"
 platform/skip_cache=false
 platform/skip_cache.mobile=true
 ui/items_autoregister_path="res://game/items/inventory"
@@ -732,6 +744,7 @@ debug/crash_message="We're sorry, but the game crashed. Please send us the follo
 %s"
 ui/default_dialog_scene="res://addons/escoria-core/ui_library/dialogs/floating_dialog_player.tscn"
 esc/command_paths=[ "res://addons/escoria-core/game/core-scripts/esc/commands" ]
+main/game_migration_path=""
 
 [input]
 
