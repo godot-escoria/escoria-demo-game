@@ -13,6 +13,7 @@ signal global_changed(global, old_value, new_value)
 export(Dictionary) var _globals = {}
 
 
+# Registry of globals that are to be reserved for internal use only.
 var _reserved_globals: Dictionary = {}
 
 
@@ -42,7 +43,9 @@ func register_reserved_global(key: String, value = null) -> void:
 		)
 	_reserved_globals[key] = value
 	_globals[key] = value
-	emit_signal("global_changed", key, _globals[key], value)
+	
+	if value != null:
+		emit_signal("global_changed", key, _globals[key], value)
 	
 
 # Get the current value of a global
