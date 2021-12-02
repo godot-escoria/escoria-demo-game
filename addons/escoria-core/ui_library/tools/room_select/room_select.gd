@@ -54,10 +54,11 @@ func _on_button_pressed():
 	# automatic transitions. 
 	# If FORCE_LAST_SCENE_NULL is True when change_scene starts:
 	# - ESC_LAST_SCENE is set to empty
-	escoria.globals_manager.set_global( \
+	escoria.globals_manager.set_global(
 		escoria.room_manager.GLOBAL_FORCE_LAST_SCENE_NULL,
 		true,
-		true)
+		true
+	)
 
 	var script = escoria.esc_compiler.compile([
 		":room_selector",
