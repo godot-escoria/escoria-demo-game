@@ -66,13 +66,14 @@ func run(command_params: Array) -> int:
 	# exit_scene event. Also room selector actions require the transition.
 	if command_params[1] \
 			and (
-				not escoria.globals_manager.get_global("ESC_LAST_SCENE").empty()
+				not escoria.globals_manager.get_global( \
+					escoria.room_manager.GLOBAL_LAST_SCENE).empty()
 				or (
 					escoria.event_manager.get_running_event("_front") != null \
 					and escoria.event_manager.get_running_event("_front").name \
 						in ["newgame", "exit_scene", "room_selector"]
 						and escoria.globals_manager.get_global(
-							"ESC_LAST_SCENE"
+							escoria.room_manager.GLOBAL_LAST_SCENE
 						).empty()
 					)
 				):
@@ -91,16 +92,18 @@ func run(command_params: Array) -> int:
 		escoria.game_scene.unpause_game()
 
 	# If FORCE_LAST_SCENE_NULL is true, force ESC_LAST_SCENE to empty
-	if escoria.globals_manager.get_global("FORCE_LAST_SCENE_NULL"):
+	if escoria.globals_manager.get_global( \
+		escoria.room_manager.GLOBAL_FORCE_LAST_SCENE_NULL):
+
 		escoria.globals_manager.set_global(
-			"ESC_LAST_SCENE", 
+			escoria.room_manager.GLOBAL_LAST_SCENE, 
 			null, 
 			true
 		)
 	elif escoria.main.current_scene:
 		# If FORCE_LAST_SCENE_NULL is false, set ESC_LAST_SCENE = current roomid
 		escoria.globals_manager.set_global(
-			"ESC_LAST_SCENE", 
+			escoria.room_manager.GLOBAL_LAST_SCENE, 
 			escoria.main.current_scene.global_id, 
 			true
 		)
@@ -150,6 +153,14 @@ func run(command_params: Array) -> int:
 		room_scene.game = escoria.game_scene
 		escoria.main.set_scene(room_scene)
 		
+		# We know the scene has been loaded. Make its global ID available for
+		# use by ESC script.
+		escoria.globals_manager.set_global(
+			escoria.room_manager.GLOBAL_CURRENT_SCENE, 
+			room_scene.global_id, 
+			true
+		)
+
 		# Clear queued resources
 		escoria.resource_cache.clear()
 		

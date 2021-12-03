@@ -5,30 +5,16 @@ extends Resource
 class_name ESCGlobalsManager
 
 
-const GLOBAL_ANIMATION_RESOURCES = "ANIMATION_RESOURCES"
-
-
 # Emitted when a global is changed
 signal global_changed(global, old_value, new_value)
-
-
-# A list of reserved globals which can not be overridden
-const RESERVED_GLOBALS = [
-	"ESC_LAST_SCENE",		# Contains the global_id of previous room
-	"FORCE_LAST_SCENE_NULL",	# If true, ESC_LAST_SCENE is not considered for 
-							# automatic transitions
-	"ANIMATION_RESOURCES"
-]
 
 
 # The globals registry
 export(Dictionary) var _globals = {}
 
 
-
-func _init():
-	set_global("ESC_LAST_SCENE", "", true)
-	set_global("FORCE_LAST_SCENE_NULL", false, true)
+# Registry of globals that are to be reserved for internal use only.
+var _reserved_globals: Dictionary = {}
 
 
 # Check if a global was registered
@@ -40,6 +26,27 @@ func _init():
 func has(key: String) -> bool:
 	return _globals.has(key)
 
+
+# Registers a global as being reserved and initializes it.
+#
+# #### Parameters
+#
+# - key: The key of the global to register
+# - value: The initial value (optional)
+func register_reserved_global(key: String, value = null) -> void:
+	if key in _reserved_globals:
+		escoria.logger.report_errors(
+			"ESCGlobalsManager.register_reserved_global: Can not override reserved global",
+			[
+				"Global key %s is already registered as reserved" % key
+			]
+		)
+	_reserved_globals[key] = value
+	_globals[key] = value
+	
+	if value != null:
+		emit_signal("global_changed", key, _globals[key], value)
+	
 
 # Get the current value of a global
 #
@@ -77,7 +84,7 @@ func filter(pattern: String) -> Dictionary:
 # - key: The key of the global to modify
 # - value: The new value
 func set_global(key: String, value, ignore_reserved: bool = false) -> void:
-	if key in RESERVED_GLOBALS and not ignore_reserved:
+	if key in _reserved_globals and not ignore_reserved:
 		escoria.logger.report_errors(
 			"ESCGlobalsManager.set_global: Can not override reserved global",
 			[
