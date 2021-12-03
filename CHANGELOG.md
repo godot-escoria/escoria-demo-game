@@ -1,3 +1,12 @@
+## [4.0.0-alpha.79](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.79) (2021-12-03)
+
+
+### Bug Fixes
+
+* correct data type and update missed constant references ([#476](https://github.com/godot-escoria/escoria-demo-game/issues/476)) ([9fbf0c2](https://github.com/godot-escoria/escoria-demo-game/commit/9fbf0c254c9790f0c8de6fc91f2dda18b72afb7f))
+
+
+
 ## [4.0.0-alpha.78](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.78) (2021-12-03)
 
 
