@@ -47,19 +47,19 @@ func run(command_params: Array) -> int:
 	(escoria.object_manager.get_object(command_params[0]).node as ESCPlayer)\
 			.animations = load(command_params[1])
 	if not escoria.globals_manager.has(
-		escoria.globals_manager.GLOBAL_ANIMATION_RESOURCES
+		escoria.room_manager.GLOBAL_ANIMATION_RESOURCES
 	):
 		escoria.globals_manager.set_global(
-			escoria.globals_manager.GLOBAL_ANIMATION_RESOURCES,
+			escoria.room_manager.GLOBAL_ANIMATION_RESOURCES,
 			{},
 			true
 		)
 	var animations = escoria.globals_manager.get_global(
-		escoria.globals_manager.GLOBAL_ANIMATION_RESOURCES
+		escoria.room_manager.GLOBAL_ANIMATION_RESOURCES
 	)
 	animations[command_params[0]] = command_params[1]
 	escoria.globals_manager.set_global(
-		escoria.globals_manager.GLOBAL_ANIMATION_RESOURCES,
+		escoria.room_manager.GLOBAL_ANIMATION_RESOURCES,
 		animations,
 		true
 	)
