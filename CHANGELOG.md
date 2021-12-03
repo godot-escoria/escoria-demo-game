@@ -1,3 +1,12 @@
+## [4.0.0-alpha.78](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.78) (2021-12-03)
+
+
+### Features
+
+* add esc_current_scene reserved global ([#474](https://github.com/godot-escoria/escoria-demo-game/issues/474)) ([391bf08](https://github.com/godot-escoria/escoria-demo-game/commit/391bf08f217aa2248f7172be1449b436d7b88966))
+
+
+
 ## [4.0.0-alpha.77](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.77) (2021-12-01)
 
 
