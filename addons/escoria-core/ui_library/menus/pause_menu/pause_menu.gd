@@ -26,6 +26,12 @@ func _on_load_game_pressed():
 	$load_game.show()
 
 
+# Show the options menu
+func _on_options_pressed():
+	$VBoxContainer.hide()
+	$options.show()
+
+
 # Quit the game
 func _on_quit_pressed():
 	escoria.quit()
@@ -41,6 +47,11 @@ func _on_load_game_back_button_pressed():
 	reset()
 
 
+# Hide options menu after clicking back button
+func _on_options_back_button_pressed():
+	reset()
+
+
 # Set whether saving is enabled currently
 #
 # #### Parameters
@@ -53,4 +64,5 @@ func set_save_enabled(p_enabled: bool):
 func reset():
 	$save_game.hide()
 	$load_game.hide()
+	$options.hide()
 	$VBoxContainer.show()
