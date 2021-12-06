@@ -1,3 +1,12 @@
+## [4.0.0-alpha.80](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.80) (2021-12-06)
+
+
+### Features
+
+* add options menu to pause menu ([#477](https://github.com/godot-escoria/escoria-demo-game/issues/477)) ([fd47499](https://github.com/godot-escoria/escoria-demo-game/commit/fd47499fed9c1db335c9d06e3aefbca240a15fff))
+
+
+
 ## [4.0.0-alpha.79](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.79) (2021-12-03)
 
 
