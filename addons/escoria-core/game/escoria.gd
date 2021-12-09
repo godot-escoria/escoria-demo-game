@@ -86,10 +86,6 @@ var inputs_manager: ESCInputsManager
 # Savegames and settings manager
 var save_manager: ESCSaveManager
 
-# The controller in charge of converting an action verb on a game object
-# into an actual action
-var controller: ESCController
-
 # The game scene loaded
 var game_scene: ESCGame
 
@@ -115,7 +111,6 @@ func _init():
 	self.resource_cache.start()
 	self.save_manager = ESCSaveManager.new()
 	self.inputs_manager = ESCInputsManager.new()
-	self.controller = ESCController.new()
 	self.room_manager = ESCRoomManager.new()
 	
 	settings = ESCSaveSettings.new()
@@ -218,7 +213,7 @@ func do(action: String, params: Array = [], can_interrupt: bool = false) -> void
 				elif params[1] is Vector2:
 					target = params[1]
 				
-				self.controller.perform_walk(moving_obj, target, walk_fast)
+				self.action_manager.perform_walk(moving_obj, target, walk_fast)
 						
 			"item_left_click":
 				if params[0] is String:
@@ -231,7 +226,7 @@ func do(action: String, params: Array = [], can_interrupt: bool = false) -> void
 						event_manager.interrupt_running_event()
 					
 					var item = self.object_manager.get_object(params[0])
-					self.controller.perform_inputevent_on_object(item, params[1])
+					self.action_manager.perform_inputevent_on_object(item, params[1])
 					
 			"item_right_click":
 				if params[0] is String:
@@ -244,7 +239,7 @@ func do(action: String, params: Array = [], can_interrupt: bool = false) -> void
 						event_manager.interrupt_running_event()
 						
 					var item = self.object_manager.get_object(params[0])
-					self.controller.perform_inputevent_on_object(item, params[1], true)
+					self.action_manager.perform_inputevent_on_object(item, params[1], true)
 			
 			"trigger_in":
 				var trigger_id = params[0]

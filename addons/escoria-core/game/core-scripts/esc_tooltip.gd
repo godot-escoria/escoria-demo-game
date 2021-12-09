@@ -94,8 +94,7 @@ func set_debug_mode(p_debug_mode: bool):
 # - needs_second_target: if true, the label will prepare for a second target
 func set_target(target: String, needs_second_target: bool = false) -> void:
 	current_target = target
-	if needs_second_target:
-		waiting_for_target2 = true
+	waiting_for_target2 = needs_second_target
 	update_tooltip_text()
 
 
@@ -219,6 +218,7 @@ func tooltip_distance_to_edge_right(position: Vector2):
 
 # Clear the tooltip targets texts
 func clear():
+	waiting_for_target2 = false
 	set_target("")
 	set_target2("")
 

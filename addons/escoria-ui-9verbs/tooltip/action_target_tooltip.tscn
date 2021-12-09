@@ -1,30 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[sub_resource type="GDScript" id=1]
-script/source = "extends ESCTooltip
-
-
-func update_tooltip_text():
-	bbcode_text = \"[center]\"
-	
-	if !current_action.empty():
-		bbcode_text += current_action
-		bbcode_text += \"\\t\"
-		
-	bbcode_text += current_target
-	
-	if waiting_for_target2 and current_target2.empty():
-		bbcode_text += \"\\t\"
-		bbcode_text += current_prep
-		
-	if !current_target2.empty():
-		bbcode_text += \"\\t\"
-		bbcode_text += current_prep
-		bbcode_text += \"\\t\"
-		bbcode_text += current_target2
-	
-	bbcode_text += \"[/center]\"
-"
+[ext_resource path="res://addons/escoria-ui-9verbs/tooltip/tooltip_action_target.gd" type="Script" id=1]
 
 [node name="tooltip" type="RichTextLabel"]
 anchor_right = 1.0
@@ -32,7 +8,7 @@ anchor_bottom = 1.0
 bbcode_enabled = true
 bbcode_text = "[center][/center]"
 scroll_active = false
-script = SubResource( 1 )
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
