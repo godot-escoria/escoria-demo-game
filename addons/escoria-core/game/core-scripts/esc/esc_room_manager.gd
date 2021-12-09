@@ -37,8 +37,8 @@ func register_reserved_globals() -> void:
 #
 # #### Parameters
 #
-# * room_path: Node path to the room that is to become the new current room.
-# * enable_automatic_transitions: Whether to play the transition between rooms 
+# - room_path: Node path to the room that is to become the new current room.
+# - enable_automatic_transitions: Whether to play the transition between rooms 
 #	automatically or to leave the responsibility to the developer.
 func change_scene(room_path: String, enable_automatic_transitions: bool) -> void:
 	# Clear the event queue to remove other events (there could be duplicate
@@ -51,19 +51,18 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 	# room previously, so that we must play the auto transition out or not.
 	# This must happen if ESC_LAST_SCENE is set, or if we're running an 
 	# exit_scene event. Also room selector actions require the transition.
-	if enable_automatic_transitions \
-			and (
-				not escoria.globals_manager.get_global( \
-					GLOBAL_LAST_SCENE).empty()
-				or (
-					escoria.event_manager.get_running_event("_front") != null \
-					and escoria.event_manager.get_running_event("_front").name \
-						in ["newgame", "exit_scene", "room_selector"]
-						and escoria.globals_manager.get_global(
-							GLOBAL_LAST_SCENE
-						).empty()
-					)
-				):
+	if enable_automatic_transitions and (
+		not escoria.globals_manager.get_global( \
+			GLOBAL_LAST_SCENE).empty()
+		or (
+			escoria.event_manager.get_running_event("_front") != null \
+			and escoria.event_manager.get_running_event("_front").name \
+				in ["newgame", "exit_scene", "room_selector"]
+				and escoria.globals_manager.get_global(
+					GLOBAL_LAST_SCENE
+				).empty()
+			)
+		):
 		
 		exited_previous_room = true
 		
@@ -104,7 +103,7 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 	
 	escoria.inputs_manager.clear_stack()
 	
-	# Load game scene
+	# Check if game scene was loaded
 	if not escoria.game_scene:
 		escoria.logger.report_errors(
 			"ESCRoomManager.change_scene: Failed loading game scene",
@@ -171,7 +170,7 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 #
 # #### Parameters
 #
-# * room: The ESCRoom to be initialized for use.
+# - room: The ESCRoom to be initialized for use.
 func init_room(room: ESCRoom) -> void:
 	if not is_instance_valid(room) || room == null:
 		escoria.logger.report_errors(
@@ -250,7 +249,7 @@ func init_room(room: ESCRoom) -> void:
 #
 # #### Parameters
 #
-# * room: The ESCRoom to be initialized for use.
+# - room: The ESCRoom to be initialized for use.
 func _perform_script_events(room: ESCRoom):
 	if room.esc_script and escoria.event_manager.is_channel_free("_front") \
 			or (
@@ -352,8 +351,8 @@ func _perform_script_events(room: ESCRoom):
 #
 # #### Parameters
 #
-# * event_name: the name of the event to run
-# * room: The ESCRoom to be initialized for use.
+# - event_name: the name of the event to run
+# - room: The ESCRoom to be initialized for use.
 #
 # *Returns* true if the event was correctly added. Will be false if the event
 # does not exist in the script.
