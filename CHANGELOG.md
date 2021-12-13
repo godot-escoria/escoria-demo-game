@@ -1,3 +1,12 @@
+## [4.0.0-alpha.82](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.82) (2021-12-13)
+
+
+### Features
+
+* move room initialization code into manager ([#479](https://github.com/godot-escoria/escoria-demo-game/issues/479)) ([e9d63e9](https://github.com/godot-escoria/escoria-demo-game/commit/e9d63e94b0f69146224eecf33dbb61124db45ff6))
+
+
+
 ## [4.0.0-alpha.81](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.81) (2021-12-06)
 
 
