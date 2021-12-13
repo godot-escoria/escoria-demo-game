@@ -20,14 +20,18 @@ signal action_input_state_changed
 # or
 # (I) -> AWAITING_VERB_OR_ITEM -> AWAITING_VERB -> AWAITING_VERB_CONFIRMATION -> COMPLETED -> (E)
 enum ACTION_INPUT_STATE {
-	AWAITING_VERB_OR_ITEM, 		# Initial state
-	AWAITING_ITEM,				# After initial state, verb is defined
-	AWAITING_TARGET_ITEM		# Item defined requires combine, waiting for 
-								# target
-	AWAITING_VERB,				# After initial state, item is defined
-	AWAITING_VERB_CONFIRMATION, # Item was defined first, next verb, need verb 
-								# confirmation
-	COMPLETED					# Final state
+	# Initial state
+	AWAITING_VERB_OR_ITEM,
+	# After initial state, verb is defined
+	AWAITING_ITEM,
+	# Item defined requires combine, waiting for  target
+	AWAITING_TARGET_ITEM
+	# After initial state, item is defined
+	AWAITING_VERB,
+	# Item was defined first, next verb, need verb confirmation
+	AWAITING_VERB_CONFIRMATION,
+	# Final state
+	COMPLETED
 }
 
 
