@@ -41,11 +41,12 @@ func register_reserved_global(key: String, value = null) -> void:
 				"Global key %s is already registered as reserved" % key
 			]
 		)
+	var old_value = _globals[key]
 	_reserved_globals[key] = value
 	_globals[key] = value
 	
 	if value != null:
-		emit_signal("global_changed", key, _globals[key], value)
+		emit_signal("global_changed", key, old_value, _globals[key])
 	
 
 # Get the current value of a global
@@ -91,8 +92,9 @@ func set_global(key: String, value, ignore_reserved: bool = false) -> void:
 				"Global key %s is reserved and can not be overridden" % key
 			]
 		)
-	_globals[key] = value
 	emit_signal("global_changed", key, _globals[key], value)
+	_globals[key] = value
+	
 	
 	
 # Set all globals that match the pattern to the value
