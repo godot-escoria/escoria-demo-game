@@ -151,7 +151,8 @@ func _ready():
 	set_process(true)
 
 	# warning-ignore:return_value_discarded
-	ProjectSettings.load_resource_pack("res://scripts.zip")
+	if File.new().file_exists("res://scripts.zip"):
+		ProjectSettings.load_resource_pack("res://scripts.zip")
 
 	call_deferred("load_telon")
 

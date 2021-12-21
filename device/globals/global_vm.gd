@@ -350,7 +350,9 @@ func register_object(name, val):
 		val.set_state("default")
 	if name in actives:
 		val.set_active(actives[name])
-	val.connect("tree_exited", self, "object_exit_scene", [name])
+	if self.get_signal_connection_list("tree_exited").size() > 0 \
+			&& self.get_signal_connection_list("tree_exited")[0]["method"] != "object_exit_scene":
+		val.connect("tree_exited", self, "object_exit_scene", [name])
 
 func get_registered_objects():
 	return objects

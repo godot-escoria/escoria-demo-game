@@ -319,7 +319,7 @@ func load_hud():
 func _ready():
 	add_to_group("game")
 	vm = get_tree().get_root().get_node("vm")
-	player = get_node("../player")
+	player = get_node_or_null("../player")
 	if has_node("action_menu"):
 		action_menu = get_node("action_menu")
 	if fallbacks_path != "":
