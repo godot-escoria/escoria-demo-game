@@ -32,6 +32,8 @@ Implement methods to react to inputs.
 - show_main_menu()
 - hide_main_menu()
 
+- apply_custom_settings()
+
 - _on_event_done(event_name: String)
 """
 
@@ -210,6 +212,20 @@ func pause_game():
 		escoria.main.current_scene.game.hide_ui()
 		escoria.main.current_scene.hide()
 
+
+func apply_custom_settings(custom_settings: Dictionary):
+	if custom_settings.has("a_custom_setting"):
+		escoria.logger.info(
+			"custom setting value loaded:", 
+			[custom_settings["a_custom_setting"]]
+		)
+
+
+func get_custom_data() -> Dictionary:
+	return {
+		"ui_type": "simplemouse"
+	}
+	
 
 # Update the tooltip
 #

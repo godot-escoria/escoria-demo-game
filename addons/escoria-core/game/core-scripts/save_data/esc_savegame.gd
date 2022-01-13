@@ -27,3 +27,6 @@ export var globals: Dictionary = {}
 
 # Escoria objects exported from ESCObjectsManager 
 export var objects: Dictionary = {}
+
+# Custom data
+export var custom_data: Dictionary = {}

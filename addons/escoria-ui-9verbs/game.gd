@@ -32,6 +32,8 @@ Implement methods to react to inputs.
 - show_main_menu()
 - hide_main_menu()
 
+- apply_custom_settings()
+
 - _on_event_done(event_name: String)
 """
 
@@ -340,3 +342,17 @@ func _on_MenuButton_pressed() -> void:
 func _on_action_finished() -> void:
 	verbs_menu.unselect_actions()
 	tooltip.clear()
+
+
+func apply_custom_settings(custom_settings: Dictionary):
+	if custom_settings.has("a_custom_setting"):
+		escoria.logger.info(
+			"custom setting value loaded:", 
+			[custom_settings["a_custom_setting"]]
+		)
+
+
+func get_custom_data() -> Dictionary:
+	return {
+		"ui_type": "9verbs"
+	}

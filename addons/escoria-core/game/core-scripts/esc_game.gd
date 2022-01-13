@@ -282,6 +282,20 @@ func hide_main_menu():
 	pass
 
 
+# Custom function that is meant to apply custom settings. Called right after 
+# Escoria settings file was loaded.
+func apply_custom_settings(custom_settings: Dictionary):
+	pass
+
+
+# Custom function automatically called when save game is created. 
+#
+# *Returns* A Dictionary containing the custom data to be saved within the
+# game file. 
+func get_custom_data() -> Dictionary:
+	return {}
+
+
 # Shows the crash popup when a crash occurs
 #
 # #### Parameters
