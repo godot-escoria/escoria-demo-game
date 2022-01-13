@@ -144,11 +144,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_condition.gd"
 }, {
-"base": "Reference",
-"class": "ESCController",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc_controller.gd"
-}, {
 "base": "ESCStatement",
 "class": "ESCDialog",
 "language": "GDScript",
@@ -587,7 +582,6 @@ _global_script_class_icons={
 "ESCCommandRegistry": "",
 "ESCCompiler": "",
 "ESCCondition": "",
-"ESCController": "",
 "ESCDialog": "",
 "ESCDialogManager": "",
 "ESCDialogOption": "",
@@ -756,7 +750,7 @@ main/game_migration_path=""
 
 esc_show_debug_prompt={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777245,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777245,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 switch_action_verb={

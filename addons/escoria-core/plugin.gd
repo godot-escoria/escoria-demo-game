@@ -33,6 +33,7 @@ func _ready():
 	set_escoria_ui_settings()
 	set_escoria_sound_settings()
 	set_escoria_platform_settings()
+	ProjectSettings.save()
 
 
 # Prepare the settings in the Escoria UI category
