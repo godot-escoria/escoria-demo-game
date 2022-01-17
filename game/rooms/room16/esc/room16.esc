@@ -6,3 +6,11 @@
 	set_angle player 90
 	stop
 
+
+
+> [eq ESC_LAST_SCENE room17]
+	teleport player r16_r_exit
+	# Set player look down
+	set_angle player 180
+	stop
+

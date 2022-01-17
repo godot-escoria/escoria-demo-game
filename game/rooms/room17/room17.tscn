@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
 [ext_resource path="res://game/rooms/room14/background.tscn" type="PackedScene" id=2]
@@ -8,20 +8,18 @@
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
 [ext_resource path="res://game/rooms/room14/r_door.tscn" type="PackedScene" id=8]
-[ext_resource path="res://game/items/escitems/button.tscn" type="PackedScene" id=9]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, 864.626, 613.518, 1143.08, 613.35, -9.16094, 803.802, 386.666, 618.012, 129.634, 615.792, 84.5821, 654.06, -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 0, 3, 6, 7 ), PoolIntArray( 8, 7, 6, 9 ), PoolIntArray( 9, 6, 10, 11, 12 ) ]
 outlines = [ PoolVector2Array( -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698, 84.5821, 654.06, 129.634, 615.792, 386.666, 618.012, 864.626, 613.518, 1143.08, 613.35, 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, -9.16094, 803.802 ) ]
 
-[node name="room16" type="Node2D"]
+[node name="room17" type="Node2D"]
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_vertical_guides_": [  ]
 }
-global_id = "room16"
-esc_script = "res://game/rooms/room16/esc/room16.esc"
+global_id = "room17"
 player_scene = ExtResource( 4 )
 camera_limits = [ Rect2( 0, 0, 1289, 555 ) ]
 
@@ -31,7 +29,7 @@ camera_limits = [ Rect2( 0, 0, 1289, 555 ) ]
 margin_right = 92.0
 margin_bottom = 21.0
 custom_fonts/font = ExtResource( 3 )
-text = "ROOM 16"
+text = "ROOM 17"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -52,7 +50,7 @@ __meta__ = {
 pause_mode = 1
 script = ExtResource( 7 )
 global_id = "r16_l_exit"
-esc_script = "res://game/rooms/room16/esc/left_exit.esc"
+esc_script = "res://game/rooms/room17/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
@@ -68,8 +66,8 @@ script = ExtResource( 5 )
 global_id = "r12_l_exit"
 
 [node name="r_door" parent="Hotspots" instance=ExtResource( 8 )]
-global_id = "r16_r_exit"
-esc_script = "res://game/rooms/room16/esc/right_exit.esc"
+global_id = ""
+esc_script = ""
 
 [node name="ESCLocation" type="Position2D" parent="Hotspots/r_door"]
 position = Vector2( 1231.78, 360.624 )
@@ -81,22 +79,3 @@ script = ExtResource( 5 )
 global_id = "start"
 is_start_location = true
 interaction_direction = 180
-
-[node name="current_scene_button" parent="." instance=ExtResource( 9 )]
-position = Vector2( 30, 0 )
-global_id = "current_scene_button"
-esc_script = "res://game/rooms/room16/esc/current_scene_button.esc"
-
-[node name="Position2D" type="Position2D" parent="current_scene_button"]
-position = Vector2( 336, 384 )
-
-[node name="Label" type="Label" parent="current_scene_button"]
-margin_left = 294.887
-margin_top = 199.561
-margin_right = 398.887
-margin_bottom = 213.561
-text = "Is this room 16?"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}

@@ -251,7 +251,7 @@ func init_room(room: ESCRoom) -> void:
 #
 # - room: The ESCRoom to be initialized for use.
 func _perform_script_events(room: ESCRoom):
-	if room.esc_script and escoria.event_manager.is_channel_free("_front") \
+	if escoria.event_manager.is_channel_free("_front") \
 			or (
 				not escoria.event_manager.is_channel_free("_front") and \
 				not escoria.event_manager.get_running_event(
@@ -290,7 +290,8 @@ func _perform_script_events(room: ESCRoom):
 			escoria.game_scene.unpause_game()
 			
 		# Run the setup event
-		_run_script_event("setup", room)
+		if room.esc_script:
+			_run_script_event("setup", room)
 		
 		if room.enabled_automatic_transitions \
 				or (
@@ -309,17 +310,18 @@ func _perform_script_events(room: ESCRoom):
 				script_transition_in.events['transition_in']
 			)
 		
-		var ready_event_added: bool = false
-		# Run the ready event, if there is one.
-		ready_event_added = _run_script_event("ready", room)
-		
-		if ready_event_added:
-			# Wait for ready event to be done
-			var rc = yield(escoria.event_manager, "event_finished")
-			while rc[1] != "ready":
-				rc = yield(escoria.event_manager, "event_finished")
-			if rc[0] != ESCExecution.RC_OK:
-				return rc[0]
+		if room.esc_script:
+			var ready_event_added: bool = false
+			# Run the ready event, if there is one.
+			ready_event_added = _run_script_event("ready", room)
+			
+			if ready_event_added:
+				# Wait for ready event to be done
+				var rc = yield(escoria.event_manager, "event_finished")
+				while rc[1] != "ready":
+					rc = yield(escoria.event_manager, "event_finished")
+				if rc[0] != ESCExecution.RC_OK:
+					return rc[0]
 		
 		# Now that :ready is finished, if FORCE_LAST_SCENE_NULL was true, reset it 
 		# to false
