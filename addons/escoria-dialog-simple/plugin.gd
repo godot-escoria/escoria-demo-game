@@ -26,8 +26,8 @@ func _exit_tree() -> void:
 # Add ourselves to the list of dialog managers
 func _register():
 	_escoria.register_dialog_manager(MANAGER_CLASS)
-	_escoria.register_setting(
-		"escoria/dialog_simple/avatars_path",
+	_escoria.project_settings_manager.register_setting(
+		_escoria.project_settings_manager.AVATARS_PATH,
 		"",
 		{
 			"type": TYPE_STRING,
@@ -35,24 +35,24 @@ func _register():
 		}
 	)
 	
-	_escoria.register_setting(
-		"escoria/dialog_simple/text_speed_per_character",
+	_escoria.project_settings_manager.register_setting(
+		_escoria.project_settings_manager.TEXT_SPEED_PER_CHARACTER,
 		0.1,
 		{
 			"type": TYPE_REAL
 		}
 	)
 	
-	_escoria.register_setting(
-		"escoria/dialog_simple/fast_text_speed_per_character",
+	_escoria.project_settings_manager.register_setting(
+		_escoria.project_settings_manager.FAST_TEXT_SPEED_PER_CHARACTER,
 		0.25,
 		{
 			"type": TYPE_REAL
 		}
 	)
 	
-	_escoria.register_setting(
-		"escoria/dialog_simple/max_time_to_disappear",
+	_escoria.project_settings_manager.register_setting(
+		_escoria.project_settings_manager.MAX_TIME_TO_DISAPPEAR,
 		1.0,
 		{
 			"type": TYPE_REAL

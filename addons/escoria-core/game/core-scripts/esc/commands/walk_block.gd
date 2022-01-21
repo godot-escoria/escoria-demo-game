@@ -46,7 +46,10 @@ func validate(arguments: Array):
 
 # Run the command
 func run(command_params: Array) -> int:
-	escoria.do("walk", command_params)
+	escoria.action_manager.do(
+		escoria.action_manager.ACTION.BACKGROUND_CLICK, 
+		command_params
+	)
 	yield(
 		(escoria.object_manager.objects[command_params[0]].node as ESCItem), 
 		"arrived"

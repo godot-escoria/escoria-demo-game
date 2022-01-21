@@ -3,11 +3,16 @@ extends Node
 class_name ESCObjectManager
 
 
+const CAMERA = "_camera"
+const MUSIC = "_music"
+const SOUND = "_sound"
+const SPEECH = "_speech"
+
 const RESERVED_OBJECTS = [
-	"_music",
-	"_sound",
-	"_speech",
-	"_camera"
+	MUSIC,
+	SOUND,
+	SPEECH,
+	CAMERA
 ]
 
 

@@ -39,7 +39,7 @@ func validate(arguments: Array):
 
 # Run the command
 func run(command_params: Array) -> int:
-	escoria.do("walk", [
+	escoria.action_manager.do(escoria.action_manager.ACTION.BACKGROUND_CLICK, [
 		command_params[0],
 		Vector2(command_params[1], command_params[2])
 	])

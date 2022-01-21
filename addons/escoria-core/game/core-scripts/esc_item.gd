@@ -256,7 +256,7 @@ func _ready():
 		
 	# If object can be in the inventory, set default_action_inventory to same as
 	# default_action, if default_action_inventory is not set
-	if use_from_inventory_only and default_action_inventory.empty():
+	if use_from_inventory_only and default_action_inventory > -1:
 		default_action_inventory = default_action
 	
 	# Perform a first terrain scaling if we have to.
@@ -362,7 +362,10 @@ func _on_mouse_exited():
 func element_entered(body):
 	if body is ESCBackground or body.get_parent() is ESCBackground:
 		return
-	escoria.do("trigger_in", [global_id, body.global_id, trigger_in_verb])
+	escoria.action_manager.do(
+		escoria.action_manager.ACTION.TRIGGER_IN, 
+		[global_id, body.global_id, trigger_in_verb]
+	)
 
 
 # Another item (e.g. the player) has exited this element
@@ -372,7 +375,10 @@ func element_entered(body):
 func element_exited(body):
 	if body is ESCBackground or body.get_parent() is ESCBackground:
 		return
-	escoria.do("trigger_out", [global_id, body.global_id, trigger_out_verb])
+	escoria.action_manager.do(
+		escoria.action_manager.ACTION.TRIGGER_OUT, 
+		[global_id, body.global_id, trigger_out_verb]
+	)
 
 
 # Use the movable node to teleport this item to the target item

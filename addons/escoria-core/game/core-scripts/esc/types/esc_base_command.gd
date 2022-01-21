@@ -4,6 +4,17 @@ extends Node
 class_name ESCBaseCommand
 
 
+# Regex for creating command name based on the script's filename
+const COMMAND_NAME_REGEX = "(.+)\/([^.]+)(\\.[^.]*$|$)"
+
+# Regex matcher for command names
+var command_name_regex: RegEx = RegEx.new()
+
+
+func _init() -> void:
+	command_name_regex.compile(COMMAND_NAME_REGEX)
+
+
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	escoria.logger.error("Command %s did not override configure." % get_class())
@@ -19,3 +30,8 @@ func validate(arguments: Array) -> bool:
 func run(command_params: Array) -> int:
 	escoria.logger.error("Command %s did not override run." % get_class())
 	return 0
+
+
+# Return the name of the command based on the script's filename
+func get_command_name() -> String:
+	return command_name_regex.search(get_script().get_path()).get_string(2)

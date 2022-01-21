@@ -1,6 +1,7 @@
 # The escoria main script
 tool
 extends Node
+class_name Escoria
 
 # Signal sent when pause menu has to be displayed
 signal request_pause_menu
@@ -12,9 +13,6 @@ signal paused
 signal resumed
 
 
-# Escoria version number
-const ESCORIA_VERSION = "0.1.0"
-
 # Current game state
 # * DEFAULT: Common game function
 # * DIALOG: Game is playing a dialog
@@ -24,6 +22,16 @@ enum GAME_STATE {
 	DIALOG,
 	WAIT
 }
+
+
+# Escoria version number
+const ESCORIA_VERSION = "0.1.0"
+
+# Audio bus indices.
+const BUS_MASTER = "Master"
+const BUS_SFX = "SFX"
+const BUS_MUSIC = "Music"
+const BUS_SPEECH = "Speech"
 
 
 # Logger used
@@ -53,6 +61,9 @@ var room_manager: ESCRoomManager
 # ESC object manager instance
 var object_manager: ESCObjectManager
 
+# ESC project settings manager instance
+var project_settings_manager: ESCProjectSettingsManager
+
 # ESC command registry instance
 var command_registry: ESCCommandRegistry
 
@@ -71,14 +82,14 @@ var inventory
 # These are settings that the player can affect and save/load later
 var settings: ESCSaveSettings
 
-# The current state of the game
-onready var current_state = GAME_STATE.DEFAULT
-
 # The game resolution
 onready var game_size = get_viewport().size
 
 # The main scene
 onready var main = $main
+
+# The current state of the game
+onready var current_state = GAME_STATE.DEFAULT
 
 # The escoria inputs manager
 var inputs_manager: ESCInputsManager
@@ -92,7 +103,6 @@ var game_scene: ESCGame
 # The compiled start script loaded from ProjectSettings 
 # escoria/main/game_start_script
 var start_script : ESCScript
-
 
 
 # Initialize various objects
@@ -112,18 +122,20 @@ func _init():
 	self.save_manager = ESCSaveManager.new()
 	self.inputs_manager = ESCInputsManager.new()
 	self.room_manager = ESCRoomManager.new()
+	self.project_settings_manager = ESCProjectSettingsManager.new()
 	
 	settings = ESCSaveSettings.new()
 	
-	if ProjectSettings.get_setting("escoria/ui/game_scene") == "":
+	if self.project_settings_manager.get_setting(self.project_settings_manager.GAME_SCENE) == "":
 		logger.report_errors("escoria.gd", 
-			["Parameter escoria/ui/game_scene is not set!"]
+			["Project setting '%s' is not set!" % self.project_settings_manager.GAME_SCENE]
 		)
 	else:
-		self.game_scene = resource_cache.get_resource(
-			ProjectSettings.get_setting("escoria/ui/game_scene")
+		game_scene = resource_cache.get_resource(
+			self.project_settings_manager.get_setting(self.project_settings_manager.GAME_SCENE)
 		).instance()
-	
+
+	print(get_script().get_path())	
 
 # Load settings
 func _ready():
@@ -131,13 +143,13 @@ func _ready():
 	apply_settings(settings)
 	room_manager.register_reserved_globals()
 	inputs_manager.register_core()
-	if ProjectSettings.get_setting("escoria/main/game_start_script").empty():
+	if self.project_settings_manager.get_setting(self.project_settings_manager.GAME_START_SCRIPT).empty():
 		logger.report_errors("escoria.gd", 
 		[
-			"Project setting 'escoria/main/game_start_script' is not set!"
+			"Project setting '%s' is not set!" % self.project_settings_manager.GAME_START_SCRIPT
 		])
 	start_script = self.esc_compiler.load_esc_file(
-		ProjectSettings.get_setting("escoria/main/game_start_script")
+		self.project_settings_manager.get_setting(self.project_settings_manager.GAME_START_SCRIPT)
 	)
 
 
@@ -155,126 +167,12 @@ func _notification(what):
 # Usually you'll want to show some logos animations before spawning the main
 # menu in the escoria/main/game_start_script 's :init event
 func init():
-	run_event_from_script(start_script, "init")
+	run_event_from_script(start_script, self.event_manager.EVENT_INIT)
 
 
 # Called by Main menu "start new game"
 func new_game():
-	run_event_from_script(start_script, "newgame")
-
-
-# Run a generic action
-#
-# #### Parameters
-#
-# - action: type of the action to run
-# - params: Parameters for the action
-# - can_interrupt: if true, this command will interrupt any ongoing event 
-# before it is finished
-func do(action: String, params: Array = [], can_interrupt: bool = false) -> void:
-	if current_state == GAME_STATE.DEFAULT:
-		match action:
-			"walk":
-				if can_interrupt:
-					event_manager.interrupt_running_event()
-					
-				self.action_manager.clear_current_action()
-				
-				var walk_fast = false
-				if params.size() > 2:
-					walk_fast = true if params[2] else false
-					
-				# Check moving object.
-				if not escoria.object_manager.has(params[0]):
-					escoria.logger.report_errors(
-						"escoria.gd:do()",
-						[
-							"Walk action requested on inexisting " + \
-							"object: %s " % params[0]
-						]
-					)
-					return
-				
-				var moving_obj = escoria.object_manager.get_object(params[0])
-				var target
-				
-				if params[1] is String:
-					if not escoria.object_manager.has(params[1]):
-						escoria.logger.report_errors(
-							"escoria.gd:do()",
-							[
-								"Walk action requested to inexisting " + \
-								"object: %s " % params[1]
-							]
-						)
-						return
-						
-					target = escoria.object_manager.get_object(params[1])
-				elif params[1] is Vector2:
-					target = params[1]
-				
-				self.action_manager.perform_walk(moving_obj, target, walk_fast)
-						
-			"item_left_click":
-				if params[0] is String:
-					self.logger.info(
-						"escoria.do(): item_left_click on item ", 
-						[params[0]]
-					)
-					
-					if can_interrupt:
-						event_manager.interrupt_running_event()
-					
-					var item = self.object_manager.get_object(params[0])
-					self.action_manager.perform_inputevent_on_object(item, params[1])
-					
-			"item_right_click":
-				if params[0] is String:
-					self.logger.info(
-						"escoria.do(): item_right_click on item ", 
-						[params[0]]
-					)
-					
-					if can_interrupt:
-						event_manager.interrupt_running_event()
-						
-					var item = self.object_manager.get_object(params[0])
-					self.action_manager.perform_inputevent_on_object(item, params[1], true)
-			
-			"trigger_in":
-				var trigger_id = params[0]
-				var object_id = params[1]
-				var trigger_in_verb = params[2]
-				self.logger.info("escoria.do(): trigger_in %s by %s" % [
-					trigger_id,
-					object_id
-				])
-				self.event_manager.queue_event(
-					object_manager.get_object(trigger_id).events[
-						trigger_in_verb
-					]
-				)
-			
-			"trigger_out":
-				var trigger_id = params[0]
-				var object_id = params[1]
-				var trigger_out_verb = params[2]
-				self.logger.info("escoria.do(): trigger_out %s by %s" % [
-					trigger_id,
-					object_id
-				])
-				self.event_manager.queue_event(
-					object_manager.get_object(trigger_id).events[
-						trigger_out_verb
-					]
-				)
-			
-			_:
-				self.logger.report_warnings("escoria.gd:do()",
-					["Action received:", action, "with params ", params])
-	elif current_state == GAME_STATE.WAIT:
-		pass
-
+	run_event_from_script(start_script, self.event_manager.EVENT_NEW_GAME)
 
 
 # Apply the loaded settings
@@ -290,19 +188,19 @@ func apply_settings(p_settings: ESCSaveSettings) -> void:
 		settings = ESCSaveSettings.new()
 
 	AudioServer.set_bus_volume_db(
-		AudioServer.get_bus_index("Master"), 
+		AudioServer.get_bus_index(BUS_MASTER), 
 		linear2db(settings.master_volume)
 	)
 	AudioServer.set_bus_volume_db(
-		AudioServer.get_bus_index("SFX"),
+		AudioServer.get_bus_index(BUS_SFX),
 		linear2db(settings.sfx_volume)
 	)
 	AudioServer.set_bus_volume_db(
-		AudioServer.get_bus_index("Music"), 
+		AudioServer.get_bus_index(BUS_MUSIC), 
 		linear2db(settings.music_volume)
 	)	
 	AudioServer.set_bus_volume_db(
-		AudioServer.get_bus_index("Speech"), 
+		AudioServer.get_bus_index(BUS_SPEECH), 
 		linear2db(settings.speech_volume)
 	)
 	TranslationServer.set_locale(settings.text_lang)
@@ -310,8 +208,8 @@ func apply_settings(p_settings: ESCSaveSettings) -> void:
 
 # Input function to manage specific input keys
 func _input(event):
-	if InputMap.has_action("esc_show_debug_prompt") \
-			and event.is_action_pressed("esc_show_debug_prompt"):
+	if InputMap.has_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT) \
+			and event.is_action_pressed(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT):
 		escoria.main.get_node("layers/debug_layer/esc_prompt_popup").popup()
 	
 	if event.is_action_pressed("ui_cancel"):
@@ -356,30 +254,17 @@ func run_event_from_script(script: ESCScript, event_name: String):
 		return
 		
 
-# Register a new project setting if it hasn't been defined already
-#
-# #### Parameters
-#
-# - name: Name of the project setting
-# - default: Default value
-# - info: Property info for the setting
-func register_setting(name: String, default, info: Dictionary):
-	if not ProjectSettings.has_setting(name):
-		ProjectSettings.set_setting(
-			name,
-			default
-		)
-		info.name = name
-		ProjectSettings.add_property_info(info)
-		
-
 # Register a user interface. This should be called in a deferred way
 # from the addon's _enter_tree.
 #
 # #### Parameters
 # - game_scene: Path to the game scene extending ESCGame
 func register_ui(game_scene: String):
-	if not ProjectSettings.get_setting("escoria/ui/game_scene") in [
+	var game_scene_setting_value = escoria.project_settings_manager.get_setting(
+		escoria.project_settings_manager.GAME_SCENE
+		)
+
+	if not game_scene_setting_value in [
 		"",
 		game_scene
 	]:
@@ -387,11 +272,11 @@ func register_ui(game_scene: String):
 			"escoria.gd:register_ui()",
 			[
 				"Can't register user interface because %s is registered" % \
-						ProjectSettings.get_setting("escoria/ui/game_scene")
+						game_scene_setting_value
 			]
 		)
-	ProjectSettings.set_setting(
-		"escoria/ui/game_scene",
+	escoria.project_settings_manager.set_setting(
+		escoria.project_settings_manager.GAME_SCENE,
 		game_scene
 	)
 	
@@ -401,18 +286,22 @@ func register_ui(game_scene: String):
 # #### Parameters
 # - game_scene: Path to the game scene extending ESCGame
 func deregister_ui(game_scene: String):
-	if ProjectSettings.get_setting("escoria/ui/game_scene") != game_scene:
+	var game_scene_setting_value = escoria.project_settings_manager.get_setting(
+		escoria.project_settings_manager.GAME_SCENE
+		)
+
+	if game_scene_setting_value != game_scene:
 		logger.report_errors(
 			"escoria.gd:deregister_ui()",
 			[
 				(
 					"Can't deregister user interface %s because it " +
 					"is not registered."
-				) % ProjectSettings.get_setting("escoria/ui/game_scene")
+				) % game_scene_setting_value
 			]
 		)
-	ProjectSettings.set_setting(
-		"escoria/ui/game_scene",
+	escoria.project.set_setting(
+		escoria.project_settings_manager.GAME_SCENE,
 		""
 	)
 	
@@ -423,26 +312,30 @@ func deregister_ui(game_scene: String):
 # #### Parameters
 # - manager_class: Path to the manager class script
 func register_dialog_manager(manager_class: String):
-	var dialog_managers: Array = ProjectSettings.get_setting(
-		"escoria/ui/dialog_managers"
-	)
-	if manager_class in dialog_managers:
-		return
-	dialog_managers.push_back(manager_class)
-	ProjectSettings.set_setting(
-		"escoria/ui/dialog_managers",
-		dialog_managers
+	var dialog_managers: Array = escoria.project_settings_manager.get_setting(
+		escoria.project_settings_manager.DIALOG_MANAGERS
 	)
 	
+	if manager_class in dialog_managers:
+		return
+		
+	dialog_managers.push_back(manager_class)
+	
+	escoria.project_settings_manager.set_setting(
+		escoria.project_settings_manager.DIALOG_MANAGERS,
+		dialog_managers
+	)
+
 
 # Deregister a dialog manager addon
 #
 # #### Parameters
 # - manager_class: Path to the manager class script
 func deregister_dialog_manager(manager_class: String):
-	var dialog_managers: Array = ProjectSettings.get_setting(
-		"escoria/ui/dialog_managers"
+	var dialog_managers: Array = escoria.project_settings_manager.get_setting(
+		escoria.project_settings_manager.DIALOG_MANAGERS
 	)
+	
 	if not manager_class in dialog_managers:
 		logger.report_warnings(
 			"escoria.gd:deregister_dialog_manager()",
@@ -454,12 +347,12 @@ func deregister_dialog_manager(manager_class: String):
 	
 	dialog_managers.erase(manager_class)
 	
-	ProjectSettings.set_setting(
-		"escoria/ui/dialog_managers",
+	escoria.project_settings_manager.set_setting(
+		escoria.project_settings_manager.DIALOG_MANAGERS,
 		dialog_managers
 	)
 
-
+	
 # Function called to quit the game.
 func quit():
 	get_tree().notification(MainLoop.NOTIFICATION_WM_QUIT_REQUEST)
