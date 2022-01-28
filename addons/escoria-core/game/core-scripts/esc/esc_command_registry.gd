@@ -14,8 +14,8 @@ var registry: Dictionary = {}
 # - command_name: Name of command to load
 # **Returns** The command object
 func load_command(command_name: String) -> ESCBaseCommand:
-	for command_directory in ProjectSettings.get(
-		"escoria/main/command_directories"
+	for command_directory in escoria.project_settings_manager.get_setting(
+		escoria.project_settings_manager.COMMAND_DIRECTORIES
 	):
 		if ResourceLoader.exists("%s/%s.gd" % [command_directory, command_name]):
 			registry[command_name] = load(

@@ -21,6 +21,7 @@ const TRANSITION_PATHS = "%s/%s/transition_paths" % [_ESCORIA_SETTINGS_ROOT, _UI
 const _MAIN_ROOT = "main"
 
 const COMMAND_DIRECTORIES = "%s/%s/command_directories" % [_ESCORIA_SETTINGS_ROOT, _MAIN_ROOT]
+const COMMAND_PATHS = "%s/%s/command_paths" % [_ESCORIA_SETTINGS_ROOT, _MAIN_ROOT]
 const FORCE_QUIT = "%s/%s/force_quit" % [_ESCORIA_SETTINGS_ROOT, _MAIN_ROOT]
 const GAME_MIGRATION_PATH = "%s/%s/game_migration_path" % [_ESCORIA_SETTINGS_ROOT, _MAIN_ROOT]
 const GAME_VERSION = "%s/%s/game_version" % [_ESCORIA_SETTINGS_ROOT, _MAIN_ROOT]
@@ -91,16 +92,14 @@ func register_setting(name: String, default, info: Dictionary) -> void:
 #
 # - key: Project setting name.
 #
-# *Returns* The value of the project setting located with key.
+# *Returns* the value of the project setting located with key.
 func get_setting(key: String):
-	var value = ProjectSettings.get_setting(key)
-	
-	if not value:
+	if not ProjectSettings.has_setting(key):
 		escoria.logger.report_errors("project_settings_manager.gd", 
 			["Parameter %s is not set!" % key]
 		)
-	
-	return value
+
+	return ProjectSettings.get_setting(key)
 
 
 # Sets the specified project setting to the provided value.
@@ -111,3 +110,14 @@ func get_setting(key: String):
 # - value: Project setting value.
 func set_setting(key: String, value) -> void:
 	ProjectSettings.set_setting(key, value)
+
+
+# Simple wrapper for consistency's sake.
+#
+# #### Parameters
+#
+# - key: Project setting name.
+#
+# *Returns* true iff the project setting exists.
+func has_setting(key: String) -> bool:
+	return ProjectSettings.has_setting(key)

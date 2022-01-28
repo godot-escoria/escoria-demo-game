@@ -38,6 +38,9 @@ var _level_map: Dictionary = {
 func _init():
 	# Open logfile in write mode
 	log_file = File.new()
+	
+	# this is left alone as this constructor is called from escoria.gd's own
+	# constructor
 	var log_file_path = ProjectSettings.get_setting(
 		"escoria/debug/log_file_path"
 	)
@@ -105,14 +108,16 @@ func warning(string: String, args = []):
 	if _get_log_level() >= LOG_WARNING and !crashed:
 		var argsstr = str(args) if !args.empty() else ""
 		_log("(W)\t" + string + " \t" + argsstr, true)
-		
-		if ProjectSettings.get_setting("escoria/debug/terminate_on_warnings"):
+				
+		if escoria.project_settings_manager.get_setting(
+			escoria.project_settings_manager.TERMINATE_ON_WARNINGS
+		):
 			_perform_stack_trace_log()
 			crashed = true
 			
-			var files = "- %s" % log_file.get_path_absolute()
-			var message = ProjectSettings.get_setting(
-				"escoria/debug/crash_message"
+			var files = "- %s" % log_file.get_path_absolute()			
+			var message = escoria.project_settings_manager.get_setting(
+				escoria.project_settings_manager.CRASH_MESSAGE
 			) % files 
 			
 			_log(message, true)
@@ -134,7 +139,9 @@ func error(string: String, args = [], do_savegame: bool = true):
 		var argsstr = str(args) if !args.empty() else ""
 		_log("(E)\t" + string + " \t" + argsstr, true)
 		
-		if ProjectSettings.get_setting("escoria/debug/terminate_on_errors"):
+		if escoria.project_settings_manager.get_setting(
+			escoria.project_settings_manager.TERMINATE_ON_ERRORS
+		):
 			_perform_stack_trace_log()
 			crashed = true
 			if do_savegame:
@@ -148,8 +155,8 @@ func error(string: String, args = [], do_savegame: bool = true):
 			]
 			
 			var files = "- %s\n- %s" % files_to_send
-			var message = ProjectSettings.get_setting(
-				"escoria/debug/crash_message"
+			var message = escoria.project_settings_manager.get_setting(
+				escoria.project_settings_manager.CRASH_MESSAGE
 			) % files 
 			
 			_log(message, true)
@@ -222,7 +229,9 @@ func _log(message:String, err: bool = false):
 # Returns the currently set log level
 # **Returns** Log level as set in the configuration
 func _get_log_level() -> int:
-	return _level_map[ProjectSettings.get_setting("escoria/debug/log_level")]
+	return _level_map[escoria.project_settings_manager.get_setting(
+			escoria.project_settings_manager.LOG_LEVEL
+	)]
 
 
 # Creates a savegame file and save it in output log location
@@ -232,8 +241,8 @@ func _perform_save_game_log():
 	if error == OK:
 		_log(
 			"Emergency savegame created successfully in folder: %s" %
-				ProjectSettings.get_setting(
-					"escoria/debug/log_file_path"
+				escoria.project_settings_manager.get_setting(
+					escoria.project_settings_manager.LOG_FILE_PATH
 				)
 		)
 	else:

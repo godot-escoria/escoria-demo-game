@@ -256,7 +256,7 @@ func _ready():
 		
 	# If object can be in the inventory, set default_action_inventory to same as
 	# default_action, if default_action_inventory is not set
-	if use_from_inventory_only and default_action_inventory > -1:
+	if use_from_inventory_only and default_action_inventory.empty():
 		default_action_inventory = default_action
 	
 	# Perform a first terrain scaling if we have to.

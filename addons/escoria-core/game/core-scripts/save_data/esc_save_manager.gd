@@ -24,6 +24,8 @@ const SETTINGS_TEMPLATE: String = "settings.tres"
 
 # Constructor of ESCSaveManager object.
 func _init():
+	# We leave the calls to ProjectSettings as-is since this constructor can be
+	# called from escoria.gd's own.
 	save_folder = ProjectSettings.get_setting("escoria/main/savegames_path")
 	settings_folder = ProjectSettings.get_setting("escoria/main/settings_path")
 
@@ -76,7 +78,7 @@ func save_game_exists(id: int) -> bool:
 func save_game(id: int, p_savename: String):
 	if not save_enabled:
 		escoria.logger.debug(
-			"esc_save_data_resources.gd",
+			"esc_save_manager.gd",
 			["Save requested while saving is not possible. Save canceled."])
 		return
 	
@@ -90,7 +92,7 @@ func save_game(id: int, p_savename: String):
 	var error: int = ResourceSaver.save(save_path, save_game)
 	if error != OK:
 		escoria.logger.report_errors(
-			"esc_save_data_resources.gd",
+			"esc_save_manager.gd",
 			["There was an issue writing the save %s to %s" % [id, save_path]]
 		)
 
@@ -107,9 +109,9 @@ func save_game_crash():
 	]
 	
 	var save_game := _do_save_game("Crash %s" % datetime_string)
-	
-	var save_file_path: String = ProjectSettings.get_setting(
-		"escoria/debug/log_file_path"
+		
+	var save_file_path: String = escoria.project_settings_manager.get_setting(
+		escoria.project_settings_manager.LOG_FILE_PATH
 	)
 	crash_savegame_filename = save_file_path.plus_file(
 		CRASH_SAVE_NAME_TEMPLATE % [
@@ -123,7 +125,7 @@ func save_game_crash():
 	var error: int = ResourceSaver.save(crash_savegame_filename, save_game)
 	if error != OK:
 		escoria.logger.report_errors(
-			"esc_save_data_resources.gd",
+			"esc_save_manager.gd",
 			["There was an issue writing the crash save to %s" 
 				% crash_savegame_filename])
 	return error
@@ -135,9 +137,9 @@ func save_game_crash():
 # - p_savename: name of the savegame
 func _do_save_game(p_savename: String) -> ESCSaveGame:
 	var save_game = ESCSaveGame.new()
-	save_game.escoria_version = escoria.ESCORIA_VERSION
-	save_game.game_version = ProjectSettings.get_setting(
-		"escoria/main/game_version"
+	save_game.escoria_version = escoria.ESCORIA_VERSION	
+	save_game.game_version = escoria.project_settings_manager.get_setting(
+		escoria.project_settings_manager.GAME_VERSION
 	)
 	save_game.name = p_savename
 	
@@ -191,20 +193,23 @@ func load_game(id: int):
 			"res://addons/escoria-core/game/core-scripts/migrations/versions"
 		)
 		
-	# Migrate savegame through game versions
+	# Migrate savegame through game versions	
 	
-	if ProjectSettings.get_setting("escoria/main/game_version") != \
-			save_game.game_version and \
-			ProjectSettings.get_setting(
-				"escoria/main/game_migration_path"
-			) != "":
+	if escoria.project_settings_manager.get_setting(
+		escoria.project_settings_manager.GAME_VERSION
+	) != save_game.game_version \
+	and escoria.project_settings_manager.get_setting(
+		escoria.project_settings_manager.GAME_MIGRATION_PATH
+	) != "":
 		var migration_manager: ESCMigrationManager = ESCMigrationManager.new()
 		save_game = migration_manager.migrate(
 			save_game,
 			save_game.game_version,
-			ProjectSettings.get_setting("escoria/main/game_version"),
-			ProjectSettings.get_setting(
-				"escoria/main/game_migration_path"
+			escoria.project_settings_manager.get_setting(
+				escoria.project_settings_manager.GAME_VERSION
+			),
+			escoria.project_settings_manager.get_setting(
+				escoria.project_settings_manager.GAME_MIGRATION_PATH
 			)
 		)
 	
@@ -215,8 +220,10 @@ func load_game(id: int):
 	
 	load_statements.append(
 		ESCCommand.new(
-			"transition %s out" % 
-			[ProjectSettings.get_setting("escoria/ui/default_transition")]
+			"transition %s out" % 			
+			[escoria.project_settings_manager.get_setting(
+				escoria.project_settings_manager.DEFAULT_TRANISITION
+			)]
 		)
 	)
 	load_statements.append(
@@ -274,8 +281,9 @@ func load_game(id: int):
 					% [object_global_id, 
 				save_game.objects[object_global_id]["last_deg"]])
 			)
-		
-		if object_global_id in ["_music", "_sound", "_speech"]:
+				
+		if object_global_id in [escoria.object_manager.MUSIC, 
+			escoria.object_manager.SOUND, escoria.object_manager.SPEECH]:
 			if save_game.objects[object_global_id]["state"] in [
 				"default", 
 				"off"
@@ -295,8 +303,10 @@ func load_game(id: int):
 	
 	load_statements.append(
 		ESCCommand.new(
-			"transition %s in" % 
-			[ProjectSettings.get_setting("escoria/ui/default_transition")]
+			"transition %s in" % 			
+			[escoria.project_settings_manager.get_setting(
+				escoria.project_settings_manager.DEFAULT_TRANISITION
+			)]
 		)
 	)
 	
@@ -332,7 +342,7 @@ func save_settings():
 	var error: int = ResourceSaver.save(save_path, settings_res)
 	if error != OK:
 		escoria.logger.report_errors(
-			"esc_save_data_resources.gd:save_settings()",
+			"esc_save_manager.gd:save_settings()",
 			["There was an issue writing settings %s" % save_path])
 
 # Load the game settings from the settings file
@@ -343,7 +353,7 @@ func load_settings() -> Resource:
 	var file: File = File.new()
 	if not file.file_exists(save_settings_path):
 		escoria.logger.report_warnings(
-			"esc_save_data_resources.gd:load_settings()",
+			"esc_save_manager.gd:load_settings()",
 			["Settings file %s doesn't exist" % save_settings_path,
 			"Setting default settings."])
 		save_settings()

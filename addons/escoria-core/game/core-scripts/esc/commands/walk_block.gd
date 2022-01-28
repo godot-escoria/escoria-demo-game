@@ -37,7 +37,7 @@ func validate(arguments: Array):
 		escoria.logger.report_errors(
 			"walk_block: invalid second object",
 			[
-				"Object with global id %s not found" % arguments[0]
+				"Object with global id %s not found" % arguments[1]
 			]
 		)
 		return false

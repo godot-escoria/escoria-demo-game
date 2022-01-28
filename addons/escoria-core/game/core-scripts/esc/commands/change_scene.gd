@@ -32,13 +32,15 @@ func validate(arguments: Array) -> bool:
 		)
 		return false
 	if not ResourceLoader.exists(
-		ProjectSettings.get_setting("escoria/ui/game_scene")
+		escoria.project_settings_manager.get_setting(escoria.project_settings_manager.GAME_SCENE)
 	):
 		escoria.logger.report_errors(
 			"change_scene: Game scene not found", 
 			[
 				"The path set in 'ui/game_scene' was not found: %s" % \
-						ProjectSettings.get_setting("escoria/ui/game_scene")
+						escoria.project_settings_manager.get_setting(
+							escoria.project_settings_manager.GAME_SCENE
+						)
 			]
 		)
 		return false

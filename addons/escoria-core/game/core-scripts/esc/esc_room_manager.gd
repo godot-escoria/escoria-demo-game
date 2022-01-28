@@ -55,8 +55,8 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 		not escoria.globals_manager.get_global( \
 			GLOBAL_LAST_SCENE).empty()
 		or (
-			escoria.event_manager.get_running_event("_front") != null \
-			and escoria.event_manager.get_running_event("_front").name \
+			escoria.event_manager.get_running_event(escoria.event_manager.CHANNEL_FRONT) != null \
+			and escoria.event_manager.get_running_event(escoria.event_manager.CHANNEL_FRONT).name \
 				in ["newgame", "exit_scene", "room_selector"]
 				and escoria.globals_manager.get_global(
 					GLOBAL_LAST_SCENE
@@ -109,7 +109,9 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 			"ESCRoomManager.change_scene: Failed loading game scene",
 			[
 				"Failed loading scene %s" % \
-						ProjectSettings.get_setting("escoria/ui/game_scene")
+						escoria.project_settings_manager.get_setting(
+							escoria.project_settings_manager.GAME_SCENE
+							)
 			]
 		)
 
@@ -123,8 +125,8 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 	var room_scene = res_room.instance()
 	if room_scene:
 		if enable_automatic_transitions \
-				and escoria.event_manager.get_running_event("_front") != null \
-				and escoria.event_manager.get_running_event("_front").name \
+				and escoria.event_manager.get_running_event(escoria.event_manager.CHANNEL_FRONT) != null \
+				and escoria.event_manager.get_running_event(escoria.event_manager.CHANNEL_FRONT).name \
 				== "room_selector":
 			room_scene.enabled_automatic_transitions = true
 		else:
@@ -231,7 +233,7 @@ func init_room(room: ESCRoom) -> void:
 					animations[room.player.global_id]
 				)
 				room.player.update_idle()
-		escoria.object_manager.get_object("_camera").node.set_target(room.player)
+		escoria.object_manager.get_object(escoria.object_manager.CAMERA).node.set_target(room.player)
 	
 	if room.global_id.empty():
 		room.global_id = room.name
@@ -251,11 +253,11 @@ func init_room(room: ESCRoom) -> void:
 #
 # - room: The ESCRoom to be initialized for use.
 func _perform_script_events(room: ESCRoom):
-	if room.esc_script and escoria.event_manager.is_channel_free("_front") \
+	if room.esc_script and escoria.event_manager.is_channel_free(escoria.event_manager.CHANNEL_FRONT) \
 			or (
-				not escoria.event_manager.is_channel_free("_front") and \
+				not escoria.event_manager.is_channel_free(escoria.event_manager.CHANNEL_FRONT) and \
 				not escoria.event_manager.get_running_event(
-					"_front"
+					escoria.event_manager.CHANNEL_FRONT
 				).name == "load"
 			):
 			
@@ -266,8 +268,8 @@ func _perform_script_events(room: ESCRoom):
 				and not room.exited_previous_room:
 			var script_transition_out = escoria.esc_compiler.compile([
 				":transition_out",
-				"transition %s out" % ProjectSettings.get_setting(
-					"escoria/ui/default_transition"
+				"transition %s out" % escoria.project_settings_manager.get_setting(
+					escoria.project_settings_manager.DEFAULT_TRANISITION
 				),
 				"wait 0.1"
 			])
@@ -300,8 +302,8 @@ func _perform_script_events(room: ESCRoom):
 				):
 			var script_transition_in = escoria.esc_compiler.compile([
 				":transition_in",
-				"transition %s in" % ProjectSettings.get_setting(
-					"escoria/ui/default_transition"
+				"transition %s in" % escoria.project_settings_manager.get_setting(
+					escoria.project_settings_manager.DEFAULT_TRANISITION
 				),
 				"wait 0.1"
 			])

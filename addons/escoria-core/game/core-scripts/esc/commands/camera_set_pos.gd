@@ -26,7 +26,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Run the command
 func run(command_params: Array) -> int:
-	(escoria.object_manager.get_object("_camera").node as ESCCamera)\
+	(escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera)\
 			.set_target(
 				Vector2(command_params[1], command_params[2]), 
 				command_params[0]

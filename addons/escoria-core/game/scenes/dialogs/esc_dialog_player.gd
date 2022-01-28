@@ -58,8 +58,10 @@ func _input(event):
 #
 # *Returns* The path to the matching voice file
 func _get_voice_file(key: String, start: String = "") -> String:
-	if start == "":
-		start = ProjectSettings.get("escoria/sound/speech_folder")
+	if start == "":		
+		start = escoria.project_settings_manager.get_setting(
+			escoria.project_settings_manager.SPEECH_FOLDER
+		)
 	var _dir = Directory.new()
 	if _dir.open(start) == OK:
 		_dir.list_dir_begin(true, true)
@@ -75,7 +77,9 @@ func _get_voice_file(key: String, start: String = "") -> String:
 			else:
 				if file_name == "%s.%s.import" % [
 					key, 
-					ProjectSettings.get("escoria/sound/speech_extension")
+					escoria.project_settings_manager.get_setting(
+						escoria.project_settings_manager.SPEECH_EXTENSION
+					)
 				]:
 					return start.plus_file(file_name.trim_suffix(".import"))
 			file_name = _dir.get_next()
@@ -90,11 +94,13 @@ func _get_voice_file(key: String, start: String = "") -> String:
 # - type: UI to use for the dialog
 # - text: Text to say
 func say(character: String, type: String, text: String) -> void:
-	if type == "":
-		type = ProjectSettings.get_setting("escoria/ui/default_dialog_type")
-	is_speaking = true
-	for _manager_class in ProjectSettings.get_setting(
-			"escoria/ui/dialog_managers"
+	if type == "":		
+		type = escoria.project_settings_manager.get_setting(
+			escoria.project_settings_manager.DEFAULT_DIALOG_TYPE
+		)
+	is_speaking = true	
+	for _manager_class in escoria.project_settings_manager.get_setting(
+		escoria.project_settings_manager.DIALOG_MANAGERS
 	):
 		if ResourceLoader.exists(_manager_class):
 			var _manager: ESCDialogManager = load(_manager_class).new()
@@ -126,7 +132,7 @@ func say(character: String, type: String, text: String) -> void:
 		)
 		if _speech_resource != "":
 			(
-				escoria.object_manager.get_object("_speech").node\
+				escoria.object_manager.get_object(escoria.object_manager.SPEECH).node\
 				 as ESCSpeechPlayer
 			).set_state(_speech_resource)
 		text = tr(matches.get_string("key"))
@@ -158,14 +164,14 @@ func speedup() -> void:
 func start_dialog_choices(dialog: ESCDialog, type: String = "simple"):
 	if dialog.options.empty():
 		escoria.logger.report_errors(
-			"dialog_player.gd:start_dialog_choices()", 
+			"esc_dialog_player.gd:start_dialog_choices()", 
 			["Received answers array was empty."]
 		)
 	
 	var _dialog_chooser_ui: ESCDialogManager = null
 	
-	for _manager_class in ProjectSettings.get_setting(
-			"escoria/ui/dialog_managers"
+	for _manager_class in escoria.project_settings_manager.get_setting(
+		escoria.project_settings_manager.DIALOG_MANAGERS
 	):
 		if ResourceLoader.exists(_manager_class):
 			var _manager: ESCDialogManager = load(_manager_class).new()

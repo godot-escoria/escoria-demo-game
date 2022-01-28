@@ -32,7 +32,7 @@ func _on_command_text_entered(p_command_str : String):
 	])
 	
 	if script:
-		escoria.event_manager.queue_event(script.events["debug"])
+		escoria.event_manager.queue_event(script.events[escoria.event_manager.EVENT_DEBUG])
 		var ret = yield(escoria.event_manager, "event_finished")
 		while ret[1] != "debug":
 			ret = yield(escoria.event_manager, "event_finished")

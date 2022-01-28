@@ -39,7 +39,7 @@ func queue_resource(path: String, p_in_front: bool = false, p_permanent: bool = 
 
 	elif ResourceLoader.has(path):
 		var res = ResourceLoader.load(path)
-		pending[path] = { "res": res, "permanent": p_permanent }
+		pending[path] = ESCResourceDescriptor.new(res, p_permanent)
 		_unlock("queue_resource")
 		return
 	else:
@@ -49,7 +49,7 @@ func queue_resource(path: String, p_in_front: bool = false, p_permanent: bool = 
 			queue.insert(0, res)
 		else:
 			queue.push_back(res)
-		pending[path] = { "res": res, "permanent": p_permanent }
+		pending[path] = ESCResourceDescriptor.new(res, p_permanent)
 		_post("queue_resource")
 		_unlock("queue_resource")
 		return
@@ -138,12 +138,11 @@ func get_resource(path):
 			return res
 	else:
 		_unlock("return")
+		# We can't use escoria.project_settings_manager here since this method
+		# can be called from escoria._init()
 		if not ProjectSettings.get_setting("escoria/platform/skip_cache"):
 			var res = ResourceLoader.load(path)
-			pending[path] = { 
-				"res": res, 
-				"permanent": true 
-			}
+			pending[path] = ESCResourceDescriptor.new(res, true)
 			return res
 		return ResourceLoader.load(path)
 

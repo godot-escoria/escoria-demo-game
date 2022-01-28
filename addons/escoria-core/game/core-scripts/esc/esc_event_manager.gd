@@ -23,6 +23,10 @@ signal background_event_finished(return_code, event_name, channel_name)
 # Pre-defined ESC events
 const EVENT_INIT = "init"
 const EVENT_NEW_GAME = "newgame"
+const EVENT_DEBUG = "debug"
+
+# Event channel names
+const CHANNEL_FRONT = "_front"
 
 
 # A list of currently scheduled events
@@ -30,7 +34,7 @@ var scheduled_events: Array = []
 
 # A list of constantly running events in multiple background channels
 var events_queue: Dictionary = {
-	"_front": []
+	CHANNEL_FRONT: []
 }
 
 # Currently running event in background channels
@@ -87,7 +91,7 @@ func _process(delta: float) -> void:
 					CONNECT_ONESHOT
 				)
 			
-			if channel_name == "_front":
+			if channel_name == CHANNEL_FRONT:
 				emit_signal(
 					"event_started",
 					_running_events[channel_name].name
@@ -114,7 +118,49 @@ func _process(delta: float) -> void:
 		(event as ESCScheduledEvent).timeout -= delta
 		if (event as ESCScheduledEvent).timeout <= 0:
 			self.scheduled_events.erase(event)
-			self.events_queue['_front'].append(event.event)
+			self.events_queue[CHANNEL_FRONT].append(event.event)
+
+
+# Queue a new event based on input from an ESC command, most likely "queue_event"
+#
+# #### Parameters
+# - script_object: Compiled script object, i.e. the one with the event to queue
+# - event: Name of the event to queue
+# - channel: Channel to run the event on (default: `_front`)
+# - block: Whether to wait for the queue to finish. This is only possible, if
+#   the queued event is not to be run on the same event as this command
+#   (default: `false`)
+#
+# **Returns** indicator of success/status
+func queue_event_from_esc(script_object: ESCScript, event: String, 
+	channel: String, block: bool) -> int:
+
+	if channel == CHANNEL_FRONT:
+		escoria.event_manager.queue_event(script_object.events[event])
+	else:
+		escoria.event_manager.queue_background_event(
+			channel,
+			script_object.events[event]
+		)
+	if block:
+		if channel == CHANNEL_FRONT:
+			var rc = yield(escoria.event_manager, "event_finished")
+			while rc[1] != event:
+				rc = yield(escoria.event_manager, "event_finished")
+			return rc
+		else:
+			var rc = yield(
+				escoria.event_manager, 
+				"background_event_finished"
+			)
+			while rc[1] != event and rc[2] != channel:
+				rc = yield(
+					escoria.event_manager,
+					"background_event_finished"
+				)
+			return rc
+			
+	return ESCExecution.RC_OK
 
 
 # Queue a new event to run in the foreground
@@ -122,7 +168,7 @@ func _process(delta: float) -> void:
 # #### Parameters
 # - event: Event to run
 func queue_event(event: ESCEvent) -> void:
-	self.events_queue['_front'].append(event)
+	self.events_queue[CHANNEL_FRONT].append(event)
 
 
 # Schedule an event to run after a timeout
@@ -217,7 +263,7 @@ func _on_event_finished(finished_statement: ESCStatement, return_code: int, chan
 	_running_events[channel_name] = null
 	_channels_state[channel_name] = true
 	
-	if channel_name == "_front":
+	if channel_name == CHANNEL_FRONT:
 		emit_signal(
 			"event_finished", 
 			return_code,

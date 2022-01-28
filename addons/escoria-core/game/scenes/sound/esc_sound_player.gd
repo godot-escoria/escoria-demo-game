@@ -42,9 +42,11 @@ func set_state(p_state: String, p_force: bool = false):
 		if resource is AudioStreamSample:
 			resource.loop_mode = AudioStreamSample.LOOP_DISABLED
 		elif "loop" in resource:
-			resource.loop = false
-		if ProjectSettings.has_setting("escoria/sound/sound_volume"):
-			stream.volume_db = ProjectSettings.get_setting("escoria/sound/sound_volume")
+			resource.loop = false			
+		if escoria.project_settings_manager.has_setting(escoria.project_settings_manager.SFX_VOLUME):
+			stream.volume_db = escoria.project_settings_manager.get_setting(
+				escoria.project_settings_manager.SFX_VOLUME
+			)
 		stream.play()
 
 
