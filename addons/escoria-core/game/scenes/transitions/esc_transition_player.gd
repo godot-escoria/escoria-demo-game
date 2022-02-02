@@ -93,7 +93,7 @@ func transition(
 #
 # *Returns* the full path to the shader or an empty string, if it can't be found
 func get_transition(name: String) -> String:
-	if name.empty():		
+	if name.empty():
 		name = escoria.project_settings_manager.get_setting(
 			escoria.project_settings_manager.DEFAULT_TRANISITION
 		)

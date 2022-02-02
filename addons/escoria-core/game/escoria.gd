@@ -137,6 +137,7 @@ func _init():
 
 	print(get_script().get_path())	
 
+
 # Load settings
 func _ready():
 	settings = save_manager.load_settings()
@@ -211,7 +212,7 @@ func _input(event):
 	if InputMap.has_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT) \
 			and event.is_action_pressed(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT):
 		escoria.main.get_node("layers/debug_layer/esc_prompt_popup").popup()
-	
+
 	if event.is_action_pressed("ui_cancel"):
 		emit_signal("request_pause_menu")
 	
@@ -252,7 +253,7 @@ func run_event_from_script(script: ESCScript, event_name: String):
 			[]
 		)
 		return
-		
+
 
 # Register a user interface. This should be called in a deferred way
 # from the addon's _enter_tree.
@@ -262,7 +263,7 @@ func run_event_from_script(script: ESCScript, event_name: String):
 func register_ui(game_scene: String):
 	var game_scene_setting_value = escoria.project_settings_manager.get_setting(
 		escoria.project_settings_manager.GAME_SCENE
-		)
+	)
 
 	if not game_scene_setting_value in [
 		"",
@@ -272,7 +273,7 @@ func register_ui(game_scene: String):
 			"escoria.gd:register_ui()",
 			[
 				"Can't register user interface because %s is registered" % \
-						game_scene_setting_value
+					game_scene_setting_value
 			]
 		)
 	escoria.project_settings_manager.set_setting(
@@ -352,7 +353,7 @@ func deregister_dialog_manager(manager_class: String):
 		dialog_managers
 	)
 
-	
+
 # Function called to quit the game.
 func quit():
 	get_tree().notification(MainLoop.NOTIFICATION_WM_QUIT_REQUEST)

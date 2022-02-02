@@ -115,7 +115,7 @@ func warning(string: String, args = []):
 			_perform_stack_trace_log()
 			crashed = true
 			
-			var files = "- %s" % log_file.get_path_absolute()			
+			var files = "- %s" % log_file.get_path_absolute()
 			var message = escoria.project_settings_manager.get_setting(
 				escoria.project_settings_manager.CRASH_MESSAGE
 			) % files 
@@ -230,7 +230,7 @@ func _log(message:String, err: bool = false):
 # **Returns** Log level as set in the configuration
 func _get_log_level() -> int:
 	return _level_map[escoria.project_settings_manager.get_setting(
-			escoria.project_settings_manager.LOG_LEVEL
+		escoria.project_settings_manager.LOG_LEVEL
 	)]
 
 

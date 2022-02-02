@@ -100,7 +100,7 @@ func is_valid() -> bool:
 func command_exists() -> bool:
 	var command_found = false
 	for base_path in escoria.project_settings_manager.get_setting(
-		escoria.project_settings_manager.COMMAND_DIRECTORIES
+			escoria.project_settings_manager.COMMAND_DIRECTORIES
 		):
 		var command_path = "%s/%s.gd" % [
 			base_path.trim_suffix("/"),
