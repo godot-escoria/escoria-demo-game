@@ -21,9 +21,17 @@ signal background_event_finished(return_code, event_name, channel_name)
 
 
 # Pre-defined ESC events
-const EVENT_INIT = "init"
-const EVENT_NEW_GAME = "newgame"
 const EVENT_DEBUG = "debug"
+const EVENT_EXIT_SCENE = "exit_scene"
+const EVENT_INIT = "init"
+const EVENT_LOAD = "load"
+const EVENT_NEW_GAME = "newgame"
+const EVENT_READY = "ready"
+const EVENT_ROOM_SELECTOR = "room_selector"
+const EVENT_SETUP = "setup"
+const EVENT_TRANSITION_IN = "transition_in"
+const EVENT_TRANSITION_OUT = "transition_out"
+
 
 # Event channel names
 const CHANNEL_FRONT = "_front"

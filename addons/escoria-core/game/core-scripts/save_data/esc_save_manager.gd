@@ -1,6 +1,17 @@
 # Saves and loads savegame and settings files
 class_name ESCSaveManager
 
+
+# Template for settings filename
+const SETTINGS_TEMPLATE: String = "settings.tres"
+
+# Template for savegames filenames
+const SAVE_NAME_TEMPLATE: String = "save_%03d.tres"
+
+# Template for crash savegames filenames
+const CRASH_SAVE_NAME_TEMPLATE: String = "crash_autosave_%s_%s.tres"
+
+
 # If true, saving a game is enabled. Else, saving is disabled
 var save_enabled: bool = true
 
@@ -10,17 +21,21 @@ var save_folder: String
 # Filename of the latest crash savegame file
 var crash_savegame_filename: String
 
-# Template for savegames filenames
-const SAVE_NAME_TEMPLATE: String = "save_%03d.tres"
-
-# Template for crash savegames filenames
-const CRASH_SAVE_NAME_TEMPLATE: String = "crash_autosave_%s_%s.tres"
-
 # Variable containing the settings folder obtained from Project Settings
 var settings_folder: String
 
-# Template for settings filename
-const SETTINGS_TEMPLATE: String = "settings.tres"
+# ESC commands kept around for references to their command names.
+var _transition: TransitionCommand
+var _hide_menu: HideMenuCommand
+var _change_scene: ChangeSceneCommand
+var _set_active: SetActiveCommand
+var _set_interactive: SetInteractiveCommand
+var _teleport_pos: TeleportPosCommand
+var _set_angle: SetAngleCommand
+var _set_state: SetStateCommand
+var _stop_snd: StopSndCommand
+var _play_snd: PlaySndCommand
+
 
 # Constructor of ESCSaveManager object.
 func _init():
@@ -28,6 +43,20 @@ func _init():
 	# called from escoria.gd's own.
 	save_folder = ProjectSettings.get_setting("escoria/main/savegames_path")
 	settings_folder = ProjectSettings.get_setting("escoria/main/settings_path")
+
+
+func _ready() -> void:
+	_transition = TransitionCommand.new()
+	_hide_menu = HideMenuCommand.new()
+	_change_scene = ChangeSceneCommand.new()
+	_set_active = SetActiveCommand.new()
+	_set_interactive = SetInteractiveCommand.new()
+	_teleport_pos = TeleportPosCommand.new()
+	_set_angle = SetAngleCommand.new()
+	_set_state = SetStateCommand.new()
+	_stop_snd = StopSndCommand.new()
+	_play_snd = PlaySndCommand.new()
+
 
 # Return a list of savegames metadata (id, date, name and game version) 
 func get_saves_list() -> Dictionary:
@@ -215,22 +244,24 @@ func load_game(id: int):
 	
 	escoria.event_manager.interrupt_running_event()
 
-	var load_event = ESCEvent.new(":load")
+	var load_event = ESCEvent.new("%s%s" % [ESCEvent.PREFIX, escoria.event_manager.EVENT_LOAD])
 	var load_statements = []
 	
 	load_statements.append(
 		ESCCommand.new(
-			"transition %s out" % 			
-			[escoria.project_settings_manager.get_setting(
-				escoria.project_settings_manager.DEFAULT_TRANISITION
+			"%s %s out" % 			
+			[
+				_transition.get_command_name(),
+				escoria.project_settings_manager.get_setting(
+					escoria.project_settings_manager.DEFAULT_TRANISITION
 			)]
 		)
 	)
 	load_statements.append(
-		ESCCommand.new("hide_menu main")
+		ESCCommand.new("%s main" % _hide_menu.get_command_name())
 	)
 	load_statements.append(
-		ESCCommand.new("hide_menu pause")
+		ESCCommand.new("%s pause" % _hide_menu.get_command_name())
 	)
 	
 	## GLOBALS
@@ -243,43 +274,66 @@ func load_game(id: int):
 		
 	## ROOM
 	load_statements.append(
-		ESCCommand.new("change_scene %s false" \
-				% save_game.main["current_scene_filename"])
+		ESCCommand.new("%s %s false" %
+				[
+					_change_scene.get_command_name(), 
+					save_game.main["current_scene_filename"]
+				]
+			)
 	)
 	
 	## OBJECTS
 	for object_global_id in save_game.objects.keys():
 		if escoria.object_manager.has(object_global_id) and \
 				save_game.objects[object_global_id].has("active"):
-			load_statements.append(ESCCommand.new("set_active %s %s" \
-				% [object_global_id, 
-				save_game.objects[object_global_id]["active"]])
+			load_statements.append(ESCCommand.new("%s %s %s" \
+					% [
+						_set_active.get_command_name(), 
+						object_global_id, 
+						save_game.objects[object_global_id]["active"]
+					]
+				)
 			)
 		
 		if save_game.objects[object_global_id].has("interactive"):
-			load_statements.append(ESCCommand.new("set_interactive %s %s" \
-					% [object_global_id,
-				save_game.objects[object_global_id]["interactive"]])
+			load_statements.append(ESCCommand.new("%s %s %s" \
+					% [
+						_set_interactive.get_command_name(), 
+						object_global_id,
+						save_game.objects[object_global_id]["interactive"]
+					]
+				)
 			)
 			
 		if save_game.objects[object_global_id].has("state"):
-			load_statements.append(ESCCommand.new("set_state %s %s true" \
-					% [object_global_id,
-				save_game.objects[object_global_id]["state"]])
+			load_statements.append(ESCCommand.new("%s %s %s true" \
+					% [
+						_set_state.get_command_name(),
+						object_global_id,
+						save_game.objects[object_global_id]["state"]
+					]
+				)
 			)
 			
 		if save_game.objects[object_global_id].has("global_transform"):
-			load_statements.append(ESCCommand.new("teleport_pos %s %s %s" \
-					% [object_global_id, 
-				int(save_game.objects[object_global_id] \
-						["global_transform"].origin.x),
-				int(save_game.objects[object_global_id] \
-						["global_transform"].origin.y)]
+			load_statements.append(ESCCommand.new("%s %s %s %s" \
+					% [
+						_teleport_pos.get_command_name(),
+						object_global_id, 
+						int(save_game.objects[object_global_id] \
+							["global_transform"].origin.x),
+						int(save_game.objects[object_global_id] \
+							["global_transform"].origin.y)
+					]
 				)
 			)
-			load_statements.append(ESCCommand.new("set_angle %s %s" \
-					% [object_global_id, 
-				save_game.objects[object_global_id]["last_deg"]])
+			load_statements.append(ESCCommand.new("%s %s %s" \
+					% [
+						_set_angle.get_command_name(),
+						object_global_id, 
+						save_game.objects[object_global_id]["last_deg"]
+					]
+				)
 			)
 				
 		if object_global_id in [escoria.object_manager.MUSIC, 
@@ -289,13 +343,15 @@ func load_game(id: int):
 				"off"
 			]:
 				load_statements.append(
-					ESCCommand.new("stop_snd %s" % [
+					ESCCommand.new("%s %s" % [
+						_stop_snd.get_command_name(),
 						object_global_id,
 					])
 				)
 			else:
 				load_statements.append(
-					ESCCommand.new("play_snd %s %s" % [
+					ESCCommand.new("%s %s %s" % [
+						_play_snd.get_command_name(),
 						save_game.objects[object_global_id]["state"],
 						object_global_id,
 					])
@@ -303,8 +359,10 @@ func load_game(id: int):
 	
 	load_statements.append(
 		ESCCommand.new(
-			"transition %s in" % 			
-			[escoria.project_settings_manager.get_setting(
+			"%s %s in" %
+			[
+				_transition.get_command_name(),
+				escoria.project_settings_manager.get_setting(
 				escoria.project_settings_manager.DEFAULT_TRANISITION
 			)]
 		)

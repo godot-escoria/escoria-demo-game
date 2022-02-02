@@ -102,7 +102,7 @@ var game_scene: ESCGame
 
 # The compiled start script loaded from ProjectSettings 
 # escoria/main/game_start_script
-var start_script : ESCScript
+var start_script: ESCScript
 
 
 # Initialize various objects
