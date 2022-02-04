@@ -452,9 +452,11 @@ func turn_to(object: Node, wait: float = 0.0):
 
 # Play the talking animation
 func start_talking():
-	if get_animation_player() and \
-			_movable.last_dir >= 0 and \
-			_movable.last_dir <= animations.speaks.size():
+	# Only start the speaking animation if we actually have them setup
+	if animations.speaks.size() > 0 \
+			and get_animation_player() \
+			and _movable.last_dir >= 0 \
+			and _movable.last_dir < animations.speaks.size():
 		if get_animation_player().is_playing():
 			get_animation_player().stop()
 		get_animation_player().play(
