@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://addons/escoria-ui-9verbs/tooltip/action_target_tooltip.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/escoria-ui-9verbs/inventory/inventory_ui.tscn" type="PackedScene" id=2]
@@ -7,7 +7,6 @@
 [ext_resource path="res://addons/escoria-ui-9verbs/game.gd" type="Script" id=5]
 [ext_resource path="res://addons/escoria-core/game/scenes/camera_player/camera.tscn" type="PackedScene" id=6]
 [ext_resource path="res://addons/escoria-core/ui_library/menus/main_menu/main_menu.tscn" type="PackedScene" id=7]
-[ext_resource path="res://addons/escoria-ui-9verbs/tooltip/tooltip_action_target.gd" type="Script" id=8]
 [ext_resource path="res://addons/escoria-core/ui_library/menus/pause_menu/pause_menu.tscn" type="PackedScene" id=9]
 [ext_resource path="res://addons/escoria-ui-9verbs/theme.tres" type="Theme" id=10]
 
@@ -67,7 +66,6 @@ margin_bottom = 32.0
 bbcode_text = "[center]Test[/center]"
 text = "Test"
 fit_content_height = true
-script = ExtResource( 8 )
 color = Color( 1, 1, 1, 1 )
 
 [node name="HSeparator" type="HSeparator" parent="ui/Control/panel_down/VBoxContainer"]

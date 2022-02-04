@@ -36,11 +36,40 @@ export(EDITOR_GAME_DEBUG_DISPLAY) var editor_debug_mode = \
 var tooltip_node: Object
 
 
+# Function called when ESCGame enters the scene tree.
+func _enter_tree():
+	escoria.event_manager.connect(
+		"event_finished", 
+		self, 
+		"_on_event_done"
+	)
+	escoria.action_manager.connect(
+		"action_finished", 
+		self, 
+		"_on_action_finished"
+	)
+
+
+# Function called when ESCGame exits the scene tree.
+func _exit_tree():
+	escoria.action_manager.disconnect(
+		"event_finished", 
+		self, 
+		"_on_event_done"
+	)
+	escoria.action_manager.disconnect(
+		"action_finished", 
+		self, 
+		"_on_action_finished"
+	)
+
+
 # Ready function
 func _ready():
 	escoria.apply_settings(escoria.settings)
 	connect("crash_popup_confirmed", escoria, "quit", 
 		[], CONNECT_ONESHOT)
+
 
 # Handle debugging visualizations
 func _draw():
@@ -257,9 +286,34 @@ func show_ui():
 
 
 # Set the Editor debug mode
+#
+# #### Parameter
+#
+# - p_editor_debug_mode: EDITOR_GAME_DEBUG_DISPLAY enum (int) value 
+# corresponding to the desired editor debug mode
 func _set_editor_debug_mode(p_editor_debug_mode: int) -> void:
 	editor_debug_mode = p_editor_debug_mode
 	update()
+
+
+# Automatically called whenever an event is finished. Can be used to reset some 
+# UI elements to their default/empty state. This function can be called before 
+# _on_action_finished() if the player input started an event.
+# Reimplement to performed desired actions.
+#
+# #### Parameter
+#
+# - _return_code: return code of the event (type ESCExecution)
+# - _event_name: name of the event that was just done (can be unused)
+func _on_event_done(_return_code: int, _event_name: String) -> void:
+	pass
+
+
+# Automatically called whenever an action initiated by the player is finished. 
+# Can be used to reset some UI elements to their default/empty state. 
+# Reimplement to performed desired actions.
+func _on_action_finished() -> void:
+	pass
 
 
 # Pauses the game. Reimplement to eventually show a specific UI.
