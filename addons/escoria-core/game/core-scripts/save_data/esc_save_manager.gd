@@ -183,6 +183,8 @@ func _do_save_game(p_savename: String) -> ESCSaveGame:
 	escoria.globals_manager.save_game(save_game)
 	escoria.object_manager.save_game(save_game)
 	escoria.main.save_game(save_game)
+	save_game.custom_data = escoria.game_scene.get_custom_data()
+	
 	return save_game
 
 
@@ -391,6 +393,7 @@ func save_settings():
 	settings_res.speech_volume = escoria.settings.speech_volume
 	settings_res.fullscreen = escoria.settings.fullscreen
 	settings_res.skip_dialog = escoria.settings.skip_dialog
+	settings_res.custom_settings = escoria.settings.custom_settings
 
 	var directory: Directory = Directory.new()
 	if not directory.dir_exists(settings_folder):

@@ -205,6 +205,8 @@ func apply_settings(p_settings: ESCSaveSettings) -> void:
 		linear2db(settings.speech_volume)
 	)
 	TranslationServer.set_locale(settings.text_lang)
+	
+	game_scene.apply_custom_settings(settings.custom_settings)
 
 
 # Input function to manage specific input keys

@@ -36,16 +36,12 @@ Implement methods to react to inputs.
 - show_main_menu()
 - hide_main_menu()
 
+- apply_custom_settings()
+
 - _on_event_done(event_name: String)
 """
 
 func _enter_tree():
-	escoria.action_manager.connect(
-		"action_finished", 
-		self, 
-		"_on_action_finished"
-	)
-	
 	var room_selector_parent = $CanvasLayer/ui/HBoxContainer/VBoxContainer
 	
 	if ProjectSettings.get_setting("escoria/debug/enable_room_selector") and \
@@ -57,13 +53,6 @@ func _enter_tree():
 			).instance()
 		)
 
-func _exit_tree():
-	escoria.action_manager.disconnect(
-		"action_finished", 
-		self, 
-		"_on_action_finished"
-	)
-	
 	
 func _input(event: InputEvent) -> void:
 	if escoria.main.current_scene and escoria.main.current_scene.game:
@@ -194,11 +183,6 @@ func hide_ui():
 func show_ui():
 	$CanvasLayer/ui/HBoxContainer/inventory_ui.show()
 
-
-func _on_event_done(event_name: String):
-	escoria.action_manager.clear_current_action()
-	$mouse_layer/verbs_menu.clear_tool_texture()
-
 func hide_main_menu():
 	if get_node(main_menu).visible:
 		get_node(main_menu).hide()
@@ -226,6 +210,20 @@ func pause_game():
 		escoria.main.current_scene.game.hide_ui()
 		escoria.main.current_scene.hide()
 
+
+func apply_custom_settings(custom_settings: Dictionary):
+	if custom_settings.has("a_custom_setting"):
+		escoria.logger.info(
+			"custom setting value loaded:", 
+			[custom_settings["a_custom_setting"]]
+		)
+
+
+func get_custom_data() -> Dictionary:
+	return {
+		"ui_type": "simplemouse"
+	}
+	
 
 # Update the tooltip
 #
@@ -258,6 +256,10 @@ func update_tooltip_following_mouse_position(p_position: Vector2):
 func _on_action_finished():
 	$mouse_layer/verbs_menu.clear_tool_texture()
 	$mouse_layer/verbs_menu.iterate_actions_cursor(0)
+
+func _on_event_done(_return_code: int, _event_name: String):
+	escoria.action_manager.clear_current_action()
+	$mouse_layer/verbs_menu.clear_tool_texture()
 
 
 func _on_MenuButton_pressed() -> void:

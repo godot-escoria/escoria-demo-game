@@ -36,6 +36,8 @@ Implement methods to react to inputs.
 - show_main_menu()
 - hide_main_menu()
 
+- apply_custom_settings()
+
 - _on_event_done(event_name: String)
 """
 
@@ -49,12 +51,6 @@ onready var inventory_ui = $ui/Control/panel_down/VBoxContainer/HBoxContainer\
 		/InventoryMargin/inventory_ui
 
 func _enter_tree():
-	escoria.action_manager.connect(
-		"action_finished", 
-		self, 
-		"_on_action_finished"
-	)
-	
 	var room_selector_parent = $ui/Control/panel_down/VBoxContainer\
 			/HBoxContainer/MainMargin/VBoxContainer
 	
@@ -66,14 +62,6 @@ func _enter_tree():
 				"/room_select.tscn"
 			).instance()
 		)
-
-func _exit_tree():
-	escoria.action_manager.disconnect(
-		"action_finished", 
-		self, 
-		"_on_action_finished"
-	)
-	
 
 
 ## BACKGROUND ## 
@@ -321,10 +309,6 @@ func show_ui():
 	inventory_ui.show()
 	tooltip.show()
 
-func _on_event_done(_event_name: String):
-	escoria.action_manager.clear_current_action()
-	verbs_menu.unselect_actions()
-
 func hide_main_menu():
 	if get_node(main_menu).visible:
 		get_node(main_menu).hide()
@@ -362,3 +346,21 @@ func _on_MenuButton_pressed() -> void:
 func _on_action_finished() -> void:
 	verbs_menu.unselect_actions()
 	tooltip.clear()
+
+func _on_event_done(_return_code: int, _event_name: String):
+	escoria.action_manager.clear_current_action()
+	verbs_menu.unselect_actions()
+
+
+func apply_custom_settings(custom_settings: Dictionary):
+	if custom_settings.has("a_custom_setting"):
+		escoria.logger.info(
+			"custom setting value loaded:", 
+			[custom_settings["a_custom_setting"]]
+		)
+
+
+func get_custom_data() -> Dictionary:
+	return {
+		"ui_type": "9verbs"
+	}

@@ -1,0 +1,97 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/core-scripts/save_data/esc_savegame.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+escoria_version = "0.1.0"
+game_version = "0.1.0"
+name = "custom data"
+date = "13/01/2022 08:09"
+main = {
+"current_scene_filename": "res://game/rooms/room01/room01.tscn",
+"last_scene_global_id": ""
+}
+globals = {
+"ANIMATION_RESOURCES": {
+},
+"ESC_CURRENT_SCENE": "room1",
+"ESC_LAST_SCENE": "",
+"FORCE_LAST_SCENE_NULL": false,
+"dialog_advance": 0,
+"dialog_popup_advance": 0,
+"room1_visited": true
+}
+objects = {
+"_camera": {
+"active": true,
+"interactive": true,
+"state": "default"
+},
+"_music": {
+"active": true,
+"interactive": true,
+"state": "res://game/sfx/contemplation.ogg"
+},
+"_sound": {
+"active": true,
+"interactive": true,
+"state": "default"
+},
+"_speech": {
+"active": true,
+"interactive": true,
+"state": "default"
+},
+"player": {
+"active": true,
+"global_transform": Transform2D( 1, 0, 0, 1, 490, 488 ),
+"interactive": true,
+"last_deg": 111,
+"last_dir": 3,
+"state": "default"
+},
+"r1_destination_point": {
+"active": true,
+"interactive": true,
+"state": "default"
+},
+"r1_destination_point2": {
+"active": true,
+"interactive": true,
+"state": "default"
+},
+"r1_destination_point3": {
+"active": true,
+"interactive": true,
+"state": "default"
+},
+"r1_r_exit": {
+"active": true,
+"interactive": true,
+"state": "default"
+},
+"r1_start": {
+"active": true,
+"interactive": true,
+"state": "default"
+},
+"r1_wall_item1": {
+"active": true,
+"interactive": true,
+"state": "default"
+},
+"r1_wall_item2": {
+"active": true,
+"interactive": true,
+"state": "default"
+},
+"trigger_talk": {
+"active": true,
+"interactive": true,
+"state": "default"
+}
+}
+custom_data = {
+"ui_type": "9verbs"
+}

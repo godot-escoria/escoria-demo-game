@@ -112,6 +112,7 @@ func _on_speech_volume_value_changed(value: float) -> void:
 
 # Save the settings
 func _on_apply_pressed():
+	escoria.settings.custom_settings["a_custom_setting"] = 100
 	escoria.save_manager.save_settings()
 	settings_changed = false
 	emit_signal("back_button_pressed")
