@@ -1,3 +1,12 @@
+## [4.0.0-alpha.90](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.90) (2022-02-04)
+
+
+### Features
+
+* refactor numerous areas and tokenize string literals where possible; also fixes some small bugs ([#487](https://github.com/godot-escoria/escoria-demo-game/issues/487)) ([99dc1e0](https://github.com/godot-escoria/escoria-demo-game/commit/99dc1e01106ce651d1b78ae574cca9d0202c48b1))
+
+
+
 ## [4.0.0-alpha.89](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.89) (2022-02-04)
 
 
