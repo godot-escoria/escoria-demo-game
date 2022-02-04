@@ -34,6 +34,26 @@ enum ACTION_INPUT_STATE {
 	COMPLETED
 }
 
+# Actions understood by the do(...) method
+# * BACKGROUND_CLICK: Object is to move from its current position
+# * ITEM_LEFT_CLICK: Item has been clicked on with LMB.
+# * ITEM_RIGHT_CLICK: Item has been clicked on with RMB.
+# * TRIGGER_IN: Character has moved into a trigger area.
+# * TRIGGER_OUT: Character has moved out of a trigger area.
+enum ACTION {
+	BACKGROUND_CLICK,
+	ITEM_LEFT_CLICK,
+	ITEM_RIGHT_CLICK,
+	TRIGGER_IN,
+	TRIGGER_OUT
+}
+
+
+# Basic required internal actions
+const ACTION_ARRIVED = "arrived"
+const ACTION_EXIT_SCENE = "exit_scene"
+const ACTION_WALK = "walk"
+
 
 # Current verb used
 var current_action: String = "" setget set_current_action
@@ -47,6 +67,119 @@ var current_target: ESCObject
 # Current action input state
 var action_state = ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM \
 		setget set_action_input_state
+
+
+# Run a generic action
+#
+# #### Parameters
+#
+# - action: type of the action to run
+# - params: Parameters for the action
+# - can_interrupt: if true, this command will interrupt any ongoing event 
+# before it is finished
+func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
+	if escoria.current_state == escoria.GAME_STATE.DEFAULT:
+		match action:
+			ACTION.BACKGROUND_CLICK:
+				if can_interrupt:
+					escoria.event_manager.interrupt_running_event()
+					
+				self.clear_current_action()
+				
+				var walk_fast = false
+				if params.size() > 2:
+					walk_fast = true if params[2] else false
+					
+				# Check moving object.
+				if not escoria.object_manager.has(params[0]):
+					escoria.logger.report_errors(
+						"esc_action_manager.gd:do()",
+						[
+							"Walk action requested on nonexisting " + \
+							"object: %s " % params[0]
+						]
+					)
+					return
+				
+				var moving_obj = escoria.object_manager.get_object(params[0])
+				var target
+				
+				if params[1] is String:
+					if not escoria.object_manager.has(params[1]):
+						escoria.logger.report_errors(
+							"esc_action_manager.gd:do()",
+							[
+								"Walk action requested to nonexisting " + \
+								"object: %s " % params[1]
+							]
+						)
+						return
+						
+					target = escoria.object_manager.get_object(params[1])
+				elif params[1] is Vector2:
+					target = params[1]
+				
+				self.perform_walk(moving_obj, target, walk_fast)
+						
+			ACTION.ITEM_LEFT_CLICK:
+				if params[0] is String:
+					escoria.logger.info(
+						"esc_action_manager.do(): item_left_click on item ", 
+						[params[0]]
+					)
+					
+					if can_interrupt:
+						escoria.event_manager.interrupt_running_event()
+					
+					var item = escoria.object_manager.get_object(params[0])
+					self.perform_inputevent_on_object(item, params[1])
+					
+			ACTION.ITEM_RIGHT_CLICK:
+				if params[0] is String:
+					escoria.logger.info(
+						"esc_action_manager.do(): item_right_click on item ", 
+						[params[0]]
+					)
+					
+					if can_interrupt:
+						escoria.event_manager.interrupt_running_event()
+						
+					var item = escoria.object_manager.get_object(params[0])
+					self.perform_inputevent_on_object(item, params[1], true)
+			
+			ACTION.TRIGGER_IN:
+				var trigger_id = params[0]
+				var object_id = params[1]
+				var trigger_in_verb = params[2]
+				escoria.logger.info("esc_action_manager.do(): trigger_in %s by %s" % [
+					trigger_id,
+					object_id
+				])
+				escoria.event_manager.queue_event(
+					escoria.object_manager.get_object(trigger_id).events[
+						trigger_in_verb
+					]
+				)
+			
+			ACTION.TRIGGER_OUT:
+				var trigger_id = params[0]
+				var object_id = params[1]
+				var trigger_out_verb = params[2]
+				escoria.logger.info("esc_action_manager.do(): trigger_out %s by %s" % [
+					trigger_id,
+					object_id
+				])
+				escoria.event_manager.queue_event(
+					escoria.object_manager.get_object(trigger_id).events[
+						trigger_out_verb
+					]
+				)
+			
+			_:
+				escoria.logger.report_warnings("esc_action_manager.gd:do()",
+					["Action received:", action, "with params ", params])
+	elif escoria.current_state == escoria.GAME_STATE.WAIT:
+		pass
 
 
 # Sets the current state of action input.
@@ -410,15 +543,15 @@ func perform_inputevent_on_object(
 		return
 	
 	# Manage exits
-	if obj.node.is_exit and current_action in ["", "walk"]:
-		_activate("exit_scene", obj)
+	if obj.node.is_exit and current_action in ["", ACTION_WALK]:
+		_activate(ACTION_EXIT_SCENE, obj)
 	else:
 		# Manage movements towards object before activating it
-		if current_action in ["", "walk"] and \
+		if current_action in ["", ACTION_WALK] and \
 				not escoria.inventory_manager.inventory_has(obj.global_id):
-			_activate("arrived", obj)
+			_activate(ACTION_ARRIVED, obj)
 		# Manage action on object
-		elif not current_action in ["", "walk"]:
+		elif not current_action in ["", ACTION_WALK]:
 			if need_combine and current_target:
 				_activate(
 					current_action,

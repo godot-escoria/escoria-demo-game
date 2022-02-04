@@ -43,8 +43,8 @@ func add_new_item_by_id(item_id: String) -> void:
 		if not escoria.object_manager.has(item_id) or not is_instance_valid( \
 				escoria.object_manager.get_object(item_id).node):
 			var inventory_file = "%s/%s.tscn" % [
-				ProjectSettings.get_setting(
-					"escoria/ui/items_autoregister_path"
+				escoria.project_settings_manager.get_setting(
+					escoria.project_settings_manager.ITEMS_AUTOREGISTER_PATH
 				).trim_suffix("/"),
 				item_id
 			]

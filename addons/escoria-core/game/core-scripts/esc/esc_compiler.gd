@@ -10,8 +10,20 @@ const COMMENT_REGEX = '^\\s*#.*$'
 const EMPTY_REGEX = '^\\s*$'
 
 # A RegEx for finding out the indent of a line
-const INDENT_REGEX = '^(?<indent>\\s*)'
+const INDENT_REGEX_GROUP = "indent"
+const INDENT_REGEX = '^(?<%s>\\s*)' % INDENT_REGEX_GROUP
 
+
+# RegEx objects for use by the ESC compiler
+var _comment_regex
+var _empty_regex
+var _indent_regex
+var _event_regex
+var _command_regex
+var _dialog_regex
+var _dialog_end_regex
+var _dialog_option_regex
+var _group_regex
 
 # The currently compiled event
 var _current_event = null
@@ -35,6 +47,8 @@ var _current_indent = 0
 
 func _init():
 	# Assure command list preference
+	# (we use ProjectSettings instead of escoria.project_settings_manager
+	# here because this is called from escoria._init())
 	if not ProjectSettings.has_setting("escoria/esc/command_paths"):
 		ProjectSettings.set_setting("escoria/esc/command_paths", [
 			"res://addons/escoria-core/game/core-scripts/esc/commands"
@@ -44,8 +58,29 @@ func _init():
 			"type": TYPE_STRING_ARRAY
 		}
 		ProjectSettings.add_property_info(property_info)
-		
-		
+	
+	# Compile all regex objects just once
+	_comment_regex = RegEx.new()
+	_comment_regex.compile(COMMENT_REGEX)
+	_empty_regex = RegEx.new()
+	_empty_regex.compile(EMPTY_REGEX)
+	_indent_regex = RegEx.new()
+	_indent_regex.compile(INDENT_REGEX)
+	
+	_event_regex = RegEx.new()
+	_event_regex.compile(ESCEvent.REGEX)
+	_command_regex = RegEx.new()
+	_command_regex.compile(ESCCommand.REGEX)
+	_dialog_regex = RegEx.new()
+	_dialog_regex.compile(ESCDialog.REGEX)
+	_dialog_end_regex = RegEx.new()
+	_dialog_end_regex.compile(ESCDialog.END_REGEX)
+	_dialog_option_regex = RegEx.new()
+	_dialog_option_regex.compile(ESCDialogOption.REGEX)
+	_group_regex = RegEx.new()
+	_group_regex.compile(ESCGroup.REGEX)
+
+
 # Load an ESC file from a file resource
 func load_esc_file(path: String) -> ESCScript:
 	escoria.logger.debug("Parsing file %s" % path)
@@ -79,49 +114,28 @@ func compile(lines: Array) -> ESCScript:
 
 # Compile an array of ESC script lines into an array of ESC objects
 func _compile(lines: Array) -> Array:
-		
-	var comment_regex = RegEx.new()
-	comment_regex.compile(COMMENT_REGEX)
-	var empty_regex = RegEx.new()
-	empty_regex.compile(EMPTY_REGEX)
-	var indent_regex = RegEx.new()
-	indent_regex.compile(INDENT_REGEX)
-	
-	var event_regex = RegEx.new()
-	event_regex.compile(ESCEvent.REGEX)
-	var command_regex = RegEx.new()
-	command_regex.compile(ESCCommand.REGEX)
-	var dialog_regex = RegEx.new()
-	dialog_regex.compile(ESCDialog.REGEX)
-	var dialog_end_regex = RegEx.new()
-	dialog_end_regex.compile(ESCDialog.END_REGEX)
-	var dialog_option_regex = RegEx.new()
-	dialog_option_regex.compile(ESCDialogOption.REGEX)
-	var group_regex = RegEx.new()
-	group_regex.compile(ESCGroup.REGEX)
-	
 	var returned = []
 	
 	while lines.size() > 0:
 		var line = lines.pop_front()
 		escoria.logger.trace("Parsing line %s" % line)
-		if comment_regex.search(line) or empty_regex.search(line):
+		if _comment_regex.search(line) or _empty_regex.search(line):
 			# Ignore comments and empty lines
 			escoria.logger.trace("Line is empty or a comment. Skipping.")
 			continue
 		var indent = \
 				escoria.utils.get_re_group(
-					indent_regex.search(line), 
-					"indent"
+					_indent_regex.search(line), 
+					INDENT_REGEX_GROUP
 				).length()
 		
-		if event_regex.search(line):
+		if _event_regex.search(line):
 			var event = ESCEvent.new(line)
 			escoria.logger.trace("Line is the event %s" % event.name)
 			var event_lines = []
 			while lines.size() > 0:
 				var next_line = lines.pop_front()
-				if not event_regex.search(next_line):
+				if not _event_regex.search(next_line):
 					event_lines.append(next_line)
 				else:
 					lines.push_front(next_line)
@@ -133,19 +147,19 @@ func _compile(lines: Array) -> Array:
 				)
 				event.statements = self._compile(event_lines)
 			returned.append(event)
-		elif group_regex.search(line):
+		elif _group_regex.search(line):
 			var group = ESCGroup.new(line)
 			escoria.logger.trace("Line is a group")
 			var group_lines = []
 			while lines.size() > 0:
 				var next_line = lines.pop_front()
-				if comment_regex.search(next_line) or \
-						empty_regex.search(next_line):
+				if _comment_regex.search(next_line) or \
+						_empty_regex.search(next_line):
 					continue
 				var next_line_indent = \
 						escoria.utils.get_re_group(
-							indent_regex.search(next_line), 
-							"indent"
+							_indent_regex.search(next_line), 
+							INDENT_REGEX_GROUP
 						).length()
 				if next_line_indent > indent:
 					group_lines.append(next_line)
@@ -159,21 +173,21 @@ func _compile(lines: Array) -> Array:
 				)
 				group.statements = self._compile(group_lines)
 			returned.append(group)
-		elif dialog_regex.search(line):
+		elif _dialog_regex.search(line):
 			var dialog = ESCDialog.new()
 			dialog.load_string(line)
 			escoria.logger.trace("Line is a dialog")
 			var dialog_lines = []
 			while lines.size() > 0:
 				var next_line = lines.pop_front()
-				if comment_regex.search(next_line) or \
-						empty_regex.search(next_line):
+				if _comment_regex.search(next_line) or \
+						_empty_regex.search(next_line):
 					continue
-				var end_line = dialog_end_regex.search(next_line)
+				var end_line = _dialog_end_regex.search(next_line)
 				if end_line and \
 						escoria.utils.get_re_group(
 							end_line, 
-							"indent"
+							INDENT_REGEX_GROUP
 						).length() == indent:
 					break
 				else:
@@ -187,7 +201,7 @@ func _compile(lines: Array) -> Array:
 			# Remove the end line from the stack
 			lines.pop_front()
 			returned.append(dialog)
-		elif dialog_option_regex.search(line):
+		elif _dialog_option_regex.search(line):
 			var dialog_option = ESCDialogOption.new()
 			dialog_option.load_string(line)
 			escoria.logger.trace(
@@ -197,13 +211,13 @@ func _compile(lines: Array) -> Array:
 			var dialog_option_lines = []
 			while lines.size() > 0:
 				var next_line = lines.pop_front()
-				if comment_regex.search(next_line) or \
-						empty_regex.search(next_line):
+				if _comment_regex.search(next_line) or \
+						_empty_regex.search(next_line):
 					continue
 				var next_line_indent = \
 						escoria.utils.get_re_group(
-							indent_regex.search(next_line), 
-							"indent"
+							_indent_regex.search(next_line), 
+							INDENT_REGEX_GROUP
 						).length()
 				if next_line_indent > indent:
 					dialog_option_lines.append(next_line)
@@ -217,7 +231,7 @@ func _compile(lines: Array) -> Array:
 				)
 				dialog_option.statements = self._compile(dialog_option_lines)
 			returned.append(dialog_option)
-		elif command_regex.search(line):
+		elif _command_regex.search(line):
 			var command = ESCCommand.new(line)
 			if command.command_exists():
 				returned.append(command)

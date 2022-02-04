@@ -15,6 +15,13 @@ enum {
 }
 
 
+# Input action for use by InputMap
+const SWITCH_ACTION_VERB = "switch_action_verb"
+
+# Input action for use by InputMap
+const ESC_SHOW_DEBUG_PROMPT = "esc_show_debug_prompt"
+
+
 # The current input mode
 var input_mode = INPUT_ALL
 

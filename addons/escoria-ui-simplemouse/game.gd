@@ -1,5 +1,9 @@
 extends ESCGame
 
+
+const VERB_WALK = "walk"
+
+
 """
 Implement methods to react to inputs.
 
@@ -61,12 +65,12 @@ func _input(event: InputEvent) -> void:
 
 func left_click_on_bg(position: Vector2) -> void:
 	if escoria.main.current_scene.player:
-		escoria.do(
-			"walk", 
+		escoria.action_manager.do(
+			escoria.action_manager.ACTION.BACKGROUND_CLICK, 
 			[escoria.main.current_scene.player.global_id, position],
 			true
 		)
-		$mouse_layer/verbs_menu.set_by_name("walk")
+		$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
 		$mouse_layer/verbs_menu.clear_tool_texture()
 	
 func right_click_on_bg(position: Vector2) -> void:
@@ -74,12 +78,12 @@ func right_click_on_bg(position: Vector2) -> void:
 	
 func left_double_click_on_bg(position: Vector2) -> void:
 	if escoria.main.current_scene.player:
-		escoria.do(
-			"walk", 
+		escoria.action_manager.do(
+			escoria.action_manager.ACTION.BACKGROUND_CLICK, 
 			[escoria.main.current_scene.player.global_id, position, true],
 			true
 		)
-		$mouse_layer/verbs_menu.set_by_name("walk")
+		$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
 		$mouse_layer/verbs_menu.clear_tool_texture()
 
 ## ITEM/HOTSPOT FOCUS ## 
@@ -92,7 +96,7 @@ func element_focused(element_id: String) -> void:
 			and escoria.action_manager.current_tool == null:
 		if target_obj is ESCItem:
 			$mouse_layer/verbs_menu.set_by_name(
-				target_obj.default_action
+				escoria.action_to_string(target_obj.default_action)
 			)
 
 func element_unfocused() -> void:
@@ -102,18 +106,30 @@ func element_unfocused() -> void:
 ## ITEMS ##
 
 func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
-	escoria.do("item_left_click", [item_global_id, event], true)
+	escoria.action_manager.do(
+		escoria.action_manager.ACTION.ITEM_LEFT_CLICK, 
+		[item_global_id, event], 
+		true
+	)
 
 func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
 	mousewheel_action(1)
 
 func left_double_click_on_item(item_global_id: String, event: InputEvent) -> void:
-	escoria.do("item_left_click", [item_global_id, event], true) 
+	escoria.action_manager.do(
+		escoria.action_manager.ACTION.ITEM_LEFT_CLICK, 
+		[item_global_id, event], 
+		true
+	) 
 
 
 ## INVENTORY ##
 func left_click_on_inventory_item(inventory_item_global_id: String, event: InputEvent) -> void:
-	escoria.do("item_left_click", [inventory_item_global_id, event])
+	escoria.action_manager.do(
+		escoria.action_manager.ACTION.ITEM_LEFT_CLICK, 
+		[inventory_item_global_id, event]
+	)
+	
 	if escoria.action_manager.current_action == "use":
 		var item = escoria.object_manager.get_object(
 			inventory_item_global_id

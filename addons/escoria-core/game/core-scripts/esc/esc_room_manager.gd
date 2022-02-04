@@ -24,6 +24,16 @@ const RESERVED_GLOBALS = {
 }
 
 
+# ESC commands kept around for references to their command names.
+var _transition: TransitionCommand
+var _wait: WaitCommand
+
+
+func _init() -> void:
+	_transition = TransitionCommand.new()
+	_wait = WaitCommand.new()
+
+
 # Registers all reserved global flags for use.
 func register_reserved_globals() -> void:
 	for key in RESERVED_GLOBALS:
@@ -55,9 +65,13 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 		not escoria.globals_manager.get_global( \
 			GLOBAL_LAST_SCENE).empty()
 		or (
-			escoria.event_manager.get_running_event("_front") != null \
-			and escoria.event_manager.get_running_event("_front").name \
-				in ["newgame", "exit_scene", "room_selector"]
+			escoria.event_manager.get_running_event(escoria.event_manager.CHANNEL_FRONT) != null \
+			and escoria.event_manager.get_running_event(escoria.event_manager.CHANNEL_FRONT).name \
+				in [
+					escoria.event_manager.EVENT_NEW_GAME, 
+					escoria.event_manager.EVENT_EXIT_SCENE, 
+					escoria.event_manager.EVENT_ROOM_SELECTOR
+				]
 				and escoria.globals_manager.get_global(
 					GLOBAL_LAST_SCENE
 				).empty()
@@ -109,7 +123,9 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 			"ESCRoomManager.change_scene: Failed loading game scene",
 			[
 				"Failed loading scene %s" % \
-						ProjectSettings.get_setting("escoria/ui/game_scene")
+						escoria.project_settings_manager.get_setting(
+							escoria.project_settings_manager.GAME_SCENE
+							)
 			]
 		)
 
@@ -123,9 +139,9 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 	var room_scene = res_room.instance()
 	if room_scene:
 		if enable_automatic_transitions \
-				and escoria.event_manager.get_running_event("_front") != null \
-				and escoria.event_manager.get_running_event("_front").name \
-				== "room_selector":
+				and escoria.event_manager.get_running_event(escoria.event_manager.CHANNEL_FRONT) != null \
+				and escoria.event_manager.get_running_event(escoria.event_manager.CHANNEL_FRONT).name \
+				== escoria.event_manager.EVENT_ROOM_SELECTOR:
 			room_scene.enabled_automatic_transitions = true
 		else:
 			room_scene.enabled_automatic_transitions = enable_automatic_transitions
@@ -231,7 +247,7 @@ func init_room(room: ESCRoom) -> void:
 					animations[room.player.global_id]
 				)
 				room.player.update_idle()
-		escoria.object_manager.get_object("_camera").node.set_target(room.player)
+		escoria.object_manager.get_object(escoria.object_manager.CAMERA).node.set_target(room.player)
 	
 	if room.global_id.empty():
 		room.global_id = room.name
@@ -251,12 +267,12 @@ func init_room(room: ESCRoom) -> void:
 #
 # - room: The ESCRoom to be initialized for use.
 func _perform_script_events(room: ESCRoom):
-	if escoria.event_manager.is_channel_free("_front") \
+	if room.esc_script and escoria.event_manager.is_channel_free(escoria.event_manager.CHANNEL_FRONT) \
 			or (
-				not escoria.event_manager.is_channel_free("_front") and \
+				not escoria.event_manager.is_channel_free(escoria.event_manager.CHANNEL_FRONT) and \
 				not escoria.event_manager.get_running_event(
-					"_front"
-				).name == "load"
+					escoria.event_manager.CHANNEL_FRONT
+				).name == escoria.event_manager.EVENT_LOAD
 			):
 			
 		# If the room was loaded from change_scene and automatic transitions
@@ -265,14 +281,18 @@ func _perform_script_events(room: ESCRoom):
 				and not room.is_run_directly \
 				and not room.exited_previous_room:
 			var script_transition_out = escoria.esc_compiler.compile([
-				":transition_out",
-				"transition %s out" % ProjectSettings.get_setting(
-					"escoria/ui/default_transition"
-				),
-				"wait 0.1"
+				"%s%s" % [ESCEvent.PREFIX, escoria.event_manager.EVENT_TRANSITION_OUT],
+				"%s %s out" % 
+					[
+						_transition.get_command_name(),
+						escoria.project_settings_manager.get_setting(
+							escoria.project_settings_manager.DEFAULT_TRANISITION
+						)
+					],
+				"%s 0.1" % _wait.get_command_name()
 			])
 			escoria.event_manager.queue_event(
-				script_transition_out.events['transition_out']
+				script_transition_out.events[escoria.event_manager.EVENT_TRANSITION_OUT]
 			)
 			
 			# Unpause the game if it was
@@ -280,7 +300,7 @@ func _perform_script_events(room: ESCRoom):
 			
 			# Wait for transition_out event to be done
 			var rc = yield(escoria.event_manager, "event_finished")
-			while rc[1] != "transition_out":
+			while rc[1] != escoria.event_manager.EVENT_TRANSITION_OUT:
 				rc = yield(escoria.event_manager, "event_finished")
 			if rc[0] != ESCExecution.RC_OK:
 				return rc[0]
@@ -290,8 +310,7 @@ func _perform_script_events(room: ESCRoom):
 			escoria.game_scene.unpause_game()
 			
 		# Run the setup event
-		if room.esc_script:
-			_run_script_event("setup", room)
+		_run_script_event(escoria.event_manager.EVENT_SETUP, room)
 		
 		if room.enabled_automatic_transitions \
 				or (
@@ -300,28 +319,31 @@ func _perform_script_events(room: ESCRoom):
 						escoria.room_manager.GLOBAL_FORCE_LAST_SCENE_NULL)
 				):
 			var script_transition_in = escoria.esc_compiler.compile([
-				":transition_in",
-				"transition %s in" % ProjectSettings.get_setting(
-					"escoria/ui/default_transition"
-				),
-				"wait 0.1"
+				"%s%s" % [ESCEvent.PREFIX, escoria.event_manager.EVENT_TRANSITION_IN],
+				"%s %s in" % 
+					[
+						_transition.get_command_name(),
+						escoria.project_settings_manager.get_setting(
+							escoria.project_settings_manager.DEFAULT_TRANISITION
+						)
+					],				
+				"%s 0.1" % _wait.get_command_name()
 			])
 			escoria.event_manager.queue_event(
-				script_transition_in.events['transition_in']
+				script_transition_in.events[escoria.event_manager.EVENT_TRANSITION_IN]
 			)
 		
-		if room.esc_script:
-			var ready_event_added: bool = false
-			# Run the ready event, if there is one.
-			ready_event_added = _run_script_event("ready", room)
-			
-			if ready_event_added:
-				# Wait for ready event to be done
-				var rc = yield(escoria.event_manager, "event_finished")
-				while rc[1] != "ready":
-					rc = yield(escoria.event_manager, "event_finished")
-				if rc[0] != ESCExecution.RC_OK:
-					return rc[0]
+		var ready_event_added: bool = false
+		# Run the ready event, if there is one.
+		ready_event_added = _run_script_event(escoria.event_manager.EVENT_READY, room)
+		
+		if ready_event_added:
+			# Wait for ready event to be done
+			var rc = yield(escoria.event_manager, "event_finished")
+			while rc[1] != escoria.event_manager.EVENT_READY:
+				rc = yield(escoria.event_manager, "event_finished")
+			if rc[0] != ESCExecution.RC_OK:
+				return rc[0]
 		
 		# Now that :ready is finished, if FORCE_LAST_SCENE_NULL was true, reset it 
 		# to false

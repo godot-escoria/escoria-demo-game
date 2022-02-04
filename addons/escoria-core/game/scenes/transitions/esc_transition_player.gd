@@ -94,10 +94,12 @@ func transition(
 # *Returns* the full path to the shader or an empty string, if it can't be found
 func get_transition(name: String) -> String:
 	if name.empty():
-		name = ProjectSettings.get_setting(
-			"escoria/ui/default_transition"
+		name = escoria.project_settings_manager.get_setting(
+			escoria.project_settings_manager.DEFAULT_TRANISITION
 		)
-	for directory in ProjectSettings.get_setting("escoria/ui/transition_paths"):
+	for directory in escoria.project_settings_manager.get_setting(
+		escoria.project_settings_manager.TRANSITION_PATHS
+	):
 		if ResourceLoader.exists(directory.plus_file("%s.material" % name)):
 			return directory.plus_file("%s.material" % name)
 	return ""

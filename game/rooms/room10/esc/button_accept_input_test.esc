@@ -4,7 +4,7 @@
 say player "Hello. I will now walk a bit and won't listen at what you say!"
 #wait 1
 accept_input NONE
-walk_block player player_start
+walk_block player r10_player_start
 walk_block player accept_input_location
 say player "Ha! Now you can't even skip this text!" avatar_dialog_player
 accept_input SKIP

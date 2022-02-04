@@ -67,7 +67,7 @@ func _exit_tree():
 # Ready function
 func _ready():
 	escoria.apply_settings(escoria.settings)
-	connect("crash_popup_confirmed", escoria, "quit", 
+	connect("crash_popup_confirmed", escoria, "quit",
 		[], CONNECT_ONESHOT)
 
 
@@ -88,6 +88,56 @@ func _draw():
 		draw_rect(mouse_limits, ColorN("red"), false, 10.0)
 
 
+# Sets up and performs default walking action
+#
+# #### Parameters
+#
+# - destination: Destination to walk to
+# - params: Parameters for the action
+# - can_interrupt: if true, this command will interrupt any ongoing event 
+func do_walk(destination, params: Array = [], can_interrupt: bool = false) -> void:
+	if can_interrupt:
+		escoria.event_manager.interrupt_running_event()
+		
+	escoria.action_manager.clear_current_action()
+	
+	var walk_fast = false
+	
+	if params.size() > 1:
+		walk_fast = true if params[1] else false
+		
+	# Check moving object.
+	if not escoria.object_manager.has(params[0]):
+		escoria.logger.report_errors(
+			"esc_game.gd:do_walk()",
+			[
+				"Walk action requested on nonexisting " + \
+				"object: %s " % params[0]
+			]
+		)
+		return
+	
+	var moving_obj = escoria.object_manager.get_object(params[0])
+	var target
+	
+	if destination is String:
+		if not escoria.object_manager.has(destination):
+			escoria.logger.report_errors(
+				"esc_game.gd:do_walk()",
+				[
+					"Walk action requested to nonexisting " + \
+					"object: %s " % destination
+				]
+			)
+			return
+			
+		target = escoria.object_manager.get_object(destination)
+	elif destination is Vector2:
+		target = destination
+	
+	escoria.action_manager.perform_walk(moving_obj, target, walk_fast)	
+
+
 # Called when the player left clicks on the background
 # (Needs to be overridden, if supported)
 # 
@@ -95,9 +145,9 @@ func _draw():
 #
 # - position: Position clicked
 func left_click_on_bg(position: Vector2) -> void:
-	escoria.do(
-		"walk",
-		[escoria.main.current_scene.player.global_id, position],
+	do_walk(
+		position,
+		[escoria.main.current_scene.player.global_id],
 		true
 	)
 
@@ -109,9 +159,9 @@ func left_click_on_bg(position: Vector2) -> void:
 #
 # - position: Position clicked	
 func right_click_on_bg(position: Vector2) -> void:
-	escoria.do(
-		"walk", 
-		[escoria.main.current_scene.player.global_id, position],
+	do_walk(
+		position,
+		[escoria.main.current_scene.player.global_id],
 		true
 	)
 
@@ -123,9 +173,9 @@ func right_click_on_bg(position: Vector2) -> void:
 #
 # - position: Position clicked
 func left_double_click_on_bg(position: Vector2) -> void:
-	escoria.do(
-		"walk", 
-		[escoria.main.current_scene.player.global_id, position, true],
+	do_walk(
+		position,
+		[escoria.main.current_scene.player.global_id, true],
 		true
 	)
 
@@ -153,8 +203,8 @@ func element_unfocused() -> void:
 # - item_global_id: Global id of the item that was clicked
 # - event: The received input event
 func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
-	escoria.do(
-		"item_left_click", 
+	escoria.action_manager.do(
+		escoria.action_manager.ACTION.ITEM_LEFT_CLICK,
 		[item_global_id, event],
 		true
 	)
@@ -168,8 +218,8 @@ func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
 # - item_global_id: Global id of the item that was clicked
 # - event: The received input event
 func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
-	escoria.do(
-		"item_right_click", 
+	escoria.action_manager.do(
+		escoria.action_manager.ACTION.ITEM_RIGHT_CLICK,
 		[item_global_id, event],
 		true
 	)
@@ -186,8 +236,8 @@ func left_double_click_on_item(
 	item_global_id: String, 
 	event: InputEvent
 ) -> void:
-	escoria.do(
-		"item_left_click", 
+	escoria.action_manager.do(
+		escoria.action_manager.ACTION.ITEM_LEFT_CLICK, 
 		[item_global_id, event],
 		true
 	) 
@@ -363,8 +413,8 @@ func show_crash_popup(files: Array = []) -> void:
 	var files_to_send: String = ""
 	for file in files:
 		files_to_send += "- %s\n" % file
-	crash_popup.dialog_text = tr(ProjectSettings.get_setting(
-		"escoria/debug/crash_message")
+	crash_popup.dialog_text = tr(escoria.project_settings_manager.get_setting(
+		escoria.project_settings_manager.CRASH_MESSAGE)
 	) % files_to_send
 	crash_popup.popup_centered()
 	escoria.set_game_paused(true)

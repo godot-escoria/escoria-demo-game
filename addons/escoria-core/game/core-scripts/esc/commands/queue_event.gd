@@ -72,28 +72,10 @@ func run(arguments: Array) -> int:
 		arguments[0]
 	).node
 	var esc_script = escoria.esc_compiler.load_esc_file(node.esc_script)
-	if arguments[2] == "_front":
-		escoria.event_manager.queue_event(esc_script.events[arguments[1]])
-	else:
-		escoria.event_manager.queue_background_event(
-			arguments[2],
-			esc_script.events[arguments[1]]
-		)
-	if arguments[3]:
-		if arguments[2] == "_front":
-			var rc = yield(escoria.event_manager, "event_finished")
-			while rc[1] != arguments[1]:
-				rc = yield(escoria.event_manager, "event_finished")
-			return rc
-		else:
-			var rc = yield(
-				escoria.event_manager, 
-				"background_event_finished"
-			)
-			while rc[1] != arguments[1] and rc[2] != arguments[2]:
-				rc = yield(
-					escoria.event_manager,
-					"background_event_finished"
-				)
-			return rc
-	return ESCExecution.RC_OK
+	
+	return escoria.event_manager.queue_event_from_esc(
+		esc_script, 
+		arguments[1], # event name
+		arguments[2], # channel name
+		arguments[3]  # whether to block
+	)

@@ -16,6 +16,9 @@ const REGEX = \
 	'(TK|NO_TT|NO_UI|NO_SAVE)' + \
 	')+))?$'
 
+# Prefix to identify this as an ESC event.
+const PREFIX = ":"
+
 
 # Valid event flags
 # * TK: stands for "telekinetic". It means the player won't walk over to 
@@ -80,3 +83,4 @@ func run() -> int:
 	reset_interrupt()
 	escoria.logger.debug("Event %s started" % name)
 	return .run()
+

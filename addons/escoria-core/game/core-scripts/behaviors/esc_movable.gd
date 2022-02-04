@@ -312,7 +312,7 @@ func update_terrain(on_event_finished_name = null) -> void:
 	if !parent.terrain or parent.terrain == null \
 			or !is_instance_valid(parent.terrain):
 		return
-	if on_event_finished_name != null and on_event_finished_name != "setup":
+	if on_event_finished_name != null and on_event_finished_name != escoria.event_manager.EVENT_SETUP:
 		return
 	if parent.get("is_exit"):
 		return

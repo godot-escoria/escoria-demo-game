@@ -23,7 +23,7 @@ func _ready():
 	_tween.connect("tween_all_completed", self, "_target_reached")
 	escoria.object_manager.register_object(
 		ESCObject.new(
-			"_camera",
+			escoria.object_manager.CAMERA,
 			self
 		),
 		true
@@ -134,7 +134,7 @@ func set_target(p_target, p_speed : float = 0.0):
 func set_camera_zoom(p_zoom_level: float, p_time: float):
 	if p_zoom_level <= 0.0:
 		escoria.logger.report_errors(
-			"camera.gd:set_camera_zoom()", 
+			"esc_camera.gd:set_camera_zoom()", 
 			["Tried to set negative or zero zoom level"]
 		)
 

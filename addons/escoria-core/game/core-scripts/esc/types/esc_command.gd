@@ -99,7 +99,9 @@ func is_valid() -> bool:
 # *Returns* True if the command exists, else false.
 func command_exists() -> bool:
 	var command_found = false
-	for base_path in ProjectSettings.get("escoria/main/command_directories"):
+	for base_path in escoria.project_settings_manager.get_setting(
+			escoria.project_settings_manager.COMMAND_DIRECTORIES
+		):
 		var command_path = "%s/%s.gd" % [
 			base_path.trim_suffix("/"),
 			self.name

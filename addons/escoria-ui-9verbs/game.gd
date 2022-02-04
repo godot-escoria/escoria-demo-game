@@ -1,5 +1,9 @@
 extends ESCGame
 
+
+const VERB_USE = "use"
+
+
 """
 Implement methods to react to inputs.
 
@@ -64,8 +68,8 @@ func _enter_tree():
 
 func left_click_on_bg(position: Vector2) -> void:
 	if escoria.main.current_scene.player:
-		escoria.do(
-			"walk", 
+		escoria.action_manager.do(
+			escoria.action_manager.ACTION.BACKGROUND_CLICK, 
 			[escoria.main.current_scene.player.global_id, position],
 			true
 		)
@@ -77,8 +81,8 @@ func left_click_on_bg(position: Vector2) -> void:
 	
 func right_click_on_bg(position: Vector2) -> void:
 	if escoria.main.current_scene.player:
-		escoria.do(
-			"walk", 
+		escoria.action_manager.do(
+			escoria.action_manager.ACTION.BACKGROUND_CLICK, 
 			[escoria.main.current_scene.player.global_id, position],
 			true
 		)
@@ -90,8 +94,8 @@ func right_click_on_bg(position: Vector2) -> void:
 	
 func left_double_click_on_bg(position: Vector2) -> void:
 	if escoria.main.current_scene.player:
-		escoria.do(
-			"walk", 
+		escoria.action_manager.do(
+			escoria.action_manager.ACTION.BACKGROUND_CLICK, 
 			[escoria.main.current_scene.player.global_id, position, true], 
 			true
 		)
@@ -117,7 +121,7 @@ func element_focused(element_id: String) -> void:
 			tooltip.set_target(target_obj.tooltip_name)
 			
 			# Hovering an ESCItem highlights its default action
-			if escoria.action_manager.current_action != "use" and target_obj is ESCItem:
+			if escoria.action_manager.current_action != VERB_USE and target_obj is ESCItem:
 				verbs_menu.set_by_name(target_obj.default_action)
 			
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_TARGET_ITEM:
@@ -145,7 +149,11 @@ func element_unfocused() -> void:
 
 ## ITEMS ##
 func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
-	escoria.do("item_left_click", [item_global_id, event], true)
+	escoria.action_manager.do(
+		escoria.action_manager.ACTION.ITEM_LEFT_CLICK, 
+		[item_global_id, event], 
+		true
+	)
 	
 	var target_obj = escoria.object_manager.get_object(
 		item_global_id
@@ -173,16 +181,27 @@ func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
 
 func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
 	escoria.action_manager.set_current_action(verbs_menu.selected_action)
-	escoria.do("item_right_click", [item_global_id, event], true)
+	escoria.action_manager.do(
+		escoria.action_manager.ACTION.ITEM_RIGHT_CLICK, 
+		[item_global_id, event], 
+		true
+	)
 
 
 func left_double_click_on_item(item_global_id: String, event: InputEvent) -> void:
-	escoria.do("item_left_click", [item_global_id, event], true) 
+	escoria.action_manager.do(
+		escoria.action_manager.ACTION.ITEM_LEFT_CLICK, 
+		[item_global_id, event], 
+		true
+	) 
 
 
 ## INVENTORY ##
 func left_click_on_inventory_item(inventory_item_global_id: String, event: InputEvent) -> void:
-	escoria.do("item_left_click", [inventory_item_global_id, event])
+	escoria.action_manager.do(
+		escoria.action_manager.ACTION.ITEM_LEFT_CLICK, 
+		[inventory_item_global_id, event]
+	)
 	
 	var target_obj = escoria.object_manager.get_object(
 		inventory_item_global_id
@@ -209,7 +228,10 @@ func left_click_on_inventory_item(inventory_item_global_id: String, event: Input
 
 func right_click_on_inventory_item(inventory_item_global_id: String, event: InputEvent) -> void:
 	escoria.action_manager.set_current_action(verbs_menu.selected_action)
-	escoria.do("item_right_click", [inventory_item_global_id, event])
+	escoria.action_manager.do(
+		escoria.action_manager.ACTION.ITEM_RIGHT_CLICK, 
+		[inventory_item_global_id, event]
+	)
 
 
 func left_double_click_on_inventory_item(_inventory_item_global_id: String, _event: InputEvent) -> void:
@@ -234,7 +256,7 @@ func inventory_item_focused(inventory_item_global_id: String) -> void:
 			tooltip.set_target(target_obj.tooltip_name)
 			
 			# Hovering an ESCItem highlights its default action
-			if escoria.action_manager.current_action != "use" and target_obj is ESCItem:
+			if escoria.action_manager.current_action != VERB_USE and target_obj is ESCItem:
 				verbs_menu.set_by_name(target_obj.default_action)
 			
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_TARGET_ITEM:
