@@ -466,9 +466,10 @@ func start_talking():
 
 # Stop playing the talking animation
 func stop_talking():
-	if get_animation_player() and \
-			_movable.last_dir >= 0 and \
-			_movable.last_dir <= animations.idles.size():
+	if animations.speaks.size() > 0 \
+			and get_animation_player() \
+			and _movable.last_dir >= 0 \
+			and _movable.last_dir < animations.speaks.size():
 		if get_animation_player().is_playing():
 			get_animation_player().stop()
 		get_animation_player().play(
