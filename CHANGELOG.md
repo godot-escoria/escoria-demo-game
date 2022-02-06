@@ -1,3 +1,12 @@
+## [4.0.0-alpha.91](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.91) (2022-02-06)
+
+
+### Bug Fixes
+
+* set a proper guard in case of no speaking animations ([#488](https://github.com/godot-escoria/escoria-demo-game/issues/488)) ([326618d](https://github.com/godot-escoria/escoria-demo-game/commit/326618df180a72f700f9917e1139f246abae918e))
+
+
+
 ## [4.0.0-alpha.90](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.90) (2022-02-04)
 
 
