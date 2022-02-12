@@ -106,9 +106,3 @@ func set_editor_debug_mode(p_editor_debug_mode: int) -> void:
 	editor_debug_mode = p_editor_debug_mode
 	update()
 
-
-# Performs any remaining cleanup that isn't/can't be done automatically.
-func cleanup() -> void:
-	if player and not player.global_id.empty():
-		escoria.object_manager.unregister_object_by_global_id(player.global_id)
-

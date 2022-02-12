@@ -325,7 +325,12 @@ func _perform_script_events(room: ESCRoom):
 				return rc[0]
 
 		# Switch the rooms and free up the old one.
+		room.visible = true
+		#room.z_index = 0
 		
+		if room != escoria.main.current_scene:
+			escoria.main.current_scene.visible = false
+			#escoria.main.current_scene.z_index = -100
 
 		if room.enabled_automatic_transitions \
 				or (

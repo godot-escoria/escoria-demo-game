@@ -49,39 +49,58 @@ func register_object(object: ESCObject, force: bool = false, \
 			]
 		)
 
-	if objects.has(object.global_id) and not force:
-		escoria.logger.report_errors(
-			"ESCObjectManager.register_object: Object already registered",
-			[
-				"Object with global id %s already registered" % 
-						object.global_id
-			]
+	if objects.has(object.global_id):
+		if force:
+			# If this ID already exists and we're about to overwrite it, do the 
+			# safe thing and unregister the old object first
+			unregister_object_by_global_id(object.global_id)
+		else:
+			escoria.logger.report_errors(
+				"ESCObjectManager.register_object: Object already registered",
+				[
+					"Object with global id %s already registered" % 
+							object.global_id
+				]
+			)
+
+			return
+		
+
+	# If the object is already connected, disconnect it for the case of
+	# forcing the registration,since we don't know if this object will be
+	# overwritten ("forced") in the future and, if it is, if it's set to
+	# auto-unregister or not. In most cases, objects are set to auto unregister.
+	if object.node.is_connected(
+		"tree_exited", 
+		self, 
+		"unregister_object"
+	):
+		object.node.disconnect(
+			"tree_exited",
+			self,
+			"unregister_object"
 		)
-	else:
-		if auto_unregister and not object.node.is_connected(
+	
+	if auto_unregister:
+		object.node.connect(
 			"tree_exited", 
 			self, 
-			"unregister_object"
-		):
-			object.node.connect(
-				"tree_exited", 
-				self, 
-				"unregister_object", 
-				[object]
-			)
-		
-		if "is_interactive" in object.node and object.node.is_interactive:
-			object.interactive = true
-		
-		if "esc_script" in object.node and not object.node.esc_script.empty():
-			var script = escoria.esc_compiler.load_esc_file(
-				object.node.esc_script
-			)
-			object.events = script.events
-		
-		objects[object.global_id] = object
-		
-		
+			"unregister_object", 
+			[object]
+		)
+	
+	if "is_interactive" in object.node and object.node.is_interactive:
+		object.interactive = true
+	
+	if "esc_script" in object.node and not object.node.esc_script.empty():
+		var script = escoria.esc_compiler.load_esc_file(
+			object.node.esc_script
+		)
+		object.events = script.events
+	
+	objects[object.global_id] = object
+
+
 # Check wether an object was registered
 #
 # #### Parameters
