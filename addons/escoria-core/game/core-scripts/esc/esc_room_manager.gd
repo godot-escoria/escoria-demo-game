@@ -324,7 +324,8 @@ func _perform_script_events(room: ESCRoom):
 			if rc[0] != ESCExecution.RC_OK:
 				return rc[0]
 
-		# Switch the rooms and free up the old one.
+		# Switch the rooms (resources are freed at end of change_scene and in
+		# clear_scene.
 		room.visible = true
 		#room.z_index = 0
 		
