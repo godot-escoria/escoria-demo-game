@@ -33,7 +33,10 @@ func _process(_delta):
 #
 # - object: Object to register
 # - force: Register the object, even if it has already been registered
-func register_object(object: ESCObject, force: bool = false) -> void:
+# - auto_unregister: Automatically unregister object on tree_exited
+func register_object(object: ESCObject, force: bool = false, \
+	auto_unregister: bool = true) -> void:
+
 	if object.global_id.empty():
 		object.global_id = str(object.node.get_path()).split("/root/", false)[0]
 		object.node.global_id = object.global_id
@@ -45,8 +48,7 @@ func register_object(object: ESCObject, force: bool = false) -> void:
 						% object.node.global_id
 			]
 		)
-		
-	
+
 	if objects.has(object.global_id) and not force:
 		escoria.logger.report_errors(
 			"ESCObjectManager.register_object: Object already registered",
@@ -56,7 +58,7 @@ func register_object(object: ESCObject, force: bool = false) -> void:
 			]
 		)
 	else:
-		if not object.node.is_connected(
+		if auto_unregister and not object.node.is_connected(
 			"tree_exited", 
 			self, 
 			"unregister_object"
@@ -124,6 +126,15 @@ func unregister_object(object: ESCObject) -> void:
 			# Re-instance the node if it is an item present in inventory.
 			objects[object.global_id].node = objects[object.global_id].node \
 				.duplicate()
+
+
+# Remove an object from the registry by global_id
+#
+# #### Parameters
+#
+# - global_id: The global_id of the object to unregister
+func unregister_object_by_global_id(global_id: String) -> void:
+	unregister_object(ESCObject.new(global_id, null))
 
 
 # Insert data to save into savegame.

@@ -52,6 +52,11 @@ func run(command_params: Array) -> int:
 				else ESCTransitionPlayer.TRANSITION_MODE.IN,
 		command_params[2]
 	)
+	
+	if transition_id == ESCTransitionPlayer.TRANSITION_ID_INSTANT:
+		escoria.logger.debug("Performing instant transition.")
+		return ESCExecution.RC_OK
+	
 	escoria.logger.debug("Starting transition #%s [%s, %s]" 
 		% [transition_id, command_params[0], command_params[1]])
 	while yield(

@@ -36,14 +36,20 @@ func _ready() -> void:
 func set_scene(p_scene: Node) -> void:
 	if !p_scene:
 		escoria.logger.report_errors("main", ["Trying to set empty scene"])
-	
+
 	if current_scene != null:
 		clear_scene()
 
 	if not p_scene.is_inside_tree():
+		# Set the scene to visible for :setup events. Note that the room's 
+		# _ready() method will ensure that visibility is set to true when
+		# :setup is complete.
+		p_scene.z_index = -100
 		add_child(p_scene) 
 		move_child(p_scene, 0)
+
 	current_scene = p_scene
+	
 	check_game_scene_methods()
 
 	set_camera_limits()
@@ -61,7 +67,9 @@ func clear_scene() -> void:
 	
 	if escoria.game_scene.get_parent() == current_scene:
 		current_scene.remove_child(escoria.game_scene)
-		
+
+	current_scene.cleanup()
+			
 	current_scene.get_parent().remove_child(current_scene)
 	
 	current_scene.queue_free()
