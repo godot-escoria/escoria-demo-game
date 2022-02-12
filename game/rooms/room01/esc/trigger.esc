@@ -2,4 +2,4 @@
 
 
 :trigger_out
-say player "About to leave..."
+say player "I'm about to leave..."
