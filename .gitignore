@@ -3,3 +3,4 @@ bin
 .import
 *.translation
 .godot
+addons/escoria-core/default_bus_layout.tres

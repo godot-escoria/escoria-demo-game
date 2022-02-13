@@ -96,10 +96,8 @@ position = Vector2( 44.1375, 384.691 )
 script = ExtResource( 8 )
 
 [node name="button" parent="Hotspots" instance=ExtResource( 7 )]
-pause_mode = 1
 global_id = "r3_button"
 esc_script = "res://game/rooms/room03/esc/button.esc"
-animations = null
 
 [node name="Position2D" type="Position2D" parent="Hotspots/button"]
 position = Vector2( 347.767, 378.011 )

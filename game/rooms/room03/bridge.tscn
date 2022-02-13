@@ -33,14 +33,14 @@ tracks/0/keys = {
 }
 
 [node name="bridge" type="Area2D"]
+pause_mode = 1
+position = Vector2( 1.41716, -160.142 )
 script = ExtResource( 1 )
 global_id = "r2_bridge"
 is_interactive = false
 player_orients_on_arrival = false
 dialog_color = Color( 1, 1, 1, 1 )
-interact_positions = {
-"default": Vector2( 0, 0 )
-}
+animations = null
 
 [node name="bridge_lines" type="Line2D" parent="."]
 position = Vector2( -2.36194, -105.8 )
