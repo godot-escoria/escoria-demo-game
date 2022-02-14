@@ -1,6 +1,7 @@
 extends ESCGame
 
 
+const VERB_USE = "use"
 const VERB_WALK = "walk"
 
 
@@ -43,9 +44,10 @@ Implement methods to react to inputs.
 
 func _enter_tree():
 	var room_selector_parent = $CanvasLayer/ui/HBoxContainer/VBoxContainer
-	
-	if ProjectSettings.get_setting("escoria/debug/enable_room_selector") and \
-			room_selector_parent.get_node_or_null("room_select") == null:
+
+	if escoria.project_settings_manager.get_setting(escoria.project_settings_manager.ENABLE_ROOM_SELECTOR) \
+		and room_selector_parent.get_node_or_null("room_select") == null:
+
 		room_selector_parent.add_child(
 			preload(
 				"res://addons/escoria-core/ui_library/tools/room_select" +\
@@ -53,7 +55,7 @@ func _enter_tree():
 			).instance()
 		)
 
-	
+
 func _input(event: InputEvent) -> void:
 	if escoria.main.current_scene and escoria.main.current_scene.game:
 			if event is InputEventMouseMotion:
@@ -92,11 +94,12 @@ func element_focused(element_id: String) -> void:
 	var target_obj = escoria.object_manager.get_object(element_id).node
 	$tooltip_layer/tooltip.set_target(target_obj.tooltip_name)
 
-	if escoria.action_manager.current_action != "use" \
-			and escoria.action_manager.current_tool == null:
-		if target_obj is ESCItem:
+	if escoria.action_manager.current_action != VERB_USE \
+			and escoria.action_manager.current_tool == null \
+			and target_obj is ESCItem:
+			
 			$mouse_layer/verbs_menu.set_by_name(
-				escoria.action_to_string(target_obj.default_action)
+				target_obj.default_action
 			)
 
 func element_unfocused() -> void:
@@ -130,7 +133,7 @@ func left_click_on_inventory_item(inventory_item_global_id: String, event: Input
 		[inventory_item_global_id, event]
 	)
 	
-	if escoria.action_manager.current_action == "use":
+	if escoria.action_manager.current_action == VERB_USE:
 		var item = escoria.object_manager.get_object(
 			inventory_item_global_id
 		).node
@@ -195,7 +198,7 @@ func show_main_menu():
 func unpause_game():
 	if get_node(pause_menu).visible:
 		get_node(pause_menu).hide()
-		escoria.object_manager.get_object("_camera").node.current = true
+		escoria.object_manager.get_object(escoria.object_manager.CAMERA).node.current = true
 		escoria.main.current_scene.game.show_ui()
 		escoria.main.current_scene.show()
 
@@ -206,7 +209,7 @@ func pause_game():
 			escoria.save_manager.save_enabled
 		)
 		get_node(pause_menu).show()
-		escoria.object_manager.get_object("_camera").node.current = false
+		escoria.object_manager.get_object(escoria.object_manager.CAMERA).node.current = false
 		escoria.main.current_scene.game.hide_ui()
 		escoria.main.current_scene.hide()
 
