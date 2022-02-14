@@ -1,5 +1,7 @@
 :look
+set_angle player 90
 say player "That's the other side."
 
 :arrived
+set_angle player 90
 say player "I can't reach it."

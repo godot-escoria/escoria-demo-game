@@ -8,7 +8,7 @@ class_name ESCRoom, "res://addons/escoria-core/design/esc_room.svg"
 # NONE: No debug display
 # CAMERA_LIMITS: Display the camera limits
 enum EditorRoomDebugDisplay {
-	NONE,
+	NONE, 
 	CAMERA_LIMITS
 }
 
@@ -68,22 +68,22 @@ func _draw():
 		return
 	if editor_debug_mode == EditorRoomDebugDisplay.NONE:
 		return
-
+		
 	var camera_limits_colors: Array = [
 		ColorN("red"), ColorN("blue"), ColorN("green")
 	]
-
+	
 	# If there are more camera limits than colors defined for them, add more.
 	if camera_limits.size() > camera_limits_colors.size():
 		for i in camera_limits.size() - camera_limits_colors.size():
 			camera_limits_colors.push_back(Color(randf(), randf(), randf(), 1.0))
-
+	
 	# Draw lines for camera limits
 	for i in camera_limits.size():
 		draw_rect(camera_limits[i], camera_limits_colors[i], false, 10.0)
 		var default_font = Control.new().get_font("font")
-
-		draw_string(default_font, Vector2(camera_limits[i].position.x + 30,
+		
+		draw_string(default_font, Vector2(camera_limits[i].position.x + 30, 
 			camera_limits[i].position.y + 30), str(i), camera_limits_colors[i])
 
 

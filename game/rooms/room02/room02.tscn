@@ -297,12 +297,24 @@ texture = ExtResource( 12 )
 color = Color( 0, 0, 0, 1 )
 polygon = PoolVector2Array( 0, 550, 1280, 550, 1280, 800, 0, 800 )
 
+[node name="room_label2" type="Label" parent="ESCBackground"]
+margin_left = 17.0
+margin_top = 558.0
+margin_right = 99.0
+margin_bottom = 579.0
+custom_fonts/font = ExtResource( 3 )
+text = "Room  2 demonstrates modifying the walkable area of a room. Performing \"use\" on the button will cause the original navmesh (which has a gap 
+in the middle) with one that covers the whole room (platforms + bridge) - allowing the player to walk from one side to the other.
+Setting the state of the r2_bridge variable to \"bridge_open\" or \"bridge_closed\" (see button.esc) automatically runs the animation with the same name."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="walkable_area" type="Navigation2D" parent="."]
 script = ExtResource( 10 )
 debug_mode = 1
 
 [node name="bridge_open" type="NavigationPolygonInstance" parent="walkable_area"]
-visible = false
 navpoly = SubResource( 4 )
 
 [node name="bridge_closed" type="NavigationPolygonInstance" parent="walkable_area"]
