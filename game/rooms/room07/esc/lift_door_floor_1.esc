@@ -1,0 +1,23 @@
+:use
+> [eq lift_floor 2]
+	say player "The lift is on another floor."
+	stop
+> [eq lift_floor 1]
+	# Disable user input
+	accept_input NONE
+	# Move the player a long way as there isn't currently a "hide player" command
+	teleport_pos player 5000 5000
+	set_angle player 180
+	camera_set_limits 2
+	camera_push r7_lift_door_floor_2 3
+	anim_block r7_lift lift_floor_1_to_2_with_player
+	teleport player r7_lift_door_floor_2
+	say r7_lift_door_floor_2 "Ding!"
+	# Focus the camera on the player again
+	camera_set_target 0 player
+	enable_terrain upper_platform
+	# Enable user input again
+	accept_input ALL
+	# Keep track of the lift floor so the button can work out whether to summon the lift
+	set_global lift_floor 2
+	stop

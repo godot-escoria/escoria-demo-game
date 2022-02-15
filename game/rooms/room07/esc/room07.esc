@@ -1,10 +1,13 @@
+:ready
+# Set which floor the lift is open on for the first visit to the room only.
+set_global lift_floor 1
 
 :setup
-
-set_state r7_button_push button_repaired true
-set_state r7_button_shift button_repaired true
-set_state r7_button_follow button_repaired true
-set_state r7_button_zoom button_repaired true
+set_state r7_alarm_cone_floor_1 camera_not_triggered true
+set_state r7_alarm_cone_floor_2 camera_not_triggered true
+set_state r7_lift lift_floor_2_to_1_no_player true
+camera_set_target 0 player
+camera_set_limits 0
 
 > [eq ESC_LAST_SCENE room6]
 	teleport player r7_l_exit

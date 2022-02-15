@@ -1,0 +1,5 @@
+:trigger_in
+
+
+:trigger_out
+set_state r7_alarm_cone_floor_2 camera_triggered
