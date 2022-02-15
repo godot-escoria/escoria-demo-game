@@ -1,12 +1,17 @@
 :look
-say player "That button triggers a camera set_pos effect."
+say player "That button uses camera_set_pos to point the camera at coordinates (1200,800)."
 
 :use
-camera_set_limits 2
-camera_set_pos 500 150 150
-wait 6
-
+# Disable input so all steps run without interruption 
+accept_input NONE
+# Note that camera_set_pos puts the camera centre at a different location depending on
+# the camera's limits 
+camera_set_limits 1
+camera_set_pos 0 1200 800
+wait 2
 camera_set_limits 0
-
-camera_set_target 0 player
-
+camera_set_pos 0 1200 800
+wait 2
+camera_set_target 1 player
+# Re-enable user input
+accept_input ALL

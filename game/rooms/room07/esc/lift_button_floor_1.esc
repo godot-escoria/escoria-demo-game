@@ -1,0 +1,14 @@
+:use
+> [eq lift_floor 2]
+	say r7_lift_door_floor_2 "Ding!"
+	# Animate the lift changing floors
+	# Could use set_state for the animation, but then the 2nd "Ding" plays too early as
+	# the animation needs to block
+	anim_block r7_lift lift_floor_2_to_1_no_player
+	# This variable is used so the button knows whether to change the lift floor or not
+	set_global lift_floor 1
+	say r7_lift_door_floor_1 "Ding!"
+	stop
+> [eq lift_floor 1]
+	say player "The lift is already on level 1."
+	stop

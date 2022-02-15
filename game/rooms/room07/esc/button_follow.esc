@@ -1,7 +1,0 @@
-:look
-say player "That button makes the camera target me."
-
-:use
-camera_set_limits 0
-camera_set_target 0 player
-
