@@ -1,3 +1,12 @@
+## [4.0.0-alpha.94](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.94) (2022-02-15)
+
+
+### Features
+
+* Debug set state animations ([#495](https://github.com/godot-escoria/escoria-demo-game/issues/495)) ([5e0e83f](https://github.com/godot-escoria/escoria-demo-game/commit/5e0e83f23edf4ef782f1a7773f2e5d1d2594faf3))
+
+
+
 ## [4.0.0-alpha.93](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.93) (2022-02-15)
 
 
