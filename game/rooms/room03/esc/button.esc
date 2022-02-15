@@ -15,7 +15,14 @@ say player "I must USE this."
 	enable_terrain bridge_closed
 	set_global r3_bridge_closed true
 	set_interactive r3_right_platform false
-	set_interactive r3_bridge false
+	set_interactive r3_r_exit true
+	# We start with the collision polygon on the right door disabled
+	# This lets it act as part of the right platform, which responds
+	# with "I can't reach it" when the player clicks it with the bridge
+	# open.
+	# We use a custom function to enable the collision polygon on the door
+	# to enable it to work as a door once the bridge is closed.
+	custom r3_r_exit door_enabler enable_door
 	stop
 
 > [!button_broken, r3_bridge_closed]
@@ -23,6 +30,9 @@ say player "I must USE this."
 	enable_terrain bridge_open
 	set_global r3_bridge_closed false
 	set_interactive r3_right_platform true
+	# Disable the door collision so it acts like part of the right
+	# platform again.
+	custom r3_r_exit door_enabler disable_door	
 	stop
 
 > [button_broken]
@@ -32,14 +42,14 @@ say player "I must USE this."
 :talk
 > [button_broken]
 	say player "Please, will you repair yourself?"
-	wait 2
+	wait 1
 	set_state r3_button button_repaired
 	set_global button_broken false
-	wait 2
+	wait 1
 	say player "Oh, it worked!" 
 	stop
 > [!button_broken]
-	say player "I should not talk to it again. It could break itself back."
+	say player "I better not talk to it any more, it might break again."
 
 
 :arrived
