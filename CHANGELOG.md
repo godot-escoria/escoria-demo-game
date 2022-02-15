@@ -1,3 +1,12 @@
+## [4.0.0-alpha.93](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.93) (2022-02-15)
+
+
+### Bug Fixes
+
+* use Escoria plugin version from plugin.cfg in savegames ([#489](https://github.com/godot-escoria/escoria-demo-game/issues/489)) ([2384127](https://github.com/godot-escoria/escoria-demo-game/commit/2384127ca4aa7c262d2944885af615c492cab002))
+
+
+
 ## [4.0.0-alpha.92](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.92) (2022-02-12)
 
 
