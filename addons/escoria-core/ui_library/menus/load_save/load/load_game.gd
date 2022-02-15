@@ -34,11 +34,12 @@ func refresh_savegames():
 		$VBoxContainer/ScrollContainer/slots.remove_child(slot)
 	
 	var saves_list = escoria.save_manager.get_saves_list()
-	for i in saves_list.size():
-		var save_data = saves_list[i+1]
-		var new_slot = slot_ui_scene.instance()
-		$VBoxContainer/ScrollContainer/slots.add_child(
-			new_slot
-		)
-		new_slot.set_slot_name_date(save_data["name"], save_data["date"])
-		new_slot.connect("pressed", self, "_on_slot_pressed", [i+1])
+	for i in range(saves_list.keys().max() + 1):
+		if saves_list.has(i):
+			var save_data = saves_list[i]
+			var new_slot = slot_ui_scene.instance()
+			$VBoxContainer/ScrollContainer/slots.add_child(
+				new_slot
+			)
+			new_slot.set_slot_name_date(save_data["name"], save_data["date"])
+			new_slot.connect("pressed", self, "_on_slot_pressed", [i])
