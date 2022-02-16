@@ -164,7 +164,11 @@ func save_game_crash():
 # - p_savename: name of the savegame
 func _do_save_game(p_savename: String) -> ESCSaveGame:
 	var save_game = ESCSaveGame.new()
-	save_game.escoria_version = escoria.ESCORIA_VERSION	
+	
+	var plugin_config = ConfigFile.new()
+	plugin_config.load("res://addons/escoria-core/plugin.cfg")
+	save_game.escoria_version = plugin_config.get_value("plugin", "version")
+	
 	save_game.game_version = escoria.project_settings_manager.get_setting(
 		escoria.project_settings_manager.GAME_VERSION
 	)
@@ -383,7 +387,10 @@ func load_game(id: int):
 # Save the game settings in the settings file.
 func save_settings():
 	var settings_res := ESCSaveSettings.new()
-	settings_res.escoria_version = escoria.ESCORIA_VERSION
+	var plugin_config = ConfigFile.new()
+	plugin_config.load("res://addons/escoria-core/plugin.cfg")
+	
+	settings_res.escoria_version = plugin_config.get_value("plugin", "version")
 	settings_res.text_lang = escoria.settings.text_lang
 	settings_res.voice_lang = escoria.settings.voice_lang
 	settings_res.speech_enabled = escoria.settings.speech_enabled

@@ -1,3 +1,39 @@
+## [4.0.0-alpha.94](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.94) (2022-02-15)
+
+
+### Features
+
+* Debug set state animations ([#495](https://github.com/godot-escoria/escoria-demo-game/issues/495)) ([5e0e83f](https://github.com/godot-escoria/escoria-demo-game/commit/5e0e83f23edf4ef782f1a7773f2e5d1d2594faf3))
+
+
+
+## [4.0.0-alpha.93](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.93) (2022-02-15)
+
+
+### Bug Fixes
+
+* use Escoria plugin version from plugin.cfg in savegames ([#489](https://github.com/godot-escoria/escoria-demo-game/issues/489)) ([2384127](https://github.com/godot-escoria/escoria-demo-game/commit/2384127ca4aa7c262d2944885af615c492cab002))
+
+
+
+## [4.0.0-alpha.92](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.92) (2022-02-12)
+
+
+### Features
+
+* Updated room 1 graphics ([#491](https://github.com/godot-escoria/escoria-demo-game/issues/491)) ([5005267](https://github.com/godot-escoria/escoria-demo-game/commit/5005267e0dba684b6e4036023bd344a60e3ccccd))
+
+
+
+## [4.0.0-alpha.91](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.91) (2022-02-06)
+
+
+### Bug Fixes
+
+* set a proper guard in case of no speaking animations ([#488](https://github.com/godot-escoria/escoria-demo-game/issues/488)) ([326618d](https://github.com/godot-escoria/escoria-demo-game/commit/326618df180a72f700f9917e1139f246abae918e))
+
+
+
 ## [4.0.0-alpha.90](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.90) (2022-02-04)
 
 

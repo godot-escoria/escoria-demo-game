@@ -24,9 +24,6 @@ enum GAME_STATE {
 }
 
 
-# Escoria version number
-const ESCORIA_VERSION = "0.1.0"
-
 # Audio bus indices.
 const BUS_MASTER = "Master"
 const BUS_SFX = "SFX"

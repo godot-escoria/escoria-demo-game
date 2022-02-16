@@ -14,10 +14,14 @@
 	set_state r3_bridge bridge_close true
 	enable_terrain bridge_closed
 	set_interactive r3_right_platform false
+	set_interactive r3_r_exit true
+	# We use a custom function to enable the collision polygon on the door
+	# to enable it to work as a door once the bridge is closed.
+	custom r3_r_exit door_enabler enable_door	
 
 > [eq ESC_LAST_SCENE room2]
 	teleport player r3_l_exit
-	# Set player look right
+	# Set player look down
 	set_angle player 180
 	stop
 > [eq ESC_LAST_SCENE room4]

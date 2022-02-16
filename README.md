@@ -27,6 +27,7 @@ This is the demo game that acts as a testing ground for future Escoria developme
 ### Items
 
 * Generic items by Kenney
+* Animal pack redux by Kenney
   Licence: CC0 Licence
   https://www.kenney.nl/assets/generic-items
 
