@@ -83,12 +83,17 @@ func get_saves_list() -> Dictionary:
 					"game_version": save_game_res["game_version"],
 				}
 
-				var id: int
 				var matches = regex.search(nextfile)
-				if matches.strings.size() > 1:
-					id = int(matches.strings[1])
-				
-				saves[id] = save_game_data
+				if matches != null and matches.strings.size() > 1:
+					saves[int(matches.strings[1])] = save_game_data
+				else:
+					escoria.logger.report_warnings(
+						"esc_save_manager.gd",
+						[
+							"Savegame file %s contains valid data but doesn't match filename format %s. Skipping." 
+							% [save_path, regex.get_pattern()]
+						]
+					)
 			nextfile = dirsave.get_next()
 	return saves
 
