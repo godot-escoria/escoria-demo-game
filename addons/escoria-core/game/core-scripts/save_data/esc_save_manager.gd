@@ -70,18 +70,25 @@ func get_saves_list() -> Dictionary:
 			var save_path = save_folder.plus_file(nextfile)
 			var file: File = File.new()
 			var save_game_res: Resource = load(save_path)
-			var save_game_data = {
-				"date": save_game_res["date"],
-				"name": save_game_res["name"],
-				"game_version": save_game_res["game_version"],
-			}
-
-			var id: int
-			var matches = regex.search(nextfile)
-			if matches.strings.size() > 1:
-				id = int(matches.strings[1])
 			
-			saves[id] = save_game_data
+			if save_game_res == null:
+				escoria.logger.report_warnings(
+					"esc_save_manager.gd",
+					["Savegame file %s is corrupted. Skipping." % save_path]
+				)
+			else:
+				var save_game_data = {
+					"date": save_game_res["date"],
+					"name": save_game_res["name"],
+					"game_version": save_game_res["game_version"],
+				}
+
+				var id: int
+				var matches = regex.search(nextfile)
+				if matches.strings.size() > 1:
+					id = int(matches.strings[1])
+				
+				saves[id] = save_game_data
 			nextfile = dirsave.get_next()
 	return saves
 
