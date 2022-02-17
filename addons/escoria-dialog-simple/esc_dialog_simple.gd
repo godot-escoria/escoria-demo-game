@@ -95,10 +95,3 @@ func interrupt():
 	if _dialog_player.get_children().has(_type_player):
 		_dialog_player.remove_child(_type_player)
 		emit_signal("say_finished")
-
-
-# Getter for the type player
-#
-# *Returns* the type player
-func get_type_player() -> Node:
-	return _type_player
