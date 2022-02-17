@@ -59,7 +59,7 @@ func _init():
 # Return a list of savegames metadata (id, date, name and game version) 
 func get_saves_list() -> Dictionary:
 	var regex = RegEx.new()
-	regex.compile("save_([0-9]{3})\\.tres")
+	regex.compile("save_(?<slotnumber>[0-9]{3})\\.tres")
 
 	var saves = {}
 	var dirsave = Directory.new()
@@ -84,8 +84,8 @@ func get_saves_list() -> Dictionary:
 				}
 
 				var matches = regex.search(nextfile)
-				if matches != null and matches.strings.size() > 1:
-					saves[int(matches.strings[1])] = save_game_data
+				if matches != null and matches.get_string("slotnumber") != null:
+					saves[int(matches.get_string("slotnumber"))] = save_game_data
 				else:
 					escoria.logger.report_warnings(
 						"esc_save_manager.gd",
@@ -238,8 +238,7 @@ func load_game(id: int):
 			"res://addons/escoria-core/game/core-scripts/migrations/versions"
 		)
 		
-	# Migrate savegame through game versions	
-
+	# Migrate savegame through game versions
 	if escoria.project_settings_manager.get_setting(
 			escoria.project_settings_manager.GAME_VERSION
 		) != save_game.game_version \
