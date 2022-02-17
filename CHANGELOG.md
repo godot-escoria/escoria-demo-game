@@ -1,3 +1,12 @@
+## [4.0.0-alpha.98](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.98) (2022-02-17)
+
+
+### Features
+
+* Removed obsolete code. Fixes godot-escoria/escoria-issues[#99](https://github.com/godot-escoria/escoria-demo-game/issues/99) ([#499](https://github.com/godot-escoria/escoria-demo-game/issues/499)) ([b40c0a2](https://github.com/godot-escoria/escoria-demo-game/commit/b40c0a241ca55e65de58184cc43b4e274dc1b388))
+
+
+
 ## [4.0.0-alpha.97](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.97) (2022-02-17)
 
 
