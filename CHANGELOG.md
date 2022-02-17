@@ -1,3 +1,7 @@
+## [4.0.0-alpha.96](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.96) (2022-02-17)
+
+
+
 ## [4.0.0-alpha.95](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.95) (2022-02-16)
 
 
