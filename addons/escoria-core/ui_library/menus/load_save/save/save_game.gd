@@ -34,13 +34,12 @@ func refresh_savegames():
 		_slots.remove_child(slot)
 	
 	var saves_list = escoria.save_manager.get_saves_list()
-	for i in range(saves_list.keys().max() + 1):
-		if saves_list.has(i):
-			var save_data = saves_list[i]
+	if not saves_list.empty():
+		for save_key in saves_list.keys():
 			var new_slot = slot_ui_scene.instance()
 			_slots.add_child(new_slot)
-			new_slot.set_slot_name_date(save_data["name"], save_data["date"])
-			new_slot.connect("pressed", self, "_on_slot_pressed", [i])
+			new_slot.set_slot_name_date(saves_list[save_key]["name"], saves_list[save_key]["date"])
+			new_slot.connect("pressed", self, "_on_slot_pressed", [save_key])
 	
 	var datetime = OS.get_datetime()
 	var datetime_string = "%02d/%02d/%02d %02d:%02d" % [

@@ -59,7 +59,7 @@ func _init():
 # Return a list of savegames metadata (id, date, name and game version) 
 func get_saves_list() -> Dictionary:
 	var regex = RegEx.new()
-	regex.compile("save_([0-9]{3})\\.tres")
+	regex.compile("save_(?<slotnumber>[0-9]{3})\\.tres")
 
 	var saves = {}
 	var dirsave = Directory.new()
@@ -70,18 +70,30 @@ func get_saves_list() -> Dictionary:
 			var save_path = save_folder.plus_file(nextfile)
 			var file: File = File.new()
 			var save_game_res: Resource = load(save_path)
-			var save_game_data = {
-				"date": save_game_res["date"],
-				"name": save_game_res["name"],
-				"game_version": save_game_res["game_version"],
-			}
-
-			var id: int
-			var matches = regex.search(nextfile)
-			if matches.strings.size() > 1:
-				id = int(matches.strings[1])
 			
-			saves[id] = save_game_data
+			if save_game_res == null:
+				escoria.logger.report_warnings(
+					"esc_save_manager.gd",
+					["Savegame file %s is corrupted. Skipping." % save_path]
+				)
+			else:
+				var save_game_data = {
+					"date": save_game_res["date"],
+					"name": save_game_res["name"],
+					"game_version": save_game_res["game_version"],
+				}
+
+				var matches = regex.search(nextfile)
+				if matches != null and matches.get_string("slotnumber") != null:
+					saves[int(matches.get_string("slotnumber"))] = save_game_data
+				else:
+					escoria.logger.report_warnings(
+						"esc_save_manager.gd",
+						[
+							"Savegame file %s contains valid data but doesn't match filename format %s. Skipping." 
+							% [save_path, regex.get_pattern()]
+						]
+					)
 			nextfile = dirsave.get_next()
 	return saves
 
@@ -226,8 +238,7 @@ func load_game(id: int):
 			"res://addons/escoria-core/game/core-scripts/migrations/versions"
 		)
 		
-	# Migrate savegame through game versions	
-
+	# Migrate savegame through game versions
 	if escoria.project_settings_manager.get_setting(
 			escoria.project_settings_manager.GAME_VERSION
 		) != save_game.game_version \
