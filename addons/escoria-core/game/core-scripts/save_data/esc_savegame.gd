@@ -22,10 +22,10 @@ export var date: String = ""
 # Main data to be saved
 export var main: Dictionary = {}
 
-# Escoria Global variables exported from ESCGlobalsManager 
+# Escoria Global variables exported from ESCGlobalsManager
 export var globals: Dictionary = {}
 
-# Escoria objects exported from ESCObjectsManager 
+# Escoria objects exported from ESCObjectsManager
 export var objects: Dictionary = {}
 
 # Custom data

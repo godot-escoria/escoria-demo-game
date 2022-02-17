@@ -1,7 +1,7 @@
 # `anim_block object name [reverse]`
 #
-# Executes the animation specified in "name" on "object", 
-# while blocking. The next command in the event will be executed when the animation 
+# Executes the animation specified in "name" on "object",
+# while blocking. The next command in the event will be executed when the animation
 # is finished playing.
 #
 # **Parameters**
@@ -9,7 +9,7 @@
 # * *object*: Global ID of the object with the animation
 # * *name*: Name of the animation to play
 # * *reverse*: Plays the animation in reverse when true
-# 
+#
 # @ESC
 extends ESCBaseCommand
 class_name AnimBlockCommand
@@ -18,12 +18,12 @@ class_name AnimBlockCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, TYPE_STRING, TYPE_BOOL],
 		[null, null, false]
 	)
-	
-	
+
+
 # Validate wether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not escoria.object_manager.objects.has(arguments[0]):

@@ -102,7 +102,7 @@ func play(name: String, backwards: bool = false):
 		_animated_sprite.play(name, true)
 	else:
 		_player_node.play(name)
-	
+
 
 # Play the given animation backwards
 #
@@ -156,7 +156,7 @@ func get_length(name: String) -> float:
 
 # Return true if the ESCAnimationPlayer node is valid, ie. it has a valid player
 # node.
-# **Returns: true if the ESCAnimationPlayer has a valid player node, 
+# **Returns: true if the ESCAnimationPlayer has a valid player node,
 # else false**
 func is_valid() -> bool:
 	return _player_node != null and _player_node is Node

@@ -16,12 +16,12 @@ var conditions: Array = []
 func _init(group_string: String):
 	var group_regex = RegEx.new()
 	group_regex.compile(REGEX)
-	
+
 	if group_regex.search(group_string):
 		for result in group_regex.search_all(group_string):
 			if "conditions" in result.names:
 				for condition in escoria.utils.get_re_group(
-						result, 
+						result,
 						"conditions"
 					).split(","):
 					self.conditions.append(

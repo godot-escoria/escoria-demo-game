@@ -33,7 +33,7 @@ func _ready():
 			if dir.current_is_dir():
 				rooms_list.push_back(file_name)
 			file_name = dir.get_next()
-		
+
 		rooms_list.sort()
 		for room in rooms_list:
 			add_item(room)
@@ -44,14 +44,14 @@ func _ready():
 			])
 
 	else:
-		escoria.logger.report_warnings("room_select.gd:_ready()", 
+		escoria.logger.report_warnings("room_select.gd:_ready()",
 			["A problem occurred while opening rooms folder."])
-	
+
 
 # Switch to the selected room
 func _on_button_pressed():
 	# When next room is loaded, we don't want to consider ESC_LAST_SCENE for
-	# automatic transitions. 
+	# automatic transitions.
 	# If FORCE_LAST_SCENE_NULL is True when change_scene starts:
 	# - ESC_LAST_SCENE is set to empty
 	escoria.globals_manager.set_global(
@@ -67,7 +67,7 @@ func _on_button_pressed():
 	escoria.event_manager.interrupt_running_event()
 	escoria.event_manager.clear_event_queue()
 	escoria.event_manager.queue_event(script.events['room_selector'])
-	
+
 
 
 # A room was selected, store the selection

@@ -24,7 +24,7 @@ class_name AcceptInputCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		1, 
+		1,
 		[TYPE_STRING],
 		["ALL"]
 	)
@@ -52,6 +52,6 @@ func run(command_params: Array) -> int:
 			mode = escoria.inputs_manager.INPUT_NONE
 		"SKIP":
 			mode = escoria.inputs_manager.INPUT_SKIP
-	
+
 	escoria.inputs_manager.input_mode = mode
 	return ESCExecution.RC_OK

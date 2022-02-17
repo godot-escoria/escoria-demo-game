@@ -1,6 +1,6 @@
 # `set_active object active`
-# 
-# Changes the "active" state of the object. `active` can be `true` or `false`. 
+#
+# Changes the "active" state of the object. `active` can be `true` or `false`.
 # Inactive objects are invisible in the room.
 #
 # **Parameters**
@@ -16,11 +16,11 @@ class_name SetActiveCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, TYPE_BOOL],
 		[null, null]
 	)
-	
+
 
 # Validate wether the given arguments match the command descriptor
 func validate(arguments: Array):

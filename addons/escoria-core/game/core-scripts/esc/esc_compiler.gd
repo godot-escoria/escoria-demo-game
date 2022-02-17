@@ -58,7 +58,7 @@ func _init():
 			"type": TYPE_STRING_ARRAY
 		}
 		ProjectSettings.add_property_info(property_info)
-	
+
 	# Compile all regex objects just once
 	_comment_regex = RegEx.new()
 	_comment_regex.compile(COMMENT_REGEX)
@@ -66,7 +66,7 @@ func _init():
 	_empty_regex.compile(EMPTY_REGEX)
 	_indent_regex = RegEx.new()
 	_indent_regex.compile(INDENT_REGEX)
-	
+
 	_event_regex = RegEx.new()
 	_event_regex.compile(ESCEvent.REGEX)
 	_command_regex = RegEx.new()
@@ -108,14 +108,14 @@ func compile(lines: Array) -> ESCScript:
 		var events = self._compile(lines)
 		for event in events:
 			script.events[event.name] = event
-			
+
 	return script
 
 
 # Compile an array of ESC script lines into an array of ESC objects
 func _compile(lines: Array) -> Array:
 	var returned = []
-	
+
 	while lines.size() > 0:
 		var line = lines.pop_front()
 		escoria.logger.trace("Parsing line %s" % line)
@@ -125,10 +125,10 @@ func _compile(lines: Array) -> Array:
 			continue
 		var indent = \
 				escoria.utils.get_re_group(
-					_indent_regex.search(line), 
+					_indent_regex.search(line),
 					INDENT_REGEX_GROUP
 				).length()
-		
+
 		if _event_regex.search(line):
 			var event = ESCEvent.new(line)
 			escoria.logger.trace("Line is the event %s" % event.name)
@@ -158,7 +158,7 @@ func _compile(lines: Array) -> Array:
 					continue
 				var next_line_indent = \
 						escoria.utils.get_re_group(
-							_indent_regex.search(next_line), 
+							_indent_regex.search(next_line),
 							INDENT_REGEX_GROUP
 						).length()
 				if next_line_indent > indent:
@@ -186,7 +186,7 @@ func _compile(lines: Array) -> Array:
 				var end_line = _dialog_end_regex.search(next_line)
 				if end_line and \
 						escoria.utils.get_re_group(
-							end_line, 
+							end_line,
 							INDENT_REGEX_GROUP
 						).length() == indent:
 					break
@@ -216,7 +216,7 @@ func _compile(lines: Array) -> Array:
 					continue
 				var next_line_indent = \
 						escoria.utils.get_re_group(
-							_indent_regex.search(next_line), 
+							_indent_regex.search(next_line),
 							INDENT_REGEX_GROUP
 						).length()
 				if next_line_indent > indent:

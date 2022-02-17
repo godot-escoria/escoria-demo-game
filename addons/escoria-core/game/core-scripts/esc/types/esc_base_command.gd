@@ -4,7 +4,7 @@ extends Node
 class_name ESCBaseCommand
 
 
-# Regex for creating command name based on the script's filename, including 
+# Regex for creating command name based on the script's filename, including
 # named groups
 const PATH_REGEX_GROUP = "path"
 const FILE_REGEX_GROUP = "file"
@@ -24,7 +24,7 @@ func _init() -> void:
 func configure() -> ESCCommandArgumentDescriptor:
 	escoria.logger.error("Command %s did not override configure." % get_class())
 	return ESCCommandArgumentDescriptor.new()
-	
+
 
 # Validate wether the given arguments match the command descriptor
 func validate(arguments: Array) -> bool:

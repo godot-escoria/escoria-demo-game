@@ -14,11 +14,11 @@ class_name DebugCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		1, 
+		1,
 		[TYPE_STRING],
 		[""]
 	)
-	
+
 
 # Run the command
 func run(command_params: Array) -> int:

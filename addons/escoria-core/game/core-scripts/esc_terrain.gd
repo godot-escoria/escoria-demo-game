@@ -28,7 +28,7 @@ export(Texture) var lightmap setget _set_lightmap
 export(Vector2) var bitmaps_scale = Vector2(1,1) setget _set_bm_scale
 
 # Multiplier applied to the player speed on this terrain
-export(float) var player_speed_multiplier = 1.0  
+export(float) var player_speed_multiplier = 1.0
 
 # Multiplier how much faster the player will walk when fast mode is on
 # (double clicked)
@@ -65,7 +65,7 @@ func _ready():
 			if n.enabled:
 				if navigation_enabled_found:
 					escoria.logger.report_errors(
-						"ESCTerrain:_ready()", 
+						"ESCTerrain:_ready()",
 						[
 							"Multiple NavigationPolygonInstances enabled " + \
 							"at the same time."
@@ -73,8 +73,8 @@ func _ready():
 					)
 				navigation_enabled_found = true
 				current_active_navigation_instance = n
-	
-	
+
+
 	if !Engine.is_editor_hint():
 		escoria.room_terrain = self
 	_update_texture()
@@ -212,7 +212,7 @@ func _draw():
 		if current_active_navigation_instance:
 			current_active_navigation_instance.visible = true
 		return
-	
+
 	var scale_vect = bitmaps_scale
 
 	if current_active_navigation_instance:
@@ -220,9 +220,9 @@ func _draw():
 
 	var src = Rect2(0, 0, _texture.get_width(), _texture.get_height())
 	var dst = Rect2(
-		0, 
-		0, 
-		_texture.get_width() * scale_vect.x, 
+		0,
+		0,
+		_texture.get_width() * scale_vect.x,
 		_texture.get_height() * scale_vect.y
 	)
 

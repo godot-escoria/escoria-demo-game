@@ -1,6 +1,6 @@
 # `hide_menu menu_type [enable_automatic_transition]`
 #
-# Hides either the main menu or the pause menu. 
+# Hides either the main menu or the pause menu.
 #
 # **Parameters**
 #
@@ -15,7 +15,7 @@ class_name HideMenuCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		0, 
+		0,
 		[TYPE_STRING, TYPE_BOOL],
 		["main", false]
 	)
@@ -40,28 +40,28 @@ func run(command_params: Array) -> int:
 	if command_params[1]:
 		# Transition out from menu
 		transition_id = escoria.main.scene_transition.transition(
-			"", 
+			"",
 			ESCTransitionPlayer.TRANSITION_MODE.OUT
 		)
 		while yield(
-			escoria.main.scene_transition, 
+			escoria.main.scene_transition,
 			"transition_done"
 		) != transition_id:
 			pass
-		
+
 	if command_params[0] == "main":
 		escoria.game_scene.hide_main_menu()
 	elif command_params[0] == "pause":
 		escoria.game_scene.unpause_game()
-		
+
 	if command_params[1] and escoria.main.current_scene != null:
 		transition_id = escoria.main.scene_transition.transition()
-	
+
 	if command_params[1] and escoria.main.current_scene != null:
 		while yield(
-			escoria.main.scene_transition, 
+			escoria.main.scene_transition,
 			"transition_done"
 		) != transition_id:
 			pass
-	
+
 	return ESCExecution.RC_OK

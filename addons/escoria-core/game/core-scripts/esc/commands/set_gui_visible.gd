@@ -14,7 +14,7 @@ class_name SetGuiVisibleCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		1, 
+		1,
 		[TYPE_BOOL],
 		[null]
 	)

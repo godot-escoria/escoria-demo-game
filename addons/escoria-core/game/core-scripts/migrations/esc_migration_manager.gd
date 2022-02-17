@@ -24,19 +24,19 @@ func _init() -> void:
 #
 # Each migration will return a modified version of the given savegame
 func migrate(
-	savegame: ESCSaveGame, 
-	from: String, 
-	to: String, 
+	savegame: ESCSaveGame,
+	from: String,
+	to: String,
 	versions_directory: String
 ) -> ESCSaveGame:
 	escoria.logger.info("Migrating from version %s to %s" % [
 		from,
 		to
 	])
-	
+
 	var from_info = version_regex.search(from)
 	var to_info = version_regex.search(to)
-	
+
 	var wrong_version: bool = false
 	if from_info.get_string("major") > to_info.get_string("major"):
 		wrong_version = true
@@ -47,7 +47,7 @@ func migrate(
 			from_info.get_string("minor") == to_info.get_string("minor") and\
 			from_info.get_string("patch") > to_info.get_string("patch"):
 		wrong_version = true
-		
+
 	if wrong_version:
 		escoria.logger.report_errors(
 			"esc_migration_manager:migrate",
@@ -58,12 +58,12 @@ func migrate(
 				]
 			]
 		)
-	
+
 	var versions = _find_versions(versions_directory, from, to)
 	versions.sort_custom(self, "_compare_version")
 	if versions[0].get_file().get_basename() == from:
 		versions.pop_front()
-	
+
 	for version in versions:
 		var migration_script = load(version).new()
 		if not migration_script is ESCMigration:
@@ -77,7 +77,7 @@ func migrate(
 		(migration_script as ESCMigration).set_savegame(savegame)
 		(migration_script as ESCMigration).migrate()
 		savegame = (migration_script as ESCMigration).get_savegame()
-		
+
 	return savegame
 
 
@@ -125,7 +125,7 @@ func _version_between(version: String, from: String, to: String) -> bool:
 	var version_info = version_regex.search(version)
 	var from_info = version_regex.search(from)
 	var to_info = version_regex.search(to)
-	
+
 	if from_info.get_string("major") < version_info.get_string("major") and \
 			version_info.get_string("major") < to_info.get_string("major"):
 		return true
@@ -144,12 +144,12 @@ func _version_between(version: String, from: String, to: String) -> bool:
 			to_info.get_string("minor") == version_info.get_string("minor") and\
 			to_info.get_string("patch") > version_info.get_string("patch"):
 		return true
-	
+
 	return false
 
 
 # Compare to version strings
-# 
+#
 # #### Parameters
 # - version_a: First version to compare
 # - version_b: Second version to compare
@@ -157,7 +157,7 @@ func _version_between(version: String, from: String, to: String) -> bool:
 func _compare_version(version_a: String, version_b: String) -> bool:
 	var a_info = version_regex.search(version_a.get_file().get_basename())
 	var b_info = version_regex.search(version_b.get_file().get_basename())
-	
+
 	if a_info.get_string("major") < b_info.get_string("major"):
 		return true
 	elif a_info.get_string("major") == b_info.get_string("major") and \
@@ -167,6 +167,6 @@ func _compare_version(version_a: String, version_b: String) -> bool:
 			a_info.get_string("minor") == b_info.get_string("minor") and \
 			a_info.get_string("patch") < b_info.get_string("patch"):
 		return true
-	
+
 	return false
-	
+

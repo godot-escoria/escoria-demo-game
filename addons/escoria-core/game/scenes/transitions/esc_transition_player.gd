@@ -5,7 +5,7 @@ class_name ESCTransitionPlayer
 # Emitted when the transition was played
 signal transition_done(transition_id)
 
-# Id of the transition. Allows keeping track of the actual transition 
+# Id of the transition. Allows keeping track of the actual transition
 # being played or finished
 var transition_id: int = 0
 
@@ -34,20 +34,20 @@ func _ready() -> void:
 	_tween = Tween.new()
 	add_child(_tween)
 	_tween.connect("tween_all_completed", self, "_on_tween_completed")
-	
+
 	transition()
 
 
 # Play a transition animation
 #
 # ## Parameters
-# 
+#
 # - transition_name: name of the transition to play (if empty string, uses
 # the default transition)
 # - mode: Mode to transition (in/out)
 # - duration: The duration the transition should take
 func transition(
-	transition_name: String = "", 
+	transition_name: String = "",
 	mode: int = TRANSITION_MODE.IN,
 	duration: float = 1.0
 ) -> int:
@@ -56,23 +56,23 @@ func transition(
 			"transition: Transition %s not found" % transition_name,
 			[]
 		)
-	
+
 	material = ResourceLoader.load(get_transition(transition_name))
 	transition_id += 1
-	
+
 	var start = 0.0
 	var end = 1.0
-	
+
 	if mode == TRANSITION_MODE.OUT:
 		start = 1.0
 		end = 0.0
-	
+
 	if _tween.is_active():
 		_was_canceled = true
 		_tween.stop_all()
 		_tween.remove_all()
 		emit_signal("transition_done", transition_id-1)
-	
+
 	_tween.interpolate_property(
 		$".",
 		"material:shader_param/cutoff",
@@ -105,7 +105,7 @@ func get_transition(name: String) -> String:
 	return ""
 
 
-# Returns true whether the transition scene has a transition corresponding 
+# Returns true whether the transition scene has a transition corresponding
 # to name provided.
 #
 # ## Parameters
@@ -115,7 +115,7 @@ func get_transition(name: String) -> String:
 # *Returns* true if a transition exists with given name.
 func has_transition(name: String) -> bool:
 	return not get_transition(name) == ""
-	
+
 
 func _on_tween_completed():
 	if not _was_canceled:

@@ -12,7 +12,7 @@ var active: bool = true setget _set_active
 # Wether the object is interactive (clickable by the player)
 var interactive: bool = true setget _set_interactive, _get_interactive
 
-# The state of the object. If the object has a respective animation, 
+# The state of the object. If the object has a respective animation,
 # it will be played
 var state: String = "default"
 
@@ -36,10 +36,10 @@ func _init(p_global_id: String, p_node: Node):
 # - immediate: If true, skip directly to the end
 func set_state(p_state: String, immediate: bool = false):
 	state = p_state
-	
+
 	if node.has_method("get_animation_player"):
 		var animation_node: ESCAnimationPlayer = node.get_animation_player()
-	
+
 		if animation_node != null and animation_node.is_valid():
 			animation_node.stop()
 			var actual_animator
@@ -98,9 +98,9 @@ func _set_interactive(value: bool):
 # Return the data of the object to be inserted in a savegame file.
 #
 # **Returns**
-# A dictionary containing the data to be saved for this object. 
+# A dictionary containing the data to be saved for this object.
 func get_save_data() -> Dictionary:
-	var save_data: Dictionary = {} 
+	var save_data: Dictionary = {}
 	save_data["active"] = self.active
 	save_data["interactive"] = self.interactive
 	save_data["state"] = self.state
@@ -110,9 +110,9 @@ func get_save_data() -> Dictionary:
 		save_data["global_transform"] = self.node.global_transform
 		save_data["last_deg"] = wrapi(self.node._movable._get_angle() + 1, 0, 360)
 		save_data["last_dir"] = self.node._movable.last_dir
-	
+
 	if (self.global_id == "_music" or self.global_id == "_sound") \
 			and self.node.get("state"):
 		save_data["state"] = self.node.get("state")
-	
+
 	return save_data

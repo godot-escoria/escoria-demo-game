@@ -13,7 +13,7 @@ signal crash_popup_confirmed
 # NONE - No debugging
 # MOUSE_TOOLTIP_LIMITS - Visualize the tooltip limits
 enum EDITOR_GAME_DEBUG_DISPLAY {
-	NONE, 
+	NONE,
 	MOUSE_TOOLTIP_LIMITS
 }
 
@@ -39,13 +39,13 @@ var tooltip_node: Object
 # Function called when ESCGame enters the scene tree.
 func _enter_tree():
 	escoria.event_manager.connect(
-		"event_finished", 
-		self, 
+		"event_finished",
+		self,
 		"_on_event_done"
 	)
 	escoria.action_manager.connect(
-		"action_finished", 
-		self, 
+		"action_finished",
+		self,
 		"_on_action_finished"
 	)
 
@@ -53,13 +53,13 @@ func _enter_tree():
 # Function called when ESCGame exits the scene tree.
 func _exit_tree():
 	escoria.action_manager.disconnect(
-		"event_finished", 
-		self, 
+		"event_finished",
+		self,
 		"_on_event_done"
 	)
 	escoria.action_manager.disconnect(
-		"action_finished", 
-		self, 
+		"action_finished",
+		self,
 		"_on_action_finished"
 	)
 
@@ -77,13 +77,13 @@ func _draw():
 		return
 	if editor_debug_mode == EDITOR_GAME_DEBUG_DISPLAY.NONE:
 		return
-	
+
 	if editor_debug_mode == EDITOR_GAME_DEBUG_DISPLAY.MOUSE_TOOLTIP_LIMITS:
 		var mouse_limits: Rect2 = get_viewport_rect().grow(
 			-mouse_tooltip_margin
 		)
 		print(mouse_limits)
-		
+
 		# Draw lines for tooltip limits
 		draw_rect(mouse_limits, ColorN("red"), false, 10.0)
 
@@ -94,18 +94,18 @@ func _draw():
 #
 # - destination: Destination to walk to
 # - params: Parameters for the action
-# - can_interrupt: if true, this command will interrupt any ongoing event 
+# - can_interrupt: if true, this command will interrupt any ongoing event
 func do_walk(destination, params: Array = [], can_interrupt: bool = false) -> void:
 	if can_interrupt:
 		escoria.event_manager.interrupt_running_event()
-		
+
 	escoria.action_manager.clear_current_action()
-	
+
 	var walk_fast = false
-	
+
 	if params.size() > 1:
 		walk_fast = true if params[1] else false
-		
+
 	# Check moving object.
 	if not escoria.object_manager.has(params[0]):
 		escoria.logger.report_errors(
@@ -116,10 +116,10 @@ func do_walk(destination, params: Array = [], can_interrupt: bool = false) -> vo
 			]
 		)
 		return
-	
+
 	var moving_obj = escoria.object_manager.get_object(params[0])
 	var target
-	
+
 	if destination is String:
 		if not escoria.object_manager.has(destination):
 			escoria.logger.report_errors(
@@ -130,17 +130,17 @@ func do_walk(destination, params: Array = [], can_interrupt: bool = false) -> vo
 				]
 			)
 			return
-			
+
 		target = escoria.object_manager.get_object(destination)
 	elif destination is Vector2:
 		target = destination
-	
-	escoria.action_manager.perform_walk(moving_obj, target, walk_fast)	
+
+	escoria.action_manager.perform_walk(moving_obj, target, walk_fast)
 
 
 # Called when the player left clicks on the background
 # (Needs to be overridden, if supported)
-# 
+#
 # #### Parameters
 #
 # - position: Position clicked
@@ -154,10 +154,10 @@ func left_click_on_bg(position: Vector2) -> void:
 
 # Called when the player right clicks on the background
 # (Needs to be overridden, if supported)
-# 
+#
 # #### Parameters
 #
-# - position: Position clicked	
+# - position: Position clicked
 func right_click_on_bg(position: Vector2) -> void:
 	do_walk(
 		position,
@@ -168,7 +168,7 @@ func right_click_on_bg(position: Vector2) -> void:
 
 # Called when the player double clicks on the background
 # (Needs to be overridden, if supported)
-# 
+#
 # #### Parameters
 #
 # - position: Position clicked
@@ -233,14 +233,14 @@ func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
 # - item_global_id: Global id of the item that was clicked
 # - event: The received input event
 func left_double_click_on_item(
-	item_global_id: String, 
+	item_global_id: String,
 	event: InputEvent
 ) -> void:
 	escoria.action_manager.do(
-		escoria.action_manager.ACTION.ITEM_LEFT_CLICK, 
+		escoria.action_manager.ACTION.ITEM_LEFT_CLICK,
 		[item_global_id, event],
 		true
-	) 
+	)
 
 
 # Called when an inventory item was left clicked
@@ -251,7 +251,7 @@ func left_double_click_on_item(
 # - inventory_item_global_id: Global id of the inventory item was clicked
 # - event: The received input event
 func left_click_on_inventory_item(
-	inventory_item_global_id: String, 
+	inventory_item_global_id: String,
 	event: InputEvent
 ) -> void:
 	pass
@@ -265,7 +265,7 @@ func left_click_on_inventory_item(
 # - inventory_item_global_id: Global id of the inventory item was clicked
 # - event: The received input event
 func right_click_on_inventory_item(
-	inventory_item_global_id: String, 
+	inventory_item_global_id: String,
 	event: InputEvent
 ) -> void:
 	pass
@@ -311,7 +311,7 @@ func open_inventory():
 # (Needs to be overridden, if supported)
 func close_inventory():
 	pass
-	
+
 
 # Called when the mousewheel was used
 # (Needs to be overridden, if supported)
@@ -327,7 +327,7 @@ func mousewheel_action(direction: int):
 # (Needs to be overridden, if supported)
 func hide_ui():
 	pass
-	
+
 
 # Called when the UI should be shown
 # (Needs to be overridden, if supported)
@@ -339,15 +339,15 @@ func show_ui():
 #
 # #### Parameter
 #
-# - p_editor_debug_mode: EDITOR_GAME_DEBUG_DISPLAY enum (int) value 
+# - p_editor_debug_mode: EDITOR_GAME_DEBUG_DISPLAY enum (int) value
 # corresponding to the desired editor debug mode
 func _set_editor_debug_mode(p_editor_debug_mode: int) -> void:
 	editor_debug_mode = p_editor_debug_mode
 	update()
 
 
-# Automatically called whenever an event is finished. Can be used to reset some 
-# UI elements to their default/empty state. This function can be called before 
+# Automatically called whenever an event is finished. Can be used to reset some
+# UI elements to their default/empty state. This function can be called before
 # _on_action_finished() if the player input started an event.
 # Reimplement to performed desired actions.
 #
@@ -359,8 +359,8 @@ func _on_event_done(_return_code: int, _event_name: String) -> void:
 	pass
 
 
-# Automatically called whenever an action initiated by the player is finished. 
-# Can be used to reset some UI elements to their default/empty state. 
+# Automatically called whenever an action initiated by the player is finished.
+# Can be used to reset some UI elements to their default/empty state.
 # Reimplement to performed desired actions.
 func _on_action_finished() -> void:
 	pass
@@ -386,16 +386,16 @@ func hide_main_menu():
 	pass
 
 
-# Custom function that is meant to apply custom settings. Called right after 
+# Custom function that is meant to apply custom settings. Called right after
 # Escoria settings file was loaded.
 func apply_custom_settings(custom_settings: Dictionary):
 	pass
 
 
-# Custom function automatically called when save game is created. 
+# Custom function automatically called when save game is created.
 #
 # *Returns* A Dictionary containing the custom data to be saved within the
-# game file. 
+# game file.
 func get_custom_data() -> Dictionary:
 	return {}
 

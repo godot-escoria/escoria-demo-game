@@ -56,10 +56,10 @@ func _resolve_target_and_zoom(p_target) -> void:
 	_target = Vector2()
 	_zoom_target = Vector2()
 	_follow_target = null
-	
+
 	if p_target is Node and "is_movable" in p_target and p_target.is_movable:
 		_follow_target = p_target
-	
+
 	if p_target is Vector2:
 		_target = p_target
 	elif p_target is Array and p_target.size() > 0:
@@ -90,9 +90,9 @@ func set_drag_margin_enabled(p_dm_h_enabled, p_dm_v_enabled):
 # - p_speed: Number of seconds for the camera to reach the target
 func set_target(p_target, p_speed : float = 0.0):
 	var speed = p_speed
-	
+
 	_resolve_target_and_zoom(p_target)
-	
+
 	escoria.logger.info(
 		"Current camera position = %s " % str(self.global_position)
 	)
@@ -104,7 +104,7 @@ func set_target(p_target, p_speed : float = 0.0):
 
 		if _tween.is_active():
 			escoria.logger.report_warnings(
-				"esc_camera.gd:set_target()", 
+				"esc_camera.gd:set_target()",
 				[
 					"Tween is still active: %f/%f" % [
 						_tween.tell(),
@@ -115,12 +115,12 @@ func set_target(p_target, p_speed : float = 0.0):
 			_tween.emit_signal("tween_completed")
 
 		_tween.interpolate_property(
-			self, 
-			"global_position", 
-			self.global_position, 
-			_target, 
-			time, 
-			Tween.TRANS_LINEAR, 
+			self,
+			"global_position",
+			self.global_position,
+			_target,
+			time,
+			Tween.TRANS_LINEAR,
 			Tween.EASE_IN_OUT
 		)
 		_tween.start()
@@ -134,7 +134,7 @@ func set_target(p_target, p_speed : float = 0.0):
 func set_camera_zoom(p_zoom_level: float, p_time: float):
 	if p_zoom_level <= 0.0:
 		escoria.logger.report_errors(
-			"esc_camera.gd:set_camera_zoom()", 
+			"esc_camera.gd:set_camera_zoom()",
 			["Tried to set negative or zero zoom level"]
 		)
 
@@ -145,7 +145,7 @@ func set_camera_zoom(p_zoom_level: float, p_time: float):
 	else:
 		if _tween.is_active():
 			escoria.logger.report_warnings(
-				"esc_camera.gd:set_camera_zoom()", 
+				"esc_camera.gd:set_camera_zoom()",
 				[
 					"Tween is still active: %f/%f" % [
 						_tween.tell(),
@@ -156,12 +156,12 @@ func set_camera_zoom(p_zoom_level: float, p_time: float):
 			_tween.emit_signal("tween_completed")
 
 		_tween.interpolate_property(
-			self, 
-			"zoom", 
-			self.zoom, 
-			_zoom_target, 
-			p_time, 
-			Tween.TRANS_LINEAR, 
+			self,
+			"zoom",
+			self.zoom,
+			_zoom_target,
+			p_time,
+			Tween.TRANS_LINEAR,
 			Tween.EASE_IN_OUT
 		)
 		_tween.start()
@@ -169,18 +169,18 @@ func set_camera_zoom(p_zoom_level: float, p_time: float):
 
 # Push the camera towards the target in terms of position and zoom level
 # using a given transition type and time.
-# See 
+# See
 # https://docs.godotengine.org/en/stable/classes/class_tween.html#enumerations
 #
 # #### Parameters
 # - p_target: Target to push to
 # - p_time: Number of seconds for the transition to take
-# - p_type: Tween transition type 
+# - p_type: Tween transition type
 func push(p_target, p_time: float = 0.0, p_type: int = 0):
 	_resolve_target_and_zoom(p_target)
-	
+
 	var push_target = null
-	
+
 	if _follow_target != null:
 		push_target = p_target.position
 	else:
@@ -193,7 +193,7 @@ func push(p_target, p_time: float = 0.0, p_type: int = 0):
 	else:
 		if _tween.is_active():
 			escoria.logger.report_warnings(
-				"esc_camera.gd:push()", 
+				"esc_camera.gd:push()",
 				[
 					"Tween is still active:" % [
 						_tween.tell(),
@@ -205,32 +205,32 @@ func push(p_target, p_time: float = 0.0, p_type: int = 0):
 
 		if _zoom_target != Vector2():
 			_tween.interpolate_property(
-				self, 
-				"zoom", 
-				self.zoom, 
-				_zoom_target, 
-				p_time, 
-				p_type, 
+				self,
+				"zoom",
+				self.zoom,
+				_zoom_target,
+				p_time,
+				p_type,
 				Tween.EASE_IN_OUT
 			)
 
 		_tween.interpolate_property(
-			self, 
-			"global_position", 
-			self.global_position, 
-			push_target, 
-			p_time, 
+			self,
+			"global_position",
+			self.global_position,
+			push_target,
+			p_time,
 			p_type,
 			Tween.EASE_IN_OUT
 		)
-		
+
 		_tween.start()
 
 
 # Shift the camera by the given vector in a given time and using a specific
 # Tween transition type.
 #
-# See 
+# See
 # https://docs.godotengine.org/en/stable/classes/class_tween.html#enumerations
 #
 # #### Parameters
@@ -245,7 +245,7 @@ func shift(p_target: Vector2, p_time: float, p_type: int):
 
 	if _tween.is_active():
 		escoria.logger.report_warnings(
-				"esc_camera.gd:set_camera_zoom()", 
+				"esc_camera.gd:set_camera_zoom()",
 				[
 					"Tween is still active: %f/%f" % [
 						_tween.tell(),
@@ -254,14 +254,14 @@ func shift(p_target: Vector2, p_time: float, p_type: int):
 				]
 			)
 		_tween.emit_signal("tween_completed")
-	
+
 	_tween.interpolate_property(
-		self, 
-		"global_position", 
-		self.global_position, 
-		new_pos, 
-		p_time, 
-		p_type, 
+		self,
+		"global_position",
+		self.global_position,
+		new_pos,
+		p_time,
+		p_type,
 		Tween.EASE_IN_OUT
 	)
 	_tween.start()

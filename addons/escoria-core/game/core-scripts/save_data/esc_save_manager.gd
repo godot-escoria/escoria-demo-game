@@ -56,7 +56,7 @@ func _init():
 	_play_snd = PlaySndCommand.new()
 
 
-# Return a list of savegames metadata (id, date, name and game version) 
+# Return a list of savegames metadata (id, date, name and game version)
 func get_saves_list() -> Dictionary:
 	var regex = RegEx.new()
 	regex.compile("save_(?<slotnumber>[0-9]{3})\\.tres")
@@ -70,7 +70,7 @@ func get_saves_list() -> Dictionary:
 			var save_path = save_folder.plus_file(nextfile)
 			var file: File = File.new()
 			var save_game_res: Resource = load(save_path)
-			
+
 			if save_game_res == null:
 				escoria.logger.report_warnings(
 					"esc_save_manager.gd",
@@ -90,7 +90,7 @@ func get_saves_list() -> Dictionary:
 					escoria.logger.report_warnings(
 						"esc_save_manager.gd",
 						[
-							"Savegame file %s contains valid data but doesn't match filename format %s. Skipping." 
+							"Savegame file %s contains valid data but doesn't match filename format %s. Skipping."
 							% [save_path, regex.get_pattern()]
 						]
 					)
@@ -154,9 +154,9 @@ func save_game_crash():
 	)
 	crash_savegame_filename = save_file_path.plus_file(
 		CRASH_SAVE_NAME_TEMPLATE % [
-			str(datetime["year"]) + str(datetime["month"]) 
+			str(datetime["year"]) + str(datetime["month"])
 					+ str(datetime["day"]),
-			str(datetime["hour"]) + str(datetime["minute"]) 
+			str(datetime["hour"]) + str(datetime["minute"])
 					+ str(datetime["second"])
 		]
 	)
@@ -165,22 +165,22 @@ func save_game_crash():
 	if error != OK:
 		escoria.logger.report_errors(
 			"esc_save_manager.gd",
-			["There was an issue writing the crash save to %s" 
+			["There was an issue writing the crash save to %s"
 				% crash_savegame_filename])
 	return error
 
 
-# Actual savegame function. 
+# Actual savegame function.
 #
 # ## Parameters
 # - p_savename: name of the savegame
 func _do_save_game(p_savename: String) -> ESCSaveGame:
 	var save_game = ESCSaveGame.new()
-	
+
 	var plugin_config = ConfigFile.new()
 	plugin_config.load("res://addons/escoria-core/plugin.cfg")
 	save_game.escoria_version = plugin_config.get_value("plugin", "version")
-	
+
 	save_game.game_version = escoria.project_settings_manager.get_setting(
 		escoria.project_settings_manager.GAME_VERSION
 	)
@@ -200,7 +200,7 @@ func _do_save_game(p_savename: String) -> ESCSaveGame:
 	escoria.object_manager.save_game(save_game)
 	escoria.main.save_game(save_game)
 	save_game.custom_data = escoria.game_scene.get_custom_data()
-	
+
 	return save_game
 
 
@@ -237,7 +237,7 @@ func load_game(id: int):
 			escoria_version,
 			"res://addons/escoria-core/game/core-scripts/migrations/versions"
 		)
-		
+
 	# Migrate savegame through game versions
 	if escoria.project_settings_manager.get_setting(
 			escoria.project_settings_manager.GAME_VERSION
@@ -291,7 +291,7 @@ func load_game(id: int):
 	load_statements.append(
 		ESCCommand.new("%s %s false" %
 				[
-					_change_scene.get_command_name(), 
+					_change_scene.get_command_name(),
 					save_game.main["current_scene_filename"]
 				]
 			)
@@ -303,8 +303,8 @@ func load_game(id: int):
 				save_game.objects[object_global_id].has("active"):
 			load_statements.append(ESCCommand.new("%s %s %s" \
 					% [
-						_set_active.get_command_name(), 
-						object_global_id, 
+						_set_active.get_command_name(),
+						object_global_id,
 						save_game.objects[object_global_id]["active"]
 					]
 				)
@@ -313,7 +313,7 @@ func load_game(id: int):
 		if save_game.objects[object_global_id].has("interactive"):
 			load_statements.append(ESCCommand.new("%s %s %s" \
 					% [
-						_set_interactive.get_command_name(), 
+						_set_interactive.get_command_name(),
 						object_global_id,
 						save_game.objects[object_global_id]["interactive"]
 					]
@@ -334,7 +334,7 @@ func load_game(id: int):
 			load_statements.append(ESCCommand.new("%s %s %s %s" \
 					% [
 						_teleport_pos.get_command_name(),
-						object_global_id, 
+						object_global_id,
 						int(save_game.objects[object_global_id] \
 							["global_transform"].origin.x),
 						int(save_game.objects[object_global_id] \
@@ -345,18 +345,18 @@ func load_game(id: int):
 			load_statements.append(ESCCommand.new("%s %s %s" \
 					% [
 						_set_angle.get_command_name(),
-						object_global_id, 
+						object_global_id,
 						save_game.objects[object_global_id]["last_deg"]
 					]
 				)
 			)
 
 		if object_global_id in [
-				escoria.object_manager.MUSIC, 
+				escoria.object_manager.MUSIC,
 				escoria.object_manager.SOUND, escoria.object_manager.SPEECH
 			]:
 			if save_game.objects[object_global_id]["state"] in [
-				"default", 
+				"default",
 				"off"
 			]:
 				load_statements.append(
@@ -400,7 +400,7 @@ func save_settings():
 	var settings_res := ESCSaveSettings.new()
 	var plugin_config = ConfigFile.new()
 	plugin_config.load("res://addons/escoria-core/plugin.cfg")
-	
+
 	settings_res.escoria_version = plugin_config.get_value("plugin", "version")
 	settings_res.text_lang = escoria.settings.text_lang
 	settings_res.voice_lang = escoria.settings.voice_lang

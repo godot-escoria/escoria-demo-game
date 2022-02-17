@@ -1,9 +1,9 @@
 # `sched_event time object event`
-# 
+#
 # Schedules the execution to run at a later time.
 #
 # If another event is already running when the scheduled
-# event is to start, execution of the scheduled event 
+# event is to start, execution of the scheduled event
 # begins when the already-running event ends.
 #
 # **Parameters**
@@ -20,7 +20,7 @@ class_name SchedEventCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		3, 
+		3,
 		[TYPE_INT, TYPE_STRING, TYPE_STRING],
 		[null, null, null]
 	)

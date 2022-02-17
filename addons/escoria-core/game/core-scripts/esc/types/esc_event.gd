@@ -21,20 +21,20 @@ const PREFIX = ":"
 
 
 # Valid event flags
-# * TK: stands for "telekinetic". It means the player won't walk over to 
+# * TK: stands for "telekinetic". It means the player won't walk over to
 #   the item to say the line.
-# * NO_TT: stands for "No tooltip". It hides the tooltip for the duration of 
+# * NO_TT: stands for "No tooltip". It hides the tooltip for the duration of
 #   the event. Probably not very useful, because events having multiple
 #   say commands in them are automatically hidden.
-# * NO_UI: stands for "No User Inteface". It hides the UI for the duration of 
-#   the event. Useful when you want something to look like a cut scene but not 
+# * NO_UI: stands for "No User Inteface". It hides the UI for the duration of
+#   the event. Useful when you want something to look like a cut scene but not
 #   disable input for skipping dialog.
-# * NO_SAVE: disables saving. Use this in cut scenes and anywhere a 
+# * NO_SAVE: disables saving. Use this in cut scenes and anywhere a
 #   badly-timed autosave would leave your game in a messed-up state.
 enum {
-	FLAG_TK = 1, 
-	FLAG_NO_TT = 2, 
-	FLAG_NO_UI = 4, 
+	FLAG_TK = 1,
+	FLAG_NO_TT = 2,
+	FLAG_NO_UI = 4,
 	FLAG_NO_SAVE = 8
 }
 
@@ -50,7 +50,7 @@ var flags: int = 0
 func _init(event_string: String):
 	var event_regex = RegEx.new()
 	event_regex.compile(REGEX)
-	
+
 	if event_regex.search(event_string):
 		for result in event_regex.search_all(event_string):
 			if "name" in result.names:
@@ -58,7 +58,7 @@ func _init(event_string: String):
 					.strip_edges()
 			if "flags" in result.names:
 				var _flags = escoria.utils.get_re_group(
-						result, 
+						result,
 						"flags"
 					).strip_edges().split(" ")
 				if "TK" in _flags:

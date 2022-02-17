@@ -4,9 +4,9 @@ class_name ESCUtils
 
 
 # Convert radians to degrees
-# 
+#
 # #### Parameters
-# 
+#
 # - rad_angle: Angle in radians
 # **Returns** Degrees
 func get_deg_from_rad(rad_angle: float):
@@ -46,7 +46,7 @@ func get_typed_value(value: String, type_hint = []):
 	regex_float.compile("^[0-9]+\\.[0-9]+$")
 	var regex_int = RegEx.new()
 	regex_int.compile("^[0-9]+$")
-	
+
 	if regex_float.search(value):
 		return float(value)
 	elif regex_int.search(value):
@@ -74,7 +74,7 @@ func sanitize_whitespace(value: String) -> String:
 	var double_regex = RegEx.new()
 	double_regex.compile("\\s\\s+")
 	return double_regex.sub(
-		tab_regex.sub(value, " "), 
-		" ", 
+		tab_regex.sub(value, " "),
+		" ",
 		true
 	)

@@ -1,7 +1,7 @@
 # `anim object name [reverse]`
 #
-# Executes the animation specified in "name" on "object", 
-# without blocking. The next command in the event will be executed immediately 
+# Executes the animation specified in "name" on "object",
+# without blocking. The next command in the event will be executed immediately
 # after.
 #
 # **Parameters**
@@ -18,12 +18,12 @@ class_name AnimCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, TYPE_STRING, TYPE_BOOL],
 		[null, null, false]
 	)
-	
-	
+
+
 # Validate wether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not escoria.object_manager.objects.has(arguments[0]):

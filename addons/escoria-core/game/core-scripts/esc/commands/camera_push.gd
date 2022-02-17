@@ -4,13 +4,13 @@
 #
 # **Parameters**
 #
-# - *target*: Global ID of the `ESCItem` to push the camera to. If the target 
+# - *target*: Global ID of the `ESCItem` to push the camera to. If the target
 #   has a child node called `camera_node`, its location will be used. If not,
 #   the location of the target will be used
 # - *time*: Number of seconds the transition should take (default: `1`)
 # - *type*: Transition type to use (default: `QUAD`)
 #
-# Supported transitions include the names of the values used 
+# Supported transitions include the names of the values used
 # in the "TransitionType" enum of the "Tween" type (without the "TRANS_" prefix):
 #
 # https://docs.godotengine.org/en/stable/classes/class_tween.html?highlight=tween#enumerations
@@ -25,11 +25,11 @@ class_name CameraPushCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		1, 
+		1,
 		[TYPE_STRING, [TYPE_REAL, TYPE_INT], TYPE_STRING],
 		[null, 1, "QUAD"]
 	)
-	
+
 
 # Validate wether the given arguments match the command descriptor
 func validate(arguments: Array):
@@ -41,7 +41,7 @@ func validate(arguments: Array):
 			]
 		)
 		return false
-	
+
 	return .validate(arguments)
 
 

@@ -77,22 +77,22 @@ func _on_inventory_item_gui_input(event: InputEvent):
 		if event.doubleclick:
 			if event.button_index == BUTTON_LEFT:
 				emit_signal(
-					"mouse_double_left_inventory_item", 
-					global_id, 
+					"mouse_double_left_inventory_item",
+					global_id,
 					event
 				)
 		else:
 			if event.is_pressed():
 				if event.button_index == BUTTON_LEFT:
 					emit_signal(
-						"mouse_left_inventory_item", 
-						global_id, 
+						"mouse_left_inventory_item",
+						global_id,
 						event
 					)
 				if event.button_index == BUTTON_RIGHT:
 					emit_signal(
-						"mouse_right_inventory_item", 
-						global_id, 
+						"mouse_right_inventory_item",
+						global_id,
 						event
 					)
 

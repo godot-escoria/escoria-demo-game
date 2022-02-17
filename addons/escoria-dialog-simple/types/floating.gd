@@ -46,10 +46,10 @@ func _ready():
 	)
 	bbcode_enabled = true
 	$Tween.connect("tween_completed", self, "_on_dialog_line_typed")
-	
+
 	escoria.connect("paused", self, "_on_paused")
 	escoria.connect("resumed", self, "_on_resumed")
-	
+
 
 func _process(delta):
 	if _current_character.is_inside_tree() and \
@@ -58,13 +58,13 @@ func _process(delta):
 		rect_position = _current_character.get_node("dialog_position") \
 			.get_global_transform_with_canvas().origin
 		rect_position.x -= rect_size.x / 2
-		
+
 		if rect_position.x < 0:
 			rect_position.x = 0
-		
+
 		var screen_margin = rect_position.x + rect_size.x - \
 				ProjectSettings.get("display/window/size/width")
-					
+
 		if screen_margin > 0:
 			rect_position.x -= screen_margin
 
@@ -76,19 +76,19 @@ func _process(delta):
 # - line: Line to say
 func say(character: String, line: String) :
 	show()
-	
+
 	_is_speeding_up = false
-	
+
 	# Position the RichTextLabel on the character's dialog position, if any.
 	_current_character = escoria.object_manager.get_object(character).node
-	
+
 	# Set text color to color set in the actor
 	var text_color = _current_character.dialog_color
 	var text_color_html = text_color.to_html(false)
-	
+
 	text_node.bbcode_text = "[center][color=#" + text_color_html + "]" \
 		.format([text_color_html]) + tr(line) + "[/color][center]"
-	
+
 	if _current_character.is_inside_tree() and \
 			_current_character.has_node("dialog_position"):
 		rect_position = _current_character.get_node(
@@ -98,21 +98,21 @@ func say(character: String, line: String) :
 	else:
 		rect_position.x = 0
 		rect_size.x = ProjectSettings.get_setting("display/window/size/width")
-	
+
 	if rect_position.x < 0:
 		rect_position.x = 0
-	
+
 	var screen_margin = rect_position.x + rect_size.x - \
 			ProjectSettings.get("display/window/size/width")
-				
+
 	if screen_margin > 0:
 		rect_position.x -= screen_margin
-	
+
 	_current_character.start_talking()
-	
+
 	text_node.percent_visible = 0.0
 	var time_show_full_text = _text_speed_per_character * len(line)
-	
+
 	tween.interpolate_property(text_node, "percent_visible",
 		0.0, 1.0, time_show_full_text,
 		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
@@ -145,7 +145,7 @@ func _on_dialog_finished():
 	if is_instance_valid(_current_character) and _current_character != null:
 		_current_character.stop_talking()
 	emit_signal("say_finished")
-	
+
 
 # Handler managing pause notification from Escoria
 func _on_paused():

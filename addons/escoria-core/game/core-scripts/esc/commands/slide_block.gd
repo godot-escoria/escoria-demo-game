@@ -1,7 +1,7 @@
 # `slide_block object target [speed]`
 #
 # Moves `object` towards the position of `target`. This command is
-# blocking. 
+# blocking.
 #
 # - *object*: Global ID of the object to move
 # - *target*: Global ID of the target object

@@ -24,18 +24,18 @@ func _ready() -> void:
 func _on_command_text_entered(p_command_str : String):
 	if p_command_str.empty():
 		return
-	
+
 	command.text = ""
 	past_actions.text += "\n"
 	past_actions.text += "# " + p_command_str
 	past_actions.text += "\n"
-	
+
 	var errors = []
 	var script = escoria.esc_compiler.compile([
 		"%s%s" % [ESCEvent.PREFIX, _debug.get_command_name()],
 		p_command_str
 	])
-	
+
 	if script:
 		escoria.event_manager.queue_event(script.events[escoria.event_manager.EVENT_DEBUG])
 		var ret = yield(escoria.event_manager, "event_finished")

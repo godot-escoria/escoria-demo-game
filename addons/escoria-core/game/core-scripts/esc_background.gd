@@ -1,12 +1,12 @@
-# ESCBackground's purpose is to display a background image and receive input 
-# events on the background. More precisely, the TextureRect under ESCBackground 
-# does not receive events itself - if it did, it would also eat all events like 
-# hotspot focusing and such. Instead, we set the TextureRect mouse filter to 
+# ESCBackground's purpose is to display a background image and receive input
+# events on the background. More precisely, the TextureRect under ESCBackground
+# does not receive events itself - if it did, it would also eat all events like
+# hotspot focusing and such. Instead, we set the TextureRect mouse filter to
 # MOUSE_FILTER_IGNORE, and we use an Area2D node to receive the input events.
-# 
-# If ESCBackground doesn't contain a texture, it is important that its rect_size 
-# is set over the whole scene, because its rect_size is then used to create the 
-# Area2D node under it. If the rect_size is wrongly set, the background may 
+#
+# If ESCBackground doesn't contain a texture, it is important that its rect_size
+# is set over the whole scene, because its rect_size is then used to create the
+# Area2D node under it. If the rect_size is wrongly set, the background may
 # receive no input.
 tool
 extends TextureRect
@@ -66,14 +66,14 @@ func _enter_tree():
 	# Set extents of RectangleShape2D to cover entire TextureRect
 	shape.set_extents(size / 2)
 	area.shape_owner_add_shape(sid, shape)
-	
+
 	add_child(area)
 
 # Disable mouse filter events and connect our own events to the ESC input
 # manager
 func _ready():
 	mouse_filter = MOUSE_FILTER_IGNORE
-	
+
 	if !Engine.is_editor_hint():
 		escoria.inputs_manager.register_background(self)
 
@@ -118,7 +118,7 @@ func get_full_area_rect2() -> Rect2:
 		size = get_texture().get_size()
 	else:
 		size = rect_size
-		
+
 	if rect_scale.x != 1 or rect_scale.y != 1:
 		size.x *= rect_scale.x
 		size.y *= rect_scale.y

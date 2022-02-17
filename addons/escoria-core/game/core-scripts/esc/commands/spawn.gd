@@ -18,7 +18,7 @@ class_name SpawnCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, TYPE_STRING, TYPE_BOOL, TYPE_STRING],
 		[null, null, true, null]
 	)
@@ -57,7 +57,7 @@ func validate(arguments: Array):
 # Run the command
 func run(command_params: Array) -> int:
 	var res_scene = escoria.resource_cache.get_resource(command_params[1])
-		
+
 	# Load room scene
 	var scene = res_scene.instance()
 	if scene:
@@ -66,7 +66,7 @@ func run(command_params: Array) -> int:
 			var obj = escoria.object_manager.get_object(command_params[3])
 			scene.set_position(obj.get_global_position())
 		escoria.inputs_manager.hotspot_focused = ""
-		
+
 		escoria.object_manager.register_object(
 			ESCObject.new(
 				command_params[0],
@@ -74,13 +74,13 @@ func run(command_params: Array) -> int:
 			),
 			true
 		)
-		
+
 		escoria.object_manager.get_object(command_params[0]).active = \
 			command_params[2]
-		
+
 	else:
 		escoria.logger.report_errors(
-			"spawn: Invalid scene", 
+			"spawn: Invalid scene",
 			[
 				"Failed loading scene %s" % command_params[1]
 			]

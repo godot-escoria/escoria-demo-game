@@ -15,7 +15,7 @@ class_name SetSpeedCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, TYPE_INT],
 		[null, null]
 	)

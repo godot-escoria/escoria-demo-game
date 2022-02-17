@@ -57,7 +57,7 @@ export(String, FILE, "*.esc") var esc_script
 export(bool) var is_exit
 
 # If true, object is considered as trigger. Allows using :trigger_in and
-# :trigger_out verbs in ESC scripts. 
+# :trigger_out verbs in ESC scripts.
 export(bool) var is_trigger
 
 # The verb used for the trigger in ESC events
@@ -89,8 +89,8 @@ export(String) var default_action
 # Default action to use if object is in the inventory
 export(String) var default_action_inventory
 
-# If action used by player is in this list, the game will wait for a second 
-# click on another item to combine objects together (typical 
+# If action used by player is in this list, the game will wait for a second
+# click on another item to combine objects together (typical
 # `USE <X> WITH <Y>`, `GIVE <X> TO <Y>`)
 export(PoolStringArray) var combine_when_selected_action_is_in = []
 
@@ -156,33 +156,33 @@ var _animation_player: ESCAnimationPlayer = null
 # and register this item
 func _ready():
 	self.pause_mode = Node.PAUSE_MODE_STOP
-	
+
 	_detect_children()
-	
+
 	if not self.is_connected("mouse_entered", self, "_on_mouse_entered"):
 		connect("mouse_entered", self, "_on_mouse_entered")
 	if not self.is_connected("mouse_exited", self, "_on_mouse_exited"):
 		connect("mouse_exited", self, "_on_mouse_exited")
-	
+
 	# Register and connect all elements to Escoria backoffice.
 	if not Engine.is_editor_hint():
-		
+
 		if is_movable:
 			_movable = ESCMovable.new()
 
 			add_child(_movable)
-	
+
 		if not escoria.event_manager.is_connected(
 			"event_finished",
-			self, 
+			self,
 			"_update_terrain"
 		):
 			escoria.event_manager.connect(
-				"event_finished", 
-				self, 
+				"event_finished",
+				self,
 				"_update_terrain"
 			)
-		
+
 		escoria.object_manager.register_object(
 			ESCObject.new(
 				global_id,
@@ -190,58 +190,58 @@ func _ready():
 			),
 			true
 		)
-		
+
 		terrain = escoria.room_terrain
-		
+
 		if !is_trigger:
 			if not self.is_connected(
-				"mouse_entered_item", 
-				escoria.inputs_manager, 
+				"mouse_entered_item",
+				escoria.inputs_manager,
 				"_on_mouse_entered_item"
 			):
 				connect(
-					"mouse_entered_item", 
-					escoria.inputs_manager, 
+					"mouse_entered_item",
+					escoria.inputs_manager,
 					"_on_mouse_entered_item"
 				)
 			if not self.is_connected(
-				"mouse_exited_item", 
-				escoria.inputs_manager, 
+				"mouse_exited_item",
+				escoria.inputs_manager,
 				"_on_mouse_exited_item"
 			):
 				connect(
-					"mouse_exited_item", 
-					escoria.inputs_manager, 
+					"mouse_exited_item",
+					escoria.inputs_manager,
 					"_on_mouse_exited_item"
 				)
 			if not self.is_connected(
-				"mouse_left_clicked_item", 
-				escoria.inputs_manager, 
+				"mouse_left_clicked_item",
+				escoria.inputs_manager,
 				"_on_mouse_left_clicked_item"
 			):
 				connect(
-					"mouse_left_clicked_item", 
-					escoria.inputs_manager, 
+					"mouse_left_clicked_item",
+					escoria.inputs_manager,
 					"_on_mouse_left_clicked_item"
 				)
 			if not self.is_connected(
-				"mouse_double_left_clicked_item", 
-				escoria.inputs_manager, 
+				"mouse_double_left_clicked_item",
+				escoria.inputs_manager,
 				"_on_mouse_left_double_clicked_item"
 			):
 				connect(
-					"mouse_double_left_clicked_item", 
-					escoria.inputs_manager, 
+					"mouse_double_left_clicked_item",
+					escoria.inputs_manager,
 					"_on_mouse_left_double_clicked_item"
 				)
 			if not self.is_connected(
-				"mouse_right_clicked_item", 
-				escoria.inputs_manager, 
+				"mouse_right_clicked_item",
+				escoria.inputs_manager,
 				"_on_mouse_right_clicked_item"
 			):
 				connect(
-					"mouse_right_clicked_item", 
-					escoria.inputs_manager, 
+					"mouse_right_clicked_item",
+					escoria.inputs_manager,
 					"_on_mouse_right_clicked_item"
 				)
 		else:
@@ -253,12 +253,12 @@ func _ready():
 				connect("body_entered", self, "element_entered")
 			if not self.is_connected("body_exited", self, "element_exited"):
 				connect("body_exited", self, "element_exited")
-		
+
 	# If object can be in the inventory, set default_action_inventory to same as
 	# default_action, if default_action_inventory is not set
 	if use_from_inventory_only and default_action_inventory.empty():
 		default_action_inventory = default_action
-	
+
 	# Perform a first terrain scaling if we have to.
 	if (!is_exit or dont_apply_terrain_scaling) and is_movable:
 		_movable.last_scale = scale
@@ -278,8 +278,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		var mouse_in_shape: bool = false
 		var colliders = get_world_2d().direct_space_state.intersect_point(
 			p,
-			32, 
-			[], 
+			32,
+			[],
 			2147483647,
 			true,
 			true
@@ -331,10 +331,10 @@ func get_interact_position() -> Vector2:
 	for c in get_children():
 		if c is Position2D:
 			interact_position = c.global_position
-			
+
 	if interact_position == null and collision != null:
 		interact_position = collision.global_position
-		
+
 	return interact_position
 
 
@@ -349,7 +349,7 @@ func _on_mouse_exited():
 
 
 # Another item (e.g. the player) has entered this item
-# 
+#
 # #### Parameters
 #
 # - body: Other object that has entered the item
@@ -357,7 +357,7 @@ func element_entered(body):
 	if body is ESCBackground or body.get_parent() is ESCBackground:
 		return
 	escoria.action_manager.do(
-		escoria.action_manager.ACTION.TRIGGER_IN, 
+		escoria.action_manager.ACTION.TRIGGER_IN,
 		[global_id, body.global_id, trigger_in_verb]
 	)
 
@@ -370,7 +370,7 @@ func element_exited(body):
 	if body is ESCBackground or body.get_parent() is ESCBackground:
 		return
 	escoria.action_manager.do(
-		escoria.action_manager.ACTION.TRIGGER_OUT, 
+		escoria.action_manager.ACTION.TRIGGER_OUT,
 		[global_id, body.global_id, trigger_out_verb]
 	)
 
@@ -391,7 +391,7 @@ func teleport(target: Node) -> void:
 # - target: Vector2 position to teleport to
 func teleport_to(target: Vector2) -> void:
 	_movable.teleport_to(target)
-	
+
 
 # Use the movable node to make the item walk to the given position
 #
@@ -410,7 +410,7 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 # - speed_value: Set the new speed
 func set_speed(speed_value: int) -> void:
 	speed = speed_value
-	
+
 
 # Check wether this item moved
 func has_moved() -> bool:
@@ -527,18 +527,18 @@ func _get_property_list():
 func _set_animation_player_node(node_path: NodePath):
 	if not Engine.is_editor_hint():
 		return
-	
+
 	if node_path == "":
 		animation_player_node = node_path
 		return
-		
+
 	assert(has_node(node_path), "Node with path %s not found" % node_path)
 	assert(
 		get_node(node_path) is AnimatedSprite or \
 				get_node(node_path) is AnimationPlayer,
 		"Selected node has to be an AnimatedSprite or AnimationPlayer node"
 	)
-	
+
 	animation_player_node = node_path
 
 

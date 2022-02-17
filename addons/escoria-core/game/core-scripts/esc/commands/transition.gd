@@ -1,14 +1,14 @@
 # `transition transition_name mode [delay]`
 #
 # Performs a transition into or out of a room programmatically.
-# 
+#
 # **Parameters**
 #
 # - *transition_name*: Name of the transition shader from one of the transition
 #   directories
 # - *mode*: Set to `in` to transition into or `out` to transition out of the room
 # - *delay*: Delay in seconds before starting the transition (default: `1`)
-# 
+#
 # @ESC
 extends ESCBaseCommand
 class_name TransitionCommand
@@ -17,12 +17,12 @@ class_name TransitionCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, TYPE_STRING, TYPE_REAL],
 		[null, null, 1.0]
 	)
-	
-	
+
+
 # Validate wether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not escoria.main.scene_transition.has_transition(arguments[0]):
@@ -52,13 +52,13 @@ func run(command_params: Array) -> int:
 				else ESCTransitionPlayer.TRANSITION_MODE.IN,
 		command_params[2]
 	)
-	escoria.logger.debug("Starting transition #%s [%s, %s]" 
+	escoria.logger.debug("Starting transition #%s [%s, %s]"
 		% [transition_id, command_params[0], command_params[1]])
 	while yield(
-		escoria.main.scene_transition, 
+		escoria.main.scene_transition,
 		"transition_done"
 	) != transition_id:
 		pass
-	escoria.logger.debug("Ending transition #%s [%s, %s]" 
+	escoria.logger.debug("Ending transition #%s [%s, %s]"
 		% [transition_id, command_params[0], command_params[1]])
 	return ESCExecution.RC_OK

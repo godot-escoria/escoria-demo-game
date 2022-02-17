@@ -24,20 +24,20 @@ var conditions: Array = []
 func _init(command_string):
 	var command_regex = RegEx.new()
 	command_regex.compile(REGEX)
-	
+
 	if command_regex.search(command_string):
 		for result in command_regex.search_all(command_string):
 			if "name" in result.names:
 				self.name = escoria.utils.get_re_group(result, "name")
 			if "parameters" in result.names:
-				# Split parameters by whitespace but allow quoted 
+				# Split parameters by whitespace but allow quoted
 				# parameters
 				var quote_open = false
 				var parameter_values = PoolStringArray([])
 				var parsed_parameters = \
 					escoria.utils.sanitize_whitespace(
 						escoria.utils.get_re_group(
-							result, 
+							result,
 							"parameters"
 						).strip_edges()
 					)
@@ -65,7 +65,7 @@ func _init(command_string):
 						parameters.append(parameter)
 			if "conditions" in result.names:
 				for condition in escoria.utils.get_re_group(
-							result, 
+							result,
 							"conditions"
 						).split(","):
 					self.conditions.append(
@@ -90,7 +90,7 @@ func is_valid() -> bool:
 			]
 		)
 		return false
-			
+
 	return .is_valid()
 
 

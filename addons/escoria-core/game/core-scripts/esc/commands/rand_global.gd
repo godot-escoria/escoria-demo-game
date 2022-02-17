@@ -15,7 +15,7 @@ class_name RandGlobalCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, TYPE_INT],
 		[null, 1]
 	)
@@ -47,7 +47,7 @@ func run(command_params: Array) -> int:
 	randomize()
 	var rnd = randi() % command_params[1]
 	escoria.globals_manager.set_global(
-		command_params[0], 
+		command_params[0],
 		rnd
 	)
 	return ESCExecution.RC_OK
