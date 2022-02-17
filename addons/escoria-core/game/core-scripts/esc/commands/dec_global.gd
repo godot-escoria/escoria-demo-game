@@ -1,5 +1,5 @@
 # `dec_global name value`
-# 
+#
 # Subtract the given value from the specified global.
 #
 # **Parameters**
@@ -15,7 +15,7 @@ class_name DecGlobalCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, TYPE_INT],
 		[null, 0]
 	)

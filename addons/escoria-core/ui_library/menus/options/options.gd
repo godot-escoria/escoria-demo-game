@@ -24,9 +24,9 @@ func _ready() -> void:
 			$VBoxContainer/MarginContainer/options/flags
 	for child in _flags_container.get_children():
 		_flags_container.remove_child(child)
-		
+
 	_loaded_languages = []
-	
+
 	for lang in TranslationServer.get_loaded_locales():
 		if not lang in _loaded_languages:
 			_loaded_languages.append(lang)
@@ -88,7 +88,7 @@ func _on_music_volume_changed(value):
 	escoria.settings["music_volume"] = value
 	escoria.apply_settings(escoria.settings)
 	settings_changed = true
-	
+
 
 # General volume was changed
 #

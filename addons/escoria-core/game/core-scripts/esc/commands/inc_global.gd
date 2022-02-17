@@ -1,5 +1,5 @@
 # `inc_global name value`
-# 
+#
 # Adds the given value to the specified global.
 #
 # **Parameters**
@@ -15,7 +15,7 @@ class_name IncGlobalCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, TYPE_INT],
 		[null, 0]
 	)
@@ -45,7 +45,7 @@ func validate(arguments: Array):
 # Run the command
 func run(command_params: Array) -> int:
 	escoria.globals_manager.set_global(
-		command_params[0], 
+		command_params[0],
 		escoria.globals_manager.get_global(command_params[0]) +\
 				command_params[1]
 	)

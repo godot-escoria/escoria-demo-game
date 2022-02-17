@@ -14,7 +14,7 @@ class_name InventoryRemoveCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		1, 
+		1,
 		[TYPE_STRING],
 		[null]
 	)

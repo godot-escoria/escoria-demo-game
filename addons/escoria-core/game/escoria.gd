@@ -97,7 +97,7 @@ var save_manager: ESCSaveManager
 # The game scene loaded
 var game_scene: ESCGame
 
-# The compiled start script loaded from ProjectSettings 
+# The compiled start script loaded from ProjectSettings
 # escoria/main/game_start_script
 var start_script: ESCScript
 
@@ -120,11 +120,11 @@ func _init():
 	self.inputs_manager = ESCInputsManager.new()
 	self.room_manager = ESCRoomManager.new()
 	self.project_settings_manager = ESCProjectSettingsManager.new()
-	
+
 	settings = ESCSaveSettings.new()
-	
+
 	if self.project_settings_manager.get_setting(self.project_settings_manager.GAME_SCENE) == "":
-		logger.report_errors("escoria.gd", 
+		logger.report_errors("escoria.gd",
 			["Project setting '%s' is not set!" % self.project_settings_manager.GAME_SCENE]
 		)
 	else:
@@ -132,7 +132,7 @@ func _init():
 			self.project_settings_manager.get_setting(self.project_settings_manager.GAME_SCENE)
 		).instance()
 
-	print(get_script().get_path())	
+	print(get_script().get_path())
 
 
 # Load settings
@@ -142,7 +142,7 @@ func _ready():
 	room_manager.register_reserved_globals()
 	inputs_manager.register_core()
 	if self.project_settings_manager.get_setting(self.project_settings_manager.GAME_START_SCRIPT).empty():
-		logger.report_errors("escoria.gd", 
+		logger.report_errors("escoria.gd",
 		[
 			"Project setting '%s' is not set!" % self.project_settings_manager.GAME_START_SCRIPT
 		])
@@ -186,7 +186,7 @@ func apply_settings(p_settings: ESCSaveSettings) -> void:
 		settings = ESCSaveSettings.new()
 
 	AudioServer.set_bus_volume_db(
-		AudioServer.get_bus_index(BUS_MASTER), 
+		AudioServer.get_bus_index(BUS_MASTER),
 		linear2db(settings.master_volume)
 	)
 	AudioServer.set_bus_volume_db(
@@ -194,15 +194,15 @@ func apply_settings(p_settings: ESCSaveSettings) -> void:
 		linear2db(settings.sfx_volume)
 	)
 	AudioServer.set_bus_volume_db(
-		AudioServer.get_bus_index(BUS_MUSIC), 
+		AudioServer.get_bus_index(BUS_MUSIC),
 		linear2db(settings.music_volume)
-	)	
+	)
 	AudioServer.set_bus_volume_db(
-		AudioServer.get_bus_index(BUS_SPEECH), 
+		AudioServer.get_bus_index(BUS_SPEECH),
 		linear2db(settings.speech_volume)
 	)
 	TranslationServer.set_locale(settings.text_lang)
-	
+
 	game_scene.apply_custom_settings(settings.custom_settings)
 
 
@@ -214,7 +214,7 @@ func _input(event):
 
 	if event.is_action_pressed("ui_cancel"):
 		emit_signal("request_pause_menu")
-	
+
 
 # Pauses or unpause the game
 #
@@ -231,13 +231,13 @@ func set_game_paused(p_paused: bool):
 # Runs the event "event_name" from the "script" ESC script.
 #
 # #### Parameters
-# - script: ESC script containing the event to run. The script must have been 
+# - script: ESC script containing the event to run. The script must have been
 # loaded.
 # - event_name: Name of the event to run
 func run_event_from_script(script: ESCScript, event_name: String):
 	if script == null:
 		logger.report_errors(
-			"escoria.gd:run_event_from_script()", 
+			"escoria.gd:run_event_from_script()",
 			["Requested action %s on unloaded script %s" % [event_name, script],
 			"Please load the ESC script using esc_compiler.load_esc_file()."]
 		)
@@ -279,7 +279,7 @@ func register_ui(game_scene: String):
 		escoria.project_settings_manager.GAME_SCENE,
 		game_scene
 	)
-	
+
 
 # Deregister a user interface
 #
@@ -304,7 +304,7 @@ func deregister_ui(game_scene: String):
 		escoria.project_settings_manager.GAME_SCENE,
 		""
 	)
-	
+
 
 # Register a dialog manager addon. This should be called in a deferred way
 # from the addon's _enter_tree.
@@ -315,12 +315,12 @@ func register_dialog_manager(manager_class: String):
 	var dialog_managers: Array = escoria.project_settings_manager.get_setting(
 		escoria.project_settings_manager.DIALOG_MANAGERS
 	)
-	
+
 	if manager_class in dialog_managers:
 		return
-		
+
 	dialog_managers.push_back(manager_class)
-	
+
 	escoria.project_settings_manager.set_setting(
 		escoria.project_settings_manager.DIALOG_MANAGERS,
 		dialog_managers
@@ -335,7 +335,7 @@ func deregister_dialog_manager(manager_class: String):
 	var dialog_managers: Array = escoria.project_settings_manager.get_setting(
 		escoria.project_settings_manager.DIALOG_MANAGERS
 	)
-	
+
 	if not manager_class in dialog_managers:
 		logger.report_warnings(
 			"escoria.gd:deregister_dialog_manager()",
@@ -344,9 +344,9 @@ func deregister_dialog_manager(manager_class: String):
 			]
 		)
 		return
-	
+
 	dialog_managers.erase(manager_class)
-	
+
 	escoria.project_settings_manager.set_setting(
 		escoria.project_settings_manager.DIALOG_MANAGERS,
 		dialog_managers

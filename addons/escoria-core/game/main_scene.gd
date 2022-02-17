@@ -1,4 +1,4 @@
-# Main_scene is the entry point for Godot Engine. 
+# Main_scene is the entry point for Godot Engine.
 # This scene sets up the main menu scene to load.
 extends Node
 
@@ -6,4 +6,4 @@ extends Node
 # Start the main menu
 func _ready():
 	escoria.init()
-	
+

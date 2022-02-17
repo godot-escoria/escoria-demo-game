@@ -44,47 +44,47 @@ func register_core():
 # Connect the item signals to the local methods
 func register_inventory_item(item: Node):
 	item.connect(
-		"mouse_left_inventory_item", 
-		self, 
+		"mouse_left_inventory_item",
+		self,
 		"_on_mouse_left_click_inventory_item"
 	)
 	item.connect(
-		"mouse_double_left_inventory_item", 
-		self, 
+		"mouse_double_left_inventory_item",
+		self,
 		"_on_mouse_double_left_click_inventory_item"
 	)
 	item.connect(
-		"mouse_right_inventory_item", 
+		"mouse_right_inventory_item",
 		self,
 		"_on_mouse_right_click_inventory_item"
 	)
-	
+
 	item.connect(
-		"inventory_item_focused", 
-		self, 
+		"inventory_item_focused",
+		self,
 		"_on_mouse_entered_inventory_item"
 	)
 	item.connect(
-		"inventory_item_unfocused", 
-		self, 
+		"inventory_item_unfocused",
+		self,
 		"_on_mouse_exited_inventory_item"
 	)
-	
+
 
 func register_background(background: ESCBackground):
 	background.connect(
-		"left_click_on_bg", 
-		self, 
+		"left_click_on_bg",
+		self,
 		"_on_left_click_on_bg"
 	)
 	background.connect(
-		"right_click_on_bg", 
-		escoria.inputs_manager, 
+		"right_click_on_bg",
+		escoria.inputs_manager,
 		"_on_right_click_on_bg"
 	)
 	background.connect(
-		"double_left_click_on_bg", 
-		escoria.inputs_manager, 
+		"double_left_click_on_bg",
+		escoria.inputs_manager,
 		"_on_double_left_click_on_bg"
 	)
 	background.connect(
@@ -99,8 +99,8 @@ func register_background(background: ESCBackground):
 		"_on_mousewheel_action",
 		[-1]
 	)
-	
-	
+
+
 # Clear the stack of hovered items
 func clear_stack():
 	hover_stack = []
@@ -144,18 +144,18 @@ func _on_right_click_on_bg(position: Vector2) -> void:
 # An inventory item was clicked with the LMB
 #
 # #### Parameters
-# 
+#
 # - inventory_item_global_id: The global id of the clicked inventory item
 # - event: The input event received
 func _on_mouse_left_click_inventory_item(
-	inventory_item_global_id: String, 
+	inventory_item_global_id: String,
 	event: InputEvent
 ) -> void:
 	escoria.logger.info(
 		"Inventory item left clicked %s " % inventory_item_global_id
 	)
 	escoria.main.current_scene.game.left_click_on_inventory_item(
-		inventory_item_global_id, 
+		inventory_item_global_id,
 		event
 	)
 
@@ -167,7 +167,7 @@ func _on_mouse_left_click_inventory_item(
 # - inventory_item_global_id: The global id of the clicked inventory item
 # - event: The input event received
 func _on_mouse_right_click_inventory_item(
-	inventory_item_global_id: String, 
+	inventory_item_global_id: String,
 	event: InputEvent
 ) -> void:
 	if input_mode == INPUT_ALL:
@@ -175,7 +175,7 @@ func _on_mouse_right_click_inventory_item(
 			"Inventory item right clicked %s" % inventory_item_global_id
 		)
 		escoria.main.current_scene.game.right_click_on_inventory_item(
-			inventory_item_global_id, 
+			inventory_item_global_id,
 			event
 		)
 
@@ -183,11 +183,11 @@ func _on_mouse_right_click_inventory_item(
 # An inventory item was doublce-clicked with the LMB
 #
 # #### Parameters
-# 
+#
 # - inventory_item_global_id: The global id of the clicked inventory item
 # - event: The input event received
 func _on_mouse_double_left_click_inventory_item(
-	inventory_item_global_id: String, 
+	inventory_item_global_id: String,
 	event: InputEvent
 ) -> void:
 	if input_mode == INPUT_ALL:
@@ -195,7 +195,7 @@ func _on_mouse_double_left_click_inventory_item(
 			"Inventory item double left clicked %s" % inventory_item_global_id
 		)
 		escoria.main.current_scene.game.left_double_click_on_inventory_item(
-			inventory_item_global_id, 
+			inventory_item_global_id,
 			event
 		)
 
@@ -204,7 +204,7 @@ func _on_mouse_double_left_click_inventory_item(
 #
 # #### Parameters
 #
-# - inventory_item_global_id: The global id of the inventory item 
+# - inventory_item_global_id: The global id of the inventory item
 #	that is hovered
 func _on_mouse_entered_inventory_item(inventory_item_global_id: String) -> void:
 	escoria.logger.info(
@@ -229,7 +229,7 @@ func _on_mouse_exited_inventory_item() -> void:
 func _on_mouse_entered_item(item: ESCItem) -> void:
 	escoria.logger.info("Item focused: ", [item.global_id])
 	_clean_hover_stack()
-	
+
 	if not hover_stack.empty():
 		if item.z_index < hover_stack.back().z_index:
 			hover_stack.insert(hover_stack.size() - 1, item)
@@ -237,7 +237,7 @@ func _on_mouse_entered_item(item: ESCItem) -> void:
 			hover_stack.push_back(item)
 	else:
 		hover_stack.push_back(item)
-	
+
 	hotspot_focused = hover_stack.back().global_id
 	escoria.main.current_scene.game.element_focused(item.global_id)
 
@@ -256,7 +256,7 @@ func _on_mouse_exited_item(item: ESCItem) -> void:
 	else:
 		hotspot_focused = hover_stack.back().global_id
 		escoria.main.current_scene.game.element_focused(hotspot_focused)
-	
+
 
 # An Escoria item was clicked with the LMB
 #
@@ -270,7 +270,7 @@ func _on_mouse_left_clicked_item(item: ESCItem, event: InputEvent) -> void:
 			escoria.logger.info("Item left clicked", [item.global_id, event])
 			hotspot_focused = item.global_id
 			escoria.main.current_scene.game.left_click_on_item(
-				item.global_id, 
+				item.global_id,
 				event
 			)
 
@@ -289,7 +289,7 @@ func _on_mouse_left_double_clicked_item(
 		escoria.logger.info("Item left double clicked", [item.global_id, event])
 		hotspot_focused = item.global_id
 		escoria.main.current_scene.game.left_double_click_on_item(
-			item.global_id, 
+			item.global_id,
 			event
 		)
 
@@ -305,7 +305,7 @@ func _on_mouse_right_clicked_item(item: ESCItem, event: InputEvent) -> void:
 		escoria.logger.info("Item right clicked", [item.global_id, event])
 		hotspot_focused = item.global_id
 		escoria.main.current_scene.game.right_click_on_item(
-			item.global_id, 
+			item.global_id,
 			event
 		)
 
@@ -313,7 +313,7 @@ func _on_mouse_right_clicked_item(item: ESCItem, event: InputEvent) -> void:
 # The mousewheel was turned
 #
 # #### Parameters
-# 
+#
 # - direction: The direction the wheel was turned. 1 = up, -1 = down
 func _on_mousewheel_action(direction: int):
 	escoria.main.current_scene.game.mousewheel_action(direction)

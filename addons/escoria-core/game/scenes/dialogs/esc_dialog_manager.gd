@@ -6,7 +6,7 @@ class_name ESCDialogManager
 # Emitted when the say function has completed showing the text
 signal say_finished
 
-# Emitted when the player has chosen an option 
+# Emitted when the player has chosen an option
 signal option_chosen(option)
 
 
@@ -18,7 +18,7 @@ signal option_chosen(option)
 # *Returns* Wether the type is supported or not
 func has_type(type: String) -> bool:
 	return false
-	
+
 
 # Check wether a specific chooser type is supported by the
 # dialog plugin
@@ -56,7 +56,7 @@ func choose(dialog_player: Node, dialog: ESCDialog):
 # Trigger running the dialog faster
 func speedup():
 	pass
-	
+
 
 # The say command has been interrupted, cancel the dialog display
 func interrupt():

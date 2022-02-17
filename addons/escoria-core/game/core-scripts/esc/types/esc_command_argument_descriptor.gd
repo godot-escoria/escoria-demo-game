@@ -20,8 +20,8 @@ var strip_quotes: Array = []
 
 # Initialize the descriptor
 func _init(
-	p_min_args: int = 0, 
-	p_types: Array = [], 
+	p_min_args: int = 0,
+	p_types: Array = [],
 	p_defaults: Array = [],
 	p_strip_quotes: Array = [true]
 ):
@@ -34,7 +34,7 @@ func _init(
 # Combine the default argument values with the given arguments
 func prepare_arguments(arguments: Array) -> Array:
 	var complete_arguments = defaults
-	
+
 	for index in range(arguments.size()):
 		complete_arguments[index] = escoria.utils.get_typed_value(
 			arguments[index],
@@ -43,13 +43,13 @@ func prepare_arguments(arguments: Array) -> Array:
 		var strip = strip_quotes[0]
 		if strip_quotes.size() == complete_arguments.size():
 			strip = strip_quotes[index]
-		
+
 		if strip and typeof(complete_arguments[index]) == TYPE_STRING:
 			complete_arguments[index] = complete_arguments[index].replace(
 				'"',
 				''
 			)
-	
+
 	return complete_arguments
 
 
@@ -64,7 +64,7 @@ func validate(command: String, arguments: Array) -> bool:
 					arguments
 			]
 		)
-	
+
 	for index in range(arguments.size()):
 		if arguments[index] == null:
 			# No type checking for null values
@@ -78,10 +78,10 @@ func validate(command: String, arguments: Array) -> bool:
 		for type in self.types[types_index]:
 			if not correct:
 				correct = self._is_type(arguments[index], type)
-			
+
 		if not correct:
 			escoria.logger.report_errors(
-				"Argument type did not match descriptor for command %s" % 
+				"Argument type did not match descriptor for command %s" %
 						command,
 				[
 					"Argument %d is of type %d. Expected %s" % [
@@ -93,7 +93,7 @@ func validate(command: String, arguments: Array) -> bool:
 					]
 				]
 			)
-	
+
 	return true
 
 
@@ -106,4 +106,4 @@ func validate(command: String, arguments: Array) -> bool:
 # *Returns* Wether the argument is of the given type
 func _is_type(argument, type: int) -> bool:
 	return typeof(argument) == type
-		
+

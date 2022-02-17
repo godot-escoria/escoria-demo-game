@@ -8,7 +8,7 @@
 # - *object*: Global ID of the object to move
 # - *target*: Global ID of the target object
 # - *speed*: Walking speed to use (default: `object`'s default speed)
-# 
+#
 # @ESC
 extends ESCBaseCommand
 class_name WalkCommand
@@ -17,7 +17,7 @@ class_name WalkCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, TYPE_STRING, TYPE_INT],
 		[null, null, null]
 	)
@@ -32,7 +32,7 @@ func validate(arguments: Array):
 				"Object with global id %s not found" % arguments[0]
 			]
 		)
-		return false	
+		return false
 	if not escoria.object_manager.objects.has(arguments[1]):
 		escoria.logger.report_errors(
 			"walk: invalid second object",
@@ -47,7 +47,7 @@ func validate(arguments: Array):
 # Run the command
 func run(command_params: Array) -> int:
 	escoria.action_manager.do(
-		escoria.action_manager.ACTION.BACKGROUND_CLICK, 
+		escoria.action_manager.ACTION.BACKGROUND_CLICK,
 		command_params
 	)
 	return ESCExecution.RC_OK

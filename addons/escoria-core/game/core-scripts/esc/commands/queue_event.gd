@@ -19,11 +19,11 @@ class_name QueueEventCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, TYPE_STRING, TYPE_STRING, TYPE_BOOL],
 		[null, null, "_front", false]
 	)
-	
+
 
 # Validate wether the given arguments match the command descriptor
 func validate(arguments: Array):
@@ -72,9 +72,9 @@ func run(arguments: Array) -> int:
 		arguments[0]
 	).node
 	var esc_script = escoria.esc_compiler.load_esc_file(node.esc_script)
-	
+
 	return escoria.event_manager.queue_event_from_esc(
-		esc_script, 
+		esc_script,
 		arguments[1], # event name
 		arguments[2], # channel name
 		arguments[3]  # whether to block

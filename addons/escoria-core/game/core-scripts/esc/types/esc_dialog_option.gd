@@ -23,7 +23,7 @@ var conditions: Array = []
 func load_string(option_string: String):
 	var option_regex = RegEx.new()
 	option_regex.compile(REGEX)
-	
+
 	if option_regex.search(option_string):
 		for result in option_regex.search_all(option_string):
 			if "option" in result.names:
@@ -37,7 +37,7 @@ func load_string(option_string: String):
 				]
 			if "conditions" in result.names:
 				for condition_text in escoria.utils.get_re_group(
-							result, 
+							result,
 							"conditions"
 						).split(","):
 					self.conditions.append(

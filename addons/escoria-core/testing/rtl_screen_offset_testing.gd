@@ -16,7 +16,7 @@ const MAX_HEIGHT = 500
 func _ready():
 	assert(!path_to_richtextlabel.is_empty())
 	$VBoxContainer/HBoxContainer/clamp_distance.text = str(global_distance_to_clamp)
-	
+
 	# Add a white TextureRect behind the RTL to see its actual size
 	var texturerect_node = TextureRect.new()
 	get_node(path_to_richtextlabel).add_child(texturerect_node)
@@ -29,7 +29,7 @@ func _ready():
 	texturerect_node.anchor_right = 1.0
 	texturerect_node.anchor_bottom = 1.0
 	move_child(get_node(path_to_richtextlabel), 1)
-	
+
 	update_line2d()
 	_on_new_text_pressed()
 	set_process_input(true)
@@ -56,7 +56,7 @@ func update_line2d():
 	$Line2D.add_point(Vector2(screen_width - global_distance_to_clamp, screen_height - global_distance_to_clamp))
 	$Line2D.add_point(Vector2(screen_width - global_distance_to_clamp, global_distance_to_clamp))
 	$Line2D.add_point(Vector2(global_distance_to_clamp, global_distance_to_clamp))
-	
+
 
 func _on_new_text_pressed():
 	var pressed_button = $HBoxContainer2/foo.group.get_pressed_button()
@@ -79,18 +79,18 @@ func tooltip_distance_to_edge_right(position: Vector2):
 func _on_Control_mouse_moved(mouse_pos):
 #	printt("mousepos", mouse_pos)
 #	printt("label_container_pos", rect_position)
-	
+
 	#var corrected_position = _offset(new_pos)
 	var corrected_position = mouse_pos
-	
+
 	# clamp TOP
 	if tooltip_distance_to_edge_top(mouse_pos) <= global_distance_to_clamp:
 		corrected_position.y = global_distance_to_clamp
-	
+
 	# clamp BOTTOM
 	if tooltip_distance_to_edge_bottom(mouse_pos + get_node(path_to_richtextlabel).rect_size) <= global_distance_to_clamp:
 		corrected_position.y = screen_height - global_distance_to_clamp - get_node(path_to_richtextlabel).rect_size.y
-	
+
 	# clamp LEFT
 	if tooltip_distance_to_edge_left(mouse_pos - get_node(path_to_richtextlabel).rect_size/2) <= global_distance_to_clamp:
 		corrected_position.x = global_distance_to_clamp
@@ -98,7 +98,7 @@ func _on_Control_mouse_moved(mouse_pos):
 	# clamp RIGHT
 	if tooltip_distance_to_edge_right(mouse_pos + get_node(path_to_richtextlabel).rect_size/2) <= global_distance_to_clamp:
 		corrected_position.x = screen_width - global_distance_to_clamp - get_node(path_to_richtextlabel).rect_size.x
-	
+
 	get_node(path_to_richtextlabel).anchor_right = 0.2
 	get_node(path_to_richtextlabel).rect_position = corrected_position
 
@@ -115,7 +115,7 @@ func _on_clamp_distance_text_changed(new_text):
 func _offset(position):
 	var center_offset_x = rect_size.x / 2
 	var offset_y = 5
-	
+
 	position.x -= center_offset_x
 	position.y += offset_y
 	return position
@@ -129,14 +129,14 @@ func update_size():
 	var content_height = rtl_node.get_content_height()
 	var nb_visible_characters = rtl_node.visible_characters
 	var nb_visible_lines = rtl_node.get_visible_line_count()
-	
+
 	printt("BEFORE", "text_height", content_height, "rtl_height", rtl_node.rect_size.y)
-	
+
 	# if text is too long and is wrapped
 #	var nblines = float(rtl_node.get_content_height()) / float(ONE_LINE_HEIGHT)
 	var nblines = nb_visible_lines
 	if nblines >= 1:
-		
+
 		yield(get_tree(), "idle_frame")
 		yield(get_tree(), "idle_frame")
 		var text_height = rtl_node.get_content_height()
@@ -144,20 +144,20 @@ func update_size():
 			text_height = MAX_HEIGHT
 		if text_height <= MIN_HEIGHT:
 			text_height = MIN_HEIGHT
-		
+
 		var parent_width = rtl_node.rect_size.x
-		
+
 		# first, try to increase width until it goes above max_width
 		while parent_width < max_width && float(text_height) / float(ONE_LINE_HEIGHT) > 1.0:
 			rtl_node.rect_size.x += 1
 			parent_width = rtl_node.rect_size.x
-		
-		
+
+
 		rtl_node.rect_size.y = text_height
-		
+
 		if rtl_node.rect_size.x >= max_width:
 			rtl_node.rect_size.x = max_width
-		
+
 	## END RECT_SIZE ##
 	rtl_node.anchor_top = 0.0
 	rtl_node.anchor_right = 0.0

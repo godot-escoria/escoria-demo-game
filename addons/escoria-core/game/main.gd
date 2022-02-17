@@ -36,18 +36,18 @@ func _ready() -> void:
 func set_scene(p_scene: Node) -> void:
 	if !p_scene:
 		escoria.logger.report_errors("main", ["Trying to set empty scene"])
-	
+
 	if current_scene != null:
 		clear_scene()
 
 	if not p_scene.is_inside_tree():
-		add_child(p_scene) 
+		add_child(p_scene)
 		move_child(p_scene, 0)
 	current_scene = p_scene
 	check_game_scene_methods()
 
 	set_camera_limits()
-	
+
 	emit_signal("room_ready")
 
 
@@ -58,12 +58,12 @@ func clear_scene() -> void:
 
 	escoria.action_manager.clear_current_action()
 	escoria.action_manager.clear_current_tool()
-	
+
 	if escoria.game_scene.get_parent() == current_scene:
 		current_scene.remove_child(escoria.game_scene)
-		
+
 	current_scene.get_parent().remove_child(current_scene)
-	
+
 	current_scene.queue_free()
 	current_scene = null
 
@@ -88,7 +88,7 @@ func set_camera_limits(camera_limit_id: int = 0) -> void:
 				area = child.get_full_area_rect2()
 				break
 
-		# if the background is smaller than the viewport, we want the camera 
+		# if the background is smaller than the viewport, we want the camera
 		# to stick centered on the background
 		if area.size.x == 0 or area.size.y == 0 \
 				or area.size < get_viewport().size:
@@ -117,7 +117,7 @@ func set_camera_limits(camera_limit_id: int = 0) -> void:
 					scene_camera_limits.size.y
 		)
 		escoria.logger.info(
-			"Setting camera limits from parameter ", 
+			"Setting camera limits from parameter ",
 			[scene_camera_limits]
 		)
 
@@ -142,27 +142,27 @@ func check_game_scene_methods():
 	assert(current_scene.game.has_method("left_click_on_bg"))
 	assert(current_scene.game.has_method("right_click_on_bg"))
 	assert(current_scene.game.has_method("left_double_click_on_bg"))
-	
+
 	assert(current_scene.game.has_method("element_focused"))
 	assert(current_scene.game.has_method("element_unfocused"))
-	
+
 	assert(current_scene.game.has_method("left_click_on_item"))
 	assert(current_scene.game.has_method("right_click_on_item"))
 	assert(current_scene.game.has_method("left_double_click_on_item"))
-	
+
 	assert(current_scene.game.has_method("open_inventory"))
 	assert(current_scene.game.has_method("close_inventory"))
-	
+
 	assert(current_scene.game.has_method("left_click_on_inventory_item"))
 	assert(current_scene.game.has_method("right_click_on_inventory_item"))
 	assert(current_scene.game.has_method("left_double_click_on_inventory_item"))
-	
+
 	assert(current_scene.game.has_method("inventory_item_focused"))
 	assert(current_scene.game.has_method("inventory_item_unfocused"))
-	
+
 	assert(current_scene.game.has_method("mousewheel_action"))
-	
+
 	assert(current_scene.game.has_method("hide_ui"))
 	assert(current_scene.game.has_method("show_ui"))
 	assert(current_scene.game.has_method("_on_event_done"))
-	
+

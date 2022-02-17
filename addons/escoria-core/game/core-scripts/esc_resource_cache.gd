@@ -191,7 +191,7 @@ func start():
 	thread = Thread.new()
 	thread.start(self, "thread_func", 0)
 
-	
+
 	## Uncomment these for debug, or wait for someone to implement log levels
 	# connect("resource_loading_progress", self, "print_progress")
 	# connect("resource_loading_done", self, "res_loaded")

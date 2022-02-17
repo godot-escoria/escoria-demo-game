@@ -1,5 +1,5 @@
 # `play_snd file [player]`
-# 
+#
 # Plays the specified sound without blocking the event.
 #
 # **Parameters**
@@ -17,11 +17,11 @@ class_name PlaySndCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, TYPE_STRING],
 		[null, "_sound"]
 	)
-	
+
 
 # Validate wether the given arguments match the command descriptor
 func validate(arguments: Array):

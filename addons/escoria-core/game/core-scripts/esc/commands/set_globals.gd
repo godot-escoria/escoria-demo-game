@@ -1,7 +1,7 @@
 # `set_globals pattern value`
 #
 # Changes the value of multiple globals using a wildcard pattern, where `*`
-# matches zero or more arbitrary characters and `?` matches any single 
+# matches zero or more arbitrary characters and `?` matches any single
 # character except a period (".").
 #
 # **Parameters**
@@ -17,7 +17,7 @@ class_name SetGlobalsCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, [TYPE_BOOL, TYPE_STRING, TYPE_INT]],
 		[null, null]
 	)

@@ -17,11 +17,11 @@ class_name CameraSetTargetCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[[TYPE_REAL, TYPE_INT], TYPE_STRING],
 		[null, null]
 	)
-	
+
 
 # Validate wether the given arguments match the command descriptor
 func validate(arguments: Array):
@@ -33,7 +33,7 @@ func validate(arguments: Array):
 			]
 		)
 		return false
-	
+
 	return .validate(arguments)
 
 

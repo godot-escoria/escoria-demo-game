@@ -44,10 +44,10 @@ func register_reserved_global(key: String, value = null) -> void:
 	var old_value = _globals[key] if _globals.has(key) else ""
 	_reserved_globals[key] = value
 	_globals[key] = value
-	
+
 	if value != null:
 		emit_signal("global_changed", key, old_value, _globals[key])
-	
+
 
 # Get the current value of a global
 #
@@ -59,8 +59,8 @@ func get_global(key: String):
 	if _globals.has(key):
 		return _globals[key]
 	return null
-	
-	
+
+
 # Filter the globals and return all matching keys and their values as
 # a dictionary
 # Check out [the Godot docs](https://docs.godotengine.org/en/stable/classes/class_string.html#class-string-method-match)
@@ -93,19 +93,19 @@ func set_global(key: String, value, ignore_reserved: bool = false) -> void:
 			]
 		)
 	emit_signal(
-		"global_changed", 
-		key, 
-		_globals[key] if _globals.has(key) else null, 
+		"global_changed",
+		key,
+		_globals[key] if _globals.has(key) else null,
 		value
 	)
 	_globals[key] = value
-	
-	
-	
+
+
+
 # Set all globals that match the pattern to the value
 # Check out [the Godot docs](https://docs.godotengine.org/en/stable/classes/class_string.html#class-string-method-match)
 # for the pattern format
-# 
+#
 # #### Parameters
 #
 # - pattern: The wildcard pattern to match

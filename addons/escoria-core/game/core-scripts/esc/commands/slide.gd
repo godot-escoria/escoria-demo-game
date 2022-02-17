@@ -1,7 +1,7 @@
 # `slide object target [speed]`
 #
 # Moves `object` towards the position of `target`. This command is
-# non-blocking. 
+# non-blocking.
 #
 # - *object*: Global ID of the object to move
 # - *target*: Global ID of the target object
@@ -22,7 +22,7 @@ var _tweens: Dictionary
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, TYPE_STRING, TYPE_INT],
 		[null, null, -1]
 	)
@@ -37,7 +37,7 @@ func validate(arguments: Array):
 				"Object with global id %s not found" % arguments[0]
 			]
 		)
-		return false	
+		return false
 	if not escoria.object_manager.objects.has(arguments[1]):
 		escoria.logger.report_errors(
 			"slide: invalid second object",
@@ -55,30 +55,30 @@ func validate(arguments: Array):
 #
 # - source: The item to slide
 # - destination: The destination item to slide to
-# - speed: The speed at which to slide (will default to the 
+# - speed: The speed at which to slide (will default to the
 #
 # **Returns** The generated (and started) tween
 func _slide_object(
-	source: ESCObject, 
-	destination: ESCObject, 
+	source: ESCObject,
+	destination: ESCObject,
 	speed: int = -1
 ) -> Tween:
 	if speed == -1:
 		speed = source.node.speed
-		
+
 	if _tweens.has(source.global_id):
 		var tween = (_tweens.get(source.global_id) as Tween)
 		tween.stop_all()
 		if (escoria.main as Node).has_node(tween.name):
 			(escoria.main as Node).remove_child(tween)
-	
+
 	var tween = Tween.new()
 	(escoria.main as Node).add_child(tween)
-	
+
 	var duration = source.node.position.distance_to(
 		destination.node.position
 	) / speed
-	
+
 	tween.interpolate_property(
 		source.node,
 		"global_position",
@@ -86,13 +86,13 @@ func _slide_object(
 		destination.node.global_position,
 		duration
 	)
-	
+
 	tween.start()
-	
+
 	_tweens[source.global_id] = tween
-	
+
 	return tween
-	
+
 
 
 # Run the command

@@ -3,7 +3,7 @@
 # Queues the loading of the given resource into the resource cache.
 #
 # **Parameters**
-# 
+#
 # - *path*: Path of the resource to cache
 # - *front_of_queue*: Whether to put the resource at the front of the
 #   queue in order to load it as soon as possible (default: `false`)
@@ -16,7 +16,7 @@ class_name QueueResourceCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		1, 
+		1,
 		[],
 		[null, false]
 	)
@@ -26,7 +26,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 func validate(arguments: Array) -> bool:
 	if not ResourceLoader.exists(arguments[0]):
 		escoria.logger.report_errors(
-			"queue_resource: Invalid resource", 
+			"queue_resource: Invalid resource",
 			["Resource %s was not found" % arguments[0]]
 		)
 		return false

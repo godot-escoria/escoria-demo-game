@@ -25,8 +25,8 @@ func is_valid() -> bool:
 		if not (condition as ESCCondition).run():
 			return false
 	return true
-	
-	
+
+
 # Execute this statement and return its return code
 func run() -> int:
 	var final_rc = ESCExecution.RC_OK
@@ -35,14 +35,14 @@ func run() -> int:
 			final_rc = ESCExecution.RC_CANCEL
 			emit_signal("interrupted", final_rc)
 			return final_rc
-		
+
 		if statement.is_valid():
 			var rc = statement.run()
 			if rc is GDScriptFunctionState:
 				rc = yield(rc, "completed")
 				escoria.logger.debug(
 					"esc_statement",
-					["Statement (%s) was completed." 
+					["Statement (%s) was completed."
 						% statement]
 				)
 				statement.is_finished = true
@@ -53,7 +53,7 @@ func run() -> int:
 			elif rc != ESCExecution.RC_OK:
 				final_rc = rc
 				break
-	
+
 	emit_signal("finished", self, final_rc)
 	return final_rc
 
@@ -72,7 +72,7 @@ func interrupt():
 			var name = statement.name if "name" in statement else "group"
 			escoria.logger.debug(
 				"event manager",
-				["Event %s (%s) is already finished. Won't interrupt." 
+				["Event %s (%s) is already finished. Won't interrupt."
 					% [name, str(statement)]]
 			)
 		else:

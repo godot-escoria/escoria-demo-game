@@ -1,7 +1,7 @@
 # `stop`
 #
 # Stops the current event's execution.
-# 
+#
 # @ESC
 extends ESCBaseCommand
 class_name StopCommand
@@ -10,7 +10,7 @@ class_name StopCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		0, 
+		0,
 		[],
 		[]
 	)

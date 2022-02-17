@@ -14,7 +14,7 @@ export(bool) var is_start_location = false
 # player character arrives.
 export(bool) var player_orients_on_arrival = true
 
-# Let the player turn to this direction when the player arrives 
+# Let the player turn to this direction when the player arrives
 # at the item
 export(int) var interaction_direction
 

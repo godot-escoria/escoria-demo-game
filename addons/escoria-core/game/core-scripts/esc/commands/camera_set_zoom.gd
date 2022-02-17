@@ -1,7 +1,7 @@
 # `camera_set_zoom magnitude [time]`
 #
-# Zooms the camera in/out to the desired `magnitude`. Values larger than 1 zoom 
-# the camera out while smaller values zoom in, relative to the default value 
+# Zooms the camera in/out to the desired `magnitude`. Values larger than 1 zoom
+# the camera out while smaller values zoom in, relative to the default value
 # of 1.
 #
 # **Parameters**
@@ -20,7 +20,7 @@ class_name CameraSetZoomCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		1, 
+		1,
 		[[TYPE_REAL, TYPE_INT], [TYPE_REAL, TYPE_INT]],
 		[null, 0.0]
 	)

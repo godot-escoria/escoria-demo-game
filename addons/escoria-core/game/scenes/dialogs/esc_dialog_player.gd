@@ -8,7 +8,7 @@ const KEYTEXT_REGEX = "^((?<key>[^:]+):)?\"(?<text>.+)\""
 
 
 # Emitted when an answer as chosem
-# 
+#
 # ##### Parameters
 #
 # - option: The dialog option that was chosen
@@ -46,7 +46,7 @@ func _input(event):
 	if event is InputEventMouseButton and event.pressed and is_speaking:
 		speedup()
 		get_tree().set_input_as_handled()
-		
+
 
 # Find the matching voice output file for the given key
 #
@@ -57,7 +57,7 @@ func _input(event):
 #
 # *Returns* The path to the matching voice file
 func _get_voice_file(key: String, start: String = "") -> String:
-	if start == "":		
+	if start == "":
 		start = escoria.project_settings_manager.get_setting(
 			escoria.project_settings_manager.SPEECH_FOLDER
 		)
@@ -68,14 +68,14 @@ func _get_voice_file(key: String, start: String = "") -> String:
 		while file_name != "":
 			if _dir.current_is_dir():
 				var _voice_file = _get_voice_file(
-					key, 
+					key,
 					start.plus_file(file_name)
 				)
 				if _voice_file != "":
 					return _voice_file
 			else:
 				if file_name == "%s.%s.import" % [
-					key, 
+					key,
 					escoria.project_settings_manager.get_setting(
 						escoria.project_settings_manager.SPEECH_EXTENSION
 					)
@@ -93,11 +93,11 @@ func _get_voice_file(key: String, start: String = "") -> String:
 # - type: UI to use for the dialog
 # - text: Text to say
 func say(character: String, type: String, text: String) -> void:
-	if type == "":		
+	if type == "":
 		type = escoria.project_settings_manager.get_setting(
 			escoria.project_settings_manager.DEFAULT_DIALOG_TYPE
 		)
-	is_speaking = true	
+	is_speaking = true
 	for _manager_class in escoria.project_settings_manager.get_setting(
 		escoria.project_settings_manager.DIALOG_MANAGERS
 	):
@@ -105,7 +105,7 @@ func say(character: String, type: String, text: String) -> void:
 			var _manager: ESCDialogManager = load(_manager_class).new()
 			if _manager.has_type(type):
 				_dialog_manager = _manager
-	
+
 	if _dialog_manager == null:
 		escoria.logger.report_errors(
 			"esc_dialog_player.gd:say",
@@ -113,9 +113,9 @@ func say(character: String, type: String, text: String) -> void:
 				"No dialog manager supports the type %s" % type
 			]
 		)
-	
+
 	_dialog_manager.connect("say_finished", self, "_on_say_finished", [], CONNECT_ONESHOT)
-	
+
 	var matches = _keytext_regex.search(text)
 	if not matches:
 		escoria.logger.report_errors(
@@ -137,7 +137,7 @@ func say(character: String, type: String, text: String) -> void:
 		text = tr(matches.get_string("key"))
 	else:
 		text = matches.get_string("text")
-	
+
 	_dialog_manager.say(self, character, text, type)
 
 
@@ -163,12 +163,12 @@ func speedup() -> void:
 func start_dialog_choices(dialog: ESCDialog, type: String = "simple"):
 	if dialog.options.empty():
 		escoria.logger.report_errors(
-			"esc_dialog_player.gd:start_dialog_choices()", 
+			"esc_dialog_player.gd:start_dialog_choices()",
 			["Received answers array was empty."]
 		)
-	
+
 	var _dialog_chooser_ui: ESCDialogManager = null
-	
+
 	for _manager_class in escoria.project_settings_manager.get_setting(
 		escoria.project_settings_manager.DIALOG_MANAGERS
 	):
@@ -176,7 +176,7 @@ func start_dialog_choices(dialog: ESCDialog, type: String = "simple"):
 			var _manager: ESCDialogManager = load(_manager_class).new()
 			if _manager.has_chooser_type(type):
 				_dialog_chooser_ui = _manager
-	
+
 	if _dialog_chooser_ui == null:
 		escoria.logger.report_errors(
 			"esc_dialog_player.gd: Unknown chooser type",
@@ -184,7 +184,7 @@ func start_dialog_choices(dialog: ESCDialog, type: String = "simple"):
 				"No dialog manager supports the chooser type %s" % type
 			]
 		)
-	
+
 	_dialog_chooser_ui.choose(self, dialog)
 	var option = yield(_dialog_chooser_ui, "option_chosen")
 	emit_signal("option_chosen", option)

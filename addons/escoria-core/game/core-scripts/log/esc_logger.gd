@@ -38,7 +38,7 @@ var _level_map: Dictionary = {
 func _init():
 	# Open logfile in write mode
 	log_file = File.new()
-	
+
 	# this is left alone as this constructor is called from escoria.gd's own
 	# constructor
 	var log_file_path = ProjectSettings.get_setting(
@@ -50,7 +50,7 @@ func _init():
 			str(date["hour"]) + str(date["minute"]) + str(date["second"])
 		])
 	log_file.open(
-		log_file_path, 
+		log_file_path,
 		File.WRITE
 	)
 
@@ -58,7 +58,7 @@ func _init():
 # Log a trace message
 #
 # #### Parameters
-# 
+#
 # * string: Text to log
 # * args: Additional information
 func trace(string: String, args = []):
@@ -70,7 +70,7 @@ func trace(string: String, args = []):
 # Log a debug message
 #
 # #### Parameters
-# 
+#
 # * string: Text to log
 # * args: Additional information
 func debug(string: String, args = []):
@@ -82,7 +82,7 @@ func debug(string: String, args = []):
 # Log an info message
 #
 # #### Parameters
-# 
+#
 # * string: Text to log
 # * args: Additional information
 func info(string: String, args = []):
@@ -101,44 +101,44 @@ func info(string: String, args = []):
 # Log a warning message
 #
 # #### Parameters
-# 
+#
 # * string: Text to log
 # * args: Additional information
 func warning(string: String, args = []):
 	if _get_log_level() >= LOG_WARNING and !crashed:
 		var argsstr = str(args) if !args.empty() else ""
 		_log("(W)\t" + string + " \t" + argsstr, true)
-				
+
 		if escoria.project_settings_manager.get_setting(
 			escoria.project_settings_manager.TERMINATE_ON_WARNINGS
 		):
 			_perform_stack_trace_log()
 			crashed = true
-			
+
 			var files = "- %s" % log_file.get_path_absolute()
 			var message = escoria.project_settings_manager.get_setting(
 				escoria.project_settings_manager.CRASH_MESSAGE
-			) % files 
-			
+			) % files
+
 			_log(message, true)
 			escoria.set_game_paused(true)
 			escoria.main.current_scene.game.show_crash_popup(
 				[log_file.get_path_absolute()]
 			)
 			assert(false)
-			
+
 
 # Log an error message
 #
 # #### Parameters
-# 
+#
 # * string: Text to log
 # * args: Additional information
 func error(string: String, args = [], do_savegame: bool = true):
 	if _get_log_level() >= LOG_ERROR and !crashed:
 		var argsstr = str(args) if !args.empty() else ""
 		_log("(E)\t" + string + " \t" + argsstr, true)
-		
+
 		if escoria.project_settings_manager.get_setting(
 			escoria.project_settings_manager.TERMINATE_ON_ERRORS
 		):
@@ -146,19 +146,19 @@ func error(string: String, args = [], do_savegame: bool = true):
 			crashed = true
 			if do_savegame:
 				_perform_save_game_log()
-			
+
 			var files_to_send: Array = [
 				log_file.get_path_absolute().get_base_dir().plus_file(
 					escoria.save_manager.crash_savegame_filename.get_file()
 				),
-				log_file.get_path_absolute() 
+				log_file.get_path_absolute()
 			]
-			
+
 			var files = "- %s\n- %s" % files_to_send
 			var message = escoria.project_settings_manager.get_setting(
 				escoria.project_settings_manager.CRASH_MESSAGE
-			) % files 
-			
+			) % files
+
 			_log(message, true)
 			escoria.set_game_paused(true)
 			escoria.main.current_scene.game.show_crash_popup(files_to_send)
@@ -168,7 +168,7 @@ func error(string: String, args = [], do_savegame: bool = true):
 # Log a warning message about an ESC file
 #
 # #### Parameters
-# 
+#
 # * p_path: Path to the file
 # * warnings: Array of warnings to put out
 # * report_once: Additional messages about the same file will be ignored
@@ -176,7 +176,7 @@ func report_warnings(p_path: String, warnings: Array, report_once = false) -> vo
 	var warning_is_reported = false
 	if p_path == warning_path:
 		warning_is_reported = true
-		
+
 	if !warning_is_reported:
 		var text = "Warnings in file "+p_path+"\n"
 		for w in warnings:
@@ -185,7 +185,7 @@ func report_warnings(p_path: String, warnings: Array, report_once = false) -> vo
 			else:
 				text += w+"\n"
 		warning(text)
-	
+
 		if report_once:
 			warning_is_reported = true
 
@@ -193,7 +193,7 @@ func report_warnings(p_path: String, warnings: Array, report_once = false) -> vo
 # Log an error message about an ESC file
 #
 # #### Parameters
-# 
+#
 # * p_path: Path to the file
 # * errors: Array of errors to put out
 func report_errors(p_path: String, errors: Array) -> void:
@@ -211,7 +211,7 @@ func report_errors(p_path: String, errors: Array) -> void:
 # - in stdout, or stderr if err is true.
 #
 # #### Parameters
-# 
+#
 # * message: Message to log
 # * err: if true, write in stderr
 func _log(message:String, err: bool = false):
@@ -259,7 +259,7 @@ func _perform_stack_trace_log():
 # Write a message in the output logfile
 #
 # #### Parameters
-# 
+#
 # * message: Message to write
 func _write_logfile(message: String) -> void:
 	if log_file.is_open():

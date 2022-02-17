@@ -18,8 +18,8 @@ var dont_interact_on_arrival: bool
 
 
 func _init(
-	p_target_object: ESCObject, 
-	p_target_position: Vector2,  
+	p_target_object: ESCObject,
+	p_target_position: Vector2,
 	p_fast: bool,
 	p_dont_interact_on_arrival: bool
 ):

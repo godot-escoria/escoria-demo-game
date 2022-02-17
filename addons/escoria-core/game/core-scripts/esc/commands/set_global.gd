@@ -15,7 +15,7 @@ class_name SetGlobalCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, [TYPE_INT, TYPE_BOOL, TYPE_STRING]],
 		[null, null]
 	)

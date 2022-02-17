@@ -2,10 +2,10 @@
 #
 # Changes the state of `object` to the one specified.
 #
-# If the specified object's associated animation player has an animation 
+# If the specified object's associated animation player has an animation
 # with the same name, that that animation is also played.
 #
-# Can be used to change the appearance of an item or player 
+# Can be used to change the appearance of an item or player
 # character. See https://docs.escoria-framework.org/states for details.
 #
 # **Parameters**
@@ -22,11 +22,11 @@ class_name SetStateCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, TYPE_STRING, TYPE_BOOL],
 		[null, null, false]
 	)
-	
+
 
 # Validate wether the given arguments match the command descriptor
 func validate(arguments: Array):

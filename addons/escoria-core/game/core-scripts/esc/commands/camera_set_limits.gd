@@ -4,7 +4,7 @@
 #
 # **Parameters**
 #
-# - *camlimits_id*: Index of the camera limit in the `camera limits` 
+# - *camlimits_id*: Index of the camera limit in the `camera limits`
 #   list of the current `ESCRoom`
 #
 # For more details see: https://docs.escoria-framework.org/camera
@@ -17,12 +17,12 @@ class_name CameraSetLimitsCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		1, 
+		1,
 		[TYPE_INT],
 		[null]
 	)
-	
-	
+
+
 # Validate wether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if escoria.main.current_scene.camera_limits.size() < arguments[0]:
@@ -36,7 +36,7 @@ func validate(arguments: Array):
 			]
 		)
 		return false
-	
+
 	return .validate(arguments)
 
 

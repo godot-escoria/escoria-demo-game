@@ -22,7 +22,7 @@ func _enter_tree():
 func _ready():
 	_play_snd = PlaySndCommand.new()
 	_change_scene = ChangeSceneCommand.new()
-	
+
 	call_deferred("_register_event")
 
 
@@ -35,16 +35,16 @@ func _register_event():
 		var exit_scene_event_script = [
 			"%s%s" % [ESCEvent.PREFIX, escoria.event_manager.EVENT_EXIT_SCENE]
 		]
-		
+
 		if switch_sound != "":
 			exit_scene_event_script.append(
 				"%s %s" % [_play_snd.get_command_name(), switch_sound]
 			)
-		
+
 		exit_scene_event_script.append(
 			"%s %s" % [_change_scene.get_command_name(), target_scene]
 		)
-		
+
 		var exit_scene_event = escoria.esc_compiler.compile(
 			exit_scene_event_script
 		).events[escoria.event_manager.EVENT_EXIT_SCENE]

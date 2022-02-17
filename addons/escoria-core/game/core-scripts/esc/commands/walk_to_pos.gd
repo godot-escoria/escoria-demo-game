@@ -1,7 +1,7 @@
 # `walk_to_pos object x y`
 #
-# Moves the specified `ESCPlayer` or movable `ESCItem` to the target 
-# position while playing `object`'s walking animation. 
+# Moves the specified `ESCPlayer` or movable `ESCItem` to the target
+# position while playing `object`'s walking animation.
 # This command is non-blocking.
 #
 # **Parameters**
@@ -9,7 +9,7 @@
 # - *object*: Global ID of the object to move
 # - *x*: X-coordinate of target position
 # - *y*: Y-coordinate of target position
-# 
+#
 # @ESC
 extends ESCBaseCommand
 class_name WalkToPosCommand
@@ -18,7 +18,7 @@ class_name WalkToPosCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		3, 
+		3,
 		[TYPE_STRING, TYPE_INT, TYPE_INT],
 		[null, null, null]
 	)
@@ -33,7 +33,7 @@ func validate(arguments: Array):
 				"Object with global id %s not found" % arguments[0]
 			]
 		)
-		return false	
+		return false
 	return .validate(arguments)
 
 

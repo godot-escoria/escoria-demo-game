@@ -55,7 +55,7 @@ var _channels_state: Dictionary = {}
 # Make sure to stop when pausing the game
 func _ready():
 	self.pause_mode = Node.PAUSE_MODE_STOP
-	
+
 
 # Handle the events queue and scheduled events
 #
@@ -82,8 +82,8 @@ func _process(delta: float) -> void:
 				"finished", self, "_on_event_finished"
 			):
 				_running_events[channel_name].connect(
-					"finished", 
-					self, 
+					"finished",
+					self,
 					"_on_event_finished",
 					[channel_name],
 					CONNECT_ONESHOT
@@ -92,13 +92,13 @@ func _process(delta: float) -> void:
 				"interrupted", self, "_on_event_finished"
 			):
 				_running_events[channel_name].connect(
-					"interrupted", 
-					self, 
+					"interrupted",
+					self,
 					"_on_event_finished",
 					[channel_name],
 					CONNECT_ONESHOT
 				)
-			
+
 			if channel_name == CHANNEL_FRONT:
 				emit_signal(
 					"event_started",
@@ -106,21 +106,21 @@ func _process(delta: float) -> void:
 				)
 			else:
 				emit_signal(
-					"background_event_started", 
-					channel_name, 
+					"background_event_started",
+					channel_name,
 					_running_events[channel_name].name
 				)
-				
+
 			var event_flags = _running_events[channel_name].flags
 			if event_flags & ESCEvent.FLAG_NO_TT:
 				escoria.main.current_scene.game.tooltip_node.hide()
-			
+
 			if event_flags & ESCEvent.FLAG_NO_UI:
 				escoria.main.current_scene.game.hide_ui()
-			
+
 			if event_flags & ESCEvent.FLAG_NO_SAVE:
 				escoria.save_manager.save_enabled = false
-				
+
 			_running_events[channel_name].run()
 	for event in self.scheduled_events:
 		(event as ESCScheduledEvent).timeout -= delta
@@ -140,7 +140,7 @@ func _process(delta: float) -> void:
 #   (default: `false`)
 #
 # **Returns** indicator of success/status
-func queue_event_from_esc(script_object: ESCScript, event: String, 
+func queue_event_from_esc(script_object: ESCScript, event: String,
 	channel: String, block: bool) -> int:
 
 	if channel == CHANNEL_FRONT:
@@ -158,7 +158,7 @@ func queue_event_from_esc(script_object: ESCScript, event: String,
 			return rc
 		else:
 			var rc = yield(
-				escoria.event_manager, 
+				escoria.event_manager,
 				"background_event_finished"
 			)
 			while rc[1] != event and rc[2] != channel:
@@ -167,7 +167,7 @@ func queue_event_from_esc(script_object: ESCScript, event: String,
 					"background_event_finished"
 				)
 			return rc
-			
+
 	return ESCExecution.RC_OK
 
 
@@ -197,7 +197,7 @@ func schedule_event(event: ESCEvent, timeout: float) -> void:
 func queue_background_event(channel_name: String, event: ESCEvent) -> void:
 	if not channel_name in events_queue:
 		events_queue[channel_name] = []
-	
+
 	events_queue[channel_name].append(event)
 
 
@@ -213,7 +213,7 @@ func interrupt_running_event():
 func clear_event_queue():
 	for channel_name in events_queue.keys():
 		events_queue[channel_name].clear()
-		
+
 
 # Check wether a channel is free to run more events
 #
@@ -250,37 +250,37 @@ func _on_event_finished(finished_statement: ESCStatement, return_code: int, chan
 			]
 		)
 		return
-	
+
 	escoria.logger.debug(
 		"Event %s ended with return code %d" % [event.name, return_code]
 	)
-	
+
 	var event_flags = event.flags
 	if event_flags & ESCEvent.FLAG_NO_TT:
 		escoria.main.current_scene.game.tooltip_node.show()
-	
+
 	if event_flags & ESCEvent.FLAG_NO_UI:
 		escoria.main.current_scene.game.show_ui()
-	
+
 	if event_flags & ESCEvent.FLAG_NO_SAVE:
 		escoria.save_manager.save_enabled = true
-	
+
 	if return_code == ESCExecution.RC_CANCEL:
 		return_code = ESCExecution.RC_OK
 
 	_running_events[channel_name] = null
 	_channels_state[channel_name] = true
-	
+
 	if channel_name == CHANNEL_FRONT:
 		emit_signal(
-			"event_finished", 
+			"event_finished",
 			return_code,
 			event.name
 		)
 	else:
 		emit_signal(
-			"background_event_finished", 
+			"background_event_finished",
 			return_code,
-			event.name, 
+			event.name,
 			channel_name
 		)

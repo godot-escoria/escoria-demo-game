@@ -1,5 +1,5 @@
 # `stop_snd [player]`
-# 
+#
 # Stops the given sound player's stream.
 #
 # **Parameters**
@@ -16,11 +16,11 @@ class_name StopSndCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		0, 
+		0,
 		[TYPE_STRING],
 		["_music"]
 	)
-	
+
 
 # Validate wether the given arguments match the command descriptor
 func validate(arguments: Array):
@@ -31,7 +31,7 @@ func validate(arguments: Array):
 		)
 		return false
 	return .validate(arguments)
-	
+
 
 # Run the command
 func run(command_params: Array) -> int:

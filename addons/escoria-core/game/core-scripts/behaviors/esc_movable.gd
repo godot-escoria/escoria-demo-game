@@ -56,7 +56,7 @@ onready var task = MovableTask.NONE
 func _ready() -> void:
 	if not parent.has_user_signal("arrived"):
 		parent.add_user_signal("arrived")
-	
+
 
 # Main processing loop
 #
@@ -66,13 +66,13 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
-	
+
 	if task == MovableTask.WALK or task == MovableTask.SLIDE:
 		var old_pos = parent.get_position()
 		var new_pos = _calculate_movement(delta)
 		if new_pos == null:
 			return
-		
+
 		if task == MovableTask.WALK:
 			# Get the angle of the object to face the position to reach.
 			var angle: float = (old_pos.angle_to_point(new_pos))
@@ -96,24 +96,24 @@ func _calculate_movement(delta: float):
 	# Initialize the current pos and previous pos variables
 	var pos: Vector2 = parent.get_position()
 	var old_pos: Vector2 = pos
-	
+
 	# Get next waypoint from the walkpath array.
 	var next: Vector2
 	if walk_path.size() > 1:
 		next = walk_path[path_ofs + 1]
 	else:
 		next = walk_path[path_ofs]
-	
-	# Movement speed calculation 
+
+	# Movement speed calculation
 	var movement_speed: float = parent.speed * delta * pow(last_scale.x, 2) * \
 			parent.terrain.player_speed_multiplier
 	if walk_context.fast:
 		movement_speed *= parent.terrain.player_doubleclick_speed_multiplier
-	
+
 	# Calculate the direction vector from current position and next waypoint
 	var dir: Vector2 = (next - pos).normalized()
-	
-	# If we're close to the next waypoint (ie. distance < necessary movement 
+
+	# If we're close to the next waypoint (ie. distance < necessary movement
 	# speed to get to this waypoint, we consider the waypoint reached
 	# and pass to the next one.
 	# Else, calculate the new position.
@@ -129,27 +129,27 @@ func _calculate_movement(delta: float):
 	if path_ofs >= walk_path.size() - 1:
 		walk_stop(walk_destination)
 		return
-	
+
 	# Update current position variable
 	pos = new_pos
 	parent.set_position(pos)
 	return pos
 
-# Calculates the orientation of the object while walking, to play the right 
+# Calculates the orientation of the object while walking, to play the right
 # animation according to this orientation.
 #
 # #### Parameters
 #
-# - angle: the angle X axis and object's facing direction. 
+# - angle: the angle X axis and object's facing direction.
 func _perform_walk_orientation(angle: float):
 	last_dir = _get_dir_deg(escoria.utils.get_deg_from_rad(angle),
 		parent.animations)
 
 	var animation_player: ESCAnimationPlayer = \
 			parent.get_animation_player()
-	
+
 	var current_animation = animation_player.get_animation()
-	
+
 	var animation_to_play = \
 			parent.animations.directions[last_dir].animation
 	if current_animation != animation_to_play and \
@@ -168,7 +168,7 @@ func _perform_walk_orientation(angle: float):
 			],
 			true
 		)
-	
+
 	pose_scale = -1 if parent.animations.directions[last_dir].mirrored \
 		else 1
 
@@ -185,7 +185,7 @@ func teleport(target: Node) -> void:
 			"Object %s is teleported at position %s" % [
 				target.name,
 				parent.global_position
-			] 
+			]
 		)
 	elif "position" in target:
 		escoria.logger.info(
@@ -204,7 +204,7 @@ func teleport(target: Node) -> void:
 #
 # #### Parameters
 #
-# - target: Vector2 target position to teleport to 
+# - target: Vector2 target position to teleport to
 func teleport_to(target: Vector2) -> void:
 	escoria.logger.info(
 		"Object %s teleported to position %s" %
@@ -223,20 +223,20 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 	if not parent.terrain:
 		walk_stop(parent.get_position())
 		return
-		
+
 	if task == MovableTask.WALK:
 		if walk_context.target_object == p_walk_context.target_object \
 				or walk_context.target_position \
 				== p_walk_context.target_position:
 			walk_context.fast = p_walk_context.fast
-	
+
 	walk_context = p_walk_context
-	
+
 	if task == MovableTask.NONE:
 		task = MovableTask.WALK
-	
+
 	walk_path = parent.terrain.get_simple_path(parent.get_position(), pos, true)
-	
+
 	if walk_path.size() == 0:
 		task = MovableTask.NONE
 		walk_stop(parent.get_position())
@@ -266,7 +266,7 @@ func walk_stop(pos: Vector2) -> void:
 	task = MovableTask.NONE
 	moved = false
 	set_process(false)
-	
+
 	# If we're heading to an object and reached its interaction position,
 	# orient towards the defined interaction direction set on the object
 	# (if any), can be ESCItem or ESCLocation
@@ -283,7 +283,7 @@ func walk_stop(pos: Vector2) -> void:
 			parent.animations.idles[last_dir].animation
 		)
 		pose_scale = -1 if parent.animations.idles[last_dir].mirrored else 1
-	
+
 	update_terrain()
 
 	if walk_context.target_object:
@@ -320,7 +320,7 @@ func update_terrain(on_event_finished_name = null) -> void:
 		return
 	if not parent.is_inside_tree():
 		return
-		
+
 	var pos = parent.global_position
 	if pos.y <= VisualServer.CANVAS_ITEM_Z_MAX:
 		parent.z_index = pos.y
@@ -332,12 +332,12 @@ func update_terrain(on_event_finished_name = null) -> void:
 	if scal != parent.get_scale():
 		last_scale = scal
 		parent.scale = last_scale
-		
+
 	var color = parent.terrain.get_light(pos)
 	parent.modulate = color
 
 	var sprite: Node = parent.get_sprite()
-	
+
 	# Do not flip the entire character, because that would conflict
 	# with shadows that expect to be siblings of $texture
 	if pose_scale == -1 and sprite.scale.x > 0:
@@ -360,7 +360,7 @@ func _get_dir_deg(deg: int, animations: ESCAnimationResource) -> int:
 	deg = wrapi(deg - 90, 0, 360)
 	var dir = -1
 	var i = 0
-	
+
 	for direction_angle in animations.dir_angles:
 		if _is_angle_in_interval(deg, direction_angle):
 			dir = i
@@ -375,7 +375,7 @@ func _get_dir_deg(deg: int, animations: ESCAnimationResource) -> int:
 			"esc_movable.gd:_get_dir_deg()",
 			["No direction found for " + str(deg)]
 		)
-	
+
 	return dir
 
 
@@ -386,18 +386,18 @@ func _get_dir_deg(deg: int, animations: ESCAnimationResource) -> int:
 #
 # - angle: Angle to test
 # - direction_angle: ESCDirectionAngle resource, containing the starting angle,
-#  and the size of interval 
+#  and the size of interval
 # eg: angle_start=90, angle_size=40 corresponds to angle between 90° and 130°
 func _is_angle_in_interval(
-		angle: float, 
+		angle: float,
 		direction_angle: ESCDirectionAngle
 ) -> bool:
 	var start_angle = direction_angle.angle_start
 	var end_angle = direction_angle.angle_start + direction_angle.angle_size
-	
+
 	if end_angle > 360 and angle < start_angle:
 		angle += 360
-	
+
 	return (start_angle <= angle and angle <= end_angle)
 
 
@@ -414,10 +414,10 @@ func set_angle(deg: int, wait: float = 0.0) -> void:
 			["Invalid degree to turn to " + str(deg)]
 		)
 	moved = true
-	
+
 	var current_dir = last_dir
 	var target_dir = _get_dir_deg(deg, parent.animations)
-	
+
 	var way_to_turn = get_shortest_way_to_dir(current_dir, target_dir)
 
 	var dir = current_dir
@@ -427,14 +427,14 @@ func set_angle(deg: int, wait: float = 0.0) -> void:
 			dir = 0
 		if dir < 0:
 			dir = parent.animations.dir_angles.size() - 1
-		
+
 		parent.get_animation_player().play(
 			parent.animations.idles[dir].animation
 		)
-		if wait > 0.0: 
+		if wait > 0.0:
 			yield(get_tree().create_timer(wait), "timeout")
 		pose_scale = -1 if parent.animations.idles[dir].mirrored else 1
-			
+
 	last_dir = _get_dir_deg(deg, parent.animations)
 
 	# The character may have a state animation from before, which would be
@@ -456,13 +456,13 @@ func set_angle(deg: int, wait: float = 0.0) -> void:
 func turn_to(item: Node, wait: float = 0.0) -> void:
 	set_angle(
 		wrapi(
-			rad2deg(parent.get_position().angle_to_point(item.get_position())), 
-			0, 
+			rad2deg(parent.get_position().angle_to_point(item.get_position())),
+			0,
 			360
 		),
 		wait
 	)
-	
+
 
 # Returns the angle that corresponds to the current direction of the object.
 func _get_angle() -> int:
@@ -470,8 +470,8 @@ func _get_angle() -> int:
 
 
 # Return the shortest way to turn from a direction to another. Returned way is
-# either: 
-# -1 (shortest way is to turn anti-clockwise) 
+# either:
+# -1 (shortest way is to turn anti-clockwise)
 # 0 (already at the right direction)
 # 1 (clockwise).
 #
@@ -489,23 +489,23 @@ func get_shortest_way_to_dir(current_dir: int, target_dir: int) -> int:
 			"esc_movable.gd:get_shortest_way_to_dir()",
 			["Invalid direction (current_dir) %s" % str(current_dir)]
 		)
-	
+
 	if target_dir < 0 or target_dir > parent.animations.dir_angles.size() - 1:
 		escoria.logger.report_errors(
 			"esc_movable.gd:get_shortest_way_to_dir()",
 			["Invalid direction (target_dir) %s " % str(target_dir)]
 		)
-	
+
 	if current_dir == target_dir:
 		return 0
-	
+
 	var internal = false
 	if max(current_dir, target_dir) - min(current_dir, target_dir) \
 			< parent.animations.dir_angles.size() / 2:
 		internal = true
 	else:
 		internal = false
-	
+
 	if internal and current_dir < target_dir or \
 			(not internal and current_dir > target_dir):
 		return 1

@@ -5,10 +5,10 @@ class_name ESCCondition
 
 # Valid comparison types
 enum {
-	COMPARISON_NONE, 
-	COMPARISON_EQ, 
-	COMPARISON_GT, 
-	COMPARISON_LT, 
+	COMPARISON_NONE,
+	COMPARISON_EQ,
+	COMPARISON_GT,
+	COMPARISON_LT,
 	COMPARISON_ACTIVITY
 }
 
@@ -50,7 +50,7 @@ func _init(comparison_string: String):
 	comparison_regex.compile(
 		REGEX
 	)
-	
+
 	if comparison_regex.search(comparison_string):
 		for result in comparison_regex.search_all(comparison_string):
 			if "is_negated" in result.names:
@@ -61,12 +61,12 @@ func _init(comparison_string: String):
 					"gt": self.comparison = COMPARISON_GT
 					"lt": self.comparison = COMPARISON_LT
 					_: escoria.logger.report_errors(
-						"Invalid comparison type detected: %s" % 
+						"Invalid comparison type detected: %s" %
 								comparison_string,
 						[
-							"Comparison type %s unknown" % 
+							"Comparison type %s unknown" %
 									escoria.utils.get_re_group(
-										result, 
+										result,
 										"comparison"
 									)
 						]
@@ -74,7 +74,7 @@ func _init(comparison_string: String):
 			if "comparison_value" in result.names:
 				self.comparison_value = 	escoria.utils.get_typed_value(
 					escoria.utils.get_re_group(
-						result, 
+						result,
 						"comparison_value"
 					)
 				)
@@ -91,7 +91,7 @@ func _init(comparison_string: String):
 				"Comparison regexp didn't match"
 			]
 		)
-		
+
 
 # Run this comparison against the globals
 func run() -> bool:
@@ -106,12 +106,12 @@ func run() -> bool:
 					else self.comparison_value
 		]
 	)
-	
+
 	if self.inventory:
 		global_name = "i/%s" % flag
-		
+
 	var return_value = false
-	
+
 	if self.comparison == COMPARISON_NONE and \
 			escoria.globals_manager.has(global_name) and \
 			escoria.globals_manager.get_global(global_name) is bool and \
@@ -133,12 +133,12 @@ func run() -> bool:
 			escoria.object_manager.has(global_name) and \
 				escoria.object_manager.get_object(global_name).active:
 		return_value = true
-		
+
 	if self.negated:
 		return_value = not return_value
-		
+
 	escoria.logger.debug(
 		"It is" if return_value else "It isn't"
 	)
-	
+
 	return return_value

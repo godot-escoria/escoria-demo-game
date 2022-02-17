@@ -10,7 +10,7 @@
 #   meaning the zoom should happen instantly (default: `1`)
 # - *type*: Transition type to use (default: `QUAD`)
 #
-# Supported transitions include the names of the values used 
+# Supported transitions include the names of the values used
 # in the "TransitionType" enum of the "Tween" type (without the "TRANS_" prefix):
 #
 # https://docs.godotengine.org/en/stable/classes/class_tween.html?highlight=tween#enumerations
@@ -25,16 +25,16 @@ class_name CameraShiftCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[
-			[TYPE_INT, TYPE_REAL], 
-			[TYPE_INT, TYPE_REAL], 
-			[TYPE_INT, TYPE_REAL], 
+			[TYPE_INT, TYPE_REAL],
+			[TYPE_INT, TYPE_REAL],
+			[TYPE_INT, TYPE_REAL],
 			TYPE_STRING
 		],
 		[null, null, 1, "QUAD"]
 	)
-	
+
 
 # Run the command
 func run(command_params: Array) -> int:

@@ -1,14 +1,14 @@
 # `turn_to object object_to_face [wait]`
-# 
-# Turns `object` to face another object. 
+#
+# Turns `object` to face another object.
 #
 # **Parameters**
 #
 # - *object*: Global ID of the object to be turned
 # - *object_to_face*: Global ID of the object to turn towards
-# - *wait*: Length of time to wait in seconds for each intermediate angle. 
+# - *wait*: Length of time to wait in seconds for each intermediate angle.
 #   If set to 0, the turnaround is immediate (default: `0`)
-##  
+##
 # @ESC
 extends ESCBaseCommand
 class_name TurnToCommand
@@ -17,11 +17,11 @@ class_name TurnToCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, TYPE_STRING, TYPE_REAL],
 		[null, null, 0.0]
 	)
-	
+
 
 # Validate wether the given arguments match the command descriptor
 func validate(arguments: Array):

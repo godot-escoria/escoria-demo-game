@@ -34,7 +34,7 @@ var options: Array
 func load_string(dialog_string: String):
 	var dialog_regex = RegEx.new()
 	dialog_regex.compile(REGEX)
-	
+
 	if dialog_regex.search(dialog_string):
 		for result in dialog_regex.search_all(dialog_string):
 			if "avatar" in result.names:
@@ -71,7 +71,7 @@ func is_valid() -> bool:
 			[]
 		)
 		return false
-		
+
 	return true
 
 
@@ -85,7 +85,7 @@ func run():
 		)
 	escoria.dialog_player.start_dialog_choices(self)
 	var option = yield(
-		escoria.dialog_player, 
+		escoria.dialog_player,
 		"option_chosen"
 	) as ESCDialogOption
 	var rc = option.run()

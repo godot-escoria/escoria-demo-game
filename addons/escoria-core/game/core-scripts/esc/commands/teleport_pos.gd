@@ -16,12 +16,12 @@ class_name TeleportPosCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, TYPE_INT, TYPE_INT],
 		[null, null, null]
 	)
-	
-	
+
+
 # Validate wether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not escoria.object_manager.objects.has(arguments[0]):

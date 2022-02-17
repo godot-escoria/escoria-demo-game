@@ -15,7 +15,7 @@ class_name SetAnimationsCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, TYPE_STRING],
 		[null, null]
 	)
@@ -40,7 +40,7 @@ func validate(arguments: Array):
 		)
 		return false
 	return .validate(arguments)
-	
+
 
 # Run the command
 func run(command_params: Array) -> int:
@@ -64,4 +64,4 @@ func run(command_params: Array) -> int:
 		true
 	)
 	return ESCExecution.RC_OK
-	
+

@@ -20,12 +20,12 @@ func load_command(command_name: String) -> ESCBaseCommand:
 		if ResourceLoader.exists("%s/%s.gd" % [command_directory, command_name]):
 			registry[command_name] = load(
 				"%s/%s.gd" % [
-					command_directory.trim_suffix("/"), 
+					command_directory.trim_suffix("/"),
 					command_name
 				]
 			).new()
 			return registry[command_name]
-	
+
 	escoria.logger.report_errors(
 		"ESCCommandRegistry.load_command: Command not found",
 		[
@@ -38,7 +38,7 @@ func load_command(command_name: String) -> ESCBaseCommand:
 
 
 # Retrieve a command from the command registry
-# 
+#
 # #### Parameters
 #
 # - command_name: The name of the command

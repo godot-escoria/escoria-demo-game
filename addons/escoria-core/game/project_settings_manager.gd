@@ -95,7 +95,7 @@ func register_setting(name: String, default, info: Dictionary) -> void:
 # *Returns* the value of the project setting located with key.
 func get_setting(key: String):
 	if not ProjectSettings.has_setting(key):
-		escoria.logger.report_errors("project_settings_manager.gd", 
+		escoria.logger.report_errors("project_settings_manager.gd",
 			["Parameter %s is not set!" % key]
 		)
 

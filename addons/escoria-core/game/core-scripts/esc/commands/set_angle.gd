@@ -7,7 +7,7 @@
 # - *object*: Global ID of the object to turn
 # - *degrees*: Number of degrees by which `object` is to be turned
 # - *wait*: Number of seconds to wait for each animation occurring between the
-#   current angle of `object` and the angle specified. A value of `0` will 
+#   current angle of `object` and the angle specified. A value of `0` will
 #   complete the turn immediately (default: `0`)
 #
 # @ESC
@@ -18,11 +18,11 @@ class_name SetAngleCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, TYPE_INT, TYPE_REAL],
 		[null, null, 0.0]
 	)
-	
+
 
 # Validate wether the given arguments match the command descriptor
 func validate(arguments: Array):
@@ -44,8 +44,8 @@ func run(command_params: Array) -> int:
 	# Since the ESC command already gives the right angle, we add 90.
 	escoria.object_manager.get_object(command_params[0]).node\
 			.set_angle(
-				wrapi(int(command_params[1]) + 90, 0, 360), 
+				wrapi(int(command_params[1]) + 90, 0, 360),
 				command_params[2]
 			)
 	return ESCExecution.RC_OK
-	
+

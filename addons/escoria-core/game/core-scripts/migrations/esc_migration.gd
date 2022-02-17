@@ -13,13 +13,13 @@ var _savegame: ESCSaveGame
 # - savegame: Savegame to modify
 func set_savegame(savegame: ESCSaveGame):
 	_savegame = savegame
-	
+
 
 # Get the savegame
 # **Returns** Savegame
 func get_savegame():
 	return _savegame
-	
+
 
 # Override this function in the version script with
 # the things that need to be applied to the savegame

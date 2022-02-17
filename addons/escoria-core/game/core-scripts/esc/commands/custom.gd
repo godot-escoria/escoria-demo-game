@@ -1,5 +1,5 @@
 # `custom object node func_name [params]`
-# 
+#
 # Calls the given Godot function on a (child) node of a registered `ESCitem`.
 #
 # **Parameters**
@@ -18,7 +18,7 @@ class_name CustomCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		3, 
+		3,
 		[TYPE_STRING, TYPE_STRING, TYPE_STRING, TYPE_ARRAY],
 		[null, null, null, []]
 	)
@@ -74,7 +74,7 @@ func run(command_params: Array) -> int:
 		command_params[0]
 	)
 	object.node.get_node(command_params[1]).call(
-		command_params[2], 
+		command_params[2],
 		command_params[3]
 	)
 	return ESCExecution.RC_OK

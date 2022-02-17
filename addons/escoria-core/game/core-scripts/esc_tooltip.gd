@@ -1,4 +1,4 @@
-# A tooltip displaying <verb> <item1> [<item2>] 
+# A tooltip displaying <verb> <item1> [<item2>]
 tool
 extends RichTextLabel
 class_name ESCTooltip
@@ -50,8 +50,8 @@ var debug_texturerect_node: TextureRect
 func _ready():
 	escoria.main.connect("room_ready", self, "_on_room_ready")
 	escoria.action_manager.connect("action_changed", self, "_on_action_selected")
-	
-	
+
+
 # Set the color of the label
 #
 # ## Parameters
@@ -61,9 +61,9 @@ func set_color(p_color: Color):
 	update_tooltip_text()
 
 
-# Enable/disable debug mode of the label. If enabled, the label is displayed 
+# Enable/disable debug mode of the label. If enabled, the label is displayed
 # with a white background.
-# 
+#
 # ## Parameters
 # - p_debug_mode: if true, enable debug mode. False to disable
 func set_debug_mode(p_debug_mode: bool):
@@ -85,7 +85,7 @@ func set_debug_mode(p_debug_mode: bool):
 	else:
 		if debug_texturerect_node:
 			remove_child(debug_texturerect_node)
-	
+
 
 # Set the first target of the label.
 #
@@ -126,7 +126,7 @@ func update_size():
 	var content_height = get_content_height()
 	var nb_visible_characters = visible_characters
 	var nb_visible_lines = get_visible_line_count()
-	
+
 	# if text is too long and is wrapped
 	var nblines = nb_visible_lines
 	if nblines >= 1:
@@ -135,19 +135,19 @@ func update_size():
 			text_height = MAX_HEIGHT
 		if text_height <= MIN_HEIGHT:
 			text_height = MIN_HEIGHT
-		
+
 		var parent_width = rect_size.x
-		
+
 		# first, try to increase width until it goes above max_width
 		while parent_width < MAX_WIDTH && float(text_height) / float(ONE_LINE_HEIGHT) > 1.0:
 			rect_size.x += 1
 			parent_width = rect_size.x
-		
+
 		rect_size.y = text_height
-		
+
 		if rect_size.x >= MAX_WIDTH:
 			rect_size.x = MAX_WIDTH
-		
+
 	## END RECT_SIZE ##
 	anchor_top = 0.0
 	anchor_right = 0.0
@@ -156,7 +156,7 @@ func update_size():
 
 
 # Calculate the offset of the label depending on its position.
-# 
+#
 # ## Parameters
 # - position: the position to test
 #
@@ -165,10 +165,10 @@ func update_size():
 func _offset(position: Vector2) -> Vector2:
 	var center_offset_x = rect_size.x / 2
 	var offset_y = 5
-	
+
 	position.x -= center_offset_x
 	position.y += offset_y
-	
+
 	return position
 
 

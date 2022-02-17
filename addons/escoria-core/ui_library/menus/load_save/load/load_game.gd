@@ -32,7 +32,7 @@ func _on_back_pressed():
 func refresh_savegames():
 	for slot in $VBoxContainer/ScrollContainer/slots.get_children():
 		$VBoxContainer/ScrollContainer/slots.remove_child(slot)
-	
+
 	var saves_list = escoria.save_manager.get_saves_list()
 	if not saves_list.empty():
 		for save_key in saves_list.keys():

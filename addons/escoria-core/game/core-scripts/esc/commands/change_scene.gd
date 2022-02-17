@@ -5,7 +5,7 @@
 # **Parameters**
 #
 # - *path*: Path of the new scene
-# - *enable_automatic_transition*: Automatically transition to the new scene 
+# - *enable_automatic_transition*: Automatically transition to the new scene
 #   (default: `true`)
 # - *run_events*: Run the standard ESC events of the new scene (default: `true`)
 #
@@ -17,17 +17,17 @@ class_name ChangeSceneCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		1, 
+		1,
 		[TYPE_STRING, TYPE_BOOL, TYPE_BOOL],
 		[null, true, true]
 	)
-	
-	
+
+
 # Validate wether the given arguments match the command descriptor
 func validate(arguments: Array) -> bool:
 	if not ResourceLoader.exists(arguments[0]):
 		escoria.logger.report_errors(
-			"change_scene: Invalid scene", 
+			"change_scene: Invalid scene",
 			["Scene %s was not found" % arguments[0]]
 		)
 		return false
@@ -35,7 +35,7 @@ func validate(arguments: Array) -> bool:
 		escoria.project_settings_manager.get_setting(escoria.project_settings_manager.GAME_SCENE)
 	):
 		escoria.logger.report_errors(
-			"change_scene: Game scene not found", 
+			"change_scene: Game scene not found",
 			[
 				"The path set in 'ui/game_scene' was not found: %s" % \
 						escoria.project_settings_manager.get_setting(
@@ -54,7 +54,7 @@ func run(command_params: Array) -> int:
 		command_params[0],	# scene file
 		command_params[1]	# enable_automatic_transition
 	])
-	
+
 	escoria.room_manager.change_scene(command_params[0], command_params[1])
-		
+
 	return ESCExecution.RC_OK

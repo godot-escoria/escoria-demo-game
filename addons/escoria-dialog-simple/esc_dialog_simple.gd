@@ -49,9 +49,9 @@ func say(dialog_player: Node, global_id: String, text: String, type: String):
 		_type_player = preload(\
 			"res://addons/escoria-dialog-simple/types/avatar.tscn"\
 		).instance()
-		
+
 	_type_player.connect("say_finished", self, "_on_say_finished", [], CONNECT_ONESHOT)
-	
+
 	_dialog_player.add_child(_type_player)
 	_type_player.say(global_id, text)
 #	yield(_type_player, "say_finished")
