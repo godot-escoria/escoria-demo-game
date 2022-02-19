@@ -93,11 +93,9 @@ func element_focused(element_id: String) -> void:
 	$tooltip_layer/tooltip.set_target(target_obj.tooltip_name)
 
 	if escoria.action_manager.current_action != "use" \
-			and escoria.action_manager.current_tool == null:
-		if target_obj is ESCItem:
-			$mouse_layer/verbs_menu.set_by_name(
-				escoria.action_to_string(target_obj.default_action)
-			)
+			and escoria.action_manager.current_tool == null \
+			and target_obj is ESCItem:
+				$mouse_layer/verbs_menu.set_by_name(target_obj.default_action)
 
 func element_unfocused() -> void:
 	$tooltip_layer/tooltip.set_target("")
