@@ -453,7 +453,7 @@ func turn_to(object: Node, wait: float = 0.0):
 # Play the talking animation
 func start_talking():
 	# Only start the speaking animation if we actually have them setup
-	if animations.speaks != null \
+	if animations != null \
 			and animations.speaks.size() > 0 \
 			and get_animation_player() \
 			and _movable.last_dir >= 0 \
@@ -467,7 +467,7 @@ func start_talking():
 
 # Stop playing the talking animation
 func stop_talking():
-	if animations.speaks != null \
+	if animations != null \
 			and animations.speaks.size() > 0 \
 			and get_animation_player() \
 			and _movable.last_dir >= 0 \
