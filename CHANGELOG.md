@@ -1,3 +1,12 @@
+## [4.0.0-alpha.100](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.100) (2022-02-19)
+
+
+### Bug Fixes
+
+* animations doesnt have a speaks parameter when it is null ([1664140](https://github.com/godot-escoria/escoria-demo-game/commit/166414098ac265affbe60178559bd745a6217454))
+
+
+
 ## [4.0.0-alpha.99](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.99) (2022-02-17)
 
 
