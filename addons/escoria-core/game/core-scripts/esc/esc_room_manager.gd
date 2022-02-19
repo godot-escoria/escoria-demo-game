@@ -267,7 +267,7 @@ func init_room(room: ESCRoom) -> void:
 #
 # - room: The ESCRoom to be initialized for use.
 func _perform_script_events(room: ESCRoom):
-	if room.esc_script and escoria.event_manager.is_channel_free(escoria.event_manager.CHANNEL_FRONT) \
+	if escoria.event_manager.is_channel_free(escoria.event_manager.CHANNEL_FRONT) \
 			or (
 				not escoria.event_manager.is_channel_free(escoria.event_manager.CHANNEL_FRONT) and \
 				not escoria.event_manager.get_running_event(
