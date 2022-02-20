@@ -497,7 +497,8 @@ func update_idle():
 # Return the camera position if a camera_position_node exists or the
 # global position of the player
 func get_camera_node():
-	if camera_node and get_node(camera_node):
+	if has_node(camera_node):
+		escoria.logger.debug("Camera node found - directing camera to the camera_node on " + global_id)
 		return get_node(camera_node)
 	return self
 
