@@ -2,6 +2,15 @@
 extends Object
 class_name ESCCommandArgumentDescriptor
 
+# As the get_type command was deprecated with Godot 2.x w we need a way to determine
+# variable types. Ideally these wouldn't be hardcoded but there's no GDScript 3.x command to
+# turn a type back to its name.
+const GODOT_TYPE_LIST = ["nil", "bool", "int", "real",  "string", \
+	"vector2", "rect2", "vector3",  "matrix32", "plane", "quat", \
+	"aabb", "matrix3",  "transform", "color", "image", "node_path", \
+	"rid", "object", "input_event", "dictionary", "array", \
+	"raw_array", "int_array", "real_array", "string_array", \
+	"vector2_array", "vector3_array", "color_array", "max"]
 
 # Number of arguments the command expects
 var min_args: int = 0
@@ -80,20 +89,22 @@ func validate(command: String, arguments: Array) -> bool:
 				correct = self._is_type(arguments[index], type)
 
 		if not correct:
+			var allowed_types = "[ "
+			for type in self.types[types_index]:
+				allowed_types += GODOT_TYPE_LIST[type] + " or "
+			allowed_types = allowed_types.substr(0, allowed_types.length() - 3) + "]"
 			escoria.logger.report_errors(
-				"Argument type did not match descriptor for command %s" %
+				"Argument type did not match descriptor for command \"%s\"" %
 						command,
 				[
-					"Argument %d is of type %d. Expected %s" % [
+					"Argument %d (\"%s\") is of type %s. Expected %s" % [
 						index,
-						typeof(arguments[index]),
-						PoolStringArray(
-							self.types[types_index]
-						).join(",")
+						arguments[index],
+						GODOT_TYPE_LIST[typeof(arguments[index])],
+						allowed_types
 					]
 				]
 			)
-
 	return true
 
 
