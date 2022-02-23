@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/escoria-ui-keyboard-9verbs/tooltip/tooltip_action_target.gd" type="Script" id=1]
+
+[node name="tooltip" type="RichTextLabel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+bbcode_enabled = true
+bbcode_text = "[center][/center]"
+scroll_active = false
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
