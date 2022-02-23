@@ -68,9 +68,7 @@ func validate(command: String, arguments: Array) -> bool:
 		escoria.logger.report_errors(
 			"Invalid command arguments for command %s" % command,
 			[
-				"Arguments didn't match minimum size %d: %s" %
-					self.min_args,
-					arguments
+				"Arguments didn't match minimum size {num}: {args}".format({"num":self.min_args,"args":arguments})
 			]
 		)
 
