@@ -1,3 +1,12 @@
+## [4.0.0-alpha.102](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.102) (2022-02-24)
+
+
+### Bug Fixes
+
+* enable transition to ESCRoom even if esc_script is not set ([#502](https://github.com/godot-escoria/escoria-demo-game/issues/502)) ([282ea24](https://github.com/godot-escoria/escoria-demo-game/commit/282ea24b7dbbcc747d0fe256a2fe4aaa3fc59e17))
+
+
+
 ## [4.0.0-alpha.101](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.101) (2022-02-19)
 
 
