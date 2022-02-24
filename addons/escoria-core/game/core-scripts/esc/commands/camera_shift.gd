@@ -21,6 +21,9 @@
 extends ESCBaseCommand
 class_name CameraShiftCommand
 
+# The list of supported transitions as per the link mentioned above
+const SUPPORTED_TRANSITIONS = ["LINEAR","SINE","QUINT","QUART","QUAD" ,"EXPO","ELASTIC","CUBIC",
+	"CIRC","BOUNCE","BACK"]
 
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
@@ -48,3 +51,17 @@ func run(command_params: Array) -> int:
 			Tween.new().get("TRANS_%s" % command_params[3])
 		)
 	return ESCExecution.RC_OK
+
+# Validate whether the given arguments match the command descriptor
+func validate(arguments: Array):
+	if not arguments[3] in SUPPORTED_TRANSITIONS:
+		escoria.logger.report_errors(
+			"camera_shift: invalid transition type",
+			[
+				"Transition type {t_type} is not one of the accepted types : {allowed_types}".format(
+					{"t_type":arguments[3],"allowed_types":SUPPORTED_TRANSITIONS})
+			]
+		)
+		return false
+
+	return .validate(arguments)
