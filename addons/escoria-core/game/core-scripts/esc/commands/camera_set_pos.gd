@@ -1,10 +1,10 @@
-# `camera_set_pos speed x y`
+# `camera_set_pos time x y`
 #
 # Moves the camera to the given position.
 #
 # **Parameters**
 #
-# - *speed*: Number of seconds the transition should take
+# - *time*: Number of seconds the transition should take
 # - *x*: Target X coordinate
 # - "y*: Target Y coordinate
 #
