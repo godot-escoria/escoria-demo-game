@@ -3,3 +3,6 @@ bin
 .import
 *.translation
 .godot
+
+# Local overrides to project.godot go in override.cfg.
+/override.cfg
