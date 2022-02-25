@@ -1,3 +1,12 @@
+## [4.0.0-alpha.106](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.106) (2022-02-25)
+
+
+### Bug Fixes
+
+* check to see if requested camera limit is invalid. ([#512](https://github.com/godot-escoria/escoria-demo-game/issues/512)) ([348a2b6](https://github.com/godot-escoria/escoria-demo-game/commit/348a2b697cf400dff8297899f5dde4537bd77e6c))
+
+
+
 ## [4.0.0-alpha.105](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.105) (2022-02-25)
 
 
