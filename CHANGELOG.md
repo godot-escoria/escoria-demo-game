@@ -1,3 +1,12 @@
+## [4.0.0-alpha.105](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.105) (2022-02-25)
+
+
+### Bug Fixes
+
+* stops negative numbers being interpreted as strings ([#511](https://github.com/godot-escoria/escoria-demo-game/issues/511)) ([5adf5b8](https://github.com/godot-escoria/escoria-demo-game/commit/5adf5b8d49a6be43303819bc50cd0e2c320f8e8e))
+
+
+
 ## [4.0.0-alpha.104](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.104) (2022-02-25)
 
 
