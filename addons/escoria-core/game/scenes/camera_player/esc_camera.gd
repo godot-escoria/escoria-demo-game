@@ -195,7 +195,7 @@ func push(p_target, p_time: float = 0.0, p_type: int = 0):
 			escoria.logger.report_warnings(
 				"esc_camera.gd:push()",
 				[
-					"Tween is still active:" % [
+					"Tween is still active: %f/%f" % [
 						_tween.tell(),
 						_tween.get_runtime()
 					]
