@@ -87,21 +87,17 @@ func set_drag_margin_enabled(p_dm_h_enabled, p_dm_v_enabled):
 #
 # #### Parameters
 # - p_target: Object to target
-# - p_speed: Number of seconds for the camera to reach the target
-func set_target(p_target, p_speed : float = 0.0):
-	var speed = p_speed
-
+# - p_time: Number of seconds for the camera to reach the target
+func set_target(p_target, p_time : float = 0.0):
 	_resolve_target_and_zoom(p_target)
 
 	escoria.logger.info(
 		"Current camera position = %s " % str(self.global_position)
 	)
 
-	if speed == 0.0:
+	if p_time == 0.0:
 		self.global_position = _target
 	else:
-		var time = self.global_position.distance_to(_target) / speed
-
 		if _tween.is_active():
 			escoria.logger.report_warnings(
 				"esc_camera.gd:set_target()",
@@ -119,7 +115,7 @@ func set_target(p_target, p_speed : float = 0.0):
 			"global_position",
 			self.global_position,
 			_target,
-			time,
+			p_time,
 			Tween.TRANS_LINEAR,
 			Tween.EASE_IN_OUT
 		)

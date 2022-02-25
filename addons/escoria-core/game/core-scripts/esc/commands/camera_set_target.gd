@@ -1,10 +1,10 @@
-# `camera_set_target speed object`
+# `camera_set_target time object`
 #
 # Configures the camera to follow the specified target `object`
 #
 # **Parameters**
 #
-# - *speed*: Number of seconds the transition should take
+# - *time*: Number of seconds the transition should take
 # - *object*: Global ID of the target object
 #
 # For more details see: https://docs.escoria-framework.org/camera
