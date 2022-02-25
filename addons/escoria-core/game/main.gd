@@ -80,6 +80,17 @@ func _on_wait_finished() -> void:
 # * camera_limits_id: The id of the room's camera limits to set
 func set_camera_limits(camera_limit_id: int = 0) -> void:
 	var limits = {}
+	var last_available_camera_limit = current_scene.camera_limits.size() - 1
+	if camera_limit_id > last_available_camera_limit:
+		escoria.logger.report_errors(
+			"main.gd:set_camera_limits()",
+			[
+				"Camera limit %d requested. Last available camera limit is %d." % [
+					camera_limit_id,
+					last_available_camera_limit
+				]
+			]
+		)
 	var scene_camera_limits = current_scene.camera_limits[camera_limit_id]
 	if scene_camera_limits.size.x == 0 and scene_camera_limits.size.y == 0:
 		var area = Rect2()
