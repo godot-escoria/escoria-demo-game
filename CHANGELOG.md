@@ -1,3 +1,12 @@
+## [4.0.0-alpha.107](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.107) (2022-02-25)
+
+
+### Bug Fixes
+
+* fix error message - bug 143 ([#513](https://github.com/godot-escoria/escoria-demo-game/issues/513)) ([deac3df](https://github.com/godot-escoria/escoria-demo-game/commit/deac3df61dee8f60c20ff75437cd508ea77b3aad))
+
+
+
 ## [4.0.0-alpha.106](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.106) (2022-02-25)
 
 
