@@ -1,3 +1,12 @@
+## [4.0.0-alpha.103](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.103) (2022-02-25)
+
+
+### Bug Fixes
+
+* camera commands to use time instead of speed ([#509](https://github.com/godot-escoria/escoria-demo-game/issues/509)) ([d3f1b8b](https://github.com/godot-escoria/escoria-demo-game/commit/d3f1b8b6e2757d0c3ecf976bb496395a34af15f2))
+
+
+
 ## [4.0.0-alpha.102](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.102) (2022-02-24)
 
 
