@@ -22,7 +22,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate wether the given arguments match the command descriptor
+# Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not escoria.object_manager.has(arguments[0]):
 		escoria.logger.report_errors(

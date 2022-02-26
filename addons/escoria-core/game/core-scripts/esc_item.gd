@@ -412,7 +412,7 @@ func set_speed(speed_value: int) -> void:
 	speed = speed_value
 
 
-# Check wether this item moved
+# Check whether this item moved
 func has_moved() -> bool:
 	return _movable.moved if is_movable else false
 

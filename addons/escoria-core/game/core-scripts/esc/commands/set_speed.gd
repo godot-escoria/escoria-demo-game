@@ -5,7 +5,7 @@
 # **Parameters**
 #
 # - *object*: Global ID of the `ESCPlayer` or movable `ESCItem`
-# - *speed*: Speed value for `object`
+# - *speed*: Speed value for `object` in pixels per second.
 #
 # @ESC
 extends ESCBaseCommand
@@ -20,7 +20,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 		[null, null]
 	)
 
-# Validate wether the given arguments match the command descriptor
+# Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not escoria.object_manager.objects.has(arguments[0]):
 		escoria.logger.report_errors(

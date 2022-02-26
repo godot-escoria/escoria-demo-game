@@ -1,10 +1,10 @@
 # `set_gui_visible visible`
 #
-# Shows or hide the GUI.
+# Show or hide the GUI.
 #
 # **Parameters**
 #
-# - *visible*: Whether the GUI should be visible
+# - *visible*: Whether the GUI should be visible (`true` or `false`)
 #
 # @ESC
 extends ESCBaseCommand

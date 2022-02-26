@@ -1,6 +1,8 @@
 # `change_scene path [enable_automatic_transition] [run_events]`
 #
-# Switches the current scene to another scene
+# Switches the game from the current scene to another scene. Use this to move
+# the player to a new room when they walk through an unlocked door, for 
+# example.
 #
 # **Parameters**
 #
@@ -23,7 +25,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate wether the given arguments match the command descriptor
+# Validate whether the given arguments match the command descriptor
 func validate(arguments: Array) -> bool:
 	if not ResourceLoader.exists(arguments[0]):
 		escoria.logger.report_errors(

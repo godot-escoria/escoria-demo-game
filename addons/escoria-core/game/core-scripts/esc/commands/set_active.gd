@@ -1,12 +1,12 @@
 # `set_active object active`
 #
-# Changes the "active" state of the object. `active` can be `true` or `false`.
+# Changes the "active" state of the object.
 # Inactive objects are invisible in the room.
 #
 # **Parameters**
 #
 # - *object* Global ID of the object
-# - *active* Whether `object` should be active.
+# - *active* Whether `object` should be active. `active` can be `true` or `false`.
 #
 # @ESC
 extends ESCBaseCommand
@@ -22,7 +22,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate wether the given arguments match the command descriptor
+# Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not escoria.object_manager.objects.has(arguments[0]):
 		escoria.logger.report_errors(

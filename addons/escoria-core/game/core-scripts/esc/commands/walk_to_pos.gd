@@ -1,7 +1,7 @@
 # `walk_to_pos object x y`
 #
-# Moves the specified `ESCPlayer` or movable `ESCItem` to the target
-# position while playing `object`'s walking animation.
+# Moves the specified `ESCPlayer` or movable `ESCItem` to the absolute
+# coordinates provided while playing the `object`'s walking animation.
 # This command is non-blocking.
 #
 # **Parameters**
@@ -24,7 +24,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate wether the given arguments match the command descriptor
+# Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not escoria.object_manager.objects.has(arguments[0]):
 		escoria.logger.report_errors(

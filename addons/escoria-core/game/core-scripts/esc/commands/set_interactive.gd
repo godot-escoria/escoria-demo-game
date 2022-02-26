@@ -1,6 +1,6 @@
 # `set_interactive object interactive`
 #
-# Sets whether an object should be interactive.
+# Sets whether an object is interactive.
 #
 # **Parameters**
 #
@@ -21,7 +21,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate wether the given arguments match the command descriptor
+# Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not escoria.object_manager.objects.has(arguments[0]):
 		escoria.logger.report_errors(

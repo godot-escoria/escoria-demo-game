@@ -8,7 +8,7 @@
 # - *path*: Path to the scene file of the object
 # - *is_active*: Whether the new object should be set to active (default: `true`)
 # - *position_target*: Global ID of another object that will be used to
-#   position the new object (when omitted, the new objet's position is not specified)
+#   position the new object (when omitted, the new object's position is not specified)
 #
 # @ESC
 extends ESCBaseCommand
@@ -24,7 +24,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate wether the given arguments match the command descriptor
+# Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if arguments[0].empty() \
 		or arguments[0] in escoria.object_manager.RESERVED_OBJECTS:

@@ -1,10 +1,14 @@
 # `hide_menu menu_type [enable_automatic_transition]`
 #
-# Hides either the main menu or the pause menu.
+# Hides either the main menu or the pause menu. The enable_automatic_transition
+# parameter can be used to specify if Escoria manages the graphical transition
+# or not. If set to false, you can perform your own transition as part of the
+# room's `setup` event (if you want to change the look of the transition used
+# from the default for example) using the `transition` command.
 #
 # **Parameters**
 #
-# - *menu_type*: Type of menu to hide. Can be either `main` or `pause` (default: `main`)
+# - *menu_type*: Which menu to hide. Can be either `main` or `pause` (default: `main`)
 # - *enable_automatic_transition*: Whether to automatically transition from the menu (default: `false`)
 #
 # @ESC
@@ -21,7 +25,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate wether the given arguments match the command descriptor
+# Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not arguments[0] in ["main", "pause"]:
 		escoria.logger.report_errors(
