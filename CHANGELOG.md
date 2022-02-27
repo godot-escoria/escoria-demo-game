@@ -1,3 +1,12 @@
+## [4.0.0-alpha.108](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.108) (2022-02-27)
+
+
+### Bug Fixes
+
+* add validates to camera commands missing them ([#508](https://github.com/godot-escoria/escoria-demo-game/issues/508)) ([02a66fe](https://github.com/godot-escoria/escoria-demo-game/commit/02a66fecda5a3193ed495d6ef449862b4f375d01))
+
+
+
 ## [4.0.0-alpha.107](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.107) (2022-02-25)
 
 
