@@ -21,6 +21,10 @@ const SWITCH_ACTION_VERB = "switch_action_verb"
 # Input action for use by InputMap
 const ESC_SHOW_DEBUG_PROMPT = "esc_show_debug_prompt"
 
+# Input action for use by InputMap that represents a "primary action" from an
+# input device, such as a left-click on a mouse or the X button on an XBox
+# controller
+const ESC_UI_PRIMARY_ACTION = "esc_ui_primary_action"
 
 # The current input mode
 var input_mode = INPUT_ALL
