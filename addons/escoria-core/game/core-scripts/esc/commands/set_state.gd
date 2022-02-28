@@ -30,7 +30,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not escoria.object_manager.objects.has(arguments[0]):
+	if not escoria.object_manager.has(arguments[0]):
 		escoria.logger.report_errors(
 			"set_state: invalid object",
 			[
@@ -43,7 +43,7 @@ func validate(arguments: Array):
 
 # Run the command
 func run(command_params: Array) -> int:
-	(escoria.object_manager.objects[command_params[0]] as ESCObject).set_state(
+	(escoria.object_manager.get_object(command_params[0]) as ESCObject).set_state(
 		command_params[1],
 		command_params[2]
 	)

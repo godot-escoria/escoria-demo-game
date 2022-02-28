@@ -28,7 +28,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not escoria.object_manager.objects.has(arguments[0]):
+	if not escoria.object_manager.has(arguments[0]):
 		escoria.logger.report_errors(
 			"walk_to_pos_block: invalid first object",
 			[
@@ -46,7 +46,7 @@ func run(command_params: Array) -> int:
 		Vector2(command_params[1], command_params[2]), command_params[3]
 	])
 	yield(
-		(escoria.object_manager.objects[command_params[0]].node as ESCItem),
+		(escoria.object_manager.get_object(command_params[0]).node as ESCItem), 
 		"arrived"
 	)
 	return ESCExecution.RC_OK

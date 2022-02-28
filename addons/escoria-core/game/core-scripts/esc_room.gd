@@ -106,5 +106,3 @@ func set_editor_debug_mode(p_editor_debug_mode: int) -> void:
 	editor_debug_mode = p_editor_debug_mode
 	update()
 
-
-

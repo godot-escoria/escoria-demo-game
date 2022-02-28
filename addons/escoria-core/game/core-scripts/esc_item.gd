@@ -200,6 +200,7 @@ func _ready():
 				global_id,
 				self
 			),
+			null,
 			true
 		)
 

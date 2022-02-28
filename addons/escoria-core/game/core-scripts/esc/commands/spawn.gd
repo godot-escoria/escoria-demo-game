@@ -43,7 +43,7 @@ func validate(arguments: Array):
 			]
 		)
 		return false
-	if arguments[3] and not escoria.object_manager.objects.has(arguments[3]):
+	if arguments[3] and not escoria.object_manager.has(arguments[3]):
 		escoria.logger.report_errors(
 			"spawn: invalid object",
 			[
@@ -72,6 +72,7 @@ func run(command_params: Array) -> int:
 				command_params[0],
 				scene
 			),
+			null,
 			true
 		)
 

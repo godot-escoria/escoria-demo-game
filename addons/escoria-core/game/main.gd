@@ -37,13 +37,24 @@ func set_scene(p_scene: Node) -> void:
 	if !p_scene:
 		escoria.logger.report_errors("main", ["Trying to set empty scene"])
 
+	if not p_scene.is_inside_tree():
+		# Set the scene's visiblity for :setup events if the new room is not the
+		# same one as the current room. Note that the room's 
+		# _ready() method will ensure that the room is visible when
+		# :setup is complete.
+		if not _is_same_scene(current_scene, p_scene):
+			p_scene.visible = false
+
+		#p_scene.z_index = -100
+		escoria.object_manager.set_current_room(p_scene)
+		add_child(p_scene) 
+		move_child(p_scene, 0)
+
 	if current_scene != null:
 		clear_scene()
 
-	if not p_scene.is_inside_tree():
-		add_child(p_scene)
-		move_child(p_scene, 0)
 	current_scene = p_scene
+	
 	check_game_scene_methods()
 
 	set_camera_limits()
@@ -177,3 +188,9 @@ func check_game_scene_methods():
 	assert(current_scene.game.has_method("show_ui"))
 	assert(current_scene.game.has_method("_on_event_done"))
 
+
+func _is_same_scene(scene_1: Node, scene_2: Node) -> bool:
+	if scene_1 is ESCRoom and scene_2 is ESCRoom:
+		return scene_1.global_id == scene_2.global_id
+	
+	return false

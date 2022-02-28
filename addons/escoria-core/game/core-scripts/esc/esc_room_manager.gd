@@ -85,12 +85,13 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 			ESCTransitionPlayer.TRANSITION_MODE.OUT
 		)
 
-		escoria.logger.debug(
-			"Awaiting transition %s (out) to be finished." % str(transition_id)
-		)
-
-		yield(escoria.main.scene_transition, "transition_done")
-
+		if transition_id != escoria.main.scene_transition.TRANSITION_ID_INSTANT:
+			escoria.logger.debug(
+				"Awaiting transition %s (out) to be finished." % transition_id
+			)
+			
+			yield(escoria.main.scene_transition, "transition_done")
+	
 		# Hide main and pause menus
 		escoria.game_scene.hide_main_menu()
 		escoria.game_scene.unpause_game()
@@ -232,8 +233,11 @@ func init_room(room: ESCRoom) -> void:
 				room.player.global_id,
 				room.player
 			),
-			true
+			room,
+			true,
+			false
 		)
+		
 		if escoria.globals_manager.has(
 			escoria.room_manager.GLOBAL_ANIMATION_RESOURCES
 		):
@@ -269,8 +273,8 @@ func init_room(room: ESCRoom) -> void:
 func _perform_script_events(room: ESCRoom):
 	if escoria.event_manager.is_channel_free(escoria.event_manager.CHANNEL_FRONT) \
 			or (
-				not escoria.event_manager.is_channel_free(escoria.event_manager.CHANNEL_FRONT) and \
-				not escoria.event_manager.get_running_event(
+				not escoria.event_manager.is_channel_free(escoria.event_manager.CHANNEL_FRONT) \
+				and not escoria.event_manager.get_running_event(
 					escoria.event_manager.CHANNEL_FRONT
 				).name == escoria.event_manager.EVENT_LOAD
 			):
@@ -308,9 +312,28 @@ func _perform_script_events(room: ESCRoom):
 			# Hide main and pause menus
 			escoria.game_scene.hide_main_menu()
 			escoria.game_scene.unpause_game()
+		
+		var setup_event_added: bool = false
+		# Run the setup event, if there is one.
+		setup_event_added = _run_script_event(escoria.event_manager.EVENT_SETUP, room)
+		
+		if setup_event_added:
+			# Wait for setup event to be done
+			var rc = yield(escoria.event_manager, "event_finished")
+			while rc[1] != escoria.event_manager.EVENT_SETUP:
+				rc = yield(escoria.event_manager, "event_finished")
+			if rc[0] != ESCExecution.RC_OK:
+				return rc[0]
 
-		# Run the setup event
-		_run_script_event(escoria.event_manager.EVENT_SETUP, room)
+		# Switch the rooms (resources are freed at end of change_scene and in
+		# clear_scene).
+		
+		if room != escoria.main.current_scene:
+			escoria.main.current_scene.visible = false
+			#escoria.main.current_scene.z_index = -100
+
+		room.visible = true
+		#room.z_index = 0
 
 		if room.enabled_automatic_transitions \
 				or (
@@ -393,7 +416,7 @@ func _run_script_event(event_name: String, room: ESCRoom):
 			[
 				"Queuing room script event %s" % event_name,
 				"Composed of %s statements" %
-					str(room.compiled_script.events[event_name].statements.size())
+					room.compiled_script.events[event_name].statements.size()
 			]
 		)
 		escoria.event_manager.queue_event(room.compiled_script.events[event_name])
