@@ -2,12 +2,10 @@
 extends ColorRect
 class_name ESCTransitionPlayer
 
+
 # Emitted when the transition was played
 signal transition_done(transition_id)
 
-# Id of the transition. Allows keeping track of the actual transition
-# being played or finished
-var transition_id: int = 0
 
 # The valid transition modes
 enum TRANSITION_MODE {
@@ -15,6 +13,17 @@ enum TRANSITION_MODE {
 	OUT
 }
 
+
+# Id to represent instant/no transitions
+const TRANSITION_ID_INSTANT = -1
+
+# Instant transition type
+const TRANSITION_INSTANT = "instant"
+
+
+# Id of the transition. Allows keeping track of the actual transition 
+# being played or finished
+var transition_id: int = 0
 
 # The tween instance to animate
 var _tween: Tween
@@ -51,12 +60,27 @@ func transition(
 	mode: int = TRANSITION_MODE.IN,
 	duration: float = 1.0
 ) -> int:
+	
+	if transition_name.empty():
+		transition_name = escoria.project_settings_manager.get_setting(
+			escoria.project_settings_manager.DEFAULT_TRANISITION
+		)
+
 	if not has_transition(transition_name):
 		escoria.logger.report_errors(
 			"transition: Transition %s not found" % transition_name,
 			[]
 		)
-
+	
+	# If this is an "instant" transition, we need to set the alpha of the base 
+	# ColorRect to 0, since the transition materials used have a final state 
+	# that sets this scene's root (ColorRect) alpha to 0.
+	if transition_name == TRANSITION_INSTANT:
+		color.a = 0
+		return TRANSITION_ID_INSTANT
+	
+	var material_path = get_transition(transition_name)	
+		
 	material = ResourceLoader.load(get_transition(transition_name))
 	transition_id += 1
 
@@ -93,10 +117,6 @@ func transition(
 #
 # *Returns* the full path to the shader or an empty string, if it can't be found
 func get_transition(name: String) -> String:
-	if name.empty():
-		name = escoria.project_settings_manager.get_setting(
-			escoria.project_settings_manager.DEFAULT_TRANISITION
-		)
 	for directory in escoria.project_settings_manager.get_setting(
 		escoria.project_settings_manager.TRANSITION_PATHS
 	):
@@ -114,7 +134,7 @@ func get_transition(name: String) -> String:
 #
 # *Returns* true if a transition exists with given name.
 func has_transition(name: String) -> bool:
-	return not get_transition(name) == ""
+	return name == TRANSITION_INSTANT or get_transition(name) != ""
 
 
 func _on_tween_completed():

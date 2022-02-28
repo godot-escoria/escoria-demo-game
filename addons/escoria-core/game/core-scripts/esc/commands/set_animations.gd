@@ -23,7 +23,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not escoria.object_manager.objects.has(arguments[0]):
+	if not escoria.object_manager.has(arguments[0]):
 		escoria.logger.report_errors(
 			"set_animations: invalid object",
 			[

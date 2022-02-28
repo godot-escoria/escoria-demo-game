@@ -40,5 +40,6 @@ func _ready():
 				self.global_id,
 				self
 			),
+			null,
 			true
 		)

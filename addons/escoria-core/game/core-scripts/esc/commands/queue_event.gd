@@ -27,7 +27,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not escoria.object_manager.objects.has(arguments[0]):
+	if not escoria.object_manager.has(arguments[0]):
 		escoria.logger.report_errors(
 			"queue_event.gd:validate",
 			[
@@ -35,7 +35,7 @@ func validate(arguments: Array):
 			]
 		)
 		return false
-	var node = escoria.object_manager.objects.get(
+	var node = escoria.object_manager.get_object(
 		arguments[0]
 	).node
 	if not "esc_script" in node or node.esc_script == "":
@@ -68,7 +68,7 @@ func validate(arguments: Array):
 
 # Run the command
 func run(arguments: Array) -> int:
-	var node = escoria.object_manager.objects.get(
+	var node = escoria.object_manager.get_object(
 		arguments[0]
 	).node
 	var esc_script = escoria.esc_compiler.load_esc_file(node.esc_script)
