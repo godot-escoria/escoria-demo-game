@@ -283,22 +283,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			escoria.logger.info("Game state doesn't accept interactions")
 			return
 		var p = get_global_mouse_position()
-		var mouse_in_shape: bool = false
-		var colliders = get_world_2d().direct_space_state.intersect_point(
-			p,
-			32,
-			[],
-			2147483647,
-			true,
-			true
-		)
-		for _owner in get_shape_owners():
-			for _shape_id in range(0, shape_owner_get_shape_count(_owner)):
-				for _collider in colliders:
-					if _collider.collider == self and\
-							_collider.shape == _shape_id:
-						mouse_in_shape = true
-		if mouse_in_shape:
+		if _is_in_shape(p):
 			if event.doubleclick and event.button_index == BUTTON_LEFT:
 				emit_signal("mouse_double_left_clicked_item", self, event)
 				get_tree().set_input_as_handled()
@@ -308,6 +293,25 @@ func _unhandled_input(event: InputEvent) -> void:
 			elif event.button_index == BUTTON_RIGHT:
 				emit_signal("mouse_right_clicked_item", self, event)
 				get_tree().set_input_as_handled()
+
+
+func _is_in_shape(position: Vector2) -> bool:
+	var colliders = get_world_2d().direct_space_state.intersect_point(
+		position,
+		32,
+		[],
+		2147483647,
+		true,
+		true
+	)
+	for _owner in get_shape_owners():
+		for _shape_id in range(0, shape_owner_get_shape_count(_owner)):
+			for _collider in colliders:
+				if _collider.collider == self and _collider.shape == _shape_id:
+					return true
+	return false
+
+
 
 
 # Return the animation player node
