@@ -270,6 +270,14 @@ func _ready():
 #
 # - event: Triggered event
 func _unhandled_input(event: InputEvent) -> void:
+	# If this is a trigger, then escoria.inputs_manager is not wired up to
+	# receive the signals this function might dispatch. In particular,
+	# calling get_tree().set_input_as_handled() unnecessarily will prevent
+	# the ESCBackground from being able to process the event.
+	# See https://github.com/godot-escoria/escoria-issues/issues/147.
+	if is_trigger:
+		return
+
 	if event is InputEventMouseButton and event.is_pressed():
 		if not escoria.current_state == escoria.GAME_STATE.DEFAULT:
 			escoria.logger.info("Game state doesn't accept interactions")
