@@ -1,3 +1,12 @@
+## [4.0.0-alpha.109](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.109) (2022-03-01)
+
+
+### Bug Fixes
+
+* ESCItem that is a trigger should not capture input events ([#516](https://github.com/godot-escoria/escoria-demo-game/issues/516)) ([0570edc](https://github.com/godot-escoria/escoria-demo-game/commit/0570edc3ff6c11280ddb616387b5ba01f91665d8))
+
+
+
 ## [4.0.0-alpha.108](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.108) (2022-02-27)
 
 
