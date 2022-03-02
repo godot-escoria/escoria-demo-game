@@ -305,6 +305,7 @@ animations = null
 
 [node name="Particles2D" type="Particles2D" parent="r3_button"]
 position = Vector2( 374, 154 )
+emitting = false
 amount = 16
 lifetime = 4.0
 preprocess = 1.99
