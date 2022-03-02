@@ -119,11 +119,11 @@ func element_focused(element_id: String) -> void:
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM, \
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_ITEM:
 			tooltip.set_target(target_obj.tooltip_name)
-	
+
 			# Hovering an ESCItem highlights its default action
 			if escoria.action_manager.current_action != VERB_USE and target_obj is ESCItem:
 				verbs_menu.set_by_name(target_obj.default_action)
-	
+
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_TARGET_ITEM:
 			tooltip.set_target2(target_obj.tooltip_name)
 
@@ -254,11 +254,11 @@ func inventory_item_focused(inventory_item_global_id: String) -> void:
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM, \
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_ITEM:
 			tooltip.set_target(target_obj.tooltip_name)
-	
+
 			# Hovering an ESCItem highlights its default action
 			if escoria.action_manager.current_action != VERB_USE and target_obj is ESCItem:
 				verbs_menu.set_by_name(target_obj.default_action)
-	
+
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_TARGET_ITEM:
 			tooltip.set_target2(target_obj.tooltip_name)
 
@@ -275,7 +275,6 @@ func inventory_item_unfocused() -> void:
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_ITEM:
 			tooltip.set_target("")
 			verbs_menu.unselect_actions()
-	
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_TARGET_ITEM:
 			tooltip.set_target2("")
 
