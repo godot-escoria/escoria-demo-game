@@ -1,3 +1,12 @@
+## [4.0.0-alpha.114](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.114) (2022-03-03)
+
+
+### Code Refactoring
+
+* remove redundant check for camera node ([10f7708](https://github.com/godot-escoria/escoria-demo-game/commit/10f770855ffbc6b4880ca80eaf6fc4885a920269))
+
+
+
 ## [4.0.0-alpha.113](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.113) (2022-03-03)
 
 
