@@ -52,6 +52,7 @@ func win():
 	escoria.main.current_scene.show()
 	escoria.globals_manager.set_global("r8_m_door_open", true)
 	escoria.object_manager.get_object("r8_m_door").set_state("door_open")
+	escoria.object_manager.get_object("r8_mini_puzzle_button").active = false
 
 
 func _on_quit_pressed():
