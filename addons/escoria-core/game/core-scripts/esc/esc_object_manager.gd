@@ -15,49 +15,63 @@ const RESERVED_OBJECTS = [
 	CAMERA
 ]
 
-# Separator to use for each room's entry in the objects dictionary.
-const SEPARATOR = "!!!!"
-
-# Dictionary key for reserved objects.
-const RESERVED_KEY = "reserved"
-
-# The hash of registered objects (organized by room, with the object's global id 
-# serving as the object's key).
+# The array of registered objects (organized by room, incl. one "room" for 
+# reserved objects).
 #
 # Example structure:
 #
-#	{ 
-#		"reserved":
-#			{
-#				"_camera": camera
-#			},
-#		"room1!!!!<instance_id>":
-#			{
-#				"obj1": val1,
-#				"obj2": val2
-#			}	
-#	}
+#	[
+#		{
+#			is_reserved: true,
+#			room: "",
+#			room_instance_id: "",
+#			objects:
+#				{
+#					"_camera": camera
+#				},
+#		},
+#		{
+#			is_reserved: false,
+#			room_global_id: "<room_global_id>",
+#			room_instance_id: "<room_object_instance_id>",
+#			objects:
+#				{
+#					"obj1": val1,
+#					"obj2": val2
+#				}
+#		}
+#	]
 #
-# Note that the "reserved" entry cannot be altered or otherwise changed and
+# Note that the "is_reserved" entry cannot be altered or otherwise changed and
 # that it belongs to no specific room.
-var objects: Dictionary = {RESERVED_KEY: {}}
+var room_objects: Array = []
 
-# We also store the current room's complete key in objects for convenience.
-var current_room_key: String = ""
+# We also store the current room's ids for retrieving the right objects.
+var current_room_key: ESCRoomObjectsKey
 
+# To avoid having to look this up all the time, we hold a reference.
+var reserved_objects_container: ESCRoomObjects
 
 # Use this to track the room we just exited for the purpose o
 var prev_room_key: String = ""
 
+
+func _init() -> void:
+	reserved_objects_container = ESCRoomObjects.new()
+	reserved_objects_container.is_reserved = true
+	reserved_objects_container.objects = {}
+	room_objects.push_back(reserved_objects_container)
+
+	current_room_key = ESCRoomObjectsKey.new()
+
+
 # Make active objects in current room visible
 func _process(_delta):
-	for object in objects[current_room_key]:
-		if (object as ESCObject).node:
-			(object as ESCObject).node.visible = (object as ESCObject).active
-
-	for object in objects[RESERVED_KEY]:
-		if (object as ESCObject).node:
-			(object as ESCObject).node.visible = (object as ESCObject).active
+	for room in room_objects:
+		if room.is_reserved or _is_current_room(room):
+			for object in room.objects:
+				if (object as ESCObject).node:
+					(object as ESCObject).node.visible = (object as ESCObject).active
 
 
 # Updates which object manager room is to be treated as the currently active one.
@@ -74,7 +88,8 @@ func set_current_room(room: ESCRoom) -> void:
 			]
 		)
 
-	current_room_key = _make_room_key(room)
+	current_room_key.room_global_id = room.global_id
+	current_room_key.room_instance_id = room.get_instance_id()
 
 
 # Register the object in the manager
@@ -104,17 +119,20 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 	# Note that we also don't allow it to auto unregister and, as such, we need
 	# to make sure we clean these up when the application exits.
 	if object.global_id in RESERVED_OBJECTS:
-		objects[RESERVED_KEY][object.global_id] = object
+		reserved_objects_container.objects[object.global_id] = object
 		return
 
-	var room_key: String = ""
+	var room_key: ESCRoomObjectsKey = ESCRoomObjectsKey.new()
 	
 	# If a room was passed in, then we're going to register the object with it;
 	# otherwise, we register the object with the "current room".
 	if room == null or room.global_id.empty():
-		room_key = current_room_key
+		# We duplicate the key so as to not hold a reference when current_room_key
+		# changes.
+		room_key.room_global_id = current_room_key.room_global_id
+		room_key.room_instance_id = current_room_key.room_instance_id
 		
-		if room_key.empty():
+		if not room_key.is_valid():
 			escoria.logger.report_errors(
 				"ESCObjectManager:register_object()",
 				[
@@ -122,9 +140,11 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 				]
 			)
 	else:
-		room_key = _make_room_key(room)
+		room_key = ESCRoomObjectsKey.new()
+		room_key.room_global_id = room.global_id
+		room_key.room_instance_id = room.get_instance_id()
 
-	if objects.has(room_key) and objects[room_key].has(object.global_id):
+	if _object_exists_in_room(object, room_key):
 		if force:
 			# If this ID already exists and we're about to overwrite it, do the 
 			# safe thing and unregister the old object first
@@ -133,14 +153,16 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 			escoria.logger.report_errors(
 				"ESCObjectManager:register_object()",
 				[
-					"Object with global id %s in room %s already registered" % 
+					"Object with global id %s in room (%s, %s) already registered" % 
+						[
 							object.global_id,
-							room_key
+							room_key.room_global_id,
+							room_key.room_instance_id
+						]
 				]
 			)
 
 			return
-		
 
 	# If the object is already connected, disconnect it for the case of
 	# forcing the registration,since we don't know if this object will be
@@ -174,10 +196,19 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 		)
 		object.events = script.events
 	
-	if not objects.has(room_key):
-		objects[room_key] = {}
+	var objects: Dictionary = _get_room_objects_objects(room_key)
+	objects[object.global_id] = object
 
-	objects[room_key][object.global_id] = object
+	# If this is the first object for the room, that means we have a brand new
+	# room and it needs to be setup and tracked.
+	if objects.size() == 1:
+		var room_container: ESCRoomObjects = ESCRoomObjects.new()
+		room_container.room_global_id = room_key.room_global_id
+		room_container.room_instance_id = room_key.room_instance_id
+		room_container.is_reserved = false
+		room_container.objects = objects
+
+		room_objects.push_back(room_container)
 
 
 # Check whether an object was registered
@@ -189,12 +220,12 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 # **Returns** Whether the object exists in the object registry
 func has(global_id: String, room: ESCRoom = null) -> bool:
 	if global_id in RESERVED_OBJECTS:
-		if objects[RESERVED_KEY] == null:
+		if reserved_objects_container == null:
 			return false
 
-		return objects[RESERVED_KEY].has(global_id)
-	
-	var room_key: String = ""
+		return reserved_objects_container.objects.has(global_id)
+
+	var room_key: ESCRoomObjectsKey
 	
 	if room == null:
 		escoria.logger.trace("ESCObjectManager.has(): No room specified." \
@@ -203,12 +234,14 @@ func has(global_id: String, room: ESCRoom = null) -> bool:
 
 		room_key = current_room_key
 	else:
-		room_key = _make_room_key(room)
-
-	if objects[room_key] == null:
+		room_key = ESCRoomObjectsKey.new()
+		room_key.room_global_id = room.global_id
+		room_key.room_instance_id = room.get_instance_id()
+	
+	if not _room_exists(room_key):
 		return false
 
-	return objects[room_key].has(global_id)
+	return _object_exists_in_room(ESCObject.new(global_id, null), room_key)
 
 
 # Get the object from the object registry
@@ -220,8 +253,8 @@ func has(global_id: String, room: ESCRoom = null) -> bool:
 # **Returns** The retrieved object, or null if not found 
 func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 	if global_id in RESERVED_OBJECTS:
-		if objects[RESERVED_KEY].has(global_id):
-			return objects[RESERVED_KEY][global_id]
+		if reserved_objects_container.objects.has(global_id):
+			return reserved_objects_container.objects[global_id]
 		else:
 			escoria.logger.report_warnings(
 				"ESCObjectManager:get_object()",
@@ -233,7 +266,7 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 			)
 			return null
 
-	var room_key: String = ""
+	var room_key: ESCRoomObjectsKey
 
 	if room == null:
 		escoria.logger.trace("ESCObjectManager.has(): No room specified." \
@@ -242,28 +275,31 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 
 		room_key = current_room_key
 	else:
-		room_key = _make_room_key(room)
+		room_key.room_global_id = room.global_id
+		room_key.room_instance_id = room.get_instance_id()
 
-	if objects[room_key] == null:
+	if not _room_exists(room_key):
 		escoria.logger.report_warnings(
 			"ESCObjectManager:get_object()",
 			[
 				"Specified room empty/not found.",
-				"Object with global id %s in room instance %s not found" 
-				% global_id, room_key
+				"Object with global id %s in room instance (%s, %s) not found" 
+				% [global_id, room_key.room_global_id, room_key.room_instance_id]
 			]
 		)
 		return null
 
-	if objects[room_key].has(global_id):
-		return objects[room_key][global_id]
+	var objects: Dictionary = _get_room_objects_objects(room_key)
+	
+	if objects.has(global_id):
+		return objects[global_id]
 	else:
 		escoria.logger.report_warnings(
 			"ESCObjectManager:get_object()",
 			[
 				"Invalid object retrieved.",
-				"Object with global id %s in room instance %s not found" 
-				% global_id, room_key
+				"Object with global id %s in room instance (%s, %s) not found" 
+				% [global_id, room_key.room_global_id, room_key.room_instance_id]
 			]
 		)
 		return null
@@ -275,26 +311,33 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 #
 # - object: The object to unregister
 # - room_key: The room under which the object should be unregistered.
-func unregister_object(object: ESCObject, room_key: String) -> void:
-	if objects[room_key] == null:
+func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
+	if not _object_exists_in_room(object, room_key):
 		escoria.logger.report_errors(
 			"ESCObjectManager:unregister_object()",
 			[
 				"Unable to unregister object.",
-				"Room with key %s not found." % room_key
+				"Object with global ID %s room (%s, %s) not found." %
+				[
+					"?" if object == null else object.global_id,
+					room_key.room_global_id,
+					room_key.room_instance_id
+				]
 			]
 		)
 
+	var objects = _get_room_objects_objects(room_key)
+
 	if not escoria.inventory_manager.inventory_has(object.global_id):
-		objects[room_key].erase(object.global_id)
+		objects.erase(object.global_id)
 	else:
 		# Re-instance the node if it is an item present in inventory.
-		objects[room_key][object.global_id].node = \
-			objects[room_key][object.global_id].node.duplicate()
+		objects[object.global_id].node = \
+			objects[object.global_id].node.duplicate()
 
 	# If this room is truly empty, it's time to do away with it.
-	if objects[room_key].size() == 0:
-		objects.erase(room_key)
+	if objects.size() == 0:
+		_erase_room(room_key)
 
 
 # Remove an object from the registry by global_id
@@ -303,7 +346,7 @@ func unregister_object(object: ESCObject, room_key: String) -> void:
 #
 # - global_id: The global_id of the object to unregister
 # - room_key: The room under which the object should be unregistered.
-func unregister_object_by_global_id(global_id: String, room_key: String) -> void:
+func unregister_object_by_global_id(global_id: String, room_key: ESCRoomObjectsKey) -> void:
 	unregister_object(ESCObject.new(global_id, null), room_key)
 
 
@@ -314,25 +357,28 @@ func unregister_object_by_global_id(global_id: String, room_key: String) -> void
 #
 # - p_savegame: The savegame resource
 func save_game(p_savegame: ESCSaveGame) -> void:
-	if current_room_key.empty() or objects[current_room_key] == null:
+	if not current_room_key.is_valid() or not _room_exists(current_room_key):
 		escoria.logger.report_errors(
 			"ESCObjectManager:save_game()",
 			[
 				"No current room specified or found."
 			]
 		)
-		
+	
+	var objects: Dictionary = _get_room_objects_objects(current_room_key)	
+	
 	p_savegame.objects = {}
-	for obj_global_id in objects[current_room_key]:
-		if !objects[current_room_key][obj_global_id] is ESCObject:
+	
+	for obj_global_id in objects:
+		if not objects[obj_global_id] is ESCObject:
 			continue
-		p_savegame.objects[current_room_key][obj_global_id] = \
-			objects[current_room_key][obj_global_id].get_save_data()
+		p_savegame.objects[obj_global_id] = \
+			objects[obj_global_id].get_save_data()
 
 
 func get_start_location() -> ESCLocation:
-	if objects.has(current_room_key):
-		for object in objects[current_room_key].values():
+	if _room_exists(current_room_key):
+		for object in _get_room_objects_objects(current_room_key).values():
 			if is_instance_valid(object.node) \
 					and object.node is ESCLocation \
 					and object.node.is_start_location:
@@ -348,6 +394,55 @@ func get_start_location() -> ESCLocation:
 	return null
 
 
-# Utility function to fashion a room key for the object manager.
-func _make_room_key(room: ESCRoom) -> String:
-	return room.global_id + SEPARATOR + str(room.get_instance_id())
+# TODO: Document signatures
+#func _is_current_room(container: ESCRoomObjects) -> bool:
+func _is_current_room(container) -> bool:
+	return _compare_container_to_key(container, current_room_key)
+
+
+func _compare_container_to_key(container: ESCRoomObjects, room_key: ESCRoomObjectsKey) -> bool:
+	return container.room_global_id == room_key.room_global_id \
+		and container.room_instance_id == room_key.room_instance_id
+
+
+func _room_exists(room_key: ESCRoomObjectsKey) -> bool:
+	for room_container in room_objects:
+		if _compare_container_to_key(room_container, room_key):
+			return true
+
+	return false
+
+
+func _object_exists_in_room(object: ESCObject, room_key: ESCRoomObjectsKey) -> bool:
+	if object == null:
+		escoria.logger.report_warnings(
+			"ESCObjectManager:_object_exists_in_room()",
+			[
+				"Cannot check for null objects."
+			]
+		)
+		
+		return false
+	
+	for room_container in room_objects:
+		if _compare_container_to_key(room_container, room_key) \
+			and room_container.objects.has(object.global_id):
+			
+			return true
+
+	return false
+
+
+func _get_room_objects_objects(room_key: ESCRoomObjectsKey) -> Dictionary:
+	for room_container in room_objects:
+		if _compare_container_to_key(room_container, room_key):
+			return room_container.objects
+
+	return {}
+
+
+func _erase_room(room_key: ESCRoomObjectsKey) -> void:
+	for room_container in room_objects:
+		if _compare_container_to_key(room_container, room_key):
+			room_objects.erase(room_container)
+			return
