@@ -1,3 +1,12 @@
+## [4.0.0-alpha.115](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.115) (2022-03-03)
+
+
+### Bug Fixes
+
+* early return for mouse_in_shape ([f21ec15](https://github.com/godot-escoria/escoria-demo-game/commit/f21ec15560d61fa81c858c515aec2db447f5fa40))
+
+
+
 ## [4.0.0-alpha.114](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.114) (2022-03-03)
 
 
