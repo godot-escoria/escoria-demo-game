@@ -1,3 +1,12 @@
+## [4.0.0-alpha.111](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.111) (2022-03-03)
+
+
+### Bug Fixes
+
+* parameter validation function cant print arrays ([4fbe352](https://github.com/godot-escoria/escoria-demo-game/commit/4fbe3527e8fc24bd37f349fbfe907ffd68367593))
+
+
+
 ## [4.0.0-alpha.110](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.110) (2022-03-03)
 
 
