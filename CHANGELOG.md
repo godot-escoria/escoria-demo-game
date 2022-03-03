@@ -1,3 +1,12 @@
+## [4.0.0-alpha.110](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.110) (2022-03-03)
+
+
+### Features
+
+* more useful error messages ([5bdd519](https://github.com/godot-escoria/escoria-demo-game/commit/5bdd519d67527b1052fa15495eae8c145c4af1e3))
+
+
+
 ## [4.0.0-alpha.109](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.109) (2022-03-01)
 
 
