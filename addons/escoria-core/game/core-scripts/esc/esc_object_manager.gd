@@ -52,8 +52,16 @@ var current_room_key: ESCRoomObjectsKey
 # To avoid having to look this up all the time, we hold a reference.
 var reserved_objects_container: ESCRoomObjects
 
-# Use this to track the room we just exited for the purpose o
-var prev_room_key: String = ""
+# To avoid having to look this up all the time, we hold a reference.
+var reserved_objects_container: ESCRoomObjects
+
+func _init() -> void:
+	reserved_objects_container = ESCRoomObjects.new()
+	reserved_objects_container.is_reserved = true
+	reserved_objects_container.objects = {}
+	room_objects.push_back(reserved_objects_container)
+
+	current_room_key = ESCRoomObjectsKey.new()
 
 
 func _init() -> void:
@@ -144,28 +152,23 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 		room_key.room_global_id = room.global_id
 		room_key.room_instance_id = room.get_instance_id()
 
-	if _object_exists_in_room(object, room_key):
-		if force:
-			# If this ID already exists and we're about to overwrite it, do the 
-			# safe thing and unregister the old object first
-			unregister_object_by_global_id(object.global_id, room_key)
-		else:
-			escoria.logger.report_errors(
-				"ESCObjectManager:register_object()",
-				[
-					"Object with global id %s in room (%s, %s) already registered" % 
-						[
-							object.global_id,
-							room_key.room_global_id,
-							room_key.room_instance_id
-						]
-				]
-			)
+	if not force and _object_exists_in_room(object, room_key):
+		escoria.logger.report_errors(
+			"ESCObjectManager:register_object()",
+			[
+				"Object with global id %s in room (%s, %s) already registered" % 
+					[
+						object.global_id,
+						room_key.room_global_id,
+						room_key.room_instance_id
+					]
+			]
+		)
 
-			return
+		return
 
 	# If the object is already connected, disconnect it for the case of
-	# forcing the registration,since we don't know if this object will be
+	# forcing the registration, since we don't know if this object will be
 	# overwritten ("forced") in the future and, if it is, if it's set to
 	# auto-unregister or not. In most cases, objects are set to auto unregister.
 	if object.node.is_connected(
@@ -178,6 +181,11 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 			self,
 			"unregister_object"
 		)
+
+	if force:
+		# If this ID already exists and we're about to overwrite it, do the 
+		# safe thing and unregister the old object first
+		unregister_object_by_global_id(object.global_id, room_key)
 	
 	if auto_unregister:
 		object.node.connect(
@@ -217,7 +225,7 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 #
 # - global_id: Global ID of object
 # - room: ESCRoom instance the object is registered with.
-# **Returns** Whether the object exists in the object registry
+# ***Returns*** Whether the object exists in the object registry
 func has(global_id: String, room: ESCRoom = null) -> bool:
 	if global_id in RESERVED_OBJECTS:
 		if reserved_objects_container == null:
@@ -250,7 +258,7 @@ func has(global_id: String, room: ESCRoom = null) -> bool:
 #
 # - global_id: The global id of the object to retrieve
 # - room: ESCRoom instance the object is registered with.
-# **Returns** The retrieved object, or null if not found 
+# ***Returns*** The retrieved object, or null if not found 
 func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 	if global_id in RESERVED_OBJECTS:
 		if reserved_objects_container.objects.has(global_id):
@@ -313,7 +321,10 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 # - room_key: The room under which the object should be unregistered.
 func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 	if not _object_exists_in_room(object, room_key):
-		escoria.logger.report_errors(
+		# Report this as a warning and not an error since this method may be
+		# called as part of an objectd's forced registration and the object not
+		# yet being managed.
+		escoria.logger.report_warnings(
 			"ESCObjectManager:unregister_object()",
 			[
 				"Unable to unregister object.",
@@ -325,18 +336,21 @@ func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 				]
 			]
 		)
+		
+		return
 
-	var objects = _get_room_objects_objects(room_key)
+	var room_objects = _get_room_objects_objects(room_key)
 
-	if not escoria.inventory_manager.inventory_has(object.global_id):
-		objects.erase(object.global_id)
-	else:
-		# Re-instance the node if it is an item present in inventory.
-		objects[object.global_id].node = \
-			objects[object.global_id].node.duplicate()
+	if escoria.inventory_manager.inventory_has(object.global_id):
+		# Re-instance the node if it is an item present in inventory; that is,
+		# re-register it with the new current room.
+		object.node = object.node.duplicate()
+		register_object(object, null)
+
+	room_objects.erase(object.global_id)
 
 	# If this room is truly empty, it's time to do away with it.
-	if objects.size() == 0:
+	if room_objects.size() == 0:
 		_erase_room(room_key)
 
 
@@ -394,17 +408,36 @@ func get_start_location() -> ESCLocation:
 	return null
 
 
-# TODO: Document signatures
-#func _is_current_room(container: ESCRoomObjects) -> bool:
-func _is_current_room(container) -> bool:
+# Determines whether 'container' represents the current room the player is in.
+#
+# #### Parameters
+#
+# - container: The entry in the object manager array being checked.
+# **Returns** True iff container represents the the current room the player is in.
+func _is_current_room(container: ESCRoomObjects) -> bool:
 	return _compare_container_to_key(container, current_room_key)
 
 
+# Determines whether 'container' represents the room specified.
+#
+# #### Parameters
+#
+# - container: The entry in the object manager array being checked.
+# - room_key: The key representing the desired room in the object manager array.
+# **Returns** True iff container represents the the object manager entry specified
+# by room_key.
 func _compare_container_to_key(container: ESCRoomObjects, room_key: ESCRoomObjectsKey) -> bool:
 	return container.room_global_id == room_key.room_global_id \
 		and container.room_instance_id == room_key.room_instance_id
 
 
+# Checks whether an entry in the object manager array corresponds to the passed in
+# room key.
+#
+# #### Parameters
+#
+# - room_key: The key representing the desired room in the object manager array.
+# **Returns** True iff an entry in the object manager array corresponds to room_key.
 func _room_exists(room_key: ESCRoomObjectsKey) -> bool:
 	for room_container in room_objects:
 		if _compare_container_to_key(room_container, room_key):
@@ -413,6 +446,13 @@ func _room_exists(room_key: ESCRoomObjectsKey) -> bool:
 	return false
 
 
+# Checks whether the specified object exists in the specified object manager entry.
+#
+# #### Parameters
+#
+# - object: The object to check for existence.
+# - room_key: The key representing the desired room in the object manager array.
+# **Returns** True iff object exists in the object manager entry specified by room_key.
 func _object_exists_in_room(object: ESCObject, room_key: ESCRoomObjectsKey) -> bool:
 	if object == null:
 		escoria.logger.report_warnings(
@@ -433,6 +473,14 @@ func _object_exists_in_room(object: ESCObject, room_key: ESCRoomObjectsKey) -> b
 	return false
 
 
+# Returns the objects currently being managed in the object manager entry specified
+# by the specified room key.
+#
+# #### Parameters
+#
+# - room_key: The key representing the desired room in the object manager array.
+# **Returns** A reference to the dictionary of the entry's objects, or an empty
+# dictionary otherwise.
 func _get_room_objects_objects(room_key: ESCRoomObjectsKey) -> Dictionary:
 	for room_container in room_objects:
 		if _compare_container_to_key(room_container, room_key):
@@ -441,6 +489,12 @@ func _get_room_objects_objects(room_key: ESCRoomObjectsKey) -> Dictionary:
 	return {}
 
 
+# Completely removes the entry in the object manager array specified by the room
+# key.
+#
+# #### Parameters
+#
+# - room_key: The key representing the desired room in the object manager array.
 func _erase_room(room_key: ESCRoomObjectsKey) -> void:
 	for room_container in room_objects:
 		if _compare_container_to_key(room_container, room_key):

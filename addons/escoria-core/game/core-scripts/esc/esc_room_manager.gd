@@ -234,8 +234,7 @@ func init_room(room: ESCRoom) -> void:
 				room.player
 			),
 			room,
-			true,
-			false
+			true
 		)
 		
 		if escoria.globals_manager.has(
