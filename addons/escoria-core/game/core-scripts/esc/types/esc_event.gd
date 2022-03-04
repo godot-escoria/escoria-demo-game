@@ -2,12 +2,14 @@
 #
 # Events are triggered from various sources. Common events include
 #
-# * :setup : This is the first event to be called every time a room is visited. 
+# * :setup : This event is always the first to be called each time the room is visited. 
 #    It allows elements in the room to be prepared *before* the room is displayed to the 
-#    player (e.g. starting particle effects)
-# * :ready : This is the second event to be called every time a room is visited.
-#    This event is run right *after* the room is displayed to the player,
-#    allowing cutscenes or animations to be run at this moment.
+#    player (e.g. starting particle effects).
+# * :ready : This event is the second to be called each time the room is visited.
+#    It is run immediately after `:setup` finishes execution, if it exists. Otherwise,
+#    `:ready` will be the first event to run. Regardless, this event is run *after*
+#    the room is displayed to the player, allowing cutscenes or animations to be
+#    run once the room is visible.
 # * :use <global id> Called from the current item when it is used with the item
 #   with the global id <global id>
 extends ESCStatement
