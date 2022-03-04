@@ -1,29 +1,30 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=2]
-[ext_resource path="res://game/items/inventory/empty_sheet.png" type="Texture" id=3]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=1]
+[ext_resource path="res://game/rooms/room05/clipboard.png" type="Texture" id=2]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 86.9568, 115.211 )
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 34.5, 45 )
 
-[node name="empty_sheet" type="Area2D"]
+[node name="paper" type="Area2D"]
 pause_mode = 1
-script = ExtResource( 2 )
+script = ExtResource( 1 )
 global_id = "r5_empty_sheet"
 esc_script = "res://game/items/inventory/empty_sheet.esc"
-tooltip_name = "Empty sheet"
+player_orients_on_arrival = false
+tooltip_name = "application form"
 default_action = "look"
 default_action_inventory = "look"
-combine_when_selected_action_is_in = PoolStringArray( "use", "give" )
+combine_when_selected_action_is_in = PoolStringArray( "use" )
 use_from_inventory_only = true
-inventory_texture = ExtResource( 3 )
+inventory_texture = ExtResource( 2 )
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
-[node name="sprite" type="Sprite" parent="."]
-texture = ExtResource( 3 )
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 1038.5, 424 )
+texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-rotation = 0.0218604
-scale = Vector2( 0.683022, 0.519355 )
-shape = SubResource( 1 )
+position = Vector2( 1039, 424 )
+shape = SubResource( 4 )
