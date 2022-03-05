@@ -1,22 +1,56 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
-[ext_resource path="res://game/rooms/room09/background.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_background.gd" type="Script" id=2]
 [ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
-[ext_resource path="res://game/rooms/room09/closet/magical_closet.tscn" type="PackedScene" id=5]
+[ext_resource path="res://game/rooms/room09/button.png" type="Texture" id=5]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
-[ext_resource path="res://game/rooms/room09/button/button.tscn" type="PackedScene" id=8]
-[ext_resource path="res://game/rooms/room09/r_door.tscn" type="PackedScene" id=9]
+[ext_resource path="res://game/rooms/room09/locker_door_opened.png" type="Texture" id=8]
+[ext_resource path="res://game/rooms/room09/room9background.png" type="Texture" id=9]
 [ext_resource path="res://game/items/textures/genericItem_color_127.png" type="Texture" id=10]
 [ext_resource path="res://game/items/inventory/r9_bottle.tscn" type="PackedScene" id=11]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=12]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_exit.gd" type="Script" id=13]
+[ext_resource path="res://game/rooms/room09/locker_door_closed.png" type="Texture" id=14]
+[ext_resource path="res://game/items/inventory/bottle.png" type="Texture" id=15]
+[ext_resource path="res://game/rooms/room09/right_door.png" type="Texture" id=16]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, 1143.08, 613.35, -9.16094, 803.802, -6.44019, 711.297, 846.646, 637.49, 3.15687, 646.051, 59.2201, 628.698, 84.5821, 654.06, 864.626, 613.518, 428.618, 640.487, 386.666, 618.012, 129.634, 615.792 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 0, 3, 5, 6, 7 ), PoolIntArray( 6, 8, 9, 10 ), PoolIntArray( 7, 11, 4 ), PoolIntArray( 12, 7, 6, 10 ), PoolIntArray( 13, 12, 10, 14 ) ]
-outlines = [ PoolVector2Array( -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698, 84.5821, 654.06, 129.634, 615.792, 386.666, 618.012, 428.618, 640.487, 846.646, 637.49, 864.626, 613.518, 1143.08, 613.35, 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, -9.16094, 803.802 ) ]
+vertices = PoolVector2Array( 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, 820.268, 705.779, -9.16094, 803.802, -6.44019, 711.297, 491.268, 705.779, 129.634, 615.792, 455.268, 618.779, 84.5821, 654.06, 3.15687, 646.051, 59.2201, 628.698, 864.626, 613.518, 1143.08, 613.35 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 3, 5, 6, 7 ), PoolIntArray( 8, 9, 7, 10 ), PoolIntArray( 6, 11, 12, 10 ), PoolIntArray( 4, 13, 14, 0, 3 ), PoolIntArray( 7, 6, 10 ) ]
+outlines = [ PoolVector2Array( -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698, 84.5821, 654.06, 129.634, 615.792, 455.268, 618.779, 491.268, 705.779, 820.268, 705.779, 864.626, 613.518, 1143.08, 613.35, 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, -9.16094, 803.802 ) ]
+
+[sub_resource type="Animation" id=11]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("bottle:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=12]
+resource_name = "remove_bottle"
+tracks/0/type = "value"
+tracks/0/path = NodePath("bottle:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=2]
 resource_name = "set_bottle"
@@ -33,6 +67,343 @@ tracks/0/keys = {
 "values": [ true ]
 }
 
+[sub_resource type="Animation" id=13]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1227, 244 ) ]
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Sprite:position:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 1227, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Sprite:position:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 244, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("Sprite:scale:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("Sprite:scale:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Sprite:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=14]
+resource_name = "close_door"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1227, 244 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=15]
+resource_name = "open_door"
+length = 1.1
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Sprite:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 1227, -0.25, 0, 0.25, 0, 1276.43, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Sprite:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 244, -0.25, 0, 0.25, 0, 265.47, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Sprite:scale:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 0.01, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("Sprite:scale:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 0.88, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Sprite:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 1.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 40, 40 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 49, 147.5 )
+
+[sub_resource type="Animation" id=5]
+resource_name = "close_door"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("closed_door:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("opened_door:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "open_door"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("opened_door:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("closed_door:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "close_door"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("closed_door:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("opened_door:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "open_door"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("opened_door:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("closed_door:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "close_door"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("closed_door:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("opened_door:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "open_door"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("opened_door:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("closed_door:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
 [node name="room9" type="Node2D"]
 script = ExtResource( 6 )
 __meta__ = {
@@ -42,17 +413,6 @@ global_id = "room9"
 esc_script = "res://game/rooms/room09/esc/room09.esc"
 player_scene = ExtResource( 4 )
 camera_limits = [ Rect2( 0, 0, 1289, 555 ) ]
-
-[node name="background" parent="." instance=ExtResource( 2 )]
-
-[node name="room_label" type="Label" parent="background"]
-margin_right = 62.0
-margin_bottom = 16.0
-custom_fonts/font = ExtResource( 3 )
-text = "ROOM 9"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="walkable_area" type="Navigation2D" parent="."]
 script = ExtResource( 1 )
@@ -64,120 +424,46 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Hotspots" type="Node" parent="."]
+[node name="ESCBackground" type="TextureRect" parent="."]
+margin_right = 1280.0
+margin_bottom = 550.0
+mouse_filter = 2
+texture = ExtResource( 9 )
+script = ExtResource( 2 )
 
-[node name="l_door" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-script = ExtResource( 7 )
-global_id = "r9_l_exit"
-esc_script = "res://game/rooms/room09/esc/left_exit.esc"
-is_exit = true
-tooltip_name = "Left exit"
-default_action = "walk"
-dialog_color = Color( 1, 1, 1, 1 )
-animations = null
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
-polygon = PoolVector2Array( 0.328762, 440.897, 1.85199, 119.926, 85.9517, 74.6212, 87.1409, 377.869 )
-
-[node name="Position2D" type="Position2D" parent="Hotspots/l_door"]
-position = Vector2( 37.4521, 392.045 )
-script = ExtResource( 12 )
-
-[node name="r_door" parent="Hotspots" instance=ExtResource( 9 )]
-pause_mode = 1
-global_id = "r9_r_exit"
-esc_script = "res://game/rooms/room09/esc/right_exit.esc"
-animations = null
-
-[node name="Position2D" type="Position2D" parent="Hotspots/r_door"]
-position = Vector2( 1198.65, 391.058 )
-script = ExtResource( 12 )
-
-[node name="r9_closet_left" parent="Hotspots" instance=ExtResource( 5 )]
-position = Vector2( 435.233, 64.1518 )
-global_id = "r9_closet_left"
-esc_script = "res://game/rooms/room09/esc/closet_left.esc"
-tooltip_name = "Left closet"
-
-[node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_left"]
-position = Vector2( 69.9246, 318.898 )
-script = ExtResource( 12 )
-
-[node name="bottle_left" parent="Hotspots/r9_closet_left" instance=ExtResource( 11 )]
-visible = false
-position = Vector2( 46.4878, 47.8335 )
-scale = Vector2( 0.5, 0.5 )
-global_id = "r9_bottle_left"
-dont_apply_terrain_scaling = true
-
-[node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_left/bottle_left"]
-position = Vector2( -26.727, 543.448 )
-script = ExtResource( 12 )
-
-[node name="r9_closet_middle" parent="Hotspots" instance=ExtResource( 5 )]
-position = Vector2( 572.963, 65.2113 )
-global_id = "r9_closet_middle"
-esc_script = "res://game/rooms/room09/esc/closet_middle.esc"
-tooltip_name = "Middle closet"
-
-[node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_middle"]
-position = Vector2( 65.6867, 317.839 )
-script = ExtResource( 12 )
-
-[node name="bottle_middle" parent="Hotspots/r9_closet_middle" instance=ExtResource( 11 )]
-visible = false
-position = Vector2( 45.9562, 46.774 )
-scale = Vector2( 0.5, 0.5 )
-global_id = "r9_bottle_middle"
-dont_apply_terrain_scaling = true
-
-[node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_middle/bottle_middle"]
-position = Vector2( -26.727, 543.448 )
-script = ExtResource( 12 )
-
-[node name="r9_closet_right" parent="Hotspots" instance=ExtResource( 5 )]
-position = Vector2( 710.693, 66.2707 )
-global_id = "r9_closet_right"
-esc_script = "res://game/rooms/room09/esc/closet_right.esc"
-tooltip_name = "Right closet"
-
-[node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_right"]
-position = Vector2( 64.6273, 316.779 )
-script = ExtResource( 12 )
-
-[node name="bottle_right" parent="Hotspots/r9_closet_right" instance=ExtResource( 11 )]
-visible = false
-position = Vector2( 47.2065, 45.7146 )
-scale = Vector2( 0.5, 0.5 )
-global_id = "r9_bottle_right"
-dont_apply_terrain_scaling = true
-
-[node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_right/bottle_right"]
-position = Vector2( -26.727, 543.448 )
-script = ExtResource( 12 )
-
-[node name="button" parent="Hotspots" instance=ExtResource( 8 )]
-pause_mode = 1
-position = Vector2( 240.688, 160.459 )
-global_id = "r9_button_reset"
-esc_script = "res://game/rooms/room09/esc/button_reset.esc"
-animations = null
-
-[node name="Position2D" type="Position2D" parent="Hotspots/button"]
-position = Vector2( 30.204, 209.54 )
-script = ExtResource( 12 )
-
-[node name="Label" type="Label" parent="Hotspots/button"]
-margin_left = -15.5154
-margin_top = -23.3368
-margin_right = 59.4846
-margin_bottom = -7.33676
+[node name="room_label" type="Label" parent="ESCBackground"]
+margin_right = 82.0
+margin_bottom = 21.0
 custom_fonts/font = ExtResource( 3 )
-text = "Reset closets"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+text = "ROOM 9"
+
+[node name="Label" type="Label" parent="ESCBackground"]
+margin_left = 841.0
+margin_top = 7.0
+margin_right = 909.0
+margin_bottom = 21.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "This room demonstrates a puzzle that changes
+depending on what the player does. The bottle
+will appear in whichever closet is opened last.
+
+The reset has also been set up to only reset if 
+the puzzle hasn't been completed. This differs to 
+the previous room that always resets the puzzle.
+
+The state of the puzzle is preserved if you leave
+the room.
+
+Open all closets, take the bottle, and put it on
+the stand to complete the room."
+
+[node name="open_doorway_graphic" type="Polygon2D" parent="."]
+position = Vector2( -2, 4 )
+z_index = -2
+color = Color( 0, 0, 0, 1 )
+polygon = PoolVector2Array( 1172, 54, 1280, 96, 1278, 422, 1173, 355 )
+
+[node name="Hotspots" type="Node" parent="."]
 
 [node name="stand" type="Area2D" parent="Hotspots"]
 pause_mode = 1
@@ -193,23 +479,215 @@ dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/stand"]
-polygon = PoolVector2Array( 1086.57, 357.819, 1087.46, 226.857, 1134.68, 228.639, 1133.79, 358.71 )
-
-[node name="Line2D" type="Line2D" parent="Hotspots/stand"]
-points = PoolVector2Array( 1103.65, 354.291, 1103.65, 240.701, 1092.07, 236.692, 1090.74, 349.391, 1104.99, 354.736, 1125.48, 354.736, 1125.93, 239.365, 1099.2, 238.474, 1089.85, 234.465, 1115.68, 234.02, 1127.71, 238.919 )
+position = Vector2( -11.383, 25.1091 )
+polygon = PoolVector2Array( 1090, 348, 1087.46, 226.857, 1155, 226, 1155, 346 )
 
 [node name="bottle" type="Sprite" parent="Hotspots/stand"]
 visible = false
-position = Vector2( 1110, 193.494 )
-scale = Vector2( 0.6, 0.6 )
-texture = ExtResource( 10 )
+position = Vector2( 1108.62, 235.109 )
+texture = ExtResource( 15 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/stand"]
+anims/RESET = SubResource( 11 )
+anims/remove_bottle = SubResource( 12 )
 anims/set_bottle = SubResource( 2 )
 
 [node name="Position2D" type="Position2D" parent="Hotspots/stand"]
 position = Vector2( 1043.27, 359.243 )
 script = ExtResource( 12 )
+
+[node name="door_l" type="Area2D" parent="Hotspots"]
+script = ExtResource( 13 )
+global_id = "r9_l_exit"
+esc_script = "res://game/rooms/room09/esc/left_exit.esc"
+is_exit = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/door_l"]
+polygon = PoolVector2Array( 0, 108, 105, 62, 108, 355, 1, 422 )
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/door_l"]
+position = Vector2( 56, 385 )
+script = ExtResource( 12 )
+
+[node name="door_r" type="Area2D" parent="Hotspots"]
+script = ExtResource( 13 )
+global_id = "r9_r_exit"
+esc_script = "res://game/rooms/room09/esc/right_exit.esc"
+is_exit = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/door_r"]
+polygon = PoolVector2Array( 1174, 61, 1280, 107, 1280, 423, 1172, 353 )
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/door_r"]
+position = Vector2( 1228, 386 )
+script = ExtResource( 12 )
+
+[node name="Sprite" type="Sprite" parent="Hotspots/door_r"]
+position = Vector2( 1227, 244 )
+z_index = -1
+texture = ExtResource( 16 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/door_r"]
+anims/RESET = SubResource( 13 )
+anims/close_door = SubResource( 14 )
+anims/open_door = SubResource( 15 )
+
+[node name="reset_button" type="Area2D" parent="Hotspots"]
+pause_mode = 1
+position = Vector2( 125, 8 )
+script = ExtResource( 7 )
+global_id = "r9_reset_button"
+esc_script = "res://game/rooms/room09/esc/button_reset.esc"
+tooltip_name = "reset button"
+default_action = "use"
+inventory_texture = ExtResource( 5 )
+dialog_color = Color( 1, 1, 1, 1 )
+animations = null
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/reset_button"]
+position = Vector2( 291, 194 )
+shape = SubResource( 3 )
+
+[node name="Label" type="Label" parent="Hotspots/reset_button"]
+margin_left = 242.0
+margin_top = 233.0
+margin_right = 339.0
+margin_bottom = 254.0
+custom_fonts/font = ExtResource( 3 )
+text = "Reset closets"
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/reset_button"]
+position = Vector2( 283, 371 )
+script = ExtResource( 12 )
+
+[node name="Sprite" type="Sprite" parent="Hotspots/reset_button"]
+position = Vector2( 290, 193 )
+texture = ExtResource( 5 )
+
+[node name="r9_closet_left" type="Area2D" parent="Hotspots"]
+pause_mode = 1
+position = Vector2( -1, 0 )
+script = ExtResource( 7 )
+global_id = "r9_closet_left"
+esc_script = "res://game/rooms/room09/esc/closet_left.esc"
+tooltip_name = "closet"
+default_action = "open"
+inventory_texture = ExtResource( 14 )
+dialog_color = Color( 1, 1, 1, 1 )
+animations = null
+
+[node name="closed_door" type="Sprite" parent="Hotspots/r9_closet_left"]
+visible = false
+position = Vector2( 570, 248 )
+texture = ExtResource( 14 )
+
+[node name="opened_door" type="Sprite" parent="Hotspots/r9_closet_left"]
+position = Vector2( 525, 273 )
+texture = ExtResource( 8 )
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/r9_closet_left"]
+position = Vector2( 571, 447 )
+script = ExtResource( 12 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/r9_closet_left"]
+position = Vector2( 570, 248.5 )
+shape = SubResource( 4 )
+
+[node name="bottle_left" parent="Hotspots/r9_closet_left" instance=ExtResource( 11 )]
+position = Vector2( 598, 162 )
+global_id = "r9_bottle_left"
+dont_apply_terrain_scaling = true
+
+[node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_left/bottle_left"]
+position = Vector2( -27, 285 )
+script = ExtResource( 12 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/r9_closet_left"]
+anims/close_door = SubResource( 5 )
+anims/open_door = SubResource( 6 )
+
+[node name="r9_closet_middle" type="Area2D" parent="Hotspots"]
+pause_mode = 1
+script = ExtResource( 7 )
+global_id = "r9_closet_middle"
+esc_script = "res://game/rooms/room09/esc/closet_middle.esc"
+tooltip_name = "closet"
+default_action = "open"
+inventory_texture = ExtResource( 14 )
+dialog_color = Color( 1, 1, 1, 1 )
+animations = null
+
+[node name="closed_door" type="Sprite" parent="Hotspots/r9_closet_middle"]
+visible = false
+position = Vector2( 670, 248 )
+texture = ExtResource( 14 )
+
+[node name="opened_door" type="Sprite" parent="Hotspots/r9_closet_middle"]
+position = Vector2( 625, 269 )
+texture = ExtResource( 8 )
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/r9_closet_middle"]
+position = Vector2( 671, 446.5 )
+script = ExtResource( 12 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/r9_closet_middle"]
+position = Vector2( 670, 248 )
+shape = SubResource( 4 )
+
+[node name="bottle_middle" parent="Hotspots/r9_closet_middle" instance=ExtResource( 11 )]
+position = Vector2( 692, 163 )
+global_id = "r9_bottle_middle"
+dont_apply_terrain_scaling = true
+
+[node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_middle/bottle_middle"]
+position = Vector2( -21, 284 )
+script = ExtResource( 12 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/r9_closet_middle"]
+anims/close_door = SubResource( 7 )
+anims/open_door = SubResource( 8 )
+
+[node name="r9_closet_right" type="Area2D" parent="Hotspots"]
+pause_mode = 1
+position = Vector2( 100, 0 )
+script = ExtResource( 7 )
+global_id = "r9_closet_right"
+esc_script = "res://game/rooms/room09/esc/closet_right.esc"
+tooltip_name = "closet"
+default_action = "open"
+inventory_texture = ExtResource( 14 )
+dialog_color = Color( 1, 1, 1, 1 )
+animations = null
+
+[node name="closed_door" type="Sprite" parent="Hotspots/r9_closet_right"]
+visible = false
+position = Vector2( 669.5, 248 )
+texture = ExtResource( 14 )
+
+[node name="opened_door" type="Sprite" parent="Hotspots/r9_closet_right"]
+position = Vector2( 625, 268 )
+texture = ExtResource( 8 )
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/r9_closet_right"]
+position = Vector2( 671, 446.5 )
+script = ExtResource( 12 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/r9_closet_right"]
+position = Vector2( 670, 248 )
+shape = SubResource( 4 )
+
+[node name="bottle_right" parent="Hotspots/r9_closet_right" instance=ExtResource( 11 )]
+position = Vector2( 682, 163 )
+global_id = "r9_bottle_right"
+dont_apply_terrain_scaling = true
+
+[node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_right/bottle_right"]
+position = Vector2( -11, 284 )
+script = ExtResource( 12 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/r9_closet_right"]
+anims/close_door = SubResource( 9 )
+anims/open_door = SubResource( 10 )
 
 [node name="player_start" type="Position2D" parent="."]
 position = Vector2( 76.7617, 437.649 )
