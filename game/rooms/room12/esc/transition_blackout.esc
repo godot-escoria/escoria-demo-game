@@ -1,0 +1,7 @@
+:use
+accept_input NONE
+say player "Blackout"
+transition fade_black out 0.0
+wait 1
+transition fade_black in 0.0
+accept_input ALL

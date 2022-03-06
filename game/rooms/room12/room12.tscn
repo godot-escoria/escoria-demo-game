@@ -1,19 +1,22 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
-[ext_resource path="res://game/rooms/room12/background.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_background.gd" type="Script" id=2]
 [ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=5]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_exit.gd" type="Script" id=8]
-[ext_resource path="res://game/items/escitems/button.tscn" type="PackedScene" id=9]
+[ext_resource path="res://game/rooms/room12/room12background.png" type="Texture" id=9]
 
-[sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, 864.626, 613.518, 1143.08, 613.35, -9.16094, 803.802, 386.666, 618.012, 129.634, 615.792, 84.5821, 654.06, -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 0, 3, 6, 7 ), PoolIntArray( 8, 7, 6, 9 ), PoolIntArray( 9, 6, 10, 11, 12 ) ]
-outlines = [ PoolVector2Array( -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698, 84.5821, 654.06, 129.634, 615.792, 386.666, 618.012, 864.626, 613.518, 1143.08, 613.35, 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, -9.16094, 803.802 ) ]
+[sub_resource type="NavigationPolygon" id=3]
+vertices = PoolVector2Array( 1176.27, 627.779, 1177.27, 598.779, 1255.27, 643.779, 1252.27, 697.779, 5.26837, 647.779, 83.2684, 606.779, 84.2684, 638.779, 439.268, 724.779, 4.26837, 714.779, 355.268, 672.779, 458.268, 639.779, 405.268, 582.779, 486.268, 510.779, 522.268, 579.779, 620.268, 474.779, 625.268, 550.779, 764.268, 503.779, 709.268, 563.779, 782.268, 609.779, 867.268, 590.779, 821.268, 683.779, 891.268, 656.779, 832.268, 734.779 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6 ), PoolIntArray( 7, 8, 4, 6, 9 ), PoolIntArray( 10, 7, 9, 11, 12 ), PoolIntArray( 13, 10, 12, 14 ), PoolIntArray( 15, 13, 14, 16 ), PoolIntArray( 17, 15, 16 ), PoolIntArray( 18, 17, 16, 19 ), PoolIntArray( 20, 18, 19, 21 ), PoolIntArray( 3, 22, 20, 21, 0 ) ]
+outlines = [ PoolVector2Array( 83.2684, 606.779, 84.2684, 638.779, 355.268, 672.779, 405.268, 582.779, 486.268, 510.779, 620.268, 474.779, 764.268, 503.779, 867.268, 590.779, 891.268, 656.779, 1176.27, 627.779, 1177.27, 598.779, 1255.27, 643.779, 1252.27, 697.779, 832.268, 734.779, 821.268, 683.779, 782.268, 609.779, 709.268, 563.779, 625.268, 550.779, 522.268, 579.779, 458.268, 639.779, 439.268, 724.779, 4.26837, 714.779, 5.26837, 647.779 ) ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 57.5, 39 )
 
 [node name="room12" type="Node2D"]
 script = ExtResource( 6 )
@@ -25,24 +28,12 @@ esc_script = "res://game/rooms/room12/esc/room12.esc"
 player_scene = ExtResource( 4 )
 camera_limits = [ Rect2( 0, 0, 1289, 555 ) ]
 
-[node name="background" parent="." instance=ExtResource( 2 )]
-
-[node name="room_label" type="Label" parent="background"]
-margin_right = 92.0
-margin_bottom = 21.0
-custom_fonts/font = ExtResource( 3 )
-text = "ROOM 12
-"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="walkable_area" type="Navigation2D" parent="."]
 script = ExtResource( 1 )
 
 [node name="platform" type="NavigationPolygonInstance" parent="walkable_area"]
 position = Vector2( 6.73163, -264.779 )
-navpoly = SubResource( 1 )
+navpoly = SubResource( 3 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -61,20 +52,12 @@ dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
-polygon = PoolVector2Array( 0.328762, 440.897, 1.85199, 119.926, 85.9517, 74.6212, 87.1409, 377.869 )
+polygon = PoolVector2Array( 3, 421, 0, 107, 106, 65, 108, 356 )
 
 [node name="Position2D" type="Position2D" parent="Hotspots/l_door"]
 position = Vector2( 37.4521, 392.045 )
 script = ExtResource( 5 )
 global_id = "r12_l_exit"
-
-[node name="button" parent="Hotspots" instance=ExtResource( 9 )]
-position = Vector2( 301.706, 73.0751 )
-global_id = "r12_button"
-esc_script = "res://game/rooms/room12/esc/button.esc"
-
-[node name="Position2D" type="Position2D" parent="Hotspots/button"]
-position = Vector2( 340.052, 298.812 )
 
 [node name="r_door" type="Area2D" parent="Hotspots"]
 script = ExtResource( 8 )
@@ -84,14 +67,208 @@ target_scene = "res://game/rooms/room13/room13.tscn"
 switch_sound = "res://game/sfx/sounds/doorOpen_2.ogg"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
-polygon = PoolVector2Array( 1174.44, 47.7028, 1179.5, 355.197, 1277.9, 408.014, 1275.73, 91.8372 )
+position = Vector2( -5, 6 )
+polygon = PoolVector2Array( 1178, 57, 1178, 350, 1285, 417, 1286, 102 )
 
 [node name="ESCLocation" type="Position2D" parent="Hotspots/r_door"]
 position = Vector2( 1224.19, 375.505 )
 script = ExtResource( 5 )
 
+[node name="transition_default" type="Area2D" parent="Hotspots"]
+pause_mode = 1
+script = ExtResource( 7 )
+global_id = "r12_transition_default"
+esc_script = "res://game/rooms/room12/esc/transition_default.esc"
+tooltip_name = "transition_default"
+default_action = "use"
+dialog_color = Color( 1, 1, 1, 1 )
+animations = null
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/transition_default"]
+position = Vector2( 500.5, 155 )
+shape = SubResource( 2 )
+
+[node name="Label" type="Label" parent="Hotspots/transition_default"]
+modulate = Color( 0, 0.25098, 1, 1 )
+margin_left = 480.0
+margin_top = 148.0
+margin_right = 526.0
+margin_bottom = 162.0
+text = "Default"
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/transition_default"]
+position = Vector2( 502, 306 )
+script = ExtResource( 5 )
+
+[node name="transition_black" type="Area2D" parent="Hotspots"]
+pause_mode = 1
+position = Vector2( 118, -75 )
+script = ExtResource( 7 )
+global_id = "r12_transition_black"
+esc_script = "res://game/rooms/room12/esc/transition_black.esc"
+tooltip_name = "transition_black"
+default_action = "use"
+dialog_color = Color( 1, 1, 1, 1 )
+animations = null
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/transition_black"]
+position = Vector2( 500.5, 155 )
+shape = SubResource( 2 )
+
+[node name="Label" type="Label" parent="Hotspots/transition_black"]
+modulate = Color( 0, 0.25098, 1, 1 )
+margin_left = 480.0
+margin_top = 148.0
+margin_right = 526.0
+margin_bottom = 162.0
+text = "Black"
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/transition_black"]
+position = Vector2( 506, 318 )
+script = ExtResource( 5 )
+
+[node name="transition_white" type="Area2D" parent="Hotspots"]
+pause_mode = 1
+position = Vector2( 238, -25 )
+script = ExtResource( 7 )
+global_id = "r12_transition_white"
+esc_script = "res://game/rooms/room12/esc/transition_white.esc"
+tooltip_name = "transition_white"
+default_action = "use"
+dialog_color = Color( 1, 1, 1, 1 )
+animations = null
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/transition_white"]
+position = Vector2( 500.5, 155 )
+shape = SubResource( 2 )
+
+[node name="Label" type="Label" parent="Hotspots/transition_white"]
+modulate = Color( 0, 0.25098, 1, 1 )
+margin_left = 480.0
+margin_top = 148.0
+margin_right = 526.0
+margin_bottom = 162.0
+text = "White"
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/transition_white"]
+position = Vector2( 502, 306 )
+script = ExtResource( 5 )
+
+[node name="transition_shards" type="Area2D" parent="Hotspots"]
+pause_mode = 1
+position = Vector2( 377, 5 )
+script = ExtResource( 7 )
+global_id = "r12_transition_shards"
+esc_script = "res://game/rooms/room12/esc/transition_shards.esc"
+tooltip_name = "transition_shards"
+default_action = "use"
+dialog_color = Color( 1, 1, 1, 1 )
+animations = null
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/transition_shards"]
+position = Vector2( 500.5, 155 )
+shape = SubResource( 2 )
+
+[node name="Label" type="Label" parent="Hotspots/transition_shards"]
+modulate = Color( 0, 0.25098, 1, 1 )
+margin_left = 480.0
+margin_top = 148.0
+margin_right = 526.0
+margin_bottom = 162.0
+text = "Shards"
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/transition_shards"]
+position = Vector2( 477, 341 )
+script = ExtResource( 5 )
+
+[node name="transition_centre" type="Area2D" parent="Hotspots"]
+pause_mode = 1
+position = Vector2( 442, 97 )
+script = ExtResource( 7 )
+global_id = "r12_transition_centre"
+esc_script = "res://game/rooms/room12/esc/transition_centre.esc"
+tooltip_name = "transition_centre"
+default_action = "use"
+dialog_color = Color( 1, 1, 1, 1 )
+animations = null
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/transition_centre"]
+position = Vector2( 500.5, 155 )
+shape = SubResource( 2 )
+
+[node name="Label" type="Label" parent="Hotspots/transition_centre"]
+modulate = Color( 0, 0.25098, 1, 1 )
+margin_left = 480.0
+margin_top = 148.0
+margin_right = 526.0
+margin_bottom = 162.0
+text = "Centre"
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/transition_centre"]
+position = Vector2( 502, 306 )
+script = ExtResource( 5 )
+
+[node name="transition_blackout" type="Area2D" parent="Hotspots"]
+pause_mode = 1
+position = Vector2( 552, 49 )
+script = ExtResource( 7 )
+global_id = "r12_transition_blackout"
+esc_script = "res://game/rooms/room12/esc/transition_blackout.esc"
+tooltip_name = "transition_blackout"
+default_action = "use"
+dialog_color = Color( 1, 1, 1, 1 )
+animations = null
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/transition_blackout"]
+position = Vector2( 508, 154 )
+shape = SubResource( 2 )
+
+[node name="Label" type="Label" parent="Hotspots/transition_blackout"]
+modulate = Color( 0, 0.25098, 1, 1 )
+margin_left = 480.0
+margin_top = 148.0
+margin_right = 526.0
+margin_bottom = 162.0
+text = "Blackout"
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/transition_blackout"]
+position = Vector2( 506, 335 )
+script = ExtResource( 5 )
+
 [node name="player_start" type="Position2D" parent="."]
-position = Vector2( 542.824, 468.193 )
+position = Vector2( 97, 412 )
 script = ExtResource( 5 )
 global_id = "player_start"
 is_start_location = true
+
+[node name="ESCBackground" type="TextureRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+mouse_filter = 2
+texture = ExtResource( 9 )
+script = ExtResource( 2 )
+
+[node name="room_label" type="Label" parent="ESCBackground"]
+margin_right = 92.0
+margin_bottom = 45.0
+custom_fonts/font = ExtResource( 3 )
+text = "ROOM 12
+"
+
+[node name="room_label2" type="Label" parent="ESCBackground"]
+modulate = Color( 0.0352941, 0.0705882, 0.239216, 1 )
+margin_left = 121.0
+margin_top = 62.0
+margin_right = 213.0
+margin_bottom = 107.0
+custom_fonts/font = ExtResource( 3 )
+text = "This room demonstrates the
+transitions you can use for room
+changes or cutscenes. 
+Escoria will look for transitions 
+in the paths specified in Godot's
+settings under
+Escoria/UI/transition_paths.
+
+Click the clouds to see what
+each transition looks like."
