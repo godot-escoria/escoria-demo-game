@@ -2,6 +2,12 @@
 #
 # Turns `object` to face another object.
 #
+# Unlike movement commands, `turn_to` will not automatically reference an
+# ESClocation that is a child of an ESCitem. 
+# To turn towards a ESClocation that is a child of an ESCitem, give that 
+# ESClocation a `Global ID`, and set the `object_to_face` parameter to this 
+# `Global ID`.
+#
 # **Parameters**
 #
 # - *object*: Global ID of the object to be turned
