@@ -1,3 +1,12 @@
+## [4.0.0-alpha.118](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.118) (2022-03-07)
+
+
+### Bug Fixes
+
+* New graphics for room 10 ([#529](https://github.com/godot-escoria/escoria-demo-game/issues/529)) ([eea74ff](https://github.com/godot-escoria/escoria-demo-game/commit/eea74ff828ab8720db9f054aab9cf80641f6f083))
+
+
+
 ## [4.0.0-alpha.117](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.117) (2022-03-07)
 
 
