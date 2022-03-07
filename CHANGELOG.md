@@ -1,3 +1,48 @@
+## [4.0.0-alpha.118](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.118) (2022-03-07)
+
+
+### Bug Fixes
+
+* New graphics for room 10 ([#529](https://github.com/godot-escoria/escoria-demo-game/issues/529)) ([eea74ff](https://github.com/godot-escoria/escoria-demo-game/commit/eea74ff828ab8720db9f054aab9cf80641f6f083))
+
+
+
+## [4.0.0-alpha.117](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.117) (2022-03-07)
+
+
+### Features
+
+* Made room 5's background more interesting ([#530](https://github.com/godot-escoria/escoria-demo-game/issues/530)) ([b70c52e](https://github.com/godot-escoria/escoria-demo-game/commit/b70c52edda01a80aa9e21d4a7287640ae1ef344e))
+
+
+
+## [4.0.0-alpha.116](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.116) (2022-03-04)
+
+
+### Features
+
+* Graphics update for room 5 ([#525](https://github.com/godot-escoria/escoria-demo-game/issues/525)) ([bcb366c](https://github.com/godot-escoria/escoria-demo-game/commit/bcb366c6af91f1e4e89543844f663b88881c7d32))
+
+
+
+## [4.0.0-alpha.115](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.115) (2022-03-03)
+
+
+### Bug Fixes
+
+* early return for mouse_in_shape ([f21ec15](https://github.com/godot-escoria/escoria-demo-game/commit/f21ec15560d61fa81c858c515aec2db447f5fa40))
+
+
+
+## [4.0.0-alpha.114](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.114) (2022-03-03)
+
+
+### Code Refactoring
+
+* remove redundant check for camera node ([10f7708](https://github.com/godot-escoria/escoria-demo-game/commit/10f770855ffbc6b4880ca80eaf6fc4885a920269))
+
+
+
 ## [4.0.0-alpha.113](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.113) (2022-03-03)
 
 

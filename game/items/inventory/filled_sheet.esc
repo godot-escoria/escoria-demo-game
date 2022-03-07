@@ -1,5 +1,6 @@
 :look
-say player "'Dear Escoria developer: I hope you're having fun right now!'"
+say player "It's my application form for a job as an adventurer."
+say player "I hope I filled everything out right."
 stop
 
 

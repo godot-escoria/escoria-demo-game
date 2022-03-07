@@ -1,6 +1,7 @@
 # Testing the slide and slide_block command
 
 :use
+accept_input SKIP
 say player "UUUuugh. I'm not feeling so well..."
 
 slide_block player slide_pos_1
@@ -16,3 +17,4 @@ say player "Heeeeeeeelp!"
 :slide_back
 slide_block player slide_location
 say player "That's better."
+accept_input ALL

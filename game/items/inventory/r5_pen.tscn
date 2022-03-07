@@ -3,25 +3,29 @@
 [ext_resource path="res://game/items/inventory/pen.png" type="Texture" id=1]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=3]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 51.8881, 43.8187 )
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 34.5, 45 )
 
 [node name="pen" type="Area2D"]
 pause_mode = 1
+position = Vector2( -103, 0 )
 script = ExtResource( 3 )
 global_id = "r5_pen"
 esc_script = "res://game/items/inventory/pen.esc"
-tooltip_name = "Pen"
+player_orients_on_arrival = false
+tooltip_name = "pen"
 default_action = "look"
 default_action_inventory = "look"
-combine_when_selected_action_is_in = PoolStringArray( "use", "give" )
+combine_when_selected_action_is_in = PoolStringArray( "use" )
 use_from_inventory_only = true
 inventory_texture = ExtResource( 1 )
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
-[node name="sprite" type="Sprite" parent="."]
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 1038.5, 424 )
 texture = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+position = Vector2( 1039, 424 )
+shape = SubResource( 4 )
