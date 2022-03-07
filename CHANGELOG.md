@@ -1,3 +1,12 @@
+## [4.0.0-alpha.121](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.121) (2022-03-07)
+
+
+### Code Refactoring
+
+* remove trailing whitespace from all .gd files ([7bf3e9f](https://github.com/godot-escoria/escoria-demo-game/commit/7bf3e9f276f45f142cb8c04efcace14039c58d55))
+
+
+
 ## [4.0.0-alpha.120](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.120) (2022-03-07)
 
 
