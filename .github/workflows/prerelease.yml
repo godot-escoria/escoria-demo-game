@@ -15,6 +15,9 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.DEPLOYMENT_TOKEN }}
+      - name: Remove trailing whitespace
+        run: |
+          find . -name ".gd$" -type f | xargs sed -i 's/[[:space:]]$//'
       - name: Calculate version
         id: calculate_version
         uses: mathieudutour/github-tag-action@v5.6
