@@ -53,9 +53,6 @@ const RESERVED_OBJECTS = [
 #	]
 var room_objects: Array = []
 
-# States of objects
-var objects_states: Dictionary = {}
-
 # We also store the current room's ids for retrieving the right objects.
 var current_room_key: ESCRoomObjectsKey
 
@@ -166,12 +163,8 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 					]
 			]
 		)
-		return
-	# Object exists in room, set it to is last state (if different from "default"
-	elif objects_states.has(object.global_id):
-			# Object is already known, set its state to last known state
-			object.set_state(objects_states[object.global_id])
 
+		return
 
 	# If the object is already connected, disconnect it for the case of
 	# forcing the registration, since we don't know if this object will be
@@ -212,10 +205,6 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 
 	var objects: Dictionary = _get_room_objects_objects(room_key)
 	objects[object.global_id] = object
-	
-	# If object state is not STATE_DEFAULT, save it in manager's object states 
-	if object.state != ESCObject.STATE_DEFAULT:
-		objects_states[object.global_id] = object.state
 
 	# If this is the first object for the room, that means we have a brand new
 	# room and it needs to be setup and tracked.
