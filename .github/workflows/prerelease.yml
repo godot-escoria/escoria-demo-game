@@ -17,7 +17,14 @@ jobs:
           token: ${{ secrets.DEPLOYMENT_TOKEN }}
       - name: Remove trailing whitespace
         run: |
-          find . -name ".gd$" -type f | xargs sed -i 's/[[:space:]]$//'
+          OUTPUT=$(find . -name ".gd$" -type f | xargs sed -i 's/[[:space:]]$//')
+          RC=$?
+          if [[ $RC -ne 0 ]] && [[ $RC -ne 128 ]]
+          then
+            echo $OUTPUT
+            exit $RC 
+          fi
+          exit 0
       - name: Calculate version
         id: calculate_version
         uses: mathieudutour/github-tag-action@v5.6
