@@ -17,7 +17,7 @@ jobs:
           token: ${{ secrets.DEPLOYMENT_TOKEN }}
       - name: Remove trailing whitespace
         run: |
-          OUTPUT=$(find . -name ".gd$" -type f | xargs sed -i 's/[[:space:]]$//')
+          OUTPUT=$(find . -name "*.gd" -type f | xargs sed -i 's/[[:space:]]$//')
           RC=$?
           if [[ $RC -ne 0 ]] && [[ $RC -ne 128 ]]
           then
