@@ -53,7 +53,7 @@ onready var inventory_ui = $ui/Control/panel_down/VBoxContainer/HBoxContainer\
 func _enter_tree():
 	var room_selector_parent = $ui/Control/panel_down/VBoxContainer\
 			/HBoxContainer/MainMargin/VBoxContainer
-	
+
 	if ProjectSettings.get_setting("escoria/debug/enable_room_selector") and \
 			room_selector_parent.get_node_or_null("room_select") == null:
 		room_selector_parent.add_child(
@@ -64,12 +64,12 @@ func _enter_tree():
 		)
 
 
-## BACKGROUND ## 
+## BACKGROUND ##
 
 func left_click_on_bg(position: Vector2) -> void:
 	if escoria.main.current_scene.player:
 		escoria.action_manager.do(
-			escoria.action_manager.ACTION.BACKGROUND_CLICK, 
+			escoria.action_manager.ACTION.BACKGROUND_CLICK,
 			[escoria.main.current_scene.player.global_id, position],
 			true
 		)
@@ -77,12 +77,12 @@ func left_click_on_bg(position: Vector2) -> void:
 		escoria.action_manager.clear_current_tool()
 		tooltip.clear()
 		verbs_menu.unselect_actions()
-	
-	
+
+
 func right_click_on_bg(position: Vector2) -> void:
 	if escoria.main.current_scene.player:
 		escoria.action_manager.do(
-			escoria.action_manager.ACTION.BACKGROUND_CLICK, 
+			escoria.action_manager.ACTION.BACKGROUND_CLICK,
 			[escoria.main.current_scene.player.global_id, position],
 			true
 		)
@@ -90,146 +90,146 @@ func right_click_on_bg(position: Vector2) -> void:
 		escoria.action_manager.clear_current_tool()
 		tooltip.clear()
 		verbs_menu.unselect_actions()
-	
-	
+
+
 func left_double_click_on_bg(position: Vector2) -> void:
 	if escoria.main.current_scene.player:
 		escoria.action_manager.do(
-			escoria.action_manager.ACTION.BACKGROUND_CLICK, 
-			[escoria.main.current_scene.player.global_id, position, true], 
+			escoria.action_manager.ACTION.BACKGROUND_CLICK,
+			[escoria.main.current_scene.player.global_id, position, true],
 			true
 		)
 		escoria.action_manager.clear_current_action()
 		verbs_menu.unselect_actions()
 
 
-## ITEM FOCUS ## 
+## ITEM FOCUS ##
 
 func element_focused(element_id: String) -> void:
 	var target_obj = escoria.object_manager.get_object(element_id).node
-	
+
 	match escoria.action_manager.action_state:
-		# Don't change the tooltip if an action input is completed 
+		# Don't change the tooltip if an action input is completed
 		# (ie verb+item(+target)) because the action is now being executed
-		# and the tooltip is already set because the item was focused 
+		# and the tooltip is already set because the item was focused
 		# (see element_focused() and inventory_item_focused())
 		ESCActionManager.ACTION_INPUT_STATE.COMPLETED:
 			return
-		
+	
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM, \
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_ITEM:
 			tooltip.set_target(target_obj.tooltip_name)
-			
+		
 			# Hovering an ESCItem highlights its default action
 			if escoria.action_manager.current_action != VERB_USE and target_obj is ESCItem:
 				verbs_menu.set_by_name(target_obj.default_action)
-			
+		
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_TARGET_ITEM:
 			tooltip.set_target2(target_obj.tooltip_name)
 
 
 func element_unfocused() -> void:
 	match escoria.action_manager.action_state:
-		# Don't change the tooltip if an action input is completed 
+		# Don't change the tooltip if an action input is completed
 		# (ie verb+item(+target)) because the action is now being executed
-		# and the tooltip is already set because the item was focused 
+		# and the tooltip is already set because the item was focused
 		# (see element_focused() and inventory_item_focused())
 		ESCActionManager.ACTION_INPUT_STATE.COMPLETED:
 			return
-	
+
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM, \
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_ITEM:
 			tooltip.set_target("")
 			verbs_menu.unselect_actions()
-		
+	
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_TARGET_ITEM:
 			tooltip.set_target2("")
-	
+
 
 
 ## ITEMS ##
 func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
 	escoria.action_manager.do(
-		escoria.action_manager.ACTION.ITEM_LEFT_CLICK, 
-		[item_global_id, event], 
+		escoria.action_manager.ACTION.ITEM_LEFT_CLICK,
+		[item_global_id, event],
 		true
 	)
-	
+
 	var target_obj = escoria.object_manager.get_object(
 		item_global_id
 	).node
-	
-	match escoria.action_manager.action_state: 
-		# Don't change the tooltip if an action input is completed 
+
+	match escoria.action_manager.action_state:
+		# Don't change the tooltip if an action input is completed
 		# (ie verb+item(+target)) because the action is now being executed
-		# and the tooltip is already set because the item was focused 
+		# and the tooltip is already set because the item was focused
 		# (see element_focused() and inventory_item_focused())
 		ESCActionManager.ACTION_INPUT_STATE.COMPLETED:
 			return
-		
+	
 		# Just clicked on the item
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM, \
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_ITEM:
 			tooltip.set_target(target_obj.tooltip_name)
-		
+	
 		# Clicked on item and now we're awaiting a target item
 		# This means we clicked the tool and we now need a target
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_TARGET_ITEM:
 			tooltip.set_target(target_obj.tooltip_name, true)
-	
+
 
 
 func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
 	escoria.action_manager.set_current_action(verbs_menu.selected_action)
 	escoria.action_manager.do(
-		escoria.action_manager.ACTION.ITEM_RIGHT_CLICK, 
-		[item_global_id, event], 
+		escoria.action_manager.ACTION.ITEM_RIGHT_CLICK,
+		[item_global_id, event],
 		true
 	)
 
 
 func left_double_click_on_item(item_global_id: String, event: InputEvent) -> void:
 	escoria.action_manager.do(
-		escoria.action_manager.ACTION.ITEM_LEFT_CLICK, 
-		[item_global_id, event], 
+		escoria.action_manager.ACTION.ITEM_LEFT_CLICK,
+		[item_global_id, event],
 		true
-	) 
+	)
 
 
 ## INVENTORY ##
 func left_click_on_inventory_item(inventory_item_global_id: String, event: InputEvent) -> void:
 	escoria.action_manager.do(
-		escoria.action_manager.ACTION.ITEM_LEFT_CLICK, 
+		escoria.action_manager.ACTION.ITEM_LEFT_CLICK,
 		[inventory_item_global_id, event]
 	)
-	
+
 	var target_obj = escoria.object_manager.get_object(
 		inventory_item_global_id
 	).node
-	
-	match escoria.action_manager.action_state: 
-		# Don't change the tooltip if an action input is completed 
+
+	match escoria.action_manager.action_state:
+		# Don't change the tooltip if an action input is completed
 		# (ie verb+item(+target)) because the action is now being executed
-		# and the tooltip is already set because the item was focused 
+		# and the tooltip is already set because the item was focused
 		# (see element_focused() and inventory_item_focused())
 		ESCActionManager.ACTION_INPUT_STATE.COMPLETED:
 			return
-		
+	
 		# Just clicked on the inventory item: do nothing special
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM, \
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_ITEM:
 			return
-		
+	
 		# Clicked on inventory item and now we're awaiting a target item
 		# This means we clicked the tool and we now need a target
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_TARGET_ITEM:
 			tooltip.set_target(target_obj.tooltip_name, true)
-	
+
 
 func right_click_on_inventory_item(inventory_item_global_id: String, event: InputEvent) -> void:
 	escoria.action_manager.set_current_action(verbs_menu.selected_action)
 	escoria.action_manager.do(
-		escoria.action_manager.ACTION.ITEM_RIGHT_CLICK, 
+		escoria.action_manager.ACTION.ITEM_RIGHT_CLICK,
 		[inventory_item_global_id, event]
 	)
 
@@ -242,43 +242,43 @@ func inventory_item_focused(inventory_item_global_id: String) -> void:
 	var target_obj = escoria.object_manager.get_object(
 			inventory_item_global_id
 		).node
-		
+	
 	match escoria.action_manager.action_state:
-		# Don't change the tooltip if an action input is completed 
+		# Don't change the tooltip if an action input is completed
 		# (ie verb+item(+target)) because the action is now being executed
-		# and the tooltip is already set because the item was focused 
+		# and the tooltip is already set because the item was focused
 		# (see element_focused() and inventory_item_focused())
 		ESCActionManager.ACTION_INPUT_STATE.COMPLETED:
 			return
-		
+	
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM, \
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_ITEM:
 			tooltip.set_target(target_obj.tooltip_name)
-			
+		
 			# Hovering an ESCItem highlights its default action
 			if escoria.action_manager.current_action != VERB_USE and target_obj is ESCItem:
 				verbs_menu.set_by_name(target_obj.default_action)
-			
+		
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_TARGET_ITEM:
 			tooltip.set_target2(target_obj.tooltip_name)
-	
+
 
 func inventory_item_unfocused() -> void:
-	
+
 	match escoria.action_manager.action_state:
 		ESCActionManager.ACTION_INPUT_STATE.COMPLETED:
-			# Don't change the tooltip if an action input is completed 
+			# Don't change the tooltip if an action input is completed
 			# (ie verb+item(+target)) because the action is now being executed
 			return
-		
+	
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM, \
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_ITEM:
 			tooltip.set_target("")
 			verbs_menu.unselect_actions()
-			
+		
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_TARGET_ITEM:
 			tooltip.set_target2("")
-	
+
 
 func open_inventory():
 	pass
@@ -313,13 +313,13 @@ func hide_main_menu():
 	if get_node(main_menu).visible:
 		get_node(main_menu).hide()
 		show_ui()
-		
+	
 func show_main_menu():
 	if not get_node(main_menu).visible:
 		hide_ui()
 		get_node(main_menu).reset()
 		get_node(main_menu).show()
-	
+
 func unpause_game():
 	if get_node(pause_menu).visible:
 		get_node(pause_menu).hide()
@@ -341,8 +341,8 @@ func pause_game():
 
 func _on_MenuButton_pressed() -> void:
 	pause_game()
-	
-	
+
+
 func _on_action_finished() -> void:
 	verbs_menu.unselect_actions()
 	tooltip.clear()
@@ -355,7 +355,7 @@ func _on_event_done(_return_code: int, _event_name: String):
 func apply_custom_settings(custom_settings: Dictionary):
 	if custom_settings.has("a_custom_setting"):
 		escoria.logger.info(
-			"custom setting value loaded:", 
+			"custom setting value loaded:",
 			[custom_settings["a_custom_setting"]]
 		)
 

@@ -10,7 +10,7 @@ export(Color, RGB) var color_hover = Color(165.0,42.0,42.0, 1.0)
 func _ready() -> void:
 	hide_chooser()
 	pause_mode = PAUSE_MODE_STOP
-	
+
 
 # Process the timeout display
 func _process(delta: float) -> void:
@@ -25,9 +25,9 @@ func show_chooser():
 	var _vbox = $MarginContainer/ScrollContainer/VBoxContainer
 	for option_node in _vbox.get_children():
 		_vbox.remove_child(option_node)
-	
+
 	_remove_avatar()
-	
+
 	for option in self.dialog.options:
 		if option.is_valid():
 			var _option_node = Button.new()
@@ -39,14 +39,14 @@ func show_chooser():
 			_option_node.connect("pressed", self, "_on_answer_selected", [
 				option
 			])
-	
+
 	if self.dialog.avatar != "-":
 		$AvatarContainer.add_child(
 			ResourceLoader.load(self.dialog.avatar).instance()
 		)
-	
+
 	$MarginContainer.show()
-	
+
 	if self.dialog.timeout > 0:
 		$Timer.start(self.dialog.timeout)
 
@@ -54,7 +54,7 @@ func show_chooser():
 # Hide the chooser
 func hide_chooser():
 	$MarginContainer.hide()
-	
+
 
 # An option was choosen, emit the option
 #

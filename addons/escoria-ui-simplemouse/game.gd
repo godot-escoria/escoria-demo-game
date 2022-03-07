@@ -43,7 +43,7 @@ Implement methods to react to inputs.
 
 func _enter_tree():
 	var room_selector_parent = $CanvasLayer/ui/HBoxContainer/VBoxContainer
-	
+
 	if ProjectSettings.get_setting("escoria/debug/enable_room_selector") and \
 			room_selector_parent.get_node_or_null("room_select") == null:
 		room_selector_parent.add_child(
@@ -53,7 +53,7 @@ func _enter_tree():
 			).instance()
 		)
 
-	
+
 func _input(event: InputEvent) -> void:
 	if escoria.main.current_scene and escoria.main.current_scene.game:
 			if event is InputEventMouseMotion:
@@ -61,32 +61,32 @@ func _input(event: InputEvent) -> void:
 					update_tooltip_following_mouse_position(event.position)
 
 
-## BACKGROUND ## 
+## BACKGROUND ##
 
 func left_click_on_bg(position: Vector2) -> void:
 	if escoria.main.current_scene.player:
 		escoria.action_manager.do(
-			escoria.action_manager.ACTION.BACKGROUND_CLICK, 
+			escoria.action_manager.ACTION.BACKGROUND_CLICK,
 			[escoria.main.current_scene.player.global_id, position],
 			true
 		)
 		$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
 		$mouse_layer/verbs_menu.clear_tool_texture()
-	
+
 func right_click_on_bg(position: Vector2) -> void:
 	mousewheel_action(1)
-	
+
 func left_double_click_on_bg(position: Vector2) -> void:
 	if escoria.main.current_scene.player:
 		escoria.action_manager.do(
-			escoria.action_manager.ACTION.BACKGROUND_CLICK, 
+			escoria.action_manager.ACTION.BACKGROUND_CLICK,
 			[escoria.main.current_scene.player.global_id, position, true],
 			true
 		)
 		$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
 		$mouse_layer/verbs_menu.clear_tool_texture()
 
-## ITEM/HOTSPOT FOCUS ## 
+## ITEM/HOTSPOT FOCUS ##
 
 func element_focused(element_id: String) -> void:
 	var target_obj = escoria.object_manager.get_object(element_id).node
@@ -105,8 +105,8 @@ func element_unfocused() -> void:
 
 func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
 	escoria.action_manager.do(
-		escoria.action_manager.ACTION.ITEM_LEFT_CLICK, 
-		[item_global_id, event], 
+		escoria.action_manager.ACTION.ITEM_LEFT_CLICK,
+		[item_global_id, event],
 		true
 	)
 
@@ -115,19 +115,19 @@ func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
 
 func left_double_click_on_item(item_global_id: String, event: InputEvent) -> void:
 	escoria.action_manager.do(
-		escoria.action_manager.ACTION.ITEM_LEFT_CLICK, 
-		[item_global_id, event], 
+		escoria.action_manager.ACTION.ITEM_LEFT_CLICK,
+		[item_global_id, event],
 		true
-	) 
+	)
 
 
 ## INVENTORY ##
 func left_click_on_inventory_item(inventory_item_global_id: String, event: InputEvent) -> void:
 	escoria.action_manager.do(
-		escoria.action_manager.ACTION.ITEM_LEFT_CLICK, 
+		escoria.action_manager.ACTION.ITEM_LEFT_CLICK,
 		[inventory_item_global_id, event]
 	)
-	
+
 	if escoria.action_manager.current_action == "use":
 		var item = escoria.object_manager.get_object(
 			inventory_item_global_id
@@ -140,7 +140,7 @@ func left_click_on_inventory_item(inventory_item_global_id: String, event: Input
 			$mouse_layer/verbs_menu.set_tool_texture(
 				item.inventory_item.texture_normal
 			)
-			
+		
 
 func right_click_on_inventory_item(inventory_item_global_id: String, event: InputEvent) -> void:
 	mousewheel_action(1)
@@ -176,8 +176,8 @@ func mousewheel_action(direction: int):
 
 func hide_ui():
 	$CanvasLayer/ui/HBoxContainer/inventory_ui.hide()
-	
-	
+
+
 func show_ui():
 	$CanvasLayer/ui/HBoxContainer/inventory_ui.show()
 
@@ -212,7 +212,7 @@ func pause_game():
 func apply_custom_settings(custom_settings: Dictionary):
 	if custom_settings.has("a_custom_setting"):
 		escoria.logger.info(
-			"custom setting value loaded:", 
+			"custom setting value loaded:",
 			[custom_settings["a_custom_setting"]]
 		)
 
@@ -221,7 +221,7 @@ func get_custom_data() -> Dictionary:
 	return {
 		"ui_type": "simplemouse"
 	}
-	
+
 
 # Update the tooltip
 #
@@ -230,15 +230,15 @@ func get_custom_data() -> Dictionary:
 # - p_position: Position of the mouse
 func update_tooltip_following_mouse_position(p_position: Vector2):
 	var corrected_position = p_position
-	
+
 	# clamp TOP
 	if tooltip_node.tooltip_distance_to_edge_top(p_position) <= mouse_tooltip_margin:
 		corrected_position.y = mouse_tooltip_margin
-	
+
 	# clamp BOTTOM
 	if tooltip_node.tooltip_distance_to_edge_bottom(p_position + tooltip_node.rect_size) <= mouse_tooltip_margin:
 		corrected_position.y = escoria.game_size.y - mouse_tooltip_margin - tooltip_node.rect_size.y
-	
+
 	# clamp LEFT
 	if tooltip_node.tooltip_distance_to_edge_left(p_position - tooltip_node.rect_size/2) <= mouse_tooltip_margin:
 		corrected_position.x = mouse_tooltip_margin
@@ -246,7 +246,7 @@ func update_tooltip_following_mouse_position(p_position: Vector2):
 	# clamp RIGHT
 	if tooltip_node.tooltip_distance_to_edge_right(p_position + tooltip_node.rect_size/2) <= mouse_tooltip_margin:
 		corrected_position.x = escoria.game_size.x - mouse_tooltip_margin - tooltip_node.rect_size.x
-	
+
 	tooltip_node.anchor_right = 0.2
 	tooltip_node.rect_position = corrected_position + tooltip_node.offset_from_cursor
 

@@ -21,7 +21,7 @@ func _on_action_selected(action: String):
 
 	for but in get_children():
 		but.set_pressed(but.get_name() == action)
-	
+
 func unselect_actions():
 	for but in get_children():
 		but.set_pressed(false)
@@ -30,5 +30,5 @@ func set_by_name(action_name: String):
 	selected_action = action_name
 	for but in get_children():
 		but.set_pressed(but.get_name() == action_name)
-			
-	
+		
+

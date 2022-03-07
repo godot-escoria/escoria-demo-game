@@ -53,7 +53,7 @@ func validate(arguments: Array):
 					{"t_type":arguments[3],"allowed_types":SUPPORTED_TRANSITIONS})
 			]
 		)
-		return false	
+		return false
 
 	return .validate(arguments)
 

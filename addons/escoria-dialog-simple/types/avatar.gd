@@ -47,11 +47,11 @@ func _ready():
 	)
 	text_node.bbcode_enabled = true
 	tween.connect(
-		"tween_completed", 
-		self, 
+		"tween_completed",
+		self,
 		"_on_dialog_line_typed"
 	)
-	
+
 	escoria.connect("paused", self, "_on_paused")
 	escoria.connect("resumed", self, "_on_resumed")
 
@@ -78,19 +78,19 @@ func say(character: String, line: String):
 	_is_speeding_up = false
 	popup_centered()
 	set_current_character(character)
-	
+
 	text_node.bbcode_text = tr(line)
-	
+
 	text_node.percent_visible = 0.0
 	var time_show_full_text = _text_speed_per_character * len(line)
-	
+
 	tween.interpolate_property(text_node, "percent_visible",
 		0.0, 1.0, time_show_full_text,
 		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.start()
 
 
-# Called by the dialog player when the 
+# Called by the dialog player when the
 func speedup():
 	if not _is_speeding_up:
 		_is_speeding_up = true

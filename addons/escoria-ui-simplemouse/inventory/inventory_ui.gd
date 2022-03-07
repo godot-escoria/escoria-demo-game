@@ -17,7 +17,7 @@ func _on_inventory_button_pressed():
 		hide_inventory()
 	else:
 		show_inventory()
-		
+	
 
 func show_inventory():
 	$FloatingInventory/InventoryTween.stop_all()

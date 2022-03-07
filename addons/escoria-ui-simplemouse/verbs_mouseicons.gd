@@ -18,7 +18,7 @@ func _ready():
 	if !Engine.is_editor_hint():
 		current_cursor_id = cursors.size()
 		iterate_actions_cursor(UI_ACTIONS_DIRECTION.UP)
-	
+
 func _process(delta):
 	$mouse_position.rect_global_position = get_global_mouse_position()
 
@@ -29,7 +29,7 @@ func iterate_actions_cursor(direction: int):
 		current_cursor_id = 0
 	elif current_cursor_id < 0:
 		current_cursor_id = cursors.size() - 1
-		
+	
 	Input.set_custom_mouse_cursor(cursors[current_cursor_id].texture)
 	escoria.action_manager.set_current_action(cursors[current_cursor_id].name)
 	if $mouse_position/tool.texture != null:
@@ -40,7 +40,7 @@ func set_by_name(name: String) -> void:
 		if cursors[i].name == name:
 			current_cursor_id = i
 			break
-		
+	
 	Input.set_custom_mouse_cursor(cursors[current_cursor_id].texture)
 	escoria.action_manager.set_current_action(cursors[current_cursor_id].name)
 

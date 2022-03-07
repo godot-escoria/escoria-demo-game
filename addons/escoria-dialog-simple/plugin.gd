@@ -16,7 +16,7 @@ func _init() -> void:
 # Register ourselves after setup
 func _ready() -> void:
 	call_deferred("_register")
-	
+
 
 # Unregister ourselves
 func _exit_tree() -> void:
@@ -34,7 +34,7 @@ func _register():
 			"hint": PROPERTY_HINT_DIR
 		}
 	)
-	
+
 	_escoria.project_settings_manager.register_setting(
 		_escoria.project_settings_manager.TEXT_SPEED_PER_CHARACTER,
 		0.1,
@@ -42,7 +42,7 @@ func _register():
 			"type": TYPE_REAL
 		}
 	)
-	
+
 	_escoria.project_settings_manager.register_setting(
 		_escoria.project_settings_manager.FAST_TEXT_SPEED_PER_CHARACTER,
 		0.25,
@@ -50,7 +50,7 @@ func _register():
 			"type": TYPE_REAL
 		}
 	)
-	
+
 	_escoria.project_settings_manager.register_setting(
 		_escoria.project_settings_manager.MAX_TIME_TO_DISAPPEAR,
 		1.0,
