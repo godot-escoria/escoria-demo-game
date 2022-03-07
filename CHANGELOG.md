@@ -1,3 +1,12 @@
+## [4.0.0-alpha.117](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.117) (2022-03-07)
+
+
+### Features
+
+* Made room 5's background more interesting ([#530](https://github.com/godot-escoria/escoria-demo-game/issues/530)) ([b70c52e](https://github.com/godot-escoria/escoria-demo-game/commit/b70c52edda01a80aa9e21d4a7287640ae1ef344e))
+
+
+
 ## [4.0.0-alpha.116](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.116) (2022-03-04)
 
 
