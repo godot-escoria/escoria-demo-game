@@ -2,8 +2,8 @@
 
 say player "Huh?"
 
-turn_to player slide_pos_1
+turn_to player r10_l_exit
 
 say player "Nothing."
 
-turn_to player slide_pos_2 0.2
+turn_to player r10_r_exit 0.2
