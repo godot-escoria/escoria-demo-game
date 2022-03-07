@@ -30,5 +30,5 @@ func set_by_name(action_name: String):
 	selected_action = action_name
 	for but in get_children():
 		but.set_pressed(but.get_name() == action_name)
-		
+	
 

@@ -2,8 +2,8 @@
 #
 # Events are triggered from various sources. Common events include
 #
-# * :setup : This event is always the first to be called each time the room is visited. 
-#    It allows elements in the room to be prepared *before* the room is displayed to the 
+# * :setup : This event is always the first to be called each time the room is visited.
+#    It allows elements in the room to be prepared *before* the room is displayed to the
 #    player (e.g. starting particle effects).
 # * :ready : This event is the second to be called each time the room is visited.
 #    It is run immediately after `:setup` finishes execution, if it exists. Otherwise,
