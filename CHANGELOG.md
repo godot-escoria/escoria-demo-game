@@ -1,3 +1,12 @@
+## [4.0.0-alpha.123](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.123) (2022-03-08)
+
+
+### Features
+
+* New graphics for room 8 ([7a64c77](https://github.com/godot-escoria/escoria-demo-game/commit/7a64c7707fe8e5011d559fe2f71f458cde1a7d2e))
+
+
+
 ## [4.0.0-alpha.122](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.122) (2022-03-08)
 
 
