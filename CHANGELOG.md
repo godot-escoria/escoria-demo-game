@@ -1,3 +1,13 @@
+## [4.0.0-alpha.122](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.122) (2022-03-08)
+
+
+### Features
+
+* introduce escoria-ui-keyboard-9verbs to verify register_custom_input_handler() API ([5a77bd6](https://github.com/godot-escoria/escoria-demo-game/commit/5a77bd6fdc100461dc1eeb351299c0fc89d32b14))
+* register_custom_input_handler() API ([14cf132](https://github.com/godot-escoria/escoria-demo-game/commit/14cf1327fe0b6e3c16c0df6628293b6197f66708))
+
+
+
 ## [4.0.0-alpha.121](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.121) (2022-03-07)
 
 
