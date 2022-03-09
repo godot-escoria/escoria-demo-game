@@ -1,3 +1,12 @@
+## [4.0.0-alpha.124](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.124) (2022-03-09)
+
+
+### Bug Fixes
+
+* Automatically remove trailing whitespace when parsing scripts to avoid needing to change all regular expressions separately ([b05be36](https://github.com/godot-escoria/escoria-demo-game/commit/b05be369b2b19b8d34afb0a15bb63373805bac02))
+
+
+
 ## [4.0.0-alpha.123](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.123) (2022-03-08)
 
 
