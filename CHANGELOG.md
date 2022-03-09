@@ -1,3 +1,12 @@
+## [4.0.0-alpha.127](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.127) (2022-03-09)
+
+
+### Bug Fixes
+
+* room text is readable again ([587b3b3](https://github.com/godot-escoria/escoria-demo-game/commit/587b3b316bd201d3f178d2a46f9997b4b72cbf00))
+
+
+
 ## [4.0.0-alpha.126](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.126) (2022-03-09)
 
 
