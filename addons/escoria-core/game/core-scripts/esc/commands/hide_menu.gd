@@ -2,10 +2,13 @@
 #
 # Hides either the main menu or the pause menu. The enable_automatic_transition
 # parameter can be used to specify if Escoria manages the graphical transition
-# or not. If set to false, you can perform your own transition as part of the
-# room's `setup` event (if you want to change the look of the transition used
-# from the default for example) using the `transition` command.
-#
+# for you or not. 
+# Setting `enable_automatic_transition` to false allows you to manage the
+# transition effect for your room as it transitions in and out. Place a 
+# `transition` command in the room's `setup` event to manage the look of the 
+# transition in, and in the room's `exit_scene` event to manage the look of the
+# transition out.
+# 
 # **Parameters**
 #
 # - *menu_type*: Which menu to hide. Can be either `main` or `pause` (default: `main`)
