@@ -1,3 +1,12 @@
+## [4.0.0-alpha.128](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.128) (2022-03-09)
+
+
+### Bug Fixes
+
+* Updated camera x limit to 1280 to match the background graphics ([#535](https://github.com/godot-escoria/escoria-demo-game/issues/535)) ([21ebb01](https://github.com/godot-escoria/escoria-demo-game/commit/21ebb017e6be5db0d803862d491abf9a523feec8))
+
+
+
 ## [4.0.0-alpha.127](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.127) (2022-03-09)
 
 
