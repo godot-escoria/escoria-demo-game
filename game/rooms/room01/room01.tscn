@@ -24,7 +24,7 @@ __meta__ = {
 global_id = "room1"
 esc_script = "res://game/rooms/room01/esc/room01.esc"
 player_scene = ExtResource( 4 )
-camera_limits = [ Rect2( 0, 0, 1285, 550 ) ]
+camera_limits = [ Rect2( 0, 0, 1280, 550 ) ]
 editor_debug_mode = 1
 
 [node name="ESCBackground" type="TextureRect" parent="."]
