@@ -117,7 +117,7 @@ func _compile(lines: Array) -> Array:
 	var returned = []
 
 	while lines.size() > 0:
-		var line = lines.pop_front()
+		var line = lines.pop_front().strip_edges(false, true)
 		escoria.logger.trace("Parsing line %s" % line)
 		if _comment_regex.search(line) or _empty_regex.search(line):
 			# Ignore comments and empty lines
