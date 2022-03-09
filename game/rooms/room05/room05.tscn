@@ -68,7 +68,7 @@ __meta__ = {
 global_id = "room5"
 esc_script = "res://game/rooms/room05/esc/room05.esc"
 player_scene = ExtResource( 4 )
-camera_limits = [ Rect2( 0, 0, 1289, 555 ) ]
+camera_limits = [ Rect2( 0, 0, 1280, 555 ) ]
 
 [node name="ESCBackground" type="TextureRect" parent="."]
 margin_right = 1280.0
@@ -76,11 +76,18 @@ margin_bottom = 550.0
 mouse_filter = 2
 texture = ExtResource( 13 )
 script = ExtResource( 15 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Label" type="Label" parent="ESCBackground"]
+[node name="room_label" type="Label" parent="ESCBackground"]
+margin_right = 82.0
+margin_bottom = 21.0
+custom_fonts/font = ExtResource( 3 )
+text = "ROOM 5"
+
+[node name="background_for_text" type="Polygon2D" parent="ESCBackground"]
+color = Color( 0.364706, 0.109804, 0.447059, 1 )
+polygon = PoolVector2Array( 128, 4, 555, 4, 555, 315, 128, 315 )
+
+[node name="room_details1" type="Label" parent="ESCBackground/background_for_text"]
 margin_left = 141.0
 margin_top = 7.0
 margin_right = 427.0
@@ -92,7 +99,7 @@ Combine the pen and paper in your
 inventory to create a new object which
 will be used in the next room."
 
-[node name="Label4" type="Label" parent="ESCBackground"]
+[node name="room_details2" type="Label" parent="ESCBackground/background_for_text"]
 margin_left = 138.0
 margin_top = 136.0
 margin_right = 580.0
@@ -106,33 +113,24 @@ If you use the command \"inventory_add xyz\", this will
 automatically instantiate the xyz object from this folder 
 into your inventory."
 
-[node name="room_label" type="Label" parent="ESCBackground"]
-margin_right = 82.0
-margin_bottom = 21.0
-custom_fonts/font = ExtResource( 3 )
-text = "ROOM 5"
-
-[node name="Label2" type="Label" parent="ESCBackground"]
-margin_left = 142.828
-margin_top = 492.556
-margin_right = 410.828
-margin_bottom = 513.556
-custom_fonts/font = ExtResource( 3 )
-text = "Pickup & use on pipe
-"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label3" type="Label" parent="ESCBackground"]
+[node name="pen_label" type="Label" parent="."]
 margin_left = 844.0
 margin_top = 470.0
 margin_right = 1212.0
-margin_bottom = 515.0
+margin_bottom = 539.0
 custom_fonts/font = ExtResource( 3 )
 text = "Pickup & combine these together in the inventory
 Note: you can combine in both directions
 (i.e. pen with paper, or paper with pen)"
+
+[node name="pipe_label" type="Label" parent="."]
+margin_left = 142.828
+margin_top = 492.556
+margin_right = 410.828
+margin_bottom = 537.556
+custom_fonts/font = ExtResource( 3 )
+text = "Pickup & use on pipe
+"
 __meta__ = {
 "_edit_use_anchors_": false
 }
