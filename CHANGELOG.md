@@ -1,3 +1,12 @@
+## [4.0.0-alpha.132](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.132) (2022-03-10)
+
+
+### Bug Fixes
+
+* Wrong variable used causing a crash on UI de-registering ([cb538ed](https://github.com/godot-escoria/escoria-demo-game/commit/cb538edb017030f47255835f371d5968abaf4134))
+
+
+
 ## [4.0.0-alpha.131](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.131) (2022-03-10)
 
 
