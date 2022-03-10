@@ -1,6 +1,6 @@
 # `camera_set_zoom_height pixels [time]`
 #
-# Zooms the camera in/out so it occupies the given height in pixels
+# Zooms the camera in/out so it occupies the given height in pixels.
 #
 # **Parameters**
 #
@@ -24,7 +24,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate wether the given arguments match the command descriptor
+# Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if arguments[0] < 0:
 		escoria.logger.report_errors(

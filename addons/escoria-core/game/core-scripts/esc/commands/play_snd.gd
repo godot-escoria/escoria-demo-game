@@ -1,6 +1,6 @@
 # `play_snd file [player]`
 #
-# Plays the specified sound without blocking the event.
+# Plays the specified sound without blocking the currently running event.
 #
 # **Parameters**
 #
@@ -23,7 +23,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate wether the given arguments match the command descriptor
+# Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not escoria.object_manager.has(arguments[1]):
 		escoria.logger.report_errors(

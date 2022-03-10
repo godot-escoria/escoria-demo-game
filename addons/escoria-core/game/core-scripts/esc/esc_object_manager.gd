@@ -80,7 +80,7 @@ func register_object(object: ESCObject, force: bool = false) -> void:
 		objects[object.global_id] = object
 
 
-# Check wether an object was registered
+# Check whether an object was registered
 #
 # #### Parameters
 #

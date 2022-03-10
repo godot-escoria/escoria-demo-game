@@ -5,7 +5,8 @@
 #
 # - *object*: Global ID of the object to move
 # - *target*: Global ID of the target object
-# - *speed*: Movement speed (default: the default speed of `object`)
+# - *speed*: The speed at which to slide in pixels per second (will default to 
+#   the speed configured on the `object`)
 #
 # **Warning** This command does not respect the room's navigation polygons, so
 # `object` can be moved even when outside walkable areas.
@@ -28,7 +29,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate wether the given arguments match the command descriptor
+# Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not escoria.object_manager.objects.has(arguments[0]):
 		escoria.logger.report_errors(
@@ -53,9 +54,11 @@ func validate(arguments: Array):
 #
 # #### Parameters
 #
-# - source: The item to slide
-# - destination: The destination item to slide to
-# - speed: The speed at which to slide (will default to the
+# - *source*: The item to slide
+# - *destination*: The destination item to slide to
+# - *speed*: The speed at which to slide in pixels per second (will default to 
+#   the speed configured on the `object`)
+#   
 #
 # **Returns** The generated (and started) tween
 func _slide_object(

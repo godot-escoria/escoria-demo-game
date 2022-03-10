@@ -22,7 +22,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate wether the given arguments match the command descriptor
+# Validate whether the given arguments match the command descriptor
 func validate(arguments: Array) -> bool:
 	if not ResourceLoader.exists(arguments[0]):
 		escoria.logger.report_errors(

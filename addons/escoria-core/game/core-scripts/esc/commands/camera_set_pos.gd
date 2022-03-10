@@ -1,6 +1,6 @@
 # `camera_set_pos time x y`
 #
-# Moves the camera to the given position.
+# Moves the camera to the given absolute position over a time period.
 #
 # **Parameters**
 #

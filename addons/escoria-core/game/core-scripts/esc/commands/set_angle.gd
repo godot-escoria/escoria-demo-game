@@ -1,6 +1,9 @@
 # `set_angle object degrees [wait]`
 #
-# Turns a movable `ESCItem` or `ESCPlayer`.
+# Turns a movable `ESCItem` or `ESCPlayer` to face a given angle.
+
+# Angles 0 and 360 are the same and correspond to UP/NORTH,
+# 90 is RIGHT/EAST, 180 is DOWN/SOUTH, 270 is LEFT/WEST etc.
 #
 # **Parameters**
 #
@@ -24,7 +27,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate wether the given arguments match the command descriptor
+# Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not escoria.object_manager.objects.has(arguments[0]):
 		escoria.logger.report_errors(

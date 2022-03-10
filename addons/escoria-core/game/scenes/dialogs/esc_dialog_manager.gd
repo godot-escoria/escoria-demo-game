@@ -10,7 +10,7 @@ signal say_finished
 signal option_chosen(option)
 
 
-# Check wether a specific type is supported by the
+# Check whether a specific type is supported by the
 # dialog plugin
 #
 # #### Parameters
@@ -20,7 +20,7 @@ func has_type(type: String) -> bool:
 	return false
 
 
-# Check wether a specific chooser type is supported by the
+# Check whether a specific chooser type is supported by the
 # dialog plugin
 #
 # #### Parameters

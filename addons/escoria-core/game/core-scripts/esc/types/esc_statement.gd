@@ -19,7 +19,7 @@ var _is_interrupted: bool = false
 var is_finished: bool = false
 
 
-# Check wether the statement should be run based on its conditions
+# Check whether the statement should be run based on its conditions
 func is_valid() -> bool:
 	for condition in self.conditions:
 		if not (condition as ESCCondition).run():

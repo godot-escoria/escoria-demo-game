@@ -21,7 +21,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate wether the given arguments match the command descriptor
+# Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not escoria.globals_manager.get_global(arguments[0]) is int:
 		escoria.logger.report_errors(

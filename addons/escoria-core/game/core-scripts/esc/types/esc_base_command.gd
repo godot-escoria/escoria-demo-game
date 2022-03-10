@@ -26,7 +26,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new()
 
 
-# Validate wether the given arguments match the command descriptor
+# Validate whether the given arguments match the command descriptor
 func validate(arguments: Array) -> bool:
 	return self.configure().validate(get_class(), arguments)
 

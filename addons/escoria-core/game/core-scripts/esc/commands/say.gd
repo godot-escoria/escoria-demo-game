@@ -1,7 +1,8 @@
 # `say player text [type]`
 #
-# Displays the specified string as dialog spoken by the player. Blocks execution
-# until the dialog has finished playing.
+# Displays the specified string as dialog spoken by the player. This command
+# blocks further event execution until the dialog has finished being 'said'
+# (either as displayed text or as audible speech from a file).
 #
 # **Parameters**
 #
@@ -38,7 +39,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate wether the given arguments match the command descriptor
+# Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not escoria.object_manager.objects.has(arguments[0]):
 		escoria.logger.report_errors(

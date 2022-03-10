@@ -62,7 +62,7 @@ func prepare_arguments(arguments: Array) -> Array:
 	return complete_arguments
 
 
-# Validate wether the given arguments match the command descriptor
+# Validate whether the given arguments match the command descriptor
 func validate(command: String, arguments: Array) -> bool:
 	if arguments.size() < self.min_args:
 		escoria.logger.report_errors(
@@ -106,7 +106,7 @@ func validate(command: String, arguments: Array) -> bool:
 	return true
 
 
-# Check wether the given argument is of the given type
+# Check whether the given argument is of the given type
 #
 # #### Parameters
 #
