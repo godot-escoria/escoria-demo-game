@@ -58,7 +58,7 @@ func validate(arguments: Array):
 # - *destination*: The destination item to slide to
 # - *speed*: The speed at which to slide in pixels per second (will default to
 #   the speed configured on the `object`)
-#  
+# 
 #
 # **Returns** The generated (and started) tween
 func _slide_object(
