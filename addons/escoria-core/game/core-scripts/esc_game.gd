@@ -52,7 +52,7 @@ func _enter_tree():
 
 # Function called when ESCGame exits the scene tree.
 func _exit_tree():
-	escoria.action_manager.disconnect(
+	escoria.event_manager.disconnect(
 		"event_finished",
 		self,
 		"_on_event_done"
