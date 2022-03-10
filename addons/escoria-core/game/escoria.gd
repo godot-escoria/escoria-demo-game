@@ -300,7 +300,7 @@ func deregister_ui(game_scene: String):
 				) % game_scene_setting_value
 			]
 		)
-	escoria.project.set_setting(
+	escoria.project_settings_manager.set_setting(
 		escoria.project_settings_manager.GAME_SCENE,
 		""
 	)
