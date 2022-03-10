@@ -1,3 +1,12 @@
+## [4.0.0-alpha.129](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.129) (2022-03-10)
+
+
+### Bug Fixes
+
+* player_start needed to be where the level description is ([061ff91](https://github.com/godot-escoria/escoria-demo-game/commit/061ff9193c8f3c645797b23d7f86845eaa319469))
+
+
+
 ## [4.0.0-alpha.128](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.128) (2022-03-09)
 
 
