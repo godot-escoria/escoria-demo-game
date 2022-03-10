@@ -1,14 +1,16 @@
-# `walk_to_pos_block object x y`
+# `walk_to_pos_block object x y [walk_fast]`
 #
 # Moves the specified `ESCPlayer` or movable `ESCItem` to the absolute
 # coordinates provided while playing the `object`'s walking animation.
 # This command is blocking.
+# This command will use the normal walk speed by default.
 #
 # **Parameters**
 #
 # - *object*: Global ID of the object to move
 # - *x*: X-coordinate of target position
 # - *y*: Y-coordinate of target position
+# - *walk_fast*: Whether to walk fast (`true`) or normal speed (`false`).
 #
 # @ESC
 extends ESCBaseCommand
@@ -19,8 +21,8 @@ class_name WalkToPosBlockCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		3,
-		[TYPE_STRING, TYPE_INT, TYPE_INT],
-		[null, null, null]
+		[TYPE_STRING, TYPE_INT, TYPE_INT, TYPE_BOOL],
+		[null, null, null, false]
 	)
 
 
@@ -41,7 +43,7 @@ func validate(arguments: Array):
 func run(command_params: Array) -> int:
 	escoria.action_manager.do(escoria.action_manager.ACTION.BACKGROUND_CLICK, [
 		command_params[0],
-		Vector2(command_params[1], command_params[2])
+		Vector2(command_params[1], command_params[2]), command_params[3]
 	])
 	yield(
 		(escoria.object_manager.objects[command_params[0]].node as ESCItem),
