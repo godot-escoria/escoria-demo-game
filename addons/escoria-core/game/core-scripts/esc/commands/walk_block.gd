@@ -7,7 +7,7 @@
 #
 # - *object*: Global ID of the object to move
 # - *target*: Global ID of the target object
-# - *speed*: The speed the `object` will walk in pixels per second (will 
+# - *speed*: The speed the `object` will walk in pixels per second (will
 #   default to the speed configured on the `object`)
 #
 # @ESC

@@ -6,7 +6,7 @@
 #
 # **Parameters**
 #
-# - *time*: Number of seconds the transition should take to move the camera 
+# - *time*: Number of seconds the transition should take to move the camera
 #   to follow `object`
 # - *object*: Global ID of the target object
 #

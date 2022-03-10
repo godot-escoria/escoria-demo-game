@@ -5,7 +5,7 @@
 #
 # - *object*: Global ID of the object to move
 # - *target*: Global ID of the target object
-# - *speed*: The speed at which to slide in pixels per second (will default to 
+# - *speed*: The speed at which to slide in pixels per second (will default to
 #   the speed configured on the `object`)
 #
 # **Warning** This command does not respect the room's navigation polygons, so

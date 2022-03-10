@@ -1,8 +1,8 @@
 # `camera_set_zoom magnitude [time]`
 #
 # Zooms the camera in/out to the desired `magnitude`. Values larger than '1' zoom
-# the camera out while smaller values zoom in. These values are relative to the 
-# default zoom value of '1', not the current value. As such, while using a value 
+# the camera out while smaller values zoom in. These values are relative to the
+# default zoom value of '1', not the current value. As such, while using a value
 # of '0.5' would double the size of the graphics, running the same command again
 # would result in no change. The zoom will happen over the given time period.
 #

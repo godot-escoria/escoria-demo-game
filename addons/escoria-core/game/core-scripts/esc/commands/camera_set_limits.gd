@@ -1,6 +1,6 @@
 # `camera_set_limits camlimits_id`
 #
-# Limits the current camera's movement to a limit defined in the `ESCRoom`'s 
+# Limits the current camera's movement to a limit defined in the `ESCRoom`'s
 # definition. A limit is defined as an upper-left (x, y) coordinate, a width
 # and a height that the camera must stay within. Multiple limits can be
 # defined for a room, allowing for new areas to be seen once they have

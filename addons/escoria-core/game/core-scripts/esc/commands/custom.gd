@@ -1,6 +1,6 @@
 # `custom object node func_name [params]`
 #
-# 
+#
 # Executes the specified Godot function. This function must be in a script
 # attached to a child node of a registered `ESCitem`.
 #

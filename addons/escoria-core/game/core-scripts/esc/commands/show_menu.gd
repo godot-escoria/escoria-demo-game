@@ -1,9 +1,9 @@
 # `show_menu menu_type [enable_automatic_transition]`
 #
 # Shows either the main menu or the pause menu. The enable_automatic_transition
-# parameter can be used to specify if Escoria manages the graphical transition to 
-# the menu or not. If set to false, you can manage the transition yourself 
-# instead (if you want to change the transition type from the default for 
+# parameter can be used to specify if Escoria manages the graphical transition to
+# the menu or not. If set to false, you can manage the transition yourself
+# instead (if you want to change the transition type from the default for
 # example) using the `transition` command.
 #
 # **Parameters**

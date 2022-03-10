@@ -5,7 +5,7 @@
 # **Parameters**
 #
 # - *object*: Global ID of the object to move
-# - *target*: Global ID of the object to use as the destination coordinates 
+# - *target*: Global ID of the object to use as the destination coordinates
 #   for `object`
 #
 # @ESC

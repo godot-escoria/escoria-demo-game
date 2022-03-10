@@ -13,7 +13,7 @@
 #
 # **Warning**: `SKIP` and `NONE` also disable autosaves.
 #
-# **Warning**: The type of user input accepted will persist even after the 
+# **Warning**: The type of user input accepted will persist even after the
 # current event has ended. Remember to reset the input type at the end of
 # cut-scenes!
 #

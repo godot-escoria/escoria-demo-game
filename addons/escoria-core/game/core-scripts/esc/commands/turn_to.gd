@@ -3,7 +3,7 @@
 # Turns `object` to face another object.
 #
 # Unlike movement commands, `turn_to` will not automatically reference an
-# `ESCLocation` that is a child of an `ESCItem.` 
+# `ESCLocation` that is a child of an `ESCItem.`
 # To turn towards an `ESCLocation` that is a child of an `ESCItem`, give the
 # `ESCLocation` a `Global ID` and use this value as the `object_to_face`
 # parameter.

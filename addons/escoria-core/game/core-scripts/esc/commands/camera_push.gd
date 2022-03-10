@@ -1,8 +1,8 @@
 # `camera_push target [time] [type]`
 #
-# Pushes (moves) the camera so it points at a specific `target`. If the camera 
+# Pushes (moves) the camera so it points at a specific `target`. If the camera
 # was following a target (like the player) previously, it will no longer follow
-# this target. 
+# this target.
 #
 # **Parameters**
 #
