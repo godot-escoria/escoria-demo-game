@@ -1083,12 +1083,9 @@ margin_bottom = 585.0
 custom_fonts/font = ExtResource( 5 )
 text = "This trigger activates when
  player walks out only"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="player_start" type="Position2D" parent="."]
-position = Vector2( 1655, 1132 )
+position = Vector2( 128, 1162 )
 script = ExtResource( 8 )
 global_id = "r7_player_start"
 is_start_location = true
