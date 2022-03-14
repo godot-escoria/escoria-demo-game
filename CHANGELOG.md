@@ -1,3 +1,12 @@
+## [4.0.0-alpha.135](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.135) (2022-03-14)
+
+
+### Bug Fixes
+
+* Reduced log to warning if multiple navigation polygons are enabled while in editor ([fdd61de](https://github.com/godot-escoria/escoria-demo-game/commit/fdd61de4d57e7f1bcfde32a396f94dcb7dab8ba6)), closes [godot-escoria/escoria-issues#103](https://github.com/godot-escoria/escoria-issues/issues/103)
+
+
+
 ## [4.0.0-alpha.133](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.133) (2022-03-14)
 
 
