@@ -1,3 +1,12 @@
+## [4.0.0-alpha.133](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.133) (2022-03-14)
+
+
+### Features
+
+* add gamepad support to escoria-ui-simplemouse ([#518](https://github.com/godot-escoria/escoria-demo-game/issues/518)) ([d636c1d](https://github.com/godot-escoria/escoria-demo-game/commit/d636c1d732012830d519a4e40495fb1c659aa4ad))
+
+
+
 ## [4.0.0-alpha.132](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.132) (2022-03-10)
 
 
