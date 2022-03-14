@@ -41,6 +41,31 @@ Implement methods to react to inputs.
 - _on_event_done(event_name: String)
 """
 
+# Value to use for `device` argument to various `Input.get_joy` methods.
+const JOY_DEVICE = 0
+
+# See https://docs.godotengine.org/en/stable/tutorials/inputs/controllers_gamepads_joysticks.html?#dead-zone
+const DEADZONE = 0.2
+
+# Multiplier to apply to axis when it exceeds DEADZONE.
+const AXIS_WEIGHT = 50.0
+
+# JOY_BUTTON_2 corresponds to the "X" button on an XBox controller
+# or the Square button on a Playstation controller. These appear to
+# map to the "primary action," in practice, so we treat it like a left click.
+const PRIMARY_ACTION_BUTTON = JOY_BUTTON_2
+
+# JOY_BUTTON_3 corresponds to the "Y" button on an XBox controller
+# or the Triangle button on a Playstation controller. These appear to
+# map to the "secondary action," in practice, so we treat it like a right click.
+const CHANGE_VERB_BUTTON = JOY_BUTTON_3
+
+# Input action for use by InputMap
+const ESC_UI_CHANGE_VERB_ACTION = "esc_change_verb"
+
+# true when a gamepad is connected.
+var _is_gamepad_connected = false
+
 func _enter_tree():
 	var room_selector_parent = $CanvasLayer/ui/HBoxContainer/VBoxContainer
 
@@ -53,12 +78,99 @@ func _enter_tree():
 			).instance()
 		)
 
+	var input_handler = funcref(self, "_process_input")
+	escoria.inputs_manager.register_custom_input_handler(input_handler)
+
+	_is_gamepad_connected = Input.is_joy_known(JOY_DEVICE)
+	if _is_gamepad_connected:
+		_on_gamepad_connected()
+
+	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
+
+
+func _exit_tree():
+	escoria.inputs_manager.register_custom_input_handler(null)
+	Input.disconnect("joy_connection_changed", self, "_on_joy_connection_changed")
+	_on_gamepad_disconnected()
+
 
 func _input(event: InputEvent) -> void:
 	if escoria.main.current_scene and escoria.main.current_scene.game:
 			if event is InputEventMouseMotion:
 				escoria.main.current_scene.game. \
 					update_tooltip_following_mouse_position(event.position)
+
+
+# https://github.com/godotengine/godot-demo-projects/blob/3.4-585455e/misc/joypads/joypads.gd
+# was informative in wiring up the gamepad properly.
+
+func _on_gamepad_connected():
+	set_physics_process(true)
+
+	var primary_event = InputEventJoypadButton.new()
+	primary_event.button_index = PRIMARY_ACTION_BUTTON
+	InputMap.add_action(escoria.inputs_manager.ESC_UI_PRIMARY_ACTION)
+	InputMap.action_add_event(escoria.inputs_manager.ESC_UI_PRIMARY_ACTION, primary_event)
+
+	var verb_event = InputEventJoypadButton.new()
+	verb_event.button_index = CHANGE_VERB_BUTTON
+	InputMap.add_action(ESC_UI_CHANGE_VERB_ACTION)
+	InputMap.action_add_event(ESC_UI_CHANGE_VERB_ACTION, verb_event)
+
+
+func _on_gamepad_disconnected():
+	InputMap.action_erase_events(escoria.inputs_manager.ESC_UI_PRIMARY_ACTION)
+	InputMap.erase_action(escoria.inputs_manager.ESC_UI_PRIMARY_ACTION)
+
+	InputMap.action_erase_events(ESC_UI_CHANGE_VERB_ACTION)
+	InputMap.erase_action(ESC_UI_CHANGE_VERB_ACTION)
+
+	set_physics_process(false)
+	_is_gamepad_connected = false
+
+
+func _on_joy_connection_changed(device: int, connected: bool) -> void:
+	if device != JOY_DEVICE:
+		return
+	elif connected:
+		_on_gamepad_connected()
+	else:
+		_on_gamepad_disconnected()
+
+
+func _process(_delta) -> void:
+	if !_is_gamepad_connected:
+		return
+
+	var x = Input.get_joy_axis(JOY_DEVICE, JOY_AXIS_0)
+	var y = Input.get_joy_axis(JOY_DEVICE, JOY_AXIS_1)
+	var delta_x = int(x * AXIS_WEIGHT) if abs(x) > DEADZONE else 0
+	var delta_y = int(y * AXIS_WEIGHT) if abs(y) > DEADZONE else 0
+	if delta_x or delta_y:
+		var direction: Vector2
+		direction.x = delta_x
+		direction.y = delta_y
+		escoria.logger.trace("gamepad direction:", [direction])
+		var viewport = get_viewport()
+		viewport.warp_mouse(viewport.get_mouse_position() + direction)
+
+
+func _process_input(event: InputEvent, is_default_state: bool) -> bool:
+	if not is_default_state:
+		# ESCBackground is not guaranteed to be set, as we may be on
+		# the "New Game" screen.
+		return false
+	elif _is_gamepad_connected and event is InputEventJoypadButton:
+		escoria.logger.trace("InputEventJoypadButton:", [event.as_text()])
+		if event.is_action_pressed(escoria.inputs_manager.ESC_UI_PRIMARY_ACTION):
+			# Admittedly, this breaks abstraction barriers and is completely
+			# inappropriate, but it's what works right now.
+			escoria.inputs_manager._on_left_click_on_bg(get_global_mouse_position())
+			return true
+		elif event.is_action_pressed(ESC_UI_CHANGE_VERB_ACTION):
+			mousewheel_action(1)
+			return true
+	return false
 
 
 ## BACKGROUND ##
