@@ -268,8 +268,8 @@ func _ready():
 #
 # #### Parameters
 #
-# - event: Triggered event
-func _unhandled_input(event: InputEvent) -> void:
+# - input_event: Triggered event
+func _unhandled_input(input_event: InputEvent) -> void:
 	# If this is a trigger, then escoria.inputs_manager is not wired up to
 	# receive the signals this function might dispatch. In particular,
 	# calling get_tree().set_input_as_handled() unnecessarily will prevent
@@ -277,6 +277,24 @@ func _unhandled_input(event: InputEvent) -> void:
 	# See https://github.com/godot-escoria/escoria-issues/issues/147.
 	if is_trigger:
 		return
+
+	var event = input_event
+	# Note that event could be InputEventMouseButton, InputEventJoypadButton,
+	# or something else. As such, the value of the `button_index` property
+	# must be read in the context of the type of input event.
+	if input_event is InputEventJoypadButton:
+		if not input_event.is_action_pressed(escoria.inputs_manager.ESC_UI_PRIMARY_ACTION):
+			return
+
+		# For now, rather than refactor input handling to be more generic
+		# to accommodate gamepad support, we create a synthetic mouse event
+		# based on the InputEventJoypadButton.
+		event = InputEventMouseButton.new()
+		event.button_index = BUTTON_LEFT
+		event.doubleclick = false
+		event.pressed = true
+		# ESCActionManager expects to read the position off of the event.
+		event.position = get_global_mouse_position()
 
 	if event is InputEventMouseButton and event.is_pressed():
 		if not escoria.current_state == escoria.GAME_STATE.DEFAULT:
