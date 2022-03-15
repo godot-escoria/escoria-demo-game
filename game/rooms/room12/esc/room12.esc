@@ -6,8 +6,10 @@
 	# Set player look right
 	set_angle player 180
 	
-	# Transition in
-	transition curtain in
+	# If we transition in here, the room will show up before it's done being
+	# prepared, since the rooms change over immediately after :setup and
+	# immediately before :ready. We leave this commented here as a reminder.
+	# transition curtain in
 	
 	stop
 > [eq ESC_LAST_SCENE room13]
@@ -18,3 +20,4 @@
 
 
 :ready
+transition curtain in
