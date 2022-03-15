@@ -179,31 +179,32 @@ func new_game():
 #
 # * p_settings: Loaded settings
 func apply_settings(p_settings: ESCSaveSettings) -> void:
-	logger.info("******* settings loaded")
-	if p_settings != null:
-		settings = p_settings
-	else:
-		settings = ESCSaveSettings.new()
+	if not Engine.is_editor_hint():
+		logger.info("******* settings loaded")
+		if p_settings != null:
+			settings = p_settings
+		else:
+			settings = ESCSaveSettings.new()
 
-	AudioServer.set_bus_volume_db(
-		AudioServer.get_bus_index(BUS_MASTER),
-		linear2db(settings.master_volume)
-	)
-	AudioServer.set_bus_volume_db(
-		AudioServer.get_bus_index(BUS_SFX),
-		linear2db(settings.sfx_volume)
-	)
-	AudioServer.set_bus_volume_db(
-		AudioServer.get_bus_index(BUS_MUSIC),
-		linear2db(settings.music_volume)
-	)
-	AudioServer.set_bus_volume_db(
-		AudioServer.get_bus_index(BUS_SPEECH),
-		linear2db(settings.speech_volume)
-	)
-	TranslationServer.set_locale(settings.text_lang)
+		AudioServer.set_bus_volume_db(
+			AudioServer.get_bus_index(BUS_MASTER),
+			linear2db(settings.master_volume)
+		)
+		AudioServer.set_bus_volume_db(
+			AudioServer.get_bus_index(BUS_SFX),
+			linear2db(settings.sfx_volume)
+		)
+		AudioServer.set_bus_volume_db(
+			AudioServer.get_bus_index(BUS_MUSIC),
+			linear2db(settings.music_volume)
+		)
+		AudioServer.set_bus_volume_db(
+			AudioServer.get_bus_index(BUS_SPEECH),
+			linear2db(settings.speech_volume)
+		)
+		TranslationServer.set_locale(settings.text_lang)
 
-	game_scene.apply_custom_settings(settings.custom_settings)
+		game_scene.apply_custom_settings(settings.custom_settings)
 
 
 # Input function to manage specific input keys
