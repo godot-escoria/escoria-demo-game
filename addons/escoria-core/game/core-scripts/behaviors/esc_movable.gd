@@ -37,7 +37,7 @@ var last_dir: int
 var last_scale: Vector2
 
 # Wether the current direction animation is flipped
-var pose_scale: int
+var is_mirrored: bool
 
 
 var _orig_speed: float = 0.0
@@ -169,8 +169,7 @@ func _perform_walk_orientation(angle: float):
 			true
 		)
 
-	pose_scale = -1 if parent.animations.directions[last_dir].mirrored \
-		else 1
+	is_mirrored = parent.animations.directions[last_dir].mirrored
 
 
 # Teleports this item to the target position.
@@ -277,12 +276,12 @@ func walk_stop(pos: Vector2) -> void:
 		parent.get_animation_player().play(
 			parent.animations.idles[orientation].animation
 		)
-		pose_scale = -1 if parent.animations.idles[orientation].mirrored else 1
+		is_mirrored = parent.animations.idles[orientation].mirrored
 	else:
 		parent.get_animation_player().play(
 			parent.animations.idles[last_dir].animation
 		)
-		pose_scale = -1 if parent.animations.idles[last_dir].mirrored else 1
+		is_mirrored = parent.animations.idles[last_dir].mirrored
 
 	update_terrain()
 
@@ -340,10 +339,16 @@ func update_terrain(on_event_finished_name = null) -> void:
 
 	# Do not flip the entire character, because that would conflict
 	# with shadows that expect to be siblings of $texture
-	if pose_scale == -1 and sprite.scale.x > 0:
-		sprite.scale.x *= pose_scale
-		parent.collision.scale.x *= pose_scale
-	elif pose_scale == 1 and sprite.scale.x < 0:
+	#
+	# - Current sprite scale is >0, meaning it's currently heading to right
+	# - but calculated is_mirrored is <0, meaning it's going to head to left
+	# Or, on the contrary:
+	# - current sprite scale is <0, meaning it's currently heading to left
+	# - but calculated is_mirrored is >0, meaning it's going to head to right
+	# We're operating a 180° turn (from right to left, or from left to right)
+	# So we just inverse the sprite scale.
+	if is_mirrored and sprite.scale.x > 0 \
+			or not is_mirrored and sprite.scale.x < 0:
 		sprite.scale.x *= -1
 		parent.collision.scale.x *= -1
 
@@ -433,7 +438,7 @@ func set_angle(deg: int, wait: float = 0.0) -> void:
 		)
 		if wait > 0.0:
 			yield(get_tree().create_timer(wait), "timeout")
-		pose_scale = -1 if parent.animations.idles[dir].mirrored else 1
+		is_mirrored = parent.animations.idles[dir].mirrored
 
 	last_dir = _get_dir_deg(deg, parent.animations)
 
