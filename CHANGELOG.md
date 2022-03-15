@@ -1,3 +1,12 @@
+## [4.0.0-alpha.136](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.136) (2022-03-15)
+
+
+### Bug Fixes
+
+* Ensure escoria#apply_settings only called in game not editor ([#543](https://github.com/godot-escoria/escoria-demo-game/issues/543)) ([26e4e4c](https://github.com/godot-escoria/escoria-demo-game/commit/26e4e4c1a3e5b7765c3c122cdbda8166a6c52558))
+
+
+
 ## [4.0.0-alpha.135](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.135) (2022-03-14)
 
 
