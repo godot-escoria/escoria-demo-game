@@ -1,14 +1,14 @@
-# `walk_block object target [speed]`
+# `walk_block object target [walk_fast]`
 #
 # Moves the specified `ESCPlayer` or movable `ESCItem` to `target`
 # while playing `object`'s walking animation. This command is blocking.
+# This command will use the normal walk speed by default.
 #
 # **Parameters**
 #
 # - *object*: Global ID of the object to move
 # - *target*: Global ID of the target object
-# - *speed*: The speed the `object` will walk in pixels per second (will
-#   default to the speed configured on the `object`)
+# - *walk_fast*: Whether to walk fast (`true`) or normal speed (`false`).
 #
 # @ESC
 extends ESCBaseCommand
@@ -19,8 +19,8 @@ class_name WalkBlockCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
-		[TYPE_STRING, TYPE_STRING, TYPE_INT],
-		[null, null, null]
+		[TYPE_STRING, TYPE_STRING, TYPE_BOOL],
+		[null, null, false]
 	)
 
 
