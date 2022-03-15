@@ -179,7 +179,7 @@ func new_game():
 #
 # * p_settings: Loaded settings
 func apply_settings(p_settings: ESCSaveSettings) -> void:
-	if !Engine.is_editor_hint():
+	if not Engine.is_editor_hint():
 		logger.info("******* settings loaded")
 		if p_settings != null:
 			settings = p_settings
