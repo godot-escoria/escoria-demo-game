@@ -1,3 +1,9 @@
 :use
-
-set_animations player res://game/characters/mark/mark_animations_weird.tres
+> [!is_jester]
+    set_animations player res://game/characters/mark/mark_animations_jester.tres
+	set_global is_jester true
+	stop
+> [is_jester]
+    set_animations player res://game/characters/mark/mark_animations.tres
+	set_global is_jester false
+	stop

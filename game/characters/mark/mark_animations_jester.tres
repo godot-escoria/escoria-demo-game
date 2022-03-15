@@ -46,122 +46,122 @@ angle_size = 50
 
 [sub_resource type="Resource" id=9]
 script = ExtResource( 3 )
-animation = "walk_down"
+animation = "walk_up_jester"
 mirrored = false
 
 [sub_resource type="Resource" id=10]
 script = ExtResource( 3 )
-animation = "walk_up"
+animation = "walk_up_jester"
 mirrored = false
 
 [sub_resource type="Resource" id=11]
 script = ExtResource( 3 )
-animation = "walk_left"
+animation = "walk_right_jester"
 mirrored = false
 
 [sub_resource type="Resource" id=12]
 script = ExtResource( 3 )
-animation = "walk_up"
+animation = "walk_down_jester"
 mirrored = false
 
 [sub_resource type="Resource" id=13]
 script = ExtResource( 3 )
-animation = "walk_right"
+animation = "walk_down_jester"
 mirrored = false
 
 [sub_resource type="Resource" id=14]
 script = ExtResource( 3 )
-animation = "walk_left"
+animation = "walk_down_jester"
 mirrored = false
 
 [sub_resource type="Resource" id=15]
 script = ExtResource( 3 )
-animation = "walk_up"
-mirrored = true
+animation = "walk_left_jester"
+mirrored = false
 
 [sub_resource type="Resource" id=16]
 script = ExtResource( 3 )
-animation = "walk_down"
+animation = "walk_up_jester"
 mirrored = false
 
 [sub_resource type="Resource" id=17]
 script = ExtResource( 3 )
-animation = "idle_up"
+animation = "idle_up_jester"
 mirrored = false
 
 [sub_resource type="Resource" id=18]
 script = ExtResource( 3 )
-animation = "idle_up"
+animation = "idle_up_jester"
 mirrored = false
 
 [sub_resource type="Resource" id=19]
 script = ExtResource( 3 )
-animation = "idle_right"
+animation = "idle_right_jester"
 mirrored = false
 
 [sub_resource type="Resource" id=20]
 script = ExtResource( 3 )
-animation = "idle_down_right"
+animation = "idle_down_jester"
 mirrored = false
 
 [sub_resource type="Resource" id=21]
 script = ExtResource( 3 )
-animation = "idle_down"
+animation = "idle_down_jester"
 mirrored = false
 
 [sub_resource type="Resource" id=22]
 script = ExtResource( 3 )
-animation = "idle_down_left"
+animation = "idle_down_jester"
 mirrored = false
 
 [sub_resource type="Resource" id=23]
 script = ExtResource( 3 )
-animation = "idle_left"
+animation = "idle_left_jester"
 mirrored = false
 
 [sub_resource type="Resource" id=24]
 script = ExtResource( 3 )
-animation = "idle_up"
+animation = "idle_up_jester"
 mirrored = false
 
 [sub_resource type="Resource" id=25]
 script = ExtResource( 3 )
-animation = "speak_up"
+animation = "speak_up_jester"
 mirrored = false
 
 [sub_resource type="Resource" id=26]
 script = ExtResource( 3 )
-animation = "speak_up"
+animation = "speak_up_jester"
 mirrored = false
 
 [sub_resource type="Resource" id=27]
 script = ExtResource( 3 )
-animation = "speak_right"
+animation = "speak_right_jester"
 mirrored = false
 
 [sub_resource type="Resource" id=28]
 script = ExtResource( 3 )
-animation = "speak_down"
+animation = "speak_down_right_jester"
 mirrored = false
 
 [sub_resource type="Resource" id=29]
 script = ExtResource( 3 )
-animation = "speak_down"
+animation = "speak_down_jester"
 mirrored = false
 
 [sub_resource type="Resource" id=30]
 script = ExtResource( 3 )
-animation = "speak_down"
+animation = "speak_down_left_jester"
 mirrored = false
 
 [sub_resource type="Resource" id=31]
 script = ExtResource( 3 )
-animation = "speak_right"
-mirrored = true
+animation = "speak_left_jester"
+mirrored = false
 
 [sub_resource type="Resource" id=32]
 script = ExtResource( 3 )
-animation = "speak_up"
+animation = "speak_up_jester"
 mirrored = false
 
 [resource]
