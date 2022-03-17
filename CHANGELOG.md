@@ -1,3 +1,12 @@
+## [4.0.0-alpha.137](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.137) (2022-03-17)
+
+
+### Features
+
+* Add walk fast flag to walk_pos commands to make them consistent with the walk commands ([1b4f3dc](https://github.com/godot-escoria/escoria-demo-game/commit/1b4f3dccfe6a68bff69386857add1a33b455995c))
+
+
+
 ## [4.0.0-alpha.136](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.136) (2022-03-15)
 
 
