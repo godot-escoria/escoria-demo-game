@@ -1,3 +1,12 @@
+## [4.0.0-alpha.140](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.140) (2022-03-17)
+
+
+### Bug Fixes
+
+* Reset audio bus layout ([#542](https://github.com/godot-escoria/escoria-demo-game/issues/542)) ([e98209d](https://github.com/godot-escoria/escoria-demo-game/commit/e98209d3877668652565de823028c03697ede8eb))
+
+
+
 ## [4.0.0-alpha.139](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.139) (2022-03-17)
 
 
