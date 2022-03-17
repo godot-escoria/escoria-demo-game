@@ -68,10 +68,10 @@ func set_escoria_ui_settings():
 	)
 
 	escoria.project_settings_manager.register_setting(
-		escoria.project_settings_manager.DEFAULT_TRANISITION,
+		escoria.project_settings_manager.DEFAULT_TRANSITION,
 		"curtain",
 		{
-			"name": escoria.project_settings_manager.DEFAULT_TRANISITION,
+			"name": escoria.project_settings_manager.DEFAULT_TRANSITION,
 			"type": TYPE_STRING
 		}
 	)

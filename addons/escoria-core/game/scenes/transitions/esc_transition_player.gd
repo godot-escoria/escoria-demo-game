@@ -63,7 +63,7 @@ func transition(
 	
 	if transition_name.empty():
 		transition_name = escoria.project_settings_manager.get_setting(
-			escoria.project_settings_manager.DEFAULT_TRANISITION
+			escoria.project_settings_manager.DEFAULT_TRANSITION
 		)
 
 	if not has_transition(transition_name):
