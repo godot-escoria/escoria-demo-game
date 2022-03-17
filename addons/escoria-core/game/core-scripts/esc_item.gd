@@ -508,10 +508,10 @@ func stop_talking():
 			and _movable.last_dir < animations.speaks.size():
 		if get_animation_player().is_playing():
 			get_animation_player().stop()
-	
+
 		if animations.speaks[_movable.last_dir].mirrored:
 			_sprite_node.scale.x *= -1
-	
+
 		get_animation_player().play(
 			animations.idles[_movable.last_dir].animation
 		)
