@@ -268,7 +268,7 @@ func load_game(id: int):
 			[
 				_transition.get_command_name(),
 				escoria.project_settings_manager.get_setting(
-					escoria.project_settings_manager.DEFAULT_TRANISITION
+					escoria.project_settings_manager.DEFAULT_TRANSITION
 			)]
 		)
 	)
@@ -380,7 +380,7 @@ func load_game(id: int):
 			[
 				_transition.get_command_name(),
 				escoria.project_settings_manager.get_setting(
-				escoria.project_settings_manager.DEFAULT_TRANISITION
+				escoria.project_settings_manager.DEFAULT_TRANSITION
 			)]
 		)
 	)

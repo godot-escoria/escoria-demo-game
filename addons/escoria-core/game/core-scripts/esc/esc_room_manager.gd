@@ -289,7 +289,7 @@ func _perform_script_events(room: ESCRoom):
 					[
 						_transition.get_command_name(),
 						escoria.project_settings_manager.get_setting(
-							escoria.project_settings_manager.DEFAULT_TRANISITION
+							escoria.project_settings_manager.DEFAULT_TRANSITION
 						)
 					],
 				"%s 0.1" % _wait.get_command_name()
@@ -346,7 +346,7 @@ func _perform_script_events(room: ESCRoom):
 					[
 						_transition.get_command_name(),
 						escoria.project_settings_manager.get_setting(
-							escoria.project_settings_manager.DEFAULT_TRANISITION
+							escoria.project_settings_manager.DEFAULT_TRANSITION
 						)
 					],
 				"%s 0.1" % _wait.get_command_name()

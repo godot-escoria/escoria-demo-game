@@ -10,7 +10,7 @@ const _ESCORIA_SETTINGS_ROOT = "escoria"
 const _UI_ROOT = "ui"
 
 const DEFAULT_DIALOG_TYPE = "%s/%s/default_dialog_type" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
-const DEFAULT_TRANISITION = "%s/%s/default_transition" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
+const DEFAULT_TRANSITION = "%s/%s/default_transition" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
 const DIALOG_MANAGERS = "%s/%s/dialog_managers" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
 const GAME_SCENE = "%s/%s/game_scene" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
 const INVENTORY_ITEM_SIZE = "%s/%s/inventory_item_size" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
