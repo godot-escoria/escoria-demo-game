@@ -1,14 +1,11 @@
 :init
+# Play Escoria logo cutscene
+change_scene res://game/rooms/intro/intro_room.tscn false
 
+# When control is passed back after the logo, start the music
 play_snd res://game/sfx/Game-Menu_Looping.mp3 _music
 
-# Showing main menu with automatic transition DISABLED
-show_menu main
-
-
-
 :newgame
-
 # 1/ Simple scene
 change_scene res://game/rooms/room01/room01.tscn
 

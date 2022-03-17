@@ -1,0 +1,7 @@
+:setup | NO_UI
+anim_block intro_animation_player RESET
+
+:ready | NO_UI
+anim_block intro_animation_player intro
+
+show_menu main
