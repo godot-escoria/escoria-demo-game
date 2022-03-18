@@ -47,12 +47,12 @@ func validate(arguments: Array):
 			]
 		)
 		return false
-	if not arguments[3] in SUPPORTED_TRANSITIONS:
+	if not arguments[2] in SUPPORTED_TRANSITIONS:
 		escoria.logger.report_errors(
 			"camera_shift: invalid transition type",
 			[
 				"Transition type {t_type} is not one of the accepted types : {allowed_types}".format(
-					{"t_type":arguments[3],"allowed_types":SUPPORTED_TRANSITIONS})
+					{"t_type":arguments[2],"allowed_types":SUPPORTED_TRANSITIONS})
 			]
 		)
 		return false
