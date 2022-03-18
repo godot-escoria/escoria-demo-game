@@ -6,10 +6,10 @@
 # sound" (the sound to play when changing rooms).
 #
 # If you want to attach the exit to a script to perform additional actions -
-# a cutscene for example, use an ESCItem with "Is Exit" selected instead.
+# a cutscene for example - use an ``ESCItem`` with "Is Exit" selected instead.
 #
-# The game character will automatically walk to an ESCLocation created as a
-# child of an ESCExit node.
+# The game character will automatically walk to an ``ESCLocation`` created as a
+# child of an ``ESCExit`` node.
 extends ESCItem
 class_name ESCExit, "res://addons/escoria-core/design/esc_exit.svg"
 
