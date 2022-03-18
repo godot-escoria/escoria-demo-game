@@ -1,7 +1,14 @@
-An ESCItem defines a potentially interactive item in the game.
+# An ESCItem defines a (usually interactive) item in the game.
 #
-# The game character will automatically walk to an ESCLocation that
-# is created as a child of an ESCItem.
+# When interacting with an ESCItem, the game character will automatically
+# walk to an ESCLocation that is created as a child of an ESCItem.
+#
+# By selecting the "Is Exit" checkbox when you create an ``ESCItem``
+# node, Escoria will look for a ":exit_scene" event in the attached script file.
+# Any commands you place in the ":exit_scene" event will be run when the player
+# chooses to "use" the exit - for example, saying a goodbye, or running a
+# cutscene. Place a "change_scene" command as part of this event to move the
+# character to the next room.
 tool
 extends Area2D
 class_name ESCItem, "res://addons/escoria-core/design/esc_item.svg"
