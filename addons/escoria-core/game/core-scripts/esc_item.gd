@@ -1,4 +1,4 @@
-# ESCItem is a Sprite that defines an item, potentially interactive.
+An ESCItem defines a potentially interactive item in the game.
 #
 # The game character will automatically walk to an ESCLocation that
 # is created as a child of an ESCItem.
