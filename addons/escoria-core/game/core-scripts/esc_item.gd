@@ -1,4 +1,7 @@
-# ESCItem is a Sprite that defines an item, potentially interactive
+# ESCItem is a Sprite that defines an item, potentially interactive.
+#
+# The game character will automatically walk to an ESCLocation that
+# is created as a child of an ESCItem.
 tool
 extends Area2D
 class_name ESCItem, "res://addons/escoria-core/design/esc_item.svg"
@@ -53,7 +56,9 @@ export(String) var global_id
 # The ESC script for this item
 export(String, FILE, "*.esc") var esc_script
 
-# If true, the ESC script may have an ":exit_scene" event to manage scene changes
+# If true, the ESC script may have an ":exit_scene" event to manage scene changes.
+# For simple exits that do not require scripted actions, the ESCExit node may be
+# preferred.
 export(bool) var is_exit
 
 # If true, object is considered as trigger. Allows using :trigger_in and

@@ -1,4 +1,13 @@
-# An item that streamlines exiting scenes
+# An item that streamlines exiting scenes.
+#
+# Use this when you want this object to only change scenes (with an optional
+# sound effect.)
+#
+# If you want to attach the exit to a script to perform additional actions -
+# a cutscene for example, use an ESCItem with "Is Exit" selected instead.
+#
+# The game character will automatically walk to an ESCLocation created as a
+# child of an ESCExit node.
 extends ESCItem
 class_name ESCExit, "res://addons/escoria-core/design/esc_exit.svg"
 
