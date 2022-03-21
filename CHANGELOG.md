@@ -1,3 +1,12 @@
+## [4.0.0-alpha.142](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.142) (2022-03-21)
+
+
+### Bug Fixes
+
+* out of bounds exception in camera_push ([#546](https://github.com/godot-escoria/escoria-demo-game/issues/546)) ([3c0ebf1](https://github.com/godot-escoria/escoria-demo-game/commit/3c0ebf1869d54da521992b838abbd0b6b3c39e6e))
+
+
+
 ## [4.0.0-alpha.141](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.141) (2022-03-18)
 
 
