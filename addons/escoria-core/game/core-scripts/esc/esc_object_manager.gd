@@ -97,8 +97,9 @@ func has(global_id: String) -> bool:
 # - global_id: The global id of the object to retrieve
 # **Returns** The retrieved object, or null if not found
 func get_object(global_id: String) -> ESCObject:
-	if objects.has(global_id):
-		return objects[global_id]
+	var obj = objects.get(global_id)
+	if obj:
+		return obj
 	else:
 		escoria.logger.report_warnings(
 			"esc_object_manager.gd:get_object()",
