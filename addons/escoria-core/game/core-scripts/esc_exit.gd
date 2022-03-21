@@ -1,8 +1,8 @@
 # An ESCExit is a minimal feature node that provides an exit to a room.
 #
-# For exits that don't require scripts, the ``ESCExit`` node is provided. 
-# The only things you will need to configure on the node are the 
-# "target_scene" to change to, and optionally, a "switch 
+# For exits that don't require scripts, the ``ESCExit`` node is provided.
+# The only things you will need to configure on the node are the
+# "target_scene" to change to, and optionally, a "switch
 # sound" (the sound to play when changing rooms).
 #
 # If you want to attach the exit to a script to perform additional actions -

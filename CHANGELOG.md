@@ -1,3 +1,12 @@
+## [4.0.0-alpha.143](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.143) (2022-03-21)
+
+
+### Features
+
+* Updated exit documentation ([#545](https://github.com/godot-escoria/escoria-demo-game/issues/545)) ([23ce44e](https://github.com/godot-escoria/escoria-demo-game/commit/23ce44eefbd234d25e16bea4eccf8b20e49b97cc))
+
+
+
 ## [4.0.0-alpha.142](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.142) (2022-03-21)
 
 
