@@ -13,6 +13,9 @@ const EMPTY_REGEX = '^\\s*$'
 const INDENT_REGEX_GROUP = "indent"
 const INDENT_REGEX = '^(?<%s>\\s*)' % INDENT_REGEX_GROUP
 
+# This must match ESCProjectSettingsManager.COMMAND_DIRECTORIES.
+# We do not reference it directly to avoid circular dependencies.
+const COMMAND_DIRECTORIES = "escoria/main/command_directories"
 
 # RegEx objects for use by the ESC compiler
 var _comment_regex
@@ -49,12 +52,12 @@ func _init():
 	# Assure command list preference
 	# (we use ProjectSettings instead of escoria.project_settings_manager
 	# here because this is called from escoria._init())
-	if not ProjectSettings.has_setting("escoria/esc/command_paths"):
-		ProjectSettings.set_setting("escoria/esc/command_paths", [
+	if not ProjectSettings.has_setting(COMMAND_DIRECTORIES):
+		ProjectSettings.set_setting(COMMAND_DIRECTORIES, [
 			"res://addons/escoria-core/game/core-scripts/esc/commands"
 		])
 		var property_info = {
-			"name": "escoria/esc/command_paths",
+			"name": COMMAND_DIRECTORIES,
 			"type": TYPE_STRING_ARRAY
 		}
 		ProjectSettings.add_property_info(property_info)
