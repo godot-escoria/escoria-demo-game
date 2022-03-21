@@ -1,4 +1,14 @@
-# ESCItem is a Sprite that defines an item, potentially interactive
+# An ``ESCItem`` defines a (usually interactive) item in the game.
+#
+# When interacting with an ``ESCItem``, the game character will automatically
+# walk to an ``ESCLocation`` that is created as a child of an ``ESCItem``.
+#
+# By selecting the "Is Exit" checkbox when you create an ``ESCItem``
+# node, Escoria will look for an ``:exit_scene`` event in the attached script file.
+# Any commands you place in the ``:exit_scene`` event will be run when the player
+# chooses to "use" the exit - for example, saying a goodbye, or running a
+# cutscene. Place a ``change_scene`` command inside this event to move the
+# character to the next room.
 tool
 extends Area2D
 class_name ESCItem, "res://addons/escoria-core/design/esc_item.svg"
@@ -53,7 +63,9 @@ export(String) var global_id
 # The ESC script for this item
 export(String, FILE, "*.esc") var esc_script
 
-# If true, the ESC script may have an ":exit_scene" event to manage scene changes
+# If true, the ESC script may have an ``:exit_scene`` event to manage scene changes.
+# For simple exits that do not require scripted actions, the ``ESCExit`` node may be
+# preferred.
 export(bool) var is_exit
 
 # If true, object is considered as trigger. Allows using :trigger_in and
