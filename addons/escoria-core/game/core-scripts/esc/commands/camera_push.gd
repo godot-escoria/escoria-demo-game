@@ -4,11 +4,16 @@
 # was following a target (like the player) previously, it will no longer follow
 # this target.
 #
+# Make sure the target is reachable if camera limits have been configured.
+#
 # **Parameters**
 #
-# - *target*: Global ID of the `ESCItem` to push the camera to. If the target
-#   has a child node called `camera_node`, its location will be used. If not,
-#   the location of the target will be used
+# - *target*: Global ID of the `ESCItem` to push the camera to. `ESCItem`s have
+#   a "camera_node" property that can be set to point to a node (usually an
+#   `ESCLocation` node). If the "camera_node" property is empty, `camera_push`
+#   will point the camera at the `ESCItem`s location. If however, the `ESCItem`
+#   has its "camera_node" property set, the command will instead point the
+#   camera at the node referenced by the `ESCItem`s "camera_node" property.
 # - *time*: Number of seconds the transition should take (default: `1`)
 # - *type*: Transition type to use (default: `QUAD`)
 #
