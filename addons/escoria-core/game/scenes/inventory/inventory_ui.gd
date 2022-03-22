@@ -54,6 +54,7 @@ func add_new_item_by_id(item_id: String) -> void:
 						item_id,
 						ResourceLoader.load(inventory_file).instance()
 					),
+					null,
 					true
 				)
 			else:
@@ -79,6 +80,7 @@ func add_new_item_by_id(item_id: String) -> void:
 					item_id,
 					inventory_item_button
 				),
+				null,
 				true
 			)
 
