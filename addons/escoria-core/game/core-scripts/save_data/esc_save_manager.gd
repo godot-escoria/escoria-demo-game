@@ -32,6 +32,7 @@ var _set_active: SetActiveCommand
 var _set_interactive: SetInteractiveCommand
 var _teleport_pos: TeleportPosCommand
 var _set_angle: SetAngleCommand
+var _set_global: SetGlobalCommand
 var _set_state: SetStateCommand
 var _stop_snd: StopSndCommand
 var _play_snd: PlaySndCommand
@@ -51,6 +52,7 @@ func _init():
 	_set_interactive = SetInteractiveCommand.new()
 	_teleport_pos = TeleportPosCommand.new()
 	_set_angle = SetAngleCommand.new()
+	_set_global = SetGlobalCommand.new()
 	_set_state = SetStateCommand.new()
 	_stop_snd = StopSndCommand.new()
 	_play_snd = PlaySndCommand.new()
@@ -279,14 +281,6 @@ func load_game(id: int):
 		ESCCommand.new("%s pause" % _hide_menu.get_command_name())
 	)
 
-	## GLOBALS
-	for k in save_game.globals.keys():
-		escoria.globals_manager.set_global(
-			k,
-			save_game.globals[k],
-			true
-		)
-
 	## ROOM
 	load_statements.append(
 		ESCCommand.new("%s %s false" %
@@ -296,6 +290,16 @@ func load_game(id: int):
 				]
 			)
 	)
+
+	## GLOBALS
+	for k in save_game.globals.keys():
+		ESCCommand.new("%s %s %s" %
+			[
+				_set_global.get_command_name(),
+				k,
+				save_game.globals[k]
+			]
+		)
 
 	## OBJECTS
 	for object_global_id in save_game.objects.keys():
