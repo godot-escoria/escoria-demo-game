@@ -1,3 +1,12 @@
+## [4.0.0-alpha.144](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.144) (2022-03-23)
+
+
+### Bug Fixes
+
+* eliminate escoria/esc/command_paths that duplicates escoria/main/command_directories ([a3c8fe8](https://github.com/godot-escoria/escoria-demo-game/commit/a3c8fe882e75dfd2eee0d04318e87eefc8686778))
+
+
+
 ## [4.0.0-alpha.143](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.143) (2022-03-21)
 
 
