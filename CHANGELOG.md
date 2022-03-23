@@ -1,3 +1,12 @@
+## [4.0.0-alpha.145](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.145) (2022-03-23)
+
+
+### Bug Fixes
+
+* Mirroed ESCItem's talk animation was conflicting with mirrored idle ([284cb0d](https://github.com/godot-escoria/escoria-demo-game/commit/284cb0d53969532f6e9338f8114f75cb927b2f42))
+
+
+
 ## [4.0.0-alpha.144](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.144) (2022-03-23)
 
 

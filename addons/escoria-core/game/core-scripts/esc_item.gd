@@ -501,7 +501,7 @@ func start_talking():
 			and _movable.last_dir >= 0 \
 			and _movable.last_dir < animations.speaks.size():
 		var animation_player = get_animation_player()
-		
+	
 		if animation_player.is_playing():
 			animation_player.stop()
 
@@ -522,7 +522,7 @@ func stop_talking():
 			and _movable.last_dir >= 0 \
 			and _movable.last_dir < animations.speaks.size():
 		var animation_player = get_animation_player()
-		
+	
 		if animation_player.is_playing():
 			animation_player.stop()
 
