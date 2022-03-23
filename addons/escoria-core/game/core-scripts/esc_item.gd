@@ -500,13 +500,16 @@ func start_talking():
 			and get_animation_player() \
 			and _movable.last_dir >= 0 \
 			and _movable.last_dir < animations.speaks.size():
-		if get_animation_player().is_playing():
-			get_animation_player().stop()
+		var animation_player = get_animation_player()
+		
+		if animation_player.is_playing():
+			animation_player.stop()
 
-		if animations.speaks[_movable.last_dir].mirrored:
+		if animations.speaks[_movable.last_dir].mirrored \
+				and not _movable.is_mirrored:
 			_sprite_node.scale.x *= -1
 
-		get_animation_player().play(
+		animation_player.play(
 			animations.speaks[_movable.last_dir].animation
 		)
 
@@ -518,13 +521,16 @@ func stop_talking():
 			and get_animation_player() \
 			and _movable.last_dir >= 0 \
 			and _movable.last_dir < animations.speaks.size():
-		if get_animation_player().is_playing():
-			get_animation_player().stop()
+		var animation_player = get_animation_player()
+		
+		if animation_player.is_playing():
+			animation_player.stop()
 
-		if animations.speaks[_movable.last_dir].mirrored:
+		if animations.speaks[_movable.last_dir].mirrored \
+				and not _movable.is_mirrored:
 			_sprite_node.scale.x *= -1
 
-		get_animation_player().play(
+		animation_player.play(
 			animations.idles[_movable.last_dir].animation
 		)
 
