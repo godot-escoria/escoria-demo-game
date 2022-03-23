@@ -62,8 +62,7 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 	# This must happen if ESC_LAST_SCENE is set, or if we're running an
 	# exit_scene event. Also room selector actions require the transition.
 	if enable_automatic_transitions and (
-		not escoria.globals_manager.get_global( \
-			GLOBAL_LAST_SCENE).empty()
+		not escoria.globals_manager.get_global(GLOBAL_LAST_SCENE).empty()
 		or (
 			escoria.event_manager.get_running_event(escoria.event_manager.CHANNEL_FRONT) != null \
 			and escoria.event_manager.get_running_event(escoria.event_manager.CHANNEL_FRONT).name \

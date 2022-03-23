@@ -293,12 +293,19 @@ func load_game(id: int):
 
 	## GLOBALS
 	for k in save_game.globals.keys():
-		ESCCommand.new("%s %s %s" %
-			[
-				_set_global.get_command_name(),
-				k,
-				save_game.globals[k]
-			]
+		var global_value = save_game.globals[k]
+		
+		if global_value is String and global_value.empty():
+			global_value = "''"
+
+		load_statements.append(
+			ESCCommand.new("%s %s %s true" %
+				[
+					_set_global.get_command_name(),
+					k,
+					global_value
+				]
+			)
 		)
 
 	## OBJECTS
