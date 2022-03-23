@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_player.gd" type="Script" id=1]
 [ext_resource path="res://game/characters/mark/png/mark_talk_down.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://game/characters/mark/png/mark_talk_down_right.png" type="Texture" id=5]
 [ext_resource path="res://game/characters/mark/png/mark_talk_up.png" type="Texture" id=6]
 [ext_resource path="res://game/characters/mark/png/mark_talk_right.png" type="Texture" id=7]
+[ext_resource path="res://game/characters/mark/png/mark_talk_up_right.png" type="Texture" id=8]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
@@ -20,13 +21,17 @@ region = Rect2( 24, 0, 24, 70 )
 atlas = ExtResource( 2 )
 region = Rect2( 48, 0, 24, 70 )
 
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 6 )
+region = Rect2( 0, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 6 )
+region = Rect2( 24, 0, 24, 70 )
+
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 4 )
 region = Rect2( 120, 0, 24, 70 )
-
-[sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 4 )
-region = Rect2( 72, 0, 24, 70 )
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 7 )
@@ -48,33 +53,9 @@ region = Rect2( 72, 0, 24, 70 )
 atlas = ExtResource( 7 )
 region = Rect2( 96, 0, 24, 70 )
 
-[sub_resource type="AtlasTexture" id=11]
+[sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 4 )
-region = Rect2( 24, 0, 24, 70 )
-
-[sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 6 )
-region = Rect2( 0, 0, 24, 70 )
-
-[sub_resource type="AtlasTexture" id=13]
-atlas = ExtResource( 6 )
-region = Rect2( 24, 0, 24, 70 )
-
-[sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 4 )
-region = Rect2( 336, 0, 24, 70 )
-
-[sub_resource type="AtlasTexture" id=15]
-atlas = ExtResource( 4 )
-region = Rect2( 360, 0, 24, 70 )
-
-[sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 4 )
-region = Rect2( 384, 0, 24, 70 )
-
-[sub_resource type="AtlasTexture" id=17]
-atlas = ExtResource( 4 )
-region = Rect2( 96, 0, 24, 70 )
+region = Rect2( 72, 0, 24, 70 )
 
 [sub_resource type="AtlasTexture" id=18]
 atlas = ExtResource( 4 )
@@ -91,6 +72,10 @@ region = Rect2( 168, 0, 24, 70 )
 [sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 4 )
 region = Rect2( 192, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=17]
+atlas = ExtResource( 4 )
+region = Rect2( 96, 0, 24, 70 )
 
 [sub_resource type="AtlasTexture" id=22]
 atlas = ExtResource( 4 )
@@ -112,9 +97,25 @@ region = Rect2( 288, 0, 24, 70 )
 atlas = ExtResource( 4 )
 region = Rect2( 312, 0, 24, 70 )
 
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 4 )
+region = Rect2( 336, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 4 )
+region = Rect2( 360, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 4 )
+region = Rect2( 384, 0, 24, 70 )
+
 [sub_resource type="AtlasTexture" id=27]
 atlas = ExtResource( 4 )
 region = Rect2( 48, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 4 )
+region = Rect2( 24, 0, 24, 70 )
 
 [sub_resource type="AtlasTexture" id=28]
 atlas = ExtResource( 5 )
@@ -128,6 +129,22 @@ region = Rect2( 24, 0, 24, 70 )
 atlas = ExtResource( 5 )
 region = Rect2( 48, 0, 24, 70 )
 
+[sub_resource type="AtlasTexture" id=33]
+atlas = ExtResource( 8 )
+region = Rect2( 0, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=34]
+atlas = ExtResource( 8 )
+region = Rect2( 24, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=35]
+atlas = ExtResource( 8 )
+region = Rect2( 48, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=36]
+atlas = ExtResource( 8 )
+region = Rect2( 0, 0, 24, 70 )
+
 [sub_resource type="SpriteFrames" id=31]
 animations = [ {
 "frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 2 ), SubResource( 3 ) ],
@@ -135,14 +152,14 @@ animations = [ {
 "name": "speak_down",
 "speed": 6.0
 }, {
+"frames": [ SubResource( 12 ), SubResource( 13 ), SubResource( 12 ), SubResource( 13 ), SubResource( 13 ) ],
+"loop": true,
+"name": "speak_up",
+"speed": 3.0
+}, {
 "frames": [ SubResource( 4 ) ],
 "loop": true,
 "name": "idle_down_left",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 5 ) ],
-"loop": true,
-"name": "idle_up",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ) ],
@@ -150,24 +167,9 @@ animations = [ {
 "name": "speak_right",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 11 ) ],
+"frames": [ SubResource( 5 ) ],
 "loop": true,
-"name": "idle_down_right",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 12 ), SubResource( 13 ), SubResource( 12 ), SubResource( 13 ), SubResource( 13 ) ],
-"loop": true,
-"name": "speak_up",
-"speed": 3.0
-}, {
-"frames": [ SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 15 ) ],
-"loop": true,
-"name": "walk_up",
-"speed": 6.0
-}, {
-"frames": [ SubResource( 17 ) ],
-"loop": true,
-"name": "idle_left",
+"name": "idle_up",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 18 ) ],
@@ -180,9 +182,19 @@ animations = [ {
 "name": "walk_down",
 "speed": 6.0
 }, {
+"frames": [ SubResource( 17 ) ],
+"loop": true,
+"name": "idle_left",
+"speed": 5.0
+}, {
 "frames": [ SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ) ],
 "loop": true,
 "name": "walk_right",
+"speed": 6.0
+}, {
+"frames": [ SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 15 ) ],
+"loop": true,
+"name": "walk_up",
 "speed": 6.0
 }, {
 "frames": [ SubResource( 27 ) ],
@@ -190,10 +202,25 @@ animations = [ {
 "name": "idle_right",
 "speed": 5.0
 }, {
+"frames": [ SubResource( 11 ) ],
+"loop": true,
+"name": "idle_down_right",
+"speed": 5.0
+}, {
 "frames": [ SubResource( 28 ), SubResource( 29 ), SubResource( 30 ) ],
 "loop": true,
 "name": "speak_down_right",
 "speed": 6.0
+}, {
+"frames": [ SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 34 ) ],
+"loop": true,
+"name": "speak_up_right",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 36 ) ],
+"loop": true,
+"name": "idle_up_right",
+"speed": 5.0
 } ]
 
 [sub_resource type="CapsuleShape2D" id=32]
@@ -212,7 +239,7 @@ selectable = true
 animations = ExtResource( 3 )
 
 [node name="sprite" type="AnimatedSprite" parent="."]
-position = Vector2( 0, -140.938 )
+position = Vector2( 0, -138.938 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 31 )
 animation = "idle_down"
