@@ -226,7 +226,11 @@ func set_game_paused(p_paused: bool):
 		emit_signal("paused")
 	else:
 		emit_signal("resumed")
-	get_tree().paused = p_paused
+		
+	var scene_tree = get_tree()
+	
+	if is_instance_valid(scene_tree):
+		scene_tree.paused = p_paused
 
 
 # Runs the event "event_name" from the "script" ESC script.

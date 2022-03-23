@@ -344,8 +344,9 @@ func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 	if escoria.inventory_manager.inventory_has(object.global_id):
 		# Re-instance the node if it is an item present in inventory; that is,
 		# re-register it with the new current room.
-		object.node = object.node.duplicate()
-		register_object(object, null)
+		if object.node != null:
+			object.node = object.node.duplicate()
+			register_object(object, null, true)
 
 	room_objects.erase(object.global_id)
 
@@ -383,6 +384,15 @@ func save_game(p_savegame: ESCSaveGame) -> void:
 	
 	p_savegame.objects = {}
 	
+	for obj_global_id in objects:
+		if not objects[obj_global_id] is ESCObject:
+			continue
+		p_savegame.objects[obj_global_id] = \
+			objects[obj_global_id].get_save_data()
+
+	# Add in reserved objects, too.
+	objects = reserved_objects_container.objects
+
 	for obj_global_id in objects:
 		if not objects[obj_global_id] is ESCObject:
 			continue
