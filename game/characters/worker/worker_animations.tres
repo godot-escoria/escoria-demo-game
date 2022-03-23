@@ -111,13 +111,13 @@ mirrored = false
 
 [sub_resource type="Resource" id=22]
 script = ExtResource( 3 )
-animation = "idle_down_left"
-mirrored = false
+animation = "idle_down_right"
+mirrored = true
 
 [sub_resource type="Resource" id=23]
 script = ExtResource( 3 )
-animation = "idle_left"
-mirrored = false
+animation = "idle_right"
+mirrored = true
 
 [sub_resource type="Resource" id=24]
 script = ExtResource( 3 )
