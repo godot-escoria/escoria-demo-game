@@ -1,3 +1,12 @@
+## [4.0.0-alpha.148](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.148) (2022-03-24)
+
+
+### Features
+
+* intro cutscene ([dd4b120](https://github.com/godot-escoria/escoria-demo-game/commit/dd4b120289d5f32d6a2abfc1ba8ec8000aefe0ea))
+
+
+
 ## [4.0.0-alpha.147](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.147) (2022-03-24)
 
 
