@@ -1,3 +1,12 @@
+## [4.0.0-alpha.147](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.147) (2022-03-24)
+
+
+### Bug Fixes
+
+* Added animations for the worker character ([3c74e18](https://github.com/godot-escoria/escoria-demo-game/commit/3c74e1811965be899633e32e899eeb90582ed644))
+
+
+
 ## [4.0.0-alpha.146](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.146) (2022-03-24)
 
 
