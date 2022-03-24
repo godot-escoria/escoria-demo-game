@@ -98,7 +98,6 @@ func is_valid() -> bool:
 #
 # *Returns* True if the command exists, else false.
 func command_exists() -> bool:
-	var command_found = false
 	for base_path in escoria.project_settings_manager.get_setting(
 			escoria.project_settings_manager.COMMAND_DIRECTORIES
 		):
@@ -107,8 +106,8 @@ func command_exists() -> bool:
 			self.name
 		]
 		if ResourceLoader.exists(command_path):
-			command_found = true
-	return command_found
+			return true
+	return false
 
 
 # Run this command
