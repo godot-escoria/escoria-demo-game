@@ -1,3 +1,12 @@
+## [4.0.0-alpha.146](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.146) (2022-03-24)
+
+
+### Bug Fixes
+
+* exit loop as soon as command is found ([#550](https://github.com/godot-escoria/escoria-demo-game/issues/550)) ([38e3eb2](https://github.com/godot-escoria/escoria-demo-game/commit/38e3eb264de8e2480e97e504b108b27566d70002))
+
+
+
 ## [4.0.0-alpha.145](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.145) (2022-03-23)
 
 
