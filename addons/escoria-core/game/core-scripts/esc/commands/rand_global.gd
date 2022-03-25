@@ -1,11 +1,13 @@
 # `rand_global name max_value`
 #
-# Sets the given global to a random integer between 0 and `max_value` (inclusive).
+# Sets the given global to a random integer between 0 and `max_value`
+# (inclusive). e.g. Setting `max_value` to 2 could result in '0', '1' or '2'
+# being returned.
 #
 # **Parameters**
 #
 # - *name*: Name of the global to set
-# - *max_value*: Maximum possible integer value (exclusive)
+# - *max_value*: Maximum possible integer value (inclusive)
 #
 # @ESC
 extends ESCBaseCommand
@@ -21,31 +23,10 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate whether the given arguments match the command descriptor
-func validate(arguments: Array):
-	if not escoria.globals_manager.has(arguments[0]):
-		escoria.logger.report_errors(
-			"rand_global: invalid global",
-			[
-				"Global %s does not exist." % arguments[0]
-			]
-		)
-		return false
-	if not escoria.globals_manager.get_global(arguments[0]) is int:
-		escoria.logger.report_errors(
-			"rand_global: invalid global",
-			[
-				"Global %s didn't have an integer value." % arguments[0]
-			]
-		)
-		return false
-	return .validate(arguments)
-
-
 # Run the command
 func run(command_params: Array) -> int:
 	randomize()
-	var rnd = randi() % command_params[1]
+	var rnd = randi() % (command_params[1] + 1)
 	escoria.globals_manager.set_global(
 		command_params[0],
 		rnd
