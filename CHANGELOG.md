@@ -1,3 +1,12 @@
+## [4.0.0-alpha.149](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.149) (2022-03-26)
+
+
+### Bug Fixes
+
+* Fix broken camera push. Issue 125 ([9dd06d0](https://github.com/godot-escoria/escoria-demo-game/commit/9dd06d0d81d8bfb0e678c5d5db4e3c5086178c37))
+
+
+
 ## [4.0.0-alpha.148](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.148) (2022-03-24)
 
 
