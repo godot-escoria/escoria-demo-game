@@ -291,6 +291,20 @@ func load_game(id: int):
 			)
 	)
 
+	load_event.statements = load_statements
+	
+	escoria.set_game_paused(false)
+	escoria.event_manager.queue_event(load_event)
+
+	# Wait for the scene to be loaded so we have access to objects, etc.
+	var rc = yield(escoria.event_manager, "event_finished")
+	while rc[1] != escoria.event_manager.EVENT_LOAD:
+		rc = yield(escoria.event_manager, "event_finished")
+
+	# We then carry on with other "load"-related commands.
+	escoria.set_game_paused(true)
+	load_statements = []
+
 	## GLOBALS
 	for k in save_game.globals.keys():
 		var global_value = save_game.globals[k]

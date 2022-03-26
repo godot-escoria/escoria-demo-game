@@ -52,17 +52,6 @@ var current_room_key: ESCRoomObjectsKey
 # To avoid having to look this up all the time, we hold a reference.
 var reserved_objects_container: ESCRoomObjects
 
-# To avoid having to look this up all the time, we hold a reference.
-var reserved_objects_container: ESCRoomObjects
-
-func _init() -> void:
-	reserved_objects_container = ESCRoomObjects.new()
-	reserved_objects_container.is_reserved = true
-	reserved_objects_container.objects = {}
-	room_objects.push_back(reserved_objects_container)
-
-	current_room_key = ESCRoomObjectsKey.new()
-
 
 func _init() -> void:
 	reserved_objects_container = ESCRoomObjects.new()
