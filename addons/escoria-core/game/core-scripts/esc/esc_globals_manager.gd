@@ -92,6 +92,15 @@ func set_global(key: String, value, ignore_reserved: bool = false) -> void:
 				"Global key %s is reserved and can not be overridden" % key
 			]
 		)
+	
+	if key.count("/") >= 2 and key.substr(1, 1) == "/":
+		escoria.logger.report_errors(
+			"ESCGlobalsManager.set_global: Global name error",
+			[
+				"Global key %s has more than 1 occurrence of '/'" % key
+			]
+		)
+		
 	emit_signal(
 		"global_changed",
 		key,
