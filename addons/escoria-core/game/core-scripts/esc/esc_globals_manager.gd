@@ -93,7 +93,7 @@ func set_global(key: String, value, ignore_reserved: bool = false) -> void:
 			]
 		)
 	
-	if key.count("/") >= 2 and key.substr(1, 1) == "/":
+	if key.count("/") > 1 and key.substr(1, 1) == "/":
 		escoria.logger.report_errors(
 			"ESCGlobalsManager.set_global: Global name error",
 			[
