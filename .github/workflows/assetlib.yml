@@ -17,3 +17,4 @@ jobs:
           username: escoria
           password: ${{ secrets.ASSET_STORE_PASSWORD }}
           assetId: 1080
+          approveDirectly: "true"
