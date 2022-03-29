@@ -91,3 +91,14 @@ say player "Hey!"
 	stop
 
 }
+
+item button_right {
+:look
+say player "This looks suspiciously like that other button."
+
+:push
+say player "I must USE this."
+
+:use
+say player "Why would I want to create a giant hole in the floor again?"
+}

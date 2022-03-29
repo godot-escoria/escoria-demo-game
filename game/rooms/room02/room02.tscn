@@ -340,23 +340,20 @@ shape = SubResource( 6 )
 position = Vector2( 369, 375 )
 script = ExtResource( 8 )
 
-[node name="button_right2" type="Area2D" parent="."]
+[node name="button_right" type="Area2D" parent="."]
 pause_mode = 1
-script = ExtResource( 7 )
-global_id = "r2_button_right"
-esc_script = "res://game/rooms/room02/esc/button.esc"
+script = ExtResource( 16 )
 tooltip_name = "button"
 default_action = "use"
 dialog_color = Color( 0.196078, 1, 0, 1 )
-animations = null
 
-[node name="Position2D" type="Position2D" parent="button_right2"]
+[node name="Position2D" type="Position2D" parent="button_right"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="button_right2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="button_right"]
 position = Vector2( 911, 190.5 )
 shape = SubResource( 7 )
 
-[node name="ESCLocation" type="Position2D" parent="button_right2"]
+[node name="ESCLocation" type="Position2D" parent="button_right"]
 position = Vector2( 914, 378 )
 script = ExtResource( 8 )
 
