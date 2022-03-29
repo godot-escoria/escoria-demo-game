@@ -22,4 +22,8 @@ func get_script_for_item(item_id: String) -> ESCScript:
 	if script:
 		return script
 	else:
-		return ESCScript.new()
+		return null
+
+
+func has_script_for_item(item_id: String) -> bool:
+	return item_id in _items

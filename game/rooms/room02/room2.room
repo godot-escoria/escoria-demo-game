@@ -66,12 +66,12 @@ item button_left {
 
 :push
 say player "I must USE this."
-say room2/button_left "Bzzt, indeed."
+rsc_say button_left "Bzzt, indeed."
 say player "AH! A talking button."
-say room2/button_left "I am not a button, I am a mighty AI."
+rsc_say button_left "I am not a button, I am a mighty AI."
 say player "What?"
-say room2/button_left "I am intelligent, like you."
-say room2/button_left "Or, like you think you are, apparently..."
+rsc_say button_left "I am intelligent, like you."
+rsc_say button_left "Or, like you think you are, apparently..."
 say player "Hey!"
 
 :use

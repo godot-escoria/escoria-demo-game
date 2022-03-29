@@ -28,11 +28,11 @@ func _exit_tree() -> void:
 static func find_room_for_item(item: Node) -> RSCRoom:
 	var node = item
 	while node:
-		node = node.get_parent()
 		# Must use `as` instead of `is` when a class references itself:
 		# https://github.com/godotengine/godot/issues/25252#issuecomment-586719227
 		if node as RSCRoom:
 			return node
+		node = node.get_parent()
 	return null
 
 
@@ -40,7 +40,21 @@ static func find_room_for_item(item: Node) -> RSCRoom:
 # dependency, so we must take its global_id as an argument rather than the
 # ESCItem itself.
 func get_script_for_item_by_id(item_id: String) -> ESCScript:
-	return _room_script.get_script_for_item(item_id)
+	var script = _room_script.get_script_for_item(item_id)
+	if script:
+		return script
+	else:
+		return ESCScript.new()
+
+
+# Resolves the item_id to its global id if this item was
+# declared in the .room file; otherwise, returns `item_id`,
+# assuming it is already a global id.
+func resolve_item_id(item_id: String) -> String:
+	if _room_script.has_script_for_item(item_id):
+		return global_id + '/' + item_id
+	else:
+		return item_id
 
 
 static func find_script_file_for_room(room: RSCRoom) -> String:

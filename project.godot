@@ -449,6 +449,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-roomscript/rsc_room_script_factory.gd"
 }, {
+"base": "Node",
+"class": "RSCSayCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-roomscript/commands/rsc_say.gd"
+}, {
 "base": "ESCBaseCommand",
 "class": "RandGlobalCommand",
 "language": "GDScript",
@@ -678,6 +683,7 @@ _global_script_class_icons={
 "RSCRoom": "res://addons/escoria-roomscript/rsc_room.svg",
 "RSCRoomScript": "",
 "RSCRoomScriptFactory": "",
+"RSCSayCommand": "",
 "RandGlobalCommand": "",
 "RepeatCommand": "",
 "SayCommand": "",
@@ -755,7 +761,7 @@ sound/music_volume=1
 sound/sfx_volume=1
 sound/speech_volume=1
 sound/master_volume=1
-main/command_directories=[ "res://addons/escoria-core/game/core-scripts/esc/commands" ]
+main/command_directories=[ "res://addons/escoria-core/game/core-scripts/esc/commands", "res://addons/escoria-roomscript/commands" ]
 debug/log_level="TRACE"
 platform/skip_cache=false
 platform/skip_cache.mobile=true
