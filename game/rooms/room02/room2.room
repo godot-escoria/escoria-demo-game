@@ -7,13 +7,13 @@ event setup {
 	rsc_set_interactive right_platform false
 
 > [eq ESC_LAST_SCENE room1]
-	teleport player r2_l_exit
+	rsc_teleport player left_door
 	# Set player look left
 	set_angle player 180
 	stop
 
 > [eq ESC_LAST_SCENE room3]
-	teleport player r2_r_exit
+	rsc_teleport player right_door
 	# Set player look left
 	set_angle player 270
 
@@ -111,4 +111,16 @@ item bridge {
 item right_platform {
 :look
 say player "That's the other side."
+}
+
+item left_door {
+:exit_scene
+play_snd res://game/sfx/sounds/doorOpen_2.ogg
+change_scene "res://game/rooms/room01/room01.tscn"
+}
+
+item right_door {
+:exit_scene
+play_snd res://game/sfx/sounds/doorOpen_2.ogg
+change_scene "res://game/rooms/room03/room03.tscn"
 }

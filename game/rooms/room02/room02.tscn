@@ -1,9 +1,8 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/escoria-roomscript/rsc_room.gd" type="Script" id=6]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=8]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_background.gd" type="Script" id=9]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=10]
@@ -210,39 +209,33 @@ polygon = PoolVector2Array( 870.974, 538.342, 827.536, 353.995, 1181.4, 357.174,
 position = Vector2( 394, 460 )
 script = ExtResource( 8 )
 
-[node name="r_door" type="Area2D" parent="."]
+[node name="right_door" type="Area2D" parent="."]
 pause_mode = 1
-script = ExtResource( 7 )
-global_id = "r2_r_exit"
-esc_script = "res://game/rooms/room02/esc/right_exit.esc"
+script = ExtResource( 16 )
 is_exit = true
 tooltip_name = "Right exit"
 default_action = "walk"
 dialog_color = Color( 1, 1, 1, 1 )
-animations = null
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="r_door"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="right_door"]
 polygon = PoolVector2Array( 1177.94, 348.61, 1175.95, 45.3759, 1276.06, 92.0953, 1277.95, 399.407 )
 
-[node name="Position2D" type="Position2D" parent="r_door"]
+[node name="Position2D" type="Position2D" parent="right_door"]
 position = Vector2( 1227, 387 )
 script = ExtResource( 8 )
 
-[node name="l_door" type="Area2D" parent="."]
+[node name="left_door" type="Area2D" parent="."]
 pause_mode = 1
-script = ExtResource( 7 )
-global_id = "r2_l_exit"
-esc_script = "res://game/rooms/room02/esc/left_exit.esc"
+script = ExtResource( 16 )
 is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
 dialog_color = Color( 1, 1, 1, 1 )
-animations = null
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="l_door"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="left_door"]
 polygon = PoolVector2Array( -1.37926, 443.158, 7.96461, 122.796, 84.0504, 77.4118, 88.055, 377.751 )
 
-[node name="Position2D" type="Position2D" parent="l_door"]
+[node name="Position2D" type="Position2D" parent="left_door"]
 position = Vector2( 52.1462, 384.691 )
 script = ExtResource( 8 )
 
