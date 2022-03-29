@@ -2,9 +2,9 @@ event setup {
 
 > [r2_bridge_closed]
 	# Make set_state IMMEDIATE to reach the final frame immediately
-	set_state r2_bridge bridge_close true
+	rsc_set_state bridge bridge_close true
 	enable_terrain bridge_closed
-	set_interactive r2_right_platform false
+	rsc_set_interactive right_platform false
 
 > [eq ESC_LAST_SCENE room1]
 	teleport player r2_l_exit
@@ -18,21 +18,21 @@ event setup {
 	set_angle player 270
 
 	# Activate bridge, else player is stuck
-	#set_state r2_bridge bridge_close
+	#rsc_set_state bridge bridge_close
 	#enable_terrain bridge_closed
 	#set_global r2_bridge_closed true
-	set_interactive r2_right_platform false
-	#set_interactive r2_bridge false
+	rsc_set_interactive right_platform false
+	#rsc_set_interactive bridge false
 	stop
 }
 
 event ready {
 
 # DEBUG
-#set_state r2_bridge bridge_close
+#rsc_set_state bridge bridge_close
 #enable_terrain bridge_closed
 #set_global bridge_closed true
-#set_interactive r2_right_platform false
+#rsc_set_interactive right_platform false
 ## /DEBUG
 
 }
@@ -76,18 +76,18 @@ say player "Hey!"
 
 :use
 > [r2_bridge_closed]
-	set_state r2_bridge bridge_open
+	rsc_set_state bridge bridge_open
 	enable_terrain bridge_open
 	set_global r2_bridge_closed false
-	#set_interactive r2_right_platform true
-	set_interactive r2_bridge false
+	#rsc_set_interactive right_platform true
+	rsc_set_interactive bridge false
 	stop
 > [!r2_bridge_closed]
-	set_state r2_bridge bridge_close
+	rsc_set_state bridge bridge_close
 	enable_terrain bridge_closed
 	set_global r2_bridge_closed true
-	set_interactive r2_right_platform false
-	set_interactive r2_bridge false
+	rsc_set_interactive right_platform false
+	rsc_set_interactive bridge false
 	stop
 
 }
@@ -101,4 +101,14 @@ say player "I must USE this."
 
 :use
 say player "Why would I want to create a giant hole in the floor again?"
+}
+
+# Need to declare this item so we can reference it via
+# rsc_set_interactive.
+item bridge {
+}
+
+item right_platform {
+:look
+say player "That's the other side."
 }

@@ -195,21 +195,18 @@ player_scene = ExtResource( 4 )
 camera_limits = [ Rect2( 0, 0, 1280, 555 ) ]
 editor_debug_mode = 1
 
-[node name="r_platform" type="Area2D" parent="."]
+[node name="right_platform" type="Area2D" parent="."]
 pause_mode = 1
-script = ExtResource( 7 )
-global_id = "r2_right_platform"
-esc_script = "res://game/rooms/room02/esc/right_platform.esc"
+script = ExtResource( 16 )
 interaction_direction = 3
 tooltip_name = "Right platform"
 default_action = "look"
 dialog_color = Color( 1, 1, 1, 1 )
-animations = null
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="r_platform"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="right_platform"]
 polygon = PoolVector2Array( 870.974, 538.342, 827.536, 353.995, 1181.4, 357.174, 1287.34, 413.325, 1289.46, 545.758 )
 
-[node name="action_pos" type="Position2D" parent="r_platform"]
+[node name="action_pos" type="Position2D" parent="right_platform"]
 position = Vector2( 394, 460 )
 script = ExtResource( 8 )
 
@@ -359,10 +356,8 @@ script = ExtResource( 8 )
 
 [node name="bridge" type="Area2D" parent="."]
 pause_mode = 1
-script = ExtResource( 7 )
-global_id = "r2_bridge"
+script = ExtResource( 16 )
 dialog_color = Color( 1, 1, 1, 1 )
-animations = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="bridge"]
 root_node = NodePath("../..")
