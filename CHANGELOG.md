@@ -1,3 +1,12 @@
+## [4.0.0-alpha.151](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.151) (2022-03-29)
+
+
+### Bug Fixes
+
+* rand_global fixes ([#555](https://github.com/godot-escoria/escoria-demo-game/issues/555)) ([2c79da1](https://github.com/godot-escoria/escoria-demo-game/commit/2c79da17e4357e63b92580cdff136abde2663896))
+
+
+
 ## [4.0.0-alpha.150](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.150) (2022-03-29)
 
 
