@@ -454,6 +454,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-roomscript/commands/rsc_say.gd"
 }, {
+"base": "Node",
+"class": "RSCSetInteractiveCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-roomscript/commands/rsc_set_interactive.gd"
+}, {
+"base": "Node",
+"class": "RSCSetStateCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-roomscript/commands/rsc_set_state.gd"
+}, {
 "base": "ESCBaseCommand",
 "class": "RandGlobalCommand",
 "language": "GDScript",
@@ -684,6 +694,8 @@ _global_script_class_icons={
 "RSCRoomScript": "",
 "RSCRoomScriptFactory": "",
 "RSCSayCommand": "",
+"RSCSetInteractiveCommand": "",
+"RSCSetStateCommand": "",
 "RandGlobalCommand": "",
 "RepeatCommand": "",
 "SayCommand": "",
