@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>esc_item</title>
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#EA9999" offset="0%"></stop>
+            <stop stop-color="#F44336" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="esc_item" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M13,3 L13,13 L3,13 L3,3 L13,3 Z" id="Rectangle-Copy" fill="url(#linearGradient-1)" fill-rule="nonzero"></path>
+        <path d="M13,3 L13,13 L3,13 L3,3 L13,3 Z M12,4 L4,4 L4,12 L12,12 L12,4 Z" id="Rectangle" fill="#AA0000" fill-rule="nonzero"></path>
+    </g>
+</svg>

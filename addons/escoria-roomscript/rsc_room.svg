@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>esc_room</title>
+    <defs>
+        <linearGradient x1="0%" y1="14.2011834%" x2="100%" y2="85.7988166%" id="linearGradient-1">
+            <stop stop-color="#EA9999" offset="0%"></stop>
+            <stop stop-color="#F44336" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="esc_room" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M14.5,2.84069305 L14.5,5.54514386 L14.5,10.8358258 L14.5,13.840693 L1.5,13.840693 L1.5,10.3358258 L2,10.3358258 C4.04857623,10.3358258 5.11403175,9.3925116 5.30106353,7.35966319 L5.315,7.16769305 L1.5,7.16854556 L1.5,2.84069305 L14.5,2.84069305 Z" id="Path-Copy" fill="url(#linearGradient-1)" fill-rule="nonzero"></path>
+        <g id="Group" transform="translate(1.500000, 2.840693)" fill="#AA0000" fill-rule="nonzero">
+            <path d="M13,0 L13,2.70445081 L12,2.70445081 L12,1 L1,1 L1,3.327 L4.83105783,3.32785252 L4.83105783,3.82785252 C4.83105783,6.6121956 3.58466403,8.20663376 1.2004667,8.45950961 L1,8.477 L1,10 L12,10 L12,7.99513276 L13,7.99513276 L13,11 L0,11 L0,7.49513276 L0.5,7.49513276 C2.54857623,7.49513276 3.61403175,6.55181855 3.80106353,4.51897014 L3.815,4.327 L0,4.32785252 L0,0 L13,0 Z" id="Rectangle"></path>
+            <polygon id="Line-3" points="13.5 2.20445081 13.5 3.20445081 11.5 3.20445081 11.5 2.20445081"></polygon>
+            <polygon id="Line" points="13.5 7.49513276 13.5 8.49513276 11.5 8.49513276 11.5 7.49513276"></polygon>
+        </g>
+    </g>
+</svg>
