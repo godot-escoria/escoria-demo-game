@@ -1,0 +1,93 @@
+event setup {
+
+> [r2_bridge_closed]
+	# Make set_state IMMEDIATE to reach the final frame immediately
+	set_state r2_bridge bridge_close true
+	enable_terrain bridge_closed
+	set_interactive r2_right_platform false
+
+> [eq ESC_LAST_SCENE room1]
+	teleport player r2_l_exit
+	# Set player look left
+	set_angle player 180
+	stop
+
+> [eq ESC_LAST_SCENE room3]
+	teleport player r2_r_exit
+	# Set player look left
+	set_angle player 270
+
+	# Activate bridge, else player is stuck
+	#set_state r2_bridge bridge_close
+	#enable_terrain bridge_closed
+	#set_global r2_bridge_closed true
+	set_interactive r2_right_platform false
+	#set_interactive r2_bridge false
+	stop
+}
+
+event ready {
+
+# DEBUG
+#set_state r2_bridge bridge_close
+#enable_terrain bridge_closed
+#set_global bridge_closed true
+#set_interactive r2_right_platform false
+## /DEBUG
+
+}
+
+item button_left {
+
+:look
+> [! r2_look_dialog_advance]
+	say player "That button must activate the bridge."
+	set_global r2_look_dialog_advance 1
+	stop
+> [eq r2_look_dialog_advance 1]
+	say player "I already said that this button must activate the bridge."
+	set_global r2_look_dialog_advance 2
+	stop
+> [eq r2_look_dialog_advance 2]
+	set_angle player 180
+	say player "Listen closely."
+	say player "This"
+	say player "button"
+	say player "must"
+	say player "activate"
+	say player "the bridge."
+	set_global r2_look_dialog_advance 3
+	stop
+> [eq r2_look_dialog_advance 3]
+	say player "I give up."
+	say player "<sob>"
+	stop
+
+
+:push
+say player "I must USE this."
+say room2/button_left "Bzzt, indeed."
+say player "AH! A talking button."
+say room2/button_left "I am not a button, I am a mighty AI."
+say player "What?"
+say room2/button_left "I am intelligent, like you."
+say room2/button_left "Or, like you think you are, apparently..."
+say player "Hey!"
+
+:use
+> [r2_bridge_closed]
+	set_state r2_bridge bridge_open
+	enable_terrain bridge_open
+	set_global r2_bridge_closed false
+	#set_interactive r2_right_platform true
+	set_interactive r2_bridge false
+	stop
+> [!r2_bridge_closed]
+	set_state r2_bridge bridge_close
+	enable_terrain bridge_closed
+	set_global r2_bridge_closed true
+	set_interactive r2_right_platform false
+	set_interactive r2_bridge false
+	stop
+
+}

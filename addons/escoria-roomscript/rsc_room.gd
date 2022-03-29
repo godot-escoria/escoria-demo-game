@@ -48,7 +48,22 @@ static func find_script_file_for_room(room: RSCRoom) -> String:
 	# should match, which must also be the name of the subfolder under rooms/,
 	# as well as the name of the `.room` file. (If the rooms/ folder becomes
 	# too large, we can revisit this.)
-	var room_name = room.global_id
-	var res = "res://rooms/%s/%s.room" % [room_name, room_name]
+	var room_id = room.global_id
+	var room_dir = zero_pad_room_id(room_id)
+	var res = "res://game/rooms/%s/%s.room" % [room_dir, room_id]
 	escoria.logger.debug("room path: %s" % res)
 	return res
+
+
+# If `room_id` is `"room2"`, this returns `"room02"`.
+static func zero_pad_room_id(room_id: String) -> String:
+	var re = RegEx.new()
+	var err = re.compile("^room(\\d+)$")
+	assert(not err)
+
+	var re_match = re.search(room_id)
+	if re_match:
+		var num = re_match.get_string(1)
+		if num.length() == 1:
+			return "room0" + num
+	return room_id
