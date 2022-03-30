@@ -26,19 +26,11 @@ func _exit_tree() -> void:
 
 static func rewrite_command_params(params: Array, index: int) -> Array:
 	var item_id = params[index]
-	var resolved_id = _resolve_item_id(item_id)
+	var room = find_room_for_item(escoria.main.current_scene)
+	var resolved_id = room.resolve_item_id(item_id) if room else item_id
 	if resolved_id != item_id:
 		params[index] = resolved_id
 	return params
-
-
-static func _resolve_item_id(item_id: String) -> String:
-	var room = find_room_for_item(escoria.main.current_scene)
-	if room:
-		var global_id = room.resolve_item_id(item_id)
-		if global_id:
-			return global_id
-	return item_id
 
 
 # Returns null if no RSCRoom can be found.
