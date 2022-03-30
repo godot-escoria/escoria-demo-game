@@ -317,12 +317,13 @@ func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 			"ESCObjectManager:unregister_object()",
 			[
 				"Unable to unregister object.",
-				"Object with global ID %s room (%s, %s) not found." %
+				"Object with global ID %s room (%s, %s) not found. If this was" %
 				[
 					"?" if object == null else object.global_id,
 					room_key.room_global_id,
 					room_key.room_instance_id
-				]
+				],
+				"part of a 'forced' registration, ignore this warning." 
 			]
 		)
 		
