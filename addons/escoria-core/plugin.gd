@@ -2,6 +2,7 @@
 tool
 extends EditorPlugin
 
+var player_button
 
 # Setup Escoria
 func _enter_tree():
@@ -24,6 +25,9 @@ func _enter_tree():
 		"audio/default_bus_layout",
 		"res://addons/escoria-core/default_bus_layout.tres"
 	)
+
+	player_button = preload("res://addons/escoria-core/ui_library/tools/character_helper.tscn").instance()
+	add_control_to_container(CONTAINER_CANVAS_EDITOR_MENU, player_button)
 
 
 func _ready():
@@ -361,4 +365,5 @@ func _exit_tree():
 
 	InputMap.erase_action(escoria.inputs_manager.SWITCH_ACTION_VERB)
 	InputMap.erase_action(escoria.inputs_manager.ESC_SHOW_DEBUG_PROMPT)
-
+	remove_control_from_docks(player_button)
+	player_button.free()
