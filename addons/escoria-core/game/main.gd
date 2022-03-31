@@ -14,6 +14,9 @@ var last_scene_global_id: String
 # Current scene room being displayed
 var current_scene: Node
 
+# Scene that was previously the current scene.
+var previous_scene: Node
+
 # The Escoria context currently in wait state
 var wait_level
 
@@ -37,21 +40,21 @@ func set_scene(p_scene: Node) -> void:
 	if !p_scene:
 		escoria.logger.report_errors("main", ["Trying to set empty scene"])
 
+	previous_scene = current_scene
+	
 	if not p_scene.is_inside_tree():
 		# Set the scene's visiblity for :setup events if the new room is not the
-		# same one as the current room. Note that the room's 
-		# _ready() method will ensure that the room is visible when
-		# :setup is complete.
+		# same one as the current room.
 		if not _is_same_scene(current_scene, p_scene):
 			p_scene.visible = false
 
-		#p_scene.z_index = -100
 		escoria.object_manager.set_current_room(p_scene)
 		add_child(p_scene) 
+		
+		# This actually moves the scene closest to the root node, but will
+		# still be drawn behind the next node, which should be the previous
+		# room.
 		move_child(p_scene, 0)
-
-	if current_scene != null:
-		clear_scene()
 
 	current_scene = p_scene
 	
@@ -59,24 +62,34 @@ func set_scene(p_scene: Node) -> void:
 
 	set_camera_limits()
 
+
+# Completes the room swap and should be called by the room manager at the
+# appropriate time.
+func set_scene_finish() -> void:
+	current_scene.visible = true
+	
+	if previous_scene != null:
+		clear_scene()
+
 	emit_signal("room_ready")
 
 
-# Cleanup the current scene
+# Cleanup the previous scene
 func clear_scene() -> void:
-	if current_scene == null:
+	if previous_scene == null:
 		return
 
 	escoria.action_manager.clear_current_action()
 	escoria.action_manager.clear_current_tool()
 
-	if escoria.game_scene.get_parent() == current_scene:
-		current_scene.remove_child(escoria.game_scene)
+	if escoria.game_scene.get_parent() == previous_scene:
+		previous_scene.remove_child(escoria.game_scene)
 
-	current_scene.get_parent().remove_child(current_scene)
+	previous_scene.visible = false
+	previous_scene.get_parent().remove_child(previous_scene)
 
-	current_scene.queue_free()
-	current_scene = null
+	previous_scene.queue_free()
+	previous_scene = null
 
 
 # Triggered, when the wait has finished

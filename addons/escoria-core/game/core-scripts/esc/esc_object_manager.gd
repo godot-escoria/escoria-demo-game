@@ -108,7 +108,7 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 			[
 				"Registering object with empty global_id.",
 				"Using node's full path as global_id: %s"
-						% object.node.global_id
+							% object.node.global_id
 			]
 		)
 

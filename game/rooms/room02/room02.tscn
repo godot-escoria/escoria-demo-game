@@ -13,23 +13,23 @@
 [ext_resource path="res://game/rooms/room02/floor4.png" type="Texture" id=14]
 [ext_resource path="res://game/rooms/room02/floor2.png" type="Texture" id=15]
 
-[sub_resource type="NavigationPolygon" id=4]
+[sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 10, 378, 86, 337, 88, 374, 8, 545, 121, 355, 488, 354, 409, 546, 1184, 373, 1185, 343, 1272, 393, 1272, 548, 875, 546, 802, 357, 1161, 358 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 3, 2 ), PoolIntArray( 7, 8, 9, 10 ), PoolIntArray( 10, 11, 12, 13, 7 ) ]
 outlines = [ PoolVector2Array( 121, 355, 488, 354, 409, 546, 8, 545, 10, 378, 86, 337, 88, 374 ), PoolVector2Array( 802, 357, 875, 546, 1272, 548, 1272, 393, 1185, 343, 1184, 373, 1161, 358 ) ]
 
-[sub_resource type="NavigationPolygon" id=5]
+[sub_resource type="NavigationPolygon" id=2]
 vertices = PoolVector2Array( 10, 378, 88, 335, 86, 373, 8, 542, 1185, 374, 1185, 343, 1270, 395, 1272, 545, 114, 355, 1161, 357 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6 ), PoolIntArray( 6, 7, 3, 4 ), PoolIntArray( 8, 9, 4, 3, 2 ) ]
 outlines = [ PoolVector2Array( 88, 335, 86, 373, 114, 355, 1161, 357, 1185, 374, 1185, 343, 1270, 395, 1272, 545, 8, 542, 10, 378 ) ]
 
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 39, 39.5 )
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 39, 39.5 )
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="Animation" id=5]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("ESCBackground/Floor1:position")
@@ -80,8 +80,7 @@ tracks/3/keys = {
 "values": [ Vector2( 786, 650 ) ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "bridge_close"
+[sub_resource type="Animation" id=6]
 length = 1.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("ESCBackground/Floor1:position")
@@ -132,8 +131,7 @@ tracks/3/keys = {
 "values": [ Vector2( 696, 650 ), Vector2( 696, 650 ), Vector2( 696, 450 ) ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "bridge_open"
+[sub_resource type="Animation" id=7]
 length = 1.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("ESCBackground/Floor1:position")
@@ -316,11 +314,11 @@ debug_mode = 1
 
 [node name="bridge_open" type="NavigationPolygonInstance" parent="walkable_area"]
 visible = false
-navpoly = SubResource( 4 )
+navpoly = SubResource( 1 )
 
 [node name="bridge_closed" type="NavigationPolygonInstance" parent="walkable_area"]
 visible = false
-navpoly = SubResource( 5 )
+navpoly = SubResource( 2 )
 enabled = false
 
 [node name="button_left" type="Area2D" parent="."]
@@ -337,7 +335,7 @@ animations = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="button_left"]
 position = Vector2( 370, 190.5 )
-shape = SubResource( 6 )
+shape = SubResource( 3 )
 
 [node name="ESCLocation" type="Position2D" parent="button_left"]
 position = Vector2( 369, 375 )
@@ -357,7 +355,7 @@ animations = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="button_right2"]
 position = Vector2( 911, 190.5 )
-shape = SubResource( 7 )
+shape = SubResource( 4 )
 
 [node name="ESCLocation" type="Position2D" parent="button_right2"]
 position = Vector2( 914, 378 )
@@ -372,9 +370,9 @@ animations = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="bridge"]
 root_node = NodePath("../..")
-anims/RESET = SubResource( 1 )
-anims/bridge_close = SubResource( 3 )
-anims/bridge_open = SubResource( 2 )
+anims/RESET = SubResource( 5 )
+anims/bridge_close = SubResource( 6 )
+anims/bridge_open = SubResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="bridge"]
 shape = SubResource( 8 )

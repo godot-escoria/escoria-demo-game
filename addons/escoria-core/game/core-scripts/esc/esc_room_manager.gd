@@ -268,7 +268,10 @@ func init_room(room: ESCRoom) -> void:
 # #### Parameters
 #
 # - room: The ESCRoom to be initialized for use.
-func _perform_script_events(room: ESCRoom):
+#
+# *Returns* ESCExecution.RC_OK when completed or the function's state in the
+# case a coroutine is yielding.
+func _perform_script_events(room: ESCRoom) -> int:
 	# If we're loading from a saved game, we don't want to run :setup or :ready
 	# as it could potentially alter the loaded save state; however, we still need
 	# to swap the scene in since it would ordinarily happen between :setup and
@@ -277,7 +280,7 @@ func _perform_script_events(room: ESCRoom):
 				and escoria.event_manager.get_running_event(
 					escoria.event_manager.CHANNEL_FRONT
 				).name == escoria.event_manager.EVENT_LOAD:
-		_make_new_room_visible(room)
+		escoria.main.set_scene_finish(room)
 	else:
 		# If the room was loaded from change_scene and automatic transitions
 		# are not disabled, do the transition out now
@@ -325,9 +328,20 @@ func _perform_script_events(room: ESCRoom):
 			if rc[0] != ESCExecution.RC_OK:
 				return rc[0]
 
-		# Switch the rooms (resources are freed at end of change_scene and in
-		# clear_scene).
-		_make_new_room_visible(room)
+		escoria.main.set_scene_finish()
+
+		# We know the scene has been loaded. Make its global ID available for
+		# use by ESC script.
+		escoria.globals_manager.set_global(
+			escoria.room_manager.GLOBAL_CURRENT_SCENE,
+			room.global_id,
+			true
+		)
+
+		# Clear queued resources
+		escoria.resource_cache.clear()
+
+		escoria.inputs_manager.hotspot_focused = ""
 
 		if room.enabled_automatic_transitions \
 				or (
@@ -386,20 +400,8 @@ func _perform_script_events(room: ESCRoom):
 					if escoria.main.current_scene != null else "",
 			true
 		)
-
-
-# Switches the visibility of the "old" room and the "new" room.
-#
-# #### Parameters
-#
-# - room: The ESCRoom to be made visible in place of the current one.
-func _make_new_room_visible(room: ESCRoom) -> void:
-	if is_instance_valid(escoria.main.current_scene) and room != escoria.main.current_scene:
-		escoria.main.current_scene.visible = false
-		#escoria.main.current_scene.z_index = -100
-
-	room.visible = true
-	#room.z_index = 0
+		
+	return ESCExecution.RC_OK
 
 
 # Runs the script event from the script attached, if any.

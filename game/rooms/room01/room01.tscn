@@ -180,7 +180,6 @@ pause_mode = 1
 script = ExtResource( 5 )
 global_id = "trigger_talk"
 esc_script = "res://game/rooms/room01/esc/trigger.esc"
-is_trigger = true
 player_orients_on_arrival = false
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
