@@ -137,6 +137,14 @@ func has_transition(name: String) -> bool:
 	return name == TRANSITION_INSTANT or get_transition(name) != ""
 
 
+# Resets the current material's cutoff parameter instantly.
+func reset_shader_cutoff() -> void:
+	if not is_instance_valid(material):
+		return
+
+	material.set_shader_param("cutoff", 1.0)
+
+
 func _on_tween_completed():
 	if not _was_canceled:
 		_tween.stop_all()

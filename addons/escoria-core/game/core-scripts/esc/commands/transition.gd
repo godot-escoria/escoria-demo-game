@@ -56,6 +56,7 @@ func run(command_params: Array) -> int:
 	
 	if transition_id == ESCTransitionPlayer.TRANSITION_ID_INSTANT:
 		escoria.logger.debug("Performing instant transition.")
+		escoria.main.scene_transition.reset_shader_cutoff()
 		return ESCExecution.RC_OK
 	
 	escoria.logger.debug("Starting transition #%s [%s, %s]" 
