@@ -57,6 +57,9 @@ signal mouse_right_clicked_item(global_id)
 signal arrived(walk_context)
 
 
+const GROUP_ITEM_CAN_COLLIDE = "item_can_collide"
+
+
 # The global ID of this item
 export(String) var global_id
 
@@ -170,6 +173,10 @@ func _ready():
 	self.pause_mode = Node.PAUSE_MODE_STOP
 
 	_detect_children()
+	
+	# We add ourselves to this group so we can easily get a reference to all 
+	# items in a scene tree.
+	add_to_group(GROUP_ITEM_CAN_COLLIDE)
 
 	if not self.is_connected("mouse_entered", self, "_on_mouse_entered"):
 		connect("mouse_entered", self, "_on_mouse_entered")

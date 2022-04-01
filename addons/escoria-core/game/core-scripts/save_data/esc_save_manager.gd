@@ -29,6 +29,7 @@ var _transition: TransitionCommand
 var _hide_menu: HideMenuCommand
 var _change_scene: ChangeSceneCommand
 var _set_active: SetActiveCommand
+var _set_active_if_exists: SetActiveIfExistsCommand
 var _set_interactive: SetInteractiveCommand
 var _teleport_pos: TeleportPosCommand
 var _set_angle: SetAngleCommand
@@ -49,6 +50,7 @@ func _init():
 	_hide_menu = HideMenuCommand.new()
 	_change_scene = ChangeSceneCommand.new()
 	_set_active = SetActiveCommand.new()
+	_set_active_if_exists = SetActiveIfExistsCommand.new()
 	_set_interactive = SetInteractiveCommand.new()
 	_teleport_pos = TeleportPosCommand.new()
 	_set_angle = SetAngleCommand.new()
@@ -291,20 +293,6 @@ func load_game(id: int):
 			)
 	)
 
-	load_event.statements = load_statements
-	
-	escoria.set_game_paused(false)
-	escoria.event_manager.queue_event(load_event)
-
-	# Wait for the scene to be loaded so we have access to objects, etc.
-	var rc = yield(escoria.event_manager, "event_finished")
-	while rc[1] != escoria.event_manager.EVENT_LOAD:
-		rc = yield(escoria.event_manager, "event_finished")
-
-	# We then carry on with other "load"-related commands.
-	escoria.set_game_paused(true)
-	load_statements = []
-
 	## GLOBALS
 	for k in save_game.globals.keys():
 		var global_value = save_game.globals[k]
@@ -324,11 +312,10 @@ func load_game(id: int):
 
 	## OBJECTS
 	for object_global_id in save_game.objects.keys():
-		if escoria.object_manager.has(object_global_id) and \
-				save_game.objects[object_global_id].has("active"):
+		if save_game.objects[object_global_id].has("active"):
 			load_statements.append(ESCCommand.new("%s %s %s" \
 					% [
-						_set_active.get_command_name(),
+						_set_active_if_exists.get_command_name(),
 						object_global_id,
 						save_game.objects[object_global_id]["active"]
 					]

@@ -42,6 +42,9 @@ func set_scene(p_scene: Node) -> void:
 
 	previous_scene = current_scene
 	
+	if is_instance_valid(previous_scene):
+		_disable_collisions()
+
 	if not p_scene.is_inside_tree():
 		# Set the scene's visiblity for :setup events if the new room is not the
 		# same one as the current room.
@@ -207,3 +210,14 @@ func _is_same_scene(scene_1: Node, scene_2: Node) -> bool:
 		return scene_1.global_id == scene_2.global_id
 	
 	return false
+
+
+# Disable collisions in the previous scene so if we have two scenes in the same
+# game tree, collisions won't result.
+func _disable_collisions() -> void:
+	var items_to_disable = previous_scene.get_tree().get_nodes_in_group(ESCItem.GROUP_ITEM_CAN_COLLIDE)
+	
+	for item in items_to_disable:
+		if is_instance_valid(item.collision):
+			item.collision.disabled = true
+	
