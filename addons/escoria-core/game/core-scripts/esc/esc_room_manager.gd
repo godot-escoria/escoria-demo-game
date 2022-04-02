@@ -269,6 +269,10 @@ func init_room(room: ESCRoom) -> void:
 #
 # - room: The ESCRoom to be initialized for use.
 func _perform_script_events(room: ESCRoom) -> void:
+	# Used to track whether any yields have been executed before the call to
+	# set_scene_finish.
+	var yielded: bool = false
+	
 	if room.enabled_automatic_transitions \
 			and not room.is_run_directly \
 			and not room.exited_previous_room:
@@ -296,6 +300,8 @@ func _perform_script_events(room: ESCRoom) -> void:
 			rc = yield(escoria.event_manager, "event_finished")
 		if rc[0] != ESCExecution.RC_OK:
 			return rc[0]
+			
+		yielded = true
 
 		# Hide main and pause menus
 		escoria.game_scene.hide_main_menu()
@@ -312,6 +318,11 @@ func _perform_script_events(room: ESCRoom) -> void:
 			rc = yield(escoria.event_manager, "event_finished")
 		if rc[0] != ESCExecution.RC_OK:
 			return rc[0]
+
+		yielded = true
+
+	if not yielded:
+		escoria.main.finish_current_scene_init(room)
 
 	escoria.main.set_scene_finish()
 
@@ -360,7 +371,7 @@ func _perform_script_events(room: ESCRoom) -> void:
 			rc = yield(escoria.event_manager, "event_finished")
 		if rc[0] != ESCExecution.RC_OK:
 			return rc[0]
-
+			
 	# Now that :ready is finished, if FORCE_LAST_SCENE_NULL was true, reset it
 	# to false
 	if escoria.globals_manager.get_global( \

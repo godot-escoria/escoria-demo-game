@@ -26,6 +26,7 @@ func _ready():
 			escoria.object_manager.CAMERA,
 			self
 		),
+		null,
 		true
 	)
 
