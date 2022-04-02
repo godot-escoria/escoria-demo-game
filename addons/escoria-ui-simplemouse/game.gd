@@ -244,7 +244,7 @@ func left_click_on_inventory_item(inventory_item_global_id: String, event: Input
 		escoria.action_manager.ACTION.ITEM_LEFT_CLICK,
 		[inventory_item_global_id, event]
 	)
-	
+
 	if escoria.action_manager.current_action == VERB_USE:
 		var item = escoria.object_manager.get_object(
 			inventory_item_global_id

@@ -52,7 +52,7 @@ func run(command_params: Array) -> int:
 		command_params
 	)
 	yield(
-		(escoria.object_manager.get_object(command_params[0]).node as ESCItem), 
+		(escoria.object_manager.get_object(command_params[0]).node as ESCItem),
 		"arrived"
 	)
 	return ESCExecution.RC_OK

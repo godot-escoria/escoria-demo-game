@@ -46,9 +46,6 @@ var enabled_automatic_transitions = true
 # Whether this room was run directly with Play Scene (F6)
 var is_run_directly = false
 
-# Whether this room was accessed from an exit in a previous room
-var exited_previous_room = false
-
 
 # Start the random number generator when the camera limits should be displayed
 func _enter_tree():
