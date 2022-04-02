@@ -1,27 +1,23 @@
 :look
-> [! r2_look_dialog_advance]
-	say player "That button must activate the bridge."
-	set_global r2_look_dialog_advance 1
-	stop
-> [eq r2_look_dialog_advance 1]
-	say player "I already said that this button must activate the bridge."
-	set_global r2_look_dialog_advance 2
-	stop
-> [eq r2_look_dialog_advance 2]
-	set_angle player 180
-	say player "Listen closely."
-	say player "This"
-	say player "button"
-	say player "must"
-	say player "activate"
-	say player "the bridge."
-	set_global r2_look_dialog_advance 3
-	stop
-> [eq r2_look_dialog_advance 3]
-	say player "I give up."
-	say player "<sob>"
-	stop
-
+>> r2_look_dialog_advance
+	0 =>
+		say player "That button must activate the bridge."
+		inc_global r2_look_dialog_advance 1
+	1 =>
+		say player "I already said that this button must activate the bridge."
+		inc_global r2_look_dialog_advance 1
+	2 =>
+		set_angle player 180
+		say player "Listen closely."
+		say player "This"
+		say player "button"
+		say player "must"
+		say player "activate"
+		say player "the bridge."
+		inc_global r2_look_dialog_advance 1
+	3 =>
+		say player "I give up."
+		say player "<sob>"
 
 :push
 say player "I must USE this."

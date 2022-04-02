@@ -27,6 +27,7 @@ var _dialog_regex
 var _dialog_end_regex
 var _dialog_option_regex
 var _group_regex
+var _match_regex
 
 # The currently compiled event
 var _current_event = null
@@ -82,6 +83,8 @@ func _init():
 	_dialog_option_regex.compile(ESCDialogOption.REGEX)
 	_group_regex = RegEx.new()
 	_group_regex.compile(ESCGroup.REGEX)
+	_match_regex = RegEx.new()
+	_match_regex.compile(ESCMatch.REGEX)
 
 
 # Load an ESC file from a file resource
@@ -150,6 +153,47 @@ func _compile(lines: Array) -> Array:
 				)
 				event.statements = self._compile(event_lines)
 			returned.append(event)
+		elif _match_regex.search(line):
+			var match_expr = ESCMatch.new(line)
+			escoria.logger.trace("Line is a match")
+			var match_lines = []
+			while lines.size() > 0:
+				var next_line = lines.pop_front()
+				if _comment_regex.search(next_line) or \
+					_empty_regex.search(next_line):
+					continue
+
+				var next_line_indent = \
+						escoria.utils.get_re_group(
+							_indent_regex.search(next_line),
+							INDENT_REGEX_GROUP
+						).length()
+				if next_line_indent > indent:
+					match_lines.append(next_line)
+				else:
+					lines.push_front(next_line)
+					break
+
+			if match_lines.size() > 0:
+				escoria.logger.trace(
+					"Compiling the next %d lines into the match expr" % \
+						match_lines.size()
+				)
+				var pairs = match_expr.parse(match_lines)
+				escoria.logger.trace("%d arms found for match" % pairs.size())
+				for pair in pairs:
+					var cond = pair[0]
+					var arm_lines = pair[1]
+					# Have to use dummy value of ">" to satisfy constructor.
+					var union_statement = ESCGroup.new(">")
+					union_statement.statements = self._compile(arm_lines)
+					match_expr.add_arm(cond, union_statement)
+
+				returned.append(match_expr)
+			else:
+				# TODO: error?
+				pass
+
 		elif _group_regex.search(line):
 			var group = ESCGroup.new(line)
 			escoria.logger.trace("Line is a group")

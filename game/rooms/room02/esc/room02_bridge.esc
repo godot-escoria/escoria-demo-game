@@ -1,7 +1,8 @@
 # THIS ROOMS FEATURES AN OPEN BRIDGE WITH A BUTTON TO USE IN ORDER TO OPEN
 
 :setup
-
+# TODO: only set this if not yet set?
+set_global r2_look_dialog_advance 0
 
 > [r2_bridge_closed]
 	# Make set_state IMMEDIATE to reach the final frame immediately
@@ -38,4 +39,3 @@
 #set_global bridge_closed true
 #set_interactive r2_right_platform false
 ## /DEBUG
-
