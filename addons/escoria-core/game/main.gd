@@ -74,6 +74,10 @@ func set_scene(p_scene: Node) -> void:
 
 # Only called by the room manager in the case where it hasn't executed a 
 # coroutine prior to calling set_scene_finish().
+#
+# ### Parameters
+#
+# - p_scene: The scene currently being initialized by set_scene.
 func finish_current_scene_init(p_scene: Node) -> void:
 	move_child(p_scene, 0)
 
@@ -223,6 +227,14 @@ func check_game_scene_methods():
 	assert(current_scene.game.has_method("_on_event_done"))
 
 
+# Determines whether two scenes represent the same room.
+#
+# ### Parameters
+#
+# - scene_1: Scene to be compared.
+# - scene_2: Other scene to be compared.
+#
+# **Returns** true iff the two scenes represent the same room.
 func _is_same_scene(scene_1: Node, scene_2: Node) -> bool:
 	if scene_1 is ESCRoom and scene_2 is ESCRoom:
 		return scene_1.global_id == scene_2.global_id
@@ -238,4 +250,7 @@ func _disable_collisions() -> void:
 	for item in items_to_disable:
 		if is_instance_valid(item.collision):
 			item.collision.disabled = true
+		if item is Area2D:
+			item.monitoring = false
+			item.monitorable = false
 	

@@ -57,6 +57,8 @@ signal mouse_right_clicked_item(global_id)
 signal arrived(walk_context)
 
 
+# Group for ESCItem's that can be collided with in a scene. Used for quick
+# retrieval of such nodes to easily change their attributes at the same time.
 const GROUP_ITEM_CAN_COLLIDE = "item_can_collide"
 
 

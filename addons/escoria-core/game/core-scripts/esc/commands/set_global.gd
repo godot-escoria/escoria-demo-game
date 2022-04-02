@@ -1,4 +1,4 @@
-# `set_global name value [ignore_reserved=false]`
+# `set_global name value [force=false]`
 #
 # Changes the value of a global.
 #

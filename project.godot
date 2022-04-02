@@ -465,6 +465,11 @@ _global_script_classes=[ {
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_active.gd"
 }, {
 "base": "ESCBaseCommand",
+"class": "SetActiveIfExistsCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_active_if_exists.gd"
+}, {
+"base": "ESCBaseCommand",
 "class": "SetAngleCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_angle.gd"
@@ -671,6 +676,7 @@ _global_script_class_icons={
 "SayCommand": "",
 "SchedEventCommand": "",
 "SetActiveCommand": "",
+"SetActiveIfExistsCommand": "",
 "SetAngleCommand": "",
 "SetAnimationsCommand": "",
 "SetGlobalCommand": "",

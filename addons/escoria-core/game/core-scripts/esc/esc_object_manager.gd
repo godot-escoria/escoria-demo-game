@@ -15,14 +15,25 @@ const RESERVED_OBJECTS = [
 	CAMERA
 ]
 
-# The array of registered objects (organized by room, incl. one "room" for 
-# reserved objects).
+
+# The array of registered objects (organized by room, so each entry is a structure
+# representing a room and its registered objects). This also includes one 
+# "room" for reserved objects; that is, we use one entry of the array to
+# hold all reserved objects. This entry can be identified by the "is_reserved"
+# property being set to true.
+#
+# "Reserved objects" are those which are named in the RESERVED_OBJECTS const 
+# array and include objects that are used internally by Escoria in every room, 
+# e.g. a music player, a sound player, a speech player, the main camera.
+#
+# In almost all cases, the reserved objects' entry doesn't need updating once
+# created.
 #
 # Example structure:
 #
 #	[
 #		{
-#			is_reserved: true,
+#			is_reserved: true,	# Indicates this is the "reserved objects" entry
 #			room: "",
 #			room_instance_id: "",
 #			objects:
@@ -31,7 +42,7 @@ const RESERVED_OBJECTS = [
 #				},
 #		},
 #		{
-#			is_reserved: false,
+#			is_reserved: false,	# Indicates this an entry for a room's objectss
 #			room_global_id: "<room_global_id>",
 #			room_instance_id: "<room_object_instance_id>",
 #			objects:
@@ -41,9 +52,6 @@ const RESERVED_OBJECTS = [
 #				}
 #		}
 #	]
-#
-# Note that the "is_reserved" entry cannot be altered or otherwise changed and
-# that it belongs to no specific room.
 var room_objects: Array = []
 
 # We also store the current room's ids for retrieving the right objects.
@@ -81,7 +89,8 @@ func set_current_room(room: ESCRoom) -> void:
 		escoria.logger.report_errors(
 			"ESCObjectManager:set_current_room()",
 			[
-				"Unable to set current room: No valid room specified."
+				"Unable to set current room: No valid room specified.",
+				"Please pass in a valid ESCRoom as an argument to the method."
 			]
 		)
 
@@ -106,7 +115,7 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 		escoria.logger.report_warnings(
 			"ESCObjectManager:register_object()",
 			[
-				"Registering object with empty global_id.",
+				"Registering ESCObject %s with empty global_id." % object.name,
 				"Using node's full path as global_id: %s"
 							% object.node.global_id
 			]
@@ -130,10 +139,13 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 		room_key.room_instance_id = current_room_key.room_instance_id
 		
 		if not room_key.is_valid():
+			# This condition should very likely never happen.
 			escoria.logger.report_errors(
 				"ESCObjectManager:register_object()",
 				[
-					"No room was specified to register object with, and no current room is properly set."
+					"No room was specified to register object with, and no current room is properly set.",
+					"Please either pass in a valid ESCRoom to this method, or " + \
+						"call set_current_room() with a valid ESCRoom first."
 				]
 			)
 	else:
@@ -256,8 +268,7 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 			escoria.logger.report_warnings(
 				"ESCObjectManager:get_object()",
 				[
-					"Invalid reserved object retrieved.",
-					"Reserved object with global id %s not found" 
+					"Reserved object with global id %s not found in object manager!" 
 						% global_id
 				]
 			)
@@ -279,7 +290,7 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 		escoria.logger.report_warnings(
 			"ESCObjectManager:get_object()",
 			[
-				"Specified room empty/not found.",
+				"Specified room is empty/not found.",
 				"Object with global id %s in room instance (%s, %s) not found" 
 				% [global_id, room_key.room_global_id, room_key.room_instance_id]
 			]
@@ -294,7 +305,6 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 		escoria.logger.report_warnings(
 			"ESCObjectManager:get_object()",
 			[
-				"Invalid object retrieved.",
 				"Object with global id %s in room instance (%s, %s) not found" 
 				% [global_id, room_key.room_global_id, room_key.room_instance_id]
 			]
@@ -390,6 +400,8 @@ func save_game(p_savegame: ESCSaveGame) -> void:
 			objects[obj_global_id].get_save_data()
 
 
+# Returns the current room's starting location. If more than one exists, the
+# first one encountered is returned.
 func get_start_location() -> ESCLocation:
 	if _room_exists(current_room_key):
 		for object in _get_room_objects_objects(current_room_key).values():

@@ -55,8 +55,6 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 	# events in there so we avoid running these multiple times)
 	escoria.event_manager.clear_event_queue()
 
-	var exited_previous_room = false
-
 	# If auto transition is enabled, try to determine whether we just exited a
 	# room previously, so that we must play the auto transition out or not.
 	# This must happen if ESC_LAST_SCENE is set, or if we're running an
@@ -76,8 +74,6 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 				).empty()
 			)
 		):
-
-		exited_previous_room = true
 
 		var transition_id = escoria.main.scene_transition.transition(
 			"",
@@ -145,8 +141,6 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 			room_scene.enabled_automatic_transitions = true
 		else:
 			room_scene.enabled_automatic_transitions = enable_automatic_transitions
-
-		room_scene.exited_previous_room = exited_previous_room
 
 		# If the game scene is already in the tree but not a child of the room
 		# we remove it
@@ -274,8 +268,7 @@ func _perform_script_events(room: ESCRoom) -> void:
 	var yielded: bool = false
 	
 	if room.enabled_automatic_transitions \
-			and not room.is_run_directly \
-			and not room.exited_previous_room:
+			and not room.is_run_directly:
 		var script_transition_out = escoria.esc_compiler.compile([
 			"%s%s" % [ESCEvent.PREFIX, escoria.event_manager.EVENT_TRANSITION_OUT],
 			"%s %s out" %

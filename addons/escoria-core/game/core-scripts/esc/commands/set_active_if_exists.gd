@@ -1,6 +1,11 @@
 # `set_active_if_exists object active`
 #
-# Changes the "active" state of the object in the current room.
+# *** FOR INTERNAL USE ONLY ***
+#
+# Changes the "active" state of the object in the current room if it currently
+# exists in the object manager. If it doesn't, then, unlike set_active, we don't
+# fail and we just carry on.
+#
 # Inactive objects are invisible in the room.
 #
 # **Parameters**
@@ -20,19 +25,6 @@ func configure() -> ESCCommandArgumentDescriptor:
 		[TYPE_STRING, TYPE_BOOL],
 		[null, null]
 	)
-
-
-# Validate whether the given arguments match the command descriptor
-func validate(arguments: Array):
-	if not escoria.object_manager.has(arguments[0]):
-		escoria.logger.report_errors(
-			"set_active: invalid object",
-			[
-				"Object with global id %s not found" % arguments[0]
-			]
-		)
-		return false
-	return .validate(arguments)
 
 
 # Run the command
