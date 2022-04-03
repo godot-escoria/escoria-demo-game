@@ -131,7 +131,7 @@ animations = null
 polygon = PoolVector2Array( 22, 633, 21, 328, 143, 276, 143, 565 )
 
 [node name="Position2D" type="Position2D" parent="Hotspots/l_door"]
-position = Vector2( 80, 589 )
+position = Vector2( 92, 603 )
 script = ExtResource( 9 )
 
 [node name="r_door" type="Area2D" parent="Hotspots"]

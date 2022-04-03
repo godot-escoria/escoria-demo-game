@@ -1,4 +1,5 @@
 :setup
+set_global r4_door_look_count 0
 
 > [eq ESC_LAST_SCENE room3]
 	teleport player l_exit
