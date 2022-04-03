@@ -65,7 +65,7 @@ func _init():
 # #### Parameters
 #
 # * string: Text to log
-func _replace_globals(string: String):
+func _replace_globals(string: String) -> String:
 	for result in globals_regex.search_all(string):
 		var globresult = escoria.globals_manager.get_global(
 			str(result.get_string())
