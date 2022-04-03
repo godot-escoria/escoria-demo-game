@@ -19,6 +19,8 @@ var crash_savegame_filename
 # Did we crash already?
 onready var crashed = false
 
+# Regex to match globals in debug strings
+var globals_regex: RegEx
 
 # Valid log levels
 enum { LOG_ERROR, LOG_WARNING, LOG_INFO, LOG_DEBUG, LOG_TRACE }
@@ -54,8 +56,30 @@ func _init():
 		File.WRITE
 	)
 
+	# Use look-ahead/behind to capture the term in braces
+	globals_regex = RegEx.new()
+	globals_regex.compile("(?<=\\{)(.*)(?=\\})")
+
+# Look to see if any globals (names in braces) should be interpreted
+#
+# #### Parameters
+#
+# * string: Text to log
+func _replace_globals(string: String):
+	for result in globals_regex.search_all(string):
+		var globresult = escoria.globals_manager.get_global(
+			str(result.get_string())
+		)
+		string = string.replace(
+			"{" + result.get_string() + "}", str(globresult)
+		)
+	return string
 
 # Log a trace message
+#
+# Global variables can be substituted into the text by wrapping the global
+# name in braces.
+# e.g. trace "There are {coin_count} coins remaining".
 #
 # #### Parameters
 #
@@ -64,10 +88,15 @@ func _init():
 func trace(string: String, args = []):
 	if _get_log_level() >= LOG_TRACE and !crashed:
 		var argsstr = str(args) if !args.empty() else ""
+		string = _replace_globals(string)
 		_log("(T)\t" + string + " \t" + argsstr)
 
 
 # Log a debug message
+#
+# Global variables can be substituted into the text by wrapping the global
+# name in braces.
+# e.g. debug "There are {coin_count} coins remaining".
 #
 # #### Parameters
 #
@@ -75,11 +104,15 @@ func trace(string: String, args = []):
 # * args: Additional information
 func debug(string: String, args = []):
 	if _get_log_level() >= LOG_DEBUG and !crashed:
+		string = _replace_globals(string)
 		var argsstr = str(args) if !args.empty() else ""
 		_log("(D)\t" + string + " \t" + argsstr)
 
-
 # Log an info message
+#
+# Global variables can be substituted into the text by wrapping the global
+# name in braces.
+# e.g. info "There are {coin_count} coins remaining".
 #
 # #### Parameters
 #
@@ -95,10 +128,15 @@ func info(string: String, args = []):
 						argsstr.append(p.global_id)
 				else:
 					argsstr.append(str(arg))
+		string = _replace_globals(string)
 		_log("(I)\t" + string + " \t" + str(argsstr))
 
 
 # Log a warning message
+#
+# Global variables can be substituted into the text by wrapping the global
+# name in braces.
+# e.g. warning "There are {coin_count} coins remaining".
 #
 # #### Parameters
 #
@@ -107,6 +145,7 @@ func info(string: String, args = []):
 func warning(string: String, args = []):
 	if _get_log_level() >= LOG_WARNING and !crashed:
 		var argsstr = str(args) if !args.empty() else ""
+		string = _replace_globals(string)
 		_log("(W)\t" + string + " \t" + argsstr, true)
 
 		if escoria.project_settings_manager.get_setting(
@@ -130,6 +169,10 @@ func warning(string: String, args = []):
 
 # Log an error message
 #
+# Global variables can be substituted into the text by wrapping the global
+# name in braces.
+# e.g. error "There are {coin_count} coins remaining".
+#
 # #### Parameters
 #
 # * string: Text to log
@@ -137,6 +180,7 @@ func warning(string: String, args = []):
 func error(string: String, args = [], do_savegame: bool = true):
 	if _get_log_level() >= LOG_ERROR and !crashed:
 		var argsstr = str(args) if !args.empty() else ""
+		string = _replace_globals(string)
 		_log("(E)\t" + string + " \t" + argsstr, true)
 
 		if escoria.project_settings_manager.get_setting(
