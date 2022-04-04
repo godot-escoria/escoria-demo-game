@@ -54,6 +54,15 @@ func _init():
 		File.WRITE
 	)
 
+# Print a message
+#
+# #### Parameters
+#
+# * string: Text to log
+# * args: Additional information
+func print(string: String):
+	_log("(?)\t" + string)
+
 
 # Log a trace message
 #

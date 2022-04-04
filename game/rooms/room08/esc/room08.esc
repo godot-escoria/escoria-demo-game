@@ -1,4 +1,6 @@
 :setup
+# Testing the print function
+print "This is room 8."
 
 # This code will run only the first time you enter the room.
 > [!room8_visited]
