@@ -1,3 +1,12 @@
+## [4.0.0-alpha.153](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.153) (2022-04-05)
+
+
+### Features
+
+* Add global interpolation for say command ([#562](https://github.com/godot-escoria/escoria-demo-game/issues/562)) ([167e06b](https://github.com/godot-escoria/escoria-demo-game/commit/167e06bfd55d44636ab61c3aaee115473221cfc5))
+
+
+
 ## [4.0.0-alpha.152](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.152) (2022-04-05)
 
 
