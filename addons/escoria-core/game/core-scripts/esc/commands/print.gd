@@ -1,6 +1,6 @@
 # `debug string [string2 ...]`
 #
-# Prints a message to the Godot debug window. 
+# Prints a message to the Godot debug window.
 # Use this for debugging game state.
 #
 # **Parameters**

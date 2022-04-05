@@ -1,3 +1,12 @@
+## [4.0.0-alpha.154](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.154) (2022-04-05)
+
+
+### Features
+
+* Added print command to print output at any debug level ([#564](https://github.com/godot-escoria/escoria-demo-game/issues/564)) ([3e80abf](https://github.com/godot-escoria/escoria-demo-game/commit/3e80abf322241677d36da408d7e833c9927a6a5f))
+
+
+
 ## [4.0.0-alpha.153](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.153) (2022-04-05)
 
 
