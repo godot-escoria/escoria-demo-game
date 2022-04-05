@@ -1,3 +1,12 @@
+## [4.0.0-alpha.152](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.152) (2022-04-05)
+
+
+### Features
+
+* Added ability to print globals as part of debug messages ([#561](https://github.com/godot-escoria/escoria-demo-game/issues/561)) ([aa6a4c4](https://github.com/godot-escoria/escoria-demo-game/commit/aa6a4c4d50a32ec399e99b4c6ec06fc8940b06fa))
+
+
+
 ## [4.0.0-alpha.151](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.151) (2022-03-29)
 
 
