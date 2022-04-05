@@ -4,6 +4,10 @@
 # blocks further event execution until the dialog has finished being 'said'
 # (either as displayed text or as audible speech from a file).
 #
+# Global variables can be substituted into the text by wrapping the global
+# name in braces.
+# e.g. say player "I have {coin_count} coins remaining".
+#
 # **Parameters**
 #
 # - *player*: Global ID of the `ESCPlayer` or `ESCItem` object that is active
@@ -19,6 +23,16 @@
 # @ESC
 extends ESCBaseCommand
 class_name SayCommand
+
+
+var globals_regex : RegEx		# Regex to match global variables in strings
+
+
+# Constructor
+func _init() -> void:
+	globals_regex = RegEx.new()
+	# Use look-ahead/behind to capture the term (i.e. global) in braces
+	globals_regex.compile("(?<=\\{)(.*)(?=\\})")
 
 
 # Return the descriptor of the arguments of this command
@@ -78,6 +92,8 @@ func run(command_params: Array) -> int:
 		)
 		return ESCExecution.RC_ERROR
 
+	command_params[1] = _replace_globals(command_params[1])
+
 	escoria.dialog_player.say(
 		command_params[0],
 		command_params[2],
@@ -86,3 +102,16 @@ func run(command_params: Array) -> int:
 	yield(escoria.dialog_player, "say_finished")
 	escoria.current_state = escoria.GAME_STATE.DEFAULT
 	return ESCExecution.RC_OK
+
+
+# Replaces terms in braces with the value of the matching global (or Null
+# if none exists)
+func _replace_globals(string: String):
+	for result in globals_regex.search_all(string):
+		var globresult = escoria.globals_manager.get_global(
+			str(result.get_string())
+		)
+		string = string.replace(
+			"{" + result.get_string() + "}", str(globresult)
+		)
+	return string
