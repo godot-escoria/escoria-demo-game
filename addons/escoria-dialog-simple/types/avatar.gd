@@ -82,6 +82,10 @@ func say(character: String, line: String):
 	text_node.bbcode_text = tr(line)
 
 	text_node.percent_visible = 0.0
+	if escoria.project_settings_manager.has_setting(escoria.project_settings_manager.TEXT_SPEED_PER_CHARACTER):
+		_text_speed_per_character = escoria.project_settings_manager.get_setting(
+			escoria.project_settings_manager.TEXT_SPEED_PER_CHARACTER
+		) / 10
 	var time_show_full_text = _text_speed_per_character * len(line)
 
 	tween.interpolate_property(text_node, "percent_visible",

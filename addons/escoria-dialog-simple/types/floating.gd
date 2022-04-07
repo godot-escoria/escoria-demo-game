@@ -35,9 +35,13 @@ onready var is_paused: bool = true
 
 # Enable bbcode and catch the signal when a tween completed
 func _ready():
-	_text_speed_per_character = ProjectSettings.get_setting(
-		"escoria/dialog_simple/text_speed_per_character"
-	)
+#	_text_speed_per_character = ProjectSettings.get_setting(
+#		"escoria/dialog_simple/text_speed_per_character"
+#	)
+	if escoria.project_settings_manager.has_setting(escoria.project_settings_manager.TEXT_SPEED_PER_CHARACTER):
+		_text_speed_per_character = escoria.project_settings_manager.get_setting(
+			escoria.project_settings_manager.TEXT_SPEED_PER_CHARACTER
+		) / 10
 	_fast_text_speed_per_character = ProjectSettings.get_setting(
 		"escoria/dialog_simple/fast_text_speed_per_character"
 	)

@@ -7,9 +7,6 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Panel" type="Panel" parent="."]
 anchor_right = 1.0
@@ -28,9 +25,9 @@ __meta__ = {
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 margin_left = 391.0
-margin_top = 340.0
+margin_top = 330.0
 margin_right = 888.0
-margin_bottom = 535.0
+margin_bottom = 545.0
 size_flags_horizontal = 6
 custom_constants/margin_right = 20
 custom_constants/margin_top = 20
@@ -41,7 +38,7 @@ custom_constants/margin_bottom = 20
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 477.0
-margin_bottom = 175.0
+margin_bottom = 195.0
 size_flags_vertical = 6
 custom_constants/hseparation = 40
 columns = 2
@@ -142,10 +139,27 @@ max_value = 1.0
 step = 0.001
 value = 0.001
 
+[node name="label6" type="Label" parent="VBoxContainer/MarginContainer/options"]
+margin_top = 160.0
+margin_right = 137.0
+margin_bottom = 174.0
+text = "TEXT_SPEED"
+
+[node name="text_speed" type="HSlider" parent="VBoxContainer/MarginContainer/options"]
+margin_left = 177.0
+margin_top = 159.0
+margin_right = 457.0
+margin_bottom = 175.0
+size_flags_horizontal = 3
+min_value = 0.1
+max_value = 1.0
+step = 0.1
+value = 0.51
+
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 539.0
+margin_top = 549.0
 margin_right = 1280.0
-margin_bottom = 559.0
+margin_bottom = 569.0
 custom_constants/separation = 20
 alignment = 1
 
@@ -171,5 +185,6 @@ __meta__ = {
 [connection signal="value_changed" from="VBoxContainer/MarginContainer/options/sound_volume" to="." method="_on_sound_volume_changed"]
 [connection signal="value_changed" from="VBoxContainer/MarginContainer/options/music_volume" to="." method="_on_music_volume_changed"]
 [connection signal="value_changed" from="VBoxContainer/MarginContainer/options/speech_volume" to="." method="_on_speech_volume_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/MarginContainer/options/text_speed" to="." method="_on_speech_speed_value_changed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/apply" to="." method="_on_apply_pressed"]

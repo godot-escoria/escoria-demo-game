@@ -206,6 +206,10 @@ func apply_settings(p_settings: ESCSaveSettings) -> void:
 
 		game_scene.apply_custom_settings(settings.custom_settings)
 
+		escoria.project_settings_manager.set_setting(
+			escoria.project_settings_manager.TEXT_SPEED_PER_CHARACTER, settings.text_speed
+		)
+
 
 # Input function to manage specific input keys
 func _input(event):

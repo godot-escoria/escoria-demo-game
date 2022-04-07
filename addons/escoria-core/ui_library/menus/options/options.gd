@@ -56,6 +56,7 @@ func initialize_options(p_settings):
 	_options.get_node("sound_volume").value = p_settings["sfx_volume"]
 	_options.get_node("music_volume").value = p_settings["music_volume"]
 	_options.get_node("speech_volume").value = p_settings["speech_volume"]
+	_options.get_node("text_speed").value = p_settings["text_speed"]
 
 
 # The language was changed
@@ -123,3 +124,12 @@ func _on_back_pressed():
 	escoria.settings = backup_settings
 	escoria.apply_settings(escoria.settings)
 	emit_signal("back_button_pressed")
+
+
+func _on_speech_speed_value_changed(value: float) -> void:
+	escoria.settings["text_speed"] = value
+	escoria.apply_settings(escoria.settings)
+	escoria.project_settings_manager.set_setting(
+			escoria.project_settings_manager.TEXT_SPEED_PER_CHARACTER, value
+		)
+	settings_changed = true

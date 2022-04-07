@@ -46,3 +46,7 @@ export var skip_dialog: bool = true
 
 # Dictionary containing all user-defined settings.
 export var custom_settings: Dictionary
+
+# Speech text speed
+export var text_speed: float = ProjectSettings.get_setting(
+	"escoria/dialog_simple/text_speed_per_character")
