@@ -40,5 +40,7 @@ func refresh_savegames():
 			$VBoxContainer/ScrollContainer/slots.add_child(
 				new_slot
 			)
+			# Move newest save to the top of the list
+			$VBoxContainer/ScrollContainer/slots.move_child(new_slot, 0)
 			new_slot.set_slot_name_date(saves_list[save_key]["name"], saves_list[save_key]["date"])
 			new_slot.connect("pressed", self, "_on_slot_pressed", [save_key])
