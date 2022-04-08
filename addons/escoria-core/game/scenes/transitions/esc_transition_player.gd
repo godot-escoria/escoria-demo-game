@@ -80,7 +80,7 @@ func transition(
 		return TRANSITION_ID_INSTANT
 
 	var material_path = get_transition(transition_name)
-	
+
 	material = ResourceLoader.load(get_transition(transition_name))
 	transition_id += 1
 

@@ -296,7 +296,7 @@ func load_game(id: int):
 	## GLOBALS
 	for k in save_game.globals.keys():
 		var global_value = save_game.globals[k]
-	
+
 		if global_value is String and global_value.empty():
 			global_value = "''"
 

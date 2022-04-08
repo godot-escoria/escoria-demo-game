@@ -137,7 +137,7 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 		# changes.
 		room_key.room_global_id = current_room_key.room_global_id
 		room_key.room_instance_id = current_room_key.room_instance_id
-	
+
 		if not room_key.is_valid():
 			# This condition should very likely never happen.
 			escoria.logger.report_errors(
@@ -336,7 +336,7 @@ func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 				"part of a 'forced' registration, ignore this warning."
 			]
 		)
-	
+
 		return
 
 	var room_objects = _get_room_objects_objects(room_key)
@@ -473,13 +473,13 @@ func _object_exists_in_room(object: ESCObject, room_key: ESCRoomObjectsKey) -> b
 				"Cannot check for null objects."
 			]
 		)
-	
+
 		return false
 
 	for room_container in room_objects:
 		if _compare_container_to_key(room_container, room_key) \
 			and room_container.objects.has(object.global_id):
-		
+	
 			return true
 
 	return false

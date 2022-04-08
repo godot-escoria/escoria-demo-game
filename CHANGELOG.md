@@ -1,3 +1,12 @@
+## [4.0.0-alpha.157](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.157) (2022-04-08)
+
+
+### Bug Fixes
+
+* Avoid globals starting with 'i/' ([#556](https://github.com/godot-escoria/escoria-demo-game/issues/556)) ([05f139e](https://github.com/godot-escoria/escoria-demo-game/commit/05f139ef1af50a02182882e8724591d50537260f))
+
+
+
 ## [4.0.0-alpha.156](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.156) (2022-04-08)
 
 

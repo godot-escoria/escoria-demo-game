@@ -228,7 +228,7 @@ func set_game_paused(p_paused: bool):
 		emit_signal("paused")
 	else:
 		emit_signal("resumed")
-	
+
 	var scene_tree = get_tree()
 
 	if is_instance_valid(scene_tree):
@@ -372,7 +372,7 @@ func _handle_direct_scene_run() -> void:
 	if current_scene_root.filename == ProjectSettings.get_setting('application/run/main_scene'):
 		# This is a normal, full-game run, so there's nothing to do.
 		return
-	
+
 	if current_scene_root is ESCRoom:
 		escoria.object_manager.set_current_room(current_scene_root)
 

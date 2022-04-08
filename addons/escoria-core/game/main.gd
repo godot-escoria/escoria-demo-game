@@ -53,13 +53,13 @@ func set_scene(p_scene: Node) -> void:
 
 		escoria.object_manager.set_current_room(p_scene)
 		add_child(p_scene)
-	
+
 		# In cases where the room being created doesn't return because of a
 		# coroutine, finish_current_scene_init() will already have been called
 		# and so we don't want to risk repeating ourselves.
 		if p_scene == current_scene:
 			return
-	
+
 		# This actually moves the scene closest to the root node, but will
 		# still be drawn behind the next node, which should be the previous
 		# room.
