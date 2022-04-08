@@ -92,6 +92,7 @@ func set_global(key: String, value, ignore_reserved: bool = false) -> void:
 				"Global key %s is reserved and can not be overridden" % key
 			]
 		)
+
 	emit_signal(
 		"global_changed",
 		key,
