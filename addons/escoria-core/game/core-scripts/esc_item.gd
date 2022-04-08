@@ -175,8 +175,8 @@ func _ready():
 	self.pause_mode = Node.PAUSE_MODE_STOP
 
 	_detect_children()
-	
-	# We add ourselves to this group so we can easily get a reference to all 
+
+	# We add ourselves to this group so we can easily get a reference to all
 	# items in a scene tree.
 	add_to_group(GROUP_ITEM_CAN_COLLIDE)
 

@@ -49,14 +49,14 @@ func run(command_params: Array) -> int:
 			"",
 			ESCTransitionPlayer.TRANSITION_MODE.OUT
 		)
-		
+	
 		if transition_id != ESCTransitionPlayer.TRANSITION_ID_INSTANT:
 			while yield(
-				escoria.main.scene_transition, 
+				escoria.main.scene_transition,
 				"transition_done"
 			) != transition_id:
 				pass
-			
+		
 		if command_params[0] == "main":
 			escoria.game_scene.show_main_menu()
 		elif command_params[0] == "pause":
@@ -67,7 +67,7 @@ func run(command_params: Array) -> int:
 
 		if transition_id != ESCTransitionPlayer.TRANSITION_ID_INSTANT:
 			while yield(
-				escoria.main.scene_transition, 
+				escoria.main.scene_transition,
 				"transition_done"
 			) != transition_id:
 				pass

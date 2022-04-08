@@ -8,7 +8,7 @@
 # - *value*: Value to set the global to (can be of type string, boolean, integer
 #   or float)
 # - *force*: if false, setting a global whose name is reserved will
-#   trigger an error. Defaults to false. Reserved globals are: ESC_LAST_SCENE, 
+#   trigger an error. Defaults to false. Reserved globals are: ESC_LAST_SCENE,
 #   FORCE_LAST_SCENE_NULL, ANIMATION_RESOURCES, ESC_CURRENT_SCENE
 #
 # @ESC

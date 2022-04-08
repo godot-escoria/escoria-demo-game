@@ -21,7 +21,7 @@ const TRANSITION_ID_INSTANT = -1
 const TRANSITION_INSTANT = "instant"
 
 
-# Id of the transition. Allows keeping track of the actual transition 
+# Id of the transition. Allows keeping track of the actual transition
 # being played or finished
 var transition_id: int = 0
 
@@ -60,7 +60,7 @@ func transition(
 	mode: int = TRANSITION_MODE.IN,
 	duration: float = 1.0
 ) -> int:
-	
+
 	if transition_name.empty():
 		transition_name = escoria.project_settings_manager.get_setting(
 			escoria.project_settings_manager.DEFAULT_TRANSITION
@@ -71,16 +71,16 @@ func transition(
 			"transition: Transition %s not found" % transition_name,
 			[]
 		)
-	
-	# If this is an "instant" transition, we need to set the alpha of the base 
-	# ColorRect to 0, since the transition materials used have a final state 
+
+	# If this is an "instant" transition, we need to set the alpha of the base
+	# ColorRect to 0, since the transition materials used have a final state
 	# that sets this scene's root (ColorRect) alpha to 0.
 	if transition_name == TRANSITION_INSTANT:
 		color.a = 0
 		return TRANSITION_ID_INSTANT
+
+	var material_path = get_transition(transition_name)
 	
-	var material_path = get_transition(transition_name)	
-		
 	material = ResourceLoader.load(get_transition(transition_name))
 	transition_id += 1
 

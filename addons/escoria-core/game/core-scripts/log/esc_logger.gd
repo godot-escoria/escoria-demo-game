@@ -205,7 +205,7 @@ func error(string: String, args = [], do_savegame: bool = true):
 
 			_log(message, true)
 			escoria.set_game_paused(true)
-			
+		
 			if is_instance_valid(escoria.main.current_scene):
 				escoria.main.current_scene.game.show_crash_popup(files_to_send)
 

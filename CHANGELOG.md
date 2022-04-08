@@ -1,3 +1,25 @@
+## [4.0.0-alpha.156](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.156) (2022-04-08)
+
+
+### Features
+
+* adds instant transitions with an object manager rework, along with ([82acf83](https://github.com/godot-escoria/escoria-demo-game/commit/82acf8374d0d4bc16e57d721149ffa6cedd1997f)), closes [#487](https://github.com/godot-escoria/escoria-demo-game/issues/487)
+
+
+### Bug Fixes
+
+* accommodate empty parameter ([ecb7bfb](https://github.com/godot-escoria/escoria-demo-game/commit/ecb7bfb528d358b2d9a262601fa446b21ff010f6))
+* add code to handle scenes run directly from the Godot editor and allow for the current room to be set in the object manager, allowing proper setup ([c87e853](https://github.com/godot-escoria/escoria-demo-game/commit/c87e853ba63e598648cf04e7eeb81152784df601))
+* allows for proper reloading of all globals (reserved or otherwise); also now properly saves reserved objects; plus a couple small guards to correct issues while quitting after loading games in certain conditions ([7ff0176](https://github.com/godot-escoria/escoria-demo-game/commit/7ff0176d62a21f6a9450b3a63c23231efd7dc979))
+* break loading up into two batches so objects can be loaded and accessed by other code in the loading method here ([2508786](https://github.com/godot-escoria/escoria-demo-game/commit/2508786cdea3337192f1bc6a9349a8f23a0e9ed1))
+* eliminates the need to run two batches of ESC commands for loading games by introducing an extra ESC command; also corrects situations where transitions that are mixed and matched don't work together; and additional cleanup ([503d613](https://github.com/godot-escoria/escoria-demo-game/commit/503d6134dd5ba3050287ace1e4d8469e39b5c6d5))
+* handles the case where no coroutines are run as part of room creation; also fixes a small bug in ESCCamera ([85b86f3](https://github.com/godot-escoria/escoria-demo-game/commit/85b86f38bebecf949da484ec85b81c1e42ba45a0))
+* makes the loading process more consistent by using all ESC commands; also fixes issue caused by loaded save games not executing :setup or :ready, thereby preventing proper room switching in this case ([84c84d3](https://github.com/godot-escoria/escoria-demo-game/commit/84c84d3a0fdf1e8472bdbce873a13e1dceb68520))
+* should now also prevent areas from spawning events; also removes a superfluous variable ([6d98e7b](https://github.com/godot-escoria/escoria-demo-game/commit/6d98e7bdce4e9184c5d6af5eb3301e209283c5d5))
+* we now need to transition in from :ready in the case of manual transitions ([0556ccb](https://github.com/godot-escoria/escoria-demo-game/commit/0556ccbf322130bc3388da212fa7ef4d93009179))
+
+
+
 ## [4.0.0-alpha.155](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.155) (2022-04-07)
 
 

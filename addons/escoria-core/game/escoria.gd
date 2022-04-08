@@ -138,7 +138,7 @@ func _init():
 # Load settings
 func _ready():
 	_handle_direct_scene_run()
-	
+
 	settings = save_manager.load_settings()
 	apply_settings(settings)
 	room_manager.register_reserved_globals()
@@ -228,9 +228,9 @@ func set_game_paused(p_paused: bool):
 		emit_signal("paused")
 	else:
 		emit_signal("resumed")
-		
-	var scene_tree = get_tree()
 	
+	var scene_tree = get_tree()
+
 	if is_instance_valid(scene_tree):
 		scene_tree.paused = p_paused
 
@@ -368,11 +368,11 @@ func quit():
 # Handle anything necessary if the game started a scene directly.
 func _handle_direct_scene_run() -> void:
 	var current_scene_root: Node = get_tree().get_current_scene()
-	
+
 	if current_scene_root.filename == ProjectSettings.get_setting('application/run/main_scene'):
 		# This is a normal, full-game run, so there's nothing to do.
 		return
-		
+	
 	if current_scene_root is ESCRoom:
 		escoria.object_manager.set_current_room(current_scene_root)
 

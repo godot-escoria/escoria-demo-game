@@ -41,7 +41,7 @@ func set_scene(p_scene: Node) -> void:
 		escoria.logger.report_errors("main", ["Trying to set empty scene"])
 
 	previous_scene = current_scene
-	
+
 	if is_instance_valid(previous_scene):
 		_disable_collisions()
 
@@ -52,14 +52,14 @@ func set_scene(p_scene: Node) -> void:
 			p_scene.visible = false
 
 		escoria.object_manager.set_current_room(p_scene)
-		add_child(p_scene) 
-		
+		add_child(p_scene)
+	
 		# In cases where the room being created doesn't return because of a
 		# coroutine, finish_current_scene_init() will already have been called
 		# and so we don't want to risk repeating ourselves.
 		if p_scene == current_scene:
 			return
-		
+	
 		# This actually moves the scene closest to the root node, but will
 		# still be drawn behind the next node, which should be the previous
 		# room.
@@ -72,7 +72,7 @@ func set_scene(p_scene: Node) -> void:
 	set_camera_limits()
 
 
-# Only called by the room manager in the case where it hasn't executed a 
+# Only called by the room manager in the case where it hasn't executed a
 # coroutine prior to calling set_scene_finish().
 #
 # ### Parameters
@@ -82,7 +82,7 @@ func finish_current_scene_init(p_scene: Node) -> void:
 	move_child(p_scene, 0)
 
 	current_scene = p_scene
-	
+
 	check_game_scene_methods()
 
 	set_camera_limits()
@@ -92,7 +92,7 @@ func finish_current_scene_init(p_scene: Node) -> void:
 # appropriate time.
 func set_scene_finish() -> void:
 	current_scene.visible = true
-	
+
 	if previous_scene != null:
 		clear_scene()
 
@@ -238,7 +238,7 @@ func check_game_scene_methods():
 func _is_same_scene(scene_1: Node, scene_2: Node) -> bool:
 	if scene_1 is ESCRoom and scene_2 is ESCRoom:
 		return scene_1.global_id == scene_2.global_id
-	
+
 	return false
 
 
@@ -246,11 +246,11 @@ func _is_same_scene(scene_1: Node, scene_2: Node) -> bool:
 # game tree, collisions won't result.
 func _disable_collisions() -> void:
 	var items_to_disable = previous_scene.get_tree().get_nodes_in_group(ESCItem.GROUP_ITEM_CAN_COLLIDE)
-	
+
 	for item in items_to_disable:
 		if is_instance_valid(item.collision):
 			item.collision.disabled = true
 		if item is Area2D:
 			item.monitoring = false
 			item.monitorable = false
-	
+
