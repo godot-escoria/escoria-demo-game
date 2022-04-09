@@ -72,6 +72,10 @@ func validate(command: String, arguments: Array) -> bool:
 			]
 		)
 
+	# We also validate the arguments as they'll appear being passed in to the
+	# command in question, including any default values.
+	arguments = self.prepare_arguments(arguments)
+
 	for index in range(arguments.size()):
 		if arguments[index] == null:
 			# No type checking for null values
