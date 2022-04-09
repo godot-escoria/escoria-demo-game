@@ -34,7 +34,9 @@ func _on_command_text_entered(p_command_str : String):
 	var script = escoria.esc_compiler.compile([
 		"%s%s" % [ESCEvent.PREFIX, _debug.get_command_name()],
 		p_command_str
-	])
+	],
+	get_class()
+	)
 
 	if script:
 		escoria.event_manager.queue_event(script.events[escoria.event_manager.EVENT_DEBUG])

@@ -72,10 +72,13 @@ func _process(delta: float) -> void:
 			escoria.logger.debug(
 				"esc_event_manager",
 				[
-					"Popping event %s from background queue %s" % [
+					"Popping event '%s' from background queue %s" % [
 						_running_events[channel_name].name,
-						channel_name
-					]
+						channel_name,
+					],
+					"from source %s" % _running_events[channel_name].source \
+						if not _running_events[channel_name].source.empty()
+						else "(unknown)",
 				]
 			)
 			if not _running_events[channel_name].is_connected(

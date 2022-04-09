@@ -9,14 +9,18 @@ signal finished(event, return_code)
 # Emitted when the event was interrupted
 signal interrupted(return_code)
 
+
 # The list of ESC commands
 var statements: Array = []
 
-# Indicates whether this event was interrupted.
-var _is_interrupted: bool = false
-
 # Indicates whether this event was finished.
 var is_finished: bool = false
+
+# The source of this statement, e.g. an ESC script or a class.
+var source: String = ""
+
+# Indicates whether this event was interrupted.
+var _is_interrupted: bool = false
 
 
 # Check whether the statement should be run based on its conditions

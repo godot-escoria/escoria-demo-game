@@ -57,7 +57,8 @@ func _register_event():
 		)
 
 		var exit_scene_event = escoria.esc_compiler.compile(
-			exit_scene_event_script
+			exit_scene_event_script,
+			get_class()
 		).events[escoria.event_manager.EVENT_EXIT_SCENE]
 		escoria.object_manager.get_object(self.global_id)\
 				.events[escoria.event_manager.EVENT_EXIT_SCENE] = exit_scene_event
