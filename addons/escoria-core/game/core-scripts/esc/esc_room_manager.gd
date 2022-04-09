@@ -84,7 +84,7 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 			escoria.logger.debug(
 				"Awaiting transition %s (out) to be finished." % transition_id
 			)
-	
+
 			yield(escoria.main.scene_transition, "transition_done")
 
 		# Hide main and pause menus
@@ -295,7 +295,7 @@ func _perform_script_events(room: ESCRoom) -> void:
 			rc = yield(escoria.event_manager, "event_finished")
 		if rc[0] != ESCExecution.RC_OK:
 			return rc[0]
-	
+
 		yielded = true
 
 		# Hide main and pause menus
@@ -368,7 +368,7 @@ func _perform_script_events(room: ESCRoom) -> void:
 			rc = yield(escoria.event_manager, "event_finished")
 		if rc[0] != ESCExecution.RC_OK:
 			return rc[0]
-	
+
 	# Now that :ready is finished, if FORCE_LAST_SCENE_NULL was true, reset it
 	# to false
 	if escoria.globals_manager.get_global( \

@@ -209,7 +209,7 @@ func element_focused(element_id: String) -> void:
 	if escoria.action_manager.current_action != VERB_USE \
 			and escoria.action_manager.current_tool == null \
 			and target_obj is ESCItem:
-	
+
 			$mouse_layer/verbs_menu.set_by_name(
 				target_obj.default_action
 			)

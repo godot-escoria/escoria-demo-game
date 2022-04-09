@@ -479,7 +479,7 @@ func _object_exists_in_room(object: ESCObject, room_key: ESCRoomObjectsKey) -> b
 	for room_container in room_objects:
 		if _compare_container_to_key(room_container, room_key) \
 			and room_container.objects.has(object.global_id):
-	
+
 			return true
 
 	return false

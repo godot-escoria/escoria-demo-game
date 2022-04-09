@@ -56,7 +56,7 @@ func run(command_params: Array) -> int:
 				"transition_done"
 			) != transition_id:
 				pass
-	
+
 		if command_params[0] == "main":
 			escoria.game_scene.show_main_menu()
 		elif command_params[0] == "pause":

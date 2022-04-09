@@ -1,3 +1,12 @@
+## [4.0.0-alpha.158](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.158) (2022-04-09)
+
+
+### Features
+
+* reports source of ESC errors when possible ([#568](https://github.com/godot-escoria/escoria-demo-game/issues/568)) ([baee79f](https://github.com/godot-escoria/escoria-demo-game/commit/baee79f5a05249d2dcd16111d4243582887b27ee))
+
+
+
 ## [4.0.0-alpha.157](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.157) (2022-04-08)
 
 
