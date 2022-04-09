@@ -12,7 +12,11 @@ const GODOT_TYPE_LIST = ["nil", "bool", "int", "real",  "string", \
 	"raw_array", "int_array", "real_array", "string_array", \
 	"vector2_array", "vector3_array", "color_array", "max"]
 
-# Number of arguments the command expects
+
+# Maximum number of total arugments the command can handle
+var max_args: int = 0
+
+# Number of required arguments the command expects
 var min_args: int = 0
 
 # The types the arguments as TYPE_ constants. If the command is called with
@@ -34,6 +38,7 @@ func _init(
 	p_defaults: Array = [],
 	p_strip_quotes: Array = [true]
 ):
+	max_args = p_types.size()
 	min_args = p_min_args
 	types = p_types
 	defaults = p_defaults
@@ -62,22 +67,52 @@ func prepare_arguments(arguments: Array) -> Array:
 	return complete_arguments
 
 
+# Splits out any missing (default) arguments (in order) for a given set of
+# prepared arguments
+func get_missing_args_from_prepared(user_arguments:Array, \
+	prepared_arguments: Array) -> Array:
+
+	for index in range(user_arguments.size()):
+		# Arrays are passed in by value, so this is safe
+		prepared_arguments.pop_front()
+
+	return prepared_arguments
+
+
 # Validate whether the given arguments match the command descriptor
-func validate(command: String, arguments: Array) -> bool:
-	if arguments.size() < self.min_args:
+func validate(command: String, user_arguments: Array, default_arguments: Array) -> bool:
+	if user_arguments.size() < self.min_args:
 		escoria.logger.report_errors(
-			"Invalid command arguments for command %s" % command,
+			"ESCCommandArgumentDescriptor:validate()",
 			[
-				"Arguments didn't match minimum size {num}: {args}".format({"num":self.min_args,"args":arguments})
+				"Invalid command arguments for command %s" % command,
+				"Arguments didn't match minimum size {num}: {args}".format({"num":self.min_args,"args":user_arguments})
 			]
 		)
 
-	# We also validate the arguments as they'll appear being passed in to the
-	# command in question, including any default values.
-	arguments = self.prepare_arguments(arguments)
+	if user_arguments.size() > self.max_args:
+		escoria.logger.report_errors(
+			"ESCCommandArgumentDescriptor:validate()",
+			[
+				"Invalid command arguments for command %s" % command,
+				"Maximum number of arguments ({num}) exceeded: {args}".format({"num":self.max_args,"args":user_arguments})
+			]
+		)
 
-	for index in range(arguments.size()):
-		if arguments[index] == null:
+	var all_arguments: Array = user_arguments
+	all_arguments.append_array(default_arguments)
+
+	if all_arguments.size() > self.max_args:
+		escoria.logger.report_errors(
+			"ESCCommandArgumentDescriptor:validate()",
+			[
+				"Invalid command arguments for command %s" % command,
+				"Maximum number of arguments ({num}) exceeded: {args}".format({"num":self.max_args,"args":all_arguments})
+			]
+		)
+
+	for index in range(all_arguments.size()):
+		if all_arguments[index] == null:
 			# No type checking for null values
 			continue
 		var correct = false
@@ -88,7 +123,7 @@ func validate(command: String, arguments: Array) -> bool:
 			self.types[types_index] = [self.types[index]]
 		for type in self.types[types_index]:
 			if not correct:
-				correct = self._is_type(arguments[index], type)
+				correct = self._is_type(all_arguments[index], type)
 
 		if not correct:
 			var allowed_types = "[ "
@@ -101,8 +136,8 @@ func validate(command: String, arguments: Array) -> bool:
 				[
 					"Argument %d (\"%s\") is of type %s. Expected %s" % [
 						index,
-						arguments[index],
-						GODOT_TYPE_LIST[typeof(arguments[index])],
+						all_arguments[index],
+						GODOT_TYPE_LIST[typeof(all_arguments[index])],
 						allowed_types
 					]
 				]

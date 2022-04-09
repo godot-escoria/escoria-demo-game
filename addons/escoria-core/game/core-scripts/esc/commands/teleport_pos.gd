@@ -16,7 +16,7 @@ class_name TeleportPosCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2,
+		3,
 		[TYPE_STRING, TYPE_INT, TYPE_INT],
 		[null, null, null]
 	)

@@ -7,7 +7,7 @@
 # **Parameters**
 #
 # - *name*: Name of the global to set
-# - *max_value*: Maximum possible integer value (inclusive)
+# - *max_value*: Maximum possible integer value (inclusive) (default: 1)
 #
 # @ESC
 extends ESCBaseCommand
@@ -17,7 +17,7 @@ class_name RandGlobalCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2,
+		1,
 		[TYPE_STRING, TYPE_INT],
 		[null, 1]
 	)

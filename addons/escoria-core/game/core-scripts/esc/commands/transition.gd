@@ -7,7 +7,7 @@
 # - *transition_name*: Name of the transition shader from one of the transition
 #   directories
 # - *mode*: Set to `in` to transition into or `out` to transition out of the room
-# - *delay*: Delay in seconds before starting the transition (default: `1`)
+# - *delay*: Delay in seconds before starting the transition (default: `1.0`)
 #
 # @ESC
 extends ESCBaseCommand
