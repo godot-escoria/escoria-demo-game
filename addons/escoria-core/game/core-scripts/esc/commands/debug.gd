@@ -15,8 +15,8 @@ class_name DebugCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
-		[TYPE_STRING],
-		[""]
+		[TYPE_ARRAY],
+		[[""]]
 	)
 
 

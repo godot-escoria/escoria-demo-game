@@ -5,7 +5,7 @@
 # **Parameters**
 #
 # - *name*: Name of the global to be changed
-# - *value*: Value to be added
+# - *value*: Value to be added (default: 1)
 #
 # @ESC
 extends ESCBaseCommand
@@ -15,9 +15,9 @@ class_name IncGlobalCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2,
+		1,
 		[TYPE_STRING, TYPE_INT],
-		[null, 0]
+		[null, 1]
 	)
 
 

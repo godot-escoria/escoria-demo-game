@@ -17,7 +17,7 @@ class_name PlaySndCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2,
+		1,
 		[TYPE_STRING, TYPE_STRING],
 		[null, "_sound"]
 	)

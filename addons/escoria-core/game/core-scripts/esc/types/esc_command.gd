@@ -117,10 +117,13 @@ func run() -> int:
 		return ESCExecution.RC_ERROR
 	else:
 		var argument_descriptor = command_object.configure()
-		if command_object.validate(self.parameters):
-			var prepared_arguments = argument_descriptor.prepare_arguments(
-				self.parameters
-			)
+		var prepared_arguments = argument_descriptor.prepare_arguments(
+			self.parameters
+		)
+		var missing_arguments = argument_descriptor.get_missing_args_from_prepared(
+			prepared_arguments
+		)
+		if command_object.validate(self.parameters, missing_arguments):
 			escoria.logger.debug("Running command %s with parameters %s" % [
 				self.name,
 				prepared_arguments
