@@ -63,7 +63,9 @@ func _on_button_pressed():
 	var script = escoria.esc_compiler.compile([
 		":room_selector",
 		"change_scene %s" % _options_paths[_selected_id]
-	])
+	],
+	get_class()
+	)
 	escoria.event_manager.interrupt_running_event()
 	escoria.event_manager.clear_event_queue()
 	escoria.event_manager.queue_event(script.events['room_selector'])

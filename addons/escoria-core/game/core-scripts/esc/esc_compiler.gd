@@ -93,11 +93,12 @@ func load_esc_file(path: String) -> ESCScript:
 		var lines = []
 		while not file.eof_reached():
 			lines.append(file.get_line())
-		return self.compile(lines)
+		return self.compile(lines, path)
 	else:
 		escoria.logger.report_errors(
-			"Can not find ESC file",
+			path,
 			[
+				"Can not find ESC file",
 				"File %s could not be found" % path
 			]
 		)
@@ -105,18 +106,20 @@ func load_esc_file(path: String) -> ESCScript:
 
 
 # Compiles an array of ESC script strings to an ESCScript
-func compile(lines: Array) -> ESCScript:
+func compile(lines: Array, path: String = "") -> ESCScript:
 	var script = ESCScript.new()
+
 	if lines.size() > 0:
-		var events = self._compile(lines)
+		var events = self._compile(lines, path)
 		for event in events:
+			event.source = path
 			script.events[event.name] = event
 
 	return script
 
 
 # Compile an array of ESC script lines into an array of ESC objects
-func _compile(lines: Array) -> Array:
+func _compile(lines: Array, path: String = "") -> Array:
 	var returned = []
 
 	while lines.size() > 0:
@@ -148,7 +151,7 @@ func _compile(lines: Array) -> Array:
 					"Compiling the next %d lines into the event" % \
 							event_lines.size()
 				)
-				event.statements = self._compile(event_lines)
+				event.statements = self._compile(event_lines, path)
 			returned.append(event)
 		elif _group_regex.search(line):
 			var group = ESCGroup.new(line)
@@ -174,7 +177,7 @@ func _compile(lines: Array) -> Array:
 					"Compiling the next %d lines into the group" % \
 							group_lines.size()
 				)
-				group.statements = self._compile(group_lines)
+				group.statements = self._compile(group_lines, path)
 			returned.append(group)
 		elif _dialog_regex.search(line):
 			var dialog = ESCDialog.new()
@@ -200,7 +203,7 @@ func _compile(lines: Array) -> Array:
 					"Compiling the next %d lines into the dialog" % \
 							dialog_lines.size()
 				)
-				dialog.options = self._compile(dialog_lines)
+				dialog.options = self._compile(dialog_lines, path)
 			# Remove the end line from the stack
 			lines.pop_front()
 			returned.append(dialog)
@@ -232,7 +235,7 @@ func _compile(lines: Array) -> Array:
 					"Compiling the next %d lines into the event" % \
 							dialog_option_lines.size()
 				)
-				dialog_option.statements = self._compile(dialog_option_lines)
+				dialog_option.statements = self._compile(dialog_option_lines, path)
 			returned.append(dialog_option)
 		elif _command_regex.search(line):
 			var command = ESCCommand.new(line)
@@ -240,15 +243,17 @@ func _compile(lines: Array) -> Array:
 				returned.append(command)
 			else:
 				escoria.logger.report_errors(
-					"Invalid command detected: %s" % command.name,
+					path,
 					[
+						"Invalid command detected: %s" % command.name,
 						"Command implementation not found in any command directory"
 					]
 				)
 		else:
 			escoria.logger.report_errors(
-				"Invalid ESC line detected",
+				path,
 				[
+					"Invalid ESC line detected",
 					"Line couldn't be compiled: %s" % line
 				]
 			)

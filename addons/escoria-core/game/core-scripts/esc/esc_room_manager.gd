@@ -279,7 +279,9 @@ func _perform_script_events(room: ESCRoom) -> void:
 					)
 				],
 			"%s 0.1" % _wait.get_command_name()
-		])
+		],
+		get_class()
+		)
 		escoria.event_manager.queue_event(
 			script_transition_out.events[escoria.event_manager.EVENT_TRANSITION_OUT]
 		)
@@ -348,7 +350,9 @@ func _perform_script_events(room: ESCRoom) -> void:
 					)
 				],
 			"%s 0.1" % _wait.get_command_name()
-		])
+		],
+		get_class()
+		)
 		escoria.event_manager.queue_event(
 			script_transition_in.events[escoria.event_manager.EVENT_TRANSITION_IN]
 		)
