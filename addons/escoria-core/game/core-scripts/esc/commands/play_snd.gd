@@ -25,6 +25,9 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
+	if not .validate(arguments):
+		return false
+
 	if not escoria.object_manager.has(arguments[1]):
 		escoria.logger.report_errors(
 			"play_snd: invalid sound player",
@@ -37,7 +40,7 @@ func validate(arguments: Array):
 			["File %s not found" % arguments[0]]
 		)
 		return false
-	return .validate(arguments)
+	return true
 
 
 # Run the command

@@ -24,6 +24,9 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
+	if not .validate(arguments):
+		return false
+
 	if arguments[0].begins_with("i/"):
 		escoria.logger.report_errors(
 			"inventory_add: invalid item name",
@@ -32,7 +35,7 @@ func validate(arguments: Array):
 			]
 		)
 		return false
-	return .validate(arguments)
+	return true
 
 
 # Run the command

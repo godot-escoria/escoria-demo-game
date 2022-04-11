@@ -23,12 +23,12 @@ func _init() -> void:
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	escoria.logger.error("Command %s did not override configure." % get_class())
-	return ESCCommandArgumentDescriptor.new(0)
+	return ESCCommandArgumentDescriptor.new()
 
 
 # Validate whether the given arguments match the command descriptor
-func validate(user_arguments: Array, default_arguments: Array) -> bool:
-	return self.configure().validate(get_class(), user_arguments, default_arguments)
+func validate(arguments: Array) -> bool:
+	return self.configure().validate(get_command_name(), arguments)
 
 
 # Run the command

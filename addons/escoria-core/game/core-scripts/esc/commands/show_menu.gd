@@ -27,6 +27,9 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
+	if not .validate(arguments):
+		return false
+
 	if not arguments[0] in ["main", "pause"]:
 		escoria.logger.report_errors(
 			"show_menu: invalid menu ",
@@ -35,7 +38,7 @@ func validate(arguments: Array):
 			]
 		)
 		return false
-	return .validate(arguments)
+	return true
 
 
 # Run the command

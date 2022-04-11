@@ -26,6 +26,9 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
+	if not .validate(arguments):
+		return false
+
 	if arguments[0].empty() \
 		or arguments[0] in escoria.object_manager.RESERVED_OBJECTS:
 		escoria.logger.report_errors(
@@ -51,7 +54,7 @@ func validate(arguments: Array):
 			]
 		)
 		return false
-	return .validate(arguments)
+	return true
 
 
 # Run the command

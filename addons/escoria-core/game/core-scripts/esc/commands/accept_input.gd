@@ -33,6 +33,9 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
+	if not .validate(arguments):
+		return false
+
 	if not arguments[0] in ["ALL", "NONE", "SKIP"]:
 		escoria.logger.report_errors(
 			"accept_input: invalid parameter",
@@ -42,7 +45,7 @@ func validate(arguments: Array):
 			]
 		)
 		return false
-	return .validate(arguments)
+	return true
 
 
 # Run the command

@@ -50,6 +50,14 @@ func prepare_arguments(arguments: Array) -> Array:
 	var complete_arguments = defaults
 
 	for index in range(arguments.size()):
+		# If we have too many arguments passed in, complete_arguments won't
+		# be able to match 1:1. This condition will be validated later but so
+		# to avoid duplicating validation code, just grow complete_arguments
+		# since the arguments won't be used anyway.
+		if index >= complete_arguments.size():
+			complete_arguments.append(arguments[index])
+			continue
+		
 		complete_arguments[index] = escoria.utils.get_typed_value(
 			arguments[index],
 			types[index]
@@ -67,52 +75,33 @@ func prepare_arguments(arguments: Array) -> Array:
 	return complete_arguments
 
 
-# Splits out any missing (default) arguments (in order) for a given set of
-# prepared arguments
-func get_missing_args_from_prepared(user_arguments:Array, \
-	prepared_arguments: Array) -> Array:
-
-	for index in range(user_arguments.size()):
-		# Arrays are passed in by value, so this is safe
-		prepared_arguments.pop_front()
-
-	return prepared_arguments
-
-
 # Validate whether the given arguments match the command descriptor
-func validate(command: String, user_arguments: Array, default_arguments: Array) -> bool:
-	if user_arguments.size() < self.min_args:
+func validate(command: String, arguments: Array) -> bool:
+	var required_args_count: int = _count_leading_non_null_values(arguments, min_args)
+
+	if required_args_count < min_args:
+		var verb = "was" if required_args_count == 1 else "were"
+
 		escoria.logger.report_errors(
 			"ESCCommandArgumentDescriptor:validate()",
 			[
-				"Invalid command arguments for command %s" % command,
-				"Arguments didn't match minimum size {num}: {args}".format({"num":self.min_args,"args":user_arguments})
+				"Invalid arguments for command %s" % command,
+				"Arguments didn't match minimum size {num}: Only {args} {verb} found" \
+					.format({"num":self.min_args,"args":required_args_count,"verb":verb})
 			]
 		)
 
-	if user_arguments.size() > self.max_args:
+	if arguments.size() > self.max_args:
 		escoria.logger.report_errors(
 			"ESCCommandArgumentDescriptor:validate()",
 			[
-				"Invalid command arguments for command %s" % command,
-				"Maximum number of arguments ({num}) exceeded: {args}".format({"num":self.max_args,"args":user_arguments})
+				"Invalid arguments for command %s" % command,
+				"Maximum number of arguments ({num}) exceeded: {args}".format({"num":self.max_args,"args":arguments})
 			]
 		)
 
-	var all_arguments: Array = user_arguments
-	all_arguments.append_array(default_arguments)
-
-	if all_arguments.size() > self.max_args:
-		escoria.logger.report_errors(
-			"ESCCommandArgumentDescriptor:validate()",
-			[
-				"Invalid command arguments for command %s" % command,
-				"Maximum number of arguments ({num}) exceeded: {args}".format({"num":self.max_args,"args":all_arguments})
-			]
-		)
-
-	for index in range(all_arguments.size()):
-		if all_arguments[index] == null:
+	for index in range(arguments.size()):
+		if arguments[index] == null:
 			# No type checking for null values
 			continue
 		var correct = false
@@ -123,7 +112,7 @@ func validate(command: String, user_arguments: Array, default_arguments: Array) 
 			self.types[types_index] = [self.types[index]]
 		for type in self.types[types_index]:
 			if not correct:
-				correct = self._is_type(all_arguments[index], type)
+				correct = self._is_type(arguments[index], type)
 
 		if not correct:
 			var allowed_types = "[ "
@@ -136,8 +125,8 @@ func validate(command: String, user_arguments: Array, default_arguments: Array) 
 				[
 					"Argument %d (\"%s\") is of type %s. Expected %s" % [
 						index,
-						all_arguments[index],
-						GODOT_TYPE_LIST[typeof(all_arguments[index])],
+						arguments[index],
+						GODOT_TYPE_LIST[typeof(arguments[index])],
 						allowed_types
 					]
 				]
@@ -151,7 +140,29 @@ func validate(command: String, user_arguments: Array, default_arguments: Array) 
 #
 # - argument: Argument to test
 # - type: Type to check
-# *Returns* Wether the argument is of the given type
+# *Returns* Whether the argument is of the given type
 func _is_type(argument, type: int) -> bool:
 	return typeof(argument) == type
 
+
+# Counts the number of non-null values that exist at the beginning of the array up
+# to a specified index.
+#
+# #### Parameters
+#
+# - array_to_check: Array to check for leading non-null values
+# - max_index: Maximum (inclusive) index to check in array_to_check 
+#
+# *Returns* the total number of entries at the start of
+# array_to_check that are not null
+func _count_leading_non_null_values(array_to_check: Array, max_index: int) -> int:
+	if array_to_check == null or max_index < 0:
+		return 0
+	
+	var leading_non_nulls_count: int = 0
+
+	for i in range(max_index):
+		if array_to_check[i] != null:
+			leading_non_nulls_count += 1
+
+	return leading_non_nulls_count

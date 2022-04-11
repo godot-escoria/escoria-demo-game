@@ -27,6 +27,9 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array) -> bool:
+	if not .validate(arguments):
+		return false
+
 	if not ResourceLoader.exists(arguments[0]):
 		escoria.logger.report_errors(
 			"change_scene: Invalid scene",
@@ -46,7 +49,8 @@ func validate(arguments: Array) -> bool:
 			]
 		)
 		return false
-	return .validate(arguments)
+
+	return true
 
 
 # Run the command

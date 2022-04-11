@@ -26,6 +26,9 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
+	if not .validate(arguments):
+		return false
+
 	if arguments[0] < 0:
 		escoria.logger.report_errors(
 			"camera_set_zoom_height: invalid height",
@@ -35,7 +38,7 @@ func validate(arguments: Array):
 		)
 		return false
 
-	return .validate(arguments)
+	return true
 
 
 # Run the command

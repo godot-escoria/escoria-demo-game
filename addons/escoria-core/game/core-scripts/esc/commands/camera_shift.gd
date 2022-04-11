@@ -55,6 +55,9 @@ func run(command_params: Array) -> int:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
+	if not .validate(arguments):
+		return false
+
 	if not arguments[3] in SUPPORTED_TRANSITIONS:
 		escoria.logger.report_errors(
 			"camera_shift: invalid transition type",
@@ -65,4 +68,4 @@ func validate(arguments: Array):
 		)
 		return false
 
-	return .validate(arguments)
+	return true
