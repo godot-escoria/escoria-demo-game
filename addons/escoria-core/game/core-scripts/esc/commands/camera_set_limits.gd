@@ -29,6 +29,9 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
+	if not .validate(arguments):
+		return false
+
 	if escoria.main.current_scene.camera_limits.size() < arguments[0]:
 		escoria.logger.report_errors(
 			"camera_set_limits: invalid limits id",
@@ -41,7 +44,7 @@ func validate(arguments: Array):
 		)
 		return false
 
-	return .validate(arguments)
+	return true
 
 
 # Run the command

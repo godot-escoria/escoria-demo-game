@@ -28,6 +28,9 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
+	if not .validate(arguments):
+		return false
+
 	if not escoria.object_manager.has(arguments[1]):
 		escoria.logger.report_errors(
 			"sched_event: invalid object",
@@ -48,7 +51,7 @@ func validate(arguments: Array):
 			]
 		)
 		return false
-	return .validate(arguments)
+	return true
 
 
 # Run the command
