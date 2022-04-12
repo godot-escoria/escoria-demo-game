@@ -48,8 +48,11 @@ var events_queue: Dictionary = {
 # Currently running event in background channels
 var _running_events: Dictionary = {}
 
-# Wether an event can be played on a specific channel
+# Whether an event can be played on a specific channel
 var _channels_state: Dictionary = {}
+
+# Whether we're currently waiting for an async event to complete.
+var _yielding: bool = false
 
 
 # Make sure to stop when pausing the game
@@ -63,7 +66,7 @@ func _ready():
 # - delta: Time passed since the last process call
 func _process(delta: float) -> void:
 	for channel_name in events_queue.keys():
-		if events_queue[channel_name].size() == 0:
+		if events_queue[channel_name].size() == 0 or _yielding:
 			continue
 		if is_channel_free(channel_name):
 			_channels_state[channel_name] = false
@@ -124,7 +127,13 @@ func _process(delta: float) -> void:
 			if event_flags & ESCEvent.FLAG_NO_SAVE:
 				escoria.save_manager.save_enabled = false
 
-			_running_events[channel_name].run()
+			var rc = _running_events[channel_name].run()
+			
+			if rc is GDScriptFunctionState:
+				_yielding = true
+				rc = yield(rc, "completed")
+				_yielding = false
+
 	for event in self.scheduled_events:
 		(event as ESCScheduledEvent).timeout -= delta
 		if (event as ESCScheduledEvent).timeout <= 0:
