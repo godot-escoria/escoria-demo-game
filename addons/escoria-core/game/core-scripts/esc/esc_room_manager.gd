@@ -55,42 +55,6 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 	# events in there so we avoid running these multiple times)
 	escoria.event_manager.clear_event_queue()
 
-	# If auto transition is enabled, try to determine whether we just exited a
-	# room previously, so that we must play the auto transition out or not.
-	# This must happen if ESC_LAST_SCENE is set, or if we're running an
-	# exit_scene event. Also room selector actions require the transition.
-	if enable_automatic_transitions and (
-		not escoria.globals_manager.get_global(GLOBAL_LAST_SCENE).empty()
-		or (
-			escoria.event_manager.get_running_event(escoria.event_manager.CHANNEL_FRONT) != null \
-			and escoria.event_manager.get_running_event(escoria.event_manager.CHANNEL_FRONT).name \
-				in [
-					escoria.event_manager.EVENT_NEW_GAME,
-					escoria.event_manager.EVENT_EXIT_SCENE,
-					escoria.event_manager.EVENT_ROOM_SELECTOR
-				]
-				and escoria.globals_manager.get_global(
-					GLOBAL_LAST_SCENE
-				).empty()
-			)
-		):
-
-		var transition_id = escoria.main.scene_transition.transition(
-			"",
-			ESCTransitionPlayer.TRANSITION_MODE.OUT
-		)
-
-		if transition_id != escoria.main.scene_transition.TRANSITION_ID_INSTANT:
-			escoria.logger.debug(
-				"Awaiting transition %s (out) to be finished." % transition_id
-			)
-
-			yield(escoria.main.scene_transition, "transition_done")
-
-		# Hide main and pause menus
-		escoria.game_scene.hide_main_menu()
-		escoria.game_scene.unpause_game()
-
 	# If FORCE_LAST_SCENE_NULL is true, force ESC_LAST_SCENE to empty
 	if escoria.globals_manager.get_global( \
 		GLOBAL_FORCE_LAST_SCENE_NULL):
