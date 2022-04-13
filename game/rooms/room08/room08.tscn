@@ -412,5 +412,3 @@ position = Vector2( 139.185, 0 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/r8_reset_puzzle_button"]
 position = Vector2( 510.685, 190 )
 shape = SubResource( 6 )
-
-[node name="Node" type="Node" parent="Hotspots"]

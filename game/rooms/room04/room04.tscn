@@ -116,7 +116,7 @@ script = ExtResource( 9 )
 global_id = "r4_player_start"
 is_start_location = true
 
-[node name="Hotspots" type="Node" parent="."]
+[node name="Hotspots" type="Node2D" parent="."]
 
 [node name="l_door" type="Area2D" parent="Hotspots"]
 pause_mode = 1
