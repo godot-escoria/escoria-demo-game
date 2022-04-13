@@ -51,8 +51,8 @@ var _running_events: Dictionary = {}
 # Whether an event can be played on a specific channel
 var _channels_state: Dictionary = {}
 
-# Whether we're currently waiting for an async event to complete.
-var _yielding: bool = false
+# Whether we're currently waiting for an async event to complete, per channel
+var _yielding: Dictionary = {}
 
 
 # Make sure to stop when pausing the game
@@ -65,8 +65,12 @@ func _ready():
 # #### Parameters
 # - delta: Time passed since the last process call
 func _process(delta: float) -> void:
+	var channel_yielding: bool
+
 	for channel_name in events_queue.keys():
-		if events_queue[channel_name].size() == 0 or _yielding:
+		channel_yielding = _yielding.get(channel_name, false)
+
+		if events_queue[channel_name].size() == 0 or channel_yielding:
 			continue
 		if is_channel_free(channel_name):
 			_channels_state[channel_name] = false
@@ -130,9 +134,9 @@ func _process(delta: float) -> void:
 			var rc = _running_events[channel_name].run()
 			
 			if rc is GDScriptFunctionState:
-				_yielding = true
+				_yielding[channel_name] = true
 				rc = yield(rc, "completed")
-				_yielding = false
+				_yielding[channel_name] = false
 
 	for event in self.scheduled_events:
 		(event as ESCScheduledEvent).timeout -= delta
