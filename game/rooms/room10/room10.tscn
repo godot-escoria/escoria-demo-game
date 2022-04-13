@@ -35,7 +35,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Hotspots" type="Node" parent="."]
+[node name="Hotspots" type="Node2D" parent="."]
 
 [node name="r_door" type="Area2D" parent="Hotspots"]
 script = ExtResource( 2 )
@@ -292,7 +292,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Room_overview" type="Node" parent="."]
+[node name="Room_overview" type="Node2D" parent="."]
 
 [node name="Polygon2D" type="Polygon2D" parent="Room_overview"]
 position = Vector2( 3, -138 )

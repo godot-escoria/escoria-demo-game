@@ -463,7 +463,7 @@ z_index = -2
 color = Color( 0, 0, 0, 1 )
 polygon = PoolVector2Array( 1172, 54, 1280, 96, 1278, 422, 1173, 355 )
 
-[node name="Hotspots" type="Node" parent="."]
+[node name="Hotspots" type="Node2D" parent="."]
 
 [node name="stand" type="Area2D" parent="Hotspots"]
 pause_mode = 1

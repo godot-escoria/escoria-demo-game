@@ -55,7 +55,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Hotspots" type="Node" parent="."]
+[node name="Hotspots" type="Node2D" parent="."]
 
 [node name="l_exit" parent="Hotspots" instance=ExtResource( 3 )]
 pause_mode = 1

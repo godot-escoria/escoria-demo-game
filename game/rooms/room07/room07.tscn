@@ -807,7 +807,7 @@ position = Vector2( 0, 1403.26 )
 navpoly = SubResource( 2 )
 enabled = false
 
-[node name="Hotspots" type="Node" parent="."]
+[node name="Hotspots" type="Node2D" parent="."]
 
 [node name="l_exit" type="Area2D" parent="Hotspots"]
 pause_mode = 1

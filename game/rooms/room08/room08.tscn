@@ -262,7 +262,7 @@ Unlocking the puzzle disables (and
 hides) the locked button, showing the
 unlocked graphic underneath."
 
-[node name="Hotspots" type="Node" parent="."]
+[node name="Hotspots" type="Node2D" parent="."]
 
 [node name="l_door" type="Area2D" parent="Hotspots"]
 pause_mode = 1
@@ -411,5 +411,3 @@ position = Vector2( 139.185, 0 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/r8_reset_puzzle_button"]
 position = Vector2( 510.685, 190 )
 shape = SubResource( 6 )
-
-[node name="Node" type="Node" parent="Hotspots"]

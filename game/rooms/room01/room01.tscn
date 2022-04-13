@@ -83,7 +83,7 @@ script = ExtResource( 1 )
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="walkable_area"]
 navpoly = SubResource( 1 )
 
-[node name="Hotspots" type="Node" parent="."]
+[node name="Hotspots" type="Node2D" parent="."]
 
 [node name="r_door" type="Area2D" parent="Hotspots"]
 pause_mode = 1
