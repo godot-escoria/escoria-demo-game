@@ -182,41 +182,6 @@ func init_room(room: ESCRoom) -> void:
 		if escoria.main.current_scene == null:
 			escoria.main.set_scene(room)
 
-	if room.player_scene:
-		room.player = room.player_scene.instance()
-		room.add_child(room.player)
-		escoria.object_manager.register_object(
-			ESCObject.new(
-				room.player.global_id,
-				room.player
-			),
-			room,
-			true
-		)
-
-		if escoria.globals_manager.has(
-			escoria.room_manager.GLOBAL_ANIMATION_RESOURCES
-		):
-			var animations = escoria.globals_manager.get_global(
-				escoria.room_manager.GLOBAL_ANIMATION_RESOURCES
-			)
-
-			if room.player.global_id in animations and \
-					ResourceLoader.exists(animations[room.player.global_id]):
-				room.player.animations = ResourceLoader.load(
-					animations[room.player.global_id]
-				)
-				room.player.update_idle()
-		escoria.object_manager.get_object(escoria.object_manager.CAMERA).node.set_target(room.player)
-
-	if room.global_id.empty():
-		room.global_id = room.name
-
-	# Manage player location at room start
-	if room.player != null \
-			and escoria.object_manager.get_start_location() != null:
-		room.player.teleport(escoria.object_manager.get_start_location().node)
-
 	_perform_script_events(room)
 
 
@@ -265,6 +230,49 @@ func _perform_script_events(room: ESCRoom) -> void:
 		# Hide main and pause menus
 		escoria.game_scene.hide_main_menu()
 		escoria.game_scene.unpause_game()
+
+	# With the room transitioned out, finish any room prep and run :setup if
+	# it exists.
+	
+	# We must first et the camera limits, and then worry about subsequent
+	# player setup since it relies on this.
+	escoria.main.set_camera_limits(0, room)
+
+	if room.player_scene:
+		room.player = room.player_scene.instance()
+		room.add_child(room.player)
+		escoria.object_manager.register_object(
+			ESCObject.new(
+				room.player.global_id,
+				room.player
+			),
+			room,
+			true
+		)
+
+		if escoria.globals_manager.has(
+			escoria.room_manager.GLOBAL_ANIMATION_RESOURCES
+		):
+			var animations = escoria.globals_manager.get_global(
+				escoria.room_manager.GLOBAL_ANIMATION_RESOURCES
+			)
+
+			if room.player.global_id in animations and \
+					ResourceLoader.exists(animations[room.player.global_id]):
+				room.player.animations = ResourceLoader.load(
+					animations[room.player.global_id]
+				)
+				room.player.update_idle()
+
+		escoria.object_manager.get_object(escoria.object_manager.CAMERA).node.set_target(room.player)
+
+	if room.global_id.empty():
+		room.global_id = room.name
+
+	# Manage player location at room start
+	if room.player != null \
+			and escoria.object_manager.get_start_location() != null:
+		room.player.teleport(escoria.object_manager.get_start_location().node)
 
 	var setup_event_added: bool = false
 	# Run the setup event, if there is one.
