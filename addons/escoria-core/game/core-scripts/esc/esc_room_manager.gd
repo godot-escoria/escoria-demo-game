@@ -89,10 +89,6 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 			]
 		)
 
-	if escoria.main.current_scene \
-			and escoria.game_scene.get_parent() == escoria.main.current_scene:
-		escoria.main.current_scene.remove_child(escoria.game_scene)
-
 	# Load room scene
 	var res_room = escoria.resource_cache.get_resource(room_path)
 
@@ -106,16 +102,6 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 		else:
 			room_scene.enabled_automatic_transitions = enable_automatic_transitions
 
-		# If the game scene is already in the tree but not a child of the room
-		# we remove it
-		if escoria.game_scene.is_inside_tree() \
-				and escoria.game_scene.get_parent() != room_scene:
-			var game_parent = escoria.game_scene.get_parent()
-			game_parent.remove_child(escoria.game_scene)
-
-		room_scene.add_child(escoria.game_scene)
-		room_scene.move_child(escoria.game_scene, 0)
-		room_scene.game = escoria.game_scene
 		escoria.main.set_scene(room_scene)
 
 		# We know the scene has been loaded. Make its global ID available for
@@ -233,6 +219,20 @@ func _perform_script_events(room: ESCRoom) -> void:
 
 	# With the room transitioned out, finish any room prep and run :setup if
 	# it exists.
+	if escoria.main.current_scene \
+			and escoria.game_scene.get_parent() == escoria.main.current_scene:
+		escoria.main.current_scene.remove_child(escoria.game_scene)
+
+	# If the game scene is already in the tree but not a child of the room
+	# we remove it
+	if escoria.game_scene.is_inside_tree() \
+			and escoria.game_scene.get_parent() != room:
+		var game_parent = escoria.game_scene.get_parent()
+		game_parent.remove_child(escoria.game_scene)
+
+	room.add_child(escoria.game_scene)
+	room.move_child(escoria.game_scene, 0)
+	room.game = escoria.game_scene
 	
 	# We must first et the camera limits, and then worry about subsequent
 	# player setup since it relies on this.
