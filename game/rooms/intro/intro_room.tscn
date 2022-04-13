@@ -8,45 +8,45 @@
 [ext_resource path="res://game/rooms/intro/escoria_background.png" type="Texture" id=6]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
 
-[sub_resource type="AtlasTexture" id=9]
+[sub_resource type="AtlasTexture" id=1]
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 340, 400 )
 
-[sub_resource type="AtlasTexture" id=10]
+[sub_resource type="AtlasTexture" id=2]
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 340, 0, 340, 400 )
 
-[sub_resource type="AtlasTexture" id=11]
+[sub_resource type="AtlasTexture" id=3]
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 680, 0, 340, 400 )
 
-[sub_resource type="AtlasTexture" id=12]
+[sub_resource type="AtlasTexture" id=4]
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 1020, 0, 340, 400 )
 
-[sub_resource type="AtlasTexture" id=13]
+[sub_resource type="AtlasTexture" id=5]
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 1360, 0, 340, 400 )
 
-[sub_resource type="AtlasTexture" id=14]
+[sub_resource type="AtlasTexture" id=6]
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 1700, 0, 340, 400 )
 
-[sub_resource type="SpriteFrames" id=8]
+[sub_resource type="SpriteFrames" id=7]
 animations = [ {
-"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ],
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ) ],
 "loop": true,
 "name": "default",
 "speed": 10.0
 } ]
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="Animation" id=8]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("asteroid:visible")
@@ -121,8 +121,7 @@ tracks/5/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "intro"
+[sub_resource type="Animation" id=9]
 length = 6.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("animated_asteroid:position")
@@ -279,8 +278,8 @@ texture = ExtResource( 2 )
 [node name="animated_asteroid" type="AnimatedSprite" parent="."]
 visible = false
 position = Vector2( 630, 471 )
-frames = SubResource( 8 )
-frame = 5
+frames = SubResource( 7 )
+frame = 1
 playing = true
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
@@ -303,5 +302,5 @@ animations = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="ESCItem"]
 root_node = NodePath("../..")
-anims/RESET = SubResource( 1 )
-anims/intro = SubResource( 2 )
+anims/RESET = SubResource( 8 )
+anims/intro = SubResource( 9 )
