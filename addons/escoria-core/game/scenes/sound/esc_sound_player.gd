@@ -55,6 +55,7 @@ func _ready():
 	pause_mode = Node.PAUSE_MODE_STOP
 	escoria.object_manager.register_object(
 		ESCObject.new(global_id, self),
+		null,
 		true
 	)
 
