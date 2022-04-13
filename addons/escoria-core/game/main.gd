@@ -69,7 +69,7 @@ func set_scene(p_scene: Node) -> void:
 
 	check_game_scene_methods()
 
-	set_camera_limits()
+	#set_camera_limits(current_scene)
 
 
 # Only called by the room manager in the case where it hasn't executed a
@@ -85,7 +85,7 @@ func finish_current_scene_init(p_scene: Node) -> void:
 
 	check_game_scene_methods()
 
-	set_camera_limits()
+#	set_camera_limits(current_scene)
 
 
 # Completes the room swap and should be called by the room manager at the
@@ -127,9 +127,12 @@ func _on_wait_finished() -> void:
 # #### Parameters
 #
 # * camera_limits_id: The id of the room's camera limits to set
-func set_camera_limits(camera_limit_id: int = 0) -> void:
+# * scene: The scene to set the camera limits for. We make this optional since
+# most times it'll be current_scene that needs setting; however, e.g. when
+# starting up Escoria, we might not have already set the current_scene.
+func set_camera_limits(camera_limit_id: int = 0, scene: Node = current_scene) -> void:
 	var limits = {}
-	var last_available_camera_limit = current_scene.camera_limits.size() - 1
+	var last_available_camera_limit = scene.camera_limits.size() - 1
 	if camera_limit_id > last_available_camera_limit:
 		escoria.logger.report_errors(
 			"main.gd:set_camera_limits()",
@@ -140,10 +143,10 @@ func set_camera_limits(camera_limit_id: int = 0) -> void:
 				]
 			]
 		)
-	var scene_camera_limits = current_scene.camera_limits[camera_limit_id]
+	var scene_camera_limits = scene.camera_limits[camera_limit_id]
 	if scene_camera_limits.size.x == 0 and scene_camera_limits.size.y == 0:
 		var area = Rect2()
-		for child in current_scene.get_children():
+		for child in scene.get_children():
 			if child is ESCBackground:
 				area = child.get_full_area_rect2()
 				break
