@@ -18,10 +18,10 @@ vertices = PoolVector2Array( 1187, 641, 1182.53, 588.863, 1269.59, 622.872, 1267
 polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7, 8 ), PoolIntArray( 9, 10, 0, 3, 8, 7 ) ]
 outlines = [ PoolVector2Array( 12, 706, 15, 646, 93, 610, 96, 642, 129.634, 615.792, 1155, 615, 1187, 641, 1182.53, 588.863, 1269.59, 622.872, 1267, 801, 15, 802 ) ]
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 36, 33.5 )
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=3]
 resource_name = "start_water"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Particles2D:emitting")
@@ -36,7 +36,7 @@ tracks/0/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=4]
 resource_name = "stop_water"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Particles2D:emitting")
@@ -51,7 +51,7 @@ tracks/0/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="ParticlesMaterial" id=6]
+[sub_resource type="ParticlesMaterial" id=5]
 flag_disable_z = true
 gravity = Vector3( 0, 98, 0 )
 initial_velocity = -30.0
@@ -196,17 +196,17 @@ animations = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/pipe"]
 position = Vector2( 618, 243.5 )
-shape = SubResource( 5 )
+shape = SubResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/pipe"]
-anims/start_water = SubResource( 7 )
-anims/stop_water = SubResource( 8 )
+anims/start_water = SubResource( 3 )
+anims/stop_water = SubResource( 4 )
 
 [node name="Particles2D" type="Particles2D" parent="Hotspots/pipe"]
 position = Vector2( 593, 244 )
 emitting = false
 lifetime = 1.5
-process_material = SubResource( 6 )
+process_material = SubResource( 5 )
 texture = ExtResource( 9 )
 
 [node name="ESCLocation" type="Position2D" parent="Hotspots/pipe"]

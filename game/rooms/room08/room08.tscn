@@ -17,7 +17,7 @@ vertices = PoolVector2Array( 4.26837, 653.779, 86.2684, 608.779, 87.2684, 635.77
 polygons = [ PoolIntArray( 0, 1, 2 ), PoolIntArray( 3, 4, 0, 2 ), PoolIntArray( 3, 2, 5, 6, 7 ), PoolIntArray( 6, 8, 9, 10 ), PoolIntArray( 7, 6, 10 ), PoolIntArray( 7, 10, 11 ) ]
 outlines = [ PoolVector2Array( 4.26837, 653.779, 86.2684, 608.779, 87.2684, 635.779, 112.268, 621.779, 642.268, 624.779, 642.268, 586.779, 790.268, 585.779, 791.268, 624.779, 1154.27, 622.779, 1259.27, 687.779, 1260.27, 808.779, 3.26837, 810.779 ) ]
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=2]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("door1:position")
@@ -92,8 +92,7 @@ tracks/5/keys = {
 "values": [ ExtResource( 10 ) ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "door_close"
+[sub_resource type="Animation" id=3]
 length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("door1:position")
@@ -144,8 +143,7 @@ tracks/3/keys = {
 "values": [ Vector2( 899, 203 ), Vector2( 723, 203 ) ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "door_open"
+[sub_resource type="Animation" id=4]
 length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("door1:position")
@@ -196,7 +194,7 @@ tracks/3/keys = {
 "values": [ Vector2( 723, 203 ), Vector2( 899, 203 ) ]
 }
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 31, 30.5 )
 
 [sub_resource type="RectangleShape2D" id=6]
@@ -262,7 +260,7 @@ Unlocking the puzzle disables (and
 hides) the locked button, showing the
 unlocked graphic underneath."
 
-[node name="Hotspots" type="Node" parent="."]
+[node name="Hotspots" type="Node2D" parent="."]
 
 [node name="l_door" type="Area2D" parent="Hotspots"]
 pause_mode = 1
@@ -307,9 +305,9 @@ position = Vector2( 724, 354 )
 script = ExtResource( 7 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/m_door"]
-anims/RESET = SubResource( 5 )
-anims/door_close = SubResource( 2 )
-anims/door_open = SubResource( 3 )
+anims/RESET = SubResource( 2 )
+anims/door_close = SubResource( 3 )
+anims/door_open = SubResource( 4 )
 
 [node name="door1" type="Sprite" parent="Hotspots/m_door"]
 position = Vector2( 723, 203 )
@@ -368,7 +366,7 @@ texture = ExtResource( 9 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/r8_mini_puzzle_button"]
 position = Vector2( 526, 191.5 )
-shape = SubResource( 4 )
+shape = SubResource( 5 )
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r8_mini_puzzle_button"]
 position = Vector2( 532, 370 )
