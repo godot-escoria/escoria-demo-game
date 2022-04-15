@@ -12,7 +12,6 @@ const RESERVED_OBJECTS = [
 	MUSIC,
 	SOUND,
 	SPEECH,
-	#CAMERA
 ]
 
 
@@ -149,7 +148,6 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 				]
 			)
 	else:
-		room_key = ESCRoomObjectsKey.new()
 		room_key.room_global_id = room.global_id
 		room_key.room_instance_id = room.get_instance_id()
 
