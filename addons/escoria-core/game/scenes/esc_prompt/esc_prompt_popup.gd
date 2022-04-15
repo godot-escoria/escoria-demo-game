@@ -9,11 +9,11 @@ onready var past_actions = $VBoxContainer/past_actions
 onready var command = $VBoxContainer/command
 
 # ESC commands kept around for references to their command names.
-var _debug: DebugCommand
+var _print: PrintCommand
 
 
 func _ready() -> void:
-	_debug = DebugCommand.new()
+	_print = PrintCommand.new()
 
 
 # Run a command
@@ -32,16 +32,16 @@ func _on_command_text_entered(p_command_str : String):
 
 	var errors = []
 	var script = escoria.esc_compiler.compile([
-		"%s%s" % [ESCEvent.PREFIX, _debug.get_command_name()],
+		"%s%s" % [ESCEvent.PREFIX, _print.get_command_name()],
 		p_command_str
 	],
 	get_class()
 	)
 
 	if script:
-		escoria.event_manager.queue_event(script.events[escoria.event_manager.EVENT_DEBUG])
+		escoria.event_manager.queue_event(script.events[escoria.event_manager.EVENT_PRINT])
 		var ret = yield(escoria.event_manager, "event_finished")
-		while ret[1] != _debug.get_command_name():
+		while ret[1] != _print.get_command_name():
 			ret = yield(escoria.event_manager, "event_finished")
 		past_actions.text += "Returned code: %d" % ret[0]
 
