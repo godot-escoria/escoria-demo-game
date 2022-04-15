@@ -43,7 +43,7 @@ func get_typed_value(value: String, type_hint = []):
 	var regex_bool = RegEx.new()
 	regex_bool.compile("^true|false$")
 	var regex_float = RegEx.new()
-	regex_float.compile("^-?[0-9]+\\.[0-9]+$")
+	regex_float.compile("^-?[0-9]*\\.[0-9]+$")
 	var regex_int = RegEx.new()
 	regex_int.compile("^-?[0-9]+$")
 
