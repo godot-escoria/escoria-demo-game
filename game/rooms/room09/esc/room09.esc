@@ -8,6 +8,8 @@ set_active r9_bottle_middle false
 set_active r9_bottle_right false
 set_state r9_stand remove_bottle
 
+set_active r9_bottle false
+
 # Run all the animations to make sure the closet doors are closed
 set_state r9_closet_left close_door
 set_state r9_closet_middle close_door

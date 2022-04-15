@@ -259,6 +259,9 @@ the door opening etc.
 Unlocking the puzzle disables (and
 hides) the locked button, showing the
 unlocked graphic underneath."
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Hotspots" type="Node2D" parent="."]
 

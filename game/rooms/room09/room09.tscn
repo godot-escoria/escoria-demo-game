@@ -687,3 +687,11 @@ position = Vector2( 76.7617, 437.649 )
 script = ExtResource( 12 )
 global_id = "r9_player_start"
 is_start_location = true
+
+[node name="bottle_inventory" parent="." instance=ExtResource( 11 )]
+position = Vector2( 490.648, 92.016 )
+dont_apply_terrain_scaling = true
+
+[node name="Position2D" type="Position2D" parent="bottle_inventory"]
+position = Vector2( -11, 284 )
+script = ExtResource( 12 )
