@@ -1,11 +1,10 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://addons/escoria-ui-9verbs/tooltip/action_target_tooltip.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/escoria-ui-9verbs/inventory/inventory_ui.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/escoria-ui-9verbs/verbs_menu.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/escoria-core/game/scenes/dialogs/esc_dialog_player.gd" type="Script" id=4]
 [ext_resource path="res://addons/escoria-ui-9verbs/game.gd" type="Script" id=5]
-[ext_resource path="res://addons/escoria-core/game/scenes/camera_player/camera.tscn" type="PackedScene" id=6]
 [ext_resource path="res://addons/escoria-core/ui_library/menus/main_menu/main_menu.tscn" type="PackedScene" id=7]
 [ext_resource path="res://addons/escoria-core/ui_library/menus/pause_menu/pause_menu.tscn" type="PackedScene" id=9]
 [ext_resource path="res://addons/escoria-ui-9verbs/theme.tres" type="Theme" id=10]
@@ -159,7 +158,5 @@ visible = false
 [node name="pause_menu" parent="ui" instance=ExtResource( 9 )]
 visible = false
 theme = ExtResource( 10 )
-
-[node name="camera" parent="." instance=ExtResource( 6 )]
 
 [connection signal="pressed" from="ui/Control/panel_down/VBoxContainer/HBoxContainer/MainMargin/VBoxContainer/MarginContainer/MenuButton" to="." method="_on_MenuButton_pressed"]

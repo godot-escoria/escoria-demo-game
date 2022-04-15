@@ -67,10 +67,6 @@ func set_scene(p_scene: Node) -> void:
 
 	current_scene = p_scene
 
-	check_game_scene_methods()
-
-	#set_camera_limits(current_scene)
-
 
 # Only called by the room manager in the case where it hasn't executed a
 # coroutine prior to calling set_scene_finish().
@@ -83,24 +79,23 @@ func finish_current_scene_init(p_scene: Node) -> void:
 
 	current_scene = p_scene
 
-	check_game_scene_methods()
-
-#	set_camera_limits(current_scene)
-
 
 # Completes the room swap and should be called by the room manager at the
 # appropriate time.
 func set_scene_finish() -> void:
-	current_scene.visible = true
+	# Final check for the critical game scene's existence.
+	check_game_scene_methods()
 
-	if previous_scene != null:
-		clear_scene()
+	# Make our new scene visible.
+	current_scene.visible = true
+	
+	clear_previous_scene()
 
 	emit_signal("room_ready")
 
 
-# Cleanup the previous scene
-func clear_scene() -> void:
+# Cleanup the previous scene if there was one.
+func clear_previous_scene() -> void:
 	if previous_scene == null:
 		return
 

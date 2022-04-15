@@ -30,6 +30,8 @@ const BUS_SFX = "SFX"
 const BUS_MUSIC = "Music"
 const BUS_SPEECH = "Speech"
 
+const CAMERA_SCENE_PATH = "res://addons/escoria-core/game/scenes/camera_player/camera.tscn"
+
 
 # Logger used
 var logger: ESCLogger
@@ -96,6 +98,9 @@ var save_manager: ESCSaveManager
 
 # The game scene loaded
 var game_scene: ESCGame
+
+# The main player camera
+var player_camera: ESCCamera
 
 # The compiled start script loaded from ProjectSettings
 # escoria/main/game_start_script

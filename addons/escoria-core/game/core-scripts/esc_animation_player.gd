@@ -134,7 +134,7 @@ func has_animation(name: String) -> bool:
 func seek_end(name: String):
 	if _is_animation_player:
 		_animation_player.current_animation = name
-		_animation_player.seek(_animation_player.get_animation(name).length)
+		_animation_player.seek(_animation_player.get_animation(name).length, true)
 	else:
 		_animated_sprite.animation = name
 		_animated_sprite.frame = _animated_sprite.frames.get_frame_count(name)
