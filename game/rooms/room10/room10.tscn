@@ -35,7 +35,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Hotspots" type="Node" parent="."]
+[node name="Hotspots" type="Node2D" parent="."]
 
 [node name="r_door" type="Area2D" parent="Hotspots"]
 script = ExtResource( 2 )
@@ -72,6 +72,7 @@ script = ExtResource( 5 )
 
 [node name="button_stop_bg_music" type="Area2D" parent="Hotspots"]
 pause_mode = 1
+z_index = 1
 script = ExtResource( 7 )
 global_id = "r10_btn_stop_bg_music"
 esc_script = "res://game/rooms/room10/esc/button_stop_bg_music.esc"
@@ -96,6 +97,9 @@ text = "Stop
 background
 music"
 align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_stop_bg_music"]
 position = Vector2( 137.7, 41.1 )
@@ -103,6 +107,7 @@ polygon = PoolVector2Array( 358, 212, 460, 220, 455, 319, 351, 315 )
 
 [node name="button_play_bg_music" type="Area2D" parent="Hotspots"]
 pause_mode = 1
+z_index = 1
 script = ExtResource( 7 )
 global_id = "r10_btn_play_bg_music"
 esc_script = "res://game/rooms/room10/esc/button_play_bg_music.esc"
@@ -135,6 +140,7 @@ polygon = PoolVector2Array( 356, 243, 419, 210, 463, 293, 402, 327 )
 
 [node name="button_accept_input" type="Area2D" parent="Hotspots"]
 pause_mode = 1
+z_index = 1
 script = ExtResource( 7 )
 global_id = "test_accept_input"
 esc_script = "res://game/rooms/room10/esc/button_accept_input_test.esc"
@@ -166,6 +172,7 @@ polygon = PoolVector2Array( 787, 336, 871, 348, 856, 481, 773, 471 )
 
 [node name="button_slide" type="Area2D" parent="Hotspots"]
 pause_mode = 1
+z_index = 1
 script = ExtResource( 7 )
 global_id = "button_slide"
 esc_script = "res://game/rooms/room10/esc/button_slide.esc"
@@ -190,6 +197,9 @@ custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Test 
 Slide"
 align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_slide"]
 position = Vector2( 87, -140 )
@@ -197,6 +207,7 @@ polygon = PoolVector2Array( 774, 378, 842, 378, 843, 472, 774, 471 )
 
 [node name="button_turn_to" type="Area2D" parent="Hotspots"]
 pause_mode = 1
+z_index = 1
 script = ExtResource( 7 )
 global_id = "button_turn_to"
 esc_script = "res://game/rooms/room10/esc/button_turn_to.esc"
@@ -227,6 +238,7 @@ polygon = PoolVector2Array( 976, 347, 1046, 347, 1047, 440, 976, 441 )
 
 [node name="button_play_sound" type="Area2D" parent="Hotspots"]
 pause_mode = 1
+z_index = 1
 script = ExtResource( 7 )
 global_id = "r10_btn_play_snd"
 esc_script = "res://game/rooms/room10/esc/button_play_snd.esc"
@@ -282,6 +294,9 @@ margin_bottom = 40.0
 mouse_filter = 2
 texture = ExtResource( 10 )
 script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="room_label" type="Label" parent="ESCBackground"]
 margin_right = 92.0
@@ -292,7 +307,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Room_overview" type="Node" parent="."]
+[node name="Room_overview" type="Node2D" parent="."]
 
 [node name="Polygon2D" type="Polygon2D" parent="Room_overview"]
 position = Vector2( 3, -138 )
@@ -319,3 +334,6 @@ boundaries. Turn_to rotates the player
 Accept_input stops the player from 
 interracting with the game while an 
 ESCscript is in progress."
+__meta__ = {
+"_edit_use_anchors_": false
+}
