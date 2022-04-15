@@ -89,6 +89,10 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 			]
 		)
 
+	if escoria.main.current_scene \
+			and escoria.game_scene.get_parent() == escoria.main.current_scene:
+		escoria.main.current_scene.remove_child(escoria.game_scene)
+
 	# Load room scene
 	var res_room = escoria.resource_cache.get_resource(room_path)
 
@@ -102,6 +106,16 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 		else:
 			room_scene.enabled_automatic_transitions = enable_automatic_transitions
 
+		# If the game scene is already in the tree but not a child of the room
+		# we remove it
+		if escoria.game_scene.is_inside_tree() \
+				and escoria.game_scene.get_parent() != room_scene:
+			var game_parent = escoria.game_scene.get_parent()
+			game_parent.remove_child(escoria.game_scene)
+
+		room_scene.add_child(escoria.game_scene)
+		room_scene.move_child(escoria.game_scene, 0)
+		room_scene.game = escoria.game_scene
 		escoria.main.set_scene(room_scene)
 
 		# We know the scene has been loaded. Make its global ID available for
@@ -160,11 +174,7 @@ func init_room(room: ESCRoom) -> void:
 		room.add_child(room.game)
 		room.move_child(room.game, 0)
 
-	# Determine whether this room was run from change_scene or directly
-	if escoria.main.has_node(room.name):
-		room.is_run_directly = false
-	else:
-		room.is_run_directly = true
+	if room.is_run_directly:
 		if escoria.main.current_scene == null:
 			escoria.main.set_scene(room)
 
@@ -219,25 +229,6 @@ func _perform_script_events(room: ESCRoom) -> void:
 
 	# With the room transitioned out, finish any room prep and run :setup if
 	# it exists.
-	if escoria.main.current_scene \
-			and escoria.game_scene.get_parent() == escoria.main.current_scene:
-		escoria.main.current_scene.remove_child(escoria.game_scene)
-
-	# If the game scene is already in the tree but not a child of the room
-	# we remove it
-	if escoria.game_scene.is_inside_tree() \
-			and escoria.game_scene.get_parent() != room:
-		var game_parent = escoria.game_scene.get_parent()
-		game_parent.remove_child(escoria.game_scene)
-
-	room.add_child(escoria.game_scene)
-	room.move_child(escoria.game_scene, 0)
-	room.game = escoria.game_scene
-	
-	# We must first et the camera limits, and then worry about subsequent
-	# player setup since it relies on this.
-	escoria.main.set_camera_limits(0, room)
-
 	if room.player_scene:
 		room.player = room.player_scene.instance()
 		room.add_child(room.player)
@@ -264,7 +255,7 @@ func _perform_script_events(room: ESCRoom) -> void:
 				)
 				room.player.update_idle()
 
-		escoria.object_manager.get_object(escoria.object_manager.CAMERA).node.set_target(room.player)
+		#escoria.object_manager.get_object(escoria.object_manager.CAMERA).node.set_target(room.player)
 
 	if room.global_id.empty():
 		room.global_id = room.name
@@ -274,7 +265,27 @@ func _perform_script_events(room: ESCRoom) -> void:
 			and escoria.object_manager.get_start_location() != null:
 		room.player.teleport(escoria.object_manager.get_start_location().node)
 
+	# We make sure 'room' is set as the new current_scene, but without making
+	# it visible/the current scene tree.
+	if not yielded:
+		escoria.main.finish_current_scene_init(room)
+
+	# Add new camera to scene being prepared.
+	var new_player_camera: ESCCamera = escoria.resource_cache.get_resource(escoria.CAMERA_SCENE_PATH).instance()
+	new_player_camera.register()
+	room.player_camera = new_player_camera
+
+	# We must first set the camera limits, and then worry about subsequent
+	# player setup since it relies on this.
+	escoria.main.set_camera_limits(0, room)
+
+	# Add the camera in to the scene tree but don't make it active just yet.
+	new_player_camera.current = false
+	room.add_child(new_player_camera)
+	room.move_child(new_player_camera, 0)
+
 	var setup_event_added: bool = false
+
 	# Run the setup event, if there is one.
 	setup_event_added = _run_script_event(escoria.event_manager.EVENT_SETUP, room)
 
@@ -288,10 +299,16 @@ func _perform_script_events(room: ESCRoom) -> void:
 
 		yielded = true
 
-	if not yielded:
-		escoria.main.finish_current_scene_init(room)
+	if room.player:
+		escoria.object_manager.get_object(escoria.object_manager.CAMERA).node.set_target(room.player)
 
+	# Conclude the call to set_scene (thankyouverymuch, coroutines), including
+	# making the new room visible.
 	escoria.main.set_scene_finish()
+
+	# Maybe this is ok to put in set_scene_finish() above? But it might be a bit
+	# confusing to not see the matching camera.current updates.
+	new_player_camera.make_current()
 
 	# We know the scene has been loaded. Make its global ID available for
 	# use by ESC script.

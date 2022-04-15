@@ -21,20 +21,30 @@ func _ready():
 	_tween = Tween.new()
 	add_child(_tween)
 	_tween.connect("tween_all_completed", self, "_target_reached")
-	escoria.object_manager.register_object(
-		ESCObject.new(
-			escoria.object_manager.CAMERA,
-			self
-		),
-		null,
-		true
-	)
 
 
 # Update the position if the followed target is moving
 func _process(_delta):
 	if is_instance_valid(_follow_target) and not _tween.is_active() and _follow_target.has_moved():
 		self.global_position = _follow_target.global_position
+
+
+# Register this camera with the object manager. We do it out here so we can
+# work with the camera before it's made active as part of the current scene
+# tree.
+#
+# #### Parameters
+#
+# - room: The room with which to register the camera.
+func register(room = null):
+	escoria.object_manager.register_object(
+		ESCObject.new(
+			escoria.object_manager.CAMERA,
+			self
+		),
+		room,
+		true
+	)
 
 
 # Sets camera limits so it doesn't go out of the scene

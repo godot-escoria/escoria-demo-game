@@ -34,6 +34,9 @@ export(EditorRoomDebugDisplay) var editor_debug_mode \
 # The player scene instance
 var player
 
+# The player camera
+var player_camera: ESCCamera
+
 # The game scene instance
 var game
 
@@ -56,6 +59,10 @@ func _enter_tree():
 # Sanitize camera limits, add player node and set the global id to the
 # name of this node if it's not set manually
 func _ready():
+	# Might as well just check here.
+	if get_parent() == get_tree().root and ProjectSettings.get_setting("application/run/main_scene") != self.filename:
+		is_run_directly = true
+
 	escoria.room_manager.init_room(self)
 
 

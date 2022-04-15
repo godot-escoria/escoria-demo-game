@@ -12,7 +12,7 @@ const RESERVED_OBJECTS = [
 	MUSIC,
 	SOUND,
 	SPEECH,
-	CAMERA
+	#CAMERA
 ]
 
 
@@ -283,6 +283,7 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 
 		room_key = current_room_key
 	else:
+		room_key = ESCRoomObjectsKey.new()
 		room_key.room_global_id = room.global_id
 		room_key.room_instance_id = room.get_instance_id()
 
