@@ -21,7 +21,7 @@ signal background_event_finished(return_code, event_name, channel_name)
 
 
 # Pre-defined ESC events
-const EVENT_DEBUG = "debug"
+const EVENT_PRINT = "print"
 const EVENT_EXIT_SCENE = "exit_scene"
 const EVENT_INIT = "init"
 const EVENT_LOAD = "load"

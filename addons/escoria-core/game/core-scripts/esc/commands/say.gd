@@ -95,7 +95,8 @@ func run(command_params: Array) -> int:
 		)
 		return ESCExecution.RC_ERROR
 
-	command_params[1] = _replace_globals(command_params[1])
+	# Replace the names of any globals in "{ }" with their value
+	command_params[1] = escoria.logger.replace_globals(command_params[1])
 
 	escoria.dialog_player.say(
 		command_params[0],
@@ -105,16 +106,3 @@ func run(command_params: Array) -> int:
 	yield(escoria.dialog_player, "say_finished")
 	escoria.current_state = escoria.GAME_STATE.DEFAULT
 	return ESCExecution.RC_OK
-
-
-# Replaces terms in braces with the value of the matching global (or Null
-# if none exists)
-func _replace_globals(string: String):
-	for result in globals_regex.search_all(string):
-		var globresult = escoria.globals_manager.get_global(
-			str(result.get_string())
-		)
-		string = string.replace(
-			"{" + result.get_string() + "}", str(globresult)
-		)
-	return string

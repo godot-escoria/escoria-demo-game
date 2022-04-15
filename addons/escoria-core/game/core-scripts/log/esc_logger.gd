@@ -65,7 +65,7 @@ func _init():
 # #### Parameters
 #
 # * string: Text to log
-func _replace_globals(string: String) -> String:
+func replace_globals(string: String) -> String:
 	for result in globals_regex.search_all(string):
 		var globresult = escoria.globals_manager.get_global(
 			str(result.get_string())
@@ -88,7 +88,7 @@ func _replace_globals(string: String) -> String:
 func trace(string: String, args = []):
 	if _get_log_level() >= LOG_TRACE and !crashed:
 		var argsstr = str(args) if !args.empty() else ""
-		string = _replace_globals(string)
+		string = replace_globals(string)
 		_log("(T)\t" + string + " \t" + argsstr)
 
 
@@ -104,7 +104,7 @@ func trace(string: String, args = []):
 # * args: Additional information
 func debug(string: String, args = []):
 	if _get_log_level() >= LOG_DEBUG and !crashed:
-		string = _replace_globals(string)
+		string = replace_globals(string)
 		var argsstr = str(args) if !args.empty() else ""
 		_log("(D)\t" + string + " \t" + argsstr)
 
@@ -128,7 +128,7 @@ func info(string: String, args = []):
 						argsstr.append(p.global_id)
 				else:
 					argsstr.append(str(arg))
-		string = _replace_globals(string)
+		string = replace_globals(string)
 		_log("(I)\t" + string + " \t" + str(argsstr))
 
 
@@ -145,7 +145,7 @@ func info(string: String, args = []):
 func warning(string: String, args = []):
 	if _get_log_level() >= LOG_WARNING and !crashed:
 		var argsstr = str(args) if !args.empty() else ""
-		string = _replace_globals(string)
+		string = replace_globals(string)
 		_log("(W)\t" + string + " \t" + argsstr, true)
 
 		if escoria.project_settings_manager.get_setting(
@@ -180,7 +180,7 @@ func warning(string: String, args = []):
 func error(string: String, args = [], do_savegame: bool = true):
 	if _get_log_level() >= LOG_ERROR and !crashed:
 		var argsstr = str(args) if !args.empty() else ""
-		string = _replace_globals(string)
+		string = replace_globals(string)
 		_log("(E)\t" + string + " \t" + argsstr, true)
 
 		if escoria.project_settings_manager.get_setting(

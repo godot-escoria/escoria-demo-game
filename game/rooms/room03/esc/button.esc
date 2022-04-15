@@ -1,8 +1,9 @@
 :look
 say player "That button must activate the bridge, but it is broken." [r3_button_broken]
 say player "It should work now." [!r3_button_broken]
-# Demonstrate printing globals as part of debug messages
-debug "r3_button_broken is currently {r3_button_broken}"
+# Demonstrate printing globals as part of print messages
+print "r3_button_broken is currently {r3_button_broken}"
+say player "r3_button_broken status : {r3_button_broken}"
 
 :push
 say player "I must USE this."
