@@ -379,14 +379,20 @@ func get_animation_player() -> Node:
 #
 # **Returns** The interaction position
 func get_interact_position() -> Vector2:
+	var multiple_positions_found = false
 	var interact_position = null
 	for c in get_children():
 		if c is Position2D:
+			if interact_position != null:
+				multiple_positions_found = true
 			interact_position = c.global_position
 
 	if interact_position == null and collision != null:
 		interact_position = collision.global_position
 
+	if multiple_positions_found:
+		escoria.logger.warning("Multiple ESClocations found to walk to for object " +
+			"%s. Last one will be used." % global_id)
 	return interact_position
 
 
