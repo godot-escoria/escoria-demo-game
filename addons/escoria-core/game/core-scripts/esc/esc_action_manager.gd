@@ -523,11 +523,7 @@ func perform_inputevent_on_object(
 					event.doubleclick
 				)
 				if context is GDScriptFunctionState:
-					context = yield(_walk_towards_object(
-						obj,
-						event.position,
-						event.doubleclick
-					), "completed")
+					context = yield(context, "completed")
 				destination_position = context.target_position
 				dont_interact = context.dont_interact_on_arrival
 
@@ -620,10 +616,12 @@ func _walk_towards_object(
 	var destination_position: Vector2
 	var dont_interact: bool = false
 
+	var interact_position
 	# If clicked object is interactive, get destination position from it.
 	if escoria.object_manager.get_object(obj.global_id).interactive:
-		if obj.node.get_interact_position() != null:
-			destination_position = obj.node.get_interact_position()
+		interact_position = obj.node.get_interact_position()
+		if interact_position != null:
+			destination_position = interact_position
 		else:
 			destination_position = obj.node.position
 	else:
@@ -637,7 +635,6 @@ func _walk_towards_object(
 		walk_fast,
 		dont_interact
 	)
-
 	# Walk towards the clicked object
 	escoria.main.current_scene.player.walk_to(destination_position,
 		walk_context)
