@@ -9,5 +9,5 @@
 	stop
 > [eq dialog_popup_advance 2]
 	say player ROOM1_look_wall_item_3:"No, SERIOUSLY, I have no idea what that is!" avatar
-	say player ROOM1_look_wall_item_4:"Please stop asking me that!" avatar_dialog_player
+	say player ROOM1_look_wall_item_4:"Please stop asking me that!" avatar
 	stop
