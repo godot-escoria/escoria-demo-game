@@ -132,7 +132,7 @@ func _process(delta: float) -> void:
 				escoria.save_manager.save_enabled = false
 
 			var rc = _running_events[channel_name].run()
-			
+		
 			if rc is GDScriptFunctionState:
 				_yielding[channel_name] = true
 				rc = yield(rc, "completed")

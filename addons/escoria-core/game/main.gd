@@ -88,7 +88,7 @@ func set_scene_finish() -> void:
 
 	# Make our new scene visible.
 	current_scene.visible = true
-	
+
 	clear_previous_scene()
 
 	emit_signal("room_ready")

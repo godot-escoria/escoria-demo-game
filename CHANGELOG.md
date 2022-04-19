@@ -1,3 +1,19 @@
+## [4.0.0-alpha.161](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.161) (2022-04-19)
+
+
+### Bug Fixes
+
+* change hotspots Node to Node2D to allow for proper room visibility swapping ([b985c42](https://github.com/godot-escoria/escoria-demo-game/commit/b985c42e086395e7becc05f325353d5ca75c42e5))
+* fixes issue w/ bottle from room9 and inventory across rooms; fixes issue w/ room10 and text rendering ([9db27c6](https://github.com/godot-escoria/escoria-demo-game/commit/9db27c6a7487b9aab654b6d802f630606906e738))
+* missing this parameter ([4b3b96b](https://github.com/godot-escoria/escoria-demo-game/commit/4b3b96b688f46dcbaa186ded94be5d78a51fd373))
+* moves game scene removal/addition to room until after transition; still needs testing, especially w instant transitions ([8d1b00b](https://github.com/godot-escoria/escoria-demo-game/commit/8d1b00bb90b31018886275ce8e617778a8d563b9))
+* needs instantiation; also small cleanup ([0cf4672](https://github.com/godot-escoria/escoria-demo-game/commit/0cf467216128be9b4c70f1e8271c7e1df7b76fa1))
+* prevents async (i.e. events that are yielded to) from overlapping ([3ff3849](https://github.com/godot-escoria/escoria-demo-game/commit/3ff38492323f2cf075a23d6111c1c52002a285ee))
+* remove duplicate transition out (needs testing) ([c92c4ed](https://github.com/godot-escoria/escoria-demo-game/commit/c92c4edacf6236695080b7dda646ff2a931ec404))
+* should now block for yielding events but only on the same channel ([92e23be](https://github.com/godot-escoria/escoria-demo-game/commit/92e23beb0011c8003ca9c1f6a864e9c9fe3636fb))
+
+
+
 ## [4.0.0-alpha.160](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.160) (2022-04-19)
 
 
