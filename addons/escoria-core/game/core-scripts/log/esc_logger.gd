@@ -275,12 +275,12 @@ func _log(message:String, err: bool = false):
 # formatted for logging. E.g. 2022-04-19T16:10:39
 func _formatted_date() -> String:
 	var info = OS.get_datetime()
-	info["year"] 	= "%04d" % info["year"]
-	info["month"] 	= "%02d" % info["month"]
-	info["day"] 	= "%02d" % info["day"]
-	info["hour"] 	= "%02d" % info["hour"]
-	info["minute"] 	= "%02d" % info["minute"]
-	info["second"] 	= "%02d" % info["second"]
+	info["year"] = "%04d" % info["year"]
+	info["month"] = "%02d" % info["month"]
+	info["day"] = "%02d" % info["day"]
+	info["hour"] = "%02d" % info["hour"]
+	info["minute"] = "%02d" % info["minute"]
+	info["second"] = "%02d" % info["second"]
 
 	return "{year}-{month}-{day}T{hour}:{minute}:{second}".format(info)
 
