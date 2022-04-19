@@ -262,15 +262,27 @@ func report_errors(p_path: String, errors: Array) -> void:
 # * message: Message to log
 # * err: if true, write in stderr
 func _log(message:String, err: bool = false):
-	var info = OS.get_datetime()
-	info["message"] = message
-	message = "{year}-{month}-{day}T{hour}{minute}{second} {message}" \
-			.format(info)
+	message = "{0} {1}".format([_formatted_date(), message])
+
 	if err:
 		printerr(message)
 	else:
 		print(message)
 	_write_logfile(message)
+
+
+# Returns the current date/time, as a string 
+# formatted for logging. E.g. 2022-04-19T16:10:39
+func _formatted_date() -> String:
+	var info = OS.get_datetime()
+	info["year"] 	= "%04d" % info["year"]
+	info["month"] 	= "%02d" % info["month"]
+	info["day"] 	= "%02d" % info["day"]
+	info["hour"] 	= "%02d" % info["hour"]
+	info["minute"] 	= "%02d" % info["minute"]
+	info["second"] 	= "%02d" % info["second"]
+
+	return "{year}-{month}-{day}T{hour}:{minute}:{second}".format(info)
 
 
 # Returns the currently set log level
