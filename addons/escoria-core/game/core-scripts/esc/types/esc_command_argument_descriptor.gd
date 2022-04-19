@@ -57,7 +57,7 @@ func prepare_arguments(arguments: Array) -> Array:
 		if index >= complete_arguments.size():
 			complete_arguments.append(arguments[index])
 			continue
-	
+
 		complete_arguments[index] = escoria.utils.get_typed_value(
 			arguments[index],
 			types[index]

@@ -1,3 +1,12 @@
+## [4.0.0-alpha.160](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.160) (2022-04-19)
+
+
+### Features
+
+* Added warning message when multiple locations found for an item ([b4a57fa](https://github.com/godot-escoria/escoria-demo-game/commit/b4a57fa7887e843e9f03da319f7589c58d057742))
+
+
+
 ## [4.0.0-alpha.159](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.159) (2022-04-19)
 
 
