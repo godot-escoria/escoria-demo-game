@@ -262,7 +262,7 @@ func report_errors(p_path: String, errors: Array) -> void:
 # * message: Message to log
 # * err: if true, write in stderr
 func _log(message:String, err: bool = false):
-	message = "{0} {1}".format([_formatted_date(), message])
+	message = "ESC {0} {1}".format([_formatted_date(), message])
 
 	if err:
 		printerr(message)

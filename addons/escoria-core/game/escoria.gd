@@ -132,7 +132,7 @@ func _init():
 			self.project_settings_manager.get_setting(self.project_settings_manager.GAME_SCENE)
 		).instance()
 
-	print(get_script().get_path())
+	print("ESC {0}".format([get_script().get_path()]))
 
 
 # Load settings

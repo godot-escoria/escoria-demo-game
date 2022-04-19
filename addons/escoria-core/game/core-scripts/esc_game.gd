@@ -82,7 +82,7 @@ func _draw():
 		var mouse_limits: Rect2 = get_viewport_rect().grow(
 			-mouse_tooltip_margin
 		)
-		print(mouse_limits)
+		print("ESC {0}".format([mouse_limits]))
 
 		# Draw lines for tooltip limits
 		draw_rect(mouse_limits, ColorN("red"), false, 10.0)
