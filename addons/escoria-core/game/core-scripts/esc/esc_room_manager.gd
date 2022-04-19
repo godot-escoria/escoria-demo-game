@@ -178,6 +178,17 @@ func init_room(room: ESCRoom) -> void:
 		if escoria.main.current_scene == null:
 			escoria.main.set_scene(room)
 
+	# If the room node isn't at (0,0), the walk_stop function will offset the 
+	# player by the same number of pixels when they're at the terrain edge and
+	# move them when it shouldn't.
+	if room.position != Vector2(0,0):
+		escoria.logger.report_errors(
+		"ESCRoomManager.init_room: Room node not at (0,0)",
+		[
+			"The room node's coordinates must be (0,0) instead of %s." % room.position
+		]
+	)
+
 	_perform_script_events(room)
 
 

@@ -185,7 +185,6 @@ tracks/3/keys = {
 [sub_resource type="CapsuleShape2D" id=8]
 
 [node name="room2" type="Node2D"]
-position = Vector2( -2, 0 )
 script = ExtResource( 6 )
 global_id = "room2"
 esc_script = "res://game/rooms/room02/esc/room02_bridge.esc"
