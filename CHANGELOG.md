@@ -1,3 +1,12 @@
+## [4.0.0-alpha.162](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.162) (2022-04-19)
+
+
+### Bug Fixes
+
+* correct change nodes of node type to node2d type to fix transition bug ([1db0bc4](https://github.com/godot-escoria/escoria-demo-game/commit/1db0bc4a3996ff4485c8a1a38f8e27f32e2fcae5))
+
+
+
 ## [4.0.0-alpha.161](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.161) (2022-04-19)
 
 
