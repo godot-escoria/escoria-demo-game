@@ -57,7 +57,7 @@ func prepare_arguments(arguments: Array) -> Array:
 		if index >= complete_arguments.size():
 			complete_arguments.append(arguments[index])
 			continue
-		
+	
 		complete_arguments[index] = escoria.utils.get_typed_value(
 			arguments[index],
 			types[index]
@@ -151,14 +151,14 @@ func _is_type(argument, type: int) -> bool:
 # #### Parameters
 #
 # - array_to_check: Array to check for leading non-null values
-# - max_index: Maximum (inclusive) index to check in array_to_check 
+# - max_index: Maximum (inclusive) index to check in array_to_check
 #
 # *Returns* the total number of entries at the start of
 # array_to_check that are not null
 func _count_leading_non_null_values(array_to_check: Array, max_index: int) -> int:
 	if array_to_check == null or max_index < 0:
 		return 0
-	
+
 	var leading_non_nulls_count: int = 0
 
 	for i in range(max_index):

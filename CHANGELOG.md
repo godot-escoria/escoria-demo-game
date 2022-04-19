@@ -1,3 +1,18 @@
+## [4.0.0-alpha.159](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.159) (2022-04-19)
+
+
+### Features
+
+* adds in max args checking; also removes duplicate command validation and now properly validates min_args; re-orders validation to allow argument descriptor validation to always be done first; misc. cleanup of error strings ([7050a8a](https://github.com/godot-escoria/escoria-demo-game/commit/7050a8a2fb9b61a4ec5831741e3b57f8dd24094e))
+
+
+### Bug Fixes
+
+* allows for bare decimals (no leading 0) to be properly interpreted; also adds in additional validation for 'wait' command ([768f65d](https://github.com/godot-escoria/escoria-demo-game/commit/768f65d929ee60ce14a9d94c2cbf585f8137a95c))
+* properly validate min_args and remove superfluous validation call to argument descriptor ([157c2f5](https://github.com/godot-escoria/escoria-demo-game/commit/157c2f564c13696c6ae627e5e53e285ac652be69))
+
+
+
 ## [4.0.0-alpha.158](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.158) (2022-04-09)
 
 

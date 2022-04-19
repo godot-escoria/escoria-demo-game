@@ -35,7 +35,7 @@ func validate(arguments: Array):
 			]
 		)
 		return false
-		
+	
 	return true
 
 # Run the command
