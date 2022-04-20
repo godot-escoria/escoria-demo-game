@@ -48,7 +48,7 @@ var events_queue: Dictionary = {
 # Currently running event in background channels
 var _running_events: Dictionary = {}
 
-# Wether an event can be played on a specific channel
+# Whether an event can be played on a specific channel
 var _channels_state: Dictionary = {}
 
 
@@ -222,7 +222,7 @@ func clear_event_queue():
 #
 # #### Parameters
 # - name: Name of the channel to test
-# **Returns** Wether the channel can currently accept a new event
+# **Returns** Whether the channel can currently accept a new event
 func is_channel_free(name: String) -> bool:
 	return _channels_state[name] if name in _channels_state else true
 

@@ -15,7 +15,7 @@ var _fast_text_speed_per_character
 # The time to wait before the dialog is finished
 var _max_time_to_text_disappear
 
-# Wether the current dialog is speeding up
+# Whether the current dialog is speeding up
 var _is_speeding_up: bool = false
 
 

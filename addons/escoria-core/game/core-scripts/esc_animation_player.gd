@@ -17,7 +17,7 @@ var _animation_player: AnimationPlayer
 # A AnimationPlayer typed reference to the player node (for intellisense)
 var _animated_sprite: AnimatedSprite
 
-# Wether the player node is of type AnimationPlayer (just for convenience)
+# Whether the player node is of type AnimationPlayer (just for convenience)
 var _is_animation_player: bool = false
 
 # Currently running animation
@@ -73,8 +73,8 @@ func get_animations() -> PoolStringArray:
 		return _animated_sprite.frames.get_animation_names()
 
 
-# Wether the animation is playing
-# **Returns: Wether the animation is playing**
+# Whether the animation is playing
+# **Returns: Whether the animation is playing**
 func is_playing() -> bool:
 	return _player_node.is_playing()
 
@@ -118,7 +118,7 @@ func play_backwards(name: String):
 # #### Parameters
 #
 # - name: Name of the animation to check
-# **Returns** Wether the animation player has the animation
+# **Returns** Whether the animation player has the animation
 func has_animation(name: String) -> bool:
 	if _is_animation_player:
 		return _animation_player.has_animation(name)

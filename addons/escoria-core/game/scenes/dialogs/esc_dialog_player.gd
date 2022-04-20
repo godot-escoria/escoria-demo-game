@@ -18,7 +18,7 @@ signal option_chosen(option)
 signal say_finished
 
 
-# Wether the player is currently speaking
+# Whether the player is currently speaking
 var is_speaking: bool = false
 
 
@@ -105,6 +105,8 @@ func say(character: String, type: String, text: String) -> void:
 			var _manager: ESCDialogManager = load(_manager_class).new()
 			if _manager.has_type(type):
 				_dialog_manager = _manager
+			else:
+				_dialog_manager = null
 
 	if _dialog_manager == null:
 		escoria.logger.report_errors(

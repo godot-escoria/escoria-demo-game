@@ -1,7 +1,7 @@
 extends ESCInventory
 
 
-# Wether the inventory is visible currently
+# Whether the inventory is visible currently
 var inventory_visible: bool = false
 
 

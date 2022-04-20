@@ -6,10 +6,10 @@ class_name ESCObject
 # The global id of the object
 var global_id: String
 
-# Wether the object is active (visible to the player)
+# Whether the object is active (visible to the player)
 var active: bool = true setget _set_active
 
-# Wether the object is interactive (clickable by the player)
+# Whether the object is interactive (clickable by the player)
 var interactive: bool = true setget _set_interactive, _get_interactive
 
 # The state of the object. If the object has a respective animation,

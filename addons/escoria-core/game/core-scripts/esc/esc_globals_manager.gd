@@ -22,7 +22,7 @@ var _reserved_globals: Dictionary = {}
 # #### Parameters
 #
 # - key: The global key to check
-# **Returns** Wether the global was registered
+# **Returns** Whether the global was registered
 func has(key: String) -> bool:
 	return _globals.has(key)
 

@@ -86,7 +86,7 @@ export(String) var trigger_out_verb = "trigger_out"
 # If true, the player can interact with this item
 export(bool) var is_interactive = true
 
-# Wether this item is movable
+# Whether this item is movable
 export(bool) var is_movable = false
 
 # If true, player orients towards 'interaction_direction' as

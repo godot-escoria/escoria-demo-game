@@ -8,7 +8,7 @@ class_name ESCInventoryManager
 # #### Parameters
 #
 # - item: Inventory item id
-# **Returns** Wether the player has the inventory
+# **Returns** Whether the player has the inventory
 func inventory_has(item: String) -> bool:
 	return escoria.globals_manager.has("i/%s" % item)
 
