@@ -4,7 +4,7 @@ class_name ESCInventoryContainer
 
 
 # Get whether the inventory container currently is empty
-# **Returns** Wether the container is empty or not
+# **Returns** Whether the container is empty or not
 func is_empty() -> bool:
 	return get_child_count() > 0
 

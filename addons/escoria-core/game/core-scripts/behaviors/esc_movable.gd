@@ -27,7 +27,7 @@ var walk_destination: Vector2
 # The walk context currently carried out by this movable node
 var walk_context: ESCWalkContext = null
 
-# Wether the character was moved at all
+# Whether the character was moved at all
 var moved: bool
 
 # Player Direction used to reflect the movement to the new position
@@ -36,7 +36,7 @@ var last_dir: int
 # The last scaling applied to the parent
 var last_scale: Vector2
 
-# Wether the current direction animation is flipped
+# Whether the current direction animation is flipped
 var is_mirrored: bool
 
 

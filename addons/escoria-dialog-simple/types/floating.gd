@@ -19,7 +19,7 @@ var _max_time_to_text_disappear
 # Current character speaking, to keep track of reference for animation purposes
 var _current_character
 
-# Wether the current dialog is speeding up
+# Whether the current dialog is speeding up
 var _is_speeding_up: bool = false
 
 

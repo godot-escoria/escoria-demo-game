@@ -6,7 +6,7 @@ class_name ESCPlayer, "res://addons/escoria-core/design/esc_player.svg"
 
 
 
-# Wether the player can be selected like an item
+# Whether the player can be selected like an item
 export(bool) var selectable = false
 
 

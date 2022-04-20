@@ -31,10 +31,10 @@ const COMPARISON_DESCRIPTION = [
 # Name of the flag compared
 var flag: String
 
-# Wether this condition is negated
+# Whether this condition is negated
 var negated: bool = false
 
-# Wether this condition is regarding an inventory item ("i/...")
+# Whether this condition is regarding an inventory item ("i/...")
 var inventory: bool = false
 
 # An optional comparison type. Use the COMPARISON-Enum

@@ -27,7 +27,7 @@ var types: Array = []
 # The default values for the arguments
 var defaults: Array = []
 
-# Wether to strip quotes on specific arguments
+# Whether to strip quotes on specific arguments
 var strip_quotes: Array = []
 
 
