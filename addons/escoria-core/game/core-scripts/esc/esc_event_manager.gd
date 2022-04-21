@@ -281,9 +281,6 @@ func _on_event_finished(finished_statement: ESCStatement, return_code: int, chan
 	if event_flags & ESCEvent.FLAG_NO_SAVE:
 		escoria.save_manager.save_enabled = true
 
-	if return_code == ESCExecution.RC_CANCEL:
-		return_code = ESCExecution.RC_OK
-
 	_running_events[channel_name] = null
 	_channels_state[channel_name] = true
 
