@@ -271,7 +271,7 @@ func _log(message:String, err: bool = false):
 	_write_logfile(message)
 
 
-# Returns the current date/time, as a string 
+# Returns the current date/time, as a string
 # formatted for logging. E.g. 2022-04-19T16:10:39
 func _formatted_date() -> String:
 	var info = OS.get_datetime()
