@@ -1,3 +1,12 @@
+## [4.0.0-alpha.163](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.163) (2022-04-21)
+
+
+### Code Refactoring
+
+* remove deprecated debug command ([eeea2d0](https://github.com/godot-escoria/escoria-demo-game/commit/eeea2d0e5a83c107fe708143591cc5596347afd0))
+
+
+
 ## [4.0.0-alpha.162](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.162) (2022-04-19)
 
 
