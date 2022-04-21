@@ -369,6 +369,11 @@ func quit():
 func _handle_direct_scene_run() -> void:
 	var current_scene_root: Node = get_tree().get_current_scene()
 
+	if current_scene_root == null:
+		# there's no 'current scene'
+		# e.g. you're opening escoria.tscn from the editor
+		return
+
 	if current_scene_root.filename == ProjectSettings.get_setting('application/run/main_scene'):
 		# This is a normal, full-game run, so there's nothing to do.
 		return
