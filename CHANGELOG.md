@@ -1,3 +1,12 @@
+## [4.0.0-alpha.164](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.164) (2022-04-21)
+
+
+### Bug Fixes
+
+* Corrected wether to whether ([584b81a](https://github.com/godot-escoria/escoria-demo-game/commit/584b81a496a95fadb5062dc31ce8db09cc0c3269))
+
+
+
 ## [4.0.0-alpha.163](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.163) (2022-04-21)
 
 
