@@ -51,6 +51,7 @@ func _enter_tree():
 		self,
 		"_on_action_finished"
 	)
+	set_process_input(false)
 
 
 # Function called when ESCGame exits the scene tree.
