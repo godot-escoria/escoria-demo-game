@@ -90,7 +90,6 @@ func set_scene_finish() -> void:
 	current_scene.visible = true
 
 	clear_previous_scene()
-	escoria.main.current_scene.game.set_process_input(true)
 	emit_signal("room_ready")
 	
 

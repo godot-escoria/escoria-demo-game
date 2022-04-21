@@ -38,6 +38,11 @@ export(NodePath) var ui_parent_control_node
 # A reference to the node handling tooltips
 var tooltip_node: Object
 
+# Boolean indicating whether the game scene is ready to accept inputs 
+# from the player. This enables using escoria.is_ready_for_inputs() in _input()
+# function of game.gd script.
+var room_ready_for_inputs: bool = false
+
 
 # Function called when ESCGame enters the scene tree.
 func _enter_tree():
@@ -51,7 +56,12 @@ func _enter_tree():
 		self,
 		"_on_action_finished"
 	)
-	set_process_input(false)
+	
+	escoria.main.connect(
+		"room_ready", 
+		self, 
+		"_on_room_ready"
+	)
 
 
 # Function called when ESCGame exits the scene tree.
@@ -448,3 +458,8 @@ func escoria_show_ui():
 			"esc_game.gd#escoria_show_ui",
 			["UI parent Control node not defined!"]
 		)
+
+
+# Manage signal room_deady from main.gd.
+func _on_room_ready():
+	room_ready_for_inputs = true
