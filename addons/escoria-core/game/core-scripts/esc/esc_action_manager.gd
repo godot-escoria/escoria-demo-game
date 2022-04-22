@@ -84,8 +84,6 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 				if can_interrupt:
 					escoria.event_manager.interrupt_running_event()
 
-				self.clear_current_action()
-
 				var walk_fast = false
 				if params.size() > 2:
 					walk_fast = true if params[2] else false

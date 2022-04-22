@@ -39,12 +39,9 @@ func _ready() -> void:
 	anchor_right = 1
 	anchor_bottom = 1
 	color = Color.white
+	color.a = 0
 	mouse_filter = MOUSE_FILTER_IGNORE
 	_tween = Tween.new()
-	add_child(_tween)
-	_tween.connect("tween_all_completed", self, "_on_tween_completed")
-
-	transition()
 
 
 # Play a transition animation
@@ -60,6 +57,14 @@ func transition(
 	mode: int = TRANSITION_MODE.IN,
 	duration: float = 1.0
 ) -> int:
+
+	# We put this here instead of the constructor since if we have it in the
+	# constructor, the transition will ALWAYS happen on game start, which might
+	# not be desired if 'false' is used for automatic_transitions in a
+	# change_scene call in :init.
+	if not _tween.is_inside_tree():
+		add_child(_tween)
+		_tween.connect("tween_all_completed", self, "_on_tween_completed")
 
 	if transition_name.empty():
 		transition_name = escoria.project_settings_manager.get_setting(
