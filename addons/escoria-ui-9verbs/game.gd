@@ -347,8 +347,9 @@ func _on_action_finished() -> void:
 	tooltip.clear()
 
 func _on_event_done(_return_code: int, _event_name: String):
-	escoria.action_manager.clear_current_action()
-	verbs_menu.unselect_actions()
+	if _return_code == ESCExecution.RC_OK:
+		escoria.action_manager.clear_current_action()
+		verbs_menu.unselect_actions()
 
 
 func apply_custom_settings(custom_settings: Dictionary):
