@@ -36,7 +36,7 @@ func run() -> int:
 	var final_rc = ESCExecution.RC_OK
 	for statement in statements:
 		if _is_interrupted:
-			final_rc = ESCExecution.RC_CANCEL
+			final_rc = ESCExecution.RC_INTERRUPTED
 			emit_signal("interrupted", final_rc)
 			return final_rc
 
