@@ -1,3 +1,12 @@
+## [4.0.0-alpha.170](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.170) (2022-04-23)
+
+
+### Bug Fixes
+
+* incorrect dialog player type ([3acf5eb](https://github.com/godot-escoria/escoria-demo-game/commit/3acf5ebe2afcb76cdde1357942d53094463d8382))
+
+
+
 ## [4.0.0-alpha.169](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.169) (2022-04-23)
 
 
