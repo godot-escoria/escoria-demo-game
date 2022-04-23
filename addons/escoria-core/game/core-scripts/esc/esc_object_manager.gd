@@ -163,8 +163,12 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 					]
 			]
 		)
-
 		return
+	# Object exists in room, set it to is last state (if different from 
+	# "default")
+	elif _object_exists_in_room(object, room_key):
+		# Object is already known, set its state to last known state
+		object.set_state(get_object(object.global_id).state)
 
 	# If the object is already connected, disconnect it for the case of
 	# forcing the registration, since we don't know if this object will be
@@ -205,6 +209,23 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 
 	var objects: Dictionary = _get_room_objects_objects(room_key)
 	objects[object.global_id] = object
+	
+	# If object state is not STATE_DEFAULT, save it in manager's object states 
+	if object.state != ESCObject.STATE_DEFAULT:
+		if get_object(object.global_id) == null:
+			escoria.logger.report_errors(
+			"ESCObjectManager:register_object()",
+			[
+				"Object with global id %s in room (%s, %s) not found in Object Manager" %
+					[
+						object.global_id,
+						room_key.room_global_id,
+						room_key.room_instance_id
+					]
+			]
+		)
+		else:
+			get_object(object.global_id).state = object.state
 
 	# If this is the first object for the room, that means we have a brand new
 	# room and it needs to be setup and tracked.
@@ -346,8 +367,9 @@ func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 		if object.node != null:
 			object.node = object.node.duplicate()
 			register_object(object, null, true)
-
-	room_objects.erase(object.global_id)
+	
+	if object.state == ESCObject.STATE_DEFAULT:
+		room_objects.erase(object.global_id)
 
 	# If this room is truly empty, it's time to do away with it.
 	if room_objects.size() == 0:
@@ -438,8 +460,7 @@ func _is_current_room(container: ESCRoomObjects) -> bool:
 # **Returns** True iff container represents the the object manager entry specified
 # by room_key.
 func _compare_container_to_key(container: ESCRoomObjects, room_key: ESCRoomObjectsKey) -> bool:
-	return container.room_global_id == room_key.room_global_id \
-		and container.room_instance_id == room_key.room_instance_id
+	return container.room_global_id == room_key.room_global_id
 
 
 # Checks whether an entry in the object manager array corresponds to the passed in
@@ -477,8 +498,7 @@ func _object_exists_in_room(object: ESCObject, room_key: ESCRoomObjectsKey) -> b
 
 	for room_container in room_objects:
 		if _compare_container_to_key(room_container, room_key) \
-			and room_container.objects.has(object.global_id):
-
+				and room_container.objects.has(object.global_id):
 			return true
 
 	return false

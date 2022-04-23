@@ -3,6 +3,10 @@ extends Node
 class_name ESCObject
 
 
+# Default object state
+const STATE_DEFAULT: String = "default"
+
+
 # The global id of the object
 var global_id: String
 
@@ -14,7 +18,7 @@ var interactive: bool = true setget _set_interactive, _get_interactive
 
 # The state of the object. If the object has a respective animation,
 # it will be played
-var state: String = "default"
+var state: String = STATE_DEFAULT
 
 # The events registered with the object
 var events: Dictionary = {}
