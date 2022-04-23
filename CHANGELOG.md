@@ -1,3 +1,12 @@
+## [4.0.0-alpha.168](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.168) (2022-04-23)
+
+
+### Features
+
+* New room 15 files ([#575](https://github.com/godot-escoria/escoria-demo-game/issues/575)) ([488b206](https://github.com/godot-escoria/escoria-demo-game/commit/488b20656deffcfeb3c535ff848035d6a22307e6))
+
+
+
 ## [4.0.0-alpha.167](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.167) (2022-04-23)
 
 
