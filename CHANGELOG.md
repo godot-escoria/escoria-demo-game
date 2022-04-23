@@ -1,3 +1,12 @@
+## [4.0.0-alpha.167](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.167) (2022-04-23)
+
+
+### Features
+
+* Save objects states in Obj Manager to keep them btwn rooms ([#554](https://github.com/godot-escoria/escoria-demo-game/issues/554)) ([4b2b6f5](https://github.com/godot-escoria/escoria-demo-game/commit/4b2b6f516e01e9e84fc99db5aa579d78d6dadc49))
+
+
+
 ## [4.0.0-alpha.166](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.166) (2022-04-21)
 
 

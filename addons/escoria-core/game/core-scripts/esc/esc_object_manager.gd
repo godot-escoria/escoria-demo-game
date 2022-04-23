@@ -164,7 +164,7 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 			]
 		)
 		return
-	# Object exists in room, set it to is last state (if different from 
+	# Object exists in room, set it to is last state (if different from
 	# "default")
 	elif _object_exists_in_room(object, room_key):
 		# Object is already known, set its state to last known state
@@ -209,8 +209,8 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 
 	var objects: Dictionary = _get_room_objects_objects(room_key)
 	objects[object.global_id] = object
-	
-	# If object state is not STATE_DEFAULT, save it in manager's object states 
+
+	# If object state is not STATE_DEFAULT, save it in manager's object states
 	if object.state != ESCObject.STATE_DEFAULT:
 		if get_object(object.global_id) == null:
 			escoria.logger.report_errors(
@@ -367,7 +367,7 @@ func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 		if object.node != null:
 			object.node = object.node.duplicate()
 			register_object(object, null, true)
-	
+
 	if object.state == ESCObject.STATE_DEFAULT:
 		room_objects.erase(object.global_id)
 
