@@ -12,7 +12,7 @@ const ESCORIA: String = "/root/escoria"
 # The escoria singleton.
 func _get_escoria():
 	var escoria_singleton = get_node(ESCORIA)
-	if escoria_singleton == null:
+	if not is_instance_valid(escoria_singleton):
 		printerr(
 			"Escoria could not load the 'escoria' singleton/autoload.\n",
 			"Please try to disable and re-enable 'Escoria' plugin."
