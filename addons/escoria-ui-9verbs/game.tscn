@@ -16,6 +16,7 @@ bg_color = Color( 0.6, 0.6, 0.6, 0.5 )
 script = ExtResource( 5 )
 main_menu = NodePath("ui/main_menu")
 pause_menu = NodePath("ui/pause_menu")
+ui_parent_control_node = NodePath("ui/Control")
 
 [node name="dialog_layer" type="CanvasLayer" parent="."]
 
@@ -142,15 +143,6 @@ margin_right = 404.0
 margin_bottom = 200.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="hover_stack" type="Label" parent="ui"]
-margin_left = 1085.0
-margin_top = 2.81912
-margin_right = 1283.0
-margin_bottom = 107.819
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="main_menu" parent="ui" instance=ExtResource( 7 )]
 visible = false

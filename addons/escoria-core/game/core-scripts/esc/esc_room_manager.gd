@@ -113,7 +113,6 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 			var game_parent = escoria.game_scene.get_parent()
 			game_parent.remove_child(escoria.game_scene)
 
-		#escoria.game_scene.hide_ui()
 		room_scene.add_child(escoria.game_scene)
 		room_scene.move_child(escoria.game_scene, 0)
 		room_scene.game = escoria.game_scene

@@ -31,6 +31,9 @@ export(float) var mouse_tooltip_margin = 50.0
 export(EDITOR_GAME_DEBUG_DISPLAY) var editor_debug_mode = \
 		EDITOR_GAME_DEBUG_DISPLAY.NONE setget _set_editor_debug_mode
 
+# The Control node underneath which all UI must be placed.
+# This should be a Control node and NOT a CanvasLayer (or any other type of) node.
+export(NodePath) var ui_parent_control_node
 
 # A reference to the node handling tooltips
 var tooltip_node: Object
@@ -421,3 +424,26 @@ func show_crash_popup(files: Array = []) -> void:
 	yield(crash_popup, "confirmed")
 	emit_signal("crash_popup_confirmed")
 
+
+# *** FOR USE BY ESCORIA CORE ONLY ***
+# Hides everything under the UI Control node.
+func escoria_hide_ui():
+	if ui_parent_control_node != null and not ui_parent_control_node.is_empty():
+		(get_node(ui_parent_control_node) as Control).visible = false
+	else:
+		escoria.logger.report_warnings(
+			"esc_game.gd#escoria_hide_ui",
+			["UI parent Control node not defined!"]
+		)
+
+
+# *** FOR USE BY ESCORIA CORE ONLY ***
+# Show everything under the UI Control node.
+func escoria_show_ui():
+	if ui_parent_control_node != null and not ui_parent_control_node.is_empty():
+		(get_node(ui_parent_control_node) as Control).visible = true
+	else:
+		escoria.logger.report_warnings(
+			"esc_game.gd#escoria_show_ui",
+			["UI parent Control node not defined!"]
+		)

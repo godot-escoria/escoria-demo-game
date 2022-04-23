@@ -172,6 +172,9 @@ func _notification(what):
 # Usually you'll want to show some logos animations before spawning the main
 # menu in the escoria/main/game_start_script 's :init event
 func init():
+	# Don't show the UI until we're ready in order to avoid a sometimes-noticeable
+	# blink. The UI will be "shown" later via a visibility update to the first room.
+	escoria.game_scene.escoria_hide_ui()
 	run_event_from_script(start_script, self.event_manager.EVENT_INIT)
 
 
