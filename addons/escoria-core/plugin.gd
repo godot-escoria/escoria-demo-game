@@ -2,8 +2,13 @@
 tool
 extends EditorPlugin
 
+
 # The path to node 'escoria'.
 const ESCORIA: String = "/root/escoria"
+
+
+# Reference to "escoria" singleton instance.
+var escoria_instance: Node = null
 
 
 # Returns the 'escoria' singleton/autoload.
@@ -11,13 +16,15 @@ const ESCORIA: String = "/root/escoria"
 # *Returns*
 # The escoria singleton.
 func _get_escoria():
-	var escoria_singleton = get_node(ESCORIA)
-	if not is_instance_valid(escoria_singleton):
-		printerr(
-			"Escoria could not load the 'escoria' singleton/autoload.\n",
-			"Please try to disable and re-enable 'Escoria' plugin."
-		)
-	return escoria_singleton
+	if not is_instance_valid(escoria_instance):
+		escoria_instance = get_node(ESCORIA)
+		if not is_instance_valid(escoria_instance):
+			printerr(
+				"Escoria could not load the 'escoria' singleton/autoload.\n",
+				"Please try to disable and re-enable 'Escoria' plugin."
+			)
+			
+	return escoria_instance
 
 
 # Virtual function called when plugin is enabled.
