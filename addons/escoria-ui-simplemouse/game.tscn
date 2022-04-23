@@ -15,6 +15,7 @@ script = ExtResource( 5 )
 main_menu = NodePath("CanvasLayer/main_menu")
 pause_menu = NodePath("CanvasLayer/pause_menu")
 editor_debug_mode = 1
+ui_parent_control_node = NodePath("CanvasLayer/ui")
 
 [node name="camera" parent="." instance=ExtResource( 3 )]
 

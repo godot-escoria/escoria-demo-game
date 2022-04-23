@@ -17,6 +17,7 @@ bg_color = Color( 0.6, 0.6, 0.6, 0.5 )
 script = ExtResource( 5 )
 main_menu = NodePath("ui/main_menu")
 pause_menu = NodePath("ui/pause_menu")
+ui_parent_control_node = NodePath("ui/Control")
 
 [node name="dialog_layer" type="CanvasLayer" parent="."]
 
