@@ -192,6 +192,27 @@ func queue_event_from_esc(script_object: ESCScript, event: String,
 # #### Parameters
 # - event: Event to run
 func queue_event(event: ESCEvent) -> void:
+	# Don't queue the same event more than once in a row.
+	var last_event = _get_last_event_queued(CHANNEL_FRONT)
+
+	# Check the queue first to see if appending the event will result in
+	# consecutive occurrences of the event. If not, be sure to check if the same
+	# event is currently running.
+	if last_event != null and last_event.name == event.name:
+		var message = "Event '%s' is already the most-recently queued event in channel '%s'." + \
+			" Won't be queued again."
+
+		escoria.logger.debug(message % [event.name, CHANNEL_FRONT])
+		return
+	elif _is_event_running(event, CHANNEL_FRONT):
+		# Don't queue the same event if it's already running.		
+		escoria.logger.debug(
+			"Event %s already running in channel '%s'. Won't be queued." 
+				% [event.name, CHANNEL_FRONT]
+		)
+
+		return
+
 	self.events_queue[CHANNEL_FRONT].append(event)
 
 
@@ -213,6 +234,27 @@ func schedule_event(event: ESCEvent, timeout: float) -> void:
 func queue_background_event(channel_name: String, event: ESCEvent) -> void:
 	if not channel_name in events_queue:
 		events_queue[channel_name] = []
+
+	# Don't queue the same event more than once in a row.
+	var last_event = _get_last_event_queued(channel_name)
+
+	# Check the queue first to see if appending the event will result in
+	# consecutive occurrences of the event. If not, be sure to check if the same
+	# event is currently running.
+	if last_event != null and last_event.name == event.name:
+		var message = "Event '%s' is already the most-recently queued event in channel '%s'." + \
+			" Won't be queued again."
+
+		escoria.logger.debug(message % [event.name, channel_name])
+		return
+	elif _is_event_running(event, CHANNEL_FRONT):
+		# Don't queue the same event if it's already running.		
+		escoria.logger.debug(
+			"Event %s already running in channel '%s'. Won't be queued." 
+				% [event.name, channel_name]
+		)
+
+		return
 
 	events_queue[channel_name].append(event)
 
@@ -300,3 +342,31 @@ func _on_event_finished(finished_statement: ESCStatement, return_code: int, chan
 			event.name,
 			channel_name
 		)
+
+
+# Gets the event at the tail of the specified channel's event queue, if one
+# exists.
+#
+# #### Parameters
+# - channel_name: The name of the channel to check.
+#
+# *Returns* the last ESCEvent queued for the given channel, or null if the
+# channel's queue is empty.
+func _get_last_event_queued(channel_name: String) -> ESCEvent:
+	if self.events_queue[channel_name].size() > 0:
+		return self.events_queue[channel_name].back()
+
+	return null
+
+
+# Checks to see if the specified event is already running in the given channel.
+#
+# #### Parameters
+# - event: The event to check to see if it's already running.
+# - channel_name: The name of the channel to check.
+#
+# *Returns* true iff event is currently running in the specified channel.
+func _is_event_running(event: ESCEvent, channel_name: String) -> bool:
+	var running_event: ESCEvent = get_running_event(channel_name)
+	
+	return running_event != null and running_event.name == event.name
