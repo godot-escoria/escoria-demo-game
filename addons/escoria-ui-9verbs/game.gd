@@ -180,6 +180,9 @@ func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
 
 
 func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
+	if verbs_menu.selected_action == null:
+		return
+	
 	escoria.action_manager.set_current_action(verbs_menu.selected_action)
 	escoria.action_manager.do(
 		escoria.action_manager.ACTION.ITEM_RIGHT_CLICK,
