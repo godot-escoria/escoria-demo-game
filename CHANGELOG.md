@@ -1,3 +1,12 @@
+## [4.0.0-alpha.171](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.171) (2022-04-24)
+
+
+### Bug Fixes
+
+* removed calls to inexisting escoria singleton after plugin disbld ([#578](https://github.com/godot-escoria/escoria-demo-game/issues/578)) ([b23adae](https://github.com/godot-escoria/escoria-demo-game/commit/b23adae3604b54d0d1e8851ee3e9022392f79a2e))
+
+
+
 ## [4.0.0-alpha.170](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.170) (2022-04-23)
 
 
