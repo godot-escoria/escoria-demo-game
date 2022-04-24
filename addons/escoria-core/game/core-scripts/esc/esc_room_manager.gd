@@ -234,10 +234,6 @@ func _perform_script_events(room: ESCRoom) -> void:
 
 		yielded = true
 
-		# Hide main and pause menus
-		escoria.game_scene.hide_main_menu()
-		escoria.game_scene.unpause_game()
-
 	# With the room transitioned out, finish any room prep and run :setup if
 	# it exists.
 	if room.player_scene:
@@ -316,6 +312,10 @@ func _perform_script_events(room: ESCRoom) -> void:
 	# Conclude the call to set_scene (thankyouverymuch, coroutines), including
 	# making the new room visible.
 	escoria.main.set_scene_finish()
+
+	# Hide main and pause menus
+	escoria.game_scene.hide_main_menu()
+	escoria.game_scene.unpause_game()
 
 	# Maybe this is ok to put in set_scene_finish() above? But it might be a bit
 	# confusing to not see the matching camera.current updates.
