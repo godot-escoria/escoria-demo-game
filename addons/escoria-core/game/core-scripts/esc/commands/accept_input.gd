@@ -59,3 +59,9 @@ func run(command_params: Array) -> int:
 
 	escoria.inputs_manager.input_mode = mode
 	return ESCExecution.RC_OK
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	# Do nothing
+	pass

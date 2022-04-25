@@ -13,9 +13,6 @@ signal interrupted(return_code)
 # The list of ESC commands
 var statements: Array = []
 
-# Indicates whether this event was finished.
-var is_finished: bool = false
-
 # The source of this statement, e.g. an ESC script or a class.
 var source: String = ""
 
@@ -37,6 +34,7 @@ func run() -> int:
 	for statement in statements:
 		if _is_interrupted:
 			final_rc = ESCExecution.RC_INTERRUPTED
+			statement.interrupt()
 			emit_signal("interrupted", final_rc)
 			return final_rc
 
@@ -49,11 +47,8 @@ func run() -> int:
 					["Statement (%s) was completed."
 						% statement]
 				)
-				statement.is_finished = true
 			if rc == ESCExecution.RC_REPEAT:
 				return self.run()
-			elif rc == ESCExecution.RC_OK:
-				statement.is_finished = true
 			elif rc != ESCExecution.RC_OK:
 				final_rc = rc
 				break
@@ -72,14 +67,7 @@ func interrupt():
 	)
 	_is_interrupted = true
 	for statement in statements:
-		if statement.is_finished:
-			var name = statement.name if "name" in statement else "group"
-			escoria.logger.debug(
-				"event manager",
-				["Event %s (%s) is already finished. Won't interrupt."
-					% [name, str(statement)]]
-			)
-		else:
+		if statement.has_method("interrupt"):
 			statement.interrupt()
 
 

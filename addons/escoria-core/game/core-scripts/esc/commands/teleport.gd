@@ -53,3 +53,9 @@ func run(command_params: Array) -> int:
 			escoria.object_manager.get_object(command_params[1]).node
 		)
 	return ESCExecution.RC_OK
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	# Do nothing
+	pass

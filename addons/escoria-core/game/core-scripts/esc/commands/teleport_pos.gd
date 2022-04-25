@@ -44,3 +44,9 @@ func run(command_params: Array) -> int:
 		Vector2(int(command_params[1]), int(command_params[2]))
 	)
 	return ESCExecution.RC_OK
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	# Do nothing
+	pass

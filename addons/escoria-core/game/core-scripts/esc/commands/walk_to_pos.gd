@@ -18,6 +18,10 @@ extends ESCBaseCommand
 class_name WalkToPosCommand
 
 
+# Walking object
+var walking_object_node: ESCItem
+
+
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
@@ -40,6 +44,10 @@ func validate(arguments: Array):
 			]
 		)
 		return false
+	
+	walking_object_node = (escoria.object_manager.get_object(
+		arguments[0]).node as ESCItem
+	)
 	return true
 
 
@@ -50,3 +58,9 @@ func run(command_params: Array) -> int:
 		Vector2(command_params[1], command_params[2]), command_params[3]
 	])
 	return ESCExecution.RC_OK
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	if not walking_object_node is ESCPlayer:
+		walking_object_node.stop_walking_now()

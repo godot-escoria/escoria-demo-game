@@ -25,3 +25,8 @@ func run(command_params: Array) -> int:
 	)
 	yield(tween, "tween_all_completed")
 	return ESCExecution.RC_OK
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	.interrupt()

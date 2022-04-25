@@ -461,6 +461,20 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 	_movable.walk_to(pos, p_walk_context)
 
 
+# Stop the movable node immediately and remain where it is at this moment,
+# or teleport it directly at destination position if 'to_target' is true.
+#
+# #### Parameters
+# 
+# - to_target: if true, the movable node is teleport directly at its target
+# destination
+func stop_walking_now(to_target: bool = false) -> void:
+	var where: Vector2 = position
+	if to_target:
+		where = _movable.walk_destination
+	_movable.walk_stop(where)
+
+
 # Set the moving speed
 #
 # #### Parameters

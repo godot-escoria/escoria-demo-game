@@ -19,3 +19,9 @@ func configure() -> ESCCommandArgumentDescriptor:
 # Run the command
 func run(command_params: Array) -> int:
 	return ESCExecution.RC_CANCEL
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	# Do nothing
+	pass
