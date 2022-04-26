@@ -16,7 +16,12 @@
 #   (default: the value set in the setting "Escoria/UI/Default Dialog Type")
 #
 # The text supports translation keys by prepending the key followed by
-# a colon (`:`) to the text.
+# a colon (`:`) to the text. 
+# For more details see: https://docs.escoria-framework.org/en/devel/getting_started/dialogs.html#translations
+#
+# Playing an audio file while the text is being
+# displayed is also supported by this mechanism.
+# For more details see: https://docs.escoria-framework.org/en/devel/getting_started/dialogs.html#recorded_speech
 #
 # Example: `say player ROOM1_PICTURE:"Picture's looking good."`
 #
