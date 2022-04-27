@@ -6,6 +6,9 @@ class_name ESCSpeechPlayer
 # Global id of the background music player
 export var global_id: String = "_speech"
 
+# Reference to the audio player
+onready var stream: AudioStreamPlayer = $AudioStreamPlayer
+
 
 # Set the state of this player
 #
@@ -15,7 +18,9 @@ export var global_id: String = "_speech"
 # - p_force: Override the existing state even if the stream is still playing
 func set_state(p_state: String, p_force: bool = false) -> void:
 	# If speech is disabled, return
-	if not escoria.settings.speech_enabled:
+	if not escoria.project_settings_manager.get_setting(
+		escoria.project_settings_manager.SPEECH_ENABLED
+	):
 		return
 
 	# If state is "off"/"default", turn off speech
@@ -28,6 +33,9 @@ func set_state(p_state: String, p_force: bool = false) -> void:
 	$AudioStreamPlayer.stream = resource
 
 	if $AudioStreamPlayer.stream:
+		stream.volume_db = escoria.project_settings_manager.get_setting(
+			escoria.project_settings_manager.SPEECH_VOLUME
+		)
 		resource.set_loop(false)
 		$AudioStreamPlayer.play()
 

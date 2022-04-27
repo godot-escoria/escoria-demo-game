@@ -16,6 +16,7 @@ const GAME_SCENE = "%s/%s/game_scene" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
 const INVENTORY_ITEM_SIZE = "%s/%s/inventory_item_size" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
 const ITEMS_AUTOREGISTER_PATH = "%s/%s/items_autoregister_path" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
 const TRANSITION_PATHS = "%s/%s/transition_paths" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
+const SKIP_DIALOGS = "%s/%s/skip_dialogs" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
 
 # Main Escoria project settings
 const _MAIN_ROOT = "main"
@@ -67,6 +68,11 @@ const TEXT_SPEED_PER_CHARACTER = "%s/%s/text_speed_per_character" % [_ESCORIA_SE
 const FAST_TEXT_SPEED_PER_CHARACTER = "%s/%s/fast_text_speed_per_character" % [_ESCORIA_SETTINGS_ROOT, _SIMPLE_DIALOG_ROOT]
 const MAX_TIME_TO_DISAPPEAR = "%s/%s/max_time_to_disappear" % [_ESCORIA_SETTINGS_ROOT, _SIMPLE_DIALOG_ROOT]
 
+# Godot Windows project settings
+const DISPLAY = "display"
+const WINDOW = "window"
+const SIZE = "size"
+const FULLSCREEN = "%s/%s/%s/fullscreen" % [DISPLAY, WINDOW, SIZE]
 
 # Register a new project setting if it hasn't been defined already
 #

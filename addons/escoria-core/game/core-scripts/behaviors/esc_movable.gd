@@ -238,7 +238,7 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 
 	if walk_path.size() == 0:
 		task = MovableTask.NONE
-		walk_stop(parent.get_position())
+		walk_stop(parent.get_global_position())
 		set_process(false)
 		return
 	moved = true
@@ -255,7 +255,6 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 # - pos: Final target position
 func walk_stop(pos: Vector2) -> void:
 	parent.global_position = pos
-#	parent.interact_status = parent.INTERACT_STATES.INTERACT_NONE
 	walk_path = []
 
 	if _orig_speed > 0:

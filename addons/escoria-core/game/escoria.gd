@@ -63,6 +63,8 @@ var object_manager: ESCObjectManager
 # ESC project settings manager instance
 var project_settings_manager: ESCProjectSettingsManager
 
+var settings_manager: ESCSettingsManager
+
 # ESC command registry instance
 var command_registry: ESCCommandRegistry
 
@@ -77,9 +79,6 @@ var dialog_player: ESCDialogPlayer
 
 # Inventory scene
 var inventory
-
-# These are settings that the player can affect and save/load later
-var settings: ESCSaveSettings
 
 # The game resolution
 onready var game_size = get_viewport().size
@@ -121,12 +120,11 @@ func _init():
 	self.esc_compiler = ESCCompiler.new()
 	self.resource_cache = ESCResourceCache.new()
 	self.resource_cache.start()
+	self.settings_manager = ESCSettingsManager.new()
 	self.save_manager = ESCSaveManager.new()
 	self.inputs_manager = ESCInputsManager.new()
 	self.room_manager = ESCRoomManager.new()
 	self.project_settings_manager = ESCProjectSettingsManager.new()
-
-	settings = ESCSaveSettings.new()
 
 	if self.project_settings_manager.get_setting(self.project_settings_manager.GAME_SCENE) == "":
 		logger.report_errors("escoria.gd",
@@ -144,8 +142,8 @@ func _init():
 func _ready():
 	_handle_direct_scene_run()
 
-	settings = save_manager.load_settings()
-	apply_settings(settings)
+	settings_manager.load_settings()
+	settings_manager.apply_settings()
 	room_manager.register_reserved_globals()
 	inputs_manager.register_core()
 	if self.project_settings_manager.get_setting(self.project_settings_manager.GAME_START_SCRIPT).empty():
@@ -178,40 +176,6 @@ func init():
 # Called by Main menu "start new game"
 func new_game():
 	run_event_from_script(start_script, self.event_manager.EVENT_NEW_GAME)
-
-
-# Apply the loaded settings
-#
-# #### Parameters
-#
-# * p_settings: Loaded settings
-func apply_settings(p_settings: ESCSaveSettings) -> void:
-	if not Engine.is_editor_hint():
-		logger.info("******* settings loaded")
-		if p_settings != null:
-			settings = p_settings
-		else:
-			settings = ESCSaveSettings.new()
-
-		AudioServer.set_bus_volume_db(
-			AudioServer.get_bus_index(BUS_MASTER),
-			linear2db(settings.master_volume)
-		)
-		AudioServer.set_bus_volume_db(
-			AudioServer.get_bus_index(BUS_SFX),
-			linear2db(settings.sfx_volume)
-		)
-		AudioServer.set_bus_volume_db(
-			AudioServer.get_bus_index(BUS_MUSIC),
-			linear2db(settings.music_volume)
-		)
-		AudioServer.set_bus_volume_db(
-			AudioServer.get_bus_index(BUS_SPEECH),
-			linear2db(settings.speech_volume)
-		)
-		TranslationServer.set_locale(settings.text_lang)
-
-		game_scene.apply_custom_settings(settings.custom_settings)
 
 
 # Input function to manage specific input keys

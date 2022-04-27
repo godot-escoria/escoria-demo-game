@@ -66,7 +66,7 @@ func _exit_tree():
 
 # Ready function
 func _ready():
-	escoria.apply_settings(escoria.settings)
+	escoria.settings_manager.apply_settings()
 	connect("crash_popup_confirmed", escoria, "quit",
 		[], CONNECT_ONESHOT)
 
