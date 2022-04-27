@@ -1,3 +1,12 @@
+## [4.0.0-alpha.172](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.172) (2022-04-27)
+
+
+### Bug Fixes
+
+* Enforce rooms to be located at (0,0) ([#576](https://github.com/godot-escoria/escoria-demo-game/issues/576)) ([72e6517](https://github.com/godot-escoria/escoria-demo-game/commit/72e6517a3502872f68ab0f8c2f283a06faefbb83))
+
+
+
 ## [4.0.0-alpha.171](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.171) (2022-04-24)
 
 
