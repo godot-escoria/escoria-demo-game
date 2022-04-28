@@ -9,11 +9,9 @@ margin_right = -1680.0
 margin_bottom = -1050.0
 mouse_filter = 2
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
 bus = "SFX"
 
 [connection signal="finished" from="AudioStreamPlayer" to="." method="_on_sound_finished"]

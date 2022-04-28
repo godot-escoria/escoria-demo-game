@@ -24,37 +24,34 @@ func apply_settings() -> void:
 	if not Engine.is_editor_hint():
 		escoria.logger.info("******* settings loaded")
 		
+		var master_volume: float = escoria.project_settings_manager.get_setting(
+			escoria.project_settings_manager.MASTER_VOLUME
+		)
+		var music_volume: float = escoria.project_settings_manager.get_setting(
+			escoria.project_settings_manager.MUSIC_VOLUME
+		)
+		var speech_volume: float = escoria.project_settings_manager.get_setting(
+			escoria.project_settings_manager.SPEECH_VOLUME
+		)
+		var sfx_volume: float = escoria.project_settings_manager.get_setting(
+			escoria.project_settings_manager.SFX_VOLUME
+		)
+		
 		AudioServer.set_bus_volume_db(
 			AudioServer.get_bus_index(escoria.BUS_MASTER),
-			linear2db(
-				escoria.project_settings_manager.get_setting(
-					escoria.project_settings_manager.MASTER_VOLUME
-				)
-			)
+			linear2db(master_volume)
 		)
 		AudioServer.set_bus_volume_db(
 			AudioServer.get_bus_index(escoria.BUS_SFX),
-			linear2db(
-				escoria.project_settings_manager.get_setting(
-					escoria.project_settings_manager.SFX_VOLUME
-				)
-			)
+			linear2db(sfx_volume)
 		)
 		AudioServer.set_bus_volume_db(
 			AudioServer.get_bus_index(escoria.BUS_MUSIC),
-			linear2db(
-				escoria.project_settings_manager.get_setting(
-					escoria.project_settings_manager.MUSIC_VOLUME
-				)
-			)
+			linear2db(music_volume)
 		)
 		AudioServer.set_bus_volume_db(
 			AudioServer.get_bus_index(escoria.BUS_SPEECH),
-			linear2db(
-				escoria.project_settings_manager.get_setting(
-					escoria.project_settings_manager.SPEECH_VOLUME
-				)
-			)
+			linear2db(speech_volume)
 		)
 		TranslationServer.set_locale(
 			escoria.project_settings_manager.get_setting(

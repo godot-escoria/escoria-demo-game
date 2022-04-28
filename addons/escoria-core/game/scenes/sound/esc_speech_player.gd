@@ -29,14 +29,9 @@ func set_state(p_state: String, p_force: bool = false) -> void:
 		return
 
 	var resource = load(p_state)
-
 	$AudioStreamPlayer.stream = resource
-
 	if $AudioStreamPlayer.stream:
-		stream.volume_db = escoria.project_settings_manager.get_setting(
-			escoria.project_settings_manager.SPEECH_VOLUME
-		)
-		resource.set_loop(false)
+		$AudioStreamPlayer.stream.set_loop(false)
 		$AudioStreamPlayer.play()
 
 
@@ -50,5 +45,16 @@ func _ready():
 	)
 
 
+# Callback called when the audio stream player finished playing.
 func _on_AudioStreamPlayer_finished() -> void:
 	set_state("off")
+
+
+# Pause the speech player
+func pause():
+	stream.stream_paused = true
+
+
+# Unpause the speech player
+func resume():
+	stream.stream_paused = false

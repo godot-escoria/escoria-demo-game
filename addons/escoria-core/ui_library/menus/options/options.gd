@@ -78,12 +78,15 @@ func _on_language_input(event: InputEvent, language: String):
 # #### Parameters
 # - value: The new volume level
 func _on_sound_volume_changed(value):
-	escoria.project_settings_manager.set_setting(
-		escoria.project_settings_manager.SFX_VOLUME,
-		value
-	)
-	escoria.settings_manager.apply_settings()
-	settings_changed = true
+	if escoria.project_settings_manager.get_setting(
+				escoria.project_settings_manager.SFX_VOLUME
+			) != value:
+		escoria.project_settings_manager.set_setting(
+			escoria.project_settings_manager.SFX_VOLUME,
+			value
+		)
+		escoria.settings_manager.apply_settings()
+		settings_changed = true
 
 
 # Music volume was changed
@@ -91,12 +94,15 @@ func _on_sound_volume_changed(value):
 # #### Parameters
 # - value: The new volume level
 func _on_music_volume_changed(value):
-	escoria.project_settings_manager.set_setting(
-		escoria.project_settings_manager.MUSIC_VOLUME,
-		value
-	)
-	escoria.settings_manager.apply_settings()
-	settings_changed = true
+	if escoria.project_settings_manager.get_setting(
+				escoria.project_settings_manager.MUSIC_VOLUME
+			) != value:
+		escoria.project_settings_manager.set_setting(
+			escoria.project_settings_manager.MUSIC_VOLUME,
+			value
+		)
+		escoria.settings_manager.apply_settings()
+		settings_changed = true
 
 
 # General volume was changed
@@ -104,12 +110,15 @@ func _on_music_volume_changed(value):
 # #### Parameters
 # - value: The new volume level
 func _on_general_volume_changed(value):
-	escoria.project_settings_manager.set_setting(
-		escoria.project_settings_manager.MASTER_VOLUME,
-		value
-	)
-	escoria.settings_manager.apply_settings()
-	settings_changed = true
+	if escoria.project_settings_manager.get_setting(
+				escoria.project_settings_manager.MASTER_VOLUME
+			) != value:
+		escoria.project_settings_manager.set_setting(
+			escoria.project_settings_manager.MASTER_VOLUME,
+			value
+		)
+		escoria.settings_manager.apply_settings()
+		settings_changed = true
 
 
 # Speech volume was changed
@@ -117,12 +126,15 @@ func _on_general_volume_changed(value):
 # #### Parameters
 # - value: The new volume level
 func _on_speech_volume_value_changed(value: float) -> void:
-	escoria.project_settings_manager.set_setting(
-		escoria.project_settings_manager.SPEECH_VOLUME,
-		value
-	)
-	escoria.settings_manager.apply_settings()
-	settings_changed = true
+	if escoria.project_settings_manager.get_setting(
+				escoria.project_settings_manager.SPEECH_VOLUME
+			) != value:
+		escoria.project_settings_manager.set_setting(
+			escoria.project_settings_manager.SPEECH_VOLUME,
+			value
+		)
+		escoria.settings_manager.apply_settings()
+		settings_changed = true
 
 
 # Save the settings

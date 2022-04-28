@@ -44,9 +44,6 @@ func set_state(p_state: String, p_force: bool = false) -> void:
 			resource.loop_end = resource.mix_rate * resource.get_length()
 		elif "loop" in resource:
 			resource.loop = true
-		stream.volume_db = escoria.project_settings_manager.get_setting(
-			escoria.project_settings_manager.MUSIC_VOLUME
-		)
 		stream.play()
 
 
