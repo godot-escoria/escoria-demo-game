@@ -53,6 +53,7 @@ func run(command_params: Array) -> int:
 		)
 	return ESCExecution.RC_OK
 
+
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not .validate(arguments):
@@ -71,6 +72,24 @@ func validate(arguments: Array):
 					"allowed_types":SUPPORTED_TRANSITIONS
 				}
 			)
+		)
+		return false
+
+	var camera: ESCCamera = escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera
+	var camera_limit: Rect2 = Rect2(camera.limit_left, camera.limit_top, camera.limit_right - camera.limit_left, camera.limit_bottom - camera.limit_top)
+	var shift_by: Vector2 = Vector2(arguments[0], arguments[1])
+	var new_pos: Vector2 = Vector2(camera.position.x + shift_by.x, camera.position.y + shift_by.y)
+
+	if not camera_limit.has_point(new_pos):
+		escoria.logger.error(
+			self,
+			"[%s]: invalid camera position. Camera cannot be moved by %s to %s as this is outside the current camera limit %s."
+				% [
+					get_command_name(),
+					shift_by,
+					new_pos,
+					camera_limit
+				]
 		)
 		return false
 

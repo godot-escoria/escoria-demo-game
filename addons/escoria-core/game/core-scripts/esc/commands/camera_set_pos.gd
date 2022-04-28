@@ -24,6 +24,30 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
+# Validate whether the given arguments match the command descriptor
+func validate(arguments: Array):
+	if not .validate(arguments):
+		return false
+
+	var new_pos: Vector2 = Vector2(arguments[1], arguments[2])
+	var camera: ESCCamera = escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera
+	var camera_limit: Rect2 = Rect2(camera.limit_left, camera.limit_top, camera.limit_right - camera.limit_left, camera.limit_bottom - camera.limit_top)
+
+	if not camera_limit.has_point(new_pos):
+		escoria.logger.error(
+			self,
+			"[%s]: invalid camera position. Camera cannot be moved to %s as this is outside the current camera limit %s."
+				% [
+					get_command_name(),
+					new_pos,
+					camera_limit
+				]
+		)
+		return false
+
+	return true
+
+
 # Run the command
 func run(command_params: Array) -> int:
 	(escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera)\
