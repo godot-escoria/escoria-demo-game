@@ -391,8 +391,8 @@ func _handle_direct_scene_run() -> void:
 
 
 # Used by game.gd to determine whether the game scene is ready to take inputs
-# from _input() function. To do so, the current_scene must be set, the game
-# scene must be set, and the game scene must've been notified that room
+# from the _input() function. To do so, the current_scene must be set, the game
+# scene must be set, and the game scene must've been notified that the room
 # is ready.
 #
 # *Returns*
