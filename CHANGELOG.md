@@ -1,3 +1,12 @@
+## [4.0.0-alpha.176](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.176) (2022-04-30)
+
+
+### Bug Fixes
+
+* avoids crashing when selected_action is null ([#586](https://github.com/godot-escoria/escoria-demo-game/issues/586)) ([f9e39af](https://github.com/godot-escoria/escoria-demo-game/commit/f9e39af7989b7a01bfbac119dff6f7b7b5f8df5d))
+
+
+
 ## [4.0.0-alpha.175](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.175) (2022-04-30)
 
 

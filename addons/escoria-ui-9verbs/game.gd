@@ -183,7 +183,7 @@ func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
 	element_focused(item_global_id)
 	var object = escoria.object_manager.get_object(item_global_id)
 	if object != null:
-		verbs_menu.set_by_name(object.node.default_action)	
+		verbs_menu.set_by_name(object.node.default_action)
 
 	if verbs_menu.selected_action == null:
 		return
