@@ -23,7 +23,7 @@ func _get_escoria():
 				"Escoria could not load the 'escoria' singleton/autoload.\n",
 				"Please try to disable and re-enable 'Escoria' plugin."
 			)
-	
+
 	return escoria_instance
 
 
