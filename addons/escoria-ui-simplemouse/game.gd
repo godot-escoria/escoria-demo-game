@@ -310,6 +310,7 @@ func unpause_game():
 	if get_node(pause_menu).visible:
 		get_node(pause_menu).hide()
 		escoria.object_manager.get_object(escoria.object_manager.CAMERA).node.current = true
+		escoria.object_manager.get_object(escoria.object_manager.SPEECH).node.resume()
 		escoria.main.current_scene.game.show_ui()
 		escoria.main.current_scene.show()
 
@@ -321,6 +322,8 @@ func pause_game():
 		)
 		get_node(pause_menu).show()
 		escoria.object_manager.get_object(escoria.object_manager.CAMERA).node.current = false
+		escoria.object_manager.get_object(escoria.object_manager.SPEECH).node.pause()
+		
 		escoria.main.current_scene.game.hide_ui()
 		escoria.main.current_scene.hide()
 

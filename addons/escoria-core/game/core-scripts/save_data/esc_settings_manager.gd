@@ -8,7 +8,9 @@ const SETTINGS_TEMPLATE: String = "settings.tres"
 # Variable containing the settings folder obtained from Project Settings
 var settings_folder: String
 
-
+# Dictionary containing specific settings that gamedev wants to save in settings
+# This variable is access-free. Getting its content is gamedev's duty.
+# It is saved with other Escoria settings data when save_settings() is called.
 var custom_settings: Dictionary
 
 
