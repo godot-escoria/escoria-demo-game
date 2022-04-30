@@ -389,3 +389,14 @@ func _handle_direct_scene_run() -> void:
 	if current_scene_root is ESCRoom:
 		escoria.object_manager.set_current_room(current_scene_root)
 
+
+# Used by game.gd to determine whether the game scene is ready to take inputs
+# from the _input() function. To do so, the current_scene must be set, the game
+# scene must be set, and the game scene must've been notified that the room
+# is ready.
+#
+# *Returns*
+# true if game scene is ready for inputs
+func is_ready_for_inputs() -> bool:
+	return escoria.main.current_scene and escoria.main.current_scene.game \
+			and escoria.main.current_scene.game.room_ready_for_inputs

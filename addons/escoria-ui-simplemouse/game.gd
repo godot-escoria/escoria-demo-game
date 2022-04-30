@@ -97,10 +97,10 @@ func _exit_tree():
 
 
 func _input(event: InputEvent) -> void:
-	if escoria.main.current_scene and escoria.main.current_scene.game:
-			if event is InputEventMouseMotion:
-				escoria.main.current_scene.game. \
-					update_tooltip_following_mouse_position(event.position)
+	if escoria.is_ready_for_inputs():
+		if event is InputEventMouseMotion:
+			escoria.main.current_scene.game. \
+				update_tooltip_following_mouse_position(event.position)
 
 
 # https://github.com/godotengine/godot-demo-projects/blob/3.4-585455e/misc/joypads/joypads.gd
