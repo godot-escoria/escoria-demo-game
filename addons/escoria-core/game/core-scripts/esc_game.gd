@@ -38,7 +38,7 @@ export(NodePath) var ui_parent_control_node
 # A reference to the node handling tooltips
 var tooltip_node: Object
 
-# Boolean indicating whether the game scene is ready to accept inputs 
+# Boolean indicating whether the game scene is ready to accept inputs
 # from the player. This enables using escoria.is_ready_for_inputs() in _input()
 # function of game.gd script.
 var room_ready_for_inputs: bool = false
@@ -56,10 +56,10 @@ func _enter_tree():
 		self,
 		"_on_action_finished"
 	)
-	
+
 	escoria.main.connect(
-		"room_ready", 
-		self, 
+		"room_ready",
+		self,
 		"_on_room_ready"
 	)
 

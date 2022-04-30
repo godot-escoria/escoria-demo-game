@@ -1,3 +1,12 @@
+## [4.0.0-alpha.175](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.175) (2022-04-30)
+
+
+### Bug Fixes
+
+* disable ESCGame inputs until signal room_ready is emitted ([#582](https://github.com/godot-escoria/escoria-demo-game/issues/582)) ([8a58aa7](https://github.com/godot-escoria/escoria-demo-game/commit/8a58aa7efc8cc27124f583789fb8f493b2ee3366))
+
+
+
 ## [4.0.0-alpha.174](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.174) (2022-04-30)
 
 

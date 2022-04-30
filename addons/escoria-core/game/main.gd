@@ -91,7 +91,7 @@ func set_scene_finish() -> void:
 
 	clear_previous_scene()
 	emit_signal("room_ready")
-	
+
 
 
 # Cleanup the previous scene if there was one.
