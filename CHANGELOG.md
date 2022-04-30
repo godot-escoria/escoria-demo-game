@@ -1,3 +1,15 @@
+## [4.0.0-alpha.174](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.174) (2022-04-30)
+
+
+### Bug Fixes
+
+* adds control node to ESCGame for UI that must be populated, along with Escoria-only UI methods; this helps to avoid display issues on startup ([eeb7042](https://github.com/godot-escoria/escoria-demo-game/commit/eeb7042d11019f1aa63c9b55be859d65ed5b4cef))
+* allows for transition to be disabled on init; still has issue w/ UI showing up for fraction of a second ([6afff99](https://github.com/godot-escoria/escoria-demo-game/commit/6afff99e7cba6d1c534d8595ed3e0d77d0e2248e))
+* avoids brief flickering to current scene during scene transition; can be moved since these were left in place pre-transition overhaul ([5d23bb1](https://github.com/godot-escoria/escoria-demo-game/commit/5d23bb1af12d58efb30d92e65ddd0679393114c6))
+* eliminates intermittent flicker with UI; NO_UI shouldn't be allowed for :setup events ([f69b29d](https://github.com/godot-escoria/escoria-demo-game/commit/f69b29da29e5bc96e9cbccca822042bbf9aa8eb7))
+
+
+
 ## [4.0.0-alpha.173](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.173) (2022-04-30)
 
 
