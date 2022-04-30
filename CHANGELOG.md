@@ -1,3 +1,12 @@
+## [4.0.0-alpha.177](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.177) (2022-04-30)
+
+
+### Documentation
+
+* Updated say command docs for audio and translations ([#589](https://github.com/godot-escoria/escoria-demo-game/issues/589)) ([357799c](https://github.com/godot-escoria/escoria-demo-game/commit/357799cc4d00a1b9d70e1e7fecb0d544cf0b3eef))
+
+
+
 ## [4.0.0-alpha.176](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.176) (2022-04-30)
 
 
