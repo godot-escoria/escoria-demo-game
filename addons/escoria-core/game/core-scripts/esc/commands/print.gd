@@ -1,4 +1,4 @@
-# `debug string [string2 ...]`
+# `print string`
 #
 # Prints a message to the Godot debug window.
 # Use this for debugging game state.
