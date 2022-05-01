@@ -136,14 +136,14 @@ func run() -> int:
 
 
 # This function interrupts the command. If it was not started, it will not run.
-# If it had already started, the execution will be considered as finished 
+# If it had already started, the execution will be considered as finished
 # immediately and finish. If it was already finished, nothing will happen.
 func interrupt():
 	_is_interrupted = true
 	var command = escoria.command_registry.get_command(self.name)
 	if command.has_method("interrupt"):
 		command.interrupt()
-	
+
 
 # Override of built-in _to_string function to display the statement.
 func _to_string() -> String:

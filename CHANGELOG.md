@@ -1,3 +1,12 @@
+## [4.0.0-alpha.179](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.179) (2022-05-01)
+
+
+### Bug Fixes
+
+* manage clearing of current_action when action is interrupted ([#584](https://github.com/godot-escoria/escoria-demo-game/issues/584)) ([b8983b8](https://github.com/godot-escoria/escoria-demo-game/commit/b8983b8b4269a6e5195b6baf084d86443f7b8f00))
+
+
+
 ## [4.0.0-alpha.178](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.178) (2022-05-01)
 
 

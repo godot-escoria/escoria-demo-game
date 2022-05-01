@@ -280,7 +280,7 @@ func _on_event_finished(finished_statement: ESCStatement, return_code: int, chan
 
 	if event_flags & ESCEvent.FLAG_NO_SAVE:
 		escoria.save_manager.save_enabled = true
-	
+
 	# If the return code was RC_CANCEL due to an event finishing with "stop" command for example
 	# we convert it to RC_OK so that other processed waiting for RC_OK can carry on.
 	if return_code == ESCExecution.RC_CANCEL:

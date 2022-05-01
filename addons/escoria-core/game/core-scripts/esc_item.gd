@@ -465,7 +465,7 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 # or teleport it directly at destination position if 'to_target' is true.
 #
 # #### Parameters
-# 
+#
 # - to_target: if true, the movable node is teleport directly at its target
 # destination
 func stop_walking_now(to_target: bool = false) -> void:
