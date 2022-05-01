@@ -72,3 +72,9 @@ func run(command_params: Array) -> int:
 	escoria.logger.debug("Ending transition #%s [%s, %s]"
 		% [transition_id, command_params[0], command_params[1]])
 	return ESCExecution.RC_OK
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	# Do nothing
+	pass

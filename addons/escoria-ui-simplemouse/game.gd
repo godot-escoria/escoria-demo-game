@@ -372,8 +372,9 @@ func _on_action_finished():
 	$mouse_layer/verbs_menu.iterate_actions_cursor(0)
 
 func _on_event_done(_return_code: int, _event_name: String):
-	escoria.action_manager.clear_current_action()
-	$mouse_layer/verbs_menu.clear_tool_texture()
+	if _return_code == ESCExecution.RC_OK:
+		escoria.action_manager.clear_current_action()
+		$mouse_layer/verbs_menu.clear_tool_texture()
 
 
 func _on_MenuButton_pressed() -> void:

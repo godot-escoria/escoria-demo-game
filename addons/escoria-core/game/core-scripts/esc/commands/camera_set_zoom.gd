@@ -36,3 +36,13 @@ func run(command_params: Array) -> int:
 			command_params[1]
 		)
 	return ESCExecution.RC_OK
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	escoria.logger.report_warnings(
+		get_command_name(),
+		[
+			"Interrupt() function not implemented"
+		]
+	)

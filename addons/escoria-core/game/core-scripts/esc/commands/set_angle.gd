@@ -55,3 +55,9 @@ func run(command_params: Array) -> int:
 			)
 	return ESCExecution.RC_OK
 
+
+# Function called when the command is interrupted.
+func interrupt():
+	# Do nothing
+	pass
+

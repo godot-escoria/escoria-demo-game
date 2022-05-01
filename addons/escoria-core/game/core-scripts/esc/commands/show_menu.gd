@@ -81,3 +81,9 @@ func run(command_params: Array) -> int:
 			escoria.game_scene.pause_game()
 
 	return ESCExecution.RC_OK
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	# Do nothing
+	pass

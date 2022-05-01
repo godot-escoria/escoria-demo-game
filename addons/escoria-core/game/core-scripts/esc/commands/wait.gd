@@ -10,6 +10,9 @@
 extends ESCBaseCommand
 class_name WaitCommand
 
+# Timer to wait for
+var timer: Timer
+
 
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
@@ -40,5 +43,15 @@ func validate(arguments: Array):
 
 # Run the command
 func run(command_params: Array) -> int:
-	yield(escoria.get_tree().create_timer(float(command_params[0])), "timeout")
+	timer = Timer.new()
+	timer.wait_time = float(command_params[0])
+	escoria.add_child(timer)
+	timer.start()
+	yield(timer, "timeout")
+	escoria.remove_child(timer)
 	return ESCExecution.RC_OK
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	timer.emit_signal("timeout")

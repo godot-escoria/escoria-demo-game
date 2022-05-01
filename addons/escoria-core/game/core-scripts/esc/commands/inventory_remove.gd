@@ -26,3 +26,9 @@ func configure() -> ESCCommandArgumentDescriptor:
 func run(command_params: Array) -> int:
 	escoria.inventory_manager.remove_item(command_params[0])
 	return ESCExecution.RC_OK
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	# Do nothing
+	pass

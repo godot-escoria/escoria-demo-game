@@ -109,3 +109,9 @@ func run(command_params: Array) -> int:
 		command_params[2]
 	)
 	return ESCExecution.RC_OK
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	for tween in _tweens:
+		tween.stop_all()

@@ -16,6 +16,13 @@ extends ESCBaseCommand
 class_name WalkBlockCommand
 
 
+# Walking object
+var walking_object_node: ESCItem
+
+# Target object
+var target_object_node: ESCObject
+
+
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
@@ -46,6 +53,11 @@ func validate(arguments: Array):
 			]
 		)
 		return false
+	
+	walking_object_node = (escoria.object_manager.get_object(
+		arguments[0]).node as ESCItem
+	)
+	target_object_node = escoria.object_manager.get_object(arguments[1])
 	return true
 
 
@@ -55,8 +67,11 @@ func run(command_params: Array) -> int:
 		escoria.action_manager.ACTION.BACKGROUND_CLICK,
 		command_params
 	)
-	yield(
-		(escoria.object_manager.get_object(command_params[0]).node as ESCItem),
-		"arrived"
-	)
+	yield(walking_object_node, "arrived")
 	return ESCExecution.RC_OK
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	if not walking_object_node is ESCPlayer:
+		walking_object_node.stop_walking_now()

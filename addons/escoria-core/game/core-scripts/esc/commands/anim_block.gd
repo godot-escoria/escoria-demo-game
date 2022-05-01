@@ -58,3 +58,13 @@ func run(command_params: Array) -> int:
 	while animation_finished != anim_id:
 		animation_finished = yield(animator, "animation_finished")
 	return ESCExecution.RC_OK
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	escoria.logger.report_warnings(
+		get_command_name(),
+		[
+			"Interrupt() function not implemented"
+		]
+	)

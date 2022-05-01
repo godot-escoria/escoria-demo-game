@@ -82,3 +82,9 @@ func run(arguments: Array) -> int:
 		arguments[2], # channel name
 		arguments[3]  # whether to block
 	)
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	# Do nothing
+	pass

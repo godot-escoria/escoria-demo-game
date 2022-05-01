@@ -111,3 +111,13 @@ func run(command_params: Array) -> int:
 	yield(escoria.dialog_player, "say_finished")
 	escoria.current_state = escoria.GAME_STATE.DEFAULT
 	return ESCExecution.RC_OK
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	escoria.logger.report_warnings(
+		"say",
+		[
+			"Interrupt() function not implemented"
+		]
+	)

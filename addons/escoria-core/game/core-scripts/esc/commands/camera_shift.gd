@@ -69,3 +69,13 @@ func validate(arguments: Array):
 		return false
 
 	return true
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	escoria.logger.report_warnings(
+		get_command_name(),
+		[
+			"Interrupt() function not implemented"
+		]
+	)
