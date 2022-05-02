@@ -205,9 +205,9 @@ func queue_event(event: ESCEvent) -> void:
 		escoria.logger.debug(message % [event.name, CHANNEL_FRONT])
 		return
 	elif _is_event_running(event, CHANNEL_FRONT):
-		# Don't queue the same event if it's already running.		
+		# Don't queue the same event if it's already running.	
 		escoria.logger.debug(
-			"Event %s already running in channel '%s'. Won't be queued." 
+			"Event %s already running in channel '%s'. Won't be queued."
 				% [event.name, CHANNEL_FRONT]
 		)
 
@@ -248,9 +248,9 @@ func queue_background_event(channel_name: String, event: ESCEvent) -> void:
 		escoria.logger.debug(message % [event.name, channel_name])
 		return
 	elif _is_event_running(event, CHANNEL_FRONT):
-		# Don't queue the same event if it's already running.		
+		# Don't queue the same event if it's already running.	
 		escoria.logger.debug(
-			"Event %s already running in channel '%s'. Won't be queued." 
+			"Event %s already running in channel '%s'. Won't be queued."
 				% [event.name, channel_name]
 		)
 
@@ -370,5 +370,5 @@ func _get_last_event_queued(channel_name: String) -> ESCEvent:
 # *Returns* true iff event is currently running in the specified channel.
 func _is_event_running(event: ESCEvent, channel_name: String) -> bool:
 	var running_event: ESCEvent = get_running_event(channel_name)
-	
+
 	return running_event != null and running_event.name == event.name

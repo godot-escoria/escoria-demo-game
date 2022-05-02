@@ -1,3 +1,12 @@
+## [4.0.0-alpha.180](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.180) (2022-05-02)
+
+
+### Bug Fixes
+
+* prevents the same event from being queued multiple times in a row ([0468817](https://github.com/godot-escoria/escoria-demo-game/commit/046881781285767ea911046c48a1eb60b4fabc4b))
+
+
+
 ## [4.0.0-alpha.179](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.179) (2022-05-01)
 
 
