@@ -22,7 +22,9 @@ func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		3,
 		[TYPE_STRING, TYPE_STRING, TYPE_STRING, TYPE_ARRAY],
-		[null, null, null, []]
+		[null, null, null, []],
+		[true],
+		true
 	)
 
 

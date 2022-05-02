@@ -30,24 +30,30 @@ var defaults: Array = []
 # Whether to strip quotes on specific arguments
 var strip_quotes: Array = []
 
+# Whether the final argument is a series of varargs
+var has_varargs: bool = false
+
 
 # Initialize the descriptor
 func _init(
 	p_min_args: int = 0,
 	p_types: Array = [],
 	p_defaults: Array = [],
-	p_strip_quotes: Array = [true]
+	p_strip_quotes: Array = [true],
+	p_has_varargs: bool = false
 ):
 	max_args = p_types.size()
 	min_args = p_min_args
 	types = p_types
 	defaults = p_defaults
 	strip_quotes = p_strip_quotes
+	has_varargs = p_has_varargs
 
 
 # Combine the default argument values with the given arguments
 func prepare_arguments(arguments: Array) -> Array:
 	var complete_arguments = defaults
+	var varargs = []
 
 	for index in range(arguments.size()):
 		# If we have too many arguments passed in, complete_arguments won't
@@ -55,22 +61,32 @@ func prepare_arguments(arguments: Array) -> Array:
 		# to avoid duplicating validation code, just grow complete_arguments
 		# since the arguments won't be used anyway.
 		if index >= complete_arguments.size():
-			complete_arguments.append(arguments[index])
-			continue
-
-		complete_arguments[index] = escoria.utils.get_typed_value(
-			arguments[index],
-			types[index]
-		)
-		var strip = strip_quotes[0]
-		if strip_quotes.size() == complete_arguments.size():
-			strip = strip_quotes[index]
-
-		if strip and typeof(complete_arguments[index]) == TYPE_STRING:
-			complete_arguments[index] = complete_arguments[index].replace(
-				'"',
-				''
+			if has_varargs:
+				varargs.append(arguments[index])
+			else:
+				complete_arguments.append(arguments[index])
+		elif index == complete_arguments.size() - 1 and has_varargs:
+			# Varargs are a special case and need to be gathered and added at
+			# the end as an array, untyped and unchecked. They should also only
+			# appear at the very end of a command's argument list.
+			varargs.append(arguments[index])
+		else:
+			complete_arguments[index] = escoria.utils.get_typed_value(
+				arguments[index],
+				types[index]
 			)
+			var strip = strip_quotes[0]
+			if strip_quotes.size() == complete_arguments.size():
+				strip = strip_quotes[index]
+
+			if strip and typeof(complete_arguments[index]) == TYPE_STRING:
+				complete_arguments[index] = complete_arguments[index].replace(
+					'"',
+					''
+				)
+
+	if has_varargs:
+		complete_arguments[complete_arguments.size() - 1] = varargs
 
 	return complete_arguments
 
@@ -91,7 +107,7 @@ func validate(command: String, arguments: Array) -> bool:
 			]
 		)
 
-	if arguments.size() > self.max_args:
+	if arguments.size() > self.max_args and not has_varargs:
 		escoria.logger.report_errors(
 			"ESCCommandArgumentDescriptor:validate()",
 			[
@@ -104,6 +120,11 @@ func validate(command: String, arguments: Array) -> bool:
 		if arguments[index] == null:
 			# No type checking for null values
 			continue
+		
+		if has_varargs and index == arguments.size() - 1:
+			# If we have varargs at the end, do not validate them.
+			continue
+
 		var correct = false
 		var types_index = index
 		if types_index > types.size():
