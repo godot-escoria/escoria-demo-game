@@ -2,6 +2,7 @@
 
 
 :setup
+custom r3_r_exit door_enabler enable_door a b c 1 2 345
 
 # If the room hasn't been visited previously, open the bridge and break the button
 > [!room3_visited]
@@ -21,7 +22,7 @@
 	# We use a custom function to enable the collision polygon on the door
 	# to enable it to work as a door once the bridge is closed.
 	# You'll find the script in room3/Hotspots/r_door/door_enabler
-	custom r3_r_exit door_enabler enable_door	
+	custom r3_r_exit door_enabler enable_door
 
 > [eq ESC_LAST_SCENE room2]
 	teleport player r3_l_exit

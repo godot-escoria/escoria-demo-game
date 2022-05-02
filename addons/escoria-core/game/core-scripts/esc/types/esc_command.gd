@@ -42,14 +42,14 @@ func _init(command_string):
 						).strip_edges()
 					)
 				for parameter in parsed_parameters.split(" "):
-					if parameter.begins_with('"') and parameter.ends_with('"'):
+					if len(parameter) > 1 and parameter.begins_with('"') and parameter.ends_with('"'):
 						parameters.append(
 							parameter
 						)
 					elif ":" in parameter and '"' in parameter:
 						quote_open = true
 						parameter_values.append(parameter)
-					elif parameter.begins_with('"'):
+					elif not quote_open and parameter.begins_with('"'):
 						quote_open = true
 						parameter_values.append(parameter)
 					elif parameter.ends_with('"'):
