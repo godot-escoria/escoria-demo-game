@@ -75,7 +75,8 @@ func set_scene(p_scene: Node) -> void:
 #
 # - p_scene: The scene currently being initialized by set_scene.
 func finish_current_scene_init(p_scene: Node) -> void:
-	move_child(p_scene, 0)
+	if is_a_parent_of(p_scene):
+		move_child(p_scene, 0)
 
 	current_scene = p_scene
 
