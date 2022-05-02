@@ -120,7 +120,7 @@ func validate(command: String, arguments: Array) -> bool:
 		if arguments[index] == null:
 			# No type checking for null values
 			continue
-		
+	
 		if has_varargs and index == arguments.size() - 1:
 			# If we have varargs at the end, do not validate them.
 			continue

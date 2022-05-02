@@ -1,3 +1,12 @@
+## [4.0.0-alpha.181](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.181) (2022-05-02)
+
+
+### Bug Fixes
+
+* implement varargs for ESC commands. 'custom' makes use of this [#592](https://github.com/godot-escoria/escoria-demo-game/issues/592) ([738ce0d](https://github.com/godot-escoria/escoria-demo-game/commit/738ce0debca0f51ae3b639838eb959c01850ce9c))
+
+
+
 ## [4.0.0-alpha.180](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.180) (2022-05-02)
 
 

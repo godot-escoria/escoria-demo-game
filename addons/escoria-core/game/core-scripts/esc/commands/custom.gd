@@ -9,7 +9,7 @@
 # - *object*: Global ID of the target `ESCItem`
 # - *node*: Name of the child node of the target `ESCItem`
 # - *func_name*: Name of the function to be called
-# - params: Any arguments to be passed to the function (array and object parameters are not supported). 
+# - params: Any arguments to be passed to the function (array and object parameters are not supported).
 # Multiple parameters can be passed by simply passing them in as additional arguments separated by
 # spaces, e.g. `custom the_object the_node the_function arg1 arg2 arg3`
 #
