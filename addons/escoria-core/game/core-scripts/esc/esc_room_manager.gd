@@ -51,6 +51,9 @@ func register_reserved_globals() -> void:
 # - enable_automatic_transitions: Whether to play the transition between rooms
 #	automatically or to leave the responsibility to the developer.
 func change_scene(room_path: String, enable_automatic_transitions: bool) -> void:
+	# We're changing scenes, so users shouldn't be able to do stuff during.
+	escoria.game_scene.disable_all_input()
+
 	# Clear the event queue to remove other events (there could be duplicate
 	# events in there so we avoid running these multiple times). Also sets a
 	# flag indicating a changing scene and interrupts any other currently-running
@@ -323,6 +326,9 @@ func _perform_script_events(room: ESCRoom) -> void:
 	# Hide main and pause menus
 	escoria.game_scene.hide_main_menu()
 	escoria.game_scene.unpause_game()
+	
+	# Make sure user input is allowed
+	escoria.game_scene.enable_all_input()
 
 	# Maybe this is ok to put in set_scene_finish() above? But it might be a bit
 	# confusing to not see the matching camera.current updates.
