@@ -54,4 +54,7 @@ func run(command_params: Array) -> int:
 
 # Function called when the command is interrupted.
 func interrupt():
+	if timer == null:
+		return
+
 	timer.emit_signal("timeout")
