@@ -52,8 +52,10 @@ func register_reserved_globals() -> void:
 #	automatically or to leave the responsibility to the developer.
 func change_scene(room_path: String, enable_automatic_transitions: bool) -> void:
 	# Clear the event queue to remove other events (there could be duplicate
-	# events in there so we avoid running these multiple times)
-	escoria.event_manager.clear_event_queue()
+	# events in there so we avoid running these multiple times). Also sets a
+	# flag indicating a changing scene and interrupts any other currently-running
+	# events.
+	escoria.event_manager.set_changing_scene(true)
 
 	# If FORCE_LAST_SCENE_NULL is true, force ESC_LAST_SCENE to empty
 	if escoria.globals_manager.get_global( \
@@ -219,7 +221,8 @@ func _perform_script_events(room: ESCRoom) -> void:
 		get_class()
 		)
 		escoria.event_manager.queue_event(
-			script_transition_out.events[escoria.event_manager.EVENT_TRANSITION_OUT]
+			script_transition_out.events[escoria.event_manager.EVENT_TRANSITION_OUT],
+			true
 		)
 
 		# Unpause the game if it was
@@ -354,7 +357,8 @@ func _perform_script_events(room: ESCRoom) -> void:
 		get_class()
 		)
 		escoria.event_manager.queue_event(
-			script_transition_in.events[escoria.event_manager.EVENT_TRANSITION_IN]
+			script_transition_in.events[escoria.event_manager.EVENT_TRANSITION_IN],
+			true
 		)
 
 	var ready_event_added: bool = false
@@ -420,7 +424,7 @@ func _run_script_event(event_name: String, room: ESCRoom):
 					room.compiled_script.events[event_name].statements.size()
 			]
 		)
-		escoria.event_manager.queue_event(room.compiled_script.events[event_name])
+		escoria.event_manager.queue_event(room.compiled_script.events[event_name], true)
 		return true
 	else:
 		return false

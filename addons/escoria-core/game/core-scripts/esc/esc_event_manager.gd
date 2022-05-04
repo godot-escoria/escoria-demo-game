@@ -54,6 +54,14 @@ var _channels_state: Dictionary = {}
 # Whether we're currently waiting for an async event to complete, per channel
 var _yielding: Dictionary = {}
 
+# Whether we're currently changing the scene.
+var _changing_scene: bool = false setget set_changing_scene
+
+var _change_scene: ChangeSceneCommand
+
+func _init():
+	_change_scene = ChangeSceneCommand.new()
+
 
 # Make sure to stop when pausing the game
 func _ready():
@@ -70,7 +78,7 @@ func _process(delta: float) -> void:
 	for channel_name in events_queue.keys():
 		channel_yielding = _yielding.get(channel_name, false)
 
-		if events_queue[channel_name].size() == 0 or channel_yielding:
+		if events_queue[channel_name].size() == 0 or channel_yielding or _changing_scene:
 			continue
 		if is_channel_free(channel_name):
 			_channels_state[channel_name] = false
@@ -159,6 +167,9 @@ func _process(delta: float) -> void:
 func queue_event_from_esc(script_object: ESCScript, event: String,
 	channel: String, block: bool) -> int:
 
+	if _changing_scene:
+		return ESCExecution.RC_WONT_QUEUE
+
 	if channel == CHANNEL_FRONT:
 		escoria.event_manager.queue_event(script_object.events[event])
 	else:
@@ -191,7 +202,13 @@ func queue_event_from_esc(script_object: ESCScript, event: String,
 #
 # #### Parameters
 # - event: Event to run
-func queue_event(event: ESCEvent) -> void:
+func queue_event(event: ESCEvent, force: bool = false) -> void:
+	if _changing_scene and not force:
+		escoria.logger.info(
+			"Changing scenes. Won't queue event '%s'." % event.name
+		)
+		return
+	
 	# Don't queue the same event more than once in a row.
 	var last_event = _get_last_event_queued(CHANNEL_FRONT)
 
@@ -260,9 +277,12 @@ func queue_background_event(channel_name: String, event: ESCEvent) -> void:
 
 
 # Interrupt the events currently running.
-func interrupt_running_event():
+#
+# #### Parameters
+# - exceptions: an optional list of events which should be left running
+func interrupt_running_event(exceptions: PoolStringArray = []):
 	for channel_name in _running_events.keys():
-		if _running_events[channel_name] != null:
+		if _running_events[channel_name] != null and not channel_name in exceptions:
 			_running_events[channel_name].interrupt()
 			_channels_state[channel_name] = true
 
@@ -289,6 +309,20 @@ func is_channel_free(name: String) -> bool:
 # **Returns** The currently running event or null
 func get_running_event(name: String) -> ESCEvent:
 	return _running_events[name] if name in _running_events else null
+
+
+# Setter for _changing_scene.
+#
+# #### Parameterse
+# - value: boolean value to set _changing_scene to
+func set_changing_scene(value: bool) -> void:
+	_changing_scene = value
+	
+	# If we're changing scenes, interrupt any (other) running events and purge
+	# all event queues.
+	if value:
+		clear_event_queue()
+		interrupt_running_event([_change_scene.get_command_name()])
 
 
 # The event finished running
