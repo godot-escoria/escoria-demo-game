@@ -24,7 +24,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 # Run the command
 func run(command_params: Array) -> int:
 	# Replace the names of any globals in "{ }" with their value
-	print(escoria.logger.replace_globals(command_params[0]))
+	print(escoria.esc_compiler.replace_globals(command_params[0]))
 	return ESCExecution.RC_OK
 
 

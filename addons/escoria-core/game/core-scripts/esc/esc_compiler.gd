@@ -27,6 +27,8 @@ var _dialog_regex
 var _dialog_end_regex
 var _dialog_option_regex
 var _group_regex
+# Regex to match globals in debug strings
+var _globals_regex: RegEx
 
 # The currently compiled event
 var _current_event = null
@@ -82,7 +84,9 @@ func _init():
 	_dialog_option_regex.compile(ESCDialogOption.REGEX)
 	_group_regex = RegEx.new()
 	_group_regex.compile(ESCGroup.REGEX)
-
+	# Use look-ahead/behind to capture the term in braces
+	_globals_regex = RegEx.new()
+	_globals_regex.compile("(?<=\\{)(.*)(?=\\})")
 
 # Load an ESC file from a file resource
 func load_esc_file(path: String) -> ESCScript:
@@ -258,3 +262,18 @@ func _compile(lines: Array, path: String = "") -> Array:
 				]
 			)
 	return returned
+
+# Look to see if any globals (names in braces) should be interpreted
+#
+# #### Parameters
+#
+# * string: Text to log
+func replace_globals(string: String) -> String:
+	for result in _globals_regex.search_all(string):
+		var globresult = escoria.globals_manager.get_global(
+			str(result.get_string())
+		)
+		string = string.replace(
+			"{" + result.get_string() + "}", str(globresult)
+		)
+	return string

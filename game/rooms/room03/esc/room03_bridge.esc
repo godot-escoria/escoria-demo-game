@@ -1,8 +1,6 @@
 # THIS ROOMS FEATURES AN OPEN BRIDGE WITH A ***BROKEN*** BUTTON TO USE IN ORDER TO OPEN
 
-
 :setup
-custom r3_r_exit door_enabler enable_door a b c 1 2 345
 
 # If the room hasn't been visited previously, open the bridge and break the button
 > [!room3_visited]
@@ -12,6 +10,9 @@ custom r3_r_exit door_enabler enable_door a b c 1 2 345
 	# Set a global for the button state so we can write test logic for it
 	# This will start the animation with the check in the "ready:" state below.
 	set_global r3_button_broken true
+	# The parameters aren't used by the disable_door function, 
+	# they're there as an example of how to pass parameters.
+	custom r3_r_exit door_enabler disable_door a b c 1 2 345 {r3_button_broken}
 
 > [r3_bridge_closed]
 	# Make set_state IMMEDIATE to reach the final frame immediately
@@ -31,16 +32,16 @@ custom r3_r_exit door_enabler enable_door a b c 1 2 345
 #	> [r3_button_broken]
 #		set_state r3_button button_broken
 	stop
-	
+
 > [eq ESC_LAST_SCENE room4]
 	# Set the bridge closed and button fixed or else you cant get back to the left hand side
 	# if you started the game in room 4
 	set_global r3_bridge_closed true
 	set_global r3_button_broken false
-	
+
 	# Turn off the button's smoke animation
 	#set_state r3_button button_repaired true
-	
+
 	teleport player r3_r_exit
 	# Set the bridge state which will also run the bridge closing animation
 	set_state r3_bridge bridge_close true
@@ -49,7 +50,7 @@ custom r3_r_exit door_enabler enable_door a b c 1 2 345
 	# Don't make the right platform a separate object you can click. This is only valid when
 	# the bridge is open
 	set_interactive r3_right_platform false
-	set_interactive r3_r_exit true	
+	set_interactive r3_r_exit true
 	# We use a custom function to enable the collision polygon on the door
 	# to enable it to work as a door once the bridge is closed.
 	custom r3_r_exit door_enabler enable_door
@@ -66,6 +67,6 @@ custom r3_r_exit door_enabler enable_door a b c 1 2 345
 	set_state r3_button button_repaired true
 > [r3_bridge_closed]
 	# This is for when you close the bridge then go back to room 2
-	# Set the bridge closed 
+	# Set the bridge closed
 
 	set_global r3_bridge_closed true
