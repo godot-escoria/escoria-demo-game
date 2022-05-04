@@ -463,3 +463,21 @@ func escoria_show_ui():
 # Manage signal room_deady from main.gd.
 func _on_room_ready():
 	room_ready_for_inputs = true
+
+
+# Disallows all input to the UI.
+func disable_all_input() -> void:
+	# If we aren't part of a tree yet, we sure can't get the tree.
+	if get_tree() == null:
+		return
+
+	get_tree().get_root().set_disable_input(true)
+
+
+# Allows all UI input.
+func enable_all_input() -> void:
+	# If we aren't part of a tree yet, we sure can't get the tree.
+	if get_tree() == null:
+		return
+
+	get_tree().get_root().set_disable_input(false)
