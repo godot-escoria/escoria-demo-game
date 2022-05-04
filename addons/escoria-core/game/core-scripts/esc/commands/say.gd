@@ -101,7 +101,7 @@ func run(command_params: Array) -> int:
 		return ESCExecution.RC_ERROR
 
 	# Replace the names of any globals in "{ }" with their value
-	command_params[1] = escoria.logger.replace_globals(command_params[1])
+	command_params[1] = escoria.esc_compiler.replace_globals(command_params[1])
 
 	escoria.dialog_player.say(
 		command_params[0],
