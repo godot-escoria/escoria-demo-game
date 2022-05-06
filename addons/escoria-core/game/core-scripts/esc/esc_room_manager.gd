@@ -27,11 +27,13 @@ const RESERVED_GLOBALS = {
 # ESC commands kept around for references to their command names.
 var _transition: TransitionCommand
 var _wait: WaitCommand
+var _accept_input: AcceptInputCommand
 
 
 func _init() -> void:
 	_transition = TransitionCommand.new()
 	_wait = WaitCommand.new()
+	_accept_input = AcceptInputCommand.new()
 
 
 # Registers all reserved global flags for use.
@@ -52,7 +54,7 @@ func register_reserved_globals() -> void:
 #	automatically or to leave the responsibility to the developer.
 func change_scene(room_path: String, enable_automatic_transitions: bool) -> void:
 	# We're changing scenes, so users shouldn't be able to do stuff during.
-	escoria.game_scene.disable_all_input()
+	escoria.inputs_manager.input_mode = escoria.inputs_manager.INPUT_NONE
 
 	# Clear the event queue to remove other events (there could be duplicate
 	# events in there so we avoid running these multiple times). Also sets a
@@ -327,9 +329,6 @@ func _perform_script_events(room: ESCRoom) -> void:
 	escoria.game_scene.hide_main_menu()
 	escoria.game_scene.unpause_game()
 	
-	# Make sure user input is allowed
-	escoria.game_scene.enable_all_input()
-
 	# Maybe this is ok to put in set_scene_finish() above? But it might be a bit
 	# confusing to not see the matching camera.current updates.
 	new_player_camera.make_current()
@@ -347,29 +346,35 @@ func _perform_script_events(room: ESCRoom) -> void:
 
 	escoria.inputs_manager.hotspot_focused = ""
 
+	var command_strings: PoolStringArray = []
+	
+	command_strings.append("%s%s" % [ESCEvent.PREFIX, escoria.event_manager.EVENT_TRANSITION_IN])
+
 	if room.enabled_automatic_transitions \
 			or (
 				not room.enabled_automatic_transitions \
 				and escoria.globals_manager.get_global( \
 					escoria.room_manager.GLOBAL_FORCE_LAST_SCENE_NULL)
 			):
-		var script_transition_in = escoria.esc_compiler.compile([
-			"%s%s" % [ESCEvent.PREFIX, escoria.event_manager.EVENT_TRANSITION_IN],
-			"%s %s in" %
-				[
-					_transition.get_command_name(),
-					escoria.project_settings_manager.get_setting(
-						escoria.project_settings_manager.DEFAULT_TRANSITION
-					)
-				],
-			"%s 0.1" % _wait.get_command_name()
-		],
-		get_class()
+
+		command_strings.append("%s %s in" %
+			[
+				_transition.get_command_name(),
+				escoria.project_settings_manager.get_setting(
+					escoria.project_settings_manager.DEFAULT_TRANSITION
+				)
+			]
 		)
-		escoria.event_manager.queue_event(
-			script_transition_in.events[escoria.event_manager.EVENT_TRANSITION_IN],
-			true
-		)
+		
+		command_strings.append("%s 0.1" % _wait.get_command_name())
+	
+	command_strings.append("%s ALL" % _accept_input.get_command_name())
+
+	var script_transition_in = escoria.esc_compiler.compile(command_strings, get_class())
+
+	escoria.event_manager.queue_event(
+		script_transition_in.events[escoria.event_manager.EVENT_TRANSITION_IN]
+	)
 
 	var ready_event_added: bool = false
 	# Run the ready event, if there is one.
