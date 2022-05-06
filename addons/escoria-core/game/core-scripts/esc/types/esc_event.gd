@@ -60,10 +60,10 @@ func _init(event_string: String):
 	if event_regex.search(event_string):
 		for result in event_regex.search_all(event_string):
 			if "name" in result.names:
-				self.name = escoria.utils.get_re_group(result, "name") \
+				self.name = ESCUtils.get_re_group(result, "name") \
 					.strip_edges()
 			if "flags" in result.names:
-				var _flags = escoria.utils.get_re_group(
+				var _flags = ESCUtils.get_re_group(
 						result,
 						"flags"
 					).strip_edges().split(" ")
@@ -76,17 +76,19 @@ func _init(event_string: String):
 				if "NO_SAVE" in _flags:
 					self.flags |= FLAG_NO_SAVE
 	else:
-		escoria.logger.report_errors(
-			"Invalid event detected: %s" % event_string,
-			[
-				"Event regexp didn't match"
-			]
+		escoria.logger.error(
+			self,
+			"Invalid event detected: %s\nEvent regexp didn't match" 
+					% event_string
 		)
 
 
 # Execute this statement and return its return code
 func run() -> int:
 	reset_interrupt()
-	escoria.logger.debug("Event %s started" % name)
+	escoria.logger.debug(
+		self,
+		"Event %s started" % name
+	)
 	return .run()
 

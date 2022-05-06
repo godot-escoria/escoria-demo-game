@@ -500,6 +500,7 @@ func get_sprite() -> Node:
 				_sprite_node = child
 	if _sprite_node == null:
 		escoria.logger.error(
+			self,
 			"No sprite node found in the scene %s" % get_path()
 		)
 	return _sprite_node

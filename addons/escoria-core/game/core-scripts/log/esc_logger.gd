@@ -1,9 +1,38 @@
-# Logging framework for Escoria
-extends Object
-class_name ESCLogger
+class ESCLoggerBase:
+	# Perform emergency savegame 
+	signal perform_emergency_savegame
+	
+	# Log file format
+	const  LOG_FILE_FORMAT: String = "log_%s_%s.log"
+	
+	# Valid log levels
+	enum { LOG_ERROR, LOG_WARNING, LOG_INFO, LOG_DEBUG, LOG_TRACE }
 
-# Log file format
-const  LOG_FILE_FORMAT: String = "log_%s_%s.log"
+	# A map of log level names to log level ints
+	var _level_map: Dictionary = {
+		"ERROR": LOG_ERROR,
+		"WARNING": LOG_WARNING,
+		"INFO": LOG_INFO,
+		"DEBUG": LOG_DEBUG,
+		"TRACE": LOG_TRACE,
+	}
+	
+	# Constructor
+	func _init():
+		pass
+	
+	func trace(owner: Object, msg: String):
+		var context = owner.get_script().resource_path.get_file()
+		print("ESC (T) {0} {1}: {2}".format([context, _formatted_date(), msg]))
+	
+	# Debug log
+	func debug(owner: Object, msg: String):
+		var context = owner.get_script().resource_path.get_file()
+		print("ESC (D) {0} {1}: {2}".format([context, _formatted_date(), msg]))
+		
+	func info(owner: Object, msg: String):
+		var context = owner.get_script().resource_path.get_file()
+		print("ESC (I) {0} {1}: {2}".format([context, _formatted_date(), msg]))
 
 
 # The path of the ESC file that was reported last (used for removing
@@ -130,19 +159,6 @@ func warning(string: String, args = []):
 		if escoria.project_settings_manager.get_setting(
 			escoria.project_settings_manager.TERMINATE_ON_WARNINGS
 		):
-			_perform_stack_trace_log()
-			crashed = true
-
-			var files = "- %s" % log_file.get_path_absolute()
-			var message = escoria.project_settings_manager.get_setting(
-				escoria.project_settings_manager.CRASH_MESSAGE
-			) % files
-
-			_log(message, true)
-			escoria.set_game_paused(true)
-			escoria.main.current_scene.game.show_crash_popup(
-				[log_file.get_path_absolute()]
-			)
 			assert(false)
 
 
@@ -165,161 +181,125 @@ func error(string: String, args = [], do_savegame: bool = true):
 		if escoria.project_settings_manager.get_setting(
 			escoria.project_settings_manager.TERMINATE_ON_ERRORS
 		):
-			_perform_stack_trace_log()
-			crashed = true
-			if do_savegame:
-				_perform_save_game_log()
-
-			var files_to_send: Array = [
-				log_file.get_path_absolute().get_base_dir().plus_file(
-					escoria.save_manager.crash_savegame_filename.get_file()
-				),
-				log_file.get_path_absolute()
-			]
-
-			var files = "- %s\n- %s" % files_to_send
-			var message = escoria.project_settings_manager.get_setting(
-				escoria.project_settings_manager.CRASH_MESSAGE
-			) % files
-
-			_log(message, true)
-			escoria.set_game_paused(true)
-
-			if is_instance_valid(escoria.main.current_scene):
-				escoria.main.current_scene.game.show_crash_popup(files_to_send)
-
 			assert(false)
+	
+	func _formatted_date():
+		var info = OS.get_datetime()
+		info["year"] = "%04d" % info["year"]
+		info["month"] = "%02d" % info["month"]
+		info["day"] = "%02d" % info["day"]
+		info["hour"] = "%02d" % info["hour"]
+		info["minute"] = "%02d" % info["minute"]
+		info["second"] = "%02d" % info["second"]
+		return "{year}-{month}-{day}T{hour}:{minute}:{second}".format(info)
+	
+	# Returns the currently set log level
+	# **Returns** Log level as set in the configuration
+	func _get_log_level() -> int:
+		return _level_map[ESCProjectSettingsManager.get_setting(
+			ESCProjectSettingsManager.LOG_LEVEL
+		)]
 
 
-# Log a warning message about an ESC file
-#
-# #### Parameters
-#
-# * p_path: Path to the file
-# * warnings: Array of warnings to put out
-# * report_once: Additional messages about the same file will be ignored
-func report_warnings(p_path: String, warnings: Array, report_once = false) -> void:
-	var warning_is_reported = false
-	if p_path == warning_path:
-		warning_is_reported = true
+class ESCLoggerFile extends ESCLoggerBase:
+	# Log file handler
+	var log_file: File
 
-	if !warning_is_reported:
-		var text = "Warnings in file "+p_path+"\n"
-		for w in warnings:
-			if w is Array:
-				text += str(w)+"\n"
-			else:
-				text += w+"\n"
-		warning(text)
+	# Constructor
+	func _init():
+		# Open logfile in write mode
+		log_file = File.new()
 
-		if report_once:
-			warning_is_reported = true
-
-
-# Log an error message about an ESC file
-#
-# #### Parameters
-#
-# * p_path: Path to the file
-# * errors: Array of errors to put out
-func report_errors(p_path: String, errors: Array) -> void:
-	var text = "Errors in file "+p_path+"\n"
-	for e in errors:
-		if e is Array:
-			text += str(e)+"\n"
-		else:
-			text += e+"\n"
-	error(text)
-
-
-# Write message:
-# - in logfile
-# - in stdout, or stderr if err is true.
-#
-# #### Parameters
-#
-# * message: Message to log
-# * err: if true, write in stderr
-func _log(message:String, err: bool = false):
-	message = "ESC {0} {1}".format([_formatted_date(), message])
-
-	if err:
-		printerr(message)
-	else:
-		print(message)
-	_write_logfile(message)
-
-
-# Returns the current date/time, as a string
-# formatted for logging. E.g. 2022-04-19T16:10:39
-func _formatted_date() -> String:
-	var info = OS.get_datetime()
-	info["year"] = "%04d" % info["year"]
-	info["month"] = "%02d" % info["month"]
-	info["day"] = "%02d" % info["day"]
-	info["hour"] = "%02d" % info["hour"]
-	info["minute"] = "%02d" % info["minute"]
-	info["second"] = "%02d" % info["second"]
-
-	return "{year}-{month}-{day}T{hour}:{minute}:{second}".format(info)
-
-
-# Returns the currently set log level
-# **Returns** Log level as set in the configuration
-func _get_log_level() -> int:
-	return _level_map[escoria.project_settings_manager.get_setting(
-		escoria.project_settings_manager.LOG_LEVEL
-	)]
-
-
-# Creates a savegame file and save it in output log location
-func _perform_save_game_log():
-	_log("Performing emergency savegame.")
-	var error = escoria.save_manager.save_game_crash()
-	if error == OK:
-		_log(
-			"Emergency savegame created successfully in folder: %s" %
-				escoria.project_settings_manager.get_setting(
-					escoria.project_settings_manager.LOG_FILE_PATH
-				)
+		# this is left alone as this constructor is called from escoria.gd's own
+		# constructor
+		var log_file_path = ProjectSettings.get_setting(
+			ESCProjectSettingsManager.LOG_FILE_PATH
 		)
-	else:
-		_log("Emergency savegame creation failed!", false)
-
-
-# Logs and writes the stack trace into stdout and log file.
-func _perform_stack_trace_log():
-	_log("Stack trace:")
-	print_stack()
-	_write_stack_logfile()
-
-
-# Write a message in the output logfile
-#
-# #### Parameters
-#
-# * message: Message to write
-func _write_logfile(message: String) -> void:
-	if log_file.is_open():
-		log_file.store_string(message + "\n")
-
-
-# Write the stacktrace in the output logfile
-func _write_stack_logfile():
-	var frame_number = 0
-	for stack in get_stack().slice(2, get_stack().size()):
-		_write_logfile(
-			"Frame %s - %s:%s in function '%s'" % [
-				str(frame_number),
-				stack["source"],
-				stack["line"],
-				stack["function"],
-			]
+		log_file_path = "res://"
+		var date = OS.get_datetime()
+		log_file_path = log_file_path.plus_file(LOG_FILE_FORMAT % [
+				str(date["year"]) + str(date["month"]) + str(date["day"]),
+				str(date["hour"]) + str(date["minute"]) + str(date["second"])
+			])
+		log_file.open(
+			log_file_path,
+			File.WRITE
 		)
-		frame_number += 1
+	
+	func trace(owner: Object, msg: String):
+		if _get_log_level() >= LOG_TRACE:
+			_log_to_file(owner, msg)
+			close_file_logs()
+			.trace(owner, msg)
+	
+	# Debug log
+	func debug(owner: Object, msg: String):
+		if _get_log_level() >= LOG_DEBUG:
+			_log_to_file(owner, msg)
+			.debug(owner, msg)
+	
+	func info(owner: Object, msg: String):
+		if _get_log_level() >= LOG_INFO:
+			_log_to_file(owner, msg)
+			.info(owner, msg)
+
+	# Warning log
+	func warn(owner: Object, msg: String):
+		if _get_log_level() >= LOG_WARNING:
+			_log_to_file(owner, msg)
+			if ESCProjectSettingsManager.get_setting(
+				ESCProjectSettingsManager.TERMINATE_ON_WARNINGS
+			):
+				_log_stack_trace_to_file(owner)
+				print_stack()
+			close_file_logs()
+			.warn(owner, msg)
+	
+	# Error log
+	func error(owner: Object, msg: String):
+		if _get_log_level() >= LOG_ERROR:
+			_log_to_file(owner, msg)
+			if ESCProjectSettingsManager.get_setting(
+				ESCProjectSettingsManager.TERMINATE_ON_ERRORS
+			):
+				_log_stack_trace_to_file(owner)
+				print_stack()
+			close_file_logs()
+			.error(owner, msg)
+	
+	func _log_to_file(owner: Object, msg: String):
+		if log_file.is_open():
+			var context = ""
+			if owner != null:
+				context = owner.get_script().resource_path.get_file()
+			log_file.store_string(context + " " + msg + "\n")
+	
+	func _log_stack_trace_to_file(owner: Object):
+		var frame_number = 0
+		for stack in get_stack().slice(2, get_stack().size()):
+			_log_to_file(
+				owner,
+				"Frame %s - %s:%s in function '%s'" % [
+					str(frame_number),
+					stack["source"],
+					stack["line"],
+					stack["function"],
+				]
+			)
+			frame_number += 1
+
+	# Close the log file cleanly
+	func close_file_logs():
+		print("Closing logs peacefully.")
+		_log_to_file(null, "Closing logs peacefully.")
+		log_file.close()
 
 
-# Close the log file cleanly
-func close_logs():
-	_log("Closing logs peacefully.")
-	log_file.close()
+class ESCLoggerVerbose extends ESCLoggerBase:
+	func _init():
+		pass
+		
+	func debug(owner: Object, msg: String):
+		var context = owner.get_script().resource_path.get_file()
+		print(context, ": ", msg)
+

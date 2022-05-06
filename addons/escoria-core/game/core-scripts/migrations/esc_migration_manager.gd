@@ -29,10 +29,11 @@ func migrate(
 	to: String,
 	versions_directory: String
 ) -> ESCSaveGame:
-	escoria.logger.info("Migrating from version %s to %s" % [
-		from,
-		to
-	])
+	escoria.logger.info(
+		self,
+		"Migrating from version %s to %s" 
+				% [from, to]
+	)
 
 	var from_info = version_regex.search(from)
 	var to_info = version_regex.search(to)
@@ -49,14 +50,10 @@ func migrate(
 		wrong_version = true
 
 	if wrong_version:
-		escoria.logger.report_errors(
-			"esc_migration_manager:migrate",
-			[
-				"Can not migrate savegame from version %s to version %s" % [
-					from,
-					to
-				]
-			]
+		escoria.logger.error(
+			self,
+			"Can not migrate savegame from version %s to version %s" 
+			% [from, to]
 		)
 
 	var versions = _find_versions(versions_directory, from, to)
@@ -67,13 +64,14 @@ func migrate(
 	for version in versions:
 		var migration_script = load(version).new()
 		if not migration_script is ESCMigration:
-			escoria.logger.report_errors(
-				"esc_migration_manager:migrate",
-				[
-					"File %s is not a valid migration script" % version
-				]
+			escoria.logger.error(
+				self,
+				"File %s is not a valid migration script" % version
 			)
-		escoria.logger.debug("Migrating using %s" % version)
+		escoria.logger.debug(
+			self,
+			"Migrating using %s" % version
+		)
 		(migration_script as ESCMigration).set_savegame(savegame)
 		(migration_script as ESCMigration).migrate()
 		savegame = (migration_script as ESCMigration).get_savegame()
@@ -90,7 +88,10 @@ func migrate(
 # - to: End version to check
 # **Returns** A list of version scripts
 func _find_versions(directory: String, from: String, to: String) -> Array:
-	escoria.logger.trace("Searching directory %s" % directory)
+	escoria.logger.trace(
+		self, 
+		"Searching directory %s" % directory
+	)
 	var versions = []
 	var dir = Directory.new()
 	dir.open(directory)
@@ -106,7 +107,10 @@ func _find_versions(directory: String, from: String, to: String) -> Array:
 				to
 			)
 		elif regex_result and _version_between(version, from, to):
-			escoria.logger.trace("Found fitting migration script %s" % version)
+			escoria.logger.trace(
+				self,
+				"Found fitting migration script %s" % version
+			)
 			versions.append(
 				directory.plus_file(file_name)
 			)

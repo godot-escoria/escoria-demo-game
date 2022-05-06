@@ -138,7 +138,7 @@ func get_resource(path):
 			return res
 	else:
 		_unlock("return")
-		# We can't use escoria.project_settings_manager here since this method
+		# We can't use ESCProjectSettingsManager here since this method
 		# can be called from escoria._init()
 		if not ProjectSettings.get_setting("escoria/platform/skip_cache"):
 			var res = ResourceLoader.load(path)

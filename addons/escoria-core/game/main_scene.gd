@@ -5,5 +5,6 @@ extends Node
 
 # Start the main menu
 func _ready():
+	escoria.logger.info(self, "Escoria starts...")
 	escoria.init()
 

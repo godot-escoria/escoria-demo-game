@@ -37,12 +37,11 @@ func validate(arguments: Array):
 		return false
 
 	if not arguments[0] in ["ALL", "NONE", "SKIP"]:
-		escoria.logger.report_errors(
-			"accept_input: invalid parameter",
-			[
+		escoria.logger.error(
+			self,
+			get_command_name() + ": invalid parameter. " +
 				"%s is not a valid parameter value (ALL, NONE, SKIP)" %\
 						arguments[0]
-			]
 		)
 		return false
 	return true

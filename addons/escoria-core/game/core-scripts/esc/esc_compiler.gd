@@ -52,7 +52,7 @@ var _current_indent = 0
 
 func _init():
 	# Assure command list preference
-	# (we use ProjectSettings instead of escoria.project_settings_manager
+	# (we use ProjectSettings instead of ESCProjectSettingsManager
 	# here because this is called from escoria._init())
 	if not ProjectSettings.has_setting(COMMAND_DIRECTORIES):
 		ProjectSettings.set_setting(COMMAND_DIRECTORIES, [
@@ -99,12 +99,9 @@ func load_esc_file(path: String) -> ESCScript:
 			lines.append(file.get_line())
 		return self.compile(lines, path)
 	else:
-		escoria.logger.report_errors(
-			path,
-			[
-				"Can not find ESC file",
-				"File %s could not be found" % path
-			]
+		escoria.logger.error(
+			self,
+			"Can not find ESC file: file %s could not be found" % path
 		)
 		return null
 
@@ -128,20 +125,29 @@ func _compile(lines: Array, path: String = "") -> Array:
 
 	while lines.size() > 0:
 		var line = lines.pop_front().strip_edges(false, true)
-		escoria.logger.trace("Parsing line %s" % line)
+		escoria.logger.trace(
+			self, 
+			"Parsing line %s" % line
+		)
 		if _comment_regex.search(line) or _empty_regex.search(line):
 			# Ignore comments and empty lines
-			escoria.logger.trace("Line is empty or a comment. Skipping.")
+			escoria.logger.trace(
+				self, 
+				"Line is empty or a comment. Skipping."
+			)
 			continue
 		var indent = \
-				escoria.utils.get_re_group(
+				ESCUtils.get_re_group(
 					_indent_regex.search(line),
 					INDENT_REGEX_GROUP
 				).length()
 
 		if _event_regex.search(line):
 			var event = ESCEvent.new(line)
-			escoria.logger.trace("Line is the event %s" % event.name)
+			escoria.logger.trace(
+				self, 
+				"Line is the event %s" % event.name
+			)
 			var event_lines = []
 			while lines.size() > 0:
 				var next_line = lines.pop_front()
@@ -152,6 +158,7 @@ func _compile(lines: Array, path: String = "") -> Array:
 					break
 			if event_lines.size() > 0:
 				escoria.logger.trace(
+					self,
 					"Compiling the next %d lines into the event" % \
 							event_lines.size()
 				)
@@ -159,7 +166,10 @@ func _compile(lines: Array, path: String = "") -> Array:
 			returned.append(event)
 		elif _group_regex.search(line):
 			var group = ESCGroup.new(line)
-			escoria.logger.trace("Line is a group")
+			escoria.logger.trace(
+				self, 
+				"Line is a group"
+			)
 			var group_lines = []
 			while lines.size() > 0:
 				var next_line = lines.pop_front()
@@ -167,7 +177,7 @@ func _compile(lines: Array, path: String = "") -> Array:
 						_empty_regex.search(next_line):
 					continue
 				var next_line_indent = \
-						escoria.utils.get_re_group(
+						ESCUtils.get_re_group(
 							_indent_regex.search(next_line),
 							INDENT_REGEX_GROUP
 						).length()
@@ -178,6 +188,7 @@ func _compile(lines: Array, path: String = "") -> Array:
 					break
 			if group_lines.size() > 0:
 				escoria.logger.trace(
+					self,
 					"Compiling the next %d lines into the group" % \
 							group_lines.size()
 				)
@@ -186,7 +197,10 @@ func _compile(lines: Array, path: String = "") -> Array:
 		elif _dialog_regex.search(line):
 			var dialog = ESCDialog.new()
 			dialog.load_string(line)
-			escoria.logger.trace("Line is a dialog")
+			escoria.logger.trace(
+				self, 
+				"Line is a dialog"
+			)
 			var dialog_lines = []
 			while lines.size() > 0:
 				var next_line = lines.pop_front()
@@ -195,7 +209,7 @@ func _compile(lines: Array, path: String = "") -> Array:
 					continue
 				var end_line = _dialog_end_regex.search(next_line)
 				if end_line and \
-						escoria.utils.get_re_group(
+						ESCUtils.get_re_group(
 							end_line,
 							INDENT_REGEX_GROUP
 						).length() == indent:
@@ -204,6 +218,7 @@ func _compile(lines: Array, path: String = "") -> Array:
 					dialog_lines.append(next_line)
 			if dialog_lines.size() > 0:
 				escoria.logger.trace(
+					self,
 					"Compiling the next %d lines into the dialog" % \
 							dialog_lines.size()
 				)
@@ -215,6 +230,7 @@ func _compile(lines: Array, path: String = "") -> Array:
 			var dialog_option = ESCDialogOption.new()
 			dialog_option.load_string(line)
 			escoria.logger.trace(
+				self,
 				"Line is the dialog option %s" % \
 						dialog_option.option
 			)
@@ -225,7 +241,7 @@ func _compile(lines: Array, path: String = "") -> Array:
 						_empty_regex.search(next_line):
 					continue
 				var next_line_indent = \
-						escoria.utils.get_re_group(
+						ESCUtils.get_re_group(
 							_indent_regex.search(next_line),
 							INDENT_REGEX_GROUP
 						).length()
@@ -236,6 +252,7 @@ func _compile(lines: Array, path: String = "") -> Array:
 					break
 			if dialog_option_lines.size() > 0:
 				escoria.logger.trace(
+					self,
 					"Compiling the next %d lines into the event" % \
 							dialog_option_lines.size()
 				)
@@ -246,20 +263,16 @@ func _compile(lines: Array, path: String = "") -> Array:
 			if command.command_exists():
 				returned.append(command)
 			else:
-				escoria.logger.report_errors(
-					path,
-					[
-						"Invalid command detected: %s" % command.name,
-						"Command implementation not found in any command directory"
-					]
+				escoria.logger.error(
+					self,
+					"Invalid command detected: %s\n" % command.name
+					+ "Command implementation not found in any command directory"
 				)
 		else:
-			escoria.logger.report_errors(
-				path,
-				[
-					"Invalid ESC line detected",
-					"Line couldn't be compiled: %s" % line
-				]
+			escoria.logger.error(
+				self,
+				"Invalid ESC line detected\nLine couldn't be compiled: %s" 
+						% line
 			)
 	return returned
 

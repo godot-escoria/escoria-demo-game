@@ -43,9 +43,8 @@ func run() -> int:
 			if rc is GDScriptFunctionState:
 				rc = yield(rc, "completed")
 				escoria.logger.debug(
-					"esc_statement",
-					["Statement (%s) was completed."
-						% statement]
+					self,
+					"Statement (%s) was completed." % statement
 				)
 			if rc == ESCExecution.RC_REPEAT:
 				return self.run()
@@ -59,11 +58,10 @@ func run() -> int:
 
 # Interrupt the statement in the middle of its execution.
 func interrupt():
-	escoria.logger.info("Interrupting event %s (%s)" % \
-		[
-			self.name if "name" in self else "group",
-			str(self)
-		]
+	escoria.logger.info(
+		self,
+		"Interrupting event %s (%s)"
+				% [self.name if "name" in self else "group", str(self)]
 	)
 	_is_interrupted = true
 	for statement in statements:

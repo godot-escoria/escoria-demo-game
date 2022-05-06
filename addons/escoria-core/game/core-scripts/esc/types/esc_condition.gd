@@ -56,24 +56,24 @@ func _init(comparison_string: String):
 			if "is_negated" in result.names:
 				self.negated = true
 			if "comparison" in result.names:
-				match escoria.utils.get_re_group(result, "comparison"):
+				match ESCUtils.get_re_group(result, "comparison"):
 					"eq": self.comparison = COMPARISON_EQ
 					"gt": self.comparison = COMPARISON_GT
 					"lt": self.comparison = COMPARISON_LT
-					_: escoria.logger.report_errors(
-						"Invalid comparison type detected: %s" %
-								comparison_string,
-						[
+					_: 
+						escoria.logger.error(
+							self,
+							"Invalid comparison type detected: %s" %
+									comparison_string +
 							"Comparison type %s unknown" %
-									escoria.utils.get_re_group(
+									ESCUtils.get_re_group(
 										result,
 										"comparison"
 									)
-						]
-					)
+						)
 			if "comparison_value" in result.names:
-				self.comparison_value = 	escoria.utils.get_typed_value(
-					escoria.utils.get_re_group(
+				self.comparison_value = ESCUtils.get_typed_value(
+					ESCUtils.get_re_group(
 						result,
 						"comparison_value"
 					)
@@ -83,13 +83,12 @@ func _init(comparison_string: String):
 			if "is_activity" in result.names:
 				self.comparison = COMPARISON_ACTIVITY
 			if "flag" in result.names:
-				self.flag = escoria.utils.get_re_group(result, "flag")
+				self.flag = ESCUtils.get_re_group(result, "flag")
 	else:
-		escoria.logger.report_errors(
-			"Invalid comparison detected: %s" % comparison_string,
-			[
-				"Comparison regexp didn't match"
-			]
+		escoria.logger.error(
+			self,
+			"Invalid comparison detected: %s\nComparison regexp didn't match" 
+					% comparison_string
 		)
 
 
@@ -98,6 +97,7 @@ func run() -> bool:
 	var global_name = self.flag
 
 	escoria.logger.debug(
+		self,
 		COMPARISON_DESCRIPTION[self.comparison] % [
 			"inventory item" if self.inventory else "global value",
 			self.flag,

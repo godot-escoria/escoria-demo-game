@@ -64,21 +64,17 @@ func validate(arguments: Array):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
-		escoria.logger.report_errors(
-			"anim: invalid object",
-			[
-				"Object with global id %s not found." % arguments[0]
-			]
+		escoria.logger.error(
+			self,
+			get_command_name() + ": Invalid object: Object with global id %s not found." % arguments[0]
 		)
 		return false
 	if ProjectSettings.get_setting("escoria/ui/default_dialog_type") == "" \
 			and arguments[2] == "":
-		escoria.logger.report_errors(
-			"say()",
-			[
-				"Project setting 'escoria/ui/default_dialog_type' is not set.",
-				"Please set a default dialog type."
-			]
+		escoria.logger.error(
+			self,
+			get_command_name() + ": Project setting 'escoria/ui/default_dialog_type' is not set." +
+					"Please set a default dialog type."
 		)
 	return true
 
@@ -91,12 +87,9 @@ func run(command_params: Array) -> int:
 	escoria.current_state = escoria.GAME_STATE.DIALOG
 
 	if !escoria.dialog_player:
-		escoria.logger.report_errors(
-			"No dialog player registered",
-			[
-				"No dialog player was registered and the say command was" +
-						"encountered."
-			]
+		escoria.logger.error(
+			self,
+			get_command_name() + ": No dialog player was registered and the say command was encountered."
 		)
 		return ESCExecution.RC_ERROR
 
@@ -115,9 +108,7 @@ func run(command_params: Array) -> int:
 
 # Function called when the command is interrupted.
 func interrupt():
-	escoria.logger.report_warnings(
-		"say",
-		[
-			"Interrupt() function not implemented"
-		]
+	escoria.logger.warning(
+		self,
+		get_command_name() + ": Interrupt() function not implemented"
 	)

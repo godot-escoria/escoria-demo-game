@@ -67,14 +67,14 @@ func transition(
 		_tween.connect("tween_all_completed", self, "_on_tween_completed")
 
 	if transition_name.empty():
-		transition_name = escoria.project_settings_manager.get_setting(
-			escoria.project_settings_manager.DEFAULT_TRANSITION
+		transition_name = ESCProjectSettingsManager.get_setting(
+			ESCProjectSettingsManager.DEFAULT_TRANSITION
 		)
 
 	if not has_transition(transition_name):
-		escoria.logger.report_errors(
+		escoria.logger.error(
+			self,
 			"transition: Transition %s not found" % transition_name,
-			[]
 		)
 
 	# If this is an "instant" transition, we need to set the alpha of the base
@@ -122,8 +122,8 @@ func transition(
 #
 # *Returns* the full path to the shader or an empty string, if it can't be found
 func get_transition(name: String) -> String:
-	for directory in escoria.project_settings_manager.get_setting(
-		escoria.project_settings_manager.TRANSITION_PATHS
+	for directory in ESCProjectSettingsManager.get_setting(
+		ESCProjectSettingsManager.TRANSITION_PATHS
 	):
 		if ResourceLoader.exists(directory.plus_file("%s.material" % name)):
 			return directory.plus_file("%s.material" % name)

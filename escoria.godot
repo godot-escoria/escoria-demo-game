@@ -129,7 +129,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/esc_command_registry.gd"
 }, {
-"base": "Resource",
+"base": "Object",
 "class": "ESCCompiler",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/esc_compiler.gd"
@@ -234,7 +234,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc_inventory_item.gd"
 }, {
-"base": "Resource",
+"base": "Object",
 "class": "ESCInventoryManager",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/esc_inventory_manager.gd"
@@ -248,11 +248,6 @@ _global_script_classes=[ {
 "class": "ESCLocation",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc_location.gd"
-}, {
-"base": "Node",
-"class": "ESCMain",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/main_scene.gd"
 }, {
 "base": "Object",
 "class": "ESCMigration",
@@ -633,7 +628,6 @@ _global_script_class_icons={
 "ESCInventoryManager": "",
 "ESCItem": "res://addons/escoria-core/design/esc_item.svg",
 "ESCLocation": "res://addons/escoria-core/design/esc_location.svg",
-"ESCMain": "",
 "ESCMigration": "",
 "ESCMigrationManager": "",
 "ESCMovable": "",
@@ -716,10 +710,6 @@ config/icon="res://icon.png"
 
 default_bus_layout="res://addons/escoria-core/default_bus_layout.tres"
 
-[autoload]
-
-escoria="*res://addons/escoria-core/game/esc_autoload.gd"
-
 [display]
 
 window/size/width=1280
@@ -731,34 +721,28 @@ window/stretch/aspect="keep"
 
 search_in_file_extensions=PoolStringArray( "gd", "shader", "esc" )
 
-[editor_plugins]
-
-enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-dialog-simple/plugin.cfg", "res://addons/escoria-ui-9verbs/plugin.cfg" )
-
 [escoria]
 
-main/game_version="0.1"
+main/game_version="0.1.0"
 main/game_start_script="res://game/start_game.esc"
 main/force_quit=true
 main/command_directories=[ "res://addons/escoria-core/game/core-scripts/esc/commands" ]
 main/text_lang="fr_FR"
 main/voice_lang="fr_FR"
-main/savegames_path="user://saves/"
+main/savegames_path="res://saves/"
 main/settings_path="user://"
 main/game_migration_path=""
 debug/terminate_on_warnings=false
 debug/terminate_on_errors=true
 debug/development_lang="en"
-debug/log_level="ERROR"
-debug/log_file_path="user://"
-debug/crash_message="We're sorry, but the game crashed. Please send us the following files:
-
-%s"
-debug/enable_room_selector=false
-debug/room_selector_room_dir=""
+debug/log_level="TRACE"
+debug/log_file_path="res://"
+debug/enable_room_selector=true
+debug/room_selector_room_dir="res://game/rooms"
+ui/default_dialog_type="floating"
 ui/game_scene="res://addons/escoria-ui-9verbs/game.tscn"
-ui/items_autoregister_path="res://game/items/escitems/"
-ui/default_transition="curtain"
+ui/items_autoregister_path="res://game/items/inventory"
+ui/default_transition="instant"
 ui/transition_paths=[ "res://addons/escoria-core/game/scenes/transitions/shaders/" ]
 ui/inventory_item_size=Vector2( 72, 72 )
 ui/dialog_managers=[ "res://addons/escoria-dialog-simple/esc_dialog_simple.gd" ]
@@ -767,15 +751,21 @@ sound/music_volume=1
 sound/sfx_volume=1
 sound/speech_volume=1
 sound/speech_enabled=1
-sound/speech_folder="res://speech"
+sound/speech_folder="res://game/speech"
 sound/speech_extension="ogg"
 platform/skip_cache=false
 platform/skip_cache.mobile=true
-dialog_simple/avatars_path=""
+debug/crash_message="We're sorry, but the game crashed. Please send us the following files:
+
+%s"
+ui/tooltip_follows_mouse=false
+main/escoria_version=""
+ui/dialogs_chooser="res://addons/escoria-core/ui_library/dialogs/text_dialog_chooser.tscn"
+dialog_simple/avatars_path="res://game/dialog_avatars"
 dialog_simple/text_speed_per_character=0.1
 dialog_simple/fast_text_speed_per_character=0.25
 dialog_simple/max_time_to_disappear=1.0
-ui/default_dialog_type="floating"
+ui/default_dialog_scene="res://addons/escoria-core/ui_library/dialogs/floating_dialog_player.tscn"
 
 [input]
 

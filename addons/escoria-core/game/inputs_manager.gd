@@ -166,7 +166,10 @@ func clear_stack():
 # - position: Position of the click
 func _on_left_click_on_bg(position: Vector2) -> void:
 	if input_mode == INPUT_ALL and hotspot_focused.empty():
-		escoria.logger.info("Left click on background at ", [str(position)])
+		escoria.logger.info(
+			self,
+			"Left click on background at %s" % str(position)
+		)
 		escoria.main.current_scene.game.left_click_on_bg(position)
 
 
@@ -178,6 +181,7 @@ func _on_left_click_on_bg(position: Vector2) -> void:
 func _on_double_left_click_on_bg(position: Vector2) -> void:
 	if input_mode == INPUT_ALL and hotspot_focused.empty():
 		escoria.logger.info(
+			self,
 			"Double left click on background at %s" % str(position)
 		)
 		escoria.main.current_scene.game.left_double_click_on_bg(position)
@@ -190,7 +194,10 @@ func _on_double_left_click_on_bg(position: Vector2) -> void:
 # - position: Position of the click
 func _on_right_click_on_bg(position: Vector2) -> void:
 	if input_mode == INPUT_ALL and hotspot_focused.empty():
-		escoria.logger.info("Right click on background at ", [str(position)])
+		escoria.logger.info(
+			self,
+			"Right click on background at ", str(position)
+		)
 		escoria.main.current_scene.game.right_click_on_bg(position)
 
 
@@ -205,6 +212,7 @@ func _on_mouse_left_click_inventory_item(
 	event: InputEvent
 ) -> void:
 	escoria.logger.info(
+		self,
 		"Inventory item left clicked %s " % inventory_item_global_id
 	)
 	escoria.main.current_scene.game.left_click_on_inventory_item(
@@ -225,6 +233,7 @@ func _on_mouse_right_click_inventory_item(
 ) -> void:
 	if input_mode == INPUT_ALL:
 		escoria.logger.info(
+			self,
 			"Inventory item right clicked %s" % inventory_item_global_id
 		)
 		escoria.main.current_scene.game.right_click_on_inventory_item(
@@ -245,6 +254,7 @@ func _on_mouse_double_left_click_inventory_item(
 ) -> void:
 	if input_mode == INPUT_ALL:
 		escoria.logger.info(
+			self,
 			"Inventory item double left clicked %s" % inventory_item_global_id
 		)
 		escoria.main.current_scene.game.left_double_click_on_inventory_item(
@@ -261,6 +271,7 @@ func _on_mouse_double_left_click_inventory_item(
 #	that is hovered
 func _on_mouse_entered_inventory_item(inventory_item_global_id: String) -> void:
 	escoria.logger.info(
+		self,
 		"Inventory item focused %s" % inventory_item_global_id
 	)
 	escoria.main.current_scene.game.inventory_item_focused(
@@ -270,7 +281,10 @@ func _on_mouse_entered_inventory_item(inventory_item_global_id: String) -> void:
 
 # The mouse exited an inventory item
 func _on_mouse_exited_inventory_item() -> void:
-	escoria.logger.info("Inventory item unfocused")
+	escoria.logger.info(
+		self,
+		"Inventory item unfocused"
+	)
 	escoria.main.current_scene.game.inventory_item_unfocused()
 
 
@@ -280,7 +294,10 @@ func _on_mouse_exited_inventory_item() -> void:
 #
 # - item: The Escoria item hovered
 func _on_mouse_entered_item(item: ESCItem) -> void:
-	escoria.logger.info("Item focused: ", [item.global_id])
+	escoria.logger.info(
+		self,
+		"Item focused: %s" % item.global_id
+	)
 	_clean_hover_stack()
 
 	if not hover_stack.empty():
@@ -301,7 +318,10 @@ func _on_mouse_entered_item(item: ESCItem) -> void:
 #
 # - item: The Escoria item hovered
 func _on_mouse_exited_item(item: ESCItem) -> void:
-	escoria.logger.info("Item unfocused: ", [item.global_id])
+	escoria.logger.info(
+		self,
+		"Item unfocused: %s" % item.global_id
+	)
 	_hover_stack_erase_item(item)
 	if hover_stack.empty():
 		hotspot_focused = ""
@@ -320,7 +340,10 @@ func _on_mouse_exited_item(item: ESCItem) -> void:
 func _on_mouse_left_clicked_item(item: ESCItem, event: InputEvent) -> void:
 	if input_mode == INPUT_ALL:
 		if hover_stack.empty() or hover_stack.back() == item:
-			escoria.logger.info("Item left clicked", [item.global_id, event])
+			escoria.logger.info(
+				self,
+				"Item left clicked: %s with event %s" % [item.global_id, event]
+			)
 			hotspot_focused = item.global_id
 			escoria.main.current_scene.game.left_click_on_item(
 				item.global_id,
@@ -339,7 +362,9 @@ func _on_mouse_left_double_clicked_item(
 	event: InputEvent
 ) -> void:
 	if input_mode == INPUT_ALL:
-		escoria.logger.info("Item left double clicked", [item.global_id, event])
+		escoria.logger.info(
+			self,
+			"Item left double clicked %s with event %s" % [item.global_id, event])
 		hotspot_focused = item.global_id
 		escoria.main.current_scene.game.left_double_click_on_item(
 			item.global_id,
@@ -355,7 +380,9 @@ func _on_mouse_left_double_clicked_item(
 # - event: The input event from the click
 func _on_mouse_right_clicked_item(item: ESCItem, event: InputEvent) -> void:
 	if input_mode == INPUT_ALL:
-		escoria.logger.info("Item right clicked", [item.global_id, event])
+		escoria.logger.info(
+			self,
+			"Item right clicked %s with event %s" % [item.global_id, event])
 		hotspot_focused = item.global_id
 		escoria.main.current_scene.game.right_click_on_item(
 			item.global_id,

@@ -353,7 +353,7 @@ func set_changing_scene(p_is_changing_scene: bool) -> void:
 func _on_event_finished(finished_statement: ESCStatement, return_code: int, channel_name: String) -> void:
 	var event = _running_events[channel_name]
 	if not event:
-		escoria.logger.report_warnings(
+		escoria.logger.warning(
 			"esc_event_manager.gd:_on_event_finished()",
 			[
 				"Event %s finished without being in _running_events[%s]"

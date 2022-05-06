@@ -32,11 +32,9 @@ func validate(arguments: Array):
 		return false
 
 	if not escoria.object_manager.has(arguments[1]):
-		escoria.logger.report_errors(
-			"camera_set_target: invalid object",
-			[
-				"Object with global id %s not found" % arguments[1]
-			]
+		escoria.logger.error(
+			self,
+			get_command_name() + ": Invalid object: Object with global id %s not found" % arguments[1]
 		)
 		return false
 
@@ -55,9 +53,7 @@ func run(command_params: Array) -> int:
 
 # Function called when the command is interrupted.
 func interrupt():
-	escoria.logger.report_warnings(
-		get_command_name(),
-		[
-			"Interrupt() function not implemented"
-		]
+	escoria.logger.warning(
+		self,
+		get_command_name() + " Interrupt() function not implemented"
 	)

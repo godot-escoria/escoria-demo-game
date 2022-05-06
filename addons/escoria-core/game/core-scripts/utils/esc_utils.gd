@@ -9,7 +9,7 @@ class_name ESCUtils
 #
 # - rad_angle: Angle in radians
 # **Returns** Degrees
-func get_deg_from_rad(rad_angle: float):
+static func get_deg_from_rad(rad_angle: float):
 	var deg = rad2deg(rad_angle)
 	if deg >= 360.0:
 		deg = clamp(deg, 0.0, 360.0)
@@ -25,7 +25,7 @@ func get_deg_from_rad(rad_angle: float):
 # - re_match: The RegExMatch object
 # - group: The name of the group
 # **Returns** The value of the named regex group in the match
-func get_re_group(re_match: RegExMatch, group: String) -> String:
+static func get_re_group(re_match: RegExMatch, group: String) -> String:
 	if group in re_match.names:
 		return re_match.strings[re_match.names[group]]
 	else:
@@ -39,7 +39,7 @@ func get_re_group(re_match: RegExMatch, group: String) -> String:
 # - value: The original value
 # - type_hint: The type it should be
 # **Returns** The typed value according to the type inference
-func get_typed_value(value: String, type_hint = []):
+static func get_typed_value(value: String, type_hint = []):
 	var regex_bool = RegEx.new()
 	regex_bool.compile("^true|false$")
 	var regex_float = RegEx.new()
@@ -68,7 +68,7 @@ func get_typed_value(value: String, type_hint = []):
 #
 # - value: String to work on
 # **Returns** the string with sanitized whitespaces
-func sanitize_whitespace(value: String) -> String:
+static func sanitize_whitespace(value: String) -> String:
 	var tab_regex = RegEx.new()
 	tab_regex.compile("\\t")
 	var double_regex = RegEx.new()

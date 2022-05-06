@@ -44,7 +44,7 @@ func _ready():
 			])
 
 	else:
-		escoria.logger.report_warnings("room_select.gd:_ready()",
+		escoria.logger.warning("room_select.gd:_ready()",
 			["A problem occurred while opening rooms folder."])
 
 

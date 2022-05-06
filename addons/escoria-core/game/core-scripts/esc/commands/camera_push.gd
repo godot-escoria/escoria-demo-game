@@ -48,20 +48,18 @@ func validate(arguments: Array):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
-		escoria.logger.report_errors(
-			"camera_push: invalid object",
-			[
+		escoria.logger.error(
+			self,
+			get_command_name() + ": invalid object" +
 				"Object global id %s not found" % arguments[0]
-			]
 		)
 		return false
 	if not arguments[2] in SUPPORTED_TRANSITIONS:
-		escoria.logger.report_errors(
-			"camera_shift: invalid transition type",
-			[
+		escoria.logger.error(
+			self,
+			get_command_name() + ": invalid transition type" +
 				"Transition type {t_type} is not one of the accepted types : {allowed_types}".format(
 					{"t_type":arguments[2],"allowed_types":SUPPORTED_TRANSITIONS})
-			]
 		)
 		return false
 
@@ -81,9 +79,7 @@ func run(command_params: Array) -> int:
 
 # Function called when the command is interrupted.
 func interrupt():
-	escoria.logger.report_warnings(
-		get_command_name(),
-		[
-			"Interrupt() function not implemented"
-		]
+	escoria.logger.warning(
+		self,
+		get_command_name() + ": Interrupt() function not implemented"
 	)

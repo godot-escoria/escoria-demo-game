@@ -31,11 +31,10 @@ func items_in_inventory() -> Array:
 # - item: Inventory item id
 func remove_item(item: String):
 	if not inventory_has(item):
-		escoria.logger.report_errors(
-			"ESCInventoryManager.remove_item: Error removing inventory item",
-			[
-				"Trying to remove non-existent item %s" % item
-			]
+		escoria.logger.error(
+			self,
+			"Error removing inventory item: " + 
+			"Trying to remove non-existent item %s" % item
 		)
 	else:
 		escoria.globals_manager.set_global("i/%s" % item, false)

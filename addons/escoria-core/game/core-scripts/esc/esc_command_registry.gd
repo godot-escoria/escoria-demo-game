@@ -14,8 +14,8 @@ var registry: Dictionary = {}
 # - command_name: Name of command to load
 # **Returns** The command object
 func load_command(command_name: String) -> ESCBaseCommand:
-	for command_directory in escoria.project_settings_manager.get_setting(
-		escoria.project_settings_manager.COMMAND_DIRECTORIES
+	for command_directory in ESCProjectSettingsManager.get_setting(
+		ESCProjectSettingsManager.COMMAND_DIRECTORIES
 	):
 		if ResourceLoader.exists("%s/%s.gd" % [command_directory, command_name]):
 			registry[command_name] = load(
@@ -26,12 +26,10 @@ func load_command(command_name: String) -> ESCBaseCommand:
 			).new()
 			return registry[command_name]
 
-	escoria.logger.report_errors(
-		"ESCCommandRegistry.load_command: Command not found",
-		[
-			"No command class could be found for command %s" %
-				command_name
-		]
+	escoria.logger.error(
+		self,
+		"No command class could be found for command %s"
+				% command_name
 	)
 
 	return null

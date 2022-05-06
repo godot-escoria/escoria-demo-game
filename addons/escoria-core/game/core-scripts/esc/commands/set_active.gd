@@ -28,11 +28,10 @@ func validate(arguments: Array):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
-		escoria.logger.report_errors(
-			"set_active: invalid object",
-			[
-				"Object with global id %s not found" % arguments[0]
-			]
+		escoria.logger.error(
+			self,
+			get_command_name() + ": invalid object" +
+					"Object with global id %s not found" % arguments[0]
 		)
 		return false
 	return true

@@ -59,12 +59,11 @@ func validate(arguments: Array):
 		return false
 
 	if not arguments[3] in SUPPORTED_TRANSITIONS:
-		escoria.logger.report_errors(
-			"camera_shift: invalid transition type",
-			[
+		escoria.logger.error(
+			self,
+			get_command_name() + ": invalid transition type" +
 				"Transition type {t_type} is not one of the accepted types : {allowed_types}".format(
 					{"t_type":arguments[3],"allowed_types":SUPPORTED_TRANSITIONS})
-			]
 		)
 		return false
 
@@ -73,9 +72,7 @@ func validate(arguments: Array):
 
 # Function called when the command is interrupted.
 func interrupt():
-	escoria.logger.report_warnings(
-		get_command_name(),
-		[
-			"Interrupt() function not implemented"
-		]
+	escoria.logger.warning(
+		self,
+		get_command_name() + ": Interrupt() function not implemented"
 	)

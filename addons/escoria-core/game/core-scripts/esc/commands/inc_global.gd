@@ -27,19 +27,17 @@ func validate(arguments: Array):
 		return false
 
 	if not escoria.globals_manager.has(arguments[0]):
-		escoria.logger.report_errors(
-			"inc_global: invalid global",
-			[
-				"Global %s does not exist." % arguments[0]
-			]
+		escoria.logger.error(
+			self,
+			get_command_name() + ": invalid global" +
+					"Global %s does not exist." % arguments[0]
 		)
 		return false
 	if not escoria.globals_manager.get_global(arguments[0]) is int:
-		escoria.logger.report_errors(
-			"inc_global: invalid global",
-			[
-				"Global %s didn't have an integer value." % arguments[0]
-			]
+		escoria.logger.error(
+			self,
+			get_command_name() + ": invalid global" +
+					"Global %s didn't have an integer value." % arguments[0]
 		)
 		return false
 	return true

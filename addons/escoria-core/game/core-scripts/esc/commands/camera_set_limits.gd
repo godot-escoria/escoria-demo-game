@@ -33,14 +33,14 @@ func validate(arguments: Array):
 		return false
 
 	if escoria.main.current_scene.camera_limits.size() < arguments[0]:
-		escoria.logger.report_errors(
-			"camera_set_limits: invalid limits id",
-			[
-				"Limit id %d is bigger than limits array size %d" % [
+		escoria.logger.error(
+			self,
+			get_command_name() + ": invalid limits id. " +
+				"Limit id %d is bigger than limits array size %d" 
+				% [
 					arguments[0],
 					escoria.main.current_scene.camera_limits.size()
 				]
-			]
 		)
 		return false
 
@@ -55,9 +55,7 @@ func run(command_params: Array) -> int:
 
 # Function called when the command is interrupted.
 func interrupt():
-	escoria.logger.report_warnings(
-		get_command_name(),
-		[
-			"Interrupt() function not implemented"
-		]
+	escoria.logger.warning(
+		self,
+		get_command_name() + ": Interrupt() function not implemented"
 	)

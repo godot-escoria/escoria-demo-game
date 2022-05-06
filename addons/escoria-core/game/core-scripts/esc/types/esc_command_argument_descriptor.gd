@@ -71,7 +71,7 @@ func prepare_arguments(arguments: Array) -> Array:
 			# appear at the very end of a command's argument list.
 			varargs.append(arguments[index])
 		else:
-			complete_arguments[index] = escoria.utils.get_typed_value(
+			complete_arguments[index] = ESCUtils.get_typed_value(
 				arguments[index],
 				types[index]
 			)
@@ -98,22 +98,20 @@ func validate(command: String, arguments: Array) -> bool:
 	if required_args_count < min_args:
 		var verb = "was" if required_args_count == 1 else "were"
 
-		escoria.logger.report_errors(
-			"ESCCommandArgumentDescriptor:validate()",
-			[
-				"Invalid arguments for command %s" % command,
-				"Arguments didn't match minimum size {num}: Only {args} {verb} found" \
-					.format({"num":self.min_args,"args":required_args_count,"verb":verb})
-			]
+		escoria.logger.error(
+			self,
+			"Invalid arguments for command %s" % command +
+			"Arguments didn't match minimum size {num}: Only {args} {verb} found" \
+				.format({"num":self.min_args,"args":required_args_count,"verb":verb})
 		)
 
 	if arguments.size() > self.max_args and not has_varargs:
-		escoria.logger.report_errors(
-			"ESCCommandArgumentDescriptor:validate()",
-			[
-				"Invalid arguments for command %s" % command,
-				"Maximum number of arguments ({num}) exceeded: {args}".format({"num":self.max_args,"args":arguments})
-			]
+		escoria.logger.error(
+			self,
+			"Invalid arguments for command %s" % command +
+			"Maximum number of arguments ({num}) exceeded: {args}".format(
+				{"num":self.max_args,"args":arguments}
+			)
 		)
 
 	for index in range(arguments.size()):
@@ -140,17 +138,17 @@ func validate(command: String, arguments: Array) -> bool:
 			for type in self.types[types_index]:
 				allowed_types += GODOT_TYPE_LIST[type] + " or "
 			allowed_types = allowed_types.substr(0, allowed_types.length() - 3) + "]"
-			escoria.logger.report_errors(
-				"Argument type did not match descriptor for command \"%s\"" %
-						command,
-				[
-					"Argument %d (\"%s\") is of type %s. Expected %s" % [
-						index,
-						arguments[index],
-						GODOT_TYPE_LIST[typeof(arguments[index])],
-						allowed_types
-					]
-				]
+			escoria.logger.error(
+				self,
+				"Argument type did not match descriptor for command \"%s\"\n"
+						% command +
+				"Argument %d (\"%s\") is of type %s. Expected %s" 
+						% [
+							index,
+							arguments[index],
+							GODOT_TYPE_LIST[typeof(arguments[index])],
+							allowed_types
+						]
 			)
 	return true
 

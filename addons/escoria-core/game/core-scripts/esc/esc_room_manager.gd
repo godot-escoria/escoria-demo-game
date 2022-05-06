@@ -86,14 +86,12 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 
 	# Check if game scene was loaded
 	if not escoria.game_scene:
-		escoria.logger.report_errors(
-			"ESCRoomManager.change_scene: Failed loading game scene",
-			[
-				"Failed loading scene %s" % \
-						escoria.project_settings_manager.get_setting(
-							escoria.project_settings_manager.GAME_SCENE
-							)
-			]
+		escoria.logger.error(
+			self,
+			"Failed loading game scene %s" % \
+				ESCProjectSettingsManager.get_setting(
+					ESCProjectSettingsManager.GAME_SCENE
+				)
 		)
 
 	if escoria.main.current_scene \
@@ -138,11 +136,9 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 
 		escoria.inputs_manager.hotspot_focused = ""
 	else:
-		escoria.logger.report_errors(
-			"ESCRoomManager.change_scene: Failed loading room scene",
-			[
-				"Failed loading scene %s" % room_path
-			]
+		escoria.logger.error(
+			self,
+			"Failed loading room scene %s" % room_path
 		)
 
 
@@ -154,11 +150,9 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 # - room: The ESCRoom to be initialized for use.
 func init_room(room: ESCRoom) -> void:
 	if not is_instance_valid(room) || room == null:
-		escoria.logger.report_errors(
-			"ESCRoomManager.init_room: No valid room specified",
-			[
-				"No valid room was specified for initialization."
-			]
+		escoria.logger.error(
+			self,
+			"No valid room was specified for initialization."
 		)
 
 	if room.camera_limits.empty():
@@ -189,12 +183,11 @@ func init_room(room: ESCRoom) -> void:
 	# player by the same number of pixels when they're at the terrain edge and
 	# move them when it shouldn't.
 	if room.position != Vector2(0,0):
-		escoria.logger.report_errors(
-		"ESCRoomManager.init_room: Room node not at (0,0)",
-		[
-			"The room node's coordinates must be (0,0) instead of %s." % room.position
-		]
-	)
+		escoria.logger.error(
+			self,
+			"The room node's coordinates must be (0,0) instead of %s." 
+					% room.position
+		)
 
 	_perform_script_events(room)
 
@@ -217,8 +210,8 @@ func _perform_script_events(room: ESCRoom) -> void:
 			"%s %s out" %
 				[
 					_transition.get_command_name(),
-					escoria.project_settings_manager.get_setting(
-						escoria.project_settings_manager.DEFAULT_TRANSITION
+					ESCProjectSettingsManager.get_setting(
+						ESCProjectSettingsManager.DEFAULT_TRANSITION
 					)
 				],
 			"%s 0.1" % _wait.get_command_name()

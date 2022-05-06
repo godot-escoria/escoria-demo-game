@@ -35,24 +35,22 @@ func validate(arguments: Array):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
-		escoria.logger.report_errors(
-			"custom: invalid object",
-			[
-				"Object with global id %s not found" % arguments[0]
-			]
+		escoria.logger.error(
+			self,
+			get_command_name() + ": invalid object. Object with global id %s not found" 
+					% arguments[0]
 		)
 		return false
 	elif not escoria.object_manager.get_object(arguments[0]).node.has_node(
 		arguments[1]
 	):
-		escoria.logger.report_errors(
-			"custom: invalid node",
-			[
-				"Object with global id %s has no node %s" % [
-					arguments[0],
-					arguments[1],
-				]
-			]
+		escoria.logger.error(
+			self,
+			get_command_name() + ": invalid node. Object with global id %s has no node %s" 
+					% [
+						arguments[0],
+						arguments[1],
+					]
 		)
 		return false
 	elif not escoria.object_manager.get_object(arguments[0]).node\
@@ -62,15 +60,14 @@ func validate(arguments: Array):
 		.has_method(
 			arguments[2]
 		):
-		escoria.logger.report_errors(
-			"custom: invalid function",
-			[
-				"Object with global id %s and node %s has no function %s" % [
-					arguments[0],
-					arguments[1],
-					arguments[2],
-				]
-			]
+		escoria.logger.error(
+			self,
+			get_command_name() + ": invalid function. Object with global id %s and node %s has no function %s" 
+					% [
+						arguments[0],
+						arguments[1],
+						arguments[2],
+					]
 		)
 		return false
 	return true
@@ -95,9 +92,7 @@ func run(command_params: Array) -> int:
 
 # Function called when the command is interrupted.
 func interrupt():
-	escoria.logger.report_warnings(
-		get_command_name(),
-		[
-			"Interrupt() function not implemented"
-		]
+	escoria.logger.warning(
+		self, 
+		get_command_name() + ": Interrupt() function not implemented"
 	)

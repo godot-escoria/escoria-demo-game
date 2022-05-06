@@ -50,23 +50,22 @@ func set_state(p_state: String, immediate: bool = false):
 			if animation_node.has_animation(p_state):
 				if immediate:
 					escoria.logger.debug(
-						"State \"%s\" set. Matching immediate animation executing." % [
-							p_state
-						]
+						self,
+						"State \"%s\" set. Matching immediate animation executing."
+								% p_state
 					)
 					animation_node.seek_end(p_state)
 				else:
 					escoria.logger.debug(
-						"State \"%s\" set. Matching non-immediate animation executing." % [
-							p_state
-						]
+						"State \"%s\" set. Matching non-immediate animation executing." 
+								% p_state
 					)
 					animation_node.play(p_state)
 			else:
 				escoria.logger.debug(
-					"State \"%s\" set. No matching animation found." % [
-						p_state
-					]
+					self,
+					"State \"%s\" set. No matching animation found." 
+							% p_state
 				)
 
 

@@ -35,11 +35,11 @@ func has(key: String) -> bool:
 # - value: The initial value (optional)
 func register_reserved_global(key: String, value = null) -> void:
 	if key in _reserved_globals:
-		escoria.logger.report_errors(
-			"ESCGlobalsManager.register_reserved_global: Can not override reserved global",
-			[
-				"Global key %s is already registered as reserved" % key
-			]
+		escoria.logger.error(
+			self,
+			"Can not override reserved global: Global key %s is already " +
+			"registered as reserved" 
+					% key
 		)
 	var old_value = _globals[key] if _globals.has(key) else ""
 	_reserved_globals[key] = value
@@ -86,11 +86,9 @@ func filter(pattern: String) -> Dictionary:
 # - value: The new value
 func set_global(key: String, value, ignore_reserved: bool = false) -> void:
 	if key in _reserved_globals and not ignore_reserved:
-		escoria.logger.report_errors(
-			"ESCGlobalsManager.set_global: Can not override reserved global",
-			[
-				"Global key %s is reserved and can not be overridden" % key
-			]
+		escoria.logger.error(
+			self,
+			"Global key %s is reserved and can not be overridden" % key
 		)
 
 	emit_signal(

@@ -38,7 +38,10 @@ func _ready() -> void:
 # - p_scene: Scene to set
 func set_scene(p_scene: Node) -> void:
 	if !p_scene:
-		escoria.logger.report_errors("main", ["Trying to set empty scene"])
+		escoria.logger.error(
+			self, 
+			"Trying to set empty scene"
+		)
 
 	previous_scene = current_scene
 
@@ -130,13 +133,11 @@ func set_camera_limits(camera_limit_id: int = 0, scene: Node = current_scene) ->
 	var limits = {}
 	var last_available_camera_limit = scene.camera_limits.size() - 1
 	if camera_limit_id > last_available_camera_limit:
-		escoria.logger.report_errors(
-			"main.gd:set_camera_limits()",
-			[
-				"Camera limit %d requested. Last available camera limit is %d." % [
-					camera_limit_id,
-					last_available_camera_limit
-				]
+		escoria.logger.error(
+			self,
+			"Camera limit %d requested. Last available camera limit is %d." % [
+				camera_limit_id,
+				last_available_camera_limit
 			]
 		)
 	var scene_camera_limits = scene.camera_limits[camera_limit_id]
@@ -151,15 +152,16 @@ func set_camera_limits(camera_limit_id: int = 0, scene: Node = current_scene) ->
 		# to stick centered on the background
 		if area.size.x == 0 or area.size.y == 0 \
 				or area.size < get_viewport().size:
-			escoria.logger.report_warnings(
-				"main.gd:set_camera_limits()",
-				[
-					"No limit area! Using viewport."
-				]
+			escoria.logger.warning(
+				self,
+				"No limit area! Using viewport."
 			)
 			area.size = get_viewport().size
 
-		escoria.logger.info("Setting camera limits from scene ", [area])
+		escoria.logger.info(
+			self,
+			"Setting camera limits from scene " + area
+		)
 		limits = ESCCameraLimits.new(
 			area.position.x,
 			area.position.x + area.size.x,
@@ -176,8 +178,8 @@ func set_camera_limits(camera_limit_id: int = 0, scene: Node = current_scene) ->
 					scene_camera_limits.size.y
 		)
 		escoria.logger.info(
-			"Setting camera limits from parameter ",
-			[scene_camera_limits]
+			self,
+			"Setting camera limits from parameter " + scene_camera_limits
 		)
 
 	escoria.object_manager.get_object(

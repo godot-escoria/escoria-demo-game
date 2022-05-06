@@ -22,7 +22,10 @@ func _init() -> void:
 
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
-	escoria.logger.error("Command %s did not override configure." % get_command_name())
+	escoria.logger.error(
+		self,
+		"Command %s did not override configure." % get_command_name()
+	)
 	return ESCCommandArgumentDescriptor.new()
 
 
@@ -33,7 +36,10 @@ func validate(arguments: Array) -> bool:
 
 # Run the command
 func run(command_params: Array) -> int:
-	escoria.logger.error("Command %s did not override run." % get_command_name())
+	escoria.logger.error(
+		self,
+		"Command %s did not override run." % get_command_name()
+	)
 	return 0
 
 

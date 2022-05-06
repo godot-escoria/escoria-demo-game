@@ -131,12 +131,9 @@ func do_walk(destination, params: Array = [], can_interrupt: bool = false) -> vo
 
 	# Check moving object.
 	if not escoria.object_manager.has(params[0]):
-		escoria.logger.report_errors(
-			"esc_game.gd:do_walk()",
-			[
-				"Walk action requested on nonexisting " + \
-				"object: %s " % params[0]
-			]
+		escoria.logger.error(
+			self,
+			"Walk action requested on nonexisting object: %s " % params[0]
 		)
 		return
 
@@ -145,12 +142,9 @@ func do_walk(destination, params: Array = [], can_interrupt: bool = false) -> vo
 
 	if destination is String:
 		if not escoria.object_manager.has(destination):
-			escoria.logger.report_errors(
-				"esc_game.gd:do_walk()",
-				[
-					"Walk action requested to nonexisting " + \
-					"object: %s " % destination
-				]
+			escoria.logger.error(
+				self,
+				"Walk action requested to nonexisting object: %s " % destination
 			)
 			return
 
@@ -436,8 +430,8 @@ func show_crash_popup(files: Array = []) -> void:
 	var files_to_send: String = ""
 	for file in files:
 		files_to_send += "- %s\n" % file
-	crash_popup.dialog_text = tr(escoria.project_settings_manager.get_setting(
-		escoria.project_settings_manager.CRASH_MESSAGE)
+	crash_popup.dialog_text = tr(ESCProjectSettingsManager.get_setting(
+		ESCProjectSettingsManager.CRASH_MESSAGE)
 	) % files_to_send
 	crash_popup.popup_centered()
 	escoria.set_game_paused(true)
@@ -451,9 +445,9 @@ func escoria_hide_ui():
 	if ui_parent_control_node != null and not ui_parent_control_node.is_empty():
 		(get_node(ui_parent_control_node) as Control).visible = false
 	else:
-		escoria.logger.report_warnings(
-			"esc_game.gd#escoria_hide_ui",
-			["UI parent Control node not defined!"]
+		escoria.logger.warning(
+			self,
+			"UI parent Control node not defined!"
 		)
 
 
@@ -463,9 +457,9 @@ func escoria_show_ui():
 	if ui_parent_control_node != null and not ui_parent_control_node.is_empty():
 		(get_node(ui_parent_control_node) as Control).visible = true
 	else:
-		escoria.logger.report_warnings(
-			"esc_game.gd#escoria_show_ui",
-			["UI parent Control node not defined!"]
+		escoria.logger.warning(
+			self,
+			"UI parent Control node not defined!"
 		)
 
 

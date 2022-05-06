@@ -142,7 +142,7 @@ func _calculate_movement(delta: float):
 #
 # - angle: the angle X axis and object's facing direction.
 func _perform_walk_orientation(angle: float):
-	last_dir = _get_dir_deg(escoria.utils.get_deg_from_rad(angle),
+	last_dir = _get_dir_deg(ESCUtils.get_deg_from_rad(angle),
 		parent.animations)
 
 	var animation_player: ESCAnimationPlayer = \
@@ -158,15 +158,10 @@ func _perform_walk_orientation(angle: float):
 	elif current_animation != animation_to_play and \
 			not animation_player.has_animation(animation_to_play):
 		current_animation = animation_to_play
-		escoria.logger.report_warnings(
-			"movable.gd:_process()",
-			[
-				"Character %s has no animation %s "
-				% [parent.global_id, animation_to_play],
-				"Bypassing missing animation and " +
-				"proceed movement."
-			],
-			true
+		escoria.logger.warning(
+			self,
+			"Character %s has no animation %s\nBypassing missing animation and proceed movement."
+					% [parent.global_id, animation_to_play]
 		)
 
 	is_mirrored = parent.animations.directions[last_dir].mirrored
@@ -181,21 +176,21 @@ func teleport(target: Node) -> void:
 	if target.has_method("get_interact_position"):
 		parent.global_position = target.get_interact_position()
 		escoria.logger.info(
-			"Object %s is teleported at position %s" % [
-				target.name,
-				parent.global_position
-			]
+			self,
+			"Object %s is teleported at position %s" 
+					% [target.name, parent.global_position]
 		)
 	elif "position" in target:
 		escoria.logger.info(
-			"Object %s teleported at position %s" %
-			[parent.global_id, str(target.global_position)]
+			self,
+			"Object %s teleported at position %s"
+					% [parent.global_id, str(target.global_position)]
 		)
 		parent.global_position = target.global_position
 	else:
-		escoria.logger.report_errors(
-			"ESCMovable#teleport()",
-			["Couldn't understand how to manage teleport Target %s" % target]
+		escoria.logger.error(
+			self,
+			"Couldn't understand how to manage teleport Target %s" % target
 		)
 
 
@@ -206,8 +201,9 @@ func teleport(target: Node) -> void:
 # - target: Vector2 target position to teleport to
 func teleport_to(target: Vector2) -> void:
 	escoria.logger.info(
-		"Object %s teleported to position %s" %
-		[parent.global_id, str(target)]
+		self,
+		"Object %s teleported to position %s" 
+				% [parent.global_id, str(target)]
 	)
 	parent.global_position = target
 
@@ -376,9 +372,9 @@ func _get_dir_deg(deg: int, animations: ESCAnimationResource) -> int:
 
 	# It's an error to have the animations misconfigured
 	if dir == -1:
-		escoria.logger.report_errors(
-			"esc_movable.gd:_get_dir_deg()",
-			["No direction found for " + str(deg)]
+		escoria.logger.error(
+			self,
+			"No direction found for %s" + str(deg)
 		)
 
 	return dir
@@ -414,9 +410,9 @@ func _is_angle_in_interval(
 # - wait float Wait this amount of seconds until continuing with turning around
 func set_angle(deg: int, wait: float = 0.0) -> void:
 	if deg < 0 or deg > 360:
-		escoria.logger.report_errors(
-			"movable.gd:set_angle()",
-			["Invalid degree to turn to " + str(deg)]
+		escoria.logger.error(
+			self,
+			"Invalid degree to turn to %s" % str(deg)
 		)
 	moved = true
 
@@ -490,15 +486,15 @@ func _get_angle() -> int:
 # Integer: -1 (anti-clockwise), 1 (clockwise) or 0 (no movement needed).
 func get_shortest_way_to_dir(current_dir: int, target_dir: int) -> int:
 	if current_dir < 0 or current_dir > parent.animations.dir_angles.size() - 1:
-		escoria.logger.report_errors(
-			"esc_movable.gd:get_shortest_way_to_dir()",
-			["Invalid direction (current_dir) %s" % str(current_dir)]
+		escoria.logger.error(
+			self,
+			"Invalid direction (current_dir) %s" % str(current_dir)
 		)
 
 	if target_dir < 0 or target_dir > parent.animations.dir_angles.size() - 1:
-		escoria.logger.report_errors(
-			"esc_movable.gd:get_shortest_way_to_dir()",
-			["Invalid direction (target_dir) %s " % str(target_dir)]
+		escoria.logger.error(
+			self,
+			"Invalid direction (target_dir) %s " % str(target_dir)
 		)
 
 	if current_dir == target_dir:
