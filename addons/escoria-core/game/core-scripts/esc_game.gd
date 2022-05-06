@@ -77,6 +77,12 @@ func _exit_tree():
 		"_on_action_finished"
 	)
 
+	escoria.main.disconnect(
+		"room_ready",
+		self,
+		"_on_room_ready"
+	)
+
 
 # Ready function
 func _ready():
