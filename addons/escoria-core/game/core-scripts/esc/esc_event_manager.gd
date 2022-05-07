@@ -78,7 +78,7 @@ func _process(delta: float) -> void:
 	for channel_name in events_queue.keys():
 		channel_yielding = _yielding.get(channel_name, false)
 
-		if events_queue[channel_name].size() == 0 or channel_yielding or _changing_scene:
+		if events_queue[channel_name].size() == 0 or channel_yielding:
 			continue
 		if is_channel_free(channel_name):
 			_channels_state[channel_name] = false
@@ -230,6 +230,7 @@ func queue_event(event: ESCEvent, force: bool = false) -> void:
 
 		return
 
+	escoria.logger.debug("Queueing %s in channel %s." % [event.name, CHANNEL_FRONT])
 	self.events_queue[CHANNEL_FRONT].append(event)
 
 
@@ -276,15 +277,29 @@ func queue_background_event(channel_name: String, event: ESCEvent) -> void:
 	events_queue[channel_name].append(event)
 
 
-# Interrupt the events currently running.
+# Interrupt the events currently running and any that are pending.
 #
 # #### Parameters
-# - exceptions: an optional list of events which should be left running
-func interrupt_running_event(exceptions: PoolStringArray = []):
+# - exceptions: an optional list of events which should be left running or queued
+func interrupt(exceptions: PoolStringArray = []) -> void:
 	for channel_name in _running_events.keys():
-		if _running_events[channel_name] != null and not channel_name in exceptions:
+		if _running_events[channel_name] != null and not _running_events[channel_name].name in exceptions:
+			escoria.logger.debug("Interrupting running event %s in channel %s..." 
+				% [_running_events[channel_name].name, channel_name])
 			_running_events[channel_name].interrupt()
 			_channels_state[channel_name] = true
+
+	for channel_name in events_queue.keys():
+		if events_queue[channel_name] != null:
+			for event in events_queue[channel_name]:
+				if event.name in exceptions:
+					continue
+				
+				escoria.logger.debug("Interrupting queued event %s in channel %s..." 
+					% [event.name, channel_name])
+				event.interrupt()
+			
+			events_queue[channel_name].clear()
 
 
 # Clears the event queues.
@@ -316,13 +331,14 @@ func get_running_event(name: String) -> ESCEvent:
 # #### Parameterse
 # - value: boolean value to set _changing_scene to
 func set_changing_scene(value: bool) -> void:
+	escoria.logger.trace("Setting _changing_scene to %s." % value)
+
 	_changing_scene = value
 	
 	# If we're changing scenes, interrupt any (other) running events and purge
 	# all event queues.
 	if value:
-		clear_event_queue()
-		interrupt_running_event([_change_scene.get_command_name()])
+		interrupt([EVENT_INIT, EVENT_EXIT_SCENE, _change_scene.get_command_name()])
 
 
 # The event finished running
