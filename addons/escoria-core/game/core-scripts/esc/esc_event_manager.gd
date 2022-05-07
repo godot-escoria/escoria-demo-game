@@ -259,8 +259,10 @@ func queue_background_event(channel_name: String, event: ESCEvent) -> void:
 	events_queue[channel_name].append(event)
 
 
-# Interrupt the events currently running.
-func interrupt_running_event():
+# Interrupt the events currently running and queued.
+func interrupt():
+	clear_event_queue()
+
 	for channel_name in _running_events.keys():
 		if _running_events[channel_name] != null:
 			_running_events[channel_name].interrupt()

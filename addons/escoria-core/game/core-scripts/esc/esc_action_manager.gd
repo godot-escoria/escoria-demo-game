@@ -82,7 +82,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 		match action:
 			ACTION.BACKGROUND_CLICK:
 				if can_interrupt:
-					escoria.event_manager.interrupt_running_event()
+					escoria.event_manager.interrupt()
 
 				var walk_fast = false
 				if params.size() > 2:
@@ -127,7 +127,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 					)
 
 					if can_interrupt:
-						escoria.event_manager.interrupt_running_event()
+						escoria.event_manager.interrupt()
 
 					var item = escoria.object_manager.get_object(params[0])
 					self.perform_inputevent_on_object(item, params[1])
@@ -140,7 +140,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 					)
 
 					if can_interrupt:
-						escoria.event_manager.interrupt_running_event()
+						escoria.event_manager.interrupt()
 
 					var item = escoria.object_manager.get_object(params[0])
 					self.perform_inputevent_on_object(item, params[1], true)
@@ -522,6 +522,11 @@ func perform_inputevent_on_object(
 				)
 				if context is GDScriptFunctionState:
 					context = yield(context, "completed")
+
+				# In case of an interrupted walk, we don't want to proceed.
+				if context == null:
+					return
+					
 				destination_position = context.target_position
 				dont_interact = context.dont_interact_on_arrival
 
@@ -640,11 +645,19 @@ func _walk_towards_object(
 	escoria.main.current_scene.player.walk_to(destination_position,
 		walk_context)
 
+	escoria.logger.debug("Player walking to destination. Yielding.")
+
 	# Wait for the player to arrive before continuing with action.
 	var context: ESCWalkContext = yield(
 		escoria.main.current_scene.player,
 		"arrived"
 	)
+
+	if context.target_object != obj:
+		escoria.logger.debug("Original walk context target does not match " \
+			+ "yielded walk context. Likely interrutped walk.")
+		return
+	
 	escoria.logger.info("Context arrived: %s" % context)
 
 	# Confirm that reached item was the one user clicked in the first place.

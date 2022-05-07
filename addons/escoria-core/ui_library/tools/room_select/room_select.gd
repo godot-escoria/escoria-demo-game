@@ -66,7 +66,7 @@ func _on_button_pressed():
 	],
 	get_class()
 	)
-	escoria.event_manager.interrupt_running_event()
+	escoria.event_manager.interrupt()
 	escoria.event_manager.clear_event_queue()
 	escoria.event_manager.queue_event(script.events['room_selector'])
 

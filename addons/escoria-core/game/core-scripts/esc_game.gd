@@ -117,7 +117,7 @@ func _draw():
 # - can_interrupt: if true, this command will interrupt any ongoing event
 func do_walk(destination, params: Array = [], can_interrupt: bool = false) -> void:
 	if can_interrupt:
-		escoria.event_manager.interrupt_running_event()
+		escoria.event_manager.interrupt()
 
 	escoria.action_manager.clear_current_action()
 

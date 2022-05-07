@@ -261,7 +261,7 @@ func load_game(id: int):
 			)
 		)
 
-	escoria.event_manager.interrupt_running_event()
+	escoria.event_manager.interrupt()
 
 	var load_event = ESCEvent.new("%s%s" % [ESCEvent.PREFIX, escoria.event_manager.EVENT_LOAD])
 	var load_statements = []
