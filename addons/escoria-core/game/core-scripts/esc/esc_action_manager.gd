@@ -82,7 +82,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 		match action:
 			ACTION.BACKGROUND_CLICK:
 				if can_interrupt:
-					escoria.event_manager.interrupt_running_event()
+					escoria.event_manager.interrupt()
 
 				var walk_fast = false
 				if params.size() > 2:
@@ -127,7 +127,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 					)
 
 					if can_interrupt:
-						escoria.event_manager.interrupt_running_event()
+						escoria.event_manager.interrupt()
 
 					var item = escoria.object_manager.get_object(params[0])
 					self.perform_inputevent_on_object(item, params[1])
@@ -140,7 +140,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 					)
 
 					if can_interrupt:
-						escoria.event_manager.interrupt_running_event()
+						escoria.event_manager.interrupt()
 
 					var item = escoria.object_manager.get_object(params[0])
 					self.perform_inputevent_on_object(item, params[1], true)

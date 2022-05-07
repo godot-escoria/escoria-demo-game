@@ -309,6 +309,10 @@ func _perform_script_events(room: ESCRoom) -> void:
 
 		yielded = true
 
+	# As far as the event manager is concerned, we're done changing scenes and
+	# so should resume allowing events to be queued and processed.
+	escoria.event_manager.set_changing_scene(false)
+
 	if room.player:
 		escoria.object_manager.get_object(escoria.object_manager.CAMERA).node.set_target(room.player)
 
