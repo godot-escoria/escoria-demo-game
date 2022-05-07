@@ -22,7 +22,7 @@ func _init() -> void:
 
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
-	escoria.logger.error("Command %s did not override configure." % get_class())
+	escoria.logger.error("Command %s did not override configure." % get_command_name())
 	return ESCCommandArgumentDescriptor.new()
 
 
@@ -33,10 +33,15 @@ func validate(arguments: Array) -> bool:
 
 # Run the command
 func run(command_params: Array) -> int:
-	escoria.logger.error("Command %s did not override run." % get_class())
+	escoria.logger.error("Command %s did not override run." % get_command_name())
 	return 0
 
 
 # Return the name of the command based on the script's filename
 func get_command_name() -> String:
 	return command_name_regex.search(get_script().get_path()).get_string(FILE_REGEX_GROUP)
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	escoria.logger.info("Command %s did not override interrupt." % get_command_name())

@@ -54,8 +54,3 @@ func run(command_params: Array) -> int:
 		command_params[0]
 	)
 	return ESCExecution.RC_OK
-
-
-# Function called when the command is interrupted.
-func interrupt():
-	escoria.object_manager.get_object(_snd_player).node.set_state("off")
