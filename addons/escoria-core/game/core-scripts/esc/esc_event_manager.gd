@@ -57,8 +57,11 @@ var _yielding: Dictionary = {}
 # Whether we're currently changing the scene.
 var _changing_scene: bool = false setget set_changing_scene
 
+# ESC "change_scene" command.
 var _change_scene: ChangeSceneCommand
 
+
+# Constructor
 func _init():
 	_change_scene = ChangeSceneCommand.new()
 
@@ -330,14 +333,14 @@ func get_running_event(name: String) -> ESCEvent:
 #
 # #### Parameterse
 # - value: boolean value to set _changing_scene to
-func set_changing_scene(value: bool) -> void:
-	escoria.logger.trace("Setting _changing_scene to %s." % value)
+func set_changing_scene(p_is_changing_scene: bool) -> void:
+	escoria.logger.trace("Setting _changing_scene to %s." % p_is_changing_scene)
 
-	_changing_scene = value
+	_changing_scene = p_is_changing_scene
 	
 	# If we're changing scenes, interrupt any (other) running events and purge
 	# all event queues.
-	if value:
+	if _changing_scene:
 		interrupt([EVENT_INIT, EVENT_EXIT_SCENE, _change_scene.get_command_name()])
 
 
