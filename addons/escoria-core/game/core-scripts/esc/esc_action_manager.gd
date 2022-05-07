@@ -522,6 +522,11 @@ func perform_inputevent_on_object(
 				)
 				if context is GDScriptFunctionState:
 					context = yield(context, "completed")
+
+				# In case of an interrupted walk, we don't want to proceed.
+				if context == null:
+					return
+					
 				destination_position = context.target_position
 				dont_interact = context.dont_interact_on_arrival
 
@@ -640,11 +645,19 @@ func _walk_towards_object(
 	escoria.main.current_scene.player.walk_to(destination_position,
 		walk_context)
 
+	escoria.logger.debug("Player walking to destination. Yielding.")
+
 	# Wait for the player to arrive before continuing with action.
 	var context: ESCWalkContext = yield(
 		escoria.main.current_scene.player,
 		"arrived"
 	)
+
+	if context.target_object != obj:
+		escoria.logger.debug("Original walk context target does not match " \
+			+ "yielded walk context. Likely interrutped walk.")
+		return
+	
 	escoria.logger.info("Context arrived: %s" % context)
 
 	# Confirm that reached item was the one user clicked in the first place.
