@@ -3,8 +3,6 @@ tool
 extends Node
 class_name Escoria
 
-# Signal sent when pause menu has to be displayed
-signal request_pause_menu
 
 # Signal sent when Escoria is paused
 signal paused
@@ -222,9 +220,6 @@ func _input(event):
 	if InputMap.has_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT) \
 			and event.is_action_pressed(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT):
 		escoria.main.get_node("layers/debug_layer/esc_prompt_popup").popup()
-
-	if event.is_action_pressed("ui_cancel"):
-		emit_signal("request_pause_menu")
 
 
 # Pauses or unpause the game

@@ -8,6 +8,9 @@ class_name ESCGame
 # Emitted when the user has confirmed the crash popup
 signal crash_popup_confirmed
 
+# Signal sent when pause menu has to be displayed
+signal request_pause_menu
+
 
 # Editor debug modes
 # NONE - No debugging
@@ -469,3 +472,14 @@ func escoria_show_ui():
 # Manage signal room_deady from main.gd.
 func _on_room_ready():
 	room_ready_for_inputs = true
+
+
+# Input function to manage specific input keys.
+# Note that if any child of this class wishes to override _input, the overriding
+# method MUST call its parent's version (i.e. this method).
+func _input(event):
+	if escoria.inputs_manager.input_mode == escoria.inputs_manager.INPUT_NONE:
+		return
+
+	if event.is_action_pressed("ui_cancel"):
+		emit_signal("request_pause_menu")
