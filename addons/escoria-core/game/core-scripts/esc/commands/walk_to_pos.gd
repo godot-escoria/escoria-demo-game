@@ -62,5 +62,5 @@ func run(command_params: Array) -> int:
 
 # Function called when the command is interrupted.
 func interrupt():
-	if not walking_object_node is ESCPlayer:
+	if walking_object_node != null and not walking_object_node is ESCPlayer:
 		walking_object_node.stop_walking_now()

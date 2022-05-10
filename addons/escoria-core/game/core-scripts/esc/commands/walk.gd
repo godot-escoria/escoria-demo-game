@@ -72,4 +72,5 @@ func run(command_params: Array) -> int:
 
 # Function called when the command is interrupted.
 func interrupt():
-	walking_object_node.stop_walking_now()
+	if walking_object_node != null:
+		walking_object_node.stop_walking_now()
