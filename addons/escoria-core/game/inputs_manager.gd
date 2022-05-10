@@ -50,7 +50,7 @@ var custom_input_handler = null
 
 # Register core signals (from escoria.gd)
 func register_core():
-	escoria.connect(
+	escoria.game_scene.connect(
 		"request_pause_menu",
 		self,
 		"_on_pause_menu_requested"
