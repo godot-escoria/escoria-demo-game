@@ -343,10 +343,9 @@ func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 		# Report this as a warning and not an error since this method may be
 		# called as part of an objectd's forced registration and the object not
 		# yet being managed.
-		escoria.logger.report_warnings(
-			"ESCObjectManager:unregister_object()",
+		escoria.logger.debug(
+			"ESCObjectManager:unregister_object(): Unable to unregister object.",
 			[
-				"Unable to unregister object.",
 				"Object with global ID %s room (%s, %s) not found. If this was" %
 				[
 					"?" if object == null else object.global_id,
