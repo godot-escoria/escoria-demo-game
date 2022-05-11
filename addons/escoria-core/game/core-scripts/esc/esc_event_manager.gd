@@ -211,7 +211,7 @@ func queue_event(event: ESCEvent, force: bool = false) -> void:
 			"Changing scenes. Won't queue event '%s'." % event.name
 		)
 		return
-	
+
 	# Don't queue the same event more than once in a row.
 	var last_event = _get_last_event_queued(CHANNEL_FRONT)
 
@@ -287,7 +287,7 @@ func queue_background_event(channel_name: String, event: ESCEvent) -> void:
 func interrupt(exceptions: PoolStringArray = []) -> void:
 	for channel_name in _running_events.keys():
 		if _running_events[channel_name] != null and not _running_events[channel_name].name in exceptions:
-			escoria.logger.debug("Interrupting running event %s in channel %s..." 
+			escoria.logger.debug("Interrupting running event %s in channel %s..."
 				% [_running_events[channel_name].name, channel_name])
 			_running_events[channel_name].interrupt()
 			_channels_state[channel_name] = true
@@ -297,11 +297,11 @@ func interrupt(exceptions: PoolStringArray = []) -> void:
 			for event in events_queue[channel_name]:
 				if event.name in exceptions:
 					continue
-				
-				escoria.logger.debug("Interrupting queued event %s in channel %s..." 
+			
+				escoria.logger.debug("Interrupting queued event %s in channel %s..."
 					% [event.name, channel_name])
 				event.interrupt()
-			
+		
 			events_queue[channel_name].clear()
 
 
@@ -337,7 +337,7 @@ func set_changing_scene(p_is_changing_scene: bool) -> void:
 	escoria.logger.trace("Setting _changing_scene to %s." % p_is_changing_scene)
 
 	_changing_scene = p_is_changing_scene
-	
+
 	# If we're changing scenes, interrupt any (other) running events and purge
 	# all event queues.
 	if _changing_scene:

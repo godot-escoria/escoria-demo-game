@@ -526,7 +526,7 @@ func perform_inputevent_on_object(
 				# In case of an interrupted walk, we don't want to proceed.
 				if context == null:
 					return
-					
+				
 				destination_position = context.target_position
 				dont_interact = context.dont_interact_on_arrival
 
@@ -657,7 +657,7 @@ func _walk_towards_object(
 		escoria.logger.debug("Original walk context target does not match " \
 			+ "yielded walk context. Likely interrutped walk.")
 		return
-	
+
 	escoria.logger.info("Context arrived: %s" % context)
 
 	# Confirm that reached item was the one user clicked in the first place.

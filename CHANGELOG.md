@@ -1,3 +1,24 @@
+## [4.0.0-alpha.182](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.182) (2022-05-11)
+
+
+### Features
+
+* changed approach for disabling input during scene transitions; this should be cleaner and also delays re-enabling of input until after transition in is finished (if there is one) ([954e014](https://github.com/godot-escoria/escoria-demo-game/commit/954e014cbf5eb09e8239cb77cf959da29b6ea2ff))
+* disallows user input during scene changes ([c9c7cd2](https://github.com/godot-escoria/escoria-demo-game/commit/c9c7cd2dfa426e4d6fa12c0d92075c2b5b217d77))
+
+
+### Bug Fixes
+
+* avoids being able to pause during transitions; also moves pausing request responsibility to UI; also fixes issue w/ trying to pause during intro and main menu ([aeffe09](https://github.com/godot-escoria/escoria-demo-game/commit/aeffe09e3429ecb6e28ac637397a6eb5e568a133))
+* avoids crashes in case of input when room is run directly and interrupted; may look at updating room manager in the future ([ff17854](https://github.com/godot-escoria/escoria-demo-game/commit/ff178541fca9ecc1694af5b6e675c600452c8ceb))
+* checks to make sure target_object after a walk to an object is the proper one in case action manager is already yielding and expecting a particular one; change to proper interrupt method name; clears out pending events ([9e247a9](https://github.com/godot-escoria/escoria-demo-game/commit/9e247a9218b2b08654ef92e060b591ff3759dcb6))
+* iterating on method outlined in ticket; blocks events/commands from being queued during scene changes, which should prevent stray/untimely events from being queued for an old room when in a new room ([acfb3d9](https://github.com/godot-escoria/escoria-demo-game/commit/acfb3d9ddd8cb47c13d2d221dfb5bc3689583215))
+* necessary guard in case 'run' hasn't been executed yet ([8594779](https://github.com/godot-escoria/escoria-demo-game/commit/85947794b92fc4ee4652e279ff2434cca1912e66))
+* repeating fix from another branch; these will be merged anyway ([64ac765](https://github.com/godot-escoria/escoria-demo-game/commit/64ac7654f4fd81648c257f23bccdd1e8c22027ed))
+* room breaks since it wasn't positioned correctly ([77ba581](https://github.com/godot-escoria/escoria-demo-game/commit/77ba581398b311a38ea14af29b87acd4cc248236))
+
+
+
 ## [4.0.0-alpha.181](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.181) (2022-05-02)
 
 

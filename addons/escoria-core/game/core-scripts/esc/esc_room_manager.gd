@@ -328,7 +328,7 @@ func _perform_script_events(room: ESCRoom) -> void:
 	# Hide main and pause menus
 	escoria.game_scene.hide_main_menu()
 	escoria.game_scene.unpause_game()
-	
+
 	# Maybe this is ok to put in set_scene_finish() above? But it might be a bit
 	# confusing to not see the matching camera.current updates.
 	new_player_camera.make_current()
@@ -347,7 +347,7 @@ func _perform_script_events(room: ESCRoom) -> void:
 	escoria.inputs_manager.hotspot_focused = ""
 
 	var command_strings: PoolStringArray = []
-	
+
 	command_strings.append("%s%s" % [ESCEvent.PREFIX, escoria.event_manager.EVENT_TRANSITION_IN])
 
 	if room.enabled_automatic_transitions \
@@ -365,9 +365,9 @@ func _perform_script_events(room: ESCRoom) -> void:
 				)
 			]
 		)
-		
-		command_strings.append("%s 0.1" % _wait.get_command_name())
 	
+		command_strings.append("%s 0.1" % _wait.get_command_name())
+
 	command_strings.append("%s ALL" % _accept_input.get_command_name())
 
 	var script_transition_in = escoria.esc_compiler.compile(command_strings, get_class())
