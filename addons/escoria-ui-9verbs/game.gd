@@ -363,8 +363,9 @@ func _on_event_done(_return_code: int, _event_name: String):
 func apply_custom_settings(custom_settings: Dictionary):
 	if custom_settings.has("a_custom_setting"):
 		escoria.logger.info(
-			"custom setting value loaded:",
-			[custom_settings["a_custom_setting"]]
+			self,
+			"custom setting value loaded: %s" 
+					% str(custom_settings["a_custom_setting"])
 		)
 
 

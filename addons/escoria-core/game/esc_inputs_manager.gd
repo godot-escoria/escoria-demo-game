@@ -364,7 +364,8 @@ func _on_mouse_left_double_clicked_item(
 	if input_mode == INPUT_ALL:
 		escoria.logger.info(
 			self,
-			"Item left double clicked %s with event %s" % [item.global_id, event])
+			"Item left double clicked %s with event %s" % [item.global_id, event]
+		)
 		hotspot_focused = item.global_id
 		escoria.main.current_scene.game.left_double_click_on_item(
 			item.global_id,
@@ -382,7 +383,8 @@ func _on_mouse_right_clicked_item(item: ESCItem, event: InputEvent) -> void:
 	if input_mode == INPUT_ALL:
 		escoria.logger.info(
 			self,
-			"Item right clicked %s with event %s" % [item.global_id, event])
+			"Item right clicked %s with event %s" % [item.global_id, event]
+		)
 		hotspot_focused = item.global_id
 		escoria.main.current_scene.game.right_click_on_item(
 			item.global_id,

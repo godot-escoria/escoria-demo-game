@@ -9,7 +9,7 @@ func enable_plugin():
 	printt("PLUGIN ENABLE_PLUGIN")
 	add_autoload_singleton(
 		"escoria",
-		"res://addons/escoria-core/game/escoria_scene.gd"
+		"res://addons/escoria-core/game/esc_autoload.gd"
 	)
 	# Prepare settings
 	set_escoria_main_settings()

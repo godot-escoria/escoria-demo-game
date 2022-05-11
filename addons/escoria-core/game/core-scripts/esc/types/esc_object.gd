@@ -1,5 +1,5 @@
-# An object handled in Escoria
 extends Node
+# An object handled in Escoria
 class_name ESCObject
 
 
@@ -57,6 +57,7 @@ func set_state(p_state: String, immediate: bool = false):
 					animation_node.seek_end(p_state)
 				else:
 					escoria.logger.debug(
+						self,
 						"State \"%s\" set. Matching non-immediate animation executing." 
 								% p_state
 					)

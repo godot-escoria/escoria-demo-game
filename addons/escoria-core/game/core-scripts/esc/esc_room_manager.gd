@@ -1,4 +1,4 @@
-extends Object
+extends Resource
 class_name ESCRoomManager
 
 
@@ -104,9 +104,12 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 	var room_scene = res_room.instance()
 	if room_scene:
 		if enable_automatic_transitions \
-				and escoria.event_manager.get_running_event(escoria.event_manager.CHANNEL_FRONT) != null \
-				and escoria.event_manager.get_running_event(escoria.event_manager.CHANNEL_FRONT).name \
-				== escoria.event_manager.EVENT_ROOM_SELECTOR:
+				and escoria.event_manager.get_running_event(
+					escoria.event_manager.CHANNEL_FRONT
+				) != null \
+				and escoria.event_manager.get_running_event(
+					escoria.event_manager.CHANNEL_FRONT
+				).name == escoria.event_manager.EVENT_ROOM_SELECTOR:
 			room_scene.enabled_automatic_transitions = true
 		else:
 			room_scene.enabled_automatic_transitions = enable_automatic_transitions
@@ -224,7 +227,7 @@ func _perform_script_events(room: ESCRoom) -> void:
 		)
 
 		# Unpause the game if it was
-		escoria.set_game_paused(false)
+		escoria.get_escoria().set_game_paused(false)
 
 		# Wait for transition_out event to be done
 		var rc = yield(escoria.event_manager, "event_finished")
@@ -279,7 +282,9 @@ func _perform_script_events(room: ESCRoom) -> void:
 		escoria.main.finish_current_scene_init(room)
 
 	# Add new camera to scene being prepared.
-	var new_player_camera: ESCCamera = escoria.resource_cache.get_resource(escoria.CAMERA_SCENE_PATH).instance()
+	var new_player_camera: ESCCamera = escoria.resource_cache.get_resource(
+		escoria.CAMERA_SCENE_PATH
+	).instance()
 	new_player_camera.register()
 	room.player_camera = new_player_camera
 
@@ -425,12 +430,10 @@ func _run_script_event(event_name: String, room: ESCRoom):
 
 	if room.compiled_script.events.has(event_name):
 		escoria.logger.debug(
-			"esc_room:_run_script_event",
-			[
-				"Queuing room script event %s" % event_name,
-				"Composed of %s statements" %
-					room.compiled_script.events[event_name].statements.size()
-			]
+			self,
+			"Queuing room script event %s" % event_name + 
+			"Composed of %s statements"
+					% room.compiled_script.events[event_name].statements.size()
 		)
 		escoria.event_manager.queue_event(room.compiled_script.events[event_name], true)
 		return true

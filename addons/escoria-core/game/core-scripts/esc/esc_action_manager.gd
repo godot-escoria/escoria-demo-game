@@ -1,5 +1,5 @@
 # Manages currently carried out actions
-extends Object
+extends Resource
 class_name ESCActionManager
 
 
@@ -176,7 +176,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 				)
 
 			_:
-				escoria.logger.warning(
+				escoria.logger.warn(
 					self,
 					"Action received: %s with params %s", [action, params]
 				)
@@ -321,14 +321,14 @@ func _activate(
 									("Reason: %s's item interaction " +\
 									"is one-way.") % combine_with.global_id
 								)
-							escoria.logger.warning(
+							escoria.logger.warn(
 								self,
 								"Invalid action" + errors
 							)
 							emit_signal("action_finished")
 							return ESCExecution.RC_ERROR
 					else:
-						escoria.logger.warning(
+						escoria.logger.warn(
 							self,
 							"Invalid action on item: " +
 								(
@@ -350,7 +350,7 @@ func _activate(
 					)
 					return ESCExecution.RC_OK
 			else:
-				escoria.logger.warning(
+				escoria.logger.warn(
 					self,
 					"Invalid action on item" +
 					"Trying to run %s on object %s, " %
@@ -377,7 +377,7 @@ func _activate(
 		emit_signal("action_finished")
 		return event_returned[0]
 	else:
-		escoria.logger.warning(
+		escoria.logger.warn(
 			self,
 			"Invalid action: " +
 				"Event for action %s on object %s not found." % [

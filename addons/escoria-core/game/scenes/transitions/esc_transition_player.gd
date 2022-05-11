@@ -74,7 +74,7 @@ func transition(
 	if not has_transition(transition_name):
 		escoria.logger.error(
 			self,
-			"transition: Transition %s not found" % transition_name,
+			"transition: Transition %s not found" % transition_name
 		)
 
 	# If this is an "instant" transition, we need to set the alpha of the base
@@ -154,5 +154,5 @@ func _on_tween_completed():
 	if not _was_canceled:
 		_tween.stop_all()
 		_tween.remove_all()
-		escoria.logger.debug("Transition %s done." % str(transition_id))
+		escoria.logger.debug(self, "Transition %s done." % str(transition_id))
 		emit_signal("transition_done", transition_id)

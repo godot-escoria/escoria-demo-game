@@ -1,5 +1,5 @@
 # A manager for inventory objects
-extends Object
+extends Resource
 class_name ESCInventoryManager
 
 

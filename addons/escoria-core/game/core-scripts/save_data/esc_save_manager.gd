@@ -76,9 +76,9 @@ func get_saves_list() -> Dictionary:
 			var save_game_res: Resource = load(save_path)
 
 			if save_game_res == null:
-				escoria.logger.warning(
-					"esc_save_manager.gd",
-					["Savegame file %s is corrupted. Skipping." % save_path]
+				escoria.logger.warn(
+					self,
+					"Savegame file %s is corrupted. Skipping." % save_path
 				)
 			else:
 				var save_game_data = {
@@ -91,12 +91,10 @@ func get_saves_list() -> Dictionary:
 				if matches != null and matches.get_string("slotnumber") != null:
 					saves[int(matches.get_string("slotnumber"))] = save_game_data
 				else:
-					escoria.logger.warning(
-						"esc_save_manager.gd",
-						[
-							"Savegame file %s contains valid data but doesn't match filename format %s. Skipping."
-							% [save_path, regex.get_pattern()]
-						]
+					escoria.logger.warn(
+						self,
+						"Savegame file %s contains valid data but doesn't match filename format %s. Skipping."
+								% [save_path, regex.get_pattern()]
 					)
 			nextfile = dirsave.get_next()
 	return saves
@@ -225,8 +223,9 @@ func load_game(id: int):
 		return
 
 	escoria.logger.info(
-		"esc_save_manager.gd:load_game()",
-		["Loading savegame %s" % str(id)])
+		self,
+		"Loading savegame %s" % str(id)
+	)
 
 	var save_game: ESCSaveGame = ResourceLoader.load(save_file_path)
 
@@ -405,9 +404,7 @@ func load_game(id: int):
 	escoria.set_game_paused(false)
 
 	escoria.event_manager.queue_event(load_event)
-	escoria.logger.debug(
-		"esc_save_manager.gd:load_game()",
-		["Load event queued."])
+	escoria.logger.debug(self, "Load event queued.")
 
 
 # Save the game settings in the settings file.
@@ -447,10 +444,11 @@ func load_settings() -> Resource:
 			settings_folder.plus_file(SETTINGS_TEMPLATE)
 	var file: File = File.new()
 	if not file.file_exists(save_settings_path):
-		escoria.logger.warning(
-			"esc_save_manager.gd:load_settings()",
-			["Settings file %s doesn't exist" % save_settings_path,
-			"Setting default settings."])
+		escoria.logger.warn(
+			self,
+			"Settings file %s doesn't exist. Setting default settings." 
+					% save_settings_path
+		)
 		save_settings()
 
 	return load(save_settings_path)

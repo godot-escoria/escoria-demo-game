@@ -89,7 +89,8 @@ func run(command_params: Array) -> int:
 	if !escoria.dialog_player:
 		escoria.logger.error(
 			self,
-			get_command_name() + ": No dialog player was registered and the say command was encountered."
+			"[%s]: No dialog player was registered and the say command was encountered."
+					% get_command_name()
 		)
 		return ESCExecution.RC_ERROR
 
@@ -108,7 +109,7 @@ func run(command_params: Array) -> int:
 
 # Function called when the command is interrupted.
 func interrupt():
-	escoria.logger.warning(
+	escoria.logger.warn(
 		self,
 		get_command_name() + ": Interrupt() function not implemented"
 	)

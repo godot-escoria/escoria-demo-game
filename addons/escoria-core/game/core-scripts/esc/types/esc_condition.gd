@@ -138,6 +138,7 @@ func run() -> bool:
 		return_value = not return_value
 
 	escoria.logger.debug(
+		self,
 		"It is" if return_value else "It isn't"
 	)
 

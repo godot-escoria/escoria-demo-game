@@ -70,17 +70,17 @@ func _ready():
 						"at the same time."
 					)
 				elif Engine.is_editor_hint():
-					escoria.logger.warning(
+					escoria.logger.warn(
 						self,
-							"Multiple NavigationPolygonInstances enabled " + \
-							"at the same time."
+						"Multiple NavigationPolygonInstances enabled " + \
+						"at the same time."
 					)
 				navigation_enabled_found = true
 				current_active_navigation_instance = n
 
 
 	if !Engine.is_editor_hint():
-		escoria.room_terrain = self
+		escoria.get_escoria().room_terrain = self
 	_update_texture()
 
 

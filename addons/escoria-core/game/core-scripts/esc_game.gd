@@ -89,14 +89,14 @@ func _exit_tree():
 
 # Ready function
 func _ready():
-	escoria.apply_settings(escoria.settings)
+	escoria.get_escoria().apply_settings(escoria.settings)
 	connect("crash_popup_confirmed", escoria, "quit",
 		[], CONNECT_ONESHOT)
 
 
 # Handle debugging visualizations
 func _draw():
-	if !Engine.is_editor_hint():
+	if not Engine.is_editor_hint():
 		return
 	if editor_debug_mode == EDITOR_GAME_DEBUG_DISPLAY.NONE:
 		return
@@ -445,7 +445,7 @@ func escoria_hide_ui():
 	if ui_parent_control_node != null and not ui_parent_control_node.is_empty():
 		(get_node(ui_parent_control_node) as Control).visible = false
 	else:
-		escoria.logger.warning(
+		escoria.logger.warn(
 			self,
 			"UI parent Control node not defined!"
 		)
@@ -457,7 +457,7 @@ func escoria_show_ui():
 	if ui_parent_control_node != null and not ui_parent_control_node.is_empty():
 		(get_node(ui_parent_control_node) as Control).visible = true
 	else:
-		escoria.logger.warning(
+		escoria.logger.warn(
 			self,
 			"UI parent Control node not defined!"
 		)

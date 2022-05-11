@@ -1,5 +1,5 @@
 # A manager for ESC objects
-extends Node
+extends Resource
 class_name ESCObjectManager
 
 
@@ -69,13 +69,13 @@ func _init() -> void:
 	current_room_key = ESCRoomObjectsKey.new()
 
 
-# Make active objects in current room visible
-func _process(_delta):
-	for room in room_objects:
-		if room.is_reserved or _is_current_room(room):
-			for object in room.objects:
-				if (object as ESCObject).node:
-					(object as ESCObject).node.visible = (object as ESCObject).active
+## Make active objects in current room visible
+#func _process(_delta):
+#	for room in room_objects:
+#		if room.is_reserved or _is_current_room(room):
+#			for object in room.objects:
+#				if (object as ESCObject).node:
+#					(object as ESCObject).node.visible = (object as ESCObject).active
 
 
 # Updates which object manager room is to be treated as the currently active one.
@@ -109,7 +109,7 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 	if object.global_id.empty():
 		object.global_id = str(object.node.get_path()).split("/root/", false)[0]
 		object.node.global_id = object.global_id
-		escoria.logger.warning(
+		escoria.logger.warn(
 			self,
 			"Registering ESCObject %s with empty global_id." % object.name +
 			"Using node's full path as global_id: %s"
@@ -274,7 +274,7 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 		if reserved_objects_container.objects.has(global_id):
 			return reserved_objects_container.objects[global_id]
 		else:
-			escoria.logger.warning(
+			escoria.logger.warn(
 				self,
 				"Reserved object with global id %s not found in object manager!"
 					% global_id
@@ -296,7 +296,7 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 		room_key.room_instance_id = room.get_instance_id()
 
 	if not _room_exists(room_key):
-		escoria.logger.warning(
+		escoria.logger.warn(
 			self,
 			"Specified room is empty/not found.\n" +
 			"Object with global id %s in room instance (%s, %s) not found"
@@ -309,7 +309,7 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 	if objects.has(global_id):
 		return objects[global_id]
 	else:
-		escoria.logger.warning(
+		escoria.logger.warn(
 			self,
 			"Object with global id %s in room instance (%s, %s) not found"
 			% [global_id, room_key.room_global_id, room_key.room_instance_id]
@@ -412,7 +412,7 @@ func get_start_location() -> ESCLocation:
 					and object.node.is_start_location:
 				return object
 
-	escoria.logger.warning(
+	escoria.logger.warn(
 		self,
 		"Room has no ESCLocation node with 'is_start_location' enabled." +
 		"Player will be set at position (0,0) by default."
@@ -466,7 +466,7 @@ func _room_exists(room_key: ESCRoomObjectsKey) -> bool:
 # **Returns** True iff object exists in the object manager entry specified by room_key.
 func _object_exists_in_room(object: ESCObject, room_key: ESCRoomObjectsKey) -> bool:
 	if object == null:
-		escoria.logger.warning(
+		escoria.logger.warn(
 			self,
 			"Cannot check for null objects."
 		)

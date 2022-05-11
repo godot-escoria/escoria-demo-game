@@ -1,5 +1,5 @@
 # Compiler of the ESC language
-extends Object
+extends Resource
 class_name ESCCompiler
 
 
@@ -90,7 +90,7 @@ func _init():
 
 # Load an ESC file from a file resource
 func load_esc_file(path: String) -> ESCScript:
-	escoria.logger.debug("Parsing file %s" % path)
+	escoria.logger.debug(self, "Parsing file %s" % path)
 	if File.new().file_exists(path):
 		var file = File.new()
 		file.open(path, File.READ)

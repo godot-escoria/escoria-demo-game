@@ -57,11 +57,12 @@ func validate(arguments: Array) -> bool:
 func run(command_params: Array) -> int:
 	escoria.logger.info(
 		self,
-		get_command_name() + ": Changing scene to %s (enable_automatic_transition = %s)" 
-		% [
-			command_params[0],	# scene file
-			command_params[1]	# enable_automatic_transition
-		]
+		"[%s] Changing scene to %s (enable_automatic_transition = %s)" 
+				% [
+					get_command_name(),
+					command_params[0],	# scene file
+					command_params[1]	# enable_automatic_transition
+				]
 	)
 
 	escoria.room_manager.change_scene(command_params[0], command_params[1])
@@ -71,7 +72,7 @@ func run(command_params: Array) -> int:
 
 # Function called when the command is interrupted.
 func interrupt():
-	escoria.logger.warning(
+	escoria.logger.warn(
 		self,
-		get_command_name() + ": Interrupt() function not implemented"
+		"[%s] Interrupt() function not implemented" % get_command_name()
 	)

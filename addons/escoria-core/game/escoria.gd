@@ -3,6 +3,8 @@ tool
 extends Node
 class_name Escoria
 
+# Signal sent when pause menu has to be displayed
+signal request_pause_menu
 
 # Signal sent when Escoria is paused
 signal paused
@@ -28,23 +30,16 @@ const BUS_SFX = "SFX"
 const BUS_MUSIC = "Music"
 const BUS_SPEECH = "Speech"
 
-const CAMERA_SCENE_PATH = "res://addons/escoria-core/game/scenes/camera_player/camera.tscn"
 
+# Reference to self
+var node: Escoria
 
-# Logger used
-var logger: ESCLogger
-
-# Several utilities
-var utils: ESCUtils
 
 # The inventory manager instance
 var inventory_manager: ESCInventoryManager
 
 # The action manager instance
 var action_manager: ESCActionManager
-
-# ESC compiler instance
-var esc_compiler: ESCCompiler
 
 # ESC Event manager instance
 var event_manager: ESCEventManager
@@ -57,9 +52,6 @@ var room_manager: ESCRoomManager
 
 # ESC object manager instance
 var object_manager: ESCObjectManager
-
-# ESC project settings manager instance
-var project_settings_manager: ESCProjectSettingsManager
 
 # ESC command registry instance
 var command_registry: ESCCommandRegistry
@@ -105,37 +97,61 @@ var player_camera: ESCCamera
 var start_script: ESCScript
 
 
+# Return the Escoria node
+#
+# *Returns* 
+# The escoria node (instanced from main_scene)
+func get_escoria() -> Escoria:
+	return node
+
+
 # Initialize various objects
 func _init():
-	self.logger = ESCLogger.new()
-	self.utils = ESCUtils.new()
-	self.inventory_manager = ESCInventoryManager.new()
-	self.action_manager = ESCActionManager.new()
-	self.event_manager = ESCEventManager.new()
-	self.globals_manager = ESCGlobalsManager.new()
-	self.add_child(self.event_manager)
-	self.object_manager = ESCObjectManager.new()
-	self.command_registry = ESCCommandRegistry.new()
-	self.esc_compiler = ESCCompiler.new()
-	self.resource_cache = ESCResourceCache.new()
-	self.resource_cache.start()
-	self.save_manager = ESCSaveManager.new()
-	self.inputs_manager = ESCInputsManager.new()
-	self.room_manager = ESCRoomManager.new()
-	self.project_settings_manager = ESCProjectSettingsManager.new()
-
+	inventory_manager = ESCInventoryManager.new()
+	escoria.inventory_manager = inventory_manager
+	
+	action_manager = ESCActionManager.new()
+	escoria.action_manager = action_manager
+	
+	event_manager = ESCEventManager.new()
+	escoria.event_manager = event_manager
+	
+	globals_manager = ESCGlobalsManager.new()
+	escoria.globals_manager = globals_manager
+	
+	add_child(event_manager)
+	
+	object_manager = ESCObjectManager.new()
+	escoria.object_manager = object_manager
+	
+	command_registry = ESCCommandRegistry.new()
+	escoria.command_registry = command_registry
+	
+	resource_cache = ESCResourceCache.new()
+	escoria.resource_cache = resource_cache
+	resource_cache.start()
+	
+	save_manager = ESCSaveManager.new()
+	escoria.save_manager = save_manager
+	
+	inputs_manager = ESCInputsManager.new()
+	escoria.inputs_manager = inputs_manager
+	
 	settings = ESCSaveSettings.new()
+	escoria.settings = settings
 
-	if self.project_settings_manager.get_setting(self.project_settings_manager.GAME_SCENE) == "":
-		logger.report_errors("escoria.gd",
-			["Project setting '%s' is not set!" % self.project_settings_manager.GAME_SCENE]
+	if ESCProjectSettingsManager.get_setting(
+		ESCProjectSettingsManager.GAME_SCENE
+	) == "":
+		escoria.logger.error(
+			self,
+			"Project setting '%s' is not set!" % ESCProjectSettingsManager.GAME_SCENE
 		)
 	else:
 		game_scene = resource_cache.get_resource(
-			self.project_settings_manager.get_setting(self.project_settings_manager.GAME_SCENE)
+			ESCProjectSettingsManager.get_setting(ESCProjectSettingsManager.GAME_SCENE)
 		).instance()
-
-	print("ESC {0}".format([get_script().get_path()]))
+		escoria.game_scene = game_scene
 
 
 # Load settings
@@ -144,16 +160,23 @@ func _ready():
 
 	settings = save_manager.load_settings()
 	apply_settings(settings)
-	room_manager.register_reserved_globals()
+	escoria.room_manager.register_reserved_globals()
 	inputs_manager.register_core()
-	if self.project_settings_manager.get_setting(self.project_settings_manager.GAME_START_SCRIPT).empty():
-		logger.report_errors("escoria.gd",
-		[
-			"Project setting '%s' is not set!" % self.project_settings_manager.GAME_START_SCRIPT
-		])
-	start_script = self.esc_compiler.load_esc_file(
-		self.project_settings_manager.get_setting(self.project_settings_manager.GAME_START_SCRIPT)
+	if ESCProjectSettingsManager.get_setting(
+		ESCProjectSettingsManager.GAME_START_SCRIPT
+	).empty():
+		escoria.logger.error(
+			self,
+			"Project setting '%s' is not set!" 
+					% ESCProjectSettingsManager.GAME_START_SCRIPT
+		)
+	start_script = escoria.esc_compiler.load_esc_file(
+		ESCProjectSettingsManager.get_setting(
+			ESCProjectSettingsManager.GAME_START_SCRIPT
+		)
 	)
+	
+	escoria.main = main
 
 
 func _notification(what):
@@ -172,14 +195,14 @@ func _notification(what):
 func init():
 	# Don't show the UI until we're ready in order to avoid a sometimes-noticeable
 	# blink. The UI will be "shown" later via a visibility update to the first room.
-	escoria.game_scene.escoria_hide_ui()
+	game_scene.escoria_hide_ui()
 	run_event_from_script(start_script, self.event_manager.EVENT_INIT)
-
+	pass
 
 # Called by Main menu "start new game"
 func new_game():
 	run_event_from_script(start_script, self.event_manager.EVENT_NEW_GAME)
-
+	pass
 
 # Apply the loaded settings
 #
@@ -188,7 +211,7 @@ func new_game():
 # * p_settings: Loaded settings
 func apply_settings(p_settings: ESCSaveSettings) -> void:
 	if not Engine.is_editor_hint():
-		logger.info("******* settings loaded")
+		escoria.logger.info(self, "******* settings loaded")
 		if p_settings != null:
 			settings = p_settings
 		else:
@@ -219,7 +242,11 @@ func apply_settings(p_settings: ESCSaveSettings) -> void:
 func _input(event):
 	if InputMap.has_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT) \
 			and event.is_action_pressed(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT):
-		escoria.main.get_node("layers/debug_layer/esc_prompt_popup").popup()
+		main.get_node("layers/debug_layer/esc_prompt_popup").popup()
+
+	if event.is_action_pressed("ui_cancel"):
+		emit_signal("request_pause_menu")
+	pass
 
 
 # Pauses or unpause the game
@@ -246,10 +273,10 @@ func set_game_paused(p_paused: bool):
 # - event_name: Name of the event to run
 func run_event_from_script(script: ESCScript, event_name: String):
 	if script == null:
-		logger.report_errors(
-			"escoria.gd:run_event_from_script()",
-			["Requested action %s on unloaded script %s" % [event_name, script],
-			"Please load the ESC script using esc_compiler.load_esc_file()."]
+		escoria.logger.error(
+			self,
+			"Requested action %s on unloaded script %s" % [event_name, script] +
+			"Please load the ESC script using esc_compiler.load_esc_file()."
 		)
 	event_manager.queue_event(script.events[event_name])
 	var rc = yield(event_manager, "event_finished")
@@ -257,110 +284,13 @@ func run_event_from_script(script: ESCScript, event_name: String):
 		rc = yield(event_manager, "event_finished")
 
 	if rc[0] != ESCExecution.RC_OK:
-		self.logger.report_errors(
-			"Start event of the start script returned unsuccessful: %d" % rc[0],
-			[]
+		escoria.logger.error(
+			self,
+			"Start event of the start script returned unsuccessful: %d" % rc[0]
 		)
 		return
 
 
-# Register a user interface. This should be called in a deferred way
-# from the addon's _enter_tree.
-#
-# #### Parameters
-# - game_scene: Path to the game scene extending ESCGame
-func register_ui(game_scene: String):
-	var game_scene_setting_value = escoria.project_settings_manager.get_setting(
-		escoria.project_settings_manager.GAME_SCENE
-	)
-
-	if not game_scene_setting_value in [
-		"",
-		game_scene
-	]:
-		logger.report_errors(
-			"escoria.gd:register_ui()",
-			[
-				"Can't register user interface because %s is registered" % \
-					game_scene_setting_value
-			]
-		)
-	escoria.project_settings_manager.set_setting(
-		escoria.project_settings_manager.GAME_SCENE,
-		game_scene
-	)
-
-
-# Deregister a user interface
-#
-# #### Parameters
-# - game_scene: Path to the game scene extending ESCGame
-func deregister_ui(game_scene: String):
-	var game_scene_setting_value = escoria.project_settings_manager.get_setting(
-		escoria.project_settings_manager.GAME_SCENE
-		)
-
-	if game_scene_setting_value != game_scene:
-		logger.report_errors(
-			"escoria.gd:deregister_ui()",
-			[
-				(
-					"Can't deregister user interface %s because it " +
-					"is not registered."
-				) % game_scene_setting_value
-			]
-		)
-	escoria.project_settings_manager.set_setting(
-		escoria.project_settings_manager.GAME_SCENE,
-		""
-	)
-
-
-# Register a dialog manager addon. This should be called in a deferred way
-# from the addon's _enter_tree.
-#
-# #### Parameters
-# - manager_class: Path to the manager class script
-func register_dialog_manager(manager_class: String):
-	var dialog_managers: Array = escoria.project_settings_manager.get_setting(
-		escoria.project_settings_manager.DIALOG_MANAGERS
-	)
-
-	if manager_class in dialog_managers:
-		return
-
-	dialog_managers.push_back(manager_class)
-
-	escoria.project_settings_manager.set_setting(
-		escoria.project_settings_manager.DIALOG_MANAGERS,
-		dialog_managers
-	)
-
-
-# Deregister a dialog manager addon
-#
-# #### Parameters
-# - manager_class: Path to the manager class script
-func deregister_dialog_manager(manager_class: String):
-	var dialog_managers: Array = escoria.project_settings_manager.get_setting(
-		escoria.project_settings_manager.DIALOG_MANAGERS
-	)
-
-	if not manager_class in dialog_managers:
-		logger.report_warnings(
-			"escoria.gd:deregister_dialog_manager()",
-			[
-				"Dialog manager %s is not registered" % manager_class
-			]
-		)
-		return
-
-	dialog_managers.erase(manager_class)
-
-	escoria.project_settings_manager.set_setting(
-		escoria.project_settings_manager.DIALOG_MANAGERS,
-		dialog_managers
-	)
 
 
 # Function called to quit the game.
@@ -377,12 +307,14 @@ func _handle_direct_scene_run() -> void:
 		# e.g. you're opening escoria.tscn from the editor
 		return
 
-	if current_scene_root.filename == ProjectSettings.get_setting('application/run/main_scene'):
+	if current_scene_root.filename == ProjectSettings.get_setting(
+		"application/run/main_scene"
+	):
 		# This is a normal, full-game run, so there's nothing to do.
 		return
 
 	if current_scene_root is ESCRoom:
-		escoria.object_manager.set_current_room(current_scene_root)
+		object_manager.set_current_room(current_scene_root)
 
 
 # Used by game.gd to determine whether the game scene is ready to take inputs
@@ -393,5 +325,5 @@ func _handle_direct_scene_run() -> void:
 # *Returns*
 # true if game scene is ready for inputs
 func is_ready_for_inputs() -> bool:
-	return escoria.main.current_scene and escoria.main.current_scene.game \
-			and escoria.main.current_scene.game.room_ready_for_inputs
+	return main.current_scene and main.current_scene.game \
+			and main.current_scene.game.room_ready_for_inputs

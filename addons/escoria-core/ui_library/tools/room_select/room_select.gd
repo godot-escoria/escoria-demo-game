@@ -44,8 +44,10 @@ func _ready():
 			])
 
 	else:
-		escoria.logger.warning("room_select.gd:_ready()",
-			["A problem occurred while opening rooms folder."])
+		escoria.logger.warn(
+			self,
+			"A problem occurred while opening rooms folder."
+		)
 
 
 # Switch to the selected room

@@ -158,7 +158,7 @@ func _perform_walk_orientation(angle: float):
 	elif current_animation != animation_to_play and \
 			not animation_player.has_animation(animation_to_play):
 		current_animation = animation_to_play
-		escoria.logger.warning(
+		escoria.logger.warn(
 			self,
 			"Character %s has no animation %s\nBypassing missing animation and proceed movement."
 					% [parent.global_id, animation_to_play]
@@ -283,6 +283,7 @@ func walk_stop(pos: Vector2) -> void:
 
 	if walk_context.target_object:
 		escoria.logger.debug(
+			self,
 			"%s arrived at %s" % [
 				parent.global_id,
 				walk_context.target_object.global_id
@@ -290,6 +291,7 @@ func walk_stop(pos: Vector2) -> void:
 		)
 	else:
 		escoria.logger.debug(
+			self,
 			"%s arrived at %s" % [
 				parent.global_id,
 				walk_context.target_position
@@ -307,7 +309,8 @@ func update_terrain(on_event_finished_name = null) -> void:
 	if !parent.terrain or parent.terrain == null \
 			or !is_instance_valid(parent.terrain):
 		return
-	if on_event_finished_name != null and on_event_finished_name != escoria.event_manager.EVENT_SETUP:
+	if on_event_finished_name != null \
+			and on_event_finished_name != ESCEventManager.EVENT_SETUP:
 		return
 	if parent.get("is_exit"):
 		return

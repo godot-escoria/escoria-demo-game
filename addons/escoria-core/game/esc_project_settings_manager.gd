@@ -1,5 +1,5 @@
 # Registers and allows access to Escoria-specific project settings.
-extends Node
+extends Resource
 class_name ESCProjectSettingsManager
 
 

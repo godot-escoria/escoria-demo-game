@@ -152,7 +152,7 @@ func set_camera_limits(camera_limit_id: int = 0, scene: Node = current_scene) ->
 		# to stick centered on the background
 		if area.size.x == 0 or area.size.y == 0 \
 				or area.size < get_viewport().size:
-			escoria.logger.warning(
+			escoria.logger.warn(
 				self,
 				"No limit area! Using viewport."
 			)
@@ -179,7 +179,7 @@ func set_camera_limits(camera_limit_id: int = 0, scene: Node = current_scene) ->
 		)
 		escoria.logger.info(
 			self,
-			"Setting camera limits from parameter " + scene_camera_limits
+			"Setting camera limits from parameter " + str(scene_camera_limits)
 		)
 
 	escoria.object_manager.get_object(

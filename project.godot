@@ -74,7 +74,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/dec_global.gd"
 }, {
-"base": "Object",
+"base": "Resource",
 "class": "ESCActionManager",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/esc_action_manager.gd"
@@ -212,7 +212,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "ESCInputsManager",
 "language": "GDScript",
-"path": "res://addons/escoria-core/game/inputs_manager.gd"
+"path": "res://addons/escoria-core/game/esc_inputs_manager.gd"
 }, {
 "base": "Control",
 "class": "ESCInventory",
@@ -279,7 +279,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_object.gd"
 }, {
-"base": "Node",
+"base": "Resource",
 "class": "ESCObjectManager",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/esc_object_manager.gd"
@@ -289,10 +289,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc_player.gd"
 }, {
-"base": "Node",
+"base": "Resource",
 "class": "ESCProjectSettingsManager",
 "language": "GDScript",
-"path": "res://addons/escoria-core/game/project_settings_manager.gd"
+"path": "res://addons/escoria-core/game/esc_project_settings_manager.gd"
 }, {
 "base": "Object",
 "class": "ESCResourceCache",
@@ -309,7 +309,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc_room.gd"
 }, {
-"base": "Object",
+"base": "Resource",
 "class": "ESCRoomManager",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/esc_room_manager.gd"
@@ -397,7 +397,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "Escoria",
 "language": "GDScript",
-"path": "res://addons/escoria-core/game/escoria_scene.gd"
+"path": "res://addons/escoria-core/game/escoria.gd"
 }, {
 "base": "ESCBaseCommand",
 "class": "HideMenuCommand",

@@ -103,6 +103,7 @@ func set_target(p_target, p_time : float = 0.0):
 	_resolve_target_and_zoom(p_target)
 
 	escoria.logger.info(
+		self,
 		"Current camera position = %s " % str(self.global_position)
 	)
 
@@ -110,13 +111,11 @@ func set_target(p_target, p_time : float = 0.0):
 		self.global_position = _target
 	else:
 		if _tween.is_active():
-			escoria.logger.warning(
-				"esc_camera.gd:set_target()",
-				[
-					"Tween is still active: %f/%f" % [
-						_tween.tell(),
-						_tween.get_runtime()
-					]
+			escoria.logger.warn(
+				self,
+				"Tween is still active: %f/%f" % [
+					_tween.tell(),
+					_tween.get_runtime()
 				]
 			)
 			_tween.emit_signal("tween_completed")
@@ -151,7 +150,7 @@ func set_camera_zoom(p_zoom_level: float, p_time: float):
 		self.zoom = _zoom_target
 	else:
 		if _tween.is_active():
-			escoria.logger.warning(
+			escoria.logger.warn(
 				self,
 				"Tween is still active: %f/%f" % [
 					_tween.tell(),
@@ -197,7 +196,7 @@ func push(p_target, p_time: float = 0.0, p_type: int = 0):
 			self.zoom = _zoom_target
 	else:
 		if _tween.is_active():
-			escoria.logger.warning(
+			escoria.logger.warn(
 				self,
 				"Tween is still active: %f/%f" % [
 					_tween.tell(),
@@ -247,7 +246,7 @@ func shift(p_target: Vector2, p_time: float, p_type: int):
 	_target = new_pos
 
 	if _tween.is_active():
-		escoria.logger.warning(
+		escoria.logger.warn(
 			self,
 			"Tween is still active: %f/%f" % [
 				_tween.tell(),
