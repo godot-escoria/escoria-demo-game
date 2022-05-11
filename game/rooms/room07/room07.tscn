@@ -665,7 +665,6 @@ tracks/0/keys = {
 }
 
 [node name="room7" type="Node2D"]
-position = Vector2( 1, 0 )
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_vertical_guides_": [  ]
@@ -754,8 +753,8 @@ margin_left = 7.0
 margin_top = 3.0
 margin_right = 89.0
 margin_bottom = 24.0
-custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 5 )
 text = "ROOM 7 upper floor"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -766,8 +765,8 @@ margin_left = 10.0
 margin_top = 628.0
 margin_right = 182.0
 margin_bottom = 649.0
-custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 5 )
 text = "ROOM 7 lower floor"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -778,8 +777,8 @@ margin_left = 275.0
 margin_top = 681.0
 margin_right = 989.0
 margin_bottom = 885.0
-custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 5 )
 text = "camera_push : This will point the camera at a specific location.
 camera_shift : Moves the camera by an amount of pixels in x and y relative to the current location
 camera_zoom : Adjust the zoom level relative to the initial camera zoom
