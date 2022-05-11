@@ -365,7 +365,7 @@ func _perform_script_events(room: ESCRoom) -> void:
 				)
 			]
 		)
-	
+
 		command_strings.append("%s 0.1" % _wait.get_command_name())
 
 	command_strings.append("%s ALL" % _accept_input.get_command_name())

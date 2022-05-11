@@ -526,7 +526,7 @@ func perform_inputevent_on_object(
 				# In case of an interrupted walk, we don't want to proceed.
 				if context == null:
 					return
-				
+			
 				destination_position = context.target_position
 				dont_interact = context.dont_interact_on_arrival
 
