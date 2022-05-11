@@ -39,7 +39,5 @@ func _ready():
 			ESCObject.new(
 				self.global_id,
 				self
-			),
-			null,
-			true
+			)
 		)
