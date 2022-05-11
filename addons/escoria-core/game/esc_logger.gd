@@ -45,6 +45,7 @@ class ESCLoggerBase:
 			ESCProjectSettingsManager.TERMINATE_ON_WARNINGS
 		):
 			assert(false)
+			escoria.get_tree().quit()
 			
 	
 	# Error log
@@ -55,6 +56,7 @@ class ESCLoggerBase:
 			ESCProjectSettingsManager.TERMINATE_ON_ERRORS
 		):
 			assert(false)
+			escoria.get_tree().quit()
 	
 	func _formatted_date():
 		var info = OS.get_datetime()
@@ -148,7 +150,7 @@ class ESCLoggerFile extends ESCLoggerBase:
 	
 	func _log_line_to_file(msg: String):
 		if log_file.is_open():
-			log_file.store_string(msg)
+			log_file.store_string(msg + "\n")
 	
 	func _log_stack_trace_to_file(owner: Object):
 		var frame_number = 0

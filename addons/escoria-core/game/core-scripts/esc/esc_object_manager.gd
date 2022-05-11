@@ -331,7 +331,7 @@ func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 		escoria.logger.debug(
 			self,
 			"Unable to unregister object.\n" +
-			"Object with global ID %s room (%s, %s) not found. If this was" 
+			"Object with global ID %s room (%s, %s) not found. If this was " 
 			% [
 				"?" if object == null else object.global_id,
 				room_key.room_global_id,

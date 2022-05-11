@@ -16,6 +16,13 @@ export(Dictionary) var _globals = {}
 # Registry of globals that are to be reserved for internal use only.
 var _reserved_globals: Dictionary = {}
 
+# Use look-ahead/behind to capture the term in braces
+var globals_regex: RegEx = RegEx.new()
+
+# Constructor
+func _init():
+	globals_regex.compile("(?<=\\{)(.*)(?=\\})")
+
 
 # Check if a global was registered
 #
@@ -100,7 +107,6 @@ func set_global(key: String, value, ignore_reserved: bool = false) -> void:
 	_globals[key] = value
 
 
-
 # Set all globals that match the pattern to the value
 # Check out [the Godot docs](https://docs.godotengine.org/en/stable/classes/class_string.html#class-string-method-match)
 # for the pattern format
@@ -113,6 +119,22 @@ func set_global_wildcard(pattern: String, value) -> void:
 	for global_key in _globals.keys:
 		if global_key.match(pattern):
 			self.set_global(global_key, value)
+
+
+# Look to see if any globals (names in braces) should be interpreted
+#
+# #### Parameters
+#
+# * string: Text to log
+func replace_globals(string: String) -> String:
+	for result in globals_regex.search_all(string):
+		var globresult = escoria.globals_manager.get_global(
+			str(result.get_string())
+		)
+		string = string.replace(
+			"{" + result.get_string() + "}", str(globresult)
+		)
+	return string
 
 
 # Save the state of globals in the savegame.

@@ -1,18 +1,15 @@
-# Plugin script to initialize Escoria simple mouse UI
+# Plugin script to initialize Escoria 9-verbs with keyboard plugin
 tool
 extends EditorPlugin
 
 
-# Register UI
-func _enter_tree() -> void:
-	call_deferred("_register")
-
-
 # Deregister UI
-func _exit_tree() -> void:
-	escoria.deregister_ui("res://addons/escoria-ui-keyboard-9verbs/game.tscn")
+func disable_plugin() -> void:
+	print("Disabling plugin Escoria UI 9-verbs with keyboard")
+	EscoriaPlugin.deregister_ui("res://addons/escoria-ui-keyboard-9verbs/game.tscn")
 
 
 # Register UI with Escoria
-func _register():
-	escoria.register_ui("res://addons/escoria-ui-keyboard-9verbs/game.tscn")
+func enable_plugin():
+	print("Enabling plugin Escoria UI 9-verbs with keyboard")
+	EscoriaPlugin.register_ui("res://addons/escoria-ui-keyboard-9verbs/game.tscn")

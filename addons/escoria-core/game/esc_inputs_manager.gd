@@ -196,7 +196,7 @@ func _on_right_click_on_bg(position: Vector2) -> void:
 	if input_mode == INPUT_ALL and hotspot_focused.empty():
 		escoria.logger.info(
 			self,
-			"Right click on background at ", str(position)
+			"Right click on background at %s " % str(position)
 		)
 		escoria.main.current_scene.game.right_click_on_bg(position)
 

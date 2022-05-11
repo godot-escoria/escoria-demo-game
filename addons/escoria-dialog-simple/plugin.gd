@@ -2,32 +2,20 @@
 tool
 extends EditorPlugin
 
-
-var _escoria
-
 const MANAGER_CLASS="res://addons/escoria-dialog-simple/esc_dialog_simple.gd"
 
-
-func _init() -> void:
-	 _escoria = preload("res://addons/escoria-core/game/escoria.tscn")\
-			.instance()
-
-
-# Register ourselves after setup
-func _ready() -> void:
-	call_deferred("_register")
-
-
 # Unregister ourselves
-func _exit_tree() -> void:
-	_escoria.deregister_dialog_manager(MANAGER_CLASS)
+func disable_plugin():
+	print("Disabling plugin Escoria Dialog Simple")
+	EscoriaPlugin.deregister_dialog_manager(MANAGER_CLASS)
 
 
 # Add ourselves to the list of dialog managers
-func _register():
-	_escoria.register_dialog_manager(MANAGER_CLASS)
-	_escoria.project_settings_manager.register_setting(
-		_escoria.project_settings_manager.AVATARS_PATH,
+func enable_plugin():
+	print("Enabling plugin Escoria Dialog Simple")
+	EscoriaPlugin.register_dialog_manager(MANAGER_CLASS)
+	ESCProjectSettingsManager.register_setting(
+		ESCProjectSettingsManager.AVATARS_PATH,
 		"",
 		{
 			"type": TYPE_STRING,
@@ -35,24 +23,24 @@ func _register():
 		}
 	)
 
-	_escoria.project_settings_manager.register_setting(
-		_escoria.project_settings_manager.TEXT_SPEED_PER_CHARACTER,
+	ESCProjectSettingsManager.register_setting(
+		ESCProjectSettingsManager.TEXT_SPEED_PER_CHARACTER,
 		0.1,
 		{
 			"type": TYPE_REAL
 		}
 	)
 
-	_escoria.project_settings_manager.register_setting(
-		_escoria.project_settings_manager.FAST_TEXT_SPEED_PER_CHARACTER,
+	ESCProjectSettingsManager.register_setting(
+		ESCProjectSettingsManager.FAST_TEXT_SPEED_PER_CHARACTER,
 		0.25,
 		{
 			"type": TYPE_REAL
 		}
 	)
 
-	_escoria.project_settings_manager.register_setting(
-		_escoria.project_settings_manager.MAX_TIME_TO_DISAPPEAR,
+	ESCProjectSettingsManager.register_setting(
+		ESCProjectSettingsManager.MAX_TIME_TO_DISAPPEAR,
 		1.0,
 		{
 			"type": TYPE_REAL

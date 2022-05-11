@@ -6,33 +6,7 @@ class_name Escoria
 # Signal sent when pause menu has to be displayed
 signal request_pause_menu
 
-# Signal sent when Escoria is paused
-signal paused
 
-# Signal sent when Escoria is resumed from pause
-signal resumed
-
-
-# Current game state
-# * DEFAULT: Common game function
-# * DIALOG: Game is playing a dialog
-# * WAIT: Game is waiting
-enum GAME_STATE {
-	DEFAULT,
-	DIALOG,
-	WAIT
-}
-
-
-# Audio bus indices.
-const BUS_MASTER = "Master"
-const BUS_SFX = "SFX"
-const BUS_MUSIC = "Music"
-const BUS_SPEECH = "Speech"
-
-
-# Reference to self
-var node: Escoria
 
 
 # The inventory manager instance
@@ -78,7 +52,7 @@ onready var game_size = get_viewport().size
 onready var main = $main
 
 # The current state of the game
-onready var current_state = GAME_STATE.DEFAULT
+onready var current_state = escoria.GAME_STATE.DEFAULT
 
 # The escoria inputs manager
 var inputs_manager: ESCInputsManager
@@ -95,14 +69,6 @@ var player_camera: ESCCamera
 # The compiled start script loaded from ProjectSettings
 # escoria/main/game_start_script
 var start_script: ESCScript
-
-
-# Return the Escoria node
-#
-# *Returns* 
-# The escoria node (instanced from main_scene)
-func get_escoria() -> Escoria:
-	return node
 
 
 # Initialize various objects
@@ -159,7 +125,7 @@ func _ready():
 	_handle_direct_scene_run()
 
 	settings = save_manager.load_settings()
-	apply_settings(settings)
+	escoria.apply_settings(settings)
 	escoria.room_manager.register_reserved_globals()
 	inputs_manager.register_core()
 	if ESCProjectSettingsManager.get_setting(
@@ -199,44 +165,6 @@ func init():
 	run_event_from_script(start_script, self.event_manager.EVENT_INIT)
 	pass
 
-# Called by Main menu "start new game"
-func new_game():
-	run_event_from_script(start_script, self.event_manager.EVENT_NEW_GAME)
-	pass
-
-# Apply the loaded settings
-#
-# #### Parameters
-#
-# * p_settings: Loaded settings
-func apply_settings(p_settings: ESCSaveSettings) -> void:
-	if not Engine.is_editor_hint():
-		escoria.logger.info(self, "******* settings loaded")
-		if p_settings != null:
-			settings = p_settings
-		else:
-			settings = ESCSaveSettings.new()
-
-		AudioServer.set_bus_volume_db(
-			AudioServer.get_bus_index(BUS_MASTER),
-			linear2db(settings.master_volume)
-		)
-		AudioServer.set_bus_volume_db(
-			AudioServer.get_bus_index(BUS_SFX),
-			linear2db(settings.sfx_volume)
-		)
-		AudioServer.set_bus_volume_db(
-			AudioServer.get_bus_index(BUS_MUSIC),
-			linear2db(settings.music_volume)
-		)
-		AudioServer.set_bus_volume_db(
-			AudioServer.get_bus_index(BUS_SPEECH),
-			linear2db(settings.speech_volume)
-		)
-		TranslationServer.set_locale(settings.text_lang)
-
-		game_scene.apply_custom_settings(settings.custom_settings)
-
 
 # Input function to manage specific input keys
 func _input(event):
@@ -247,22 +175,6 @@ func _input(event):
 	if event.is_action_pressed("ui_cancel"):
 		emit_signal("request_pause_menu")
 	pass
-
-
-# Pauses or unpause the game
-#
-# #### Parameters
-# - p_paused: if true, pauses the game. If false, unpauses the game.
-func set_game_paused(p_paused: bool):
-	if p_paused:
-		emit_signal("paused")
-	else:
-		emit_signal("resumed")
-
-	var scene_tree = get_tree()
-
-	if is_instance_valid(scene_tree):
-		scene_tree.paused = p_paused
 
 
 # Runs the event "event_name" from the "script" ESC script.
@@ -291,6 +203,9 @@ func run_event_from_script(script: ESCScript, event_name: String):
 		return
 
 
+# Called from escoria autoload to start a new game.
+func new_game():
+	run_event_from_script(start_script, self.event_manager.EVENT_NEW_GAME)
 
 
 # Function called to quit the game.

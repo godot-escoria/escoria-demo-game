@@ -3,6 +3,35 @@
 
 extends Node
 
+
+# Signal sent when Escoria is paused
+signal paused
+
+# Signal sent when Escoria is resumed from pause
+signal resumed
+
+
+# Current game state
+# * DEFAULT: Common game function
+# * DIALOG: Game is playing a dialog
+# * WAIT: Game is waiting
+enum GAME_STATE {
+	DEFAULT,
+	DIALOG,
+	WAIT
+}
+
+
+# Audio bus indices.
+const BUS_MASTER = "Master"
+const BUS_SFX = "SFX"
+const BUS_MUSIC = "Music"
+const BUS_SPEECH = "Speech"
+
+# Path to camera scene
+const CAMERA_SCENE_PATH = "res://addons/escoria-core/game/scenes/camera_player/camera.tscn"
+
+
 # Logger
 const Logger = preload("res://addons/escoria-core/game/esc_logger.gd")
 var logger = Logger.ESCLoggerFile.new()
@@ -18,22 +47,6 @@ var room_manager = ESCRoomManager.new()
 
 # Terrain of the current room
 var room_terrain
-
-
-##########################################################
-
-
-# Current game state
-# * DEFAULT: Common game function
-# * DIALOG: Game is playing a dialog
-# * WAIT: Game is waiting
-enum GAME_STATE {
-	DEFAULT,
-	DIALOG,
-	WAIT
-}
-
-const CAMERA_SCENE_PATH = "res://addons/escoria-core/game/scenes/camera_player/camera.tscn"
 
 # The inventory manager instance
 var inventory_manager: ESCInventoryManager
@@ -89,91 +102,58 @@ func get_escoria():
 	return get_node("/root/main_scene").escoria_node
 
 
-# Register a user interface. This should be called in a deferred way
-# from the addon's _enter_tree.
+# Pauses or unpause the game
 #
 # #### Parameters
-# - game_scene: Path to the game scene extending ESCGame
-func register_ui(game_scene: String):
-	var game_scene_setting_value = ESCProjectSettingsManager.get_setting(
-		ESCProjectSettingsManager.GAME_SCENE
-	)
+# - p_paused: if true, pauses the game. If false, unpauses the game.
+func set_game_paused(p_paused: bool):
+	if p_paused:
+		emit_signal("paused")
+	else:
+		emit_signal("resumed")
 
-	if not game_scene_setting_value in [
-		"",
-		game_scene
-	]:
-		logger.error(
-			self,
-			"Can't register user interface because %s is registered"
-					% game_scene_setting_value
-		)
-	ESCProjectSettingsManager.set_setting(
-		ESCProjectSettingsManager.GAME_SCENE,
-		game_scene
-	)
+	var scene_tree = get_tree()
+
+	if is_instance_valid(scene_tree):
+		scene_tree.paused = p_paused
 
 
-# Deregister a user interface
+# Apply the loaded settings
 #
 # #### Parameters
-# - game_scene: Path to the game scene extending ESCGame
-func deregister_ui(game_scene: String):
-	var game_scene_setting_value = ESCProjectSettingsManager.get_setting(
-		ESCProjectSettingsManager.GAME_SCENE
-		)
-
-	if game_scene_setting_value != game_scene:
-		logger.error(
-			"Can't deregister user interface %s because it is not registered."
-					% game_scene_setting_value
-		)
-	ESCProjectSettingsManager.set_setting(
-		ESCProjectSettingsManager.GAME_SCENE,
-		""
-	)
-
-
-# Register a dialog manager addon. This should be called in a deferred way
-# from the addon's _enter_tree.
 #
-# #### Parameters
-# - manager_class: Path to the manager class script
-func register_dialog_manager(manager_class: String):
-	var dialog_managers: Array = ESCProjectSettingsManager.get_setting(
-		ESCProjectSettingsManager.DIALOG_MANAGERS
-	)
+# * p_settings: Loaded settings
+func apply_settings(p_settings: ESCSaveSettings) -> void:
+	if not Engine.is_editor_hint():
+		escoria.logger.info(self, "******* settings loaded")
+		if p_settings != null:
+			settings = p_settings
+		else:
+			settings = ESCSaveSettings.new()
 
-	if manager_class in dialog_managers:
-		return
-
-	dialog_managers.push_back(manager_class)
-
-	ESCProjectSettingsManager.set_setting(
-		ESCProjectSettingsManager.DIALOG_MANAGERS,
-		dialog_managers
-	)
-
-
-# Deregister a dialog manager addon
-#
-# #### Parameters
-# - manager_class: Path to the manager class script
-func deregister_dialog_manager(manager_class: String):
-	var dialog_managers: Array = ESCProjectSettingsManager.get_setting(
-		ESCProjectSettingsManager.DIALOG_MANAGERS
-	)
-
-	if not manager_class in dialog_managers:
-		logger.warn(
-			self,
-			"Dialog manager %s is not registered" % manager_class
+		AudioServer.set_bus_volume_db(
+			AudioServer.get_bus_index(BUS_MASTER),
+			linear2db(settings.master_volume)
 		)
-		return
+		AudioServer.set_bus_volume_db(
+			AudioServer.get_bus_index(BUS_SFX),
+			linear2db(settings.sfx_volume)
+		)
+		AudioServer.set_bus_volume_db(
+			AudioServer.get_bus_index(BUS_MUSIC),
+			linear2db(settings.music_volume)
+		)
+		AudioServer.set_bus_volume_db(
+			AudioServer.get_bus_index(BUS_SPEECH),
+			linear2db(settings.speech_volume)
+		)
+		TranslationServer.set_locale(settings.text_lang)
 
-	dialog_managers.erase(manager_class)
+		game_scene.apply_custom_settings(settings.custom_settings)
 
-	ESCProjectSettingsManager.set_setting(
-		ESCProjectSettingsManager.DIALOG_MANAGERS,
-		dialog_managers
-	)
+# Called 
+func new_game():
+	get_escoria().new_game()
+
+func quit():
+	get_escoria().quit()

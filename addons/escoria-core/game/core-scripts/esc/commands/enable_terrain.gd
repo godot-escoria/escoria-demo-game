@@ -27,13 +27,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 # Run the command
 func run(command_params: Array) -> int:
 	var name: String = command_params[0]
-	if escoria.get_escoria().room_terrain.has_node(name):
+	if escoria.room_terrain.has_node(name):
 		var new_active_navigation_instance = \
-				escoria.get_escoria().room_terrain.get_node(name)
-		escoria.get_escoria().room_terrain.current_active_navigation_instance.enabled = false
-		escoria.get_escoria().room_terrain.current_active_navigation_instance = \
+				escoria.room_terrain.get_node(name)
+		escoria.room_terrain.current_active_navigation_instance.enabled = false
+		escoria.room_terrain.current_active_navigation_instance = \
 				new_active_navigation_instance
-		escoria.get_escoria().room_terrain.current_active_navigation_instance.enabled = true
+		escoria.room_terrain.current_active_navigation_instance.enabled = true
 		return ESCExecution.RC_OK
 	else:
 		escoria.logger.error(

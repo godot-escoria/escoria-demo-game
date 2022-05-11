@@ -216,7 +216,7 @@ func _ready():
 			_force_registration
 		)
 
-		terrain = escoria.get_escoria().room_terrain
+		terrain = escoria.room_terrain
 
 		if !is_trigger:
 			if not self.is_connected(

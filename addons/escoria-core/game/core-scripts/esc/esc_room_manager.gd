@@ -227,7 +227,7 @@ func _perform_script_events(room: ESCRoom) -> void:
 		)
 
 		# Unpause the game if it was
-		escoria.get_escoria().set_game_paused(false)
+		escoria.set_game_paused(false)
 
 		# Wait for transition_out event to be done
 		var rc = yield(escoria.event_manager, "event_finished")

@@ -76,7 +76,7 @@ func _on_language_input(event: InputEvent, language: String):
 # - value: The new volume level
 func _on_sound_volume_changed(value):
 	escoria.settings["sfx_volume"] = value
-	escoria.get_escoria().apply_settings(escoria.settings)
+	escoria.apply_settings(escoria.settings)
 	settings_changed = true
 
 
@@ -86,7 +86,7 @@ func _on_sound_volume_changed(value):
 # - value: The new volume level
 func _on_music_volume_changed(value):
 	escoria.settings["music_volume"] = value
-	escoria.get_escoria().apply_settings(escoria.settings)
+	escoria.apply_settings(escoria.settings)
 	settings_changed = true
 
 
@@ -96,7 +96,7 @@ func _on_music_volume_changed(value):
 # - value: The new volume level
 func _on_general_volume_changed(value):
 	escoria.settings["master_volume"] = value
-	escoria.get_escoria().apply_settings(escoria.settings)
+	escoria.apply_settings(escoria.settings)
 	settings_changed = true
 
 
@@ -106,14 +106,14 @@ func _on_general_volume_changed(value):
 # - value: The new volume level
 func _on_speech_volume_value_changed(value: float) -> void:
 	escoria.settings["speech_volume"] = value
-	escoria.get_escoria().apply_settings(escoria.settings)
+	escoria.apply_settings(escoria.settings)
 	settings_changed = true
 
 
 # Save the settings
 func _on_apply_pressed():
 	escoria.settings.custom_settings["a_custom_setting"] = 100
-	escoria.get_escoria().save_manager.save_settings()
+	escoria.save_manager.save_settings()
 	settings_changed = false
 	emit_signal("back_button_pressed")
 
@@ -121,5 +121,5 @@ func _on_apply_pressed():
 # The back button was pressed
 func _on_back_pressed():
 	escoria.settings = backup_settings
-	escoria.get_escoria().apply_settings(escoria.settings)
+	escoria.apply_settings(escoria.settings)
 	emit_signal("back_button_pressed")

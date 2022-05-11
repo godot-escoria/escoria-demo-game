@@ -476,7 +476,7 @@ func perform_inputevent_on_object(
 
 	escoria.logger.info(
 		self, 
-		"%s left-clicked with event " % obj.global_id, [event]
+		"%s left-clicked with event %s" % [obj.global_id, event]
 	)
 
 	var event_flags = 0

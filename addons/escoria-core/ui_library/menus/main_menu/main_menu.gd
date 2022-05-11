@@ -4,7 +4,7 @@ extends Control
 
 # Start the game
 func _on_new_game_pressed():
-	escoria.get_escoria().new_game()
+	escoria.new_game()
 
 
 # Show the load slots
@@ -22,7 +22,7 @@ func _on_options_pressed():
 
 # Quit the game
 func _on_quit_pressed():
-	escoria.get_escoria().quit()
+	escoria.quit()
 
 
 # Hide the options panel again

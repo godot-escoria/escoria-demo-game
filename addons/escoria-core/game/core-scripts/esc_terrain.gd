@@ -80,7 +80,7 @@ func _ready():
 
 
 	if !Engine.is_editor_hint():
-		escoria.get_escoria().room_terrain = self
+		escoria.room_terrain = self
 	_update_texture()
 
 

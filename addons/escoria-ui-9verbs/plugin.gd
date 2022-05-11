@@ -3,16 +3,13 @@ tool
 extends EditorPlugin
 
 
-# Register UI
-func _enter_tree() -> void:
-	call_deferred("_register")
-
-
 # Deregister UI
-func _exit_tree() -> void:
-	escoria.deregister_ui("res://addons/escoria-ui-9verbs/game.tscn")
+func disable_plugin():
+	print("Disabling plugin Escoria UI 9-verbs")
+	EscoriaPlugin.deregister_ui("res://addons/escoria-ui-9verbs/game.tscn")
 
 
 # Register UI with Escoria
-func _register():
-	escoria.register_ui("res://addons/escoria-ui-9verbs/game.tscn")
+func enable_plugin():
+	print("Enabling plugin Escoria UI 9-verbs")
+	EscoriaPlugin.register_ui("res://addons/escoria-ui-9verbs/game.tscn")
