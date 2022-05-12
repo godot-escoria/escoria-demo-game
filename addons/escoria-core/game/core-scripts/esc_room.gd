@@ -60,7 +60,10 @@ func _enter_tree():
 # name of this node if it's not set manually
 func _ready():
 	# Might as well just check here.
-	if get_parent() == get_tree().root and ProjectSettings.get_setting("application/run/main_scene") != self.filename:
+	if get_parent() == get_tree().root \
+			and ESCProjectSettingsManager.get_setting(
+				"application/run/main_scene"
+			) != self.filename:
 		is_run_directly = true
 
 	escoria.room_manager.init_room(self)

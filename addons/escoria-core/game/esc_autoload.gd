@@ -100,10 +100,25 @@ var player_camera: ESCCamera
 # escoria/main/game_start_script
 var start_script: ESCScript
 
+# Whether we ran a room directly from editor, not a full game
+var is_direct_room_run: bool = false
+
+func _ready():
+	# We check if we run the full game or directly a room scene
+	if not get_tree().current_scene is ESCMain:
+		# Running a room scene. We need to instanciate the main scene ourselves
+		# so that the Escoria scene is created and managers are instanced as well.
+		is_direct_room_run = true
+		var main_scene = preload("res://addons/escoria-core/game/main_scene.tscn").instance()
+		add_child(main_scene)
 
 # Get the Escoria node. That node gives access to 
 func get_escoria():
-	return get_node("/root/main_scene").escoria_node
+	# We check if we run the full game or directly a room scene
+	if get_tree().current_scene is ESCMain:
+		return get_node("/root/main_scene").escoria_node
+	else:
+		return get_node("main_scene").escoria_node
 
 
 # Pauses or unpause the game
@@ -163,3 +178,4 @@ func new_game():
 # Called from main menu's "quit" button
 func quit():
 	get_escoria().quit()
+

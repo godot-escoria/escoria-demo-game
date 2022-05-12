@@ -134,21 +134,8 @@ func quit():
 
 # Handle anything necessary if the game started a scene directly.
 func _handle_direct_scene_run() -> void:
-	var current_scene_root: Node = get_tree().get_current_scene()
-
-	if current_scene_root == null:
-		# there's no 'current scene'
-		# e.g. you're opening escoria.tscn from the editor
-		return
-
-	if current_scene_root.filename == ProjectSettings.get_setting(
-		"application/run/main_scene"
-	):
-		# This is a normal, full-game run, so there's nothing to do.
-		return
-
-	if current_scene_root is ESCRoom:
-		escoria.object_manager.set_current_room(current_scene_root)
+	if escoria.is_direct_room_run:
+		escoria.object_manager.set_current_room(get_tree().get_current_scene())
 
 
 # Used by game.gd to determine whether the game scene is ready to take inputs
