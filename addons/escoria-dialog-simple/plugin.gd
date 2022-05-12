@@ -15,6 +15,14 @@ func enable_plugin():
 	print("Enabling plugin Escoria Dialog Simple")
 	EscoriaPlugin.register_dialog_manager(MANAGER_CLASS)
 	ESCProjectSettingsManager.register_setting(
+		ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE,
+		"floating",
+		{
+			"type": TYPE_STRING
+		}
+	)
+	
+	ESCProjectSettingsManager.register_setting(
 		ESCProjectSettingsManager.AVATARS_PATH,
 		"",
 		{

@@ -96,6 +96,10 @@ var game_scene: ESCGame
 # The main player camera
 var player_camera: ESCCamera
 
+# The compiled start script loaded from ProjectSettings
+# escoria/main/game_start_script
+var start_script: ESCScript
+
 
 # Get the Escoria node. That node gives access to 
 func get_escoria():
@@ -151,9 +155,11 @@ func apply_settings(p_settings: ESCSaveSettings) -> void:
 
 		game_scene.apply_custom_settings(settings.custom_settings)
 
-# Called 
+# Called from main menu's "new game" button
 func new_game():
 	get_escoria().new_game()
 
+
+# Called from main menu's "quit" button
 func quit():
 	get_escoria().quit()

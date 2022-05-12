@@ -65,6 +65,7 @@ func set_escoria_ui_settings():
 			"type": TYPE_STRING
 		}
 	)
+	print("DEFAULT DIALOG TYPE RESET !!!")
 
 	register_setting(
 		ESCProjectSettingsManager.GAME_SCENE,
@@ -382,7 +383,7 @@ func set_escoria_platform_settings():
 # - name: Name of the project setting
 # - default: Default value
 # - info: Property info for the setting
-func register_setting(name: String, default, info: Dictionary) -> void:
+static func register_setting(name: String, default, info: Dictionary) -> void:
 	if not ProjectSettings.has_setting(name):
 		ProjectSettings.set_setting(
 			name,

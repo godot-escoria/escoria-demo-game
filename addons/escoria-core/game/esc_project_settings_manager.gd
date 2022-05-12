@@ -83,7 +83,8 @@ static func register_setting(name: String, default, info: Dictionary) -> void:
 		)
 		info.name = name
 		ProjectSettings.add_property_info(info)
-
+	else:
+		push_error("Setting %s doesn't exist!" % name)
 
 # Retrieves the specified project setting.
 #
@@ -94,9 +95,7 @@ static func register_setting(name: String, default, info: Dictionary) -> void:
 # *Returns* the value of the project setting located with key.
 static func get_setting(key: String):
 	if not ProjectSettings.has_setting(key):
-		printerr("project_settings_manager.gd",
-			["Parameter %s is not set!" % key]
-		)
+		push_error("Parameter %s is not set!" % key)
 		assert(false)
 
 	return ProjectSettings.get_setting(key)

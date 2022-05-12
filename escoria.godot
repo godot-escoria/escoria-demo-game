@@ -399,6 +399,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/escoria.gd"
 }, {
+"base": "Reference",
+"class": "EscoriaPlugin",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/plugins/escoria_plugin.gd"
+}, {
 "base": "ESCBaseCommand",
 "class": "HideMenuCommand",
 "language": "GDScript",
@@ -663,6 +668,7 @@ _global_script_class_icons={
 "ESCWalkContext": "",
 "EnableTerrainCommand": "",
 "Escoria": "",
+"EscoriaPlugin": "",
 "HideMenuCommand": "",
 "IncGlobalCommand": "",
 "InventoryAddCommand": "",
@@ -733,12 +739,12 @@ search_in_file_extensions=PoolStringArray( "gd", "shader", "esc" )
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-ui-9verbs/plugin.cfg", "res://addons/zylann.editor_debugger/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-dialog-simple/plugin.cfg", "res://addons/escoria-ui-9verbs/plugin.cfg" )
 
 [escoria]
 
-main/game_version=""
-main/game_start_script=""
+main/game_version="0.1"
+main/game_start_script="res://game/start_game.esc"
 main/force_quit=true
 main/command_directories=[ "res://addons/escoria-core/game/core-scripts/esc/commands" ]
 main/text_lang="fr_FR"
@@ -756,13 +762,13 @@ debug/crash_message="We're sorry, but the game crashed. Please send us the follo
 %s"
 debug/enable_room_selector=false
 debug/room_selector_room_dir=""
-ui/default_dialog_type=""
-ui/game_scene=""
+ui/default_dialog_type="floating"
+ui/game_scene="res://addons/escoria-ui-9verbs/game.tscn"
 ui/items_autoregister_path="res://game/items/escitems/"
 ui/default_transition="curtain"
 ui/transition_paths=[ "res://addons/escoria-core/game/scenes/transitions/shaders/" ]
 ui/inventory_item_size=Vector2( 72, 72 )
-ui/dialog_managers=[  ]
+ui/dialog_managers=[ "res://addons/escoria-dialog-simple/esc_dialog_simple.gd" ]
 sound/master_volume=1
 sound/music_volume=1
 sound/sfx_volume=1
@@ -772,6 +778,10 @@ sound/speech_folder="res://speech"
 sound/speech_extension="ogg"
 platform/skip_cache=false
 platform/skip_cache.mobile=true
+dialog_simple/avatars_path=""
+dialog_simple/text_speed_per_character=0.1
+dialog_simple/fast_text_speed_per_character=0.25
+dialog_simple/max_time_to_disappear=1.0
 
 [input]
 
