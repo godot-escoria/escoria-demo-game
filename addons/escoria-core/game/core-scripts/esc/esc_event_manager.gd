@@ -297,7 +297,7 @@ func interrupt(exceptions: PoolStringArray = []) -> void:
 			for event in events_queue[channel_name]:
 				if event.name in exceptions:
 					continue
-	
+
 				escoria.logger.debug("Interrupting queued event %s in channel %s..."
 					% [event.name, channel_name])
 				event.interrupt()

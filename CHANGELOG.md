@@ -1,3 +1,12 @@
+## [4.0.0-alpha.185](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.185) (2022-05-13)
+
+
+### Bug Fixes
+
+* Fix [#168](https://github.com/godot-escoria/escoria-demo-game/issues/168) as turn to in room 10 didn't work correctly ([#597](https://github.com/godot-escoria/escoria-demo-game/issues/597)) ([fa5e57a](https://github.com/godot-escoria/escoria-demo-game/commit/fa5e57aa4e30c5632d2f003ffb39f4413e875318))
+
+
+
 ## [4.0.0-alpha.184](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.184) (2022-05-13)
 
 
