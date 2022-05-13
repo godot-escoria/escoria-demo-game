@@ -1,3 +1,12 @@
+## [4.0.0-alpha.184](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.184) (2022-05-13)
+
+
+### Bug Fixes
+
+* prevents duplicate item registration ([#587](https://github.com/godot-escoria/escoria-demo-game/issues/587)) ([0fd0ba4](https://github.com/godot-escoria/escoria-demo-game/commit/0fd0ba45ae1799e9ddca18693e84811478101006))
+
+
+
 ## [4.0.0-alpha.183](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.183) (2022-05-11)
 
 
