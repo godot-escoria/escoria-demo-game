@@ -13,6 +13,7 @@ export(bool) var selectable = false
 # A player is always movable
 func _init():
 	is_movable = true
+	_force_registration = true
 
 
 # Ready function

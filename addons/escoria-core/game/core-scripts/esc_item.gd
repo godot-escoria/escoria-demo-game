@@ -168,6 +168,9 @@ var _movable: ESCMovable = null
 # The identified animation player
 var _animation_player: ESCAnimationPlayer = null
 
+# Whether to force regsitration with the object manager. Defaults to false.
+var _force_registration: bool = false
+
 
 # Add the movable node, connect signals, detect child nodes
 # and register this item
@@ -210,7 +213,7 @@ func _ready():
 				self
 			),
 			null,
-			true
+			_force_registration
 		)
 
 		terrain = escoria.room_terrain
