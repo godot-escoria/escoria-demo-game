@@ -17,25 +17,36 @@ class ESCLoggerBase:
 		"TRACE": LOG_TRACE,
 	}
 	
+	# Configured log level
+	var _log_level: int
+
+
 	# Constructor
 	func _init():
-		pass
-	
+		_log_level = _level_map[ESCProjectSettingsManager.get_setting(
+			ESCProjectSettingsManager.LOG_LEVEL.to_upper()
+		)]
+
+
 	func formatted_message(context: String, msg: String, letter: String) -> String:
 		return "ESC ({0}) {1} {2}: {3}".format([letter, context, _formatted_date(), msg])
-	
+
+
 	func trace(owner: Object, msg: String):
 		var context = owner.get_script().resource_path.get_file()
 		print(formatted_message(context, msg, "T"))
-	
+
+
 	# Debug log
 	func debug(owner: Object, msg: String):
 		var context = owner.get_script().resource_path.get_file()
 		print(formatted_message(context, msg, "D"))
-		
+
+
 	func info(owner: Object, msg: String):
 		var context = owner.get_script().resource_path.get_file()
 		print(formatted_message(context, msg, "I"))
+
 
 	# Warning log
 	func warn(owner: Object, msg: String):
@@ -57,7 +68,8 @@ class ESCLoggerBase:
 		):
 			assert(false)
 			escoria.get_tree().quit()
-	
+
+
 	func _formatted_date():
 		var info = OS.get_datetime()
 		info["year"] = "%04d" % info["year"]
@@ -67,15 +79,13 @@ class ESCLoggerBase:
 		info["minute"] = "%02d" % info["minute"]
 		info["second"] = "%02d" % info["second"]
 		return "{year}-{month}-{day}T{hour}:{minute}:{second}".format(info)
-	
-	# Returns the currently set log level
-	# **Returns** Log level as set in the configuration
-	func _get_log_level() -> int:
-		return _level_map[ESCProjectSettingsManager.get_setting(
-			ESCProjectSettingsManager.LOG_LEVEL
-		)]
 
 
+	func get_log_level() -> int:
+		return _log_level
+
+
+# A logger that logs to the terminal and to a log file.
 class ESCLoggerFile extends ESCLoggerBase:
 	# Log file handler
 	var log_file: File
@@ -102,24 +112,24 @@ class ESCLoggerFile extends ESCLoggerBase:
 		)
 	
 	func trace(owner: Object, msg: String):
-		if _get_log_level() >= LOG_TRACE:
+		if _log_level >= LOG_TRACE:
 			_log_to_file(owner, msg, "T")
 			.trace(owner, msg)
 	
 	# Debug log
 	func debug(owner: Object, msg: String):
-		if _get_log_level() >= LOG_DEBUG:
+		if _log_level >= LOG_DEBUG:
 			_log_to_file(owner, msg, "D")
 			.debug(owner, msg)
 	
 	func info(owner: Object, msg: String):
-		if _get_log_level() >= LOG_INFO:
+		if _log_level >= LOG_INFO:
 			_log_to_file(owner, msg, "I")
 			.info(owner, msg)
 
 	# Warning log
 	func warn(owner: Object, msg: String):
-		if _get_log_level() >= LOG_WARNING:
+		if _log_level >= LOG_WARNING:
 			_log_to_file(owner, msg, "W")
 			if ESCProjectSettingsManager.get_setting(
 				ESCProjectSettingsManager.TERMINATE_ON_WARNINGS
@@ -131,7 +141,7 @@ class ESCLoggerFile extends ESCLoggerBase:
 	
 	# Error log
 	func error(owner: Object, msg: String):
-		if _get_log_level() >= LOG_ERROR:
+		if _log_level >= LOG_ERROR:
 			_log_to_file(owner, msg, "E")
 			if ESCProjectSettingsManager.get_setting(
 				ESCProjectSettingsManager.TERMINATE_ON_ERRORS
@@ -172,6 +182,7 @@ class ESCLoggerFile extends ESCLoggerBase:
 		log_file.close()
 
 
+# A simple logger that logs to terminal using debug() function
 class ESCLoggerVerbose extends ESCLoggerBase:
 	func _init():
 		pass

@@ -79,10 +79,8 @@ func run(command_params: Array) -> int:
 	else:
 		escoria.logger.error(
 			self,
-			get_command_name() + ": Invalid scene",
-			[
-				"Failed loading scene %s" % command_params[1]
-			]
+			"[%s]: Invalid scene. Failed loading scene %s"
+					% [get_command_name(), command_params[1]]
 		)
 
 	return ESCExecution.RC_OK

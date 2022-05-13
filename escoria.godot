@@ -722,6 +722,10 @@ config/icon="res://icon.png"
 
 default_bus_layout="res://addons/escoria-core/default_bus_layout.tres"
 
+[autoload]
+
+escoria="*res://addons/escoria-core/game/esc_autoload.gd"
+
 [display]
 
 window/size/width=1280
@@ -732,6 +736,10 @@ window/stretch/aspect="keep"
 [editor]
 
 search_in_file_extensions=PoolStringArray( "gd", "shader", "esc" )
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-dialog-simple/plugin.cfg", "res://addons/escoria-ui-9verbs/plugin.cfg" )
 
 [escoria]
 
@@ -754,17 +762,17 @@ debug/crash_message="We're sorry, but the game crashed. Please send us the follo
 %s"
 debug/enable_room_selector=false
 debug/room_selector_room_dir=""
-ui/game_scene=""
+ui/game_scene="res://addons/escoria-ui-9verbs/game.tscn"
 ui/items_autoregister_path="res://game/items/escitems/"
 ui/default_transition="curtain"
 ui/transition_paths=[ "res://addons/escoria-core/game/scenes/transitions/shaders/" ]
 ui/inventory_item_size=Vector2( 72, 72 )
-ui/dialog_managers=[  ]
+ui/dialog_managers=[ "res://addons/escoria-dialog-simple/esc_dialog_simple.gd" ]
 sound/master_volume=1
 sound/music_volume=1
 sound/sfx_volume=1
 sound/speech_volume=1
-sound/speech_folder="res://speech"
+sound/speech_folder="res://game/speech"
 sound/speech_extension="ogg"
 platform/skip_cache=false
 platform/skip_cache.mobile=true
@@ -773,6 +781,7 @@ dialog_simple/text_speed_per_character=0.1
 dialog_simple/fast_text_speed_per_character=0.25
 dialog_simple/max_time_to_disappear=1.0
 ui/default_dialog_type="floating"
+sound/speech_enabled=true
 
 [input]
 

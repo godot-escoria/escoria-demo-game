@@ -243,7 +243,7 @@ func set_escoria_debug_settings():
 		{
 			"type": TYPE_STRING,
 			"hint": PROPERTY_HINT_ENUM,
-			"hint_string": "ERROR,WARNING,INFO,DEBUG"
+			"hint_string": "ERROR,WARNING,INFO,DEBUG,TRACE"
 		}
 	)
 
