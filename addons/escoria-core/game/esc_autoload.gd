@@ -103,6 +103,7 @@ var start_script: ESCScript
 # Whether we ran a room directly from editor, not a full game
 var is_direct_room_run: bool = false
 
+# Ready function
 func _ready():
 	# We check if we run the full game or directly a room scene
 	if not get_tree().current_scene is ESCMain:
@@ -111,6 +112,7 @@ func _ready():
 		is_direct_room_run = true
 		var main_scene = preload("res://addons/escoria-core/game/main_scene.tscn").instance()
 		add_child(main_scene)
+
 
 # Get the Escoria node. That node gives access to 
 func get_escoria():
@@ -169,6 +171,7 @@ func apply_settings(p_settings: ESCSaveSettings) -> void:
 		TranslationServer.set_locale(settings.text_lang)
 
 		game_scene.apply_custom_settings(settings.custom_settings)
+
 
 # Called from main menu's "new game" button
 func new_game():

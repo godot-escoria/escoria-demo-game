@@ -755,7 +755,7 @@ main/game_migration_path=""
 debug/terminate_on_warnings=false
 debug/terminate_on_errors=true
 debug/development_lang="en"
-debug/log_level="ERROR"
+debug/log_level="DEBUG"
 debug/log_file_path="user://"
 debug/crash_message="We're sorry, but the game crashed. Please send us the following files:
 
@@ -772,8 +772,7 @@ sound/master_volume=1
 sound/music_volume=1
 sound/sfx_volume=1
 sound/speech_volume=1
-sound/speech_enabled=1
-sound/speech_folder="res://speech"
+sound/speech_folder="res://game/speech"
 sound/speech_extension="ogg"
 platform/skip_cache=false
 platform/skip_cache.mobile=true
@@ -782,6 +781,7 @@ dialog_simple/text_speed_per_character=0.1
 dialog_simple/fast_text_speed_per_character=0.25
 dialog_simple/max_time_to_disappear=1.0
 ui/default_dialog_type="floating"
+sound/speech_enabled=true
 
 [input]
 

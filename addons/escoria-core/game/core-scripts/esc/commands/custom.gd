@@ -81,7 +81,7 @@ func run(command_params: Array) -> int:
 	# Global variables can be substituted into the command arguments by wrapping the global
 	# name in braces.
 	for loop in command_params[3].size():
-		command_params[3][loop] = escoria.esc_compiler.replace_globals(command_params[3][loop])
+		command_params[3][loop] = escoria.globals_manager.replace_globals(command_params[3][loop])
 
 	object.node.get_node(command_params[1]).call(
 		command_params[2],
@@ -94,5 +94,5 @@ func run(command_params: Array) -> int:
 func interrupt():
 	escoria.logger.warn(
 		self, 
-		get_command_name() + ": Interrupt() function not implemented"
+		"[%s] Interrupt() function not implemented" % get_command_name()
 	)

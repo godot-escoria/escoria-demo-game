@@ -225,7 +225,10 @@ func queue_event(event: ESCEvent, force: bool = false) -> void:
 
 		return
 
-	escoria.logger.debug("Queueing %s in channel %s." % [event.name, CHANNEL_FRONT])
+	escoria.logger.debug(
+		self,
+		"Queueing %s in channel %s." % [event.name, CHANNEL_FRONT]
+	)
 	self.events_queue[CHANNEL_FRONT].append(event)
 
 
@@ -263,6 +266,7 @@ func queue_background_event(channel_name: String, event: ESCEvent) -> void:
 	elif _is_event_running(event, CHANNEL_FRONT):
 		# Don't queue the same event if it's already running.
 		escoria.logger.debug(
+			self,
 			"Event %s already running in channel '%s'. Won't be queued."
 				% [event.name, channel_name]
 		)
@@ -279,8 +283,10 @@ func queue_background_event(channel_name: String, event: ESCEvent) -> void:
 func interrupt(exceptions: PoolStringArray = []) -> void:
 	for channel_name in _running_events.keys():
 		if _running_events[channel_name] != null and not _running_events[channel_name].name in exceptions:
-			escoria.logger.debug("Interrupting running event %s in channel %s..."
-				% [_running_events[channel_name].name, channel_name])
+			escoria.logger.debug(
+				self,
+				"Interrupting running event %s in channel %s..."
+						% [_running_events[channel_name].name, channel_name])
 			_running_events[channel_name].interrupt()
 			_channels_state[channel_name] = true
 
@@ -290,8 +296,10 @@ func interrupt(exceptions: PoolStringArray = []) -> void:
 				if event.name in exceptions:
 					continue
 
-				escoria.logger.debug("Interrupting queued event %s in channel %s..."
-					% [event.name, channel_name])
+				escoria.logger.debug(
+					self,
+					"Interrupting queued event %s in channel %s..."
+							% [event.name, channel_name])
 				event.interrupt()
 
 			events_queue[channel_name].clear()
@@ -326,7 +334,10 @@ func get_running_event(name: String) -> ESCEvent:
 # #### Parameterse
 # - value: boolean value to set _changing_scene to
 func set_changing_scene(p_is_changing_scene: bool) -> void:
-	escoria.logger.trace("Setting _changing_scene to %s." % p_is_changing_scene)
+	escoria.logger.trace(
+		self,
+		"Setting _changing_scene to %s." % p_is_changing_scene
+	)
 
 	_changing_scene = p_is_changing_scene
 

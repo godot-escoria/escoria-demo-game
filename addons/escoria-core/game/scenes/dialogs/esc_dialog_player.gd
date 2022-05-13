@@ -161,8 +161,8 @@ func say(character: String, type: String, text: String) -> void:
 	else:
 		text = matches.get_string("text")
 
-	_dialog_manager.say(self, character, text, type)
 
+	_dialog_manager.say(self, character, text, type)
 
 # Handles the end of a say function after it has emitted say_finished.
 func _on_say_finished():

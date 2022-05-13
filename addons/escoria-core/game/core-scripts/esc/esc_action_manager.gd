@@ -652,7 +652,10 @@ func _walk_towards_object(
 	escoria.main.current_scene.player.walk_to(destination_position,
 		walk_context)
 
-	escoria.logger.debug("Player walking to destination. Yielding.")
+	escoria.logger.debug(
+	self,
+	"Player walking to destination. Yielding."
+)
 
 	# Wait for the player to arrive before continuing with action.
 	var context: ESCWalkContext = yield(
@@ -661,8 +664,10 @@ func _walk_towards_object(
 	)
 
 	if context.target_object != obj:
-		escoria.logger.debug("Original walk context target does not match " \
-			+ "yielded walk context. Likely interrutped walk.")
+		escoria.logger.debug(
+			self,
+			"Original walk context target does not match " \
+					+ "yielded walk context. Likely interrutped walk.")
 		return
 
 	escoria.logger.info(

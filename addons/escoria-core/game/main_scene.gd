@@ -12,7 +12,6 @@ func _ready():
 	
 	escoria_node = preload("res://addons/escoria-core/game/escoria.tscn").instance()
 	add_child(escoria_node)
-	print("Escoria added")
 	
 	if not escoria.is_direct_room_run:
 		escoria_node.init()

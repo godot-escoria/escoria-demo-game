@@ -328,7 +328,7 @@ func set_escoria_sound_settings():
 
 	register_setting(
 		ESCProjectSettingsManager.SPEECH_ENABLED,
-		1,
+		true,
 		{
 			"type": TYPE_BOOL
 		}

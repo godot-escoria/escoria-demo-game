@@ -64,5 +64,5 @@ func run(command_params: Array) -> int:
 func interrupt():
 	escoria.logger.warn(
 		self,
-		get_command_name() + ": Interrupt() function not implemented"
+		"[%s] Interrupt() function not implemented" % get_command_name()
 	)

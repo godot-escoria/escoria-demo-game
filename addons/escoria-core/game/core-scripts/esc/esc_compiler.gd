@@ -275,18 +275,3 @@ func _compile(lines: Array, path: String = "") -> Array:
 						% line
 			)
 	return returned
-
-# Look to see if any globals (names in braces) should be interpreted
-#
-# #### Parameters
-#
-# * string: Text to log
-func replace_globals(string: String) -> String:
-	for result in _globals_regex.search_all(string):
-		var globresult = escoria.globals_manager.get_global(
-			str(result.get_string())
-		)
-		string = string.replace(
-			"{" + result.get_string() + "}", str(globresult)
-		)
-	return string
