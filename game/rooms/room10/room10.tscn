@@ -48,6 +48,7 @@ default_action = "walk"
 [node name="ESCLocation" type="Position2D" parent="Hotspots/r_door"]
 position = Vector2( 1228, 437 )
 script = ExtResource( 5 )
+global_id = "right_door_location"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
 polygon = PoolVector2Array( 1174, 122, 1280, 167, 1279, 482, 1173, 414 )
@@ -69,6 +70,7 @@ polygon = PoolVector2Array( 1, 482, 3, 166, 109, 124, 109, 413 )
 [node name="Position2D" type="Position2D" parent="Hotspots/l_door"]
 position = Vector2( 57, 437 )
 script = ExtResource( 5 )
+global_id = "left_door_location"
 
 [node name="button_stop_bg_music" type="Area2D" parent="Hotspots"]
 pause_mode = 1
