@@ -147,7 +147,7 @@ export(NodePath) var camera_node
 
 
 # ESCAnimationsResource (for walking, idling...)
-var animations: ESCAnimationResource
+var animations: ESCAnimationResource setget set_animations
 
 # Reference to the animation node (null if none was found)
 var animation_sprite = null
@@ -171,6 +171,9 @@ var _animation_player: ESCAnimationPlayer = null
 # Whether to force regsitration with the object manager. Defaults to false.
 var _force_registration: bool = false
 
+# Warnings for scene.
+var _scene_warnings: PoolStringArray = []
+
 
 # Add the movable node, connect signals, detect child nodes
 # and register this item
@@ -182,6 +185,8 @@ func _ready():
 	# We add ourselves to this group so we can easily get a reference to all
 	# items in a scene tree.
 	add_to_group(GROUP_ITEM_CAN_COLLIDE)
+
+	validate_animations(animations)
 
 	if not self.is_connected("mouse_entered", self, "_on_mouse_entered"):
 		connect("mouse_entered", self, "_on_mouse_entered")
@@ -341,6 +346,12 @@ func _unhandled_input(input_event: InputEvent) -> void:
 				get_tree().set_input_as_handled()
 
 
+# To display warnings in the scene tree should there be any.
+func _get_configuration_warning():
+	validate_animations(animations)
+	return _scene_warnings.join("\n")
+
+
 func _is_in_shape(position: Vector2) -> bool:
 	var colliders = get_world_2d().direct_space_state.intersect_point(
 		position,
@@ -358,6 +369,61 @@ func _is_in_shape(position: Vector2) -> bool:
 	return false
 
 
+# Validates the ESCAnimationResource if it exists. Note that we pass in the
+# ESCAnimationResource as an argument so that it can also be used to validate
+# an ESCAnimationResource prior to being set.
+#
+# #### Parameters
+#
+# - animation_resource: the ESCAnimationResource to validate.
+func validate_animations(animations_resource: ESCAnimationResource) -> void:
+	if not is_instance_valid(animations_resource):
+		return
+
+	# This initialization must always be here since this is a tool script.
+	_scene_warnings = []
+
+	if is_instance_valid(animations_resource):
+		_validate_animations_property_all_not_null(animations_resource.dir_angles, "dir_angles")
+
+		var num_dir_angles = animations_resource.dir_angles.size() 
+
+		if animations_resource.directions.size() != num_dir_angles:
+			_scene_warnings.append("%s animation angles specified but %s 'directions' animation(s) given." \
+				% [num_dir_angles, animations_resource.directions.size()])
+		else:
+			_validate_animations_property_all_not_null(animations_resource.directions, "directions")
+
+		if animations_resource.idles.size() != num_dir_angles:
+			_scene_warnings.append("%s animation angles specified but %s 'idles' animation(s) given." \
+				% [num_dir_angles, animations_resource.idles.size()])
+		else:
+			_validate_animations_property_all_not_null(animations_resource.idles, "idles")
+
+		if animations_resource.speaks.size() != num_dir_angles:
+			_scene_warnings.append("%s animation angles specified but %s 'speaks' animation(s) given." \
+				% [num_dir_angles, animations_resource.speaks.size()])
+		else:
+			_validate_animations_property_all_not_null(animations_resource.speaks, "speaks")
+
+	if Engine.is_editor_hint():
+		update_configuration_warning()
+	elif _scene_warnings.size() > 0:
+		escoria.logger.error(
+			self,
+			_scene_warnings.join(", ")
+		)
+
+
+# Setter for the animations property.
+func set_animations(p_animations: ESCAnimationResource) -> void:
+	if p_animations == null:
+		return
+
+	animations = p_animations
+	
+	if not animations.is_connected("changed", self, "_validate_animations"):
+		animations.connect("changed", self, "_validate_animations")
 
 
 # Return the animation player node
@@ -589,7 +655,7 @@ func get_camera_node():
 		escoria.logger.debug(
 			self,
 			"Camera node found - directing camera to the camera_node on %s."
-				% global_id
+				% global_id	
 		)
 		return get_node(camera_node)
 	return self
@@ -653,3 +719,23 @@ func _get_inventory_texture() -> Texture:
 		return null
 	else:
 		return inventory_texture
+
+
+# Checks whether the given ESCAnimationResource property array has all non-null entries, and adds
+# to the scene's warnings if not.
+#
+# #### Parameters
+#
+# - property: ESCAnimationResource property. Must be an array.
+# - property_name: the name of the property being passed in.
+func _validate_animations_property_all_not_null(property: Array, property_name: String) -> void:
+	var has_empty_entry: bool = false
+	
+	for item in property:
+		if item == null:
+			has_empty_entry = true
+			break
+
+	if has_empty_entry:
+		_scene_warnings.append("At least one entry in '%s' is empty." % property_name)
+	
