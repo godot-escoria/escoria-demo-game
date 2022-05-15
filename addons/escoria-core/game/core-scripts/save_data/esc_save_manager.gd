@@ -120,7 +120,7 @@ func save_game(id: int, p_savename: String):
 	if not save_enabled:
 		escoria.logger.debug(
 			self,
-			"Save requested while saving is not possible. Save canceled."
+			"Save requested while saving is not possible. Save cancelled."
 		)
 		return
 
@@ -135,7 +135,7 @@ func save_game(id: int, p_savename: String):
 	if error != OK:
 		escoria.logger.error(
 			self,
-			"There was an issue writing the save %s to %s" % [id, save_path]
+			"There was an issue writing savegame number %s to %s." % [id, save_path]
 		)
 
 
@@ -168,7 +168,7 @@ func save_game_crash():
 	if error != OK:
 		escoria.logger.error(
 			self,
-			"There was an issue writing the crash save to %s"
+			"There was an issue writing the crash save to %s."
 				% crash_savegame_filename
 		)
 	return error
@@ -218,13 +218,13 @@ func load_game(id: int):
 	if not file.file_exists(save_file_path):
 		escoria.logger.error(
 			self,
-			"Save file %s doesn't exist" % save_file_path
+			"Save file %s doesn't exist." % save_file_path
 		)
 		return
 
 	escoria.logger.info(
 		self,
-		"Loading savegame %s" % str(id)
+		"Loading savegame %s." % str(id)
 	)
 
 	var save_game: ESCSaveGame = ResourceLoader.load(save_file_path)
@@ -434,7 +434,7 @@ func save_settings():
 	if error != OK:
 		escoria.logger.error(
 			"esc_save_manager.gd:save_settings()",
-			["There was an issue writing settings %s" % save_path])
+			["There was an issue writing settings file %s." % save_path])
 
 
 # Load the game settings from the settings file

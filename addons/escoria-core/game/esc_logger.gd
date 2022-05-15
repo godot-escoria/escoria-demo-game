@@ -24,12 +24,12 @@ class ESCLoggerBase:
 	# Constructor
 	func _init():
 		_log_level = _level_map[ESCProjectSettingsManager.get_setting(
-			ESCProjectSettingsManager.LOG_LEVEL.to_upper()
-		)]
+			ESCProjectSettingsManager.LOG_LEVEL
+		).to_upper()]
 
 
 	func formatted_message(context: String, msg: String, letter: String) -> String:
-		return "ESC ({0}) {1} {2}: {3}".format([letter, context, _formatted_date(), msg])
+		return "ESC ({0}) {1} {2}: {3}".format([_formatted_date(), letter, context, msg])
 
 
 	func trace(owner: Object, msg: String):
@@ -95,7 +95,7 @@ class ESCLoggerFile extends ESCLoggerBase:
 		# Open logfile in write mode
 		log_file = File.new()
 
-		# this is left alone as this constructor is called from escoria.gd's own
+		# This is left alone as this constructor is called from escoria.gd's own
 		# constructor
 		var log_file_path = ProjectSettings.get_setting(
 			ESCProjectSettingsManager.LOG_FILE_PATH

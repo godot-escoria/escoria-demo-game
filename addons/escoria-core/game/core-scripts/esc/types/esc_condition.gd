@@ -87,7 +87,7 @@ func _init(comparison_string: String):
 	else:
 		escoria.logger.error(
 			self,
-			"Invalid comparison detected: %s\nComparison regexp didn't match" 
+			"Invalid comparison detected: %s\nComparison regexp didn't match." 
 					% comparison_string
 		)
 

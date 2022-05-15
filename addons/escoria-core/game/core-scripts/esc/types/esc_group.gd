@@ -30,6 +30,6 @@ func _init(group_string: String):
 	else:
 		escoria.logger.error(
 			self,
-			"Invalid group detected: %s\nGroup regexp didn't match" 
+			"Invalid group detected: %s\nGroup regexp didn't match." 
 					% group_string
 		)

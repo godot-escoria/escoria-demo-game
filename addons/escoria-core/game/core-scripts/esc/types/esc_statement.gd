@@ -60,7 +60,7 @@ func run() -> int:
 func interrupt():
 	escoria.logger.info(
 		self,
-		"Interrupting event %s (%s)"
+		"Interrupting event %s (%s)."
 				% [self.name if "name" in self else "group", str(self)]
 	)
 	_is_interrupted = true

@@ -104,7 +104,7 @@ func set_target(p_target, p_time : float = 0.0):
 
 	escoria.logger.info(
 		self,
-		"Current camera position = %s " % str(self.global_position)
+		"Current camera position = %s." % str(self.global_position)
 	)
 
 	if p_time == 0.0:
@@ -113,7 +113,7 @@ func set_target(p_target, p_time : float = 0.0):
 		if _tween.is_active():
 			escoria.logger.warn(
 				self,
-				"Tween is still active: %f/%f" % [
+				"Tween is still active: %f seconds of %f completed." % [
 					_tween.tell(),
 					_tween.get_runtime()
 				]
@@ -141,7 +141,7 @@ func set_camera_zoom(p_zoom_level: float, p_time: float):
 	if p_zoom_level <= 0.0:
 		escoria.logger.error(
 			self,
-			"Tried to set negative or zero zoom level"
+			"Tried to set negative or zero zoom level."
 		)
 
 	_zoom_target = Vector2(1, 1) * p_zoom_level
@@ -198,7 +198,7 @@ func push(p_target, p_time: float = 0.0, p_type: int = 0):
 		if _tween.is_active():
 			escoria.logger.warn(
 				self,
-				"Tween is still active: %f/%f" % [
+				"Tween is still active: %f seconds of %f completed." % [
 					_tween.tell(),
 					_tween.get_runtime()
 				]
@@ -248,7 +248,7 @@ func shift(p_target: Vector2, p_time: float, p_type: int):
 	if _tween.is_active():
 		escoria.logger.warn(
 			self,
-			"Tween is still active: %f/%f" % [
+			"Tween is still active: %f seconds of %f completed." % [
 				_tween.tell(),
 				_tween.get_runtime()
 			]

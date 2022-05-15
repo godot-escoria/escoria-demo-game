@@ -50,7 +50,7 @@ func load_string(dialog_string: String):
 	else:
 		escoria.logger.error(
 			self,
-			"Invalid dialog detected: %s\nDialog regexp didn't match" 
+			"Invalid dialog detected: %s\nDialog regexp didn't match." 
 					% dialog_string
 		)
 
@@ -60,14 +60,14 @@ func is_valid() -> bool:
 	if self.avatar != "-" and not ResourceLoader.exists(self.avatar):
 		escoria.logger.error(
 			self,
-			"Avatar scene not found: %s" % self.avatar
+			"Avatar scene not found: %s." % self.avatar
 		)
 		return false
 	if self.timeout_option > self.options.size() \
 			or self.timeout_option < 0:
 		escoria.logger.error(
 			self,
-			"Invalid timeout_option parameter given: %d" % self.timeout_option
+			"Invalid timeout_option parameter given: %d." % self.timeout_option
 		)
 		return false
 
@@ -78,7 +78,7 @@ func is_valid() -> bool:
 func run():
 	escoria.logger.debug(
 		self,
-		"Starting dialog"
+		"Starting dialog."
 	)
 	escoria.current_state = escoria.GAME_STATE.DIALOG
 	if !escoria.dialog_player:

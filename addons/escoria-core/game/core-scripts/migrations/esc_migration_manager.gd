@@ -31,7 +31,7 @@ func migrate(
 ) -> ESCSaveGame:
 	escoria.logger.info(
 		self,
-		"Migrating from version %s to %s" 
+		"Migrating savegame from version %s to version %s." 
 				% [from, to]
 	)
 
@@ -52,7 +52,8 @@ func migrate(
 	if wrong_version:
 		escoria.logger.error(
 			self,
-			"Can not migrate savegame from version %s to version %s" 
+			"Can not migrate savegame from version %s to version %s." +
+			" \"To\" version must be later than \"from\" version." 
 			% [from, to]
 		)
 
@@ -66,11 +67,11 @@ func migrate(
 		if not migration_script is ESCMigration:
 			escoria.logger.error(
 				self,
-				"File %s is not a valid migration script" % version
+				"File %s is not a valid migration script." % version
 			)
 		escoria.logger.debug(
 			self,
-			"Migrating using %s" % version
+			"Migrating savegame to version %s." % version
 		)
 		(migration_script as ESCMigration).set_savegame(savegame)
 		(migration_script as ESCMigration).migrate()
@@ -90,7 +91,7 @@ func migrate(
 func _find_versions(directory: String, from: String, to: String) -> Array:
 	escoria.logger.trace(
 		self, 
-		"Searching directory %s" % directory
+		"Searching directory %s." % directory
 	)
 	var versions = []
 	var dir = Directory.new()
@@ -109,7 +110,7 @@ func _find_versions(directory: String, from: String, to: String) -> Array:
 		elif regex_result and _version_between(version, from, to):
 			escoria.logger.trace(
 				self,
-				"Found fitting migration script %s" % version
+				"Found compatible savegame migration script for version %s." % version
 			)
 			versions.append(
 				directory.plus_file(file_name)

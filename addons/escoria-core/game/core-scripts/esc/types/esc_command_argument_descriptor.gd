@@ -100,8 +100,8 @@ func validate(command: String, arguments: Array) -> bool:
 
 		escoria.logger.error(
 			self,
-			"Invalid arguments for command %s" % command +
-			"Arguments didn't match minimum size {num}: Only {args} {verb} found" \
+			"Invalid arguments for command %s. " % command +
+			"Arguments didn't match minimum size {num}: Only {args} {verb} found." \
 				.format({"num":self.min_args,"args":required_args_count,"verb":verb})
 		)
 
@@ -109,7 +109,7 @@ func validate(command: String, arguments: Array) -> bool:
 		escoria.logger.error(
 			self,
 			"Invalid arguments for command %s" % command +
-			"Maximum number of arguments ({num}) exceeded: {args}".format(
+			"Maximum number of arguments ({num}) exceeded: {args}.".format(
 				{"num":self.max_args,"args":arguments}
 			)
 		)
@@ -142,7 +142,7 @@ func validate(command: String, arguments: Array) -> bool:
 				self,
 				"Argument type did not match descriptor for command \"%s\"\n"
 						% command +
-				"Argument %d (\"%s\") is of type %s. Expected %s" 
+				"Argument %d (\"%s\") is of type %s. Expected %s." 
 						% [
 							index,
 							arguments[index],

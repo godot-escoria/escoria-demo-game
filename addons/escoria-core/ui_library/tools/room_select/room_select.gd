@@ -46,7 +46,7 @@ func _ready():
 	else:
 		escoria.logger.warn(
 			self,
-			"A problem occurred while opening rooms folder."
+			"A problem occurred while opening rooms folder %s." % str(path)
 		)
 
 

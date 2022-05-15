@@ -19,7 +19,7 @@ func _ready():
 	if inventory_ui_container == null or inventory_ui_container.is_empty():
 		escoria.logger.error(
 			self,
-			"Items container is empty."
+			"Inventory items container is empty."
 		)
 		return
 
@@ -158,5 +158,5 @@ func _on_escoria_global_changed(global: String, old_value, new_value) -> void:
 	else:
 		escoria.logger.error(
 			self,
-			"Global must contain only one item name (received: %s)" % global
+			"Global must contain only one item name (received: %s)." % global
 		)

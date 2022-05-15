@@ -115,7 +115,7 @@ func say(character: String, type: String, text: String) -> void:
 	if _dialog_manager == null:
 		escoria.logger.error(
 			self,
-			"No dialog manager supports the type %s" % type
+			"No dialog manager called %s configured." % type
 		)
 
 	_dialog_manager.connect("say_finished", self, "_on_say_finished", [], CONNECT_ONESHOT)
@@ -124,7 +124,7 @@ func say(character: String, type: String, text: String) -> void:
 	if not matches:
 		escoria.logger.error(
 			self,
-			"Unexpected text encountered %s" % text
+			"Unexpected text encountered : %s." % text
 		)
 	var key = matches.get_string("key")
 	if matches.get_string("key") != "":
@@ -187,7 +187,7 @@ func start_dialog_choices(dialog: ESCDialog, type: String = "simple"):
 	if dialog.options.empty():
 		escoria.logger.error(
 			self,
-			"Received answers array was empty."
+			"Received dialog options array was empty."
 		)
 
 	var _dialog_chooser_ui: ESCDialogManager = null
@@ -203,7 +203,7 @@ func start_dialog_choices(dialog: ESCDialog, type: String = "simple"):
 	if _dialog_chooser_ui == null:
 		escoria.logger.error(
 			self,
-			"No dialog manager supports the chooser type %s" % type
+			"No dialog manager supports the chooser type %s." % type
 		)
 
 	_dialog_chooser_ui.choose(self, dialog)

@@ -15,7 +15,7 @@ static func register_ui(game_scene: String):
 		"",
 		game_scene
 	]:
-		push_error("Can't register user interface because %s is registered"
+		push_error("Can't register user interface because user interface %s is registered."
 				% game_scene_setting_value
 		)
 		return
@@ -77,7 +77,7 @@ static func deregister_dialog_manager(manager_class: String):
 	)
 
 	if not manager_class in dialog_managers:
-		push_warning("Dialog manager %s is not registered" % manager_class)
+		push_warning("Dialog manager %s is not registered." % manager_class)
 		return
 
 	dialog_managers.erase(manager_class)

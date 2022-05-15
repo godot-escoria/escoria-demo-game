@@ -28,7 +28,7 @@ func set_dialog(new_dialog: ESCDialog) -> void:
 func show_chooser() -> void:
 	escoria.logger.error(
 		self,
-		"Dialog chooser did not implement the show method."
+		"Dialog chooser does not implement the show method."
 	)
 
 
@@ -36,5 +36,5 @@ func show_chooser() -> void:
 func hide_chooser() -> void:
 	escoria.logger.error(
 		self,
-		"Dialog chooser did not implement the hide method."
+		"Dialog chooser does not implement the hide method."
 	)

@@ -40,7 +40,7 @@ func set_scene(p_scene: Node) -> void:
 	if !p_scene:
 		escoria.logger.error(
 			self, 
-			"Trying to set empty scene"
+			"Can't change to an empty scene. Please specify the scene name."
 		)
 
 	previous_scene = current_scene
@@ -154,7 +154,7 @@ func set_camera_limits(camera_limit_id: int = 0, scene: Node = current_scene) ->
 				or area.size < get_viewport().size:
 			escoria.logger.warn(
 				self,
-				"No limit area! Using viewport."
+				"Defined camera is smaller than the viewport. Using viewport size."
 			)
 			area.size = get_viewport().size
 
@@ -179,7 +179,7 @@ func set_camera_limits(camera_limit_id: int = 0, scene: Node = current_scene) ->
 		)
 		escoria.logger.info(
 			self,
-			"Setting camera limits from parameter " + str(scene_camera_limits)
+			"Setting camera limits using configured parameters " + str(scene_camera_limits)
 		)
 
 	escoria.object_manager.get_object(

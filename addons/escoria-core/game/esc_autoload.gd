@@ -105,9 +105,9 @@ var is_direct_room_run: bool = false
 
 # Ready function
 func _ready():
-	# We check if we run the full game or directly a room scene
+	# We check if we run the full game or a room scene directly
 	if not get_tree().current_scene is ESCMain:
-		# Running a room scene. We need to instanciate the main scene ourselves
+		# Running a room scene. We need to instantiate the main scene ourselves
 		# so that the Escoria scene is created and managers are instanced as well.
 		is_direct_room_run = true
 		var main_scene = preload("res://addons/escoria-core/game/main_scene.tscn").instance()
@@ -116,7 +116,7 @@ func _ready():
 
 # Get the Escoria node. That node gives access to 
 func get_escoria():
-	# We check if we run the full game or directly a room scene
+	# We check if we run the full game or a room scene directly
 	if get_tree().current_scene is ESCMain:
 		return get_node("/root/main_scene").escoria_node
 	else:

@@ -124,7 +124,7 @@ func run() -> int:
 		if command_object.validate(prepared_arguments):
 			escoria.logger.debug(
 				self,
-				"Running command %s with parameters %s" 
+				"Running command %s with parameters %s." 
 						% [self.name, prepared_arguments]
 			)
 			var rc = command_object.run(prepared_arguments)
@@ -132,7 +132,7 @@ func run() -> int:
 				rc = yield(rc, "completed")
 			escoria.logger.debug(
 				self, 
-				"[%s] Return code: %d" % [self.name, rc]
+				"[%s] Return code: %d." % [self.name, rc]
 			)
 			return rc
 		else:
