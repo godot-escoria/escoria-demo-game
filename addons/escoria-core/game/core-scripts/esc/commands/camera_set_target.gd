@@ -34,7 +34,7 @@ func validate(arguments: Array):
 	if not escoria.object_manager.has(arguments[1]):
 		escoria.logger.error(
 			self,
-			get_command_name() + ": Invalid object: Object with global id %s not found" % arguments[1]
+			get_command_name() + ": Invalid object: Object with global id %s not found." % arguments[1]
 		)
 		return false
 
@@ -55,5 +55,5 @@ func run(command_params: Array) -> int:
 func interrupt():
 	escoria.logger.warn(
 		self,
-		"[%s] Interrupt() function not implemented" % get_command_name()
+		"[%s] Interrupt() function not implemented." % get_command_name()
 	)

@@ -36,7 +36,7 @@ func validate(arguments: Array):
 		escoria.logger.error(
 			self,
 			get_command_name() + ": invalid limits id. " +
-				"Limit id %d is bigger than limits array size %d" 
+				"Camera limit id (%d) is larger than the number of limits defined in this scene (%d)." 
 				% [
 					arguments[0],
 					escoria.main.current_scene.camera_limits.size()
@@ -57,5 +57,5 @@ func run(command_params: Array) -> int:
 func interrupt():
 	escoria.logger.warn(
 		self,
-		"[%s] Interrupt() function not implemented" % get_command_name()
+		"[%s] Interrupt() function not implemented." % get_command_name()
 	)

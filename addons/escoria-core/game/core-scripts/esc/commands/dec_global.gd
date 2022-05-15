@@ -30,7 +30,7 @@ func validate(arguments: Array):
 		escoria.logger.error(
 			self,
 			get_command_name() + ": invalid global." +
-				"Global %s didn't have an integer value." % arguments[0]
+				"Global %s isn't an integer value." % arguments[0]
 		)
 		return false
 	return true

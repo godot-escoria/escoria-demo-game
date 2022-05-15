@@ -30,14 +30,14 @@ func validate(arguments: Array):
 		escoria.logger.error(
 			self,
 			get_command_name() + ": invalid object" +
-				"Object with global id %s not found" % arguments[0]
+				"Object with global id %s not found." % arguments[0]
 		)
 		return false
 	if not ResourceLoader.exists(arguments[1]):
 		escoria.logger.error(
 			self,
 			get_command_name() + ": invalid animations" +
-				"The animation resource %s was not found" % arguments[1]
+				"The animation resource %s was not found." % arguments[1]
 		)
 		return false
 	return true

@@ -34,7 +34,7 @@ func validate(arguments: Array) -> bool:
 		escoria.logger.error(
 			self,
 			get_command_name() + ": Invalid scene. " +
-				"Scene %s was not found" % arguments[0]
+				"Scene %s was not found." % arguments[0]
 		)
 		return false
 	if not ResourceLoader.exists(
@@ -43,7 +43,7 @@ func validate(arguments: Array) -> bool:
 		escoria.logger.error(
 			self,
 			get_command_name() + ": Game scene not found.\n" + 
-			"The path set in 'ui/game_scene' was not found: %s" % \
+			"The path set in 'ui/game_scene' was not found: %s." % \
 					ESCProjectSettingsManager.get_setting(
 						ESCProjectSettingsManager.GAME_SCENE
 					)
@@ -57,7 +57,7 @@ func validate(arguments: Array) -> bool:
 func run(command_params: Array) -> int:
 	escoria.logger.info(
 		self,
-		"[%s] Changing scene to %s (enable_automatic_transition = %s)" 
+		"[%s] Changing scene to %s (enable_automatic_transition = %s)." 
 				% [
 					get_command_name(),
 					command_params[0],	# scene file
@@ -74,5 +74,5 @@ func run(command_params: Array) -> int:
 func interrupt():
 	escoria.logger.warn(
 		self,
-		"[%s] Interrupt() function not implemented" % get_command_name()
+		"[%s] Interrupt() function not implemented." % get_command_name()
 	)

@@ -33,19 +33,19 @@ func validate(arguments: Array):
 		or arguments[0] in escoria.object_manager.RESERVED_OBJECTS:
 		escoria.logger.error(
 			self,
-			get_command_name() + " global_id %s is invalid" % arguments[0]
+			get_command_name() + " global_id (%s) is invalid. The global_id was either empty or is reserved." % arguments[0]
 		)
 		return false
 	if not ResourceLoader.exists(arguments[1]):
 		escoria.logger.error(
 			self,
-			get_command_name() + " Invalid scene path: %s not found" % arguments[1]
+			get_command_name() + " Invalid scene path: %s not found." % arguments[1]
 		)
 		return false
 	if arguments[3] and not escoria.object_manager.has(arguments[3]):
 		escoria.logger.error(
 			self,
-			get_command_name() + " invalid object: Object with global id %s not found" % arguments[3]
+			get_command_name() + " invalid object: Object with global id %s not found." % arguments[3]
 		)
 		return false
 	return true
@@ -79,7 +79,7 @@ func run(command_params: Array) -> int:
 	else:
 		escoria.logger.error(
 			self,
-			"[%s]: Invalid scene. Failed loading scene %s"
+			"[%s]: Invalid scene. Failed to load scene %s."
 					% [get_command_name(), command_params[1]]
 		)
 

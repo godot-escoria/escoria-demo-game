@@ -35,7 +35,7 @@ func validate(arguments: Array):
 		escoria.logger.error(
 			self,
 			get_command_name() + ": invalid object. " + 
-					"Object with global id %s not found" % arguments[1]
+					"Object with global id %s not found." % arguments[1]
 		)
 		return false
 	elif not escoria.object_manager.get_object(arguments[1]).events\
@@ -43,7 +43,7 @@ func validate(arguments: Array):
 		escoria.logger.error(
 			self,
 			get_command_name() + ": invalid object event." +
-				"Object with global id %s has no event %s" % [
+				"Object with global id %s has no event %s." % [
 					arguments[1],
 					arguments[2],
 				]

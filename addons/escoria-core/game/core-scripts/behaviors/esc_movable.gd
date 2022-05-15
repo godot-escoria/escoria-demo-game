@@ -160,7 +160,7 @@ func _perform_walk_orientation(angle: float):
 		current_animation = animation_to_play
 		escoria.logger.warn(
 			self,
-			"Character %s has no animation %s\nBypassing missing animation and proceed movement."
+			"Character %s has no animation %s\nBypassing the missing animation and movement command."
 					% [parent.global_id, animation_to_play]
 		)
 
@@ -177,20 +177,20 @@ func teleport(target: Node) -> void:
 		parent.global_position = target.get_interact_position()
 		escoria.logger.info(
 			self,
-			"Object %s is teleported at position %s" 
+			"Object %s is teleported to position %s." 
 					% [target.name, parent.global_position]
 		)
 	elif "position" in target:
 		escoria.logger.info(
 			self,
-			"Object %s teleported at position %s"
+			"Object %s teleported to position %s."
 					% [parent.global_id, str(target.global_position)]
 		)
 		parent.global_position = target.global_position
 	else:
 		escoria.logger.error(
 			self,
-			"Couldn't understand how to manage teleport Target %s" % target
+			"Target %s could not be teleported. Please configure the interact position parameter or create a child ESCLocation node." % target
 		)
 
 
@@ -202,7 +202,7 @@ func teleport(target: Node) -> void:
 func teleport_to(target: Vector2) -> void:
 	escoria.logger.info(
 		self,
-		"Object %s teleported to position %s" 
+		"Object %s teleported to position %s." 
 				% [parent.global_id, str(target)]
 	)
 	parent.global_position = target
@@ -284,7 +284,7 @@ func walk_stop(pos: Vector2) -> void:
 	if walk_context.target_object:
 		escoria.logger.debug(
 			self,
-			"%s arrived at %s" % [
+			"%s arrived at %s." % [
 				parent.global_id,
 				walk_context.target_object.global_id
 			]
@@ -292,7 +292,7 @@ func walk_stop(pos: Vector2) -> void:
 	else:
 		escoria.logger.debug(
 			self,
-			"%s arrived at %s" % [
+			"%s arrived at %s." % [
 				parent.global_id,
 				walk_context.target_position
 			]
@@ -377,7 +377,7 @@ func _get_dir_deg(deg: int, animations: ESCAnimationResource) -> int:
 	if dir == -1:
 		escoria.logger.error(
 			self,
-			"No direction found for %s" + str(deg)
+			"No animation has been configured for angle %s." + str(deg)
 		)
 
 	return dir
@@ -415,7 +415,7 @@ func set_angle(deg: int, wait: float = 0.0) -> void:
 	if deg < 0 or deg > 360:
 		escoria.logger.error(
 			self,
-			"Invalid degree to turn to %s" % str(deg)
+			"Invalid degree to turn to : %s. Valid angles are between 0 and 360." % str(deg)
 		)
 	moved = true
 

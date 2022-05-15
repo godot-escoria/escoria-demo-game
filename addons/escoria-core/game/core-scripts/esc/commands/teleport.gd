@@ -31,14 +31,14 @@ func validate(arguments: Array):
 		escoria.logger.error(
 			self,
 			get_command_name() + ": invalid first object. " +
-				"Object with global id %s not found" % arguments[0]
+				"Object to teleport with global id %s not found." % arguments[0]
 		)
 		return false
 	if not escoria.object_manager.has(arguments[1]):
 		escoria.logger.error(
 			self,
 			get_command_name() + ": invalid second object. " +
-				"Object with global id %s not found" % arguments[1]
+				"Destination location to teleport to with global id %s not found." % arguments[1]
 		)
 		return false
 	return true

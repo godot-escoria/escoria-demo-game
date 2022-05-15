@@ -36,14 +36,14 @@ func validate(arguments: Array):
 		escoria.logger.error(
 			self,
 			get_command_name() + ": invalid sound player. " +
-				"Sound player %s not registered" % arguments[1]
+				"Sound player %s not registered." % arguments[1]
 		)
 		return false
 	if not ResourceLoader.exists(arguments[0]):
 		escoria.logger.error(
 			self,
 			get_command_name() + ": invalid parameter. " +
-				"File %s not found" % arguments[0]
+				"File %s not found." % arguments[0]
 		)
 		return false
 	_snd_player = arguments[1]

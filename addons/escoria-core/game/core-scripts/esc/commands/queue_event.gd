@@ -33,7 +33,7 @@ func validate(arguments: Array):
 	if not escoria.object_manager.has(arguments[0]):
 		escoria.logger.error(
 			self,
-			"Object with global id %s not found" % arguments[0]
+			"Object with global id %s not found." % arguments[0]
 		)
 		return false
 	var node = escoria.object_manager.get_object(
@@ -42,14 +42,14 @@ func validate(arguments: Array):
 	if not "esc_script" in node or node.esc_script == "":
 		escoria.logger.error(
 			self,
-			"Object with global id %s has no ESC script" % arguments[0]
+			"Object with global id %s has no ESC script." % arguments[0]
 		)
 		return false
 	var esc_script = escoria.esc_compiler.load_esc_file(node.esc_script)
 	if not arguments[1] in esc_script.events:
 		escoria.logger.error(
 			self,
-			"Event with name %s not found" % arguments[1]
+			"Event with name %s not found." % arguments[1]
 		)
 		return false
 	if arguments[3] and not escoria.event_manager.is_channel_free(arguments[2]):
