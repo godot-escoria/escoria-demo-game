@@ -89,11 +89,11 @@ func _process(delta: float) -> void:
 				events_queue[channel_name].pop_front()
 			escoria.logger.debug(
 				self,
-				"Popping event '%s' from background queue %s" % [
+				"Popping event '%s' from background queue %s " % [
 					_running_events[channel_name].name,
 					channel_name,
 				] +
-				"from source %s" % _running_events[channel_name].source \
+				"to source %s." % _running_events[channel_name].source \
 					if not _running_events[channel_name].source.empty()
 					else "(unknown)"
 			)
@@ -227,7 +227,7 @@ func queue_event(event: ESCEvent, force: bool = false) -> void:
 
 	escoria.logger.debug(
 		self,
-		"Queueing %s in channel %s." % [event.name, CHANNEL_FRONT]
+		"Queueing event %s in channel %s." % [event.name, CHANNEL_FRONT]
 	)
 	self.events_queue[CHANNEL_FRONT].append(event)
 
@@ -358,14 +358,14 @@ func _on_event_finished(finished_statement: ESCStatement, return_code: int, chan
 	if not event:
 		escoria.logger.warn(
 			self,
-			"Event %s finished without being in _running_events[%s]"
+			"Event %s finished without being in _running_events[%s]."
 				% [finished_statement.name, channel_name]
 		)
 		return
 
 	escoria.logger.debug(
 		self,
-		"Event %s ended with return code %d" % [event.name, return_code]
+		"Event %s ended with return code %d." % [event.name, return_code]
 	)
 
 	var event_flags = event.flags

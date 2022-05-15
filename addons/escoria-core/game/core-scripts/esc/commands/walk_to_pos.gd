@@ -40,7 +40,7 @@ func validate(arguments: Array):
 		escoria.logger.error(
 			self,
 			get_command_name() + ": invalid first object. " +
-			"Object with global id %s not found" % arguments[0]
+			"The object to make walk with global id %s was not found." % arguments[0]
 		)
 		return false
 

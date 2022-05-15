@@ -88,7 +88,7 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 	if not escoria.game_scene:
 		escoria.logger.error(
 			self,
-			"Failed loading game scene %s" % \
+			"Failed loading game scene %s." % \
 				ESCProjectSettingsManager.get_setting(
 					ESCProjectSettingsManager.GAME_SCENE
 				)
@@ -141,7 +141,7 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 	else:
 		escoria.logger.error(
 			self,
-			"Failed loading room scene %s" % room_path
+			"Failed loading room scene %s." % room_path
 		)
 
 
@@ -431,8 +431,8 @@ func _run_script_event(event_name: String, room: ESCRoom):
 	if room.compiled_script.events.has(event_name):
 		escoria.logger.debug(
 			self,
-			"Queuing room script event %s" % event_name + 
-			"Composed of %s statements"
+			"Queuing room script event %s " % event_name + 
+			"composed of %s statements."
 					% room.compiled_script.events[event_name].statements.size()
 		)
 		escoria.event_manager.queue_event(room.compiled_script.events[event_name], true)

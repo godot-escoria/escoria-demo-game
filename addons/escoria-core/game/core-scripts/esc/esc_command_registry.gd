@@ -28,7 +28,7 @@ func load_command(command_name: String) -> ESCBaseCommand:
 
 	escoria.logger.error(
 		self,
-		"No command class could be found for command %s"
+		"No command class could be found for command %s."
 				% command_name
 	)
 

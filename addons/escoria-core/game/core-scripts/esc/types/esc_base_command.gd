@@ -24,7 +24,7 @@ func _init() -> void:
 func configure() -> ESCCommandArgumentDescriptor:
 	escoria.logger.error(
 		self,
-		"Command %s did not override configure." % get_command_name()
+		"Command %s did not override configure. Please implement a configure() function." % get_command_name()
 	)
 	return ESCCommandArgumentDescriptor.new()
 
@@ -38,7 +38,7 @@ func validate(arguments: Array) -> bool:
 func run(command_params: Array) -> int:
 	escoria.logger.error(
 		self,
-		"Command %s did not override run." % get_command_name()
+		"Command %s did not override run. Please implement a run() function." % get_command_name()
 	)
 	return 0
 
@@ -52,5 +52,5 @@ func get_command_name() -> String:
 func interrupt():
 	escoria.logger.trace(
 		self,
-		"Command %s did not override interrupt." % get_command_name()
+		"Command %s did not override interrupt. Please implement an interrupt() function." % get_command_name()
 	)

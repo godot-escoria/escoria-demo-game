@@ -87,7 +87,7 @@ func set_current_room(room: ESCRoom) -> void:
 	if room == null:
 		escoria.logger.error(
 			self,
-			"Unable to set current room: No valid room specified.\n" +
+			"Unable to set current room: No room was specified.\n" +
 			"Please pass in a valid ESCRoom as an argument to the method."
 		)
 
@@ -148,7 +148,7 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 	if not force and _object_exists_in_room(object, room_key):
 		escoria.logger.error(
 			self,
-			"Object with global id %s in room (%s, %s) already registered" 
+			"Object with global id %s in room %s already registered as instance %s." 
 			% [
 				object.global_id,
 				room_key.room_global_id,
@@ -207,7 +207,7 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 		if get_object(object.global_id) == null:
 			escoria.logger.error(
 				self,
-				"Object with global id %s in room (%s, %s) not found in Object Manager" 
+				"Object with global id %s in room (%s, %s) not found in Object Manager." 
 				% [
 					object.global_id,
 					room_key.room_global_id,
@@ -299,7 +299,7 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 		escoria.logger.warn(
 			self,
 			"Specified room is empty/not found.\n" +
-			"Object with global id %s in room instance (%s, %s) not found"
+			"Object with global id %s in room instance (%s, %s) not found."
 			% [global_id, room_key.room_global_id, room_key.room_instance_id]
 		)
 		return null
@@ -311,7 +311,7 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 	else:
 		escoria.logger.warn(
 			self,
-			"Object with global id %s in room instance (%s, %s) not found"
+			"Object with global id %s in room instance (%s, %s) not found."
 			% [global_id, room_key.room_global_id, room_key.room_instance_id]
 		)
 		return null
@@ -415,7 +415,7 @@ func get_start_location() -> ESCLocation:
 	escoria.logger.warn(
 		self,
 		"Room has no ESCLocation node with 'is_start_location' enabled." +
-		"Player will be set at position (0,0) by default."
+		"Player will be set at position (0,0)."
 	)
 	return null
 
@@ -468,7 +468,7 @@ func _object_exists_in_room(object: ESCObject, room_key: ESCRoomObjectsKey) -> b
 	if object == null:
 		escoria.logger.warn(
 			self,
-			"Cannot check for null objects."
+			"Cannot check room for \"null\" objects."
 		)
 
 		return false

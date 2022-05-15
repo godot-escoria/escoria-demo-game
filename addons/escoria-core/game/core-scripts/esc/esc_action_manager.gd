@@ -92,7 +92,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 				if not escoria.object_manager.has(params[0]):
 					escoria.logger.error(
 						self,
-						"Walk action requested on nonexisting object: %s " 
+						"Walk action requested for nonexisting object: %s." 
 								% params[0]
 					)
 					return
@@ -104,7 +104,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 					if not escoria.object_manager.has(params[1]):
 						escoria.logger.error(
 							self,
-							"Walk action requested to nonexisting object: %s " 
+							"Walk action requested to nonexisting destination object: %s." 
 									% params[1]
 						)
 						return
@@ -119,7 +119,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 				if params[0] is String:
 					escoria.logger.info(
 						self,
-						"item_left_click on item %s" % params[0]
+						"item_left_click on item %s." % params[0]
 					)
 
 					if can_interrupt:
@@ -132,7 +132,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 				if params[0] is String:
 					escoria.logger.info(
 						self,
-						"item_right_click on item %s" % params[0]
+						"item_right_click on item %s." % params[0]
 					)
 
 					if can_interrupt:
@@ -147,7 +147,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 				var trigger_in_verb = params[2]
 				escoria.logger.info(
 					self,
-					"trigger_in %s by %s" % [
+					"trigger_in on trigger %s activated by %s." % [
 						trigger_id,
 						object_id
 					]
@@ -164,7 +164,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 				var trigger_out_verb = params[2]
 				escoria.logger.info(
 					self,
-					"trigger_out %s by %s" % [
+					"trigger_out on trigger %s activated by %s." % [
 						trigger_id,
 						object_id
 					]
@@ -178,7 +178,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 			_:
 				escoria.logger.warn(
 					self,
-					"Action received: %s with params %s", [action, params]
+					"Action received: %s with params %s.", [action, params]
 				)
 	elif escoria.current_state == escoria.GAME_STATE.WAIT:
 		pass
@@ -243,7 +243,7 @@ func _activate(
 ) -> int:
 	escoria.logger.info(
 		self,
-		"Activated action %s on %s" % [action, target]
+		"Activated action %s on %s." % [action, target]
 	)
 
 	# If we're using an action which item requires to combine
@@ -435,7 +435,7 @@ func perform_walk(
 		escoria.logger.error(
 			self,
 			"Function expected either a Vector2 or ESCObject type " + \
-			"for destination parameter. Actual was: %s " % destination
+			"for destination parameter. Destination provided was: %s." % destination
 		)
 		return
 
@@ -476,7 +476,7 @@ func perform_inputevent_on_object(
 
 	escoria.logger.info(
 		self, 
-		"%s left-clicked with event %s" % [obj.global_id, event]
+		"%s left-clicked with event %s." % [obj.global_id, event]
 	)
 
 	var event_flags = 0
@@ -627,7 +627,7 @@ func _walk_towards_object(
 	if obj == null || obj.node == null:
 		escoria.logger.error(
 			self,
-			"obj or obj.node not populated."
+			"walk_towards_object error. obj or obj.node not populated."
 		)
 	var interact_position = obj.node.get_interact_position()
 	# If clicked object is interactive, get destination position from it.
@@ -672,7 +672,7 @@ func _walk_towards_object(
 
 	escoria.logger.info(
 		self,
-		"Context arrived: %s" % context
+		"Context arrived: %s." % context
 	)
 
 	# Confirm that reached item was the one user clicked in the first place.

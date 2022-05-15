@@ -90,7 +90,7 @@ func _init():
 
 # Load an ESC file from a file resource
 func load_esc_file(path: String) -> ESCScript:
-	escoria.logger.debug(self, "Parsing file %s" % path)
+	escoria.logger.debug(self, "Parsing file %s." % path)
 	if File.new().file_exists(path):
 		var file = File.new()
 		file.open(path, File.READ)
@@ -101,7 +101,7 @@ func load_esc_file(path: String) -> ESCScript:
 	else:
 		escoria.logger.error(
 			self,
-			"Can not find ESC file: file %s could not be found" % path
+			"Can not find ESC file: file %s could not be found." % path
 		)
 		return null
 
@@ -127,7 +127,7 @@ func _compile(lines: Array, path: String = "") -> Array:
 		var line = lines.pop_front().strip_edges(false, true)
 		escoria.logger.trace(
 			self, 
-			"Parsing line %s" % line
+			"Parsing line %s." % line
 		)
 		if _comment_regex.search(line) or _empty_regex.search(line):
 			# Ignore comments and empty lines
@@ -146,7 +146,7 @@ func _compile(lines: Array, path: String = "") -> Array:
 			var event = ESCEvent.new(line)
 			escoria.logger.trace(
 				self, 
-				"Line is the event %s" % event.name
+				"Line is the event %s." % event.name
 			)
 			var event_lines = []
 			while lines.size() > 0:
@@ -159,7 +159,7 @@ func _compile(lines: Array, path: String = "") -> Array:
 			if event_lines.size() > 0:
 				escoria.logger.trace(
 					self,
-					"Compiling the next %d lines into the event" % \
+					"Compiling the next %d lines into the event." % \
 							event_lines.size()
 				)
 				event.statements = self._compile(event_lines, path)
@@ -168,7 +168,7 @@ func _compile(lines: Array, path: String = "") -> Array:
 			var group = ESCGroup.new(line)
 			escoria.logger.trace(
 				self, 
-				"Line is a group"
+				"Line is a group."
 			)
 			var group_lines = []
 			while lines.size() > 0:
@@ -189,7 +189,7 @@ func _compile(lines: Array, path: String = "") -> Array:
 			if group_lines.size() > 0:
 				escoria.logger.trace(
 					self,
-					"Compiling the next %d lines into the group" % \
+					"Compiling the next %d lines into the group." % \
 							group_lines.size()
 				)
 				group.statements = self._compile(group_lines, path)
@@ -199,7 +199,7 @@ func _compile(lines: Array, path: String = "") -> Array:
 			dialog.load_string(line)
 			escoria.logger.trace(
 				self, 
-				"Line is a dialog"
+				"Line is a dialog."
 			)
 			var dialog_lines = []
 			while lines.size() > 0:
@@ -219,7 +219,7 @@ func _compile(lines: Array, path: String = "") -> Array:
 			if dialog_lines.size() > 0:
 				escoria.logger.trace(
 					self,
-					"Compiling the next %d lines into the dialog" % \
+					"Compiling the next %d lines into the dialog." % \
 							dialog_lines.size()
 				)
 				dialog.options = self._compile(dialog_lines, path)
@@ -231,7 +231,7 @@ func _compile(lines: Array, path: String = "") -> Array:
 			dialog_option.load_string(line)
 			escoria.logger.trace(
 				self,
-				"Line is the dialog option %s" % \
+				"Line is the dialog option %s." % \
 						dialog_option.option
 			)
 			var dialog_option_lines = []
@@ -253,7 +253,7 @@ func _compile(lines: Array, path: String = "") -> Array:
 			if dialog_option_lines.size() > 0:
 				escoria.logger.trace(
 					self,
-					"Compiling the next %d lines into the event" % \
+					"Compiling the next %d lines into the event." % \
 							dialog_option_lines.size()
 				)
 				dialog_option.statements = self._compile(dialog_option_lines, path)
@@ -266,12 +266,12 @@ func _compile(lines: Array, path: String = "") -> Array:
 				escoria.logger.error(
 					self,
 					"Invalid command detected: %s\n" % command.name
-					+ "Command implementation not found in any command directory"
+					+ "Command %s is not recognised." % command.name
 				)
 		else:
 			escoria.logger.error(
 				self,
-				"Invalid ESC line detected\nLine couldn't be compiled: %s" 
+				"Invalid ESC line detected.\nLine couldn't be compiled: %s." 
 						% line
 			)
 	return returned

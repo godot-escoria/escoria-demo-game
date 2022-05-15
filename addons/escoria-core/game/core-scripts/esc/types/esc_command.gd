@@ -76,7 +76,7 @@ func _init(command_string):
 	else:
 		escoria.logger.error(
 			self, 
-			"Invalid command detected: %s\nCommand regexp didn't match" 
+			"Invalid command detected: %s\nCommand regexp didn't match." 
 					% command_string
 		)
 
@@ -87,7 +87,7 @@ func is_valid() -> bool:
 		escoria.logger.error(
 			self,
 			"Invalid command detected: %s" % self.name +
-				"Command implementation not found in any command directory"
+				"Command implementation not found in any command directory."
 		)
 		return false
 

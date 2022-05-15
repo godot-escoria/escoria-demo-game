@@ -37,13 +37,13 @@ func validate(arguments: Array):
 	if not escoria.object_manager.has(arguments[0]):
 		escoria.logger.error(
 			self,
-			get_command_name() + ": Invalid object: object with global id %s not found" % arguments[0]
+			get_command_name() + ": The object to turn with global id %s was not found." % arguments[0]
 		)
 		return false
 	if not escoria.object_manager.has(arguments[1]):
 		escoria.logger.error(
 			self,
-			get_command_name() + ": Invalid target object: object with global id %s not found" 
+			get_command_name() + ": The object to turn towards with global id %s was not found." 
 					% arguments[0]
 		)
 		return false
@@ -64,5 +64,5 @@ func run(command_params: Array) -> int:
 func interrupt():
 	escoria.logger.warn(
 		self,
-		"[%s] Interrupt() function not implemented" % get_command_name()
+		"[%s] Interrupt() function not implemented." % get_command_name()
 	)

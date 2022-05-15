@@ -40,7 +40,7 @@ func validate(arguments: Array):
 		escoria.logger.error(
 			self,
 			get_command_name() + ": argument invalid" +
-				"'in' or 'out' expected, but got '%s'" % arguments[1]
+				"Transition type 'in' or 'out' expected, but '%s' was provided." % arguments[1]
 		)
 		return false
 	return true
@@ -65,7 +65,7 @@ func run(command_params: Array) -> int:
 
 	escoria.logger.debug(
 		self,
-		"Starting transition #%s [%s, %s]"
+		"Starting transition #%s [%s, %s]."
 				% [transition_id, command_params[0], command_params[1]]
 	)
 	while yield(
@@ -75,7 +75,7 @@ func run(command_params: Array) -> int:
 		pass
 	escoria.logger.debug(
 		self,
-		"Ending transition #%s [%s, %s]"
+		"Ending transition #%s [%s, %s]."
 				% [transition_id, command_params[0], command_params[1]])
 	return ESCExecution.RC_OK
 

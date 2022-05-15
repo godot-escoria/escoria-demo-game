@@ -34,7 +34,7 @@ func remove_item(item: String):
 		escoria.logger.error(
 			self,
 			"Error removing inventory item: " + 
-			"Trying to remove non-existent item %s" % item
+			"Trying to remove non-existent item %s." % item
 		)
 	else:
 		escoria.globals_manager.set_global("i/%s" % item, false)
