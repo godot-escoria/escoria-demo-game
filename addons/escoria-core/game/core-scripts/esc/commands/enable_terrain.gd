@@ -38,8 +38,8 @@ func run(command_params: Array) -> int:
 	else:
 		escoria.logger.error(
 			self,
-			get_command_name() + ": Can not find terrain node" +
-				"Terrain node %s could not be found." % name
+			"[%s]: Can not find terrain node. Terrain node %s could not be found." 
+					% [get_command_name(), name]
 		)
 		return ESCExecution.RC_ERROR
 

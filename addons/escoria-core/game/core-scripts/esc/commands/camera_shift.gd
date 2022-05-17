@@ -61,9 +61,16 @@ func validate(arguments: Array):
 	if not arguments[3] in SUPPORTED_TRANSITIONS:
 		escoria.logger.error(
 			self,
-			get_command_name() + ": invalid transition type" +
-				"Transition type {t_type} is not one of the accepted types : {allowed_types}".format(
-					{"t_type":arguments[3],"allowed_types":SUPPORTED_TRANSITIONS})
+			(
+				"[{command_name}]: invalid transition type" +
+				"Transition type {t_type} is not one of the accepted types : {allowed_types}"
+			).format(
+				{
+					"command_name": get_command_name(),
+					"t_type":arguments[3],
+					"allowed_types":SUPPORTED_TRANSITIONS
+				}
+			)
 		)
 		return false
 

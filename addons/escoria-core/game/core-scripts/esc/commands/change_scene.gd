@@ -33,8 +33,8 @@ func validate(arguments: Array) -> bool:
 	if not ResourceLoader.exists(arguments[0]):
 		escoria.logger.error(
 			self,
-			get_command_name() + ": Invalid scene. " +
-				"Scene %s was not found." % arguments[0]
+			"[%s]: Invalid scene. Scene %s was not found." 
+					% [get_command_name(), arguments[0]]
 		)
 		return false
 	if not ResourceLoader.exists(
@@ -42,11 +42,13 @@ func validate(arguments: Array) -> bool:
 	):
 		escoria.logger.error(
 			self,
-			get_command_name() + ": Game scene not found.\n" + 
-			"The path set in 'ui/game_scene' was not found: %s." % \
-					ESCProjectSettingsManager.get_setting(
-						ESCProjectSettingsManager.GAME_SCENE
-					)
+			"[%s]: Game scene not found. The path set in 'ui/game_scene' was not found: %s." 
+					% [
+						get_command_name(),
+						ESCProjectSettingsManager.get_setting(
+							ESCProjectSettingsManager.GAME_SCENE
+						)
+					]
 		)
 		return false
 

@@ -32,9 +32,8 @@ func validate(arguments: Array):
 	if arguments[0] <= 0.0:
 		escoria.logger.error(
 			self,
-			get_command_name() + ": argument invalid. \n" +
-			"%s is an invalid amount of time to wait." % arguments[0] +
-			"Time to wait must be positive."
+			"[%s]: argument invalid. %s is an invalid amount of time to wait (must be positive)." 
+					% [get_command_name(), arguments[0]]
 		)
 		return false
 

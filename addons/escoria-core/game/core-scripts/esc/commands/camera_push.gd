@@ -50,16 +50,23 @@ func validate(arguments: Array):
 	if not escoria.object_manager.has(arguments[0]):
 		escoria.logger.error(
 			self,
-			get_command_name() + ": invalid object" +
-				"Object global id %s not found." % arguments[0]
+			"[%s]: invalid object. Object global id %s not found." 
+					% [get_command_name(), arguments[0]]
 		)
 		return false
 	if not arguments[2] in SUPPORTED_TRANSITIONS:
 		escoria.logger.error(
 			self,
-			get_command_name() + ": invalid transition type" +
-				"Transition type {t_type} is not one of the accepted types : {allowed_types}".format(
-					{"t_type":arguments[2],"allowed_types":SUPPORTED_TRANSITIONS})
+			(
+				"[{command_name}]: invalid transition type. Transition type {t_type} " +
+				"is not one of the accepted types : {allowed_types}"
+			).format(
+					{
+						"command_name":get_command_name(), 
+						"t_type":arguments[2], 
+						"allowed_types":SUPPORTED_TRANSITIONS
+					}
+				)
 		)
 		return false
 

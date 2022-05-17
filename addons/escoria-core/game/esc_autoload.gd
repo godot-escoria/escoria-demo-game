@@ -114,7 +114,9 @@ func _ready():
 		add_child(main_scene)
 
 
-# Get the Escoria node. That node gives access to 
+# Get the Escoria node. That node gives access to the Escoria scene that's
+# instanced by the main_scene (if full game is run) or by this autoload if
+# room is run directly.
 func get_escoria():
 	# We check if we run the full game or a room scene directly
 	if get_tree().current_scene is ESCMain:

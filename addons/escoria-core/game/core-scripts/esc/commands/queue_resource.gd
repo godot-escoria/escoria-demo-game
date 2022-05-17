@@ -30,8 +30,8 @@ func validate(arguments: Array) -> bool:
 	if not ResourceLoader.exists(arguments[0]):
 		escoria.logger.error(
 			self,
-			get_command_name() + ": Invalid resource. " +
-				"Resource %s was not found." % arguments[0]
+			"[%s]: Invalid resource. Resource %s was not found." 
+					% [get_command_name(), arguments[0]]
 		)
 		return false
 	return true

@@ -37,8 +37,8 @@ func validate(arguments: Array):
 	if not escoria.object_manager.has(arguments[0]):
 		escoria.logger.error(
 			self,
-			get_command_name() + ": invalid object. Object with global id %s not found." 
-					% arguments[0]
+			"[%s]: invalid object. Object with global id %s not found." 
+					% [get_command_name(), arguments[0]]
 		)
 		return false
 	elif not escoria.object_manager.get_object(arguments[0]).node.has_node(
@@ -46,8 +46,9 @@ func validate(arguments: Array):
 	):
 		escoria.logger.error(
 			self,
-			get_command_name() + ": invalid node. Object with global id %s has no child node called %s." 
+			"[%s]: invalid node. Object with global id %s has no child node called %s." 
 					% [
+						get_command_name(),
 						arguments[0],
 						arguments[1],
 					]
@@ -62,8 +63,9 @@ func validate(arguments: Array):
 		):
 		escoria.logger.error(
 			self,
-			get_command_name() + ": invalid function. Object with global id %s and node %s has no function called %s." 
+			"[%s]: invalid function. Object with global id %s and node %s has no function called %s." 
 					% [
+						get_command_name(),
 						arguments[0],
 						arguments[1],
 						arguments[2],
