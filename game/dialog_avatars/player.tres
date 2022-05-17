@@ -5,7 +5,6 @@
 [ext_resource path="res://game/dialog_avatars/mark_talk_down_right_2.png" type="Texture" id=3]
 
 [resource]
-flags = 4
 frames = 3
 frame_0/texture = ExtResource( 1 )
 frame_1/texture = ExtResource( 3 )
