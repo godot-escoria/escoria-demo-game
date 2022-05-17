@@ -371,6 +371,7 @@ func get_animation_player() -> Node:
 					player_node_path = child.get_path()
 		if not has_node(player_node_path):
 			escoria.logger.warn(
+				self,
 				"Can not find animation_player node at path %s." % player_node_path
 			)
 		else:

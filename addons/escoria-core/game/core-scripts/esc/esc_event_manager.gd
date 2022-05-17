@@ -214,11 +214,12 @@ func queue_event(event: ESCEvent, force: bool = false) -> void:
 		var message = "Event '%s' is already the most-recently queued event in channel '%s'." + \
 			" Won't be queued again."
 
-		escoria.logger.debug(message % [event.name, CHANNEL_FRONT])
+		escoria.logger.debug(self, message % [event.name, CHANNEL_FRONT])
 		return
 	elif _is_event_running(event, CHANNEL_FRONT):
 		# Don't queue the same event if it's already running.
 		escoria.logger.debug(
+			self,
 			"Event %s already running in channel '%s'. Won't be queued."
 				% [event.name, CHANNEL_FRONT]
 		)
@@ -261,7 +262,7 @@ func queue_background_event(channel_name: String, event: ESCEvent) -> void:
 		var message = "Event '%s' is already the most-recently queued event in channel '%s'." + \
 			" Won't be queued again."
 
-		escoria.logger.debug(message % [event.name, channel_name])
+		escoria.logger.debug(self, message % [event.name, channel_name])
 		return
 	elif _is_event_running(event, CHANNEL_FRONT):
 		# Don't queue the same event if it's already running.

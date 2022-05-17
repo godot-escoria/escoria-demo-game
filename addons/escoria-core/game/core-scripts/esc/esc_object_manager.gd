@@ -69,15 +69,6 @@ func _init() -> void:
 	current_room_key = ESCRoomObjectsKey.new()
 
 
-## Make active objects in current room visible
-#func _process(_delta):
-#	for room in room_objects:
-#		if room.is_reserved or _is_current_room(room):
-#			for object in room.objects:
-#				if (object as ESCObject).node:
-#					(object as ESCObject).node.visible = (object as ESCObject).active
-
-
 # Updates which object manager room is to be treated as the currently active one.
 #
 # #### Parameters
@@ -145,7 +136,8 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 		room_key.room_global_id = room.global_id
 		room_key.room_instance_id = room.get_instance_id()
 
-	if not force and _object_exists_in_room(object, room_key):
+	if not force and _object_exists_in_room(object, room_key) \
+			and _object_state_in_room_is_default(object, room_key):
 		escoria.logger.error(
 			self,
 			"Object with global id %s in room %s already registered as instance %s." 
@@ -463,7 +455,7 @@ func _room_exists(room_key: ESCRoomObjectsKey) -> bool:
 #
 # - object: The object to check for existence.
 # - room_key: The key representing the desired room in the object manager array.
-# **Returns** True iff object exists in the object manager entry specified by room_key.
+# **Returns** True if object exists in the object manager entry specified by room_key.
 func _object_exists_in_room(object: ESCObject, room_key: ESCRoomObjectsKey) -> bool:
 	if object == null:
 		escoria.logger.warn(
@@ -476,6 +468,30 @@ func _object_exists_in_room(object: ESCObject, room_key: ESCRoomObjectsKey) -> b
 	for room_container in room_objects:
 		if _compare_container_to_key(room_container, room_key) \
 				and room_container.objects.has(object.global_id):
+			return true
+
+	return false
+
+
+# Checks whether the specified object's state is "default" in the specified object manager entry.
+#
+# #### Parameters
+#
+# - object: The object to check for existence.
+# - room_key: The key representing the desired room in the object manager array.
+# **Returns** True if object's state is "default" in the object manager entry specified by room_key.
+func _object_state_in_room_is_default(object: ESCObject, room_key: ESCRoomObjectsKey) -> bool:
+	if object == null:
+		escoria.logger.warn(
+			self,
+			"Cannot check room for \"null\" objects."
+		)
+
+		return false
+
+	for room_container in room_objects:
+		if _compare_container_to_key(room_container, room_key) \
+				and room_container.objects.get(object.global_id).state == ESCObject.STATE_DEFAULT:
 			return true
 
 	return false
