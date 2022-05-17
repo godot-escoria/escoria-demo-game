@@ -12,12 +12,12 @@ var _options_paths = []
 
 # Build up the list of rooms
 func _ready():
-	var rooms_folder = ProjectSettings.get_setting(
-		"escoria/debug/room_selector_room_dir"
+	var rooms_folder = ESCProjectSettingsManager.get_setting(
+		ESCProjectSettingsManager.ROOM_SELECTOR_ROOM_DIR
 	)
 	if rooms_folder == "" or \
-			not ProjectSettings.get_setting(
-				"escoria/debug/enable_room_selector"
+			not ESCProjectSettingsManager.get_setting(
+				ESCProjectSettingsManager.ENABLE_ROOM_SELECTOR
 			):
 		return
 	var dir = Directory.new()

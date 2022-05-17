@@ -760,8 +760,8 @@ debug/log_file_path="user://"
 debug/crash_message="We're sorry, but the game crashed. Please send us the following files:
 
 %s"
-debug/enable_room_selector=false
-debug/room_selector_room_dir=""
+debug/enable_room_selector=true
+debug/room_selector_room_dir="res://game/rooms"
 ui/game_scene="res://addons/escoria-ui-9verbs/game.tscn"
 ui/items_autoregister_path="res://game/items/inventory/"
 ui/default_transition="curtain"
