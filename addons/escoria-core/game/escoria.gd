@@ -106,7 +106,7 @@ func run_event_from_script(script: ESCScript, event_name: String):
 	if script == null:
 		escoria.logger.error(
 			self,
-			"Requested action %s on unloaded script %s" % [event_name, script] +
+			"Requested action %s on unloaded script %s." % [event_name, script] +
 			"Please load the ESC script using esc_compiler.load_esc_file()."
 		)
 	escoria.event_manager.queue_event(script.events[event_name])
@@ -117,7 +117,7 @@ func run_event_from_script(script: ESCScript, event_name: String):
 	if rc[0] != ESCExecution.RC_OK:
 		escoria.logger.error(
 			self,
-			"Start event of the start script returned unsuccessful: %d" % rc[0]
+			"Start event of the start script returned unsuccessful: %d." % rc[0]
 		)
 		return
 
