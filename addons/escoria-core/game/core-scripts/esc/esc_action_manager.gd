@@ -323,7 +323,7 @@ func _activate(
 								)
 							escoria.logger.warn(
 								self,
-								"Invalid action" + errors
+								"Invalid action" + str(errors)
 							)
 							emit_signal("action_finished")
 							return ESCExecution.RC_ERROR
