@@ -51,6 +51,7 @@ class ESCLoggerBase:
 	# Warning log
 	func warn(owner: Object, msg: String):
 		var context = owner.get_script().resource_path.get_file()
+		print(formatted_message(context, msg, "W"))
 		push_warning(formatted_message(context, msg, "W"))
 		if ESCProjectSettingsManager.get_setting(
 			ESCProjectSettingsManager.TERMINATE_ON_WARNINGS
@@ -62,6 +63,7 @@ class ESCLoggerBase:
 	# Error log
 	func error(owner: Object, msg: String):
 		var context = owner.get_script().resource_path.get_file()
+		printerr(formatted_message(context, msg, "E"))
 		push_error(formatted_message(context, msg, "E"))
 		if ESCProjectSettingsManager.get_setting(
 			ESCProjectSettingsManager.TERMINATE_ON_ERRORS
@@ -100,7 +102,6 @@ class ESCLoggerFile extends ESCLoggerBase:
 		var log_file_path = ProjectSettings.get_setting(
 			ESCProjectSettingsManager.LOG_FILE_PATH
 		)
-		log_file_path = "res://"
 		var date = OS.get_datetime()
 		log_file_path = log_file_path.plus_file(LOG_FILE_FORMAT % [
 				str(date["year"]) + str(date["month"]) + str(date["day"]),
