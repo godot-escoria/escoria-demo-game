@@ -60,7 +60,19 @@ func add_new_item_by_id(item_id: String) -> void:
 			else:
 				escoria.logger.error(
 					self,
-					"Item global id '%s' does not exist." % item_id
+					(
+						"Item global id '%s' is not registered because the item's scene file was not found.\n"
+						+ "Attempted scene file path: %s.\n" 
+						+ "Please ensure that the '%s' project setting points at the right folder (current is: %s)."
+					)
+						% [
+							item_id,
+							inventory_file,
+							ESCProjectSettingsManager.ITEMS_AUTOREGISTER_PATH,
+							ESCProjectSettingsManager.get_setting(
+								ESCProjectSettingsManager.ITEMS_AUTOREGISTER_PATH
+							)
+						]
 				)
 
 		var inventory_item = ESCInventoryItem.new(

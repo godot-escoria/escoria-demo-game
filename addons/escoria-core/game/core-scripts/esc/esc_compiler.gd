@@ -253,8 +253,8 @@ func _compile(lines: Array, path: String = "") -> Array:
 			if dialog_option_lines.size() > 0:
 				escoria.logger.trace(
 					self,
-					"Compiling the next %d lines into the event." % \
-							dialog_option_lines.size()
+					"Compiling the next %d lines into the event."
+							% dialog_option_lines.size()
 				)
 				dialog_option.statements = self._compile(dialog_option_lines, path)
 			returned.append(dialog_option)
@@ -265,8 +265,12 @@ func _compile(lines: Array, path: String = "") -> Array:
 			else:
 				escoria.logger.error(
 					self,
-					"Invalid command detected: %s\n" % command.name
-					+ "Command %s is not recognised." % command.name
+					"Command \"%s\" cannot be found under folder %s.\nPlease confirm setting \"%s\" is set to the folder where the ESC commands are found."
+							% [
+								command.name,
+								ProjectSettings.get_setting(COMMAND_DIRECTORIES), 
+								ESCProjectSettingsManager.COMMAND_DIRECTORIES
+							]
 				)
 		else:
 			escoria.logger.error(

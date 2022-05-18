@@ -140,11 +140,11 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 			and _object_state_in_room_is_default(object, room_key):
 		escoria.logger.error(
 			self,
-			"Object with global id %s in room %s already registered as instance %s." 
+			"Object with global id '%s' in room %s already registered from node path %s." 
 			% [
 				object.global_id,
 				room_key.room_global_id,
-				room_key.room_instance_id
+				get_object(object.global_id, room).node.get_path()
 			]
 		)
 		return
@@ -336,7 +336,7 @@ func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 
 	var room_objects = _get_room_objects_objects(room_key)
 
-	if escoria.inventory_manager.inventory_has(object.global_id):
+	if not escoria.is_quitting and escoria.inventory_manager.inventory_has(object.global_id):
 		# Re-instance the node if it is an item present in inventory; that is,
 		# re-register it with the new current room.
 		if object.node != null:

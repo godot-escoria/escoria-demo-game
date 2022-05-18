@@ -103,6 +103,10 @@ var start_script: ESCScript
 # Whether we ran a room directly from editor, not a full game
 var is_direct_room_run: bool = false
 
+# Whether we're quitting the game
+var is_quitting: bool = false
+
+
 # Ready function
 func _ready():
 	# We check if we run the full game or a room scene directly
@@ -182,5 +186,6 @@ func new_game():
 
 # Called from main menu's "quit" button
 func quit():
+	is_quitting = true
 	get_escoria().quit()
 

@@ -68,9 +68,11 @@ func _notification(what):
 	match what:
 		MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
 			escoria.logger.close_logs()
+			escoria.is_quitting = true
 			get_tree().quit()
 		MainLoop.NOTIFICATION_WM_GO_BACK_REQUEST:
 			escoria.logger.close_logs()
+			escoria.is_quitting = true
 			get_tree().quit()
 
 
