@@ -1,19 +1,57 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
-[ext_resource path="res://game/rooms/room06/background.tscn" type="PackedScene" id=2]
-[ext_resource path="res://game/rooms/room06/l_exit.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_background.gd" type="Script" id=2]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_exit.gd" type="Script" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
-[ext_resource path="res://game/rooms/room06/r_door.tscn" type="PackedScene" id=5]
+[ext_resource path="res://game/rooms/room06/wave.png" type="Texture" id=5]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
 [ext_resource path="res://game/characters/worker/worker.tscn" type="PackedScene" id=7]
 [ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=8]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=9]
+[ext_resource path="res://game/rooms/room06/scenery.gd" type="Script" id=10]
+[ext_resource path="res://game/rooms/room06/boat_hull.png" type="Texture" id=11]
+[ext_resource path="res://game/rooms/room06/room6background.png" type="Texture" id=12]
+[ext_resource path="res://game/rooms/room06/cloud.png" type="Texture" id=13]
+[ext_resource path="res://game/rooms/room06/boat.png" type="Texture" id=14]
+[ext_resource path="res://game/rooms/room06/locked_door.png" type="Texture" id=16]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, 129.634, 615.792, 1143.08, 613.35, -9.16094, 803.802, 84.5821, 654.06, -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 0, 3, 6, 7 ), PoolIntArray( 7, 6, 8, 9, 10 ) ]
-outlines = [ PoolVector2Array( -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698, 84.5821, 654.06, 129.634, 615.792, 1143.08, 613.35, 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, -9.16094, 803.802 ) ]
+vertices = PoolVector2Array( 28, 365, 924, 369, 923, 389, 28, 385 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+outlines = [ PoolVector2Array( 28, 365, 924, 369, 923, 389, 28, 385 ) ]
+
+[sub_resource type="Animation" id=2]
+resource_name = "close_door"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "open_door"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [node name="room6" type="Node2D"]
 script = ExtResource( 6 )
@@ -23,33 +61,14 @@ __meta__ = {
 global_id = "room6"
 esc_script = "res://game/rooms/room06/esc/room06.esc"
 player_scene = ExtResource( 4 )
-camera_limits = [ Rect2( 0, 0, 1289, 555 ) ]
-
-[node name="background" parent="." instance=ExtResource( 2 )]
-
-[node name="room_label" type="Label" parent="background"]
-margin_right = 40.0
-margin_bottom = 14.0
-custom_fonts/font = ExtResource( 8 )
-text = "ROOM 6"
-
-[node name="Label" type="Label" parent="background"]
-margin_left = 539.39
-margin_top = 173.804
-margin_right = 600.39
-margin_bottom = 189.804
-custom_fonts/font = ExtResource( 8 )
-text = "Talk to me"
-
-[node name="Line2D" type="Line2D" parent="background"]
-points = PoolVector2Array( 570.36, 195.207, 570.832, 227.298, 541.1, 226.826, 547.579, 219.691, 547.933, 233.834, 541.569, 228.177 )
-width = 4.0
+camera_limits = [ Rect2( 0, 0, 1280, 555 ) ]
 
 [node name="walkable_area" type="Navigation2D" parent="."]
 script = ExtResource( 1 )
+scale_min = 0.7
+scale_max = 0.7
 
 [node name="platform" type="NavigationPolygonInstance" parent="walkable_area"]
-position = Vector2( 6.73163, -264.779 )
 navpoly = SubResource( 1 )
 __meta__ = {
 "_editor_description_": ""
@@ -57,41 +76,140 @@ __meta__ = {
 
 [node name="Hotspots" type="Node2D" parent="."]
 
-[node name="l_exit" parent="Hotspots" instance=ExtResource( 3 )]
-pause_mode = 1
-esc_script = "res://game/rooms/room06/esc/left_exit.esc"
-animations = null
-
-[node name="Position2D" type="Position2D" parent="Hotspots/l_exit"]
-position = Vector2( 37.4521, 392.045 )
-script = ExtResource( 9 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="r_door" parent="Hotspots" instance=ExtResource( 5 )]
-pause_mode = 1
-esc_script = "res://game/rooms/room06/esc/r6_door.esc"
-animations = null
-
-[node name="Position2D" type="Position2D" parent="Hotspots/r_door"]
-position = Vector2( 1180.52, 395.193 )
-script = ExtResource( 9 )
-__meta__ = {
-"_editor_description_": ""
-}
-
 [node name="worker" parent="Hotspots" instance=ExtResource( 7 )]
-position = Vector2( 480, 430 )
+position = Vector2( 478, 377 )
 esc_script = "res://game/rooms/room06/esc/worker.esc"
 interaction_direction = 2
+dialog_color = Color( 0.14902, 0.388235, 0.462745, 1 )
 
 [node name="Position2D" type="Position2D" parent="Hotspots/worker"]
-position = Vector2( -157.528, -1.62589 )
+position = Vector2( -81, 2 )
 script = ExtResource( 9 )
 
+[node name="r6_l_exit" type="Area2D" parent="Hotspots"]
+script = ExtResource( 3 )
+global_id = "r6_l_exit"
+esc_script = "res://game/rooms/room06/esc/left_exit.esc"
+is_exit = true
+tooltip_name = "door"
+default_action = "use"
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/r6_l_exit"]
+position = Vector2( 59, 375 )
+script = ExtResource( 9 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r6_l_exit"]
+polygon = PoolVector2Array( 23, 384, 21, 183, 41, 167, 64, 163, 88, 168, 103, 183, 107, 385 )
+
+[node name="r6_r_exit" type="Area2D" parent="Hotspots"]
+script = ExtResource( 3 )
+global_id = "r6_r_exit"
+esc_script = "res://game/rooms/room06/esc/r6_door.esc"
+is_exit = true
+tooltip_name = "door"
+default_action = "use"
+
+[node name="Sprite" type="Sprite" parent="Hotspots/r6_r_exit"]
+visible = false
+position = Vector2( 562, 232.5 )
+z_index = 11
+texture = ExtResource( 16 )
+
+[node name="ESCLocation" type="Position2D" parent="Hotspots/r6_r_exit"]
+position = Vector2( 563, 380 )
+script = ExtResource( 9 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r6_r_exit"]
+position = Vector2( 499, -2 )
+polygon = PoolVector2Array( 23, 384, 21, 183, 41, 167, 64, 163, 88, 168, 103, 183, 107, 385 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/r6_r_exit"]
+anims/close_door = SubResource( 2 )
+anims/open_door = SubResource( 3 )
+
+[node name="worker_face_down" type="Position2D" parent="Hotspots"]
+position = Vector2( 479, 513 )
+script = ExtResource( 9 )
+global_id = "worker_face_down"
+
 [node name="player_start" type="Position2D" parent="."]
-position = Vector2( 76.7617, 437.649 )
+position = Vector2( 61, 375 )
 script = ExtResource( 9 )
 global_id = "r6_player_start"
 is_start_location = true
+
+[node name="scenery" type="Node" parent="."]
+script = ExtResource( 10 )
+
+[node name="wave3" type="Sprite" parent="scenery"]
+modulate = Color( 0.00392157, 0.607843, 0.745098, 1 )
+position = Vector2( 958, 677 )
+z_index = 500
+texture = ExtResource( 5 )
+
+[node name="wave2" type="Sprite" parent="scenery"]
+modulate = Color( 0, 0.686275, 0.843137, 1 )
+position = Vector2( 882, 753 )
+z_index = 500
+texture = ExtResource( 5 )
+
+[node name="wave" type="Sprite" parent="scenery"]
+position = Vector2( 804, 789 )
+z_index = 500
+texture = ExtResource( 5 )
+
+[node name="Polygon2D" type="Polygon2D" parent="scenery/wave"]
+z_index = 500
+color = Color( 0, 0.580392, 1, 1 )
+polygon = PoolVector2Array( -900, 90, 900, 90, 900, 600, -900, 600 )
+
+[node name="cloud" type="Sprite" parent="scenery"]
+position = Vector2( 1267, 116 )
+z_index = 5
+z_as_relative = false
+texture = ExtResource( 13 )
+
+[node name="cloud2" type="Sprite" parent="scenery"]
+position = Vector2( 1267, 116 )
+z_index = 5
+z_as_relative = false
+texture = ExtResource( 13 )
+
+[node name="boat_rooms" type="Sprite" parent="scenery"]
+position = Vector2( 337.5, 152 )
+z_index = 10
+z_as_relative = false
+texture = ExtResource( 14 )
+
+[node name="boat_hull" type="Sprite" parent="scenery"]
+position = Vector2( 640, 427 )
+z_index = 400
+texture = ExtResource( 11 )
+
+[node name="ESCBackground" type="TextureRect" parent="."]
+margin_right = 1280.0
+margin_bottom = 550.0
+mouse_filter = 2
+texture = ExtResource( 12 )
+script = ExtResource( 2 )
+
+[node name="Text" type="Node2D" parent="."]
+
+[node name="Polygon2D" type="Polygon2D" parent="Text"]
+position = Vector2( 37, 11 )
+color = Color( 1, 1, 1, 0.635294 )
+polygon = PoolVector2Array( 750, 40, 1150, 40, 1150, 200, 750, 200 )
+
+[node name="Label" type="Label" parent="Text/Polygon2D"]
+modulate = Color( 0, 0.227451, 1, 1 )
+margin_left = 762.0
+margin_top = 49.0
+margin_right = 1148.0
+margin_bottom = 190.0
+custom_fonts/font = ExtResource( 8 )
+text = "This room demonstrates using  items taken from 
+another room and combined then given to an NPC
+to advance the level.
+Conversations are also demonstrated with both lines
+that will be repeated and ones that will only be an
+option for the player to choose once."
