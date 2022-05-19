@@ -7,7 +7,7 @@ class_name ESCStatement
 signal finished(event, return_code)
 
 # Emitted when the event was interrupted
-signal interrupted(return_code)
+signal interrupted(event, return_code)
 
 
 # The list of ESC commands
@@ -35,7 +35,7 @@ func run() -> int:
 		if _is_interrupted:
 			final_rc = ESCExecution.RC_INTERRUPTED
 			statement.interrupt()
-			emit_signal("interrupted", final_rc)
+			emit_signal("interrupted", self, final_rc)
 			return final_rc
 
 		if statement.is_valid():

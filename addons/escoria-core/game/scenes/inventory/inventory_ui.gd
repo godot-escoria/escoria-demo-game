@@ -63,7 +63,7 @@ func add_new_item_by_id(item_id: String) -> void:
 					(
 						"Item global id '%s' is not registered because the item's scene file was not found.\n"
 						+ "Attempted scene file path: %s.\n" 
-						+ "Please ensure that the '%s' project setting points at the right folder (current is: %s)."
+						+ "Please ensure that the '%s' project setting points at **your inventory items folder** (current is: \"%s\")."
 					)
 						% [
 							item_id,
@@ -100,7 +100,10 @@ func add_new_item_by_id(item_id: String) -> void:
 # remove item fromInventory UI using its id set in its scene
 func remove_item_by_id(item_id: String) -> void:
 	if items_ids_in_inventory.has(item_id):
-		var item_inventory_button = items_ids_in_inventory[item_id]
+		var item_inventory = items_ids_in_inventory[item_id]
+		var item_inventory_button = get_node(
+			inventory_ui_container
+		).get_inventory_button(item_inventory)
 
 		if item_inventory_button.is_connected(
 			"mouse_left_inventory_item",
@@ -153,7 +156,7 @@ func remove_item_by_id(item_id: String) -> void:
 				"_on_mouse_exited_inventory_item"
 			)
 
-		get_node(inventory_ui_container).remove_item(item_inventory_button)
+		get_node(inventory_ui_container).remove_item(item_inventory)
 		items_ids_in_inventory.erase(item_id)
 
 

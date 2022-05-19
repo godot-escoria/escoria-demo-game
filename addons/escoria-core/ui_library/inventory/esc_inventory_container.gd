@@ -29,3 +29,16 @@ func remove_item(inventory_item: ESCInventoryItem):
 		if c is ESCInventoryButton and c.global_id == inventory_item.global_id:
 			remove_child(c)
 			c.queue_free()
+
+
+# Return an Inventory button from the container, using an ESCInventoryItem
+#
+# #### Parameters
+# - inventory_item: Inventory item to return the button node from
+func get_inventory_button(inventory_item: ESCInventoryItem) -> ESCInventoryButton:
+	var inventory_button = null
+	for c in get_children():
+		if c.global_id == inventory_item.global_id:
+			inventory_button = c
+			break
+	return inventory_button
