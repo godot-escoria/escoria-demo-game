@@ -62,9 +62,27 @@ func _ready():
 	)
 	
 	escoria.main = main
+	
+	_perform_plugins_checks()
 
 
-func _notification(what):
+# Verifies that the game is configured with required plugin(s). 
+# If a required plugin is missing (or disabled) we stop immediately.
+func _perform_plugins_checks():
+	if ESCProjectSettingsManager.get_setting(
+		ESCProjectSettingsManager.DIALOG_MANAGERS
+	).empty():
+		escoria.logger.error(
+			self,
+			"No dialog manager configured. Please add a dialog manager plugin."
+		)
+
+
+# Manage notifications received from OS
+#
+# #### Parameters
+# - what: the notification constant received (usually defined in MainLoop)
+func _notification(what: int):
 	match what:
 		MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
 			escoria.logger.close_logs()
@@ -88,7 +106,10 @@ func init():
 
 
 # Input function to manage specific input keys
-func _input(event):
+#
+# #### Parameters
+# - event: the input event to manage.
+func _input(event: InputEvent):
 	if InputMap.has_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT) \
 			and event.is_action_pressed(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT):
 		main.get_node("layers/debug_layer/esc_prompt_popup").popup()

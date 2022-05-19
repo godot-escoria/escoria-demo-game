@@ -6,7 +6,10 @@ class_name EscoriaPlugin
 #
 # #### Parameters
 # - game_scene: Path to the game scene extending ESCGame
-static func register_ui(game_scene: String):
+#
+# *Returns*
+# - success: a boolean indicating whether the ui could be successfully registered
+static func register_ui(game_scene: String) -> bool:
 	var game_scene_setting_value = ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.GAME_SCENE
 	)
@@ -18,28 +21,24 @@ static func register_ui(game_scene: String):
 		push_error("Can't register user interface because user interface %s is registered."
 				% game_scene_setting_value
 		)
-		return
+		return false
 	ESCProjectSettingsManager.set_setting(
 		ESCProjectSettingsManager.GAME_SCENE,
 		game_scene
 	)
-
+	return true
 
 # Deregister a user interface
 #
 # #### Parameters
 # - game_scene: Path to the game scene extending ESCGame
 static func deregister_ui(game_scene: String):
-	var game_scene_setting_value = ESCProjectSettingsManager.get_setting(
+	# If the currently configured game scene is not the one we're disabling, exit now.
+	if ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.GAME_SCENE
-		)
-
-	if game_scene_setting_value != game_scene:
-		push_error(
-			"Can't deregister user interface %s because it is not registered."
-					% game_scene_setting_value
-		)
+	) != game_scene:
 		return
+
 	ESCProjectSettingsManager.set_setting(
 		ESCProjectSettingsManager.GAME_SCENE,
 		""
