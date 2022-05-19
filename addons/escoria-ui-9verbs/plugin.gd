@@ -17,7 +17,7 @@ func disable_plugin():
 # Register UI with Escoria
 func enable_plugin():
 	print("Enabling plugin Escoria UI 9-verbs.")
-	if not EscoriaPlugin.register_ui("res://addons/escoria-ui-9verbs/game.tscn"):
+	if not EscoriaPlugin.register_ui(self, "res://addons/escoria-ui-9verbs/game.tscn"):
 		get_editor_interface().set_plugin_enabled(
 			get_plugin_name(),
 			false

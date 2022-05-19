@@ -1,15 +1,20 @@
 class_name EscoriaPlugin
 
-
 # Register a user interface. This should be called in a deferred way
 # from the addon's _enter_tree.
 #
 # #### Parameters
+# - plugin: the plugin that registers
 # - game_scene: Path to the game scene extending ESCGame
 #
-# *Returns*
-# - success: a boolean indicating whether the ui could be successfully registered
-static func register_ui(game_scene: String) -> bool:
+# *Returns* a boolean indicating whether the ui could be successfully registered
+static func register_ui(plugin: EditorPlugin, game_scene: String) -> bool:
+	if not plugin.get_editor_interface().is_plugin_enabled(
+		Escoria.ESCORIA_CORE_PLUGIN_NAME
+	):
+		push_error("Escoria Core must be enabled.")
+		return false
+	
 	var game_scene_setting_value = ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.GAME_SCENE
 	)
@@ -49,14 +54,23 @@ static func deregister_ui(game_scene: String):
 # from the addon's _enter_tree.
 #
 # #### Parameters
+# - plugin: the plugin that registers
 # - manager_class: Path to the manager class script
-static func register_dialog_manager(manager_class: String):
+#
+# *Returns* a boolean value indicating whether the dialog manager was registered
+static func register_dialog_manager(plugin: EditorPlugin, manager_class: String) -> bool:
+	if not plugin.get_editor_interface().is_plugin_enabled(
+		Escoria.ESCORIA_CORE_PLUGIN_NAME
+	):
+		push_error("Escoria Core must be enabled.")
+		return false
+	
 	var dialog_managers: Array = ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.DIALOG_MANAGERS
 	)
 
 	if manager_class in dialog_managers:
-		return
+		return true
 
 	dialog_managers.push_back(manager_class)
 
@@ -64,7 +78,8 @@ static func register_dialog_manager(manager_class: String):
 		ESCProjectSettingsManager.DIALOG_MANAGERS,
 		dialog_managers
 	)
-
+	
+	return true
 
 # Deregister a dialog manager addon
 #
@@ -75,8 +90,8 @@ static func deregister_dialog_manager(manager_class: String):
 		ESCProjectSettingsManager.DIALOG_MANAGERS
 	)
 
+	# If the dialog manager we're removing in not in the registered list, return quietly.
 	if not manager_class in dialog_managers:
-		push_warning("Dialog manager %s is not registered." % manager_class)
 		return
 
 	dialog_managers.erase(manager_class)

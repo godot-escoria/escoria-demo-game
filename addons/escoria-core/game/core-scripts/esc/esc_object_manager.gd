@@ -455,7 +455,7 @@ func _room_exists(room_key: ESCRoomObjectsKey) -> bool:
 #
 # - object: The object to check for existence.
 # - room_key: The key representing the desired room in the object manager array.
-# **Returns** True if object exists in the object manager entry specified by room_key.
+# **Returns** True iff object exists in the object manager entry specified by room_key.
 func _object_exists_in_room(object: ESCObject, room_key: ESCRoomObjectsKey) -> bool:
 	if object == null:
 		escoria.logger.warn(

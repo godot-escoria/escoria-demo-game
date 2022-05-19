@@ -7,6 +7,10 @@ class_name Escoria
 signal request_pause_menu
 
 
+# Name of the Escoria core plugin
+const ESCORIA_CORE_PLUGIN_NAME: String = "escoria-core"
+
+
 # The main scene
 onready var main = $main
 

@@ -776,12 +776,12 @@ sound/speech_folder="res://game/speech"
 sound/speech_extension="ogg"
 platform/skip_cache=false
 platform/skip_cache.mobile=true
+ui/default_dialog_type="floating"
+sound/speech_enabled=true
 dialog_simple/avatars_path="res://game/dialog_avatars"
 dialog_simple/text_speed_per_character=0.1
 dialog_simple/fast_text_speed_per_character=0.25
 dialog_simple/max_time_to_disappear=1.0
-ui/default_dialog_type="floating"
-sound/speech_enabled=true
 
 [input]
 
