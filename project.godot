@@ -70,11 +70,6 @@ _global_script_classes=[ {
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/custom.gd"
 }, {
 "base": "ESCBaseCommand",
-"class": "DebugCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/debug.gd"
-}, {
-"base": "ESCBaseCommand",
 "class": "DecGlobalCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/dec_global.gd"
@@ -430,6 +425,11 @@ _global_script_classes=[ {
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/play_snd.gd"
 }, {
 "base": "ESCBaseCommand",
+"class": "PrintCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/commands/print.gd"
+}, {
+"base": "ESCBaseCommand",
 "class": "QueueEventCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/queue_event.gd"
@@ -597,7 +597,6 @@ _global_script_class_icons={
 "CameraShiftCommand": "",
 "ChangeSceneCommand": "",
 "CustomCommand": "",
-"DebugCommand": "",
 "DecGlobalCommand": "",
 "ESCActionManager": "",
 "ESCAnimationName": "",
@@ -669,6 +668,7 @@ _global_script_class_icons={
 "InventoryAddCommand": "",
 "InventoryRemoveCommand": "",
 "PlaySndCommand": "",
+"PrintCommand": "",
 "QueueEventCommand": "",
 "QueueResourceCommand": "",
 "RandGlobalCommand": "",
@@ -710,7 +710,7 @@ boot_splash/image="res://addons/escoria-core/design/escoria-logo-small.png"
 boot_splash/fullsize=false
 boot_splash/use_filter=false
 boot_splash/bg_color=Color( 0.960784, 0.384314, 0, 1 )
-config/icon="res://icon.png"
+config/icon="res://addons/escoria-player-creator/graphics/icon.png"
 
 [audio]
 
@@ -733,7 +733,7 @@ search_in_file_extensions=PoolStringArray( "gd", "shader", "esc" )
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-dialog-simple/plugin.cfg", "res://addons/escoria-ui-9verbs/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-dialog-simple/plugin.cfg", "res://addons/escoria-player-creator/plugin.cfg", "res://addons/escoria-ui-9verbs/plugin.cfg" )
 
 [escoria]
 
@@ -785,7 +785,7 @@ main/game_migration_path=""
 
 esc_show_debug_prompt={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777245,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777245,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 switch_action_verb={
