@@ -185,13 +185,15 @@ func _ready():
 	if not self.is_connected("mouse_exited", self, "_on_mouse_exited"):
 		connect("mouse_exited", self, "_on_mouse_exited")
 
+	if is_movable:
+		_movable = ESCMovable.new()
+
+		add_child(_movable)
+
 	# Register and connect all elements to Escoria backoffice.
 	if not Engine.is_editor_hint():
 
-		if is_movable:
-			_movable = ESCMovable.new()
 
-			add_child(_movable)
 
 		if not escoria.event_manager.is_connected(
 			"event_finished",
