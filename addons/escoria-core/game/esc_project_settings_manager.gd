@@ -76,15 +76,13 @@ const MAX_TIME_TO_DISAPPEAR = "%s/%s/max_time_to_disappear" % [_ESCORIA_SETTINGS
 # - default: Default value
 # - info: Property info for the setting
 static func register_setting(name: String, default, info: Dictionary) -> void:
-	if not ProjectSettings.has_setting(name):
-		ProjectSettings.set_setting(
-			name,
-			default
-		)
-		info.name = name
-		ProjectSettings.add_property_info(info)
-	else:
-		push_error("Setting %s doesn't exist!" % name)
+	ProjectSettings.set_setting(
+		name,
+		default
+	)
+	info.name = name
+	ProjectSettings.add_property_info(info)
+
 
 # Retrieves the specified project setting.
 #

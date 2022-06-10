@@ -88,7 +88,9 @@ func _draw():
 	# Draw lines for camera limits
 	for i in camera_limits.size():
 		draw_rect(camera_limits[i], camera_limits_colors[i], false, 10.0)
-		var default_font = Control.new().get_font("font")
+		var temp_control = Control.new()
+		var default_font = temp_control.get_font("font")
+		temp_control.queue_free()
 
 		draw_string(default_font, Vector2(camera_limits[i].position.x + 30,
 			camera_limits[i].position.y + 30), str(i), camera_limits_colors[i])
