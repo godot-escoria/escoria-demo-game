@@ -1,3 +1,12 @@
+## [4.0.0-alpha.187](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.187) (2022-06-10)
+
+
+### Bug Fixes
+
+* Fixes typo in say statement ([#600](https://github.com/godot-escoria/escoria-demo-game/issues/600)) ([245e9fa](https://github.com/godot-escoria/escoria-demo-game/commit/245e9fa8266d046b5bce267264dbda2983c8e1fb))
+
+
+
 ## [4.0.0-alpha.186](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.186) (2022-05-19)
 
 
