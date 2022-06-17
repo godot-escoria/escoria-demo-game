@@ -1,6 +1,6 @@
 # A base class for every ESC command.
 # Extending classes have to override the configure and run function
-extends Node
+extends Resource
 class_name ESCBaseCommand
 
 

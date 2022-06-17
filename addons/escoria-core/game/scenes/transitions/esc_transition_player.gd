@@ -43,6 +43,10 @@ func _ready() -> void:
 	mouse_filter = MOUSE_FILTER_IGNORE
 	_tween = Tween.new()
 
+func _exit_tree():
+	if _tween.is_inside_tree():
+		remove_child(_tween)
+	_tween.free()
 
 # Play a transition animation
 #

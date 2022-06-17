@@ -79,7 +79,7 @@ func run(command_params: Array) -> int:
 		.push(
 			escoria.object_manager.get_object(command_params[0]).node,
 			command_params[1],
-			Tween.new().get("TRANS_%s" % command_params[2])
+			ClassDB.class_get_integer_constant("Tween", "TRANS_%s" % command_params[2])
 		)
 	return ESCExecution.RC_OK
 

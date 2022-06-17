@@ -31,6 +31,10 @@ func _ready() -> void:
 	$layers/wait_timer.connect("timeout", self, "_on_wait_finished")
 
 
+func _exit_tree():
+	$layers/curtain.remove_child(scene_transition)
+	scene_transition.queue_free()
+
 # Set current scene
 #
 # #### Parameters

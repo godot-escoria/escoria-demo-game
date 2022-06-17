@@ -279,8 +279,6 @@ texture = ExtResource( 2 )
 visible = false
 position = Vector2( 630, 471 )
 frames = SubResource( 7 )
-frame = 1
-playing = true
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 modulate = Color( 1, 1, 1, 0 )

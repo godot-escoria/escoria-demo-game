@@ -78,6 +78,8 @@ func _slide_object(
 
 	var tween = Tween.new()
 	(escoria.main as Node).add_child(tween)
+	
+	tween.connect("tween_completed", self, "_on_tween_completed")
 
 	var duration = source.node.position.distance_to(
 		destination.node.position
@@ -113,3 +115,7 @@ func run(command_params: Array) -> int:
 func interrupt():
 	for tween in _tweens:
 		tween.stop_all()
+
+
+func _on_tween_completed(tween: Tween):
+	tween.queue_free()

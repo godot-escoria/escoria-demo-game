@@ -23,6 +23,11 @@ func _ready():
 	_tween.connect("tween_all_completed", self, "_target_reached")
 
 
+func _exit_tree():
+	remove_child(_tween)
+	_tween.queue_free()
+
+
 # Update the position if the followed target is moving
 func _process(_delta):
 	if is_instance_valid(_follow_target) and not _tween.is_active() and _follow_target.has_moved():

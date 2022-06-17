@@ -200,6 +200,7 @@ func queue_event_from_esc(script_object: ESCScript, event: String,
 func queue_event(event: ESCEvent, force: bool = false) -> void:
 	if _changing_scene and not force:
 		escoria.logger.info(
+			self,
 			"Changing scenes. Won't queue event '%s'." % event.name
 		)
 		return

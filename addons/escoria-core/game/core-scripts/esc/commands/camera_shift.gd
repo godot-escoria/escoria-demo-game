@@ -49,7 +49,7 @@ func run(command_params: Array) -> int:
 				command_params[1]
 			),
 			command_params[2],
-			Tween.new().get("TRANS_%s" % command_params[3])
+			ClassDB.class_get_integer_constant("Tween", "TRANS_%s" % command_params[3])
 		)
 	return ESCExecution.RC_OK
 
