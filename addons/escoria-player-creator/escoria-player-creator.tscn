@@ -281,7 +281,6 @@ margin_top = 20.0
 margin_right = 59.0
 margin_bottom = 48.0
 toggle_mode = true
-pressed = true
 texture_normal = ExtResource( 27 )
 texture_pressed = ExtResource( 21 )
 texture_hover = ExtResource( 21 )

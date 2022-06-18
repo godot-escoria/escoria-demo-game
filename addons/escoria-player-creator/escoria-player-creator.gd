@@ -819,7 +819,7 @@ func export_escplayer() -> void:
 					anim_details_talk.animation = "talk_%s" % find_opposite_direction(dirnames[loop])
 			else:
 					anim_details_talk.mirrored = false
-			animations_resource.directions.append(anim_details_talk)
+			animations_resource.speaks.append(anim_details_talk)
 
 			anim_name = "idle_%s" % dirnames[loop]
 			anim_details_idle.animation = anim_name
@@ -828,7 +828,7 @@ func export_escplayer() -> void:
 					anim_details_idle.animation = "talk_%s" % find_opposite_direction(dirnames[loop])
 			else:
 					anim_details_idle.mirrored = false
-			animations_resource.directions.append(anim_details_idle)
+			animations_resource.idles.append(anim_details_idle)
 
 	# Add Dialog Position to the ESCPlayer
 	var dialog_position = Position2D.new()
@@ -875,7 +875,6 @@ func export_generate_animations(character_node, num_directions) -> Vector2:
 	var loaded_spritesheet:String
 	var largest_frame_dimensions:Vector2 = Vector2(0,0)
 	var sprite_frames = SpriteFrames.new()
-	sprite_frames.remove_animation("default")
 	if num_directions == 4:
 		direction_names = ["up", "right", "down", "left"]
 	else:
@@ -898,10 +897,10 @@ func export_generate_animations(character_node, num_directions) -> Vector2:
 			if ! metadata["spritesheet_source_file"] == loaded_spritesheet:
 				load_file(metadata["spritesheet_source_file"], true, get_metadata_array_offset(anim_dir, animtype))
 				loaded_spritesheet = metadata["spritesheet_source_file"]
-				if frame_size.x > largest_frame_dimensions.x:
-					largest_frame_dimensions.x = frame_size.x
-				if frame_size.y > largest_frame_dimensions.y:
-					largest_frame_dimensions.y = frame_size.y
+				if (frame_size.x / 2) > largest_frame_dimensions.x:
+					largest_frame_dimensions.x = frame_size.x / 2
+				if (frame_size.y / 2) > largest_frame_dimensions.y:
+					largest_frame_dimensions.y = frame_size.y / 2
 
 			frame_being_copied.create(frame_size.x, frame_size.y, false, source_image.get_format())
 			for loop in range(metadata["spritesheet_last_frame"] - metadata["spritesheet_first_frame"]  + 1):
@@ -915,8 +914,10 @@ func export_generate_animations(character_node, num_directions) -> Vector2:
 				sprite_frames.set_animation_speed(anim_name, metadata["speed"])
 				frame_counter += 1
 
+	sprite_frames.remove_animation("default")
 	var animated_sprite = AnimatedSprite.new()
 	animated_sprite.frames = sprite_frames
+	animated_sprite.animation = "idle_down"
 	character_node.add_child(animated_sprite)
 	# Making the owner "character_node" rather than "get_tree().edited_scene_root" means that
 	# when saving as a packed scene, the child nodes get saved under the parent (as the parent
