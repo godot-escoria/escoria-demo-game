@@ -1,7 +1,7 @@
 tool
 extends EditorPlugin
 
-const helper_ui = preload("res://addons/escoria-player-creator/escoria-player-creator.tscn")
+const helper_ui = preload("res://addons/escoria-player-creator/escoria_player_creator.tscn")
 
 var helper_instance
 

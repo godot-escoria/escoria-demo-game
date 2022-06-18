@@ -1,43 +1,43 @@
 [gd_scene load_steps=48 format=2]
 
-[ext_resource path="res://addons/escoria-player-creator/graphics/icon.png" type="Texture" id=1]
-[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreyarrow_dl.png" type="Texture" id=2]
-[ext_resource path="res://addons/escoria-player-creator/graphics/greyarrow_r.png" type="Texture" id=3]
-[ext_resource path="res://addons/escoria-player-creator/graphics/greyarrow_ur.png" type="Texture" id=4]
-[ext_resource path="res://addons/escoria-player-creator/graphics/greenarrow_down.png" type="Texture" id=5]
-[ext_resource path="res://addons/escoria-player-creator/graphics/no_animation.png" type="Texture" id=6]
-[ext_resource path="res://addons/escoria-player-creator/graphics/greyarrow_ul.png" type="Texture" id=7]
-[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreyarrow_u.png" type="Texture" id=8]
-[ext_resource path="res://addons/escoria-player-creator/graphics/greenarrow_upleft.png" type="Texture" id=9]
-[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreenarrow_upleft.png" type="Texture" id=10]
-[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreenarrow_down.png" type="Texture" id=11]
+[ext_resource path="res://addons/escoria-player-creator/graphics/background.png" type="Texture" id=1]
+[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreenarrow_down.png" type="Texture" id=2]
+[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreyarrow_l.png" type="Texture" id=3]
+[ext_resource path="res://addons/escoria-player-creator/graphics/greyarrow_r.png" type="Texture" id=4]
+[ext_resource path="res://addons/escoria-player-creator/graphics/no_animation.png" type="Texture" id=5]
+[ext_resource path="res://addons/escoria-player-creator/graphics/greenarrow_upright.png" type="Texture" id=6]
+[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreenarrow_right.png" type="Texture" id=7]
+[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreenarrow_downright.png" type="Texture" id=8]
+[ext_resource path="res://addons/escoria-player-creator/graphics/greyarrow_dr.png" type="Texture" id=9]
+[ext_resource path="res://addons/escoria-player-creator/graphics/greenarrow_left.png" type="Texture" id=10]
+[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreenarrow_upleft.png" type="Texture" id=11]
 [ext_resource path="res://addons/escoria-player-creator/graphics/greenarrow_right.png" type="Texture" id=12]
-[ext_resource path="res://addons/escoria-player-creator/graphics/greenarrow_left.png" type="Texture" id=13]
-[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreyarrow_dr.png" type="Texture" id=14]
-[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreyarrow_l.png" type="Texture" id=15]
-[ext_resource path="res://addons/escoria-player-creator/graphics/greyarrow_l.png" type="Texture" id=16]
-[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreenarrow_downleft.png" type="Texture" id=17]
-[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreyarrow_ur.png" type="Texture" id=18]
-[ext_resource path="res://addons/escoria-player-creator/graphics/greenarrow_downright.png" type="Texture" id=19]
-[ext_resource path="res://addons/escoria-player-creator/graphics/greyarrow_dl.png" type="Texture" id=20]
-[ext_resource path="res://addons/escoria-player-creator/graphics/greenarrow_up.png" type="Texture" id=21]
-[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreyarrow_d.png" type="Texture" id=22]
-[ext_resource path="res://addons/escoria-player-creator/graphics/greyarrow_d.png" type="Texture" id=23]
-[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreyarrow_ul.png" type="Texture" id=24]
-[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreenarrow_left.png" type="Texture" id=25]
+[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreenarrow_downleft.png" type="Texture" id=13]
+[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreyarrow_ur.png" type="Texture" id=14]
+[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreenarrow_up.png" type="Texture" id=15]
+[ext_resource path="res://addons/escoria-player-creator/graphics/greenarrow_downleft.png" type="Texture" id=16]
+[ext_resource path="res://addons/escoria-player-creator/graphics/greenarrow_up.png" type="Texture" id=17]
+[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreenarrow_left.png" type="Texture" id=18]
+[ext_resource path="res://addons/escoria-player-creator/graphics/greyarrow_l.png" type="Texture" id=19]
+[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreyarrow_ul.png" type="Texture" id=20]
+[ext_resource path="res://addons/escoria-player-creator/graphics/no_spritesheet.png" type="Texture" id=21]
+[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreenarrow_upright.png" type="Texture" id=22]
+[ext_resource path="res://addons/escoria-player-creator/graphics/greenarrow_upleft.png" type="Texture" id=23]
+[ext_resource path="res://addons/escoria-player-creator/graphics/greyarrow_ur.png" type="Texture" id=24]
+[ext_resource path="res://addons/escoria-player-creator/graphics/greyarrow_ul.png" type="Texture" id=25]
 [ext_resource path="res://addons/escoria-player-creator/graphics/greyarrow_u.png" type="Texture" id=26]
-[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreenarrow_up.png" type="Texture" id=27]
-[ext_resource path="res://addons/escoria-player-creator/graphics/greenarrow_upright.png" type="Texture" id=28]
-[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreenarrow_downright.png" type="Texture" id=29]
-[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreenarrow_right.png" type="Texture" id=30]
-[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreenarrow_upright.png" type="Texture" id=31]
-[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreyarrow_r.png" type="Texture" id=32]
-[ext_resource path="res://addons/escoria-player-creator/graphics/greenarrow_downleft.png" type="Texture" id=33]
-[ext_resource path="res://addons/escoria-player-creator/graphics/greyarrow_dr.png" type="Texture" id=34]
-[ext_resource path="res://addons/escoria-player-creator/graphics/no_spritesheet.png" type="Texture" id=35]
-[ext_resource path="res://addons/escoria-player-creator/draw_frame_rects.gd" type="Script" id=36]
-[ext_resource path="res://addons/escoria-player-creator/escoria-player-creator.gd" type="Script" id=37]
-[ext_resource path="res://addons/escoria-player-creator/graphics/background.png" type="Texture" id=38]
+[ext_resource path="res://addons/escoria-player-creator/graphics/greenarrow_downright.png" type="Texture" id=27]
+[ext_resource path="res://addons/escoria-player-creator/graphics/greyarrow_dl.png" type="Texture" id=28]
+[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreyarrow_r.png" type="Texture" id=29]
+[ext_resource path="res://addons/escoria-player-creator/graphics/greenarrow_down.png" type="Texture" id=30]
+[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreyarrow_d.png" type="Texture" id=31]
+[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreyarrow_u.png" type="Texture" id=32]
+[ext_resource path="res://addons/escoria-player-creator/graphics/icon.png" type="Texture" id=33]
+[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreyarrow_dr.png" type="Texture" id=34]
+[ext_resource path="res://addons/escoria-player-creator/graphics/greyarrow_d.png" type="Texture" id=35]
+[ext_resource path="res://addons/escoria-player-creator/graphics/darkgreyarrow_dl.png" type="Texture" id=36]
+[ext_resource path="res://addons/escoria-player-creator/draw_frame_rects.gd" type="Script" id=37]
+[ext_resource path="res://addons/escoria-player-creator/escoria_player_creator.gd" type="Script" id=38]
 
 [sub_resource type="Image" id=10]
 data = {
@@ -113,12 +113,12 @@ image = SubResource( 13 )
 size = Vector2( 192, 210 )
 
 [node name="Control" type="Control"]
-script = ExtResource( 37 )
+script = ExtResource( 38 )
 
 [node name="background" type="TextureRect" parent="."]
 margin_right = 3000.0
 margin_bottom = 2000.0
-texture = ExtResource( 38 )
+texture = ExtResource( 1 )
 stretch_mode = 2
 
 [node name="configuration" type="Control" parent="."]
@@ -194,7 +194,7 @@ margin_top = 20.0
 margin_right = 59.0
 margin_bottom = 48.0
 toggle_mode = true
-texture_normal = ExtResource( 8 )
+texture_normal = ExtResource( 32 )
 texture_pressed = ExtResource( 26 )
 texture_hover = ExtResource( 26 )
 
@@ -205,9 +205,9 @@ margin_top = 55.0
 margin_right = 97.0
 margin_bottom = 83.0
 toggle_mode = true
-texture_normal = ExtResource( 32 )
-texture_pressed = ExtResource( 3 )
-texture_hover = ExtResource( 3 )
+texture_normal = ExtResource( 29 )
+texture_pressed = ExtResource( 4 )
+texture_hover = ExtResource( 4 )
 
 [node name="unset_dir_left" type="TextureButton" parent="configuration/animation" groups=["direction_buttons"]]
 visible = false
@@ -216,9 +216,9 @@ margin_top = 56.0
 margin_right = 25.0
 margin_bottom = 84.0
 toggle_mode = true
-texture_normal = ExtResource( 15 )
-texture_pressed = ExtResource( 16 )
-texture_hover = ExtResource( 16 )
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 19 )
+texture_hover = ExtResource( 19 )
 
 [node name="unset_dir_down" type="TextureButton" parent="configuration/animation" groups=["direction_buttons"]]
 visible = false
@@ -227,9 +227,9 @@ margin_top = 92.0
 margin_right = 60.0
 margin_bottom = 120.0
 toggle_mode = true
-texture_normal = ExtResource( 22 )
-texture_pressed = ExtResource( 23 )
-texture_hover = ExtResource( 23 )
+texture_normal = ExtResource( 31 )
+texture_pressed = ExtResource( 35 )
+texture_hover = ExtResource( 35 )
 
 [node name="unset_dir_downright" type="TextureButton" parent="configuration/animation" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
@@ -238,9 +238,9 @@ margin_top = 84.0
 margin_right = 89.0
 margin_bottom = 112.0
 toggle_mode = true
-texture_normal = ExtResource( 14 )
-texture_pressed = ExtResource( 34 )
-texture_hover = ExtResource( 34 )
+texture_normal = ExtResource( 34 )
+texture_pressed = ExtResource( 9 )
+texture_hover = ExtResource( 9 )
 
 [node name="unset_dir_downleft" type="TextureButton" parent="configuration/animation" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
@@ -249,9 +249,9 @@ margin_top = 84.0
 margin_right = 31.0
 margin_bottom = 112.0
 toggle_mode = true
-texture_normal = ExtResource( 2 )
-texture_pressed = ExtResource( 20 )
-texture_hover = ExtResource( 20 )
+texture_normal = ExtResource( 36 )
+texture_pressed = ExtResource( 28 )
+texture_hover = ExtResource( 28 )
 
 [node name="unset_dir_upright" type="TextureButton" parent="configuration/animation" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
@@ -260,9 +260,9 @@ margin_top = 27.0
 margin_right = 87.0
 margin_bottom = 55.0
 toggle_mode = true
-texture_normal = ExtResource( 18 )
-texture_pressed = ExtResource( 4 )
-texture_hover = ExtResource( 4 )
+texture_normal = ExtResource( 14 )
+texture_pressed = ExtResource( 24 )
+texture_hover = ExtResource( 24 )
 
 [node name="unset_dir_upleft" type="TextureButton" parent="configuration/animation" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
@@ -271,9 +271,9 @@ margin_top = 28.0
 margin_right = 31.0
 margin_bottom = 56.0
 toggle_mode = true
-texture_normal = ExtResource( 24 )
-texture_pressed = ExtResource( 7 )
-texture_hover = ExtResource( 7 )
+texture_normal = ExtResource( 20 )
+texture_pressed = ExtResource( 25 )
+texture_hover = ExtResource( 25 )
 
 [node name="set_dir_up" type="TextureButton" parent="configuration/animation" groups=["direction_buttons"]]
 margin_left = 31.0
@@ -281,9 +281,9 @@ margin_top = 20.0
 margin_right = 59.0
 margin_bottom = 48.0
 toggle_mode = true
-texture_normal = ExtResource( 27 )
-texture_pressed = ExtResource( 21 )
-texture_hover = ExtResource( 21 )
+texture_normal = ExtResource( 15 )
+texture_pressed = ExtResource( 17 )
+texture_hover = ExtResource( 17 )
 
 [node name="set_dir_right" type="TextureButton" parent="configuration/animation" groups=["direction_buttons"]]
 margin_left = 69.0
@@ -291,7 +291,7 @@ margin_top = 55.0
 margin_right = 97.0
 margin_bottom = 83.0
 toggle_mode = true
-texture_normal = ExtResource( 30 )
+texture_normal = ExtResource( 7 )
 texture_pressed = ExtResource( 12 )
 texture_hover = ExtResource( 12 )
 
@@ -301,9 +301,9 @@ margin_top = 56.0
 margin_right = 25.0
 margin_bottom = 84.0
 toggle_mode = true
-texture_normal = ExtResource( 25 )
-texture_pressed = ExtResource( 13 )
-texture_hover = ExtResource( 13 )
+texture_normal = ExtResource( 18 )
+texture_pressed = ExtResource( 10 )
+texture_hover = ExtResource( 10 )
 
 [node name="set_dir_down" type="TextureButton" parent="configuration/animation" groups=["direction_buttons"]]
 margin_left = 32.0
@@ -311,9 +311,9 @@ margin_top = 92.0
 margin_right = 60.0
 margin_bottom = 120.0
 toggle_mode = true
-texture_normal = ExtResource( 11 )
-texture_pressed = ExtResource( 5 )
-texture_hover = ExtResource( 5 )
+texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 30 )
+texture_hover = ExtResource( 30 )
 
 [node name="set_dir_downright" type="TextureButton" parent="configuration/animation" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
@@ -322,9 +322,9 @@ margin_top = 84.0
 margin_right = 89.0
 margin_bottom = 112.0
 toggle_mode = true
-texture_normal = ExtResource( 29 )
-texture_pressed = ExtResource( 19 )
-texture_hover = ExtResource( 19 )
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 27 )
+texture_hover = ExtResource( 27 )
 
 [node name="set_dir_downleft" type="TextureButton" parent="configuration/animation" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
@@ -333,9 +333,9 @@ margin_top = 84.0
 margin_right = 31.0
 margin_bottom = 112.0
 toggle_mode = true
-texture_normal = ExtResource( 17 )
-texture_pressed = ExtResource( 33 )
-texture_hover = ExtResource( 33 )
+texture_normal = ExtResource( 13 )
+texture_pressed = ExtResource( 16 )
+texture_hover = ExtResource( 16 )
 
 [node name="set_dir_upright" type="TextureButton" parent="configuration/animation" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
@@ -344,9 +344,9 @@ margin_top = 27.0
 margin_right = 87.0
 margin_bottom = 55.0
 toggle_mode = true
-texture_normal = ExtResource( 31 )
-texture_pressed = ExtResource( 28 )
-texture_hover = ExtResource( 28 )
+texture_normal = ExtResource( 22 )
+texture_pressed = ExtResource( 6 )
+texture_hover = ExtResource( 6 )
 
 [node name="set_dir_upleft" type="TextureButton" parent="configuration/animation" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
@@ -355,9 +355,9 @@ margin_top = 28.0
 margin_right = 31.0
 margin_bottom = 56.0
 toggle_mode = true
-texture_normal = ExtResource( 10 )
-texture_pressed = ExtResource( 9 )
-texture_hover = ExtResource( 9 )
+texture_normal = ExtResource( 11 )
+texture_pressed = ExtResource( 23 )
+texture_hover = ExtResource( 23 )
 
 [node name="animation_type_colorrect" type="ColorRect" parent="configuration/animation"]
 margin_left = -75.0
@@ -460,7 +460,7 @@ centered = false
 
 [node name="no_anim_found_sprite" type="Sprite" parent="preview"]
 visible = false
-texture = ExtResource( 6 )
+texture = ExtResource( 5 )
 centered = false
 
 [node name="spritesheet" type="Control" parent="."]
@@ -490,7 +490,7 @@ margin_left = 24.0
 margin_top = 430.0
 margin_right = 88.0
 margin_bottom = 444.0
-text = "Zoom : 1x"
+text = "Zoom: 1x"
 
 [node name="zoom_scrollbar" type="HScrollBar" parent="spritesheet/zoom"]
 margin_left = 120.0
@@ -516,7 +516,7 @@ margin_bottom = 420.0
 
 [node name="no_spritesheet_found_sprite" type="Sprite" parent="spritesheet/spritesheet_scroll_container"]
 visible = false
-texture = ExtResource( 35 )
+texture = ExtResource( 21 )
 centered = false
 
 [node name="control" type="Control" parent="spritesheet/spritesheet_scroll_container"]
@@ -531,7 +531,7 @@ centered = false
 [node name="frame_rectangles" type="Control" parent="spritesheet/spritesheet_scroll_container/control"]
 margin_right = 40.0
 margin_bottom = 40.0
-script = ExtResource( 36 )
+script = ExtResource( 37 )
 total_num_columns = 8
 start_cell = 15
 end_cell = 17
@@ -641,7 +641,7 @@ margin_left = 450.0
 margin_top = 189.0
 margin_right = 644.0
 margin_bottom = 203.0
-text = "Source sprite size = (192, 210)"
+text = "Source sprite size: (192, 210)"
 align = 2
 
 [node name="frame_size_label" type="Label" parent="spritesheet_controls"]
@@ -649,7 +649,7 @@ margin_left = 450.0
 margin_top = 219.0
 margin_right = 584.0
 margin_bottom = 233.0
-text = "Frame size = (24, 70)"
+text = "Frame size: (24, 70)"
 align = 2
 
 [node name="anim_speed_label" type="Label" parent="spritesheet_controls"]
@@ -680,8 +680,8 @@ window_title = "Open a File"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.png, *.jpg, *.jpeg ; Supported Images" )
-current_dir = "/Godot Projects/escoria-demo-game"
-current_path = "/Godot Projects/escoria-demo-game/"
+current_dir = "/dev/escoria-demo-game"
+current_path = "/dev/escoria-demo-game/"
 
 [node name="export_button" type="Button" parent="spritesheet_controls"]
 margin_left = 443.0
@@ -690,7 +690,7 @@ margin_right = 726.0
 margin_bottom = 555.0
 custom_colors/font_color = Color( 0, 1, 0.0392157, 1 )
 text = "Export character to Godot Scene"
-icon = ExtResource( 1 )
+icon = ExtResource( 33 )
 
 [node name="store_anim" type="Control" parent="."]
 visible = false
