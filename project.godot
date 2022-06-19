@@ -74,7 +74,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/dec_global.gd"
 }, {
-"base": "Object",
+"base": "Resource",
 "class": "ESCActionManager",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/esc_action_manager.gd"
@@ -99,7 +99,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc_background.gd"
 }, {
-"base": "Node",
+"base": "Resource",
 "class": "ESCBaseCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_base_command.gd"
@@ -274,7 +274,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/scenes/sound/esc_music_player.gd"
 }, {
-"base": "Node",
+"base": "Reference",
 "class": "ESCObject",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_object.gd"
@@ -735,7 +735,6 @@ window/stretch/aspect="keep"
 
 [editor]
 
-main_run_args="--verbose"
 search_in_file_extensions=PoolStringArray( "gd", "shader", "esc" )
 
 [editor_plugins]

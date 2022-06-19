@@ -1,4 +1,4 @@
-extends Node
+extends Reference
 # An object handled in Escoria
 class_name ESCObject
 
