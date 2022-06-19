@@ -76,6 +76,7 @@ func _ready():
 # #### Parameters
 # - delta: Time passed since the last process call
 func _process(delta: float) -> void:
+	print_stray_nodes()
 	var channel_yielding: bool
 
 	for channel_name in events_queue.keys():

@@ -1,5 +1,5 @@
 # The descriptor of the arguments of an ESC command
-extends Object
+extends Reference
 class_name ESCCommandArgumentDescriptor
 
 # As the get_type command was deprecated with Godot 2.x w we need a way to determine

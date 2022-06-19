@@ -1,5 +1,5 @@
 # A registry of ESC command objects
-extends Object
+extends Reference
 class_name ESCCommandRegistry
 
 

@@ -1,5 +1,5 @@
 # A statement in an ESC file
-extends Object
+extends Reference
 class_name ESCStatement
 
 

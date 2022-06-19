@@ -1,5 +1,5 @@
 # Class that handles migrations between different game or escoria versions
-extends Object
+extends Reference
 class_name ESCMigrationManager
 
 

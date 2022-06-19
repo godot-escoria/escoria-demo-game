@@ -1,5 +1,5 @@
 # A cache for resources
-extends Object
+extends Reference
 class_name ESCResourceCache
 
 var thread: Thread

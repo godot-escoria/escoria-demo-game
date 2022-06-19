@@ -74,7 +74,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/dec_global.gd"
 }, {
-"base": "Resource",
+"base": "Object",
 "class": "ESCActionManager",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/esc_action_manager.gd"
@@ -109,7 +109,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/scenes/camera_player/esc_camera.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "ESCCameraLimits",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/scenes/camera_player/esc_camera_limits.gd"
@@ -119,12 +119,12 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_command.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "ESCCommandArgumentDescriptor",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_command_argument_descriptor.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "ESCCommandRegistry",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/esc_command_registry.gd"
@@ -134,7 +134,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/esc_compiler.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "ESCCondition",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_condition.gd"
@@ -184,7 +184,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/esc_event_manager.gd"
 }, {
-"base": "Object",
+"base": "Resource",
 "class": "ESCExecution",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_execution.gd"
@@ -209,7 +209,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_group.gd"
 }, {
-"base": "Node",
+"base": "Resource",
 "class": "ESCInputsManager",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/esc_inputs_manager.gd"
@@ -254,12 +254,12 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/main_scene.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "ESCMigration",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/migrations/esc_migration.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "ESCMigrationManager",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/migrations/esc_migration_manager.gd"
@@ -294,12 +294,12 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/esc_project_settings_manager.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "ESCResourceCache",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc_resource_cache.gd"
 }, {
-"base": "Object",
+"base": "Resource",
 "class": "ESCResourceDescriptor",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/resources/esc_resource_descriptor.gd"
@@ -339,12 +339,12 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/save_data/esc_savesettings.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "ESCScheduledEvent",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_scheduled_event.gd"
 }, {
-"base": "Object",
+"base": "Resource",
 "class": "ESCScript",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_script.gd"
@@ -359,7 +359,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/scenes/sound/esc_speech_player.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "ESCStatement",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_statement.gd"
@@ -379,12 +379,12 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/scenes/transitions/esc_transition_player.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "ESCUtils",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/utils/esc_utils.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "ESCWalkContext",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc_walk_context.gd"
@@ -735,6 +735,7 @@ window/stretch/aspect="keep"
 
 [editor]
 
+main_run_args="--verbose"
 search_in_file_extensions=PoolStringArray( "gd", "shader", "esc" )
 
 [editor_plugins]

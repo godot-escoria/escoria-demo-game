@@ -1,5 +1,5 @@
 # A set of common utilities
-extends Object
+extends Reference
 class_name ESCUtils
 
 

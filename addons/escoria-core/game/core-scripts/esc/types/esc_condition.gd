@@ -1,5 +1,5 @@
 # A condition to run a command
-extends Object
+extends Reference
 class_name ESCCondition
 
 
