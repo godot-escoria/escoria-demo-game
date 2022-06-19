@@ -592,7 +592,7 @@ func spritesheet_on_export_button_pressed() -> void:
 
 		return
 
-	export_escplayer()
+	export_player()
 
 
 # Update the spritesheet zoom and scrollbars
@@ -874,7 +874,7 @@ func find_opposite_direction(direction:String) -> String:
 # be sized based on the widest and tallest frames encountered during export (note that the
 # widest/tallest frame settings do not necessarily come from the same animation frame but are
 # from all the animation frames.
-func export_escplayer() -> void:
+func export_player() -> void:
 	var num_directions
 	var start_angle_array
 	var angle_size
@@ -914,54 +914,23 @@ func export_escplayer() -> void:
 		dirnames = DIR_LIST_8
 
 	for loop in range(num_directions):
-			# Need to create new objects here each time in order to avoid having multiple references
-			# to the same objects.
-			var dir_angle = ESCDirectionAngle.new()
-			var anim_details_walk = ESCAnimationName.new()
-			var anim_details_talk = ESCAnimationName.new()
-			var anim_details_idle = ESCAnimationName.new()
+		# Need to create new objects here each time in order to avoid having multiple references
+		# to the same objects.
+		var dir_angle = ESCDirectionAngle.new()
+		var anim_details: ESCAnimationName
 
-			dir_angle.angle_start = start_angle_array[loop]
-			dir_angle.angle_size = angle_size
-			animations_resource.dir_angles.append(dir_angle)
-			#print("dir_angles array = "+str(animations_resource.dir_angles))
-			#print("directions array = "+str(animations_resource.directions))
+		dir_angle.angle_start = start_angle_array[loop]
+		dir_angle.angle_size = angle_size
+		animations_resource.dir_angles.append(dir_angle)
 
-			var anim_name = "walk_%s" % dirnames[loop]
-			anim_details_walk.animation = anim_name
-			
-			if anim_metadata[get_metadata_array_offset(dirnames[loop], TYPE_WALK)][METADATA_IS_MIRROR]:
-					anim_details_walk.mirrored = true
-					anim_details_walk.animation = "walk_%s" % find_opposite_direction(dirnames[loop])
-			else:
-					anim_details_walk.mirrored = false
+		anim_details = _create_esc_animation(TYPE_WALK, dirnames[loop])
+		animations_resource.directions.append(anim_details)
 
-			animations_resource.directions.append(anim_details_walk)
-			#print("dir_angles array = "+str(animations_resource.dir_angles))
-			#print("directions array = "+str(animations_resource.directions))
-			#print("Size of dir_angles array = " + str(animations_resource.dir_angles.size()))
+		anim_details = _create_esc_animation(TYPE_TALK, dirnames[loop])
+		animations_resource.speaks.append(anim_details)
 
-			anim_name = "talk_%s" % dirnames[loop]
-			anim_details_talk.animation = anim_name
-			
-			if anim_metadata[get_metadata_array_offset(dirnames[loop], TYPE_TALK)][METADATA_IS_MIRROR]:
-					anim_details_talk.mirrored = true
-					anim_details_talk.animation = "talk_%s" % find_opposite_direction(dirnames[loop])
-			else:
-					anim_details_talk.mirrored = false
-
-			animations_resource.speaks.append(anim_details_talk)
-
-			anim_name = "idle_%s" % dirnames[loop]
-			anim_details_idle.animation = anim_name
-
-			if anim_metadata[get_metadata_array_offset(dirnames[loop], TYPE_IDLE)][METADATA_IS_MIRROR]:
-					anim_details_idle.mirrored = true
-					anim_details_idle.animation = "talk_%s" % find_opposite_direction(dirnames[loop])
-			else:
-					anim_details_idle.mirrored = false
-
-			animations_resource.idles.append(anim_details_idle)
+		anim_details = _create_esc_animation(TYPE_TALK, dirnames[loop])
+		animations_resource.idles.append(anim_details)
 
 	# Add Dialog Position to the ESCPlayer
 	var dialog_position = Position2D.new()
@@ -1020,11 +989,10 @@ func export_generate_animations(character_node, num_directions) -> Vector2:
 		direction_names = DIR_LIST_8
 
 	for animtype in [TYPE_WALK, TYPE_TALK, TYPE_IDLE]:
-		#print("Animtype = "+animtype)
 		for anim_dir in direction_names:
 			var anim_name = "%s_%s" % [animtype, anim_dir]
 			var metadata = anim_metadata[get_metadata_array_offset(anim_dir, animtype)]
-			#print ("is mirror = " + str(bool(metadata[METADATA_IS_MIRROR])))
+
 			if metadata[METADATA_IS_MIRROR]:
 				continue
 
@@ -1049,7 +1017,6 @@ func export_generate_animations(character_node, num_directions) -> Vector2:
 			frame_being_copied.create(frame_size.x, frame_size.y, false, source_image.get_format())
 
 			for loop in range(metadata[METADATA_SPRITESHEET_LAST_FRAME] - metadata[METADATA_SPRITESHEET_FIRST_FRAME]  + 1):
-				#print("Frame export : "+str(frame_counter))
 				texture = ImageTexture.new()
 
 				rect_location = calc_frame_coords(metadata[METADATA_SPRITESHEET_FIRST_FRAME] + loop)
@@ -1071,7 +1038,7 @@ func export_generate_animations(character_node, num_directions) -> Vector2:
 	var animated_sprite = AnimatedSprite.new()
 
 	animated_sprite.frames = sprite_frames
-	animated_sprite.animation = "idle_down"
+	animated_sprite.animation = "%s_%s" % [TYPE_IDLE, DIR_DOWN]
 	character_node.add_child(animated_sprite)
 
 	# Making the owner "character_node" rather than "get_tree().edited_scene_root" means that
@@ -1081,3 +1048,25 @@ func export_generate_animations(character_node, num_directions) -> Vector2:
 	animated_sprite.set_owner(character_node)
 
 	return largest_frame_dimensions
+
+
+# Creates and returns an ESCAnimationName for use by ESCAnimationResource
+#
+# #### Parameters
+#
+# - type: One of TYPE_WALK, TYPE_TALK, TYPE_IDLE (these are consts defined at the top of this script)
+# - dir_name: One of DIR_LIST_8's or DIR_LIST_4's entries (these are consts defined at the top of this script)
+#
+# *Returns* a valid ESCAnimationName object.
+func _create_esc_animation(type: String, dir_name: String) -> ESCAnimationName:
+	var anim_details = ESCAnimationName.new()
+
+	anim_details.animation = "%s_%s" % [type, dir_name]
+
+	if anim_metadata[get_metadata_array_offset(dir_name, type)][METADATA_IS_MIRROR]:
+		anim_details.mirrored = true
+		anim_details.animation = "%s_%s" % [type, find_opposite_direction(dir_name)]
+	else:
+		anim_details.mirrored = false
+		
+	return anim_details
