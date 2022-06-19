@@ -929,7 +929,7 @@ func export_player() -> void:
 		anim_details = _create_esc_animation(TYPE_TALK, dirnames[loop])
 		animations_resource.speaks.append(anim_details)
 
-		anim_details = _create_esc_animation(TYPE_TALK, dirnames[loop])
+		anim_details = _create_esc_animation(TYPE_IDLE, dirnames[loop])
 		animations_resource.idles.append(anim_details)
 
 	# Add Dialog Position to the ESCPlayer
