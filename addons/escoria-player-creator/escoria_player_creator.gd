@@ -1,6 +1,20 @@
+# Outstanding proposed features
+# v1.0
+# * A help page
+# * GUI refactor to use Godot UI fluff
+# * It would also be good to pop up a window at the end to tell the user what they need to do now
+# ** i.e. adjust the position of the dialog_position node, change the collisionshape if they don't like it
+# ** set the node as the player node of their ESCRoom
+# ** move the created ESCPlayer node to wherever they're keeping their player nodes.
+# * An "@ here" on Discord to tell everyone about it
+#
+# v1.1 features
+# * Your suggestion of having the editor kick in when an ESCPlayer is selected, i.e. "load/edit"
+# * Add a settings page (if there's enough features to warrant it). This would have the path the scene gets written to,  default angles for each direction so the developer can change them from the default 90s / 45s they are now, whether the ESCPlayer is click-through, errr can't think of anything else.
+# * Redo the Escoria tutorial to use the plugin.
+
 tool
 extends Control
-
 
 const METADATA_ANIM_NAME = "anim_name"
 const METADATA_SPRITESHEET_SOURCE_FILE = "spritesheet_source_file"
@@ -32,17 +46,27 @@ const TYPE_IDLE = "idle"
 const ANIM_IN_PROGRESS = "in_progress"
 
 
-# Set to true to load test data
+# Test flag - set to true to load test data.
 var test_mode: bool = true
 
+# The currently loaded spritesheet image
 var source_image: Image
+# The current size of each animation frame (the spritesheet is broken into squares of this size.
 var frame_size: Vector2
+# The current spritesheet zoom level.
 var zoom_value: float = 1
+# The speed of the animation being previewed in frames-per-second.
 var current_animation_speed: int = 5
+# The animation direction currently being edited
 var direction_selected: String
+# This is the animation direction that has been clicked on by the user.
+# Once it has been confirmed that there are no unstored changes to the current animation,
+# the requested direction will become the "direction_selected".
 var direction_requested: String
-var current_animation
+# This is the array that stores the data for each animation.
 var anim_metadata = []
+# This variable is set by plugin.gd and used to allow the plugin to interact with the Godot
+# editor (open the ESCPlayer scene in the editor once it's created)
 var plugin_reference
 
 
@@ -55,12 +79,12 @@ func _ready() -> void:
 	$preview/anim_preview_sprite.animation = ANIM_IN_PROGRESS
 	$preview/no_anim_found_sprite.visible = true
 	$store_anim.visible = false
-	
+
 	create_empty_animations()
-	
+
 	direction_selected = DIR_UP
 	activate_direction(direction_selected)
-	
+
 	reset_arrow_colours()
 
 	# Reset GUI controls to initial values
@@ -87,7 +111,7 @@ func calc_sprite_size() -> void:
 	var source_size = source_image.get_size()
 	var horiz_size = int(source_size.x / $spritesheet_controls/h_frames_spin_box.value)
 	var vert_size = int(source_size.y / $spritesheet_controls/v_frames_spin_box.value)
-	
+
 	frame_size = Vector2(horiz_size, vert_size)
 
 	$spritesheet_controls/original_size_label.text = "Source sprite size: %s" % source_size
@@ -168,11 +192,11 @@ func load_spritesheet(file_to_load, read_settings_from_metadata: bool = false, m
 	var errorval = source_image.load(file_to_load)
 
 	assert(not errorval, "Error loading file %s" % str(file_to_load))
-	
+
 	var texture = ImageTexture.new()
 	texture.create_from_image(source_image)
 	texture.set_flags(2)
-	
+
 	$spritesheet/spritesheet_scroll_container/control/spritesheet_sprite.texture = texture
 
 	frame_size = source_image.get_size()
@@ -248,7 +272,7 @@ func mirror_animation(source: String, dest: String) -> void:
 	var frame_being_copied = Image.new()
 	var frame_counter: int = 0
 #
-	var metadata_source_offset = get_metadata_array_offset(source)	
+	var metadata_source_offset = get_metadata_array_offset(source)
 	var current_anim_type = return_current_animation_type()
 	var dest_anim_name = "%s_%s" % [current_anim_type, dest]
 
@@ -277,21 +301,21 @@ func mirror_animation(source: String, dest: String) -> void:
 # is_mirrored setting.
 func preview_update() -> void:
 	check_frame_limits()
-	
+
 	var current_anim_type = return_current_animation_type()
 	var anim_name = "%s_%s" % [current_anim_type, direction_selected]
 	var offset = get_metadata_array_offset()
 	var generate_mirror = $configuration/animation/mirror_checkbox.pressed
-	
+
 	var texture
 	var rect_location
 	var frame_being_copied = Image.new()
 	var frame_counter: int = 0
 
 	$preview/anim_preview_sprite.frames.clear(ANIM_IN_PROGRESS)
-	
+
 	frame_being_copied.create(frame_size.x, frame_size.y, false, source_image.get_format())
-	
+
 	for loop in range($spritesheet_controls/end_frame.value - $spritesheet_controls/start_frame.value + 1):
 		texture = ImageTexture.new()
 
@@ -306,12 +330,12 @@ func preview_update() -> void:
 			frame_being_copied.flip_x()
 
 		texture.create_from_image(frame_being_copied)
-		
+
 		# Remove the image filter to make pixel correct graphics
 		texture.set_flags(2)
 
 		$preview/anim_preview_sprite.frames.add_frame(ANIM_IN_PROGRESS, texture, frame_counter)
-		
+
 		frame_counter += 1
 
 	$preview/no_anim_found_sprite.visible = false
@@ -360,8 +384,8 @@ func check_if_controls_have_changed():
 # a warning window instead of letting them change settings.
 func has_spritesheet_been_loaded() -> bool:
 	if source_image == null:
-		$error_windows/generic_error_window.dialog_text = "Please load a spritesheet to begin."
-		$error_windows/generic_error_window.popup()
+		$information_windows/generic_error_window.dialog_text = "Please load a spritesheet to begin."
+		$information_windows/generic_error_window.popup()
 		return false
 
 	return true
@@ -448,19 +472,19 @@ func animation_on_mirror_checkbox_toggled(button_pressed: bool) -> void:
 	var opp_dir = find_opposite_direction(direction_selected)
 	var opp_anim_name="%s_%s" % [return_current_animation_type(), opp_dir]
 	var metadata_array_offset: int = get_metadata_array_offset(opp_dir)
-	
+
 	if button_pressed:
 		if anim_metadata[metadata_array_offset][METADATA_IS_MIRROR]:
-			$error_windows/generic_error_window.dialog_text = \
+			$information_windows/generic_error_window.dialog_text = \
 				"You cant mirror a direction that is already mirrored."
-			$error_windows/generic_error_window.popup()
+			$information_windows/generic_error_window.popup()
 			$configuration/animation/mirror_checkbox.pressed = false
 			return
 
 		if anim_metadata[metadata_array_offset][METADATA_SPRITESHEET_FIRST_FRAME] == -1:
-			$error_windows/generic_error_window.dialog_text = \
+			$information_windows/generic_error_window.dialog_text = \
 				"You cant mirror an animation that hasn't been set up."
-			$error_windows/generic_error_window.popup()
+			$information_windows/generic_error_window.popup()
 			$configuration/animation/mirror_checkbox.pressed = false
 			return
 
@@ -573,25 +597,24 @@ func spritesheet_on_export_button_pressed() -> void:
 				missing_idle_animations += 1
 
 	if missing_idle_animations + missing_talk_animations + missing_walk_animations > 0:
-		$error_windows/generic_error_window.dialog_text = \
+		$information_windows/generic_error_window.dialog_text = \
 			"One or more animations are not configured.\nPlease ensure all arrows are green for\nwalk, talk, and idle animations.\n\n"
 
 		if missing_walk_animations:
-			$error_windows/generic_error_window.dialog_text += \
+			$information_windows/generic_error_window.dialog_text += \
 				"%s walk animations not configured.\n" % missing_walk_animations
 
 		if missing_talk_animations:
-			$error_windows/generic_error_window.dialog_text += \
+			$information_windows/generic_error_window.dialog_text += \
 				"%s talk animations not configured.\n" % missing_talk_animations
 
 		if missing_idle_animations:
-			$error_windows/generic_error_window.dialog_text += \
+			$information_windows/generic_error_window.dialog_text += \
 				"%s idle animations not configured." % missing_idle_animations
 
-		$error_windows/generic_error_window.popup()
+		$information_windows/generic_error_window.popup()
 
 		return
-
 	export_player()
 
 
@@ -686,10 +709,10 @@ func check_activate_direction(direction) -> void:
 
 	if $store_anim.visible:
 		var button_name = "set_dir_%s" % direction
-		
+
 		$configuration/animation.get_node(button_name).pressed = false
 		$configuration/animation.get_node("%s%s" % ["un", button_name]).pressed = false
-		$error_windows/unstored_changes_window.popup()
+		$information_windows/unstored_changes_window.popup()
 	else:
 		activate_direction(direction)
 
@@ -699,7 +722,7 @@ func check_activate_direction(direction) -> void:
 # graphic will be displayed in the preview window.
 # Spritesheet control values are set based on the direction chosen (if it had a previous animation)
 # If it used a different spritesheet, that will be loaded.
-func activate_direction(direction) -> void:	
+func activate_direction(direction) -> void:
 	var anim_type = return_current_animation_type()
 	var arrows = get_tree().get_nodes_in_group("direction_buttons")
 	var anim_name = "%s_%s" % [anim_type, direction]
@@ -708,7 +731,7 @@ func activate_direction(direction) -> void:
 
 	for arrow in arrows:
 		arrow.pressed = false
-	
+
 	if direction == DIR_UP or direction == DIR_DOWN:
 		$configuration/animation/mirror_checkbox.visible = false
 	else:
@@ -735,7 +758,7 @@ func activate_direction(direction) -> void:
 		$spritesheet_controls/end_frame.value = metadata[METADATA_SPRITESHEET_LAST_FRAME]
 		$spritesheet_controls/anim_speed_scroll_bar.value = metadata[METADATA_SPEED]
 		$configuration/animation/mirror_checkbox.set_pressed_no_signal(metadata[METADATA_IS_MIRROR])
-		
+
 		preview_update()
 
 		# Restart animation otherwise it will first complete all the frames before changing to the new animation
@@ -769,9 +792,9 @@ func get_metadata_array_offset(dir_to_retrieve = "default", anim_type = "default
 		dir_to_retrieve = direction_selected
 
 	var dir_offset: int = DIR_LIST_8.find(dir_to_retrieve)
-	
+
 	assert(dir_offset > -1, "Could not find direction in list. This should never happen.")
-	
+
 	return offset + dir_offset
 
 
@@ -794,7 +817,7 @@ func reset_arrow_colours() -> void:
 
 	if $configuration/directions/four_directions.pressed:
 		var arrows = get_tree().get_nodes_in_group("8_direction_buttons")
-		
+
 		for arrow in arrows:
 			arrow.visible = false
 
@@ -802,7 +825,7 @@ func reset_arrow_colours() -> void:
 	if not direction_selected in DIR_LIST_4:
 		direction_selected = DIR_UP
 		activate_direction(DIR_UP)
-	
+
 	# This works when you change between animation types
 	# eg. walk and talk - to ensure that the arrow will get changed back from selected with stored
 	# animation to selected with unstored animation if needs be. It also resets the preview.
@@ -814,14 +837,14 @@ func reset_arrow_colours() -> void:
 # The button associated with this function chooses to save the changes, then will update
 # the interface to select the new direction.
 func unstored_warning_on_commit_button_pressed() -> void:
-	$error_windows/unstored_changes_window.visible = false
+	$information_windows/unstored_changes_window.visible = false
 	$store_anim.visible = false
-	
+
 	var anim_type = return_current_animation_type()
 	store_animation("%s_%s" % [anim_type, direction_selected])
-	
+
 	reset_arrow_colours()
-	
+
 	activate_direction(direction_requested)
 
 
@@ -830,7 +853,7 @@ func unstored_warning_on_commit_button_pressed() -> void:
 # The button associated with this function chooses to lose the changes, then will update
 # the interface to select the new direction.
 func unstored_warning_on_lose_button_pressed() -> void:
-	$error_windows/unstored_changes_window.visible = false
+	$information_windows/unstored_changes_window.visible = false
 	$store_anim.visible = false
 
 	activate_direction(direction_requested)
@@ -841,7 +864,7 @@ func unstored_warning_on_lose_button_pressed() -> void:
 # The button associated with this function chooses to cancel the request to change direction
 # and let the user continue to edit the current animation.
 func unstored_warning_on_cancel_button_pressed() -> void:
-	$error_windows/unstored_changes_window.visible = false
+	$information_windows/unstored_changes_window.visible = false
 
 
 # Returns the opposite direction for mirroring animations
@@ -863,7 +886,7 @@ func find_opposite_direction(direction:String) -> String:
 			opposite_dir = DIR_UP_RIGHT
 
 	assert(not opposite_dir.empty(), "This should never happen : direction = %s" % direction)
-	
+
 	return opposite_dir
 
 
@@ -879,6 +902,9 @@ func export_player() -> void:
 	var start_angle_array
 	var angle_size
 	var dirnames
+
+	$information_windows/export_progress.popup()
+	$information_windows/export_progress/progress_bar.value = 0
 
 	if $configuration/directions/eight_directions.pressed:
 		num_directions = 8
@@ -972,7 +998,8 @@ func export_player() -> void:
 	new_character.queue_free()
 	get_tree().edited_scene_root.get_node(new_character.name).queue_free()
 	plugin_reference.open_scene("res://%s.tscn" % $configuration/node_name/node_name.text)
-
+	$information_windows/export_progress.hide()
+	$information_windows/export_complete.popup()
 
 # When exporting the ESCPlayer, this function loads the relevant spritesheets based on the
 # animation metadata, and copies the frames to the relevant animations within the animatedsprite
@@ -1032,7 +1059,10 @@ func export_generate_animations(character_node, num_directions) -> Vector2:
 				sprite_frames.set_animation_speed(anim_name, metadata[METADATA_SPEED])
 
 				frame_counter += 1
-
+			if num_directions == 4:
+				$information_windows/export_progress/progress_bar.value += 2
+			else:
+				$information_windows/export_progress/progress_bar.value += 1
 	sprite_frames.remove_animation("default")
 
 	var animated_sprite = AnimatedSprite.new()
@@ -1068,5 +1098,5 @@ func _create_esc_animation(type: String, dir_name: String) -> ESCAnimationName:
 		anim_details.animation = "%s_%s" % [type, find_opposite_direction(dir_name)]
 	else:
 		anim_details.mirrored = false
-		
+
 	return anim_details

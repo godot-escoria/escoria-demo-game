@@ -113,6 +113,8 @@ image = SubResource( 13 )
 size = Vector2( 192, 210 )
 
 [node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 38 )
 
 [node name="background" type="TextureRect" parent="."]
@@ -126,48 +128,48 @@ margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="node_name" type="Control" parent="configuration"]
-margin_right = 40.0
-margin_bottom = 40.0
-
-[node name="node_name_colorrect" type="ColorRect" parent="configuration/node_name"]
 margin_left = 55.0
 margin_top = 12.0
-margin_right = 455.0
-margin_bottom = 562.0
+margin_right = 95.0
+margin_bottom = 52.0
+
+[node name="node_name_colorrect" type="ColorRect" parent="configuration/node_name"]
+margin_right = 400.0
+margin_bottom = 550.0
 color = Color( 0.235294, 0.341176, 0.290196, 1 )
 
 [node name="node_name_label" type="Label" parent="configuration/node_name"]
-margin_left = 60.0
-margin_top = 41.0
-margin_right = 140.0
-margin_bottom = 55.0
+margin_left = 5.0
+margin_top = 29.0
+margin_right = 85.0
+margin_bottom = 43.0
 text = "node name :"
 
 [node name="global_id_label" type="Label" parent="configuration/node_name"]
-margin_left = 76.0
-margin_top = 67.0
-margin_right = 144.0
-margin_bottom = 81.0
+margin_left = 21.0
+margin_top = 55.0
+margin_right = 89.0
+margin_bottom = 69.0
 text = "global_id : "
 
 [node name="node_name" type="LineEdit" parent="configuration/node_name"]
-margin_left = 149.0
-margin_top = 35.0
-margin_right = 269.0
-margin_bottom = 59.0
+margin_left = 94.0
+margin_top = 23.0
+margin_right = 214.0
+margin_bottom = 47.0
+hint_tooltip = "The will be the name of the node in your scene tree."
 text = "replace_me"
 
 [node name="global_id" type="LineEdit" parent="configuration/node_name"]
-margin_left = 149.0
-margin_top = 62.0
-margin_right = 269.0
-margin_bottom = 86.0
+margin_left = 94.0
+margin_top = 50.0
+margin_right = 214.0
+margin_bottom = 74.0
+hint_tooltip = "The global id for the character to be used in ESC scripts."
 
 [node name="name_colorrect" type="ColorRect" parent="configuration/node_name"]
-margin_left = 55.0
-margin_top = 12.0
-margin_right = 455.0
-margin_bottom = 32.0
+margin_right = 400.0
+margin_bottom = 20.0
 color = Color( 0.215686, 0.478431, 0.235294, 1 )
 
 [node name="Label" type="Label" parent="configuration/node_name/name_colorrect"]
@@ -193,6 +195,7 @@ margin_left = 31.0
 margin_top = 20.0
 margin_right = 59.0
 margin_bottom = 48.0
+hint_tooltip = "Up animation (unconfigured)"
 toggle_mode = true
 texture_normal = ExtResource( 32 )
 texture_pressed = ExtResource( 26 )
@@ -204,6 +207,7 @@ margin_left = 69.0
 margin_top = 55.0
 margin_right = 97.0
 margin_bottom = 83.0
+hint_tooltip = "Right animation (unconfigured)"
 toggle_mode = true
 texture_normal = ExtResource( 29 )
 texture_pressed = ExtResource( 4 )
@@ -215,6 +219,7 @@ margin_left = -3.0
 margin_top = 56.0
 margin_right = 25.0
 margin_bottom = 84.0
+hint_tooltip = "Left animation (unconfigured)"
 toggle_mode = true
 texture_normal = ExtResource( 3 )
 texture_pressed = ExtResource( 19 )
@@ -226,6 +231,7 @@ margin_left = 32.0
 margin_top = 92.0
 margin_right = 60.0
 margin_bottom = 120.0
+hint_tooltip = "Down animation (unconfigured)"
 toggle_mode = true
 texture_normal = ExtResource( 31 )
 texture_pressed = ExtResource( 35 )
@@ -237,6 +243,7 @@ margin_left = 61.0
 margin_top = 84.0
 margin_right = 89.0
 margin_bottom = 112.0
+hint_tooltip = "Down right animation (unconfigured)"
 toggle_mode = true
 texture_normal = ExtResource( 34 )
 texture_pressed = ExtResource( 9 )
@@ -248,6 +255,7 @@ margin_left = 3.0
 margin_top = 84.0
 margin_right = 31.0
 margin_bottom = 112.0
+hint_tooltip = "Down left animation (unconfigured)"
 toggle_mode = true
 texture_normal = ExtResource( 36 )
 texture_pressed = ExtResource( 28 )
@@ -259,6 +267,7 @@ margin_left = 59.0
 margin_top = 27.0
 margin_right = 87.0
 margin_bottom = 55.0
+hint_tooltip = "Up right animation (unconfigured)"
 toggle_mode = true
 texture_normal = ExtResource( 14 )
 texture_pressed = ExtResource( 24 )
@@ -270,6 +279,7 @@ margin_left = 3.0
 margin_top = 28.0
 margin_right = 31.0
 margin_bottom = 56.0
+hint_tooltip = "Up left animation (unconfigured)"
 toggle_mode = true
 texture_normal = ExtResource( 20 )
 texture_pressed = ExtResource( 25 )
@@ -280,6 +290,7 @@ margin_left = 31.0
 margin_top = 20.0
 margin_right = 59.0
 margin_bottom = 48.0
+hint_tooltip = "Up animation (configured)"
 toggle_mode = true
 texture_normal = ExtResource( 15 )
 texture_pressed = ExtResource( 17 )
@@ -290,6 +301,7 @@ margin_left = 69.0
 margin_top = 55.0
 margin_right = 97.0
 margin_bottom = 83.0
+hint_tooltip = "Right animation (configured)"
 toggle_mode = true
 texture_normal = ExtResource( 7 )
 texture_pressed = ExtResource( 12 )
@@ -300,6 +312,7 @@ margin_left = -3.0
 margin_top = 56.0
 margin_right = 25.0
 margin_bottom = 84.0
+hint_tooltip = "Left animation (configured)"
 toggle_mode = true
 texture_normal = ExtResource( 18 )
 texture_pressed = ExtResource( 10 )
@@ -310,6 +323,7 @@ margin_left = 32.0
 margin_top = 92.0
 margin_right = 60.0
 margin_bottom = 120.0
+hint_tooltip = "Down animation (configured)"
 toggle_mode = true
 texture_normal = ExtResource( 2 )
 texture_pressed = ExtResource( 30 )
@@ -321,6 +335,7 @@ margin_left = 61.0
 margin_top = 84.0
 margin_right = 89.0
 margin_bottom = 112.0
+hint_tooltip = "Down right animation (configured)"
 toggle_mode = true
 texture_normal = ExtResource( 8 )
 texture_pressed = ExtResource( 27 )
@@ -332,6 +347,7 @@ margin_left = 3.0
 margin_top = 84.0
 margin_right = 31.0
 margin_bottom = 112.0
+hint_tooltip = "Down left animation (configured)"
 toggle_mode = true
 texture_normal = ExtResource( 13 )
 texture_pressed = ExtResource( 16 )
@@ -343,6 +359,7 @@ margin_left = 59.0
 margin_top = 27.0
 margin_right = 87.0
 margin_bottom = 55.0
+hint_tooltip = "Up right animation (configured)"
 toggle_mode = true
 texture_normal = ExtResource( 22 )
 texture_pressed = ExtResource( 6 )
@@ -354,6 +371,7 @@ margin_left = 3.0
 margin_top = 28.0
 margin_right = 31.0
 margin_bottom = 56.0
+hint_tooltip = "Up left animation (configured)"
 toggle_mode = true
 texture_normal = ExtResource( 11 )
 texture_pressed = ExtResource( 23 )
@@ -376,6 +394,7 @@ margin_left = -55.0
 margin_top = -44.0
 margin_right = 1.0
 margin_bottom = -20.0
+hint_tooltip = "Configure walk animations"
 pressed = true
 text = "walk"
 
@@ -384,6 +403,7 @@ margin_left = 21.0
 margin_top = -44.0
 margin_right = 77.0
 margin_bottom = -20.0
+hint_tooltip = "Configure talk animations"
 text = "talk"
 
 [node name="idle_checkbox" type="CheckBox" parent="configuration/animation"]
@@ -391,6 +411,7 @@ margin_left = 98.0
 margin_top = -44.0
 margin_right = 154.0
 margin_bottom = -20.0
+hint_tooltip = "Configure idle animations"
 text = "idle"
 
 [node name="mirror_checkbox" type="CheckBox" parent="configuration/animation"]
@@ -399,6 +420,7 @@ margin_left = -55.0
 margin_top = 140.0
 margin_right = 186.0
 margin_bottom = 180.0
+hint_tooltip = "Mirror opposite direction's animation"
 text = "Mirror animation"
 
 [node name="directions" type="Control" parent="configuration"]
@@ -422,6 +444,7 @@ text = "Number of directions"
 margin_top = 100.0
 margin_right = 56.0
 margin_bottom = 124.0
+hint_tooltip = "Create 4 directions of animation"
 pressed = true
 text = "4"
 
@@ -430,6 +453,7 @@ margin_left = 76.0
 margin_top = 100.0
 margin_right = 132.0
 margin_bottom = 124.0
+hint_tooltip = "Create 8 directions of animation"
 text = "8"
 
 [node name="preview" type="Control" parent="."]
@@ -441,6 +465,7 @@ margin_bottom = 446.0
 [node name="anim_preview_background" type="ColorRect" parent="preview"]
 margin_right = 100.0
 margin_bottom = 200.0
+hint_tooltip = "Animation preview based on current animation settings"
 color = Color( 0.215686, 0.207843, 0.207843, 1 )
 
 [node name="anim_preview_label" type="Label" parent="preview"]
@@ -454,7 +479,6 @@ text = "Animation preview"
 scale = Vector2( 2.85714, 2.85714 )
 frames = SubResource( 7 )
 animation = "in_progress"
-frame = 2
 playing = true
 centered = false
 
@@ -497,6 +521,7 @@ margin_left = 120.0
 margin_top = 426.0
 margin_right = 420.0
 margin_bottom = 446.0
+hint_tooltip = "Current spritesheet zoom level"
 min_value = 0.1
 max_value = 5.0
 value = 1.0
@@ -506,6 +531,7 @@ margin_left = 370.0
 margin_top = 452.0
 margin_right = 418.0
 margin_bottom = 472.0
+hint_tooltip = "Reset spritesheet zoom"
 text = "Reset"
 
 [node name="spritesheet_scroll_container" type="ScrollContainer" parent="spritesheet"]
@@ -513,6 +539,7 @@ margin_left = 20.0
 margin_top = 20.0
 margin_right = 420.0
 margin_bottom = 420.0
+hint_tooltip = "Loaded spritesheet"
 
 [node name="no_spritesheet_found_sprite" type="Sprite" parent="spritesheet/spritesheet_scroll_container"]
 visible = false
@@ -570,6 +597,7 @@ margin_left = 450.0
 margin_top = 34.0
 margin_right = 580.0
 margin_bottom = 54.0
+hint_tooltip = "Load a new spritesheet to create animations"
 text = "Load spritesheet"
 
 [node name="h_frames_spin_box" type="SpinBox" parent="spritesheet_controls"]
@@ -577,6 +605,7 @@ margin_left = 610.0
 margin_top = 64.0
 margin_right = 684.0
 margin_bottom = 88.0
+hint_tooltip = "Divide spritesheet into this many horizontal frames"
 min_value = 1.0
 value = 8.0
 
@@ -593,6 +622,7 @@ margin_left = 610.0
 margin_top = 94.0
 margin_right = 684.0
 margin_bottom = 118.0
+hint_tooltip = "Divide spritesheet into this many vertical frames"
 min_value = 1.0
 value = 3.0
 
@@ -609,6 +639,7 @@ margin_left = 610.0
 margin_top = 124.0
 margin_right = 684.0
 margin_bottom = 148.0
+hint_tooltip = "Start frame to use for this animation"
 min_value = 1.0
 value = 15.0
 
@@ -625,6 +656,7 @@ margin_left = 610.0
 margin_top = 154.0
 margin_right = 684.0
 margin_bottom = 178.0
+hint_tooltip = "End frame to use for this animation"
 min_value = 1.0
 value = 17.0
 
@@ -665,6 +697,7 @@ margin_left = 610.0
 margin_top = 244.0
 margin_right = 710.0
 margin_bottom = 264.0
+hint_tooltip = "Speed of the current animation"
 min_value = 1.0
 max_value = 60.0
 step = 1.0
@@ -680,14 +713,15 @@ window_title = "Open a File"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.png, *.jpg, *.jpeg ; Supported Images" )
-current_dir = "/dev/escoria-demo-game"
-current_path = "/dev/escoria-demo-game/"
+current_dir = "/Godot Projects/escoria-demo-game"
+current_path = "/Godot Projects/escoria-demo-game/"
 
 [node name="export_button" type="Button" parent="spritesheet_controls"]
 margin_left = 443.0
 margin_top = 485.0
 margin_right = 726.0
 margin_bottom = 555.0
+hint_tooltip = "Export all animations to a Godot scene"
 custom_colors/font_color = Color( 0, 1, 0.0392157, 1 )
 text = "Export character to Godot Scene"
 icon = ExtResource( 33 )
@@ -718,11 +752,11 @@ margin_right = 267.0
 margin_bottom = 522.0
 text = "Store Animation"
 
-[node name="error_windows" type="Control" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+[node name="information_windows" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
 
-[node name="unstored_changes_window" type="WindowDialog" parent="error_windows"]
+[node name="unstored_changes_window" type="WindowDialog" parent="information_windows"]
 margin_left = 295.0
 margin_top = 154.0
 margin_right = 985.0
@@ -730,7 +764,7 @@ margin_bottom = 454.0
 popup_exclusive = true
 window_title = "WARNING : Unstored changes"
 
-[node name="Label" type="Label" parent="error_windows/unstored_changes_window"]
+[node name="Label" type="Label" parent="information_windows/unstored_changes_window"]
 margin_left = 86.0
 margin_top = 57.0
 margin_right = 605.0
@@ -742,28 +776,28 @@ You can
 * Lose the changes, and then change to the selected direction.
 * Cancel the request to change directions and keep editing this direction."
 
-[node name="commit_button" type="Button" parent="error_windows/unstored_changes_window"]
+[node name="commit_button" type="Button" parent="information_windows/unstored_changes_window"]
 margin_left = 45.0
 margin_top = 250.0
 margin_right = 215.0
 margin_bottom = 270.0
 text = "Commit changes"
 
-[node name="lose_button" type="Button" parent="error_windows/unstored_changes_window"]
+[node name="lose_button" type="Button" parent="information_windows/unstored_changes_window"]
 margin_left = 260.0
 margin_top = 250.0
 margin_right = 430.0
 margin_bottom = 270.0
 text = "Lose changes"
 
-[node name="cancel_button" type="Button" parent="error_windows/unstored_changes_window"]
+[node name="cancel_button" type="Button" parent="information_windows/unstored_changes_window"]
 margin_left = 475.0
 margin_top = 250.0
 margin_right = 645.0
 margin_bottom = 270.0
 text = "Cancel and keep editing"
 
-[node name="generic_error_window" type="AcceptDialog" parent="error_windows"]
+[node name="generic_error_window" type="AcceptDialog" parent="information_windows"]
 margin_left = 472.0
 margin_top = 234.0
 margin_right = 807.0
@@ -771,6 +805,63 @@ margin_bottom = 334.0
 popup_exclusive = true
 dialog_text = "You cant mirror a direction that's already mirrored
 "
+
+[node name="export_progress" type="WindowDialog" parent="information_windows"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -200.0
+margin_top = -100.0
+margin_right = 200.0
+margin_bottom = 100.0
+size_flags_horizontal = 3
+popup_exclusive = true
+window_title = "Export Status"
+
+[node name="Label" type="Label" parent="information_windows/export_progress"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -128.0
+margin_top = 30.0
+margin_right = 128.0
+margin_bottom = 78.0
+size_flags_horizontal = 3
+size_flags_vertical = 5
+text = "Exporting animations to ESCPlayer node."
+
+[node name="progress_bar" type="ProgressBar" parent="information_windows/export_progress"]
+margin_left = 50.0
+margin_top = 100.0
+margin_right = 350.0
+margin_bottom = 130.0
+max_value = 24.0
+rounded = true
+
+[node name="export_complete" type="AcceptDialog" parent="information_windows"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -258.5
+margin_top = -139.5
+margin_right = 258.5
+margin_bottom = 139.5
+window_title = "Export complete"
+dialog_text = "The new  ESCPlayer node has now been exported. 
+For your convenience, it has been automatically opened in the Godot editor.
+
+Some actions you may now want to perform:
+
+* A dialog position node has been created. This is where text will appear when
+the player talks. You will want to move this either above the character's head
+or below their feet.
+
+*  The CollisionShape child node defines the bounds of the character. You may
+want to resize or change the shape assigned to this node.
+
+* You may want to shift this node to a different directory in your codebase
+(e.g. into a \"characters\" folder) to group it with other game characters."
 
 [node name="Sprite" type="Sprite" parent="."]
 
@@ -802,6 +893,6 @@ dialog_text = "You cant mirror a direction that's already mirrored
 [connection signal="file_selected" from="spritesheet_controls/FileDialog" to="." method="controls_on_FileDialog_file_selected"]
 [connection signal="pressed" from="spritesheet_controls/export_button" to="." method="spritesheet_on_export_button_pressed"]
 [connection signal="pressed" from="store_anim/anim_store_button" to="." method="store_on_anim_store_button_pressed"]
-[connection signal="pressed" from="error_windows/unstored_changes_window/commit_button" to="." method="unstored_warning_on_commit_button_pressed"]
-[connection signal="pressed" from="error_windows/unstored_changes_window/lose_button" to="." method="unstored_warning_on_lose_button_pressed"]
-[connection signal="pressed" from="error_windows/unstored_changes_window/cancel_button" to="." method="unstored_warning_on_cancel_button_pressed"]
+[connection signal="pressed" from="information_windows/unstored_changes_window/commit_button" to="." method="unstored_warning_on_commit_button_pressed"]
+[connection signal="pressed" from="information_windows/unstored_changes_window/lose_button" to="." method="unstored_warning_on_lose_button_pressed"]
+[connection signal="pressed" from="information_windows/unstored_changes_window/cancel_button" to="." method="unstored_warning_on_cancel_button_pressed"]
