@@ -1,3 +1,12 @@
+## [4.0.0-alpha.188](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.188) (2022-06-23)
+
+
+### Bug Fixes
+
+* handles translation keys that have only one word (i.e. no spaces… ([#596](https://github.com/godot-escoria/escoria-demo-game/issues/596)) ([653e336](https://github.com/godot-escoria/escoria-demo-game/commit/653e33638311c8b70122aa56242dbd3782bb9b6b))
+
+
+
 ## [4.0.0-alpha.187](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.187) (2022-06-10)
 
 
