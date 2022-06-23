@@ -123,73 +123,130 @@ margin_bottom = 2000.0
 texture = ExtResource( 1 )
 stretch_mode = 2
 
-[node name="configuration" type="Control" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="background"]
+margin_right = 40.0
+margin_bottom = 40.0
+custom_constants/separation = 20
+
+[node name="configuration" type="Control" parent="background/HBoxContainer"]
+margin_right = 400.0
+margin_bottom = 550.0
+rect_min_size = Vector2( 400, 550 )
+
+[node name="node_name_colorrect" type="ColorRect" parent="background/HBoxContainer/configuration"]
+margin_right = 400.0
+margin_bottom = 550.0
+rect_min_size = Vector2( 400, 0 )
+color = Color( 0.235294, 0.341176, 0.290196, 1 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="background/HBoxContainer/configuration"]
 margin_right = 40.0
 margin_bottom = 40.0
 
-[node name="node_name" type="Control" parent="configuration"]
-margin_left = 55.0
-margin_top = 12.0
-margin_right = 95.0
-margin_bottom = 52.0
-
-[node name="node_name_colorrect" type="ColorRect" parent="configuration/node_name"]
+[node name="node_name" type="Control" parent="background/HBoxContainer/configuration/VBoxContainer"]
 margin_right = 400.0
-margin_bottom = 550.0
-color = Color( 0.235294, 0.341176, 0.290196, 1 )
+margin_bottom = 100.0
+rect_min_size = Vector2( 400, 100 )
 
-[node name="node_name_label" type="Label" parent="configuration/node_name"]
+[node name="node_name_label" type="Label" parent="background/HBoxContainer/configuration/VBoxContainer/node_name"]
 margin_left = 5.0
 margin_top = 29.0
 margin_right = 85.0
 margin_bottom = 43.0
 text = "node name :"
 
-[node name="global_id_label" type="Label" parent="configuration/node_name"]
+[node name="global_id_label" type="Label" parent="background/HBoxContainer/configuration/VBoxContainer/node_name"]
 margin_left = 21.0
 margin_top = 55.0
 margin_right = 89.0
 margin_bottom = 69.0
 text = "global_id : "
 
-[node name="node_name" type="LineEdit" parent="configuration/node_name"]
+[node name="node_name" type="LineEdit" parent="background/HBoxContainer/configuration/VBoxContainer/node_name"]
 margin_left = 94.0
 margin_top = 23.0
 margin_right = 214.0
 margin_bottom = 47.0
+rect_min_size = Vector2( 200, 0 )
 hint_tooltip = "The will be the name of the node in your scene tree."
 text = "replace_me"
 
-[node name="global_id" type="LineEdit" parent="configuration/node_name"]
+[node name="global_id" type="LineEdit" parent="background/HBoxContainer/configuration/VBoxContainer/node_name"]
 margin_left = 94.0
 margin_top = 50.0
 margin_right = 214.0
 margin_bottom = 74.0
+rect_min_size = Vector2( 200, 0 )
 hint_tooltip = "The global id for the character to be used in ESC scripts."
 
-[node name="name_colorrect" type="ColorRect" parent="configuration/node_name"]
+[node name="name_colorrect" type="ColorRect" parent="background/HBoxContainer/configuration/VBoxContainer/node_name"]
 margin_right = 400.0
 margin_bottom = 20.0
 color = Color( 0.215686, 0.478431, 0.235294, 1 )
 
-[node name="Label" type="Label" parent="configuration/node_name/name_colorrect"]
+[node name="Label" type="Label" parent="background/HBoxContainer/configuration/VBoxContainer/node_name/name_colorrect"]
 margin_right = 40.0
 margin_bottom = 14.0
 text = "Node name"
 
-[node name="animation" type="Control" parent="configuration"]
-margin_left = 130.0
-margin_top = 258.0
-margin_right = 170.0
-margin_bottom = 298.0
+[node name="directions" type="Control" parent="background/HBoxContainer/configuration/VBoxContainer"]
+margin_top = 104.0
+margin_right = 400.0
+margin_bottom = 204.0
+rect_min_size = Vector2( 400, 100 )
 
-[node name="current_direction_label" type="Label" parent="configuration/animation"]
+[node name="directions_colorrect" type="ColorRect" parent="background/HBoxContainer/configuration/VBoxContainer/directions"]
+margin_right = 400.0
+margin_bottom = 20.0
+color = Color( 0.215686, 0.478431, 0.235294, 1 )
+
+[node name="direction_number_label" type="Label" parent="background/HBoxContainer/configuration/VBoxContainer/directions/directions_colorrect"]
 margin_right = 136.0
-margin_bottom = 31.0
+margin_bottom = 14.0
+text = "Number of directions"
+
+[node name="four_directions" type="CheckBox" parent="background/HBoxContainer/configuration/VBoxContainer/directions"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 76.0
+margin_bottom = 44.0
+hint_tooltip = "Create 4 directions of animation"
+pressed = true
+text = "4"
+
+[node name="eight_directions" type="CheckBox" parent="background/HBoxContainer/configuration/VBoxContainer/directions"]
+margin_left = 100.0
+margin_top = 20.0
+margin_right = 156.0
+margin_bottom = 44.0
+hint_tooltip = "Create 8 directions of animation"
+text = "8"
+
+[node name="animation" type="Control" parent="background/HBoxContainer/configuration/VBoxContainer"]
+margin_top = 208.0
+margin_right = 400.0
+margin_bottom = 408.0
+rect_min_size = Vector2( 400, 200 )
+
+[node name="animation_type_colorrect" type="ColorRect" parent="background/HBoxContainer/configuration/VBoxContainer/animation"]
+margin_right = 400.0
+margin_bottom = 20.0
+color = Color( 0.215686, 0.478431, 0.235294, 1 )
+
+[node name="animation_type_label" type="Label" parent="background/HBoxContainer/configuration/VBoxContainer/animation/animation_type_colorrect"]
+margin_right = 100.0
+margin_bottom = 14.0
+text = "Animation "
+
+[node name="current_direction_label" type="Label" parent="background/HBoxContainer/configuration/VBoxContainer/animation"]
+margin_left = 20.0
+margin_top = 120.0
+margin_right = 156.0
+margin_bottom = 151.0
 text = "Current direction
 "
 
-[node name="unset_dir_up" type="TextureButton" parent="configuration/animation" groups=["direction_buttons"]]
+[node name="unset_dir_up" type="TextureButton" parent="background/HBoxContainer/configuration/VBoxContainer/animation" groups=["direction_buttons"]]
 visible = false
 margin_left = 31.0
 margin_top = 20.0
@@ -201,7 +258,7 @@ texture_normal = ExtResource( 32 )
 texture_pressed = ExtResource( 26 )
 texture_hover = ExtResource( 26 )
 
-[node name="unset_dir_right" type="TextureButton" parent="configuration/animation" groups=["direction_buttons"]]
+[node name="unset_dir_right" type="TextureButton" parent="background/HBoxContainer/configuration/VBoxContainer/animation" groups=["direction_buttons"]]
 visible = false
 margin_left = 69.0
 margin_top = 55.0
@@ -213,7 +270,7 @@ texture_normal = ExtResource( 29 )
 texture_pressed = ExtResource( 4 )
 texture_hover = ExtResource( 4 )
 
-[node name="unset_dir_left" type="TextureButton" parent="configuration/animation" groups=["direction_buttons"]]
+[node name="unset_dir_left" type="TextureButton" parent="background/HBoxContainer/configuration/VBoxContainer/animation" groups=["direction_buttons"]]
 visible = false
 margin_left = -3.0
 margin_top = 56.0
@@ -225,7 +282,7 @@ texture_normal = ExtResource( 3 )
 texture_pressed = ExtResource( 19 )
 texture_hover = ExtResource( 19 )
 
-[node name="unset_dir_down" type="TextureButton" parent="configuration/animation" groups=["direction_buttons"]]
+[node name="unset_dir_down" type="TextureButton" parent="background/HBoxContainer/configuration/VBoxContainer/animation" groups=["direction_buttons"]]
 visible = false
 margin_left = 32.0
 margin_top = 92.0
@@ -237,7 +294,7 @@ texture_normal = ExtResource( 31 )
 texture_pressed = ExtResource( 35 )
 texture_hover = ExtResource( 35 )
 
-[node name="unset_dir_downright" type="TextureButton" parent="configuration/animation" groups=["8_direction_buttons", "direction_buttons"]]
+[node name="unset_dir_downright" type="TextureButton" parent="background/HBoxContainer/configuration/VBoxContainer/animation" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
 margin_left = 61.0
 margin_top = 84.0
@@ -249,7 +306,7 @@ texture_normal = ExtResource( 34 )
 texture_pressed = ExtResource( 9 )
 texture_hover = ExtResource( 9 )
 
-[node name="unset_dir_downleft" type="TextureButton" parent="configuration/animation" groups=["8_direction_buttons", "direction_buttons"]]
+[node name="unset_dir_downleft" type="TextureButton" parent="background/HBoxContainer/configuration/VBoxContainer/animation" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
 margin_left = 3.0
 margin_top = 84.0
@@ -261,7 +318,7 @@ texture_normal = ExtResource( 36 )
 texture_pressed = ExtResource( 28 )
 texture_hover = ExtResource( 28 )
 
-[node name="unset_dir_upright" type="TextureButton" parent="configuration/animation" groups=["8_direction_buttons", "direction_buttons"]]
+[node name="unset_dir_upright" type="TextureButton" parent="background/HBoxContainer/configuration/VBoxContainer/animation" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
 margin_left = 59.0
 margin_top = 27.0
@@ -273,7 +330,7 @@ texture_normal = ExtResource( 14 )
 texture_pressed = ExtResource( 24 )
 texture_hover = ExtResource( 24 )
 
-[node name="unset_dir_upleft" type="TextureButton" parent="configuration/animation" groups=["8_direction_buttons", "direction_buttons"]]
+[node name="unset_dir_upleft" type="TextureButton" parent="background/HBoxContainer/configuration/VBoxContainer/animation" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
 margin_left = 3.0
 margin_top = 28.0
@@ -285,51 +342,52 @@ texture_normal = ExtResource( 20 )
 texture_pressed = ExtResource( 25 )
 texture_hover = ExtResource( 25 )
 
-[node name="set_dir_up" type="TextureButton" parent="configuration/animation" groups=["direction_buttons"]]
-margin_left = 31.0
-margin_top = 20.0
-margin_right = 59.0
-margin_bottom = 48.0
+[node name="set_dir_up" type="TextureButton" parent="background/HBoxContainer/configuration/VBoxContainer/animation" groups=["direction_buttons"]]
+margin_left = 54.0
+margin_top = 153.0
+margin_right = 82.0
+margin_bottom = 181.0
 hint_tooltip = "Up animation (configured)"
 toggle_mode = true
+pressed = true
 texture_normal = ExtResource( 15 )
 texture_pressed = ExtResource( 17 )
 texture_hover = ExtResource( 17 )
 
-[node name="set_dir_right" type="TextureButton" parent="configuration/animation" groups=["direction_buttons"]]
-margin_left = 69.0
-margin_top = 55.0
-margin_right = 97.0
-margin_bottom = 83.0
+[node name="set_dir_right" type="TextureButton" parent="background/HBoxContainer/configuration/VBoxContainer/animation" groups=["direction_buttons"]]
+margin_left = 92.0
+margin_top = 188.0
+margin_right = 120.0
+margin_bottom = 216.0
 hint_tooltip = "Right animation (configured)"
 toggle_mode = true
 texture_normal = ExtResource( 7 )
 texture_pressed = ExtResource( 12 )
 texture_hover = ExtResource( 12 )
 
-[node name="set_dir_left" type="TextureButton" parent="configuration/animation" groups=["direction_buttons"]]
-margin_left = -3.0
-margin_top = 56.0
-margin_right = 25.0
-margin_bottom = 84.0
+[node name="set_dir_left" type="TextureButton" parent="background/HBoxContainer/configuration/VBoxContainer/animation" groups=["direction_buttons"]]
+margin_left = 20.0
+margin_top = 189.0
+margin_right = 48.0
+margin_bottom = 217.0
 hint_tooltip = "Left animation (configured)"
 toggle_mode = true
 texture_normal = ExtResource( 18 )
 texture_pressed = ExtResource( 10 )
 texture_hover = ExtResource( 10 )
 
-[node name="set_dir_down" type="TextureButton" parent="configuration/animation" groups=["direction_buttons"]]
-margin_left = 32.0
-margin_top = 92.0
-margin_right = 60.0
-margin_bottom = 120.0
+[node name="set_dir_down" type="TextureButton" parent="background/HBoxContainer/configuration/VBoxContainer/animation" groups=["direction_buttons"]]
+margin_left = 55.0
+margin_top = 225.0
+margin_right = 83.0
+margin_bottom = 253.0
 hint_tooltip = "Down animation (configured)"
 toggle_mode = true
 texture_normal = ExtResource( 2 )
 texture_pressed = ExtResource( 30 )
 texture_hover = ExtResource( 30 )
 
-[node name="set_dir_downright" type="TextureButton" parent="configuration/animation" groups=["8_direction_buttons", "direction_buttons"]]
+[node name="set_dir_downright" type="TextureButton" parent="background/HBoxContainer/configuration/VBoxContainer/animation" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
 margin_left = 61.0
 margin_top = 84.0
@@ -341,7 +399,7 @@ texture_normal = ExtResource( 8 )
 texture_pressed = ExtResource( 27 )
 texture_hover = ExtResource( 27 )
 
-[node name="set_dir_downleft" type="TextureButton" parent="configuration/animation" groups=["8_direction_buttons", "direction_buttons"]]
+[node name="set_dir_downleft" type="TextureButton" parent="background/HBoxContainer/configuration/VBoxContainer/animation" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
 margin_left = 3.0
 margin_top = 84.0
@@ -353,7 +411,7 @@ texture_normal = ExtResource( 13 )
 texture_pressed = ExtResource( 16 )
 texture_hover = ExtResource( 16 )
 
-[node name="set_dir_upright" type="TextureButton" parent="configuration/animation" groups=["8_direction_buttons", "direction_buttons"]]
+[node name="set_dir_upright" type="TextureButton" parent="background/HBoxContainer/configuration/VBoxContainer/animation" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
 margin_left = 59.0
 margin_top = 27.0
@@ -365,7 +423,7 @@ texture_normal = ExtResource( 22 )
 texture_pressed = ExtResource( 6 )
 texture_hover = ExtResource( 6 )
 
-[node name="set_dir_upleft" type="TextureButton" parent="configuration/animation" groups=["8_direction_buttons", "direction_buttons"]]
+[node name="set_dir_upleft" type="TextureButton" parent="background/HBoxContainer/configuration/VBoxContainer/animation" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
 margin_left = 3.0
 margin_top = 28.0
@@ -377,44 +435,32 @@ texture_normal = ExtResource( 11 )
 texture_pressed = ExtResource( 23 )
 texture_hover = ExtResource( 23 )
 
-[node name="animation_type_colorrect" type="ColorRect" parent="configuration/animation"]
-margin_left = -75.0
-margin_top = -95.0
-margin_right = 325.0
-margin_bottom = -75.0
-color = Color( 0.215686, 0.478431, 0.235294, 1 )
-
-[node name="animation_type_label" type="Label" parent="configuration/animation/animation_type_colorrect"]
-margin_right = 100.0
-margin_bottom = 14.0
-text = "Animation "
-
-[node name="walk_checkbox" type="CheckBox" parent="configuration/animation"]
-margin_left = -55.0
-margin_top = -44.0
-margin_right = 1.0
-margin_bottom = -20.0
+[node name="walk_checkbox" type="CheckBox" parent="background/HBoxContainer/configuration/VBoxContainer/animation"]
+margin_left = 20.0
+margin_top = 40.0
+margin_right = 76.0
+margin_bottom = 64.0
 hint_tooltip = "Configure walk animations"
 pressed = true
 text = "walk"
 
-[node name="talk_checkbox" type="CheckBox" parent="configuration/animation"]
-margin_left = 21.0
-margin_top = -44.0
-margin_right = 77.0
-margin_bottom = -20.0
+[node name="talk_checkbox" type="CheckBox" parent="background/HBoxContainer/configuration/VBoxContainer/animation"]
+margin_left = 100.0
+margin_top = 40.0
+margin_right = 156.0
+margin_bottom = 64.0
 hint_tooltip = "Configure talk animations"
 text = "talk"
 
-[node name="idle_checkbox" type="CheckBox" parent="configuration/animation"]
-margin_left = 98.0
-margin_top = -44.0
-margin_right = 154.0
-margin_bottom = -20.0
+[node name="idle_checkbox" type="CheckBox" parent="background/HBoxContainer/configuration/VBoxContainer/animation"]
+margin_left = 180.0
+margin_top = 40.0
+margin_right = 236.0
+margin_bottom = 64.0
 hint_tooltip = "Configure idle animations"
 text = "idle"
 
-[node name="mirror_checkbox" type="CheckBox" parent="configuration/animation"]
+[node name="mirror_checkbox" type="CheckBox" parent="background/HBoxContainer/configuration/VBoxContainer/animation"]
 visible = false
 margin_left = -55.0
 margin_top = 140.0
@@ -423,100 +469,73 @@ margin_bottom = 180.0
 hint_tooltip = "Mirror opposite direction's animation"
 text = "Mirror animation"
 
-[node name="directions" type="Control" parent="configuration"]
-margin_left = 55.0
-margin_top = 12.0
-margin_right = 95.0
-margin_bottom = 52.0
+[node name="preview" type="Control" parent="background/HBoxContainer/configuration/VBoxContainer/animation"]
+margin_left = 266.0
+margin_top = 94.0
+margin_right = 366.0
+margin_bottom = 294.0
+rect_min_size = Vector2( 100, 200 )
 
-[node name="directions_colorrect" type="ColorRect" parent="configuration/directions"]
-margin_top = 77.0
-margin_right = 400.0
-margin_bottom = 97.0
-color = Color( 0.215686, 0.478431, 0.235294, 1 )
-
-[node name="direction_number_label" type="Label" parent="configuration/directions/directions_colorrect"]
-margin_right = 136.0
-margin_bottom = 14.0
-text = "Number of directions"
-
-[node name="four_directions" type="CheckBox" parent="configuration/directions"]
-margin_top = 100.0
-margin_right = 56.0
-margin_bottom = 124.0
-hint_tooltip = "Create 4 directions of animation"
-pressed = true
-text = "4"
-
-[node name="eight_directions" type="CheckBox" parent="configuration/directions"]
-margin_left = 76.0
-margin_top = 100.0
-margin_right = 132.0
-margin_bottom = 124.0
-hint_tooltip = "Create 8 directions of animation"
-text = "8"
-
-[node name="preview" type="Control" parent="."]
-margin_left = 339.0
-margin_top = 246.0
-margin_right = 439.0
-margin_bottom = 446.0
-
-[node name="anim_preview_background" type="ColorRect" parent="preview"]
+[node name="anim_preview_background" type="ColorRect" parent="background/HBoxContainer/configuration/VBoxContainer/animation/preview"]
 margin_right = 100.0
 margin_bottom = 200.0
 hint_tooltip = "Animation preview based on current animation settings"
 color = Color( 0.215686, 0.207843, 0.207843, 1 )
 
-[node name="anim_preview_label" type="Label" parent="preview"]
-margin_left = -6.0
-margin_top = 204.0
-margin_right = 122.0
-margin_bottom = 218.0
+[node name="anim_preview_label" type="Label" parent="background/HBoxContainer/configuration/VBoxContainer/animation/preview"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -64.0
+margin_top = 5.0
+margin_right = 64.0
+margin_bottom = 19.0
 text = "Animation preview"
 
-[node name="anim_preview_sprite" type="AnimatedSprite" parent="preview"]
+[node name="anim_preview_sprite" type="AnimatedSprite" parent="background/HBoxContainer/configuration/VBoxContainer/animation/preview"]
 scale = Vector2( 2.85714, 2.85714 )
 frames = SubResource( 7 )
 animation = "in_progress"
+frame = 2
 playing = true
 centered = false
 
-[node name="no_anim_found_sprite" type="Sprite" parent="preview"]
+[node name="no_anim_found_sprite" type="Sprite" parent="background/HBoxContainer/configuration/VBoxContainer/animation/preview"]
 visible = false
 texture = ExtResource( 5 )
 centered = false
 
-[node name="spritesheet" type="Control" parent="."]
-margin_left = 475.0
-margin_top = 12.0
-margin_right = 515.0
-margin_bottom = 52.0
+[node name="spritesheet" type="Control" parent="background/HBoxContainer"]
+margin_left = 420.0
+margin_right = 860.0
+margin_bottom = 550.0
+rect_min_size = Vector2( 440, 550 )
 
-[node name="spritesheet_background" type="ColorRect" parent="spritesheet"]
+[node name="spritesheet_background" type="ColorRect" parent="background/HBoxContainer/spritesheet"]
 margin_right = 440.0
 margin_bottom = 550.0
 color = Color( 0.235294, 0.341176, 0.290196, 1 )
 
-[node name="spritesheet_area" type="ColorRect" parent="spritesheet"]
+[node name="spritesheet_area" type="ColorRect" parent="background/HBoxContainer/spritesheet"]
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 420.0
 margin_bottom = 420.0
 color = Color( 0.203922, 0.184314, 0.184314, 1 )
 
-[node name="zoom" type="Control" parent="spritesheet"]
+[node name="zoom" type="Control" parent="background/HBoxContainer/spritesheet"]
 margin_right = 40.0
 margin_bottom = 40.0
 
-[node name="zoom_label" type="Label" parent="spritesheet/zoom"]
+[node name="zoom_label" type="Label" parent="background/HBoxContainer/spritesheet/zoom"]
 margin_left = 24.0
 margin_top = 430.0
 margin_right = 88.0
 margin_bottom = 444.0
 text = "Zoom: 1x"
 
-[node name="zoom_scrollbar" type="HScrollBar" parent="spritesheet/zoom"]
+[node name="zoom_scrollbar" type="HScrollBar" parent="background/HBoxContainer/spritesheet/zoom"]
 margin_left = 120.0
 margin_top = 426.0
 margin_right = 420.0
@@ -526,7 +545,7 @@ min_value = 0.1
 max_value = 5.0
 value = 1.0
 
-[node name="zoom_reset_button" type="Button" parent="spritesheet/zoom"]
+[node name="zoom_reset_button" type="Button" parent="background/HBoxContainer/spritesheet/zoom"]
 margin_left = 370.0
 margin_top = 452.0
 margin_right = 418.0
@@ -534,28 +553,28 @@ margin_bottom = 472.0
 hint_tooltip = "Reset spritesheet zoom"
 text = "Reset"
 
-[node name="spritesheet_scroll_container" type="ScrollContainer" parent="spritesheet"]
+[node name="spritesheet_scroll_container" type="ScrollContainer" parent="background/HBoxContainer/spritesheet"]
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 420.0
 margin_bottom = 420.0
 hint_tooltip = "Loaded spritesheet"
 
-[node name="no_spritesheet_found_sprite" type="Sprite" parent="spritesheet/spritesheet_scroll_container"]
+[node name="no_spritesheet_found_sprite" type="Sprite" parent="background/HBoxContainer/spritesheet/spritesheet_scroll_container"]
 visible = false
 texture = ExtResource( 21 )
 centered = false
 
-[node name="control" type="Control" parent="spritesheet/spritesheet_scroll_container"]
+[node name="control" type="Control" parent="background/HBoxContainer/spritesheet/spritesheet_scroll_container"]
 margin_right = 192.0
 margin_bottom = 210.0
 rect_min_size = Vector2( 192, 210 )
 
-[node name="spritesheet_sprite" type="Sprite" parent="spritesheet/spritesheet_scroll_container/control"]
+[node name="spritesheet_sprite" type="Sprite" parent="background/HBoxContainer/spritesheet/spritesheet_scroll_container/control"]
 texture = SubResource( 9 )
 centered = false
 
-[node name="frame_rectangles" type="Control" parent="spritesheet/spritesheet_scroll_container/control"]
+[node name="frame_rectangles" type="Control" parent="background/HBoxContainer/spritesheet/spritesheet_scroll_container/control"]
 margin_right = 40.0
 margin_bottom = 40.0
 script = ExtResource( 37 )
@@ -564,7 +583,7 @@ start_cell = 15
 end_cell = 17
 cell_size = Vector2( 24, 70 )
 
-[node name="current_spritesheet" type="Label" parent="spritesheet"]
+[node name="current_spritesheet" type="Label" parent="background/HBoxContainer/spritesheet"]
 margin_left = 12.0
 margin_top = 478.0
 margin_right = 421.0
@@ -572,7 +591,7 @@ margin_bottom = 526.0
 text = "Current spritesheet:"
 autowrap = true
 
-[node name="current_spritesheet_label" type="Label" parent="spritesheet"]
+[node name="current_spritesheet_label" type="Label" parent="background/HBoxContainer/spritesheet"]
 margin_left = 12.0
 margin_top = 495.0
 margin_right = 421.0
@@ -580,123 +599,135 @@ margin_bottom = 543.0
 text = "res://addons/escoria-player-creator/graphics/mark-animtest.png"
 autowrap = true
 
-[node name="spritesheet_controls" type="Control" parent="."]
-margin_left = 502.0
-margin_right = 542.0
-margin_bottom = 40.0
+[node name="spritesheet_controls" type="Control" parent="background/HBoxContainer"]
+margin_left = 880.0
+margin_right = 1180.0
+margin_bottom = 550.0
+rect_min_size = Vector2( 300, 450 )
 
-[node name="background_colorrect" type="ColorRect" parent="spritesheet_controls"]
-margin_left = 435.0
-margin_top = 12.0
-margin_right = 735.0
-margin_bottom = 562.0
+[node name="background_colorrect" type="ColorRect" parent="background/HBoxContainer/spritesheet_controls"]
+margin_right = 300.0
+margin_bottom = 550.0
 color = Color( 0.235294, 0.341176, 0.290196, 1 )
 
-[node name="load_spritesheet_button" type="Button" parent="spritesheet_controls"]
-margin_left = 450.0
-margin_top = 34.0
-margin_right = 580.0
-margin_bottom = 54.0
+[node name="load_spritesheet_button" type="Button" parent="background/HBoxContainer/spritesheet_controls"]
+margin_top = 20.0
+margin_right = 186.0
+margin_bottom = 40.0
 hint_tooltip = "Load a new spritesheet to create animations"
 text = "Load spritesheet"
 
-[node name="h_frames_spin_box" type="SpinBox" parent="spritesheet_controls"]
-margin_left = 610.0
-margin_top = 64.0
-margin_right = 684.0
-margin_bottom = 88.0
+[node name="GridContainer" type="GridContainer" parent="background/HBoxContainer/spritesheet_controls"]
+margin_left = 20.0
+margin_top = 60.0
+margin_right = 288.0
+margin_bottom = 274.0
+rect_min_size = Vector2( 260, 0 )
+custom_constants/vseparation = 8
+custom_constants/hseparation = 8
+columns = 2
+
+[node name="h_frames_label" type="Label" parent="background/HBoxContainer/spritesheet_controls/GridContainer"]
+margin_top = 5.0
+margin_right = 186.0
+margin_bottom = 19.0
+text = "Horizontal Frames"
+align = 2
+
+[node name="h_frames_spin_box" type="SpinBox" parent="background/HBoxContainer/spritesheet_controls/GridContainer"]
+margin_left = 194.0
+margin_right = 268.0
+margin_bottom = 24.0
 hint_tooltip = "Divide spritesheet into this many horizontal frames"
 min_value = 1.0
 value = 8.0
 
-[node name="h_frames_label" type="Label" parent="spritesheet_controls"]
-margin_left = 450.0
-margin_top = 69.0
-margin_right = 580.0
-margin_bottom = 83.0
-text = "Horizontal Frames"
+[node name="v_frames_label" type="Label" parent="background/HBoxContainer/spritesheet_controls/GridContainer"]
+margin_top = 37.0
+margin_right = 186.0
+margin_bottom = 51.0
+text = "Vertical Frames"
 align = 2
 
-[node name="v_frames_spin_box" type="SpinBox" parent="spritesheet_controls"]
-margin_left = 610.0
-margin_top = 94.0
-margin_right = 684.0
-margin_bottom = 118.0
+[node name="v_frames_spin_box" type="SpinBox" parent="background/HBoxContainer/spritesheet_controls/GridContainer"]
+margin_left = 194.0
+margin_top = 32.0
+margin_right = 268.0
+margin_bottom = 56.0
 hint_tooltip = "Divide spritesheet into this many vertical frames"
 min_value = 1.0
 value = 3.0
 
-[node name="v_frames_label" type="Label" parent="spritesheet_controls"]
-margin_left = 450.0
-margin_top = 99.0
-margin_right = 580.0
-margin_bottom = 113.0
-text = "Vertical Frames"
+[node name="start_frame_label" type="Label" parent="background/HBoxContainer/spritesheet_controls/GridContainer"]
+margin_top = 69.0
+margin_right = 186.0
+margin_bottom = 83.0
+text = "Start Frame"
 align = 2
 
-[node name="start_frame" type="SpinBox" parent="spritesheet_controls"]
-margin_left = 610.0
-margin_top = 124.0
-margin_right = 684.0
-margin_bottom = 148.0
+[node name="start_frame" type="SpinBox" parent="background/HBoxContainer/spritesheet_controls/GridContainer"]
+margin_left = 194.0
+margin_top = 64.0
+margin_right = 268.0
+margin_bottom = 88.0
 hint_tooltip = "Start frame to use for this animation"
 min_value = 1.0
 value = 15.0
 
-[node name="start_frame_label" type="Label" parent="spritesheet_controls"]
-margin_left = 450.0
-margin_top = 129.0
-margin_right = 580.0
-margin_bottom = 143.0
-text = "Start Frame"
+[node name="end_frame_label" type="Label" parent="background/HBoxContainer/spritesheet_controls/GridContainer"]
+margin_top = 101.0
+margin_right = 186.0
+margin_bottom = 115.0
+text = "End Frame"
 align = 2
 
-[node name="end_frame" type="SpinBox" parent="spritesheet_controls"]
-margin_left = 610.0
-margin_top = 154.0
-margin_right = 684.0
-margin_bottom = 178.0
+[node name="end_frame" type="SpinBox" parent="background/HBoxContainer/spritesheet_controls/GridContainer"]
+margin_left = 194.0
+margin_top = 96.0
+margin_right = 268.0
+margin_bottom = 120.0
 hint_tooltip = "End frame to use for this animation"
 min_value = 1.0
 value = 17.0
 
-[node name="end_frame_label" type="Label" parent="spritesheet_controls"]
-margin_left = 450.0
-margin_top = 159.0
-margin_right = 580.0
-margin_bottom = 173.0
-text = "End Frame"
-align = 2
-
-[node name="original_size_label" type="Label" parent="spritesheet_controls"]
-margin_left = 450.0
-margin_top = 189.0
-margin_right = 644.0
-margin_bottom = 203.0
+[node name="original_size_label" type="Label" parent="background/HBoxContainer/spritesheet_controls/GridContainer"]
+margin_top = 128.0
+margin_right = 186.0
+margin_bottom = 142.0
 text = "Source sprite size: (192, 210)"
 align = 2
 
-[node name="frame_size_label" type="Label" parent="spritesheet_controls"]
-margin_left = 450.0
-margin_top = 219.0
-margin_right = 584.0
-margin_bottom = 233.0
+[node name="empty_node2" type="Control" parent="background/HBoxContainer/spritesheet_controls/GridContainer"]
+margin_left = 194.0
+margin_top = 128.0
+margin_right = 268.0
+margin_bottom = 142.0
+
+[node name="frame_size_label" type="Label" parent="background/HBoxContainer/spritesheet_controls/GridContainer"]
+margin_top = 150.0
+margin_right = 186.0
+margin_bottom = 164.0
 text = "Frame size: (24, 70)"
 align = 2
 
-[node name="anim_speed_label" type="Label" parent="spritesheet_controls"]
-margin_left = 443.0
-margin_top = 248.0
-margin_right = 598.0
-margin_bottom = 262.0
+[node name="empty_node3" type="Control" parent="background/HBoxContainer/spritesheet_controls/GridContainer"]
+margin_left = 194.0
+margin_top = 150.0
+margin_right = 268.0
+margin_bottom = 164.0
+
+[node name="anim_speed_label" type="Label" parent="background/HBoxContainer/spritesheet_controls/GridContainer"]
+margin_top = 172.0
+margin_right = 186.0
+margin_bottom = 186.0
 text = "Animation Speed : 3 FPS"
 align = 2
 
-[node name="anim_speed_scroll_bar" type="HScrollBar" parent="spritesheet_controls"]
-margin_left = 610.0
-margin_top = 244.0
-margin_right = 710.0
-margin_bottom = 264.0
+[node name="anim_speed_scroll_bar" type="HScrollBar" parent="background/HBoxContainer/spritesheet_controls/GridContainer"]
+margin_left = 194.0
+margin_top = 172.0
+margin_right = 268.0
+margin_bottom = 184.0
 hint_tooltip = "Speed of the current animation"
 min_value = 1.0
 max_value = 60.0
@@ -704,53 +735,46 @@ step = 1.0
 value = 3.0
 rounded = true
 
-[node name="FileDialog" type="FileDialog" parent="spritesheet_controls"]
-margin_left = 353.0
-margin_top = 89.0
-margin_right = 953.0
-margin_bottom = 589.0
-window_title = "Open a File"
-mode = 0
-access = 2
-filters = PoolStringArray( "*.png, *.jpg, *.jpeg ; Supported Images" )
-current_dir = "/Godot Projects/escoria-demo-game"
-current_path = "/Godot Projects/escoria-demo-game/"
+[node name="store_anim" type="Control" parent="background/HBoxContainer/spritesheet_controls"]
+margin_top = 300.0
+margin_right = 300.0
+margin_bottom = 400.0
+rect_min_size = Vector2( 300, 100 )
 
-[node name="export_button" type="Button" parent="spritesheet_controls"]
-margin_left = 443.0
-margin_top = 485.0
-margin_right = 726.0
-margin_bottom = 555.0
-hint_tooltip = "Export all animations to a Godot scene"
-custom_colors/font_color = Color( 0, 1, 0.0392157, 1 )
-text = "Export character to Godot Scene"
-icon = ExtResource( 33 )
-
-[node name="store_anim" type="Control" parent="."]
-visible = false
-margin_left = 882.0
-margin_top = -173.0
-margin_right = 922.0
-margin_bottom = -133.0
-
-[node name="store_colorrect" type="ColorRect" parent="store_anim"]
-margin_left = 56.0
-margin_top = 470.0
-margin_right = 356.0
-margin_bottom = 490.0
+[node name="store_colorrect" type="ColorRect" parent="background/HBoxContainer/spritesheet_controls/store_anim"]
+margin_right = 300.0
+margin_bottom = 20.0
 color = Color( 0.215686, 0.478431, 0.235294, 1 )
 
-[node name="Label" type="Label" parent="store_anim/store_colorrect"]
+[node name="Label" type="Label" parent="background/HBoxContainer/spritesheet_controls/store_anim/store_colorrect"]
 margin_right = 40.0
 margin_bottom = 14.0
 text = "Store Animation"
 
-[node name="anim_store_button" type="Button" parent="store_anim"]
-margin_left = 144.0
-margin_top = 502.0
-margin_right = 267.0
-margin_bottom = 522.0
+[node name="anim_store_button" type="Button" parent="background/HBoxContainer/spritesheet_controls/store_anim"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -61.5
+margin_top = -10.0
+margin_right = 61.5
+margin_bottom = 10.0
 text = "Store Animation"
+
+[node name="export_button" type="Button" parent="background/HBoxContainer/spritesheet_controls"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -141.5
+margin_top = -110.0
+margin_right = 141.5
+margin_bottom = -40.0
+hint_tooltip = "Export all animations to a Godot scene"
+custom_colors/font_color = Color( 0, 1, 0.0392157, 1 )
+text = "Export character to Godot Scene"
+icon = ExtResource( 33 )
 
 [node name="information_windows" type="Control" parent="."]
 anchor_right = 1.0
@@ -863,36 +887,50 @@ want to resize or change the shape assigned to this node.
 * You may want to shift this node to a different directory in your codebase
 (e.g. into a \"characters\" folder) to group it with other game characters."
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="FileDialog" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -300.0
+margin_top = -250.0
+margin_right = 300.0
+margin_bottom = 250.0
+window_title = "Open a File"
+mode = 0
+access = 2
+filters = PoolStringArray( "*.png, *.jpg, *.jpeg ; Supported Images" )
+current_dir = "/Godot Projects/escoria-demo-game"
+current_path = "/Godot Projects/escoria-demo-game/"
 
-[connection signal="text_changed" from="configuration/node_name/node_name" to="." method="nodename_on_node_name_text_changed"]
-[connection signal="pressed" from="configuration/animation/unset_dir_up" to="." method="animation_on_dir_up_pressed"]
-[connection signal="pressed" from="configuration/animation/unset_dir_right" to="." method="animation_on_dir_right_pressed"]
-[connection signal="pressed" from="configuration/animation/unset_dir_left" to="." method="animation_on_dir_left_pressed"]
-[connection signal="pressed" from="configuration/animation/unset_dir_down" to="." method="animation_on_dir_down_pressed"]
-[connection signal="pressed" from="configuration/animation/unset_dir_downright" to="." method="animation_on_dir_downright_pressed"]
-[connection signal="pressed" from="configuration/animation/unset_dir_downleft" to="." method="animation_on_dir_downleft_pressed"]
-[connection signal="pressed" from="configuration/animation/unset_dir_upright" to="." method="animation_on_dir_upright_pressed"]
-[connection signal="pressed" from="configuration/animation/unset_dir_upleft" to="." method="animation_on_dir_upleft_pressed"]
-[connection signal="pressed" from="configuration/animation/set_dir_up" to="." method="animation_on_dir_up_pressed"]
-[connection signal="pressed" from="configuration/animation/set_dir_right" to="." method="animation_on_dir_right_pressed"]
-[connection signal="pressed" from="configuration/animation/set_dir_left" to="." method="animation_on_dir_left_pressed"]
-[connection signal="pressed" from="configuration/animation/set_dir_down" to="." method="animation_on_dir_down_pressed"]
-[connection signal="pressed" from="configuration/animation/set_dir_downright" to="." method="animation_on_dir_downright_pressed"]
-[connection signal="pressed" from="configuration/animation/set_dir_downleft" to="." method="animation_on_dir_downleft_pressed"]
-[connection signal="pressed" from="configuration/animation/set_dir_upright" to="." method="animation_on_dir_upright_pressed"]
-[connection signal="pressed" from="configuration/animation/set_dir_upleft" to="." method="animation_on_dir_upleft_pressed"]
-[connection signal="pressed" from="configuration/animation/walk_checkbox" to="." method="animation_on_walk_checkbox_pressed"]
-[connection signal="pressed" from="configuration/animation/talk_checkbox" to="." method="animation_on_talk_checkbox_pressed"]
-[connection signal="pressed" from="configuration/animation/idle_checkbox" to="." method="animation_on_idle_checkbox_pressed"]
-[connection signal="pressed" from="configuration/directions/four_directions" to="." method="directions_on_four_directions_pressed"]
-[connection signal="pressed" from="configuration/directions/eight_directions" to="." method="directions_on_eight_directions_pressed"]
-[connection signal="value_changed" from="spritesheet/zoom/zoom_scrollbar" to="." method="spritesheet_on_zoom_scrollbar_value_changed"]
-[connection signal="pressed" from="spritesheet/zoom/zoom_reset_button" to="." method="spritesheet_on_zoom_reset_button_pressed"]
-[connection signal="pressed" from="spritesheet_controls/load_spritesheet_button" to="." method="spritesheet_on_load_spritesheet_button_pressed"]
-[connection signal="file_selected" from="spritesheet_controls/FileDialog" to="." method="controls_on_FileDialog_file_selected"]
-[connection signal="pressed" from="spritesheet_controls/export_button" to="." method="spritesheet_on_export_button_pressed"]
-[connection signal="pressed" from="store_anim/anim_store_button" to="." method="store_on_anim_store_button_pressed"]
+[connection signal="text_changed" from="background/HBoxContainer/configuration/VBoxContainer/node_name/node_name" to="." method="nodename_on_node_name_text_changed"]
+[connection signal="pressed" from="background/HBoxContainer/configuration/VBoxContainer/directions/four_directions" to="." method="directions_on_four_directions_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/configuration/VBoxContainer/directions/eight_directions" to="." method="directions_on_eight_directions_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/configuration/VBoxContainer/animation/unset_dir_up" to="." method="animation_on_dir_up_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/configuration/VBoxContainer/animation/unset_dir_right" to="." method="animation_on_dir_right_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/configuration/VBoxContainer/animation/unset_dir_left" to="." method="animation_on_dir_left_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/configuration/VBoxContainer/animation/unset_dir_down" to="." method="animation_on_dir_down_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/configuration/VBoxContainer/animation/unset_dir_downright" to="." method="animation_on_dir_downright_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/configuration/VBoxContainer/animation/unset_dir_downleft" to="." method="animation_on_dir_downleft_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/configuration/VBoxContainer/animation/unset_dir_upright" to="." method="animation_on_dir_upright_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/configuration/VBoxContainer/animation/unset_dir_upleft" to="." method="animation_on_dir_upleft_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/configuration/VBoxContainer/animation/set_dir_up" to="." method="animation_on_dir_up_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/configuration/VBoxContainer/animation/set_dir_right" to="." method="animation_on_dir_right_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/configuration/VBoxContainer/animation/set_dir_left" to="." method="animation_on_dir_left_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/configuration/VBoxContainer/animation/set_dir_down" to="." method="animation_on_dir_down_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/configuration/VBoxContainer/animation/set_dir_downright" to="." method="animation_on_dir_downright_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/configuration/VBoxContainer/animation/set_dir_downleft" to="." method="animation_on_dir_downleft_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/configuration/VBoxContainer/animation/set_dir_upright" to="." method="animation_on_dir_upright_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/configuration/VBoxContainer/animation/set_dir_upleft" to="." method="animation_on_dir_upleft_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/configuration/VBoxContainer/animation/walk_checkbox" to="." method="animation_on_walk_checkbox_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/configuration/VBoxContainer/animation/talk_checkbox" to="." method="animation_on_talk_checkbox_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/configuration/VBoxContainer/animation/idle_checkbox" to="." method="animation_on_idle_checkbox_pressed"]
+[connection signal="value_changed" from="background/HBoxContainer/spritesheet/zoom/zoom_scrollbar" to="." method="spritesheet_on_zoom_scrollbar_value_changed"]
+[connection signal="pressed" from="background/HBoxContainer/spritesheet/zoom/zoom_reset_button" to="." method="spritesheet_on_zoom_reset_button_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/spritesheet_controls/load_spritesheet_button" to="." method="spritesheet_on_load_spritesheet_button_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/spritesheet_controls/store_anim/anim_store_button" to="." method="store_on_anim_store_button_pressed"]
+[connection signal="pressed" from="background/HBoxContainer/spritesheet_controls/export_button" to="." method="spritesheet_on_export_button_pressed"]
 [connection signal="pressed" from="information_windows/unstored_changes_window/commit_button" to="." method="unstored_warning_on_commit_button_pressed"]
 [connection signal="pressed" from="information_windows/unstored_changes_window/lose_button" to="." method="unstored_warning_on_lose_button_pressed"]
 [connection signal="pressed" from="information_windows/unstored_changes_window/cancel_button" to="." method="unstored_warning_on_cancel_button_pressed"]
+[connection signal="file_selected" from="FileDialog" to="." method="controls_on_FileDialog_file_selected"]
