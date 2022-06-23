@@ -30,9 +30,13 @@ var _dialog_manager: ESCDialogManager = null
 var _keytext_regex: RegEx = RegEx.new()
 
 
+# Constructor
+func _init() -> void:
+	_keytext_regex.compile(KEYTEXT_REGEX)
+
+
 # Register the dialog player and load the dialog resources
 func _ready():
-	_keytext_regex.compile(KEYTEXT_REGEX)
 	if !Engine.is_editor_hint():
 		escoria.dialog_player = self
 
@@ -131,12 +135,33 @@ func say(character: String, type: String, text: String) -> void:
 		var _speech_resource = _get_voice_file(
 			matches.get_string("key")
 		)
-		if _speech_resource != "":
+		if _speech_resource == "":
+			escoria.logger.report_warnings(
+				"esc_dialog_player.gd:say",
+				[
+					"Unable to find voice file with key '%s'." % matches.get_string("key")
+				]
+			)			
+		else:
 			(
 				escoria.object_manager.get_object(escoria.object_manager.SPEECH).node\
 				 as ESCSpeechPlayer
 			).set_state(_speech_resource)
-		text = tr(matches.get_string("key"))
+
+		var translated_text: String = tr(matches.get_string("key"))
+
+		# Only update the text if the translated text was found; otherwise, raise
+		# a warning and use the original, untranslated text.
+		if translated_text == matches.get_string("key"):
+			escoria.logger.report_warnings(
+				"esc_dialog_player.gd:say",
+				[
+					"Unable to find translation key '%s'. Using untranslated text." % matches.get_string("key")
+				]
+			)
+			text = matches.get_string("text")
+		else:
+			text = translated_text
 	else:
 		text = matches.get_string("text")
 

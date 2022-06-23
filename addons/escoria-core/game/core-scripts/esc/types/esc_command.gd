@@ -46,7 +46,9 @@ func _init(command_string):
 						parameters.append(
 							parameter
 						)
-					elif ":" in parameter and '"' in parameter:
+					elif ':"' in parameter and (parameter.ends_with(':"') or not parameter.ends_with('"')):
+						# The second clause in this helps to handle dialogue that starts with a space
+						# and also allowing single-word dialogue to be handled in a separate elif.
 						quote_open = true
 						parameter_values.append(parameter)
 					elif not quote_open and parameter.begins_with('"'):
