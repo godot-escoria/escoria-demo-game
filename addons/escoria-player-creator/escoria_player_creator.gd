@@ -45,9 +45,24 @@ const TYPE_IDLE = "idle"
 
 const ANIM_IN_PROGRESS = "in_progress"
 
+# Make the code more readable by shortening node references using constants
+const NAME_NODE          = "CenterContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer"
+const DIR_COUNT_NODE     = "CenterContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer"
+const ANIM_TYPE_NODE     = "CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer"
+const MIRROR_NODE        = "CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer3/mirror_checkbox"
+const ARROWS_NODE        = "CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"
+const PREVIEW_NODE       = "CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/MarginContainer"
+const PREVIEW_BGRND_NODE = "CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/anim_preview_background"
+const ANIM_CONTROLS_NODE = "CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer"
+const STORE_ANIM_NODE    = "CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/Control/store_anim"
+const SCROLL_CTRL_NODE   = "CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control"
+const SCROLL_VBOX_NODE   = "CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/"
+const CURRENT_SHEET_NODE = "CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_current/MarginContainer2/current_spritesheet_label"
+const ZOOM_LABEL_NODE    = "CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll/zoom_label"
+const ZOOM_SCROLL_NODE   = "CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll/MarginContainer/zoom_scrollbar"
 
 # Test flag - set to true to load test data.
-var test_mode: bool = true
+var test_mode: bool = false
 
 # The currently loaded spritesheet image
 var source_image: Image
@@ -71,14 +86,14 @@ var plugin_reference
 
 
 func _ready() -> void:
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer/node_name.text = "replace_me"
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/four_directions.pressed = true
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer/walk_checkbox.pressed = true
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/no_spritesheet_found_sprite.visible = true
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll/zoom_label.text = "Zoom: %sx" % str(zoom_value)
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/VBoxContainer/MarginContainer/Control/anim_preview_sprite.animation = ANIM_IN_PROGRESS
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/VBoxContainer/MarginContainer/Control/no_anim_found_sprite.visible = true
-	$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/store_anim.visible = false
+	get_node(NAME_NODE).get_node("node_name").text = "replace_me"
+	get_node(DIR_COUNT_NODE).get_node("four_directions").pressed = true
+	get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed = true
+	get_node(SCROLL_VBOX_NODE).get_node("no_spritesheet_found_sprite").visible = true
+	get_node(ZOOM_LABEL_NODE).text = "Zoom: %sx" % str(zoom_value)
+	get_node(PREVIEW_NODE).get_node("anim_preview_sprite").animation = ANIM_IN_PROGRESS
+	preview_hide()
+	get_node(STORE_ANIM_NODE).visible = false
 
 	create_empty_animations()
 
@@ -88,21 +103,21 @@ func _ready() -> void:
 	reset_arrow_colours()
 
 	# Reset GUI controls to initial values
-	$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/start_frame.value = 1
-	$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/end_frame.value = 1
+	get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value = 1
+	get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value = 1
 	""
-	$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/h_frames_spin_box.value = 1
-	$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/v_frames_spin_box.value = 1
-	$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/anim_speed_scroll_bar.value = 5
-	$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/anim_speed_label.text="Animation Speed : 5 FPS"
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_current/MarginContainer2/current_spritesheet_label.text="No spritesheet loaded."
+	get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value = 1
+	get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").value = 1
+	get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_scroll_bar").value = 5
+	get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_label").text="Animation Speed : 5 FPS"
+	get_node(CURRENT_SHEET_NODE).text="No spritesheet loaded."
 
 	# Connect all the signals now the base settings are configured to stop program logic firing during setup
-	$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/h_frames_spin_box.connect("value_changed", self, "controls_on_h_frames_spin_box_value_changed")
-	$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/v_frames_spin_box.connect("value_changed", self, "controls_on_v_frames_spin_box_value_changed")
-	$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/start_frame.connect("value_changed", self, "controls_on_start_frame_value_changed")
-	$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/end_frame.connect("value_changed", self, "controls_on_end_frame_value_changed")
-	$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/anim_speed_scroll_bar.connect("value_changed", self, "controls_on_anim_speed_scroll_bar_value_changed")
+	get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").connect("value_changed", self, "controls_on_h_frames_spin_box_value_changed")
+	get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").connect("value_changed", self, "controls_on_v_frames_spin_box_value_changed")
+	get_node(ANIM_CONTROLS_NODE).get_node("start_frame").connect("value_changed", self, "controls_on_start_frame_value_changed")
+	get_node(ANIM_CONTROLS_NODE).get_node("end_frame").connect("value_changed", self, "controls_on_end_frame_value_changed")
+	get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_scroll_bar").connect("value_changed", self, "controls_on_anim_speed_scroll_bar_value_changed")
 
 	if test_mode:
 		setup_test_data()
@@ -110,14 +125,14 @@ func _ready() -> void:
 
 func calc_sprite_size() -> void:
 	var source_size = source_image.get_size()
-	var horiz_size = int(source_size.x / $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/h_frames_spin_box.value)
-	var vert_size = int(source_size.y / $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/v_frames_spin_box.value)
+	var horiz_size = int(source_size.x / get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value)
+	var vert_size = int(source_size.y / get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").value)
 
 	frame_size = Vector2(horiz_size, vert_size)
 
 
-	$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/original_size_label.text = "Source sprite size: %s" % source_size
-	$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/frame_size_label.text = "Frame size: %s" % frame_size
+	get_node(ANIM_CONTROLS_NODE).get_node("original_size_label").text = "Source sprite size: %s" % source_size
+	get_node(ANIM_CONTROLS_NODE).get_node("frame_size_label").text = "Frame size: %s" % frame_size
 
 
 # Load test data - primarily for testing export, but also for testing general functionality.
@@ -151,7 +166,7 @@ func setup_test_data() -> void:
 
 		anim_metadata[loop * 2][METADATA_IS_MIRROR] = mirrored[loop] != 0
 
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/no_spritesheet_found_sprite.visible = false
+	get_node(SCROLL_VBOX_NODE).get_node("no_spritesheet_found_sprite").visible = false
 
 	reset_arrow_colours()
 
@@ -182,7 +197,7 @@ func create_empty_animations() -> void:
 
 	sframes.add_animation(ANIM_IN_PROGRESS)
 
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/VBoxContainer/MarginContainer/Control/anim_preview_sprite.frames = sframes
+	get_node(PREVIEW_NODE).get_node("anim_preview_sprite").frames = sframes
 
 
 # Loads a spritesheet and calculates the size of each sprite frame if loading a spritesheet
@@ -199,47 +214,47 @@ func load_spritesheet(file_to_load, read_settings_from_metadata: bool = false, m
 	texture.create_from_image(source_image)
 	texture.set_flags(2)
 
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control/spritesheet_sprite.texture = texture
+	get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").texture = texture
 
 	frame_size = source_image.get_size()
 
 	if read_settings_from_metadata:
-		$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/h_frames_spin_box.value = anim_metadata[metadata_frame][METADATA_SPRITESHEET_FRAMES_HORIZ]
-		$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/v_frames_spin_box.value = anim_metadata[metadata_frame][METADATA_SPRITESHEET_FRAMES_VERT]
+		get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value = anim_metadata[metadata_frame][METADATA_SPRITESHEET_FRAMES_HORIZ]
+		get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").value = anim_metadata[metadata_frame][METADATA_SPRITESHEET_FRAMES_VERT]
 	else:
-		$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/h_frames_spin_box.value = 1
-		$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/v_frames_spin_box.value = 1
+		get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value = 1
+		get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").value = 1
 
 	calc_sprite_size()
 
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_current/MarginContainer2/current_spritesheet_label.text = file_to_load
+	get_node(CURRENT_SHEET_NODE).text = file_to_load
 
 	draw_frame_outlines()
 	spritesheet_on_zoom_reset_button_pressed()
 
 	# Make scroll bars appear if necessary
 
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control.rect_min_size = source_image.get_size() * zoom_value
+	get_node(SCROLL_CTRL_NODE).rect_min_size = source_image.get_size() * zoom_value
 
 
 # Draws an outline on the spritesheet to show which frames are included in the current animation
 func draw_frame_outlines() -> void:
 	check_frame_limits()
 
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control/frame_rectangles.rect_scale.x = zoom_value
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control/frame_rectangles.rect_scale.y = zoom_value
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control/frame_rectangles.total_num_columns = $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/h_frames_spin_box.value
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control/frame_rectangles.start_cell = $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/start_frame.value
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control/frame_rectangles.end_cell = $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/end_frame.value
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control/frame_rectangles.cell_size = frame_size
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control/frame_rectangles.update()
+	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").rect_scale.x = zoom_value
+	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").rect_scale.y = zoom_value
+	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").total_num_columns = get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value
+	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").start_cell = get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value
+	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").end_cell = get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value
+	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").cell_size = frame_size
+	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").update()
 
 
 # When given a frame number, this calculates the pixel coordinates that frame in the spritesheet
 # based on the number of horizontal/vertical frames configured for this spritesheet
 func calc_frame_coords(Frame: int) -> Vector2:
-	var column = (Frame - 1) % int($CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/h_frames_spin_box.value) * frame_size.x
-	var row = int((Frame - 1) / $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/h_frames_spin_box.value) * frame_size.y
+	var column = (Frame - 1) % int(get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value) * frame_size.x
+	var row = int((Frame - 1) / get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value) * frame_size.y
 	return Vector2(column, row)
 
 
@@ -252,13 +267,13 @@ func store_animation(animation_to_store: String) -> void:
 
 	var metadata_dict = {
 		METADATA_ANIM_NAME: animation_to_store,
-		METADATA_SPRITESHEET_SOURCE_FILE: $CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_current/MarginContainer2/current_spritesheet_label.text,
-		METADATA_SPRITESHEET_FRAMES_HORIZ: $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/h_frames_spin_box.value,
-		METADATA_SPRITESHEET_FRAMES_VERT: $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/v_frames_spin_box.value,
-		METADATA_SPRITESHEET_FIRST_FRAME: $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/start_frame.value,
-		METADATA_SPRITESHEET_LAST_FRAME: $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/end_frame.value,
-		METADATA_SPEED: $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/anim_speed_scroll_bar.value,
-		METADATA_IS_MIRROR: $CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer3/mirror_checkbox.pressed
+		METADATA_SPRITESHEET_SOURCE_FILE: get_node(CURRENT_SHEET_NODE).text,
+		METADATA_SPRITESHEET_FRAMES_HORIZ: get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value,
+		METADATA_SPRITESHEET_FRAMES_VERT: get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").value,
+		METADATA_SPRITESHEET_FIRST_FRAME: get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value,
+		METADATA_SPRITESHEET_LAST_FRAME: get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value,
+		METADATA_SPEED: get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_scroll_bar").value,
+		METADATA_IS_MIRROR: get_node(MIRROR_NODE).pressed
 	}
 
 	var metadata_array_offset: int = get_metadata_array_offset()
@@ -296,6 +311,20 @@ func mirror_animation(source: String, dest: String) -> void:
 	reset_arrow_colours()
 
 
+# Shows the preview animation. Required as the no_anim_found sprite doesn't always cover the
+# whole preview due to UI peculiarities.
+func preview_show():
+	get_node(PREVIEW_NODE).get_node("no_anim_found_sprite").visible = false
+	get_node(PREVIEW_NODE).get_node("anim_preview_sprite").visible = true
+
+
+# Hides the preview animation. Required when the no_anim_found sprite doesn't cover the
+# whole preview due to UI peculiarities.
+func preview_hide():
+	get_node(PREVIEW_NODE).get_node("no_anim_found_sprite").visible = true
+	get_node(PREVIEW_NODE).get_node("anim_preview_sprite").visible = false
+
+
 # Creates the "in_progress" animation which is shown in the UI as the animation preview based
 # on the currently selected settings.
 #
@@ -308,24 +337,24 @@ func preview_update() -> void:
 	var current_anim_type = return_current_animation_type()
 	var anim_name = "%s_%s" % [current_anim_type, direction_selected]
 	var offset = get_metadata_array_offset()
-	var generate_mirror = $CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer3/mirror_checkbox.pressed
+	var generate_mirror = get_node(MIRROR_NODE).pressed
 
 	var texture
 	var rect_location
 	var frame_being_copied = Image.new()
 	var frame_counter: int = 0
 
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/VBoxContainer/MarginContainer/Control/anim_preview_sprite.frames.clear(ANIM_IN_PROGRESS)
+	get_node(PREVIEW_NODE).get_node("anim_preview_sprite").frames.clear(ANIM_IN_PROGRESS)
 
 	frame_being_copied.create(frame_size.x, frame_size.y, false, source_image.get_format())
 
-	for loop in range($CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/end_frame.value - $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/start_frame.value + 1):
+	for loop in range(get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value - get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value + 1):
 		texture = ImageTexture.new()
 
 		if generate_mirror:
-			rect_location = calc_frame_coords($CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/end_frame.value - loop)
+			rect_location = calc_frame_coords(get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value - loop)
 		else:
-			rect_location = calc_frame_coords($CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/start_frame.value + loop)
+			rect_location = calc_frame_coords(get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value + loop)
 
 		frame_being_copied.blit_rect(source_image, Rect2(rect_location, Vector2(frame_size.x, frame_size.y)), Vector2(0, 0))
 
@@ -337,36 +366,36 @@ func preview_update() -> void:
 		# Remove the image filter to make pixel correct graphics
 		texture.set_flags(2)
 
-		$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/VBoxContainer/MarginContainer/Control/anim_preview_sprite.frames.add_frame(ANIM_IN_PROGRESS, texture, frame_counter)
+		get_node(PREVIEW_NODE).get_node("anim_preview_sprite").frames.add_frame(ANIM_IN_PROGRESS, texture, frame_counter)
 
 		frame_counter += 1
 
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/VBoxContainer/MarginContainer/Control/no_anim_found_sprite.visible = false
+	preview_show()
 
 	# Calculate the scale to make the preview as big as possible in the preview window depending on
 	# the height to width ratio of the frame
 	var preview_scale = Vector2.ONE
-	preview_scale.x = $CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/anim_preview_background.rect_size.x / frame_size.x
-	preview_scale.y = $CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/anim_preview_background.rect_size.y / frame_size.y
+	preview_scale.x = get_node(PREVIEW_BGRND_NODE).rect_size.x / frame_size.x
+	preview_scale.y = get_node(PREVIEW_BGRND_NODE).rect_size.y / frame_size.y
 
 	if preview_scale.y > preview_scale.x:
-		$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/VBoxContainer/MarginContainer/Control/anim_preview_sprite.scale = Vector2(preview_scale.x, preview_scale.x)
+		get_node(PREVIEW_NODE).get_node("anim_preview_sprite").scale = Vector2(preview_scale.x, preview_scale.x)
 	else:
-		$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/VBoxContainer/MarginContainer/Control/anim_preview_sprite.scale = Vector2(preview_scale.y, preview_scale.y)
+		get_node(PREVIEW_NODE).get_node("anim_preview_sprite").scale = Vector2(preview_scale.y, preview_scale.y)
 
 
 # Ensure that the spritesheet settings are valid
 func check_frame_limits():
-	var max_frame = $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/h_frames_spin_box.value * $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/v_frames_spin_box.value
+	var max_frame = get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value * get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").value
 
-	if $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/start_frame.value > max_frame:
-		$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/start_frame.value = max_frame
+	if get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value > max_frame:
+		get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value = max_frame
 
-	if $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/end_frame.value > max_frame:
-		$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/end_frame.value = max_frame
+	if get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value > max_frame:
+		get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value = max_frame
 
-	if $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/start_frame.value > $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/end_frame.value:
-		$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/end_frame.value = $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/start_frame.value
+	if get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value > get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value:
+		get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value = get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value
 
 
 # If any spritesheet settings have changed, display the "store animation" button to save the changes.
@@ -375,12 +404,12 @@ func check_if_controls_have_changed():
 	var metadata_array_offset: int = get_metadata_array_offset()
 	var metadata_entry = anim_metadata[metadata_array_offset]
 
-	$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/store_anim.visible = \
-		$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/anim_speed_scroll_bar.value != metadata_entry[METADATA_SPEED] \
-		or $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/start_frame.value != metadata_entry[METADATA_SPRITESHEET_FIRST_FRAME] \
-		or $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/end_frame.value != metadata_entry[METADATA_SPRITESHEET_LAST_FRAME] \
-		or $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/h_frames_spin_box.value != metadata_entry[METADATA_SPRITESHEET_FRAMES_HORIZ] \
-		or $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/v_frames_spin_box.value != metadata_entry[METADATA_SPRITESHEET_FRAMES_VERT]
+	get_node(STORE_ANIM_NODE).visible = \
+		get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_scroll_bar").value != metadata_entry[METADATA_SPEED] \
+		or get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value != metadata_entry[METADATA_SPRITESHEET_FIRST_FRAME] \
+		or get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value != metadata_entry[METADATA_SPRITESHEET_LAST_FRAME] \
+		or get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value != metadata_entry[METADATA_SPRITESHEET_FRAMES_HORIZ] \
+		or get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").value != metadata_entry[METADATA_SPRITESHEET_FRAMES_VERT]
 
 
 # If the user tries to change settings before they've loaded a spritesheet, this will display
@@ -398,10 +427,10 @@ func has_spritesheet_been_loaded() -> bool:
 # If this option was already the selected option, reselect it rather than letting the
 # user disable it (which would mean that none of walk/talk/idle were selected.
 func animation_on_walk_checkbox_pressed() -> void:
-	if not $CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer/walk_checkbox.pressed:
-		$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer/walk_checkbox.pressed = true
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer/idle_checkbox.pressed = false
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer/talk_checkbox.pressed = false
+	if not get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed:
+		get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed = true
+	get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").pressed = false
+	get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").pressed = false
 
 	reset_arrow_colours()
 
@@ -410,10 +439,10 @@ func animation_on_walk_checkbox_pressed() -> void:
 # If this option was already the selected option, reselect it rather than letting the
 # user disable it (which would mean  that none of walk/talk/idle were selected.
 func animation_on_talk_checkbox_pressed() -> void:
-	if not $CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer/talk_checkbox.pressed:
-		$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer/talk_checkbox.pressed = true
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer/idle_checkbox.pressed = false
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer/walk_checkbox.pressed = false
+	if not get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").pressed:
+		get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").pressed = true
+	get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").pressed = false
+	get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed = false
 
 	reset_arrow_colours()
 
@@ -422,10 +451,10 @@ func animation_on_talk_checkbox_pressed() -> void:
 # If this option was already the selected option, reselect it rather than letting the
 # user disable it (which would mean  that none of walk/talk/idle were selected.
 func animation_on_idle_checkbox_pressed() -> void:
-	if not $CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer/idle_checkbox.pressed:
-		$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer/idle_checkbox.pressed = true
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer/walk_checkbox.pressed = false
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer/talk_checkbox.pressed = false
+	if not get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").pressed:
+		get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").pressed = true
+	get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed = false
+	get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").pressed = false
 
 	reset_arrow_colours()
 
@@ -481,21 +510,20 @@ func animation_on_mirror_checkbox_toggled(button_pressed: bool) -> void:
 			$information_windows/generic_error_window.dialog_text = \
 				"You cant mirror a direction that is already mirrored."
 			$information_windows/generic_error_window.popup()
-			$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer3/mirror_checkbox.pressed = false
+			get_node(MIRROR_NODE).pressed = false
 			return
 
 		if anim_metadata[metadata_array_offset][METADATA_SPRITESHEET_FIRST_FRAME] == -1:
 			$information_windows/generic_error_window.dialog_text = \
 				"You cant mirror an animation that hasn't been set up."
 			$information_windows/generic_error_window.popup()
-			$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer3/mirror_checkbox.pressed = false
+			get_node(MIRROR_NODE).pressed = false
 			return
 
 		mirror_animation(opp_dir, direction_selected)
-		preview_update()
 	else:
-		anim_metadata[metadata_array_offset][METADATA_IS_MIRROR] = false
-
+		anim_metadata[get_metadata_array_offset(direction_selected)][METADATA_IS_MIRROR] = false
+	preview_update()
 
 # When the animation speed has been changed, update the speed and label
 func controls_on_anim_speed_scroll_bar_value_changed(value: float) -> void:
@@ -506,8 +534,8 @@ func controls_on_anim_speed_scroll_bar_value_changed(value: float) -> void:
 
 	check_if_controls_have_changed()
 
-	$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/anim_speed_label.text = "Animation Speed : %s FPS" % value
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/VBoxContainer/MarginContainer/Control/anim_preview_sprite.frames.set_animation_speed(ANIM_IN_PROGRESS, value)
+	get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_label").text = "Animation Speed : %s FPS" % value
+	get_node(PREVIEW_NODE).get_node("anim_preview_sprite").frames.set_animation_speed(ANIM_IN_PROGRESS, value)
 
 	preview_update()
 
@@ -517,7 +545,7 @@ func controls_on_start_frame_value_changed(value: float) -> void:
 	if not has_spritesheet_been_loaded():
 		return
 
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/VBoxContainer/MarginContainer/Control/no_anim_found_sprite.visible = false
+	preview_show()
 
 	check_if_controls_have_changed()
 	draw_frame_outlines()
@@ -529,7 +557,7 @@ func controls_on_end_frame_value_changed(value: float) -> void:
 	if not has_spritesheet_been_loaded():
 		return
 
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/VBoxContainer/MarginContainer/Control/no_anim_found_sprite.visible = false
+	preview_show()
 
 	check_if_controls_have_changed()
 	draw_frame_outlines()
@@ -542,7 +570,7 @@ func controls_on_h_frames_spin_box_value_changed(value: float) -> void:
 	if ! has_spritesheet_been_loaded():
 		return
 
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/VBoxContainer/MarginContainer/Control/no_anim_found_sprite.visible = false
+	preview_show()
 
 	check_if_controls_have_changed()
 	calc_sprite_size()
@@ -556,7 +584,7 @@ func controls_on_v_frames_spin_box_value_changed(value: float) -> void:
 	if not has_spritesheet_been_loaded():
 		return
 
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/VBoxContainer/MarginContainer/Control/no_anim_found_sprite.visible = false
+	preview_show()
 
 	check_if_controls_have_changed()
 	calc_sprite_size()
@@ -566,7 +594,7 @@ func controls_on_v_frames_spin_box_value_changed(value: float) -> void:
 
 # Load a spritesheet when selected in the file browser
 func controls_on_FileDialog_file_selected(path: String) -> void:
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/no_spritesheet_found_sprite.visible = false
+	get_node(SCROLL_VBOX_NODE).get_node("no_spritesheet_found_sprite").visible = false
 	load_spritesheet(path)
 
 
@@ -578,7 +606,7 @@ func spritesheet_on_export_button_pressed() -> void:
 	var anim_name: String = ""
 	var dirnames = []
 
-	if $CenterContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/four_directions.pressed:
+	if get_node(DIR_COUNT_NODE).get_node("four_directions").pressed:
 		dirnames = DIR_LIST_4
 	else:
 		dirnames = DIR_LIST_8
@@ -628,10 +656,10 @@ func spritesheet_on_zoom_scrollbar_value_changed(value: float) -> void:
 
 	zoom_value = stepify(value, 0.1)
 
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll/zoom_label.text = "Zoom: %sx" % str(zoom_value)
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control/spritesheet_sprite.scale.x = zoom_value
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control/spritesheet_sprite.scale.y = zoom_value
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control.rect_min_size = source_image.get_size() * zoom_value
+	get_node(ZOOM_LABEL_NODE).text = "Zoom: %sx" % str(zoom_value)
+	get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").scale.x = zoom_value
+	get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").scale.y = zoom_value
+	get_node(SCROLL_CTRL_NODE).rect_min_size = source_image.get_size() * zoom_value
 
 	draw_frame_outlines()
 
@@ -648,26 +676,26 @@ func spritesheet_on_zoom_reset_button_pressed() -> void:
 		return
 
 
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll/MarginContainer/zoom_scrollbar.value = 1
+	get_node(ZOOM_SCROLL_NODE).value = 1
 
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container.scroll_horizontal = 0
-	$CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container.scroll_vertical = 0
+	get_node(SCROLL_VBOX_NODE).get_node("spritesheet_scroll_container").scroll_horizontal = 0
+	get_node(SCROLL_VBOX_NODE).get_node("spritesheet_scroll_container").scroll_vertical = 0
 
 
 # If the node name is changed, update the global_id to match.
 # NOTE : Updating the global_id doesn't update the nodename, allowing them to be different.
 func nodename_on_node_name_text_changed(new_text: String) -> void:
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer/global_id.text = new_text
+	get_node(NAME_NODE).get_node("global_id").text = new_text
 
 
 # If 8 directions was already selected, don't let it be unselected.
 # If 4 directions was selected, unselect it.
 func directions_on_eight_directions_pressed() -> void:
-	if not $CenterContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/eight_directions.pressed:
+	if not get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed:
 		# Don't let them untick all boxes
-		$CenterContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/eight_directions.pressed = true
+		get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed = true
 
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/four_directions.pressed = false
+	get_node(DIR_COUNT_NODE).get_node("four_directions").pressed = false
 
 	reset_arrow_colours()
 
@@ -676,17 +704,16 @@ func directions_on_eight_directions_pressed() -> void:
 # If 8 directions was selected, unselect it. Also if the previously selected direction was
 # a diagonal, reset the selection to up as the diagonal is no longer valid.
 func directions_on_four_directions_pressed() -> void:
-	if not $CenterContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/four_directions.pressed:
+	if not get_node(DIR_COUNT_NODE).get_node("four_directions").pressed:
 		# Don't let them untick all boxes
-		$CenterContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/four_directions.pressed = true
+		get_node(DIR_COUNT_NODE).get_node("four_directions").pressed = true
 	else:
 		# Current direction is diagonal
 		if not direction_selected in DIR_LIST_4:
 			direction_selected = DIR_UP
 			activate_direction(DIR_UP)
 
-	$CenterContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/eight_directions.pressed = false
-
+	get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed = false
 	reset_arrow_colours()
 
 
@@ -694,11 +721,11 @@ func directions_on_four_directions_pressed() -> void:
 func return_current_animation_type() -> String:
 	var animation_type: String = ""
 
-	if $CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer/walk_checkbox.pressed:
+	if get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed:
 		animation_type = TYPE_WALK
-	elif $CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer/talk_checkbox.pressed:
+	elif get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").pressed:
 		animation_type = TYPE_TALK
-	elif $CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer/idle_checkbox.pressed:
+	elif get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").pressed:
 		animation_type = TYPE_IDLE
 
 	assert(not animation_type.empty(), "No animation type selected.")
@@ -712,11 +739,11 @@ func return_current_animation_type() -> String:
 func check_activate_direction(direction) -> void:
 	direction_requested = direction
 
-	if $CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/store_anim.visible:
+	if get_node(STORE_ANIM_NODE).visible:
 		var button_name = "set_dir_%s" % direction
 
-		$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer.get_node("Container_%s" % direction).get_node("set_dir_%s" % direction).pressed = false
-		$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer.get_node("Container_%s" % direction).get_node("unset_dir_%s" % direction).pressed = false
+		get_node(ARROWS_NODE).get_node("Container_%s" % direction).get_node("set_dir_%s" % direction).pressed = false
+		get_node(ARROWS_NODE).get_node("Container_%s" % direction).get_node("unset_dir_%s" % direction).pressed = false
 		$information_windows/unstored_changes_window.popup()
 	else:
 		activate_direction(direction)
@@ -738,42 +765,42 @@ func activate_direction(direction) -> void:
 		arrow.pressed = false
 
 	if direction == DIR_UP or direction == DIR_DOWN:
-		$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer3/mirror_checkbox.visible = false
+		get_node(MIRROR_NODE).visible = false
 	else:
-		$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer3/mirror_checkbox.visible = true
-		$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer3/mirror_checkbox.set_pressed_no_signal(false)
+		get_node(MIRROR_NODE).visible = true
+		get_node(MIRROR_NODE).set_pressed_no_signal(false)
 
 	if anim_metadata[get_metadata_array_offset()][METADATA_SPRITESHEET_FIRST_FRAME] == -1:
-		$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer.get_node("Container_%s" % direction).get_node("unset_dir_%s" % direction).pressed = true
-		$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/VBoxContainer/MarginContainer/Control/no_anim_found_sprite.visible = true
+		get_node(ARROWS_NODE).get_node("Container_%s" % direction).get_node("unset_dir_%s" % direction).pressed = true
+		preview_hide()
 	else:
-		$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer.get_node("Container_%s" % direction).get_node("set_dir_%s" % direction).pressed = true
+		get_node(ARROWS_NODE).get_node("Container_%s" % direction).get_node("set_dir_%s" % direction).pressed = true
 
 		var metadata = anim_metadata[get_metadata_array_offset()]
 
 		assert(metadata[METADATA_ANIM_NAME] == anim_name, \
 			"Anim %s expected in metadata array. Found %s" % [anim_name, metadata[METADATA_ANIM_NAME]])
 
-		if metadata[METADATA_SPRITESHEET_SOURCE_FILE] != $CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_current/MarginContainer2/current_spritesheet_label.text:
+		if metadata[METADATA_SPRITESHEET_SOURCE_FILE] != get_node(CURRENT_SHEET_NODE).text:
 			load_spritesheet(metadata[METADATA_SPRITESHEET_SOURCE_FILE])
 
-		$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/h_frames_spin_box.value = metadata[METADATA_SPRITESHEET_FRAMES_HORIZ]
-		$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/v_frames_spin_box.value = metadata[METADATA_SPRITESHEET_FRAMES_VERT]
-		$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/start_frame.value = metadata[METADATA_SPRITESHEET_FIRST_FRAME]
-		$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/end_frame.value = metadata[METADATA_SPRITESHEET_LAST_FRAME]
-		$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer/anim_speed_scroll_bar.value = metadata[METADATA_SPEED]
-		$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer3/mirror_checkbox.set_pressed_no_signal(metadata[METADATA_IS_MIRROR])
+		get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value = metadata[METADATA_SPRITESHEET_FRAMES_HORIZ]
+		get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").value = metadata[METADATA_SPRITESHEET_FRAMES_VERT]
+		get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value = metadata[METADATA_SPRITESHEET_FIRST_FRAME]
+		get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value = metadata[METADATA_SPRITESHEET_LAST_FRAME]
+		get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_scroll_bar").value = metadata[METADATA_SPEED]
+		get_node(MIRROR_NODE).set_pressed_no_signal(metadata[METADATA_IS_MIRROR])
 
 		preview_update()
 
 		# Restart animation otherwise it will first complete all the frames before changing to the new animation
-		$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/VBoxContainer/MarginContainer/Control/anim_preview_sprite.playing = false
-		$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/VBoxContainer/MarginContainer/Control/anim_preview_sprite.playing = true
+		get_node(PREVIEW_NODE).get_node("anim_preview_sprite").playing = false
+		get_node(PREVIEW_NODE).get_node("anim_preview_sprite").playing = true
 
 
 # Store the metadata for the animation changes for the current direction
 func store_on_anim_store_button_pressed() -> void:
-	$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/store_anim.visible = false
+	get_node(STORE_ANIM_NODE).visible = false
 
 	var anim_type = return_current_animation_type()
 	store_animation("%s_%s" % [anim_type, direction_selected])
@@ -814,13 +841,13 @@ func reset_arrow_colours() -> void:
 		current_animation_name = "%s_%s" % [current_animation_type, dir]
 
 		if anim_metadata[get_metadata_array_offset(dir)][METADATA_SPRITESHEET_FIRST_FRAME] > -1:
-			$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer.get_node("Container_%s" % dir).get_node("set_dir_%s" % dir).visible = true
-			$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer.get_node("Container_%s" % dir).get_node("unset_dir_%s" % dir).visible = false
+			get_node(ARROWS_NODE).get_node("Container_%s" % dir).get_node("set_dir_%s" % dir).visible = true
+			get_node(ARROWS_NODE).get_node("Container_%s" % dir).get_node("unset_dir_%s" % dir).visible = false
 		else:
-			$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer.get_node("Container_%s" % dir).get_node("set_dir_%s" % dir).visible = false
-			$CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer.get_node("Container_%s" % dir).get_node("unset_dir_%s" % dir).visible = true
+			get_node(ARROWS_NODE).get_node("Container_%s" % dir).get_node("set_dir_%s" % dir).visible = false
+			get_node(ARROWS_NODE).get_node("Container_%s" % dir).get_node("unset_dir_%s" % dir).visible = true
 
-	if $CenterContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/four_directions.pressed:
+	if get_node(DIR_COUNT_NODE).get_node("four_directions").pressed:
 		var arrows = get_tree().get_nodes_in_group("8_direction_buttons")
 
 		for arrow in arrows:
@@ -843,7 +870,7 @@ func reset_arrow_colours() -> void:
 # the interface to select the new direction.
 func unstored_warning_on_commit_button_pressed() -> void:
 	$information_windows/unstored_changes_window.visible = false
-	$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/store_anim.visible = false
+	get_node(STORE_ANIM_NODE).visible = false
 
 	var anim_type = return_current_animation_type()
 	store_animation("%s_%s" % [anim_type, direction_selected])
@@ -859,7 +886,7 @@ func unstored_warning_on_commit_button_pressed() -> void:
 # the interface to select the new direction.
 func unstored_warning_on_lose_button_pressed() -> void:
 	$information_windows/unstored_changes_window.visible = false
-	$CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/store_anim.visible = false
+	get_node(STORE_ANIM_NODE).visible = false
 
 	activate_direction(direction_requested)
 
@@ -911,18 +938,18 @@ func export_player() -> void:
 	$information_windows/export_progress.popup()
 	$information_windows/export_progress/progress_bar.value = 0
 
-	if $CenterContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/eight_directions.pressed:
+	if get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed:
 		num_directions = 8
 	else:
 		num_directions = 4
 
 	var new_character = ESCPlayer.new()
-	new_character.name = $CenterContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer/node_name.text
+	new_character.name = get_node(NAME_NODE).get_node("node_name").text
 
-	if $CenterContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer/global_id.text == null:
+	if get_node(NAME_NODE).get_node("global_id").text == null:
 		new_character.global_id = new_character.name
 
-	new_character.global_id = $CenterContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer/global_id.text
+	new_character.global_id = get_node(NAME_NODE).get_node("global_id").text
 
 	var animations_resource = ESCAnimationResource.new()
 
@@ -933,7 +960,7 @@ func export_player() -> void:
 	animations_resource.idles = []
 	animations_resource.speaks = []
 
-	if $CenterContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/four_directions.pressed:
+	if get_node(DIR_COUNT_NODE).get_node("four_directions").pressed:
 		num_directions = 4
 		start_angle_array = [315, 45, 135, 225]
 		angle_size = 90
@@ -995,14 +1022,14 @@ func export_player() -> void:
 	var packed_scene = PackedScene.new()
 
 	packed_scene.pack(get_tree().edited_scene_root.get_node(new_character.name))
-	ResourceSaver.save("res://%s.tscn" % $CenterContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer/node_name.text, packed_scene)
+	ResourceSaver.save("res://%s.tscn" % get_node(NAME_NODE).get_node("node_name").text, packed_scene)
 
 	# Flag suggestions from https://godotengine.org/qa/50437/how-to-turn-a-node-into-a-packedscene-via-gdscript
-	ResourceSaver.save("res://%s.tscn" % $CenterContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer/node_name.text, packed_scene, ResourceSaver.FLAG_CHANGE_PATH|ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS)
+	ResourceSaver.save("res://%s.tscn" % get_node(NAME_NODE).get_node("node_name").text, packed_scene, ResourceSaver.FLAG_CHANGE_PATH|ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS)
 
 	new_character.queue_free()
 	get_tree().edited_scene_root.get_node(new_character.name).queue_free()
-	plugin_reference.open_scene("res://%s.tscn" % $CenterContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer/node_name.text)
+	plugin_reference.open_scene("res://%s.tscn" % get_node(NAME_NODE).get_node("node_name").text)
 	$information_windows/export_progress.hide()
 	$information_windows/export_complete.popup()
 
