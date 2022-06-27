@@ -91,6 +91,8 @@ func _ready() -> void:
 	get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed = true
 	get_node(SCROLL_VBOX_NODE).get_node("MarginContainer/no_spritesheet_found_sprite").visible = true
 	get_node(ZOOM_LABEL_NODE).text = "Zoom: %sx" % str(zoom_value)
+	get_node(ANIM_CONTROLS_NODE).get_node("original_size_label").text = "Source sprite size: (0, 0)"
+	get_node(ANIM_CONTROLS_NODE).get_node("frame_size_label").text = "Frame size: (0, 0)"
 	get_node(PREVIEW_NODE).get_node("anim_preview_sprite").animation = ANIM_IN_PROGRESS
 	preview_hide()
 	get_node(STORE_ANIM_NODE).visible = false
