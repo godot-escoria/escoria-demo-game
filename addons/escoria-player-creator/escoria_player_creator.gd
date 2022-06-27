@@ -89,7 +89,7 @@ func _ready() -> void:
 	get_node(NAME_NODE).get_node("node_name").text = "replace_me"
 	get_node(DIR_COUNT_NODE).get_node("four_directions").pressed = true
 	get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed = true
-	get_node(SCROLL_VBOX_NODE).get_node("no_spritesheet_found_sprite").visible = true
+	get_node(SCROLL_VBOX_NODE).get_node("MarginContainer/no_spritesheet_found_sprite").visible = true
 	get_node(ZOOM_LABEL_NODE).text = "Zoom: %sx" % str(zoom_value)
 	get_node(PREVIEW_NODE).get_node("anim_preview_sprite").animation = ANIM_IN_PROGRESS
 	preview_hide()
@@ -166,7 +166,7 @@ func setup_test_data() -> void:
 
 		anim_metadata[loop * 2][METADATA_IS_MIRROR] = mirrored[loop] != 0
 
-	get_node(SCROLL_VBOX_NODE).get_node("no_spritesheet_found_sprite").visible = false
+	get_node(SCROLL_VBOX_NODE).get_node("MarginContainer/no_spritesheet_found_sprite").visible = false
 
 	reset_arrow_colours()
 
@@ -594,7 +594,7 @@ func controls_on_v_frames_spin_box_value_changed(value: float) -> void:
 
 # Load a spritesheet when selected in the file browser
 func controls_on_FileDialog_file_selected(path: String) -> void:
-	get_node(SCROLL_VBOX_NODE).get_node("no_spritesheet_found_sprite").visible = false
+	get_node(SCROLL_VBOX_NODE).get_node("MarginContainer/no_spritesheet_found_sprite").visible = false
 	load_spritesheet(path)
 
 
