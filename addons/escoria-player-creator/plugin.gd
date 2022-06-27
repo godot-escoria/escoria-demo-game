@@ -11,6 +11,7 @@ func _enter_tree() -> void:
 	helper_instance.plugin_reference = self
 	# Add the panel to the main viewport
 	get_editor_interface().get_editor_viewport().add_child(helper_instance)
+	make_visible(false)
 
 
 func _exit_tree() -> void:
