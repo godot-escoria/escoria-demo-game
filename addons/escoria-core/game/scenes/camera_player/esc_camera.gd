@@ -25,7 +25,8 @@ func _ready():
 
 func _exit_tree():
 	remove_child(_tween)
-	_tween.queue_free()
+	if is_instance_valid(_tween):
+		_tween.queue_free()
 
 
 # Update the position if the followed target is moving

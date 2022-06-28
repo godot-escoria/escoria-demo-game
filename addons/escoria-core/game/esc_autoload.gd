@@ -76,7 +76,7 @@ var inventory
 var settings: ESCSaveSettings
 
 # The game resolution
-var game_size
+onready var game_size = get_viewport().size
 
 # The main scene
 var main

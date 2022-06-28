@@ -132,11 +132,9 @@ func say(character: String, type: String, text: String) -> void:
 			matches.get_string("key")
 		)
 		if _speech_resource == "":
-			escoria.logger.report_warnings(
-				"esc_dialog_player.gd:say",
-				[
-					"Unable to find voice file with key '%s'." % matches.get_string("key")
-				]
+			escoria.logger.warn(
+				self,
+				"Unable to find voice file with key '%s'." % matches.get_string("key")
 			)		
 		else:
 			(
@@ -149,11 +147,9 @@ func say(character: String, type: String, text: String) -> void:
 		# Only update the text if the translated text was found; otherwise, raise
 		# a warning and use the original, untranslated text.
 		if translated_text == matches.get_string("key"):
-			escoria.logger.report_warnings(
-				"esc_dialog_player.gd:say",
-				[
-					"Unable to find translation key '%s'. Using untranslated text." % matches.get_string("key")
-				]
+			escoria.logger.warn(
+				self,
+				"Unable to find translation key '%s'. Using untranslated text." % matches.get_string("key")
 			)
 			text = matches.get_string("text")
 		else:
