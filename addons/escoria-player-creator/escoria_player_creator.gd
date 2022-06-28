@@ -230,7 +230,6 @@ func load_spritesheet(file_to_load, read_settings_from_metadata: bool = false, m
 	calc_sprite_size()
 
 	get_node(CURRENT_SHEET_NODE).text = file_to_load
-
 	draw_frame_outlines()
 	spritesheet_on_zoom_reset_button_pressed()
 
@@ -242,9 +241,7 @@ func load_spritesheet(file_to_load, read_settings_from_metadata: bool = false, m
 # Draws an outline on the spritesheet to show which frames are included in the current animation
 func draw_frame_outlines() -> void:
 	check_frame_limits()
-
-	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").rect_scale.x = zoom_value
-	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").rect_scale.y = zoom_value
+	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").zoom_factor = zoom_value
 	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").total_num_columns = get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value
 	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").start_cell = get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value
 	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").end_cell = get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value
@@ -655,14 +652,13 @@ func spritesheet_on_export_button_pressed() -> void:
 func spritesheet_on_zoom_scrollbar_value_changed(value: float) -> void:
 	if not has_spritesheet_been_loaded():
 		return
-
 	zoom_value = stepify(value, 0.1)
+
 
 	get_node(ZOOM_LABEL_NODE).text = "Zoom: %sx" % str(zoom_value)
 	get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").scale.x = zoom_value
 	get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").scale.y = zoom_value
 	get_node(SCROLL_CTRL_NODE).rect_min_size = source_image.get_size() * zoom_value
-
 	draw_frame_outlines()
 
 
