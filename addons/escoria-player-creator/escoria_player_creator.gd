@@ -46,20 +46,20 @@ const TYPE_IDLE = "idle"
 const ANIM_IN_PROGRESS = "in_progress"
 
 # Make the code more readable by shortening node references using constants
-const NAME_NODE          = "CenterContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer"
-const DIR_COUNT_NODE     = "CenterContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer"
-const ANIM_TYPE_NODE     = "CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer"
-const MIRROR_NODE        = "CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer3/mirror_checkbox"
-const ARROWS_NODE        = "CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"
-const PREVIEW_NODE       = "CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/MarginContainer"
-const PREVIEW_BGRND_NODE = "CenterContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/anim_preview_background"
-const ANIM_CONTROLS_NODE = "CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer"
-const STORE_ANIM_NODE    = "CenterContainer/HBoxContainer/spritesheet_controls/VBoxContainer/Control/store_anim"
-const SCROLL_CTRL_NODE   = "CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control"
-const SCROLL_VBOX_NODE   = "CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/"
-const CURRENT_SHEET_NODE = "CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_current/MarginContainer2/current_spritesheet_label"
-const ZOOM_LABEL_NODE    = "CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll/zoom_label"
-const ZOOM_SCROLL_NODE   = "CenterContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll/MarginContainer/zoom_scrollbar"
+const NAME_NODE          = "MarginContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer"
+const DIR_COUNT_NODE     = "MarginContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer"
+const ANIM_TYPE_NODE     = "MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer"
+const MIRROR_NODE        = "MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer3/mirror_checkbox"
+const ARROWS_NODE        = "MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"
+const PREVIEW_NODE       = "MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/MarginContainer"
+const PREVIEW_BGRND_NODE = "MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/anim_preview_background"
+const ANIM_CONTROLS_NODE = "MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer"
+const STORE_ANIM_NODE    = "MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/Control/store_anim"
+const SCROLL_CTRL_NODE   = "MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control"
+const SCROLL_VBOX_NODE   = "MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/"
+const CURRENT_SHEET_NODE = "MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_current/MarginContainer2/current_spritesheet_label"
+const ZOOM_LABEL_NODE    = "MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll/zoom_label"
+const ZOOM_SCROLL_NODE   = "MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll/MarginContainer/zoom_scrollbar"
 
 # Test flag - set to true to load test data.
 var test_mode: bool = false
@@ -89,7 +89,7 @@ func _ready() -> void:
 	get_node(NAME_NODE).get_node("node_name").text = "replace_me"
 	get_node(DIR_COUNT_NODE).get_node("four_directions").pressed = true
 	get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed = true
-	get_node(SCROLL_VBOX_NODE).get_node("MarginContainer/no_spritesheet_found_sprite").visible = true
+	get_node(SCROLL_VBOX_NODE).get_node("spritesheet_scroll_container/control/MarginContainer/no_spritesheet_found_sprite").visible = true
 	get_node(ZOOM_LABEL_NODE).text = "Zoom: %sx" % str(zoom_value)
 	get_node(ANIM_CONTROLS_NODE).get_node("original_size_label").text = "Source sprite size: (0, 0)"
 	get_node(ANIM_CONTROLS_NODE).get_node("frame_size_label").text = "Frame size: (0, 0)"
@@ -168,7 +168,7 @@ func setup_test_data() -> void:
 
 		anim_metadata[loop * 2][METADATA_IS_MIRROR] = mirrored[loop] != 0
 
-	get_node(SCROLL_VBOX_NODE).get_node("MarginContainer/no_spritesheet_found_sprite").visible = false
+	get_node(SCROLL_VBOX_NODE).get_node("spritesheet_scroll_container/control/MarginContainer/no_spritesheet_found_sprite").visible = false
 
 	reset_arrow_colours()
 
@@ -593,7 +593,7 @@ func controls_on_v_frames_spin_box_value_changed(value: float) -> void:
 
 # Load a spritesheet when selected in the file browser
 func controls_on_FileDialog_file_selected(path: String) -> void:
-	get_node(SCROLL_VBOX_NODE).get_node("MarginContainer/no_spritesheet_found_sprite").visible = false
+	get_node(SCROLL_VBOX_NODE).get_node("spritesheet_scroll_container/control/MarginContainer/no_spritesheet_found_sprite").visible = false
 	load_spritesheet(path)
 
 
