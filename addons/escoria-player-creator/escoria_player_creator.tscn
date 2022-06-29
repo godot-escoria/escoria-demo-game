@@ -702,7 +702,8 @@ total_num_rows = 1
 total_num_columns = 1
 start_cell = 1
 end_cell = 1
-cell_size = Vector2( 24, 70 )
+cell_size = Vector2( 1, 1 )
+zoom_factor = 1.0
 
 [node name="MarginContainer" type="CenterContainer" parent="MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control"]
 margin_right = 440.0
@@ -1086,8 +1087,7 @@ margin_top = 234.0
 margin_right = 807.0
 margin_bottom = 334.0
 popup_exclusive = true
-dialog_text = "You cant mirror a direction that's already mirrored
-"
+dialog_text = "Please load a spritesheet to begin."
 
 [node name="export_progress" type="WindowDialog" parent="MarginContainer/information_windows"]
 anchor_left = 0.5
@@ -1156,8 +1156,8 @@ window_title = "Open a File"
 mode = 0
 access = 2
 filters = PoolStringArray( "*.png, *.jpg, *.jpeg ; Supported Images" )
-current_dir = "/Godot/escoria-demo-game"
-current_path = "/Godot/escoria-demo-game/"
+current_dir = "/Godot Projects/escoria-main/escoria-demo-game"
+current_path = "/Godot Projects/escoria-main/escoria-demo-game/"
 
 [connection signal="text_changed" from="MarginContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer/node_name" to="." method="nodename_on_node_name_text_changed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/four_directions" to="." method="directions_on_four_directions_pressed"]
@@ -1182,12 +1182,12 @@ current_path = "/Godot/escoria-demo-game/"
 [connection signal="pressed" from="MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_downright/set_dir_downright" to="." method="animation_on_dir_downright_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_downright/unset_dir_downright" to="." method="animation_on_dir_downright_pressed"]
 [connection signal="toggled" from="MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer3/mirror_checkbox" to="." method="animation_on_mirror_checkbox_toggled"]
-[connection signal="value_changed" from="MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll/MarginContainer/zoom_scrollbar" to="MarginContainer" method="spritesheet_on_zoom_scrollbar_value_changed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll/zoom_reset_button" to="MarginContainer" method="spritesheet_on_zoom_reset_button_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/CenterContainer/load_spritesheet_button" to="MarginContainer" method="spritesheet_on_load_spritesheet_button_pressed"]
+[connection signal="value_changed" from="MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll/MarginContainer/zoom_scrollbar" to="." method="spritesheet_on_zoom_scrollbar_value_changed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll/zoom_reset_button" to="." method="spritesheet_on_zoom_reset_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/CenterContainer/load_spritesheet_button" to="." method="spritesheet_on_load_spritesheet_button_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/Control/store_anim/CenterContainer2/anim_store_button" to="." method="store_on_anim_store_button_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/MarginContainer2/export_button" to="." method="spritesheet_on_export_button_pressed"]
-[connection signal="pressed" from="MarginContainer/information_windows/unstored_changes_window/commit_button" to="MarginContainer" method="unstored_warning_on_commit_button_pressed"]
-[connection signal="pressed" from="MarginContainer/information_windows/unstored_changes_window/lose_button" to="MarginContainer" method="unstored_warning_on_lose_button_pressed"]
-[connection signal="pressed" from="MarginContainer/information_windows/unstored_changes_window/cancel_button" to="MarginContainer" method="unstored_warning_on_cancel_button_pressed"]
+[connection signal="pressed" from="MarginContainer/information_windows/unstored_changes_window/commit_button" to="." method="unstored_warning_on_commit_button_pressed"]
+[connection signal="pressed" from="MarginContainer/information_windows/unstored_changes_window/lose_button" to="." method="unstored_warning_on_lose_button_pressed"]
+[connection signal="pressed" from="MarginContainer/information_windows/unstored_changes_window/cancel_button" to="." method="unstored_warning_on_cancel_button_pressed"]
 [connection signal="file_selected" from="MarginContainer/FileDialog" to="." method="controls_on_FileDialog_file_selected"]

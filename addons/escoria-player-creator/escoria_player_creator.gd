@@ -46,20 +46,26 @@ const TYPE_IDLE = "idle"
 const ANIM_IN_PROGRESS = "in_progress"
 
 # Make the code more readable by shortening node references using constants
-const NAME_NODE          = "MarginContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer"
-const DIR_COUNT_NODE     = "MarginContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer"
-const ANIM_TYPE_NODE     = "MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer"
-const MIRROR_NODE        = "MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer3/mirror_checkbox"
-const ARROWS_NODE        = "MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"
-const PREVIEW_NODE       = "MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/MarginContainer"
-const PREVIEW_BGRND_NODE = "MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/anim_preview_background"
-const ANIM_CONTROLS_NODE = "MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer"
-const STORE_ANIM_NODE    = "MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/Control/store_anim"
-const SCROLL_CTRL_NODE   = "MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control"
-const SCROLL_VBOX_NODE   = "MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/"
-const CURRENT_SHEET_NODE = "MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_current/MarginContainer2/current_spritesheet_label"
-const ZOOM_LABEL_NODE    = "MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll/zoom_label"
-const ZOOM_SCROLL_NODE   = "MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll/MarginContainer/zoom_scrollbar"
+const NAME_NODE            = "MarginContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer"
+const DIR_COUNT_NODE       = "MarginContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer"
+const ANIM_TYPE_NODE       = "MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer"
+const MIRROR_NODE          = "MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer3/mirror_checkbox"
+const ARROWS_NODE          = "MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"
+const PREVIEW_NODE         = "MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/MarginContainer"
+const PREVIEW_BGRND_NODE   = "MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/anim_preview_background"
+const ANIM_CONTROLS_NODE   = "MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer"
+const STORE_ANIM_NODE      = "MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/Control/store_anim"
+const SCROLL_VBOX_NODE     = "MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/"
+const SCROLL_CTRL_NODE     = "MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control"
+const NO_SPRITESHEET_NODE  = "MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control/MarginContainer/no_spritesheet_found_sprite"
+const CURRENT_SHEET_NODE   = "MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_current/MarginContainer2/current_spritesheet_label"
+const ZOOM_LABEL_NODE      = "MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll/zoom_label"
+const ZOOM_SCROLL_NODE     = "MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll/MarginContainer/zoom_scrollbar"
+const GENERIC_ERROR_NODE   = "MarginContainer/information_windows/generic_error_window"
+const FILE_DIALOG_NODE     = "MarginContainer/FileDialog"
+const UNSTORED_CHANGE_NODE = "MarginContainer/information_windows/unstored_changes_window"
+const EXPORT_PROGRESS_NODE = "MarginContainer/information_windows/export_progress"
+const EXPORT_COMPLETE_NODE = "MarginContainer/information_windows/export_complete"
 
 # Test flag - set to true to load test data.
 var test_mode: bool = false
@@ -89,7 +95,7 @@ func _ready() -> void:
 	get_node(NAME_NODE).get_node("node_name").text = "replace_me"
 	get_node(DIR_COUNT_NODE).get_node("four_directions").pressed = true
 	get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed = true
-	get_node(SCROLL_VBOX_NODE).get_node("spritesheet_scroll_container/control/MarginContainer/no_spritesheet_found_sprite").visible = true
+	get_node(NO_SPRITESHEET_NODE).visible = true
 	get_node(ZOOM_LABEL_NODE).text = "Zoom: %sx" % str(zoom_value)
 	get_node(ANIM_CONTROLS_NODE).get_node("original_size_label").text = "Source sprite size: (0, 0)"
 	get_node(ANIM_CONTROLS_NODE).get_node("frame_size_label").text = "Frame size: (0, 0)"
@@ -168,7 +174,7 @@ func setup_test_data() -> void:
 
 		anim_metadata[loop * 2][METADATA_IS_MIRROR] = mirrored[loop] != 0
 
-	get_node(SCROLL_VBOX_NODE).get_node("spritesheet_scroll_container/control/MarginContainer/no_spritesheet_found_sprite").visible = false
+	get_node(NO_SPRITESHEET_NODE).visible = false
 
 	reset_arrow_colours()
 
@@ -415,8 +421,8 @@ func check_if_controls_have_changed():
 # a warning window instead of letting them change settings.
 func has_spritesheet_been_loaded() -> bool:
 	if source_image == null:
-		$information_windows/generic_error_window.dialog_text = "Please load a spritesheet to begin."
-		$information_windows/generic_error_window.popup()
+		get_node(GENERIC_ERROR_NODE).dialog_text = "Please load a spritesheet to begin."
+		get_node(GENERIC_ERROR_NODE).popup()
 		return false
 
 	return true
@@ -506,16 +512,16 @@ func animation_on_mirror_checkbox_toggled(button_pressed: bool) -> void:
 
 	if button_pressed:
 		if anim_metadata[metadata_array_offset][METADATA_IS_MIRROR]:
-			$information_windows/generic_error_window.dialog_text = \
+			get_node(GENERIC_ERROR_NODE).dialog_text = \
 				"You cant mirror a direction that is already mirrored."
-			$information_windows/generic_error_window.popup()
+			get_node(GENERIC_ERROR_NODE).popup()
 			get_node(MIRROR_NODE).pressed = false
 			return
 
 		if anim_metadata[metadata_array_offset][METADATA_SPRITESHEET_FIRST_FRAME] == -1:
-			$information_windows/generic_error_window.dialog_text = \
+			get_node(GENERIC_ERROR_NODE).dialog_text = \
 				"You cant mirror an animation that hasn't been set up."
-			$information_windows/generic_error_window.popup()
+			get_node(GENERIC_ERROR_NODE).popup()
 			get_node(MIRROR_NODE).pressed = false
 			return
 
@@ -593,7 +599,7 @@ func controls_on_v_frames_spin_box_value_changed(value: float) -> void:
 
 # Load a spritesheet when selected in the file browser
 func controls_on_FileDialog_file_selected(path: String) -> void:
-	get_node(SCROLL_VBOX_NODE).get_node("spritesheet_scroll_container/control/MarginContainer/no_spritesheet_found_sprite").visible = false
+	get_node(NO_SPRITESHEET_NODE).visible = false
 	load_spritesheet(path)
 
 
@@ -627,22 +633,22 @@ func spritesheet_on_export_button_pressed() -> void:
 				missing_idle_animations += 1
 
 	if missing_idle_animations + missing_talk_animations + missing_walk_animations > 0:
-		$information_windows/generic_error_window.dialog_text = \
+		get_node(GENERIC_ERROR_NODE).dialog_text = \
 			"One or more animations are not configured.\nPlease ensure all arrows are green for\nwalk, talk, and idle animations.\n\n"
 
 		if missing_walk_animations:
-			$information_windows/generic_error_window.dialog_text += \
+			get_node(GENERIC_ERROR_NODE).dialog_text += \
 				"%s walk animations not configured.\n" % missing_walk_animations
 
 		if missing_talk_animations:
-			$information_windows/generic_error_window.dialog_text += \
+			get_node(GENERIC_ERROR_NODE).dialog_text += \
 				"%s talk animations not configured.\n" % missing_talk_animations
 
 		if missing_idle_animations:
-			$information_windows/generic_error_window.dialog_text += \
+			get_node(GENERIC_ERROR_NODE).dialog_text += \
 				"%s idle animations not configured." % missing_idle_animations
 
-		$information_windows/generic_error_window.popup()
+		get_node(GENERIC_ERROR_NODE).popup()
 
 		return
 	export_player()
@@ -656,15 +662,15 @@ func spritesheet_on_zoom_scrollbar_value_changed(value: float) -> void:
 
 
 	get_node(ZOOM_LABEL_NODE).text = "Zoom: %sx" % str(zoom_value)
-	get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").scale.x = zoom_value
-	get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").scale.y = zoom_value
+	get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").rect_scale.x = zoom_value
+	get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").rect_scale.y = zoom_value
 	get_node(SCROLL_CTRL_NODE).rect_min_size = source_image.get_size() * zoom_value
 	draw_frame_outlines()
 
 
 # Show the file manager when the load spritesheet button is pressed
 func spritesheet_on_load_spritesheet_button_pressed() -> void:
-	$FileDialog.popup()
+	get_node(FILE_DIALOG_NODE).popup()
 
 
 # Reset zoom settings when the reset button is pushed. Also called when a new
@@ -742,7 +748,7 @@ func check_activate_direction(direction) -> void:
 
 		get_node(ARROWS_NODE).get_node("Container_%s" % direction).get_node("set_dir_%s" % direction).pressed = false
 		get_node(ARROWS_NODE).get_node("Container_%s" % direction).get_node("unset_dir_%s" % direction).pressed = false
-		$information_windows/unstored_changes_window.popup()
+		$MarginContainer/information_windows/unstored_changes_window.popup()
 	else:
 		activate_direction(direction)
 
@@ -867,7 +873,7 @@ func reset_arrow_colours() -> void:
 # The button associated with this function chooses to save the changes, then will update
 # the interface to select the new direction.
 func unstored_warning_on_commit_button_pressed() -> void:
-	$information_windows/unstored_changes_window.visible = false
+	get_node(UNSTORED_CHANGE_NODE).visible = false
 	get_node(STORE_ANIM_NODE).visible = false
 
 	var anim_type = return_current_animation_type()
@@ -883,7 +889,7 @@ func unstored_warning_on_commit_button_pressed() -> void:
 # The button associated with this function chooses to lose the changes, then will update
 # the interface to select the new direction.
 func unstored_warning_on_lose_button_pressed() -> void:
-	$information_windows/unstored_changes_window.visible = false
+	get_node(UNSTORED_CHANGE_NODE).visible = false
 	get_node(STORE_ANIM_NODE).visible = false
 
 	activate_direction(direction_requested)
@@ -894,7 +900,7 @@ func unstored_warning_on_lose_button_pressed() -> void:
 # The button associated with this function chooses to cancel the request to change direction
 # and let the user continue to edit the current animation.
 func unstored_warning_on_cancel_button_pressed() -> void:
-	$information_windows/unstored_changes_window.visible = false
+	get_node(UNSTORED_CHANGE_NODE).visible = false
 
 
 # Returns the opposite direction for mirroring animations
@@ -933,8 +939,8 @@ func export_player() -> void:
 	var angle_size
 	var dirnames
 
-	$information_windows/export_progress.popup()
-	$information_windows/export_progress/progress_bar.value = 0
+	get_node(EXPORT_PROGRESS_NODE).popup()
+	get_node(EXPORT_PROGRESS_NODE).get_node("progress_bar").value = 0
 
 	if get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed:
 		num_directions = 8
@@ -1028,8 +1034,8 @@ func export_player() -> void:
 	new_character.queue_free()
 	get_tree().edited_scene_root.get_node(new_character.name).queue_free()
 	plugin_reference.open_scene("res://%s.tscn" % get_node(NAME_NODE).get_node("node_name").text)
-	$information_windows/export_progress.hide()
-	$information_windows/export_complete.popup()
+	get_node(EXPORT_PROGRESS_NODE).hide()
+	get_node(EXPORT_COMPLETE_NODE).popup()
 
 # When exporting the ESCPlayer, this function loads the relevant spritesheets based on the
 # animation metadata, and copies the frames to the relevant animations within the animatedsprite
@@ -1090,9 +1096,9 @@ func export_generate_animations(character_node, num_directions) -> Vector2:
 
 				frame_counter += 1
 			if num_directions == 4:
-				$information_windows/export_progress/progress_bar.value += 2
+				get_node(EXPORT_PROGRESS_NODE).get_node("progress_bar").value += 2
 			else:
-				$information_windows/export_progress/progress_bar.value += 1
+				get_node(EXPORT_PROGRESS_NODE).get_node("progress_bar").value += 1
 	sprite_frames.remove_animation("default")
 
 	var animated_sprite = AnimatedSprite.new()
@@ -1130,3 +1136,13 @@ func _create_esc_animation(type: String, dir_name: String) -> ESCAnimationName:
 		anim_details.mirrored = false
 
 	return anim_details
+
+
+# Process function.
+# There is currently a Godot bug that if you move a scrollbar (either a scrollbar on the
+# spritesheet, or the zoom size scrollbar), randomly it will set its parent control node's
+# zoom to (1,1). This breaks the spritesheet zoom. To fix this, any time it's found to have
+# reset, this function will change it back again.
+func _process(delta: float) -> void:
+	if get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").rect_scale.x != zoom_value:
+		get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").rect_scale = Vector2(zoom_value, zoom_value)
