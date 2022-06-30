@@ -1,3 +1,0 @@
-:exit_scene
-play_snd res://game/sfx/sounds/doorOpen_2.ogg
-change_scene "res://game/rooms/room01/room01.tscn"

@@ -439,6 +439,46 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/queue_resource.gd"
 }, {
+"base": "ESCItem",
+"class": "RSCItem",
+"language": "GDScript",
+"path": "res://addons/escoria-roomscript/rsc_item.gd"
+}, {
+"base": "ESCRoom",
+"class": "RSCRoom",
+"language": "GDScript",
+"path": "res://addons/escoria-roomscript/rsc_room.gd"
+}, {
+"base": "Object",
+"class": "RSCRoomScript",
+"language": "GDScript",
+"path": "res://addons/escoria-roomscript/rsc_room_script.gd"
+}, {
+"base": "Object",
+"class": "RSCRoomScriptFactory",
+"language": "GDScript",
+"path": "res://addons/escoria-roomscript/rsc_room_script_factory.gd"
+}, {
+"base": "Node",
+"class": "RSCSayCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-roomscript/commands/rsc_say.gd"
+}, {
+"base": "Node",
+"class": "RSCSetInteractiveCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-roomscript/commands/rsc_set_interactive.gd"
+}, {
+"base": "Node",
+"class": "RSCSetStateCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-roomscript/commands/rsc_set_state.gd"
+}, {
+"base": "Node",
+"class": "RSCTeleportCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-roomscript/commands/rsc_teleport.gd"
+}, {
 "base": "ESCBaseCommand",
 "class": "RandGlobalCommand",
 "language": "GDScript",
@@ -671,6 +711,14 @@ _global_script_class_icons={
 "PlaySndCommand": "",
 "QueueEventCommand": "",
 "QueueResourceCommand": "",
+"RSCItem": "res://addons/escoria-roomscript/rsc_item.svg",
+"RSCRoom": "res://addons/escoria-roomscript/rsc_room.svg",
+"RSCRoomScript": "",
+"RSCRoomScriptFactory": "",
+"RSCSayCommand": "",
+"RSCSetInteractiveCommand": "",
+"RSCSetStateCommand": "",
+"RSCTeleportCommand": "",
 "RandGlobalCommand": "",
 "RepeatCommand": "",
 "SayCommand": "",
@@ -749,7 +797,7 @@ sound/music_volume=1
 sound/sfx_volume=1
 sound/speech_volume=1
 sound/master_volume=1
-main/command_directories=[ "res://addons/escoria-core/game/core-scripts/esc/commands" ]
+main/command_directories=[ "res://addons/escoria-core/game/core-scripts/esc/commands", "res://addons/escoria-roomscript/commands" ]
 debug/log_level="TRACE"
 platform/skip_cache=false
 platform/skip_cache.mobile=true

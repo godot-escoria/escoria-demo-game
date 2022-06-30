@@ -1,0 +1,126 @@
+event setup {
+
+> [r2_bridge_closed]
+	# Make set_state IMMEDIATE to reach the final frame immediately
+	rsc_set_state bridge bridge_close true
+	enable_terrain bridge_closed
+	rsc_set_interactive right_platform false
+
+> [eq ESC_LAST_SCENE room1]
+	rsc_teleport player left_door
+	# Set player look left
+	set_angle player 180
+	stop
+
+> [eq ESC_LAST_SCENE room3]
+	rsc_teleport player right_door
+	# Set player look left
+	set_angle player 270
+
+	# Activate bridge, else player is stuck
+	#rsc_set_state bridge bridge_close
+	#enable_terrain bridge_closed
+	#set_global r2_bridge_closed true
+	rsc_set_interactive right_platform false
+	#rsc_set_interactive bridge false
+	stop
+}
+
+event ready {
+
+# DEBUG
+#rsc_set_state bridge bridge_close
+#enable_terrain bridge_closed
+#set_global bridge_closed true
+#rsc_set_interactive right_platform false
+## /DEBUG
+
+}
+
+item button_left {
+
+:look
+> [! r2_look_dialog_advance]
+	say player "That button must activate the bridge."
+	set_global r2_look_dialog_advance 1
+	stop
+> [eq r2_look_dialog_advance 1]
+	say player "I already said that this button must activate the bridge."
+	set_global r2_look_dialog_advance 2
+	stop
+> [eq r2_look_dialog_advance 2]
+	set_angle player 180
+	say player "Listen closely."
+	say player "This"
+	say player "button"
+	say player "must"
+	say player "activate"
+	say player "the bridge."
+	set_global r2_look_dialog_advance 3
+	stop
+> [eq r2_look_dialog_advance 3]
+	say player "I give up."
+	say player "<sob>"
+	stop
+
+
+:push
+say player "I must USE this."
+rsc_say button_left "Bzzt, indeed."
+say player "AH! A talking button."
+rsc_say button_left "I am not a button, I am a mighty AI."
+say player "What?"
+rsc_say button_left "I am intelligent, like you."
+rsc_say button_left "Or, like you think you are, apparently..."
+say player "Hey!"
+
+:use
+> [r2_bridge_closed]
+	rsc_set_state bridge bridge_open
+	enable_terrain bridge_open
+	set_global r2_bridge_closed false
+	#rsc_set_interactive right_platform true
+	rsc_set_interactive bridge false
+	stop
+> [!r2_bridge_closed]
+	rsc_set_state bridge bridge_close
+	enable_terrain bridge_closed
+	set_global r2_bridge_closed true
+	rsc_set_interactive right_platform false
+	rsc_set_interactive bridge false
+	stop
+
+}
+
+item button_right {
+:look
+say player "This looks suspiciously like that other button."
+
+:push
+say player "I must USE this."
+
+:use
+say player "Why would I want to create a giant hole in the floor again?"
+}
+
+# Need to declare this item so we can reference it via
+# rsc_set_interactive.
+item bridge {
+}
+
+item right_platform {
+:look
+say player "That's the other side."
+}
+
+item left_door {
+:exit_scene
+play_snd res://game/sfx/sounds/doorOpen_2.ogg
+change_scene "res://game/rooms/room01/room01.tscn"
+}
+
+item right_door {
+:exit_scene
+play_snd res://game/sfx/sounds/doorOpen_2.ogg
+change_scene "res://game/rooms/room03/room03.tscn"
+}

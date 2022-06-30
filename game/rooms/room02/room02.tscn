@@ -2,8 +2,7 @@
 
 [ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
+[ext_resource path="res://addons/escoria-roomscript/rsc_room.gd" type="Script" id=6]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=8]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_background.gd" type="Script" id=9]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=10]
@@ -12,6 +11,7 @@
 [ext_resource path="res://game/rooms/room02/floor1.png" type="Texture" id=13]
 [ext_resource path="res://game/rooms/room02/floor4.png" type="Texture" id=14]
 [ext_resource path="res://game/rooms/room02/floor2.png" type="Texture" id=15]
+[ext_resource path="res://addons/escoria-roomscript/rsc_item.gd" type="Script" id=16]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 10, 378, 86, 337, 88, 374, 8, 545, 121, 355, 488, 354, 409, 546, 1184, 373, 1185, 343, 1272, 393, 1272, 548, 875, 546, 802, 357, 1161, 358 )
@@ -187,62 +187,52 @@ tracks/3/keys = {
 [node name="room2" type="Node2D"]
 script = ExtResource( 6 )
 global_id = "room2"
-esc_script = "res://game/rooms/room02/esc/room02_bridge.esc"
 player_scene = ExtResource( 4 )
 camera_limits = [ Rect2( 0, 0, 1280, 555 ) ]
 editor_debug_mode = 1
 
-[node name="r_platform" type="Area2D" parent="."]
+[node name="right_platform" type="Area2D" parent="."]
 pause_mode = 1
-script = ExtResource( 7 )
-global_id = "r2_right_platform"
-esc_script = "res://game/rooms/room02/esc/right_platform.esc"
+script = ExtResource( 16 )
 interaction_direction = 3
 tooltip_name = "Right platform"
 default_action = "look"
 dialog_color = Color( 1, 1, 1, 1 )
-animations = null
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="r_platform"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="right_platform"]
 polygon = PoolVector2Array( 870.974, 538.342, 827.536, 353.995, 1181.4, 357.174, 1287.34, 413.325, 1289.46, 545.758 )
 
-[node name="action_pos" type="Position2D" parent="r_platform"]
+[node name="action_pos" type="Position2D" parent="right_platform"]
 position = Vector2( 394, 460 )
 script = ExtResource( 8 )
 
-[node name="r_door" type="Area2D" parent="."]
+[node name="right_door" type="Area2D" parent="."]
 pause_mode = 1
-script = ExtResource( 7 )
-global_id = "r2_r_exit"
-esc_script = "res://game/rooms/room02/esc/right_exit.esc"
+script = ExtResource( 16 )
 is_exit = true
 tooltip_name = "Right exit"
 default_action = "walk"
 dialog_color = Color( 1, 1, 1, 1 )
-animations = null
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="r_door"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="right_door"]
 polygon = PoolVector2Array( 1177.94, 348.61, 1175.95, 45.3759, 1276.06, 92.0953, 1277.95, 399.407 )
 
-[node name="Position2D" type="Position2D" parent="r_door"]
+[node name="Position2D" type="Position2D" parent="right_door"]
 position = Vector2( 1227, 387 )
 script = ExtResource( 8 )
 
-[node name="l_door" type="Area2D" parent="."]
+[node name="left_door" type="Area2D" parent="."]
 pause_mode = 1
-script = ExtResource( 7 )
-global_id = "r2_l_exit"
-esc_script = "res://game/rooms/room02/esc/left_exit.esc"
+script = ExtResource( 16 )
 is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
 dialog_color = Color( 1, 1, 1, 1 )
-animations = null
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="l_door"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="left_door"]
 polygon = PoolVector2Array( -1.37926, 443.158, 7.96461, 122.796, 84.0504, 77.4118, 88.055, 377.751 )
 
-[node name="Position2D" type="Position2D" parent="l_door"]
+[node name="Position2D" type="Position2D" parent="left_door"]
 position = Vector2( 52.1462, 384.691 )
 script = ExtResource( 8 )
 
@@ -300,7 +290,7 @@ margin_top = 558.0
 margin_right = 99.0
 margin_bottom = 579.0
 custom_fonts/font = ExtResource( 3 )
-text = "Room  2 demonstrates modifying the walkable area of a room. Performing \"use\" on the button will cause the original navmesh (which has a gap 
+text = "Room  2 demonstrates modifying the walkable area of a room. Performing \"use\" on the button will cause the original navmesh (which has a gap
 in the middle) with one that covers the whole room (platforms + bridge) - allowing the player to walk from one side to the other.
 Setting the state of the r2_bridge variable to \"bridge_open\" or \"bridge_closed\" (see button.esc) automatically runs the animation with the same name."
 __meta__ = {
@@ -322,13 +312,10 @@ enabled = false
 
 [node name="button_left" type="Area2D" parent="."]
 pause_mode = 1
-script = ExtResource( 7 )
-global_id = "r2_button"
-esc_script = "res://game/rooms/room02/esc/button.esc"
+script = ExtResource( 16 )
 tooltip_name = "button"
 default_action = "use"
 dialog_color = Color( 0.196078, 1, 0, 1 )
-animations = null
 
 [node name="Position2D" type="Position2D" parent="button_left"]
 
@@ -340,32 +327,27 @@ shape = SubResource( 3 )
 position = Vector2( 369, 375 )
 script = ExtResource( 8 )
 
-[node name="button_right2" type="Area2D" parent="."]
+[node name="button_right" type="Area2D" parent="."]
 pause_mode = 1
-script = ExtResource( 7 )
-global_id = "r2_button_right"
-esc_script = "res://game/rooms/room02/esc/button.esc"
+script = ExtResource( 16 )
 tooltip_name = "button"
 default_action = "use"
 dialog_color = Color( 0.196078, 1, 0, 1 )
-animations = null
 
-[node name="Position2D" type="Position2D" parent="button_right2"]
+[node name="Position2D" type="Position2D" parent="button_right"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="button_right2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="button_right"]
 position = Vector2( 911, 190.5 )
 shape = SubResource( 4 )
 
-[node name="ESCLocation" type="Position2D" parent="button_right2"]
+[node name="ESCLocation" type="Position2D" parent="button_right"]
 position = Vector2( 914, 378 )
 script = ExtResource( 8 )
 
 [node name="bridge" type="Area2D" parent="."]
 pause_mode = 1
-script = ExtResource( 7 )
-global_id = "r2_bridge"
+script = ExtResource( 16 )
 dialog_color = Color( 1, 1, 1, 1 )
-animations = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="bridge"]
 root_node = NodePath("../..")
