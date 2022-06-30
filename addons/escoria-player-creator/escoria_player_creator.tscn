@@ -724,19 +724,20 @@ rect_min_size = Vector2( 440, 0 )
 
 [node name="zoom_label" type="Label" parent="MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll"]
 margin_top = 3.0
-margin_right = 60.0
+margin_right = 80.0
 margin_bottom = 17.0
+rect_min_size = Vector2( 80, 0 )
 text = "Zoom: 1x"
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll"]
-margin_left = 64.0
+margin_left = 84.0
 margin_right = 388.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="zoom_scrollbar" type="HScrollBar" parent="MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll/MarginContainer"]
-margin_right = 324.0
+margin_right = 304.0
 margin_bottom = 20.0
 hint_tooltip = "Current spritesheet zoom level"
 size_flags_horizontal = 3
