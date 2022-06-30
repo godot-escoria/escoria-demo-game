@@ -1034,6 +1034,7 @@ func export_player() -> void:
 	new_character.queue_free()
 	get_tree().edited_scene_root.get_node(new_character.name).queue_free()
 	plugin_reference.open_scene("res://%s.tscn" % get_node(NAME_NODE).get_node("node_name").text)
+	plugin_reference.make_visible(false)
 	get_node(EXPORT_PROGRESS_NODE).hide()
 	get_node(EXPORT_COMPLETE_NODE).popup()
 
