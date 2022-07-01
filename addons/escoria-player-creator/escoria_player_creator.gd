@@ -89,7 +89,8 @@ var anim_metadata = []
 # This variable is set by plugin.gd and used to allow the plugin to interact with the Godot
 # editor (open the ESCPlayer scene in the editor once it's created)
 var plugin_reference
-
+# Current help page showing
+var help_page: int = 0
 
 func _ready() -> void:
 	get_node(NAME_NODE).get_node("node_name").text = "replace_me"
@@ -130,6 +131,13 @@ func _ready() -> void:
 	if test_mode:
 		setup_test_data()
 
+	check_running_as_plugin()
+
+func check_running_as_plugin() -> void:
+	if plugin_reference == null:
+		get_node(GENERIC_ERROR_NODE).dialog_text = "WARNING\nIt appears you are not running the player creator as a plugin.\n"
+		get_node(GENERIC_ERROR_NODE).dialog_text += "The export of the character you create will fail."
+		get_node(GENERIC_ERROR_NODE).popup()
 
 func calc_sprite_size() -> void:
 	var source_size = source_image.get_size()
@@ -934,6 +942,7 @@ func find_opposite_direction(direction:String) -> String:
 # widest/tallest frame settings do not necessarily come from the same animation frame but are
 # from all the animation frames.
 func export_player() -> void:
+
 	var num_directions
 	var start_angle_array
 	var angle_size
@@ -1147,3 +1156,25 @@ func _create_esc_animation(type: String, dir_name: String) -> ESCAnimationName:
 func _process(delta: float) -> void:
 	if get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").rect_scale.x != zoom_value:
 		get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").rect_scale = Vector2(zoom_value, zoom_value)
+
+
+func spritesheet_on_help_button_pressed() -> void:
+	$MarginContainer/information_windows/help_window.popup()
+	help_update_visibility()
+
+func help_update_visibility() -> void:
+	if help_page < 5:
+		$MarginContainer/information_windows/help_window/leftall.visible = false
+		$MarginContainer/information_windows/help_window/middleall.visible = true
+		$MarginContainer/information_windows/help_window/rightall.visible = true
+#		match help_page:
+#			1:
+
+#func help_hide_left() -> void:
+#	$MarginContainer/information_windows/help_window/leftall.visible = true
+
+#func help_hide_middle() -> void:
+#	$MarginContainer/information_windows/help_window/middleall.visible = true
+#
+#func help_hide_right() -> void:
+#	$MarginContainer/information_windows/help_window/rightall.visible = true

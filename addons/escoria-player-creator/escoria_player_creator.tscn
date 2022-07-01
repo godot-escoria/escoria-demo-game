@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=57 format=2]
 
 [ext_resource path="res://addons/escoria-player-creator/graphics/background.png" type="Texture" id=1]
 [ext_resource path="res://addons/escoria-player-creator/graphics/darkgreenarrow_down.png" type="Texture" id=2]
@@ -38,6 +38,23 @@
 [ext_resource path="res://addons/escoria-player-creator/graphics/darkgreyarrow_dl.png" type="Texture" id=36]
 [ext_resource path="res://addons/escoria-player-creator/draw_frame_rects.gd" type="Script" id=37]
 [ext_resource path="res://addons/escoria-player-creator/escoria_player_creator.gd" type="Script" id=38]
+[ext_resource path="res://addons/escoria-player-creator/graphics/help/right1.png" type="Texture" id=39]
+[ext_resource path="res://addons/escoria-player-creator/graphics/help/rightall.png" type="Texture" id=40]
+[ext_resource path="res://addons/escoria-player-creator/graphics/help/right5.png" type="Texture" id=41]
+[ext_resource path="res://addons/escoria-player-creator/graphics/help/right2.png" type="Texture" id=42]
+[ext_resource path="res://addons/escoria-player-creator/graphics/help/left3.png" type="Texture" id=43]
+[ext_resource path="res://addons/escoria-player-creator/graphics/help/right3.png" type="Texture" id=44]
+[ext_resource path="res://addons/escoria-player-creator/graphics/help/help_background.png" type="Texture" id=45]
+[ext_resource path="res://addons/escoria-player-creator/graphics/help/left2.png" type="Texture" id=46]
+[ext_resource path="res://addons/escoria-player-creator/graphics/help/leftall.png" type="Texture" id=47]
+[ext_resource path="res://addons/escoria-player-creator/graphics/help/middleall.png" type="Texture" id=48]
+[ext_resource path="res://addons/escoria-player-creator/graphics/help/left4.png" type="Texture" id=49]
+[ext_resource path="res://addons/escoria-player-creator/graphics/help/right4.png" type="Texture" id=50]
+[ext_resource path="res://addons/escoria-player-creator/graphics/help/middle1.png" type="Texture" id=51]
+[ext_resource path="res://addons/escoria-player-creator/graphics/help/middle2.png" type="Texture" id=52]
+[ext_resource path="res://addons/escoria-player-creator/graphics/help/left1.png" type="Texture" id=53]
+[ext_resource path="res://addons/escoria-player-creator/graphics/help/left5.png" type="Texture" id=54]
+[ext_resource path="res://addons/escoria-player-creator/graphics/help/middle3.png" type="Texture" id=55]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -1024,6 +1041,24 @@ custom_colors/font_color = Color( 0, 1, 0.0392157, 1 )
 text = "Export Character to Godot Scene"
 icon = ExtResource( 33 )
 
+[node name="empty_node2" type="Control" parent="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer"]
+margin_top = 485.0
+margin_right = 300.0
+margin_bottom = 765.0
+rect_min_size = Vector2( 0, 280 )
+
+[node name="MarginContainer3" type="CenterContainer" parent="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer"]
+margin_top = 769.0
+margin_right = 300.0
+margin_bottom = 789.0
+
+[node name="help_button" type="Button" parent="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/MarginContainer3"]
+margin_left = 129.0
+margin_right = 171.0
+margin_bottom = 20.0
+hint_tooltip = "Export all animations to a Godot scene"
+text = "Help"
+
 [node name="CenterContainer" type="CenterContainer" parent="MarginContainer"]
 visible = false
 margin_left = 50.0
@@ -1035,7 +1070,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="information_windows" type="Control" parent="MarginContainer"]
-visible = false
 margin_left = 50.0
 margin_top = 50.0
 margin_right = 1240.0
@@ -1085,10 +1119,13 @@ text = "Cancel and keep editing"
 [node name="generic_error_window" type="AcceptDialog" parent="MarginContainer/information_windows"]
 margin_left = 472.0
 margin_top = 234.0
-margin_right = 807.0
+margin_right = 873.0
 margin_bottom = 334.0
+input_pass_on_modal_close_click = false
 popup_exclusive = true
-dialog_text = "Please load a spritesheet to begin."
+dialog_text = "WARNING
+It appears you are not running the player creator as a plugin.
+The export of the character you create will fail."
 
 [node name="export_progress" type="WindowDialog" parent="MarginContainer/information_windows"]
 anchor_left = 0.5
@@ -1147,6 +1184,452 @@ want to resize or change the shape assigned to this node.
 * You may want to shift this node to a different directory in your codebase
 (e.g. into a \"characters\" folder) to group it with other game characters."
 
+[node name="help_window" type="WindowDialog" parent="MarginContainer/information_windows"]
+margin_left = 100.0
+margin_top = 100.0
+margin_right = 1012.0
+margin_bottom = 742.0
+popup_exclusive = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/information_windows/help_window"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 908.0
+margin_bottom = 638.0
+
+[node name="Background" type="TextureRect" parent="MarginContainer/information_windows/help_window/VBoxContainer"]
+margin_right = 904.0
+margin_bottom = 610.0
+texture = ExtResource( 45 )
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/information_windows/help_window/VBoxContainer"]
+margin_top = 614.0
+margin_right = 904.0
+margin_bottom = 634.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/information_windows/help_window/VBoxContainer/CenterContainer"]
+margin_left = 344.0
+margin_right = 559.0
+margin_bottom = 20.0
+
+[node name="prev_button" type="Button" parent="MarginContainer/information_windows/help_window/VBoxContainer/CenterContainer/HBoxContainer"]
+margin_right = 118.0
+margin_bottom = 20.0
+text = "<- Previous Page"
+
+[node name="next_button" type="Button" parent="MarginContainer/information_windows/help_window/VBoxContainer/CenterContainer/HBoxContainer"]
+margin_left = 122.0
+margin_right = 215.0
+margin_bottom = 20.0
+text = "Next Page ->"
+
+[node name="leftall" type="TextureRect" parent="MarginContainer/information_windows/help_window"]
+visible = false
+modulate = Color( 1, 1, 1, 0.882353 )
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 309.0
+margin_bottom = 610.0
+texture = ExtResource( 47 )
+
+[node name="middleall" type="TextureRect" parent="MarginContainer/information_windows/help_window"]
+visible = false
+modulate = Color( 1, 1, 1, 0.882353 )
+margin_left = 324.0
+margin_top = 8.0
+margin_right = 663.0
+margin_bottom = 610.0
+texture = ExtResource( 48 )
+
+[node name="rightall" type="TextureRect" parent="MarginContainer/information_windows/help_window"]
+visible = false
+modulate = Color( 1, 1, 1, 0.882353 )
+margin_left = 678.0
+margin_top = 8.0
+margin_right = 904.0
+margin_bottom = 610.0
+texture = ExtResource( 40 )
+
+[node name="left1" type="TextureRect" parent="MarginContainer/information_windows/help_window"]
+visible = false
+modulate = Color( 1, 1, 1, 0.882353 )
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 309.0
+margin_bottom = 610.0
+texture = ExtResource( 53 )
+
+[node name="left2" type="TextureRect" parent="MarginContainer/information_windows/help_window"]
+visible = false
+modulate = Color( 1, 1, 1, 0.882353 )
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 309.0
+margin_bottom = 610.0
+texture = ExtResource( 46 )
+
+[node name="left3" type="TextureRect" parent="MarginContainer/information_windows/help_window"]
+visible = false
+modulate = Color( 1, 1, 1, 0.882353 )
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 309.0
+margin_bottom = 610.0
+texture = ExtResource( 43 )
+
+[node name="left4" type="TextureRect" parent="MarginContainer/information_windows/help_window"]
+visible = false
+modulate = Color( 1, 1, 1, 0.882353 )
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 309.0
+margin_bottom = 610.0
+texture = ExtResource( 49 )
+
+[node name="left5" type="TextureRect" parent="MarginContainer/information_windows/help_window"]
+visible = false
+modulate = Color( 1, 1, 1, 0.882353 )
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 309.0
+margin_bottom = 610.0
+texture = ExtResource( 54 )
+
+[node name="middle1" type="TextureRect" parent="MarginContainer/information_windows/help_window"]
+visible = false
+modulate = Color( 1, 1, 1, 0.882353 )
+margin_left = 324.0
+margin_top = 8.0
+margin_right = 663.0
+margin_bottom = 610.0
+texture = ExtResource( 51 )
+
+[node name="middle2" type="TextureRect" parent="MarginContainer/information_windows/help_window"]
+visible = false
+modulate = Color( 1, 1, 1, 0.882353 )
+margin_left = 324.0
+margin_top = 8.0
+margin_right = 663.0
+margin_bottom = 610.0
+texture = ExtResource( 52 )
+
+[node name="middle3" type="TextureRect" parent="MarginContainer/information_windows/help_window"]
+visible = false
+modulate = Color( 1, 1, 1, 0.882353 )
+margin_left = 324.0
+margin_top = 8.0
+margin_right = 663.0
+margin_bottom = 610.0
+texture = ExtResource( 55 )
+
+[node name="right1" type="TextureRect" parent="MarginContainer/information_windows/help_window"]
+visible = false
+modulate = Color( 1, 1, 1, 0.882353 )
+margin_left = 678.0
+margin_top = 8.0
+margin_right = 904.0
+margin_bottom = 610.0
+texture = ExtResource( 39 )
+
+[node name="right2" type="TextureRect" parent="MarginContainer/information_windows/help_window"]
+visible = false
+modulate = Color( 1, 1, 1, 0.882353 )
+margin_left = 678.0
+margin_top = 8.0
+margin_right = 904.0
+margin_bottom = 610.0
+texture = ExtResource( 42 )
+
+[node name="right3" type="TextureRect" parent="MarginContainer/information_windows/help_window"]
+visible = false
+modulate = Color( 1, 1, 1, 0.882353 )
+margin_left = 678.0
+margin_top = 8.0
+margin_right = 904.0
+margin_bottom = 610.0
+texture = ExtResource( 44 )
+
+[node name="right4" type="TextureRect" parent="MarginContainer/information_windows/help_window"]
+visible = false
+modulate = Color( 1, 1, 1, 0.882353 )
+margin_left = 678.0
+margin_top = 8.0
+margin_right = 904.0
+margin_bottom = 610.0
+texture = ExtResource( 50 )
+
+[node name="right5" type="TextureRect" parent="MarginContainer/information_windows/help_window"]
+visible = false
+modulate = Color( 1, 1, 1, 0.882353 )
+margin_left = 678.0
+margin_top = 8.0
+margin_right = 904.0
+margin_bottom = 610.0
+texture = ExtResource( 41 )
+
+[node name="Page 1" type="Label" parent="MarginContainer/information_windows/help_window"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -305.0
+margin_top = -105.5
+margin_right = 305.0
+margin_bottom = 105.5
+text = "Escoria Player Creator
+
+Game characters in Escoria need animations to be configured for walk, talk and idle animations.
+While Escoria can create characters that can walk in as many directions as you like, most
+developers will want characters that can move in either 4 or 8 directions.
+This tool simplifies this process.
+
+These help pages will guide you through the process, but essentially you give your character
+a name, choose 4 or 8 directions, then choose frames from sprite sheets for walk, talk and idle
+animations in each direction.
+
+Click the \"Next Page\" button below to progress to the next help page."
+
+[node name="Page 2" type="Label" parent="MarginContainer/information_windows/help_window"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -135.0
+margin_top = -295.0
+margin_right = 221.0
+margin_bottom = -145.0
+text = "Use the name field to supply a name for your character.
+Any changes to the name will be reflected to the
+global_id field. The global_id is used to identify the
+character in scripts.
+
+Note that you can change the global_id to be different
+from the name if you choose. It's generally easiest
+to keep them the same but there's no requirement to.
+"
+
+[node name="Page 3" type="Label" parent="MarginContainer/information_windows/help_window"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -137.0
+margin_top = -291.0
+margin_right = 218.0
+margin_bottom = -107.0
+text = "Use the \"Load Spritesheet\" button to load a spritesheet
+graphic. The spritesheet is an image that contains one
+or more sprite frames that will be used for the walk,
+talk and/or idle animation frames for the character.
+
+The character creator remembers which spritesheet is
+used for each type and direction of animation, so you
+can use one spritesheet for all the animations, one
+spritesheet per animation, or any combination 
+inbetween.
+"
+
+[node name="Page 4" type="Label" parent="MarginContainer/information_windows/help_window"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -138.0
+margin_top = -242.0
+margin_right = 155.0
+margin_bottom = -177.0
+text = "Use these buttons to indicate whether your
+character will have animations facing in either
+4 or 8 directions. This can be changed at any
+time while creating the character."
+
+[node name="Page 5" type="Label" parent="MarginContainer/information_windows/help_window"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -133.0
+margin_top = -196.0
+margin_right = 160.0
+margin_bottom = -131.0
+text = "You will use these buttons to choose whether
+you are currently creating walk, talk, or idle
+animations."
+
+[node name="Page 6" type="Label" parent="MarginContainer/information_windows/help_window"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -303.0
+margin_top = -175.0
+margin_right = 87.0
+margin_bottom = 60.0
+text = "Click the arrow matching the direction you wish to create 
+an animation for. For example, if you select walk from the
+options above, and the right arrow, you'll be creating the 
+animation for the character walking right.
+
+Once you store (save) the animation, the arrow will change
+to a green colour to show you the animation has been
+configured. It can still be edited once it has been stored.
+
+When you select an direction that isn't up or down, the
+mirror button will appear. If you click this button, the
+animation will be created automatically as a mirror of the
+opposite side's animation. e.g. If you create the right side
+animation, you can click the left arrow then the mirror
+button to quickly create the left hand animation."
+
+[node name="Page 7" type="Label" parent="MarginContainer/information_windows/help_window"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -373.0
+margin_top = 68.0
+margin_right = -102.0
+margin_bottom = 116.0
+text = "When you select the animation frames to
+define a particular animation, a preview 
+of the animation will be shown in this box."
+
+[node name="Page 8" type="Label" parent="MarginContainer/information_windows/help_window"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -399.0
+margin_top = -280.0
+margin_right = -128.0
+margin_bottom = -198.0
+text = "This is the currently loaded spritesheet.
+As you select particular frames to be
+part of the current animation, a box will
+be drawn around them to help you see
+what is included in the animation."
+
+[node name="Page 9" type="Label" parent="MarginContainer/information_windows/help_window"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -97.0
+margin_top = 121.0
+margin_right = 174.0
+margin_bottom = 237.0
+text = "Use this slider to reset the zoom level
+on the spritesheet. The zoom is only
+used in this tool and will not affect the
+zoom level of your character in game.
+
+Use the reset button to reset the zoom 
+level."
+
+[node name="Page 10" type="Label" parent="MarginContainer/information_windows/help_window"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -82.0
+margin_top = 210.0
+margin_right = 158.0
+margin_bottom = 258.0
+text = "This information window tells you the
+filename of the currently loaded
+spritesheet."
+
+[node name="Page 11" type="Label" parent="MarginContainer/information_windows/help_window"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -139.0
+margin_top = -273.0
+margin_right = 186.0
+margin_bottom = -225.0
+text = "Once you've loaded your spritesheet you need to
+tell the character creator how to divide it into
+individual frames with the horizontal/vertical
+frames selectors.
+
+The start/end frame selectors tell the tool which
+frames to use from the spritesheet to create the
+animation.
+
+The speed slider defines the speed of this
+animation in frames per second. Each animation
+can have a different speed value if desired."
+
+[node name="Page 12" type="Label" parent="MarginContainer/information_windows/help_window"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -62.0
+margin_top = -177.0
+margin_right = 215.0
+margin_bottom = -112.0
+text = "These lines are informational. They tell you
+how big the current spritesheet is, and how
+big each animation frame is based on the
+frame settings above."
+
+[node name="Page 13" type="Label" parent="MarginContainer/information_windows/help_window"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -62.0
+margin_top = -130.0
+margin_right = 212.0
+margin_bottom = 20.0
+text = "When you change the settings for the
+current animation, the \"store animation\"
+button will appear. This saves the current
+settings to the selected animation.
+
+If the settings are changed back to how
+they were, the store button will 
+disappear to tell you that there is currently
+no change to save."
+
+[node name="Page 14" type="Label" parent="MarginContainer/information_windows/help_window"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -104.0
+margin_top = -73.0
+margin_right = 224.0
+margin_bottom = 128.0
+text = "Click this button to export the completed character
+out to a Godot scene for use by Escoria.
+Note that a walk, talk and idle animation for each of
+the specified (4 or 8) directions must have been
+set up before you can export the character.
+
+If any animations haven't been configured, it will
+tell you that animations are missing. 
+
+Direction arrows that haven't turned green are a
+visual indicator of the directions still requiring
+animations."
+
 [node name="FileDialog" type="FileDialog" parent="MarginContainer"]
 margin_left = 50.0
 margin_top = 50.0
@@ -1188,6 +1671,7 @@ current_path = "/Godot Projects/escoria-main/escoria-demo-game/"
 [connection signal="pressed" from="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/CenterContainer/load_spritesheet_button" to="." method="spritesheet_on_load_spritesheet_button_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/Control/store_anim/CenterContainer2/anim_store_button" to="." method="store_on_anim_store_button_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/MarginContainer2/export_button" to="." method="spritesheet_on_export_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/MarginContainer3/help_button" to="." method="spritesheet_on_help_button_pressed"]
 [connection signal="pressed" from="MarginContainer/information_windows/unstored_changes_window/commit_button" to="." method="unstored_warning_on_commit_button_pressed"]
 [connection signal="pressed" from="MarginContainer/information_windows/unstored_changes_window/lose_button" to="." method="unstored_warning_on_lose_button_pressed"]
 [connection signal="pressed" from="MarginContainer/information_windows/unstored_changes_window/cancel_button" to="." method="unstored_warning_on_cancel_button_pressed"]
