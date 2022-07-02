@@ -1,15 +1,6 @@
 # Outstanding proposed features
-# v1.0
-# * A help page
-# * GUI refactor to use Godot UI fluff
-# * It would also be good to pop up a window at the end to tell the user what they need to do now
-# ** i.e. adjust the position of the dialog_position node, change the collisionshape if they don't like it
-# ** set the node as the player node of their ESCRoom
-# ** move the created ESCPlayer node to wherever they're keeping their player nodes.
-# * An "@ here" on Discord to tell everyone about it
-#
 # v1.1 features
-# * Your suggestion of having the editor kick in when an ESCPlayer is selected, i.e. "load/edit"
+# * Have the editor kick in when an ESCPlayer is selected, i.e. "load/edit"
 # * Add a settings page (if there's enough features to warrant it). This would have the path the scene gets written to,  default angles for each direction so the developer can change them from the default 90s / 45s they are now, whether the ESCPlayer is click-through, errr can't think of anything else.
 # * Redo the Escoria tutorial to use the plugin.
 
@@ -89,8 +80,11 @@ var anim_metadata = []
 # This variable is set by plugin.gd and used to allow the plugin to interact with the Godot
 # editor (open the ESCPlayer scene in the editor once it's created)
 var plugin_reference
-# Current help page showing
-var help_page: int = 0
+# Track the page showing in the help window
+var help_window_page = 1
+# Array to track frame settings so if you do an illegal action (like changing the last sprite frame
+# prior to a spritesheet being loaded) the value can be reset
+var spritesheet_settings = [1, 1, 1, 1]
 
 func _ready() -> void:
 	get_node(NAME_NODE).get_node("node_name").text = "replace_me"
@@ -112,12 +106,11 @@ func _ready() -> void:
 	reset_arrow_colours()
 
 	# Reset GUI controls to initial values
-	get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value = 1
-	get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value = 1
-	""
-	get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value = 1
-	get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").value = 1
-	get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_scroll_bar").value = 5
+	get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value = spritesheet_settings[0]
+	get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").value = spritesheet_settings[1]
+	get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value = spritesheet_settings[2]
+	get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value = spritesheet_settings[3]
+	get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_scroll_bar").value = current_animation_speed
 	get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_label").text="Animation Speed : 5 FPS"
 	get_node(CURRENT_SHEET_NODE).text="No spritesheet loaded."
 
@@ -128,16 +121,20 @@ func _ready() -> void:
 	get_node(ANIM_CONTROLS_NODE).get_node("end_frame").connect("value_changed", self, "controls_on_end_frame_value_changed")
 	get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_scroll_bar").connect("value_changed", self, "controls_on_anim_speed_scroll_bar_value_changed")
 
+	# Make sure help window doesn't swallow mouse input
+	$MarginContainer/information_windows.visible = false
+
+	$MarginContainer/information_windows/help_window.current_page = 1
+
 	if test_mode:
 		setup_test_data()
 
-	check_running_as_plugin()
-
-func check_running_as_plugin() -> void:
 	if plugin_reference == null:
-		get_node(GENERIC_ERROR_NODE).dialog_text = "WARNING\nIt appears you are not running the player creator as a plugin.\n"
-		get_node(GENERIC_ERROR_NODE).dialog_text += "The export of the character you create will fail."
+		get_node(GENERIC_ERROR_NODE).dialog_text = "Warning!\n\nExporting your character will fail when\n"
+		get_node(GENERIC_ERROR_NODE).dialog_text += "running the character creator directly rather than\n"
+		get_node(GENERIC_ERROR_NODE).dialog_text += "as a plugin.\n\nPlease open this as a plugin."
 		get_node(GENERIC_ERROR_NODE).popup()
+
 
 func calc_sprite_size() -> void:
 	var source_size = source_image.get_size()
@@ -293,6 +290,15 @@ func store_animation(animation_to_store: String) -> void:
 
 	anim_metadata[metadata_array_offset] = metadata_dict
 
+	if direction_selected == DIR_UP or direction_selected == DIR_DOWN:
+		return
+
+	# If this direction has already been mirrored, replicate the changes
+	var opp_dir = find_opposite_direction(direction_selected)
+	var opp_metadata_array_offset: int = get_metadata_array_offset(opp_dir)
+	if anim_metadata[opp_metadata_array_offset][METADATA_IS_MIRROR]:
+		mirror_animation(direction_selected, opp_dir)
+
 
 # Updates the metadata to mirror animation "source" to animation "dest"
 # The "source" animation is the animation that really exists as sprite frames
@@ -364,10 +370,7 @@ func preview_update() -> void:
 	for loop in range(get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value - get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value + 1):
 		texture = ImageTexture.new()
 
-		if generate_mirror:
-			rect_location = calc_frame_coords(get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value - loop)
-		else:
-			rect_location = calc_frame_coords(get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value + loop)
+		rect_location = calc_frame_coords(get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value + loop)
 
 		frame_being_copied.blit_rect(source_image, Rect2(rect_location, Vector2(frame_size.x, frame_size.y)), Vector2(0, 0))
 
@@ -514,6 +517,12 @@ func animation_on_dir_upleft_pressed() -> void:
 # If the user tries to mirror an animation, ensure they're not trying to mirror an already
 # mirrored direction, and that the direction they're trying to mirror has been created.
 func animation_on_mirror_checkbox_toggled(button_pressed: bool) -> void:
+	if not has_spritesheet_been_loaded():
+		get_node(GENERIC_ERROR_NODE).dialog_text = "No animation has been configured."
+		get_node(GENERIC_ERROR_NODE).popup()
+		get_node(MIRROR_NODE).pressed = false
+		return
+
 	var opp_dir = find_opposite_direction(direction_selected)
 	var opp_anim_name="%s_%s" % [return_current_animation_type(), opp_dir]
 	var metadata_array_offset: int = get_metadata_array_offset(opp_dir)
@@ -541,6 +550,12 @@ func animation_on_mirror_checkbox_toggled(button_pressed: bool) -> void:
 # When the animation speed has been changed, update the speed and label
 func controls_on_anim_speed_scroll_bar_value_changed(value: float) -> void:
 	if not has_spritesheet_been_loaded():
+		get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_scroll_bar").value = current_animation_speed
+		return
+	if anim_metadata[get_metadata_array_offset()][METADATA_IS_MIRROR]:
+		get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_scroll_bar").value = current_animation_speed
+		get_node(GENERIC_ERROR_NODE).dialog_text = "You cannot change a mirrored animation."
+		get_node(GENERIC_ERROR_NODE).popup()
 		return
 
 	current_animation_speed = int(value)
@@ -556,8 +571,16 @@ func controls_on_anim_speed_scroll_bar_value_changed(value: float) -> void:
 # When the first animation frame setting is changed, update the animation preview appropriately
 func controls_on_start_frame_value_changed(value: float) -> void:
 	if not has_spritesheet_been_loaded():
+		get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value = spritesheet_settings[2]
+		return
+	if anim_metadata[get_metadata_array_offset()][METADATA_IS_MIRROR]:
+		get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value = spritesheet_settings[2]
+		get_node(GENERIC_ERROR_NODE).dialog_text = "You cannot change a mirrored animation."
+		get_node(GENERIC_ERROR_NODE).popup()
 		return
 
+
+	spritesheet_settings[2] = get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value
 	preview_show()
 
 	check_if_controls_have_changed()
@@ -568,8 +591,16 @@ func controls_on_start_frame_value_changed(value: float) -> void:
 # When the last animation frame setting is changed, update the animation preview appropriately
 func controls_on_end_frame_value_changed(value: float) -> void:
 	if not has_spritesheet_been_loaded():
+		get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value = spritesheet_settings[3]
+		return
+	if anim_metadata[get_metadata_array_offset()][METADATA_IS_MIRROR]:
+		get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value = spritesheet_settings[3]
+		get_node(GENERIC_ERROR_NODE).dialog_text = "You cannot change a mirrored animation."
+		get_node(GENERIC_ERROR_NODE).popup()
 		return
 
+
+	spritesheet_settings[3] = get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value
 	preview_show()
 
 	check_if_controls_have_changed()
@@ -581,8 +612,16 @@ func controls_on_end_frame_value_changed(value: float) -> void:
 # update the animation preview appropriately
 func controls_on_h_frames_spin_box_value_changed(value: float) -> void:
 	if ! has_spritesheet_been_loaded():
+		get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value = spritesheet_settings[0]
 		return
 
+	if anim_metadata[get_metadata_array_offset()][METADATA_IS_MIRROR]:
+		get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value = spritesheet_settings[0]
+		get_node(GENERIC_ERROR_NODE).dialog_text = "You cannot change a mirrored animation."
+		get_node(GENERIC_ERROR_NODE).popup()
+		return
+
+	spritesheet_settings[0] = get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value
 	preview_show()
 
 	check_if_controls_have_changed()
@@ -595,7 +634,16 @@ func controls_on_h_frames_spin_box_value_changed(value: float) -> void:
 # update the animation preview appropriately
 func controls_on_v_frames_spin_box_value_changed(value: float) -> void:
 	if not has_spritesheet_been_loaded():
+		get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").value = spritesheet_settings[1]
 		return
+
+	if anim_metadata[get_metadata_array_offset()][METADATA_IS_MIRROR]:
+		get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").value = spritesheet_settings[1]
+		get_node(GENERIC_ERROR_NODE).dialog_text = "You cannot change a mirrored animation."
+		get_node(GENERIC_ERROR_NODE).popup()
+		return
+
+	spritesheet_settings[1] = get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").value
 
 	preview_show()
 
@@ -782,6 +830,7 @@ func activate_direction(direction) -> void:
 		get_node(MIRROR_NODE).visible = true
 		get_node(MIRROR_NODE).set_pressed_no_signal(false)
 
+	# If no animation has been created yet for this direction
 	if anim_metadata[get_metadata_array_offset()][METADATA_SPRITESHEET_FIRST_FRAME] == -1:
 		get_node(ARROWS_NODE).get_node("Container_%s" % direction).get_node("unset_dir_%s" % direction).pressed = true
 		preview_hide()
@@ -942,7 +991,6 @@ func find_opposite_direction(direction:String) -> String:
 # widest/tallest frame settings do not necessarily come from the same animation frame but are
 # from all the animation frames.
 func export_player() -> void:
-
 	var num_directions
 	var start_angle_array
 	var angle_size
@@ -1158,23 +1206,7 @@ func _process(delta: float) -> void:
 		get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").rect_scale = Vector2(zoom_value, zoom_value)
 
 
+# Open the help window
 func spritesheet_on_help_button_pressed() -> void:
 	$MarginContainer/information_windows/help_window.popup()
-	help_update_visibility()
-
-func help_update_visibility() -> void:
-	if help_page < 5:
-		$MarginContainer/information_windows/help_window/leftall.visible = false
-		$MarginContainer/information_windows/help_window/middleall.visible = true
-		$MarginContainer/information_windows/help_window/rightall.visible = true
-#		match help_page:
-#			1:
-
-#func help_hide_left() -> void:
-#	$MarginContainer/information_windows/help_window/leftall.visible = true
-
-#func help_hide_middle() -> void:
-#	$MarginContainer/information_windows/help_window/middleall.visible = true
-#
-#func help_hide_right() -> void:
-#	$MarginContainer/information_windows/help_window/rightall.visible = true
+	$MarginContainer/information_windows/help_window.show_page()
