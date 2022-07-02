@@ -2,11 +2,12 @@
 tool
 extends EditorPlugin
 
+# The warning popup displayed on escoria-core enabling.
+var popup_info: AcceptDialog
 
 
 # Virtual function called when plugin is enabled.
 func enable_plugin():
-	printt("PLUGIN ENABLE_PLUGIN")
 	add_autoload_singleton(
 		"escoria",
 		"res://addons/escoria-core/game/esc_autoload.gd"
@@ -19,10 +20,10 @@ func enable_plugin():
 	set_escoria_platform_settings()
 	
 	# Add input actions in InputMap
-#	if not InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
-#		InputMap.add_action(ESCInputsManager.SWITCH_ACTION_VERB)
-#	if not InputMap.has_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT):
-#		InputMap.add_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT)
+	if not InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
+		InputMap.add_action(ESCInputsManager.SWITCH_ACTION_VERB)
+	if not InputMap.has_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT):
+		InputMap.add_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT)
 
 	# Define standard settings
 	ProjectSettings.set_setting(
@@ -35,24 +36,37 @@ func enable_plugin():
 		"res://addons/escoria-core/default_bus_layout.tres"
 	)
 
+	popup_info = AcceptDialog.new()
+	popup_info.dialog_text = """You enabled escoria-core plugin.
+	
+	Please ignore error messages in Output console and reload your project using
+	Godot editor's "Project / Reload Current Project" menu.
+	"""
+	popup_info.connect("confirmed", self, "_on_warning_popup_confirmed", [], CONNECT_ONESHOT)
+	add_child(popup_info)
+	popup_info.popup_centered()
+	
+
+func _on_warning_popup_confirmed():
+	popup_info.queue_free()
+
 
 # Virtual function called when plugin is disabled.
 func disable_plugin():
 	printt("PLUGIN DISABLE PLUGIN")
 	remove_autoload_singleton("escoria")
-#	if InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
-#		InputMap.erase_action(ESCInputsManager.SWITCH_ACTION_VERB)
-#	if InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
-#		InputMap.erase_action(ESCInputsManager.SWITCH_ACTION_VERB)
+	if InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
+		InputMap.erase_action(ESCInputsManager.SWITCH_ACTION_VERB)
+	if InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
+		InputMap.erase_action(ESCInputsManager.SWITCH_ACTION_VERB)
 
 
 # Setup Escoria
 func _enter_tree():
-	printt("PLUGIN ENTER TREE")
+	pass
 	
 
 func _ready():
-	printt("PLUGIN _READY")
 	ProjectSettings.save_custom("escoria.godot")
 
 
