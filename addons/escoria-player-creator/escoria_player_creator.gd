@@ -45,7 +45,7 @@ const ARROWS_NODE          = "MarginContainer/HBoxContainer/configuration/VBoxCo
 const PREVIEW_NODE         = "MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/MarginContainer"
 const PREVIEW_BGRND_NODE   = "MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/anim_preview_background"
 const ANIM_CONTROLS_NODE   = "MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer"
-const STORE_ANIM_NODE      = "MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/Control/store_anim"
+const STORE_ANIM_NODE      = "MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/store_anim"
 const SCROLL_VBOX_NODE     = "MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/"
 const SCROLL_CTRL_NODE     = "MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control"
 const NO_SPRITESHEET_NODE  = "MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control/MarginContainer/no_spritesheet_found_sprite"
@@ -57,9 +57,6 @@ const FILE_DIALOG_NODE     = "MarginContainer/FileDialog"
 const UNSTORED_CHANGE_NODE = "MarginContainer/information_windows/unstored_changes_window"
 const EXPORT_PROGRESS_NODE = "MarginContainer/information_windows/export_progress"
 const EXPORT_COMPLETE_NODE = "MarginContainer/information_windows/export_complete"
-
-# Test flag - set to true to load test data.
-var test_mode: bool = false
 
 # The currently loaded spritesheet image
 var source_image: Image
@@ -85,12 +82,40 @@ var help_window_page = 1
 # Array to track frame settings so if you do an illegal action (like changing the last sprite frame
 # prior to a spritesheet being loaded) the value can be reset
 var spritesheet_settings = [1, 1, 1, 1]
+# Test flag - set to true to load test data.
+var test_mode: bool = false
+
 
 func _ready() -> void:
+	reset()
+	$MarginContainer/information_windows/help_window.current_page = 1
+
+	if test_mode:
+		setup_test_data()
+
+	if plugin_reference == null:
+		get_node(GENERIC_ERROR_NODE).dialog_text = "Warning!\n\nExporting your character will fail when\n"
+		get_node(GENERIC_ERROR_NODE).dialog_text += "running the character creator directly rather than\n"
+		get_node(GENERIC_ERROR_NODE).dialog_text += "as a plugin.\n\nPlease open this as a plugin."
+		get_node(GENERIC_ERROR_NODE).popup()
+
+
+func reset() -> void:
 	get_node(NAME_NODE).get_node("node_name").text = "replace_me"
+	get_node(NAME_NODE).get_node("global_id").text = ""
 	get_node(DIR_COUNT_NODE).get_node("four_directions").pressed = true
+	# For unknown reasons the above doesn't cause the trigger to fire so manual steps required
+	if get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed == true:
+		get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed = false
 	get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed = true
+	# For unknown reasons the above doesn't cause the trigger to fire so manual steps required
+	if get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").pressed == true:
+		get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").pressed = false
+	if get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").pressed == true:
+		get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").pressed = false
 	get_node(NO_SPRITESHEET_NODE).visible = true
+	zoom_value = 1
+	get_node(ZOOM_SCROLL_NODE).value = zoom_value
 	get_node(ZOOM_LABEL_NODE).text = "Zoom: %sx" % str(zoom_value)
 	get_node(ANIM_CONTROLS_NODE).get_node("original_size_label").text = "Source sprite size: (0, 0)"
 	get_node(ANIM_CONTROLS_NODE).get_node("frame_size_label").text = "Frame size: (0, 0)"
@@ -105,6 +130,17 @@ func _ready() -> void:
 
 	reset_arrow_colours()
 
+	if get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").is_connected("value_changed", self, "controls_on_h_frames_spin_box_value_changed"):
+		get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").disconnect("value_changed", self, "controls_on_h_frames_spin_box_value_changed")
+	if get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").is_connected("value_changed", self, "controls_on_v_frames_spin_box_value_changed"):
+		get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").disconnect("value_changed", self, "controls_on_v_frames_spin_box_value_changed")
+	if get_node(ANIM_CONTROLS_NODE).get_node("start_frame").is_connected("value_changed", self, "controls_on_start_frame_value_changed"):
+		get_node(ANIM_CONTROLS_NODE).get_node("start_frame").disconnect("value_changed", self, "controls_on_start_frame_value_changed")
+	if get_node(ANIM_CONTROLS_NODE).get_node("end_frame").is_connected("value_changed", self, "controls_on_end_frame_value_changed"):
+		get_node(ANIM_CONTROLS_NODE).get_node("end_frame").disconnect("value_changed", self, "controls_on_end_frame_value_changed")
+	if get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_scroll_bar").is_connected("value_changed", self, "controls_on_anim_speed_scroll_bar_value_changed"):
+		get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_scroll_bar").disconnect("value_changed", self, "controls_on_anim_speed_scroll_bar_value_changed")
+
 	# Reset GUI controls to initial values
 	get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value = spritesheet_settings[0]
 	get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").value = spritesheet_settings[1]
@@ -115,25 +151,25 @@ func _ready() -> void:
 	get_node(CURRENT_SHEET_NODE).text="No spritesheet loaded."
 
 	# Connect all the signals now the base settings are configured to stop program logic firing during setup
+
 	get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").connect("value_changed", self, "controls_on_h_frames_spin_box_value_changed")
 	get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").connect("value_changed", self, "controls_on_v_frames_spin_box_value_changed")
 	get_node(ANIM_CONTROLS_NODE).get_node("start_frame").connect("value_changed", self, "controls_on_start_frame_value_changed")
 	get_node(ANIM_CONTROLS_NODE).get_node("end_frame").connect("value_changed", self, "controls_on_end_frame_value_changed")
 	get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_scroll_bar").connect("value_changed", self, "controls_on_anim_speed_scroll_bar_value_changed")
+	reset_frame_outlines()
 
 	# Make sure help window doesn't swallow mouse input
 	$MarginContainer/information_windows.visible = false
 
-	$MarginContainer/information_windows/help_window.current_page = 1
-
-	if test_mode:
-		setup_test_data()
-
-	if plugin_reference == null:
-		get_node(GENERIC_ERROR_NODE).dialog_text = "Warning!\n\nExporting your character will fail when\n"
-		get_node(GENERIC_ERROR_NODE).dialog_text += "running the character creator directly rather than\n"
-		get_node(GENERIC_ERROR_NODE).dialog_text += "as a plugin.\n\nPlease open this as a plugin."
-		get_node(GENERIC_ERROR_NODE).popup()
+func reset_frame_outlines() -> void:
+	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").zoom_factor = .01
+	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").total_num_columns = 1
+	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").start_cell = 1
+	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").end_cell = 5
+	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").cell_size = Vector2(1,1)
+	#yield(get_tree(), "idle_frame")
+	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").update()
 
 
 func calc_sprite_size() -> void:
@@ -201,6 +237,8 @@ func create_empty_animations() -> void:
 	}
 
 	var local_dict
+
+	anim_metadata.clear()
 
 	for typeloop in [TYPE_WALK, TYPE_TALK, TYPE_IDLE]:
 		for dirloop in DIR_LIST_8:
@@ -996,6 +1034,9 @@ func export_player() -> void:
 	var angle_size
 	var dirnames
 
+	for loop in range(24):
+		print(str(loop) + ":" + str(anim_metadata[loop][METADATA_IS_MIRROR]))
+
 	get_node(EXPORT_PROGRESS_NODE).popup()
 	get_node(EXPORT_PROGRESS_NODE).get_node("progress_bar").value = 0
 
@@ -1051,11 +1092,6 @@ func export_player() -> void:
 		anim_details = _create_esc_animation(TYPE_IDLE, dirnames[loop])
 		animations_resource.idles.append(anim_details)
 
-	# Add Dialog Position to the ESCPlayer
-	var dialog_position = Position2D.new()
-	dialog_position.name = "dialog_position"
-	new_character.add_child(dialog_position)
-
 	var largest_sprite = export_generate_animations(new_character, num_directions)
 
 	# Add Collision shape to the ESCPlayer
@@ -1063,9 +1099,16 @@ func export_player() -> void:
 	var collision_shape = CollisionShape2D.new()
 
 	collision_shape.shape = rectangle_shape
-	collision_shape.shape.extents = largest_sprite
+	collision_shape.shape.extents = largest_sprite / 2
+	collision_shape.position.y = -(largest_sprite.y / 2)
 
 	new_character.add_child(collision_shape)
+
+	# Add Dialog Position to the ESCPlayer
+	var dialog_position = ESCLocation.new()
+	dialog_position.name = "dialog_position"
+	dialog_position.position.y = -(largest_sprite.y * 1.2)
+	new_character.add_child(dialog_position)
 
 	# Make it so all the nodes can be seen in the scene tree
 	new_character.animations = animations_resource
@@ -1115,6 +1158,7 @@ func export_generate_animations(character_node, num_directions) -> Vector2:
 			var metadata = anim_metadata[get_metadata_array_offset(anim_dir, animtype)]
 
 			if metadata[METADATA_IS_MIRROR]:
+				print("Animation %s %s - Exported 0 frames (mirror)" % [animtype, anim_dir])
 				continue
 
 			var texture
@@ -1130,10 +1174,10 @@ func export_generate_animations(character_node, num_directions) -> Vector2:
 				loaded_spritesheet = metadata[METADATA_SPRITESHEET_SOURCE_FILE]
 
 				if (frame_size.x / 2) > largest_frame_dimensions.x:
-					largest_frame_dimensions.x = frame_size.x / 2
+					largest_frame_dimensions.x = frame_size.x
 
 				if (frame_size.y / 2) > largest_frame_dimensions.y:
-					largest_frame_dimensions.y = frame_size.y / 2
+					largest_frame_dimensions.y = frame_size.y
 
 			frame_being_copied.create(frame_size.x, frame_size.y, false, source_image.get_format())
 
@@ -1157,12 +1201,14 @@ func export_generate_animations(character_node, num_directions) -> Vector2:
 				get_node(EXPORT_PROGRESS_NODE).get_node("progress_bar").value += 2
 			else:
 				get_node(EXPORT_PROGRESS_NODE).get_node("progress_bar").value += 1
+			print("Animation %s %s - Exported %s frames" % [animtype, anim_dir, frame_counter])
 	sprite_frames.remove_animation("default")
 
 	var animated_sprite = AnimatedSprite.new()
 
 	animated_sprite.frames = sprite_frames
 	animated_sprite.animation = "%s_%s" % [TYPE_IDLE, DIR_DOWN]
+	animated_sprite.position.y = -(largest_frame_dimensions.y / 2)	# Place feet at (0,0)
 	character_node.add_child(animated_sprite)
 
 	# Making the owner "character_node" rather than "get_tree().edited_scene_root" means that
@@ -1210,3 +1256,15 @@ func _process(delta: float) -> void:
 func spritesheet_on_help_button_pressed() -> void:
 	$MarginContainer/information_windows/help_window.popup()
 	$MarginContainer/information_windows/help_window.show_page()
+
+
+func spritesheet_on_reset_button_pressed() -> void:
+	$MarginContainer/information_windows/ConfirmationDialog.popup()
+
+
+func spritesheet_on_reset_confirmed() -> void:
+	spritesheet_settings = [1, 1, 1, 1]
+	source_image = null
+	get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").texture = null
+	create_empty_animations()
+	reset()
