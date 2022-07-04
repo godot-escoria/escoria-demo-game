@@ -20,10 +20,10 @@ func enable_plugin():
 	set_escoria_platform_settings()
 	
 	# Add input actions in InputMap
-	if not InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
-		InputMap.add_action(ESCInputsManager.SWITCH_ACTION_VERB)
-	if not InputMap.has_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT):
-		InputMap.add_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT)
+#	if not InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
+#		InputMap.add_action(ESCInputsManager.SWITCH_ACTION_VERB)
+#	if not InputMap.has_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT):
+#		InputMap.add_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT)
 
 	# Define standard settings
 	ProjectSettings.set_setting(
@@ -53,12 +53,11 @@ func _on_warning_popup_confirmed():
 
 # Virtual function called when plugin is disabled.
 func disable_plugin():
-	printt("PLUGIN DISABLE PLUGIN")
 	remove_autoload_singleton("escoria")
-	if InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
-		InputMap.erase_action(ESCInputsManager.SWITCH_ACTION_VERB)
-	if InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
-		InputMap.erase_action(ESCInputsManager.SWITCH_ACTION_VERB)
+#	if InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
+#		InputMap.erase_action(ESCInputsManager.SWITCH_ACTION_VERB)
+#	if InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
+#		InputMap.erase_action(ESCInputsManager.SWITCH_ACTION_VERB)
 
 
 # Setup Escoria
