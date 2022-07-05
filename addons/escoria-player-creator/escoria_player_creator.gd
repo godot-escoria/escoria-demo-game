@@ -866,7 +866,7 @@ func activate_direction(direction) -> void:
 		get_node(MIRROR_NODE).visible = false
 	else:
 		get_node(MIRROR_NODE).visible = true
-		get_node(MIRROR_NODE).set_pressed_no_signal(false)
+	get_node(MIRROR_NODE).set_pressed_no_signal(false)
 
 	# If no animation has been created yet for this direction
 	if anim_metadata[get_metadata_array_offset()][METADATA_SPRITESHEET_FIRST_FRAME] == -1:
@@ -1033,9 +1033,6 @@ func export_player() -> void:
 	var start_angle_array
 	var angle_size
 	var dirnames
-
-	for loop in range(24):
-		print(str(loop) + ":" + str(anim_metadata[loop][METADATA_IS_MIRROR]))
 
 	get_node(EXPORT_PROGRESS_NODE).popup()
 	get_node(EXPORT_PROGRESS_NODE).get_node("progress_bar").value = 0

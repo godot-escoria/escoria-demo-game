@@ -40,7 +40,7 @@
 [ext_resource path="res://addons/escoria-player-creator/escoria_player_creator.gd" type="Script" id=38]
 [ext_resource path="res://addons/escoria-player-creator/help_window.tscn" type="PackedScene" id=39]
 
-[sub_resource type="SpriteFrames" id=7]
+[sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [  ],
 "loop": true,
@@ -50,7 +50,7 @@ animations = [ {
 "frames": [  ],
 "loop": true,
 "name": "in_progress",
-"speed": 3.0
+"speed": 5.0
 } ]
 
 [node name="root" type="MarginContainer"]
@@ -363,6 +363,7 @@ margin_right = 60.0
 margin_bottom = 28.0
 
 [node name="set_dir_up" type="TextureButton" parent="MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_up" groups=["direction_buttons"]]
+visible = false
 margin_right = 28.0
 margin_bottom = 28.0
 hint_tooltip = "Up animation (configured)"
@@ -372,11 +373,11 @@ texture_pressed = ExtResource( 17 )
 texture_hover = ExtResource( 17 )
 
 [node name="unset_dir_up" type="TextureButton" parent="MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_up" groups=["direction_buttons"]]
-visible = false
 margin_right = 28.0
 margin_bottom = 28.0
 hint_tooltip = "Up animation (unconfigured)"
 toggle_mode = true
+pressed = true
 texture_normal = ExtResource( 32 )
 texture_pressed = ExtResource( 26 )
 texture_hover = ExtResource( 26 )
@@ -412,6 +413,7 @@ margin_right = 28.0
 margin_bottom = 60.0
 
 [node name="set_dir_left" type="TextureButton" parent="MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_left" groups=["direction_buttons"]]
+visible = false
 margin_right = 28.0
 margin_bottom = 28.0
 hint_tooltip = "Left animation (configured)"
@@ -421,7 +423,6 @@ texture_pressed = ExtResource( 10 )
 texture_hover = ExtResource( 10 )
 
 [node name="unset_dir_left" type="TextureButton" parent="MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_left" groups=["direction_buttons"]]
-visible = false
 margin_right = 28.0
 margin_bottom = 28.0
 hint_tooltip = "Left animation (unconfigured)"
@@ -443,6 +444,7 @@ margin_right = 92.0
 margin_bottom = 60.0
 
 [node name="set_dir_right" type="TextureButton" parent="MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_right" groups=["direction_buttons"]]
+visible = false
 margin_right = 28.0
 margin_bottom = 28.0
 hint_tooltip = "Right animation (configured)"
@@ -452,7 +454,6 @@ texture_pressed = ExtResource( 12 )
 texture_hover = ExtResource( 12 )
 
 [node name="unset_dir_right" type="TextureButton" parent="MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_right" groups=["direction_buttons"]]
-visible = false
 margin_right = 28.0
 margin_bottom = 28.0
 hint_tooltip = "Right animation (unconfigured)"
@@ -493,6 +494,7 @@ margin_right = 60.0
 margin_bottom = 92.0
 
 [node name="set_dir_down" type="TextureButton" parent="MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_down" groups=["direction_buttons"]]
+visible = false
 margin_right = 28.0
 margin_bottom = 28.0
 hint_tooltip = "Down animation (configured)"
@@ -502,7 +504,6 @@ texture_pressed = ExtResource( 30 )
 texture_hover = ExtResource( 30 )
 
 [node name="unset_dir_down" type="TextureButton" parent="MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_down" groups=["direction_buttons"]]
-visible = false
 margin_right = 28.0
 margin_bottom = 28.0
 hint_tooltip = "Down animation (unconfigured)"
@@ -588,14 +589,14 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="anim_preview_sprite" type="AnimatedSprite" parent="MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/MarginContainer"]
+visible = false
 scale = Vector2( 2.85714, 2.85714 )
-frames = SubResource( 7 )
+frames = SubResource( 1 )
 animation = "in_progress"
 playing = true
 centered = false
 
 [node name="no_anim_found_sprite" type="TextureRect" parent="MarginContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/MarginContainer"]
-visible = false
 margin_left = 10.0
 margin_right = 110.0
 margin_bottom = 200.0
@@ -701,16 +702,15 @@ script = ExtResource( 37 )
 total_num_rows = 1
 total_num_columns = 1
 start_cell = 1
-end_cell = 1
+end_cell = 5
 cell_size = Vector2( 1, 1 )
-zoom_factor = 0.1
+zoom_factor = 0.01
 
 [node name="MarginContainer" type="CenterContainer" parent="MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control"]
 margin_right = 440.0
 margin_bottom = 732.0
 
 [node name="no_spritesheet_found_sprite" type="TextureRect" parent="MarginContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control/MarginContainer"]
-visible = false
 margin_left = 20.0
 margin_top = 166.0
 margin_right = 420.0
@@ -781,7 +781,7 @@ size_flags_vertical = 3
 margin_right = 308.0
 margin_bottom = 30.0
 size_flags_horizontal = 3
-text = "res://addons/escoria-player-creator/graphics/mark-animtest.png"
+text = "No spritesheet loaded."
 readonly = true
 
 [node name="spritesheet_controls" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
@@ -848,14 +848,14 @@ columns = 2
 
 [node name="h_frames_label" type="Label" parent="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer"]
 margin_top = 5.0
-margin_right = 186.0
+margin_right = 155.0
 margin_bottom = 19.0
 text = "Horizontal Frames"
 align = 2
 
 [node name="h_frames_spin_box" type="SpinBox" parent="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer"]
-margin_left = 194.0
-margin_right = 268.0
+margin_left = 163.0
+margin_right = 237.0
 margin_bottom = 24.0
 hint_tooltip = "Divide spritesheet into this many horizontal frames"
 min_value = 1.0
@@ -863,95 +863,95 @@ value = 1.0
 
 [node name="v_frames_label" type="Label" parent="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer"]
 margin_top = 37.0
-margin_right = 186.0
+margin_right = 155.0
 margin_bottom = 51.0
 text = "Vertical Frames"
 align = 2
 
 [node name="v_frames_spin_box" type="SpinBox" parent="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer"]
-margin_left = 194.0
+margin_left = 163.0
 margin_top = 32.0
-margin_right = 268.0
+margin_right = 237.0
 margin_bottom = 56.0
 hint_tooltip = "Divide spritesheet into this many vertical frames"
 min_value = 1.0
-value = 3.0
+value = 1.0
 
 [node name="start_frame_label" type="Label" parent="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer"]
 margin_top = 69.0
-margin_right = 186.0
+margin_right = 155.0
 margin_bottom = 83.0
 text = "Start Frame"
 align = 2
 
 [node name="start_frame" type="SpinBox" parent="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer"]
-margin_left = 194.0
+margin_left = 163.0
 margin_top = 64.0
-margin_right = 268.0
+margin_right = 237.0
 margin_bottom = 88.0
 hint_tooltip = "Start frame to use for this animation"
 min_value = 1.0
-value = 15.0
+value = 1.0
 
 [node name="end_frame_label" type="Label" parent="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer"]
 margin_top = 101.0
-margin_right = 186.0
+margin_right = 155.0
 margin_bottom = 115.0
 text = "End Frame"
 align = 2
 
 [node name="end_frame" type="SpinBox" parent="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer"]
-margin_left = 194.0
+margin_left = 163.0
 margin_top = 96.0
-margin_right = 268.0
+margin_right = 237.0
 margin_bottom = 120.0
 hint_tooltip = "End frame to use for this animation"
 min_value = 1.0
-value = 17.0
+value = 1.0
 
 [node name="anim_speed_label" type="Label" parent="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer"]
 margin_top = 128.0
-margin_right = 186.0
+margin_right = 155.0
 margin_bottom = 142.0
-text = "Animation Speed : 3 FPS"
+text = "Animation Speed : 5 FPS"
 align = 2
 
 [node name="anim_speed_scroll_bar" type="HScrollBar" parent="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer"]
-margin_left = 194.0
+margin_left = 163.0
 margin_top = 128.0
-margin_right = 268.0
+margin_right = 237.0
 margin_bottom = 140.0
 hint_tooltip = "Speed of the current animation"
 min_value = 1.0
 max_value = 60.0
 step = 1.0
-value = 3.0
+value = 5.0
 rounded = true
 
 [node name="original_size_label" type="Label" parent="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer"]
 margin_top = 150.0
-margin_right = 186.0
+margin_right = 155.0
 margin_bottom = 164.0
-text = "Source sprite size: (192, 210)"
+text = "Source sprite size: (0, 0)"
 align = 2
 
 [node name="empty_node2" type="Control" parent="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer"]
-margin_left = 194.0
+margin_left = 163.0
 margin_top = 150.0
-margin_right = 268.0
+margin_right = 237.0
 margin_bottom = 164.0
 
 [node name="frame_size_label" type="Label" parent="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer"]
 margin_top = 172.0
-margin_right = 186.0
+margin_right = 155.0
 margin_bottom = 186.0
-text = "Frame size: (24, 70)"
+text = "Frame size: (0, 0)"
 align = 2
 
 [node name="empty_node3" type="Control" parent="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer/GridContainer"]
-margin_left = 194.0
+margin_left = 163.0
 margin_top = 172.0
-margin_right = 268.0
+margin_right = 237.0
 margin_bottom = 186.0
 
 [node name="empty_node" type="Control" parent="MarginContainer/HBoxContainer/spritesheet_controls/VBoxContainer"]
@@ -1119,7 +1119,13 @@ margin_right = 846.0
 margin_bottom = 394.0
 input_pass_on_modal_close_click = false
 popup_exclusive = true
-dialog_text = "Please load a spritesheet to begin."
+dialog_text = "Warning!
+
+Exporting your character will fail when
+running the character creator directly rather than
+as a plugin.
+
+Please open this as a plugin."
 
 [node name="export_progress" type="WindowDialog" parent="MarginContainer/information_windows"]
 anchor_left = 0.5
