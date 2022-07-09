@@ -23,7 +23,7 @@ class_name AcceptInputCommand
 
 
 # The list of supported input types
-const SUPPORTED_INPUTS_TYPES = ["ALL", "NONE", "SKIP"]
+const SUPPORTED_INPUT_TYPES = ["ALL", "NONE", "SKIP"]
 
 
 # Return the descriptor of the arguments of this command
@@ -40,11 +40,16 @@ func validate(arguments: Array):
 	if not .validate(arguments):
 		return false
 
-	if not arguments[0] in SUPPORTED_INPUTS_TYPES:
+	if not arguments[0] in SUPPORTED_INPUT_TYPES:
 		escoria.logger.error(
 			self,
-			"[%s]: invalid parameter. %s is not a valid parameter value (ALL, NONE, SKIP)"
-					% [get_command_name(), arguments[0]]
+			"[%s]: invalid parameter. %s is not a valid parameter value." +
+			"Should be one of %s"
+					% [
+						get_command_name(), 
+						arguments[0], 
+						str(SUPPORTED_INPUT_TYPES)
+					]
 		)
 		return false
 	return true

@@ -265,7 +265,7 @@ func _compile(lines: Array, path: String = "") -> Array:
 			else:
 				escoria.logger.error(
 					self,
-					"Command \"%s\" cannot be found under folder %s.\nPlease confirm setting \"%s\" is set to the folder where the ESC commands are found."
+					"Command \"%s\" cannot be found under folder %s.\nPlease confirm setting \"%s\" is set to the folder where ESC commands are stored."
 							% [
 								command.name,
 								ProjectSettings.get_setting(COMMAND_DIRECTORIES), 

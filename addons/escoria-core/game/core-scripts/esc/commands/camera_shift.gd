@@ -81,5 +81,5 @@ func validate(arguments: Array):
 func interrupt():
 	escoria.logger.warn(
 		self,
-		"[%s] Interrupt() function not implemented." % get_command_name()
+		"[%s] interrupt() function not implemented." % get_command_name()
 	)

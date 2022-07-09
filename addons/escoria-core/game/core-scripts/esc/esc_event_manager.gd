@@ -373,11 +373,9 @@ func _on_event_finished(finished_statement: ESCStatement, return_code: int, chan
 	var event_flags = event.flags
 	if event_flags & ESCEvent.FLAG_NO_TT:
 		escoria.main.current_scene.game.tooltip_node.show()
-		pass
 
 	if event_flags & ESCEvent.FLAG_NO_UI:
 		escoria.main.current_scene.game.show_ui()
-		pass
 
 	if event_flags & ESCEvent.FLAG_NO_SAVE:
 		escoria.save_manager.save_enabled = true

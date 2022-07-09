@@ -125,7 +125,9 @@ func set_global_wildcard(pattern: String, value) -> void:
 #
 # #### Parameters
 #
-# * string: Text to log
+# * string: Text in which to replace globals
+#
+# *Returns* the provided string with globals variables replaced with their values
 func replace_globals(string: String) -> String:
 	for result in globals_regex.search_all(string):
 		var globresult = escoria.globals_manager.get_global(

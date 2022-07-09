@@ -36,7 +36,7 @@ func validate(arguments: Array):
 	if not ResourceLoader.exists(arguments[1]):
 		escoria.logger.error(
 			self,
-			"[%s]: invalid animations. The animation resource %s was not found."
+			"[%s]: invalid animation resource. The animation resource %s was not found."
 					% [get_command_name(), arguments[1]]
 		)
 		return false

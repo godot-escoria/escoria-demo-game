@@ -353,7 +353,7 @@ func _activate(
 				escoria.logger.warn(
 					self,
 					"Invalid action on item" +
-					"Trying to run %s on object %s, " %
+					"Trying to run action %s on object %s, " %
 					[
 						action,
 						target.node.global_id

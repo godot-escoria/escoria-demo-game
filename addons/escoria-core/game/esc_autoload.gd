@@ -32,8 +32,11 @@ const BUS_SPEECH = "Speech"
 const CAMERA_SCENE_PATH = "res://addons/escoria-core/game/scenes/camera_player/camera.tscn"
 
 
-# Logger
+# Logger class
 const Logger = preload("res://addons/escoria-core/game/esc_logger.gd")
+
+
+# Logger instance
 var logger = Logger.ESCLoggerFile.new()
 
 # ESC Compiler
@@ -75,14 +78,8 @@ var inventory
 # These are settings that the player can affect and save/load later
 var settings: ESCSaveSettings
 
-# The game resolution
-onready var game_size = get_viewport().size
-
 # The main scene
 var main
-
-# The current state of the game
-onready var current_state = GAME_STATE.DEFAULT
 
 # The escoria inputs manager
 var inputs_manager: ESCInputsManager
@@ -105,6 +102,13 @@ var is_direct_room_run: bool = false
 
 # Whether we're quitting the game
 var is_quitting: bool = false
+
+
+# The game resolution
+onready var game_size = get_viewport().size
+
+# The current state of the game
+onready var current_state = GAME_STATE.DEFAULT
 
 
 # Ready function

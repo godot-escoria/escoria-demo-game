@@ -2,12 +2,12 @@ class ESCLoggerBase:
 	# Perform emergency savegame 
 	signal perform_emergency_savegame
 	
-	# Log file format
-	const  LOG_FILE_FORMAT: String = "log_%s_%s.log"
-	
 	# Valid log levels
 	enum { LOG_ERROR, LOG_WARNING, LOG_INFO, LOG_DEBUG, LOG_TRACE }
-
+	
+	# Log file format
+	const LOG_FILE_FORMAT: String = "log_%s_%s.log"
+	
 	# A map of log level names to log level ints
 	var _level_map: Dictionary = {
 		"ERROR": LOG_ERROR,
@@ -58,8 +58,8 @@ class ESCLoggerBase:
 		):
 			assert(false)
 			escoria.get_tree().quit()
-			
-	
+
+
 	# Error log
 	func error(owner: Object, msg: String):
 		var context = owner.get_script().resource_path.get_file()
@@ -72,6 +72,9 @@ class ESCLoggerBase:
 			escoria.get_tree().quit()
 
 
+	func get_log_level() -> int:
+		return _log_level
+
 	func _formatted_date():
 		var info = OS.get_datetime()
 		info["year"] = "%04d" % info["year"]
@@ -81,10 +84,6 @@ class ESCLoggerBase:
 		info["minute"] = "%02d" % info["minute"]
 		info["second"] = "%02d" % info["second"]
 		return "{year}-{month}-{day}T{hour}:{minute}:{second}".format(info)
-
-
-	func get_log_level() -> int:
-		return _log_level
 
 
 # A logger that logs to the terminal and to a log file.
@@ -151,7 +150,15 @@ class ESCLoggerFile extends ESCLoggerBase:
 				print_stack()
 				close_logs()
 			.error(owner, msg)
-	
+
+
+	# Close the log file cleanly
+	func close_logs():
+		print("Closing logs peacefully.")
+		_log_line_to_file("Closing logs peacefully.")
+		log_file.close()
+
+
 	func _log_to_file(owner: Object, msg: String, letter: String):
 		if log_file.is_open():
 			var context = ""
@@ -175,12 +182,6 @@ class ESCLoggerFile extends ESCLoggerBase:
 				]
 			)
 			frame_number += 1
-
-	# Close the log file cleanly
-	func close_logs():
-		print("Closing logs peacefully.")
-		_log_line_to_file("Closing logs peacefully.")
-		log_file.close()
 
 
 # A simple logger that logs to terminal using debug() function

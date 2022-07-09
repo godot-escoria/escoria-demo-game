@@ -406,7 +406,7 @@ func get_start_location() -> ESCLocation:
 
 	escoria.logger.warn(
 		self,
-		"Room has no ESCLocation node with 'is_start_location' enabled." +
+		"Room has no ESCLocation node with 'is_start_location' enabled. " +
 		"Player will be set at position (0,0)."
 	)
 	return null
