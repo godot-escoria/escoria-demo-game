@@ -64,21 +64,18 @@ func validate(arguments: Array):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
-		escoria.logger.report_errors(
-			"anim: invalid object",
-			[
-				"Object with global id %s not found." % arguments[0]
-			]
+		escoria.logger.error(
+			self,
+			"[%s]: Invalid object: Object with global id %s not found." 
+					% [get_command_name(), arguments[0]]
 		)
 		return false
-	if ProjectSettings.get_setting("escoria/ui/default_dialog_type") == "" \
+	if ESCProjectSettingsManager.get_setting(ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE) == "" \
 			and arguments[2] == "":
-		escoria.logger.report_errors(
-			"say()",
-			[
-				"Project setting 'escoria/ui/default_dialog_type' is not set.",
-				"Please set a default dialog type."
-			]
+		escoria.logger.error(
+			self,
+			"[%s]: Project setting '%s' is not set. Please set a default dialog type." 
+					% [get_command_name(), ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE]
 		)
 	return true
 
@@ -91,17 +88,15 @@ func run(command_params: Array) -> int:
 	escoria.current_state = escoria.GAME_STATE.DIALOG
 
 	if !escoria.dialog_player:
-		escoria.logger.report_errors(
-			"No dialog player registered",
-			[
-				"No dialog player was registered and the say command was" +
-						"encountered."
-			]
+		escoria.logger.error(
+			self,
+			"[%s]: No dialog player was registered and the say command was encountered."
+					% get_command_name()
 		)
 		return ESCExecution.RC_ERROR
 
 	# Replace the names of any globals in "{ }" with their value
-	command_params[1] = escoria.esc_compiler.replace_globals(command_params[1])
+	command_params[1] = escoria.globals_manager.replace_globals(command_params[1])
 
 	escoria.dialog_player.say(
 		command_params[0],
@@ -115,9 +110,7 @@ func run(command_params: Array) -> int:
 
 # Function called when the command is interrupted.
 func interrupt():
-	escoria.logger.report_warnings(
-		"say",
-		[
-			"Interrupt() function not implemented"
-		]
+	escoria.logger.warn(
+		self,
+		"[%s] interrupt() function not implemented." % get_command_name()
 	)

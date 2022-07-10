@@ -85,6 +85,7 @@ func set_debug_mode(p_debug_mode: bool):
 	else:
 		if debug_texturerect_node:
 			remove_child(debug_texturerect_node)
+			debug_texturerect_node.queue_free()
 
 
 # Set the first target of the label.

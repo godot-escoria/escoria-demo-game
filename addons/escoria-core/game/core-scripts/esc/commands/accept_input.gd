@@ -22,6 +22,10 @@ extends ESCBaseCommand
 class_name AcceptInputCommand
 
 
+# The list of supported input types
+const SUPPORTED_INPUT_TYPES = ["ALL", "NONE", "SKIP"]
+
+
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
@@ -36,13 +40,16 @@ func validate(arguments: Array):
 	if not .validate(arguments):
 		return false
 
-	if not arguments[0] in ["ALL", "NONE", "SKIP"]:
-		escoria.logger.report_errors(
-			"accept_input: invalid parameter",
-			[
-				"%s is not a valid parameter value (ALL, NONE, SKIP)" %\
-						arguments[0]
-			]
+	if not arguments[0] in SUPPORTED_INPUT_TYPES:
+		escoria.logger.error(
+			self,
+			"[%s]: invalid parameter. %s is not a valid parameter value." +
+			"Should be one of %s"
+					% [
+						get_command_name(), 
+						arguments[0], 
+						str(SUPPORTED_INPUT_TYPES)
+					]
 		)
 		return false
 	return true

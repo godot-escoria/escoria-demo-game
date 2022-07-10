@@ -60,7 +60,10 @@ func _enter_tree():
 # name of this node if it's not set manually
 func _ready():
 	# Might as well just check here.
-	if get_parent() == get_tree().root and ProjectSettings.get_setting("application/run/main_scene") != self.filename:
+	if get_parent() == get_tree().root \
+			and ESCProjectSettingsManager.get_setting(
+				"application/run/main_scene"
+			) != self.filename:
 		is_run_directly = true
 
 	escoria.room_manager.init_room(self)
@@ -85,7 +88,9 @@ func _draw():
 	# Draw lines for camera limits
 	for i in camera_limits.size():
 		draw_rect(camera_limits[i], camera_limits_colors[i], false, 10.0)
-		var default_font = Control.new().get_font("font")
+		var temp_control = Control.new()
+		var default_font = temp_control.get_font("font")
+		temp_control.queue_free()
 
 		draw_string(default_font, Vector2(camera_limits[i].position.x + 30,
 			camera_limits[i].position.y + 30), str(i), camera_limits_colors[i])

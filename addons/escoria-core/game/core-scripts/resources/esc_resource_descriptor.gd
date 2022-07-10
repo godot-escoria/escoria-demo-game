@@ -1,5 +1,5 @@
 # Describes a resource for use in the resource cache
-extends Object
+extends Resource
 class_name ESCResourceDescriptor
 
 

@@ -28,11 +28,10 @@ func validate(arguments: Array):
 		return false
 
 	if arguments[0].begins_with("i/"):
-		escoria.logger.report_errors(
-			"inventory_add: invalid item name",
-			[
-				"Item name %s cannot start with 'i/'." % arguments[0]
-			]
+		escoria.logger.error(
+			self,
+			"[%s]: invalid item name. Item name %s cannot start with 'i/'." 
+					% [get_command_name(), arguments[0]]
 		)
 		return false
 	return true

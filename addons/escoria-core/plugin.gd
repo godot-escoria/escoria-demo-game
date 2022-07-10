@@ -2,41 +2,28 @@
 tool
 extends EditorPlugin
 
-
-# The path to node 'escoria'.
-const ESCORIA: String = "/root/escoria"
-
-
-# Reference to "escoria" singleton instance.
-var escoria_instance: Node = null
-
-
-# Returns the 'escoria' singleton/autoload.
-#
-# *Returns*
-# The escoria singleton.
-func _get_escoria():
-	if not is_instance_valid(escoria_instance):
-		escoria_instance = get_node(ESCORIA)
-		if not is_instance_valid(escoria_instance):
-			printerr(
-				"Escoria could not load the 'escoria' singleton/autoload.\n",
-				"Please try to disable and re-enable 'Escoria' plugin."
-			)
-
-	return escoria_instance
+# The warning popup displayed on escoria-core enabling.
+var popup_info: AcceptDialog
 
 
 # Virtual function called when plugin is enabled.
-func _enable_plugin():
+func enable_plugin():
 	add_autoload_singleton(
 		"escoria",
-		"res://addons/escoria-core/game/escoria.tscn"
+		"res://addons/escoria-core/game/esc_autoload.gd"
 	)
-
+	# Prepare settings
+	set_escoria_main_settings()
+	set_escoria_debug_settings()
+	set_escoria_ui_settings()
+	set_escoria_sound_settings()
+	set_escoria_platform_settings()
+	
 	# Add input actions in InputMap
-	InputMap.add_action(_get_escoria().inputs_manager.SWITCH_ACTION_VERB)
-	InputMap.add_action(_get_escoria().inputs_manager.ESC_SHOW_DEBUG_PROMPT)
+#	if not InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
+#		InputMap.add_action(ESCInputsManager.SWITCH_ACTION_VERB)
+#	if not InputMap.has_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT):
+#		InputMap.add_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT)
 
 	# Define standard settings
 	ProjectSettings.set_setting(
@@ -49,92 +36,103 @@ func _enable_plugin():
 		"res://addons/escoria-core/default_bus_layout.tres"
 	)
 
+	popup_info = AcceptDialog.new()
+	popup_info.dialog_text = """You enabled escoria-core plugin.
+	
+	Please ignore error messages in Output console and reload your project using
+	Godot editor's "Project / Reload Current Project" menu.
+	"""
+	popup_info.connect("confirmed", self, "_on_warning_popup_confirmed", [], CONNECT_ONESHOT)
+	add_child(popup_info)
+	popup_info.popup_centered()
+	
+
+func _on_warning_popup_confirmed():
+	popup_info.queue_free()
+
 
 # Virtual function called when plugin is disabled.
-func _disable_plugin():
-	InputMap.erase_action(_get_escoria().inputs_manager.SWITCH_ACTION_VERB)
-	InputMap.erase_action(_get_escoria().inputs_manager.ESC_SHOW_DEBUG_PROMPT)
+func disable_plugin():
 	remove_autoload_singleton("escoria")
+#	if InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
+#		InputMap.erase_action(ESCInputsManager.SWITCH_ACTION_VERB)
+#	if InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
+#		InputMap.erase_action(ESCInputsManager.SWITCH_ACTION_VERB)
 
 
 # Setup Escoria
 func _enter_tree():
-	_enable_plugin()
-
+	pass
+	
 
 func _ready():
-	# Prepare settings
-	set_escoria_main_settings()
-	set_escoria_debug_settings()
-	set_escoria_ui_settings()
-	set_escoria_sound_settings()
-	set_escoria_platform_settings()
-	ProjectSettings.save()
+	ProjectSettings.save_custom("escoria.godot")
 
 
 # Prepare the settings in the Escoria UI category
 func set_escoria_ui_settings():
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.DEFAULT_DIALOG_TYPE,
+	register_setting(
+		ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE,
 		"",
 		{
 			"type": TYPE_STRING
 		}
 	)
+	print("DEFAULT DIALOG TYPE RESET !!!")
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.GAME_SCENE,
+	register_setting(
+		ESCProjectSettingsManager.GAME_SCENE,
 		"",
 		{
-			"name": _get_escoria().project_settings_manager.GAME_SCENE,
+			"name": ESCProjectSettingsManager.GAME_SCENE,
 			"type": TYPE_STRING,
 			"hint": PROPERTY_HINT_FILE,
 			"hint_string": "*.tscn, *.scn"
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.ITEMS_AUTOREGISTER_PATH,
-		"res://game/items/escitems/",
+	register_setting(
+		ESCProjectSettingsManager.ITEMS_AUTOREGISTER_PATH,
+		"res://game/items/inventory/",
 		{
-			"name": _get_escoria().project_settings_manager.ITEMS_AUTOREGISTER_PATH,
+			"name": ESCProjectSettingsManager.ITEMS_AUTOREGISTER_PATH,
 			"type": TYPE_STRING,
 			"hint": PROPERTY_HINT_DIR
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.DEFAULT_TRANSITION,
+	register_setting(
+		ESCProjectSettingsManager.DEFAULT_TRANSITION,
 		"curtain",
 		{
-			"name": _get_escoria().project_settings_manager.DEFAULT_TRANSITION,
+			"name": ESCProjectSettingsManager.DEFAULT_TRANSITION,
 			"type": TYPE_STRING
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.TRANSITION_PATHS,
+	register_setting(
+		ESCProjectSettingsManager.TRANSITION_PATHS,
 		[
 			"res://addons/escoria-core/game/scenes/transitions/shaders/"
 		],
 		{
-			"name": _get_escoria().project_settings_manager.TRANSITION_PATHS,
+			"name": ESCProjectSettingsManager.TRANSITION_PATHS,
 			"type": TYPE_STRING_ARRAY,
 			"hint": PROPERTY_HINT_DIR
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.INVENTORY_ITEM_SIZE,
+	register_setting(
+		ESCProjectSettingsManager.INVENTORY_ITEM_SIZE,
 		Vector2(72, 72),
 		{
-			"name": _get_escoria().project_settings_manager.INVENTORY_ITEM_SIZE,
+			"name": ESCProjectSettingsManager.INVENTORY_ITEM_SIZE,
 			"type": TYPE_VECTOR2
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.DIALOG_MANAGERS,
+	register_setting(
+		ESCProjectSettingsManager.DIALOG_MANAGERS,
 		[],
 		{
 			"type": TYPE_STRING_ARRAY
@@ -144,16 +142,16 @@ func set_escoria_ui_settings():
 
 # Prepare the settings in the Escoria main category
 func set_escoria_main_settings():
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.GAME_VERSION,
+	register_setting(
+		ESCProjectSettingsManager.GAME_VERSION,
 		"",
 		{
 			"type": TYPE_STRING
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.GAME_START_SCRIPT,
+	register_setting(
+		ESCProjectSettingsManager.GAME_START_SCRIPT,
 		"",
 		{
 			"type": TYPE_STRING,
@@ -162,16 +160,16 @@ func set_escoria_main_settings():
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.FORCE_QUIT,
+	register_setting(
+		ESCProjectSettingsManager.FORCE_QUIT,
 		true,
 		{
 			"type": TYPE_BOOL
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.COMMAND_DIRECTORIES,
+	register_setting(
+		ESCProjectSettingsManager.COMMAND_DIRECTORIES,
 		[
 			"res://addons/escoria-core/game/core-scripts/esc/commands"
 		],
@@ -180,8 +178,8 @@ func set_escoria_main_settings():
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.TEXT_LANG,
+	register_setting(
+		ESCProjectSettingsManager.TEXT_LANG,
 		TranslationServer.get_locale(),
 		{
 			"type": TYPE_STRING,
@@ -189,8 +187,8 @@ func set_escoria_main_settings():
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.VOICE_LANG,
+	register_setting(
+		ESCProjectSettingsManager.VOICE_LANG,
 		TranslationServer.get_locale(),
 		{
 			"type": TYPE_STRING,
@@ -198,8 +196,8 @@ func set_escoria_main_settings():
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.SAVEGAMES_PATH,
+	register_setting(
+		ESCProjectSettingsManager.SAVEGAMES_PATH,
 		"user://saves/",
 		{
 			"type": TYPE_STRING,
@@ -207,8 +205,8 @@ func set_escoria_main_settings():
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.SETTINGS_PATH,
+	register_setting(
+		ESCProjectSettingsManager.SETTINGS_PATH,
 		"user://",
 		{
 			"type": TYPE_STRING,
@@ -216,8 +214,8 @@ func set_escoria_main_settings():
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.GAME_MIGRATION_PATH,
+	register_setting(
+		ESCProjectSettingsManager.GAME_MIGRATION_PATH,
 		"",
 		{
 			"type": TYPE_STRING,
@@ -228,42 +226,42 @@ func set_escoria_main_settings():
 
 # Prepare the settings in the Escoria debug category
 func set_escoria_debug_settings():
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.TERMINATE_ON_WARNINGS,
+	register_setting(
+		ESCProjectSettingsManager.TERMINATE_ON_WARNINGS,
 		false,
 		{
 			"type": TYPE_BOOL
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.TERMINATE_ON_ERRORS,
+	register_setting(
+		ESCProjectSettingsManager.TERMINATE_ON_ERRORS,
 		true,
 		{
 			"type": TYPE_BOOL
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.DEVELOPMENT_LANG,
+	register_setting(
+		ESCProjectSettingsManager.DEVELOPMENT_LANG,
 		"en",
 		{
 			"type": TYPE_STRING
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.LOG_LEVEL,
+	register_setting(
+		ESCProjectSettingsManager.LOG_LEVEL,
 		"ERROR",
 		{
 			"type": TYPE_STRING,
 			"hint": PROPERTY_HINT_ENUM,
-			"hint_string": "ERROR,WARNING,INFO,DEBUG"
+			"hint_string": "ERROR,WARNING,INFO,DEBUG,TRACE"
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.LOG_FILE_PATH,
+	register_setting(
+		ESCProjectSettingsManager.LOG_FILE_PATH,
 		"user://",
 		{
 			"type": TYPE_STRING,
@@ -271,8 +269,8 @@ func set_escoria_debug_settings():
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.LOG_FILE_PATH,
+	register_setting(
+		ESCProjectSettingsManager.CRASH_MESSAGE,
 		"We're sorry, but the game crashed. Please send us the " +
 		"following files:\n\n%s",
 		{
@@ -281,28 +279,28 @@ func set_escoria_debug_settings():
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.ENABLE_ROOM_SELECTOR,
+	register_setting(
+		ESCProjectSettingsManager.ENABLE_ROOM_SELECTOR,
 		false,
 		{
 			"type": TYPE_BOOL
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.ROOM_SELECTOR_ROOM_DIR,
+	register_setting(
+		ESCProjectSettingsManager.ROOM_SELECTOR_ROOM_DIR,
 		"",
 		{
 			"type": TYPE_STRING,
 			"hint": PROPERTY_HINT_DIR
 		}
 	)
-
+	
 
 # Prepare the settings in the Escoria sound settings
 func set_escoria_sound_settings():
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.MASTER_VOLUME,
+	register_setting(
+		ESCProjectSettingsManager.MASTER_VOLUME,
 		1,
 		{
 			"type": TYPE_REAL,
@@ -311,8 +309,8 @@ func set_escoria_sound_settings():
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.MUSIC_VOLUME,
+	register_setting(
+		ESCProjectSettingsManager.MUSIC_VOLUME,
 		1,
 		{
 			"type": TYPE_REAL,
@@ -321,8 +319,8 @@ func set_escoria_sound_settings():
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.SFX_VOLUME,
+	register_setting(
+		ESCProjectSettingsManager.SFX_VOLUME,
 		1,
 		{
 			"type": TYPE_REAL,
@@ -331,8 +329,8 @@ func set_escoria_sound_settings():
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.SPEECH_VOLUME,
+	register_setting(
+		ESCProjectSettingsManager.SPEECH_VOLUME,
 		1,
 		{
 			"type": TYPE_REAL,
@@ -341,16 +339,16 @@ func set_escoria_sound_settings():
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.SPEECH_ENABLED,
-		1,
+	register_setting(
+		ESCProjectSettingsManager.SPEECH_ENABLED,
+		true,
 		{
 			"type": TYPE_BOOL
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.SPEECH_FOLDER,
+	register_setting(
+		ESCProjectSettingsManager.SPEECH_FOLDER,
 		"res://speech",
 		{
 			"type": TYPE_STRING,
@@ -358,8 +356,8 @@ func set_escoria_sound_settings():
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.SPEECH_EXTENSION,
+	register_setting(
+		ESCProjectSettingsManager.SPEECH_EXTENSION,
 		"ogg",
 		{
 			"type": TYPE_STRING
@@ -374,16 +372,16 @@ func set_escoria_platform_settings():
 	# scenes.
 	# If set to true, all generic scenes (UI, inventory, etc) will be loaded
 	# as any other scene.
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.SKIP_CACHE,
+	register_setting(
+		ESCProjectSettingsManager.SKIP_CACHE,
 		false,
 		{
 			"type": TYPE_BOOL
 		}
 	)
 
-	_get_escoria().project_settings_manager.register_setting(
-		_get_escoria().project_settings_manager.SKIP_CACHE_MOBILE,
+	register_setting(
+		ESCProjectSettingsManager.SKIP_CACHE_MOBILE,
 		true,
 		{
 			"type": TYPE_BOOL
@@ -391,7 +389,18 @@ func set_escoria_platform_settings():
 	)
 
 
-# Uninstall plugin
-func _exit_tree():
-	_disable_plugin()
-
+# Register a new project setting if it hasn't been defined already
+#
+# #### Parameters
+#
+# - name: Name of the project setting
+# - default: Default value
+# - info: Property info for the setting
+static func register_setting(name: String, default, info: Dictionary) -> void:
+	if not ProjectSettings.has_setting(name):
+		ProjectSettings.set_setting(
+			name,
+			default
+		)
+		info.name = name
+		ProjectSettings.add_property_info(info)

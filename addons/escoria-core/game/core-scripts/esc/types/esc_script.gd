@@ -1,5 +1,5 @@
 # A compiled ESC script
-extends Object
+extends Resource
 class_name ESCScript
 
 

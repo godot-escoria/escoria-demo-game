@@ -1,6 +1,6 @@
 # A base class for every ESC command.
 # Extending classes have to override the configure and run function
-extends Node
+extends Resource
 class_name ESCBaseCommand
 
 
@@ -22,7 +22,10 @@ func _init() -> void:
 
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
-	escoria.logger.error("Command %s did not override configure." % get_command_name())
+	escoria.logger.error(
+		self,
+		"Command %s did not override configure. Please implement a configure() function." % get_command_name()
+	)
 	return ESCCommandArgumentDescriptor.new()
 
 
@@ -33,7 +36,10 @@ func validate(arguments: Array) -> bool:
 
 # Run the command
 func run(command_params: Array) -> int:
-	escoria.logger.error("Command %s did not override run." % get_command_name())
+	escoria.logger.error(
+		self,
+		"Command %s did not override run. Please implement a run() function." % get_command_name()
+	)
 	return 0
 
 
@@ -44,4 +50,7 @@ func get_command_name() -> String:
 
 # Function called when the command is interrupted.
 func interrupt():
-	escoria.logger.trace("Command %s did not override interrupt." % get_command_name())
+	escoria.logger.trace(
+		self,
+		"Command %s did not override interrupt. Please implement an interrupt() function." % get_command_name()
+	)

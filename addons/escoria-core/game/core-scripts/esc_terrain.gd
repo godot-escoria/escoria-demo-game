@@ -64,20 +64,16 @@ func _ready():
 		if n is NavigationPolygonInstance:
 			if n.enabled:
 				if !Engine.is_editor_hint() and navigation_enabled_found:
-					escoria.logger.report_errors(
-						"ESCTerrain:_ready()",
-						[
-							"Multiple NavigationPolygonInstances enabled " + \
-							"at the same time."
-						]
+					escoria.logger.error(
+						self,
+						"Multiple NavigationPolygonInstances enabled " + \
+						"at the same time."
 					)
 				elif Engine.is_editor_hint():
-					escoria.logger.report_warnings(
-						"ESCTerrain:_ready()",
-						[
-							"Multiple NavigationPolygonInstances enabled " + \
-							"at the same time."
-						]
+					escoria.logger.warn(
+						self,
+						"Multiple NavigationPolygonInstances enabled " + \
+						"at the same time."
 					)
 				navigation_enabled_found = true
 				current_active_navigation_instance = n

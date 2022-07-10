@@ -17,9 +17,9 @@ var items_ids_in_inventory: Dictionary = {}
 # listen when a global has changed
 func _ready():
 	if inventory_ui_container == null or inventory_ui_container.is_empty():
-		escoria.logger.report_errors(
-			self.get_path(),
-			["Items container is empty."]
+		escoria.logger.error(
+			self,
+			"Inventory items container is empty."
 		)
 		return
 
@@ -43,8 +43,8 @@ func add_new_item_by_id(item_id: String) -> void:
 		if not escoria.object_manager.has(item_id) or not is_instance_valid( \
 				escoria.object_manager.get_object(item_id).node):
 			var inventory_file = "%s/%s.tscn" % [
-				escoria.project_settings_manager.get_setting(
-					escoria.project_settings_manager.ITEMS_AUTOREGISTER_PATH
+				ESCProjectSettingsManager.get_setting(
+					ESCProjectSettingsManager.ITEMS_AUTOREGISTER_PATH
 				).trim_suffix("/"),
 				item_id
 			]
@@ -58,11 +58,21 @@ func add_new_item_by_id(item_id: String) -> void:
 					true
 				)
 			else:
-				escoria.logger.report_errors(
-					"inventory_ui.gd:add_new_item_by_id()",
-					[
-						"Item global id '%s' does not exist." % item_id
-					]
+				escoria.logger.error(
+					self,
+					(
+						"Item global id '%s' is not registered because the item's scene file was not found.\n"
+						+ "Attempted scene file path: %s.\n" 
+						+ "Please ensure that the '%s' project setting points at **your inventory items folder** (current is: \"%s\")."
+					)
+						% [
+							item_id,
+							inventory_file,
+							ESCProjectSettingsManager.ITEMS_AUTOREGISTER_PATH,
+							ESCProjectSettingsManager.get_setting(
+								ESCProjectSettingsManager.ITEMS_AUTOREGISTER_PATH
+							)
+						]
 				)
 
 		var inventory_item = ESCInventoryItem.new(
@@ -90,7 +100,10 @@ func add_new_item_by_id(item_id: String) -> void:
 # remove item fromInventory UI using its id set in its scene
 func remove_item_by_id(item_id: String) -> void:
 	if items_ids_in_inventory.has(item_id):
-		var item_inventory_button = items_ids_in_inventory[item_id]
+		var item_inventory = items_ids_in_inventory[item_id]
+		var item_inventory_button = get_node(
+			inventory_ui_container
+		).get_inventory_button(item_inventory)
 
 		if item_inventory_button.is_connected(
 			"mouse_left_inventory_item",
@@ -143,7 +156,7 @@ func remove_item_by_id(item_id: String) -> void:
 				"_on_mouse_exited_inventory_item"
 			)
 
-		get_node(inventory_ui_container).remove_item(item_inventory_button)
+		get_node(inventory_ui_container).remove_item(item_inventory)
 		items_ids_in_inventory.erase(item_id)
 
 
@@ -158,10 +171,7 @@ func _on_escoria_global_changed(global: String, old_value, new_value) -> void:
 		else:
 			remove_item_by_id(item[0])
 	else:
-		escoria.logger.report_errors(
-			"inventory_ui.gd:_on_escoria_global_changed()",
-			[
-				"Global must contain only one item name.",
-				"(received: %s)" % global
-			]
+		escoria.logger.error(
+			self,
+			"Global must contain only one item name (received: %s)." % global
 		)

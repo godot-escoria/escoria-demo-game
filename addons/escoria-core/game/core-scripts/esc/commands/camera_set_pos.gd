@@ -36,9 +36,7 @@ func run(command_params: Array) -> int:
 
 # Function called when the command is interrupted.
 func interrupt():
-	escoria.logger.report_warnings(
-		get_command_name(),
-		[
-			"Interrupt() function not implemented"
-		]
+	escoria.logger.warn(
+		self,
+		"[%s] interrupt() function not implemented." % get_command_name()
 	)

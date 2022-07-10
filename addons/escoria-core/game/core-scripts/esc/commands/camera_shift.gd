@@ -49,7 +49,7 @@ func run(command_params: Array) -> int:
 				command_params[1]
 			),
 			command_params[2],
-			Tween.new().get("TRANS_%s" % command_params[3])
+			ClassDB.class_get_integer_constant("Tween", "TRANS_%s" % command_params[3])
 		)
 	return ESCExecution.RC_OK
 
@@ -59,12 +59,18 @@ func validate(arguments: Array):
 		return false
 
 	if not arguments[3] in SUPPORTED_TRANSITIONS:
-		escoria.logger.report_errors(
-			"camera_shift: invalid transition type",
-			[
-				"Transition type {t_type} is not one of the accepted types : {allowed_types}".format(
-					{"t_type":arguments[3],"allowed_types":SUPPORTED_TRANSITIONS})
-			]
+		escoria.logger.error(
+			self,
+			(
+				"[{command_name}]: invalid transition type" +
+				"Transition type {t_type} is not one of the accepted types : {allowed_types}"
+			).format(
+				{
+					"command_name": get_command_name(),
+					"t_type":arguments[3],
+					"allowed_types":SUPPORTED_TRANSITIONS
+				}
+			)
 		)
 		return false
 
@@ -73,9 +79,7 @@ func validate(arguments: Array):
 
 # Function called when the command is interrupted.
 func interrupt():
-	escoria.logger.report_warnings(
-		get_command_name(),
-		[
-			"Interrupt() function not implemented"
-		]
+	escoria.logger.warn(
+		self,
+		"[%s] interrupt() function not implemented." % get_command_name()
 	)

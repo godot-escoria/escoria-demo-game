@@ -30,11 +30,10 @@ func validate(arguments: Array):
 		return false
 
 	if arguments[0] < 0:
-		escoria.logger.report_errors(
-			"camera_set_zoom_height: invalid height",
-			[
-				"Can't zoom to a negative height %d" % arguments[0]
-			]
+		escoria.logger.error(
+			self,
+			"[%s]: invalid height. Can't zoom to a negative height (%d)." 
+					% [get_command_name(), arguments[0]]
 		)
 		return false
 
@@ -53,9 +52,7 @@ func run(command_params: Array) -> int:
 
 # Function called when the command is interrupted.
 func interrupt():
-	escoria.logger.report_warnings(
-		get_command_name(),
-		[
-			"Interrupt() function not implemented"
-		]
+	escoria.logger.warn(
+		self,
+		"[%s] interrupt() function not implemented." % get_command_name()
 	)

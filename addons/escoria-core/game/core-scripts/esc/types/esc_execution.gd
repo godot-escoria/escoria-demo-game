@@ -1,5 +1,5 @@
 # Basic features and informations about ESC executions
-extends Object
+extends Resource
 class_name ESCExecution
 
 

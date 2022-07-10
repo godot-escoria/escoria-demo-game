@@ -48,20 +48,25 @@ func validate(arguments: Array):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
-		escoria.logger.report_errors(
-			"camera_push: invalid object",
-			[
-				"Object global id %s not found" % arguments[0]
-			]
+		escoria.logger.error(
+			self,
+			"[%s]: invalid object. Object global id %s not found." 
+					% [get_command_name(), arguments[0]]
 		)
 		return false
 	if not arguments[2] in SUPPORTED_TRANSITIONS:
-		escoria.logger.report_errors(
-			"camera_shift: invalid transition type",
-			[
-				"Transition type {t_type} is not one of the accepted types : {allowed_types}".format(
-					{"t_type":arguments[2],"allowed_types":SUPPORTED_TRANSITIONS})
-			]
+		escoria.logger.error(
+			self,
+			(
+				"[{command_name}]: invalid transition type. Transition type {t_type} " +
+				"is not one of the accepted types : {allowed_types}"
+			).format(
+					{
+						"command_name":get_command_name(), 
+						"t_type":arguments[2], 
+						"allowed_types":SUPPORTED_TRANSITIONS
+					}
+				)
 		)
 		return false
 
@@ -74,16 +79,14 @@ func run(command_params: Array) -> int:
 		.push(
 			escoria.object_manager.get_object(command_params[0]).node,
 			command_params[1],
-			Tween.new().get("TRANS_%s" % command_params[2])
+			ClassDB.class_get_integer_constant("Tween", "TRANS_%s" % command_params[2])
 		)
 	return ESCExecution.RC_OK
 
 
 # Function called when the command is interrupted.
 func interrupt():
-	escoria.logger.report_warnings(
-		get_command_name(),
-		[
-			"Interrupt() function not implemented"
-		]
+	escoria.logger.warn(
+		self,
+		"[%s] interrupt() function not implemented." % get_command_name()
 	)

@@ -35,9 +35,10 @@ func validate(arguments: Array):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
-		escoria.logger.report_errors(
-			"stop_snd: invalid sound player",
-			["Sound player %s not registered" % arguments[0]]
+		escoria.logger.error(
+			self,
+			"[%s]: invalid sound player. Sound player %s not registered." 
+					% [get_command_name(), arguments[0]]
 		)
 		return false
 	_snd_player = arguments[0]

@@ -1,5 +1,5 @@
 # Manages currently carried out actions
-extends Object
+extends Resource
 class_name ESCActionManager
 
 
@@ -90,12 +90,10 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 
 				# Check moving object.
 				if not escoria.object_manager.has(params[0]):
-					escoria.logger.report_errors(
-						"esc_action_manager.gd:do()",
-						[
-							"Walk action requested on nonexisting " + \
-							"object: %s " % params[0]
-						]
+					escoria.logger.error(
+						self,
+						"Walk action requested for nonexisting object: %s." 
+								% params[0]
 					)
 					return
 
@@ -104,12 +102,10 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 
 				if params[1] is String:
 					if not escoria.object_manager.has(params[1]):
-						escoria.logger.report_errors(
-							"esc_action_manager.gd:do()",
-							[
-								"Walk action requested to nonexisting " + \
-								"object: %s " % params[1]
-							]
+						escoria.logger.error(
+							self,
+							"Walk action requested to nonexisting destination object: %s." 
+									% params[1]
 						)
 						return
 
@@ -122,8 +118,8 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 			ACTION.ITEM_LEFT_CLICK:
 				if params[0] is String:
 					escoria.logger.info(
-						"esc_action_manager.do(): item_left_click on item ",
-						[params[0]]
+						self,
+						"item_left_click on item %s." % params[0]
 					)
 
 					if can_interrupt:
@@ -135,8 +131,8 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 			ACTION.ITEM_RIGHT_CLICK:
 				if params[0] is String:
 					escoria.logger.info(
-						"esc_action_manager.do(): item_right_click on item ",
-						[params[0]]
+						self,
+						"item_right_click on item %s." % params[0]
 					)
 
 					if can_interrupt:
@@ -149,10 +145,13 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 				var trigger_id = params[0]
 				var object_id = params[1]
 				var trigger_in_verb = params[2]
-				escoria.logger.info("esc_action_manager.do(): trigger_in %s by %s" % [
-					trigger_id,
-					object_id
-				])
+				escoria.logger.info(
+					self,
+					"trigger_in on trigger %s activated by %s." % [
+						trigger_id,
+						object_id
+					]
+				)
 				escoria.event_manager.queue_event(
 					escoria.object_manager.get_object(trigger_id).events[
 						trigger_in_verb
@@ -163,10 +162,13 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 				var trigger_id = params[0]
 				var object_id = params[1]
 				var trigger_out_verb = params[2]
-				escoria.logger.info("esc_action_manager.do(): trigger_out %s by %s" % [
-					trigger_id,
-					object_id
-				])
+				escoria.logger.info(
+					self,
+					"trigger_out on trigger %s activated by %s." % [
+						trigger_id,
+						object_id
+					]
+				)
 				escoria.event_manager.queue_event(
 					escoria.object_manager.get_object(trigger_id).events[
 						trigger_out_verb
@@ -174,8 +176,10 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 				)
 
 			_:
-				escoria.logger.report_warnings("esc_action_manager.gd:do()",
-					["Action received:", action, "with params ", params])
+				escoria.logger.warn(
+					self,
+					"Action received: %s with params %s.", [action, params]
+				)
 	elif escoria.current_state == escoria.GAME_STATE.WAIT:
 		pass
 
@@ -237,7 +241,10 @@ func _activate(
 	target: ESCObject,
 	combine_with: ESCObject = null
 ) -> int:
-	escoria.logger.info("Activated action %s on %s" % [action, target])
+	escoria.logger.info(
+		self,
+		"Activated action %s on %s." % [action, target]
+	)
 
 	# If we're using an action which item requires to combine
 	if target.node is ESCItem\
@@ -314,16 +321,16 @@ func _activate(
 									("Reason: %s's item interaction " +\
 									"is one-way.") % combine_with.global_id
 								)
-							escoria.logger.report_warnings(
-								"ESCActionManager.activate: Invalid action",
-								errors
+							escoria.logger.warn(
+								self,
+								"Invalid action" + str(errors)
 							)
 							emit_signal("action_finished")
 							return ESCExecution.RC_ERROR
 					else:
-						escoria.logger.report_warnings(
-							"ESCActionManager.activate: Invalid action on item",
-							[
+						escoria.logger.warn(
+							self,
+							"Invalid action on item: " +
 								(
 									"Trying to combine object %s with %s, "+
 									"but %s is not in inventory."
@@ -332,7 +339,6 @@ func _activate(
 									combine_with.global_id,
 									combine_with.global_id
 								]
-							]
 						)
 						emit_signal("action_finished")
 						return ESCExecution.RC_ERROR
@@ -344,16 +350,15 @@ func _activate(
 					)
 					return ESCExecution.RC_OK
 			else:
-				escoria.logger.report_warnings(
-					"ESCActionManager.activate: Invalid action on item",
+				escoria.logger.warn(
+					self,
+					"Invalid action on item" +
+					"Trying to run action %s on object %s, " %
 					[
-						"Trying to run %s on object %s, " %
-						[
-							action,
-							target.node.global_id
-						]
-						+ "but item must be in inventory."
+						action,
+						target.node.global_id
 					]
+					+ "but item must be in inventory."
 				)
 
 	if target.events.has(action):
@@ -372,14 +377,13 @@ func _activate(
 		emit_signal("action_finished")
 		return event_returned[0]
 	else:
-		escoria.logger.report_warnings(
-			"ESCActionManager.activate: Invalid action",
-			[
+		escoria.logger.warn(
+			self,
+			"Invalid action: " +
 				"Event for action %s on object %s not found." % [
 					action,
 					target.global_id
 				]
-			]
 		)
 		emit_signal("action_finished")
 		return ESCExecution.RC_ERROR
@@ -428,12 +432,10 @@ func perform_walk(
 			moving_obj.node.walk_to(target_position, walk_context)
 
 	else:
-		escoria.logger.report_errors(
-			"esc_controller.gd:perform_walk()",
-			[
-				"Function expected either a Vector2 or ESCObject type " + \
-				"for destination parameter. Actual was: %s " % destination
-			]
+		escoria.logger.error(
+			self,
+			"Function expected either a Vector2 or ESCObject type " + \
+			"for destination parameter. Destination provided was: %s." % destination
 		)
 		return
 
@@ -472,7 +474,10 @@ func perform_inputevent_on_object(
 		  In this case, perform the default_action on the item.
 	"""
 
-	escoria.logger.info("%s left-clicked with event " % obj.global_id, [event])
+	escoria.logger.info(
+		self, 
+		"%s left-clicked with event %s." % [obj.global_id, event]
+	)
 
 	var event_flags = 0
 	var has_current_action: bool = false
@@ -620,8 +625,10 @@ func _walk_towards_object(
 	var dont_interact: bool = false
 
 	if obj == null || obj.node == null:
-		escoria.logger.report_errors("esc_action_manager.gd:_walk_towards_object",
-			["obj or obj.node not populated."])
+		escoria.logger.error(
+			self,
+			"walk_towards_object error. obj or obj.node not populated."
+		)
 	var interact_position = obj.node.get_interact_position()
 	# If clicked object is interactive, get destination position from it.
 	if escoria.object_manager.get_object(obj.global_id).interactive:
@@ -645,7 +652,10 @@ func _walk_towards_object(
 	escoria.main.current_scene.player.walk_to(destination_position,
 		walk_context)
 
-	escoria.logger.debug("Player walking to destination. Yielding.")
+	escoria.logger.debug(
+	self,
+	"Player walking to destination. Yielding."
+)
 
 	# Wait for the player to arrive before continuing with action.
 	var context: ESCWalkContext = yield(
@@ -654,11 +664,16 @@ func _walk_towards_object(
 	)
 
 	if context.target_object != obj:
-		escoria.logger.debug("Original walk context target does not match " \
-			+ "yielded walk context. Likely interrutped walk.")
+		escoria.logger.debug(
+			self,
+			"Original walk context target does not match " \
+					+ "yielded walk context. Likely interrutped walk.")
 		return
 
-	escoria.logger.info("Context arrived: %s" % context)
+	escoria.logger.info(
+		self,
+		"Context arrived: %s." % context
+	)
 
 	# Confirm that reached item was the one user clicked in the first place.
 	# Don't interact if that is not the case.

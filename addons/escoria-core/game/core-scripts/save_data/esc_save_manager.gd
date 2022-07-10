@@ -76,9 +76,9 @@ func get_saves_list() -> Dictionary:
 			var save_game_res: Resource = load(save_path)
 
 			if save_game_res == null:
-				escoria.logger.report_warnings(
-					"esc_save_manager.gd",
-					["Savegame file %s is corrupted. Skipping." % save_path]
+				escoria.logger.warn(
+					self,
+					"Savegame file %s is corrupted. Skipping." % save_path
 				)
 			else:
 				var save_game_data = {
@@ -91,12 +91,10 @@ func get_saves_list() -> Dictionary:
 				if matches != null and matches.get_string("slotnumber") != null:
 					saves[int(matches.get_string("slotnumber"))] = save_game_data
 				else:
-					escoria.logger.report_warnings(
-						"esc_save_manager.gd",
-						[
-							"Savegame file %s contains valid data but doesn't match filename format %s. Skipping."
-							% [save_path, regex.get_pattern()]
-						]
+					escoria.logger.warn(
+						self,
+						"Savegame file %s contains valid data but doesn't match filename format %s. Skipping."
+								% [save_path, regex.get_pattern()]
 					)
 			nextfile = dirsave.get_next()
 	return saves
@@ -121,8 +119,9 @@ func save_game_exists(id: int) -> bool:
 func save_game(id: int, p_savename: String):
 	if not save_enabled:
 		escoria.logger.debug(
-			"esc_save_manager.gd",
-			["Save requested while saving is not possible. Save canceled."])
+			self,
+			"Save requested while saving is not possible. Save cancelled."
+		)
 		return
 
 	var save_game := _do_save_game(p_savename)
@@ -134,9 +133,9 @@ func save_game(id: int, p_savename: String):
 	var save_path = save_folder.plus_file(SAVE_NAME_TEMPLATE % id)
 	var error: int = ResourceSaver.save(save_path, save_game)
 	if error != OK:
-		escoria.logger.report_errors(
-			"esc_save_manager.gd",
-			["There was an issue writing the save %s to %s" % [id, save_path]]
+		escoria.logger.error(
+			self,
+			"There was an issue writing savegame number %s to %s." % [id, save_path]
 		)
 
 
@@ -153,8 +152,8 @@ func save_game_crash():
 
 	var save_game := _do_save_game("Crash %s" % datetime_string)
 
-	var save_file_path: String = escoria.project_settings_manager.get_setting(
-		escoria.project_settings_manager.LOG_FILE_PATH
+	var save_file_path: String = ESCProjectSettingsManager.get_setting(
+		ESCProjectSettingsManager.LOG_FILE_PATH
 	)
 	crash_savegame_filename = save_file_path.plus_file(
 		CRASH_SAVE_NAME_TEMPLATE % [
@@ -167,10 +166,11 @@ func save_game_crash():
 
 	var error: int = ResourceSaver.save(crash_savegame_filename, save_game)
 	if error != OK:
-		escoria.logger.report_errors(
-			"esc_save_manager.gd",
-			["There was an issue writing the crash save to %s"
-				% crash_savegame_filename])
+		escoria.logger.error(
+			self,
+			"There was an issue writing the crash save to %s."
+				% crash_savegame_filename
+		)
 	return error
 
 
@@ -185,8 +185,8 @@ func _do_save_game(p_savename: String) -> ESCSaveGame:
 	plugin_config.load("res://addons/escoria-core/plugin.cfg")
 	save_game.escoria_version = plugin_config.get_value("plugin", "version")
 
-	save_game.game_version = escoria.project_settings_manager.get_setting(
-		escoria.project_settings_manager.GAME_VERSION
+	save_game.game_version = ESCProjectSettingsManager.get_setting(
+		ESCProjectSettingsManager.GAME_VERSION
 	)
 	save_game.name = p_savename
 
@@ -216,14 +216,16 @@ func load_game(id: int):
 	var save_file_path: String = save_folder.plus_file(SAVE_NAME_TEMPLATE % id)
 	var file: File = File.new()
 	if not file.file_exists(save_file_path):
-		escoria.logger.report_errors(
-			"esc_save_manager.gd:load_game()",
-			["Save file %s doesn't exist" % save_file_path])
+		escoria.logger.error(
+			self,
+			"Save file %s doesn't exist." % save_file_path
+		)
 		return
 
 	escoria.logger.info(
-		"esc_save_manager.gd:load_game()",
-		["Loading savegame %s" % str(id)])
+		self,
+		"Loading savegame %s." % str(id)
+	)
 
 	var save_game: ESCSaveGame = ResourceLoader.load(save_file_path)
 
@@ -243,21 +245,21 @@ func load_game(id: int):
 		)
 
 	# Migrate savegame through game versions
-	if escoria.project_settings_manager.get_setting(
-			escoria.project_settings_manager.GAME_VERSION
+	if ESCProjectSettingsManager.get_setting(
+			ESCProjectSettingsManager.GAME_VERSION
 		) != save_game.game_version \
-		and escoria.project_settings_manager.get_setting(
-			escoria.project_settings_manager.GAME_MIGRATION_PATH
+		and ESCProjectSettingsManager.get_setting(
+			ESCProjectSettingsManager.GAME_MIGRATION_PATH
 		) != "":
 		var migration_manager: ESCMigrationManager = ESCMigrationManager.new()
 		save_game = migration_manager.migrate(
 			save_game,
 			save_game.game_version,
-			escoria.project_settings_manager.get_setting(
-				escoria.project_settings_manager.GAME_VERSION
+			ESCProjectSettingsManager.get_setting(
+				ESCProjectSettingsManager.GAME_VERSION
 			),
-			escoria.project_settings_manager.get_setting(
-				escoria.project_settings_manager.GAME_MIGRATION_PATH
+			ESCProjectSettingsManager.get_setting(
+				ESCProjectSettingsManager.GAME_MIGRATION_PATH
 			)
 		)
 
@@ -271,8 +273,8 @@ func load_game(id: int):
 			"%s %s out" %
 			[
 				_transition.get_command_name(),
-				escoria.project_settings_manager.get_setting(
-					escoria.project_settings_manager.DEFAULT_TRANSITION
+				ESCProjectSettingsManager.get_setting(
+					ESCProjectSettingsManager.DEFAULT_TRANSITION
 			)]
 		)
 	)
@@ -391,8 +393,8 @@ func load_game(id: int):
 			"%s %s in" %
 			[
 				_transition.get_command_name(),
-				escoria.project_settings_manager.get_setting(
-				escoria.project_settings_manager.DEFAULT_TRANSITION
+				ESCProjectSettingsManager.get_setting(
+				ESCProjectSettingsManager.DEFAULT_TRANSITION
 			)]
 		)
 	)
@@ -402,9 +404,7 @@ func load_game(id: int):
 	escoria.set_game_paused(false)
 
 	escoria.event_manager.queue_event(load_event)
-	escoria.logger.debug(
-		"esc_save_manager.gd:load_game()",
-		["Load event queued."])
+	escoria.logger.debug(self, "Load event queued.")
 
 
 # Save the game settings in the settings file.
@@ -432,9 +432,9 @@ func save_settings():
 	var save_path = settings_folder.plus_file(SETTINGS_TEMPLATE)
 	var error: int = ResourceSaver.save(save_path, settings_res)
 	if error != OK:
-		escoria.logger.report_errors(
+		escoria.logger.error(
 			"esc_save_manager.gd:save_settings()",
-			["There was an issue writing settings %s" % save_path])
+			["There was an issue writing settings file %s." % save_path])
 
 
 # Load the game settings from the settings file
@@ -444,10 +444,11 @@ func load_settings() -> Resource:
 			settings_folder.plus_file(SETTINGS_TEMPLATE)
 	var file: File = File.new()
 	if not file.file_exists(save_settings_path):
-		escoria.logger.report_warnings(
-			"esc_save_manager.gd:load_settings()",
-			["Settings file %s doesn't exist" % save_settings_path,
-			"Setting default settings."])
+		escoria.logger.warn(
+			self,
+			"Settings file %s doesn't exist. Using default settings." 
+					% save_settings_path
+		)
 		save_settings()
 
 	return load(save_settings_path)

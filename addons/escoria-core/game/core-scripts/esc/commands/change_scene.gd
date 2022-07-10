@@ -31,22 +31,24 @@ func validate(arguments: Array) -> bool:
 		return false
 
 	if not ResourceLoader.exists(arguments[0]):
-		escoria.logger.report_errors(
-			"change_scene: Invalid scene",
-			["Scene %s was not found" % arguments[0]]
+		escoria.logger.error(
+			self,
+			"[%s]: Invalid scene. Scene %s was not found." 
+					% [get_command_name(), arguments[0]]
 		)
 		return false
 	if not ResourceLoader.exists(
-		escoria.project_settings_manager.get_setting(escoria.project_settings_manager.GAME_SCENE)
+		ESCProjectSettingsManager.get_setting(ESCProjectSettingsManager.GAME_SCENE)
 	):
-		escoria.logger.report_errors(
-			"change_scene: Game scene not found",
-			[
-				"The path set in 'ui/game_scene' was not found: %s" % \
-						escoria.project_settings_manager.get_setting(
-							escoria.project_settings_manager.GAME_SCENE
+		escoria.logger.error(
+			self,
+			"[%s]: Game scene not found. The path set in 'ui/game_scene' was not found: %s." 
+					% [
+						get_command_name(),
+						ESCProjectSettingsManager.get_setting(
+							ESCProjectSettingsManager.GAME_SCENE
 						)
-			]
+					]
 		)
 		return false
 
@@ -56,10 +58,14 @@ func validate(arguments: Array) -> bool:
 # Run the command
 func run(command_params: Array) -> int:
 	escoria.logger.info(
-		"Changing scene to %s (enable_automatic_transition = %s)" % [
-		command_params[0],	# scene file
-		command_params[1]	# enable_automatic_transition
-	])
+		self,
+		"[%s] Changing scene to %s (enable_automatic_transition = %s)." 
+				% [
+					get_command_name(),
+					command_params[0],	# scene file
+					command_params[1]	# enable_automatic_transition
+				]
+	)
 
 	escoria.room_manager.change_scene(command_params[0], command_params[1])
 
@@ -68,9 +74,7 @@ func run(command_params: Array) -> int:
 
 # Function called when the command is interrupted.
 func interrupt():
-	escoria.logger.report_warnings(
-		get_command_name(),
-		[
-			"Interrupt() function not implemented"
-		]
+	escoria.logger.warn(
+		self,
+		"[%s] interrupt() function not implemented." % get_command_name()
 	)

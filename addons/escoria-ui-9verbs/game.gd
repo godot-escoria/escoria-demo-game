@@ -45,10 +45,9 @@ onready var verbs_menu = $ui/Control/panel_down/VBoxContainer/HBoxContainer\
 		/VerbsMargin/verbs_menu
 onready var tooltip = $ui/Control/panel_down/VBoxContainer/MarginContainer\
 		/tooltip
-onready var room_select = $ui/Control/panel_down/VBoxContainer/HBoxContainer\
-		/MainMargin/VBoxContainer/room_select
 onready var inventory_ui = $ui/Control/panel_down/VBoxContainer/HBoxContainer\
 		/InventoryMargin/inventory_ui
+var room_select 
 
 func _enter_tree():
 	var room_selector_parent = $ui/Control/panel_down/VBoxContainer\
@@ -56,12 +55,11 @@ func _enter_tree():
 
 	if ProjectSettings.get_setting("escoria/debug/enable_room_selector") and \
 			room_selector_parent.get_node_or_null("room_select") == null:
-		room_selector_parent.add_child(
-			preload(
-				"res://addons/escoria-core/ui_library/tools/room_select" +\
-				"/room_select.tscn"
-			).instance()
-		)
+		room_select = preload(
+			"res://addons/escoria-core/ui_library/tools/room_select" +\
+			"/room_select.tscn"
+		).instance()
+		room_selector_parent.add_child(room_select)
 
 
 ## BACKGROUND ##
@@ -121,7 +119,8 @@ func element_focused(element_id: String) -> void:
 			tooltip.set_target(target_obj.tooltip_name)
 
 			# Hovering an ESCItem highlights its default action
-			if escoria.action_manager.current_action != VERB_USE and target_obj is ESCItem:
+			if escoria.action_manager.current_action != VERB_USE \
+					and target_obj is ESCItem:
 				verbs_menu.set_by_name(target_obj.default_action)
 
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_TARGET_ITEM:
@@ -302,7 +301,7 @@ func mousewheel_action(_direction: int):
 func hide_ui():
 	$ui/Control.hide()
 	verbs_menu.hide()
-	if ProjectSettings.get("escoria/debug/enable_room_selector") == true:
+	if ESCProjectSettingsManager.get_setting(ESCProjectSettingsManager.ENABLE_ROOM_SELECTOR):
 		room_select.hide()
 	inventory_ui.hide()
 	tooltip.hide()
@@ -311,7 +310,7 @@ func hide_ui():
 func show_ui():
 	$ui/Control.show()
 	verbs_menu.show()
-	if ProjectSettings.get("escoria/debug/enable_room_selector") == true:
+	if ESCProjectSettingsManager.get_setting(ESCProjectSettingsManager.ENABLE_ROOM_SELECTOR):
 		room_select.show()
 	inventory_ui.show()
 	tooltip.show()
@@ -363,8 +362,9 @@ func _on_event_done(_return_code: int, _event_name: String):
 func apply_custom_settings(custom_settings: Dictionary):
 	if custom_settings.has("a_custom_setting"):
 		escoria.logger.info(
-			"custom setting value loaded:",
-			[custom_settings["a_custom_setting"]]
+			self,
+			"custom setting value loaded: %s." 
+					% str(custom_settings["a_custom_setting"])
 		)
 
 

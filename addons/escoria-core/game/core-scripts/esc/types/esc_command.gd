@@ -28,15 +28,15 @@ func _init(command_string):
 	if command_regex.search(command_string):
 		for result in command_regex.search_all(command_string):
 			if "name" in result.names:
-				self.name = escoria.utils.get_re_group(result, "name")
+				self.name = ESCUtils.get_re_group(result, "name")
 			if "parameters" in result.names:
 				# Split parameters by whitespace but allow quoted
 				# parameters
 				var quote_open = false
 				var parameter_values = PoolStringArray([])
 				var parsed_parameters = \
-					escoria.utils.sanitize_whitespace(
-						escoria.utils.get_re_group(
+					ESCUtils.sanitize_whitespace(
+						ESCUtils.get_re_group(
 							result,
 							"parameters"
 						).strip_edges()
@@ -66,7 +66,7 @@ func _init(command_string):
 					else:
 						parameters.append(parameter)
 			if "conditions" in result.names:
-				for condition in escoria.utils.get_re_group(
+				for condition in ESCUtils.get_re_group(
 							result,
 							"conditions"
 						).split(","):
@@ -74,22 +74,20 @@ func _init(command_string):
 						ESCCondition.new(condition.strip_edges())
 					)
 	else:
-		escoria.logger.report_errors(
-			"Invalid command detected: %s" % command_string,
-			[
-				"Command regexp didn't match"
-			]
+		escoria.logger.error(
+			self, 
+			"Invalid command detected: %s\nCommand regexp didn't match." 
+					% command_string
 		)
 
 
 # Check, if conditions match
 func is_valid() -> bool:
 	if not command_exists():
-		escoria.logger.report_errors(
-			"Invalid command detected: %s" % self.name,
-			[
-				"Command implementation not found in any command directory"
-			]
+		escoria.logger.error(
+			self,
+			"Invalid command detected: %s" % self.name +
+				"Command implementation not found in any command directory."
 		)
 		return false
 
@@ -100,8 +98,8 @@ func is_valid() -> bool:
 #
 # *Returns* True if the command exists, else false.
 func command_exists() -> bool:
-	for base_path in escoria.project_settings_manager.get_setting(
-			escoria.project_settings_manager.COMMAND_DIRECTORIES
+	for base_path in ESCProjectSettingsManager.get_setting(
+			ESCProjectSettingsManager.COMMAND_DIRECTORIES
 		):
 		var command_path = "%s/%s.gd" % [
 			base_path.trim_suffix("/"),
@@ -124,14 +122,18 @@ func run() -> int:
 		)
 
 		if command_object.validate(prepared_arguments):
-			escoria.logger.debug("Running command %s with parameters %s" % [
-				self.name,
-				prepared_arguments
-			])
+			escoria.logger.debug(
+				self,
+				"Running command %s with parameters %s." 
+						% [self.name, prepared_arguments]
+			)
 			var rc = command_object.run(prepared_arguments)
 			if rc is GDScriptFunctionState:
 				rc = yield(rc, "completed")
-			escoria.logger.debug("[%s] Return code: %d" % [self.name, rc])
+			escoria.logger.debug(
+				self, 
+				"[%s] Return code: %d." % [self.name, rc]
+			)
 			return rc
 		else:
 			return ESCExecution.RC_ERROR

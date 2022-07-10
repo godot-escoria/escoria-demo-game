@@ -24,6 +24,7 @@ func _ready() -> void:
 			$VBoxContainer/MarginContainer/options/flags
 	for child in _flags_container.get_children():
 		_flags_container.remove_child(child)
+		child.queue_free()
 
 	_loaded_languages = []
 
@@ -37,7 +38,6 @@ func _ready() -> void:
 			)
 			_flags_container.add_child(_lang)
 			_lang.connect("gui_input", self, "_on_language_input", [lang])
-
 
 # Show the options
 func show():

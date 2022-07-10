@@ -16,6 +16,13 @@ export(Dictionary) var _globals = {}
 # Registry of globals that are to be reserved for internal use only.
 var _reserved_globals: Dictionary = {}
 
+# Use look-ahead/behind to capture the term in braces
+var globals_regex: RegEx = RegEx.new()
+
+# Constructor
+func _init():
+	globals_regex.compile("(?<=\\{)(.*)(?=\\})")
+
 
 # Check if a global was registered
 #
@@ -35,11 +42,11 @@ func has(key: String) -> bool:
 # - value: The initial value (optional)
 func register_reserved_global(key: String, value = null) -> void:
 	if key in _reserved_globals:
-		escoria.logger.report_errors(
-			"ESCGlobalsManager.register_reserved_global: Can not override reserved global",
-			[
-				"Global key %s is already registered as reserved" % key
-			]
+		escoria.logger.error(
+			self,
+			"Can not override reserved global: Global key %s is already " +
+			"registered as reserved." 
+					% key
 		)
 	var old_value = _globals[key] if _globals.has(key) else ""
 	_reserved_globals[key] = value
@@ -86,11 +93,9 @@ func filter(pattern: String) -> Dictionary:
 # - value: The new value
 func set_global(key: String, value, ignore_reserved: bool = false) -> void:
 	if key in _reserved_globals and not ignore_reserved:
-		escoria.logger.report_errors(
-			"ESCGlobalsManager.set_global: Can not override reserved global",
-			[
-				"Global key %s is reserved and can not be overridden" % key
-			]
+		escoria.logger.error(
+			self,
+			"Global key %s is reserved and can not be overridden." % key
 		)
 
 	emit_signal(
@@ -100,7 +105,6 @@ func set_global(key: String, value, ignore_reserved: bool = false) -> void:
 		value
 	)
 	_globals[key] = value
-
 
 
 # Set all globals that match the pattern to the value
@@ -115,6 +119,24 @@ func set_global_wildcard(pattern: String, value) -> void:
 	for global_key in _globals.keys:
 		if global_key.match(pattern):
 			self.set_global(global_key, value)
+
+
+# Look to see if any globals (names in braces) should be interpreted
+#
+# #### Parameters
+#
+# * string: Text in which to replace globals
+#
+# *Returns* the provided string with globals variables replaced with their values
+func replace_globals(string: String) -> String:
+	for result in globals_regex.search_all(string):
+		var globresult = escoria.globals_manager.get_global(
+			str(result.get_string())
+		)
+		string = string.replace(
+			"{" + result.get_string() + "}", str(globresult)
+		)
+	return string
 
 
 # Save the state of globals in the savegame.

@@ -57,7 +57,7 @@ polygon = PoolVector2Array( 3, 421, 0, 107, 106, 65, 108, 356 )
 [node name="Position2D" type="Position2D" parent="Hotspots/l_door"]
 position = Vector2( 37.4521, 392.045 )
 script = ExtResource( 5 )
-global_id = "r12_l_exit"
+global_id = "r12_l_exit_interact_pos"
 
 [node name="r_door" type="Area2D" parent="Hotspots"]
 script = ExtResource( 8 )

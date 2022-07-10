@@ -1,5 +1,5 @@
 # An event that is scheduled to run later
-extends Object
+extends Reference
 class_name ESCScheduledEvent
 
 

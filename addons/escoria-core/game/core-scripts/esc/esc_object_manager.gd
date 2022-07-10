@@ -1,5 +1,5 @@
 # A manager for ESC objects
-extends Node
+extends Resource
 class_name ESCObjectManager
 
 
@@ -69,15 +69,6 @@ func _init() -> void:
 	current_room_key = ESCRoomObjectsKey.new()
 
 
-# Make active objects in current room visible
-func _process(_delta):
-	for room in room_objects:
-		if room.is_reserved or _is_current_room(room):
-			for object in room.objects:
-				if (object as ESCObject).node:
-					(object as ESCObject).node.visible = (object as ESCObject).active
-
-
 # Updates which object manager room is to be treated as the currently active one.
 #
 # #### Parameters
@@ -85,12 +76,10 @@ func _process(_delta):
 # - room: Room to register the object with in the object manager
 func set_current_room(room: ESCRoom) -> void:
 	if room == null:
-		escoria.logger.report_errors(
-			"ESCObjectManager:set_current_room()",
-			[
-				"Unable to set current room: No valid room specified.",
-				"Please pass in a valid ESCRoom as an argument to the method."
-			]
+		escoria.logger.error(
+			self,
+			"Unable to set current room: No room was specified.\n" +
+			"Please pass in a valid ESCRoom as an argument to the method."
 		)
 
 	current_room_key.room_global_id = room.global_id
@@ -111,13 +100,11 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 	if object.global_id.empty():
 		object.global_id = str(object.node.get_path()).split("/root/", false)[0]
 		object.node.global_id = object.global_id
-		escoria.logger.report_warnings(
-			"ESCObjectManager:register_object()",
-			[
-				"Registering ESCObject %s with empty global_id." % object.name,
-				"Using node's full path as global_id: %s"
-							% object.node.global_id
-			]
+		escoria.logger.warn(
+			self,
+			"Registering ESCObject %s with empty global_id." % object.name +
+			"Using node's full path as global_id: %s"
+						% object.node.global_id
 		)
 
 	# If this is a reserved object, let's make sure it's in the right place.
@@ -139,28 +126,25 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 
 		if not room_key.is_valid():
 			# This condition should very likely never happen.
-			escoria.logger.report_errors(
-				"ESCObjectManager:register_object()",
-				[
-					"No room was specified to register object with, and no current room is properly set.",
-					"Please either pass in a valid ESCRoom to this method, or " + \
-						"call set_current_room() with a valid ESCRoom first."
-				]
+			escoria.logger.error(
+				self,
+				"No room was specified to register object with, and no current room is properly set.\n" +
+				"Please either pass in a valid ESCRoom to this method, or " + \
+					"call set_current_room() with a valid ESCRoom first."
 			)
 	else:
 		room_key.room_global_id = room.global_id
 		room_key.room_instance_id = room.get_instance_id()
 
-	if not force and _object_exists_in_room(object, room_key):
-		escoria.logger.report_errors(
-			"ESCObjectManager:register_object()",
-			[
-				"Object with global id %s in room (%s, %s) already registered" %
-					[
-						object.global_id,
-						room_key.room_global_id,
-						room_key.room_instance_id
-					]
+	if not force and _object_exists_in_room(object, room_key) \
+			and _object_state_in_room_is_default(object, room_key):
+		escoria.logger.error(
+			self,
+			"Object with global id '%s' in room %s already registered from node path %s." 
+			% [
+				object.global_id,
+				room_key.room_global_id,
+				get_object(object.global_id, room).node.get_path()
 			]
 		)
 		return
@@ -213,17 +197,15 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 	# If object state is not STATE_DEFAULT, save it in manager's object states
 	if object.state != ESCObject.STATE_DEFAULT:
 		if get_object(object.global_id) == null:
-			escoria.logger.report_errors(
-			"ESCObjectManager:register_object()",
-			[
-				"Object with global id %s in room (%s, %s) not found in Object Manager" %
-					[
-						object.global_id,
-						room_key.room_global_id,
-						room_key.room_instance_id
-					]
-			]
-		)
+			escoria.logger.error(
+				self,
+				"Object with global id %s in room (%s, %s) not found in Object Manager." 
+				% [
+					object.global_id,
+					room_key.room_global_id,
+					room_key.room_instance_id
+				]
+			)
 		else:
 			get_object(object.global_id).state = object.state
 
@@ -235,7 +217,6 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 		room_container.room_instance_id = room_key.room_instance_id
 		room_container.is_reserved = false
 		room_container.objects = objects
-
 		room_objects.push_back(room_container)
 
 
@@ -256,8 +237,9 @@ func has(global_id: String, room: ESCRoom = null) -> bool:
 	var room_key: ESCRoomObjectsKey
 
 	if room == null:
-		escoria.logger.trace("ESCObjectManager.has(): No room specified." \
-			+ " Defaulting to current room."
+		escoria.logger.trace(
+			self,
+			"No room specified. Defaulting to current room."
 		)
 
 		room_key = current_room_key
@@ -284,20 +266,19 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 		if reserved_objects_container.objects.has(global_id):
 			return reserved_objects_container.objects[global_id]
 		else:
-			escoria.logger.report_warnings(
-				"ESCObjectManager:get_object()",
-				[
-					"Reserved object with global id %s not found in object manager!"
-						% global_id
-				]
+			escoria.logger.warn(
+				self,
+				"Reserved object with global id %s not found in object manager!"
+					% global_id
 			)
 			return null
 
 	var room_key: ESCRoomObjectsKey
 
 	if room == null:
-		escoria.logger.trace("ESCObjectManager.has(): No room specified." \
-			+ " Defaulting to current room."
+		escoria.logger.trace(
+			self,
+			"No room specified. Defaulting to current room."
 		)
 
 		room_key = current_room_key
@@ -307,13 +288,11 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 		room_key.room_instance_id = room.get_instance_id()
 
 	if not _room_exists(room_key):
-		escoria.logger.report_warnings(
-			"ESCObjectManager:get_object()",
-			[
-				"Specified room is empty/not found.",
-				"Object with global id %s in room instance (%s, %s) not found"
-				% [global_id, room_key.room_global_id, room_key.room_instance_id]
-			]
+		escoria.logger.warn(
+			self,
+			"Specified room is empty/not found.\n" +
+			"Object with global id %s in room instance (%s, %s) not found."
+			% [global_id, room_key.room_global_id, room_key.room_instance_id]
 		)
 		return null
 
@@ -322,12 +301,10 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 	if objects.has(global_id):
 		return objects[global_id]
 	else:
-		escoria.logger.report_warnings(
-			"ESCObjectManager:get_object()",
-			[
-				"Object with global id %s in room instance (%s, %s) not found"
-				% [global_id, room_key.room_global_id, room_key.room_instance_id]
-			]
+		escoria.logger.warn(
+			self,
+			"Object with global id %s in room instance (%s, %s) not found."
+			% [global_id, room_key.room_global_id, room_key.room_instance_id]
 		)
 		return null
 
@@ -344,23 +321,22 @@ func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 		# called as part of an objectd's forced registration and the object not
 		# yet being managed.
 		escoria.logger.debug(
-			"ESCObjectManager:unregister_object(): Unable to unregister object.",
-			[
-				"Object with global ID %s room (%s, %s) not found. If this was" %
-				[
-					"?" if object == null else object.global_id,
-					room_key.room_global_id,
-					room_key.room_instance_id
-				],
-				"part of a 'forced' registration, ignore this warning."
-			]
+			self,
+			"Unable to unregister object.\n" +
+			"Object with global ID %s room (%s, %s) not found. If this was " 
+			% [
+				"?" if object == null else object.global_id,
+				room_key.room_global_id,
+				room_key.room_instance_id
+			] +
+			"part of a 'forced' registration, ignore this warning."
 		)
 
 		return
 
 	var room_objects = _get_room_objects_objects(room_key)
 
-	if escoria.inventory_manager.inventory_has(object.global_id):
+	if not escoria.is_quitting and escoria.inventory_manager.inventory_has(object.global_id):
 		# Re-instance the node if it is an item present in inventory; that is,
 		# re-register it with the new current room.
 		if object.node != null:
@@ -393,11 +369,9 @@ func unregister_object_by_global_id(global_id: String, room_key: ESCRoomObjectsK
 # - p_savegame: The savegame resource
 func save_game(p_savegame: ESCSaveGame) -> void:
 	if not current_room_key.is_valid() or not _room_exists(current_room_key):
-		escoria.logger.report_errors(
-			"ESCObjectManager:save_game()",
-			[
-				"No current room specified or found."
-			]
+		escoria.logger.error(
+			self,
+			"No current room specified or found."
 		)
 
 	var objects: Dictionary = _get_room_objects_objects(current_room_key)
@@ -430,13 +404,11 @@ func get_start_location() -> ESCLocation:
 					and object.node.is_start_location:
 				return object
 
-	escoria.logger.report_warnings(
-			"ESCObjectManager:get_start_location()",
-			[
-				"Room has no ESCLocation node with 'is_start_location' enabled.",
-				"Player will be set at position (0,0) by default."
-			]
-		)
+	escoria.logger.warn(
+		self,
+		"Room has no ESCLocation node with 'is_start_location' enabled. " +
+		"Player will be set at position (0,0)."
+	)
 	return null
 
 
@@ -486,11 +458,9 @@ func _room_exists(room_key: ESCRoomObjectsKey) -> bool:
 # **Returns** True iff object exists in the object manager entry specified by room_key.
 func _object_exists_in_room(object: ESCObject, room_key: ESCRoomObjectsKey) -> bool:
 	if object == null:
-		escoria.logger.report_warnings(
-			"ESCObjectManager:_object_exists_in_room()",
-			[
-				"Cannot check for null objects."
-			]
+		escoria.logger.warn(
+			self,
+			"Cannot check room for \"null\" objects."
 		)
 
 		return false
@@ -498,6 +468,30 @@ func _object_exists_in_room(object: ESCObject, room_key: ESCRoomObjectsKey) -> b
 	for room_container in room_objects:
 		if _compare_container_to_key(room_container, room_key) \
 				and room_container.objects.has(object.global_id):
+			return true
+
+	return false
+
+
+# Checks whether the specified object's state is "default" in the specified object manager entry.
+#
+# #### Parameters
+#
+# - object: The object to check for existence.
+# - room_key: The key representing the desired room in the object manager array.
+# **Returns** True if object's state is "default" in the object manager entry specified by room_key.
+func _object_state_in_room_is_default(object: ESCObject, room_key: ESCRoomObjectsKey) -> bool:
+	if object == null:
+		escoria.logger.warn(
+			self,
+			"Cannot check room for \"null\" objects."
+		)
+
+		return false
+
+	for room_container in room_objects:
+		if _compare_container_to_key(room_container, room_key) \
+				and room_container.objects.get(object.global_id).state == ESCObject.STATE_DEFAULT:
 			return true
 
 	return false

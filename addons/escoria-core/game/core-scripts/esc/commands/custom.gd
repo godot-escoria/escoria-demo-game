@@ -35,24 +35,23 @@ func validate(arguments: Array):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
-		escoria.logger.report_errors(
-			"custom: invalid object",
-			[
-				"Object with global id %s not found" % arguments[0]
-			]
+		escoria.logger.error(
+			self,
+			"[%s]: invalid object. Object with global id %s not found." 
+					% [get_command_name(), arguments[0]]
 		)
 		return false
 	elif not escoria.object_manager.get_object(arguments[0]).node.has_node(
 		arguments[1]
 	):
-		escoria.logger.report_errors(
-			"custom: invalid node",
-			[
-				"Object with global id %s has no node %s" % [
-					arguments[0],
-					arguments[1],
-				]
-			]
+		escoria.logger.error(
+			self,
+			"[%s]: invalid node. Object with global id %s has no child node called %s." 
+					% [
+						get_command_name(),
+						arguments[0],
+						arguments[1],
+					]
 		)
 		return false
 	elif not escoria.object_manager.get_object(arguments[0]).node\
@@ -62,15 +61,15 @@ func validate(arguments: Array):
 		.has_method(
 			arguments[2]
 		):
-		escoria.logger.report_errors(
-			"custom: invalid function",
-			[
-				"Object with global id %s and node %s has no function %s" % [
-					arguments[0],
-					arguments[1],
-					arguments[2],
-				]
-			]
+		escoria.logger.error(
+			self,
+			"[%s]: invalid function. Object with global id %s and node %s has no function called %s." 
+					% [
+						get_command_name(),
+						arguments[0],
+						arguments[1],
+						arguments[2],
+					]
 		)
 		return false
 	return true
@@ -84,7 +83,7 @@ func run(command_params: Array) -> int:
 	# Global variables can be substituted into the command arguments by wrapping the global
 	# name in braces.
 	for loop in command_params[3].size():
-		command_params[3][loop] = escoria.esc_compiler.replace_globals(command_params[3][loop])
+		command_params[3][loop] = escoria.globals_manager.replace_globals(command_params[3][loop])
 
 	object.node.get_node(command_params[1]).call(
 		command_params[2],
@@ -95,9 +94,7 @@ func run(command_params: Array) -> int:
 
 # Function called when the command is interrupted.
 func interrupt():
-	escoria.logger.report_warnings(
-		get_command_name(),
-		[
-			"Interrupt() function not implemented"
-		]
+	escoria.logger.warn(
+		self, 
+		"[%s] interrupt() function not implemented." % get_command_name()
 	)

@@ -323,7 +323,10 @@ func _unhandled_input(input_event: InputEvent) -> void:
 
 	if event is InputEventMouseButton and event.is_pressed():
 		if not escoria.current_state == escoria.GAME_STATE.DEFAULT:
-			escoria.logger.info("Game state doesn't accept interactions")
+			escoria.logger.info(
+				self,
+				"Current game state doesn't accept interactions."
+			)
 			return
 		var p = get_global_mouse_position()
 		if _is_in_shape(p):
@@ -367,8 +370,9 @@ func get_animation_player() -> Node:
 						child is AnimationPlayer:
 					player_node_path = child.get_path()
 		if not has_node(player_node_path):
-			escoria.logger.warning(
-				"Can not find node at path %s" % player_node_path
+			escoria.logger.warn(
+				self,
+				"Can not find animation_player node at path %s for %s." % [player_node_path, global_id]
 			)
 		else:
 			_animation_player = ESCAnimationPlayer.new(
@@ -394,7 +398,9 @@ func get_interact_position() -> Vector2:
 		interact_position = collision.global_position
 
 	if multiple_positions_found:
-		escoria.logger.warning("Multiple ESClocations found to walk to for object " +
+		escoria.logger.warn(
+			self, 
+			"Multiple ESClocations found to walk to for object " +
 			"%s. Last one will be used." % global_id)
 	return interact_position
 
@@ -500,7 +506,8 @@ func get_sprite() -> Node:
 				_sprite_node = child
 	if _sprite_node == null:
 		escoria.logger.error(
-			"No sprite node found in the scene %s" % get_path()
+			self,
+			"No sprite node found in the scene %s." % get_path()
 		)
 	return _sprite_node
 
@@ -579,7 +586,11 @@ func update_idle():
 # global position of the player
 func get_camera_node():
 	if has_node(camera_node):
-		escoria.logger.debug("Camera node found - directing camera to the camera_node on " + global_id)
+		escoria.logger.debug(
+			self, 
+			"Camera node found - directing camera to the camera_node on %s." 
+				% global_id
+		)
 		return get_node(camera_node)
 	return self
 

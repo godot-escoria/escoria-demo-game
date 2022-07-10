@@ -1,5 +1,5 @@
 # Registers and allows access to Escoria-specific project settings.
-extends Node
+extends Resource
 class_name ESCProjectSettingsManager
 
 
@@ -75,14 +75,13 @@ const MAX_TIME_TO_DISAPPEAR = "%s/%s/max_time_to_disappear" % [_ESCORIA_SETTINGS
 # - name: Name of the project setting
 # - default: Default value
 # - info: Property info for the setting
-func register_setting(name: String, default, info: Dictionary) -> void:
-	if not ProjectSettings.has_setting(name):
-		ProjectSettings.set_setting(
-			name,
-			default
-		)
-		info.name = name
-		ProjectSettings.add_property_info(info)
+static func register_setting(name: String, default, info: Dictionary) -> void:
+	ProjectSettings.set_setting(
+		name,
+		default
+	)
+	info.name = name
+	ProjectSettings.add_property_info(info)
 
 
 # Retrieves the specified project setting.
@@ -92,11 +91,10 @@ func register_setting(name: String, default, info: Dictionary) -> void:
 # - key: Project setting name.
 #
 # *Returns* the value of the project setting located with key.
-func get_setting(key: String):
+static func get_setting(key: String):
 	if not ProjectSettings.has_setting(key):
-		escoria.logger.report_errors("project_settings_manager.gd",
-			["Parameter %s is not set!" % key]
-		)
+		push_error("Parameter %s is not set!" % key)
+		assert(false)
 
 	return ProjectSettings.get_setting(key)
 
@@ -107,7 +105,7 @@ func get_setting(key: String):
 #
 # - key: Project setting name.
 # - value: Project setting value.
-func set_setting(key: String, value) -> void:
+static func set_setting(key: String, value) -> void:
 	ProjectSettings.set_setting(key, value)
 
 
@@ -118,5 +116,5 @@ func set_setting(key: String, value) -> void:
 # - key: Project setting name.
 #
 # *Returns* true iff the project setting exists.
-func has_setting(key: String) -> bool:
+static func has_setting(key: String) -> bool:
 	return ProjectSettings.has_setting(key)

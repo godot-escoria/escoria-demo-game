@@ -70,7 +70,7 @@ var _is_gamepad_connected = false
 func _enter_tree():
 	var room_selector_parent = $CanvasLayer/ui/HBoxContainer/VBoxContainer
 
-	if escoria.project_settings_manager.get_setting(escoria.project_settings_manager.ENABLE_ROOM_SELECTOR) \
+	if ESCProjectSettingsManager.get_setting(ESCProjectSettingsManager.ENABLE_ROOM_SELECTOR) \
 		and room_selector_parent.get_node_or_null("room_select") == null:
 
 		room_selector_parent.add_child(
@@ -97,7 +97,7 @@ func _exit_tree():
 
 
 func _input(event: InputEvent) -> void:
-	if escoria.is_ready_for_inputs():
+	if escoria.get_escoria().is_ready_for_inputs():
 		if event is InputEventMouseMotion:
 			escoria.main.current_scene.game. \
 				update_tooltip_following_mouse_position(event.position)
@@ -328,8 +328,9 @@ func pause_game():
 func apply_custom_settings(custom_settings: Dictionary):
 	if custom_settings.has("a_custom_setting"):
 		escoria.logger.info(
-			"custom setting value loaded:",
-			[custom_settings["a_custom_setting"]]
+			self,
+			"custom setting value loaded: %s." 
+					% str(custom_settings["a_custom_setting"])
 		)
 
 

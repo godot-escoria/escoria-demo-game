@@ -30,13 +30,13 @@ func load_string(option_string: String):
 				var _trans_key = ""
 				if "trans_key" in result.names:
 					_trans_key = "%s:" % \
-							escoria.utils.get_re_group(result, "trans_key")
+							ESCUtils.get_re_group(result, "trans_key")
 				self.option = "%s%s" % [
 					_trans_key,
-					escoria.utils.get_re_group(result, "option")
+					ESCUtils.get_re_group(result, "option")
 				]
 			if "conditions" in result.names:
-				for condition_text in escoria.utils.get_re_group(
+				for condition_text in ESCUtils.get_re_group(
 							result,
 							"conditions"
 						).split(","):
@@ -44,11 +44,10 @@ func load_string(option_string: String):
 						ESCCondition.new(condition_text.strip_edges())
 					)
 	else:
-		escoria.logger.report_errors(
-			"Invalid dialog option detected: %s" % option_string,
-			[
+		escoria.logger.error(
+			self,
+			"Invalid dialog option detected: %s." % option_string,
 				"Dialog option regexp didn't match"
-			]
 		)
 
 

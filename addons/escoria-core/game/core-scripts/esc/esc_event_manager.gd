@@ -88,16 +88,14 @@ func _process(delta: float) -> void:
 			_running_events[channel_name] = \
 				events_queue[channel_name].pop_front()
 			escoria.logger.debug(
-				"esc_event_manager",
-				[
-					"Popping event '%s' from background queue %s" % [
-						_running_events[channel_name].name,
-						channel_name,
-					],
-					"from source %s" % _running_events[channel_name].source \
-						if not _running_events[channel_name].source.empty()
-						else "(unknown)",
-				]
+				self,
+				"Popping event '%s' from background queue %s " % [
+					_running_events[channel_name].name,
+					channel_name,
+				] +
+				"to source %s." % _running_events[channel_name].source \
+					if not _running_events[channel_name].source.empty()
+					else "(unknown)"
 			)
 			if not _running_events[channel_name].is_connected(
 				"finished", self, "_on_event_finished"
@@ -174,28 +172,22 @@ func queue_event_from_esc(script_object: ESCScript, event: String,
 		return ESCExecution.RC_WONT_QUEUE
 
 	if channel == CHANNEL_FRONT:
-		escoria.event_manager.queue_event(script_object.events[event])
+		queue_event(script_object.events[event])
 	else:
-		escoria.event_manager.queue_background_event(
+		queue_background_event(
 			channel,
 			script_object.events[event]
 		)
 	if block:
 		if channel == CHANNEL_FRONT:
-			var rc = yield(escoria.event_manager, "event_finished")
+			var rc = yield(self, "event_finished")
 			while rc[1] != event:
-				rc = yield(escoria.event_manager, "event_finished")
+				rc = yield(self, "event_finished")
 			return rc
 		else:
-			var rc = yield(
-				escoria.event_manager,
-				"background_event_finished"
-			)
+			var rc = yield(self, "background_event_finished")
 			while rc[1] != event and rc[2] != channel:
-				rc = yield(
-					escoria.event_manager,
-					"background_event_finished"
-				)
+				rc = yield(self, "background_event_finished")
 			return rc
 
 	return ESCExecution.RC_OK
@@ -208,6 +200,7 @@ func queue_event_from_esc(script_object: ESCScript, event: String,
 func queue_event(event: ESCEvent, force: bool = false) -> void:
 	if _changing_scene and not force:
 		escoria.logger.info(
+			self,
 			"Changing scenes. Won't queue event '%s'." % event.name
 		)
 		return
@@ -222,18 +215,22 @@ func queue_event(event: ESCEvent, force: bool = false) -> void:
 		var message = "Event '%s' is already the most-recently queued event in channel '%s'." + \
 			" Won't be queued again."
 
-		escoria.logger.debug(message % [event.name, CHANNEL_FRONT])
+		escoria.logger.debug(self, message % [event.name, CHANNEL_FRONT])
 		return
 	elif _is_event_running(event, CHANNEL_FRONT):
 		# Don't queue the same event if it's already running.
 		escoria.logger.debug(
+			self,
 			"Event %s already running in channel '%s'. Won't be queued."
 				% [event.name, CHANNEL_FRONT]
 		)
 
 		return
 
-	escoria.logger.debug("Queueing %s in channel %s." % [event.name, CHANNEL_FRONT])
+	escoria.logger.debug(
+		self,
+		"Queueing event %s in channel %s." % [event.name, CHANNEL_FRONT]
+	)
 	self.events_queue[CHANNEL_FRONT].append(event)
 
 
@@ -266,11 +263,12 @@ func queue_background_event(channel_name: String, event: ESCEvent) -> void:
 		var message = "Event '%s' is already the most-recently queued event in channel '%s'." + \
 			" Won't be queued again."
 
-		escoria.logger.debug(message % [event.name, channel_name])
+		escoria.logger.debug(self, message % [event.name, channel_name])
 		return
 	elif _is_event_running(event, CHANNEL_FRONT):
 		# Don't queue the same event if it's already running.
 		escoria.logger.debug(
+			self,
 			"Event %s already running in channel '%s'. Won't be queued."
 				% [event.name, channel_name]
 		)
@@ -287,8 +285,10 @@ func queue_background_event(channel_name: String, event: ESCEvent) -> void:
 func interrupt(exceptions: PoolStringArray = []) -> void:
 	for channel_name in _running_events.keys():
 		if _running_events[channel_name] != null and not _running_events[channel_name].name in exceptions:
-			escoria.logger.debug("Interrupting running event %s in channel %s..."
-				% [_running_events[channel_name].name, channel_name])
+			escoria.logger.debug(
+				self,
+				"Interrupting running event %s in channel %s..."
+						% [_running_events[channel_name].name, channel_name])
 			_running_events[channel_name].interrupt()
 			_channels_state[channel_name] = true
 
@@ -298,8 +298,10 @@ func interrupt(exceptions: PoolStringArray = []) -> void:
 				if event.name in exceptions:
 					continue
 
-				escoria.logger.debug("Interrupting queued event %s in channel %s..."
-					% [event.name, channel_name])
+				escoria.logger.debug(
+					self,
+					"Interrupting queued event %s in channel %s..."
+							% [event.name, channel_name])
 				event.interrupt()
 
 			events_queue[channel_name].clear()
@@ -334,7 +336,10 @@ func get_running_event(name: String) -> ESCEvent:
 # #### Parameterse
 # - value: boolean value to set _changing_scene to
 func set_changing_scene(p_is_changing_scene: bool) -> void:
-	escoria.logger.trace("Setting _changing_scene to %s." % p_is_changing_scene)
+	escoria.logger.trace(
+		self,
+		"Setting _changing_scene to %s." % p_is_changing_scene
+	)
 
 	_changing_scene = p_is_changing_scene
 
@@ -353,17 +358,16 @@ func set_changing_scene(p_is_changing_scene: bool) -> void:
 func _on_event_finished(finished_statement: ESCStatement, return_code: int, channel_name: String) -> void:
 	var event = _running_events[channel_name]
 	if not event:
-		escoria.logger.report_warnings(
-			"esc_event_manager.gd:_on_event_finished()",
-			[
-				"Event %s finished without being in _running_events[%s]"
-					% [finished_statement.name, channel_name]
-			]
+		escoria.logger.warn(
+			self,
+			"Event %s finished without being in _running_events[%s]."
+				% [finished_statement.name, channel_name]
 		)
 		return
 
 	escoria.logger.debug(
-		"Event %s ended with return code %d" % [event.name, return_code]
+		self,
+		"Event %s ended with return code %d." % [event.name, return_code]
 	)
 
 	var event_flags = event.flags

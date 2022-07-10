@@ -30,19 +30,18 @@ func validate(arguments: Array):
 
 	if not escoria.main.scene_transition.has_transition(arguments[0]) \
 		and not arguments[0].empty():
-		escoria.logger.report_errors(
-			"transition: argument invalid",
-			[
-				"transition with name '%s' doesn't exist" % arguments[0]
-			]
+		escoria.logger.error(
+			self,
+			"[%s]: argument invalid. Transition with name '%s' doesn't exist." 
+					% [get_command_name(), arguments[0]]
 		)
 		return false
 	if not arguments[1] in ["in", "out"]:
-		escoria.logger.report_errors(
-			"transition: argument invalid",
-			[
-				"'in' or 'out' expected, but got '%s'" % arguments[1]
-			]
+		escoria.logger.error(
+			self,
+			"[%s]: argument invalid" +
+				"Transition type 'in' or 'out' expected, but '%s' was provided." 
+					% [get_command_name(), arguments[1]]
 		)
 		return false
 	return true
@@ -58,19 +57,27 @@ func run(command_params: Array) -> int:
 	)
 
 	if transition_id == ESCTransitionPlayer.TRANSITION_ID_INSTANT:
-		escoria.logger.debug("Performing instant transition.")
+		escoria.logger.debug(
+			self,
+			"Performing instant transition."
+		)
 		escoria.main.scene_transition.reset_shader_cutoff()
 		return ESCExecution.RC_OK
 
-	escoria.logger.debug("Starting transition #%s [%s, %s]"
-		% [transition_id, command_params[0], command_params[1]])
+	escoria.logger.debug(
+		self,
+		"Starting transition #%s [%s, %s]."
+				% [transition_id, command_params[0], command_params[1]]
+	)
 	while yield(
 		escoria.main.scene_transition,
 		"transition_done"
 	) != transition_id:
 		pass
-	escoria.logger.debug("Ending transition #%s [%s, %s]"
-		% [transition_id, command_params[0], command_params[1]])
+	escoria.logger.debug(
+		self,
+		"Ending transition #%s [%s, %s]."
+				% [transition_id, command_params[0], command_params[1]])
 	return ESCExecution.RC_OK
 
 
