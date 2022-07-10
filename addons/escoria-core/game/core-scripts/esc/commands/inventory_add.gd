@@ -30,7 +30,7 @@ func validate(arguments: Array):
 	if arguments[0].begins_with("i/"):
 		escoria.logger.error(
 			self,
-			"[%s]: invalid item name. Item name %s cannot start with 'i/'." 
+			"[%s]: invalid item name. Item name %s cannot start with 'i/'."
 					% [get_command_name(), arguments[0]]
 		)
 		return false

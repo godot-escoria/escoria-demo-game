@@ -56,7 +56,7 @@ func _ready():
 	).empty():
 		escoria.logger.error(
 			self,
-			"Project setting '%s' is not set!" 
+			"Project setting '%s' is not set!"
 					% ESCProjectSettingsManager.GAME_START_SCRIPT
 		)
 	escoria.start_script = escoria.esc_compiler.load_esc_file(
@@ -64,13 +64,13 @@ func _ready():
 			ESCProjectSettingsManager.GAME_START_SCRIPT
 		)
 	)
-	
+
 	escoria.main = main
-	
+
 	_perform_plugins_checks()
 
 
-# Verifies that the game is configured with required plugin(s). 
+# Verifies that the game is configured with required plugin(s).
 # If a required plugin is missing (or disabled) we stop immediately.
 func _perform_plugins_checks():
 	if ESCProjectSettingsManager.get_setting(

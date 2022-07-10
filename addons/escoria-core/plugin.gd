@@ -18,7 +18,7 @@ func enable_plugin():
 	set_escoria_ui_settings()
 	set_escoria_sound_settings()
 	set_escoria_platform_settings()
-	
+
 	# Add input actions in InputMap
 #	if not InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
 #		InputMap.add_action(ESCInputsManager.SWITCH_ACTION_VERB)
@@ -38,14 +38,14 @@ func enable_plugin():
 
 	popup_info = AcceptDialog.new()
 	popup_info.dialog_text = """You enabled escoria-core plugin.
-	
+
 	Please ignore error messages in Output console and reload your project using
 	Godot editor's "Project / Reload Current Project" menu.
 	"""
 	popup_info.connect("confirmed", self, "_on_warning_popup_confirmed", [], CONNECT_ONESHOT)
 	add_child(popup_info)
 	popup_info.popup_centered()
-	
+
 
 func _on_warning_popup_confirmed():
 	popup_info.queue_free()
@@ -63,7 +63,7 @@ func disable_plugin():
 # Setup Escoria
 func _enter_tree():
 	pass
-	
+
 
 func _ready():
 	ProjectSettings.save_custom("escoria.godot")
@@ -295,7 +295,7 @@ func set_escoria_debug_settings():
 			"hint": PROPERTY_HINT_DIR
 		}
 	)
-	
+
 
 # Prepare the settings in the Escoria sound settings
 func set_escoria_sound_settings():

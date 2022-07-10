@@ -60,7 +60,7 @@ func _init(comparison_string: String):
 					"eq": self.comparison = COMPARISON_EQ
 					"gt": self.comparison = COMPARISON_GT
 					"lt": self.comparison = COMPARISON_LT
-					_: 
+					_:
 						escoria.logger.error(
 							self,
 							"Invalid comparison type detected: %s" %
@@ -87,7 +87,7 @@ func _init(comparison_string: String):
 	else:
 		escoria.logger.error(
 			self,
-			"Invalid comparison detected: %s\nComparison regexp didn't match." 
+			"Invalid comparison detected: %s\nComparison regexp didn't match."
 					% comparison_string
 		)
 

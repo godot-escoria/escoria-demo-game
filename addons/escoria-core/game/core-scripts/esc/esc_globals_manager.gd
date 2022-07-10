@@ -45,7 +45,7 @@ func register_reserved_global(key: String, value = null) -> void:
 		escoria.logger.error(
 			self,
 			"Can not override reserved global: Global key %s is already " +
-			"registered as reserved." 
+			"registered as reserved."
 					% key
 		)
 	var old_value = _globals[key] if _globals.has(key) else ""

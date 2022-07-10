@@ -126,13 +126,13 @@ func _compile(lines: Array, path: String = "") -> Array:
 	while lines.size() > 0:
 		var line = lines.pop_front().strip_edges(false, true)
 		escoria.logger.trace(
-			self, 
+			self,
 			"Parsing line %s." % line
 		)
 		if _comment_regex.search(line) or _empty_regex.search(line):
 			# Ignore comments and empty lines
 			escoria.logger.trace(
-				self, 
+				self,
 				"Line is empty or a comment. Skipping."
 			)
 			continue
@@ -145,7 +145,7 @@ func _compile(lines: Array, path: String = "") -> Array:
 		if _event_regex.search(line):
 			var event = ESCEvent.new(line)
 			escoria.logger.trace(
-				self, 
+				self,
 				"Line is the event %s." % event.name
 			)
 			var event_lines = []
@@ -167,7 +167,7 @@ func _compile(lines: Array, path: String = "") -> Array:
 		elif _group_regex.search(line):
 			var group = ESCGroup.new(line)
 			escoria.logger.trace(
-				self, 
+				self,
 				"Line is a group."
 			)
 			var group_lines = []
@@ -198,7 +198,7 @@ func _compile(lines: Array, path: String = "") -> Array:
 			var dialog = ESCDialog.new()
 			dialog.load_string(line)
 			escoria.logger.trace(
-				self, 
+				self,
 				"Line is a dialog."
 			)
 			var dialog_lines = []
@@ -268,14 +268,14 @@ func _compile(lines: Array, path: String = "") -> Array:
 					"Command \"%s\" cannot be found under folder %s.\nPlease confirm setting \"%s\" is set to the folder where ESC commands are stored."
 							% [
 								command.name,
-								ProjectSettings.get_setting(COMMAND_DIRECTORIES), 
+								ProjectSettings.get_setting(COMMAND_DIRECTORIES),
 								ESCProjectSettingsManager.COMMAND_DIRECTORIES
 							]
 				)
 		else:
 			escoria.logger.error(
 				self,
-				"Invalid ESC line detected.\nLine couldn't be compiled: %s." 
+				"Invalid ESC line detected.\nLine couldn't be compiled: %s."
 						% line
 			)
 	return returned

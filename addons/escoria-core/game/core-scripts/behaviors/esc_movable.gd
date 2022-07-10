@@ -177,7 +177,7 @@ func teleport(target: Node) -> void:
 		parent.global_position = target.get_interact_position()
 		escoria.logger.info(
 			self,
-			"Object %s is teleported to position %s." 
+			"Object %s is teleported to position %s."
 					% [target.name, parent.global_position]
 		)
 	elif "position" in target:
@@ -202,7 +202,7 @@ func teleport(target: Node) -> void:
 func teleport_to(target: Vector2) -> void:
 	escoria.logger.info(
 		self,
-		"Object %s teleported to position %s." 
+		"Object %s teleported to position %s."
 				% [parent.global_id, str(target)]
 	)
 	parent.global_position = target

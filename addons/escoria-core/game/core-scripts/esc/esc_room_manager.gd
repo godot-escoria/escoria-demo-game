@@ -188,7 +188,7 @@ func init_room(room: ESCRoom) -> void:
 	if room.position != Vector2(0,0):
 		escoria.logger.error(
 			self,
-			"The room node's coordinates must be (0,0) instead of %s." 
+			"The room node's coordinates must be (0,0) instead of %s."
 					% room.position
 		)
 
@@ -431,7 +431,7 @@ func _run_script_event(event_name: String, room: ESCRoom):
 	if room.compiled_script.events.has(event_name):
 		escoria.logger.debug(
 			self,
-			"Queuing room script event %s " % event_name + 
+			"Queuing room script event %s " % event_name +
 			"composed of %s statements."
 					% room.compiled_script.events[event_name].statements.size()
 		)

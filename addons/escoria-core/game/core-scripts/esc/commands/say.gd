@@ -66,7 +66,7 @@ func validate(arguments: Array):
 	if not escoria.object_manager.has(arguments[0]):
 		escoria.logger.error(
 			self,
-			"[%s]: Invalid object: Object with global id %s not found." 
+			"[%s]: Invalid object: Object with global id %s not found."
 					% [get_command_name(), arguments[0]]
 		)
 		return false
@@ -74,7 +74,7 @@ func validate(arguments: Array):
 			and arguments[2] == "":
 		escoria.logger.error(
 			self,
-			"[%s]: Project setting '%s' is not set. Please set a default dialog type." 
+			"[%s]: Project setting '%s' is not set. Please set a default dialog type."
 					% [get_command_name(), ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE]
 		)
 	return true

@@ -45,7 +45,7 @@ var esc_compiler = ESCCompiler.new()
 # ESC Object Manager
 var object_manager = ESCObjectManager.new()
 
-# ESC Room Manager 
+# ESC Room Manager
 var room_manager = ESCRoomManager.new()
 
 # Terrain of the current room

@@ -31,7 +31,7 @@ func migrate(
 ) -> ESCSaveGame:
 	escoria.logger.info(
 		self,
-		"Migrating savegame from version %s to version %s." 
+		"Migrating savegame from version %s to version %s."
 				% [from, to]
 	)
 
@@ -53,7 +53,7 @@ func migrate(
 		escoria.logger.error(
 			self,
 			"Can not migrate savegame from version %s to version %s." +
-			" \"To\" version must be later than \"from\" version." 
+			" \"To\" version must be later than \"from\" version."
 			% [from, to]
 		)
 
@@ -90,7 +90,7 @@ func migrate(
 # **Returns** A list of version scripts
 func _find_versions(directory: String, from: String, to: String) -> Array:
 	escoria.logger.trace(
-		self, 
+		self,
 		"Searching directory %s." % directory
 	)
 	var versions = []

@@ -50,7 +50,7 @@ func validate(arguments: Array):
 	if not escoria.object_manager.has(arguments[0]):
 		escoria.logger.error(
 			self,
-			"[%s]: invalid object. Object global id %s not found." 
+			"[%s]: invalid object. Object global id %s not found."
 					% [get_command_name(), arguments[0]]
 		)
 		return false
@@ -62,8 +62,8 @@ func validate(arguments: Array):
 				"is not one of the accepted types : {allowed_types}"
 			).format(
 					{
-						"command_name":get_command_name(), 
-						"t_type":arguments[2], 
+						"command_name":get_command_name(),
+						"t_type":arguments[2],
 						"allowed_types":SUPPORTED_TRANSITIONS
 					}
 				)

@@ -35,7 +35,7 @@ func validate(arguments: Array):
 	if escoria.main.current_scene.camera_limits.size() < arguments[0]:
 		escoria.logger.error(
 			self,
-			"[%s]: invalid limits id. Camera limit id (%d) is larger than the number of limits defined in this scene (%d)." 
+			"[%s]: invalid limits id. Camera limit id (%d) is larger than the number of limits defined in this scene (%d)."
 				% [
 					get_command_name(),
 					arguments[0],

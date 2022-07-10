@@ -40,14 +40,14 @@ func validate(arguments: Array):
 	if not escoria.object_manager.has(arguments[0]):
 		escoria.logger.error(
 			self,
-			"[%s]: invalid first object. The object to make walk with global id %s was not found." 
+			"[%s]: invalid first object. The object to make walk with global id %s was not found."
 					% [get_command_name(), arguments[0]]
 		)
 		return false
 	if not escoria.object_manager.has(arguments[1]):
 		escoria.logger.error(
 			self,
-			"[%s]: invalid second object. The object to walk to with global id %s was not found." 
+			"[%s]: invalid second object. The object to walk to with global id %s was not found."
 					% [get_command_name(), arguments[1]]
 		)
 		return false

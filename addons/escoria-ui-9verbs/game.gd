@@ -47,7 +47,7 @@ onready var tooltip = $ui/Control/panel_down/VBoxContainer/MarginContainer\
 		/tooltip
 onready var inventory_ui = $ui/Control/panel_down/VBoxContainer/HBoxContainer\
 		/InventoryMargin/inventory_ui
-var room_select 
+var room_select
 
 func _enter_tree():
 	var room_selector_parent = $ui/Control/panel_down/VBoxContainer\
@@ -363,7 +363,7 @@ func apply_custom_settings(custom_settings: Dictionary):
 	if custom_settings.has("a_custom_setting"):
 		escoria.logger.info(
 			self,
-			"custom setting value loaded: %s." 
+			"custom setting value loaded: %s."
 					% str(custom_settings["a_custom_setting"])
 		)
 

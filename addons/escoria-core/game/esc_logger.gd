@@ -1,13 +1,13 @@
 class ESCLoggerBase:
-	# Perform emergency savegame 
+	# Perform emergency savegame
 	signal perform_emergency_savegame
-	
+
 	# Valid log levels
 	enum { LOG_ERROR, LOG_WARNING, LOG_INFO, LOG_DEBUG, LOG_TRACE }
-	
+
 	# Log file format
 	const LOG_FILE_FORMAT: String = "log_%s_%s.log"
-	
+
 	# A map of log level names to log level ints
 	var _level_map: Dictionary = {
 		"ERROR": LOG_ERROR,
@@ -16,7 +16,7 @@ class ESCLoggerBase:
 		"DEBUG": LOG_DEBUG,
 		"TRACE": LOG_TRACE,
 	}
-	
+
 	# Configured log level
 	var _log_level: int
 
@@ -110,18 +110,18 @@ class ESCLoggerFile extends ESCLoggerBase:
 			log_file_path,
 			File.WRITE
 		)
-	
+
 	func trace(owner: Object, msg: String):
 		if _log_level >= LOG_TRACE:
 			_log_to_file(owner, msg, "T")
 			.trace(owner, msg)
-	
+
 	# Debug log
 	func debug(owner: Object, msg: String):
 		if _log_level >= LOG_DEBUG:
 			_log_to_file(owner, msg, "D")
 			.debug(owner, msg)
-	
+
 	func info(owner: Object, msg: String):
 		if _log_level >= LOG_INFO:
 			_log_to_file(owner, msg, "I")
@@ -138,7 +138,7 @@ class ESCLoggerFile extends ESCLoggerBase:
 				print_stack()
 				close_logs()
 			.warn(owner, msg)
-	
+
 	# Error log
 	func error(owner: Object, msg: String):
 		if _log_level >= LOG_ERROR:
@@ -165,11 +165,11 @@ class ESCLoggerFile extends ESCLoggerBase:
 			if owner != null:
 				context = owner.get_script().resource_path.get_file()
 			log_file.store_string(formatted_message(context, msg, letter) + "\n")
-	
+
 	func _log_line_to_file(msg: String):
 		if log_file.is_open():
 			log_file.store_string(msg + "\n")
-	
+
 	func _log_stack_trace_to_file(owner: Object):
 		var frame_number = 0
 		for stack in get_stack().slice(2, get_stack().size()):
@@ -188,7 +188,7 @@ class ESCLoggerFile extends ESCLoggerBase:
 class ESCLoggerVerbose extends ESCLoggerBase:
 	func _init():
 		pass
-		
+	
 	func debug(owner: Object, msg: String):
 		var context = owner.get_script().resource_path.get_file()
 		print(context, ": ", msg)

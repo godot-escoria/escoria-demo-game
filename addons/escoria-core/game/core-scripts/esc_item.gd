@@ -399,7 +399,7 @@ func get_interact_position() -> Vector2:
 
 	if multiple_positions_found:
 		escoria.logger.warn(
-			self, 
+			self,
 			"Multiple ESClocations found to walk to for object " +
 			"%s. Last one will be used." % global_id)
 	return interact_position
@@ -587,8 +587,8 @@ func update_idle():
 func get_camera_node():
 	if has_node(camera_node):
 		escoria.logger.debug(
-			self, 
-			"Camera node found - directing camera to the camera_node on %s." 
+			self,
+			"Camera node found - directing camera to the camera_node on %s."
 				% global_id
 		)
 		return get_node(camera_node)

@@ -43,7 +43,7 @@ func _exit_tree():
 func set_scene(p_scene: Node) -> void:
 	if !p_scene:
 		escoria.logger.error(
-			self, 
+			self,
 			"Can't change to an empty scene. Please specify the scene name."
 		)
 

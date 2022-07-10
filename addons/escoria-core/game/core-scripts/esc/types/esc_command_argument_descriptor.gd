@@ -142,7 +142,7 @@ func validate(command: String, arguments: Array) -> bool:
 				self,
 				"Argument type did not match descriptor for command \"%s\"\n"
 						% command +
-				"Argument %d (\"%s\") is of type %s. Expected %s." 
+				"Argument %d (\"%s\") is of type %s. Expected %s."
 						% [
 							index,
 							arguments[index],

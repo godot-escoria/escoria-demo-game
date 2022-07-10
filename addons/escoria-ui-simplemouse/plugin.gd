@@ -22,4 +22,4 @@ func enable_plugin():
 			get_plugin_name(),
 			false
 		)
-	
+

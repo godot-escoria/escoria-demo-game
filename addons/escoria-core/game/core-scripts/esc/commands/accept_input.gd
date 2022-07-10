@@ -46,8 +46,8 @@ func validate(arguments: Array):
 			"[%s]: invalid parameter. %s is not a valid parameter value." +
 			"Should be one of %s"
 					% [
-						get_command_name(), 
-						arguments[0], 
+						get_command_name(),
+						arguments[0],
 						str(SUPPORTED_INPUT_TYPES)
 					]
 		)

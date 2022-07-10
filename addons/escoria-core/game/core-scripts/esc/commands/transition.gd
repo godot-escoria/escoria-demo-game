@@ -32,7 +32,7 @@ func validate(arguments: Array):
 		and not arguments[0].empty():
 		escoria.logger.error(
 			self,
-			"[%s]: argument invalid. Transition with name '%s' doesn't exist." 
+			"[%s]: argument invalid. Transition with name '%s' doesn't exist."
 					% [get_command_name(), arguments[0]]
 		)
 		return false
@@ -40,7 +40,7 @@ func validate(arguments: Array):
 		escoria.logger.error(
 			self,
 			"[%s]: argument invalid" +
-				"Transition type 'in' or 'out' expected, but '%s' was provided." 
+				"Transition type 'in' or 'out' expected, but '%s' was provided."
 					% [get_command_name(), arguments[1]]
 		)
 		return false

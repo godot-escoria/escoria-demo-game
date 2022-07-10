@@ -135,7 +135,7 @@ func say(character: String, type: String, text: String) -> void:
 			escoria.logger.warn(
 				self,
 				"Unable to find voice file with key '%s'." % matches.get_string("key")
-			)		
+			)	
 		else:
 			(
 				escoria.object_manager.get_object(escoria.object_manager.SPEECH).node\

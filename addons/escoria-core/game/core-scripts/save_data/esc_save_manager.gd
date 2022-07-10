@@ -446,7 +446,7 @@ func load_settings() -> Resource:
 	if not file.file_exists(save_settings_path):
 		escoria.logger.warn(
 			self,
-			"Settings file %s doesn't exist. Using default settings." 
+			"Settings file %s doesn't exist. Using default settings."
 					% save_settings_path
 		)
 		save_settings()

@@ -42,7 +42,7 @@ func validate(arguments: Array):
 			.has(arguments[2]):
 		escoria.logger.error(
 			self,
-			"[%s]: invalid object event. Object with global id %s has no event %s." 
+			"[%s]: invalid object event. Object with global id %s has no event %s."
 				% [
 					get_command_name(),
 					arguments[1],

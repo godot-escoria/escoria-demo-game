@@ -78,7 +78,7 @@ func _init(event_string: String):
 	else:
 		escoria.logger.error(
 			self,
-			"Invalid event detected: %s\nEvent regexp didn't match." 
+			"Invalid event detected: %s\nEvent regexp didn't match."
 					% event_string
 		)
 

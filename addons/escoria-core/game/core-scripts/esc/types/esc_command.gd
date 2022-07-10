@@ -75,8 +75,8 @@ func _init(command_string):
 					)
 	else:
 		escoria.logger.error(
-			self, 
-			"Invalid command detected: %s\nCommand regexp didn't match." 
+			self,
+			"Invalid command detected: %s\nCommand regexp didn't match."
 					% command_string
 		)
 
@@ -124,14 +124,14 @@ func run() -> int:
 		if command_object.validate(prepared_arguments):
 			escoria.logger.debug(
 				self,
-				"Running command %s with parameters %s." 
+				"Running command %s with parameters %s."
 						% [self.name, prepared_arguments]
 			)
 			var rc = command_object.run(prepared_arguments)
 			if rc is GDScriptFunctionState:
 				rc = yield(rc, "completed")
 			escoria.logger.debug(
-				self, 
+				self,
 				"[%s] Return code: %d." % [self.name, rc]
 			)
 			return rc

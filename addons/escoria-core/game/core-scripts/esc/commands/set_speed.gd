@@ -28,7 +28,7 @@ func validate(arguments: Array):
 	if not escoria.object_manager.has(arguments[0]):
 		escoria.logger.error(
 			self,
-			"[%s]: invalid object. Object with global id %s not found." 
+			"[%s]: invalid object. Object with global id %s not found."
 					% [get_command_name(), arguments[0]]
 		)
 		return false

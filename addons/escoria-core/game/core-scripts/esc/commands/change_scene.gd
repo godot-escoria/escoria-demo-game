@@ -33,7 +33,7 @@ func validate(arguments: Array) -> bool:
 	if not ResourceLoader.exists(arguments[0]):
 		escoria.logger.error(
 			self,
-			"[%s]: Invalid scene. Scene %s was not found." 
+			"[%s]: Invalid scene. Scene %s was not found."
 					% [get_command_name(), arguments[0]]
 		)
 		return false
@@ -42,7 +42,7 @@ func validate(arguments: Array) -> bool:
 	):
 		escoria.logger.error(
 			self,
-			"[%s]: Game scene not found. The path set in 'ui/game_scene' was not found: %s." 
+			"[%s]: Game scene not found. The path set in 'ui/game_scene' was not found: %s."
 					% [
 						get_command_name(),
 						ESCProjectSettingsManager.get_setting(
@@ -59,7 +59,7 @@ func validate(arguments: Array) -> bool:
 func run(command_params: Array) -> int:
 	escoria.logger.info(
 		self,
-		"[%s] Changing scene to %s (enable_automatic_transition = %s)." 
+		"[%s] Changing scene to %s (enable_automatic_transition = %s)."
 				% [
 					get_command_name(),
 					command_params[0],	# scene file

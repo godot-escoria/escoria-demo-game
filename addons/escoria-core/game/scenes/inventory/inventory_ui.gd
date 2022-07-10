@@ -62,7 +62,7 @@ func add_new_item_by_id(item_id: String) -> void:
 					self,
 					(
 						"Item global id '%s' is not registered because the item's scene file was not found.\n"
-						+ "Attempted scene file path: %s.\n" 
+						+ "Attempted scene file path: %s.\n"
 						+ "Please ensure that the '%s' project setting points at **your inventory items folder** (current is: \"%s\")."
 					)
 						% [

@@ -50,7 +50,7 @@ func load_string(dialog_string: String):
 	else:
 		escoria.logger.error(
 			self,
-			"Invalid dialog detected: %s\nDialog regexp didn't match." 
+			"Invalid dialog detected: %s\nDialog regexp didn't match."
 					% dialog_string
 		)
 

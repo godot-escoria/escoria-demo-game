@@ -41,7 +41,7 @@ func disable_plugin():
 		null,
 		{}
 	)
-	
+
 	EscoriaPlugin.deregister_dialog_manager(MANAGER_CLASS)
 
 
@@ -56,7 +56,7 @@ func enable_plugin():
 				"type": TYPE_STRING
 			}
 		)
-		
+	
 		ESCProjectSettingsManager.register_setting(
 			ESCProjectSettingsManager.AVATARS_PATH,
 			"",

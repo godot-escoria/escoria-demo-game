@@ -92,7 +92,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 				if not escoria.object_manager.has(params[0]):
 					escoria.logger.error(
 						self,
-						"Walk action requested for nonexisting object: %s." 
+						"Walk action requested for nonexisting object: %s."
 								% params[0]
 					)
 					return
@@ -104,7 +104,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 					if not escoria.object_manager.has(params[1]):
 						escoria.logger.error(
 							self,
-							"Walk action requested to nonexisting destination object: %s." 
+							"Walk action requested to nonexisting destination object: %s."
 									% params[1]
 						)
 						return
@@ -475,7 +475,7 @@ func perform_inputevent_on_object(
 	"""
 
 	escoria.logger.info(
-		self, 
+		self,
 		"%s left-clicked with event %s." % [obj.global_id, event]
 	)
 

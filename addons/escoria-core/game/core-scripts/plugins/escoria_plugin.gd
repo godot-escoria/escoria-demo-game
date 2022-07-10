@@ -14,7 +14,7 @@ static func register_ui(plugin: EditorPlugin, game_scene: String) -> bool:
 	):
 		push_error("Escoria Core must be enabled.")
 		return false
-	
+
 	var game_scene_setting_value = ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.GAME_SCENE
 	)
@@ -64,7 +64,7 @@ static func register_dialog_manager(plugin: EditorPlugin, manager_class: String)
 	):
 		push_error("Escoria Core must be enabled.")
 		return false
-	
+
 	var dialog_managers: Array = ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.DIALOG_MANAGERS
 	)
@@ -78,7 +78,7 @@ static func register_dialog_manager(plugin: EditorPlugin, manager_class: String)
 		ESCProjectSettingsManager.DIALOG_MANAGERS,
 		dialog_managers
 	)
-	
+
 	return true
 
 # Deregister a dialog manager addon

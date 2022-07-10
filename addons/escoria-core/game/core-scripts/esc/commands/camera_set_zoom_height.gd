@@ -32,7 +32,7 @@ func validate(arguments: Array):
 	if arguments[0] < 0:
 		escoria.logger.error(
 			self,
-			"[%s]: invalid height. Can't zoom to a negative height (%d)." 
+			"[%s]: invalid height. Can't zoom to a negative height (%d)."
 					% [get_command_name(), arguments[0]]
 		)
 		return false
