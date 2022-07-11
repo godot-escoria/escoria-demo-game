@@ -188,7 +188,7 @@ class ESCLoggerFile extends ESCLoggerBase:
 class ESCLoggerVerbose extends ESCLoggerBase:
 	func _init():
 		pass
-	
+
 	func debug(owner: Object, msg: String):
 		var context = owner.get_script().resource_path.get_file()
 		print(context, ": ", msg)

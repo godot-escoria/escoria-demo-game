@@ -56,7 +56,7 @@ func enable_plugin():
 				"type": TYPE_STRING
 			}
 		)
-	
+
 		ESCProjectSettingsManager.register_setting(
 			ESCProjectSettingsManager.AVATARS_PATH,
 			"",
