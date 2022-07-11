@@ -237,11 +237,6 @@ func has(global_id: String, room: ESCRoom = null) -> bool:
 	var room_key: ESCRoomObjectsKey
 
 	if room == null:
-		escoria.logger.trace(
-			self,
-			"No room specified. Defaulting to current room."
-		)
-
 		room_key = current_room_key
 	else:
 		room_key = ESCRoomObjectsKey.new()
@@ -276,11 +271,6 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 	var room_key: ESCRoomObjectsKey
 
 	if room == null:
-		escoria.logger.trace(
-			self,
-			"No room specified. Defaulting to current room."
-		)
-
 		room_key = current_room_key
 	else:
 		room_key = ESCRoomObjectsKey.new()
