@@ -102,7 +102,7 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 		object.node.global_id = object.global_id
 		escoria.logger.warn(
 			self,
-			"Registering ESCObject %s with empty global_id." % object.name +
+			"Registering ESCObject %s with empty global_id." % object.node.name +
 			"Using node's full path as global_id: %s"
 						% object.node.global_id
 		)
