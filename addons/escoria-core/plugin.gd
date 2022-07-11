@@ -43,7 +43,7 @@ func enable_plugin():
 	Godot editor's "Project / Reload Current Project" menu.
 	"""
 	popup_info.connect("confirmed", self, "_on_warning_popup_confirmed", [], CONNECT_ONESHOT)
-	add_child(popup_info)
+	get_editor_interface().get_editor_viewport().add_child(popup_info)
 	popup_info.popup_centered()
 
 
