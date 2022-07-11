@@ -294,6 +294,9 @@ func _on_mouse_exited_inventory_item() -> void:
 #
 # - item: The Escoria item hovered
 func _on_mouse_entered_item(item: ESCItem) -> void:
+	if escoria.object_manager.get_object(item.global_id) and \
+			not escoria.object_manager.get_object(item.global_id).interactive:
+		return
 	escoria.logger.info(
 		self,
 		"Item focused: %s" % item.global_id
@@ -318,6 +321,9 @@ func _on_mouse_entered_item(item: ESCItem) -> void:
 #
 # - item: The Escoria item hovered
 func _on_mouse_exited_item(item: ESCItem) -> void:
+	if escoria.object_manager.get_object(item.global_id) and \
+			not escoria.object_manager.get_object(item.global_id).interactive:
+		return
 	escoria.logger.info(
 		self,
 		"Item unfocused: %s" % item.global_id

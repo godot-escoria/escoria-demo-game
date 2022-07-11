@@ -295,6 +295,9 @@ func _ready():
 #
 # - input_event: Triggered event
 func _unhandled_input(input_event: InputEvent) -> void:
+	if escoria.object_manager.get_object(global_id) and \
+			not escoria.object_manager.get_object(global_id).interactive:
+		return
 	# If this is a trigger, then escoria.inputs_manager is not wired up to
 	# receive the signals this function might dispatch. In particular,
 	# calling get_tree().set_input_as_handled() unnecessarily will prevent
