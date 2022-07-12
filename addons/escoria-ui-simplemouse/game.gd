@@ -292,10 +292,13 @@ func mousewheel_action(direction: int):
 
 func hide_ui():
 	$CanvasLayer/ui/HBoxContainer/inventory_ui.hide()
+	$CanvasLayer/ui.hide()
 
 
 func show_ui():
 	$CanvasLayer/ui/HBoxContainer/inventory_ui.show()
+	$CanvasLayer/ui.show()
+
 
 func hide_main_menu():
 	if get_node(main_menu).visible:
@@ -316,6 +319,7 @@ func unpause_game():
 func pause_game():
 	if not get_node(pause_menu).visible:
 		get_node(main_menu).reset()
+		get_node(pause_menu).reset()
 		get_node(pause_menu).set_save_enabled(
 			escoria.save_manager.save_enabled
 		)
