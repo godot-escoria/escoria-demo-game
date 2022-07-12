@@ -1,3 +1,12 @@
+## [4.0.0-alpha.192](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.192) (2022-07-12)
+
+
+### Bug Fixes
+
+* escoria-core warning plugin has godot editor style ([#607](https://github.com/godot-escoria/escoria-demo-game/issues/607)) ([492f735](https://github.com/godot-escoria/escoria-demo-game/commit/492f735b9ee000cd68d135ec81cdb3c0737787a0))
+
+
+
 ## [4.0.0-alpha.191](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.191) (2022-07-12)
 
 
