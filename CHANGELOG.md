@@ -1,3 +1,12 @@
+## [4.0.0-alpha.194](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.194) (2022-07-14)
+
+
+### Bug Fixes
+
+* Correctly get inventory objects registered in other rooms ([#608](https://github.com/godot-escoria/escoria-demo-game/issues/608)) ([324ef5f](https://github.com/godot-escoria/escoria-demo-game/commit/324ef5f5e6ac5e31fd6edc9b68b32feb365a27d9))
+
+
+
 ## [4.0.0-alpha.193](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.193) (2022-07-12)
 
 
