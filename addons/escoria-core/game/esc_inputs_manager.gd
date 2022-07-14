@@ -294,6 +294,17 @@ func _on_mouse_exited_inventory_item() -> void:
 #
 # - item: The Escoria item hovered
 func _on_mouse_entered_item(item: ESCItem) -> void:
+	if escoria.object_manager.get_object(item.global_id) and \
+			not escoria.object_manager.get_object(item.global_id).interactive:
+		_hover_stack_erase_item(item)
+		hotspot_focused = ""
+		escoria.main.current_scene.game.element_unfocused()
+		return
+	var object: ESCObject = escoria.object_manager.get_object(item.global_id)
+	if object and not object.interactive:
+		return
+	if object and object.node is ESCPlayer and not (object.node as ESCPlayer).selectable:
+		return
 	escoria.logger.info(
 		self,
 		"Item focused: %s" % item.global_id
@@ -309,7 +320,7 @@ func _on_mouse_entered_item(item: ESCItem) -> void:
 		hover_stack.push_back(item)
 
 	hotspot_focused = hover_stack.back().global_id
-	escoria.main.current_scene.game.element_focused(item.global_id)
+	escoria.main.current_scene.game.element_focused(hotspot_focused)
 
 
 # The mouse exited an Escoria item
@@ -318,6 +329,17 @@ func _on_mouse_entered_item(item: ESCItem) -> void:
 #
 # - item: The Escoria item hovered
 func _on_mouse_exited_item(item: ESCItem) -> void:
+	if escoria.object_manager.get_object(item.global_id) and \
+			not escoria.object_manager.get_object(item.global_id).interactive:
+		_hover_stack_erase_item(item)
+		hotspot_focused = ""
+		escoria.main.current_scene.game.element_unfocused()
+		return
+	var object: ESCObject = escoria.object_manager.get_object(item.global_id)
+	if object and not object.interactive:
+		return
+	if object and object.node is ESCPlayer and not (object.node as ESCPlayer).selectable:
+		return
 	escoria.logger.info(
 		self,
 		"Item unfocused: %s" % item.global_id
@@ -339,17 +361,33 @@ func _on_mouse_exited_item(item: ESCItem) -> void:
 # - event: The input event from the click
 func _on_mouse_left_clicked_item(item: ESCItem, event: InputEvent) -> void:
 	if input_mode == INPUT_ALL:
+		var actual_item
 		if hover_stack.empty() or hover_stack.back() == item:
-			escoria.logger.info(
+			actual_item = item
+		else:
+			actual_item = hover_stack.back()
+		
+		if actual_item == null:
+			escoria.logger.error(
 				self,
-				"Item %s left clicked with event %s." % [item.global_id, event]
+				"Clicked item %s cannot be activated (player not selectable or not interactive). " 
+						% [item.global_id, event] +
+				"No valid item found in the items stack. Action cancelled."
 			)
-			hotspot_focused = item.global_id
+			return
+
+		# We check if the clicked object is ESCPlayer and not selectable. If so
+		# we consider we clicked through it.
+		var object: ESCObject = escoria.object_manager.get_object(item.global_id)
+		if object.node is ESCPlayer and not (object.node as ESCPlayer).selectable:
+			if event.position:
+				(escoria.main.current_scene.game as ESCGame).left_click_on_bg(event.position)
+		else:
+			hotspot_focused = actual_item.global_id
 			escoria.main.current_scene.game.left_click_on_item(
-				item.global_id,
+				actual_item.global_id,
 				event
 			)
-
 
 # An Escoria item was double-clicked with the LMB
 #
@@ -362,15 +400,37 @@ func _on_mouse_left_double_clicked_item(
 	event: InputEvent
 ) -> void:
 	if input_mode == INPUT_ALL:
-		escoria.logger.info(
-			self,
-			"Item %s left double clicked with event %s." % [item.global_id, event]
-		)
-		hotspot_focused = item.global_id
-		escoria.main.current_scene.game.left_double_click_on_item(
-			item.global_id,
-			event
-		)
+		var actual_item
+		if hover_stack.empty() or hover_stack.back() == item:
+			actual_item = item
+		else:
+			actual_item = hover_stack.back()
+		
+		if actual_item == null:
+			escoria.logger.error(
+				self,
+				"Clicked item %s cannot be activated (player not selectable or not interactive). " 
+						% [item.global_id, event] +
+				"No valid item found in the items stack. Action cancelled."
+			)
+			return
+			
+		# We check if the clicked object is ESCPlayer and not selectable. If so
+		# we consider we clicked through it.
+		var object: ESCObject = escoria.object_manager.get_object(item.global_id)
+		if object.node is ESCPlayer and not (object.node as ESCPlayer).selectable:
+			if event.position:
+				(escoria.main.current_scene.game as ESCGame).left_click_on_bg(event.position)
+		else:
+			escoria.logger.info(
+				self,
+				"Item %s left double clicked with event %s." % [actual_item.global_id, event]
+			)
+			hotspot_focused = actual_item.global_id
+			escoria.main.current_scene.game.left_double_click_on_item(
+				actual_item.global_id,
+				event
+			)
 
 
 # An Escoria item was clicked with the RMB
@@ -381,15 +441,37 @@ func _on_mouse_left_double_clicked_item(
 # - event: The input event from the click
 func _on_mouse_right_clicked_item(item: ESCItem, event: InputEvent) -> void:
 	if input_mode == INPUT_ALL:
-		escoria.logger.info(
-			self,
-			"Item %s right clicked with event %s." % [item.global_id, event]
-		)
-		hotspot_focused = item.global_id
-		escoria.main.current_scene.game.right_click_on_item(
-			item.global_id,
-			event
-		)
+		var actual_item
+		if hover_stack.empty() or hover_stack.back() == item:
+			actual_item = item
+		else:
+			actual_item = hover_stack.back()
+		
+		if actual_item == null:
+			escoria.logger.error(
+				self,
+				"Clicked item %s cannot be activated (player not selectable or not interactive). " 
+						% [item.global_id, event] +
+				"No valid item found in the items stack. Action cancelled."
+			)
+			return
+		
+		# We check if the clicked object is ESCPlayer and not selectable. If so
+		# we consider we clicked through it.
+		var object: ESCObject = escoria.object_manager.get_object(item.global_id)
+		if object.node is ESCPlayer and not (object.node as ESCPlayer).selectable:
+			if event.position:
+				(escoria.main.current_scene.game as ESCGame).right_click_on_bg(event.position)
+		else:
+			escoria.logger.info(
+				self,
+				"Item %s right clicked with event %s." % [actual_item.global_id, event]
+			)
+			hotspot_focused = actual_item.global_id
+			escoria.main.current_scene.game.right_click_on_item(
+				actual_item.global_id,
+				event
+			)
 
 
 # The mousewheel was turned
