@@ -296,6 +296,17 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 			"Object with global id %s in room instance (%s, %s) not found."
 			% [global_id, room_key.room_global_id, room_key.room_instance_id]
 		)
+		if escoria.inventory_manager.inventory_has(global_id):
+			# item is in the inventory and may be registered to a different room
+			for single_room in room_objects:
+				# these are arrays of the objects still registered for each room
+				if single_room.objects.has(global_id):
+					escoria.logger.info(
+						self,
+						"Object with global id %s found in room instance (%s, %s) through the inventory."
+						% [global_id, room_key.room_global_id, room_key.room_instance_id]
+					)
+					return single_room.objects[global_id]
 		return null
 
 
