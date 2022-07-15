@@ -447,21 +447,22 @@ func _on_mouse_right_clicked_item(item: ESCItem, event: InputEvent) -> void:
 		else:
 			actual_item = hover_stack.back()
 		
-		if actual_item == null:
-			escoria.logger.error(
-				self,
-				"Clicked item %s cannot be activated (player not selectable or not interactive). " 
-						% [item.global_id, event] +
-				"No valid item found in the items stack. Action cancelled."
-			)
-			return
-		
 		# We check if the clicked object is ESCPlayer and not selectable. If so
 		# we consider we clicked through it.
 		var object: ESCObject = escoria.object_manager.get_object(item.global_id)
 		if object.node is ESCPlayer and not (object.node as ESCPlayer).selectable:
+			actual_item = hover_stack.back()
+		
+		if actual_item == null:
 			if event.position:
 				(escoria.main.current_scene.game as ESCGame).right_click_on_bg(event.position)
+			else:
+				escoria.logger.info(
+					self,
+					"Clicked item %s with event %s cannot be activated (player not selectable or not interactive).\n"
+							% [item.global_id, event] +
+					"No valid item found in the items stack. Action cancelled."
+				)
 		else:
 			escoria.logger.info(
 				self,
