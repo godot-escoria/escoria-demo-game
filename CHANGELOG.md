@@ -1,3 +1,13 @@
+## [4.0.0-alpha.195](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.195) (2022-07-16)
+
+
+### Features
+
+* appends the global ID or node name of the item/player to any warning messages ([2966502](https://github.com/godot-escoria/escoria-demo-game/commit/29665028060cde876a82161ee0a52f4e1b6eaee6))
+* performs basic validation for ESCAnimationResource in-editor and in-game ([db85689](https://github.com/godot-escoria/escoria-demo-game/commit/db8568966898a8e3a0486b952ff4b47c60e9fc7c))
+
+
+
 ## [4.0.0-alpha.194](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.194) (2022-07-14)
 
 

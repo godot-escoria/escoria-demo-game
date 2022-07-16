@@ -386,7 +386,7 @@ func validate_animations(animations_resource: ESCAnimationResource) -> void:
 	if is_instance_valid(animations_resource):
 		_validate_animations_property_all_not_null(animations_resource.dir_angles, "dir_angles")
 
-		var num_dir_angles = animations_resource.dir_angles.size() 
+		var num_dir_angles = animations_resource.dir_angles.size()
 
 		if animations_resource.directions.size() != num_dir_angles:
 			_scene_warnings.append("%s animation angles specified but %s 'directions' animation(s) given. [%s]" \
@@ -421,7 +421,7 @@ func set_animations(p_animations: ESCAnimationResource) -> void:
 		return
 
 	animations = p_animations
-	
+
 	if not animations.is_connected("changed", self, "_validate_animations"):
 		animations.connect("changed", self, "_validate_animations")
 
@@ -655,7 +655,7 @@ func get_camera_node():
 		escoria.logger.debug(
 			self,
 			"Camera node found - directing camera to the camera_node on %s."
-				% global_id	
+				% global_id
 		)
 		return get_node(camera_node)
 	return self
@@ -730,7 +730,7 @@ func _get_inventory_texture() -> Texture:
 # - property_name: the name of the property being passed in.
 func _validate_animations_property_all_not_null(property: Array, property_name: String) -> void:
 	var has_empty_entry: bool = false
-	
+
 	for item in property:
 		if item == null:
 			has_empty_entry = true
@@ -738,8 +738,8 @@ func _validate_animations_property_all_not_null(property: Array, property_name: 
 
 	if has_empty_entry:
 		_scene_warnings.append("At least one entry in '%s' is empty. [%s]" % [property_name, _get_identifier_as_key_value()])
-	
-	
+
+
 # Returns the global ID as a key/value pair. If none is specified, use the node name.
 # Used to tag messages.
 func _get_identifier_as_key_value() -> String:
