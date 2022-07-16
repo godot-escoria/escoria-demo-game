@@ -389,20 +389,20 @@ func validate_animations(animations_resource: ESCAnimationResource) -> void:
 		var num_dir_angles = animations_resource.dir_angles.size() 
 
 		if animations_resource.directions.size() != num_dir_angles:
-			_scene_warnings.append("%s animation angles specified but %s 'directions' animation(s) given." \
-				% [num_dir_angles, animations_resource.directions.size()])
+			_scene_warnings.append("%s animation angles specified but %s 'directions' animation(s) given. [%s]" \
+				% [num_dir_angles, animations_resource.directions.size(), _get_identifier_as_key_value()])
 		else:
 			_validate_animations_property_all_not_null(animations_resource.directions, "directions")
 
 		if animations_resource.idles.size() != num_dir_angles:
-			_scene_warnings.append("%s animation angles specified but %s 'idles' animation(s) given." \
-				% [num_dir_angles, animations_resource.idles.size()])
+			_scene_warnings.append("%s animation angles specified but %s 'idles' animation(s) given. [%s]" \
+				% [num_dir_angles, animations_resource.idles.size(), _get_identifier_as_key_value()])
 		else:
 			_validate_animations_property_all_not_null(animations_resource.idles, "idles")
 
 		if animations_resource.speaks.size() != num_dir_angles:
-			_scene_warnings.append("%s animation angles specified but %s 'speaks' animation(s) given." \
-				% [num_dir_angles, animations_resource.speaks.size()])
+			_scene_warnings.append("%s animation angles specified but %s 'speaks' animation(s) given. [%s]" \
+				% [num_dir_angles, animations_resource.speaks.size(), _get_identifier_as_key_value()])
 		else:
 			_validate_animations_property_all_not_null(animations_resource.speaks, "speaks")
 
@@ -737,5 +737,13 @@ func _validate_animations_property_all_not_null(property: Array, property_name: 
 			break
 
 	if has_empty_entry:
-		_scene_warnings.append("At least one entry in '%s' is empty." % property_name)
+		_scene_warnings.append("At least one entry in '%s' is empty. [%s]" % [property_name, _get_identifier_as_key_value()])
 	
+	
+# Returns the global ID as a key/value pair. If none is specified, use the node name.
+# Used to tag messages.
+func _get_identifier_as_key_value() -> String:
+	if self.global_id:
+		return "global_id: %s" % self.global_id
+	else:
+		return "node: %s" % get_name()
