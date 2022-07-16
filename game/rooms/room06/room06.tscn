@@ -138,7 +138,7 @@ script = ExtResource( 9 )
 global_id = "r6_player_start"
 is_start_location = true
 
-[node name="scenery" type="Node" parent="."]
+[node name="scenery" type="Node2D" parent="."]
 script = ExtResource( 10 )
 
 [node name="wave3" type="Sprite" parent="scenery"]
