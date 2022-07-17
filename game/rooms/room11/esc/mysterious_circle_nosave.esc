@@ -1,3 +1,6 @@
 :look | NO_SAVE
 say player "NO_SAVE"
 
+:use | NO_SAVE
+say player "NO_SAVE"
+
