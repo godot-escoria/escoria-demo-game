@@ -1,3 +1,13 @@
+## [4.0.0-alpha.199](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.199) (2022-07-18)
+
+
+### Bug Fixes
+
+* logs a warning if the avatar path isn't set or if the avatar itself can't be found ([4991ff3](https://github.com/godot-escoria/escoria-demo-game/commit/4991ff342363767497e4188f6f44418d93bf612f))
+* puts a default avatar path back as it had gone missing for some reason ([c4afb59](https://github.com/godot-escoria/escoria-demo-game/commit/c4afb59121b01cb3328f74354179b2b0fa137623))
+
+
+
 ## [4.0.0-alpha.196](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.196) (2022-07-18)
 
 

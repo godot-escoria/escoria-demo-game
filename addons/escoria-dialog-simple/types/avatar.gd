@@ -72,7 +72,7 @@ func set_current_character(name: String):
 	if ResourceLoader.exists(avatar):
 		avatar_node.texture = ResourceLoader.load(avatar)
 	else:
-		escoria.logger.warn(self, "Unable to load avatar '%s': Resource not found in path '%s'" % 
+		escoria.logger.warn(self, "Unable to load avatar '%s': Resource not found in path '%s'" %
 			[name, ProjectSettings.get_setting("escoria/dialog_simple/avatars_path")])
 
 
