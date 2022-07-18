@@ -292,10 +292,15 @@ func interrupt(exceptions: PoolStringArray = []) -> void:
 			_running_events[channel_name].interrupt()
 			_channels_state[channel_name] = true
 
+	var events_to_clear: Array = []
+
 	for channel_name in events_queue.keys():
 		if events_queue[channel_name] != null:
+			var found_exception: bool = false
+
 			for event in events_queue[channel_name]:
 				if event.name in exceptions:
+					found_exception = true
 					continue
 
 				escoria.logger.debug(
@@ -303,8 +308,17 @@ func interrupt(exceptions: PoolStringArray = []) -> void:
 					"Interrupting queued event %s in channel %s..."
 							% [event.name, channel_name])
 				event.interrupt()
+				events_to_clear.append(event)
 
-			events_queue[channel_name].clear()
+			# If we found an exception, we can't just clear out the entire
+			# channel's queue and so we remove everything but the exceptions in
+			# the channel. Otherwise, we're safe to just clear it out.
+			if found_exception:
+				for event in events_to_clear:
+					if events_queue[channel_name].has(event):
+						events_queue[channel_name].erase(event)
+			else:
+				events_queue[channel_name].clear()
 
 
 # Clears the event queues.
