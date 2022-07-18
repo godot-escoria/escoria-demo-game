@@ -716,7 +716,7 @@ boot_splash/image="res://addons/escoria-core/design/escoria-logo-small.png"
 boot_splash/fullsize=false
 boot_splash/use_filter=false
 boot_splash/bg_color=Color( 0.960784, 0.384314, 0, 1 )
-config/icon="res://addons/escoria-player-creator/graphics/icon.png"
+config/icon="res://icon.png"
 
 [audio]
 

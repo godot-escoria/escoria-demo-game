@@ -1,3 +1,6 @@
 :look | NO_TT
 say player "NO_TT."
 
+:use | NO_TT
+say player "NO_TT."
+

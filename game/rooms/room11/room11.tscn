@@ -83,6 +83,7 @@ script = ExtResource( 7 )
 global_id = "r11_circle_tk"
 esc_script = "res://game/rooms/room11/esc/mysterious_circle_tk.esc"
 tooltip_name = "Mysterious circle"
+default_action = "use"
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -115,6 +116,7 @@ script = ExtResource( 7 )
 global_id = "r11_circle_nott"
 esc_script = "res://game/rooms/room11/esc/mysterious_circle_nott.esc"
 tooltip_name = "Mysterious circle"
+default_action = "use"
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -147,6 +149,7 @@ script = ExtResource( 7 )
 global_id = "r11_circle_nohud"
 esc_script = "res://game/rooms/room11/esc/mysterious_circle_nohud.esc"
 tooltip_name = "Mysterious circle"
+default_action = "use"
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -179,6 +182,7 @@ script = ExtResource( 7 )
 global_id = "r11_circle_nosave"
 esc_script = "res://game/rooms/room11/esc/mysterious_circle_nosave.esc"
 tooltip_name = "Mysterious circle"
+default_action = "use"
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -211,6 +215,7 @@ script = ExtResource( 7 )
 global_id = "r11_circle_fadein"
 esc_script = "res://game/rooms/room11/esc/mysterious_circle_fadein.esc"
 tooltip_name = "Mysterious circle"
+default_action = "use"
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
