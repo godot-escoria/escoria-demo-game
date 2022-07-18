@@ -97,6 +97,8 @@ func _get_interactive() -> bool:
 func _set_interactive(value: bool):
 	if "is_interactive" in self.node:
 		self.node.is_interactive = value
+		if not value:
+			escoria.inputs_manager.hover_stack_erase_item(self.node)
 
 
 # Return the data of the object to be inserted in a savegame file.

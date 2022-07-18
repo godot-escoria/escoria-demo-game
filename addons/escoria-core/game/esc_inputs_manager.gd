@@ -296,7 +296,7 @@ func _on_mouse_exited_inventory_item() -> void:
 func _on_mouse_entered_item(item: ESCItem) -> void:
 	var object: ESCObject = escoria.object_manager.get_object(item.global_id)
 	if object and not object.interactive:
-		_hover_stack_erase_item(item)
+		hover_stack_erase_item(item)
 		hotspot_focused = ""
 		escoria.main.current_scene.game.element_unfocused()
 		return
@@ -331,7 +331,7 @@ func _on_mouse_entered_item(item: ESCItem) -> void:
 func _on_mouse_exited_item(item: ESCItem) -> void:
 	var object: ESCObject = escoria.object_manager.get_object(item.global_id)
 	if object and not object.interactive:
-		_hover_stack_erase_item(item)
+		hover_stack_erase_item(item)
 		hotspot_focused = ""
 		escoria.main.current_scene.game.element_unfocused()
 		return
@@ -344,7 +344,7 @@ func _on_mouse_exited_item(item: ESCItem) -> void:
 		self,
 		"Item unfocused: %s" % item.global_id
 	)
-	_hover_stack_erase_item(item)
+	hover_stack_erase_item(item)
 	if hover_stack.empty():
 		hotspot_focused = ""
 		escoria.main.current_scene.game.element_unfocused()
@@ -500,5 +500,5 @@ func _clean_hover_stack():
 #
 # #### Parameters
 # - item: the item to remove from the hover stack
-func _hover_stack_erase_item(item):
+func hover_stack_erase_item(item):
 	hover_stack.erase(item)
