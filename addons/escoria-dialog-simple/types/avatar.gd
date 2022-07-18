@@ -61,12 +61,19 @@ func _ready():
 # #### Parameters
 # - name: The name of the current character
 func set_current_character(name: String):
+	if ProjectSettings.get_setting("escoria/dialog_simple/avatars_path").empty():
+		escoria.logger.warn(self, "Unable to load avatar '%s': Avatar path not specified" % name)
+		return
+
 	var avatar = "%s/%s.tres" % [
 		ProjectSettings.get_setting("escoria/dialog_simple/avatars_path"),
 		name
 	]
 	if ResourceLoader.exists(avatar):
 		avatar_node.texture = ResourceLoader.load(avatar)
+	else:
+		escoria.logger.warn(self, "Unable to load avatar '%s': Resource not found in path '%s'" % 
+			[name, ProjectSettings.get_setting("escoria/dialog_simple/avatars_path")])
 
 
 # Make a character say something
