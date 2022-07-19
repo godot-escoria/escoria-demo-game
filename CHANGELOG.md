@@ -1,3 +1,13 @@
+## [4.0.0-alpha.200](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.200) (2022-07-19)
+
+
+### Bug Fixes
+
+* changes 'scenery' node from Node to Node2D so it will respect the visibility of the root (i.e. the room). ([0944f60](https://github.com/godot-escoria/escoria-demo-game/commit/0944f601f47f63f4c7a79f8cdcbbf6388cb736a1))
+* forces immediate animation start in order to avoid 'flashing' or delayed start ([c30d109](https://github.com/godot-escoria/escoria-demo-game/commit/c30d109645f5910fa560bbc6705526e3339a2a08))
+
+
+
 ## [4.0.0-alpha.199](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.199) (2022-07-18)
 
 
