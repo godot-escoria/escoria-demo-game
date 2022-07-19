@@ -95,13 +95,19 @@ func play(name: String, backwards: bool = false):
 		_animation_player.seek(0)
 	elif not _is_animation_player:
 		_animated_sprite.frame = 0
+
 	_current_animation = name
+
 	if backwards and _is_animation_player:
 		_animation_player.play_backwards(name)
 	elif backwards:
 		_animated_sprite.play(name, true)
 	else:
 		_player_node.play(name)
+
+		# Instead of waiting for the next frame, start the animation now.
+		if _is_animation_player:
+			_player_node.advance(0)
 
 
 # Play the given animation backwards
