@@ -1,0 +1,41 @@
+# Room script template
+
+# ":setup" is used to configure anything you want in place before the 
+# transition-in event runs (i.e. anything you need to set up before the player
+# sees the room). Reset movable objects to their start positions here.
+
+:setup
+
+
+
+# ":ready" runs after any events configured in setup complete. It is used to
+# configure everything that happens after the transition-in (if any) completes.
+# runs. Story telling events go here (e.g. if you want the character to walk to
+# a specific location in the room before giving control to the player.)
+
+:ready
+
+
+
+# Code examples - feel free to delete this section
+#
+# 1) Run this code when the player enters this room for the first time only. 
+# This assumes your room is called "room_hallway". Also resets the "window"
+# to closed by playing the animation "close_window" using 'set_state'.
+#
+# > [!room_hallway_visited]
+#	set_global room_hallway_visited true
+#	set_state window close_window true
+#
+#
+# 2) Change where the player starts depending on which doorway they entered
+# the room from. Assumes your character is called "cleaner"
+#
+# > [eq ESC_LAST_SCENE room2]
+#	teleport cleaner r1_r_exit
+#	# Set cleaner look left
+#	set_angle cleaner 270
+#
+#
+
+
