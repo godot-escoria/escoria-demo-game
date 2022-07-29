@@ -31,6 +31,7 @@ const EVENT_ROOM_SELECTOR = "room_selector"
 const EVENT_SETUP = "setup"
 const EVENT_TRANSITION_IN = "transition_in"
 const EVENT_TRANSITION_OUT = "transition_out"
+const EVENT_CANT_REACH = "cant_reach"
 
 
 # Event channel names
