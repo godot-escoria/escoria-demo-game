@@ -540,6 +540,20 @@ func perform_inputevent_on_object(
 
 		if not player_global_pos.is_equal_approx(destination_position):
 			dont_interact = true
+			escoria.logger.info(
+				self,
+				"Player could not reach destination coordinates %s. "  % str(destination_position) \
+					+ "Any requested action for %s will not fire." % obj.global_id
+			)
+			if escoria.event_manager.EVENT_CANT_REACH in obj.events:
+				escoria.event_manager.queue_event(obj.events[escoria.event_manager.EVENT_CANT_REACH])
+			else:
+				escoria.logger.info(
+					self,
+					"%s event not found for object %s so nothing to do." % \
+						[escoria.event_manager.EVENT_CANT_REACH, obj.global_id]
+				)
+
 
 	# If no interaction should happen after player has arrived, leave
 	# immediately.
