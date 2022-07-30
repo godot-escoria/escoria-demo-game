@@ -55,11 +55,13 @@ func validate(arguments: Array):
 		)
 		return false
 
-	var target_pos = (escoria.object_manager.get_object(arguments[0]).node as ESCItem).global_position
+	var target_pos = (escoria.object_manager.get_object(arguments[0]).node as ESCItem).global_position + Vector2.ONE
 	var camera: ESCCamera = escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera
+	# has_point() is exclusive of right-/bottom-edge
+	var camera_limit_to_test: Rect2 = Rect2(camera.limit_left, camera.limit_top, camera.limit_right - camera.limit_left + 1, camera.limit_bottom - camera.limit_top + 1)
 	var camera_limit: Rect2 = Rect2(camera.limit_left, camera.limit_top, camera.limit_right - camera.limit_left, camera.limit_bottom - camera.limit_top)
 
-	if not camera_limit.has_point(target_pos):
+	if not camera_limit_to_test.has_point(target_pos):
 		escoria.logger.warn(
 			self,
 			"[%s]: invalid camera position. Camera cannot be moved to %s at position %s as this is outside the current camera limit %s."
