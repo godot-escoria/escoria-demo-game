@@ -164,7 +164,7 @@ func set_camera_limits(camera_limit_id: int = 0, scene: Node = current_scene) ->
 
 		escoria.logger.info(
 			self,
-			"Setting camera limits from scene " + area
+			"Setting camera limits from scene " + str(area)
 		)
 		limits = ESCCameraLimits.new(
 			area.position.x,
