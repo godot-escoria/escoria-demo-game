@@ -81,7 +81,7 @@ func validate(arguments: Array):
 	var new_pos: Vector2 = Vector2(camera.position.x + shift_by.x, camera.position.y + shift_by.y)
 
 	if not camera_limit.has_point(new_pos):
-		escoria.logger.error(
+		escoria.logger.warn(
 			self,
 			"[%s]: invalid camera position. Camera cannot be moved by %s to %s as this is outside the current camera limit %s."
 				% [
