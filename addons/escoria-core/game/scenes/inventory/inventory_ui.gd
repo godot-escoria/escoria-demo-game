@@ -44,7 +44,7 @@ func add_new_item_by_id(item_id: String) -> void:
 				escoria.object_manager.get_object(item_id).node):
 			var inventory_file = "%s/%s.tscn" % [
 				ESCProjectSettingsManager.get_setting(
-					ESCProjectSettingsManager.ITEMS_AUTOREGISTER_PATH
+					ESCProjectSettingsManager.INVENTORY_ITEMS_PATH
 				).trim_suffix("/"),
 				item_id
 			]
@@ -68,9 +68,9 @@ func add_new_item_by_id(item_id: String) -> void:
 						% [
 							item_id,
 							inventory_file,
-							ESCProjectSettingsManager.ITEMS_AUTOREGISTER_PATH,
+							ESCProjectSettingsManager.INVENTORY_ITEMS_PATH,
 							ESCProjectSettingsManager.get_setting(
-								ESCProjectSettingsManager.ITEMS_AUTOREGISTER_PATH
+								ESCProjectSettingsManager.INVENTORY_ITEMS_PATH
 							)
 						]
 				)

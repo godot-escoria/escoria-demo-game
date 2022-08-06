@@ -92,10 +92,10 @@ func set_escoria_ui_settings():
 	)
 
 	register_setting(
-		ESCProjectSettingsManager.ITEMS_AUTOREGISTER_PATH,
+		ESCProjectSettingsManager.INVENTORY_ITEMS_PATH,
 		"res://game/items/inventory/",
 		{
-			"name": ESCProjectSettingsManager.ITEMS_AUTOREGISTER_PATH,
+			"name": ESCProjectSettingsManager.INVENTORY_ITEMS_PATH,
 			"type": TYPE_STRING,
 			"hint": PROPERTY_HINT_DIR
 		}
