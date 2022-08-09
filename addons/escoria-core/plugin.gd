@@ -65,10 +65,6 @@ func _enter_tree():
 	pass
 
 
-func _ready():
-	ProjectSettings.save_custom("escoria.godot")
-
-
 # Prepare the settings in the Escoria UI category
 func set_escoria_ui_settings():
 	register_setting(
