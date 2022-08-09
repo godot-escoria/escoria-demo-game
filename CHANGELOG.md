@@ -1,3 +1,12 @@
+## [4.0.0-alpha.204](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.204) (2022-08-09)
+
+
+### Bug Fixes
+
+* Remove useless escoria.godot config file ([41f5d66](https://github.com/godot-escoria/escoria-demo-game/commit/41f5d6606e4385e60752126aee40664a9608593f))
+
+
+
 ## [4.0.0-alpha.203](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.203) (2022-08-09)
 
 
