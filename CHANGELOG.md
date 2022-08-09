@@ -1,3 +1,18 @@
+## [4.0.0-alpha.203](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.203) (2022-08-09)
+
+
+### Features
+
+* validates updated camera position against current camera limits; also some messaging updates ([abb01b7](https://github.com/godot-escoria/escoria-demo-game/commit/abb01b7f0b200f64667e1af963661b48f1c3e3c9))
+
+
+### Bug Fixes
+
+* changes camera target vs limit errors to warnings and makes sure they're in the right places ([e4bb111](https://github.com/godot-escoria/escoria-demo-game/commit/e4bb111cb9e49c2c184840f4c661b9c1f6345dca))
+* has_point() is exclusive of right-/bottom-edge, so we need to account for that ([4a6f02b](https://github.com/godot-escoria/escoria-demo-game/commit/4a6f02b7aee156f480a5d28fbcf4bf738f261ffd))
+
+
+
 ## [4.0.0-alpha.202](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.202) (2022-08-09)
 
 
