@@ -1,3 +1,13 @@
+## [4.0.0-alpha.206](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.206) (2022-08-09)
+
+
+### Bug Fixes
+
+* added prepositions to escoria-ui-keyboards-9verbs ([0da57b7](https://github.com/godot-escoria/escoria-demo-game/commit/0da57b78202149161ffcd15e167eb88577ece9ba))
+* Issue-176 Give xyz with should say give xyz to ([bb983d5](https://github.com/godot-escoria/escoria-demo-game/commit/bb983d561b856d1fe85e3675f99a3482589ffffa))
+
+
+
 ## [4.0.0-alpha.205](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.205) (2022-08-09)
 
 
