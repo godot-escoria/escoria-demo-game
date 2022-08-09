@@ -1,3 +1,12 @@
+## [4.0.0-alpha.205](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.205) (2022-08-09)
+
+
+### Bug Fixes
+
+* prevents a channel from being cleared out when there are event exceptions ([e633966](https://github.com/godot-escoria/escoria-demo-game/commit/e6339667273d921dd0308c76af2f812e477fd3bd))
+
+
+
 ## [4.0.0-alpha.204](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.204) (2022-08-09)
 
 
