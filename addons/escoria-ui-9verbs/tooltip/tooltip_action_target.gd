@@ -10,7 +10,7 @@ func update_tooltip_text():
 	bbcode_text += current_target
 
 	if waiting_for_target2 and current_target2.empty():
- 		current_prep = prepositions.get(current_action, current_prep)		
+		current_prep = prepositions.get(current_action, current_prep)
 		bbcode_text += "\t" + current_prep
 
 	if !current_target2.empty():
