@@ -14,7 +14,7 @@ const DEFAULT_TRANSITION = "%s/%s/default_transition" % [_ESCORIA_SETTINGS_ROOT,
 const DIALOG_MANAGERS = "%s/%s/dialog_managers" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
 const GAME_SCENE = "%s/%s/game_scene" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
 const INVENTORY_ITEM_SIZE = "%s/%s/inventory_item_size" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
-const ITEMS_AUTOREGISTER_PATH = "%s/%s/items_autoregister_path" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
+const INVENTORY_ITEMS_PATH = "%s/%s/inventory_items_path" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
 const TRANSITION_PATHS = "%s/%s/transition_paths" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
 
 # Main Escoria project settings

@@ -106,7 +106,7 @@ margin_right = 580.0
 margin_bottom = 301.0
 custom_fonts/font = ExtResource( 3 )
 text = "One of the settings inside Godot's settings is 
-\"Escoria/UI/Items autoregister path\".
+\"Escoria/UI/Inventory Items path\".
 Inventory items need to be ESCItems saved as 
 scenes, and these scenes need to be located in this path.
 If you use the command \"inventory_add xyz\", this will
