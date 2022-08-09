@@ -1,3 +1,12 @@
+## [4.0.0-alpha.202](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.202) (2022-08-09)
+
+
+### Bug Fixes
+
+* prevents changing scenes to the same scene as is current ([#619](https://github.com/godot-escoria/escoria-demo-game/issues/619)) ([6a223ca](https://github.com/godot-escoria/escoria-demo-game/commit/6a223ca199d8ed7fe058251aa51a5fa7ae64fe81))
+
+
+
 ## [4.0.0-alpha.201](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.201) (2022-08-09)
 
 
