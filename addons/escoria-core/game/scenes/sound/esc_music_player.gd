@@ -44,10 +44,6 @@ func set_state(p_state: String, p_force: bool = false) -> void:
 			resource.loop_end = resource.mix_rate * resource.get_length()
 		elif "loop" in resource:
 			resource.loop = true
-		if ESCProjectSettingsManager.has_setting(ESCProjectSettingsManager.MUSIC_VOLUME):
-			stream.volume_db = ESCProjectSettingsManager.get_setting(
-				ESCProjectSettingsManager.MUSIC_VOLUME
-			)
 		stream.play()
 
 
