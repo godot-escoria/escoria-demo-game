@@ -344,6 +344,10 @@ func _on_mouse_left_clicked_item(item: ESCItem, event: InputEvent) -> void:
 				self,
 				"Ignoring left click on %s with event %s." % [item.global_id, event]
 			)
+
+			# Treat this as a background click now
+			_on_left_click_on_bg(item.global_position)
+
 			return
 
 		if hover_stack.empty() or hover_stack.back() == item:
@@ -374,6 +378,10 @@ func _on_mouse_left_double_clicked_item(
 				self,
 				"Ignoring double-left click on %s with event %s." % [item.global_id, event]
 			)
+
+			# Treat this as a background click now
+			_on_double_left_click_on_bg(item.global_position)
+
 			return
 
 		escoria.logger.info(
@@ -400,6 +408,10 @@ func _on_mouse_right_clicked_item(item: ESCItem, event: InputEvent) -> void:
 				self,
 				"Ignoring right click on %s with event %s." % [item.global_id, event]
 			)
+
+			# Treat this as a background click now
+			_on_right_click_on_bg(item.global_position)
+
 			return
 
 		escoria.logger.info(
