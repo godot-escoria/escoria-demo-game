@@ -22,9 +22,9 @@ dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 1038.5, 424 )
+position = Vector2( 0.249146, -42.8763 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 1039, 424 )
+position = Vector2( 0.498291, -44.6254 )
 shape = SubResource( 4 )

@@ -154,6 +154,7 @@ global_id = "r5_l_exit"
 esc_script = "res://game/rooms/room05/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Left exit"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -173,6 +174,7 @@ global_id = "r5_r_exit"
 esc_script = "res://game/rooms/room05/esc/right_exit.esc"
 is_exit = true
 tooltip_name = "Right exit"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -191,6 +193,7 @@ global_id = "r5_pipe"
 esc_script = "res://game/rooms/room05/esc/pipe.esc"
 tooltip_name = "pipe"
 default_action = "look"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -216,8 +219,10 @@ script = ExtResource( 11 )
 [node name="wrench" parent="Hotspots" instance=ExtResource( 8 )]
 
 [node name="paper" parent="Hotspots" instance=ExtResource( 2 )]
+position = Vector2( 1005, 458 )
 
 [node name="pen" parent="Hotspots" instance=ExtResource( 5 )]
+position = Vector2( 916.266, 453.245 )
 
 [node name="player_start" type="Position2D" parent="."]
 position = Vector2( 76.7617, 437.649 )
