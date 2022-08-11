@@ -339,6 +339,13 @@ func _on_mouse_exited_item(item: ESCItem) -> void:
 # - event: The input event from the click
 func _on_mouse_left_clicked_item(item: ESCItem, event: InputEvent) -> void:
 	if input_mode == INPUT_ALL:
+		if not escoria.action_manager.is_object_actionable(item.global_id):
+			escoria.logger.debug(
+				self,
+				"Ignoring left click on %s with event %s." % [item.global_id, event]
+			)
+			return
+
 		if hover_stack.empty() or hover_stack.back() == item:
 			escoria.logger.info(
 				self,
@@ -362,6 +369,13 @@ func _on_mouse_left_double_clicked_item(
 	event: InputEvent
 ) -> void:
 	if input_mode == INPUT_ALL:
+		if not escoria.action_manager.is_object_actionable(item.global_id):
+			escoria.logger.debug(
+				self,
+				"Ignoring double-left click on %s with event %s." % [item.global_id, event]
+			)
+			return
+
 		escoria.logger.info(
 			self,
 			"Item %s left double clicked with event %s." % [item.global_id, event]
@@ -381,6 +395,13 @@ func _on_mouse_left_double_clicked_item(
 # - event: The input event from the click
 func _on_mouse_right_clicked_item(item: ESCItem, event: InputEvent) -> void:
 	if input_mode == INPUT_ALL:
+		if not escoria.action_manager.is_object_actionable(item.global_id):
+			escoria.logger.debug(
+				self,
+				"Ignoring right click on %s with event %s." % [item.global_id, event]
+			)
+			return
+
 		escoria.logger.info(
 			self,
 			"Item %s right clicked with event %s." % [item.global_id, event]

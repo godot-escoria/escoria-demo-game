@@ -126,6 +126,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 						escoria.event_manager.interrupt()
 
 					var item = escoria.object_manager.get_object(params[0])
+
 					self.perform_inputevent_on_object(item, params[1])
 
 			ACTION.ITEM_RIGHT_CLICK:
@@ -139,6 +140,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 						escoria.event_manager.interrupt()
 
 					var item = escoria.object_manager.get_object(params[0])
+
 					self.perform_inputevent_on_object(item, params[1], true)
 
 			ACTION.TRIGGER_IN:
@@ -476,7 +478,7 @@ func perform_inputevent_on_object(
 
 	escoria.logger.info(
 		self,
-		"%s left-clicked with event %s." % [obj.global_id, event]
+		"%s to perform event %s." % [obj.global_id, event]
 	)
 
 	var event_flags = 0
@@ -582,6 +584,19 @@ func perform_inputevent_on_object(
 					current_action,
 					obj
 				)
+
+
+# Determines whether the object in question can be acted upon.
+#
+# #### Parameters
+#
+# - global_id: the global ID of the item to examine
+#
+# *Returns* True iff the item represented by global_id can be acted upon.
+func is_object_actionable(global_id: String) -> bool:	
+	var obj: ESCObject = escoria.object_manager.get_object(global_id) as ESCObject
+
+	return _is_object_actionable(obj)
 
 
 # Prepare the "obj" object for current_action: if required, set the object as
@@ -698,3 +713,32 @@ func _walk_towards_object(
 		walk_context.dont_interact_on_arrival = true
 
 	return context
+
+
+# Determines whether the object in question can be acted upon.
+#
+# #### Parameters
+#
+# - obj: the ESCObject to examine
+#
+# *Returns* True iff 'obj' can be acted upon.
+func _is_object_actionable(obj: ESCObject) -> bool:
+	var object_is_actionable: bool = true
+
+	if not obj:
+		return false
+
+	if not obj.active:
+		escoria.logger.debug(
+			self,
+			"Item %s is not active." % obj.global_id
+		)
+		object_is_actionable = false
+	elif not obj.interactive:
+		escoria.logger.debug(
+			self,
+			"Item %s is not interactive." % obj.global_id
+		)
+		object_is_actionable = false
+		
+	return object_is_actionable
