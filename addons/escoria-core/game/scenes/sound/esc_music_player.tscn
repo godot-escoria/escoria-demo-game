@@ -3,15 +3,13 @@
 [ext_resource path="res://addons/escoria-core/game/scenes/sound/esc_music_player.gd" type="Script" id=1]
 
 [node name="bg_music" type="Control"]
+pause_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -1680.0
 margin_bottom = -1050.0
 mouse_filter = 2
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 bus = "Music"

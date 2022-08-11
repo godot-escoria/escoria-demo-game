@@ -28,7 +28,7 @@ func _init():
 	escoria.resource_cache.start()
 	escoria.save_manager = ESCSaveManager.new()
 	escoria.inputs_manager = ESCInputsManager.new()
-	escoria.settings = ESCSaveSettings.new()
+	escoria.settings_manager = ESCSettingsManager.new()
 
 	if ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.GAME_SCENE
@@ -47,8 +47,9 @@ func _init():
 func _ready():
 	_handle_direct_scene_run()
 
-	escoria.settings = escoria.save_manager.load_settings()
-	escoria.apply_settings(escoria.settings)
+	escoria.settings_manager.load_settings()
+	escoria.settings_manager.apply_settings()
+	
 	escoria.room_manager.register_reserved_globals()
 	escoria.inputs_manager.register_core()
 	if ESCProjectSettingsManager.get_setting(

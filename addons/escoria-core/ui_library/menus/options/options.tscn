@@ -7,9 +7,6 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Panel" type="Panel" parent="."]
 anchor_right = 1.0
@@ -86,10 +83,8 @@ margin_top = 79.0
 margin_right = 457.0
 margin_bottom = 95.0
 size_flags_horizontal = 3
-min_value = 0.001
 max_value = 1.0
 step = 0.001
-value = 0.001
 
 [node name="label3" type="Label" parent="VBoxContainer/MarginContainer/options"]
 margin_top = 100.0
@@ -103,10 +98,8 @@ margin_top = 99.0
 margin_right = 457.0
 margin_bottom = 115.0
 size_flags_horizontal = 3
-min_value = 0.001
 max_value = 1.0
 step = 0.001
-value = 0.001
 
 [node name="label4" type="Label" parent="VBoxContainer/MarginContainer/options"]
 margin_top = 120.0
@@ -120,10 +113,8 @@ margin_top = 119.0
 margin_right = 457.0
 margin_bottom = 135.0
 size_flags_horizontal = 3
-min_value = 0.001
 max_value = 1.0
 step = 0.001
-value = 0.001
 
 [node name="label5" type="Label" parent="VBoxContainer/MarginContainer/options"]
 margin_top = 140.0
@@ -137,10 +128,8 @@ margin_top = 139.0
 margin_right = 457.0
 margin_bottom = 155.0
 size_flags_horizontal = 3
-min_value = 0.001
 max_value = 1.0
 step = 0.001
-value = 0.001
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 539.0

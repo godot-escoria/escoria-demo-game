@@ -43,10 +43,6 @@ func set_state(p_state: String, p_force: bool = false):
 			resource.loop_mode = AudioStreamSample.LOOP_DISABLED
 		elif "loop" in resource:
 			resource.loop = false
-		if ESCProjectSettingsManager.has_setting(ESCProjectSettingsManager.SFX_VOLUME):
-			stream.volume_db = ESCProjectSettingsManager.get_setting(
-				ESCProjectSettingsManager.SFX_VOLUME
-			)
 		stream.play()
 
 
