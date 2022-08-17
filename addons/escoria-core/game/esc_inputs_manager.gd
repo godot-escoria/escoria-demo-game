@@ -346,7 +346,7 @@ func _on_mouse_left_clicked_item(item: ESCItem, event: InputEvent) -> void:
 			)
 
 			# Treat this as a background click now
-			_on_left_click_on_bg(item.global_position)
+			_on_left_click_on_bg(event.position)
 
 			return
 
@@ -380,7 +380,7 @@ func _on_mouse_left_double_clicked_item(
 			)
 
 			# Treat this as a background click now
-			_on_double_left_click_on_bg(item.global_position)
+			_on_double_left_click_on_bg(event.position)
 
 			return
 
@@ -410,7 +410,7 @@ func _on_mouse_right_clicked_item(item: ESCItem, event: InputEvent) -> void:
 			)
 
 			# Treat this as a background click now
-			_on_right_click_on_bg(item.global_position)
+			_on_right_click_on_bg(event.position)
 
 			return
 
