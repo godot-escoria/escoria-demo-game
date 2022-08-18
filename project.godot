@@ -349,6 +349,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_script.gd"
 }, {
+"base": "Reference",
+"class": "ESCSettingsManager",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/save_data/esc_settings_manager.gd"
+}, {
 "base": "Control",
 "class": "ESCSoundPlayer",
 "language": "GDScript",
@@ -658,6 +663,7 @@ _global_script_class_icons={
 "ESCSaveSettings": "",
 "ESCScheduledEvent": "",
 "ESCScript": "",
+"ESCSettingsManager": "",
 "ESCSoundPlayer": "",
 "ESCSpeechPlayer": "",
 "ESCStatement": "",

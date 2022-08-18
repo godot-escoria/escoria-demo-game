@@ -562,7 +562,7 @@ func perform_inputevent_on_object(
 
 	# Manage exits
 	if obj.node.is_exit and current_action in ["", ACTION_WALK]:
-		escoria.event_manager.interrupt_running_event()
+		escoria.event_manager.interrupt()
 		escoria.event_manager.clear_event_queue()
 		_activate(ACTION_EXIT_SCENE, obj)
 	else:
