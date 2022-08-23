@@ -593,7 +593,7 @@ func perform_inputevent_on_object(
 # - global_id: the global ID of the item to examine
 #
 # *Returns* True iff the item represented by global_id can be acted upon.
-func is_object_actionable(global_id: String) -> bool:	
+func is_object_actionable(global_id: String) -> bool:
 	var obj: ESCObject = escoria.object_manager.get_object(global_id) as ESCObject
 
 	return _is_object_actionable(obj)
@@ -740,5 +740,5 @@ func _is_object_actionable(obj: ESCObject) -> bool:
 			"Item %s is not interactive." % obj.global_id
 		)
 		object_is_actionable = false
-		
+	
 	return object_is_actionable

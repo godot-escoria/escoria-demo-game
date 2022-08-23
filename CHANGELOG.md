@@ -1,3 +1,15 @@
+## [4.0.0-alpha.209](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.209) (2022-08-23)
+
+
+### Bug Fixes
+
+* accounts for item offsets, i.e. those not at (0, 0) ([308d72d](https://github.com/godot-escoria/escoria-demo-game/commit/308d72d5aa914e5f3f32bbda958332e3e567e752))
+* allows inactive/non-interactive item clicks to pass through to appropriate background click event ([5b315bb](https://github.com/godot-escoria/escoria-demo-game/commit/5b315bb0ee60078aaaab4088ea5b08bf248fd9de))
+* blocks actions on inputs for non-interactive and/or non-active items/objects ([8134950](https://github.com/godot-escoria/escoria-demo-game/commit/813495051bdd7332da9f0f9237be81c3ac9959f9))
+* puts these items back at the origin which is necessary so their positions in the scene can be used ([6890629](https://github.com/godot-escoria/escoria-demo-game/commit/689062989b6341391b7a59238e1e6816be599715))
+
+
+
 ## [4.0.0-alpha.208](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.208) (2022-08-17)
 
 
