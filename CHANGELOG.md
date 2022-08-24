@@ -1,3 +1,12 @@
+## [4.0.0-alpha.211](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.211) (2022-08-24)
+
+
+### Bug Fixes
+
+* ignores mouse enter events for non-actionable items (i.e. non-interactive or not active) ([210f0d2](https://github.com/godot-escoria/escoria-demo-game/commit/210f0d25e4560697e53840b22b0ea62eff285320))
+
+
+
 ## [4.0.0-alpha.210](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.210) (2022-08-24)
 
 
