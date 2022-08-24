@@ -16,6 +16,9 @@ extends ESCBaseCommand
 class_name SetGlobalCommand
 
 
+const ILLEGAL_STRINGS = ["/"]
+
+
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
@@ -23,6 +26,23 @@ func configure() -> ESCCommandArgumentDescriptor:
 		[TYPE_STRING, [TYPE_INT, TYPE_BOOL, TYPE_STRING], TYPE_BOOL],
 		[null, null, false]
 	)
+
+
+# Validate whether the given arguments match the command descriptor
+func validate(arguments: Array):
+	if not .validate(arguments):
+		return false
+
+	for s in ILLEGAL_STRINGS:
+		if s in arguments[0]:
+			escoria.logger.error(
+				self,
+				"[%s]: invalid global variable. Global variable %s cannot contain the string '%s'."
+						% [get_command_name(), arguments[0], s]
+			)
+			return false
+
+	return true
 
 
 # Run the command
