@@ -740,5 +740,5 @@ func _is_object_actionable(obj: ESCObject) -> bool:
 			"Item %s is not interactive." % obj.global_id
 		)
 		object_is_actionable = false
-	
+
 	return object_is_actionable

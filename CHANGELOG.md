@@ -1,3 +1,12 @@
+## [4.0.0-alpha.210](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.210) (2022-08-24)
+
+
+### Bug Fixes
+
+* disallows the use of specified strings in the name argument for these commands ([5be887c](https://github.com/godot-escoria/escoria-demo-game/commit/5be887cdf592b8dd88890398594394e4a6754224))
+
+
+
 ## [4.0.0-alpha.209](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.209) (2022-08-23)
 
 
