@@ -294,6 +294,14 @@ func _on_mouse_exited_inventory_item() -> void:
 #
 # - item: The Escoria item hovered
 func _on_mouse_entered_item(item: ESCItem) -> void:
+	if not escoria.action_manager.is_object_actionable(item.global_id):
+		escoria.logger.debug(
+			self,
+			"Ignoring mouse entering item %s." % [item.global_id]
+		)
+
+		return
+
 	escoria.logger.info(
 		self,
 		"Item focused: %s" % item.global_id
