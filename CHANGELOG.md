@@ -1,3 +1,12 @@
+## [4.0.0-alpha.212](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.212) (2022-08-26)
+
+
+### Bug Fixes
+
+* guards against scenes with no player set or loaded ([d04c46c](https://github.com/godot-escoria/escoria-demo-game/commit/d04c46c14d193d859084d6bfa45b200fd037ba57))
+
+
+
 ## [4.0.0-alpha.211](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.211) (2022-08-24)
 
 
