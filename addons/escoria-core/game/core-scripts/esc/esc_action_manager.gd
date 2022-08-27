@@ -230,27 +230,36 @@ func clear_current_tool():
 		set_action_input_state(ACTION_INPUT_STATE.AWAITING_ITEM)
 
 
-# Activates the action for given params
+# Checks if the specified action is valid and returns the associated event;
+# otherwise, we see if there's a "fallback" event and use that if necessary and,
+# if not, we return no event as there's nothing to do.
 #
 # #### Parameters
 #
-# - action String Action to execute (defined in attached ESC file and in
+# - action: Action to execute (defined in attached ESC file and in
 #   action verbs UI) eg: arrived, use, look, pickup...
 # - target: Target ESC object
 # - combine_with: ESC object to combine with
-func _activate(
+#
+# *Returns* the appropriate ESCEvent to queue/run, or null if none can be found
+# or there's a reason not to run an event.
+func _get_event_to_queue(
 	action: String,
 	target: ESCObject,
 	combine_with: ESCObject = null
-) -> int:
+) -> ESCEvent:
+
 	escoria.logger.info(
 		self,
-		"Activated action %s on %s." % [action, target]
+		"Checking action %s on %s..." % [action, target]
 	)
 
+	var event_to_return: ESCEvent = null
+
 	# If we're using an action which item requires to combine
-	if target.node is ESCItem\
+	if target.node is ESCItem \
 			and action in target.node.combine_when_selected_action_is_in:
+
 		# Check if object must be in inventory to be used
 		if target.node.use_from_inventory_only:
 			if escoria.inventory_manager.inventory_has(target.global_id):
@@ -273,64 +282,39 @@ func _activate(
 							action,
 							target.global_id
 						]
-						if target.events.has(target_event):
-							escoria.event_manager.queue_event(target.events[
-								target_event
-							])
-							var event_returned = yield(
-								escoria.event_manager,
-								"event_finished"
-							)
-							while event_returned[1] != target_event:
-								event_returned = yield(
-									escoria.event_manager,
-									"event_finished"
-								)
 
-							clear_current_action()
-							emit_signal("action_finished")
-							return event_returned[0]
+						if target.events.has(target_event):
+							event_to_return = target.events[target_event]
 						elif combine_with.events.has(combine_with_event)\
 								and not combine_with.node.combine_is_one_way:
-							escoria.event_manager.queue_event(
-								combine_with.events[
-									combine_with_event
-								]
-							)
-							var event_returned = yield(
-								escoria.event_manager,
-								"event_finished"
-							)
-							while event_returned[1] != combine_with_event:
-								event_returned = yield(
-									escoria.event_manager,
-									"event_finished"
-								)
 
-							clear_current_action()
-							emit_signal("action_finished")
-							return event_returned[0]
+							event_to_return = combine_with.events[combine_with_event]
 						else:
-							var errors = [
-								"Attempted to execute action %s between item %s and item %s" % [
-									action,
-									target.global_id,
-									combine_with.global_id
-								]
-							]
-							if combine_with.node.combine_is_one_way:
-								errors.append(
-									("Reason: %s's item interaction " +\
-									"is one-way.") % combine_with.global_id
-								)
-							escoria.logger.warn(
-								self,
-								"Invalid action" + str(errors)
-							)
+							# Check to see if there isn't a "fallback" action to
+							# run before we declare this a failure.
+							if escoria.action_default_script \
+								and escoria.action_default_script.events.has(action):
 
-							clear_current_action()
-							emit_signal("action_finished")
-							return ESCExecution.RC_ERROR
+								event_to_return = escoria.action_default_script.events[action]
+							else:
+								var errors = [
+									"Attempted to execute action %s between item %s and item %s" % [
+										action,
+										target.global_id,
+										combine_with.global_id
+									]
+								]
+
+								if combine_with.node.combine_is_one_way:
+									errors.append(
+										("Reason: %s's item interaction " + \
+										"is one-way.") % combine_with.global_id
+									)
+
+								escoria.logger.warn(
+									self,
+									"Invalid action: " + str(errors)
+								)
 					else:
 						escoria.logger.warn(
 							self,
@@ -344,17 +328,6 @@ func _activate(
 									combine_with.global_id
 								]
 						)
-
-						clear_current_action()
-						emit_signal("action_finished")
-						return ESCExecution.RC_ERROR
-				else:
-					# We're missing a target here for our tool to be used on
-					current_tool = target
-					set_action_input_state(
-						ACTION_INPUT_STATE.AWAITING_TARGET_ITEM
-					)
-					return ESCExecution.RC_OK
 			else:
 				escoria.logger.warn(
 					self,
@@ -366,33 +339,45 @@ func _activate(
 					]
 					+ "but item must be in inventory."
 				)
+	else:
+		if target.events.has(action):
+			event_to_return = target.events[action]
+		elif escoria.action_default_script \
+			and escoria.action_default_script.events.has(action):
 
-	if target.events.has(action):
-		escoria.event_manager.queue_event(target.events[action])
-		var event_returned = yield(
+			# If there's a "fallback" action to run, return it
+			event_to_return = escoria.action_default_script.events[action]
+		else:
+			escoria.logger.warn(
+				self,
+				"Invalid action: " +
+					"Event for action %s on object %s not found." % [
+						action,
+						target.global_id
+					]
+			)
+
+	return event_to_return
+
+
+func _run_event(event: ESCEvent) -> int:
+	escoria.event_manager.queue_event(event)
+
+	var event_returned = yield(
+		escoria.event_manager,
+		"event_finished"
+	)
+
+	while event_returned[1] != event.name:
+		event_returned = yield(
 			escoria.event_manager,
 			"event_finished"
 		)
-		while event_returned[1] != action:
-			event_returned = yield(
-				escoria.event_manager,
-				"event_finished"
-			)
-		clear_current_action()
-		emit_signal("action_finished")
-		return event_returned[0]
-	else:
-		escoria.logger.warn(
-			self,
-			"Invalid action: " +
-				"Event for action %s on object %s not found." % [
-					action,
-					target.global_id
-				]
-		)
-		clear_current_action()
-		emit_signal("action_finished")
-		return ESCExecution.RC_ERROR
+
+	clear_current_action()
+	emit_signal("action_finished")
+
+	return event_returned[0]
 
 
 # Makes an object walk to a destination. This can be either a 2D position or
@@ -460,6 +445,8 @@ func perform_inputevent_on_object(
 ):
 	"""
 	This algorithm:
+	- validates the requested action
+	- grabs the corresponding event for the action, if available
 	- makes the player move to the clicked object location, if needed
 	(if it is located in the room for example) and wait for reaching.
 	- when reached, performs an action depending on current defined action
@@ -485,12 +472,6 @@ func perform_inputevent_on_object(
 		"%s to perform event %s." % [obj.global_id, event]
 	)
 
-	var event_flags = 0
-	var has_current_action: bool = false
-	if obj.events.has(current_action):
-		event_flags = obj.events[current_action].flags
-		has_current_action = true
-
 	# Don't interact after player movement towards object
 	# (because object is inactive for example)
 	var dont_interact = false
@@ -501,11 +482,11 @@ func perform_inputevent_on_object(
 	var tool_just_set = _set_tool_and_action(obj, default_action)
 	var need_combine = _check_item_needs_combine()
 
-	# If the current tool was not set, this is our first item, make it tool
+	# If the current tool was not set, this is our first item, make it the tool
 	if not current_tool or (current_tool and not need_combine):
 		current_tool = obj
-	# Else, if we have a tool an combination required, this is our second item,
-	# make it target.
+	# Else, if we have a tool and combination required, this is our second item,
+	# make it the target.
 	elif need_combine and not tool_just_set:
 		current_target = obj
 
@@ -518,19 +499,68 @@ func perform_inputevent_on_object(
 	elif action_state == ACTION_INPUT_STATE.AWAITING_ITEM and need_combine and not tool_just_set:
 		set_action_input_state(ACTION_INPUT_STATE.AWAITING_TARGET_ITEM)
 
+	var event_to_queue: ESCEvent = null
+
+	# Manage exits
+	if obj.node.is_exit and current_action in ["", ACTION_WALK]:
+		event_to_queue = _get_event_to_queue(ACTION_EXIT_SCENE, obj)
+	else:
+		# Manage movements towards object before activating it
+		if current_action in ["", ACTION_WALK] and \
+				not escoria.inventory_manager.inventory_has(obj.global_id):
+			event_to_queue = _get_event_to_queue(ACTION_ARRIVED, obj)
+		# Manage action on object
+		elif not current_action in ["", ACTION_WALK]:
+			if need_combine and current_target:
+				event_to_queue = _get_event_to_queue(
+					current_action,
+					current_tool,
+					current_target
+				)
+			else:
+				# Check if object must be in inventory to be used and update
+				# action state if necessary
+				if obj.node.use_from_inventory_only and \
+					escoria.inventory_manager.inventory_has(obj.global_id):
+
+					# We're missing a target here for our tool to be used on
+					current_tool = obj
+					set_action_input_state(
+						ACTION_INPUT_STATE.AWAITING_TARGET_ITEM
+					)
+
+					# We need to wait for that target
+					return
+				else:
+					event_to_queue = _get_event_to_queue(
+						current_action,
+						obj
+					)
+
+	# Get out of here if there's a specified action but an event couldn't be found.
+	# Note that `event_to_queue` may still be null, but we do need to start the
+	# player walking towards the destination.
+	if current_action and not event_to_queue:
+		clear_current_action()
+		emit_signal("action_finished")
+		return
+
+	var event_flags = event_to_queue.flags if event_to_queue else 0
+
 	if escoria.main.current_scene.player:
-		var destination_position: Vector2 = escoria.main.current_scene.player.\
-				global_position
+		var destination_position: Vector2 = escoria.main.current_scene.player \
+				.global_position
 
 		# If clicked object not in inventory, player walks towards it
 		if not obj.node is ESCPlayer and \
 			not escoria.inventory_manager.inventory_has(obj.global_id) and \
-			(not has_current_action or not event_flags & ESCEvent.FLAG_TK):
+			not event_flags & ESCEvent.FLAG_TK:
 				var context = _walk_towards_object(
 					obj,
 					event.position,
 					event.doubleclick
 				)
+
 				if context is GDScriptFunctionState:
 					context = yield(context, "completed")
 
@@ -562,36 +592,10 @@ func perform_inputevent_on_object(
 						[escoria.event_manager.EVENT_CANT_REACH, obj.global_id]
 				)
 
-
 	# If no interaction should happen after player has arrived, leave
 	# immediately.
-	if dont_interact:
-		return
-
-	# Manage exits
-	if obj.node.is_exit and current_action in ["", ACTION_WALK]:
-		escoria.event_manager.interrupt()
-		escoria.event_manager.clear_event_queue()
-		_activate(ACTION_EXIT_SCENE, obj)
-	else:
-		# Manage movements towards object before activating it
-		if current_action in ["", ACTION_WALK] and \
-				not escoria.inventory_manager.inventory_has(obj.global_id):
-			_activate(ACTION_ARRIVED, obj)
-		# Manage action on object
-		elif not current_action in ["", ACTION_WALK]:
-			if need_combine and current_target:
-				_activate(
-					current_action,
-					current_tool,
-					current_target
-				)
-
-			else:
-				_activate(
-					current_action,
-					obj
-				)
+	if not dont_interact and event_to_queue:
+		_run_event(event_to_queue)
 
 
 # Determines whether the object in question can be acted upon.

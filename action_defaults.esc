@@ -1,0 +1,2 @@
+:use | TK
+say player "I can't use this!"

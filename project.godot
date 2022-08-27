@@ -792,6 +792,7 @@ dialog_simple/avatars_path="res://game/dialog_avatars/"
 dialog_simple/text_speed_per_character=0.1
 dialog_simple/fast_text_speed_per_character=0.25
 dialog_simple/max_time_to_disappear=1.0
+main/action_default_script="res://action_defaults.esc"
 
 [input]
 
