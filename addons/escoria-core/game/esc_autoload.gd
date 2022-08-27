@@ -97,6 +97,10 @@ var player_camera: ESCCamera
 # escoria/main/game_start_script
 var start_script: ESCScript
 
+# The "fallback" script to use when an action is tried on an item that hasn't
+# been explicitly scripted.
+var action_default_script: ESCScript
+
 # Whether we ran a room directly from editor, not a full game
 var is_direct_room_run: bool = false
 

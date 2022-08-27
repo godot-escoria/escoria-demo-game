@@ -157,6 +157,16 @@ func set_escoria_main_settings():
 	)
 
 	register_setting(
+		ESCProjectSettingsManager.ACTION_DEFAULT_SCRIPT,
+		"",
+		{
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_FILE,
+			"hint_string": "*.esc"
+		}
+	)
+
+	register_setting(
 		ESCProjectSettingsManager.FORCE_QUIT,
 		true,
 		{
