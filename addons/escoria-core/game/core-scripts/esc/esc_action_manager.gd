@@ -251,7 +251,7 @@ func _get_event_to_queue(
 
 	escoria.logger.info(
 		self,
-		"Checking action %s on %s..." % [action, target]
+		"Checking if action '%s' on '%s' is valid..." % [action, target]
 	)
 
 	var event_to_return: ESCEvent = null
@@ -360,6 +360,13 @@ func _get_event_to_queue(
 	return event_to_return
 
 
+# Runs the specified event.
+#
+# #### Parameters
+#
+# - event: the event to be run
+#
+# *Returns* the return code of the event once executed
 func _run_event(event: ESCEvent) -> int:
 	escoria.event_manager.queue_event(event)
 
