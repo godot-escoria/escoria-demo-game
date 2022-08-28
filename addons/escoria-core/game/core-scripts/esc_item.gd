@@ -747,3 +747,11 @@ func _get_identifier_as_key_value() -> String:
 		return "global_id: %s" % self.global_id
 	else:
 		return "node: %s" % get_name()
+
+
+# Whether the item is currently moving.
+#
+# *Returns*
+# Returns true if the player is currently moving, false otherwise
+func is_moving() -> bool:
+	return _movable.task != ESCMovable.MovableTask.NONE
