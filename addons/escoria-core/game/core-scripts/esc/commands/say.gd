@@ -10,9 +10,12 @@
 #
 # **Parameters**
 #
-# - *player*: Global ID of the `ESCPlayer` or `ESCItem` object that is active
-# - *text*: Text to display
-# - *type*: Dialog type to use. One of `floating` or `avatar`
+# - *player*: Global ID of the `ESCPlayer` or `ESCItem` object that is active.
+#	You can specify `current_player` in order to refer to the currently active
+#	player, e.g. in cases where multiple players are playable such as in games
+#	like Maniac Mansion or Day of the Tentacle.
+# - *text*: Text to display.
+# - *type*: Dialog type to use. One of `floating` or `avatar`.
 #   (default: the value set in the setting "Escoria/UI/Default Dialog Type")
 #
 # The text supports translation keys by prepending the key followed by
@@ -28,6 +31,9 @@
 # @ESC
 extends ESCBaseCommand
 class_name SayCommand
+
+
+const CURRENT_PLAYER_KEYWORD = "CURRENT_PLAYER"
 
 
 var globals_regex : RegEx		# Regex to match global variables in strings
@@ -63,13 +69,15 @@ func validate(arguments: Array):
 	if not .validate(arguments):
 		return false
 
-	if not escoria.object_manager.has(arguments[0]):
+	if arguments[0].to_upper() != CURRENT_PLAYER_KEYWORD \
+		and not escoria.object_manager.has(arguments[0]):
 		escoria.logger.error(
 			self,
 			"[%s]: Invalid object: Object with global id %s not found."
 					% [get_command_name(), arguments[0]]
 		)
 		return false
+
 	if ESCProjectSettingsManager.get_setting(ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE) == "" \
 			and arguments[2] == "":
 		escoria.logger.error(
@@ -82,7 +90,6 @@ func validate(arguments: Array):
 
 # Run the command
 func run(command_params: Array) -> int:
-
 	var dict: Dictionary
 
 	escoria.current_state = escoria.GAME_STATE.DIALOG
@@ -98,8 +105,12 @@ func run(command_params: Array) -> int:
 	# Replace the names of any globals in "{ }" with their value
 	command_params[1] = escoria.globals_manager.replace_globals(command_params[1])
 
+	var player_character_global_id = escoria.main.current_scene.player.global_id \
+		if command_params[0].to_upper() == CURRENT_PLAYER_KEYWORD \
+		else command_params[0]
+
 	escoria.dialog_player.say(
-		command_params[0],
+		player_character_global_id,
 		command_params[2],
 		command_params[1]
 	)
