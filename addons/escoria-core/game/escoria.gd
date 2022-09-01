@@ -49,7 +49,7 @@ func _ready():
 
 	escoria.settings_manager.load_settings()
 	escoria.settings_manager.apply_settings()
-	
+
 	escoria.room_manager.register_reserved_globals()
 	escoria.inputs_manager.register_core()
 	if ESCProjectSettingsManager.get_setting(

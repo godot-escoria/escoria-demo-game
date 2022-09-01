@@ -28,7 +28,7 @@ func apply_settings() -> void:
 			self,
 			"******* settings loaded"
 		)
-		
+	
 		AudioServer.set_bus_volume_db(
 			AudioServer.get_bus_index(escoria.BUS_MASTER),
 			linear2db(
@@ -122,7 +122,7 @@ func load_settings():
 					+ "Setting default settings."
 		)
 		save_settings()
-	
+
 	var settings: ESCSaveSettings = load(save_settings_path)
 	save_settings_resource_to_project_settings(settings)
 
@@ -132,7 +132,7 @@ func get_settings() -> ESCSaveSettings:
 	var plugin_config = ConfigFile.new()
 	plugin_config.load("res://addons/escoria-core/plugin.cfg")
 	settings.escoria_version = plugin_config.get_value("plugin", "version")
-	
+
 	settings.text_lang = ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.TEXT_LANG
 	)
