@@ -540,7 +540,9 @@ func perform_inputevent_on_object(
 		var player_global_pos = escoria.main.current_scene.player.global_position
 		var clicked_position = event.position
 
-		if not player_global_pos.is_equal_approx(destination_position):
+		# Using this instead of is_equal_approx due to
+		# https://github.com/godotengine/godot/issues/65257
+		if (player_global_pos - destination_position).length() > 1:
 			dont_interact = true
 			escoria.logger.info(
 				self,
