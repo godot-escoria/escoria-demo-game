@@ -28,7 +28,7 @@ func apply_settings() -> void:
 			self,
 			"******* settings loaded"
 		)
-	
+
 		AudioServer.set_bus_volume_db(
 			AudioServer.get_bus_index(escoria.BUS_MASTER),
 			linear2db(

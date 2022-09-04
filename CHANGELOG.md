@@ -1,3 +1,12 @@
+## [4.0.0-alpha.214](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.214) (2022-09-04)
+
+
+### Bug Fixes
+
+* get_simple_path not working properly in Godot 3.5 ([382536b](https://github.com/godot-escoria/escoria-demo-game/commit/382536b1494ba8bca603cfedf6bc6c6c9c25d165))
+
+
+
 ## [4.0.0-alpha.213](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.213) (2022-09-01)
 
 
