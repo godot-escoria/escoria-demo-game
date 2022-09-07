@@ -317,7 +317,7 @@ func _on_mouse_entered_item(item: ESCItem) -> void:
 		hover_stack.push_back(item)
 
 	hotspot_focused = hover_stack.back().global_id
-	escoria.main.current_scene.game.element_focused(item.global_id)
+	escoria.main.current_scene.game.element_focused(hotspot_focused)
 
 
 # The mouse exited an Escoria item
