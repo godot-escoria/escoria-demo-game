@@ -294,6 +294,13 @@ func _on_mouse_exited_inventory_item() -> void:
 #
 # - item: The Escoria item hovered
 func _on_mouse_entered_item(item: ESCItem) -> void:
+	if item as ESCPlayer and not (item as ESCPlayer).selectable:
+			escoria.logger.debug(
+				self,
+				"Ignoring mouse entering player %s: Player not selectable." % [item.global_id]
+			)
+			return
+
 	if not escoria.action_manager.is_object_actionable(item.global_id):
 		escoria.logger.debug(
 			self,
@@ -308,13 +315,8 @@ func _on_mouse_entered_item(item: ESCItem) -> void:
 	)
 	_clean_hover_stack()
 
-	if not hover_stack.empty():
-		if item.z_index < hover_stack.back().z_index:
-			hover_stack.insert(hover_stack.size() - 1, item)
-		else:
-			hover_stack.push_back(item)
-	else:
-		hover_stack.push_back(item)
+	hover_stack.push_back(item)
+	hover_stack.sort_custom(HoverStackSorter, "sort_ascending_z_index")
 
 	hotspot_focused = hover_stack.back().global_id
 	escoria.main.current_scene.game.element_focused(hotspot_focused)
@@ -347,6 +349,18 @@ func _on_mouse_exited_item(item: ESCItem) -> void:
 # - event: The input event from the click
 func _on_mouse_left_clicked_item(item: ESCItem, event: InputEvent) -> void:
 	if input_mode == INPUT_ALL:
+		if item as ESCPlayer and not (item as ESCPlayer).selectable:
+			escoria.logger.debug(
+				self,
+				"Ignoring left click on player %s: Player not selectable." % [item.global_id]
+			)
+
+			if not hover_stack.empty():
+				var next_item = hover_stack.pop_back()
+				_on_mouse_left_clicked_item(next_item, event)
+			
+			return
+
 		if not escoria.action_manager.is_object_actionable(item.global_id):
 			escoria.logger.debug(
 				self,
@@ -381,6 +395,18 @@ func _on_mouse_left_double_clicked_item(
 	event: InputEvent
 ) -> void:
 	if input_mode == INPUT_ALL:
+		if item as ESCPlayer and not (item as ESCPlayer).selectable:
+			escoria.logger.debug(
+				self,
+				"Ignoring double-left click on player %s: Player not selectable." % [item.global_id]
+			)
+
+			if not hover_stack.empty():
+				var next_item = hover_stack.pop_back()
+				_on_mouse_left_double_clicked_item(next_item, event)
+
+			return
+
 		if not escoria.action_manager.is_object_actionable(item.global_id):
 			escoria.logger.debug(
 				self,
@@ -411,6 +437,18 @@ func _on_mouse_left_double_clicked_item(
 # - event: The input event from the click
 func _on_mouse_right_clicked_item(item: ESCItem, event: InputEvent) -> void:
 	if input_mode == INPUT_ALL:
+		if item as ESCPlayer and not (item as ESCPlayer).selectable:
+			escoria.logger.debug(
+				self,
+				"Ignoring right click on player %s: Player not selectable." % [item.global_id]
+			)
+
+			if not hover_stack.empty():
+				var next_item = hover_stack.pop_back()
+				_on_mouse_right_clicked_item(next_item, event)
+
+			return
+
 		if not escoria.action_manager.is_object_actionable(item.global_id):
 			escoria.logger.debug(
 				self,
@@ -460,3 +498,10 @@ func _clean_hover_stack():
 # - item: the item to remove from the hover stack
 func _hover_stack_erase_item(item):
 	hover_stack.erase(item)
+
+
+class HoverStackSorter:
+	static func sort_ascending_z_index(a, b):
+		if a.z_index < b.z_index:
+			return true
+		return false

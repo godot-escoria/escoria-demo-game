@@ -105,12 +105,12 @@ func run(command_params: Array) -> int:
 	# Replace the names of any globals in "{ }" with their value
 	command_params[1] = escoria.globals_manager.replace_globals(command_params[1])
 
-	var player_character_global_id = escoria.main.current_scene.player.global_id \
+	var speaking_character_global_id = escoria.main.current_scene.player.global_id \
 		if command_params[0].to_upper() == CURRENT_PLAYER_KEYWORD \
 		else command_params[0]
 
 	escoria.dialog_player.say(
-		player_character_global_id,
+		speaking_character_global_id,
 		command_params[2],
 		command_params[1]
 	)
