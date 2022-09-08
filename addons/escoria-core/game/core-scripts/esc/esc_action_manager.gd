@@ -331,7 +331,7 @@ func _get_event_to_queue(
 			else:
 				escoria.logger.warn(
 					self,
-					"Invalid action on item" +
+					"Invalid action on item: " +
 					"Trying to run action %s on object %s, " %
 					[
 						action,
