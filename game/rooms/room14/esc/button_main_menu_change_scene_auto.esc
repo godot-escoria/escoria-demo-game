@@ -26,3 +26,5 @@ wait 2
 change_scene res://game/rooms/room14/room14.tscn
 
 
+:look
+say player "Button change scene auto"

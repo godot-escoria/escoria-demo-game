@@ -11,3 +11,5 @@ wait 2
 # Hide main menu, automatic transitions ENABLED
 hide_menu main true
 
+:look
+say player "button main menu"

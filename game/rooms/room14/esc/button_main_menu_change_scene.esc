@@ -36,3 +36,6 @@ wait 1
 change_scene res://game/rooms/room14/room14.tscn false
 
 # Do not transition here either, as change_scene ends the execution of this script
+
+:look
+say player "Button change scene"
