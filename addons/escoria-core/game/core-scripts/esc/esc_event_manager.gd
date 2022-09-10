@@ -184,12 +184,12 @@ func queue_event_from_esc(script_object: ESCScript, event: String,
 			var rc = yield(self, "event_finished")
 			while rc[1] != event:
 				rc = yield(self, "event_finished")
-			return rc
+			return rc[0]
 		else:
 			var rc = yield(self, "background_event_finished")
 			while rc[1] != event and rc[2] != channel:
 				rc = yield(self, "background_event_finished")
-			return rc
+			return rc[0]
 
 	return ESCExecution.RC_OK
 

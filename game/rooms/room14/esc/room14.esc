@@ -36,4 +36,12 @@
 
 
 :ready
-	queue_event worker moveworker
+# Both events will queue one after the other. As event "moveworker" features 
+# both a blocking and non-blocking command, the blocking command will block
+# until it's finished. At this point, moveworker2's event will fire. 
+# The end result is that you'll see worker1 start moving while the player
+# speaks, and once the say command concludes, worker 2 will start walking.
+	queue_event worker moveworker _queuedemo true
+	queue_event worker2 moveworker2 _queuedemo
+
+	

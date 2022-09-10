@@ -1,2 +1,8 @@
 :moveworker
+	# Non-blocking command
 	walk worker worker_target
+	
+	# Blocking command. This will block the queued walk event following this 
+	# (as specified in room14.esc) from starting until this command has
+	# completed.
+	say player "Blocking"

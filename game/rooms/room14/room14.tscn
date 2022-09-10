@@ -57,6 +57,7 @@ esc_script = "res://game/rooms/room14/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -71,6 +72,7 @@ global_id = "r12_l_exit"
 [node name="r_door" parent="Hotspots" instance=ExtResource( 8 )]
 global_id = "r14_r_exit"
 esc_script = "res://game/rooms/room14/esc/right_exit.esc"
+combine_when_selected_action_is_in = [  ]
 
 [node name="ESCLocation" type="Position2D" parent="Hotspots/r_door"]
 position = Vector2( 1231.78, 360.624 )
@@ -86,6 +88,7 @@ interaction_direction = 180
 [node name="show_main_menu" parent="." instance=ExtResource( 9 )]
 global_id = "button_main_menu"
 esc_script = "res://game/rooms/room14/esc/button_main_menu.esc"
+combine_when_selected_action_is_in = [  ]
 
 [node name="ESCLocation" type="Position2D" parent="show_main_menu"]
 position = Vector2( 343.887, 381.305 )
@@ -109,6 +112,7 @@ __meta__ = {
 position = Vector2( 233.415, 0 )
 global_id = "button_pause_menu"
 esc_script = "res://game/rooms/room14/esc/button_pause_menu.esc"
+combine_when_selected_action_is_in = [  ]
 
 [node name="ESCLocation" type="Position2D" parent="show_pause_menu"]
 position = Vector2( 343.887, 381.305 )
@@ -123,14 +127,12 @@ text = "Show pause menu
 with NO transition
 (manual or automatic)"
 align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="show_pause_change_scene_manual" parent="." instance=ExtResource( 9 )]
 position = Vector2( 463.318, 0 )
 global_id = "button_main_change_scene"
 esc_script = "res://game/rooms/room14/esc/button_main_menu_change_scene.esc"
+combine_when_selected_action_is_in = [  ]
 
 [node name="ESCLocation" type="Position2D" parent="show_pause_change_scene_manual"]
 position = Vector2( 343.887, 381.305 )
@@ -154,6 +156,7 @@ __meta__ = {
 position = Vector2( 676.318, 0 )
 global_id = "button_pause_change_scene_auto"
 esc_script = "res://game/rooms/room14/esc/button_main_menu_change_scene_auto.esc"
+combine_when_selected_action_is_in = [  ]
 
 [node name="ESCLocation" type="Position2D" parent="show_pause_change_scene_auto"]
 position = Vector2( 343.887, 381.305 )
@@ -176,8 +179,20 @@ __meta__ = {
 [node name="worker" parent="." instance=ExtResource( 10 )]
 position = Vector2( 204.268, 376.233 )
 esc_script = "res://game/rooms/room14/esc/worker.esc"
+combine_when_selected_action_is_in = [  ]
+
+[node name="worker2" parent="." instance=ExtResource( 10 )]
+position = Vector2( 726, 390 )
+global_id = "worker2"
+esc_script = "res://game/rooms/room14/esc/worker2.esc"
+combine_when_selected_action_is_in = [  ]
 
 [node name="worker_target" type="Position2D" parent="."]
 position = Vector2( 917.51, 475.808 )
 script = ExtResource( 5 )
 global_id = "worker_target"
+
+[node name="worker_target2" type="Position2D" parent="."]
+position = Vector2( 513, 472 )
+script = ExtResource( 5 )
+global_id = "worker2_target"

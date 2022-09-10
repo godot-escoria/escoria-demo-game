@@ -11,3 +11,6 @@ wait 2
 # Hide pause menu, automatic transition are disabled by default
 # So we can manage them manually using `transition` ESC command
 hide_menu pause
+
+:look
+say player "Button pause menu"

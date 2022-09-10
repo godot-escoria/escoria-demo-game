@@ -130,6 +130,7 @@ func run() -> int:
 			var rc = command_object.run(prepared_arguments)
 			if rc is GDScriptFunctionState:
 				rc = yield(rc, "completed")
+			
 			escoria.logger.debug(
 				self,
 				"[%s] Return code: %d." % [self.name, rc]
