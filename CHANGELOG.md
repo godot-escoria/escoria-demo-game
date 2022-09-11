@@ -1,3 +1,12 @@
+## [4.0.0-alpha.215](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.215) (2022-09-11)
+
+
+### Bug Fixes
+
+* walk error message missing a parameter ([aedc377](https://github.com/godot-escoria/escoria-demo-game/commit/aedc3773d1ff5628be88d1ec029a0f44e3e24dbe))
+
+
+
 ## [4.0.0-alpha.214](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.214) (2022-09-04)
 
 
