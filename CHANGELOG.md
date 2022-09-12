@@ -1,3 +1,12 @@
+## [4.0.0-alpha.216](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.216) (2022-09-12)
+
+
+### Bug Fixes
+
+* fixes inconsistent return type from queue_event_from_esc ([ad445cd](https://github.com/godot-escoria/escoria-demo-game/commit/ad445cd43badb5d0741707e0fe26e88a0d8e8779))
+
+
+
 ## [4.0.0-alpha.215](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.215) (2022-09-11)
 
 
