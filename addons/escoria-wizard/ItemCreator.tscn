@@ -25,26 +25,20 @@ color = Color( 0.235294, 0.341176, 0.290196, 1 )
 margin_right = 500.0
 margin_bottom = 800.0
 
-[node name="Control" type="Control" parent="VBoxContainer"]
+[node name="Control" type="CenterContainer" parent="VBoxContainer"]
 margin_right = 500.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 0, 60 )
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/Control"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -183.5
-margin_top = -20.0
-margin_right = 183.5
-margin_bottom = 20.0
+margin_left = 69.0
+margin_top = 18.0
+margin_right = 430.0
+margin_bottom = 42.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Control/CenterContainer"]
-margin_left = 3.0
-margin_top = 8.0
-margin_right = 364.0
-margin_bottom = 32.0
+margin_right = 361.0
+margin_bottom = 24.0
 
 [node name="BackgroundObjectCheckBox" type="CheckBox" parent="VBoxContainer/Control/CenterContainer/HBoxContainer"]
 margin_right = 190.0
