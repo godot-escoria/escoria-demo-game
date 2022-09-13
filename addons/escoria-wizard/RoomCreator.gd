@@ -16,7 +16,7 @@ const SELECT_BACKGROUND        = "MarginContainer/MarginContainer/VBoxContainer/
 const SELECT_BACKGROUNDSPACER  = "MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer/SelectBackgroundSpacer"
 const ROOM_FOLDER_PATH          = "MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer/RoomFolder"
 const ROOM_BACKGROUND          = "MarginContainer/MarginContainer/VBoxContainer/PreviewSection/CenterContainer/RoomBackground"
-const BACKGROUND_PREVIEW       = "MarginContainer/MarginContainer/VBoxContainer/PreviewSection/BackgroundPreview"
+const BACKGROUND_PREVIEW       = "MarginContainer/MarginContainer/VBoxContainer/PreviewSection/Control/BackgroundPreview"
 
 const SCRIPT_BLANK_TEXT         = "Room will not have a script configured."
 const SCRIPT_SELECT_TEXT        = "Please select script."
@@ -156,8 +156,6 @@ func _on_BackgroundImageFileDialog_file_selected(path: String) -> void:
 	var image_stream_texture:StreamTexture
 
 	image_stream_texture = load(path)
-
-	var preview_size = get_node(ROOM_BACKGROUND).rect_size
 
 	get_node(BACKGROUND_PREVIEW).texture = image_stream_texture
 	get_node(ROOM_BACKGROUND).visible = false

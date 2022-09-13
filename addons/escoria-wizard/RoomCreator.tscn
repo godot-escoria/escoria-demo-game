@@ -283,7 +283,11 @@ texture = ExtResource( 2 )
 expand = true
 stretch_mode = 7
 
-[node name="BackgroundPreview" type="TextureRect" parent="MarginContainer/MarginContainer/VBoxContainer/PreviewSection"]
+[node name="Control" type="Control" parent="MarginContainer/MarginContainer/VBoxContainer/PreviewSection"]
+margin_right = 1000.0
+margin_bottom = 400.0
+
+[node name="BackgroundPreview" type="TextureRect" parent="MarginContainer/MarginContainer/VBoxContainer/PreviewSection/Control"]
 margin_right = 1000.0
 margin_bottom = 400.0
 
