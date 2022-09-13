@@ -31,10 +31,14 @@ var image_size:Vector2
 var main_menu_requested:bool
 var inventory_mode:bool
 var settings_modified:bool
+var preview_size:Vector2
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	# Capture the size of the window before we update its contents so we have
+	# the absolute size before it gets scaled contents applied to it
+	preview_size = get_node(PREVIEW_NODE).rect_size
 	inventory_mode = false
 	item_creator_reset()
 
@@ -81,8 +85,6 @@ func item_creator_reset() -> void:
 
 
 func resize_image() -> void:
-	var preview_size = get_node(PREVIEW_NODE).rect_size
-
 	# Calculate the scale to make the preview as big as possible in the preview window depending on
 	# the height to width ratio of the frame
 	image_size = image_stream_texture.get_size()
@@ -94,7 +96,6 @@ func resize_image() -> void:
 		get_node(PREVIEW_NODE).rect_scale = Vector2(preview_scale.x, preview_scale.x)
 	else:
 		get_node(PREVIEW_NODE).rect_scale = Vector2(preview_scale.y, preview_scale.y)
-
 
 func background_on_ItemName_text_changed(new_text: String) -> void:
 	get_node(GLOBAL_ID_NODE).text = new_text
