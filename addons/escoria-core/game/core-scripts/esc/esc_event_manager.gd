@@ -288,7 +288,7 @@ func interrupt(exceptions: PoolStringArray = []) -> void:
 			and escoria.main.current_scene.player != null \
 			and escoria.main.current_scene.player.is_moving():
 		escoria.main.current_scene.player.stop_walking_now()
-	
+
 	for channel_name in _running_events.keys():
 		if _running_events[channel_name] != null and not _running_events[channel_name].name in exceptions:
 			escoria.logger.debug(

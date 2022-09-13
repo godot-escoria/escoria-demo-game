@@ -1,3 +1,21 @@
+## [4.0.0-alpha.217](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.217) (2022-09-13)
+
+
+### Features
+
+* allows for  command to specify the currently active player for saying things ([5f4c97c](https://github.com/godot-escoria/escoria-demo-game/commit/5f4c97ca9992a6ac7fc5fedac379593f90ac542d))
+* allows for default/fallback actions to be specified ([8957008](https://github.com/godot-escoria/escoria-demo-game/commit/895700870d4d3b4da305d470bb7390762d8382db))
+
+
+### Bug Fixes
+
+* adds proper player selectable checking in click events; also properly orders hover_stack in ascending z_index order ([7201f02](https://github.com/godot-escoria/escoria-demo-game/commit/7201f02304a590dd2b40c43448294714c197f6c4))
+* clears tooltip after any action has finished regardless of success ([6e220e7](https://github.com/godot-escoria/escoria-demo-game/commit/6e220e7e64c62013cfd369e2237e502fd2323e2a))
+* focuses the 'topmost' element from hover_stack inline with what hotspot_focused already is ([169a5b5](https://github.com/godot-escoria/escoria-demo-game/commit/169a5b501a98b5753051f2aeec3a32d3ff435c77))
+* Interrupts player's simple walk on any new action ([d28118f](https://github.com/godot-escoria/escoria-demo-game/commit/d28118f567c949e2043a662b17765dcd1d378b03))
+
+
+
 ## [4.0.0-alpha.216](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.216) (2022-09-12)
 
 
