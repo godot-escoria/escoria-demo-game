@@ -1,3 +1,12 @@
+## [4.0.0-alpha.218](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.218) (2022-09-14)
+
+
+### Bug Fixes
+
+* UI should now highlight proper verb instead of always going back to an item's default action ([62c2920](https://github.com/godot-escoria/escoria-demo-game/commit/62c2920439a4a7cb23b30b3be321bcaa43f0c286))
+
+
+
 ## [4.0.0-alpha.217](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.217) (2022-09-13)
 
 
