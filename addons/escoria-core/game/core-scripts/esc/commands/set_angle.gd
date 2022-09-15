@@ -22,7 +22,7 @@ class_name SetAngleCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
-		[TYPE_STRING, TYPE_INT, TYPE_REAL],
+		[TYPE_STRING,  [TYPE_REAL, TYPE_INT],  [TYPE_REAL, TYPE_INT]],
 		[null, null, 0.0]
 	)
 
