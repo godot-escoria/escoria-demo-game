@@ -1,6 +1,9 @@
 # `transition transition_name mode [delay]`
 #
-# Performs a transition into or out of a room programmatically.
+# Runs a transition effect - generally used when entering or leaving a room.
+# Transitions are implemented as Godot shaders. Custom transitions can be made
+# by creating a shader in the `game/scenes/transitions/shaders/` folder within
+# the escoria-core plugin folder.
 #
 # **Parameters**
 #

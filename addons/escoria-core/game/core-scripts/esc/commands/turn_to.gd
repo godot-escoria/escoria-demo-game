@@ -8,6 +8,16 @@
 # `ESCLocation` a `Global ID` and use this value as the `object_to_face`
 # parameter.
 #
+# While turning, the number of directions the item faces will depend on
+# the number of `directions` defined for the object. A 16 direction character
+# for example will display 8 directions of animation while turning to face an
+# object that is 180 degrees away, a 4 direction character would only face 2
+# directions to make the same turn. As the idle animation will be played for
+# `wait` seconds for each direction the object faces, a 16 direction character
+# would take 8 seconds to rotate 180 degrees with a 1 second `wait` time,
+# whereas a 4 direction character would only take 2 seconds to make the same
+# rotation.
+#
 # **Parameters**
 #
 # - *object*: Global ID of the object to be turned
