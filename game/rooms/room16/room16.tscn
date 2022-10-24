@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
 [ext_resource path="res://game/rooms/room14/background.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
 [ext_resource path="res://game/rooms/room14/r_door.tscn" type="PackedScene" id=8]
 [ext_resource path="res://game/items/escitems/button.tscn" type="PackedScene" id=9]
+[ext_resource path="res://game/characters/worker/worker.tscn" type="PackedScene" id=10]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, 864.626, 613.518, 1143.08, 613.35, -9.16094, 803.802, 386.666, 618.012, 129.634, 615.792, 84.5821, 654.06, -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698 )
@@ -56,6 +57,7 @@ esc_script = "res://game/rooms/room16/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -70,6 +72,7 @@ global_id = "r12_l_exit"
 [node name="r_door" parent="Hotspots" instance=ExtResource( 8 )]
 global_id = "r16_r_exit"
 esc_script = "res://game/rooms/room16/esc/right_exit.esc"
+combine_when_selected_action_is_in = [  ]
 
 [node name="ESCLocation" type="Position2D" parent="Hotspots/r_door"]
 position = Vector2( 1231.78, 360.624 )
@@ -86,6 +89,7 @@ interaction_direction = 180
 position = Vector2( 30, 0 )
 global_id = "current_scene_button"
 esc_script = "res://game/rooms/room16/esc/current_scene_button.esc"
+combine_when_selected_action_is_in = [  ]
 
 [node name="Position2D" type="Position2D" parent="current_scene_button"]
 position = Vector2( 336, 384 )
@@ -97,6 +101,25 @@ margin_right = 398.887
 margin_bottom = 213.561
 text = "Is this room 16?"
 align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+
+[node name="worker" parent="." instance=ExtResource( 10 )]
+position = Vector2( 789, 362 )
+global_id = "worker1"
+esc_script = "res://game/rooms/room16/esc/worker_script.esc"
+combine_when_selected_action_is_in = [  ]
+
+[node name="worker2" parent="." instance=ExtResource( 10 )]
+position = Vector2( 988, 364 )
+global_id = "worker2"
+esc_script = ""
+combine_when_selected_action_is_in = [  ]
+
+[node name="ESCLocation" type="Position2D" parent="."]
+position = Vector2( 45, 513 )
+script = ExtResource( 5 )
+global_id = "worker1location"
+
+[node name="ESCLocation2" type="Position2D" parent="."]
+position = Vector2( 123, 512 )
+script = ExtResource( 5 )
+global_id = "worker2location"

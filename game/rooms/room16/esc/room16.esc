@@ -13,4 +13,3 @@
 	# Set player look down
 	set_angle player 180
 	stop
-

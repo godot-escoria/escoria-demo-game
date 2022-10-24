@@ -1,12 +1,16 @@
 # `set_state object state [immediate]`
 #
 # Changes the state of `object` to the one specified.
-#
+# This command is primarily used to play animations. 
+# 
 # If the specified object's associated animation player has an animation
-# with the same name, that that animation is also played.
+# with the same name, that animation is also played.
 #
-# Can be used to change the appearance of an item or player
-# character. See https://docs.escoria-framework.org/states for details.
+# When the "state" of the object is set - for example, a door may be set
+# to a "closed" state - this plays the matching "close" animation if one exists
+# (to show the door closing in the game). When you re-enter the room (via a
+# different entry), or restore a saved game, the state of the door object 
+# will be restored - showing the door as a closed door.
 #
 # **Parameters**
 #

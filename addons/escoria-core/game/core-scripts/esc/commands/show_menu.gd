@@ -2,9 +2,12 @@
 #
 # Shows either the main menu or the pause menu. The enable_automatic_transition
 # parameter can be used to specify if Escoria manages the graphical transition to
-# the menu or not. If set to false, you can manage the transition yourself
-# instead (if you want to change the transition type from the default for
-# example) using the `transition` command.
+# the menu or not. 
+# Setting `enable_automatic_transition` to false allows you to manage the
+# transition effect for your menu as it transitions in and out. Place a
+# `transition` command in the menu's `setup` event to manage the look of the
+# transition in, and in the menu's `exit_scene` event to manage the look of the
+# transition out.
 #
 # **Parameters**
 #
