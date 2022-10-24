@@ -14,9 +14,9 @@
 # defined to cover the angle from 45 to 135 degrees, setting the target angle
 # to 120 degrees will result in the right-facing animation being used.
 #
-# The number of intermediate animations shown while turning the 
+# The number of intermediate animations shown while turning the
 # item will depend on the directions specified in the item's definition. A 16
-# direction character will turn through 8 different directions to turn 180 
+# direction character will turn through 8 different directions to turn 180
 # degrees, a 4 direction character only 2. The wait time will determine how
 # long the idle animation for each direction is played before using the next
 # direction's animation. As such, if wait was set to 1 second, a 16 direction
@@ -27,7 +27,7 @@
 #
 # - *object*: Global ID of the object to turn
 # - *target_degrees*: Number of degrees by which `object` is to be turned
-# - *wait*: Number of seconds to wait for while playing each animation occurring 
+# - *wait*: Number of seconds to wait for while playing each animation occurring
 #   between the current angle of `object` and the target angle. A value of
 #   `0` will complete the turn immediately (default: `0`)
 #

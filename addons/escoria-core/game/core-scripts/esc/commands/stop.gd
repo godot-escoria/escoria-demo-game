@@ -1,6 +1,6 @@
 # `stop`
 #
-# Stops the current event's execution. Note that this will stop the current 
+# Stops the current event's execution. Note that this will stop the current
 # script entirely - if you're within a conditional block, the code after the
 # conditional block will not be executed.
 #

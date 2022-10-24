@@ -3,17 +3,17 @@
 # Stops the given audio bus's stream.
 #
 # By default there are 3 audio buses set up by Escoria : `_sound`, which is
-# used to play non-looping sound effects; `_music`, which plays looping music; 
+# used to play non-looping sound effects; `_music`, which plays looping music;
 # and `_speech`, which plays non-looping voice files (default: `_music`).
 #
-# Each simultaneous sound (e.g. multiple game sound effects) will require its 
+# Each simultaneous sound (e.g. multiple game sound effects) will require its
 # own bus. To create additional buses, see the Godot sound documentation :
 # [Audio buses](https://docs.godotengine.org/en/stable/tutorials/audio/audio_buses.html#doc-audio-buses)
-# 
+#
 # **Parameters**
 #
 # - *audio_bus*: Bus to stop ("_sound", "_music", "_speech", or a custom
-#   audio bus you have created.) 
+#   audio bus you have created.)
 #
 # @ESC
 extends ESCBaseCommand

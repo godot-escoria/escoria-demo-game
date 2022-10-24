@@ -1,6 +1,6 @@
 # `walk_block object target [walk_fast]`
 #
-# Moves the specified `ESCPlayer` or movable `ESCItem` to the `target` 
+# Moves the specified `ESCPlayer` or movable `ESCItem` to the `target`
 # ESCItem's location while playing `object`'s walking animation. This command
 # is blocking.
 # This command will use the normal walk speed by default.

@@ -12,7 +12,7 @@
 #
 # - object: Object that holds the ESC script with the event
 # - event: Name of the event to queue
-# - channel: Channel to run the event on (default: `_front`). Using a 
+# - channel: Channel to run the event on (default: `_front`). Using a
 #   previously unused channel name will create a new channel.
 # - block: Whether to wait for the queue to finish. This is only possible, if
 #   the queued event is not to be run on the same event as this command
