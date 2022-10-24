@@ -20,7 +20,7 @@ export var zoom_factor:float
 # This function will calculate where on the spritesheet the start and end frames for an animation
 # are, and draw boxes around all used frames. The visual indicator makes frame selection easier.
 func _draw() -> void:
-	if start_cell > 0:	
+	if start_cell > 0:
 		# Draw grid for all frames in the spritesheet
 		for yloop in range(total_num_rows):
 			for xloop in range(total_num_columns):

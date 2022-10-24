@@ -1,3 +1,18 @@
+## [4.0.0-alpha.221](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.221) (2022-10-24)
+
+
+### Features
+
+* escoria-wizard ([faab5ba](https://github.com/godot-escoria/escoria-demo-game/commit/faab5ba8081b5789849a62d427cdfa546d760659))
+
+
+### Bug Fixes
+
+* fixes background image blowing up to 1:1 size; also small cleanup ([950ee46](https://github.com/godot-escoria/escoria-demo-game/commit/950ee463d8b3d0829cd92d4aeecc95ca0216a465))
+* small UI touchups/fixes ([f74cb48](https://github.com/godot-escoria/escoria-demo-game/commit/f74cb48b3d4dba0fe462a84f0399a5a019ea9b3b))
+
+
+
 ## [4.0.0-alpha.220](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.220) (2022-10-24)
 
 

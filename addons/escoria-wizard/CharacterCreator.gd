@@ -130,7 +130,7 @@ func _ready() -> void:
 func character_creator_reset() -> void:
 	# Disconnect all the signals to stop program logic firing during setup
 	disconnect_selector_signals()
-	
+
 	get_node(NAME_NODE).get_node("node_name").text = "replace_me"
 	get_node(NAME_NODE).get_node("global_id").text = ""
 	get_node(DIR_COUNT_NODE).get_node("four_directions").pressed = true
@@ -291,7 +291,7 @@ func setup_test_data() -> void:
 	anim_metadata[13][METADATA_SPRITESHEET_SOURCE_FILE] = spritebase + "/talk_downleft.png"
 	anim_metadata[14][METADATA_SPRITESHEET_SOURCE_FILE] = spritebase + "/talk_right.png"
 	anim_metadata[15][METADATA_SPRITESHEET_SOURCE_FILE] = spritebase + "/talk_upright.png"
-	
+
 	anim_metadata[16][METADATA_SPRITESHEET_SOURCE_FILE] = spritebase + "/idle_all.png"
 	anim_metadata[17][METADATA_SPRITESHEET_SOURCE_FILE] = spritebase + "/idle_all.png"
 	anim_metadata[18][METADATA_SPRITESHEET_SOURCE_FILE] = spritebase + "/idle_all.png"
@@ -1255,7 +1255,7 @@ func export_player(scene_name) -> void:
 	var collision_shape = CollisionShape2D.new()
 	progress_bar_update("Creating collision shape")
 	yield(get_tree(), "idle_frame")
-		
+	
 	collision_shape.shape = rectangle_shape
 	collision_shape.shape.extents = export_largest_sprite / 2
 	collision_shape.position.y = -(export_largest_sprite.y / 2)
@@ -1263,7 +1263,7 @@ func export_player(scene_name) -> void:
 	new_character.add_child(collision_shape)
 	progress_bar_update("Setting up dialog position")
 	yield(get_tree(), "idle_frame")
-	
+
 	# Add Dialog Position to the ESCPlayer
 	var dialog_position = ESCLocation.new()
 	dialog_position.name = "dialog_position"
@@ -1301,7 +1301,7 @@ func export_player(scene_name) -> void:
 	progress_bar_update("Releasing resources - this might take up to 30 seconds")
 	yield(get_tree(), "idle_frame")
 	new_character.queue_free()
-	
+
 	get_tree().edited_scene_root.get_node(new_character.name).queue_free()
 	plugin_reference.open_scene(scene_name)
 	plugin_reference.make_visible(false)
@@ -1311,12 +1311,12 @@ func export_player(scene_name) -> void:
 	connect_selector_signals()
 
 
-# Updates the text in the export window so the user knows what's happening 
+# Updates the text in the export window so the user knows what's happening
 func progress_bar_update(message, bar_increase_amount = 1) -> void:
 	get_node(PROGRESS_LABEL_NODE).text = message
 	get_node(EXPORT_PROGRESS_NODE).get_node("progress_bar").value += bar_increase_amount
-	
-	
+
+
 # When exporting the ESCPlayer, this function loads the relevant spritesheets based on the
 # animation metadata, and copies the frames to the relevant animations within the animatedsprite
 # attached to the ESCPlayer.
@@ -1342,14 +1342,14 @@ func export_generate_animations(character_node, num_directions) -> void:
 			var current_ticks = OS.get_ticks_msec()
 			if current_ticks - display_refresh_timer > 30:
 				yield(get_tree(), "idle_frame")
-				
+			
 				display_refresh_timer = current_ticks
-				
+			
 			if num_directions == 4:
 				progress_bar_update("Processing "+str(animtype)+" "+str(anim_dir),2)
 			else:
 				progress_bar_update("Processing "+str(animtype)+" "+str(anim_dir),1)
-			
+		
 			var anim_name = "%s_%s" % [animtype, anim_dir]
 			var metadata = anim_metadata[get_metadata_array_offset(anim_dir, animtype)]
 
