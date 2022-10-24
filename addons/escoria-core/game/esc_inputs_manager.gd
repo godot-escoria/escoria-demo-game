@@ -358,7 +358,7 @@ func _on_mouse_left_clicked_item(item: ESCItem, event: InputEvent) -> void:
 			if not hover_stack.empty():
 				var next_item = hover_stack.pop_back()
 				_on_mouse_left_clicked_item(next_item, event)
-	
+
 			return
 
 		if not escoria.action_manager.is_object_actionable(item.global_id):

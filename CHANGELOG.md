@@ -1,3 +1,12 @@
+## [4.0.0-alpha.219](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.219) (2022-10-24)
+
+
+### Bug Fixes
+
+* Support for both int and real for set_angle command ([fd6142c](https://github.com/godot-escoria/escoria-demo-game/commit/fd6142c7c250b2b73f4e22ce0f8b33041fc7e96f))
+
+
+
 ## [4.0.0-alpha.218](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.218) (2022-09-14)
 
 
