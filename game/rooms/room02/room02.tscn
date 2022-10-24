@@ -231,7 +231,6 @@ script = ExtResource( 8 )
 [node name="l_door" type="Area2D" parent="."]
 pause_mode = 1
 script = ExtResource( 7 )
-global_id = "r2_l_exit"
 esc_script = "res://game/rooms/room02/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Left exit"

@@ -10,18 +10,26 @@
 	set_interactive r2_right_platform false
 
 > [eq ESC_LAST_SCENE room1]
-	teleport player r2_l_exit
+  # Ideally, we would also make changes to ESC commands that could
+  # also support the "local" name, so this could just be:
+  #
+  #     teleport player l_door
+  #
+  # Perhaps ESCObjectManager.get_object(id) would first check for `id`
+  # and if not found `room/id`.
+	teleport player room2/l_door
+
 	# Set player look left
 	set_angle player 180
 	stop
-	
+
 > [eq ESC_LAST_SCENE room3]
 	teleport player r2_r_exit
 	# Set player look left
 	set_angle player 270
-	
+
 	# Activate bridge, else player is stuck
-	#set_state r2_bridge bridge_close 
+	#set_state r2_bridge bridge_close
 	#enable_terrain bridge_closed
 	#set_global r2_bridge_closed true
 	set_interactive r2_right_platform false
@@ -33,9 +41,8 @@
 :ready
 
 # DEBUG
-#set_state r2_bridge bridge_close 
+#set_state r2_bridge bridge_close
 #enable_terrain bridge_closed
 #set_global bridge_closed true
 #set_interactive r2_right_platform false
 ## /DEBUG
-

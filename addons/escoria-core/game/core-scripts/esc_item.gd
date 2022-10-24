@@ -175,6 +175,16 @@ var _force_registration: bool = false
 var _scene_warnings: PoolStringArray = []
 
 
+# Returns null if no ESCRoom can be found.
+static func find_room_for_item(item: Node) -> ESCRoom:
+	var node = item
+	while node:
+		node = node.get_parent()
+		if node is ESCRoom:
+			return node
+	return null
+
+
 # Add the movable node, connect signals, detect child nodes
 # and register this item
 func _ready():
@@ -211,6 +221,12 @@ func _ready():
 				self,
 				"_update_terrain"
 			)
+
+		if global_id.empty() and not name.empty():
+			var room = find_room_for_item(self)
+			if room and not room.global_id.empty():
+				global_id = room.global_id + "/" + name
+				escoria.logger.info("derived global_id: %s" % global_id)
 
 		escoria.object_manager.register_object(
 			ESCObject.new(
