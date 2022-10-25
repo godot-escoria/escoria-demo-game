@@ -53,6 +53,13 @@ func register(room = null):
 	)
 
 
+# Returns the camera's tween.
+#
+# **Returns** the tween owned by this camera.
+func get_tween() -> Tween:
+	return _tween
+
+
 # Sets camera limits so it doesn't go out of the scene
 #
 # #### Parameters
@@ -63,36 +70,6 @@ func set_limits(limits: ESCCameraLimits):
 	self.limit_right = limits.limit_right
 	self.limit_top = limits.limit_top
 	self.limit_bottom = limits.limit_bottom
-
-
-# Resolve the correct position and zoom of the target object
-#
-# #### Parameters
-# - p_target: The target to resolve
-func _resolve_target_and_zoom(p_target) -> void:
-	_target = Vector2()
-	_zoom_target = Vector2()
-	_follow_target = null
-
-	if p_target is Node and "is_movable" in p_target and p_target.is_movable:
-		_follow_target = p_target
-
-	if p_target is Vector2:
-		_target = p_target
-	elif p_target is Array and p_target.size() > 0:
-		var target_pos = Vector2()
-
-		for obj in p_target:
-			target_pos += obj.get_camera_pos()
-
-		_target = target_pos / p_target.size()
-	elif p_target.has_method("get_camera_node"):
-		if "global_position" in p_target.get_camera_node():
-			_target = p_target.get_camera_node().global_position
-		if "zoom" in p_target.get_camera_node():
-			_zoom_target = p_target.get_camera_node().zoom
-	else:
-		_target = p_target.global_position
 
 
 func set_drag_margin_enabled(p_dm_h_enabled, p_dm_v_enabled):
@@ -425,3 +402,33 @@ func _convert_pos_for_disabled_drag_margin(pos: Vector2) -> Vector2:
 		ret_position.y = limit_bottom - viewport_rect.size.y * 0.5 * zoom.y
 
 	return ret_position
+
+
+# Resolve the correct position and zoom of the target object
+#
+# #### Parameters
+# - p_target: The target to resolve
+func _resolve_target_and_zoom(p_target) -> void:
+	_target = Vector2()
+	_zoom_target = Vector2()
+	_follow_target = null
+
+	if p_target is Node and "is_movable" in p_target and p_target.is_movable:
+		_follow_target = p_target
+
+	if p_target is Vector2:
+		_target = p_target
+	elif p_target is Array and p_target.size() > 0:
+		var target_pos = Vector2()
+
+		for obj in p_target:
+			target_pos += obj.get_camera_pos()
+
+		_target = target_pos / p_target.size()
+	elif p_target.has_method("get_camera_node"):
+		if "global_position" in p_target.get_camera_node():
+			_target = p_target.get_camera_node().global_position
+		if "zoom" in p_target.get_camera_node():
+			_zoom_target = p_target.get_camera_node().zoom
+	else:
+		_target = p_target.global_position
