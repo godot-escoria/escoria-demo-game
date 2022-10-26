@@ -22,9 +22,6 @@ var _follow_target: Node = null
 # Target zoom of the camera
 var _zoom_target: Vector2
 
-var _global_pos_x_compensation = Compensation.NONE
-var _global_pos_y_compensation = Compensation.NONE
-
 
 # Prepare the tween
 func _ready():
@@ -124,8 +121,6 @@ func set_target(p_target, p_time : float = 0.0):
 	)
 	
 	if p_time == 0.0:
-		_target = _clamp_to_limits(_target)
-		_target = _compensate_for_drag_margin_relative(_target, true)
 		self.global_position = _target
 	else:
 		if _tween.is_active():
@@ -138,10 +133,13 @@ func set_target(p_target, p_time : float = 0.0):
 			)
 			_tween.emit_signal("tween_completed")
 
+		# Need to wait a frame in order to ensure the screen centre position is
+		# recalculated.
+		yield(get_tree(), "idle_frame")
+
 		set_drag_margin_enabled(false, false)
 
-		_target = _clamp_to_limits(_target)
-		_convert_current_global_pos_for_drag_margin()
+		_convert_current_global_pos_for_disabled_drag_margin()
 
 		_tween.interpolate_property(
 			self,
@@ -214,8 +212,6 @@ func push(p_target, p_time: float = 0.0, p_type: int = 0):
 		push_target = _target
 
 	if p_time == 0:
-		push_target = _clamp_to_limits(push_target)
-		push_target = _compensate_for_drag_margin_relative(push_target, true)
 		self.global_position = push_target
 
 		if _zoom_target != Vector2():
@@ -242,11 +238,14 @@ func push(p_target, p_time: float = 0.0, p_type: int = 0):
 				Tween.EASE_IN_OUT
 			)
 
+		# Need to wait a frame in order to ensure the screen centre position is
+		# recalculated.
+		yield(get_tree(), "idle_frame")
+
 		set_drag_margin_enabled(false, false)
 
-		push_target = _clamp_to_limits(push_target)
-		_convert_current_global_pos_for_drag_margin()
-
+		_convert_current_global_pos_for_disabled_drag_margin()
+		
 		_tween.interpolate_property(
 			self,
 			"global_position",
@@ -273,11 +272,8 @@ func push(p_target, p_time: float = 0.0, p_type: int = 0):
 func shift(p_target: Vector2, p_time: float, p_type: int):
 	_follow_target = null
 
-	set_drag_margin_enabled(false, false)
-
 	var new_pos = self.global_position + p_target
-	_target = _clamp_to_limits(new_pos)
-	_target = _compensate_for_drag_margin_relative(_target)
+	_target = new_pos
 
 	if _tween.is_active():
 		escoria.logger.warn(
@@ -289,7 +285,13 @@ func shift(p_target: Vector2, p_time: float, p_type: int):
 		)
 		_tween.emit_signal("tween_completed")
 
-	_convert_current_global_pos_for_drag_margin()
+	# Need to wait a frame in order to ensure the screen centre position is
+	# recalculated.
+	yield(get_tree(), "idle_frame")
+
+	set_drag_margin_enabled(false, false)
+
+	_convert_current_global_pos_for_disabled_drag_margin()
 
 	_tween.interpolate_property(
 		self,
@@ -308,124 +310,45 @@ func _target_reached():
 	set_drag_margin_enabled(true, true)
 
 
-# Ensures that to_clamp doesn't go outside of the pre-set viewing limits.
-func _clamp_to_limits(to_clamp: Vector2) -> Vector2:
-	var clamped_value: Vector2 = to_clamp
-	var viewport_rect: Rect2 = get_viewport_rect()
-
-	if clamped_value.x < limit_left + viewport_rect.size.x * 0.5:
-		clamped_value.x = limit_left + viewport_rect.size.x * 0.5
-	elif clamped_value.x > limit_right - viewport_rect.size.x * 0.5:
-		clamped_value.x = limit_right - viewport_rect.size.x * 0.5
-
-	if clamped_value.y < limit_top + viewport_rect.size.y * 0.5:
-		clamped_value.y = limit_top + viewport_rect.size.y * 0.5
-	elif clamped_value.y > limit_bottom - viewport_rect.size.y * 0.5:
-		clamped_value.y = limit_bottom - viewport_rect.size.y * 0.5
-
-	return clamped_value
-
-
-# We have to compensate for rendering calculations Godot does when it renders the camera each frame.
-# We do this since drag margins may be enabled and can skew the resulting position as noted above,
-# especially given that the anchor mode is DRAG_CENTER.
+# Use this to compensate the camera's current global_position when disabling drag margins.
 #
 # (See https://github.com/godotengine/godot/blob/3.5/scene/2d/camera_2d.cpp for more details.)
 #
 # This helps to ensure that when we disable or enable drag margins that the position on the screen
 # is maintained without the camera "jumping".
 #
-# We also note the relative "compensation" if the position is the camera's global_position since
-# if we move from drag margins enabled to disabled (or vice versa), we need to know the appropriate
-# amount to offset the original compensation. This is due to Godot's own Camera2D calculations when
-# rendering the screen/camera (again, see the link above).
-#
 # This is something of a hack until we decide on whether we implement an Escoria-specific camera
 # instead of relying on Camera2D.
-func _compensate_for_drag_margin_relative(p_position: Vector2, for_global_pos: bool = false) -> Vector2:
-	var ret_position: Vector2 = p_position
-	var viewport_rect: Rect2 = get_viewport_rect()
-
-	if drag_margin_h_enabled:
-		if ret_position.x < self.global_position.x:
-			ret_position.x = ret_position.x - viewport_rect.size.x * 0.5 * zoom.x * drag_margin_left
-			
-			if for_global_pos:
-				_global_pos_x_compensation = Compensation.SUBTRACTED
-		else:
-			ret_position.x = ret_position.x + viewport_rect.size.x * 0.5 * zoom.x * drag_margin_right
-
-			if for_global_pos:
-				_global_pos_x_compensation = Compensation.ADDED
-	else:
-		if ret_position.x < self.global_position.x:
-			ret_position.x = ret_position.x + viewport_rect.size.x * 0.5 * zoom.x * drag_margin_left
-			
-			if for_global_pos:
-				_global_pos_x_compensation = Compensation.ADDED
-		else:
-			ret_position.x = ret_position.x - viewport_rect.size.x * 0.5 * zoom.x * drag_margin_right
-
-			if for_global_pos:
-				_global_pos_x_compensation = Compensation.SUBTRACTED
-
-	if drag_margin_v_enabled:
-		if ret_position.y < self.global_position.y:
-			ret_position.y = ret_position.y - viewport_rect.size.y * 0.5 * zoom.y * drag_margin_top
-
-			if for_global_pos:
-				_global_pos_y_compensation = Compensation.SUBTRACTED
-		else:
-			ret_position.y = ret_position.y + viewport_rect.size.y * 0.5 * zoom.y * drag_margin_bottom
-
-			if for_global_pos:
-				_global_pos_y_compensation = Compensation.ADDED
-	else:
-		if ret_position.y < self.global_position.y:
-			ret_position.y = ret_position.y + viewport_rect.size.y * 0.5 * zoom.y * drag_margin_top
-
-			if for_global_pos:
-				_global_pos_y_compensation = Compensation.ADDED
-		else:
-			ret_position.y = ret_position.y - viewport_rect.size.y * 0.5 * zoom.y * drag_margin_bottom
-
-			if for_global_pos:
-				_global_pos_y_compensation = Compensation.SUBTRACTED
-
-	return ret_position
-
-
-# Use this to compensate the camera's current (read: fixed) global_position when enabling/disabling
-# drag margins.
-func _convert_current_global_pos_for_drag_margin() -> void:
+func _convert_current_global_pos_for_disabled_drag_margin() -> void:
 	var ret_position: Vector2 = self.global_position
 	var viewport_rect: Rect2 = get_viewport_rect()
-
-	if drag_margin_h_enabled:
-		if _global_pos_x_compensation == Compensation.ADDED:
-			ret_position.x = ret_position.x - viewport_rect.size.x * 0.5 * zoom.x * drag_margin_left
-		elif _global_pos_x_compensation == Compensation.SUBTRACTED:
-			ret_position.x = ret_position.x + viewport_rect.size.x * 0.5 * zoom.x * drag_margin_right
-	else:
-		if _global_pos_x_compensation == Compensation.ADDED:
-			ret_position.x = ret_position.x - viewport_rect.size.x * 0.5 * zoom.x * drag_margin_right
-		elif _global_pos_x_compensation == Compensation.SUBTRACTED:
-			ret_position.x = ret_position.x + viewport_rect.size.x * 0.5 * zoom.x * drag_margin_left
-
-	if drag_margin_v_enabled:
-		if _global_pos_y_compensation == Compensation.ADDED:
-			ret_position.y = ret_position.y - viewport_rect.size.y * 0.5 * zoom.y * drag_margin_top
-		elif _global_pos_y_compensation == Compensation.SUBTRACTED:
-			ret_position.y = ret_position.y + viewport_rect.size.y * 0.5 * zoom.y * drag_margin_bottom
-	else:
-		if _global_pos_y_compensation == Compensation.ADDED:
-			ret_position.y = ret_position.y - viewport_rect.size.y * 0.5 * zoom.y * drag_margin_bottom
-		elif _global_pos_y_compensation == Compensation.SUBTRACTED:
-			ret_position.y = ret_position.y + viewport_rect.size.y * 0.5 * zoom.y * drag_margin_top
-
-	_global_pos_x_compensation = Compensation.NONE
-	_global_pos_y_compensation = Compensation.NONE
+	
+	var cur_camera_pos: Vector2 = self.get_camera_screen_center()
+	
+	# If the current calculated centre of the camera/viewport is close enough to the set camera
+	# limits (i.e. the centre is upto and including half the viewport's size to the limit being
+	# tested), then we make sure the global_position is at the same coordinates since Camera2D will
+	# recalculate that position to the exact same position (i.e. no funny math).
+	#
+	# Otherwise, we set the global_position to be the value that would allow Camera2D to convert it
+	# to the value of the current calculated centre. This compensates for the switch when disabling
+	# drag margins.
+	if cur_camera_pos.x - viewport_rect.size.x * 0.5 * zoom.x <= limit_left:
+		ret_position.x = cur_camera_pos.x
+	elif cur_camera_pos.x + viewport_rect.size.x * 0.5 * zoom.x >= limit_right:
+		ret_position.x = cur_camera_pos.x
+	elif cur_camera_pos.x < ret_position.x:
+		ret_position.x = ret_position.x - (viewport_rect.size.x * 0.5 * zoom.x * drag_margin_right)
+	elif cur_camera_pos.x > ret_position.x:
+		ret_position.x = ret_position.x + (viewport_rect.size.x * 0.5 * zoom.x * drag_margin_left)
+	
+	if cur_camera_pos.y - viewport_rect.size.y * 0.5 * zoom.y <= limit_bottom:
+		ret_position.y = cur_camera_pos.y
+	elif cur_camera_pos.y + viewport_rect.size.y * 0.5 * zoom.y >= limit_top:
+		ret_position.y = cur_camera_pos.y
+	elif cur_camera_pos.y < ret_position.y:
+		ret_position.y = ret_position.y - (viewport_rect.size.y * 0.5 * zoom.y * drag_margin_bottom)
+	elif cur_camera_pos.y > ret_position.y:
+		ret_position.y = ret_position.y + (viewport_rect.size.y * 0.5 * zoom.y * drag_margin_top)
 
 	self.global_position = ret_position
-
-
