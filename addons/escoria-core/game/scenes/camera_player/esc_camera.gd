@@ -305,6 +305,28 @@ func shift(p_target: Vector2, p_time: float, p_type: int):
 	_tween.start()
 
 
+# Checks whether the given point is contained within the viewport's limits.
+# Note that this is different from the camera's limits when using anchor mode
+# DRAG_CENTER.
+#
+# #### Parameters
+# - point: Point to be tested against viewport limits.
+#
+# **Returns** true iff point is inside the calculated viewport's limits (inclusive)
+func check_point_is_inside_viewport_limits(point: Vector2) -> bool:
+	var viewport_rect: Rect2 = get_viewport_rect()
+	var screen_half_size: Vector2 = viewport_rect.size * 0.5
+
+	var limits_to_test: Rect2 = Rect2(
+		limit_left + screen_half_size.x,
+		limit_top + screen_half_size.y,
+		limit_right - limit_left - viewport_rect.size.x + 1,
+		limit_bottom - limit_top - viewport_rect.size.y + 1
+	)
+
+	return limits_to_test.has_point(point)
+
+
 func _target_reached():
 	_tween.stop_all()
 	set_drag_margin_enabled(true, true)
@@ -350,5 +372,5 @@ func _convert_current_global_pos_for_disabled_drag_margin() -> void:
 		ret_position.y = ret_position.y - (viewport_rect.size.y * 0.5 * zoom.y * drag_margin_bottom)
 	elif cur_camera_pos.y > ret_position.y:
 		ret_position.y = ret_position.y + (viewport_rect.size.y * 0.5 * zoom.y * drag_margin_top)
-
+	
 	self.global_position = ret_position

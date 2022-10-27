@@ -76,16 +76,14 @@ func validate(arguments: Array):
 		return false
 
 	var camera: ESCCamera = escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera
-	# has_point() is exclusive of right-/bottom-edge
-	var camera_limit_to_test: Rect2 = Rect2(camera.limit_left, camera.limit_top, camera.limit_right - camera.limit_left + 1, camera.limit_bottom - camera.limit_top + 1)
 	var camera_limit: Rect2 = Rect2(camera.limit_left, camera.limit_top, camera.limit_right - camera.limit_left, camera.limit_bottom - camera.limit_top)
 	var shift_by: Vector2 = Vector2(arguments[0], arguments[1])
 	var new_pos: Vector2 = Vector2(camera.position.x + shift_by.x, camera.position.y + shift_by.y)
 
-	if not camera_limit_to_test.has_point(new_pos):
+	if not camera.check_point_is_inside_viewport_limits(new_pos):
 		escoria.logger.warn(
 			self,
-			"[%s]: invalid camera position. Camera cannot be moved by %s to %s as this is outside the current camera limit %s."
+			"[%s]: Invalid camera position. Moving camera by %s to %s will result in viewport being clamped to the current camera limit %s but its actual position not reflecting this."
 				% [
 					get_command_name(),
 					shift_by,
@@ -93,7 +91,6 @@ func validate(arguments: Array):
 					camera_limit
 				]
 		)
-		return false
 
 	return true
 
