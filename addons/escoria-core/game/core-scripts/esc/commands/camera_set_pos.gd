@@ -31,7 +31,7 @@ func validate(arguments: Array):
 
 	var new_pos: Vector2 = Vector2(arguments[1], arguments[2])
 	var camera: ESCCamera = escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera
-	var camera_limit: Rect2 = _make_camera_limit_rect(camera)
+	var camera_limit: Rect2 = camera.get_camera_limit_rect()
 
 	if not camera.check_point_is_inside_viewport_limits(new_pos):
 		_generate_viewport_warning(new_pos, camera)
@@ -59,7 +59,7 @@ func interrupt():
 
 
 func _generate_viewport_warning(new_pos: Vector2, camera: ESCCamera) -> void:
-	var camera_limit: Rect2 = _make_camera_limit_rect(camera)
+	var camera_limit: Rect2 = camera.get_camera_limit_rect()
 	var message: String = \
 	"""
 	[%s]: Invalid camera position. Camera cannot be moved to %s as this is outside the viewport with current camera limit %s. 
@@ -77,7 +77,3 @@ func _generate_viewport_warning(new_pos: Vector2, camera: ESCCamera) -> void:
 				camera.get_current_valid_viewport_values_y()
 			]
 	)
-
-
-func _make_camera_limit_rect(camera: ESCCamera) -> Rect2:
-	return Rect2(camera.limit_left, camera.limit_top, camera.limit_right - camera.limit_left, camera.limit_bottom - camera.limit_top)
