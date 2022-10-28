@@ -386,6 +386,8 @@ func _convert_pos_for_disabled_drag_margin(pos: Vector2) -> Vector2:
 	return ret_position
 
 
+# Used when drag margins are enabled. Clamps the camera so it respects the viewport limits inside
+# the camera limits.
 func clamp_to_viewport_limits() -> void:
 	var viewport_rect: Rect2 = get_viewport_rect()
 	
@@ -393,17 +395,13 @@ func clamp_to_viewport_limits() -> void:
 	var ret_position: Vector2 = cur_camera_pos
 	
 	if cur_camera_pos.x - viewport_rect.size.x * 0.5 * zoom.x <= limit_left:
-		#ret_position.x = limit_left + viewport_rect.size.x * 0.5 * zoom.x
 		ret_position.x = limit_left + viewport_rect.size.x * 0.5 * zoom.x * (1 + drag_margin_left)
 	elif cur_camera_pos.x + viewport_rect.size.x * 0.5 * zoom.x >= limit_right:
-		#ret_position.x = limits.limit_right - viewport_rect.size.x * 0.5 * zoom.x
 		ret_position.x = limit_right - viewport_rect.size.x * 0.5 * zoom.x * (1 + drag_margin_right)
 	
 	if cur_camera_pos.y - viewport_rect.size.y * 0.5 * zoom.y <= limit_top:
-		#ret_position.y = limits.limit_top + viewport_rect.size.y * 0.5 * zoom.y
 		ret_position.y = limit_top + viewport_rect.size.y * 0.5 * zoom.y * (1 + drag_margin_top)
 	elif cur_camera_pos.y + viewport_rect.size.y * 0.5 * zoom.y >= limit_bottom:
-		#ret_position.y = limits.limit_bottom - viewport_rect.size.y * 0.5 * zoom.y - viewport_rect.size.y * 0.5 * zoom.y * drag_margin_bottom
 		ret_position.y = limit_bottom - viewport_rect.size.y * 0.5 * zoom.y * (1 + drag_margin_bottom)
 	
 	self.global_position = ret_position
