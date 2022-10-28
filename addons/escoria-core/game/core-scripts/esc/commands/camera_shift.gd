@@ -81,16 +81,7 @@ func validate(arguments: Array):
 	var new_pos: Vector2 = Vector2(camera.position.x + shift_by.x, camera.position.y + shift_by.y)
 
 	if not camera.check_point_is_inside_viewport_limits(new_pos):
-		escoria.logger.warn(
-			self,
-			"[%s]: Invalid camera position. Camera cannot be moved by %s to %s as this is outside the current viewport with camera limit %s."
-				% [
-					get_command_name(),
-					shift_by,
-					new_pos,
-					camera_limit
-				]
-		)
+		_generate_viewport_warning(new_pos, camera)
 		return false
 
 	return true
@@ -101,4 +92,25 @@ func interrupt():
 	escoria.logger.warn(
 		self,
 		"[%s] interrupt() function not implemented." % get_command_name()
+	)
+
+
+func _generate_viewport_warning(new_pos: Vector2, camera: ESCCamera) -> void:
+	var camera_limit: Rect2 = camera.get_camera_limit_rect()
+	var message: String = \
+	"""
+	[%s]: Invalid camera position. Camera cannot be moved to %s as this is outside the viewport with current camera limit %s. 
+	Current valid ranges for positions are: x = %s inclusive; y = %s inclusive.
+	"""
+	
+	escoria.logger.warn(
+		self,
+		message
+			% [
+				get_command_name(),
+				new_pos.floor(),
+				camera_limit,
+				camera.get_current_valid_viewport_values_x(),
+				camera.get_current_valid_viewport_values_y()
+			]
 	)
