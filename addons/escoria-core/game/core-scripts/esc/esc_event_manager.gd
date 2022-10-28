@@ -380,14 +380,14 @@ func _on_event_finished(finished_statement: ESCStatement, return_code: int, chan
 	if not event:
 		escoria.logger.warn(
 			self,
-			"Event %s finished without being in _running_events[%s]."
+			"Event '%s' finished without being in _running_events[%s]."
 				% [finished_statement.name, channel_name]
 		)
 		return
 
 	escoria.logger.debug(
 		self,
-		"Event %s ended with return code %d." % [event.name, return_code]
+		"Event '%s' ended with return code %d." % [event.name, return_code]
 	)
 
 	var event_flags = event.flags
@@ -402,8 +402,18 @@ func _on_event_finished(finished_statement: ESCStatement, return_code: int, chan
 
 	# If the return code was RC_CANCEL due to an event finishing with "stop" command for example
 	# we convert it to RC_OK so that other processed waiting for RC_OK can carry on.
+	#
+	# We also make sure that a failed command/event doesn't leave the game in a state where it
+	# isn't accepting inputs, e.g. if a previous command in the event was `accept_input NONE`.
 	if return_code == ESCExecution.RC_CANCEL:
 		return_code = ESCExecution.RC_OK
+	elif return_code == ESCExecution.RC_ERROR:
+		escoria.logger.warn(
+			self,
+			"Statement '%s' returned an error in event '%s'. Resetting input mode to 'ALL'."
+				% [finished_statement.name, event.name]
+		)
+		escoria.inputs_manager.input_mode = escoria.inputs_manager.INPUT_ALL
 
 	_running_events[channel_name] = null
 	_channels_state[channel_name] = true
