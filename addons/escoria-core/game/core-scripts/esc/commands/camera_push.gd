@@ -55,12 +55,11 @@ func validate(arguments: Array):
 		)
 		return false
 
-	var target_pos = (escoria.object_manager.get_object(arguments[0]).node as ESCItem).global_position + Vector2.ONE
+	var target_pos = _get_target_pos(arguments[0])
 	var camera: ESCCamera = escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera
-	var camera_limit: Rect2 = Rect2(camera.limit_left, camera.limit_top, camera.limit_right - camera.limit_left, camera.limit_bottom - camera.limit_top)
 
 	if not camera.check_point_is_inside_viewport_limits(target_pos):
-		_generate_viewport_warning(target_pos - Vector2.ONE, camera)
+		_generate_viewport_warning(target_pos, camera)
 		return false
 
 	if not arguments[2] in SUPPORTED_TRANSITIONS:
@@ -120,3 +119,8 @@ func _generate_viewport_warning(new_pos: Vector2, camera: ESCCamera) -> void:
 				camera.get_current_valid_viewport_values_y()
 			]
 	)
+
+
+func _get_target_pos(target_global_id: String) -> Vector2:
+	var target = escoria.object_manager.get_object(target_global_id).node as ESCItem
+	return target.get_camera_node().global_position
