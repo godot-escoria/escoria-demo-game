@@ -49,7 +49,10 @@ func validate(arguments: Array):
 
 # Run the command
 func run(command_params: Array) -> int:
+	var camera: ESCCamera = escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera
+	camera.clamp_to_viewport_limits()
 	escoria.main.set_camera_limits(command_params[0])
+
 	return ESCExecution.RC_OK
 
 

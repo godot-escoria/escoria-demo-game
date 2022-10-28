@@ -36,7 +36,7 @@ func validate(arguments: Array):
 	if not camera.check_point_is_inside_viewport_limits(new_pos):
 		escoria.logger.warn(
 			self,
-			"[%s]: Invalid camera position. Moving camera by %s to %s will result in viewport being clamped to the current camera limit %s but its actual position not reflecting this."
+			"[%s]: Invalid camera position. Camera cannot be moved to %s as this is outside the viewport with current camera limit %s."
 				% [
 					get_command_name(),
 					new_pos,

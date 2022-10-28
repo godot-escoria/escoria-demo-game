@@ -341,11 +341,11 @@ func _target_reached():
 #
 # This is something of a hack until we decide on whether we implement an Escoria-specific camera
 # instead of relying on Camera2D.
-func _convert_current_global_pos_for_disabled_drag_margin() -> void:
-	var ret_position: Vector2 = self.global_position
+func _convert_current_global_pos_for_disabled_drag_margin() -> void:	
 	var viewport_rect: Rect2 = get_viewport_rect()
 	
 	var cur_camera_pos: Vector2 = self.get_camera_screen_center()
+	var ret_position: Vector2 = cur_camera_pos
 	
 	# If the current calculated centre of the camera/viewport is close enough to the set camera
 	# limits (i.e. the centre is upto and including half the viewport's size to the limit being
@@ -356,21 +356,51 @@ func _convert_current_global_pos_for_disabled_drag_margin() -> void:
 	# to the value of the current calculated centre. This compensates for the switch when disabling
 	# drag margins.
 	if cur_camera_pos.x - viewport_rect.size.x * 0.5 * zoom.x <= limit_left:
-		ret_position.x = cur_camera_pos.x
+		#ret_position.x = cur_camera_pos.x
+		ret_position.x = limit_left + viewport_rect.size.x * 0.5 * zoom.x
 	elif cur_camera_pos.x + viewport_rect.size.x * 0.5 * zoom.x >= limit_right:
-		ret_position.x = cur_camera_pos.x
-	elif cur_camera_pos.x < ret_position.x:
-		ret_position.x = ret_position.x - (viewport_rect.size.x * 0.5 * zoom.x * drag_margin_right)
-	elif cur_camera_pos.x > ret_position.x:
-		ret_position.x = ret_position.x + (viewport_rect.size.x * 0.5 * zoom.x * drag_margin_left)
+		#ret_position.x = cur_camera_pos.x
+		ret_position.x = limit_right - viewport_rect.size.x * 0.5 * zoom.x
+#	elif cur_camera_pos.x < ret_position.x:
+#		ret_position.x = ret_position.x - (viewport_rect.size.x * 0.5 * zoom.x * drag_margin_right)
+#	elif cur_camera_pos.x > ret_position.x:
+#		ret_position.x = ret_position.x + (viewport_rect.size.x * 0.5 * zoom.x * drag_margin_left)
 	
-	if cur_camera_pos.y - viewport_rect.size.y * 0.5 * zoom.y <= limit_bottom:
-		ret_position.y = cur_camera_pos.y
-	elif cur_camera_pos.y + viewport_rect.size.y * 0.5 * zoom.y >= limit_top:
-		ret_position.y = cur_camera_pos.y
-	elif cur_camera_pos.y < ret_position.y:
-		ret_position.y = ret_position.y - (viewport_rect.size.y * 0.5 * zoom.y * drag_margin_bottom)
-	elif cur_camera_pos.y > ret_position.y:
-		ret_position.y = ret_position.y + (viewport_rect.size.y * 0.5 * zoom.y * drag_margin_top)
+	if cur_camera_pos.y - viewport_rect.size.y * 0.5 * zoom.y <= limit_top:
+		#ret_position.y = cur_camera_pos.y
+		ret_position.y = limit_top + viewport_rect.size.y * 0.5 * zoom.y
+	elif cur_camera_pos.y + viewport_rect.size.y * 0.5 * zoom.y >= limit_bottom:
+		#ret_position.y = cur_camera_pos.y
+		ret_position.y = limit_bottom - viewport_rect.size.y * 0.5 * zoom.y
+
+
+	#elif cur_camera_pos.y < ret_position.y:
+	#	ret_position.y = ret_position.y - (viewport_rect.size.y * 0.5 * zoom.y * drag_margin_bottom)
+	#elif cur_camera_pos.y > ret_position.y:
+	#	ret_position.y = cur_camera_pos.y
+		#ret_position.y = ret_position.y + (viewport_rect.size.y * 0.5 * zoom.y * drag_margin_top)
+	
+	self.global_position = ret_position
+
+
+func clamp_to_viewport_limits() -> void:
+	var viewport_rect: Rect2 = get_viewport_rect()
+	
+	var cur_camera_pos: Vector2 = self.get_camera_screen_center()
+	var ret_position: Vector2 = cur_camera_pos
+	
+	if cur_camera_pos.x - viewport_rect.size.x * 0.5 * zoom.x <= limit_left:
+		#ret_position.x = limit_left + viewport_rect.size.x * 0.5 * zoom.x
+		ret_position.x = limit_left + viewport_rect.size.x * 0.5 * zoom.x * (1 + drag_margin_left)
+	elif cur_camera_pos.x + viewport_rect.size.x * 0.5 * zoom.x >= limit_right:
+		#ret_position.x = limits.limit_right - viewport_rect.size.x * 0.5 * zoom.x
+		ret_position.x = limit_right - viewport_rect.size.x * 0.5 * zoom.x * (1 + drag_margin_right)
+	
+	if cur_camera_pos.y - viewport_rect.size.y * 0.5 * zoom.y <= limit_top:
+		#ret_position.y = limits.limit_top + viewport_rect.size.y * 0.5 * zoom.y
+		ret_position.y = limit_top + viewport_rect.size.y * 0.5 * zoom.y * (1 + drag_margin_top)
+	elif cur_camera_pos.y + viewport_rect.size.y * 0.5 * zoom.y >= limit_bottom:
+		#ret_position.y = limits.limit_bottom - viewport_rect.size.y * 0.5 * zoom.y - viewport_rect.size.y * 0.5 * zoom.y * drag_margin_bottom
+		ret_position.y = limit_bottom - viewport_rect.size.y * 0.5 * zoom.y * (1 + drag_margin_bottom)
 	
 	self.global_position = ret_position
