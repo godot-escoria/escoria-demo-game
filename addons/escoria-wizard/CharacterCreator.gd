@@ -1255,7 +1255,7 @@ func export_player(scene_name) -> void:
 	var collision_shape = CollisionShape2D.new()
 	progress_bar_update("Creating collision shape")
 	yield(get_tree(), "idle_frame")
-	
+
 	collision_shape.shape = rectangle_shape
 	collision_shape.shape.extents = export_largest_sprite / 2
 	collision_shape.position.y = -(export_largest_sprite.y / 2)
@@ -1342,14 +1342,14 @@ func export_generate_animations(character_node, num_directions) -> void:
 			var current_ticks = OS.get_ticks_msec()
 			if current_ticks - display_refresh_timer > 30:
 				yield(get_tree(), "idle_frame")
-			
+		
 				display_refresh_timer = current_ticks
-			
+		
 			if num_directions == 4:
 				progress_bar_update("Processing "+str(animtype)+" "+str(anim_dir),2)
 			else:
 				progress_bar_update("Processing "+str(animtype)+" "+str(anim_dir),1)
-		
+	
 			var anim_name = "%s_%s" % [animtype, anim_dir]
 			var metadata = anim_metadata[get_metadata_array_offset(anim_dir, animtype)]
 

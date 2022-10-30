@@ -1,3 +1,12 @@
+## [4.0.0-alpha.222](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.222) (2022-10-30)
+
+
+### Bug Fixes
+
+* ensures a failed command/event doesn't leave the game in a state where it isn't accepting inputs. ([88214e4](https://github.com/godot-escoria/escoria-demo-game/commit/88214e46116d56ee6d0c84f38e80c3c41d1fc633))
+
+
+
 ## [4.0.0-alpha.221](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.221) (2022-10-24)
 
 
