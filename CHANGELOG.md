@@ -1,3 +1,13 @@
+## [4.0.0-alpha.223](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.223) (2022-10-31)
+
+
+### Features
+
+* adds in additional information concerning failed statement. ([b11e196](https://github.com/godot-escoria/escoria-demo-game/commit/b11e196d4b1131e555b2b54731655cf1cb36b6c5))
+* includes most-currently run statement when signalling a statement's/event's completion to aid in debugging messages ([4065b5c](https://github.com/godot-escoria/escoria-demo-game/commit/4065b5c83e55bc7820a5195eeb984686ab323f22))
+
+
+
 ## [4.0.0-alpha.222](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.222) (2022-10-30)
 
 
