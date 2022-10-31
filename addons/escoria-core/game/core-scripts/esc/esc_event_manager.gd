@@ -410,11 +410,8 @@ func _on_event_finished(finished_event: ESCStatement, finished_statement: ESCSta
 	if return_code == ESCExecution.RC_CANCEL:
 		return_code = ESCExecution.RC_OK
 	elif return_code == ESCExecution.RC_ERROR:
-		escoria.logger.warn(
-			self,
-			"Statement '%s' returned an error in event '%s'. Resetting input mode to 'ALL'."
-				% [finished_statement.name, event.name]
-		)
+		_generate_statement_error_warning(finished_statement, event.name)
+
 		escoria.inputs_manager.input_mode = escoria.inputs_manager.INPUT_ALL
 
 	_running_events[channel_name] = null
@@ -461,3 +458,21 @@ func _is_event_running(event: ESCEvent, channel_name: String) -> bool:
 	var running_event: ESCEvent = get_running_event(channel_name)
 
 	return running_event != null and running_event.name == event.name
+
+
+# Generates a logger warning concerning an errored-out statement.
+func _generate_statement_error_warning(statement: ESCStatement, event_name: String) -> void:
+	var warning_string: String = "Statement '%s' returned an error in event '%s'" \
+		% [statement.name, event_name]
+
+	if statement is ESCCommand and statement.parameters.size() > 0:
+		var statement_params: String = "[" + PoolStringArray(statement.parameters).join(", ") + "]"
+
+		warning_string += " with parameters: %s" % statement_params
+
+	warning_string += ". Resetting input mode to 'ALL'."
+
+	escoria.logger.warn(
+		self,
+		warning_string
+	)
