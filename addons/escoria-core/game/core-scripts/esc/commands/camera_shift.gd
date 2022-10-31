@@ -19,7 +19,7 @@
 # For more details see: https://docs.escoria-framework.org/camera
 #
 # @ESC
-extends ESCBaseCommand
+extends ESCCameraBaseCommand
 class_name CameraShiftCommand
 
 # The list of supported transitions as per the link mentioned above
@@ -76,12 +76,11 @@ func validate(arguments: Array):
 		return false
 
 	var camera: ESCCamera = escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera
-	var camera_limit: Rect2 = Rect2(camera.limit_left, camera.limit_top, camera.limit_right - camera.limit_left, camera.limit_bottom - camera.limit_top)
 	var shift_by: Vector2 = Vector2(arguments[0], arguments[1])
 	var new_pos: Vector2 = Vector2(camera.position.x + shift_by.x, camera.position.y + shift_by.y)
 
 	if not camera.check_point_is_inside_viewport_limits(new_pos):
-		_generate_viewport_warning(new_pos, camera)
+		generate_viewport_warning(new_pos, camera)
 		return false
 
 	return true
@@ -92,25 +91,4 @@ func interrupt():
 	escoria.logger.warn(
 		self,
 		"[%s] interrupt() function not implemented." % get_command_name()
-	)
-
-
-func _generate_viewport_warning(new_pos: Vector2, camera: ESCCamera) -> void:
-	var camera_limit: Rect2 = camera.get_camera_limit_rect()
-	var message: String = \
-	"""
-	[%s]: Invalid camera position. Camera cannot be moved to %s as this is outside the viewport with current camera limit %s. 
-	Current valid ranges for positions are: x = %s inclusive; y = %s inclusive.
-	"""
-	
-	escoria.logger.warn(
-		self,
-		message
-			% [
-				get_command_name(),
-				new_pos.floor(),
-				camera_limit,
-				camera.get_current_valid_viewport_values_x(),
-				camera.get_current_valid_viewport_values_y()
-			]
 	)

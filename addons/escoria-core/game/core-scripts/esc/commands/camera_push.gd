@@ -25,7 +25,7 @@
 # For more details see: https://docs.escoria-framework.org/camera
 #
 # @ESC
-extends ESCBaseCommand
+extends ESCCameraBaseCommand
 class_name CameraPushCommand
 
 # The list of supported transitions as per the link mentioned above
@@ -59,7 +59,7 @@ func validate(arguments: Array):
 	var camera: ESCCamera = escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera
 
 	if not camera.check_point_is_inside_viewport_limits(target_pos):
-		_generate_viewport_warning(target_pos, camera)
+		generate_viewport_warning(target_pos, camera)
 		return false
 
 	if not arguments[2] in SUPPORTED_TRANSITIONS:
@@ -100,27 +100,13 @@ func interrupt():
 	)
 
 
-func _generate_viewport_warning(new_pos: Vector2, camera: ESCCamera) -> void:
-	var camera_limit: Rect2 = camera.get_camera_limit_rect()
-	var message: String = \
-	"""
-	[%s]: Invalid camera position. Camera cannot be moved to %s as this is outside the viewport with current camera limit %s. 
-	Current valid ranges for positions are: x = %s inclusive; y = %s inclusive.
-	"""
-	
-	escoria.logger.warn(
-		self,
-		message
-			% [
-				get_command_name(),
-				new_pos.floor(),
-				camera_limit,
-				camera.get_current_valid_viewport_values_x(),
-				camera.get_current_valid_viewport_values_y()
-			]
-	)
-
-
+# Gets the appropriate target position from the `ESCItem`, as used by the camera.
+#
+# #### Parameters
+#
+# - target_global_id: The `global_id` of the `ESCItem` to check.
+#
+# **Returns** the item's position based on its camera node.
 func _get_target_pos(target_global_id: String) -> Vector2:
 	var target = escoria.object_manager.get_object(target_global_id).node as ESCItem
 	return target.get_camera_node().global_position

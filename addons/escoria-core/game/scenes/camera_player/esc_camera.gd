@@ -1,14 +1,7 @@
 # Camera handling
 extends Camera2D
 class_name ESCCamera
-
-
-enum Compensation {
-	NONE,
-	ADDED,
-	SUBTRACTED
-}
-
+	
 
 # Reference to the tween node for animating camera movements
 var _tween: Tween
@@ -328,18 +321,30 @@ func check_point_is_inside_viewport_limits(point: Vector2) -> bool:
 	return limits_to_test.has_point(point)
 
 
+# Returns the inclusive minimum and maximum values for the x-component of the current valid viewport.
+# Mainly used in any logging messages related to same.
+#
+# **Returns** the inclusive minimum and maximum values for the x-component of the current valid viewport.
 func get_current_valid_viewport_values_x() -> Array:
 	var viewport_rect: Rect2 = get_viewport_rect()
 	
 	return [limit_left + viewport_rect.size.x * 0.5, limit_right - viewport_rect.size.x * 0.5]
 
 
+# Returns the inclusive minimum and maximum values for the y-component of the current valid viewport.
+# Mainly used in any logging messages related to same.
+#
+# **Returns* the inclusive minimum and maximum values for the y-component of the current valid viewport.
 func get_current_valid_viewport_values_y() -> Array:
 	var viewport_rect: Rect2 = get_viewport_rect()
 	
 	return [limit_top + viewport_rect.size.y * 0.5, limit_bottom - viewport_rect.size.y * 0.5]
 
 
+# Returns the camera's current limits as a Rect2.
+# Mainly used in any logging messages related to same.
+#
+# **Returns** the camera's current limits as a Rect2.
 func get_camera_limit_rect() -> Rect2:
 	return Rect2(limit_left, limit_top, limit_right - limit_left, limit_bottom - limit_top)
 
@@ -386,6 +391,17 @@ func _convert_current_global_pos_for_disabled_drag_margin() -> void:
 	self.global_position = ret_position
 
 
+# Converts the given position set with drag margins enabled to the same position when calculated
+# with drag margins disabled.
+#
+# This is helpful for preventing the camera from "jumping" when disabling drag margins, e.g. in
+# order to perform some camera translations/tweening.
+#
+# #### Parameters
+# - pos: Position to be converted.
+#
+# **Returns** the position on the screen that would be the equivalent of `pos` when rendered with
+# drag margins disabled.
 func _convert_pos_for_disabled_drag_margin(pos: Vector2) -> Vector2:
 	var viewport_rect: Rect2 = get_viewport_rect()
 	var ret_position: Vector2 = pos
