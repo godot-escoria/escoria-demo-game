@@ -1,3 +1,16 @@
+## [4.0.0-alpha.224](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.224) (2022-10-31)
+
+
+### Bug Fixes
+
+* camera_push now validates against camera_node like ESCCamera. ([3009fe1](https://github.com/godot-escoria/escoria-demo-game/commit/3009fe1242a83f18a6f8a7c8daa9ce9f679056e2))
+* cleaning up and updating validation code. ([e807044](https://github.com/godot-escoria/escoria-demo-game/commit/e807044e45d75548858b671e85faa6ea6209d2ec))
+* room 7 lift interaction fixed based on new camera behavior. ([1657c0d](https://github.com/godot-escoria/escoria-demo-game/commit/1657c0d452757b786ec60de32a424e9d7a2555bc))
+* updates camera limit checking in commands to respect viewport limits (i.e. taking into account camera centre and half-screen limits); also updates warning message and no longer fails on limit violation. ([d95d26f](https://github.com/godot-escoria/escoria-demo-game/commit/d95d26ff5fb00030c4d8a06ea95f7b040e2f2bc2))
+* Updates those camera commands that make use of translation to compensate for drag margins. ([cc74206](https://github.com/godot-escoria/escoria-demo-game/commit/cc74206e6c1877d50ab29f3febd65f533620cfd5))
+
+
+
 ## [4.0.0-alpha.223](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.223) (2022-10-31)
 
 

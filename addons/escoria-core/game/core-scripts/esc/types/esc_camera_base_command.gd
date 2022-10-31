@@ -12,10 +12,10 @@ func generate_viewport_warning(pos: Vector2, camera: ESCCamera) -> void:
 	var camera_limit: Rect2 = camera.get_camera_limit_rect()
 	var message: String = \
 	"""
-	[%s]: Invalid camera position. Camera cannot be moved to %s as this is outside the viewport with current camera limit %s. 
+	[%s]: Invalid camera position. Camera cannot be moved to %s as this is outside the viewport with current camera limit %s.
 	Current valid ranges for positions are: x = %s inclusive; y = %s inclusive.
 	"""
-	
+
 	escoria.logger.warn(
 		self,
 		message

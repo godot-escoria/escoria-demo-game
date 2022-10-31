@@ -1,7 +1,7 @@
 # Camera handling
 extends Camera2D
 class_name ESCCamera
-	
+
 
 # Reference to the tween node for animating camera movements
 var _tween: Tween
@@ -112,7 +112,7 @@ func set_target(p_target, p_time : float = 0.0):
 		self,
 		"Current camera position = %s." % str(self.global_position)
 	)
-	
+
 	if p_time == 0.0:
 		self.global_position = _target
 	else:
@@ -239,7 +239,7 @@ func push(p_target, p_time: float = 0.0, p_type: int = 0):
 		set_drag_margin_enabled(false, false)
 
 		_convert_current_global_pos_for_disabled_drag_margin()
-		
+	
 		_tween.interpolate_property(
 			self,
 			"global_position",
@@ -327,7 +327,7 @@ func check_point_is_inside_viewport_limits(point: Vector2) -> bool:
 # **Returns** the inclusive minimum and maximum values for the x-component of the current valid viewport.
 func get_current_valid_viewport_values_x() -> Array:
 	var viewport_rect: Rect2 = get_viewport_rect()
-	
+
 	return [limit_left + viewport_rect.size.x * 0.5, limit_right - viewport_rect.size.x * 0.5]
 
 
@@ -337,7 +337,7 @@ func get_current_valid_viewport_values_x() -> Array:
 # **Returns* the inclusive minimum and maximum values for the y-component of the current valid viewport.
 func get_current_valid_viewport_values_y() -> Array:
 	var viewport_rect: Rect2 = get_viewport_rect()
-	
+
 	return [limit_top + viewport_rect.size.y * 0.5, limit_bottom - viewport_rect.size.y * 0.5]
 
 
@@ -353,20 +353,20 @@ func get_camera_limit_rect() -> Rect2:
 # the camera limits.
 func clamp_to_viewport_limits() -> void:
 	var viewport_rect: Rect2 = get_viewport_rect()
-	
+
 	var cur_camera_pos: Vector2 = self.get_camera_screen_center()
 	var ret_position: Vector2 = cur_camera_pos
-	
+
 	if cur_camera_pos.x - viewport_rect.size.x * 0.5 * zoom.x <= limit_left:
 		ret_position.x = limit_left + viewport_rect.size.x * 0.5 * zoom.x * (1 + drag_margin_left)
 	elif cur_camera_pos.x + viewport_rect.size.x * 0.5 * zoom.x >= limit_right:
 		ret_position.x = limit_right - viewport_rect.size.x * 0.5 * zoom.x * (1 + drag_margin_right)
-	
+
 	if cur_camera_pos.y - viewport_rect.size.y * 0.5 * zoom.y <= limit_top:
 		ret_position.y = limit_top + viewport_rect.size.y * 0.5 * zoom.y * (1 + drag_margin_top)
 	elif cur_camera_pos.y + viewport_rect.size.y * 0.5 * zoom.y >= limit_bottom:
 		ret_position.y = limit_bottom - viewport_rect.size.y * 0.5 * zoom.y * (1 + drag_margin_bottom)
-	
+
 	self.global_position = ret_position
 
 
@@ -405,7 +405,7 @@ func _convert_current_global_pos_for_disabled_drag_margin() -> void:
 func _convert_pos_for_disabled_drag_margin(pos: Vector2) -> Vector2:
 	var viewport_rect: Rect2 = get_viewport_rect()
 	var ret_position: Vector2 = pos
-	
+
 	# If the current calculated centre of the camera/viewport is close enough to the set camera
 	# limits (i.e. the centre is upto and including half the viewport's size to the limit being
 	# tested), then we make sure the global_position is at the same coordinates since Camera2D will
@@ -418,7 +418,7 @@ func _convert_pos_for_disabled_drag_margin(pos: Vector2) -> Vector2:
 		ret_position.x = limit_left + viewport_rect.size.x * 0.5 * zoom.x
 	elif ret_position.x + viewport_rect.size.x * 0.5 * zoom.x >= limit_right:
 		ret_position.x = limit_right - viewport_rect.size.x * 0.5 * zoom.x
-	
+
 	if ret_position.y - viewport_rect.size.y * 0.5 * zoom.y <= limit_top:
 		ret_position.y = limit_top + viewport_rect.size.y * 0.5 * zoom.y
 	elif ret_position.y + viewport_rect.size.y * 0.5 * zoom.y >= limit_bottom:
