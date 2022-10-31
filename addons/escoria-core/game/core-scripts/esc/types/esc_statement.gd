@@ -31,7 +31,11 @@ func is_valid() -> bool:
 # Execute this statement and return its return code
 func run() -> int:
 	var final_rc = ESCExecution.RC_OK
+	var current_statement: ESCStatement
+
 	for statement in statements:
+		current_statement = statement
+
 		if _is_interrupted:
 			final_rc = ESCExecution.RC_INTERRUPTED
 			statement.interrupt()
@@ -52,7 +56,7 @@ func run() -> int:
 				final_rc = rc
 				break
 
-	emit_signal("finished", self, final_rc)
+	emit_signal("finished", self, current_statement, final_rc)
 	return final_rc
 
 

@@ -372,16 +372,18 @@ func set_changing_scene(p_is_changing_scene: bool) -> void:
 # The event finished running
 #
 # #### Parameters
-# - finished_statement: statement object that finished
+# - finished_event: statement object representing the event that finished
+# - finished_statement: statement object representing the "deepest" statement (most likely a command)
+#   that just completed; this is useful for interrupted or failed statements especially
 # - return_code: Return code of the finished event
 # - channel_name: Name of the channel that the event came from
-func _on_event_finished(finished_statement: ESCStatement, return_code: int, channel_name: String) -> void:
+func _on_event_finished(finished_event: ESCStatement, finished_statement: ESCStatement, return_code: int, channel_name: String) -> void:
 	var event = _running_events[channel_name]
 	if not event:
 		escoria.logger.warn(
 			self,
 			"Event '%s' finished without being in _running_events[%s]."
-				% [finished_statement.name, channel_name]
+				% [finished_event.name, channel_name]
 		)
 		return
 
