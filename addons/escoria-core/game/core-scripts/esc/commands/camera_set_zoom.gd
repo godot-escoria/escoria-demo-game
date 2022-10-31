@@ -15,7 +15,7 @@
 # For more details see: https://docs.escoria-framework.org/camera
 #
 # @ESC
-extends ESCBaseCommand
+extends ESCCameraBaseCommand
 class_name CameraSetZoomCommand
 
 

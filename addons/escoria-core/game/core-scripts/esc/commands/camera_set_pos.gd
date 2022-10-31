@@ -11,7 +11,7 @@
 # For more details see: https://docs.escoria-framework.org/camera
 #
 # @ESC
-extends ESCBaseCommand
+extends ESCCameraBaseCommand
 class_name CameraSetPosCommand
 
 
@@ -31,10 +31,9 @@ func validate(arguments: Array):
 
 	var new_pos: Vector2 = Vector2(arguments[1], arguments[2])
 	var camera: ESCCamera = escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera
-	var camera_limit: Rect2 = camera.get_camera_limit_rect()
 
 	if not camera.check_point_is_inside_viewport_limits(new_pos):
-		_generate_viewport_warning(new_pos, camera)
+		generate_viewport_warning(new_pos, camera)
 		return false
 
 	return true
@@ -55,25 +54,4 @@ func interrupt():
 	escoria.logger.warn(
 		self,
 		"[%s] interrupt() function not implemented." % get_command_name()
-	)
-
-
-func _generate_viewport_warning(new_pos: Vector2, camera: ESCCamera) -> void:
-	var camera_limit: Rect2 = camera.get_camera_limit_rect()
-	var message: String = \
-	"""
-	[%s]: Invalid camera position. Camera cannot be moved to %s as this is outside the viewport with current camera limit %s. 
-	Current valid ranges for positions are: x = %s inclusive; y = %s inclusive.
-	"""
-	
-	escoria.logger.warn(
-		self,
-		message
-			% [
-				get_command_name(),
-				new_pos.floor(),
-				camera_limit,
-				camera.get_current_valid_viewport_values_x(),
-				camera.get_current_valid_viewport_values_y()
-			]
 	)
