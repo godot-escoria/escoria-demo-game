@@ -68,15 +68,6 @@ func _enter_tree():
 # Prepare the settings in the Escoria UI category
 func set_escoria_ui_settings():
 	register_setting(
-		ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE,
-		"",
-		{
-			"type": TYPE_STRING
-		}
-	)
-	print("DEFAULT DIALOG TYPE RESET !!!")
-
-	register_setting(
 		ESCProjectSettingsManager.GAME_SCENE,
 		"",
 		{

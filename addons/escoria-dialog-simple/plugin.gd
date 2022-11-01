@@ -13,33 +13,24 @@ func get_plugin_name():
 # Unregister ourselves
 func disable_plugin():
 	print("Disabling plugin Escoria Dialog Simple")
-	ESCProjectSettingsManager.register_setting(
-		ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE,
-		"",
-		{}
+	ESCProjectSettingsManager.remove_setting(
+		ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE
 	)
-	ESCProjectSettingsManager.register_setting(
-		ESCProjectSettingsManager.AVATARS_PATH,
-		null,
-		{}
+	
+	ESCProjectSettingsManager.remove_setting(
+		ESCProjectSettingsManager.AVATARS_PATH
 	)
 
-	ESCProjectSettingsManager.register_setting(
-		ESCProjectSettingsManager.TEXT_SPEED_PER_CHARACTER,
-		null,
-		{}
+	ESCProjectSettingsManager.remove_setting(
+		ESCProjectSettingsManager.TEXT_SPEED_PER_CHARACTER
 	)
 
-	ESCProjectSettingsManager.register_setting(
-		ESCProjectSettingsManager.FAST_TEXT_SPEED_PER_CHARACTER,
-		null,
-		{}
+	ESCProjectSettingsManager.remove_setting(
+		ESCProjectSettingsManager.FAST_TEXT_SPEED_PER_CHARACTER
 	)
 
-	ESCProjectSettingsManager.register_setting(
-		ESCProjectSettingsManager.MAX_TIME_TO_DISAPPEAR,
-		null,
-		{}
+	ESCProjectSettingsManager.remove_setting(
+		ESCProjectSettingsManager.MAX_TIME_TO_DISAPPEAR
 	)
 
 	EscoriaPlugin.deregister_dialog_manager(MANAGER_CLASS)

@@ -81,15 +81,42 @@ const FULLSCREEN = "%s/%s/%s/fullscreen" % [DISPLAY, WINDOW, SIZE]
 # #### Parameters
 #
 # - name: Name of the project setting
-# - default: Default value
+# - default_value: Default value
 # - info: Property info for the setting
-static func register_setting(name: String, default, info: Dictionary) -> void:
+static func register_setting(name: String, default_value, info: Dictionary) -> void:
+	if ProjectSettings.has_setting(name):
+		push_error("Cannot add project setting %s - it already exists." % name)
+		return
+	if default_value == null:
+		push_error("Default_value cannot be null. Use remove_setting function to remove settings.")
+		assert(false)
+
 	ProjectSettings.set_setting(
 		name,
-		default
+		default_value
 	)
-	info.name = name
-	ProjectSettings.add_property_info(info)
+	if default_value != null:
+		info.name = name
+		
+		# Project settings require a "type" to be set
+		if not "type" in info:
+			info.type=typeof(default_value)
+		ProjectSettings.add_property_info(info)
+
+
+# Removes the specified project setting.
+#
+# #### Parameters
+#
+# - name: Name of the project setting
+static func remove_setting(name: String) -> void:
+	if not ProjectSettings.has_setting(name):
+		push_error("Cannot remove project setting %s - it does not exist." % name)
+		assert(false)
+	ProjectSettings.set_setting(
+			name,
+			null
+		)
 
 
 # Retrieves the specified project setting.
