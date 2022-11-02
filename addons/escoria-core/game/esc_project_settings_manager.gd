@@ -84,9 +84,6 @@ const FULLSCREEN = "%s/%s/%s/fullscreen" % [DISPLAY, WINDOW, SIZE]
 # - default_value: Default value
 # - info: Property info for the setting
 static func register_setting(name: String, default_value, info: Dictionary) -> void:
-	if ProjectSettings.has_setting(name):
-		push_error("Cannot add project setting %s - it already exists." % name)
-		return
 	if default_value == null:
 		push_error("Default_value cannot be null. Use remove_setting function to remove settings.")
 		assert(false)
