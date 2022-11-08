@@ -4,6 +4,10 @@ extends Navigation2D
 class_name ESCTerrain, "res://addons/escoria-core/design/esc_terrain.svg"
 
 
+# Logger class
+const Logger = preload("res://addons/escoria-core/game/esc_logger.gd")
+
+
 # Visualize scales or the lightmap for debugging purposes
 enum DebugMode {
 	NONE
@@ -45,7 +49,6 @@ export(int, "None", "Scales", "Lightmap") var debug_mode = DebugMode.NONE \
 # The currently activ navigation polygon
 var current_active_navigation_instance: NavigationPolygonInstance = null
 
-
 # Currently visualized texture for debug mode
 var _texture = null
 
@@ -55,26 +58,29 @@ var _lightmap_data
 # Prohibits multiple calls to update_texture
 var _texture_in_update = false
 
+# Logger instance
+onready var logger = Logger.ESCLoggerFile.new() 
 
 # Set a reference to the active navigation polygon, register to Escoria
 # and update the texture
 func _ready():
 	var navigation_enabled_found = false
 	for n in get_children():
-		if n is NavigationPolygonInstance:
-			if n.enabled:
-				if !Engine.is_editor_hint() and navigation_enabled_found:
-					escoria.logger.error(
+		if n is NavigationPolygonInstance and n.enabled:
+			if navigation_enabled_found:
+				if Engine.is_editor_hint():
+					logger.warn(
 						self,
 						"Multiple NavigationPolygonInstances enabled " + \
 						"at the same time."
 					)
-				elif Engine.is_editor_hint():
-					escoria.logger.warn(
+				else:
+					logger.error(
 						self,
 						"Multiple NavigationPolygonInstances enabled " + \
 						"at the same time."
 					)
+			else:
 				navigation_enabled_found = true
 				current_active_navigation_instance = n
 
@@ -83,7 +89,7 @@ func _ready():
 		escoria.room_terrain = self
 	_update_texture()
 
-
+	
 # Return the Color of the lightmap pixel for the specified position
 #
 # #### Parameters

@@ -66,12 +66,13 @@ func _ready():
 			) != self.filename:
 		is_run_directly = true
 
-	escoria.room_manager.init_room(self)
+	if not Engine.is_editor_hint():
+		escoria.room_manager.init_room(self)
 
 
 # Draw the camera limits visualization if enabled
 func _draw():
-	if !Engine.is_editor_hint():
+	if not Engine.is_editor_hint():
 		return
 	if editor_debug_mode == EditorRoomDebugDisplay.NONE:
 		return
