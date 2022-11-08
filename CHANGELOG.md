@@ -1,3 +1,12 @@
+## [4.0.0-alpha.227](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.227) (2022-11-08)
+
+
+### Bug Fixes
+
+* interrupt not implemented messages changed to debug from warn ([0e397c4](https://github.com/godot-escoria/escoria-demo-game/commit/0e397c46674c0e0e5ae4b049084f4a32f0978b9c))
+
+
+
 ## [4.0.0-alpha.226](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.226) (2022-11-08)
 
 
