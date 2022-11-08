@@ -25,12 +25,12 @@ const PLAYER_SELECT_TEXT        = "Please select scene."
 const BACKGROUND_BLANK_TEXT     = "Image will be left blank."
 const BACKGROUND_SELECT_TEXT    = "Please select image."
 
+const ROOM_PATH_SETTING         = "escoria/wizard/path_to_rooms"
 
 var settings_modified: bool
 
 
 func _ready() -> void:
-	room_creator_reset()
 	$"InformationWindows/PlayerSceneFileDialog".get_cancel().connect("pressed", self, "PlayerSceneCancelled")
 	$"InformationWindows/BackgroundImageFileDialog".get_cancel().connect("pressed", self, "BackgroundFileCancelled")
 
@@ -63,8 +63,8 @@ func room_creator_reset() -> void:
 	get_node(BACKGROUND_PREVIEW).visible = true
 	get_node(ROOM_BACKGROUND).visible = true
 	get_node(BACKGROUND_PREVIEW).texture = null
-	get_node(ROOM_FOLDER_PATH).text = ProjectSettings.get_setting("escoria/debug/room_selector_room_dir")
-	$InformationWindows/RoomFolderDialog.current_dir = ProjectSettings.get_setting("escoria/debug/room_selector_room_dir")
+	get_node(ROOM_FOLDER_PATH).text = ProjectSettings.get_setting(ROOM_PATH_SETTING)
+	$InformationWindows/RoomFolderDialog.current_dir = ProjectSettings.get_setting(ROOM_PATH_SETTING)
 	settings_modified = false
 
 
@@ -208,7 +208,7 @@ func _on_ChangeRoomFolderButton_pressed() -> void:
 
 
 func _on_RoomFolderDialog_dir_selected(dir: String) -> void:
-	ProjectSettings.set_setting("escoria/debug/room_selector_room_dir", dir)
+	ProjectSettings.set_setting(ROOM_PATH_SETTING, dir)
 	get_node(ROOM_FOLDER_PATH).text = dir
 
 
@@ -235,7 +235,7 @@ func _on_CreateButton_pressed() -> void:
 			$"InformationWindows/GenericErrorDialog".popup_centered()
 			return
 
-	var BaseDir = ProjectSettings.get_setting("escoria/debug/room_selector_room_dir")
+	var BaseDir = ProjectSettings.get_setting(ROOM_PATH_SETTING)
 	var ImageSize = Vector2(1,1)
 	var NewRoom = ESCRoom.new()
 

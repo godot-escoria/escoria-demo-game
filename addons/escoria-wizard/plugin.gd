@@ -39,3 +39,24 @@ func get_plugin_icon() -> Texture:
 
 func open_scene(path: String) -> void:
 	get_editor_interface().open_scene_from_path(path)
+
+# Unregister ourselves
+func disable_plugin():
+	print("Disabling Escoria Wizard plugin")
+	ESCProjectSettingsManager.register_setting(
+		"escoria/wizard/path_to_rooms",
+		null,
+		{}
+	)
+
+# Register ourselves
+func enable_plugin():
+	print("Enabling Escoria Wizard plugin")
+	ESCProjectSettingsManager.register_setting(
+		"escoria/wizard/path_to_rooms",
+		"res://rooms",
+		{
+			"type": TYPE_STRING
+		}
+	)
+		
