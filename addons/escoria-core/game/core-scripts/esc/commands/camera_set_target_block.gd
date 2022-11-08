@@ -1,19 +1,20 @@
-# `camera_set_pos_block time x y`
+# `camera_set_target_block time object`
 #
-# Moves the camera to the given absolute position over a time period. Blocks
-# until the command completes.
+# Configures the camera to follow the specified target `object` as it moves
+# around the current room. The transition to focus on the `object` will happen
+# over a time period.  Blocks until the command completes.
 #
 # **Parameters**
 #
-# - *time*: Number of seconds the transition should take
-# - *x*: Target X coordinate
-# - "y*: Target Y coordinate
+# - *time*: Number of seconds the transition should take to move the camera
+#   to follow `object`
+# - *object*: Global ID of the target object
 #
 # For more details see: https://docs.escoria-framework.org/camera
 #
 # @ESC
 extends ESCCameraBaseCommand
-class_name CameraSetPosBlockCommand
+class_name CameraSetTargetBlockCommand
 
 
 # Tween for blocking
@@ -23,9 +24,9 @@ var _camera_tween: Tween
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		3,
-		[[TYPE_REAL, TYPE_INT], TYPE_INT, TYPE_INT],
-		[null, null, null]
+		2,
+		[[TYPE_REAL, TYPE_INT], TYPE_STRING],
+		[null, null]
 	)
 
 
@@ -34,13 +35,15 @@ func validate(arguments: Array):
 	if not .validate(arguments):
 		return false
 
-	var new_pos: Vector2 = Vector2(arguments[1], arguments[2])
-	var camera: ESCCamera = escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera
-
-	if not camera.check_point_is_inside_viewport_limits(new_pos):
-		generate_viewport_warning(new_pos, camera)
+	if not escoria.object_manager.has(arguments[1]):
+		escoria.logger.error(
+			self,
+			"[%s]: Invalid object: Object with global id %s not found."
+					% [get_command_name(), arguments[1]]
+		)
 		return false
 
+	var camera: ESCCamera = escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera
 	_camera_tween = camera.get_tween()
 
 	return true
@@ -49,10 +52,10 @@ func validate(arguments: Array):
 # Run the command
 func run(command_params: Array) -> int:
 	(escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera)\
-			.set_target(
-				Vector2(command_params[1], command_params[2]),
-				command_params[0]
-			)
+		.set_target(
+			escoria.object_manager.get_object(command_params[1]).node,
+			command_params[0]
+		)
 
 	if command_params[0] > 0.0:
 		yield(_camera_tween, "tween_completed")
