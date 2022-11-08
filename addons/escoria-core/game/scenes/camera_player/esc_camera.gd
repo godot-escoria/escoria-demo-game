@@ -239,7 +239,7 @@ func push(p_target, p_time: float = 0.0, p_type: int = 0):
 		set_drag_margin_enabled(false, false)
 
 		_convert_current_global_pos_for_disabled_drag_margin()
-	
+
 		_tween.interpolate_property(
 			self,
 			"global_position",

@@ -1,3 +1,12 @@
+## [4.0.0-alpha.225](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.225) (2022-11-08)
+
+
+### Bug Fixes
+
+* Move wizard path to rooms to its own Godot setting ([e551e36](https://github.com/godot-escoria/escoria-demo-game/commit/e551e365ac2eb23219b11b4dbeedf20058aff5b4))
+
+
+
 ## [4.0.0-alpha.224](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.224) (2022-10-31)
 
 
