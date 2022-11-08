@@ -94,14 +94,14 @@ func set_target(p_target, p_time : float = 0.0):
 		self.global_position = _target
 	else:
 		if _tween.is_active():
-			escoria.logger.warn(
+			escoria.logger.debug(
 				self,
 				"Tween is still active: %f seconds of %f completed." % [
 					_tween.tell(),
 					_tween.get_runtime()
 				]
 			)
-			_tween.emit_signal("tween_completed")
+			_tween.stop_all()
 
 		# Need to wait a frame in order to ensure the screen centre position is
 		# recalculated.
@@ -142,14 +142,22 @@ func set_camera_zoom(p_zoom_level: float, p_time: float):
 		self.zoom = _zoom_target
 	else:
 		if _tween.is_active():
-			escoria.logger.warn(
+			escoria.logger.debug(
 				self,
-				"Tween is still active: %f/%f" % [
+				"Tween is still active: %f seconds of %f completed." % [
 					_tween.tell(),
 					_tween.get_runtime()
 				]
 			)
-			_tween.emit_signal("tween_completed")
+			_tween.stop_all()
+
+		# Need to wait a frame in order to ensure the screen centre position is
+		# recalculated.
+		yield(get_tree(), "idle_frame")
+
+		set_drag_margin_enabled(false, false)
+
+		_convert_current_global_pos_for_disabled_drag_margin()
 
 		_tween.interpolate_property(
 			self,
@@ -189,14 +197,14 @@ func push(p_target, p_time: float = 0.0, p_type: int = 0):
 			self.zoom = _zoom_target
 	else:
 		if _tween.is_active():
-			escoria.logger.warn(
+			escoria.logger.debug(
 				self,
 				"Tween is still active: %f seconds of %f completed." % [
 					_tween.tell(),
 					_tween.get_runtime()
 				]
 			)
-			_tween.emit_signal("tween_completed", null, null)
+			_tween.stop_all()
 
 		if _zoom_target != Vector2():
 			_tween.interpolate_property(
@@ -247,14 +255,14 @@ func shift(p_target: Vector2, p_time: float, p_type: int):
 	_target = new_pos
 
 	if _tween.is_active():
-		escoria.logger.warn(
+		escoria.logger.debug(
 			self,
 			"Tween is still active: %f seconds of %f completed." % [
 				_tween.tell(),
 				_tween.get_runtime()
 			]
 		)
-		_tween.emit_signal("tween_completed")
+		_tween.stop_all()
 
 	# Need to wait a frame in order to ensure the screen centre position is
 	# recalculated.
