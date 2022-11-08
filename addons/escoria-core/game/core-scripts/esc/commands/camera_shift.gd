@@ -88,7 +88,7 @@ func validate(arguments: Array):
 
 # Function called when the command is interrupted.
 func interrupt():
-	escoria.logger.warn(
+	escoria.logger.debug(
 		self,
 		"[%s] interrupt() function not implemented." % get_command_name()
 	)
