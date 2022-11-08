@@ -50,7 +50,7 @@ func get_command_name() -> String:
 
 # Function called when the command is interrupted.
 func interrupt():
-	escoria.logger.trace(
+	escoria.logger.debug(
 		self,
 		"Command %s did not override interrupt. Please implement an interrupt() function." % get_command_name()
 	)
