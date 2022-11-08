@@ -59,4 +59,4 @@ func enable_plugin():
 			"type": TYPE_STRING
 		}
 	)
-	
+

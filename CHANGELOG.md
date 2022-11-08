@@ -1,3 +1,12 @@
+## [4.0.0-alpha.226](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.226) (2022-11-08)
+
+
+### Bug Fixes
+
+* issue_292 - Corrected navigation polygon for room 4 ([372e3c6](https://github.com/godot-escoria/escoria-demo-game/commit/372e3c66cb5fdf3172c6b45d2239c1300f5cf4e8))
+
+
+
 ## [4.0.0-alpha.225](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.225) (2022-11-08)
 
 
