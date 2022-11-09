@@ -1,3 +1,12 @@
+## [4.0.0-alpha.228](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.228) (2022-11-09)
+
+
+### Bug Fixes
+
+* unwanted error messages when opening a room in editor ([056db75](https://github.com/godot-escoria/escoria-demo-game/commit/056db7592996d35010cbf67dec5b14c8073437e6))
+
+
+
 ## [4.0.0-alpha.227](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.227) (2022-11-08)
 
 

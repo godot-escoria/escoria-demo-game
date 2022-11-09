@@ -59,14 +59,14 @@ var _lightmap_data
 var _texture_in_update = false
 
 # Logger instance
-onready var logger = Logger.ESCLoggerFile.new() 
+onready var logger = Logger.ESCLoggerFile.new()
 
 # Set a reference to the active navigation polygon, register to Escoria
 # and update the texture
 func _ready():
 	connect("child_entered_tree", self, "_check_multiple_enabled_navpolys")
 	connect("child_exiting_tree", self, "_check_multiple_enabled_navpolys", [true])
-	
+
 	_check_multiple_enabled_navpolys()
 	if !Engine.is_editor_hint():
 		escoria.room_terrain = self
@@ -76,12 +76,12 @@ func _ready():
 # Checks whether multiple navigation polygons are enabled.
 # Shows a warning in the terminal if this happens.
 # TODO: change this "simple" console log for an editor warning
-# by overriding Node._get_configuration_warning() after we get rid of 
-# deprecated Navigation2D. 
+# by overriding Node._get_configuration_warning() after we get rid of
+# deprecated Navigation2D.
 #
 # #### Parameters
 #
-# - node: if this method is triggered by child_entered_tree or 
+# - node: if this method is triggered by child_entered_tree or
 # child_exited_tree signals, parameter is the added node.
 func _check_multiple_enabled_navpolys(node: Node = null, is_exiting: bool = false) -> void:
 	var navigation_enabled_found = false
@@ -90,7 +90,7 @@ func _check_multiple_enabled_navpolys(node: Node = null, is_exiting: bool = fals
 			and node is NavigationPolygonInstance \
 			and node.enabled:
 		 navigation_enabled_found = true
-	
+
 	for n in get_children():
 		if is_exiting and n == node:
 			continue
@@ -112,8 +112,8 @@ func _check_multiple_enabled_navpolys(node: Node = null, is_exiting: bool = fals
 			else:
 				navigation_enabled_found = true
 				current_active_navigation_instance = n
-	
-	
+
+
 # Return the Color of the lightmap pixel for the specified position
 #
 # #### Parameters
