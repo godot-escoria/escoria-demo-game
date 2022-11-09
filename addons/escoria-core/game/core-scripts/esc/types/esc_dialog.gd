@@ -95,4 +95,6 @@ func run():
 		rc = yield(rc, "completed")
 	if rc != ESCExecution.RC_CANCEL:
 		return self.run()
+	# make sure we are resetting GAME_STATE to prevent the game from hanging
+	escoria.current_state = escoria.GAME_STATE.DEFAULT
 	return rc
