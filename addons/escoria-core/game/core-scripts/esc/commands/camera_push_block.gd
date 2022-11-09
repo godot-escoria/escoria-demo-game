@@ -10,7 +10,7 @@
 #
 # - *target*: Global ID of the `ESCItem` to push the camera to. `ESCItem`s have
 #   a "camera_node" property that can be set to point to a node (usually an
-#   `ESCLocation` node). If the "camera_node" property is empty, `camera_push`
+#   `ESCLocation` node). If the "camera_node" property is empty, `camera_push_block`
 #   will point the camera at the `ESCItem`s location. If however, the `ESCItem`
 #   has its "camera_node" property set, the command will instead point the
 #   camera at the node referenced by the `ESCItem`s "camera_node" property.
@@ -18,7 +18,7 @@
 # - *type*: Transition type to use (default: `QUAD`)
 #
 # Supported transitions include the names of the values used
-# in the "TransitionType" enum of the "Tween" type (without the "TRANS_" prefix):
+# in the "TransitionType" enum of the "Tween" type (without the "TRANS_" prefix).
 #
 # See https://docs.godotengine.org/en/stable/classes/class_tween.html?highlight=tween#enumerations
 #
@@ -99,7 +99,10 @@ func run(command_params: Array) -> int:
 
 	if command_params[1] > 0.0:
 		yield(_camera_tween, "tween_completed")
-		print("------DONE-----------")
+		escoria.logger.debug(
+			self,
+			"camera_push_block tween complete."
+		)
 
 	return ESCExecution.RC_OK
 
@@ -118,7 +121,7 @@ func interrupt():
 #
 # - target_global_id: The `global_id` of the `ESCItem` to check.
 #
-# **Returns** the item's position based on its camera node.
+# **Returns** the ESCitem's position based on its camera node.
 func _get_target_pos(target_global_id: String) -> Vector2:
 	var target = escoria.object_manager.get_object(target_global_id).node as ESCItem
 	return target.get_camera_node().global_position
