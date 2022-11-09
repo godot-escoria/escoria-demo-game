@@ -80,6 +80,8 @@ func run():
 		self,
 		"Starting dialog."
 	)
+	# Value of game state when dialog starts running
+	var initial_game_state = escoria.current_state
 	escoria.current_state = escoria.GAME_STATE.DIALOG
 	if !escoria.dialog_player:
 		escoria.dialog_player = escoria.main.current_scene.get_node(
@@ -96,5 +98,8 @@ func run():
 	if rc != ESCExecution.RC_CANCEL:
 		return self.run()
 	# make sure we are resetting GAME_STATE to prevent the game from hanging
-	escoria.current_state = escoria.GAME_STATE.DEFAULT
+	if (initial_game_state != null):
+		escoria.current_state = initial_game_state
+	else:
+		escoria.current_state = escoria.GAME_STATE.DEFAULT
 	return rc
