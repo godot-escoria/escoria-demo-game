@@ -93,19 +93,19 @@ func set_target(p_target, p_time : float = 0.0):
 	if p_time == 0.0:
 		self.global_position = _target
 	else:
+		# Need to wait a frame in order to ensure the screen centre position is
+		# recalculated. Also to allow any close-calls with the tween to finish.
+		yield(get_tree(), "idle_frame")
+
 		if _tween.is_active():
 			escoria.logger.debug(
 				self,
-				"Tween is still active: %f seconds of %f completed." % [
+				"set_target tween is still active: %f seconds of %f completed." % [
 					_tween.tell(),
 					_tween.get_runtime()
 				]
 			)
 			_tween.stop_all()
-
-		# Need to wait a frame in order to ensure the screen centre position is
-		# recalculated.
-		yield(get_tree(), "idle_frame")
 
 		set_drag_margin_enabled(false, false)
 
@@ -141,19 +141,19 @@ func set_camera_zoom(p_zoom_level: float, p_time: float):
 	if p_time == 0:
 		self.zoom = _zoom_target
 	else:
+		# Need to wait a frame in order to ensure the screen centre position is
+		# recalculated. Also to allow any close-calls with the tween to finish.
+		yield(get_tree(), "idle_frame")
+
 		if _tween.is_active():
 			escoria.logger.debug(
 				self,
-				"Tween is still active: %f seconds of %f completed." % [
+				"set_camera_zoom tween is still active: %f seconds of %f completed." % [
 					_tween.tell(),
 					_tween.get_runtime()
 				]
 			)
 			_tween.stop_all()
-
-		# Need to wait a frame in order to ensure the screen centre position is
-		# recalculated.
-		yield(get_tree(), "idle_frame")
 
 		set_drag_margin_enabled(false, false)
 
@@ -196,10 +196,14 @@ func push(p_target, p_time: float = 0.0, p_type: int = 0):
 		if _zoom_target != Vector2():
 			self.zoom = _zoom_target
 	else:
+		# Need to wait a frame in order to ensure the screen centre position is
+		# recalculated. Also to allow any close-calls with the tween to finish.
+		yield(get_tree(), "idle_frame")
+
 		if _tween.is_active():
 			escoria.logger.debug(
 				self,
-				"Tween is still active: %f seconds of %f completed." % [
+				"camera push tween is still active: %f seconds of %f completed." % [
 					_tween.tell(),
 					_tween.get_runtime()
 				]
@@ -216,10 +220,6 @@ func push(p_target, p_time: float = 0.0, p_type: int = 0):
 				p_type,
 				Tween.EASE_IN_OUT
 			)
-
-		# Need to wait a frame in order to ensure the screen centre position is
-		# recalculated.
-		yield(get_tree(), "idle_frame")
 
 		set_drag_margin_enabled(false, false)
 
@@ -255,18 +255,18 @@ func shift(p_target: Vector2, p_time: float, p_type: int):
 	_target = new_pos
 
 	if _tween.is_active():
+		# Need to wait a frame in order to ensure the screen centre position is
+		# recalculated. Also to allow any close-calls with the tween to finish.
+		yield(get_tree(), "idle_frame")
+
 		escoria.logger.debug(
 			self,
-			"Tween is still active: %f seconds of %f completed." % [
+			"camera shift tween is still active: %f seconds of %f completed." % [
 				_tween.tell(),
 				_tween.get_runtime()
 			]
 		)
 		_tween.stop_all()
-
-	# Need to wait a frame in order to ensure the screen centre position is
-	# recalculated.
-	yield(get_tree(), "idle_frame")
 
 	set_drag_margin_enabled(false, false)
 

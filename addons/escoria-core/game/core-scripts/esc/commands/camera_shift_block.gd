@@ -3,6 +3,9 @@
 # Shifts the camera by the given horizontal and vertical amounts relative to the
 # current location. Blocks until the command completes.
 #
+# Make sure the destination coordinates are reachable if 
+# camera limits have been configured.
+#
 # **Parameters**
 #
 # - *x*: Shift by x pixels along the x-axis
@@ -12,9 +15,9 @@
 # - *type*: Transition type to use (default: `QUAD`)
 #
 # Supported transitions include the names of the values used
-# in the "TransitionType" enum of the "Tween" type (without the "TRANS_" prefix):
+# in the "TransitionType" enum of the "Tween" type (without the "TRANS_" prefix).
 #
-# https://docs.godotengine.org/en/stable/classes/class_tween.html?highlight=tween#enumerations
+# See https://docs.godotengine.org/en/stable/classes/class_tween.html?highlight=tween#enumerations
 #
 # For more details see: https://docs.escoria-framework.org/camera
 #
@@ -60,7 +63,10 @@ func run(command_params: Array) -> int:
 
 	if command_params[2] > 0.0:
 		yield(_camera_tween, "tween_completed")
-
+	escoria.logger.debug(
+			self,
+			"camera_shift_block tween complete."
+		)
 	return ESCExecution.RC_OK
 
 

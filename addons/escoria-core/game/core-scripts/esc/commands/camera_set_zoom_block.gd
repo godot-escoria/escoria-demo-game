@@ -7,6 +7,9 @@
 # would result in no change. The zoom will happen over the given time period.
 # Blocks until the command completes.
 #
+# Zoom operations might not be as smooth as desired if the requested zoom
+# level results in an edge of the camera meeting any defined camera limits.
+#
 # **Parameters**
 #
 # - *magnitude*: Magnitude of zoom
@@ -55,7 +58,10 @@ func run(command_params: Array) -> int:
 
 	if command_params[1] > 0.0:
 		yield(_camera_tween, "tween_completed")
-
+	escoria.logger.debug(
+			self,
+			"camera_set_zoom_block tween complete."
+		)
 	return ESCExecution.RC_OK
 
 

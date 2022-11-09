@@ -5,7 +5,7 @@
 #
 # **Parameters**
 #
-# - *pixels*: Target height in pixels
+# - *pixels*: Target height in pixels (integer values only)
 # - *time*: Number of seconds the transition should take, with a value of `0`
 #   meaning the zoom should happen instantly (default: `0`)
 #
@@ -34,7 +34,7 @@ func validate(arguments: Array):
 	if not .validate(arguments):
 		return false
 
-	if arguments[0] < 0:
+	if arguments[0] <= 0:
 		escoria.logger.error(
 			self,
 			"[%s]: invalid height. Can't zoom to a negative height (%d)."
@@ -58,7 +58,10 @@ func run(command_params: Array) -> int:
 
 	if command_params[1] > 0.0:
 		yield(_camera_tween, "tween_completed")
-
+	escoria.logger.debug(
+			self,
+			"camera_set_zoom_height_block tween complete."
+		)
 	return ESCExecution.RC_OK
 
 

@@ -3,6 +3,8 @@
 # Moves the camera to the given absolute position over a time period. Blocks
 # until the command completes.
 #
+# Make sure the coordinates are reachable if camera limits have been configured.
+#
 # **Parameters**
 #
 # - *time*: Number of seconds the transition should take
@@ -56,7 +58,10 @@ func run(command_params: Array) -> int:
 
 	if command_params[0] > 0.0:
 		yield(_camera_tween, "tween_completed")
-
+	escoria.logger.debug(
+			self,
+			"camera_set_pos_block tween complete."
+		)
 	return ESCExecution.RC_OK
 
 
