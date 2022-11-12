@@ -7,10 +7,8 @@ say player "movin up"
 
 teleport player r7_upper_stairs
 set_angle player 270
-camera_set_limits 2
 camera_set_target 0 player
 wait 1
-camera_set_limits 1
 enable_terrain upper_platform
 # Reenable player interaction
 accept_input ALL

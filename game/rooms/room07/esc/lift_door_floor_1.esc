@@ -8,7 +8,6 @@
 	# Move the player a long way as there isn't currently a "hide player" command
 	teleport_pos player 5000 5000
 	set_angle player 180
-	camera_set_limits 2
 	camera_push r7_lift_door_floor_2 3
 	anim_block r7_lift lift_floor_1_to_2_with_player
 	teleport player r7_lift_door_floor_2
