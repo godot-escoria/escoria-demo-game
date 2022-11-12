@@ -12,8 +12,12 @@ var _text_speed_per_character
 # The text speed per character if the dialog line is skipped
 var _fast_text_speed_per_character
 
-# The time to wait before the dialog is finished
-var _max_time_to_text_disappear
+# The reading speed to be used in determining the length of time text remains
+# on the screen.
+var _reading_speed_in_wpm: int
+
+# Used to extract words from lines of text.
+var _word_regex: RegEx = RegEx.new()
 
 
 # Current character speaking, to keep track of reference for animation purposes
@@ -41,9 +45,12 @@ func _ready():
 	_fast_text_speed_per_character = ProjectSettings.get_setting(
 		"escoria/dialog_simple/fast_text_speed_per_character"
 	)
-	_max_time_to_text_disappear = ProjectSettings.get_setting(
-		"escoria/dialog_simple/max_time_to_disappear"
+	_reading_speed_in_wpm = ProjectSettings.get_setting(
+		"escoria/dialog_simple/reading_speed_in_wpm"
 	)
+
+	_word_regex.compile("\\S+")
+
 	bbcode_enabled = true
 	$Tween.connect("tween_completed", self, "_on_dialog_line_typed")
 
@@ -134,9 +141,18 @@ func speedup():
 # The dialog line was printed, start the waiting time and then finish
 # the dialog
 func _on_dialog_line_typed(object, key):
+	var time_to_disappear: float = _calculate_time_to_disappear()
 	text_node.visible_characters = -1
-	$Timer.start(_max_time_to_text_disappear)
+	$Timer.start(time_to_disappear)
 	$Timer.connect("timeout", self, "_on_dialog_finished")
+
+
+func _calculate_time_to_disappear() -> float:
+	return (_get_number_of_words() / _reading_speed_in_wpm as float) * 60
+
+
+func _get_number_of_words() -> int:
+	return _word_regex.search_all(text_node.get_text()).size()
 
 
 # Ending the dialog

@@ -24,27 +24,27 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/anim.gd"
 }, {
-"base": "ESCBaseCommand",
+"base": "ESCCameraBaseCommand",
 "class": "CameraPushCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/camera_push.gd"
 }, {
-"base": "ESCBaseCommand",
+"base": "ESCCameraBaseCommand",
 "class": "CameraSetLimitsCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/camera_set_limits.gd"
 }, {
-"base": "ESCBaseCommand",
+"base": "ESCCameraBaseCommand",
 "class": "CameraSetPosCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/camera_set_pos.gd"
 }, {
-"base": "ESCBaseCommand",
+"base": "ESCCameraBaseCommand",
 "class": "CameraSetTargetCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/camera_set_target.gd"
 }, {
-"base": "ESCBaseCommand",
+"base": "ESCCameraBaseCommand",
 "class": "CameraSetZoomCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/camera_set_zoom.gd"
@@ -54,7 +54,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/camera_set_zoom_height.gd"
 }, {
-"base": "ESCBaseCommand",
+"base": "ESCCameraBaseCommand",
 "class": "CameraShiftCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/camera_shift.gd"
@@ -108,6 +108,11 @@ _global_script_classes=[ {
 "class": "ESCCamera",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/scenes/camera_player/esc_camera.gd"
+}, {
+"base": "ESCBaseCommand",
+"class": "ESCCameraBaseCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_camera_base_command.gd"
 }, {
 "base": "Reference",
 "class": "ESCCameraLimits",
@@ -615,6 +620,7 @@ _global_script_class_icons={
 "ESCBackground": "res://addons/escoria-core/design/esc_background.svg",
 "ESCBaseCommand": "",
 "ESCCamera": "",
+"ESCCameraBaseCommand": "",
 "ESCCameraLimits": "",
 "ESCCommand": "",
 "ESCCommandArgumentDescriptor": "",
@@ -745,7 +751,7 @@ search_in_file_extensions=PoolStringArray( "gd", "shader", "esc" )
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-dialog-simple/plugin.cfg", "res://addons/escoria-ui-9verbs/plugin.cfg", "res://addons/escoria-wizard/plugin.cfg", "res://addons/godot-plugin-refresher/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-dialog-simple/plugin.cfg", "res://addons/escoria-ui-9verbs/plugin.cfg", "res://addons/escoria-wizard/plugin.cfg" )
 
 [escoria]
 
@@ -788,11 +794,11 @@ ui/tooltip_follows_mouse=false
 main/escoria_version=""
 ui/dialogs_chooser="res://addons/escoria-core/ui_library/dialogs/text_dialog_chooser.tscn"
 ui/default_dialog_scene="res://addons/escoria-core/ui_library/dialogs/floating_dialog_player.tscn"
+main/action_default_script="res://action_defaults.esc"
 dialog_simple/avatars_path="res://game/dialog_avatars/"
 dialog_simple/text_speed_per_character=0.1
 dialog_simple/fast_text_speed_per_character=0.25
-dialog_simple/max_time_to_disappear=1.0
-main/action_default_script="res://action_defaults.esc"
+dialog_simple/reading_speed_in_wpm=200
 
 [input]
 

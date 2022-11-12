@@ -37,7 +37,7 @@ func disable_plugin():
 	)
 
 	ESCProjectSettingsManager.register_setting(
-		ESCProjectSettingsManager.MAX_TIME_TO_DISAPPEAR,
+		ESCProjectSettingsManager.READING_SPEED_IN_WPM,
 		null,
 		{}
 	)
@@ -83,10 +83,10 @@ func enable_plugin():
 		)
 
 		ESCProjectSettingsManager.register_setting(
-			ESCProjectSettingsManager.MAX_TIME_TO_DISAPPEAR,
-			1.0,
+			ESCProjectSettingsManager.READING_SPEED_IN_WPM,
+			200,
 			{
-				"type": TYPE_REAL
+				"type": TYPE_INT
 			}
 		)
 	else:
