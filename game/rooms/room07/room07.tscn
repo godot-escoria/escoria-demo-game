@@ -672,7 +672,7 @@ __meta__ = {
 global_id = "room7"
 esc_script = "res://game/rooms/room07/esc/room07.esc"
 player_scene = ExtResource( 4 )
-camera_limits = [ Rect2( 0, 600, 2260, 1000 ), Rect2( 0, 0, 2260, 1000 ), Rect2( 0, 0, 2260, 2000 ) ]
+camera_limits = [ Rect2( 0, 0, 1300, 2000 ), Rect2( 0, 0, 2260, 2000 ) ]
 editor_debug_mode = 1
 
 [node name="lift_shaft" type="Polygon2D" parent="."]
@@ -883,7 +883,7 @@ script = ExtResource( 8 )
 
 [node name="upper_stairs" type="Area2D" parent="Hotspots"]
 pause_mode = 1
-position = Vector2( 1347.64, 473.026 )
+position = Vector2( 1908, 390 )
 script = ExtResource( 7 )
 global_id = "r7_upper_stairs"
 esc_script = "res://game/rooms/room07/esc/upper_stairs.esc"
@@ -895,11 +895,11 @@ dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/upper_stairs"]
-position = Vector2( -1334.92, 936.565 )
+position = Vector2( -1896, 1022 )
 polygon = PoolVector2Array( 1805.28, -1020.59, 1806.28, -1304.59, 1982.28, -1304.59, 1983.28, -1019.59 )
 
 [node name="Position2D" type="Position2D" parent="Hotspots/upper_stairs"]
-position = Vector2( 558.36, -82.026 )
+position = Vector2( -5.00012, -2 )
 script = ExtResource( 8 )
 
 [node name="button_camera_push" type="Area2D" parent="Hotspots"]
@@ -1127,13 +1127,14 @@ tooltip_name = "Lift Button"
 default_action = "use"
 combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
+camera_node = NodePath("ESCLocation")
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="lift_button_floor_2"]
 polygon = PoolVector2Array( 1311, 245, 1347, 245, 1347, 283, 1311, 283 )
 
 [node name="ESCLocation" type="Position2D" parent="lift_button_floor_2"]
-position = Vector2( 1331, 420 )
+position = Vector2( 1331, 450 )
 script = ExtResource( 8 )
 
 [node name="lift_door_floor_1" type="Area2D" parent="."]
