@@ -67,7 +67,8 @@ const _SIMPLE_DIALOG_ROOT = "dialog_simple"
 const AVATARS_PATH = "%s/%s/avatars_path" % [_ESCORIA_SETTINGS_ROOT, _SIMPLE_DIALOG_ROOT]
 const TEXT_SPEED_PER_CHARACTER = "%s/%s/text_speed_per_character" % [_ESCORIA_SETTINGS_ROOT, _SIMPLE_DIALOG_ROOT]
 const FAST_TEXT_SPEED_PER_CHARACTER = "%s/%s/fast_text_speed_per_character" % [_ESCORIA_SETTINGS_ROOT, _SIMPLE_DIALOG_ROOT]
-const MAX_TIME_TO_DISAPPEAR = "%s/%s/max_time_to_disappear" % [_ESCORIA_SETTINGS_ROOT, _SIMPLE_DIALOG_ROOT]
+const READING_SPEED_IN_WPM = "%s/%s/reading_speed_in_wpm" % [_ESCORIA_SETTINGS_ROOT, _SIMPLE_DIALOG_ROOT]
+
 
 # Godot Windows project settings
 const DISPLAY = "display"
