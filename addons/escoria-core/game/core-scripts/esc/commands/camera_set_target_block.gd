@@ -3,7 +3,7 @@
 # Configures the camera to follow the specified target `object` (ESCItem) as it moves
 # around the current room. The transition to focus on the `object` will happen
 # over a time period.  Blocks until the command completes.
-# 
+#
 # The camera will move as close as it can if camera limits have been configured
 # and the `object` is at coordinates that are not reachable.
 #

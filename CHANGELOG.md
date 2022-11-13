@@ -1,3 +1,18 @@
+## [4.0.0-alpha.229](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.229) (2022-11-13)
+
+
+### Features
+
+* adds blocking versions of camera commands that can tween/transition. ([20f1aee](https://github.com/godot-escoria/escoria-demo-game/commit/20f1aee6c2b2df21646d8171a0daf39b4c37b702))
+
+
+### Bug Fixes
+
+* makes this button usable again ([595bbed](https://github.com/godot-escoria/escoria-demo-game/commit/595bbed8704f12665ba6ccb5d8d4f8710468e0a1))
+* yield a frame for any tweening period in case camera commands are back-to-back, resulting in a potential race condition. ([9f2cfd0](https://github.com/godot-escoria/escoria-demo-game/commit/9f2cfd0dd0b52db4f97657f75ff5e2e2d609319a))
+
+
+
 ## [4.0.0-alpha.228](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.228) (2022-11-09)
 
 

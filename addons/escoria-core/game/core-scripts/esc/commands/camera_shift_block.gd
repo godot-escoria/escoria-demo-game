@@ -3,7 +3,7 @@
 # Shifts the camera by the given horizontal and vertical amounts relative to the
 # current location. Blocks until the command completes.
 #
-# Make sure the destination coordinates are reachable if 
+# Make sure the destination coordinates are reachable if
 # camera limits have been configured.
 #
 # **Parameters**
