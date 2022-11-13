@@ -1,3 +1,12 @@
+## [4.0.0-alpha.230](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.230) (2022-11-13)
+
+
+### Features
+
+* adds adjustable reading speed/display time ([a3da01e](https://github.com/godot-escoria/escoria-demo-game/commit/a3da01e4cc3199a7250e60c2646c79ab59bd8c21))
+
+
+
 ## [4.0.0-alpha.229](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.229) (2022-11-13)
 
 
