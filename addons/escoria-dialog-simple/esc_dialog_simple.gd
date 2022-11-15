@@ -99,5 +99,10 @@ func speedup():
 # The say command has been interrupted, cancel the dialog display
 func interrupt():
 	if _dialog_player.get_children().has(_type_player):
+		(
+			escoria.object_manager.get_object(escoria.object_manager.SPEECH).node\
+			 as ESCSpeechPlayer
+		).set_state("off")
+
 		_dialog_player.remove_child(_type_player)
 		emit_signal("say_finished")
