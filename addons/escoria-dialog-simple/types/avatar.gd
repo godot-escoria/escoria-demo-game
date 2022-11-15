@@ -5,6 +5,9 @@ extends Popup
 # Signal emitted when text has been said
 signal say_finished
 
+# Signal emitted when text has just become fully visible
+signal say_visible
+
 
 # The text speed per character for normal display
 var _text_speed_per_character
@@ -122,6 +125,7 @@ func _on_dialog_line_typed(object, key):
 	text_node.visible_characters = -1
 	$Timer.start(time_to_disappear)
 	$Timer.connect("timeout", self, "_on_dialog_finished")
+	emit_signal("say_visible")
 
 
 func _calculate_time_to_disappear() -> float:
