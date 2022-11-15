@@ -5,6 +5,9 @@ extends RichTextLabel
 # Signal emitted when text has been said
 signal say_finished
 
+# Signal emitted when text has just become fully visible
+signal say_visible
+
 
 # The text speed per character for normal display
 var _text_speed_per_character
@@ -53,6 +56,8 @@ func _ready():
 
 	bbcode_enabled = true
 	$Tween.connect("tween_completed", self, "_on_dialog_line_typed")
+
+	connect("tree_exiting", self, "_on_tree_exiting")
 
 	escoria.connect("paused", self, "_on_paused")
 	escoria.connect("resumed", self, "_on_resumed")
@@ -145,6 +150,7 @@ func _on_dialog_line_typed(object, key):
 	text_node.visible_characters = -1
 	$Timer.start(time_to_disappear)
 	$Timer.connect("timeout", self, "_on_dialog_finished")
+	emit_signal("say_visible")
 
 
 func _calculate_time_to_disappear() -> float:
@@ -157,9 +163,7 @@ func _get_number_of_words() -> int:
 
 # Ending the dialog
 func _on_dialog_finished():
-	# Make the speaking item animation stop talking, if it is still alive
-	if is_instance_valid(_current_character) and _current_character != null:
-		_current_character.stop_talking()
+	_stop_character_talking()
 	emit_signal("say_finished")
 
 
@@ -175,3 +179,14 @@ func _on_resumed():
 	if not tween.is_active():
 		is_paused = false
 		tween.resume_all()
+
+
+ # Handler to deal with this node being removed
+func _on_tree_exiting() -> void:
+	_stop_character_talking()
+
+
+func _stop_character_talking():
+	# Make the speaking item animation stop talking, if it is still alive
+	if is_instance_valid(_current_character) and _current_character != null:
+		_current_character.stop_talking()

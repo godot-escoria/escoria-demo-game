@@ -6,6 +6,9 @@ class_name ESCDialogManager
 # Emitted when the say function has completed showing the text
 signal say_finished
 
+# Emitted when text has just become fully visible
+signal say_visible
+
 # Emitted when the player has chosen an option
 signal option_chosen(option)
 

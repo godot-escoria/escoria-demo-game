@@ -41,6 +41,7 @@ func has_chooser_type(type: String) -> bool:
 # - type: Type of dialog box to use
 func say(dialog_player: Node, global_id: String, text: String, type: String):
 	_dialog_player = dialog_player
+
 	if type == "floating":
 		_type_player = preload(\
 			"res://addons/escoria-dialog-simple/types/floating.tscn"\
@@ -51,6 +52,7 @@ func say(dialog_player: Node, global_id: String, text: String, type: String):
 		).instance()
 
 	_type_player.connect("say_finished", self, "_on_say_finished", [], CONNECT_ONESHOT)
+	_type_player.connect("say_visible", self, "_on_say_visible", [], CONNECT_ONESHOT)
 
 	_dialog_player.add_child(_type_player)
 	_type_player.say(global_id, text)
@@ -64,6 +66,10 @@ func _on_say_finished():
 	if _dialog_player.get_children().has(_type_player):
 		_dialog_player.remove_child(_type_player)
 		emit_signal("say_finished")
+
+
+func _on_say_visible():
+	emit_signal("say_visible")
 
 
 # Present an option chooser to the player and sends the signal
