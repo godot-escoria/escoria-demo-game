@@ -364,7 +364,7 @@ func _on_mouse_entered_item(item: ESCItem) -> void:
 			hotspot_focused = hover_stack.back().global_id
 			escoria.main.current_scene.game.element_focused(hotspot_focused)
 		return
-		
+	
 	if not escoria.action_manager.is_object_actionable(item.global_id):
 		escoria.logger.debug(
 			self,
@@ -412,7 +412,7 @@ func _on_mouse_exited_item(item: ESCItem) -> void:
 		escoria.main.current_scene.game.element_focused(hotspot_focused)
 
 
-# Function called when the item is set interactive, to re-trigger an input on 
+# Function called when the item is set interactive, to re-trigger an input on
 # underlying item.
 #
 # #### Parameters
@@ -443,10 +443,10 @@ func _on_mouse_left_clicked_item(item: ESCItem, event: InputEvent) -> void:
 		if item as ESCPlayer and not (item as ESCPlayer).selectable:
 			escoria.logger.trace(
 				self,
-				"Ignoring left click on player %s: Player not selectable." 
+				"Ignoring left click on player %s: Player not selectable."
 						% [item.global_id]
 			)
-			
+		
 			# Get next object in hover stack and forward event to it
 			if not hover_stack.empty():
 				var next_item = hover_stack.pop_back()
@@ -456,14 +456,14 @@ func _on_mouse_left_clicked_item(item: ESCItem, event: InputEvent) -> void:
 				_on_left_click_on_bg(event.position)
 			return
 
-		# Clicked object can't be actioned and there is no other object behind 
+		# Clicked object can't be actioned and there is no other object behind
 		# We consider this click as a background click
 		if not escoria.action_manager.is_object_actionable(item.global_id) \
 				and hover_stack.empty():
 			hotspot_focused = ""
 			_on_left_click_on_bg(event.position)
 			return
-		
+	
 		# Finally, execute the action on the ESCItem
 		hotspot_focused = item.global_id
 		escoria.main.current_scene.game.left_click_on_item(
@@ -487,10 +487,10 @@ func _on_mouse_left_double_clicked_item(
 		if item as ESCPlayer and not (item as ESCPlayer).selectable:
 			escoria.logger.trace(
 				self,
-				"Ignoring double left click on player %s: Player not selectable." 
+				"Ignoring double left click on player %s: Player not selectable."
 						% [item.global_id]
 			)
-			
+		
 			# Get next object in hover stack and forward event to it
 			if not hover_stack.empty():
 				var next_item = hover_stack.pop_back()
@@ -500,14 +500,14 @@ func _on_mouse_left_double_clicked_item(
 				_on_double_left_click_on_bg(event.position)
 			return
 
-		# Clicked object can't be actioned and there is no other object behind 
+		# Clicked object can't be actioned and there is no other object behind
 		# We consider this click as a background click
 		if not escoria.action_manager.is_object_actionable(item.global_id) \
 				and hover_stack.empty():
 			hotspot_focused = ""
 			_on_double_left_click_on_bg(event.position)
 			return
-		
+	
 		# Finally, execute the action on the ESCItem
 		hotspot_focused = item.global_id
 		escoria.main.current_scene.game.left_double_click_on_item(

@@ -102,7 +102,7 @@ func run(command_params: Array) -> int:
 		)
 		escoria.current_state = escoria.GAME_STATE.DEFAULT
 		return ESCExecution.RC_ERROR
-	
+
 	if not escoria.main.current_scene.player:
 		escoria.logger.warn(
 			self,
