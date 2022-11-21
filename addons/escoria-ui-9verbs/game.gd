@@ -357,7 +357,7 @@ func _on_MenuButton_pressed() -> void:
 
 func _on_action_finished() -> void:
 	verbs_menu.unselect_actions()
-	tooltip.clear()
+
 
 func _on_event_done(_return_code: int, _event_name: String):
 	if _return_code == ESCExecution.RC_OK:

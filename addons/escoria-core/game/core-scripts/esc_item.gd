@@ -188,8 +188,8 @@ func _ready():
 
 	validate_animations(animations)
 
-	if not self.is_connected("mouse_entered", self, "_on_mouse_entered"):
-		connect("mouse_entered", self, "_on_mouse_entered")
+	if not self.is_connected("input_event", self, "_on_input_event"):
+		connect("input_event", self, "_on_input_event")
 	if not self.is_connected("mouse_exited", self, "_on_mouse_exited"):
 		connect("mouse_exited", self, "_on_mouse_exited")
 
@@ -294,6 +294,47 @@ func _ready():
 		_movable.last_scale = scale
 		_movable.update_terrain()
 
+
+# Mouse exited happens on any item that mouse cursor exited, even those UNDER
+# the top level of overlapping stack.
+func _on_mouse_exited():
+	if escoria.inputs_manager.hover_stack.has(self):
+		escoria.inputs_manager.hover_stack_erase_item(self)
+	escoria.inputs_manager.unset_hovered_node(self)
+
+
+class HoverStackSorter:
+	static func sort_ascending_z_index(a, b):
+		if a.z_index < b.z_index:
+			return true
+		return false
+
+
+# Manage input events on the item
+#
+# #### Parameters
+#
+# - _viewport: the viewport node the event entered
+# - event: the input event
+# - _shape_idx is the child index of the clicked Shape2D. 
+func _on_input_event(_viewport: Object, event: InputEvent, _shape_idx: int):
+	if event is InputEventMouseMotion:
+		var physics2d_dss: Physics2DDirectSpaceState = get_world_2d().direct_space_state
+		var colliding: Array = physics2d_dss.intersect_point(event.global_position, 32, [], 0x7FFFFFFF, true, true)
+		var colliding_nodes = []
+		for c in colliding:
+			if c.collider.get("global_id") \
+					and escoria.action_manager.is_object_actionable(c.collider.global_id):
+				colliding_nodes.push_back(c.collider)
+		
+		if colliding_nodes.empty():
+			return
+		colliding_nodes.sort_custom(HoverStackSorter, "sort_ascending_z_index")
+		escoria.inputs_manager.hover_stack_clear()
+		escoria.inputs_manager.hover_stack_add_items(colliding_nodes)
+		escoria.inputs_manager.set_hovered_node(colliding_nodes.back())
+
+
 # Manage mouse button clicks on this item by sending out signals
 #
 # #### Parameters
@@ -334,7 +375,7 @@ func _unhandled_input(input_event: InputEvent) -> void:
 			)
 			return
 		var p = get_global_mouse_position()
-		if _is_in_shape(p):
+		if _is_in_shape(p) and escoria.action_manager.is_object_actionable(global_id):
 			if event.doubleclick and event.button_index == BUTTON_LEFT:
 				emit_signal("mouse_double_left_clicked_item", self, event)
 				get_tree().set_input_as_handled()
@@ -472,12 +513,13 @@ func get_interact_position() -> Vector2:
 
 
 # React to the mouse entering the item by emitting the respective signal
-func _on_mouse_entered():
-	emit_signal("mouse_entered_item", self)
+func mouse_entered():
+	if escoria.action_manager.is_object_actionable(global_id):
+		emit_signal("mouse_entered_item", self)
 
 
 # React to the mouse exiting the item by emitting the respective signal
-func _on_mouse_exited():
+func mouse_exited():
 	emit_signal("mouse_exited_item",  self)
 
 

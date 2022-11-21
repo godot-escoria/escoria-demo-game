@@ -748,13 +748,13 @@ func _is_object_actionable(obj: ESCObject) -> bool:
 		return false
 
 	if not obj.active:
-		escoria.logger.debug(
+		escoria.logger.trace(
 			self,
 			"Item %s is not active." % obj.global_id
 		)
 		object_is_actionable = false
 	elif not obj.interactive:
-		escoria.logger.debug(
+		escoria.logger.trace(
 			self,
 			"Item %s is not interactive." % obj.global_id
 		)

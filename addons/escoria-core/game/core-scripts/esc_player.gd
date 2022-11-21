@@ -22,5 +22,3 @@ func _ready():
 		._ready()
 	else:
 		tooltip_name = ""
-		if is_connected("input_event", self, "manage_input"):
-			disconnect("input_event", self, "manage_input")

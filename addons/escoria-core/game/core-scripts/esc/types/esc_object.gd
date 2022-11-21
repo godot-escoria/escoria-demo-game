@@ -97,6 +97,9 @@ func _get_interactive() -> bool:
 func _set_interactive(value: bool):
 	if "is_interactive" in self.node:
 		self.node.is_interactive = value
+		if not value:
+			escoria.game_scene.clear_tooltip()
+			escoria.inputs_manager.on_item_non_interactive(self.node)
 
 
 # Return the data of the object to be inserted in a savegame file.
