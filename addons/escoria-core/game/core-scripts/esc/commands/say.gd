@@ -100,7 +100,17 @@ func run(command_params: Array) -> int:
 			"[%s]: No dialog player was registered and the say command was encountered."
 					% get_command_name()
 		)
+		escoria.current_state = escoria.GAME_STATE.DEFAULT
 		return ESCExecution.RC_ERROR
+	
+	if not escoria.main.current_scene.player:
+		escoria.logger.warn(
+			self,
+			"[%s]: No player item in the current scene was registered and the say command was encountered."
+					% get_command_name()
+		)
+		escoria.current_state = escoria.GAME_STATE.DEFAULT
+		return ESCExecution.RC_CANCEL
 
 	# Replace the names of any globals in "{ }" with their value
 	command_params[1] = escoria.globals_manager.replace_globals(command_params[1])

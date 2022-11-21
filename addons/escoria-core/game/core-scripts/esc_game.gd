@@ -111,6 +111,12 @@ func _draw():
 		draw_rect(mouse_limits, ColorN("red"), false, 10.0)
 
 
+# Clears the tooltip content (if an ESCTooltip node exists in UI)
+func clear_tooltip():
+	if tooltip_node != null:
+		(tooltip_node as ESCTooltip).clear()
+
+
 # Sets up and performs default walking action
 #
 # #### Parameters

@@ -1,0 +1,4 @@
+:use
+set_interactive bottom_item false
+set_state bottom_item folded
+

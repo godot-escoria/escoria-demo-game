@@ -8,6 +8,22 @@
 [ext_resource path="res://game/characters/worker/png/worker_talk_down.png" type="Texture" id=6]
 [ext_resource path="res://game/characters/worker/png/worker_talk_right.png" type="Texture" id=7]
 
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=29]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=28]
+atlas = ExtResource( 4 )
+region = Rect2( 48, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 4 )
+region = Rect2( 384, 0, 24, 70 )
+
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 6 )
 region = Rect2( 0, 0, 24, 70 )
@@ -19,14 +35,6 @@ region = Rect2( 24, 0, 24, 70 )
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 6 )
 region = Rect2( 48, 0, 24, 70 )
-
-[sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 24, 70 )
-
-[sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 5 )
-region = Rect2( 24, 0, 24, 70 )
 
 [sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 7 )
@@ -48,13 +56,13 @@ region = Rect2( 72, 0, 24, 70 )
 atlas = ExtResource( 7 )
 region = Rect2( 96, 0, 24, 70 )
 
-[sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 4 )
-region = Rect2( 384, 0, 24, 70 )
-
-[sub_resource type="AtlasTexture" id=1]
-atlas = ExtResource( 4 )
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 5 )
+region = Rect2( 24, 0, 24, 70 )
 
 [sub_resource type="AtlasTexture" id=15]
 atlas = ExtResource( 4 )
@@ -108,29 +116,21 @@ region = Rect2( 408, 0, 24, 70 )
 atlas = ExtResource( 4 )
 region = Rect2( 432, 0, 24, 70 )
 
-[sub_resource type="AtlasTexture" id=28]
-atlas = ExtResource( 4 )
-region = Rect2( 48, 0, 24, 70 )
-
-[sub_resource type="AtlasTexture" id=29]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 24, 70 )
-
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 5 ) ],
+"frames": [ SubResource( 1 ) ],
 "loop": true,
-"name": "speak_down",
+"name": "idle_down",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 7 ), SubResource( 8 ) ],
+"frames": [ SubResource( 29 ) ],
 "loop": true,
-"name": "speak_up",
+"name": "idle_down_right",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
+"frames": [ SubResource( 28 ) ],
 "loop": true,
-"name": "speak_right",
+"name": "idle_right",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 14 ) ],
@@ -138,9 +138,19 @@ animations = [ {
 "name": "idle_up",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 1 ) ],
+"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 5 ) ],
 "loop": true,
-"name": "idle_down",
+"name": "speak_down",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
+"loop": true,
+"name": "speak_right",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 7 ), SubResource( 8 ) ],
+"loop": true,
+"name": "speak_up",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ) ],
@@ -157,16 +167,6 @@ animations = [ {
 "loop": true,
 "name": "walk_up",
 "speed": 5.0
-}, {
-"frames": [ SubResource( 28 ) ],
-"loop": true,
-"name": "idle_right",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 29 ) ],
-"loop": true,
-"name": "idle_down_right",
-"speed": 5.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=3]
@@ -180,6 +180,7 @@ esc_script = "res://game/rooms/room6/esc/worker.esc"
 is_movable = true
 tooltip_name = "Worker"
 default_action = "look"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 0.501961, 0.882353, 1, 1 )
 animations = ExtResource( 2 )
 

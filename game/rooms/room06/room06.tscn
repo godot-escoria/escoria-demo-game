@@ -63,6 +63,13 @@ esc_script = "res://game/rooms/room06/esc/room06.esc"
 player_scene = ExtResource( 4 )
 camera_limits = [ Rect2( 0, 0, 1280, 555 ) ]
 
+[node name="ESCBackground" type="TextureRect" parent="."]
+margin_right = 1280.0
+margin_bottom = 550.0
+mouse_filter = 2
+texture = ExtResource( 12 )
+script = ExtResource( 2 )
+
 [node name="walkable_area" type="Navigation2D" parent="."]
 script = ExtResource( 1 )
 scale_min = 0.7
@@ -185,13 +192,6 @@ texture = ExtResource( 14 )
 position = Vector2( 640, 427 )
 z_index = 400
 texture = ExtResource( 11 )
-
-[node name="ESCBackground" type="TextureRect" parent="."]
-margin_right = 1280.0
-margin_bottom = 550.0
-mouse_filter = 2
-texture = ExtResource( 12 )
-script = ExtResource( 2 )
 
 [node name="Text" type="Node2D" parent="."]
 

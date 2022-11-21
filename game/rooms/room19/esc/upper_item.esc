@@ -1,0 +1,4 @@
+:use
+set_interactive upper_item false
+set_state upper_item folded
+
