@@ -185,7 +185,12 @@ func unset_hovered_node(item: ESCItem):
 	if _hovered_element == item:
 		_hovered_element.mouse_exited()
 		_hovered_element = null
-		hotspot_focused = ""
+		if hover_stack.back():
+			set_hovered_node(hover_stack.pop_back())
+		else:
+			hotspot_focused = ""
+	
+	
 
 
 # Sets the hovered node and calls its mouse_entered() method if it was the top
@@ -607,7 +612,8 @@ func hover_stack_add_item(item):
 # - items: the items list (array) to add to the hover stack
 func hover_stack_add_items(items: Array):
 	for item in items:
-		hover_stack_add_item(item)
+		if escoria.action_manager.is_object_actionable(item.global_id):
+			hover_stack_add_item(item)
 
 
 # Clean the hover stack
