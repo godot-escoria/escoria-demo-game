@@ -37,7 +37,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=1]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Polygon2D:polygon")
+tracks/0/path = NodePath(".:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -46,22 +46,22 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ PoolVector2Array( 191, 80, 159, 753, 405, 751, 1066, 815, 1143, 637, 1180, 314, 827, 126 ) ]
+"values": [ true ]
 }
 
 [sub_resource type="Animation" id=2]
 resource_name = "folded"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Polygon2D:polygon")
+tracks/0/path = NodePath(".:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
+"times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ PoolVector2Array( 191, 80, 159, 753, 405, 751, 1066, 815, 1143, 637, 1180, 314, 827, 126 ), PoolVector2Array( 191, 80, 159, 753, 213, 755, 203, 570, 222, 489, 272, 223, 246, 99 ) ]
+"update": 1,
+"values": [ true, false ]
 }
 
 [node name="room18" type="Node2D"]
@@ -80,6 +80,7 @@ script = ExtResource( 3 )
 global_id = "bottom_item"
 tooltip_name = "Bottom item"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -98,6 +99,7 @@ global_id = "middle_item"
 esc_script = "res://game/rooms/room18/esc/middle_item.esc"
 tooltip_name = "Middle item"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -120,6 +122,7 @@ global_id = "upper_item"
 esc_script = "res://game/rooms/room18/esc/upper_item.esc"
 tooltip_name = "Upper item"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
