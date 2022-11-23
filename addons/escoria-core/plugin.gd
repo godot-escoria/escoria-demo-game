@@ -404,6 +404,9 @@ func set_escoria_platform_settings():
 # - info: Property info for the setting
 static func register_setting(name: String, default, info: Dictionary) -> void:
 	if not ProjectSettings.has_setting(name):
+		# Only core settings should set this to true. Settings configured in
+		# plugins should not set this to true.
+		info["core_setting"] = "true"
 		ProjectSettings.set_setting(
 			name,
 			default

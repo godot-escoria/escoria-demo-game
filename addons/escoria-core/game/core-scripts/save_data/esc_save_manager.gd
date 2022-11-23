@@ -422,7 +422,6 @@ func save_settings():
 	settings_res.sfx_volume = escoria.settings.sfx_volume
 	settings_res.speech_volume = escoria.settings.speech_volume
 	settings_res.fullscreen = escoria.settings.fullscreen
-	settings_res.skip_dialog = escoria.settings.skip_dialog
 	settings_res.custom_settings = escoria.settings.custom_settings
 
 	var directory: Directory = Directory.new()

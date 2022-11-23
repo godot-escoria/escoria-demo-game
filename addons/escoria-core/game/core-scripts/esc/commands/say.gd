@@ -78,13 +78,6 @@ func validate(arguments: Array):
 		)
 		return false
 
-	if ESCProjectSettingsManager.get_setting(ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE) == "" \
-			and arguments[2] == "":
-		escoria.logger.error(
-			self,
-			"[%s]: Project setting '%s' is not set. Please set a default dialog type."
-					% [get_command_name(), ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE]
-		)
 	return true
 
 
