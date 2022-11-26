@@ -209,6 +209,11 @@ func _on_ChangeRoomFolderButton_pressed() -> void:
 
 func _on_RoomFolderDialog_dir_selected(dir: String) -> void:
 	ProjectSettings.set_setting(ROOM_PATH_SETTING, dir)
+	var property_info = {
+		"name": ROOM_PATH_SETTING,
+		"type": TYPE_STRING
+	}
+	ProjectSettings.add_property_info(property_info)
 	get_node(ROOM_FOLDER_PATH).text = dir
 
 

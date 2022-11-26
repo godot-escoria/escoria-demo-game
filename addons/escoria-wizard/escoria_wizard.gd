@@ -41,5 +41,3 @@ func CharacterCreator_pressed() -> void:
 func InventoryItem_pressed() -> void:
 	$Menu.visible = false
 	$ItemCreator.visible = true
-	$ItemCreator.inventory_mode = false
-	$ItemCreator.item_creator_reset()
