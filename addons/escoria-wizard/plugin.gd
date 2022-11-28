@@ -43,10 +43,8 @@ func open_scene(path: String) -> void:
 # Unregister ourselves
 func disable_plugin():
 	print("Disabling Escoria Wizard plugin")
-	ESCProjectSettingsManager.register_setting(
-		"escoria/wizard/path_to_rooms",
-		null,
-		{}
+	ESCProjectSettingsManager.remove_setting(
+		"escoria/wizard/path_to_rooms"
 	)
 
 # Register ourselves

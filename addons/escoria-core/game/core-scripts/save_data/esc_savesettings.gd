@@ -41,8 +41,5 @@ export var speech_volume: float = ProjectSettings.get_setting(
 # True if game has to be fullscreen
 export var fullscreen: bool = false
 
-# True if skipping dialogs is allowed
-export var skip_dialogs: bool = true
-
 # Dictionary containing all user-defined settings.
 export var custom_settings: Dictionary

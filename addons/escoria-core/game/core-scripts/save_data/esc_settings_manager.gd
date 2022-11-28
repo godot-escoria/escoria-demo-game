@@ -103,10 +103,6 @@ func save_settings_resource_to_project_settings(settings: ESCSaveSettings):
 		ESCProjectSettingsManager.FULLSCREEN,
 		settings.fullscreen
 	)
-	ESCProjectSettingsManager.set_setting(
-		ESCProjectSettingsManager.SKIP_DIALOGS,
-		settings.skip_dialogs
-	)
 	custom_settings = settings.custom_settings
 
 
@@ -157,12 +153,11 @@ func get_settings() -> ESCSaveSettings:
 	settings.fullscreen = ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.FULLSCREEN
 	)
-	settings.skip_dialogs = ESCProjectSettingsManager.get_setting(
-		ESCProjectSettingsManager.SKIP_DIALOGS
-	)
 	settings.custom_settings = custom_settings
+	
 	return settings
 
+	
 
 # Save the game settings in the settings file.
 func save_settings():

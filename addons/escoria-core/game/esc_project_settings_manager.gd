@@ -16,7 +16,7 @@ const GAME_SCENE = "%s/%s/game_scene" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
 const INVENTORY_ITEM_SIZE = "%s/%s/inventory_item_size" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
 const INVENTORY_ITEMS_PATH = "%s/%s/inventory_items_path" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
 const TRANSITION_PATHS = "%s/%s/transition_paths" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
-const SKIP_DIALOGS = "%s/%s/skip_dialogs" % [_ESCORIA_SETTINGS_ROOT, _UI_ROOT]
+
 
 # Main Escoria project settings
 const _MAIN_ROOT = "main"
@@ -61,15 +61,6 @@ const _PLATFORM_ROOT = "platform"
 const SKIP_CACHE = "%s/%s/skip_cache" % [_ESCORIA_SETTINGS_ROOT, _PLATFORM_ROOT]
 const SKIP_CACHE_MOBILE = "%s/%s/skip_cache.mobile" % [_ESCORIA_SETTINGS_ROOT, _PLATFORM_ROOT]
 
-# Simple dialog-related Escoria project settings
-const _SIMPLE_DIALOG_ROOT = "dialog_simple"
-
-const AVATARS_PATH = "%s/%s/avatars_path" % [_ESCORIA_SETTINGS_ROOT, _SIMPLE_DIALOG_ROOT]
-const TEXT_SPEED_PER_CHARACTER = "%s/%s/text_speed_per_character" % [_ESCORIA_SETTINGS_ROOT, _SIMPLE_DIALOG_ROOT]
-const FAST_TEXT_SPEED_PER_CHARACTER = "%s/%s/fast_text_speed_per_character" % [_ESCORIA_SETTINGS_ROOT, _SIMPLE_DIALOG_ROOT]
-const READING_SPEED_IN_WPM = "%s/%s/reading_speed_in_wpm" % [_ESCORIA_SETTINGS_ROOT, _SIMPLE_DIALOG_ROOT]
-
-
 # Godot Windows project settings
 const DISPLAY = "display"
 const WINDOW = "window"
@@ -82,15 +73,39 @@ const FULLSCREEN = "%s/%s/%s/fullscreen" % [DISPLAY, WINDOW, SIZE]
 # #### Parameters
 #
 # - name: Name of the project setting
-# - default: Default value
+# - default_value: Default value
 # - info: Property info for the setting
-static func register_setting(name: String, default, info: Dictionary) -> void:
+static func register_setting(name: String, default_value, info: Dictionary) -> void:
+	if default_value == null:
+		push_error("Default_value cannot be null. Use remove_setting function to remove settings.")
+		assert(false)
+		
 	ProjectSettings.set_setting(
 		name,
-		default
+		default_value
 	)
-	info.name = name
-	ProjectSettings.add_property_info(info)
+	if default_value != null:
+		info.name = name
+
+		# Project settings require a "type" to be set
+		if not "type" in info:
+			info.type=typeof(default_value)
+		ProjectSettings.add_property_info(info)
+
+
+# Removes the specified project setting.
+#
+# #### Parameters
+#
+# - name: Name of the project setting
+static func remove_setting(name: String) -> void:
+	if not ProjectSettings.has_setting(name):
+		push_error("Cannot remove project setting %s - it does not exist." % name)
+		assert(false)
+	ProjectSettings.set_setting(
+			name,
+			null
+		)
 
 
 # Retrieves the specified project setting.
