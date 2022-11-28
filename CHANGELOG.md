@@ -1,3 +1,12 @@
+## [4.0.0-alpha.232](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.232) (2022-11-28)
+
+
+### Bug Fixes
+
+* Wizard - verify that inventory items are written to valid folders ([36c199a](https://github.com/godot-escoria/escoria-demo-game/commit/36c199a5f56757f1ba346599c201c027acb28fa6))
+
+
+
 ## [4.0.0-alpha.231](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.231) (2022-11-21)
 
 

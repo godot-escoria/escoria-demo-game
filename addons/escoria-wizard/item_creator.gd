@@ -40,7 +40,7 @@ func _ready() -> void:
 	# Capture the size of the window before we update its contents so we have
 	# the absolute size before it gets scaled contents applied to it
 	preview_size = get_node(PREVIEW_NODE).rect_size
-	inventory_mode = not get_node(BACKGROUND_OBJ_NODE).pressed	
+	inventory_mode = not get_node(BACKGROUND_OBJ_NODE).pressed
 	item_creator_reset()
 
 
@@ -133,7 +133,7 @@ func _on_CreateButton_pressed() -> void:
 			"Folder %s does not exist. Please create or change the destination" % inventory_path
 		get_node(ERROR_WINDOW_NODE).popup_centered()
 		return
-	
+
 	if not image_has_been_loaded:
 		get_node(ERROR_WINDOW_NODE).dialog_text = \
 			"No image has been loaded."

@@ -326,7 +326,7 @@ func _on_input_event(_viewport: Object, event: InputEvent, _shape_idx: int):
 			if c.collider.get("global_id") \
 					and escoria.action_manager.is_object_actionable(c.collider.global_id):
 				colliding_nodes.push_back(c.collider)
-	
+
 		if colliding_nodes.empty():
 			return
 		colliding_nodes.sort_custom(HoverStackSorter, "sort_ascending_z_index")
