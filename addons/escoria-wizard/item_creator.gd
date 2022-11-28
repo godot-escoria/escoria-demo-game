@@ -22,7 +22,8 @@ const CREATE_BUTTON_NODE  = "VBoxContainer/Buttons/CenterContainer/HBoxContainer
 const ERROR_WINDOW_NODE   = "Windows/ErrorDialog"
 const INVENTORY_PREV_NODE = "VBoxContainer/Content/GridContainer/Preview/InventoryPreview"
 const OBJECT_PREV_NODE    = "VBoxContainer/Content/GridContainer/Preview/ObjectPreview"
-
+const BACKGROUND_OBJ_NODE = "VBoxContainer/Control/CenterContainer/HBoxContainer/BackgroundObjectCheckBox"
+const CHANGE_PATH_NODE    = "VBoxContainer/Content/GridContainer/ChangePathButton"
 
 var source_image:Image
 var image_stream_texture:StreamTexture
@@ -39,7 +40,7 @@ func _ready() -> void:
 	# Capture the size of the window before we update its contents so we have
 	# the absolute size before it gets scaled contents applied to it
 	preview_size = get_node(PREVIEW_NODE).rect_size
-	inventory_mode = false
+	inventory_mode = not get_node(BACKGROUND_OBJ_NODE).pressed	
 	item_creator_reset()
 
 
@@ -68,13 +69,15 @@ func item_creator_reset() -> void:
 		get_node(INVENTORY_PREV_NODE).visible = true
 		get_node(OBJECT_PREV_NODE).visible = false
 
-		for loop in [INVENTORY_PATH_NODE, INVENTORY_PATH_LABEL_NODE, INVENTORY_PATH_SPACER_NODE]:
+		for loop in [INVENTORY_PATH_NODE, INVENTORY_PATH_LABEL_NODE, INVENTORY_PATH_SPACER_NODE, \
+			CHANGE_PATH_NODE]:
 			get_node(loop).visible = true
 	else:
 		get_node(CREATE_BUTTON_NODE).text = "Create Object"
 		get_node(INVENTORY_PREV_NODE).visible = false
 		get_node(OBJECT_PREV_NODE).visible = true
-		for loop in [INVENTORY_PATH_NODE, INVENTORY_PATH_LABEL_NODE, INVENTORY_PATH_SPACER_NODE]:
+		for loop in [INVENTORY_PATH_NODE, INVENTORY_PATH_LABEL_NODE, INVENTORY_PATH_SPACER_NODE, \
+			CHANGE_PATH_NODE]:
 			get_node(loop).visible = false
 
 	for loop in [OBJECT_HEADING_NODE, OBJECT_DESC_NODE]:
@@ -82,7 +85,7 @@ func item_creator_reset() -> void:
 
 	for loop in [INVENTORY_HEADING_NODE, INVENTORY_DESC_NODE, INVENTORY_PATH_NODE]:
 		get_node(loop).visible = inventory_mode
-
+	$Windows/FileDialog.current_dir = ProjectSettings.get_setting("escoria/ui/inventory_items_path")
 
 func resize_image() -> void:
 	# Calculate the scale to make the preview as big as possible in the preview window depending on
@@ -123,6 +126,14 @@ func LoadObjectFileDialog_file_selected(path: String) -> void:
 
 
 func _on_CreateButton_pressed() -> void:
+	var inventory_path = ProjectSettings.get_setting("escoria/ui/inventory_items_path")
+	var directory_test = Directory.new();
+	if not directory_test.dir_exists(inventory_path):
+		get_node(ERROR_WINDOW_NODE).dialog_text = \
+			"Folder %s does not exist. Please create or change the destination" % inventory_path
+		get_node(ERROR_WINDOW_NODE).popup_centered()
+		return
+	
 	if not image_has_been_loaded:
 		get_node(ERROR_WINDOW_NODE).dialog_text = \
 			"No image has been loaded."
@@ -201,19 +212,23 @@ func _on_CreateButton_pressed() -> void:
 		var packed_scene = PackedScene.new()
 
 		packed_scene.pack(get_tree().edited_scene_root.get_node(item.name))
-		var inventory_path = ProjectSettings.get_setting("escoria/ui/inventory_items_path")
-		ResourceSaver.save("%s/%s.tscn" % [inventory_path, get_node(ITEM_NAME_NODE).text], packed_scene)
 
 		# Flag suggestions from https://godotengine.org/qa/50437/how-to-turn-a-node-into-a-packedscene-via-gdscript
-		ResourceSaver.save("%s/%s.tscn" % [inventory_path, get_node(ITEM_NAME_NODE).text], packed_scene, \
+		var err = ResourceSaver.save("%s/%s.tscn" % [inventory_path, get_node(ITEM_NAME_NODE).text], packed_scene, \
 			ResourceSaver.FLAG_CHANGE_PATH|ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS)
-
-		item.queue_free()
-		get_tree().edited_scene_root.get_node(item.name).queue_free()
-		get_node("Windows/CreateCompleteDialog").dialog_text = \
-			"Inventory item %s/%s.tscn created." % [inventory_path, get_node(ITEM_NAME_NODE).text]
-		print("Inventory item %s/%s.tscn created." % [inventory_path, get_node(ITEM_NAME_NODE).text])
-		get_node("Windows/CreateCompleteDialog").popup_centered()
+		if err:
+			get_node(ERROR_WINDOW_NODE).dialog_text = \
+				"Failed to save the item. Please make sure you can\n" + \
+				"write to the destination folder" % inventory_path
+			get_node(ERROR_WINDOW_NODE).popup_centered()
+			return
+		else:
+			item.queue_free()
+			get_tree().edited_scene_root.get_node(item.name).queue_free()
+			get_node("Windows/CreateCompleteDialog").dialog_text = \
+				"Inventory item %s/%s.tscn created." % [inventory_path, get_node(ITEM_NAME_NODE).text]
+			print("Inventory item %s/%s.tscn created." % [inventory_path, get_node(ITEM_NAME_NODE).text])
+			get_node("Windows/CreateCompleteDialog").popup_centered()
 
 
 func Item_on_ClearButton_pressed() -> void:
@@ -282,3 +297,17 @@ func _on_InventoryItemCheckBox_toggled(button_pressed: bool) -> void:
 		inventory_mode = true
 
 	item_creator_reset()
+
+
+func _on_ChangePathButton_pressed():
+	$"Windows/FileDialog".popup_centered()
+
+
+func _on_FileDialog_dir_selected(dir: String) -> void:
+	ProjectSettings.set_setting("escoria/ui/inventory_items_path", dir)
+	var property_info = {
+		"name": "escoria/ui/inventory_items_path",
+		"type": TYPE_STRING
+	}
+	ProjectSettings.add_property_info(property_info)
+	get_node(INVENTORY_PATH_NODE).text = dir

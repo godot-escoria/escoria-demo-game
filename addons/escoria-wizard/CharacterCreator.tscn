@@ -218,7 +218,7 @@ margin_top = 56.0
 margin_right = 295.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 200, 0 )
-hint_tooltip = "The global id for the character to be used in ESC scripts."
+hint_tooltip = "The directory on disk where the character scene will be saved."
 text = "res://game/characters"
 editable = false
 caret_blink = true
@@ -1219,7 +1219,6 @@ window_title = "Open a Directory"
 mode = 2
 
 [node name="InformationWindows" type="Control" parent="."]
-visible = false
 margin_left = 50.0
 margin_top = 50.0
 margin_right = 1240.0
@@ -1317,7 +1316,6 @@ popup_exclusive = true
 dialog_text = "Please load a spritesheet to begin."
 
 [node name="export_progress" type="WindowDialog" parent="InformationWindows"]
-visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1372,8 +1370,10 @@ or below their feet.
 *  The CollisionShape child node defines the bounds of the character. You may
 want to resize or change the shape assigned to this node.
 
-* You may want to shift this node to a different directory in your codebase
-(e.g. into a \"characters\" folder) to group it with other game characters."
+* You should move the character's sprite and collision shape down so the 
+crosshairs are directly between their feet. This ensures that where you click
+lines up with where the character walks to.
+"
 
 [node name="help_window" parent="InformationWindows" instance=ExtResource( 38 )]
 

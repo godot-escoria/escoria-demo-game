@@ -91,11 +91,13 @@ uppercase = true
 [node name="Description" type="MarginContainer" parent="VBoxContainer"]
 margin_top = 116.0
 margin_right = 500.0
-margin_bottom = 232.0
+margin_bottom = 249.0
 
 [node name="ObjectDescription" type="Label" parent="VBoxContainer/Description"]
+visible = false
+margin_top = 8.0
 margin_right = 500.0
-margin_bottom = 116.0
+margin_bottom = 124.0
 text = "The object creator is used to create background objects
 that the player can interact with, but that will not become
 part of their inventory.
@@ -106,22 +108,22 @@ is currently selected in the scene tree.
 align = 1
 
 [node name="InventoryDescription" type="Label" parent="VBoxContainer/Description"]
-visible = false
 margin_right = 500.0
-margin_bottom = 116.0
+margin_bottom = 133.0
 text = "The inventory item creator is used to create objects
 that the player can pick up to add
 to their inventory.
 
-NOTE: The node will be created in the inventory folder shown
-below. You can change this in Godot's settings under:
-\"Escoria/UI/Items autoregister path\""
+NOTE: The node will be created in the inventory
+folder shown below. All inventory items for your
+game must live in the same folder.
+"
 align = 1
 
 [node name="Content" type="MarginContainer" parent="VBoxContainer"]
-margin_top = 236.0
+margin_top = 253.0
 margin_right = 500.0
-margin_bottom = 736.0
+margin_bottom = 753.0
 rect_min_size = Vector2( 0, 500 )
 mouse_filter = 1
 custom_constants/margin_right = 20
@@ -307,30 +309,36 @@ margin_bottom = 405.0
 
 [node name="InventoryPathLabel" type="Label" parent="VBoxContainer/Content/GridContainer"]
 visible = false
-margin_top = 409.0
+margin_top = 412.0
 margin_right = 110.0
-margin_bottom = 423.0
+margin_bottom = 426.0
 text = "Inventory path:"
 
 [node name="InventoryPath" type="Label" parent="VBoxContainer/Content/GridContainer"]
 visible = false
 margin_left = 114.0
-margin_top = 409.0
+margin_top = 412.0
 margin_right = 354.0
-margin_bottom = 423.0
+margin_bottom = 426.0
 text = "res://"
+
+[node name="ChangePathButton" type="Button" parent="VBoxContainer/Content/GridContainer"]
+visible = false
+margin_top = 409.0
+margin_right = 110.0
+margin_bottom = 429.0
+text = "Change Path"
 
 [node name="BlankItem7" type="Control" parent="VBoxContainer/Content/GridContainer"]
 visible = false
-margin_left = 114.0
 margin_top = 409.0
-margin_right = 354.0
-margin_bottom = 423.0
+margin_right = 110.0
+margin_bottom = 409.0
 
 [node name="Buttons" type="MarginContainer" parent="VBoxContainer"]
-margin_top = 740.0
+margin_top = 757.0
 margin_right = 500.0
-margin_bottom = 770.0
+margin_bottom = 787.0
 mouse_filter = 2
 custom_constants/margin_bottom = 10
 
@@ -415,6 +423,16 @@ margin_top = 371.0
 margin_right = 291.0
 margin_bottom = 429.0
 
+[node name="FileDialog" type="FileDialog" parent="Windows"]
+visible = true
+margin_left = 50.0
+margin_top = 150.0
+margin_right = 450.0
+margin_bottom = 650.0
+rect_min_size = Vector2( 400, 500 )
+window_title = "Open a Directory"
+mode = 2
+
 [connection signal="toggled" from="VBoxContainer/Control/CenterContainer/HBoxContainer/BackgroundObjectCheckBox" to="." method="_on_BackgroundObjectCheckBox_toggled"]
 [connection signal="toggled" from="VBoxContainer/Control/CenterContainer/HBoxContainer/InventoryItemCheckBox" to="." method="_on_InventoryItemCheckBox_toggled"]
 [connection signal="text_changed" from="VBoxContainer/Content/GridContainer/ItemName" to="." method="background_on_ItemName_text_changed"]
@@ -422,9 +440,11 @@ margin_bottom = 429.0
 [connection signal="pressed" from="VBoxContainer/Content/GridContainer/StartsInteractiveCheckBox" to="." method="_on_StartsInteractiveCheckBox_pressed"]
 [connection signal="item_selected" from="VBoxContainer/Content/GridContainer/DefaultActionOption" to="." method="_on_DefaultActionOption_item_selected"]
 [connection signal="pressed" from="VBoxContainer/Content/GridContainer/ChangeImageButton" to="." method="load_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Content/GridContainer/ChangePathButton" to="." method="_on_ChangePathButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Buttons/CenterContainer/HBoxContainer/CreateButton" to="." method="_on_CreateButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Buttons/CenterContainer/HBoxContainer/ClearButton" to="." method="Item_on_ClearButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Buttons/CenterContainer/HBoxContainer/ExitButton" to="." method="Item_on_ExitButton_pressed"]
 [connection signal="file_selected" from="LoadObjectGraphic/LoadObjectFileDialog" to="." method="LoadObjectFileDialog_file_selected"]
 [connection signal="confirmed" from="Windows/ConfirmationDialog" to="." method="_on_ObjectConfirmationDialog_confirmed"]
 [connection signal="confirmed" from="Windows/CreateCompleteDialog" to="." method="_on_CreateCompleteDialog_confirmed"]
+[connection signal="dir_selected" from="Windows/FileDialog" to="." method="_on_FileDialog_dir_selected"]
