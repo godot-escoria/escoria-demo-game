@@ -446,7 +446,7 @@ func _on_mouse_left_clicked_item(item: ESCItem, event: InputEvent) -> void:
 				"Ignoring left click on player %s: Player not selectable."
 						% [item.global_id]
 			)
-	
+
 			# Get next object in hover stack and forward event to it
 			if not hover_stack.empty():
 				var next_item = hover_stack.pop_back()
@@ -490,7 +490,7 @@ func _on_mouse_left_double_clicked_item(
 				"Ignoring double left click on player %s: Player not selectable."
 						% [item.global_id]
 			)
-	
+
 			# Get next object in hover stack and forward event to it
 			if not hover_stack.empty():
 				var next_item = hover_stack.pop_back()

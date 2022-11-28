@@ -154,10 +154,10 @@ func get_settings() -> ESCSaveSettings:
 		ESCProjectSettingsManager.FULLSCREEN
 	)
 	settings.custom_settings = custom_settings
-	
+
 	return settings
 
-	
+
 
 # Save the game settings in the settings file.
 func save_settings():

@@ -1,3 +1,12 @@
+## [4.0.0-alpha.233](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.233) (2022-11-28)
+
+
+### Bug Fixes
+
+* Removing dialog settings from core ([028de08](https://github.com/godot-escoria/escoria-demo-game/commit/028de087fdd7ba97d1053dc4e66dc3da5dfc0451))
+
+
+
 ## [4.0.0-alpha.232](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.232) (2022-11-28)
 
 

@@ -23,7 +23,7 @@ func disable_plugin():
 	ESCProjectSettingsManager.remove_setting(
 		ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE
 	)
-	
+
 	ESCProjectSettingsManager.remove_setting(
 		AVATARS_PATH
 	)
@@ -43,7 +43,7 @@ func disable_plugin():
 	ESCProjectSettingsManager.remove_setting(
 		MAX_TIME_TO_DISAPPEAR
 	)
-	
+
 	EscoriaPlugin.deregister_dialog_manager(MANAGER_CLASS)
 
 

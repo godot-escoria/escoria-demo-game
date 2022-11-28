@@ -79,7 +79,7 @@ static func register_setting(name: String, default_value, info: Dictionary) -> v
 	if default_value == null:
 		push_error("Default_value cannot be null. Use remove_setting function to remove settings.")
 		assert(false)
-		
+	
 	ProjectSettings.set_setting(
 		name,
 		default_value
