@@ -52,6 +52,18 @@ func _ready():
 		SimpleDialogPlugin.READING_SPEED_IN_WPM
 	)
 
+	if _reading_speed_in_wpm <= 0:
+		escoria.logger.warn(
+			self,
+			"%s setting must be a positive number. Will use default value of %s." %
+				[
+					SimpleDialogPlugin.READING_SPEED_IN_WPM, 
+					SimpleDialogPlugin.READING_SPEED_IN_WPM_DEFAULT_VALUE
+				]
+		)
+
+		_reading_speed_in_wpm = SimpleDialogPlugin.READING_SPEED_IN_WPM_DEFAULT_VALUE
+
 	_word_regex.compile("\\S+")
 
 	bbcode_enabled = true
