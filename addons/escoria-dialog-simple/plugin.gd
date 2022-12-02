@@ -8,8 +8,8 @@ const MANAGER_CLASS="res://addons/escoria-dialog-simple/esc_dialog_simple.gd"
 const SETTINGS_ROOT="escoria/dialog_simple"
 
 const AVATARS_PATH = "%s/avatars_path" % SETTINGS_ROOT
-const TEXT_SPEED_PER_CHARACTER = "%s/text_speed_per_character" % SETTINGS_ROOT
-const FAST_TEXT_SPEED_PER_CHARACTER = "%s/fast_text_speed_per_character" % SETTINGS_ROOT
+const TEXT_TIME_PER_LETTER_MS = "%s/text_time_per_letter_ms" % SETTINGS_ROOT
+const TEXT_TIME_PER_LETTER_MS_FAST = "%s/text_time_per_fast_letter_ms" % SETTINGS_ROOT
 const READING_SPEED_IN_WPM = "%s/reading_speed_in_wpm" % SETTINGS_ROOT
 const CLEAR_TEXT_BY_CLICK_ONLY = "%s/clear_text_by_click_only" % SETTINGS_ROOT
 const LEFT_CLICK_ACTION = "%s/left_click_action" % SETTINGS_ROOT
@@ -19,6 +19,8 @@ const LEFT_CLICK_ACTION_INSTANT_FINISH = "Instant finish"
 const LEFT_CLICK_ACTION_NOTHING = "None"
 
 const READING_SPEED_IN_WPM_DEFAULT_VALUE = 200
+const TEXT_TIME_PER_LETTER_MS_DEFAULT_VALUE = 100
+const TEXT_TIME_PER_LETTER_MS_FAST_DEFAULT_VALUE = 25
 
 
 var leftClickActions: Array = [
@@ -45,11 +47,11 @@ func disable_plugin():
 	)
 
 	ESCProjectSettingsManager.remove_setting(
-		TEXT_SPEED_PER_CHARACTER
+		TEXT_TIME_PER_LETTER_MS
 	)
 
 	ESCProjectSettingsManager.remove_setting(
-		FAST_TEXT_SPEED_PER_CHARACTER
+		TEXT_TIME_PER_LETTER_MS_FAST
 	)
 
 	ESCProjectSettingsManager.remove_setting(
@@ -90,16 +92,16 @@ func enable_plugin():
 		)
 
 		ESCProjectSettingsManager.register_setting(
-			TEXT_SPEED_PER_CHARACTER,
-			0.1,
+			TEXT_TIME_PER_LETTER_MS,
+			TEXT_TIME_PER_LETTER_MS_DEFAULT_VALUE,
 			{
 				"type": TYPE_REAL
 			}
 		)
 
 		ESCProjectSettingsManager.register_setting(
-			FAST_TEXT_SPEED_PER_CHARACTER,
-			0.25,
+			TEXT_TIME_PER_LETTER_MS_FAST,
+			TEXT_TIME_PER_LETTER_MS_FAST_DEFAULT_VALUE,
 			{
 				"type": TYPE_REAL
 			}
