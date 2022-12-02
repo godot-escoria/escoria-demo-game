@@ -56,8 +56,13 @@ func choose(dialog_player: Node, dialog: ESCDialog):
 	pass
 
 
-# Trigger running the dialog faster
+# Trigger running the dialogue faster
 func speedup():
+	pass
+
+
+# Trigger an instant finish of the current dialog
+func finish():
 	pass
 
 

@@ -44,13 +44,27 @@ func handle_input(_event):
 			escoria.inputs_manager.INPUT_NONE and \
 			_dialog_manager != null:
 
+			var left_click_action = ESCProjectSettingsManager.get_setting(SimpleDialogPlugin.LEFT_CLICK_ACTION)
+
+			_handle_left_click_action(left_click_action)
+
+
+func _handle_left_click_action(left_click_action: String) -> void:
+	match left_click_action:
+		SimpleDialogPlugin.LEFT_CLICK_ACTION_SPEED_UP:
 			if _dialog_manager.is_connected("say_visible", self, "_on_say_visible"):
 				_dialog_manager.disconnect("say_visible", self, "_on_say_visible")
 
 			escoria.logger.trace(self, "Dialog State Machine: 'say' -> 'say_fast'")
-
 			emit_signal("finished", "say_fast")
-			get_tree().set_input_as_handled()
+		SimpleDialogPlugin.LEFT_CLICK_ACTION_INSTANT_FINISH:
+			if _dialog_manager.is_connected("say_visible", self, "_on_say_visible"):
+				_dialog_manager.disconnect("say_visible", self, "_on_say_visible")
+
+			escoria.logger.trace(self, "Dialog State Machine: 'say' -> 'say_finish'")
+			emit_signal("finished", "say_finish")
+
+	get_tree().set_input_as_handled()
 
 
 func enter():

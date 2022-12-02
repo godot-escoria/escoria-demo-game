@@ -13,10 +13,10 @@ func initialize(dialog_manager: ESCDialogManager) -> void:
 func enter():
 	escoria.logger.trace(self, "Dialog State Machine: Entered 'interrupt'.")
 
-	if not _dialog_manager.is_connected("say_finished", self, "_on_say_finished"):
-		_dialog_manager.connect("say_finished", self, "_on_say_finished", [], CONNECT_ONESHOT)
-
 	if _dialog_manager != null:
+		if not _dialog_manager.is_connected("say_finished", self, "_on_say_finished"):
+			_dialog_manager.connect("say_finished", self, "_on_say_finished", [], CONNECT_ONESHOT)
+
 		_dialog_manager.interrupt()
 
 

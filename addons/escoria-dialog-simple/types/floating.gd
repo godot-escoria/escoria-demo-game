@@ -43,13 +43,13 @@ onready var is_paused: bool = true
 # Enable bbcode and catch the signal when a tween completed
 func _ready():
 	_text_speed_per_character = ProjectSettings.get_setting(
-		"escoria/dialog_simple/text_speed_per_character"
+		SimpleDialogPlugin.TEXT_SPEED_PER_CHARACTER
 	)
 	_fast_text_speed_per_character = ProjectSettings.get_setting(
-		"escoria/dialog_simple/fast_text_speed_per_character"
+		SimpleDialogPlugin.FAST_TEXT_SPEED_PER_CHARACTER
 	)
 	_reading_speed_in_wpm = ProjectSettings.get_setting(
-		"escoria/dialog_simple/reading_speed_in_wpm"
+		SimpleDialogPlugin.READING_SPEED_IN_WPM
 	)
 
 	_word_regex.compile("\\S+")
@@ -132,7 +132,7 @@ func say(character: String, line: String) :
 	set_process(true)
 
 
-# Called by the dialog player when user wants to finish dialog fast.
+# Called by the dialog player when user wants to finish dialogue fast.
 func speedup():
 	if not _is_speeding_up:
 		_is_speeding_up = true
@@ -143,13 +143,24 @@ func speedup():
 		tween.start()
 
 
+# Called by the dialog player when user wants to finish dialogue immediately.
+func finish():
+	tween.remove_all()
+	tween.interpolate_property(text_node, "percent_visible",
+		text_node.percent_visible, 1.0, 0.0)
+	tween.start()
+
+
 # The dialog line was printed, start the waiting time and then finish
 # the dialog
 func _on_dialog_line_typed(object, key):
-	var time_to_disappear: float = _calculate_time_to_disappear()
 	text_node.visible_characters = -1
-	$Timer.start(time_to_disappear)
-	$Timer.connect("timeout", self, "_on_dialog_finished")
+
+	if not ESCProjectSettingsManager.get_setting(SimpleDialogPlugin.CLEAR_TEXT_BY_CLICK_ONLY):
+		var time_to_disappear: float = _calculate_time_to_disappear()
+		$Timer.start(time_to_disappear)
+		$Timer.connect("timeout", self, "_on_dialog_finished")
+
 	emit_signal("say_visible")
 
 
