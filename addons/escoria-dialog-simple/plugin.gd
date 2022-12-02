@@ -1,6 +1,8 @@
 # A simple dialog manager for Escoria
 tool
 extends EditorPlugin
+class_name SimpleDialogPlugin
+
 
 const MANAGER_CLASS="res://addons/escoria-dialog-simple/esc_dialog_simple.gd"
 const SETTINGS_ROOT="escoria/dialog_simple"
@@ -8,9 +10,21 @@ const SETTINGS_ROOT="escoria/dialog_simple"
 const AVATARS_PATH = "%s/avatars_path" % SETTINGS_ROOT
 const TEXT_SPEED_PER_CHARACTER = "%s/text_speed_per_character" % SETTINGS_ROOT
 const FAST_TEXT_SPEED_PER_CHARACTER = "%s/fast_text_speed_per_character" % SETTINGS_ROOT
-const MAX_TIME_TO_DISAPPEAR = "%s/max_time_to_disappear" % SETTINGS_ROOT
-const SKIP_DIALOGS = "%s/skip_dialogs" % SETTINGS_ROOT
 const READING_SPEED_IN_WPM = "%s/reading_speed_in_wpm" % SETTINGS_ROOT
+const CLEAR_TEXT_BY_CLICK_ONLY = "%s/clear_text_by_click_only" % SETTINGS_ROOT
+const LEFT_CLICK_ACTION = "%s/left_click_action" % SETTINGS_ROOT
+
+const LEFT_CLICK_ACTION_SPEED_UP = "Speed up"
+const LEFT_CLICK_ACTION_INSTANT_FINISH = "Instant finish"
+const LEFT_CLICK_ACTION_NOTHING = "None"
+
+
+var leftClickActions: Array = [
+	LEFT_CLICK_ACTION_SPEED_UP,
+	LEFT_CLICK_ACTION_INSTANT_FINISH,
+	LEFT_CLICK_ACTION_NOTHING
+]
+
 
 # Override function to return the plugin name.
 func get_plugin_name():
@@ -37,11 +51,15 @@ func disable_plugin():
 	)
 
 	ESCProjectSettingsManager.remove_setting(
+		CLEAR_TEXT_BY_CLICK_ONLY
+	)
+
+	ESCProjectSettingsManager.remove_setting(
 		READING_SPEED_IN_WPM
 	)
 
 	ESCProjectSettingsManager.remove_setting(
-		MAX_TIME_TO_DISAPPEAR
+		LEFT_CLICK_ACTION
 	)
 
 	EscoriaPlugin.deregister_dialog_manager(MANAGER_CLASS)
@@ -86,6 +104,14 @@ func enable_plugin():
 		)
 
 		ESCProjectSettingsManager.register_setting(
+			CLEAR_TEXT_BY_CLICK_ONLY,
+			false,
+			{
+				"type": TYPE_BOOL
+			}
+		)
+
+		ESCProjectSettingsManager.register_setting(
 			READING_SPEED_IN_WPM,
 			200,
 			{
@@ -93,22 +119,18 @@ func enable_plugin():
 			}
 		)
 
+		var leftClickActionsString: String = ",".join(leftClickActions)
+
 		ESCProjectSettingsManager.register_setting(
-			MAX_TIME_TO_DISAPPEAR,
-			1.0,
+			LEFT_CLICK_ACTION,
+			"Speed up",
 			{
-				"type": TYPE_INT
+				"type": TYPE_STRING,
+				"hint": PROPERTY_HINT_ENUM,
+				"hint_string": leftClickActionsString
 			}
 		)
 
-		ESCProjectSettingsManager.register_setting(
-			SKIP_DIALOGS,
-			true,
-			{
-				"type": TYPE_BOOL
-			}
-		)
-		#escoria.settings_manager.custom_settings[SKIP_DIALOGS] = true
 	else:
 		get_editor_interface().set_plugin_enabled(
 			get_plugin_name(),

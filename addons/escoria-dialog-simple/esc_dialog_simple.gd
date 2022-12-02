@@ -90,10 +90,16 @@ func choose(dialog_player: Node, dialog: ESCDialog):
 	emit_signal("option_chosen", option)
 
 
-# Trigger running the dialog faster
+# Trigger running the dialogue faster
 func speedup():
 	if _type_player != null:
 		_type_player.speedup()
+
+
+# Trigger an instant finish of the current dialog
+func finish():
+	if _type_player != null:
+		_type_player.finish()
 
 
 # The say command has been interrupted, cancel the dialog display

@@ -42,6 +42,7 @@ func _create_states() -> void:
 		"idle": DialogIdle.new(),
 		"say": DialogSay.new(),
 		"say_fast": DialogSayFast.new(),
+		"say_finish": DialogSayFinish.new(),
 		"visible": DialogVisible.new(),
 		"finish": DialogFinish.new(),
 		"interrupt": DialogInterrupt.new(),
@@ -70,9 +71,14 @@ func say(character: String, type: String, text: String) -> void:
 	_change_state("say")
 
 
-# Called when a dialog line is to be sped up.
+# Called when a dialogue line is to be sped up.
 func speedup() -> void:
 	_change_state("say_fast")
+
+
+# Called when a dialogue line is to be finished immediately.
+func finish() -> void:
+	_change_state("say_finish")
 
 
 # Display a list of choices
@@ -96,5 +102,6 @@ func interrupt() -> void:
 func _on_dialog_manager_set(dialog_manager: ESCDialogManager) -> void:
 	_dialog_manager = dialog_manager
 	states_map["say_fast"].initialize(dialog_manager)
+	states_map["say_finish"].initialize(dialog_manager)
 	states_map["visible"].initialize(dialog_manager)
 	states_map["interrupt"].initialize(dialog_manager)
