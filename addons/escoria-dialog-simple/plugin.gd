@@ -18,6 +18,8 @@ const LEFT_CLICK_ACTION_SPEED_UP = "Speed up"
 const LEFT_CLICK_ACTION_INSTANT_FINISH = "Instant finish"
 const LEFT_CLICK_ACTION_NOTHING = "None"
 
+const READING_SPEED_IN_WPM_DEFAULT_VALUE = 200
+
 
 var leftClickActions: Array = [
 	LEFT_CLICK_ACTION_SPEED_UP,
@@ -113,7 +115,7 @@ func enable_plugin():
 
 		ESCProjectSettingsManager.register_setting(
 			READING_SPEED_IN_WPM,
-			200,
+			READING_SPEED_IN_WPM_DEFAULT_VALUE,
 			{
 				"type": TYPE_INT
 			}
