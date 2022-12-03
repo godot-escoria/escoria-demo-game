@@ -2,8 +2,12 @@
 # Supports timeout and avatar display
 extends ESCDialogOptionsChooser
 
+
 export(Color, RGB) var color_normal = Color(1.0,1.0,1.0,1.0)
 export(Color, RGB) var color_hover = Color(165.0,42.0,42.0, 1.0)
+
+
+var _no_more_options: bool = false
 
 
 # Hide the chooser at the start just to be safe
@@ -39,6 +43,15 @@ func show_chooser():
 			_option_node.connect("pressed", self, "_on_answer_selected", [
 				option
 			])
+
+	# If we've no options left, signify as much and start the timer with a
+	# very short interval so the appropriate signal can be fired. Note that
+	# we have to fire the signal AFTER this method returns as the caller
+	# is almost certainly yielding after this method returns.
+	if _vbox.get_child_count() == 0:
+		_no_more_options = true
+		$Timer.start(0.05)
+		return
 
 	if self.dialog.avatar != "-":
 		$AvatarContainer.add_child(
@@ -76,7 +89,9 @@ func _on_answer_selected(option: ESCDialogOption):
 
 # The timeout came and a option was selected
 func _on_Timer_timeout() -> void:
-	_option_chosen(self.dialog.options[self.dialog.timeout_option - 1])
+	var option_chosen = null if _no_more_options else self.dialog.options[self.dialog.timeout_option - 1]
+	_no_more_options = false
+	_option_chosen(option_chosen)
 
 
 # Remove the avatar
