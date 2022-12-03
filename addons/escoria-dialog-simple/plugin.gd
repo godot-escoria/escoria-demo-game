@@ -13,10 +13,14 @@ const TEXT_TIME_PER_LETTER_MS_FAST = "%s/text_time_per_fast_letter_ms" % SETTING
 const READING_SPEED_IN_WPM = "%s/reading_speed_in_wpm" % SETTINGS_ROOT
 const CLEAR_TEXT_BY_CLICK_ONLY = "%s/clear_text_by_click_only" % SETTINGS_ROOT
 const LEFT_CLICK_ACTION = "%s/left_click_action" % SETTINGS_ROOT
+const STOP_TALKING_ANIMATION_ON = "%s/stop_talking_animation_on" % SETTINGS_ROOT
 
 const LEFT_CLICK_ACTION_SPEED_UP = "Speed up"
 const LEFT_CLICK_ACTION_INSTANT_FINISH = "Instant finish"
 const LEFT_CLICK_ACTION_NOTHING = "None"
+
+const STOP_TALKING_ANIMATION_ON_END_OF_TEXT = "End of text"
+const STOP_TALKING_ANIMATION_ON_END_OF_AUDIO = "End of audio"
 
 const READING_SPEED_IN_WPM_DEFAULT_VALUE = 200
 const TEXT_TIME_PER_LETTER_MS_DEFAULT_VALUE = 100
@@ -27,6 +31,11 @@ var leftClickActions: Array = [
 	LEFT_CLICK_ACTION_SPEED_UP,
 	LEFT_CLICK_ACTION_INSTANT_FINISH,
 	LEFT_CLICK_ACTION_NOTHING
+]
+
+var stopTalkingAnimationOnOptions: Array = [
+	STOP_TALKING_ANIMATION_ON_END_OF_TEXT,
+	STOP_TALKING_ANIMATION_ON_END_OF_AUDIO
 ]
 
 
@@ -64,6 +73,10 @@ func disable_plugin():
 
 	ESCProjectSettingsManager.remove_setting(
 		LEFT_CLICK_ACTION
+	)
+	
+	ESCProjectSettingsManager.remove_setting(
+		STOP_TALKING_ANIMATION_ON
 	)
 
 	EscoriaPlugin.deregister_dialog_manager(MANAGER_CLASS)
@@ -127,11 +140,23 @@ func enable_plugin():
 
 		ESCProjectSettingsManager.register_setting(
 			LEFT_CLICK_ACTION,
-			"Speed up",
+			LEFT_CLICK_ACTION_SPEED_UP,
 			{
 				"type": TYPE_STRING,
 				"hint": PROPERTY_HINT_ENUM,
 				"hint_string": leftClickActionsString
+			}
+		)
+
+		var stopTalkingAnimationOnOptionsString: String = ",".join(stopTalkingAnimationOnOptions)
+
+		ESCProjectSettingsManager.register_setting(
+			STOP_TALKING_ANIMATION_ON,
+			STOP_TALKING_ANIMATION_ON_END_OF_AUDIO,
+			{
+				"type": TYPE_STRING,
+				"hint": PROPERTY_HINT_ENUM,
+				"hint_string": stopTalkingAnimationOnOptionsString
 			}
 		)
 

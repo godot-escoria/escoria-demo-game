@@ -112,3 +112,9 @@ func interrupt():
 
 		_dialog_player.remove_child(_type_player)
 		emit_signal("say_finished")
+
+
+# To be called if voice audio has finished.
+func voice_audio_finished():
+	if _type_player != null:
+		_type_player.voice_audio_finished()

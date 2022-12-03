@@ -198,9 +198,15 @@ func finish():
 	tween.start()
 
 
+# To be called if voice audio has finished.
+func voice_audio_finished():
+		_stop_character_talking()
+
+
 # The dialog line was printed, start the waiting time and then finish
 # the dialog
 func _on_dialog_line_typed(object, key):
+	_stop_character_talking()
 	text_node.visible_characters = -1
 
 	var time_to_disappear: float = _calculate_time_to_disappear()
@@ -220,8 +226,6 @@ func _get_number_of_words() -> int:
 
 # Ending the dialog
 func _on_dialog_finished():
-	_stop_character_talking()
-	
 	# Only trigger to clear the text if we aren't limiting the clearing trigger to a click.
 	if not ESCProjectSettingsManager.get_setting(SimpleDialogPlugin.CLEAR_TEXT_BY_CLICK_ONLY):
 		emit_signal("say_finished")
