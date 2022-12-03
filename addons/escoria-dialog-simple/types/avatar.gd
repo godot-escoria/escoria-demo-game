@@ -174,9 +174,20 @@ func finish():
 	tween.start()
 
 
+# To be called if voice audio has finished.
+func voice_audio_finished():
+	if avatar_node and avatar_node.texture:
+		avatar_node.texture.current_frame = 0
+		avatar_node.texture.pause = true
+
+
 # The dialog line was printed, start the waiting time and then finish
 # the dialog
 func _on_dialog_line_typed(object, key):
+	if avatar_node.texture is AnimatedTexture:
+		avatar_node.texture.current_frame = 0
+		avatar_node.texture.pause = true
+
 	text_node.visible_characters = -1
 
 	var time_to_disappear: float = _calculate_time_to_disappear()
@@ -196,10 +207,6 @@ func _get_number_of_words() -> int:
 
 # Ending the dialog
 func _on_dialog_finished():
-	if avatar_node.texture is AnimatedTexture:
-		avatar_node.texture.current_frame = 0
-		avatar_node.texture.pause = true
-
 	# Only trigger to clear the text if we aren't limiting the clearing trigger to a click.
 	if not ESCProjectSettingsManager.get_setting(SimpleDialogPlugin.CLEAR_TEXT_BY_CLICK_ONLY):
 		emit_signal("say_finished")
@@ -218,3 +225,5 @@ func _on_resumed():
 	if not tween.is_active():
 		is_paused = false
 		tween.resume_all()
+
+

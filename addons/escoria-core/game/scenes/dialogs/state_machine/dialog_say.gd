@@ -26,6 +26,8 @@ var _keytext_regex: RegEx = RegEx.new()
 
 var _ready_to_say: bool
 
+var _stop_talking_animation_on_option: String
+
 
 # Constructor
 func _init() -> void:
@@ -36,6 +38,8 @@ func initialize(character: String, type: String, text: String) -> void:
 	_character = character
 	_type = type
 	_text = text
+	_stop_talking_animation_on_option = \
+		ESCProjectSettingsManager.get_setting(SimpleDialogPlugin.STOP_TALKING_ANIMATION_ON)
 
 
 func handle_input(_event):
@@ -125,6 +129,12 @@ func enter():
 				 as ESCSpeechPlayer
 			).set_state(_speech_resource)
 
+			if _stop_talking_animation_on_option == SimpleDialogPlugin.STOP_TALKING_ANIMATION_ON_END_OF_AUDIO:
+				(
+					escoria.object_manager.get_object(escoria.object_manager.SPEECH).node\
+					 as ESCSpeechPlayer
+				).stream.connect("finished", self, "_on_audio_finished", [], CONNECT_ONESHOT)
+
 		var translated_text: String = tr(matches.get_string("key"))
 
 		# Only update the text if the translated text was found; otherwise, raise
@@ -189,3 +199,7 @@ func _get_voice_file(key: String, start: String = "") -> String:
 func _on_say_visible() -> void:
 	escoria.logger.trace(self, "Dialog State Machine: 'say' -> 'visible'")
 	emit_signal("finished", "visible")
+
+
+func _on_audio_finished() -> void:
+	_dialog_manager.voice_audio_finished()

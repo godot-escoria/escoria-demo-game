@@ -69,3 +69,8 @@ func finish():
 # The say command has been interrupted, cancel the dialog display
 func interrupt():
 	pass
+
+
+# To be called if voice audio has finished.
+func voice_audio_finished():
+	pass
