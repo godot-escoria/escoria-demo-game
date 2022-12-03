@@ -138,7 +138,7 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 
 	if not force and _object_exists_in_room(object, room_key) \
 			and _object_state_in_room_is_default(object, room_key):
-		escoria.logger.error(
+		escoria.logger.warn(
 			self,
 			"Object with global id '%s' in room %s already registered from node path %s."
 			% [
