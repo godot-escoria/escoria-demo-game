@@ -46,7 +46,10 @@ func _init(command_string):
 						parameters.append(
 							parameter
 						)
-					elif ':"' in parameter and (parameter.ends_with(':"') or not parameter.ends_with('"')):
+					elif not quote_open \
+						and parameter.count(":") == 1 \
+						and ':"' in parameter \
+						and (parameter.ends_with(':"') or not parameter.ends_with('"')):
 						# The second clause in this helps to handle dialogue that starts with a space
 						# and also allowing single-word dialogue to be handled in a separate elif.
 						quote_open = true
