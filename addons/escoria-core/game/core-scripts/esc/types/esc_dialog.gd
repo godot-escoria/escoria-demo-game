@@ -80,7 +80,11 @@ func run():
 		self,
 		"Starting dialog."
 	)
+
+	# Since we're changing state, we need to remember and reset it once we're done
+	var previous_state = escoria.current_state
 	escoria.current_state = escoria.GAME_STATE.DIALOG
+
 	if !escoria.dialog_player:
 		escoria.dialog_player = escoria.main.current_scene.get_node(
 			"game/ui/dialog_layer/dialog_player"
@@ -102,5 +106,7 @@ func run():
 			rc = yield(rc, "completed")
 		if rc != ESCExecution.RC_CANCEL:
 			return self.run()
+
+	escoria.current_state = previous_state
 
 	return rc
