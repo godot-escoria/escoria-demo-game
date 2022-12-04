@@ -219,7 +219,7 @@ margin_right = 295.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 200, 0 )
 hint_tooltip = "The directory on disk where the character scene will be saved."
-text = "res://game/characters"
+text = "res://"
 editable = false
 caret_blink = true
 caret_blink_speed = 0.5
@@ -268,17 +268,31 @@ margin_bottom = 52.0
 custom_constants/separation = 50
 alignment = 1
 
-[node name="four_directions" type="CheckBox" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer"]
+[node name="one_direction" type="CheckBox" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer"]
+margin_left = 53.0
+margin_right = 89.0
+margin_bottom = 24.0
+hint_tooltip = "Create 4 directions of animation"
+text = "1"
+
+[node name="two_directions" type="CheckBox" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer"]
 margin_left = 139.0
 margin_right = 175.0
+margin_bottom = 24.0
+hint_tooltip = "Create 4 directions of animation"
+text = "2"
+
+[node name="four_directions" type="CheckBox" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer"]
+margin_left = 225.0
+margin_right = 261.0
 margin_bottom = 24.0
 hint_tooltip = "Create 4 directions of animation"
 pressed = true
 text = "4"
 
 [node name="eight_directions" type="CheckBox" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer"]
-margin_left = 225.0
-margin_right = 261.0
+margin_left = 311.0
+margin_right = 347.0
 margin_bottom = 24.0
 hint_tooltip = "Create 8 directions of animation"
 text = "8"
@@ -370,18 +384,16 @@ margin_bottom = 200.0
 
 [node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer"]
 margin_right = 110.0
-margin_bottom = 92.0
+margin_bottom = 8.0
 custom_constants/margin_left = 5
 
 [node name="GridContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2"]
 margin_left = 5.0
 margin_right = 110.0
-margin_bottom = 92.0
+margin_bottom = 8.0
 columns = 3
 
 [node name="Container_upleft" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
-margin_right = 28.0
-margin_bottom = 28.0
 
 [node name="set_dir_upleft" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_upleft" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
@@ -404,9 +416,8 @@ texture_pressed = ExtResource( 6 )
 texture_hover = ExtResource( 6 )
 
 [node name="Container_up" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
-margin_left = 32.0
-margin_right = 60.0
-margin_bottom = 28.0
+margin_left = 4.0
+margin_right = 4.0
 
 [node name="set_dir_up" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_up" groups=["direction_buttons"]]
 visible = false
@@ -419,19 +430,25 @@ texture_pressed = ExtResource( 23 )
 texture_hover = ExtResource( 23 )
 
 [node name="unset_dir_up" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_up" groups=["direction_buttons"]]
+visible = false
 margin_right = 28.0
 margin_bottom = 28.0
 hint_tooltip = "Up animation (unconfigured)"
 toggle_mode = true
-pressed = true
 texture_normal = ExtResource( 20 )
 texture_pressed = ExtResource( 18 )
 texture_hover = ExtResource( 18 )
 
-[node name="Container_upright" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
-margin_left = 64.0
-margin_right = 92.0
+[node name="ColorRectSpacer" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_up"]
+visible = false
+modulate = Color( 0.235294, 0.341176, 0.290196, 1 )
+margin_right = 28.0
 margin_bottom = 28.0
+rect_min_size = Vector2( 28, 28 )
+
+[node name="Container_upright" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
+margin_left = 8.0
+margin_right = 8.0
 
 [node name="unset_dir_upright" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_upright" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
@@ -454,9 +471,8 @@ texture_pressed = ExtResource( 24 )
 texture_hover = ExtResource( 24 )
 
 [node name="Container_left" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
-margin_top = 32.0
-margin_right = 28.0
-margin_bottom = 60.0
+margin_top = 4.0
+margin_bottom = 4.0
 
 [node name="set_dir_left" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_left" groups=["direction_buttons"]]
 visible = false
@@ -469,6 +485,7 @@ texture_pressed = ExtResource( 26 )
 texture_hover = ExtResource( 26 )
 
 [node name="unset_dir_left" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_left" groups=["direction_buttons"]]
+visible = false
 margin_right = 28.0
 margin_bottom = 28.0
 hint_tooltip = "Left animation (unconfigured)"
@@ -477,17 +494,24 @@ texture_normal = ExtResource( 21 )
 texture_pressed = ExtResource( 13 )
 texture_hover = ExtResource( 13 )
 
+[node name="ColorRectSpacer" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_left"]
+visible = false
+modulate = Color( 0.235294, 0.341176, 0.290196, 1 )
+margin_right = 28.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 28, 28 )
+
 [node name="Container_centre" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
-margin_left = 32.0
-margin_top = 32.0
-margin_right = 60.0
-margin_bottom = 60.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 4.0
+margin_bottom = 4.0
 
 [node name="Container_right" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
-margin_left = 64.0
-margin_top = 32.0
-margin_right = 92.0
-margin_bottom = 60.0
+margin_left = 8.0
+margin_top = 4.0
+margin_right = 8.0
+margin_bottom = 4.0
 
 [node name="set_dir_right" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_right" groups=["direction_buttons"]]
 visible = false
@@ -500,6 +524,7 @@ texture_pressed = ExtResource( 4 )
 texture_hover = ExtResource( 4 )
 
 [node name="unset_dir_right" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_right" groups=["direction_buttons"]]
+visible = false
 margin_right = 28.0
 margin_bottom = 28.0
 hint_tooltip = "Right animation (unconfigured)"
@@ -509,9 +534,8 @@ texture_pressed = ExtResource( 2 )
 texture_hover = ExtResource( 2 )
 
 [node name="Container_downleft" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
-margin_top = 64.0
-margin_right = 28.0
-margin_bottom = 92.0
+margin_top = 8.0
+margin_bottom = 8.0
 
 [node name="unset_dir_downleft" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_downleft" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
@@ -534,10 +558,10 @@ texture_pressed = ExtResource( 10 )
 texture_hover = ExtResource( 10 )
 
 [node name="Container_down" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
-margin_left = 32.0
-margin_top = 64.0
-margin_right = 60.0
-margin_bottom = 92.0
+margin_left = 4.0
+margin_top = 8.0
+margin_right = 4.0
+margin_bottom = 8.0
 
 [node name="set_dir_down" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_down" groups=["direction_buttons"]]
 visible = false
@@ -550,6 +574,7 @@ texture_pressed = ExtResource( 5 )
 texture_hover = ExtResource( 5 )
 
 [node name="unset_dir_down" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_down" groups=["direction_buttons"]]
+visible = false
 margin_right = 28.0
 margin_bottom = 28.0
 hint_tooltip = "Down animation (unconfigured)"
@@ -558,11 +583,18 @@ texture_normal = ExtResource( 8 )
 texture_pressed = ExtResource( 33 )
 texture_hover = ExtResource( 33 )
 
+[node name="ColorRectSpacer" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_down"]
+visible = false
+modulate = Color( 0.235294, 0.341176, 0.290196, 1 )
+margin_right = 28.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 28, 28 )
+
 [node name="Container_downright" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
-margin_left = 64.0
-margin_top = 64.0
-margin_right = 92.0
-margin_bottom = 92.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 8.0
+margin_bottom = 8.0
 
 [node name="set_dir_downright" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_downright" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
@@ -585,7 +617,7 @@ texture_pressed = ExtResource( 22 )
 texture_hover = ExtResource( 22 )
 
 [node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer"]
-margin_top = 96.0
+margin_top = 12.0
 margin_right = 110.0
 margin_bottom = 161.0
 size_flags_horizontal = 3
@@ -596,7 +628,7 @@ custom_constants/margin_left = 15
 visible = false
 margin_left = 15.0
 margin_right = 110.0
-margin_bottom = 65.0
+margin_bottom = 149.0
 hint_tooltip = "Mirror opposite direction's animation"
 text = "Mirror"
 
@@ -1219,6 +1251,7 @@ window_title = "Open a Directory"
 mode = 2
 
 [node name="InformationWindows" type="Control" parent="."]
+visible = false
 margin_left = 50.0
 margin_top = 50.0
 margin_right = 1240.0
@@ -1402,6 +1435,8 @@ you will lose your current character.
 
 [connection signal="text_changed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer/node_name" to="." method="nodename_on_node_name_text_changed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer/character_path_change_button" to="." method="_on_character_path_change_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/one_direction" to="." method="directions_on_one_direction_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/two_directions" to="." method="directions_on_two_directions_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/four_directions" to="." method="directions_on_four_directions_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/eight_directions" to="." method="directions_on_eight_directions_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer/walk_checkbox" to="." method="animation_on_walk_checkbox_pressed"]
