@@ -1,3 +1,21 @@
+## [4.0.0-alpha.236](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.236) (2022-12-04)
+
+
+### Features
+
+* adds additional options to dialog manager, including a left-click action option and a text skipping option ([d676e50](https://github.com/godot-escoria/escoria-demo-game/commit/d676e50284ac5747e81bc15872eb69195905edb0))
+* adds option to sync talking animation finishing with either audio or text; if with text, now finishes when text is done rendering. ([13a6005](https://github.com/godot-escoria/escoria-demo-game/commit/13a600598f427d7a86e39590596fc747c4702b7d))
+* adds warnings w/ defaults when using settings; uses same calculation basis for text speeds/times; changes time units to ms ([f64b596](https://github.com/godot-escoria/escoria-demo-game/commit/f64b59621d52837dd27c4956b16959f8e197b871))
+* allows for the skipping of dialogue after the text is fully visible; still need to look at integrating with user options ([bd2f282](https://github.com/godot-escoria/escoria-demo-game/commit/bd2f28214b5b18e25b8e6a2a7de49752b68b40f5))
+
+
+### Bug Fixes
+
+* prevents illegal WPM values and uses default in those cases. ([e441414](https://github.com/godot-escoria/escoria-demo-game/commit/e4414141cb35e2534cce7a3d9f8f64ac9cbc31b7))
+* Trimmed audio files ([3e93fd3](https://github.com/godot-escoria/escoria-demo-game/commit/3e93fd31c61c9d29eadd3270ec2205cdaef8ea54))
+
+
+
 ## [4.0.0-alpha.235](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.235) (2022-12-04)
 
 

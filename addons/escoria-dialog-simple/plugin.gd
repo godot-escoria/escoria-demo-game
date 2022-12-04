@@ -74,7 +74,7 @@ func disable_plugin():
 	ESCProjectSettingsManager.remove_setting(
 		LEFT_CLICK_ACTION
 	)
-	
+
 	ESCProjectSettingsManager.remove_setting(
 		STOP_TALKING_ANIMATION_ON
 	)

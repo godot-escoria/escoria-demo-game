@@ -48,13 +48,13 @@ func _ready():
 	_text_time_per_character = ProjectSettings.get_setting(
 		SimpleDialogPlugin.TEXT_TIME_PER_LETTER_MS
 	)
-	
+
 	if _text_time_per_character < 0:
 		escoria.logger.warn(
 			self,
 			"%s setting must be a non-negative number. Will use default value of %s." %
 				[
-					SimpleDialogPlugin.TEXT_TIME_PER_LETTER_MS, 
+					SimpleDialogPlugin.TEXT_TIME_PER_LETTER_MS,
 					SimpleDialogPlugin.TEXT_TIME_PER_LETTER_MS_DEFAULT_VALUE
 				]
 		)
@@ -70,7 +70,7 @@ func _ready():
 			self,
 			"%s setting must be a non-negative number. Will use default value of %s." %
 				[
-					SimpleDialogPlugin.TEXT_TIME_PER_LETTER_MS_FAST, 
+					SimpleDialogPlugin.TEXT_TIME_PER_LETTER_MS_FAST,
 					SimpleDialogPlugin.TEXT_TIME_PER_LETTER_MS_FAST_DEFAULT_VALUE
 				]
 		)
@@ -86,7 +86,7 @@ func _ready():
 			self,
 			"%s setting must be a positive number. Will use default value of %s." %
 				[
-					SimpleDialogPlugin.READING_SPEED_IN_WPM, 
+					SimpleDialogPlugin.READING_SPEED_IN_WPM,
 					SimpleDialogPlugin.READING_SPEED_IN_WPM_DEFAULT_VALUE
 				]
 		)

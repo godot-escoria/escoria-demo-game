@@ -14,7 +14,7 @@ signal state_changed(current_state)
 """
 You must set a starting node from the inspector or on
 the node that inherits from this state machine interface
-If you don't the game will crash (on purpose, so you won't 
+If you don't the game will crash (on purpose, so you won't
 forget to initialize the state machine)
 """
 export(NodePath) var START_STATE
@@ -64,7 +64,7 @@ func _change_state(state_name):
 		return
 
 	escoria.logger.trace(
-		self, 
+		self,
 		"Dialog State Machine: Changing state from '%s' to '%s'." % [current_state_name, state_name]
 	)
 
