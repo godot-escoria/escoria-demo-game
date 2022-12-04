@@ -1,3 +1,12 @@
+## [4.0.0-alpha.235](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.235) (2022-12-04)
+
+
+### Bug Fixes
+
+* allows for colons to be placed anywhere in the dialogue being spoken. ([064973f](https://github.com/godot-escoria/escoria-demo-game/commit/064973f0a985e04fec3be2111cd0148fa96f64e8))
+
+
+
 ## [4.0.0-alpha.234](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.234) (2022-12-04)
 
 
