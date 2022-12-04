@@ -248,8 +248,18 @@ func _compile(lines: Array, path: String = "") -> Array:
 				if next_line_indent > indent:
 					dialog_option_lines.append(next_line)
 				else:
-					lines.push_front(next_line)
-					break
+					if _dialog_end_regex.search(next_line) or \
+						_dialog_option_regex.search(next_line):
+						lines.push_front(next_line)
+						break
+
+					# There MUST be AT LEAST ONE statement/line for a dialog
+					# option's block that's properly indented
+					escoria.logger.error(
+						self,
+						"Dialog option '%s' has at least one line in its block that is not indented sufficiently." \
+							% line
+					)
 			if dialog_option_lines.size() > 0:
 				escoria.logger.trace(
 					self,
