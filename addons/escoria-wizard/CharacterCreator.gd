@@ -27,8 +27,9 @@ const DIR_UP_LEFT = "upleft"
 
 const DIR_LIST_8 = [DIR_UP, DIR_UP_RIGHT, DIR_RIGHT, DIR_DOWN_RIGHT, DIR_DOWN, DIR_DOWN_LEFT, \
 	DIR_LEFT, DIR_UP_LEFT]
-
 const DIR_LIST_4 = [DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFT]
+const DIR_LIST_2 = [DIR_RIGHT, DIR_LEFT]
+const DIR_LIST_1 = [DIR_DOWN]
 
 const TYPE_WALK = "walk"
 const TYPE_TALK = "talk"
@@ -136,8 +137,9 @@ func character_creator_reset() -> void:
 	get_node(DIR_COUNT_NODE).get_node("four_directions").pressed = true
 
 	# For unknown reasons the above doesn't cause the trigger to fire so manual steps required
-	if get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed:
-		get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed = false
+	get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed = false
+	get_node(DIR_COUNT_NODE).get_node("two_directions").pressed = false		
+	get_node(DIR_COUNT_NODE).get_node("one_direction").pressed = false
 
 	get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed = true
 	animation_type_selected = "walk"
@@ -311,7 +313,8 @@ func setup_test_data() -> void:
 
 	get_node(NO_SPRITESHEET_NODE).visible = false
 	get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed = true
-	get_node(DIR_COUNT_NODE).get_node("four_directions").pressed = false
+	for loop in ["four_directions", "two_directions", "one_direction"]:
+		get_node(DIR_COUNT_NODE).get_node(loop).pressed = false
 	reset_arrow_colours()
 
 
@@ -845,8 +848,12 @@ func spritesheet_on_export_button_pressed() -> void:
 
 	if get_node(DIR_COUNT_NODE).get_node("four_directions").pressed:
 		dirnames = DIR_LIST_4
-	else:
+	elif get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed:
 		dirnames = DIR_LIST_8
+	elif get_node(DIR_COUNT_NODE).get_node("two_directions").pressed:
+		dirnames = DIR_LIST_2
+	else:
+		dirnames = DIR_LIST_1
 
 	for dirloop in dirnames:
 		anim_name = "%s_%s" % [TYPE_WALK, dirloop]
@@ -935,27 +942,57 @@ func directions_on_eight_directions_pressed() -> void:
 		# Don't let them untick all boxes
 		get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed = true
 
-	get_node(DIR_COUNT_NODE).get_node("four_directions").pressed = false
-
+	for loop in ["four_directions", "two_directions", "one_direction"]:
+		get_node(DIR_COUNT_NODE).get_node(loop).pressed = false
 	reset_arrow_colours()
 
 
 # If 4 directions was already selected, don't let it be unselected.
-# If 8 directions was selected, unselect it. Also if the previously selected direction was
-# a diagonal, reset the selection to up as the diagonal is no longer valid.
+# If previously selected direction is now invalid, change it to a valid one.
 func directions_on_four_directions_pressed() -> void:
 	if not get_node(DIR_COUNT_NODE).get_node("four_directions").pressed:
 		# Don't let them untick all boxes
 		get_node(DIR_COUNT_NODE).get_node("four_directions").pressed = true
 	else:
-		# Current direction is diagonal
+		# Current direction is illegal
+		for loop in ["eight_directions", "two_directions", "one_direction"]:
+			get_node(DIR_COUNT_NODE).get_node(loop).pressed = false
 		if not direction_selected in DIR_LIST_4:
 			direction_selected = DIR_UP
 			activate_direction(DIR_UP)
-
-	get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed = false
 	reset_arrow_colours()
 
+
+# If 2 directions was already selected, don't let it be unselected.
+# If previously selected direction is now invalid, change it to a valid one.
+func directions_on_two_directions_pressed() -> void:
+	if not get_node(DIR_COUNT_NODE).get_node("two_directions").pressed:
+		# Don't let them untick all boxes
+		get_node(DIR_COUNT_NODE).get_node("two_directions").pressed = true
+	else:
+		for loop in ["eight_directions", "four_directions", "one_direction"]:
+			get_node(DIR_COUNT_NODE).get_node(loop).pressed = false
+		# Current direction is illegal
+		if not direction_selected in DIR_LIST_2:
+			direction_selected = DIR_RIGHT
+			activate_direction(DIR_RIGHT)
+	reset_arrow_colours()
+	
+	
+# If 1 direction was already selected, don't let it be unselected.
+# If previously selected direction is now invalid, change it to a valid one.
+func directions_on_one_direction_pressed() -> void:
+	if not get_node(DIR_COUNT_NODE).get_node("one_direction").pressed:
+		# Don't let them untick all boxes
+		get_node(DIR_COUNT_NODE).get_node("one_direction").pressed = true
+	else:
+		for loop in ["eight_directions", "four_directions", "two_directions"]:
+			get_node(DIR_COUNT_NODE).get_node(loop).pressed = false
+		# Current direction is illegal
+		if not direction_selected in DIR_LIST_1:
+			direction_selected = DIR_DOWN
+			activate_direction(DIR_DOWN)
+	reset_arrow_colours()
 
 # Returns the currently selected animation type
 func return_current_animation_type() -> String:
@@ -1083,29 +1120,40 @@ func get_metadata_array_offset(dir_to_retrieve = "default", anim_type = "default
 # updating the direction arrow sprite was causing issues due to Godot storing the
 # sprite by reference rather than by value. It was easier to duplicate the sprites/buttons.
 func reset_arrow_colours() -> void:
-	var current_animation_type = return_current_animation_type()
-	var current_animation_name
+	var arrows = get_tree().get_nodes_in_group("direction_buttons")
+	for arrow in arrows:
+		arrow.visible = false
 
-	for dir in DIR_LIST_8:
-		current_animation_name = "%s_%s" % [current_animation_type, dir]
+	get_node(ARROWS_NODE).get_node("Container_up").get_node("ColorRectSpacer").visible = false
+	get_node(ARROWS_NODE).get_node("Container_left").get_node("ColorRectSpacer").visible = false
+	get_node(ARROWS_NODE).get_node("Container_down").get_node("ColorRectSpacer").visible = false
+	var dir_list=DIR_LIST_8
+	if get_node(DIR_COUNT_NODE).get_node("four_directions").pressed:
+		dir_list=DIR_LIST_4
+		if not direction_selected in DIR_LIST_4:
+			direction_selected = DIR_UP
+#		get_node(ARROWS_NODE).get_node("Container_up").get_node("ColorRectSpacer").visible = true
+	if get_node(DIR_COUNT_NODE).get_node("two_directions").pressed:
+		dir_list=DIR_LIST_2
+		if not direction_selected in DIR_LIST_2:
+			direction_selected = DIR_RIGHT
+		get_node(ARROWS_NODE).get_node("Container_up").get_node("ColorRectSpacer").visible = true
+		get_node(ARROWS_NODE).get_node("Container_down").get_node("ColorRectSpacer").visible = true
+	if get_node(DIR_COUNT_NODE).get_node("one_direction").pressed:
+		dir_list=DIR_LIST_1
+		if not direction_selected in DIR_LIST_1:
+			direction_selected = DIR_DOWN
+		get_node(ARROWS_NODE).get_node("Container_up").get_node("ColorRectSpacer").visible = true
+		get_node(ARROWS_NODE).get_node("Container_left").get_node("ColorRectSpacer").visible = true
+		
 
+	for dir in dir_list:
 		if anim_metadata[get_metadata_array_offset(dir)][METADATA_SPRITESHEET_FIRST_FRAME] > 0:
 			get_node(ARROWS_NODE).get_node("Container_%s" % dir).get_node("set_dir_%s" % dir).visible = true
 			get_node(ARROWS_NODE).get_node("Container_%s" % dir).get_node("unset_dir_%s" % dir).visible = false
 		else:
 			get_node(ARROWS_NODE).get_node("Container_%s" % dir).get_node("set_dir_%s" % dir).visible = false
 			get_node(ARROWS_NODE).get_node("Container_%s" % dir).get_node("unset_dir_%s" % dir).visible = true
-
-	if get_node(DIR_COUNT_NODE).get_node("four_directions").pressed:
-		var arrows = get_tree().get_nodes_in_group("8_direction_buttons")
-
-		for arrow in arrows:
-			arrow.visible = false
-
-	# Current direction is diagonal
-		if not direction_selected in DIR_LIST_4:
-			direction_selected = DIR_UP
-			activate_direction(DIR_UP)
 
 	# This works when you change between animation types
 	# eg. walk and talk - to ensure that the arrow will get changed back from selected with stored
@@ -1193,8 +1241,12 @@ func export_player(scene_name) -> void:
 
 	if get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed:
 		num_directions = 8
-	else:
+	if get_node(DIR_COUNT_NODE).get_node("four_directions").pressed:
 		num_directions = 4
+	if get_node(DIR_COUNT_NODE).get_node("two_directions").pressed:
+		num_directions = 2
+	else:
+		num_directions = 1
 
 	var new_character = ESCPlayer.new()
 	new_character.name = get_node(NAME_NODE).get_node("node_name").text
@@ -1218,11 +1270,21 @@ func export_player(scene_name) -> void:
 		start_angle_array = [315, 45, 135, 225]
 		angle_size = 90
 		dirnames = DIR_LIST_4
-	else:
+	elif get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed:
 		num_directions = 8
 		start_angle_array = [338, 22, 69, 114, 159, 204, 249, 294]
 		angle_size = 45
 		dirnames = DIR_LIST_8
+	elif get_node(DIR_COUNT_NODE).get_node("two_directions").pressed:
+		num_directions = 2
+		start_angle_array = [0, 180]
+		angle_size = 180
+		dirnames = DIR_LIST_2
+	else:
+		num_directions = 1
+		start_angle_array = [0]
+		angle_size = 360
+		dirnames = DIR_LIST_1
 
 	for loop in range(num_directions):
 		# Need to create new objects here each time in order to avoid having multiple references
@@ -1330,10 +1392,12 @@ func export_generate_animations(character_node, num_directions) -> void:
 	var largest_frame_dimensions: Vector2 = Vector2.ZERO
 	var sprite_frames = SpriteFrames.new()
 
-	if num_directions == 4:
-		direction_names = DIR_LIST_4
-	else:
-		direction_names = DIR_LIST_8
+
+	match num_directions:
+		1: direction_names = DIR_LIST_1
+		2: direction_names = DIR_LIST_2
+		4: direction_names = DIR_LIST_4
+		8: direction_names = DIR_LIST_8
 
 	for animtype in [TYPE_WALK, TYPE_TALK, TYPE_IDLE]:
 		for anim_dir in direction_names:
@@ -1392,7 +1456,10 @@ func export_generate_animations(character_node, num_directions) -> void:
 
 	progress_bar_update("Adding sprite frames to node")
 	animated_sprite.frames = sprite_frames
-	animated_sprite.animation = "%s_%s" % [TYPE_IDLE, DIR_DOWN]
+	if num_directions == 2:
+		animated_sprite.animation = "%s_%s" % [TYPE_IDLE, DIR_RIGHT]
+	else:
+		animated_sprite.animation = "%s_%s" % [TYPE_IDLE, DIR_DOWN]
 	animated_sprite.position.y = -(largest_frame_dimensions.y / 2)	# Place feet at (0,0)
 	character_node.add_child(animated_sprite)
 	# Making the owner "character_node" rather than "get_tree().edited_scene_root" means that
