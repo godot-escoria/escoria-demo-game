@@ -1,3 +1,12 @@
+## [4.0.0-alpha.234](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.234) (2022-12-04)
+
+
+### Bug Fixes
+
+* discard non interactive items from hovering when they are hidden ([29371ef](https://github.com/godot-escoria/escoria-demo-game/commit/29371ef93626ef55ebb15118abf9ce6492cddbfd))
+
+
+
 ## [4.0.0-alpha.233](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.233) (2022-11-28)
 
 
