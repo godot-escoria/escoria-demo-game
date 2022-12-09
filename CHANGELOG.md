@@ -1,3 +1,18 @@
+## [4.0.0-alpha.238](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.238) (2022-12-09)
+
+
+### Features
+
+* Updated room 6 conversation ([68f55e2](https://github.com/godot-escoria/escoria-demo-game/commit/68f55e2d5abffd2a6ddb14b77c7f0a3a5967235b))
+
+
+### Bug Fixes
+
+* restores state on returning; for some reason, previously state was modified but never restored. ([9398ce9](https://github.com/godot-escoria/escoria-demo-game/commit/9398ce96c376c4214e0cc85f9d4509c6b2a28818))
+* returns an appropriate RC code when no more options are left at a particular dialog level; this has the somewhat beneficial side effect of moving up a level in dialog if there is one, although this requires a 'stop' command to be present in at least one of the top-most dialog options. ([328e5ef](https://github.com/godot-escoria/escoria-demo-game/commit/328e5efdd9c126b6e0d3fbf3a1d487267258de5f))
+
+
+
 ## [4.0.0-alpha.237](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.237) (2022-12-09)
 
 
