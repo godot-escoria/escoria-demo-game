@@ -1,3 +1,12 @@
+## [4.0.0-alpha.237](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.237) (2022-12-09)
+
+
+### Bug Fixes
+
+* disallows dialog blocks that aren't properly indented; however, this also changes how dialog options are parsed and will require substantial testing. ([0ff3513](https://github.com/godot-escoria/escoria-demo-game/commit/0ff35136ba1dd1be9749a90d65721264ed3f5c22))
+
+
+
 ## [4.0.0-alpha.236](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.236) (2022-12-04)
 
 

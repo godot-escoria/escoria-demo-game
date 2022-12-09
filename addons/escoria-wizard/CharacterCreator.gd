@@ -138,7 +138,7 @@ func character_creator_reset() -> void:
 
 	# For unknown reasons the above doesn't cause the trigger to fire so manual steps required
 	get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed = false
-	get_node(DIR_COUNT_NODE).get_node("two_directions").pressed = false		
+	get_node(DIR_COUNT_NODE).get_node("two_directions").pressed = false	
 	get_node(DIR_COUNT_NODE).get_node("one_direction").pressed = false
 
 	get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed = true
@@ -977,8 +977,8 @@ func directions_on_two_directions_pressed() -> void:
 			direction_selected = DIR_RIGHT
 			activate_direction(DIR_RIGHT)
 	reset_arrow_colours()
-	
-	
+
+
 # If 1 direction was already selected, don't let it be unselected.
 # If previously selected direction is now invalid, change it to a valid one.
 func directions_on_one_direction_pressed() -> void:
@@ -1145,7 +1145,7 @@ func reset_arrow_colours() -> void:
 			direction_selected = DIR_DOWN
 		get_node(ARROWS_NODE).get_node("Container_up").get_node("ColorRectSpacer").visible = true
 		get_node(ARROWS_NODE).get_node("Container_left").get_node("ColorRectSpacer").visible = true
-		
+	
 
 	for dir in dir_list:
 		if anim_metadata[get_metadata_array_offset(dir)][METADATA_SPRITESHEET_FIRST_FRAME] > 0:
