@@ -67,8 +67,7 @@ func run(command_params: Array) -> int:
 	var esc_script = escoria.esc_compiler.load_esc_file(node.esc_script)
 
 	escoria.event_manager.schedule_event(
-		escoria.object_manager.get_object(command_params[1])\
-			.events[command_params[2]],
+		esc_script.events[command_params[2]],
 		command_params[0],
 		command_params[1]
 	)

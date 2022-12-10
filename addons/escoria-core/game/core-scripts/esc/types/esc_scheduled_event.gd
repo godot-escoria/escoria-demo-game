@@ -14,7 +14,7 @@ var object: String
 
 
 # Create a new scheduled event
-func _init(p_event: ESCEvent, p_timeout: float, p_object: String):
+func _init(p_event, p_timeout: float, p_object: String):
 	self.event = p_event
 	self.timeout = p_timeout
 	self.object = p_object
