@@ -88,8 +88,24 @@ func _init():
 	_globals_regex = RegEx.new()
 	_globals_regex.compile("(?<=\\{)(.*)(?=\\})")
 
+
+func _interpreter_shim(path: String):
+	if File.new().file_exists(path):
+		var file = File.new()
+		file.open(path, File.READ)
+		var source = file.get_as_text()
+		
+		var scanner: ESCScanner = ESCScanner.new()
+		scanner.set_source(source)
+		var tokens = scanner.scan_tokens()
+		
+		for t in tokens:
+			print(t)
+
+
 # Load an ESC file from a file resource
 func load_esc_file(path: String) -> ESCScript:
+	_interpreter_shim(path)
 	escoria.logger.debug(self, "Parsing file %s." % path)
 	if File.new().file_exists(path):
 		var file = File.new()

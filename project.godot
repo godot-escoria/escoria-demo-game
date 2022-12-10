@@ -244,6 +244,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/esc_globals_manager.gd"
 }, {
+"base": "ESCGrammarStmt",
+"class": "ESCGrammarBlock",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/compiler/esc_grammar_block.gd"
+}, {
+"base": "Reference",
+"class": "ESCGrammarStmt",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/compiler/esc_grammar_stmt.gd"
+}, {
 "base": "ESCStatement",
 "class": "ESCGroup",
 "language": "GDScript",
@@ -395,6 +405,11 @@ _global_script_classes=[ {
 "path": "res://addons/escoria-core/game/core-scripts/save_data/esc_savesettings.gd"
 }, {
 "base": "Reference",
+"class": "ESCScanner",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/compiler/esc_scanner.gd"
+}, {
+"base": "Reference",
 "class": "ESCScheduledEvent",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_scheduled_event.gd"
@@ -429,6 +444,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc_terrain.gd"
 }, {
+"base": "Reference",
+"class": "ESCToken",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/compiler/esc_token.gd"
+}, {
+"base": "Reference",
+"class": "ESCTokenType",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/compiler/esc_token_type.gd"
+}, {
 "base": "RichTextLabel",
 "class": "ESCTooltip",
 "language": "GDScript",
@@ -443,6 +468,11 @@ _global_script_classes=[ {
 "class": "ESCUtils",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/utils/esc_utils.gd"
+}, {
+"base": "Reference",
+"class": "ESCVisitor",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/compiler/esc_visitor.gd"
 }, {
 "base": "Reference",
 "class": "ESCWalkContext",
@@ -737,6 +767,8 @@ _global_script_class_icons={
 "ESCExit": "res://addons/escoria-core/design/esc_exit.svg",
 "ESCGame": "",
 "ESCGlobalsManager": "",
+"ESCGrammarBlock": "",
+"ESCGrammarStmt": "",
 "ESCGroup": "",
 "ESCInputsManager": "",
 "ESCInteractionLocation": "res://addons/escoria-core/design/esc_location.svg",
@@ -767,6 +799,7 @@ _global_script_class_icons={
 "ESCSaveGame": "",
 "ESCSaveManager": "",
 "ESCSaveSettings": "",
+"ESCScanner": "",
 "ESCScheduledEvent": "",
 "ESCScript": "",
 "ESCSettingsManager": "",
@@ -774,9 +807,12 @@ _global_script_class_icons={
 "ESCSpeechPlayer": "",
 "ESCStatement": "",
 "ESCTerrain": "res://addons/escoria-core/design/esc_terrain.svg",
+"ESCToken": "",
+"ESCTokenType": "",
 "ESCTooltip": "",
 "ESCTransitionPlayer": "",
 "ESCUtils": "",
+"ESCVisitor": "",
 "ESCWalkContext": "",
 "EnableTerrainCommand": "",
 "EndBlockSayCommand": "",
@@ -848,8 +884,8 @@ escoria="*res://addons/escoria-core/game/esc_autoload.gd"
 
 [display]
 
-window/size/width=1280
-window/size/height=900
+window/size/width=1920
+window/size/height=1080
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
 
@@ -859,7 +895,7 @@ search_in_file_extensions=PoolStringArray( "gd", "shader", "esc" )
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-wizard/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-dialog-simple/plugin.cfg", "res://addons/escoria-ui-simplemouse/plugin.cfg", "res://addons/escoria-wizard/plugin.cfg" )
 
 [escoria]
 
@@ -882,7 +918,7 @@ debug/crash_message="We're sorry, but the game crashed. Please send us the follo
 %s"
 debug/enable_room_selector=true
 debug/room_selector_room_dir="res://game/rooms"
-ui/game_scene="res://addons/escoria-ui-9verbs/game.tscn"
+ui/game_scene="res://addons/escoria-ui-simplemouse/game.tscn"
 ui/inventory_items_path="res://game/items/inventory"
 ui/default_transition="instant"
 ui/transition_paths=[ "res://addons/escoria-core/game/scenes/transitions/shaders/" ]
