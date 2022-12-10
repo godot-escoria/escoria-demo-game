@@ -12,9 +12,6 @@ gradient = SubResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 margin_left = 20.0
@@ -61,6 +58,6 @@ __meta__ = {
 }
 
 [node name="AvatarContainer" type="Node2D" parent="."]
-position = Vector2( 29.1458, 120.012 )
+position = Vector2( 94, 68 )
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
