@@ -1,5 +1,5 @@
 extends Reference
-class_name ESCGrammarStmt
+class_name ESCGrammarExpr
 
 
 func accept(visitor):

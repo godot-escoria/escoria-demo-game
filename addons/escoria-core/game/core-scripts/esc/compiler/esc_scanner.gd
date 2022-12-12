@@ -2,7 +2,10 @@ extends Reference
 class_name ESCScanner
 
 
-var _tokens: Array
+var _tokens: Array = []
+
+var _current_line_tokens: Array = []
+
 var _keywords: Dictionary
 var _start: int = 0
 var _current: int = 0
@@ -65,6 +68,14 @@ func _scan_token():
 	var c: String = _advance()
 
 	match c:
+		'(':
+			_add_token(ESCTokenType.TokenType.LEFT_PAREN, null)
+		')':
+			_add_token(ESCTokenType.TokenType.RIGHT_PAREN, null)
+		'[':
+			_add_token(ESCTokenType.TokenType.LEFT_SQUARE, null)
+		']':
+			_add_token(ESCTokenType.TokenType.RIGHT_SQUARE, null)
 		',':
 			_add_token(ESCTokenType.TokenType.COMMA, null)
 		'.':
@@ -79,16 +90,22 @@ func _scan_token():
 			_add_token(ESCTokenType.TokenType.COLON, null)
 		'/':
 			_add_token(ESCTokenType.TokenType.SLASH, null)
+		'|':
+			_add_token(ESCTokenType.TokenType.PIPE, null)
+		'?':
+			_add_token(ESCTokenType.TokenType.QUESTION, null)
 		'#':
 			# the rest of the line is a comment
 			while _peek() != '\n' and not _at_end():
 				_advance()
 
 		'\r', '\n':
-			_line += 1
-			_check_indent()
-			_add_token(ESCTokenType.TokenType.NEWLINE, null)
+			if not _all_whitespace(_current_line_tokens):
+				_add_token(ESCTokenType.TokenType.NEWLINE, null)
+				_check_indent()
 
+			_line += 1
+			_current_line_tokens = []
 		'!':
 			_add_token(ESCTokenType.TokenType.BANG_EQUAL if _match('=') else ESCTokenType.TokenType.BANG, null)
 		'=':
@@ -126,6 +143,9 @@ func _check_indent() -> void:
 		while _indent_level_stack.front() > indent_level:
 			_indent_level_stack.pop_front()
 			_add_token(ESCTokenType.TokenType.DEDENT, null)
+
+		if _indent_level_stack.front() != indent_level:
+			_error(_line, "Inconsistent indent.")
 
 
 func _is_digit(c: String) -> bool:
@@ -234,3 +254,15 @@ func _add_token(type: int, literal) -> void:
 	var token: ESCToken = ESCToken.new()
 	token.init(type, text, literal, _line)
 	_tokens.append(token)
+	_current_line_tokens.append(token)
+
+
+func _all_whitespace(tokens: Array) -> bool:
+	if tokens.size() == 0:
+		return true
+
+	for t in tokens:
+		if not t.get_type() in [ESCTokenType.TokenType.INDENT, ESCTokenType.TokenType.NEWLINE]:
+			return false
+
+	return true

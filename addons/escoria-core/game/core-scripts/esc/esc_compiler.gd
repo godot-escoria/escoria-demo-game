@@ -49,6 +49,8 @@ var _command_container = []
 # The currently identified indent
 var _current_indent = 0
 
+var had_error: bool = false
+
 
 func _init():
 	# Assure command list preference
@@ -89,7 +91,7 @@ func _init():
 	_globals_regex.compile("(?<=\\{)(.*)(?=\\})")
 
 
-func _interpreter_shim(path: String):
+func _compiler_shim(path: String):
 	if File.new().file_exists(path):
 		var file = File.new()
 		file.open(path, File.READ)
@@ -97,15 +99,27 @@ func _interpreter_shim(path: String):
 		
 		var scanner: ESCScanner = ESCScanner.new()
 		scanner.set_source(source)
+		
+		print("SCAN START")
+
 		var tokens = scanner.scan_tokens()
 		
 		for t in tokens:
 			print(t)
 
+		var parser: ESCParser = ESCParser.new()
+		parser.init(self, tokens)
+
+		print("PARSE START")
+	
+		parser.parse()
+
+		print("PARSE ERROR" if had_error else "No error")
+
 
 # Load an ESC file from a file resource
 func load_esc_file(path: String) -> ESCScript:
-	_interpreter_shim(path)
+	_compiler_shim(path)
 	escoria.logger.debug(self, "Parsing file %s." % path)
 	if File.new().file_exists(path):
 		var file = File.new()
