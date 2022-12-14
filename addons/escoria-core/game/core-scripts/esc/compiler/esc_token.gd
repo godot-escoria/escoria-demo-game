@@ -2,10 +2,10 @@ extends Reference
 class_name ESCToken
 
 
-var _tokenType: int # ESCScanner.TokenType enum
-var _lexeme: String
-var _literal
-var _line: int
+var _tokenType: int setget ,get_type # ESCScanner.TokenType enum
+var _lexeme: String setget ,get_lexeme
+var _literal setget ,get_literal
+var _line: int setget ,get_line
 
 
 func init(tokenType: int, lexeme: String, literal, line: int) -> void:
@@ -21,6 +21,14 @@ func get_type() -> int:
 
 func get_literal():
 	return _literal
+
+
+func get_lexeme() -> String:
+	return _lexeme
+
+
+func get_line() -> int:
+	return _line
 
 
 func _to_string() -> String:

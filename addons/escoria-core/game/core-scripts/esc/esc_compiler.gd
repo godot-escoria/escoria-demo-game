@@ -91,12 +91,50 @@ func _init():
 	_globals_regex.compile("(?<=\\{)(.*)(?=\\})")
 
 
+func _load_commands() -> Array:
+	var commands: Array = []
+
+	for command_directory in ESCProjectSettingsManager.get_setting(
+		ESCProjectSettingsManager.COMMAND_DIRECTORIES
+	):
+		var dir: Directory = Directory.new()
+		dir.open(command_directory)
+		dir.list_dir_begin(true, true)
+
+		var file_name = dir.get_next()
+
+		while file_name:
+			if ResourceLoader.exists("%s/%s" % [command_directory, file_name]):
+				commands.append(load(
+					"%s/%s" % [
+						command_directory.trim_suffix("/"),
+						file_name
+					]
+				).new())
+
+			file_name = dir.get_next()
+
+	return commands
+
+
+func _load_globals():
+	var globals: Dictionary = {}
+
+	for obj in escoria.object_manager.RESERVED_OBJECTS:
+		globals[obj] = obj
+
+	return globals
+
+
 func _compiler_shim(path: String):
 	if File.new().file_exists(path):
 		var file = File.new()
 		file.open(path, File.READ)
 		var source = file.get_as_text()
-		
+		var commands = _load_commands()
+		var globals = _load_globals()
+		var interpreter: ESCInterpreter = ESCInterpreter.new(commands, globals)
+
 		var scanner: ESCScanner = ESCScanner.new()
 		scanner.set_source(source)
 		
@@ -112,14 +150,24 @@ func _compiler_shim(path: String):
 
 		print("PARSE START")
 	
-		parser.parse()
+		var parsed_statements = parser.parse()
 
 		print("PARSE ERROR" if had_error else "No error")
+
+		if not had_error:
+			var resolver: ESCResolver = ESCResolver.new(interpreter)
+			resolver.resolve(parsed_statements)
+
+		if not had_error:
+			interpreter.interpret(parsed_statements)
 
 
 # Load an ESC file from a file resource
 func load_esc_file(path: String) -> ESCScript:
-	_compiler_shim(path)
+	if "start_game.esc" in path:
+		_compiler_shim(path)
+		return null
+
 	escoria.logger.debug(self, "Parsing file %s." % path)
 	if File.new().file_exists(path):
 		var file = File.new()

@@ -4,12 +4,13 @@ class_name ESCScanner
 
 var _tokens: Array = []
 
-var _current_line_tokens: Array = []
-
 var _keywords: Dictionary
 var _start: int = 0
 var _current: int = 0
 var _line: int = 1
+var _at_start_of_line: bool = true
+var _empty_line: bool = false
+var _indent_level: int = 0
 
 var _source: String setget set_source
 
@@ -22,6 +23,7 @@ var _indent_level_stack: Array
 
 func _init():
 	_keywords["and"] = ESCTokenType.TokenType.AND
+	_keywords["elif"] = ESCTokenType.TokenType.ELIF
 	_keywords["else"] = ESCTokenType.TokenType.ELSE
 	_keywords["false"] = ESCTokenType.TokenType.FALSE
 	_keywords["if"] = ESCTokenType.TokenType.IF
@@ -67,6 +69,33 @@ func scan_tokens() -> Array:
 func _scan_token():
 	var c: String = _advance()
 
+	# We need to check for entirely empty/blank lines, so do some lookahead stuff.
+	if _at_start_of_line:
+		var line_indent_level: int = 0
+		var done: bool = false
+
+		while not done:
+			if c == ' ':
+				_start = _current
+				c = _advance()
+			elif c == '\t':
+				line_indent_level += 1
+				_start = _current
+				c = _advance()
+			else:
+				done = true
+
+		match c:
+			'#', '\r', '\n':
+				_empty_line = true
+			_:
+				_empty_line = false
+
+		if not _empty_line:
+			_check_indent(line_indent_level)
+
+		_at_start_of_line = false
+
 	match c:
 		'(':
 			_add_token(ESCTokenType.TokenType.LEFT_PAREN, null)
@@ -100,12 +129,11 @@ func _scan_token():
 				_advance()
 
 		'\r', '\n':
-			if not _all_whitespace(_current_line_tokens):
+			if not _empty_line:
 				_add_token(ESCTokenType.TokenType.NEWLINE, null)
-				_check_indent()
 
 			_line += 1
-			_current_line_tokens = []
+			_at_start_of_line = true
 		'!':
 			_add_token(ESCTokenType.TokenType.BANG_EQUAL if _match('=') else ESCTokenType.TokenType.BANG, null)
 		'=':
@@ -130,12 +158,7 @@ func _scan_token():
 				_error(_line, "Unexpected character.")
 
 
-func _check_indent() -> void:
-	var indent_level: int = 0
-
-	while _match('\t'):
-		indent_level += 1
-
+func _check_indent(indent_level: int) -> void:
 	if indent_level > _indent_level_stack.front():
 		_indent_level_stack.push_front(indent_level)
 		_add_token(ESCTokenType.TokenType.INDENT, null)
@@ -249,20 +272,19 @@ func _advance() -> String:
 	return c
 
 
+func _rewind() -> void:
+	_current -= 1
+
+	if _current <= 0:
+		_current = 0
+
+
 func _add_token(type: int, literal) -> void:
-	var text: String = _source.substr(_start, _current - _start)
+	var text: String = ""
+
+	if not type in [ESCTokenType.TokenType.INDENT, ESCTokenType.TokenType.DEDENT]:
+		text = _source.substr(_start, _current - _start)
+
 	var token: ESCToken = ESCToken.new()
 	token.init(type, text, literal, _line)
 	_tokens.append(token)
-	_current_line_tokens.append(token)
-
-
-func _all_whitespace(tokens: Array) -> bool:
-	if tokens.size() == 0:
-		return true
-
-	for t in tokens:
-		if not t.get_type() in [ESCTokenType.TokenType.INDENT, ESCTokenType.TokenType.NEWLINE]:
-			return false
-
-	return true

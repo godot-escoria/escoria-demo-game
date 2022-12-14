@@ -78,8 +78,20 @@ func _event_declaration():
 	return ret
 
 
+func _expression():
+	var expr = _assignment()
+
+	return expr
+
+
 func _statement():
-	if _match([ESCTokenType.TokenType.NEWLINE, ESCTokenType.TokenType.INDENT]):
+	if _match(ESCTokenType.TokenType.IF):
+		var stmt = _if_statement()
+
+		if stmt is ESCParseError:
+			return stmt
+
+	if _matchInOrder([ESCTokenType.TokenType.NEWLINE, ESCTokenType.TokenType.INDENT]):
 		var block = _block()
 
 		if block is ESCParseError:
@@ -92,13 +104,70 @@ func _statement():
 	return _expressionStatement()
 
 
+func _if_statement():
+	var condition = _expression()
+
+	if condition is ESCParseError:
+		return condition
+
+	var colon_token = _consume(ESCTokenType.TokenType.COLON, "Expect ':' after if condition.")
+
+	if colon_token is ESCParseError:
+		return colon_token
+
+	var then_branch = _statement()
+
+	if then_branch is ESCParseError:
+		return then_branch
+
+	var elif_branches = []
+
+	while _match(ESCTokenType.TokenType.ELIF):
+		var elif_branch = _elif_statement()
+
+		if elif_branch is ESCParseError:
+			return elif_branch
+
+		elif_branches.append(elif_branch)
+
+	var else_branch = null
+
+	if _match(ESCTokenType.TokenType.ELSE):
+		else_branch = _statement()
+
+		if else_branch is ESCParseError:
+			return else_branch
+
+	var toRet = ESCGrammarStmts.If.new()
+	toRet.init(condition, then_branch, elif_branches, else_branch)
+	return toRet
+
+
+func _elif_statement():
+	var condition = _expression()
+
+	if condition is ESCParseError:
+		return condition
+
+	var colon_token = _consume(ESCTokenType.TokenType.COLON, "Expect ':' after elif condition.")
+
+	var then_branch = _statement()
+
+	if then_branch is ESCParseError:
+		return then_branch
+
+	var toRet = ESCGrammarStmts.If.new()
+	toRet.init(condition, then_branch, null)
+	return toRet
+
+
 func _expressionStatement():
 	var expr = _expression()
 
 	if expr is ESCParseError:
 		return expr
 
-	var consume = _consume(ESCTokenType.TokenType.NEWLINE, "Expect NEWLINE after expression.")
+	var consume = _consume(ESCTokenType.TokenType.NEWLINE, "Expect NEWLINE after expression statement.")
 
 	if consume is ESCParseError:
 		return consume
@@ -106,10 +175,6 @@ func _expressionStatement():
 	var ret = ESCGrammarStmts.ESCExpression.new()
 	ret.init(expr)
 	return ret
-
-
-func _expression():
-	var expr = _assignment()
 
 
 func _block():
@@ -289,19 +354,14 @@ func _unary():
 func _call():
 	var expr = _primary()
 
-	while true:
-		if _match(ESCTokenType.TokenType.LEFT_PAREN):
-			expr = _finishCall(expr)
-		elif _match(ESCTokenType.TokenType.DOT):
-			var name = _consume(ESCTokenType.TokenType.IDENTIFIER, "Expect property name after '.'.")
+	if expr is ESCParseError:
+		return expr
 
-			if name is ESCParseError:
-				return name
+	if expr is ESCGrammarExprs.Variable:
+		expr = _finishCall(expr)
 
-			expr = ESCGrammarExpr.Get.new()
-			expr.init(expr, name)
-		else:
-			break
+		if expr is ESCParseError:
+			return expr
 
 	return expr
 
@@ -310,12 +370,12 @@ func _finishCall(callee: ESCGrammarExpr):
 	var args: Array = []
 	var toReturn = null
 
-	if not _check(ESCTokenType.TokenType.RIGHT_PAREN):
+	if not _check(ESCTokenType.TokenType.NEWLINE):
 		var done: bool = false
 
 		while not done:
 			if args.size() >= 255:
-				toReturn = _error(_peek(), "Can't have more than 255 arguments.")
+				return _error(_peek(), "Can't have more than 255 arguments.")
 
 			var expr = _expression()
 
@@ -324,14 +384,15 @@ func _finishCall(callee: ESCGrammarExpr):
 
 			args.append(expr)
 
-			done = _match(ESCTokenType.TokenType.COMMA)
+			#done = _match(ESCTokenType.TokenType.COMMA)
+			done = _peek().get_type() == ESCTokenType.TokenType.NEWLINE
 
-	var paren = _consume(ESCTokenType.TokenType.RIGHT_PAREN, "Expect ')' after arguments.")
+	var paren = _peek()
 
-	if paren is ESCParseError:
-		return paren
+	if paren.get_type() != ESCTokenType.TokenType.NEWLINE:
+		return _error(ESCTokenType.TokenType.NEWLINE, "Expect NEWLINE after arguments.")
 
-	var ret = ESCGrammarStmts.Call.new()
+	var ret = ESCGrammarExprs.Call.new()
 	ret.init(callee, paren, args)
 	return ret
 
@@ -412,6 +473,19 @@ func _match(tokenTypes) -> bool:
 	return false
 
 
+func _matchInOrder(tokenTypes) -> bool:
+	if not tokenTypes is Array:
+		tokenTypes = [tokenTypes]
+
+	for type in tokenTypes:
+		if not _check(type):
+			return false
+
+		_advance()
+
+	return true
+
+
 func _consume(tokenType, message: String):
 	if _check(tokenType):
 		return _advance()
@@ -451,10 +525,10 @@ func _synchronize() -> void:
 	_advance()
 
 	while not _at_end():
-		if _previous().type == ESCTokenType.TokenType.NEWLINE:
+		if _previous().get_type() == ESCTokenType.TokenType.NEWLINE:
 			return
 
-		match _peek().type:
+		match _peek().get_type():
 			ESCTokenType.TokenType.VAR,\
 			ESCTokenType.TokenType.IF,\
 			ESCTokenType.TokenType.WHILE,\

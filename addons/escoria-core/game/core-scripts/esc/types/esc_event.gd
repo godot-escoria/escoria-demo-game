@@ -89,11 +89,26 @@ func _init(event_string: String):
 				if "NO_SAVE" in _flags:
 					self.flags |= FLAG_NO_SAVE
 	else:
-		escoria.logger.error(
+		escoria.logger.warn(
 			self,
 			"Invalid event detected: %s\nEvent regexp didn't match."
 					% event_string
 		)
+
+
+func init(event_name: String, event_flags: Array):
+	name = event_name
+
+	for flag in event_flags:
+		match flag:
+			"TK":
+				flags |= FLAG_TK
+			"NO_TT":
+				flags |= FLAG_NO_TT
+			"NO_UI":
+				flags |= FLAG_NO_UI
+			"NO_SAVE":
+				flags |= FLAG_NO_SAVE
 
 
 # Execute this statement and return its return code
