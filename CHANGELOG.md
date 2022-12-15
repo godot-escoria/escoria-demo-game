@@ -1,3 +1,17 @@
+## [4.0.0-alpha.240](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.240) (2022-12-15)
+
+
+### Features
+
+* Add thinking avatar scene for Mark ([2a55da5](https://github.com/godot-escoria/escoria-demo-game/commit/2a55da506735a3328b03446113ca4c1ef4f4c721))
+
+
+### Bug Fixes
+
+* changes the registering of items already in a room from ERROR to WARN. ([2db5818](https://github.com/godot-escoria/escoria-demo-game/commit/2db581861a4c8e7ce57e5595e411d381254388be))
+
+
+
 ## [4.0.0-alpha.239](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.239) (2022-12-09)
 
 
