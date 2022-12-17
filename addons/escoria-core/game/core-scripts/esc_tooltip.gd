@@ -121,39 +121,7 @@ func update_size():
 	if not get_tree():
 		# We're not in the tree anymore. Return
 		return
-
-	var rtl_width = rect_size.x
-	var rtl_height = rect_size.y
-	var content_height = get_content_height()
-	var nb_visible_characters = visible_characters
-	var nb_visible_lines = get_visible_line_count()
-
-	# if text is too long and is wrapped
-	var nblines = nb_visible_lines
-	if nblines >= 1:
-		var text_height = get_content_height()
-		if text_height > MAX_HEIGHT:
-			text_height = MAX_HEIGHT
-		if text_height <= MIN_HEIGHT:
-			text_height = MIN_HEIGHT
-
-		var parent_width = rect_size.x
-
-		# first, try to increase width until it goes above max_width
-		while parent_width < MAX_WIDTH && float(text_height) / float(ONE_LINE_HEIGHT) > 1.0:
-			rect_size.x += 1
-			parent_width = rect_size.x
-
-		rect_size.y = text_height
-
-		if rect_size.x >= MAX_WIDTH:
-			rect_size.x = MAX_WIDTH
-
-	## END RECT_SIZE ##
-	anchor_top = 0.0
-	anchor_right = 0.0
-	anchor_bottom = 0.0
-	anchor_left = 0.0
+	rect_size = get_font("normal_font").get_string_size(current_target)
 
 
 # Calculate the offset of the label depending on its position.

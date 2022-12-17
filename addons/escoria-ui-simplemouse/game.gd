@@ -99,8 +99,10 @@ func _exit_tree():
 func _input(event: InputEvent) -> void:
 	if escoria.get_escoria().is_ready_for_inputs():
 		if event is InputEventMouseMotion:
-			escoria.main.current_scene.game. \
-				update_tooltip_following_mouse_position(event.position)
+			# Only update tooltip when there is one
+			if tooltip_node.current_target:
+				escoria.main.current_scene.game. \
+					update_tooltip_following_mouse_position(event.position)
 
 
 # https://github.com/godotengine/godot-demo-projects/blob/3.4-585455e/misc/joypads/joypads.gd
@@ -352,7 +354,7 @@ func get_custom_data() -> Dictionary:
 #
 # - p_position: Position of the mouse
 func update_tooltip_following_mouse_position(p_position: Vector2):
-	var corrected_position = p_position
+	var corrected_position = p_position - Vector2(tooltip_node.rect_size.x/2,tooltip_node.rect_size.y/2)	
 
 	# clamp TOP
 	if tooltip_node.tooltip_distance_to_edge_top(p_position) <= mouse_tooltip_margin:
@@ -370,7 +372,6 @@ func update_tooltip_following_mouse_position(p_position: Vector2):
 	if tooltip_node.tooltip_distance_to_edge_right(p_position + tooltip_node.rect_size/2) <= mouse_tooltip_margin:
 		corrected_position.x = escoria.game_size.x - mouse_tooltip_margin - tooltip_node.rect_size.x
 
-	tooltip_node.anchor_right = 0.2
 	tooltip_node.rect_position = corrected_position + tooltip_node.offset_from_cursor
 
 

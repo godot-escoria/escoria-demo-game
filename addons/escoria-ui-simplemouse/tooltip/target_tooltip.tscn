@@ -3,15 +3,9 @@
 [ext_resource path="res://addons/escoria-ui-simplemouse/tooltip/tooltip_target.gd" type="Script" id=2]
 
 [node name="tooltip" type="RichTextLabel"]
-margin_right = 200.0
-margin_bottom = 32.0
-rect_min_size = Vector2( 200, 32 )
 bbcode_enabled = true
 bbcode_text = "[center][color=#ffffff][/color][/center]"
 scroll_active = false
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 color = Color( 1, 1, 1, 1 )
-offset_from_cursor = Vector2( 100, 10 )
+offset_from_cursor = Vector2( 0, 0 )
