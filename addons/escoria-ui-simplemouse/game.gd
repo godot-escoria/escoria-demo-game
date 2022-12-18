@@ -93,7 +93,8 @@ func _enter_tree():
 func _exit_tree():
 	escoria.inputs_manager.register_custom_input_handler(null)
 	Input.disconnect("joy_connection_changed", self, "_on_joy_connection_changed")
-	_on_gamepad_disconnected()
+	if _is_gamepad_connected:
+		_on_gamepad_disconnected()
 
 
 func _input(event: InputEvent) -> void:
