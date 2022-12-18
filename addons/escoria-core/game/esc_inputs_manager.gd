@@ -185,7 +185,7 @@ func unset_hovered_node(item: ESCItem):
 	if _hovered_element == item:
 		_hovered_element.mouse_exited()
 		_hovered_element = null
-		if not hover_stack.empty() and hover_stack.back():
+		if hover_stack:
 			set_hovered_node(hover_stack.pop_back())
 		else:
 			hotspot_focused = ""
