@@ -122,3 +122,6 @@ func run() -> int:
 		bypass_conditions = true
 	return .run()
 
+
+func get_event_name() -> String:
+	return name

@@ -26,6 +26,7 @@ func _init():
 	_keywords["elif"] = ESCTokenType.TokenType.ELIF
 	_keywords["else"] = ESCTokenType.TokenType.ELSE
 	_keywords["false"] = ESCTokenType.TokenType.FALSE
+	_keywords["global"] = ESCTokenType.TokenType.GLOBAL
 	_keywords["if"] = ESCTokenType.TokenType.IF
 	_keywords["nil"] = ESCTokenType.TokenType.NIL
 	_keywords["or"] = ESCTokenType.TokenType.OR
@@ -155,7 +156,7 @@ func _scan_token():
 			elif _is_alpha(c):
 				_identifier()
 			else:
-				_error(_line, "Unexpected character.")
+				_error(_line, "Unexpected character: %s" % c)
 
 
 func _check_indent(indent_level: int) -> void:

@@ -1,9 +1,9 @@
 :look
-say player "He's wearing a badge that says "Careers Officer"."
+	say player "He's wearing a badge that says "Careers Officer"."
 
 ####################################################################################################
 :pickup
-say player "I don't think he'd like that."
+	say player "I don't think he'd like that."
 
 ####################################################################################################
 :talk

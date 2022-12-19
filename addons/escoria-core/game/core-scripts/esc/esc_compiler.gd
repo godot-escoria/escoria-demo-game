@@ -67,31 +67,31 @@ func _init():
 		ProjectSettings.add_property_info(property_info)
 
 	# Compile all regex objects just once
-	_comment_regex = RegEx.new()
-	_comment_regex.compile(COMMENT_REGEX)
-	_empty_regex = RegEx.new()
-	_empty_regex.compile(EMPTY_REGEX)
-	_indent_regex = RegEx.new()
-	_indent_regex.compile(INDENT_REGEX)
-
-	_event_regex = RegEx.new()
-	_event_regex.compile(ESCEvent.REGEX)
-	_command_regex = RegEx.new()
-	_command_regex.compile(ESCCommand.REGEX)
-	_dialog_regex = RegEx.new()
-	_dialog_regex.compile(ESCDialog.REGEX)
-	_dialog_end_regex = RegEx.new()
-	_dialog_end_regex.compile(ESCDialog.END_REGEX)
-	_dialog_option_regex = RegEx.new()
-	_dialog_option_regex.compile(ESCDialogOption.REGEX)
-	_group_regex = RegEx.new()
-	_group_regex.compile(ESCGroup.REGEX)
+#	_comment_regex = RegEx.new()
+#	_comment_regex.compile(COMMENT_REGEX)
+#	_empty_regex = RegEx.new()
+#	_empty_regex.compile(EMPTY_REGEX)
+#	_indent_regex = RegEx.new()
+#	_indent_regex.compile(INDENT_REGEX)
+#
+#	_event_regex = RegEx.new()
+#	_event_regex.compile(ESCEvent.REGEX)
+#	_command_regex = RegEx.new()
+#	_command_regex.compile(ESCCommand.REGEX)
+#	_dialog_regex = RegEx.new()
+#	_dialog_regex.compile(ESCDialog.REGEX)
+#	_dialog_end_regex = RegEx.new()
+#	_dialog_end_regex.compile(ESCDialog.END_REGEX)
+#	_dialog_option_regex = RegEx.new()
+#	_dialog_option_regex.compile(ESCDialogOption.REGEX)
+#	_group_regex = RegEx.new()
+#	_group_regex.compile(ESCGroup.REGEX)
 	# Use look-ahead/behind to capture the term in braces
-	_globals_regex = RegEx.new()
-	_globals_regex.compile("(?<=\\{)(.*)(?=\\})")
+#	_globals_regex = RegEx.new()
+#	_globals_regex.compile("(?<=\\{)(.*)(?=\\})")
 
 
-func _load_commands() -> Array:
+static func load_commands() -> Array:
 	var commands: Array = []
 
 	for command_directory in ESCProjectSettingsManager.get_setting(
@@ -117,84 +117,93 @@ func _load_commands() -> Array:
 	return commands
 
 
-func _load_globals():
+static func load_globals():
 	var globals: Dictionary = {}
 
 	for obj in escoria.object_manager.RESERVED_OBJECTS:
 		globals[obj] = obj
 
+	for obj in escoria.room_manager.RESERVED_GLOBALS:
+		globals[obj] = escoria.room_manager.RESERVED_GLOBALS[obj]
+
 	return globals
 
 
-func _compiler_shim(path: String):
-	if File.new().file_exists(path):
-		var file = File.new()
-		file.open(path, File.READ)
-		var source = file.get_as_text()
-		var commands = _load_commands()
-		var globals = _load_globals()
-		var interpreter: ESCInterpreter = ESCInterpreter.new(commands, globals)
-
-		var scanner: ESCScanner = ESCScanner.new()
-		scanner.set_source(source)
-		
-		print("SCAN START")
-
-		var tokens = scanner.scan_tokens()
-		
-		for t in tokens:
-			print(t)
-
-		var parser: ESCParser = ESCParser.new()
-		parser.init(self, tokens)
-
-		print("PARSE START")
+func _compiler_shim(source: String):
+	var scanner: ESCScanner = ESCScanner.new()
+	scanner.set_source(source)
 	
-		var parsed_statements = parser.parse()
+	print("SCAN START")
 
-		print("PARSE ERROR" if had_error else "No error")
+	var tokens = scanner.scan_tokens()
+	
+	for t in tokens:
+		print(t)
 
-		if not had_error:
-			var resolver: ESCResolver = ESCResolver.new(interpreter)
-			resolver.resolve(parsed_statements)
+	var parser: ESCParser = ESCParser.new()
+	parser.init(self, tokens)
 
-		if not had_error:
-			interpreter.interpret(parsed_statements)
+	print("PARSE START")
+
+	var parsed_statements = parser.parse()
+
+	print("PARSE ERROR" if had_error else "No error")
+
+#		if not had_error:
+#			var resolver: ESCResolver = ESCResolver.new(interpreter)
+#			resolver.resolve(parsed_statements)
+
+	var script = ESCScript.new()
+
+	for ps in parsed_statements:
+		script.events[ps.get_event_name()] = ps
+
+	return script
+	#if not had_error:
+	#	interpreter.interpret(parsed_statements)
 
 
 # Load an ESC file from a file resource
 func load_esc_file(path: String) -> ESCScript:
-	if "start_game.esc" in path:
-		_compiler_shim(path)
-		return null
-
 	escoria.logger.debug(self, "Parsing file %s." % path)
+
 	if File.new().file_exists(path):
 		var file = File.new()
 		file.open(path, File.READ)
-		var lines = []
-		while not file.eof_reached():
-			lines.append(file.get_line())
-		return self.compile(lines, path)
-	else:
-		escoria.logger.error(
-			self,
-			"Can not find ESC file: file %s could not be found." % path
-		)
-		return null
+		var source = file.get_as_text()
+
+		#if "start_game.esc" in path:
+		return _compiler_shim(source)
+
+	return null
+#	if File.new().file_exists(path):
+#		var file = File.new()
+#		file.open(path, File.READ)
+#		var lines = []
+#		while not file.eof_reached():
+#			lines.append(file.get_line())
+#		return self.compile(lines, path)
+#	else:
+#		escoria.logger.error(
+#			self,
+#			"Can not find ESC file: file %s could not be found." % path
+#		)
+#		return null
 
 
 # Compiles an array of ESC script strings to an ESCScript
-func compile(lines: Array, path: String = "") -> ESCScript:
-	var script = ESCScript.new()
-
-	if lines.size() > 0:
-		var events = self._compile(lines, path)
-		for event in events:
-			event.source = path
-			script.events[event.name] = event
-
-	return script
+#func compile(lines: Array, path: String = "") -> ESCScript:
+#	var script = ESCScript.new()
+#
+#	if lines.size() > 0:
+#		var events = self._compile(lines, path)
+#		for event in events:
+#			event.source = path
+#			script.events[event.name] = event
+#
+#	return script
+func compile(script: String, path: String = "") -> ESCScript:
+	return _compiler_shim(script)
 
 
 # Compile an array of ESC script lines into an array of ESC objects
@@ -347,7 +356,8 @@ func _compile(lines: Array, path: String = "") -> Array:
 				dialog_option.statements = self._compile(dialog_option_lines, path)
 			returned.append(dialog_option)
 		elif _command_regex.search(line):
-			var command = ESCCommand.new(line)
+			#var command = ESCCommand.new(line)
+			var command = ESCCommand.new()
 			if command.command_exists():
 				returned.append(command)
 			else:

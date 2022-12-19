@@ -15,6 +15,7 @@
 #	player, e.g. in cases where multiple players are playable such as in games
 #	like Maniac Mansion or Day of the Tentacle.
 # - *text*: Text to display.
+# - *key*: Translation key (default: nil)
 # - *type*: Dialog type to use. One of `floating` or `avatar`.
 #   (default: the value set in the setting "Escoria/UI/Default Dialog Type")
 #
@@ -26,7 +27,7 @@
 # displayed is also supported by this mechanism.
 # For more details see: https://docs.escoria-framework.org/en/devel/getting_started/dialogs.html#recorded_speech
 #
-# Example: `say player ROOM1_PICTURE:"Picture's looking good."`
+# Example: `say(player, "Picture's looking good.", "ROOM1_PICTURE")`
 #
 # @ESC
 extends ESCBaseCommand
@@ -50,14 +51,16 @@ func _init() -> void:
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
-		[TYPE_STRING, TYPE_STRING, TYPE_STRING],
+		[TYPE_STRING, TYPE_STRING, TYPE_STRING, TYPE_STRING],
 		[
+			null,
 			null,
 			null,
 			""
 		],
 		[
 			true,
+			false,
 			false,
 			true
 		]
@@ -114,6 +117,7 @@ func run(command_params: Array) -> int:
 
 	escoria.dialog_player.say(
 		speaking_character_global_id,
+		command_params[3],
 		command_params[2],
 		command_params[1]
 	)

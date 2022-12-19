@@ -274,7 +274,7 @@ func _get_event_to_queue(
 		"Checking if action '%s' on '%s' is valid..." % [action, target.global_id if target is ESCObject else target]
 	)
 
-	var event_to_return: ESCEvent = null
+	var event_to_return = null
 
 	# If we're using an action which item requires to combine
 	if target.node is ESCItem \
@@ -396,7 +396,7 @@ func _get_event_to_queue(
 # - event: the event to be run
 #
 # *Returns* the return code of the event once executed
-func _run_event(event: ESCEvent) -> int:
+func _run_event(event) -> int:
 	escoria.event_manager.queue_event(event)
 
 	var event_returned = yield(
@@ -404,7 +404,7 @@ func _run_event(event: ESCEvent) -> int:
 		"event_finished"
 	)
 
-	while event_returned[1] != event.name:
+	while event_returned[1] != event.get_event_name():
 		event_returned = yield(
 			escoria.event_manager,
 			"event_finished"
@@ -582,7 +582,7 @@ func perform_inputevent_on_object(
 		emit_signal("action_finished")
 		return
 
-	var event_flags = event_to_queue.flags if event_to_queue else 0
+	var event_flags = event_to_queue.get_flags() if event_to_queue else 0
 
 	if escoria.main.current_scene.player:
 		var destination_position: Vector2 = escoria.main.current_scene.player \

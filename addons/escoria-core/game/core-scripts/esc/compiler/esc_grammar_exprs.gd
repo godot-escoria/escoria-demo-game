@@ -22,7 +22,7 @@ class Logical extends ESCGrammarExpr:
 
 
 	func accept(visitor):
-		return visitor.visitLogicalExpr(self)
+		return visitor.visit_logical_expr(self)
 
 
 class Binary extends ESCGrammarExpr:
@@ -45,12 +45,16 @@ class Binary extends ESCGrammarExpr:
 		return _right
 
 
+	func get_operator() -> ESCToken:
+		return _operator
+
+
 	func accept(visitor):
-		return visitor.visitBinaryExpr(self)
+		return visitor.visit_binary_expr(self)
 
 
 class Unary extends ESCGrammarExpr:
-	var _operator: ESCToken
+	var _operator: ESCToken setget ,get_operator
 	var _right: ESCGrammarExpr setget ,get_right
 
 
@@ -63,8 +67,12 @@ class Unary extends ESCGrammarExpr:
 		return _right
 
 
+	func get_operator() -> ESCToken:
+		return _operator
+
+
 	func accept(visitor):
-		return visitor.visitUnaryExpr(self)
+		return visitor.visit_unary_expr(self)
 
 
 class Get extends ESCGrammarExpr:
@@ -78,7 +86,7 @@ class Get extends ESCGrammarExpr:
 
 
 	func accept(visitor):
-		return visitor.visitGetExpr(self)
+		return visitor.visit_get_expr(self)
 
 
 	func get_object() -> ESCGrammarExpr:
@@ -114,7 +122,7 @@ class Set extends ESCGrammarExpr:
 
 
 	func accept(visitor):
-		return visitor.visitSetExpr(self)
+		return visitor.visit_set_expr(self)
 
 
 class Call extends ESCGrammarExpr:
@@ -138,7 +146,7 @@ class Call extends ESCGrammarExpr:
 
 
 	func accept(visitor):
-		return visitor.visitCallExpr(self)
+		return visitor.visit_call_expr(self)
 
 
 class Literal extends ESCGrammarExpr:
@@ -154,7 +162,7 @@ class Literal extends ESCGrammarExpr:
 
 
 	func accept(visitor):
-		return visitor.visitLiteralExpr(self)
+		return visitor.visit_literal_expr(self)
 
 
 class Variable extends ESCGrammarExpr:
@@ -166,7 +174,7 @@ class Variable extends ESCGrammarExpr:
 
 
 	func accept(visitor):
-		return visitor.visitVariableExpr(self)
+		return visitor.visit_variable_expr(self)
 
 
 	func get_name() -> ESCToken:
@@ -192,7 +200,7 @@ class Assign extends ESCGrammarExpr:
 
 
 	func accept(visitor):
-		return visitor.vistAssignExpr(self)
+		return visitor.visit_assign_expr(self)
 
 
 class Grouping extends ESCGrammarExpr:
@@ -208,4 +216,4 @@ class Grouping extends ESCGrammarExpr:
 
 
 	func accept(visitor):
-		return visitor.visitGroupingExpr(self)
+		return visitor.visit_grouping_expr(self)

@@ -1,2 +1,2 @@
 :use | TK
-say current_player "I can't use this!"
+	say(current_player, "I can't use this!")

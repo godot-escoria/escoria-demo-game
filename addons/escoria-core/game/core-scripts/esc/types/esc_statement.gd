@@ -47,6 +47,13 @@ func exported() -> Dictionary:
 	return export_dict
 
 
+##############
+# New interpreter stuff
+var parsed_statements = []
+
+
+##############
+
 # Check whether the statement should be run based on its conditions
 func is_valid() -> bool:
 	for condition in self.conditions:
@@ -57,6 +64,13 @@ func is_valid() -> bool:
 
 # Execute this statement and return its return code
 func run() -> int:
+	if parsed_statements.size() > 0:
+		var resolver: ESCResolver = ESCResolver.new(escoria.interpreter)
+		resolver.resolve(parsed_statements)
+		
+		escoria.interpreter.interpret(parsed_statements)
+		return 0
+
 	var final_rc = ESCExecution.RC_OK
 
 	var statement_id = 0

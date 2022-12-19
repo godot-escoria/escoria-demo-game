@@ -39,6 +39,8 @@ func _init():
 
 	escoria.inputs_manager = ESCInputsManager.new()
 	escoria.settings_manager = ESCSettingsManager.new()
+	#escoria.interpreter = ESCInterpreter.new(ESCCompiler.load_commands(), ESCCompiler.load_globals())
+	escoria.interpreter = preload("res://addons/escoria-core/game/core-scripts/esc/compiler/esc_interpreter.gd").new(ESCCompiler.load_commands(), ESCCompiler.load_globals())
 
 	if ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.GAME_SCENE
@@ -167,6 +169,7 @@ func run_event_from_script(script: ESCScript, event_name: String, from_statement
 		)
 	script.events[event_name].from_statement_id = from_statement_id
 	escoria.event_manager.queue_event(script.events[event_name])
+
 	var rc = yield(escoria.event_manager, "event_finished")
 	while rc[1] != event_name:
 		rc = yield(escoria.event_manager, "event_finished")

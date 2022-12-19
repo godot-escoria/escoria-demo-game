@@ -47,7 +47,7 @@ func ancestor(distance: int):
 
 
 func get_at(distance: int, name: String):
-	return ancestor(distance).get_values().get_value(name)
+	return ancestor(distance).get_values().get(name)
 
 
 func assign_at(distance: int, name: ESCToken, value):
@@ -71,10 +71,10 @@ func get_values():
 	return _values
 
 
-func _error(message: String) -> ESCParseError:
-	escoria.logger.warn(
+func _error(message: String):
+	escoria.logger.error(
 		self,
 		message
 	)
 
-	return ESCParseError.new()
+	#return ESCParseError.new()

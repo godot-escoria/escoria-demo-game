@@ -4,9 +4,9 @@ class_name ESCCommand
 
 
 # Regex matching command lines
-const REGEX = \
-	'^(\\s*)(?<name>[^\\s]+)(\\s(?<parameters>([^\\[]|$)+))?' +\
-	'(\\[(?<conditions>[^\\]]+)\\])?'
+#const REGEX = \
+#	'^(\\s*)(?<name>[^\\s]+)(\\s(?<parameters>([^\\[]|$)+))?' +\
+#	'(\\[(?<conditions>[^\\]]+)\\])?'
 
 
 # The name of this command
@@ -29,76 +29,6 @@ func exported() -> Dictionary:
 	export_dict.parameters = parameters
 	export_dict.conditions = conditions
 	return export_dict
-
-# Create a command from a command string or from name, parameters and conditions
-func _init(command_string: String, _name: String="", _parameters: Array=[], _conditions: Array=[]):
-	if _name != "":
-		name = _name
-		parameters = _parameters
-		conditions = _conditions
-		commandCalledAsString = false
-		return
-
-	var command_regex = RegEx.new()
-	command_regex.compile(REGEX)
-
-	if command_regex.search(command_string):
-		for result in command_regex.search_all(command_string):
-			if "name" in result.names:
-				self.name = ESCUtils.get_re_group(result, "name")
-			if "parameters" in result.names:
-				# Split parameters by whitespace but allow quoted
-				# parameters
-				var quote_open = false
-				var parameter_values = PoolStringArray([])
-				var parsed_parameters = \
-					ESCUtils.sanitize_whitespace(
-						ESCUtils.get_re_group(
-							result,
-							"parameters"
-						).strip_edges()
-					)
-				for parameter in parsed_parameters.split(" "):
-					if len(parameter) > 1 and parameter.begins_with('"') and parameter.ends_with('"'):
-						parameters.append(
-							parameter
-						)
-					elif not quote_open \
-						and parameter.count(":") == 1 \
-						and ':"' in parameter \
-						and (parameter.ends_with(':"') or not parameter.ends_with('"')):
-						# The second clause in this helps to handle dialogue that starts with a space
-						# and also allowing single-word dialogue to be handled in a separate elif.
-						quote_open = true
-						parameter_values.append(parameter)
-					elif not quote_open and parameter.begins_with('"'):
-						quote_open = true
-						parameter_values.append(parameter)
-					elif parameter.ends_with('"'):
-						quote_open = false
-						parameter_values.append(
-							parameter.substr(0, len(parameter))
-						)
-						parameters.append(parameter_values.join(" "))
-						parameter_values.resize(0)
-					elif quote_open:
-						parameter_values.append(parameter)
-					else:
-						parameters.append(parameter)
-			if "conditions" in result.names:
-				for condition in ESCUtils.get_re_group(
-							result,
-							"conditions"
-						).split(","):
-					self.conditions.append(
-						ESCCondition.new(condition.strip_edges())
-					)
-	else:
-		escoria.logger.error(
-			self,
-			"Invalid command detected: %s\nCommand regexp didn't match."
-					% command_string
-		)
 
 
 # Check, if conditions match
@@ -147,9 +77,14 @@ func run() -> int:
 				"Running command %s with parameters %s."
 						% [self.name, prepared_arguments]
 			)
+
+			escoria.event_manager.add_running_command(self)
+
 			var rc = command_object.run(prepared_arguments)
 			if rc is GDScriptFunctionState:
 				rc = yield(rc, "completed")
+
+			escoria.event_manager.running_command_finished(self)
 
 			escoria.logger.debug(
 				self,

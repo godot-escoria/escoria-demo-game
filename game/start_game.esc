@@ -1,13 +1,13 @@
 :init
 # Play Escoria logo cutscene
-	change_scene "res://game/rooms/intro/intro_room.tscn" false
+	change_scene("res://game/rooms/intro/intro_room.tscn", false)
 
 # When control is passed back after the logo, start the music
-	play_snd "res://game/sfx/Game-Menu_Looping.mp3" _music
+	play_snd("res://game/sfx/Game-Menu_Looping.mp3", _music)
 
 :newgame
-# 1/ Simple scene
-change_scene "res://game/rooms/room01/room01.tscn"
+	# 1/ Simple scene
+	change_scene("res://game/rooms/room01/room01.tscn")
 
 # 2/ Button bridge
 #change_scene "res://game/rooms/room02/room02.tscn"

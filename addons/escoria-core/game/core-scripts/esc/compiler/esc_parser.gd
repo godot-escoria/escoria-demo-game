@@ -43,6 +43,15 @@ func _declaration() -> ESCGrammarStmt:
 		else:
 			return retStmt
 
+	if _match(ESCTokenType.TokenType.GLOBAL):
+		retStmt = _global_declaration()
+
+		if retStmt is ESCParseError:
+			_synchronize()
+			return null
+		else:
+			return retStmt
+
 	retStmt = _statement()
 
 	if retStmt is ESCParseError:
@@ -53,7 +62,7 @@ func _declaration() -> ESCGrammarStmt:
 
 
 func _event_declaration():
-	var name = _consume(ESCTokenType.TokenType.IDENTIFIER, "Expect event name.")
+	var name = _consume(ESCTokenType.TokenType.IDENTIFIER, "Expect event name. Got '%s' instead." % _peek().get_lexeme())
 
 	if name is ESCParseError:
 		return name
@@ -63,7 +72,9 @@ func _event_declaration():
 	var has_flags: bool = _match(ESCTokenType.TokenType.PIPE)
 
 	while has_flags:
-		var flag = _consume(ESCTokenType.TokenType.IDENTIFIER, "Expect flag name.")
+		var flag = _consume(
+			ESCTokenType.TokenType.IDENTIFIER,
+			"Event '%s': Expect valid flag name. Got '%s' instead." % [name.get_lexeme(), _peek().get_lexeme()])
 
 		if flag is ESCParseError:
 			return flag
@@ -72,10 +83,16 @@ func _event_declaration():
 
 		has_flags = _match(ESCTokenType.TokenType.PIPE)
 
-	var ret = ESCGrammarStmts.Event.new()
-	ret.init(name, flags)
-	
-	return ret
+	if _matchInOrder([ESCTokenType.TokenType.NEWLINE, ESCTokenType.TokenType.INDENT]):
+		var body = ESCGrammarStmts.Block.new()
+		body.init(_block())
+
+		var ret = ESCGrammarStmts.Event.new()
+		ret.init(name, flags, body)
+		
+		return ret
+	else:
+			return _error(_peek(), "Expected block after event declaration for '%s'." % name.get_lexeme())
 
 
 func _expression():
@@ -87,10 +104,10 @@ func _expression():
 func _statement():
 	if _match(ESCTokenType.TokenType.IF):
 		var stmt = _if_statement()
-
-		if stmt is ESCParseError:
-			return stmt
-
+		return stmt
+	if _match(ESCTokenType.TokenType.PRINT):
+		var stmt = _print_statement()
+		return stmt
 	if _matchInOrder([ESCTokenType.TokenType.NEWLINE, ESCTokenType.TokenType.INDENT]):
 		var block = _block()
 
@@ -157,7 +174,17 @@ func _elif_statement():
 		return then_branch
 
 	var toRet = ESCGrammarStmts.If.new()
-	toRet.init(condition, then_branch, null)
+	toRet.init(condition, then_branch, [], null)
+	return toRet
+
+
+func _print_statement():
+	var value = _expression()
+
+	_consume(ESCTokenType.TokenType.NEWLINE, "Expected NEWLINE after value.")
+
+	var toRet = ESCGrammarStmts.Print.new()
+	toRet.init(value)
 	return toRet
 
 
@@ -233,8 +260,9 @@ func _or():
 		if right is ESCParseError:
 			return right
 
+		var left_expr = expr
 		expr = ESCGrammarExprs.Logical.new()
-		expr.init(expr, operator, right)
+		expr.init(left_expr, operator, right)
 
 	return expr
 
@@ -252,8 +280,9 @@ func _and():
 		if right is ESCParseError:
 			return right
 
+		var left_expr = expr
 		expr = ESCGrammarExprs.Logical.new()
-		expr.init(expr, operator, right)
+		expr.init(left_expr, operator, right)
 
 	return expr
 
@@ -271,8 +300,9 @@ func _equality():
 		if right is ESCParseError:
 			return right
 
+		var left_expr = expr
 		expr = ESCGrammarExprs.Binary.new()
-		expr.init(expr, operator, right)
+		expr.init(left_expr, operator, right)
 
 	return expr
 
@@ -295,8 +325,9 @@ func _comparison():
 		if right is ESCParseError:
 			return right
 
+		var left_expr = expr
 		expr = ESCGrammarExprs.Binary.new()
-		expr.init(expr, operator, right)
+		expr.init(left_expr, operator, right)
 
 	return expr
 
@@ -314,8 +345,9 @@ func _term():
 		if right is ESCParseError:
 			return right
 
+		var left_expr = expr
 		expr = ESCGrammarExprs.Binary.new()
-		expr.init(expr, operator, right)
+		expr.init(left_expr, operator, right)
 
 	return expr
 
@@ -333,8 +365,9 @@ func _factor():
 		if right is ESCParseError:
 			return right
 
+		var left_expr = expr
 		expr = ESCGrammarExprs.Binary.new()
-		expr.init(expr, operator, right)
+		expr.init(left_expr, operator, right)
 
 	return expr
 
@@ -357,20 +390,23 @@ func _call():
 	if expr is ESCParseError:
 		return expr
 
-	if expr is ESCGrammarExprs.Variable:
-		expr = _finishCall(expr)
+	while true:
+		if _match(ESCTokenType.TokenType.LEFT_PAREN):
+			expr = _finish_call(expr)
 
-		if expr is ESCParseError:
-			return expr
+			if expr is ESCParseError:
+				return expr
+		else:
+			break
 
 	return expr
 
 
-func _finishCall(callee: ESCGrammarExpr):
+func _finish_call(callee: ESCGrammarExpr):
 	var args: Array = []
 	var toReturn = null
 
-	if not _check(ESCTokenType.TokenType.NEWLINE):
+	if not _check(ESCTokenType.TokenType.RIGHT_PAREN):
 		var done: bool = false
 
 		while not done:
@@ -384,13 +420,13 @@ func _finishCall(callee: ESCGrammarExpr):
 
 			args.append(expr)
 
-			#done = _match(ESCTokenType.TokenType.COMMA)
-			done = _peek().get_type() == ESCTokenType.TokenType.NEWLINE
+			done = not _match(ESCTokenType.TokenType.COMMA)
+			#done = _peek().get_type() == ESCTokenType.TokenType.NEWLINE
 
-	var paren = _peek()
+	var paren = _consume(ESCTokenType.TokenType.RIGHT_PAREN, "Expect ')' after arguments.")
 
-	if paren.get_type() != ESCTokenType.TokenType.NEWLINE:
-		return _error(ESCTokenType.TokenType.NEWLINE, "Expect NEWLINE after arguments.")
+	#if paren.get_type() != ESCTokenType.TokenType.NEWLINE:
+	#	return _error(ESCTokenType.TokenType.NEWLINE, "Expect NEWLINE after arguments.")
 
 	var ret = ESCGrammarExprs.Call.new()
 	ret.init(callee, paren, args)
@@ -449,6 +485,21 @@ func _var_declaration() -> ESCGrammarStmt:
 	_consume(ESCTokenType.TokenType.NEWLINE, "Expect newline after variable declaration.")
 
 	var ret = ESCGrammarStmts.Var.new()
+	ret.init(name, initializer)
+	return ret
+
+
+func _global_declaration() -> ESCGrammarStmt:
+	var name = _consume(ESCTokenType.TokenType.IDENTIFIER, "Expect global variable name.")
+
+	var initializer: ESCGrammarExpr = null
+
+	if _match(ESCTokenType.TokenType.EQUAL):
+		initializer = _expression()
+
+	_consume(ESCTokenType.TokenType.NEWLINE, "Expect newline after global variable declaration.")
+
+	var ret = ESCGrammarStmts.Global.new()
 	ret.init(name, initializer)
 	return ret
 
@@ -515,7 +566,7 @@ func _error(token: ESCToken, message: String) -> ESCParseError:
 	_compiler.had_error = true
 	escoria.logger.warn(
 		self,
-		message
+		"Line %s at '%s': %s" % [token.get_line(), token.get_lexeme(), message]
 	)
 
 	return ESCParseError.new()

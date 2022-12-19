@@ -71,10 +71,11 @@ func prepare_arguments(arguments: Array) -> Array:
 			# appear at the very end of a command's argument list.
 			varargs.append(arguments[index])
 		else:
-			complete_arguments[index] = ESCUtils.get_typed_value(
-				arguments[index],
-				types[index]
-			)
+#			complete_arguments[index] = ESCUtils.get_typed_value(
+#				arguments[index],
+#				types[index]
+#			)
+			complete_arguments[index] = arguments[index]
 			var strip = strip_quotes[0]
 			if strip_quotes.size() == complete_arguments.size():
 				strip = strip_quotes[index]

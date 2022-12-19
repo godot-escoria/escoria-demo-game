@@ -2,15 +2,18 @@ extends Reference
 class_name ESCResolver
 
 
-var _interpreter: ESCInterpreter
+var _interpreter
 var _scopes: Array = []
 
 
-func _init(interpreter: ESCInterpreter) -> void:
+func _init(interpreter) -> void:
 	_interpreter = interpreter
 
 
-func resolve(statements: Array):
+func resolve(statements):
+	if not statements is Array:
+		statements = [statements]
+
 	var ret = null
 
 	for stmt in statements:
@@ -19,11 +22,11 @@ func resolve(statements: Array):
 		# TODO: Error handling?
 
 
-func visitEventStmt(stmt: ESCGrammarStmts.Event):
-	pass
+func visit_event_stmt(stmt: ESCGrammarStmts.Event):
+	resolve(stmt.get_body())
 
 
-func visitBlockStmt(stmt: ESCGrammarStmts.Block):
+func visit_block_stmt(stmt: ESCGrammarStmts.Block):
 	_begin_scope()
 
 	resolve(stmt.get_statements())
@@ -31,11 +34,11 @@ func visitBlockStmt(stmt: ESCGrammarStmts.Block):
 	_end_scope()
 
 
-func visitExpressionStmt(stmt: ESCGrammarStmts.ESCExpression):
+func visit_expression_stmt(stmt: ESCGrammarStmts.ESCExpression):
 	_resolve_expr(stmt.get_expression())
 
 
-func visitIfStmt(stmt: ESCGrammarStmts.If):
+func visit_if_stmt(stmt: ESCGrammarStmts.If):
 	_resolve_expr(stmt.get_condition())
 	_resolve_stmt(stmt.get_then_branch())
 
@@ -47,7 +50,7 @@ func visitIfStmt(stmt: ESCGrammarStmts.If):
 		_resolve_stmt(stmt.get_else_branch())
 
 
-func visitVarStmt(stmt: ESCGrammarStmts.Var):
+func visit_var_stmt(stmt: ESCGrammarStmts.Var):
 	_declare(stmt.get_name())
 
 	if stmt.get_initializer():
@@ -56,50 +59,58 @@ func visitVarStmt(stmt: ESCGrammarStmts.Var):
 	_define(stmt.get_name())
 
 
-func visitLiteralExpr(expr: ESCGrammarExprs.Literal):
+func visit_global_stmt(stmt: ESCGrammarStmts.Global):
 	pass
 
 
-func visitCallExpr(expr: ESCGrammarExprs.Call):
+func visit_print_stmt(stmt: ESCGrammarStmts.Print):
+	_resolve_expr(stmt.get_expression())
+
+
+func visit_literal_expr(expr: ESCGrammarExprs.Literal):
+	pass
+
+
+func visit_call_expr(expr: ESCGrammarExprs.Call):
 	_resolve_expr(expr.get_callee())
 
 	for arg in expr.get_arguments():
 		_resolve_expr(arg)
 
 
-func visitAssignExpr(expr: ESCGrammarExprs.Assign):
+func visit_assign_expr(expr: ESCGrammarExprs.Assign):
 	_resolve_expr(expr.get_value())
 	_resolve_local(expr, expr.get_name())
 
 
-func visitBinaryExpr(expr: ESCGrammarExprs.Binary):
+func visit_binary_expr(expr: ESCGrammarExprs.Binary):
 	_resolve_expr(expr.get_left())
 	_resolve_expr(expr.get_right())
 
 
-func visitLogicalExpr(expr: ESCGrammarExprs.Logical):
+func visit_logical_expr(expr: ESCGrammarExprs.Logical):
 	_resolve_expr(expr.get_left())
 	_resolve_expr(expr.get_right())
 
 
-func visitGetExpr(expr: ESCGrammarExprs.Get):
+func visit_get_expr(expr: ESCGrammarExprs.Get):
 	_resolve_expr(expr.get_object())
 
 
-func visitSetExpr(expr: ESCGrammarExprs.Set):
+func visit_set_expr(expr: ESCGrammarExprs.Set):
 	_resolve_expr(expr.get_object())
 	_resolve_expr(expr.get_value())
 
 
-func visitGroupingExpr(expr: ESCGrammarExprs.Grouping):
+func visit_grouping_expr(expr: ESCGrammarExprs.Grouping):
 	_resolve_expr(expr.get_expression())
 
 
-func visitUnaryExpr(expr: ESCGrammarExprs.Unary):
+func visit_unary_expr(expr: ESCGrammarExprs.Unary):
 	_resolve_expr(expr.get_right())
 
 
-func visitVariableExpr(expr: ESCGrammarExprs.Variable):
+func visit_variable_expr(expr: ESCGrammarExprs.Variable):
 	if not _scopes.empty() \
 		and _scopes.front().has(expr.get_name().get_lexeme()) \
 		and not _scopes.front()[expr.get_name().get_lexeme()]:
@@ -113,7 +124,6 @@ func visitVariableExpr(expr: ESCGrammarExprs.Variable):
 
 
 # Private methods
-
 func _resolve_stmt(stmt: ESCGrammarStmt):
 	return stmt.accept(self)
 
@@ -154,7 +164,7 @@ func _define(name: ESCToken):
 
 
 func _resolve_local(expr: ESCGrammarExpr, name: ESCToken):
-	for i in range(_scopes.size() - 1, -1, -1):
+	for i in range(0, _scopes.size()):
 		if _scopes[i].has(name.get_lexeme()):
-			_interpreter.resolve(expr, _scopes.size() - 1 - i)
+			_interpreter.resolve(expr, i)
 

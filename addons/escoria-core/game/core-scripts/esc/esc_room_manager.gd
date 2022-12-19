@@ -120,7 +120,7 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 				) != null \
 				and escoria.event_manager.get_running_event(
 					escoria.event_manager.CHANNEL_FRONT
-				).name == escoria.event_manager.EVENT_ROOM_SELECTOR:
+				).get_event_name() == escoria.event_manager.EVENT_ROOM_SELECTOR:
 			room_scene.enabled_automatic_transitions = true
 		else:
 			room_scene.enabled_automatic_transitions = enable_automatic_transitions
@@ -229,23 +229,49 @@ func _perform_script_events(room: ESCRoom) -> void:
 
 	if room.enabled_automatic_transitions \
 			and not room.is_run_directly:
-		var script_transition_out = escoria.esc_compiler.compile([
-			"%s%s" % [ESCEvent.PREFIX, escoria.event_manager.EVENT_TRANSITION_OUT],
-			"%s %s out" %
-				[
+
+		var script_transition_out: ESCScriptBuilder = ESCScriptBuilder.new()
+		script_transition_out \
+			.add_event(escoria.event_manager.EVENT_TRANSITION_OUT, []) \
+			.begin_block() \
+				.add_command(
 					_transition.get_command_name(),
-					ESCProjectSettingsManager.get_setting(
-						ESCProjectSettingsManager.DEFAULT_TRANSITION
-					)
-				],
-			"%s 0.1" % _wait.get_command_name()
-		],
-		get_class()
-		)
+					[
+						ESCProjectSettingsManager.get_setting(
+							ESCProjectSettingsManager.DEFAULT_TRANSITION
+						),
+						"out"
+					]
+				) \
+				.add_command(_wait.get_command_name(), [0.1]) \
+			.end_block()
+
+		var script_transition_out_compiled = escoria.esc_compiler.compile(
+			script_transition_out.build(),
+			get_class())
+
 		escoria.event_manager.queue_event(
-			script_transition_out.events[escoria.event_manager.EVENT_TRANSITION_OUT],
+			script_transition_out_compiled.events[escoria.event_manager.EVENT_TRANSITION_OUT],
 			true
 		)
+
+#		var script_transition_out = escoria.esc_compiler.compile([
+#			"%s%s" % [ESCEvent.PREFIX, escoria.event_manager.EVENT_TRANSITION_OUT],
+#			"%s %s out" %
+#				[
+#					_transition.get_command_name(),
+#					ESCProjectSettingsManager.get_setting(
+#						ESCProjectSettingsManager.DEFAULT_TRANSITION
+#					)
+#				],
+#			"%s 0.1" % _wait.get_command_name()
+#		],
+#		get_class()
+#		)
+#		escoria.event_manager.queue_event(
+#			script_transition_out.events[escoria.event_manager.EVENT_TRANSITION_OUT],
+#			true
+#		)
 
 		# Unpause the game if it was
 		escoria.set_game_paused(false)
@@ -372,9 +398,13 @@ func _perform_script_events(room: ESCRoom) -> void:
 
 	escoria.inputs_manager.hotspot_focused = ""
 
-	var command_strings: PoolStringArray = []
+	var transition_in_script: ESCScriptBuilder = ESCScriptBuilder.new()
 
-	command_strings.append("%s%s" % [ESCEvent.PREFIX, escoria.event_manager.EVENT_TRANSITION_IN])
+	#var command_strings: PoolStringArray = []
+
+	#command_strings.append("%s%s" % [ESCEvent.PREFIX, escoria.event_manager.EVENT_TRANSITION_IN])
+	transition_in_script.add_event(escoria.event_manager.EVENT_TRANSITION_IN, [])
+	transition_in_script.begin_block()
 
 	if room.enabled_automatic_transitions \
 			or (
@@ -383,20 +413,29 @@ func _perform_script_events(room: ESCRoom) -> void:
 					escoria.room_manager.GLOBAL_FORCE_LAST_SCENE_NULL)
 			):
 
-		command_strings.append("%s %s in" %
-			[
-				_transition.get_command_name(),
-				ESCProjectSettingsManager.get_setting(
-					ESCProjectSettingsManager.DEFAULT_TRANSITION
-				)
-			]
-		)
+		transition_in_script.add_command(_transition.get_command_name(), [
+			ESCProjectSettingsManager.get_setting(
+				ESCProjectSettingsManager.DEFAULT_TRANSITION
+			),
+			"in"
+		])
+#		command_strings.append("%s %s in" %
+#			[
+#				_transition.get_command_name(),
+#				ESCProjectSettingsManager.get_setting(
+#					ESCProjectSettingsManager.DEFAULT_TRANSITION
+#				)
+#			]
+#		)
 
-		command_strings.append("%s 0.1" % _wait.get_command_name())
+		transition_in_script.add_command(_wait.get_command_name(), [0.1])
+		#command_strings.append("%s 0.1" % _wait.get_command_name())
 
-	command_strings.append("%s ALL" % _accept_input.get_command_name())
+	transition_in_script.add_command(_accept_input.get_command_name(), ["ALL"])
+	#command_strings.append("%s ALL" % _accept_input.get_command_name())
 
-	var script_transition_in = escoria.esc_compiler.compile(command_strings, get_class())
+	#var script_transition_in = escoria.esc_compiler.compile(command_strings, get_class())
+	var script_transition_in = escoria.esc_compiler.compile(transition_in_script.build())
 
 	escoria.event_manager.queue_event(
 		script_transition_in.events[escoria.event_manager.EVENT_TRANSITION_IN]
@@ -462,7 +501,7 @@ func _run_script_event(event_name: String, room: ESCRoom):
 			self,
 			"Queuing room script event %s " % event_name +
 			"composed of %s statements."
-					% room.compiled_script.events[event_name].statements.size()
+					% room.compiled_script.events[event_name].get_num_statements_in_block()
 		)
 		escoria.event_manager.queue_event(room.compiled_script.events[event_name], true)
 		return true

@@ -1,5 +1,5 @@
-:trigger_in
+#:trigger_in
 
 
 :trigger_out
-say player "I'm near the door."
+	say("player", "I'm near the door.")
