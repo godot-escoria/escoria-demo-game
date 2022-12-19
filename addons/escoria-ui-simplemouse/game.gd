@@ -67,6 +67,10 @@ const ESC_UI_CHANGE_VERB_ACTION = "esc_change_verb"
 # true when a gamepad is connected.
 var _is_gamepad_connected = false
 
+# Tracks the mouse's current position onscreen.
+var _current_mouse_pos = Vector2.ZERO
+
+
 func _enter_tree():
 	var room_selector_parent = $CanvasLayer/ui/HBoxContainer/VBoxContainer
 
@@ -100,10 +104,8 @@ func _exit_tree():
 func _input(event: InputEvent) -> void:
 	if escoria.get_escoria().is_ready_for_inputs():
 		if event is InputEventMouseMotion:
-			# Only update tooltip when there is one
-			if tooltip_node.current_target:
-				escoria.main.current_scene.game. \
-					update_tooltip_following_mouse_position(event.position)
+			_current_mouse_pos = event.position
+			update_tooltip_following_mouse_position()
 
 
 # https://github.com/godotengine/godot-demo-projects/blob/3.4-585455e/misc/joypads/joypads.gd
@@ -350,27 +352,27 @@ func get_custom_data() -> Dictionary:
 
 
 # Update the tooltip
-#
-# #### Parameters
-#
-# - p_position: Position of the mouse
-func update_tooltip_following_mouse_position(p_position: Vector2):
-	var corrected_position = p_position - Vector2(tooltip_node.rect_size.x/2,tooltip_node.rect_size.y/2)	
+func update_tooltip_following_mouse_position():
+	var corrected_position = _current_mouse_pos \
+		- Vector2(
+			tooltip_node.rect_size.x / 2,
+			tooltip_node.rect_size.y / 2
+		)
 
 	# clamp TOP
-	if tooltip_node.tooltip_distance_to_edge_top(p_position) <= mouse_tooltip_margin:
+	if tooltip_node.tooltip_distance_to_edge_top(_current_mouse_pos) <= mouse_tooltip_margin:
 		corrected_position.y = mouse_tooltip_margin
 
 	# clamp BOTTOM
-	if tooltip_node.tooltip_distance_to_edge_bottom(p_position + tooltip_node.rect_size) <= mouse_tooltip_margin:
+	if tooltip_node.tooltip_distance_to_edge_bottom(_current_mouse_pos + tooltip_node.rect_size) <= mouse_tooltip_margin:
 		corrected_position.y = escoria.game_size.y - mouse_tooltip_margin - tooltip_node.rect_size.y
 
 	# clamp LEFT
-	if tooltip_node.tooltip_distance_to_edge_left(p_position - tooltip_node.rect_size/2) <= mouse_tooltip_margin:
+	if tooltip_node.tooltip_distance_to_edge_left(_current_mouse_pos - tooltip_node.rect_size/2) <= mouse_tooltip_margin:
 		corrected_position.x = mouse_tooltip_margin
 
 	# clamp RIGHT
-	if tooltip_node.tooltip_distance_to_edge_right(p_position + tooltip_node.rect_size/2) <= mouse_tooltip_margin:
+	if tooltip_node.tooltip_distance_to_edge_right(_current_mouse_pos + tooltip_node.rect_size/2) <= mouse_tooltip_margin:
 		corrected_position.x = escoria.game_size.x - mouse_tooltip_margin - tooltip_node.rect_size.x
 
 	tooltip_node.rect_position = corrected_position + tooltip_node.offset_from_cursor
