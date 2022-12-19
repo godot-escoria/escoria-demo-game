@@ -71,6 +71,10 @@ var _is_gamepad_connected = false
 var _current_mouse_pos = Vector2.ZERO
 
 
+func _ready():
+	$tooltip_layer/tooltip.connect("tooltip_size_updated", self, "update_tooltip_following_mouse_position")
+
+
 func _enter_tree():
 	var room_selector_parent = $CanvasLayer/ui/HBoxContainer/VBoxContainer
 
