@@ -228,14 +228,23 @@ func element_unfocused() -> void:
 
 
 ## ITEMS ##
-
 func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
+	var target_obj = escoria.object_manager.get_object(item_global_id).node
+
+	# current_action will be empty if an event completes between when you stop
+	# moving the mouse and when you click.
+	if escoria.action_manager.current_action == "":
+		if target_obj is ESCItem:
+				$mouse_layer/verbs_menu.set_by_name(
+					target_obj.default_action
+				)
+
 	escoria.action_manager.do(
 		escoria.action_manager.ACTION.ITEM_LEFT_CLICK,
 		[item_global_id, event],
 		true
 	)
-
+	
 func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
 	mousewheel_action(1)
 
