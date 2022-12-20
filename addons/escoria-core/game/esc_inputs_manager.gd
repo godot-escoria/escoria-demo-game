@@ -211,7 +211,10 @@ func set_hovered_node(item: ESCItem) -> bool:
 		return true
 	# Else if the tested item is on top of hover stack (or null)
 	# Set that item as hovered and call that item's mouse_entered()
-	if _hovered_element == null or hover_stack.back() != item:
+	print(_hovered_element == null)
+	print(is_instance_valid(_hovered_element))
+	print(_hovered_element)
+	if not is_instance_valid(_hovered_element) or hover_stack.back() != item:
 		_hovered_element = item
 		_hovered_element.mouse_entered()
 		return true
