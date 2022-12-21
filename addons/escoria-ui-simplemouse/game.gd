@@ -394,13 +394,13 @@ func update_tooltip_following_mouse_position():
 func _on_action_finished():
 	$mouse_layer/verbs_menu.clear_tool_texture()
 	$mouse_layer/verbs_menu.iterate_actions_cursor(0)
-	$tooltip_layer/tooltip.set_target("")
 
 
 func _on_event_done(_return_code: int, _event_name: String):
 	if _return_code == ESCExecution.RC_OK:
 		escoria.action_manager.clear_current_action()
 		$mouse_layer/verbs_menu.clear_tool_texture()
+		$tooltip_layer/tooltip.set_target("")
 
 
 func _on_MenuButton_pressed() -> void:
