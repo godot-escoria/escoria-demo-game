@@ -24,8 +24,8 @@ func _ready():
 
 
 func _exit_tree():
-	remove_child(_tween)
 	if is_instance_valid(_tween):
+		remove_child(_tween)
 		_tween.queue_free()
 
 
