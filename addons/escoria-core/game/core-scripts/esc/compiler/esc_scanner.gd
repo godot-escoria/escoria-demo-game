@@ -12,6 +12,8 @@ var _at_start_of_line: bool = true
 var _empty_line: bool = false
 var _indent_level: int = 0
 
+var _escape_chars: Array = []
+
 var _source: String setget set_source
 
 var _alpha_regex: RegEx
@@ -34,6 +36,8 @@ func _init():
 	_keywords["true"] = ESCTokenType.TokenType.TRUE
 	_keywords["var"] = ESCTokenType.TokenType.VAR
 	_keywords["while"] = ESCTokenType.TokenType.WHILE
+
+	_escape_chars.append('"')
 
 	_alpha_regex = RegEx.new()
 	_alpha_regex.compile("[a-zA-Z_]")
@@ -198,13 +202,13 @@ func _identifier() -> void:
 
 
 func _string() -> void:
-	while _peek() != '"' and not _at_end():
+	while (_is_escape_char() or _peek() != '"') and not _at_end():
 		if _peek() == '\n':
 			_line += 1
 		_advance()
 
 	if _at_end():
-		_error(_line, "Unterimnated string.")
+		_error(_line, "Unterminated string.")
 		return
 
 	# Closing "
@@ -228,6 +232,14 @@ func _number() -> void:
 			_advance()
 
 	_add_token(ESCTokenType.TokenType.NUMBER, _source.substr(_start, _current - _start).to_float())
+
+
+func _is_escape_char() -> bool:
+	if _peek() == '\\' and _peek_next() in _escape_chars:
+		_advance()
+		return true
+
+	return false
 
 
 # TODO: Move error reporting up when compiler is updated.

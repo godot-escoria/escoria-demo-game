@@ -1,108 +1,84 @@
 :look
-say player "He's wearing a badge that says "Careers Officer"."
+	say("player", "He's wearing a badge that says \"Careers Officer\".")
 
 ####################################################################################################
 :pickup
-say player "I don't think he'd like that."
+	say("player", "I don't think he'd like that.")
 
 ####################################################################################################
 :talk
-# This block will only execute once per game
-> [!talked_once]
-	turn_to worker player
-	say worker "If you talk to me again"
-	say worker "I will not say this opening sentence."
-	set_global talked_once true
+	# This block will only execute once per game
+	if !talked_once:
+		turn_to("worker", "player")
+		say("worker", "If you talk to me again")
+		say("worker", "I will not say this opening sentence.")
+		talked_once = true
 
-# Reset flag so the Loom conversation will be available every time 
-# you restart the conversation with the worker during a game.
-# The Loom inner conversation block will exit back to the outer question block
-# once all options are exhausted, which is why all of them have a conditional
-# flag to make them disappear once you choose
-# "I don't want to talk at all any more"
+	# Reset flag so the Loom conversation will be available every time 
+	# you restart the conversation with the worker during a game.
+	# The Loom inner conversation block will exit back to the outer question block
+	# once all options are exhausted, which is why all of them have a conditional
+	# flag to make them disappear once you choose
+	# "I don't want to talk at all any more"
 
-set_global loom_conversation_done false
-turn_to worker player
-?
-	- "What is your name?"
-		say current_player "Who are you?"
-		say worker "I'm the worker" [!name_known]
-		say worker "You already asked me that" [name_known]
-		set_global name_known true
-	- "Why are you here?"
-		say current_player "Why are you here?"
-		say worker "I'm waiting for you to give me the"
-		say worker "filled form from room 5."
-	# This starts an inner subset of questions
-	- "Can I ask you about Loom?" [!loom_conversation_done]
-		say current_player 	"What do you know about Loom?"
-		say worker "What do you want to know about Loom?"
-		?
-		- "Could it be created in Escoria?" [!loom_conversation_done]
-			say player	"Could Loom be created in Escoria?"
-			say worker	"Yes!"
-		- "Is it a fun game?" [!loom_conversation_done, !fun_game_asked]
-			say player	"Is Loom a fun game?"
-			say worker	"Yes!"
-			set_global fun_game_asked true
-		- "I don't want to talk at all any more." [!loom_conversation_done]
-			turn_to worker worker_face_down
+	loom_conversation_done = false
+	turn_to("worker", "player")
+	?
+		- "What is your name?"
+			say("current_player", "Who are you?")
+			say("worker", "I'm the worker") [!name_known]
+			say("worker", "You already asked me that") [name_known]
+			name_known = true
+		- "Why are you here?"
+			say("current_player", "Why are you here?")
+			say("worker", "I'm waiting for you to give me the")
+			say("worker", "filled form from room 5.")
+		# This starts an inner subset of questions
+		- "Can I ask you about Loom?" [!loom_conversation_done]
+			say("current_player", "What do you know about Loom?")
+			say("worker", "What do you want to know about Loom?")
+			?
+			- "Could it be created in Escoria?" [!loom_conversation_done]
+				say("player",	"Could Loom be created in Escoria?")
+				say("worker",	"Yes!")
+			- "Is it a fun game?" [!loom_conversation_done and !fun_game_asked]
+				say("player",	"Is Loom a fun game?")
+				say("worker",	"Yes!")
+				fun_game_asked = true
+			- "I don't want to talk at all any more." [!loom_conversation_done]
+				turn_to("worker", "worker_face_down")
+				stop # TODO: Deal with this?
+			# This will take you back to the outer set of questions
+			- "I know enough about Loom." [!loom_conversation_done]
+				loom_conversation_done = true
+#			!
+		- "I'm done."
+			say("player",	"Bye!")
+			turn_to("worker", "worker_face_down")
 			stop
-		# This will take you back to the outer set of questions
-		- "I know enough about Loom." [!loom_conversation_done]
-			set_global loom_conversation_done true
-		!
-	- "I'm done."
-		say player	"Bye!"
-		turn_to worker worker_face_down
-		stop
-!
+#	!
 
 ####################################################################################################
 # accept both use or give commands to progress the game
 :give r5_filled_sheet
-	set_gui_visible false
-	accept_input SKIP
+	set_gui_visible(false)
+	accept_input("SKIP")
 
-	inventory_remove r5_filled_sheet
-	say worker "I've unlocked the door, in you go!"
-	walk worker r6_r_exit
+	inventory_remove("r5_filled_sheet")
+	say("worker", "I've unlocked the door, in you go!")
+	walk("worker", "r6_r_exit")
 
 	# Open the door
-	set_global r6_r_exit_locked false
+	r6_r_exit_locked = false
 	# Hide the closed door graphic
-	set_state r6_r_exit open_door
+	set_state("r6_r_exit", "open_door")
 	# Make the open exit visible
-	set_active r6_r_exit true
+	set_active("r6_r_exit" true)
 
 	# Disappear!
-	say worker "I will see you again... MUAHAHAHAHA!"
-	wait 1
-	set_active worker false
+	say("worker", "I will see you again... MUAHAHAHAHA!")
+	wait(1)
+	set_active("worker", false)
 
-	set_gui_visible true
-	accept_input ALL
-
-# use has to be supported as simplemouse has no "give" icon
-:use r5_filled_sheet
-set_gui_visible false
-accept_input SKIP
-
-inventory_remove r5_filled_sheet
-say worker "I've unlocked the door, in you go!"
-walk worker r6_r_exit
-
-# Open the door
-set_global r6_r_exit_locked false
-# Hide the closed door graphic
-set_state r6_r_exit open_door
-# Make the open exit visible
-set_active r6_r_exit true
-
-# Disappear!
-say worker "I will see you again... MUAHAHAHAHA!"
-wait 1
-set_active worker false
-
-set_gui_visible true
-accept_input ALL
+	set_gui_visible(true)
+	accept_input("ALL")

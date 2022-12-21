@@ -83,7 +83,7 @@ func _event_declaration():
 
 		has_flags = _match(ESCTokenType.TokenType.PIPE)
 
-	if _matchInOrder([ESCTokenType.TokenType.NEWLINE, ESCTokenType.TokenType.INDENT]):
+	if _match_in_order([ESCTokenType.TokenType.NEWLINE, ESCTokenType.TokenType.INDENT]):
 		var body = ESCGrammarStmts.Block.new()
 		body.init(_block())
 
@@ -108,7 +108,14 @@ func _statement():
 	if _match(ESCTokenType.TokenType.PRINT):
 		var stmt = _print_statement()
 		return stmt
-	if _matchInOrder([ESCTokenType.TokenType.NEWLINE, ESCTokenType.TokenType.INDENT]):
+	if _match(ESCTokenType.TokenType.WHILE):
+		var stmt = _while_statement()
+		return stmt
+#	if _match(ESCTokenType.TokenType.QUESTION):
+#		var stmt = _dialog_statement()
+#		return stmt
+	if _match_in_order([ESCTokenType.TokenType.NEWLINE, ESCTokenType.TokenType.INDENT]) \
+		or (_previous().get_type() == ESCTokenType.TokenType.NEWLINE and _match(ESCTokenType.TokenType.INDENT)):
 		var block = _block()
 
 		if block is ESCParseError:
@@ -118,7 +125,7 @@ func _statement():
 		ret.init(block)
 		return ret
 
-	return _expressionStatement()
+	return _expression_statement()
 
 
 func _if_statement():
@@ -188,7 +195,63 @@ func _print_statement():
 	return toRet
 
 
-func _expressionStatement():
+func _while_statement():
+	_consume(ESCTokenType.TokenType.LEFT_PAREN, "Expect '(' after 'while'.")
+
+	var condition = _expression()
+
+	_consume(ESCTokenType.TokenType.RIGHT_PAREN, "Expect ')' after condition.")
+
+	var colon_token = _consume(ESCTokenType.TokenType.COLON, "Expect ':' after condition.")
+
+	if colon_token is ESCParseError:
+		return colon_token
+
+	var body = _statement()
+
+	var toRet = ESCGrammarStmts.While.new()
+	toRet.init(condition, body)
+	return toRet
+
+
+func _dialog_statement():
+	var args: Array = []
+
+	if _match(ESCTokenType.TokenType.LEFT_PAREN):
+		while true:
+			var arg = _expression()
+
+			if arg is ESCParseError:
+				return arg
+
+			args.append(arg)
+
+			if not _match(ESCTokenType.TokenType.COMMA):
+				break
+
+		var consume = _consume(ESCTokenType.TokenType.RIGHT_PAREN, "Expect ')' after start dialog arguments.")
+
+		if consume is ESCParseError:
+			return consume
+
+	if args.size() > 3:
+		return _error(_peek(), "Start dialog cannot have more than 3 arguments.")
+
+	var consume = _consume(ESCTokenType.TokenType.NEWLINE, "Expect NEWLINE after start dialog arguments.")
+
+	if consume is ESCParseError:
+		return consume
+
+	#while true:
+		#if _match(ESCTokenType.TokenType.BANG)
+	#var dialog_option = _dialog_option_statement()
+
+
+func _dialog_option_statement():
+	pass
+
+
+func _expression_statement():
 	var expr = _expression()
 
 	if expr is ESCParseError:
@@ -524,7 +587,7 @@ func _match(tokenTypes) -> bool:
 	return false
 
 
-func _matchInOrder(tokenTypes) -> bool:
+func _match_in_order(tokenTypes) -> bool:
 	if not tokenTypes is Array:
 		tokenTypes = [tokenTypes]
 
@@ -587,4 +650,4 @@ func _synchronize() -> void:
 			ESCTokenType.TokenType.RETURN:
 				return
 
-	_advance()
+		_advance()

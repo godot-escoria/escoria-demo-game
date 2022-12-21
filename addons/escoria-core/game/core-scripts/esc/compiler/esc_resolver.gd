@@ -50,6 +50,11 @@ func visit_if_stmt(stmt: ESCGrammarStmts.If):
 		_resolve_stmt(stmt.get_else_branch())
 
 
+func visit_while_stmt(stmt: ESCGrammarStmts.While):
+	_resolve_expr(stmt.get_condition())
+	_resolve_stmt(stmt.get_body())
+
+
 func visit_var_stmt(stmt: ESCGrammarStmts.Var):
 	_declare(stmt.get_name())
 

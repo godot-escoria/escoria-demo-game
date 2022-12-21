@@ -180,6 +180,16 @@ func visit_print_stmt(stmt: ESCGrammarStmts.Print):
 	return null
 
 
+func visit_while_stmt(stmt: ESCGrammarStmts.While):
+	while _is_truthy(_evaluate(stmt.get_condition())):
+		var ret = _execute(stmt.get_body())
+
+		if ret is GDScriptFunctionState:
+			ret = yield(ret, "completed")
+
+	return null
+
+
 func visit_var_stmt(stmt: ESCGrammarStmts.Var):
 	var value = null
 

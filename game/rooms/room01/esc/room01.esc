@@ -9,6 +9,11 @@
 
 :ready
 	play_snd("res://game/sfx/contemplation.ogg", _music)
+	var a = 1
+	while (a < 4):
+		say("player", "Loop iteration number " + a)
+		a = a + 1
+
 	var room1_visited = false
 	if !room1_visited:
 		#set_global(room1_visited, true)

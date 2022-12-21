@@ -55,7 +55,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 		[
 			null,
 			null,
-			null,
+			"",
 			""
 		],
 		[

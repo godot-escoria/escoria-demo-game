@@ -132,13 +132,18 @@ static func load_globals():
 func _compiler_shim(source: String):
 	var scanner: ESCScanner = ESCScanner.new()
 	scanner.set_source(source)
+	had_error = false
 	
 	print("SCAN START")
 
+	if ":ready" in source:
+		pass
+
 	var tokens = scanner.scan_tokens()
-	
-	for t in tokens:
-		print(t)
+
+	if ":ready" in source:
+		for t in tokens:
+			print(t)
 
 	var parser: ESCParser = ESCParser.new()
 	parser.init(self, tokens)
@@ -155,8 +160,9 @@ func _compiler_shim(source: String):
 
 	var script = ESCScript.new()
 
-	for ps in parsed_statements:
-		script.events[ps.get_event_name()] = ps
+	if not had_error:
+		for ps in parsed_statements:
+			script.events[ps.get_event_name()] = ps
 
 	return script
 	#if not had_error:

@@ -232,3 +232,25 @@ class Print extends ESCGrammarStmt:
 
 	func accept(visitor):
 		return visitor.visit_print_stmt(self)
+
+
+class While extends ESCGrammarStmt:
+	var _condition: ESCGrammarExpr setget ,get_condition
+	var _body: ESCGrammarStmt setget ,get_body
+
+
+	func init(condition: ESCGrammarExpr, body: ESCGrammarStmt):
+		_condition = condition
+		_body = body
+
+
+	func get_condition() -> ESCGrammarExpr:
+		return _condition
+
+
+	func get_body() -> ESCGrammarStmt:
+		return _body
+
+
+	func accept(visitor):
+		return visitor.visit_while_stmt(self)
