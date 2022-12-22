@@ -72,6 +72,30 @@ func visit_print_stmt(stmt: ESCGrammarStmts.Print):
 	_resolve_expr(stmt.get_expression())
 
 
+func visit_dialog_option_stmt(stmt: ESCGrammarStmts.DialogOption):
+	_resolve_expr(stmt.get_option())
+
+	if stmt.get_condition():
+		_resolve_expr(stmt.get_condition())
+
+	_resolve_stmt(stmt.get_body())
+
+
+func visit_break_stmt(stmt: ESCGrammarStmts.Break):
+	pass
+
+
+func visit_done_stmt(stmt: ESCGrammarStmts.Done):
+	pass
+
+
+func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
+	for arg in stmt.get_args():
+		_resolve_expr(arg)
+
+	resolve(stmt.get_options())
+
+
 func visit_literal_expr(expr: ESCGrammarExprs.Literal):
 	pass
 

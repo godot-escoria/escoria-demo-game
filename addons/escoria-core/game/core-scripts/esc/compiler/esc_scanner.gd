@@ -25,6 +25,8 @@ var _indent_level_stack: Array
 
 func _init():
 	_keywords["and"] = ESCTokenType.TokenType.AND
+	_keywords["break"] = ESCTokenType.TokenType.BREAK
+	_keywords["done"] = ESCTokenType.TokenType.DONE
 	_keywords["elif"] = ESCTokenType.TokenType.ELIF
 	_keywords["else"] = ESCTokenType.TokenType.ELSE
 	_keywords["false"] = ESCTokenType.TokenType.FALSE
@@ -127,7 +129,7 @@ func _scan_token():
 		'|':
 			_add_token(ESCTokenType.TokenType.PIPE, null)
 		'?':
-			_add_token(ESCTokenType.TokenType.QUESTION, null)
+			_add_token(ESCTokenType.TokenType.QUESTION_BANG if _match('!') else ESCTokenType.TokenType.QUESTION, null)
 		'#':
 			# the rest of the line is a comment
 			while _peek() != '\n' and not _at_end():
@@ -140,7 +142,12 @@ func _scan_token():
 			_line += 1
 			_at_start_of_line = true
 		'!':
-			_add_token(ESCTokenType.TokenType.BANG_EQUAL if _match('=') else ESCTokenType.TokenType.BANG, null)
+			if _match('='):
+				_add_token(ESCTokenType.TokenType.BANG_EQUAL, null)
+			elif _match('?'):
+				_add_token(ESCTokenType.TokenType.BANG_QUESTION, null)
+			else:
+				_add_token(ESCTokenType.TokenType.BANG, null)
 		'=':
 			_add_token(ESCTokenType.TokenType.EQUAL_EQUAL if _match('=') else ESCTokenType.TokenType.EQUAL, null)
 		'<':
@@ -216,6 +223,10 @@ func _string() -> void:
 
 	# Trim surrounding quotes
 	var value: String = _source.substr(_start + 1, (_current - 1) - (_start + 1))
+
+	# Deal with escape chars
+	for c in _escape_chars:
+		value = value.replace("\\" + c, c)
 
 	_add_token(ESCTokenType.TokenType.STRING, value)
 

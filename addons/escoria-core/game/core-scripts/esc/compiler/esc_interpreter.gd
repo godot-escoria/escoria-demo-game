@@ -127,7 +127,7 @@ func visit_call_expr(expr: ESCGrammarExprs.Call):
 	command.parameters = args
 	command.name = callee.get_command_name()
 
-	var rc = 0
+	var rc = ESCExecution.RC_OK
 
 	if command.is_valid() and not _current_event.is_interrupted():
 		_current_event.set_running_command(command)
@@ -187,6 +187,9 @@ func visit_while_stmt(stmt: ESCGrammarStmts.While):
 		if ret is GDScriptFunctionState:
 			ret = yield(ret, "completed")
 
+		if typeof(ret) == TYPE_INT and ret == ESCTokenType.TokenType.BREAK:
+			break
+
 	return null
 
 
@@ -210,6 +213,78 @@ func visit_global_stmt(stmt: ESCGrammarStmts.Global):
 		_globals.define(stmt.get_name().get_lexeme(), value)
 
 	return null
+
+
+func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
+	var dialog: ESCDialog = ESCDialog.new()
+	var rc = ESCExecution.RC_OK
+
+	while true:
+		dialog.options = []
+
+		for dialog_option in stmt.get_options():
+			var option: ESCDialogOption = ESCDialogOption.new()
+			# TODO: Translation keys
+			option.source_option = dialog_option
+			option.option = _evaluate(dialog_option.get_option())
+
+			if dialog_option.get_condition():
+				option.set_is_valid(_evaluate(dialog_option.get_condition()))
+			else:
+				option.set_is_valid(true)
+
+			dialog.options.append(option)
+
+		if dialog.options.size() == 0:
+			break
+
+		if dialog.is_valid() and not _current_event.is_interrupted():
+			#_current_event.set_running_command(dialog)
+			#rc = dialog.run()
+			var chosen_option = dialog.run()
+
+			if chosen_option is GDScriptFunctionState:
+				chosen_option = yield(chosen_option, "completed")
+
+			if chosen_option:
+				var execute_ret = _execute(chosen_option.source_option.get_body())
+
+				if execute_ret is GDScriptFunctionState:
+					execute_ret = yield(execute_ret, "completed")
+					escoria.logger.debug(
+						self,
+						"Chosen dialog option (%s) was completed." % chosen_option
+					)
+
+				if typeof(execute_ret) == TYPE_INT:
+					match execute_ret:
+						ESCTokenType.TokenType.BREAK:
+							break
+						ESCTokenType.TokenType.DONE:
+							return ESCTokenType.TokenType.DONE
+
+#		if rc is GDScriptFunctionState:
+#			rc = yield(rc, "completed")
+#			escoria.logger.debug(
+#				self,
+#				"Dialog (%s) was completed." % dialog
+#			)
+
+		#_current_event.clear_running_command()
+
+	return rc
+
+
+func visit_dialog_option_stmt(stmt: ESCGrammarStmts.DialogOption):
+	pass
+
+
+func visit_break_stmt(stmt: ESCGrammarStmts.Break):
+	return ESCTokenType.TokenType.BREAK
+
+
+func visit_done_stmt(stmt: ESCGrammarStmts.Done):
+	return ESCTokenType.TokenType.DONE
 
 
 func visit_assign_expr(expr: ESCGrammarExprs.Assign):
@@ -340,6 +415,11 @@ func _execute_block(statements: Array, env: ESCEnvironment):
 
 		if ret is GDScriptFunctionState:
 			ret = yield(ret, "completed")
+
+		if typeof(ret) == TYPE_INT:
+			match ret:
+				[ESCTokenType.TokenType.BREAK, ESCTokenType.TokenType.DONE]:
+					return ret
 
 		# TODO: Proper error handling per statement?
 		#if ret:

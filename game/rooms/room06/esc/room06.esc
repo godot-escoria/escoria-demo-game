@@ -25,4 +25,4 @@
 	if !room6_visited:
 		room6_visited = true
 #		if true:
-					say("player", "Second indent.")
+#					say("player", "Second indent.")

@@ -254,3 +254,63 @@ class While extends ESCGrammarStmt:
 
 	func accept(visitor):
 		return visitor.visit_while_stmt(self)
+
+
+class DialogOption extends ESCGrammarStmt:
+	var _option: ESCGrammarExpr setget ,get_option
+	var _condition: ESCGrammarExpr setget ,get_condition
+	var _body: ESCGrammarStmt setget ,get_body
+
+
+	func init(option: ESCGrammarExpr, condition: ESCGrammarExpr, body: ESCGrammarStmt):
+		_option = option
+		_condition = condition
+		_body = body
+
+
+	func get_option() -> ESCGrammarExpr:
+		return _option
+
+
+	func get_condition() -> ESCGrammarExpr:
+		return _condition
+
+
+	func get_body() -> ESCGrammarStmt:
+		return _body
+
+
+	func accept(visitor):
+		return visitor.visit_dialog_option_stmt(self)
+
+
+class Dialog extends ESCGrammarStmt:
+	var _args: Array setget ,get_args
+	var _options: Array setget ,get_options
+
+
+	func init(args: Array, options: Array):
+		_options = options
+		_args = args
+
+
+	func get_options() -> Array:
+		return _options
+
+
+	func get_args() -> Array:
+		return _args
+
+
+	func accept(visitor):
+		return visitor.visit_dialog_stmt(self)
+
+
+class Break extends ESCGrammarStmt:
+	func accept(visitor):
+		return visitor.visit_break_stmt(self)
+
+
+class Done extends ESCGrammarStmt:
+	func accept(visitor):
+		return visitor.visit_done_stmt(self)

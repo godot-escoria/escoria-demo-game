@@ -5,6 +5,9 @@ class_name ESCParser
 var _tokens: Array
 var _current: int = 0
 
+var _loop_level: int = 0
+var _dialog_level: int = 0
+
 var _compiler
 
 
@@ -14,6 +17,8 @@ func init(compiler, tokens: Array) -> void:
 
 
 func parse() -> Array:
+	_loop_level = 0
+	_dialog_level = 0
 	var statements: Array = []
 
 	while not _at_end():
@@ -111,9 +116,21 @@ func _statement():
 	if _match(ESCTokenType.TokenType.WHILE):
 		var stmt = _while_statement()
 		return stmt
-#	if _match(ESCTokenType.TokenType.QUESTION):
-#		var stmt = _dialog_statement()
-#		return stmt
+	if _match(ESCTokenType.TokenType.QUESTION_BANG):
+		var stmt = _dialog_statement()
+		return stmt
+	if _match_in_order([ESCTokenType.TokenType.BREAK, ESCTokenType.TokenType.NEWLINE]):
+		if _loop_level == 0 and _dialog_level == 0:
+			return _error(_second_previous(), "'break' only allowed inside loops and dialogs")
+
+		var stmt = _break_statement()
+		return stmt
+	if _match_in_order([ESCTokenType.TokenType.DONE, ESCTokenType.TokenType.NEWLINE]):
+		if _dialog_level == 0:
+			return _error(_second_previous(), "'done' only allowed inside dialogs")
+
+		var stmt = _done_statement()
+		return stmt
 	if _match_in_order([ESCTokenType.TokenType.NEWLINE, ESCTokenType.TokenType.INDENT]) \
 		or (_previous().get_type() == ESCTokenType.TokenType.NEWLINE and _match(ESCTokenType.TokenType.INDENT)):
 		var block = _block()
@@ -157,6 +174,11 @@ func _if_statement():
 	var else_branch = null
 
 	if _match(ESCTokenType.TokenType.ELSE):
+		colon_token = _consume(ESCTokenType.TokenType.COLON, "Expect ':' after 'else'.")
+
+		if colon_token is ESCParseError:
+			return colon_token
+
 		else_branch = _statement()
 
 		if else_branch is ESCParseError:
@@ -196,6 +218,8 @@ func _print_statement():
 
 
 func _while_statement():
+	_loop_level += 1
+
 	_consume(ESCTokenType.TokenType.LEFT_PAREN, "Expect '(' after 'while'.")
 
 	var condition = _expression()
@@ -211,10 +235,15 @@ func _while_statement():
 
 	var toRet = ESCGrammarStmts.While.new()
 	toRet.init(condition, body)
+
+	_loop_level -= 1
+
 	return toRet
 
 
 func _dialog_statement():
+	_dialog_level += 1
+
 	var args: Array = []
 
 	if _match(ESCTokenType.TokenType.LEFT_PAREN):
@@ -237,18 +266,90 @@ func _dialog_statement():
 	if args.size() > 3:
 		return _error(_peek(), "Start dialog cannot have more than 3 arguments.")
 
-	var consume = _consume(ESCTokenType.TokenType.NEWLINE, "Expect NEWLINE after start dialog arguments.")
+	var consume = _consume_new_block_start("dialog start")
 
 	if consume is ESCParseError:
 		return consume
 
-	#while true:
-		#if _match(ESCTokenType.TokenType.BANG)
-	#var dialog_option = _dialog_option_statement()
+	var options: Array = []
+
+	while true:
+		var dialog_option = _dialog_option_statement()
+
+		if dialog_option is ESCParseError:
+			return dialog_option
+
+		options.append(dialog_option)
+
+		if _match(ESCTokenType.TokenType.DEDENT):
+			break
+
+	var dialog: ESCGrammarStmts.Dialog = ESCGrammarStmts.Dialog.new()
+	dialog.init(args, options)
+
+	_dialog_level -= 1
+
+	return dialog
+
+
+func _consume_new_block_start(line_type: String):
+	var consume = _consume(ESCTokenType.TokenType.NEWLINE, "Expect NEWLINE after %s." % line_type)
+
+	if consume is ESCParseError:
+		return consume
+
+	consume = _consume(ESCTokenType.TokenType.INDENT, "Expect INDENT after %s." % line_type)
+
+	if consume is ESCParseError:
+		return consume
+
+	return null
 
 
 func _dialog_option_statement():
-	pass
+	var consume = _consume(ESCTokenType.TokenType.MINUS, "Expect '-' before dialog option")
+
+	if consume is ESCParseError:
+		return consume
+
+	var expr = _expression()
+
+	if expr is ESCParseError:
+		return expr
+
+	var condition = null
+
+	if _match(ESCTokenType.TokenType.LEFT_SQUARE):
+		condition = _expression()
+		
+		if condition is ESCParseError:
+			return condition
+
+		consume = _consume(ESCTokenType.TokenType.RIGHT_SQUARE, "Expect ']' after dialog option condition")
+
+	consume = _consume_new_block_start("dialog option")
+
+	var block_stmts = _block()
+
+	if block_stmts is ESCParseError:
+		return block_stmts
+
+	var block = ESCGrammarStmts.Block.new()
+	block.init(block_stmts)
+
+	var option: ESCGrammarStmts.DialogOption = ESCGrammarStmts.DialogOption.new()
+	option.init(expr, condition, block)
+	return option
+
+
+func _break_statement():
+	var ret = ESCGrammarStmts.Break.new()
+	return ret
+
+
+func _done_statement():
+	var ret = ESCGrammarStmts.Done.new()
+	return ret
 
 
 func _expression_statement():
@@ -616,6 +717,10 @@ func _check(tokenType) -> bool:
 
 func _previous() -> ESCToken:
 	return _tokens[_current - 1]
+
+
+func _second_previous() -> ESCToken:
+	return _tokens[_current - 2]
 
 
 func _advance() -> ESCToken:
