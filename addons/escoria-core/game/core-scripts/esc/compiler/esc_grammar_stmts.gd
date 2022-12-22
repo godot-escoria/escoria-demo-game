@@ -50,6 +50,7 @@ class Event extends ESCGrammarStmt:
 	signal interrupted
 
 	var _name: ESCToken setget ,get_name
+	var _target: ESCGrammarExprs.Literal setget ,get_target
 	var _flags: int setget ,get_flags
 	var _body: ESCGrammarStmts.Block setget ,get_body
 
@@ -80,8 +81,9 @@ class Event extends ESCGrammarStmt:
 	}
 
 
-	func init(name: ESCToken, flags: Array, body: ESCGrammarStmts.Block):
+	func init(name: ESCToken, target: ESCGrammarExprs.Literal, flags: Array, body: ESCGrammarStmts.Block):
 		_name = name
+		_target = target
 
 		for flag in flags:
 			match flag:
@@ -99,6 +101,14 @@ class Event extends ESCGrammarStmt:
 
 	func get_name() -> ESCToken:
 		return _name
+
+
+	func get_target() -> ESCGrammarExprs.Literal:
+		return _target
+
+
+	func get_target_name() -> String:
+		return _target.get_value()
 
 
 	func get_event_name() -> String:

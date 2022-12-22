@@ -72,6 +72,16 @@ func _event_declaration():
 	if name is ESCParseError:
 		return name
 
+	var target = ""
+
+	if _check(ESCTokenType.TokenType.STRING):
+		var expr = _primary()
+		
+		if expr is ESCParseError:
+			return expr
+
+		target = expr
+
 	var flags: Array = []
 
 	var has_flags: bool = _match(ESCTokenType.TokenType.PIPE)
@@ -93,11 +103,11 @@ func _event_declaration():
 		body.init(_block())
 
 		var ret = ESCGrammarStmts.Event.new()
-		ret.init(name, flags, body)
+		ret.init(name, target, flags, body)
 		
 		return ret
 	else:
-			return _error(_peek(), "Expected block after event declaration for '%s'." % name.get_lexeme())
+		return _error(_peek(), "Expected block after event declaration for '%s'." % name.get_lexeme())
 
 
 func _expression():

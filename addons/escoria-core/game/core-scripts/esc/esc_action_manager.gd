@@ -294,21 +294,25 @@ func _get_event_to_queue(
 						do_combine = false
 
 					if do_combine:
-						var target_event = "%s %s" % [
-							action,
-							combine_with.global_id
-						]
-						var combine_with_event = "%s %s" % [
-							action,
-							target.global_id
-						]
+#						var target_event = "%s %s" % [
+#							action,
+#							combine_with.global_id
+#						]
+#						var combine_with_event = "%s %s" % [
+#							action,
+#							target.global_id
+#						]
 
-						if target.events.has(target_event):
-							event_to_return = target.events[target_event]
-						elif combine_with.events.has(combine_with_event)\
+						if _has_event_with_target(target.events, action, combine_with.global_id):
+						#if target.events.has(target_event):
+							#event_to_return = target.events[target_event]
+							event_to_return = target.events[action]
+						#elif combine_with.events.has(combine_with_event)\
+						elif _has_event_with_target(combine_with.events, action, target.global_id)\
 								and not combine_with.node.combine_is_one_way:
 
-							event_to_return = combine_with.events[combine_with_event]
+							#event_to_return = combine_with.events[combine_with_event]
+							event_to_return = combine_with.events[action]
 						else:
 							# Check to see if there isn't a "fallback" action to
 							# run before we declare this a failure.
@@ -387,6 +391,26 @@ func _get_event_to_queue(
 			)
 
 	return event_to_return
+
+
+# Determines whether the specified events dictionary contains an event with the
+# specified event name and event target, e.g. :give "filled_out_form"
+#
+# #### Parameters
+#
+# - events_dict: dictionary with events to check
+# - event_name: the event name to search for
+# - event_target: the target for the specified event to check
+#
+# *Returns* true iff events_dict contains an event matching both event_name and
+# event_target
+func _has_event_with_target(events_dict: Dictionary, event_name: String, event_target: String):
+	var event = events_dict.get(event_name)
+
+	if event:
+		return event.get_target_name() == event_target
+
+	return false
 
 
 # Runs the specified event.

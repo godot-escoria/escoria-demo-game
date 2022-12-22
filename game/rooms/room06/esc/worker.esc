@@ -70,7 +70,7 @@
 
 ####################################################################################################
 # accept both use or give commands to progress the game
-:give #r5_filled_sheet
+:give "r5_filled_sheet"
 	set_gui_visible(false)
 	accept_input("SKIP")
 
