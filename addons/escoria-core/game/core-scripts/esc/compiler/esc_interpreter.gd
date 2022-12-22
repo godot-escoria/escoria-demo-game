@@ -370,6 +370,19 @@ func visit_literal_expr(expr: ESCGrammarExprs.Literal):
 	return expr.get_value()
 
 
+func visit_logical_expr(expr: ESCGrammarExprs.Logical):
+	var left = _evaluate(expr.get_left())
+
+	if expr.get_operator().get_type() == ESCTokenType.TokenType.OR:
+		if _is_truthy(left):
+			return left
+	else:
+		if not _is_truthy(left):
+			return left
+
+	return _evaluate(expr.get_right())
+
+
 func resolve(expr: ESCGrammarExpr, depth: int):
 	_locals[expr] = depth
 

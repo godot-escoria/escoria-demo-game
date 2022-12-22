@@ -21,6 +21,10 @@ class Logical extends ESCGrammarExpr:
 		return _right
 
 
+	func get_operator() -> ESCToken:
+		return _operator
+
+
 	func accept(visitor):
 		return visitor.visit_logical_expr(self)
 
