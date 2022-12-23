@@ -528,7 +528,8 @@ func perform_inputevent_on_object(
 				# Check if object must be in inventory to be used and update
 				# action state if necessary
 				if obj.node.use_from_inventory_only and \
-					escoria.inventory_manager.inventory_has(obj.global_id):
+					escoria.inventory_manager.inventory_has(obj.global_id) and \
+					need_combine:
 
 					# We're missing a target here for our tool to be used on
 					current_tool = obj
