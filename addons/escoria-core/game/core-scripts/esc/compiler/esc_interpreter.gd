@@ -383,6 +383,10 @@ func visit_logical_expr(expr: ESCGrammarExprs.Logical):
 	return _evaluate(expr.get_right())
 
 
+func visit_grouping_expr(expr: ESCGrammarExprs.Grouping):
+	return _evaluate(expr.get_expression())
+
+
 func resolve(expr: ESCGrammarExpr, depth: int):
 	_locals[expr] = depth
 

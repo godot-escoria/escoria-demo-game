@@ -230,11 +230,10 @@ func _print_statement():
 func _while_statement():
 	_loop_level += 1
 
-	_consume(ESCTokenType.TokenType.LEFT_PAREN, "Expect '(' after 'while'.")
-
 	var condition = _expression()
 
-	_consume(ESCTokenType.TokenType.RIGHT_PAREN, "Expect ')' after condition.")
+	if condition is ESCParseError:
+		return condition
 
 	var colon_token = _consume(ESCTokenType.TokenType.COLON, "Expect ':' after condition.")
 
