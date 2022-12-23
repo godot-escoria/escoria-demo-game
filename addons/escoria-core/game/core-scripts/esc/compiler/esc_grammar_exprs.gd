@@ -221,3 +221,19 @@ class Grouping extends ESCGrammarExpr:
 
 	func accept(visitor):
 		return visitor.visit_grouping_expr(self)
+
+
+class InInventory extends ESCGrammarExpr:
+	var _identifer: ESCGrammarExpr
+
+
+	func init(identifier: ESCGrammarExpr):
+		_identifer = identifier
+
+
+	func get_identifier() -> ESCGrammarExpr:
+		return _identifer
+
+
+	func accept(visitor):
+		return visitor.visit_in_inventory_expr(self)

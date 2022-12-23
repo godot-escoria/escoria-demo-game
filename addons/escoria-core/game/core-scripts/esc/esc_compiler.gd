@@ -129,7 +129,7 @@ static func load_globals():
 	return globals
 
 
-func _compiler_shim(source: String):
+func _compiler_shim(source: String, filename: String = ""):
 	var scanner: ESCScanner = ESCScanner.new()
 	scanner.set_source(source)
 	had_error = false
@@ -139,12 +139,13 @@ func _compiler_shim(source: String):
 	var tokens = scanner.scan_tokens()
 
 	#if ":ready" in source or ":look" in source:
-	if ":look" in source:
-		for t in tokens:
-			print(t)
+#	if ":look" in source:
+#		for t in tokens:
+#			print(t)
 
 	var parser: ESCParser = ESCParser.new()
 	parser.init(self, tokens)
+	parser.set_current_filename(filename)
 
 	print("PARSE START")
 
@@ -177,7 +178,7 @@ func load_esc_file(path: String) -> ESCScript:
 		var source = file.get_as_text()
 
 		#if "start_game.esc" in path:
-		return _compiler_shim(source)
+		return _compiler_shim(source, path)
 
 	return null
 #	if File.new().file_exists(path):

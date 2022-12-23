@@ -315,6 +315,10 @@ func visit_assign_expr(expr: ESCGrammarExprs.Assign):
 	return value
 
 
+func visit_in_inventory_expr(expr: ESCGrammarExprs.InInventory):
+	return escoria.inventory_manager.inventory_has(_evaluate(expr.get_identifier()))
+
+
 func visit_binary_expr(expr: ESCGrammarExprs.Binary):
 	var left_part = _evaluate(expr.get_left())
 	var right_part = _evaluate(expr.get_right())

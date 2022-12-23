@@ -32,6 +32,8 @@ func _init():
 	_keywords["false"] = ESCTokenType.TokenType.FALSE
 	_keywords["global"] = ESCTokenType.TokenType.GLOBAL
 	_keywords["if"] = ESCTokenType.TokenType.IF
+	_keywords["in"] = ESCTokenType.TokenType.IN
+	_keywords["inventory"] = ESCTokenType.TokenType.INVENTORY
 	_keywords["nil"] = ESCTokenType.TokenType.NIL
 	_keywords["or"] = ESCTokenType.TokenType.OR
 	_keywords["print"] = ESCTokenType.TokenType.PRINT

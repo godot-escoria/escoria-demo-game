@@ -113,6 +113,10 @@ func visit_assign_expr(expr: ESCGrammarExprs.Assign):
 	_resolve_local(expr, expr.get_name())
 
 
+func visit_in_inventory_expr(expr: ESCGrammarExprs.InInventory):
+	_resolve_expr(expr.get_identifier())
+
+
 func visit_binary_expr(expr: ESCGrammarExprs.Binary):
 	_resolve_expr(expr.get_left())
 	_resolve_expr(expr.get_right())
