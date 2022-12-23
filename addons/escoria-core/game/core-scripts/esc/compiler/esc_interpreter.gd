@@ -91,6 +91,12 @@ func visit_event_stmt(stmt: ESCGrammarStmts.Event):
 
 	_current_event = null
 
+	# For now, we don't always return a return code from an event (e.g. when
+	# a 'done' statement is issued, since we don't have a good way to tell when
+	# we're at the top of a coroutine stack)
+	if typeof(rc) != TYPE_INT:
+		rc = ESCExecution.RC_OK
+
 	stmt.emit_finished(rc if rc else ESCExecution.RC_OK)
 	#var event: ESCEvent = ESCEvent.new("")
 	#event.init(stmt.get_name().get_lexeme(), stmt.get_flags())
@@ -187,7 +193,7 @@ func visit_while_stmt(stmt: ESCGrammarStmts.While):
 		if ret is GDScriptFunctionState:
 			ret = yield(ret, "completed")
 
-		if typeof(ret) == TYPE_INT and ret == ESCTokenType.TokenType.BREAK:
+		if ret is ESCGrammarStmts.Break:
 			break
 
 	return null
@@ -256,12 +262,21 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 						"Chosen dialog option (%s) was completed." % chosen_option
 					)
 
-				if typeof(execute_ret) == TYPE_INT:
-					match execute_ret:
-						ESCTokenType.TokenType.BREAK:
-							break
-						ESCTokenType.TokenType.DONE:
-							return ESCTokenType.TokenType.DONE
+				if execute_ret is ESCGrammarStmts.Break:
+					var break_tracker: ESCBreakCounter = ESCBreakCounter.new()
+
+					if execute_ret.get_levels():
+						break_tracker.set_levels_left(_evaluate(execute_ret.get_levels()) - 1)
+					else:
+						break_tracker.set_levels_left(0)
+
+					return break_tracker
+				elif execute_ret is ESCGrammarStmts.Done:
+					return execute_ret
+				elif execute_ret is ESCBreakCounter:
+					if execute_ret.get_levels_left() > 0:
+						execute_ret.dec_levels_left()
+						return execute_ret
 
 #		if rc is GDScriptFunctionState:
 #			rc = yield(rc, "completed")
@@ -280,11 +295,11 @@ func visit_dialog_option_stmt(stmt: ESCGrammarStmts.DialogOption):
 
 
 func visit_break_stmt(stmt: ESCGrammarStmts.Break):
-	return ESCTokenType.TokenType.BREAK
+	return stmt
 
 
 func visit_done_stmt(stmt: ESCGrammarStmts.Done):
-	return ESCTokenType.TokenType.DONE
+	return stmt
 
 
 func visit_assign_expr(expr: ESCGrammarExprs.Assign):
@@ -433,10 +448,10 @@ func _execute_block(statements: Array, env: ESCEnvironment):
 		if ret is GDScriptFunctionState:
 			ret = yield(ret, "completed")
 
-		if typeof(ret) == TYPE_INT:
-			match ret:
-				[ESCTokenType.TokenType.BREAK, ESCTokenType.TokenType.DONE]:
-					return ret
+		if ret is ESCGrammarStmts.Break \
+			or ret is ESCGrammarStmts.Done:
+
+			return ret
 
 		# TODO: Proper error handling per statement?
 		#if ret:

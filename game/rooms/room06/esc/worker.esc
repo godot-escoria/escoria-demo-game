@@ -46,6 +46,18 @@
 				- "Could it be created in Escoria?" #[!loom_conversation_done]
 					say("player",	"Could Loom be created in Escoria?")
 					say("worker",	"Yes!")
+				- "Is it an old game?"
+					say("current_player", "Is the game as old as you are?")
+					say("worker", "You'd better be kidding...")
+					?!
+						- "I am."
+							say("current_player", "I am. Sorry.")
+							break
+						- "Not really."
+							say("current_player", "Not really.")
+							say("current_player", "Let's talk about something else.")
+							var break_level = 2
+							break break_level
 				- "Is it a fun game?" #[!loom_conversation_done and !fun_game_asked]
 					say("player",	"Is Loom a fun game?")
 					say("worker",	"Yes!")

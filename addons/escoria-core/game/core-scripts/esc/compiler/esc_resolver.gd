@@ -82,7 +82,8 @@ func visit_dialog_option_stmt(stmt: ESCGrammarStmts.DialogOption):
 
 
 func visit_break_stmt(stmt: ESCGrammarStmts.Break):
-	pass
+	if stmt.get_levels():
+		_resolve_expr(stmt.get_levels())
 
 
 func visit_done_stmt(stmt: ESCGrammarStmts.Done):

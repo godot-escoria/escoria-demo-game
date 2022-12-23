@@ -136,12 +136,10 @@ func _compiler_shim(source: String):
 	
 	print("SCAN START")
 
-	if ":ready" in source:
-		pass
-
 	var tokens = scanner.scan_tokens()
 
-	if ":ready" in source:
+	#if ":ready" in source or ":look" in source:
+	if ":look" in source:
 		for t in tokens:
 			print(t)
 

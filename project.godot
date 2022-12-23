@@ -139,6 +139,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_base_command.gd"
 }, {
+"base": "Object",
+"class": "ESCBreakCounter",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/compiler/esc_break_counter.gd"
+}, {
 "base": "Camera2D",
 "class": "ESCCamera",
 "language": "GDScript",
@@ -790,6 +795,7 @@ _global_script_class_icons={
 "ESCAnimationResource": "",
 "ESCBackground": "res://addons/escoria-core/design/esc_background.svg",
 "ESCBaseCommand": "",
+"ESCBreakCounter": "",
 "ESCCamera": "",
 "ESCCameraBaseCommand": "",
 "ESCCameraLimits": "",

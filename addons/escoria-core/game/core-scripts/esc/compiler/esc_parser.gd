@@ -129,7 +129,8 @@ func _statement():
 	if _match(ESCTokenType.TokenType.QUESTION_BANG):
 		var stmt = _dialog_statement()
 		return stmt
-	if _match_in_order([ESCTokenType.TokenType.BREAK, ESCTokenType.TokenType.NEWLINE]):
+	#if _match_in_order([ESCTokenType.TokenType.BREAK, ESCTokenType.TokenType.NEWLINE]):
+	if _match(ESCTokenType.TokenType.BREAK):
 		if _loop_level == 0 and _dialog_level == 0:
 			return _error(_second_previous(), "'break' only allowed inside loops and dialogs")
 
@@ -395,8 +396,13 @@ func _break_statement():
 		if levels is ESCParseError:
 			return levels
 
+	var consume = _consume(ESCTokenType.TokenType.NEWLINE, "Expected either expression and NEWLINE, or just NEWLINE, after break statement")
+
+	if consume is ESCParseError:
+		return consume
+
 	var ret = ESCGrammarStmts.Break.new()
-	ret.ini(levels)
+	ret.init(levels)
 	return ret
 
 
