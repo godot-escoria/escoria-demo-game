@@ -196,12 +196,12 @@ class ESCExpression extends ESCGrammarStmt:
 
 class If extends ESCGrammarStmt:
 	var _condition: ESCGrammarExpr setget ,get_condition
-	var _then_branch: ESCGrammarStmt setget ,get_then_branch
+	var _then_branch: ESCGrammarStmts.Block setget ,get_then_branch
 	var _elif_branches: Array setget ,get_elif_branches
-	var _else_branch: ESCGrammarStmt setget ,get_else_branch
+	var _else_branch: ESCGrammarStmts.Block setget ,get_else_branch
 
 
-	func init(condition: ESCGrammarExpr, then_branch: ESCGrammarStmt, elif_branches: Array, else_branch: ESCGrammarStmt):
+	func init(condition: ESCGrammarExpr, then_branch: ESCGrammarStmts.Block, elif_branches: Array, else_branch: ESCGrammarStmts.Block):
 		_condition = condition
 		_then_branch = then_branch
 		_elif_branches = elif_branches
@@ -212,7 +212,7 @@ class If extends ESCGrammarStmt:
 		return _condition
 
 
-	func get_then_branch() -> ESCGrammarStmt:
+	func get_then_branch() -> ESCGrammarStmts.Block:
 		return _then_branch
 
 
@@ -220,7 +220,7 @@ class If extends ESCGrammarStmt:
 		return _elif_branches
 
 
-	func get_else_branch() -> ESCGrammarStmt:
+	func get_else_branch() -> ESCGrammarStmts.Block:
 		return _else_branch
 
 
@@ -317,6 +317,17 @@ class Dialog extends ESCGrammarStmt:
 
 
 class Break extends ESCGrammarStmt:
+	var _levels: ESCGrammarExpr setget ,get_levels
+
+
+	func init(levels: ESCGrammarExpr):
+		_levels = levels
+
+
+	func get_levels() -> ESCGrammarExpr:
+		return _levels
+
+
 	func accept(visitor):
 		return visitor.visit_break_stmt(self)
 

@@ -166,10 +166,18 @@ func _if_statement():
 	if colon_token is ESCParseError:
 		return colon_token
 
-	var then_branch = _statement()
+	var consume = _consume_new_block_start("start of if statement")
 
-	if then_branch is ESCParseError:
-		return then_branch
+	if consume:
+		return consume
+
+	var then_branch_block = _block()
+
+	if then_branch_block is ESCParseError:
+		return then_branch_block
+
+	var then_branch = ESCGrammarStmts.Block.new()
+	then_branch.init(then_branch_block)
 
 	var elif_branches = []
 
@@ -189,7 +197,15 @@ func _if_statement():
 		if colon_token is ESCParseError:
 			return colon_token
 
-		else_branch = _statement()
+		consume = _consume_new_block_start("start of else statement")
+
+		if consume:
+			return consume
+
+		var else_branch_block = _block()
+
+		else_branch = ESCGrammarStmts.Block.new()
+		else_branch.init(else_branch_block)
 
 		if else_branch is ESCParseError:
 			return else_branch
@@ -207,10 +223,18 @@ func _elif_statement():
 
 	var colon_token = _consume(ESCTokenType.TokenType.COLON, "Expect ':' after elif condition.")
 
-	var then_branch = _statement()
+	var consume = _consume_new_block_start("start of elif statement")
 
-	if then_branch is ESCParseError:
-		return then_branch
+	if consume:
+		return consume
+
+	var then_branch_block = _block()
+
+	if then_branch_block is ESCParseError:
+		return then_branch_block
+
+	var then_branch = ESCGrammarStmts.Block.new()
+	then_branch.init(then_branch_block)
 
 	var toRet = ESCGrammarStmts.If.new()
 	toRet.init(condition, then_branch, [], null)
@@ -240,7 +264,18 @@ func _while_statement():
 	if colon_token is ESCParseError:
 		return colon_token
 
-	var body = _statement()
+	var consume = _consume_new_block_start("start of while loop")
+
+	if consume:
+		return consume
+
+	var block = _block()
+
+	if block is ESCParseError:
+		return block
+
+	var body = ESCGrammarStmts.Block.new()
+	body.init(block)
 
 	var toRet = ESCGrammarStmts.While.new()
 	toRet.init(condition, body)
@@ -352,7 +387,16 @@ func _dialog_option_statement():
 
 
 func _break_statement():
+	var levels = null
+
+	if _check([ESCTokenType.TokenType.IDENTIFIER, ESCTokenType.TokenType.NUMBER]):
+		levels = _expression()
+
+		if levels is ESCParseError:
+			return levels
+
 	var ret = ESCGrammarStmts.Break.new()
+	ret.ini(levels)
 	return ret
 
 
@@ -717,11 +761,18 @@ func _consume(tokenType, message: String):
 	return _error(_peek(), message)
 
 
-func _check(tokenType) -> bool:
+func _check(tokenTypes) -> bool:
+	if not tokenTypes is Array:
+		tokenTypes = [tokenTypes]
+
 	if _at_end():
 		return false
 
-	return _peek().get_type() == tokenType
+	for type in tokenTypes:
+		if _peek().get_type() == type:
+			return true
+
+	return false
 
 
 func _previous() -> ESCToken:
