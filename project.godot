@@ -135,6 +135,11 @@ _global_script_classes=[ {
 "path": "res://addons/escoria-core/game/scenes/dialogs/state_machine/dialog_say_fast.gd"
 }, {
 "base": "State",
+"class": "DialogSayFinish",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/scenes/dialogs/state_machine/dialog_say_finish.gd"
+}, {
+"base": "State",
 "class": "DialogVisible",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/scenes/dialogs/state_machine/dialog_visible.gd"
@@ -594,6 +599,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/show_menu.gd"
 }, {
+"base": "EditorPlugin",
+"class": "SimpleDialogPlugin",
+"language": "GDScript",
+"path": "res://addons/escoria-dialog-simple/plugin.gd"
+}, {
 "base": "SlideCommand",
 "class": "SlideBlockCommand",
 "language": "GDScript",
@@ -700,6 +710,7 @@ _global_script_class_icons={
 "DialogInterrupt": "",
 "DialogSay": "",
 "DialogSayFast": "",
+"DialogSayFinish": "",
 "DialogVisible": "",
 "ESCActionManager": "",
 "ESCAnimationName": "",
@@ -792,6 +803,7 @@ _global_script_class_icons={
 "SetSpeedCommand": "",
 "SetStateCommand": "",
 "ShowMenuCommand": "",
+"SimpleDialogPlugin": "",
 "SlideBlockCommand": "",
 "SlideCommand": "",
 "SpawnCommand": "",
@@ -878,17 +890,22 @@ sound/speech_folder="res://game/speech"
 sound/speech_extension="ogg"
 platform/skip_cache=false
 platform/skip_cache.mobile=true
-ui/default_dialog_type="floating"
 sound/speech_enabled=1
 ui/tooltip_follows_mouse=false
 main/escoria_version=""
 ui/dialogs_chooser="res://addons/escoria-core/ui_library/dialogs/text_dialog_chooser.tscn"
 ui/default_dialog_scene="res://addons/escoria-core/ui_library/dialogs/floating_dialog_player.tscn"
 main/action_default_script="res://action_defaults.esc"
-dialog_simple/avatars_path="res://game/dialog_avatars/"
 dialog_simple/text_speed_per_character=0.1
 dialog_simple/fast_text_speed_per_character=0.25
+ui/default_dialog_type="floating"
+dialog_simple/avatars_path="res://game/dialog_avatars"
+dialog_simple/text_time_per_letter_ms=100
+dialog_simple/text_time_per_fast_letter_ms=25
+dialog_simple/clear_text_by_click_only=false
 dialog_simple/reading_speed_in_wpm=200
+dialog_simple/left_click_action="Speed up"
+dialog_simple/stop_talking_animation_on="End of audio"
 
 [input]
 
