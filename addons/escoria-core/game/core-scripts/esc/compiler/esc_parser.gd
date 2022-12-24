@@ -606,7 +606,7 @@ func _factor():
 
 
 func _unary():
-	if _match([ESCTokenType.TokenType.BANG, ESCTokenType.TokenType.MINUS]):
+	if _match([ESCTokenType.TokenType.BANG, ESCTokenType.TokenType.NOT, ESCTokenType.TokenType.MINUS]):
 		var operator: ESCToken = _previous()
 		var right: ESCGrammarExpr = _unary()
 
@@ -618,7 +618,7 @@ func _unary():
 
 
 func _contains():
-	var expr = _call()
+	var expr = _is_checking()
 
 	if expr is ESCParseError:
 		return expr
@@ -634,6 +634,32 @@ func _contains():
 		var ret = ESCGrammarExprs.InInventory.new()
 		ret.init(expr)
 		return ret
+
+	return expr
+
+
+func _is_checking():
+	var expr = _call()
+
+	if expr is ESCParseError:
+		return expr
+
+	if _match(ESCTokenType.TokenType.IS):
+		var in_token: ESCToken = _previous()
+
+		if _match(ESCTokenType.TokenType.ACTIVE):
+			var ret = ESCGrammarExprs.Is.new()
+			ret.init(expr, null, _previous())
+			return ret
+		else:
+			var state_expr = _expression()
+
+			if state_expr is ESCParseError:
+				return state_expr
+
+			var ret = ESCGrammarExprs.Is.new()
+			ret.init(expr, state_expr, null)
+			return ret
 
 	return expr
 

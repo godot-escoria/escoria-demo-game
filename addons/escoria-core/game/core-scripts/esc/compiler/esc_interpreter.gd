@@ -2,10 +2,14 @@ extends Reference
 class_name ESCInterpreter
 
 
+const CURRENT_PLAYER_KEYWORD = "CURRENT_PLAYER"
+
+
 var _globals: ESCEnvironment
 var _environment: ESCEnvironment = _globals
 
 var _locals: Dictionary = {}
+
 
 # The interpreter largely doesn't need to track state; however, for interruptions,
 # we need a way to know which event a command is running for. This tracking is
@@ -127,7 +131,14 @@ func visit_call_expr(expr: ESCGrammarExprs.Call):
 	var args: Array = []
 
 	for arg in expr.get_arguments():
-		args.append(_evaluate(arg))
+		arg = _evaluate(arg)
+
+		# "Adapter" for current ESC commands since they don't currently take
+		# ESCObjects as arguments.
+		if arg is ESCObject:
+			arg = arg.global_id
+
+		args.append(arg)
 
 	var command = ESCCommand.new()
 	command.parameters = args
@@ -316,7 +327,25 @@ func visit_assign_expr(expr: ESCGrammarExprs.Assign):
 
 
 func visit_in_inventory_expr(expr: ESCGrammarExprs.InInventory):
-	return escoria.inventory_manager.inventory_has(_evaluate(expr.get_identifier()))
+	var arg = _evaluate(expr.get_identifier())
+
+	if arg is ESCObject:
+		arg = arg.global_id
+
+	return escoria.inventory_manager.inventory_has(arg)
+
+
+func visit_is_expr(expr: ESCGrammarExprs.Is):
+	var arg = _evaluate(expr.get_identifier())
+
+	if typeof(arg) == TYPE_STRING:
+		if escoria.inventory_manager.inventory_has(arg):
+			arg = _look_up_object_by_global_id(arg)
+
+	if expr.get_state():
+		return arg.get_state() == _evaluate(expr.get_state())
+
+	return arg.is_active()
 
 
 func visit_binary_expr(expr: ESCGrammarExprs.Binary):
@@ -372,7 +401,7 @@ func visit_unary_expr(expr: ESCGrammarExprs.Unary):
 	var right_part = _evaluate(expr.get_right())
 
 	match expr.get_operator().get_type():
-		ESCTokenType.TokenType.BANG:
+		ESCTokenType.TokenType.BANG, ESCTokenType.TokenType.NOT:
 			return not _is_truthy(right_part)
 		ESCTokenType.TokenType.MINUS:
 			var check = _check_is_number(right_part, expr.get_operator())
@@ -382,6 +411,9 @@ func visit_unary_expr(expr: ESCGrammarExprs.Unary):
 
 
 func visit_variable_expr(expr: ESCGrammarExprs.Variable):
+	if expr.get_name().get_lexeme().begins_with("$"):
+		return _look_up_object(expr.get_name())
+
 	return _look_up_variable(expr.get_name(), expr)
 
 
@@ -411,6 +443,27 @@ func resolve(expr: ESCGrammarExpr, depth: int):
 
 
 # Private methods
+func _look_up_object(name: ESCToken):
+	var global_id: String = name.get_lexeme().substr(1)
+
+	if global_id.to_upper() == CURRENT_PLAYER_KEYWORD:
+		global_id = escoria.main.current_scene.player.global_id
+
+	return _look_up_object_by_global_id(global_id)
+
+
+func _look_up_object_by_global_id(global_id: String):
+	var obj: ESCObject = escoria.object_manager.get_object(global_id)
+
+	if not obj:
+		escoria.logger.error(
+			self,
+			"Unable to resolve object with global ID '%s'." % global_id
+		)
+
+	return obj
+
+
 func _look_up_variable(name: ESCToken, expr: ESCGrammarExpr):
 	var distance: int = _locals[expr] if _locals.has(expr) else -1
 

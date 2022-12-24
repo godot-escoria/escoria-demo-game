@@ -24,6 +24,7 @@ var _indent_level_stack: Array
 
 
 func _init():
+	_keywords["active"] = ESCTokenType.TokenType.ACTIVE
 	_keywords["and"] = ESCTokenType.TokenType.AND
 	_keywords["break"] = ESCTokenType.TokenType.BREAK
 	_keywords["done"] = ESCTokenType.TokenType.DONE
@@ -34,7 +35,9 @@ func _init():
 	_keywords["if"] = ESCTokenType.TokenType.IF
 	_keywords["in"] = ESCTokenType.TokenType.IN
 	_keywords["inventory"] = ESCTokenType.TokenType.INVENTORY
+	_keywords["is"] = ESCTokenType.TokenType.IS
 	_keywords["nil"] = ESCTokenType.TokenType.NIL
+	_keywords["not"] = ESCTokenType.TokenType.NOT
 	_keywords["or"] = ESCTokenType.TokenType.OR
 	_keywords["print"] = ESCTokenType.TokenType.PRINT
 	_keywords["true"] = ESCTokenType.TokenType.TRUE
@@ -44,13 +47,13 @@ func _init():
 	_escape_chars.append('"')
 
 	_alpha_regex = RegEx.new()
-	_alpha_regex.compile("[a-zA-Z_]")
+	_alpha_regex.compile("[a-zA-Z_\\$]")
 
 	_digit_regex = RegEx.new()
 	_digit_regex.compile("[0-9]")
 
 	_alphanumeric_regex = RegEx.new()
-	_alphanumeric_regex.compile("[a-zA-Z0-9_]")
+	_alphanumeric_regex.compile("[a-zA-Z0-9_\\$]")
 	
 	_indent_level_stack.push_front(0)
 

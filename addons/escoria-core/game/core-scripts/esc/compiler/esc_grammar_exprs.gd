@@ -237,3 +237,31 @@ class InInventory extends ESCGrammarExpr:
 
 	func accept(visitor):
 		return visitor.visit_in_inventory_expr(self)
+
+
+class Is extends ESCGrammarExpr:
+	var _identifer: ESCGrammarExpr
+	var _state: ESCGrammarExpr
+	var _descriptor: ESCToken
+
+
+	func init(identifier: ESCGrammarExpr, state: ESCGrammarExpr, descriptor: ESCToken):
+		_identifer = identifier
+		_state = state
+		_descriptor = descriptor
+
+
+	func get_identifier() -> ESCGrammarExpr:
+		return _identifer
+
+
+	func get_state() -> ESCGrammarExpr:
+		return _state
+
+
+	func get_descriptor() -> ESCToken:
+		return _descriptor
+
+
+	func accept(visitor):
+		return visitor.visit_is_expr(self)

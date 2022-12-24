@@ -117,6 +117,13 @@ func visit_in_inventory_expr(expr: ESCGrammarExprs.InInventory):
 	_resolve_expr(expr.get_identifier())
 
 
+func visit_is_expr(expr: ESCGrammarExprs.Is):
+	_resolve_expr(expr.get_identifier())
+
+	if expr.get_state():
+		_resolve_expr(expr.get_state())
+
+
 func visit_binary_expr(expr: ESCGrammarExprs.Binary):
 	_resolve_expr(expr.get_left())
 	_resolve_expr(expr.get_right())
@@ -145,6 +152,11 @@ func visit_unary_expr(expr: ESCGrammarExprs.Unary):
 
 
 func visit_variable_expr(expr: ESCGrammarExprs.Variable):
+	# If this is an ESCObject reference, we don't need to resolve it as we deal
+	# with this when interpreting, similar to a global.
+	if expr.get_name().get_lexeme().begins_with("$"):
+		return
+
 	if not _scopes.empty() \
 		and _scopes.front().has(expr.get_name().get_lexeme()) \
 		and not _scopes.front()[expr.get_name().get_lexeme()]:
