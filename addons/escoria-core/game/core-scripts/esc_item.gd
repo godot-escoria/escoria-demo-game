@@ -476,7 +476,12 @@ func get_animation_player() -> Node:
 				if child is AnimatedSprite or \
 						child is AnimationPlayer:
 					player_node_path = child.get_path()
-		if not has_node(player_node_path):
+		if player_node_path == "":
+			escoria.logger.warn(
+				self,
+				"Can not find animation_player or animated sprite for %s." % global_id
+			)
+		elif not has_node(player_node_path):
 			escoria.logger.warn(
 				self,
 				"Can not find animation_player node at path %s for %s." % [player_node_path, global_id]
