@@ -1,61 +1,57 @@
 :look
-say player "That button must activate the bridge, but it is broken." [r3_button_broken]
-say player "It should work now." [!r3_button_broken]
-# Demonstrate printing globals as part of print messages
-print "r3_button_broken is currently {r3_button_broken}"
-say player "r3_button_broken status : {r3_button_broken}"
+	if r3_button_broken:
+		say($player, "That button must activate the bridge, but it is broken.")
+	else:
+		say($player, "It should work now.")
+
+	# Demonstrate printing globals as part of print messages
+	print "r3_button_broken is currently " + r3_button_broken
+	say($player, "r3_button_broken status: " + r3_button_broken)
 
 :push
-say player "I must USE this."
+	say($player, "I must USE this.")
 
 
 :use
-# Button is fixed, bridge is open - close the bridge
-> [!r3_button_broken, !r3_bridge_closed]
-	# Set the bridge state to closed. This will trigger the bridge animation.
-	set_state r3_bridge bridge_close 
-	# Make it so the player can cross the whole room
-	enable_terrain bridge_closed
-	set_global r3_bridge_closed true
-	# Make it so the right hand side of the screen is no longer an "item"  you can
-	# look at to be told you can't reach it.
-	set_interactive r3_right_platform false
-	set_interactive r3_r_exit true
-	# We start with the collision polygon on the right door disabled
-	# This lets it act as part of the right platform, which responds
-	# with "I can't reach it" when the player clicks it with the bridge
-	# open.
-	# We use a custom function to enable the collision polygon on the door
-	# to enable it to work as a door once the bridge is closed.
-	
-	#custom r3_r_exit door_enabler enable_door
-	stop
-
-# Button is fixed, bridge is open.
-> [!r3_button_broken, r3_bridge_closed]
-	say player "I don't want to close the bridge."
-
-> [r3_button_broken]
-	say player "The button is broken!"
-	stop
+	# Button is fixed, bridge is open - close the bridge
+	if not r3_button_broken and not r3_bridge_closed:
+		# Set the bridge state to closed. This will trigger the bridge animation.
+		set_state($r3_bridge, "bridge_close")
+		# Make it so the player can cross the whole room
+		enable_terrain("bridge_closed")
+		r3_bridge_closed = true
+		# Make it so the right hand side of the screen is no longer an "item"  you can
+		# look at to be told you can't reach it.
+		set_interactive($r3_right_platform, false)
+		set_interactive($r3_r_exit, true)
+		# We start with the collision polygon on the right door disabled
+		# This lets it act as part of the right platform, which responds
+		# with "I can't reach it" when the player clicks it with the bridge
+		# open.
+		# We use a custom function to enable the collision polygon on the door
+		# to enable it to work as a door once the bridge is closed.
+		custom($r3_r_exit, "door_enabler", "enable_door")
+	elif not r3_button_broken and r3_bridge_closed:
+		# Button is fixed, bridge is open.
+		say($player, "I don't want to close the bridge.")
+	elif r3_button_broken:
+		say($player, "The button is broken!")
 
 :talk
-> [r3_button_broken]
-	# Disable input so that the player can't interrupt this sequence of events
-	accept_input SKIP
-	say player "Please, will you repair yourself?"
-	wait 1
-	# Turn off the button's smoke animation
-	set_state r3_button button_repaired
-	set_global r3_button_broken false
-	wait 1
-	say player "Oh, it worked!" 
-	# Reenable input
-	accept_input ALL
-	stop
-> [!r3_button_broken]
-	say player "I better not talk to it any more, it might break again."
-
+	if r3_button_broken:
+		# Disable input so that the player can't interrupt this sequence of events
+		accept_input("SKIP")
+		say($player, "Please, will you repair yourself?")
+		wait(1)
+		# Turn off the button's smoke animation
+		set_state($r3_button, "button_repaired")
+		r3_button_broken = false
+		wait(1)
+		say($player, "Oh, it worked!")
+		# Reenable input
+		accept_input("ALL")
+	else:
+		say($player, "I better not talk to it any more, it might break again.")
 
 :arrived
-say player "I am there!"
+	say($player, "I am there!")
