@@ -55,6 +55,10 @@ func visit_while_stmt(stmt: ESCGrammarStmts.While):
 	_resolve_stmt(stmt.get_body())
 
 
+func visit_pass_stmt(stmt: ESCGrammarStmts.Pass):
+	pass
+
+
 func visit_var_stmt(stmt: ESCGrammarStmts.Var):
 	_declare(stmt.get_name())
 

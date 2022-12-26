@@ -39,6 +39,7 @@ func _init():
 	_keywords["nil"] = ESCTokenType.TokenType.NIL
 	_keywords["not"] = ESCTokenType.TokenType.NOT
 	_keywords["or"] = ESCTokenType.TokenType.OR
+	_keywords["pass"] = ESCTokenType.TokenType.PASS
 	_keywords["print"] = ESCTokenType.TokenType.PRINT
 	_keywords["true"] = ESCTokenType.TokenType.TRUE
 	_keywords["var"] = ESCTokenType.TokenType.VAR

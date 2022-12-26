@@ -210,6 +210,10 @@ func visit_while_stmt(stmt: ESCGrammarStmts.While):
 	return null
 
 
+func visit_pass_stmt(stmt: ESCGrammarStmts.Pass):
+	pass
+
+
 func visit_var_stmt(stmt: ESCGrammarStmts.Var):
 	var value = null
 

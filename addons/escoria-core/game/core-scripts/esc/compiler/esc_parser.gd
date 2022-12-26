@@ -136,6 +136,9 @@ func _statement():
 	if _match(ESCTokenType.TokenType.WHILE):
 		var stmt = _while_statement()
 		return stmt
+	if _match(ESCTokenType.TokenType.PASS):
+		var stmt = _pass_statement()
+		return stmt
 	if _match(ESCTokenType.TokenType.QUESTION_BANG):
 		var stmt = _dialog_statement()
 		return stmt
@@ -293,6 +296,16 @@ func _while_statement():
 
 	_loop_level -= 1
 
+	return toRet
+
+
+func _pass_statement():
+	var consume = _consume(ESCTokenType.TokenType.NEWLINE, "Expected NEWLINE after pass statement.")
+
+	if consume is ESCParseError:
+		return consume
+
+	var toRet = ESCGrammarStmts.Pass.new()
 	return toRet
 
 
