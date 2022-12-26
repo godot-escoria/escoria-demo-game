@@ -1,5 +1,5 @@
 :trigger_in
-
+	pass
 
 :trigger_out
-set_state r7_alarm_cone_floor_2 camera_triggered
+	set_state($r7_alarm_cone_floor_2, "camera_triggered")

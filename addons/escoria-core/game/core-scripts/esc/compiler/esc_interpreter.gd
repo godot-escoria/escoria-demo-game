@@ -232,6 +232,8 @@ func visit_global_stmt(stmt: ESCGrammarStmts.Global):
 
 	if not _globals.get_values().has(stmt.get_name().get_lexeme()):
 		_globals.define(stmt.get_name().get_lexeme(), value)
+	else:
+		_globals.assign(stmt.get_name(), value)
 
 	return null
 
