@@ -324,6 +324,7 @@ func visit_assign_expr(expr: ESCGrammarExprs.Assign):
 
 	if distance == -1:
 		_globals.assign(expr.get_name(), value)
+		escoria.globals_manager.set_global(expr.get_name().get_lexeme(), value)
 	else:
 		_environment.assign_at(distance, expr.get_name(), value)
 
