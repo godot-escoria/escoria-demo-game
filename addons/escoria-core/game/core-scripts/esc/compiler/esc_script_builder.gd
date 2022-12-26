@@ -22,13 +22,19 @@ func add_event(name: String, flags: Array):
 
 	_script += "\n"
 
+	return self
+
 
 func begin_block():
 	_indent_level += 1
 
+	return self
+
 
 func end_block():
 	_indent_level -= 1
+
+	return self
 
 
 func add_command(name: String, args):
@@ -54,3 +60,5 @@ func add_command(name: String, args):
 	_script += args_string + ")"
 
 	_script += "\n"
+
+	return self

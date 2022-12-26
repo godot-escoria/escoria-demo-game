@@ -3,31 +3,25 @@
 		teleport("player", "r1_r_exit")
 		# Set player look left
 		set_angle("player", 270)
-		#stop
 
 	global dialog_advance = 0
+	global dialog_popup_advance = 0
 
 :ready
 	play_snd("res://game/sfx/contemplation.ogg", _music)
-	var a = 1
-	while (a < 4):
-		say("player", "Loop iteration number " + a)
-		a = a + 1
 
-	var room1_visited = false
+	global room1_visited = false
+
 	if !room1_visited:
-		#set_global(room1_visited, true)
 		room1_visited = true
-		#set_global(dialog_advance, 0)
-		#set_global(dialog_popup_advance, 0)
-		walk_block("player", "r1_destination_point")
+		dialog_advance = 0
+		dialog_popup_advance = 0
+		walk_block($player, "r1_destination_point")
 		wait(2)
-		walk_block("player", "r1_destination_point2")
+		walk_block($player, "r1_destination_point2")
 		wait(2)
-		set_angle("player", 225, 0.2)
+		set_angle($player, 225, 0.2)
 		wait(2)
-		walk_block("player", "r1_destination_point")
+		walk_block($player, "r1_destination_point")
 		wait(1)
-		turn_to("player", "r1_r_exit")
-
-
+		turn_to($player, "r1_r_exit")
