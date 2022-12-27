@@ -35,6 +35,8 @@ func _init(callables: Array, globals: Dictionary):
 	for key in globals.keys():
 		_globals.define(key, globals[key])
 
+	escoria.globals_manager.connect("global_changed", self, "_on_global_changed")
+
 
 func reset() -> void:
 	_locals = {}
@@ -566,5 +568,15 @@ func _check_is_number(value, operator: ESCToken, strict: bool = true):
 
 	return false
 
+
 func _check_at_least_one_string(value_1, value_2):
 	return typeof(value_1) == TYPE_STRING || typeof(value_2) == TYPE_STRING
+
+
+func _on_global_changed(key: String, old_value, new_value) -> void:
+	# Shoehorn this in as an adapter
+	var token: ESCToken = ESCToken.new()
+	token.init(ESCTokenType.TokenType.IDENTIFIER, key, null, -1)
+
+	if _globals.get_values().has(token.get_lexeme()):
+		_globals.assign(token, new_value)
