@@ -27,13 +27,13 @@ const TEXT_TIME_PER_LETTER_MS_DEFAULT_VALUE = 100
 const TEXT_TIME_PER_LETTER_MS_FAST_DEFAULT_VALUE = 25
 
 
-var leftClickActions: Array = [
+var left_click_actions: PoolStringArray = [
 	LEFT_CLICK_ACTION_SPEED_UP,
 	LEFT_CLICK_ACTION_INSTANT_FINISH,
 	LEFT_CLICK_ACTION_NOTHING
 ]
 
-var stopTalkingAnimationOnOptions: Array = [
+var stop_talking_animation_on_options: PoolStringArray = [
 	STOP_TALKING_ANIMATION_ON_END_OF_TEXT,
 	STOP_TALKING_ANIMATION_ON_END_OF_AUDIO
 ]
@@ -136,7 +136,7 @@ func enable_plugin():
 			}
 		)
 
-		var leftClickActionsString: String = ",".join(leftClickActions)
+		var left_click_actions_string: String = left_click_actions.join(",")
 
 		ESCProjectSettingsManager.register_setting(
 			LEFT_CLICK_ACTION,
@@ -144,11 +144,11 @@ func enable_plugin():
 			{
 				"type": TYPE_STRING,
 				"hint": PROPERTY_HINT_ENUM,
-				"hint_string": leftClickActionsString
+				"hint_string": left_click_actions_string
 			}
 		)
 
-		var stopTalkingAnimationOnOptionsString: String = ",".join(stopTalkingAnimationOnOptions)
+		var stop_talking_animation_on_options_string: String = stop_talking_animation_on_options.join(",")
 
 		ESCProjectSettingsManager.register_setting(
 			STOP_TALKING_ANIMATION_ON,
@@ -156,7 +156,7 @@ func enable_plugin():
 			{
 				"type": TYPE_STRING,
 				"hint": PROPERTY_HINT_ENUM,
-				"hint_string": stopTalkingAnimationOnOptionsString
+				"hint_string": stop_talking_animation_on_options_string
 			}
 		)
 
