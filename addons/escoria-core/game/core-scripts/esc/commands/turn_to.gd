@@ -47,15 +47,15 @@ func validate(arguments: Array):
 	if not escoria.object_manager.has(arguments[0]):
 		escoria.logger.error(
 			self,
-			 "[%s]: The object to turn with global id %s was not found."
+			 "[%s]: Cannot turn \"%s\". Object not found."
 				% [get_command_name(), arguments[0]]
 		)
 		return false
 	if not escoria.object_manager.has(arguments[1]):
 		escoria.logger.error(
 			self,
-			"[%s]: The object to turn towards with global id %s was not found."
-					% [get_command_name(), arguments[0]]
+			"[%s]: Cannot turn \"%s\" towards \"%s\". \"%s\" was not found."
+				% [get_command_name(), arguments[0], arguments[1] , arguments[1]]
 		)
 		return false
 	return true
