@@ -86,7 +86,8 @@ export(String) var trigger_out_verb = "trigger_out"
 # If true, the player can interact with this item
 export(bool) var is_interactive = true
 
-# Whether this item is movable
+# Whether this item is movable. A movable item will be scaled with the terrain
+# and be moved with commands like teleport and turn_to.
 export(bool) var is_movable = false
 
 # If true, player orients towards 'interaction_direction' as
@@ -284,15 +285,15 @@ func _ready():
 			if not self.is_connected("body_exited", self, "element_exited"):
 				connect("body_exited", self, "element_exited")
 
-	# If object can be in the inventory, set default_action_inventory to same as
-	# default_action, if default_action_inventory is not set
-	if use_from_inventory_only and default_action_inventory.empty():
-		default_action_inventory = default_action
+		# If object can be in the inventory, set default_action_inventory to same as
+		# default_action, if default_action_inventory is not set
+		if use_from_inventory_only and default_action_inventory.empty():
+			default_action_inventory = default_action
 
-	# Perform a first terrain scaling if we have to.
-	if (!is_exit or dont_apply_terrain_scaling) and is_movable:
-		_movable.last_scale = scale
-		_movable.update_terrain()
+		# Perform a first terrain scaling if we have to.
+		if (not is_exit or dont_apply_terrain_scaling) and is_movable:
+			_movable.last_scale = scale
+			_movable.update_terrain()
 
 
 # Mouse exited happens on any item that mouse cursor exited, even those UNDER
@@ -561,7 +562,13 @@ func element_exited(body):
 #
 # - target: Target node to teleport to
 func teleport(target: Node) -> void:
-	_movable.teleport(target)
+	if is_movable:
+		_movable.teleport(target)
+	else:
+		escoria.logger.warn(
+			self,
+			"Node %s cannot \"teleport\". Its \"is_movable\" parameter is false." %self
+		)
 
 
 # Use the movable node to teleport this item to the target position
@@ -570,7 +577,13 @@ func teleport(target: Node) -> void:
 #
 # - target: Vector2 position to teleport to
 func teleport_to(target: Vector2) -> void:
-	_movable.teleport_to(target)
+	if is_movable:
+		_movable.teleport_to(target)
+	else:
+		escoria.logger.warn(
+			self,
+			"Node %s cannot \"teleport_to\". Its \"is_movable\" parameter is false." %self
+		)	
 
 
 # Use the movable node to make the item walk to the given position
@@ -580,7 +593,13 @@ func teleport_to(target: Vector2) -> void:
 # - pos: Position to walk to
 # - p_walk_context: Walk context to use
 func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
-	_movable.walk_to(pos, p_walk_context)
+	if is_movable:
+		_movable.walk_to(pos, p_walk_context)
+	else:
+		escoria.logger.warn(
+			self,
+			"Node %s cannot use \"walk_to\". Its \"is_movable\" parameter is false." %self
+		)	
 
 
 # Stop the movable node immediately and remain where it is at this moment,
@@ -591,10 +610,16 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 # - to_target: if true, the movable node is teleport directly at its target
 # destination
 func stop_walking_now(to_target: bool = false) -> void:
-	var where: Vector2 = position
-	if to_target:
-		where = _movable.walk_destination
-	_movable.walk_stop(where)
+	if is_movable:
+		var where: Vector2 = position
+		if to_target:
+			where = _movable.walk_destination
+		_movable.walk_stop(where)
+	else:
+		escoria.logger.warn(
+			self,
+			"Node %s cannot use \"stop_walking_now\". Its \"is_movable\" parameter is false." %self
+		)
 
 
 # Set the moving speed
@@ -632,7 +657,13 @@ func get_sprite() -> Node:
 # - deg: The angle degree to set
 # - wait: Wait this amount of seconds until continuing with turning around
 func set_angle(deg: int, wait: float = 0.0):
-	_movable.set_angle(deg, wait)
+	if is_movable:
+		_movable.set_angle(deg, wait)
+	else:
+		escoria.logger.warn(
+			self,
+			"Node %s cannot use \"set_angle\". Its \"is_movable\" parameter is false." %self
+		)	
 
 
 # Turn to face another object
@@ -642,43 +673,80 @@ func set_angle(deg: int, wait: float = 0.0):
 # - deg: The angle degree to set
 # - float Wait this amount of seconds until continuing with turning around
 func turn_to(object: Node, wait: float = 0.0):
-	_movable.turn_to(object, wait)
+	if is_movable:
+		_movable.turn_to(object, wait)
+	else:
+		escoria.logger.warn(
+			self,
+			"Node %s cannot use \"turn_to\". Its \"is_movable\" parameter is false." %self
+		)
 
 
+# Check everything is in place to play talk animations
+func check_talk_possible():
+	if is_movable and (_movable.last_dir < 0 \
+			or _movable.last_dir >= animations.speaks.size()):
+		escoria.logger.warn(
+			self,
+			"Node %s cannot talk. Its \"last_dir\" parameter is invalid : %s." \
+			%[self, _movable.last_dir]
+		)
+		return false
+	if not is_instance_valid(animations):
+		escoria.logger.warn(
+			self,
+			"Node %s cannot talk. Its \"animations\" parameter is empty : %s." \
+			%self
+		)
+		return false
+	if animations.speaks.size() == 0:
+		escoria.logger.warn(
+			self,
+			"Node %s cannot talk. Its \"animations.speaks\" array is empty : %s." \
+			%self
+		)
+		return false
+	if not get_animation_player():
+		escoria.logger.warn(
+			self,
+			"Node %s cannot talk. Its animation player can't be found." \
+			%self
+		)
+		return false
+	return true
+	
+	
 # Play the talking animation
 func start_talking():
-	# Only start the speaking animation if we actually have them setup
-	if animations != null \
-			and animations.speaks.size() > 0 \
-			and get_animation_player() \
-			and _movable.last_dir >= 0 \
-			and _movable.last_dir < animations.speaks.size():
-		var animation_player = get_animation_player()
+	if not check_talk_possible():
+		return
+		
+	var animation_player = get_animation_player()
 
-		if animation_player.is_playing():
-			animation_player.stop()
+	if animation_player.is_playing():
+		animation_player.stop()
 
-		if animations.speaks[_movable.last_dir].mirrored \
-				and not _movable.is_mirrored:
-			_sprite_node.scale.x *= -1
+	if is_movable and animations.speaks[_movable.last_dir].mirrored \
+			and not _movable.is_mirrored:
+		_sprite_node.scale.x *= -1
 
-		animation_player.play(
-			animations.speaks[_movable.last_dir].animation
-		)
+	var animation_direction = _movable.last_dir if is_movable else 0
+	animation_player.play(
+		animations.speaks[animation_direction].animation
+	)
 
 
 # Stop playing the talking animation
 func stop_talking():
-	if animations != null \
-			and animations.speaks.size() > 0 \
-			and get_animation_player() \
-			and _movable.last_dir >= 0 \
-			and _movable.last_dir < animations.speaks.size():
-		var animation_player = get_animation_player()
+	if not check_talk_possible():
+		return
+		
+	var animation_player = get_animation_player()
 
-		if animation_player.is_playing():
-			animation_player.stop()
+	if animation_player.is_playing():
+		animation_player.stop()
 
+	if is_movable:
 		if animations.speaks[_movable.last_dir].mirrored \
 				and not _movable.is_mirrored:
 			_sprite_node.scale.x *= -1
@@ -686,7 +754,10 @@ func stop_talking():
 		animation_player.play(
 			animations.idles[_movable.last_dir].animation
 		)
-
+	else:
+		animation_player.play(
+			animations.idles[0].animation
+		)
 
 # Replay the last idle animation
 func update_idle():
@@ -801,4 +872,4 @@ func _get_identifier_as_key_value() -> String:
 # *Returns*
 # Returns true if the player is currently moving, false otherwise
 func is_moving() -> bool:
-	return _movable.task != ESCMovable.MovableTask.NONE
+	return _movable.task != ESCMovable.MovableTask.NONE if is_movable else false
