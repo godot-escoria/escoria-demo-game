@@ -1255,6 +1255,9 @@ func export_player(scene_name) -> void:
 		new_character.global_id = new_character.name
 
 	new_character.global_id = get_node(NAME_NODE).get_node("global_id").text
+	new_character.tooltip_name = get_node(NAME_NODE).get_node("node_name").text
+	new_character.selectable = true
+	new_character.default_action = "look"
 
 	var animations_resource = ESCAnimationResource.new()
 
@@ -1272,7 +1275,7 @@ func export_player(scene_name) -> void:
 		dirnames = DIR_LIST_4
 	elif get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed:
 		num_directions = 8
-		start_angle_array = [338, 22, 69, 114, 159, 204, 249, 294]
+		start_angle_array = [337, 22, 67, 112, 157, 202, 247, 292]
 		angle_size = 45
 		dirnames = DIR_LIST_8
 	elif get_node(DIR_COUNT_NODE).get_node("two_directions").pressed:
