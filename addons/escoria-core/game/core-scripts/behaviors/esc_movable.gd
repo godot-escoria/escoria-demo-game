@@ -377,7 +377,7 @@ func _get_dir_deg(deg: int, animations: ESCAnimationResource) -> int:
 	if dir == -1:
 		escoria.logger.error(
 			self,
-			"No animation has been configured for angle %s." + str(deg)
+			"No animation has been configured for angle %s." % str(deg)
 		)
 
 	return dir
