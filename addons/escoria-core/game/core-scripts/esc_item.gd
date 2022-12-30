@@ -295,6 +295,18 @@ func _ready():
 			_movable.last_scale = scale
 			_movable.update_terrain()
 
+		# If there is an idle animation defined for this item, it's likely a 
+		# character. Start the idle animation automatically as that's likely
+		# to be what the developer expects.
+		if get_animation_player() and \
+			is_instance_valid(animations) and \
+			animations.idles.size() > 0 and \
+			get_animation_player():
+			var animation_direction = _movable.last_dir if is_movable else 0
+			var animation_player = get_animation_player()
+			animation_player.play(
+				animations.idles[0].animation
+			)
 
 # Mouse exited happens on any item that mouse cursor exited, even those UNDER
 # the top level of overlapping stack.
