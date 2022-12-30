@@ -1394,7 +1394,10 @@ func export_generate_animations(character_node, num_directions) -> void:
 	var loaded_spritesheet: String
 	var largest_frame_dimensions: Vector2 = Vector2.ZERO
 	var sprite_frames = SpriteFrames.new()
-
+	var default_anim_length = 0
+	var default_anim_speed = 1
+	var texture
+	var frame_counter: int = 0
 
 	match num_directions:
 		1: direction_names = DIR_LIST_1
@@ -1423,10 +1426,8 @@ func export_generate_animations(character_node, num_directions) -> void:
 			if metadata[METADATA_IS_MIRROR]:
 				continue
 
-			var texture
 			var rect_location
 			var frame_being_copied = Image.new()
-			var frame_counter: int = 0
 			sprite_frames.add_animation(anim_name)
 
 			if metadata[METADATA_SPRITESHEET_SOURCE_FILE] != loaded_spritesheet:
@@ -1441,7 +1442,10 @@ func export_generate_animations(character_node, num_directions) -> void:
 					largest_frame_dimensions.y = frame_size.y
 			frame_being_copied.create(frame_size.x, frame_size.y, false, source_image.get_format())
 
-#				str(metadata[METADATA_SPRITESHEET_LAST_FRAME]))
+			if animtype == TYPE_IDLE and anim_dir == "down":
+				default_anim_length = metadata[METADATA_SPRITESHEET_LAST_FRAME] - metadata[METADATA_SPRITESHEET_FIRST_FRAME]  + 1
+				default_anim_speed = metadata[METADATA_SPEED]
+
 			for loop in range(metadata[METADATA_SPRITESHEET_LAST_FRAME] - metadata[METADATA_SPRITESHEET_FIRST_FRAME]  + 1):
 				texture = ImageTexture.new()
 				rect_location = calc_frame_coords(metadata[METADATA_SPRITESHEET_FIRST_FRAME] + loop)
@@ -1453,7 +1457,19 @@ func export_generate_animations(character_node, num_directions) -> void:
 				sprite_frames.add_frame (anim_name, texture, frame_counter )
 				sprite_frames.set_animation_speed(anim_name, metadata[METADATA_SPEED])
 				frame_counter += 1
-	sprite_frames.remove_animation("default")
+
+	# Generate default animation. This is used by the object manager to set the
+	# state when the object is registered. If there's no current state, the
+	# default animation will be used.
+	print("Process "+str(default_anim_length)+" frames - default")
+	for loop in range(default_anim_length):
+		texture = ImageTexture.new()
+		texture = sprite_frames.get_frame("idle_down", loop)
+
+		# Remove "filter" flag so it's pixel perfect
+		texture.set_flags(2)
+		sprite_frames.add_frame ("default", texture, loop )
+		sprite_frames.set_animation_speed("default", default_anim_speed)
 
 	var animated_sprite = AnimatedSprite.new()
 
