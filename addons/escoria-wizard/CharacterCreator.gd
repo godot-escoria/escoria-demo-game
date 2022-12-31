@@ -42,6 +42,7 @@ const ANIMATION_SPEED_LABEL = "Animation speed"
 # Make the code more readable by shortening node references using constants
 const NAME_NODE            = "VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer"
 const DIR_COUNT_NODE       = "VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer"
+const CHAR_TYPE_NODE       = "VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype/HBoxContainer"
 const ANIM_TYPE_NODE       = "VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer"
 const MIRROR_NODE          = "VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer3/mirror_checkbox"
 const ARROWS_NODE          = "VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"
@@ -1248,7 +1249,15 @@ func export_player(scene_name) -> void:
 	else:
 		num_directions = 1
 
-	var new_character = ESCPlayer.new()
+	var new_character
+	# NPCs can't be ESCPlayers or the player won't walk up to them when
+	# you interact with them
+	if get_node(CHAR_TYPE_NODE).get_node("npc").pressed:
+		new_character = ESCItem.new()
+		print("ITEM")
+	else:
+		new_character = ESCPlayer.new()
+		new_character.selectable = true
 	new_character.name = get_node(NAME_NODE).get_node("node_name").text
 
 	if get_node(NAME_NODE).get_node("global_id").text == null:
@@ -1256,7 +1265,7 @@ func export_player(scene_name) -> void:
 
 	new_character.global_id = get_node(NAME_NODE).get_node("global_id").text
 	new_character.tooltip_name = get_node(NAME_NODE).get_node("node_name").text
-	new_character.selectable = true
+	
 	new_character.default_action = "look"
 
 	var animations_resource = ESCAnimationResource.new()
@@ -1334,6 +1343,14 @@ func export_player(scene_name) -> void:
 	dialog_position.name = "dialog_position"
 	dialog_position.position.y = -(export_largest_sprite.y * 1.2)
 	new_character.add_child(dialog_position)
+
+	if get_node(CHAR_TYPE_NODE).get_node("npc").pressed:
+	# Add Interaction Position to an NPC
+		var interaction_position = ESCLocation.new()
+		interaction_position.name = "interact_position"
+		interaction_position.position.y = +(export_largest_sprite.y * 1.2)
+		new_character.add_child(interaction_position)
+		interaction_position.set_owner(new_character)
 
 	progress_bar_update("Configuring animations")
 	yield(get_tree(), "idle_frame")
@@ -1697,5 +1714,20 @@ func animation_on_idle_checkbox_pressed() -> void:
 		change_animation_type("idle")
 
 
+# When Auto storage checkbox is checked
 func _on_AutoStoreCheckBox_toggled(button_pressed: bool) -> void:
 	autostore = button_pressed
+
+
+# When player checkbox selected
+func _on_player_pressed():
+# If player button was already selected, don't let it be unselected.
+	get_node(CHAR_TYPE_NODE).get_node("player").pressed = true
+	get_node(CHAR_TYPE_NODE).get_node("npc").pressed = false
+
+
+# When NPC checkbox selected
+func _on_npc_pressed():
+# If npc button was already selected, don't let it be unselected.
+	get_node(CHAR_TYPE_NODE).get_node("npc").pressed = true
+	get_node(CHAR_TYPE_NODE).get_node("player").pressed = false

@@ -231,10 +231,62 @@ margin_right = 357.0
 margin_bottom = 80.0
 text = "Change"
 
-[node name="directions" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer"]
+[node name="charactertype" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer"]
 margin_top = 134.0
 margin_right = 400.0
 margin_bottom = 186.0
+rect_min_size = Vector2( 400, 50 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype"]
+margin_right = 400.0
+margin_bottom = 24.0
+
+[node name="directions_colorrect" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype/MarginContainer"]
+margin_right = 400.0
+margin_bottom = 24.0
+color = Color( 0.215686, 0.478431, 0.235294, 1 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype/MarginContainer"]
+margin_right = 400.0
+margin_bottom = 24.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+
+[node name="direction_number_label" type="Label" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype/MarginContainer/MarginContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 395.0
+margin_bottom = 19.0
+text = "Player or NPC?"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype"]
+margin_top = 28.0
+margin_right = 400.0
+margin_bottom = 52.0
+custom_constants/separation = 50
+alignment = 1
+
+[node name="player" type="CheckBox" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype/HBoxContainer"]
+margin_left = 116.0
+margin_right = 183.0
+margin_bottom = 24.0
+hint_tooltip = "Create a user-controlled character"
+pressed = true
+text = "player"
+
+[node name="npc" type="CheckBox" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype/HBoxContainer"]
+margin_left = 233.0
+margin_right = 284.0
+margin_bottom = 24.0
+hint_tooltip = "Create a non-player character"
+text = "npc"
+
+[node name="directions" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer"]
+margin_top = 190.0
+margin_right = 400.0
+margin_bottom = 242.0
 rect_min_size = Vector2( 400, 50 )
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions"]
@@ -298,9 +350,9 @@ hint_tooltip = "Create 8 directions of animation"
 text = "8"
 
 [node name="animation" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer"]
-margin_top = 190.0
+margin_top = 246.0
 margin_right = 400.0
-margin_bottom = 628.0
+margin_bottom = 684.0
 rect_min_size = Vector2( 400, 200 )
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation"]
@@ -1435,6 +1487,8 @@ you will lose your current character.
 
 [connection signal="text_changed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer/node_name" to="." method="nodename_on_node_name_text_changed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer/character_path_change_button" to="." method="_on_character_path_change_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype/HBoxContainer/player" to="." method="_on_player_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype/HBoxContainer/npc" to="." method="_on_npc_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/one_direction" to="." method="directions_on_one_direction_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/two_directions" to="." method="directions_on_two_directions_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/four_directions" to="." method="directions_on_four_directions_pressed"]
