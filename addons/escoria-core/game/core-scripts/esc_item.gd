@@ -749,7 +749,10 @@ func stop_talking():
 	if is_movable:
 		if animations.speaks[_movable.last_dir].mirrored \
 				and not _movable.is_mirrored:
-			_sprite_node.scale.x *= -1
+			# Allow this function to be called multiple times without setting
+			# the direction incorrectly
+			if _sprite_node.scale.x < 1:
+				_sprite_node.scale.x *= -1
 
 		animation_player.play(
 			animations.idles[_movable.last_dir].animation
