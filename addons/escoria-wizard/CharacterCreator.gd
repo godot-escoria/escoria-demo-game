@@ -1497,6 +1497,8 @@ func export_generate_animations(character_node, num_directions) -> void:
 	else:
 		animated_sprite.animation = "%s_%s" % [TYPE_IDLE, DIR_DOWN]
 	animated_sprite.position.y = -(largest_frame_dimensions.y / 2)	# Place feet at (0,0)
+	animated_sprite.animation = "default"
+	animated_sprite.playing = true
 	character_node.add_child(animated_sprite)
 	# Making the owner "character_node" rather than "get_tree().edited_scene_root" means that
 	# when saving as a packed scene, the child nodes get saved under the parent (as the parent
