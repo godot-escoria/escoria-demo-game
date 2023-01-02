@@ -1254,7 +1254,6 @@ func export_player(scene_name) -> void:
 	# you interact with them
 	if get_node(CHAR_TYPE_NODE).get_node("npc").pressed:
 		new_character = ESCItem.new()
-		print("ITEM")
 	else:
 		new_character = ESCPlayer.new()
 		new_character.selectable = true
@@ -1478,7 +1477,6 @@ func export_generate_animations(character_node, num_directions) -> void:
 	# Generate default animation. This is used by the object manager to set the
 	# state when the object is registered. If there's no current state, the
 	# default animation will be used.
-	print("Process "+str(default_anim_length)+" frames - default")
 	for loop in range(default_anim_length):
 		texture = ImageTexture.new()
 		texture = sprite_frames.get_frame("idle_down", loop)
