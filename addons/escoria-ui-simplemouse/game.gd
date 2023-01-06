@@ -244,7 +244,6 @@ func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
 		[item_global_id, event],
 		true
 	)
-	
 func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
 	mousewheel_action(1)
 
