@@ -876,7 +876,7 @@ debug/crash_message="We're sorry, but the game crashed. Please send us the follo
 %s"
 debug/enable_room_selector=true
 debug/room_selector_room_dir="res://game/rooms"
-ui/game_scene="res://addons/escoria-ui-simplemouse/game.tscn"
+ui/game_scene="res://addons/escoria-ui-9verbs/game.tscn"
 ui/inventory_items_path="res://game/items/inventory"
 ui/default_transition="instant"
 ui/transition_paths=[ "res://addons/escoria-core/game/scenes/transitions/shaders/" ]
