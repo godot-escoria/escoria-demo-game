@@ -662,7 +662,7 @@ func set_angle(deg: int, wait: float = 0.0):
 	else:
 		escoria.logger.warn(
 			self,
-			"Node %s cannot use \"set_angle\". Its \"is_movable\" parameter is false." %self
+			"Node %s cannot use \"set_angle\". Its \"is_movable\" parameter is false." % self
 		)	
 
 
@@ -678,7 +678,7 @@ func turn_to(object: Node, wait: float = 0.0):
 	else:
 		escoria.logger.warn(
 			self,
-			"Node %s cannot use \"turn_to\". Its \"is_movable\" parameter is false." %self
+			"Node %s cannot use \"turn_to\". Its \"is_movable\" parameter is false." % self
 		)
 
 
@@ -688,29 +688,29 @@ func check_talk_possible():
 			or _movable.last_dir >= animations.speaks.size()):
 		escoria.logger.warn(
 			self,
-			"Node %s cannot talk. Its \"last_dir\" parameter is invalid : %s." \
-			%[self, _movable.last_dir]
+			"Node %s cannot talk. Its \"last_dir\" parameter is invalid: %s." \
+			% [self, _movable.last_dir]
 		)
 		return false
 	if not is_instance_valid(animations):
 		escoria.logger.warn(
 			self,
-			"Node %s cannot talk. Its \"animations\" parameter is empty : %s." \
-			%self
+			"Node %s cannot talk. Its \"animations\" parameter is empty." \
+			% self
 		)
 		return false
 	if animations.speaks.size() == 0:
 		escoria.logger.warn(
 			self,
-			"Node %s cannot talk. Its \"animations.speaks\" array is empty : %s." \
-			%self
+			"Node %s cannot talk. Its \"animations.speaks\" array is empty." \
+			% self
 		)
 		return false
 	if not get_animation_player():
 		escoria.logger.warn(
 			self,
 			"Node %s cannot talk. Its animation player can't be found." \
-			%self
+			% self
 		)
 		return false
 	return true
