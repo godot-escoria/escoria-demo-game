@@ -436,16 +436,18 @@ margin_bottom = 200.0
 
 [node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer"]
 margin_right = 110.0
-margin_bottom = 8.0
+margin_bottom = 92.0
 custom_constants/margin_left = 5
 
 [node name="GridContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2"]
 margin_left = 5.0
 margin_right = 110.0
-margin_bottom = 8.0
+margin_bottom = 92.0
 columns = 3
 
 [node name="Container_upleft" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
+margin_right = 28.0
+margin_bottom = 28.0
 
 [node name="set_dir_upleft" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_upleft" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
@@ -468,8 +470,9 @@ texture_pressed = ExtResource( 6 )
 texture_hover = ExtResource( 6 )
 
 [node name="Container_up" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
-margin_left = 4.0
-margin_right = 4.0
+margin_left = 32.0
+margin_right = 60.0
+margin_bottom = 28.0
 
 [node name="set_dir_up" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_up" groups=["direction_buttons"]]
 visible = false
@@ -482,11 +485,11 @@ texture_pressed = ExtResource( 23 )
 texture_hover = ExtResource( 23 )
 
 [node name="unset_dir_up" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_up" groups=["direction_buttons"]]
-visible = false
 margin_right = 28.0
 margin_bottom = 28.0
 hint_tooltip = "Up animation (unconfigured)"
 toggle_mode = true
+pressed = true
 texture_normal = ExtResource( 20 )
 texture_pressed = ExtResource( 18 )
 texture_hover = ExtResource( 18 )
@@ -499,8 +502,9 @@ margin_bottom = 28.0
 rect_min_size = Vector2( 28, 28 )
 
 [node name="Container_upright" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
-margin_left = 8.0
-margin_right = 8.0
+margin_left = 64.0
+margin_right = 92.0
+margin_bottom = 28.0
 
 [node name="unset_dir_upright" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_upright" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
@@ -523,8 +527,9 @@ texture_pressed = ExtResource( 24 )
 texture_hover = ExtResource( 24 )
 
 [node name="Container_left" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
-margin_top = 4.0
-margin_bottom = 4.0
+margin_top = 32.0
+margin_right = 28.0
+margin_bottom = 60.0
 
 [node name="set_dir_left" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_left" groups=["direction_buttons"]]
 visible = false
@@ -537,7 +542,6 @@ texture_pressed = ExtResource( 26 )
 texture_hover = ExtResource( 26 )
 
 [node name="unset_dir_left" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_left" groups=["direction_buttons"]]
-visible = false
 margin_right = 28.0
 margin_bottom = 28.0
 hint_tooltip = "Left animation (unconfigured)"
@@ -554,16 +558,16 @@ margin_bottom = 28.0
 rect_min_size = Vector2( 28, 28 )
 
 [node name="Container_centre" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 4.0
-margin_bottom = 4.0
+margin_left = 32.0
+margin_top = 32.0
+margin_right = 60.0
+margin_bottom = 60.0
 
 [node name="Container_right" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
-margin_left = 8.0
-margin_top = 4.0
-margin_right = 8.0
-margin_bottom = 4.0
+margin_left = 64.0
+margin_top = 32.0
+margin_right = 92.0
+margin_bottom = 60.0
 
 [node name="set_dir_right" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_right" groups=["direction_buttons"]]
 visible = false
@@ -576,7 +580,6 @@ texture_pressed = ExtResource( 4 )
 texture_hover = ExtResource( 4 )
 
 [node name="unset_dir_right" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_right" groups=["direction_buttons"]]
-visible = false
 margin_right = 28.0
 margin_bottom = 28.0
 hint_tooltip = "Right animation (unconfigured)"
@@ -586,8 +589,9 @@ texture_pressed = ExtResource( 2 )
 texture_hover = ExtResource( 2 )
 
 [node name="Container_downleft" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
-margin_top = 8.0
-margin_bottom = 8.0
+margin_top = 64.0
+margin_right = 28.0
+margin_bottom = 92.0
 
 [node name="unset_dir_downleft" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_downleft" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
@@ -610,10 +614,10 @@ texture_pressed = ExtResource( 10 )
 texture_hover = ExtResource( 10 )
 
 [node name="Container_down" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
-margin_left = 4.0
-margin_top = 8.0
-margin_right = 4.0
-margin_bottom = 8.0
+margin_left = 32.0
+margin_top = 64.0
+margin_right = 60.0
+margin_bottom = 92.0
 
 [node name="set_dir_down" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_down" groups=["direction_buttons"]]
 visible = false
@@ -626,7 +630,6 @@ texture_pressed = ExtResource( 5 )
 texture_hover = ExtResource( 5 )
 
 [node name="unset_dir_down" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_down" groups=["direction_buttons"]]
-visible = false
 margin_right = 28.0
 margin_bottom = 28.0
 hint_tooltip = "Down animation (unconfigured)"
@@ -643,10 +646,10 @@ margin_bottom = 28.0
 rect_min_size = Vector2( 28, 28 )
 
 [node name="Container_downright" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
-margin_left = 8.0
-margin_top = 8.0
-margin_right = 8.0
-margin_bottom = 8.0
+margin_left = 64.0
+margin_top = 64.0
+margin_right = 92.0
+margin_bottom = 92.0
 
 [node name="set_dir_downright" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_downright" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
@@ -669,7 +672,7 @@ texture_pressed = ExtResource( 22 )
 texture_hover = ExtResource( 22 )
 
 [node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer"]
-margin_top = 12.0
+margin_top = 96.0
 margin_right = 110.0
 margin_bottom = 161.0
 size_flags_horizontal = 3
@@ -680,7 +683,7 @@ custom_constants/margin_left = 15
 visible = false
 margin_left = 15.0
 margin_right = 110.0
-margin_bottom = 149.0
+margin_bottom = 65.0
 hint_tooltip = "Mirror opposite direction's animation"
 text = "Mirror"
 

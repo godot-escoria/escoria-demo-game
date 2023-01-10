@@ -42,6 +42,7 @@ const ANIMATION_SPEED_LABEL = "Animation speed"
 # Make the code more readable by shortening node references using constants
 const NAME_NODE            = "VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer"
 const DIR_COUNT_NODE       = "VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer"
+const CHAR_TYPE_NODE       = "VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype/HBoxContainer"
 const ANIM_TYPE_NODE       = "VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer"
 const MIRROR_NODE          = "VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer3/mirror_checkbox"
 const ARROWS_NODE          = "VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"
@@ -1248,13 +1249,23 @@ func export_player(scene_name) -> void:
 	else:
 		num_directions = 1
 
-	var new_character = ESCPlayer.new()
+	var new_character
+	# NPCs can't be ESCPlayers or the player won't walk up to them when
+	# you interact with them
+	if get_node(CHAR_TYPE_NODE).get_node("npc").pressed:
+		new_character = ESCItem.new()
+	else:
+		new_character = ESCPlayer.new()
+		new_character.selectable = true
 	new_character.name = get_node(NAME_NODE).get_node("node_name").text
 
 	if get_node(NAME_NODE).get_node("global_id").text == null:
 		new_character.global_id = new_character.name
 
 	new_character.global_id = get_node(NAME_NODE).get_node("global_id").text
+	new_character.tooltip_name = get_node(NAME_NODE).get_node("node_name").text
+	
+	new_character.default_action = "look"
 
 	var animations_resource = ESCAnimationResource.new()
 
@@ -1272,7 +1283,7 @@ func export_player(scene_name) -> void:
 		dirnames = DIR_LIST_4
 	elif get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed:
 		num_directions = 8
-		start_angle_array = [338, 22, 69, 114, 159, 204, 249, 294]
+		start_angle_array = [337, 22, 67, 112, 157, 202, 247, 292]
 		angle_size = 45
 		dirnames = DIR_LIST_8
 	elif get_node(DIR_COUNT_NODE).get_node("two_directions").pressed:
@@ -1331,6 +1342,14 @@ func export_player(scene_name) -> void:
 	dialog_position.name = "dialog_position"
 	dialog_position.position.y = -(export_largest_sprite.y * 1.2)
 	new_character.add_child(dialog_position)
+
+	if get_node(CHAR_TYPE_NODE).get_node("npc").pressed:
+	# Add Interaction Position to an NPC
+		var interaction_position = ESCLocation.new()
+		interaction_position.name = "interact_position"
+		interaction_position.position.y = +(export_largest_sprite.y * 1.2)
+		new_character.add_child(interaction_position)
+		interaction_position.set_owner(new_character)
 
 	progress_bar_update("Configuring animations")
 	yield(get_tree(), "idle_frame")
@@ -1391,7 +1410,10 @@ func export_generate_animations(character_node, num_directions) -> void:
 	var loaded_spritesheet: String
 	var largest_frame_dimensions: Vector2 = Vector2.ZERO
 	var sprite_frames = SpriteFrames.new()
-
+	var default_anim_length = 0
+	var default_anim_speed = 1
+	var texture
+	var frame_counter: int = 0
 
 	match num_directions:
 		1: direction_names = DIR_LIST_1
@@ -1420,10 +1442,8 @@ func export_generate_animations(character_node, num_directions) -> void:
 			if metadata[METADATA_IS_MIRROR]:
 				continue
 
-			var texture
 			var rect_location
 			var frame_being_copied = Image.new()
-			var frame_counter: int = 0
 			sprite_frames.add_animation(anim_name)
 
 			if metadata[METADATA_SPRITESHEET_SOURCE_FILE] != loaded_spritesheet:
@@ -1438,7 +1458,10 @@ func export_generate_animations(character_node, num_directions) -> void:
 					largest_frame_dimensions.y = frame_size.y
 			frame_being_copied.create(frame_size.x, frame_size.y, false, source_image.get_format())
 
-#				str(metadata[METADATA_SPRITESHEET_LAST_FRAME]))
+			if animtype == TYPE_IDLE and anim_dir == "down":
+				default_anim_length = metadata[METADATA_SPRITESHEET_LAST_FRAME] - metadata[METADATA_SPRITESHEET_FIRST_FRAME]  + 1
+				default_anim_speed = metadata[METADATA_SPEED]
+
 			for loop in range(metadata[METADATA_SPRITESHEET_LAST_FRAME] - metadata[METADATA_SPRITESHEET_FIRST_FRAME]  + 1):
 				texture = ImageTexture.new()
 				rect_location = calc_frame_coords(metadata[METADATA_SPRITESHEET_FIRST_FRAME] + loop)
@@ -1450,7 +1473,18 @@ func export_generate_animations(character_node, num_directions) -> void:
 				sprite_frames.add_frame (anim_name, texture, frame_counter )
 				sprite_frames.set_animation_speed(anim_name, metadata[METADATA_SPEED])
 				frame_counter += 1
-	sprite_frames.remove_animation("default")
+
+	# Generate default animation. This is used by the object manager to set the
+	# state when the object is registered. If there's no current state, the
+	# default animation will be used.
+	for loop in range(default_anim_length):
+		texture = ImageTexture.new()
+		texture = sprite_frames.get_frame("idle_down", loop)
+
+		# Remove "filter" flag so it's pixel perfect
+		texture.set_flags(2)
+		sprite_frames.add_frame ("default", texture, loop )
+		sprite_frames.set_animation_speed("default", default_anim_speed)
 
 	var animated_sprite = AnimatedSprite.new()
 
@@ -1461,6 +1495,8 @@ func export_generate_animations(character_node, num_directions) -> void:
 	else:
 		animated_sprite.animation = "%s_%s" % [TYPE_IDLE, DIR_DOWN]
 	animated_sprite.position.y = -(largest_frame_dimensions.y / 2)	# Place feet at (0,0)
+	animated_sprite.animation = "default"
+	animated_sprite.playing = true
 	character_node.add_child(animated_sprite)
 	# Making the owner "character_node" rather than "get_tree().edited_scene_root" means that
 	# when saving as a packed scene, the child nodes get saved under the parent (as the parent
@@ -1678,5 +1714,20 @@ func animation_on_idle_checkbox_pressed() -> void:
 		change_animation_type("idle")
 
 
+# When Auto storage checkbox is checked
 func _on_AutoStoreCheckBox_toggled(button_pressed: bool) -> void:
 	autostore = button_pressed
+
+
+# When player checkbox selected
+func _on_player_pressed():
+# If player button was already selected, don't let it be unselected.
+	get_node(CHAR_TYPE_NODE).get_node("player").pressed = true
+	get_node(CHAR_TYPE_NODE).get_node("npc").pressed = false
+
+
+# When NPC checkbox selected
+func _on_npc_pressed():
+# If npc button was already selected, don't let it be unselected.
+	get_node(CHAR_TYPE_NODE).get_node("npc").pressed = true
+	get_node(CHAR_TYPE_NODE).get_node("player").pressed = false
