@@ -507,7 +507,6 @@ tooltip_name = "Me"
 default_action = "look"
 combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
-selectable = true
 animations = ExtResource( 8 )
 
 [node name="sprite" type="AnimatedSprite" parent="."]

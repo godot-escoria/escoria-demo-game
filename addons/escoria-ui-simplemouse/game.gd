@@ -67,6 +67,14 @@ const ESC_UI_CHANGE_VERB_ACTION = "esc_change_verb"
 # true when a gamepad is connected.
 var _is_gamepad_connected = false
 
+# Tracks the mouse's current position onscreen.
+var _current_mouse_pos = Vector2.ZERO
+
+
+func _ready():
+	$tooltip_layer/tooltip.connect("tooltip_size_updated", self, "update_tooltip_following_mouse_position")
+
+
 func _enter_tree():
 	var room_selector_parent = $CanvasLayer/ui/HBoxContainer/VBoxContainer
 
@@ -93,14 +101,15 @@ func _enter_tree():
 func _exit_tree():
 	escoria.inputs_manager.register_custom_input_handler(null)
 	Input.disconnect("joy_connection_changed", self, "_on_joy_connection_changed")
-	_on_gamepad_disconnected()
+	if _is_gamepad_connected:
+		_on_gamepad_disconnected()
 
 
 func _input(event: InputEvent) -> void:
 	if escoria.get_escoria().is_ready_for_inputs():
 		if event is InputEventMouseMotion:
-			escoria.main.current_scene.game. \
-				update_tooltip_following_mouse_position(event.position)
+			_current_mouse_pos = get_global_mouse_position()
+			update_tooltip_following_mouse_position()
 
 
 # https://github.com/godotengine/godot-demo-projects/blob/3.4-585455e/misc/joypads/joypads.gd
@@ -219,14 +228,22 @@ func element_unfocused() -> void:
 
 
 ## ITEMS ##
-
 func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
+	var target_obj = escoria.object_manager.get_object(item_global_id).node
+
+	# current_action will be empty if an event completes between when you stop
+	# moving the mouse and when you click.
+	if escoria.action_manager.current_action == "":
+		if target_obj is ESCItem:
+				$mouse_layer/verbs_menu.set_by_name(
+					target_obj.default_action
+				)
+
 	escoria.action_manager.do(
 		escoria.action_manager.ACTION.ITEM_LEFT_CLICK,
 		[item_global_id, event],
 		true
 	)
-
 func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
 	mousewheel_action(1)
 
@@ -347,30 +364,29 @@ func get_custom_data() -> Dictionary:
 
 
 # Update the tooltip
-#
-# #### Parameters
-#
-# - p_position: Position of the mouse
-func update_tooltip_following_mouse_position(p_position: Vector2):
-	var corrected_position = p_position
+func update_tooltip_following_mouse_position():
+	var corrected_position = _current_mouse_pos \
+		- Vector2(
+			tooltip_node.rect_size.x / 2,
+			tooltip_node.rect_size.y / 2
+		)
 
 	# clamp TOP
-	if tooltip_node.tooltip_distance_to_edge_top(p_position) <= mouse_tooltip_margin:
+	if tooltip_node.tooltip_distance_to_edge_top(_current_mouse_pos) <= mouse_tooltip_margin:
 		corrected_position.y = mouse_tooltip_margin
 
 	# clamp BOTTOM
-	if tooltip_node.tooltip_distance_to_edge_bottom(p_position + tooltip_node.rect_size) <= mouse_tooltip_margin:
+	if tooltip_node.tooltip_distance_to_edge_bottom(_current_mouse_pos + tooltip_node.rect_size) <= mouse_tooltip_margin:
 		corrected_position.y = escoria.game_size.y - mouse_tooltip_margin - tooltip_node.rect_size.y
 
 	# clamp LEFT
-	if tooltip_node.tooltip_distance_to_edge_left(p_position - tooltip_node.rect_size/2) <= mouse_tooltip_margin:
+	if tooltip_node.tooltip_distance_to_edge_left(_current_mouse_pos - tooltip_node.rect_size/2) <= mouse_tooltip_margin:
 		corrected_position.x = mouse_tooltip_margin
 
 	# clamp RIGHT
-	if tooltip_node.tooltip_distance_to_edge_right(p_position + tooltip_node.rect_size/2) <= mouse_tooltip_margin:
+	if tooltip_node.tooltip_distance_to_edge_right(_current_mouse_pos + tooltip_node.rect_size/2) <= mouse_tooltip_margin:
 		corrected_position.x = escoria.game_size.x - mouse_tooltip_margin - tooltip_node.rect_size.x
 
-	tooltip_node.anchor_right = 0.2
 	tooltip_node.rect_position = corrected_position + tooltip_node.offset_from_cursor
 
 
@@ -378,10 +394,12 @@ func _on_action_finished():
 	$mouse_layer/verbs_menu.clear_tool_texture()
 	$mouse_layer/verbs_menu.iterate_actions_cursor(0)
 
+
 func _on_event_done(_return_code: int, _event_name: String):
 	if _return_code == ESCExecution.RC_OK:
 		escoria.action_manager.clear_current_action()
 		$mouse_layer/verbs_menu.clear_tool_texture()
+		$tooltip_layer/tooltip.set_target("")
 
 
 func _on_MenuButton_pressed() -> void:

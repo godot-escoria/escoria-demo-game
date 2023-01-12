@@ -89,7 +89,6 @@ mouse_filter = 2
 theme = ExtResource( 9 )
 bbcode_text = "[center][color=#000000][/color][/center]"
 fit_content_height = true
-offset_from_cursor = Vector2( 75, 10 )
 
 [node name="mouse_layer" type="CanvasLayer" parent="."]
 layer = 2

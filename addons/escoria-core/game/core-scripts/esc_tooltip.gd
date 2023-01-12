@@ -45,6 +45,9 @@ var waiting_for_target2 = false
 # Node containing the debug white background
 var debug_texturerect_node: TextureRect
 
+# Indicates whether the current room is loaded and ready
+var _room_is_ready: bool = false
+
 
 # Connect relevant functions
 func _ready():
@@ -58,7 +61,8 @@ func _ready():
 # - p_color: the color to set the label
 func set_color(p_color: Color):
 	color = p_color
-	update_tooltip_text()
+	if _room_is_ready:
+		update_tooltip_text()
 
 
 # Enable/disable debug mode of the label. If enabled, the label is displayed
@@ -96,7 +100,8 @@ func set_debug_mode(p_debug_mode: bool):
 func set_target(target: String, needs_second_target: bool = false) -> void:
 	current_target = target
 	waiting_for_target2 = needs_second_target
-	update_tooltip_text()
+	if _room_is_ready:
+		update_tooltip_text()
 
 
 # Set the second target of the label
@@ -105,7 +110,8 @@ func set_target(target: String, needs_second_target: bool = false) -> void:
 # - target2: String the second target to add to the label
 func set_target2(target2: String) -> void:
 	current_target2 = target2
-	update_tooltip_text()
+	if _room_is_ready:
+		update_tooltip_text()
 
 
 # Update the tooltip text.
@@ -121,39 +127,7 @@ func update_size():
 	if not get_tree():
 		# We're not in the tree anymore. Return
 		return
-
-	var rtl_width = rect_size.x
-	var rtl_height = rect_size.y
-	var content_height = get_content_height()
-	var nb_visible_characters = visible_characters
-	var nb_visible_lines = get_visible_line_count()
-
-	# if text is too long and is wrapped
-	var nblines = nb_visible_lines
-	if nblines >= 1:
-		var text_height = get_content_height()
-		if text_height > MAX_HEIGHT:
-			text_height = MAX_HEIGHT
-		if text_height <= MIN_HEIGHT:
-			text_height = MIN_HEIGHT
-
-		var parent_width = rect_size.x
-
-		# first, try to increase width until it goes above max_width
-		while parent_width < MAX_WIDTH && float(text_height) / float(ONE_LINE_HEIGHT) > 1.0:
-			rect_size.x += 1
-			parent_width = rect_size.x
-
-		rect_size.y = text_height
-
-		if rect_size.x >= MAX_WIDTH:
-			rect_size.x = MAX_WIDTH
-
-	## END RECT_SIZE ##
-	anchor_top = 0.0
-	anchor_right = 0.0
-	anchor_bottom = 0.0
-	anchor_left = 0.0
+	rect_size = get_font("normal_font").get_string_size(current_target)
 
 
 # Calculate the offset of the label depending on its position.
@@ -227,9 +201,12 @@ func clear():
 # Called when the room is loaded to setup the label.
 func _on_room_ready():
 	escoria.main.current_scene.game.tooltip_node = self
+	_room_is_ready = true
 
 
 # Called when an action is selected in Escoria
 func _on_action_selected() -> void:
 	current_action = escoria.action_manager.current_action
-	update_tooltip_text()
+
+	if _room_is_ready:
+		update_tooltip_text()
