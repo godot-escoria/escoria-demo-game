@@ -34,13 +34,24 @@ func validate(arguments: Array):
 					% [get_command_name(), arguments[0]]
 		)
 		return false
+
+	if not (escoria.object_manager.get_object(arguments[0]).node as ESCItem):
+		escoria.logger.error(
+			self,
+			"[%s]: invalid first object.  Object to teleport with global id %s must be of or derived from type ESCItem."
+					% [get_command_name(), arguments[0]]
+		)
+		return false
+
 	return true
 
 
 # Run the command
 func run(command_params: Array) -> int:
-	escoria.object_manager.get_object(command_params[0]).node.teleport_to(
-		Vector2(int(command_params[1]), int(command_params[2]))
+	(escoria.object_manager.get_object(command_params[0]).node as ESCItem) \
+		.teleport_to(
+			Vector2(int(command_params[1]), int(command_params[2])
+		)
 	)
 	return ESCExecution.RC_OK
 
