@@ -511,7 +511,7 @@ func get_interact_position() -> Vector2:
 		interact_position = collision.global_position
 		escoria.logger.warn(
 			self,
-			"No ESClocation found to walk to for object " +
+			"No ESCLocation found to walk to for object " +
 			"%s. Middle of collision shape will be used." % global_id)
 
 	if multiple_positions_found:
