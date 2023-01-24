@@ -168,6 +168,7 @@ func run_event_from_script(script: ESCScript, event_name: String):
 
 # Called from escoria autoload to start a new game.
 func new_game():
+	escoria.game_scene.escoria_show_ui()
 	run_event_from_script(escoria.start_script, escoria.event_manager.EVENT_NEW_GAME)
 
 
