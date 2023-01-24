@@ -81,15 +81,15 @@ func run():
 		"Starting dialog."
 	)
 
-	# Since we're changing state, we need to remember and reset it once we're done
-	var previous_state = escoria.current_state
 	escoria.current_state = escoria.GAME_STATE.DIALOG
 
 	if !escoria.dialog_player:
 		escoria.dialog_player = escoria.main.current_scene.get_node(
 			"game/ui/dialog_layer/dialog_player"
 		)
+
 	escoria.dialog_player.start_dialog_choices(self)
+
 	var option = yield(
 		escoria.dialog_player,
 		"option_chosen"
@@ -105,8 +105,12 @@ func run():
 		if rc is GDScriptFunctionState:
 			rc = yield(rc, "completed")
 		if rc != ESCExecution.RC_CANCEL:
+			# We also set this here in case a chosen option doesn't yield, since this block
+			# will return normally and not allow the current_state reset at the bottom of this
+			# method to run.
+			escoria.current_state = escoria.GAME_STATE.DEFAULT
 			return self.run()
 
-	escoria.current_state = previous_state
+	escoria.current_state = escoria.GAME_STATE.DEFAULT
 
 	return rc
