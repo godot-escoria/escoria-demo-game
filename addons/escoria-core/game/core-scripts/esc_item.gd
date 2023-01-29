@@ -442,9 +442,10 @@ func validate_animations(animations_resource: ESCAnimationResource) -> void:
 		else:
 			_validate_animations_property_all_not_null(animations_resource.idles, "idles")
 
-		if animations_resource.speaks.size() != num_dir_angles:
+		var speaks_size = animations_resource.speaks.size()
+		if speaks_size != 0 && speaks_size != num_dir_angles:
 			_scene_warnings.append("%s animation angles specified but %s 'speaks' animation(s) given. [%s]" \
-				% [num_dir_angles, animations_resource.speaks.size(), _get_identifier_as_key_value()])
+				% [num_dir_angles, speaks_size, _get_identifier_as_key_value()])
 		else:
 			_validate_animations_property_all_not_null(animations_resource.speaks, "speaks")
 
