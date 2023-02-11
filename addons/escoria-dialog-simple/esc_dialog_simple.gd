@@ -92,13 +92,13 @@ func choose(dialog_player: Node, dialog: ESCDialog):
 
 # Trigger running the dialogue faster
 func speedup():
-	if _type_player != null:
+	if is_instance_valid(_type_player):
 		_type_player.speedup()
 
 
 # Trigger an instant finish of the current dialog
 func finish():
-	if _type_player != null:
+	if is_instance_valid(_type_player):
 		_type_player.finish()
 
 
@@ -116,5 +116,5 @@ func interrupt():
 
 # To be called if voice audio has finished.
 func voice_audio_finished():
-	if _type_player != null:
+	if is_instance_valid(_type_player):
 		_type_player.voice_audio_finished()
