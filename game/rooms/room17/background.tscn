@@ -3,13 +3,10 @@
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_background.gd" type="Script" id=1]
 
 [node name="background" type="TextureRect"]
-margin_right = 1289.0
-margin_bottom = 555.0
+margin_right = 1280.0
+margin_bottom = 900.0
 mouse_filter = 2
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="l_platform" type="Line2D" parent="."]
 position = Vector2( 2, -266 )

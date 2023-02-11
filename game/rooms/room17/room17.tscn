@@ -54,6 +54,7 @@ esc_script = "res://game/rooms/room17/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -68,6 +69,7 @@ global_id = "r12_l_exit"
 [node name="r_door" parent="Hotspots" instance=ExtResource( 8 )]
 global_id = ""
 esc_script = ""
+combine_when_selected_action_is_in = [  ]
 
 [node name="ESCLocation" type="Position2D" parent="Hotspots/r_door"]
 position = Vector2( 1231.78, 360.624 )

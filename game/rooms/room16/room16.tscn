@@ -106,13 +106,11 @@ align = 1
 position = Vector2( 789, 362 )
 global_id = "worker1"
 esc_script = "res://game/rooms/room16/esc/worker_script.esc"
-combine_when_selected_action_is_in = [  ]
 
 [node name="worker2" parent="." instance=ExtResource( 10 )]
 position = Vector2( 988, 364 )
 global_id = "worker2"
 esc_script = ""
-combine_when_selected_action_is_in = [  ]
 
 [node name="ESCLocation" type="Position2D" parent="."]
 position = Vector2( 45, 513 )

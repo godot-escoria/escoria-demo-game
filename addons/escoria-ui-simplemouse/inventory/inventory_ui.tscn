@@ -61,6 +61,7 @@ anchor_bottom = 1.0
 margin_left = -516.0
 margin_top = -160.0
 rect_min_size = Vector2( 0, 160 )
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource( 2 )
@@ -72,27 +73,27 @@ __meta__ = {
 [node name="MarginContainer" type="MarginContainer" parent="FloatingInventory/panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_right = 20
 custom_constants/margin_top = 20
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ScrollContainer" type="ScrollContainer" parent="FloatingInventory/panel/MarginContainer"]
 margin_left = 20.0
 margin_top = 80.0
 margin_right = 496.0
 margin_bottom = 80.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
 scroll_vertical_enabled = false
 
 [node name="container" type="HBoxContainer" parent="FloatingInventory/panel/MarginContainer/ScrollContainer"]
 margin_right = 476.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 20

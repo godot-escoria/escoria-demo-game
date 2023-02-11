@@ -69,6 +69,8 @@ script = ExtResource( 1 )
 global_id = "room18"
 
 [node name="ESCBackground" type="TextureRect" parent="."]
+margin_right = 1280.0
+margin_bottom = 900.0
 mouse_filter = 2
 script = ExtResource( 2 )
 
