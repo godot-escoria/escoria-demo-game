@@ -35,16 +35,15 @@ __meta__ = {
 anchor_top = 0.9
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 9 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ui"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -54,6 +53,7 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ui/HBoxContainer"]
 margin_right = 58.0
 margin_bottom = 90.0
+mouse_filter = 2
 
 [node name="MenuButton" type="Button" parent="CanvasLayer/ui/HBoxContainer/VBoxContainer"]
 margin_right = 58.0
@@ -64,6 +64,7 @@ text = "Menu"
 margin_left = 62.0
 margin_right = 1186.0
 margin_bottom = 90.0
+mouse_filter = 2
 size_flags_horizontal = 3
 
 [node name="inventory_ui" parent="CanvasLayer/ui/HBoxContainer" instance=ExtResource( 1 )]

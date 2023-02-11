@@ -81,6 +81,13 @@ func _on_inventory_item_gui_input(event: InputEvent):
 					global_id,
 					event
 				)
+			# Make sure fast right clicks in the inventory aren't ignored
+			elif event.button_index == BUTTON_RIGHT:
+					emit_signal(
+						"mouse_right_inventory_item",
+						global_id,
+						event
+					)
 		else:
 			if event.is_pressed():
 				if event.button_index == BUTTON_LEFT:

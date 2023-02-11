@@ -123,6 +123,7 @@ esc_script = "res://game/rooms/room15/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -143,6 +144,7 @@ esc_script = "res://game/rooms/room15/esc/right_exit.esc"
 is_exit = true
 tooltip_name = "Right exit"
 default_action = "walk"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -171,6 +173,7 @@ global_id = "say_long_left"
 esc_script = "res://game/rooms/room15/esc/say_long.esc"
 tooltip_name = "Say long test left"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -188,6 +191,7 @@ global_id = "say_long_right"
 esc_script = "res://game/rooms/room15/esc/say_long.esc"
 tooltip_name = "Say long test right"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -205,6 +209,7 @@ global_id = "switch_animation"
 esc_script = "res://game/rooms/room15/esc/switch_animation.esc"
 tooltip_name = "Switch animation"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 

@@ -48,6 +48,7 @@ esc_script = "res://game/rooms/room12/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -81,6 +82,7 @@ global_id = "r12_transition_default"
 esc_script = "res://game/rooms/room12/esc/transition_default.esc"
 tooltip_name = "transition_default"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -108,6 +110,7 @@ global_id = "r12_transition_black"
 esc_script = "res://game/rooms/room12/esc/transition_black.esc"
 tooltip_name = "transition_black"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -135,6 +138,7 @@ global_id = "r12_transition_white"
 esc_script = "res://game/rooms/room12/esc/transition_white.esc"
 tooltip_name = "transition_white"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -162,6 +166,7 @@ global_id = "r12_transition_shards"
 esc_script = "res://game/rooms/room12/esc/transition_shards.esc"
 tooltip_name = "transition_shards"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -189,6 +194,7 @@ global_id = "r12_transition_centre"
 esc_script = "res://game/rooms/room12/esc/transition_centre.esc"
 tooltip_name = "transition_centre"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -216,6 +222,7 @@ global_id = "r12_transition_blackout"
 esc_script = "res://game/rooms/room12/esc/transition_blackout.esc"
 tooltip_name = "transition_blackout"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 

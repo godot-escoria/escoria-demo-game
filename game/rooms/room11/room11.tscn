@@ -28,6 +28,8 @@ player_scene = ExtResource( 4 )
 camera_limits = [ Rect2( 0, 0, 1280, 555 ) ]
 
 [node name="background" parent="." instance=ExtResource( 2 )]
+margin_right = 1280.0
+margin_bottom = 900.0
 
 [node name="room_label" type="Label" parent="background"]
 margin_right = 92.0
@@ -58,6 +60,7 @@ esc_script = "res://game/rooms/room11/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -71,6 +74,7 @@ script = ExtResource( 5 )
 [node name="r_door" parent="Hotspots" instance=ExtResource( 8 )]
 global_id = "r11_r_exit"
 esc_script = "res://game/rooms/room11/esc/right_exit.esc"
+combine_when_selected_action_is_in = [  ]
 
 [node name="ESCLocation" type="Position2D" parent="Hotspots/r_door"]
 position = Vector2( 1236.02, 366.281 )
@@ -84,6 +88,7 @@ global_id = "r11_circle_tk"
 esc_script = "res://game/rooms/room11/esc/mysterious_circle_tk.esc"
 tooltip_name = "Mysterious circle"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -117,6 +122,7 @@ global_id = "r11_circle_nott"
 esc_script = "res://game/rooms/room11/esc/mysterious_circle_nott.esc"
 tooltip_name = "Mysterious circle"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -150,6 +156,7 @@ global_id = "r11_circle_nohud"
 esc_script = "res://game/rooms/room11/esc/mysterious_circle_nohud.esc"
 tooltip_name = "Mysterious circle"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -183,6 +190,7 @@ global_id = "r11_circle_nosave"
 esc_script = "res://game/rooms/room11/esc/mysterious_circle_nosave.esc"
 tooltip_name = "Mysterious circle"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -216,6 +224,7 @@ global_id = "r11_circle_fadein"
 esc_script = "res://game/rooms/room11/esc/mysterious_circle_fadein.esc"
 tooltip_name = "Mysterious circle"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
