@@ -1,7 +1,7 @@
 extends Resource
 class_name ESCSimpleDialogSettingsManager
 
-const SETTINGS_ROOT="escoria/dialog_simple"
+const SETTINGS_ROOT = "escoria/dialog_simple"
 
 const AVATARS_PATH = "%s/avatars_path" % SETTINGS_ROOT
 const TEXT_TIME_PER_LETTER_MS = "%s/text_time_per_letter_ms" % SETTINGS_ROOT
