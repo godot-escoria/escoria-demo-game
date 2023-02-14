@@ -1,6 +1,5 @@
 # A simple dialog manager for Escoria
 extends ESCDialogManager
-class_name ESCDialogSimple
 
 
 # The currently running player

@@ -239,11 +239,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/scenes/dialogs/esc_dialog_player.gd"
 }, {
-"base": "ESCDialogManager",
-"class": "ESCDialogSimple",
-"language": "GDScript",
-"path": "res://addons/escoria-dialog-simple/esc_dialog_simple.gd"
-}, {
 "base": "Resource",
 "class": "ESCDirectionAngle",
 "language": "GDScript",
@@ -429,6 +424,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/save_data/esc_settings_manager.gd"
 }, {
+"base": "Resource",
+"class": "ESCSimpleDialogSettingsManager",
+"language": "GDScript",
+"path": "res://addons/escoria-dialog-simple/esc_dialog_simple_settings.gd"
+}, {
 "base": "Control",
 "class": "ESCSoundPlayer",
 "language": "GDScript",
@@ -599,11 +599,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/show_menu.gd"
 }, {
-"base": "EditorPlugin",
-"class": "SimpleDialogPlugin",
-"language": "GDScript",
-"path": "res://addons/escoria-dialog-simple/plugin.gd"
-}, {
 "base": "SlideCommand",
 "class": "SlideBlockCommand",
 "language": "GDScript",
@@ -731,7 +726,6 @@ _global_script_class_icons={
 "ESCDialogOption": "",
 "ESCDialogOptionsChooser": "",
 "ESCDialogPlayer": "",
-"ESCDialogSimple": "",
 "ESCDirectionAngle": "",
 "ESCEvent": "",
 "ESCEventManager": "",
@@ -769,6 +763,7 @@ _global_script_class_icons={
 "ESCScheduledEvent": "",
 "ESCScript": "",
 "ESCSettingsManager": "",
+"ESCSimpleDialogSettingsManager": "",
 "ESCSoundPlayer": "",
 "ESCSpeechPlayer": "",
 "ESCStatement": "",
@@ -803,7 +798,6 @@ _global_script_class_icons={
 "SetSpeedCommand": "",
 "SetStateCommand": "",
 "ShowMenuCommand": "",
-"SimpleDialogPlugin": "",
 "SlideBlockCommand": "",
 "SlideCommand": "",
 "SpawnCommand": "",
