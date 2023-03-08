@@ -121,6 +121,12 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 	if room == null or room.global_id.empty():
 		# We duplicate the key so as to not hold a reference when current_room_key
 		# changes.
+		if current_room_key.room_global_id.empty():
+			escoria.logger.error(
+				self,
+				"The current room has no Global ID.\n" +
+				"Please set the ESCRoom's Global ID property."
+			)
 		room_key.room_global_id = current_room_key.room_global_id
 		room_key.room_instance_id = current_room_key.room_instance_id
 
