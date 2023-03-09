@@ -61,6 +61,7 @@ func initialize_options(p_settings):
 	_options.get_node("sound_volume").value = p_settings["sfx_volume"]
 	_options.get_node("music_volume").value = p_settings["music_volume"]
 	_options.get_node("speech_volume").value = p_settings["speech_volume"]
+	_options.get_node("fullscreen").set_pressed_no_signal(p_settings["fullscreen"])
 
 
 # The language was changed
@@ -137,6 +138,22 @@ func _on_speech_volume_value_changed(value: float) -> void:
 		ESCProjectSettingsManager.set_setting(
 			ESCProjectSettingsManager.SPEECH_VOLUME,
 			value
+		)
+		escoria.settings_manager.apply_settings()
+		settings_changed = true
+
+
+# Fullscreen was changed
+#
+# #### Parameters
+# - button_pressed: Fullscreen (true) or windowed (false)
+func _on_fullscreen_toggled(button_pressed: bool) -> void:
+	if ESCProjectSettingsManager.get_setting(
+				ESCProjectSettingsManager.FULLSCREEN
+			) != button_pressed:
+		ESCProjectSettingsManager.set_setting(
+			ESCProjectSettingsManager.FULLSCREEN,
+			button_pressed
 		)
 		escoria.settings_manager.apply_settings()
 		settings_changed = true

@@ -61,6 +61,9 @@ func apply_settings() -> void:
 				)
 			)
 		)
+		OS.window_fullscreen = ESCProjectSettingsManager.get_setting(
+			ESCProjectSettingsManager.FULLSCREEN
+		)
 		TranslationServer.set_locale(
 			ESCProjectSettingsManager.get_setting(
 				ESCProjectSettingsManager.TEXT_LANG

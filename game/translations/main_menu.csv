@@ -11,6 +11,7 @@ GENERAL_VOLUME,General,Général,Allgemein
 MUSIC_VOLUME,Music,Musique,Musik
 SOUND_VOLUME,Sound effects,Effets sonores,Soundeffekte
 SPEECH_VOLUME,Speech,Voix,Sprachausgabe
+FULLSCREEN,Fullscreen,Plein écran,Vollbild
 CANCEL,Cancel,Annuler,Abbrechen
 OK,OK,Ok,Ok
 ENTER_SAVE_NAME,Enter the save name:,Entrez un nom de sauvegarde,Bitte gib einen Namen für das Spiel ein:

@@ -39,7 +39,8 @@ export var speech_volume: float = ProjectSettings.get_setting(
 	"escoria/sound/speech_volume")
 
 # True if game has to be fullscreen
-export var fullscreen: bool = false
+export var fullscreen: bool = ProjectSettings.get_setting(
+	"display/window/size/fullscreen")
 
 # Dictionary containing all user-defined settings.
 export var custom_settings: Dictionary
