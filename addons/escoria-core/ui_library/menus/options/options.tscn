@@ -131,10 +131,22 @@ size_flags_horizontal = 3
 max_value = 1.0
 step = 0.001
 
+[node name="label6" type="Label" parent="VBoxContainer/MarginContainer/options"]
+margin_top = 160.0
+margin_right = 137.0
+margin_bottom = 154.0
+text = "FULLSCREEN"
+
+[node name="fullscreen" type="CheckBox" parent="VBoxContainer/MarginContainer/options"]
+margin_left = 177.0
+margin_top = 160.0
+margin_right = 457.0
+margin_bottom = 155.0
+
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 539.0
 margin_right = 1280.0
-margin_bottom = 559.0
+margin_bottom = 500
 custom_constants/separation = 20
 alignment = 1
 
@@ -160,5 +172,6 @@ __meta__ = {
 [connection signal="value_changed" from="VBoxContainer/MarginContainer/options/sound_volume" to="." method="_on_sound_volume_changed"]
 [connection signal="value_changed" from="VBoxContainer/MarginContainer/options/music_volume" to="." method="_on_music_volume_changed"]
 [connection signal="value_changed" from="VBoxContainer/MarginContainer/options/speech_volume" to="." method="_on_speech_volume_value_changed"]
+[connection signal="toggled" from="VBoxContainer/MarginContainer/options/fullscreen" to="." method="_on_fullscreen_toggled"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/apply" to="." method="_on_apply_pressed"]
