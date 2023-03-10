@@ -66,8 +66,12 @@ func _ready():
 			) != self.filename:
 		is_run_directly = true
 
-	if not Engine.is_editor_hint():
-		escoria.room_manager.init_room(self)
+	if Engine.is_editor_hint():
+		_connect_location_nodes()
+		_validate_start_locations()
+		return
+
+	escoria.room_manager.init_room(self)
 
 
 # Draw the camera limits visualization if enabled
@@ -95,6 +99,56 @@ func _draw():
 
 		draw_string(default_font, Vector2(camera_limits[i].position.x + 30,
 			camera_limits[i].position.y + 30), str(i), camera_limits_colors[i])
+
+
+# Listen for any signals from ESCLocation indicating that the is_start_location attribute
+# has been set/unset in order to update start location validation.
+func _connect_location_nodes() -> void:
+	_connect_location_nodes_in_tree(self)
+
+
+func _connect_location_nodes_in_tree(node: Node):
+	for n in node.get_children():
+		if n is ESCLocation:
+			if not n.is_connected("is_start_location_set", self, "_validate_start_locations"):
+				n.connect("is_start_location_set", self, "_validate_start_locations")
+
+		if n.get_child_count() > 0:
+			_connect_location_nodes_in_tree(n)
+
+
+# Validate that we only have one start location for this scene. If we don't, call it out in the
+# scene tree via configuration warnings.
+#
+# We may have to ignore a node if it's being removed/deleted from the scene tree.
+func _validate_start_locations(to_ignore: ESCLocation = null):
+	var esc_locations: Array = _find_esc_locations(self)
+	var num_start_locations: int = 0
+
+	for n in esc_locations:
+		if n == to_ignore:
+			continue
+
+		num_start_locations += 1 if n.is_start_location else 0
+
+	for n in esc_locations:
+		if n == to_ignore:
+			continue
+
+		n.set_multiple_locations_exist(n.is_start_location and num_start_locations > 1)
+
+
+func _find_esc_locations(node: Node) -> Array:
+	var esc_locations: Array = []
+
+	for n in node.get_children():
+		if n is ESCLocation:
+			esc_locations.append(n)
+
+		if n.get_child_count() > 0:
+			esc_locations.append_array(_find_esc_locations(n))
+
+	return esc_locations
 
 
 # Set the camera limits
