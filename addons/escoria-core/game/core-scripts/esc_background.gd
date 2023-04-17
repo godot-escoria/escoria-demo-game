@@ -73,7 +73,11 @@ func _enter_tree():
 # manager
 func _ready():
 	mouse_filter = MOUSE_FILTER_IGNORE
-
+	
+	# If background has no texture, set its rect size to viewport size
+	if texture == null:
+		rect_size = escoria.game_size
+	
 	if !Engine.is_editor_hint():
 		escoria.inputs_manager.register_background(self)
 
