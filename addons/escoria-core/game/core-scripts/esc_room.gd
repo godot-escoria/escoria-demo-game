@@ -70,6 +70,17 @@ func _ready():
 		_connect_location_nodes()
 		_validate_start_locations()
 		return
+	
+	# If room has no ESCBackground child, add one
+	var found_escbackground: bool = false
+	for child in get_children():
+		if child is ESCBackground:
+			found_escbackground = true
+	if not found_escbackground:
+		var esc_bg = ESCBackground.new()
+		esc_bg.name = "background"
+		add_child(esc_bg)
+		move_child(esc_bg, 0)
 
 	escoria.room_manager.init_room(self)
 
