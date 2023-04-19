@@ -1,4 +1,4 @@
-class_name SimpleDialogPluginConstants
+class_name DialogPluginConstants
 
 
 const MANAGER_CLASS="res://addons/escoria-dialog-simple/esc_dialog_simple.gd"

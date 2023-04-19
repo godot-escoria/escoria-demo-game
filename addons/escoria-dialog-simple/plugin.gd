@@ -18,41 +18,41 @@ func disable_plugin():
 	)
 
 	ESCProjectSettingsManager.remove_setting(
-		SimpleDialogPluginConstants.AVATARS_PATH
+		DialogPluginConstants.AVATARS_PATH
 	)
 
 	ESCProjectSettingsManager.remove_setting(
-		SimpleDialogPluginConstants.TEXT_TIME_PER_LETTER_MS
+		DialogPluginConstants.TEXT_TIME_PER_LETTER_MS
 	)
 
 	ESCProjectSettingsManager.remove_setting(
-		SimpleDialogPluginConstants.TEXT_TIME_PER_LETTER_MS_FAST
+		DialogPluginConstants.TEXT_TIME_PER_LETTER_MS_FAST
 	)
 
 	ESCProjectSettingsManager.remove_setting(
-		SimpleDialogPluginConstants.CLEAR_TEXT_BY_CLICK_ONLY
+		DialogPluginConstants.CLEAR_TEXT_BY_CLICK_ONLY
 	)
 
 	ESCProjectSettingsManager.remove_setting(
-		SimpleDialogPluginConstants.READING_SPEED_IN_WPM
+		DialogPluginConstants.READING_SPEED_IN_WPM
 	)
 
 	ESCProjectSettingsManager.remove_setting(
-		SimpleDialogPluginConstants.LEFT_CLICK_ACTION
+		DialogPluginConstants.LEFT_CLICK_ACTION
 	)
 
 	ESCProjectSettingsManager.remove_setting(
-		SimpleDialogPluginConstants.STOP_TALKING_ANIMATION_ON
+		DialogPluginConstants.STOP_TALKING_ANIMATION_ON
 	)
 
-	EscoriaPlugin.deregister_dialog_manager(SimpleDialogPluginConstants.MANAGER_CLASS)
+	EscoriaPlugin.deregister_dialog_manager(DialogPluginConstants.MANAGER_CLASS)
 
 
 # Add ourselves to the list of dialog managers
 func enable_plugin():
 	print("Enabling plugin Escoria Dialog Simple")
 
-	if EscoriaPlugin.register_dialog_manager(self, SimpleDialogPluginConstants.MANAGER_CLASS):
+	if EscoriaPlugin.register_dialog_manager(self, DialogPluginConstants.MANAGER_CLASS):
 		ESCProjectSettingsManager.register_setting(
 			ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE,
 			"floating",
@@ -62,7 +62,7 @@ func enable_plugin():
 		)
 
 		ESCProjectSettingsManager.register_setting(
-			SimpleDialogPluginConstants.AVATARS_PATH,
+			DialogPluginConstants.AVATARS_PATH,
 			"res://game/dialog_avatars",
 			{
 				"type": TYPE_STRING,
@@ -71,23 +71,23 @@ func enable_plugin():
 		)
 
 		ESCProjectSettingsManager.register_setting(
-			SimpleDialogPluginConstants.TEXT_TIME_PER_LETTER_MS,
-			SimpleDialogPluginConstants.TEXT_TIME_PER_LETTER_MS_DEFAULT_VALUE,
+			DialogPluginConstants.TEXT_TIME_PER_LETTER_MS,
+			DialogPluginConstants.TEXT_TIME_PER_LETTER_MS_DEFAULT_VALUE,
 			{
 				"type": TYPE_REAL
 			}
 		)
 
 		ESCProjectSettingsManager.register_setting(
-			SimpleDialogPluginConstants.TEXT_TIME_PER_LETTER_MS_FAST,
-			SimpleDialogPluginConstants.TEXT_TIME_PER_LETTER_MS_FAST_DEFAULT_VALUE,
+			DialogPluginConstants.TEXT_TIME_PER_LETTER_MS_FAST,
+			DialogPluginConstants.TEXT_TIME_PER_LETTER_MS_FAST_DEFAULT_VALUE,
 			{
 				"type": TYPE_REAL
 			}
 		)
 
 		ESCProjectSettingsManager.register_setting(
-			SimpleDialogPluginConstants.CLEAR_TEXT_BY_CLICK_ONLY,
+			DialogPluginConstants.CLEAR_TEXT_BY_CLICK_ONLY,
 			false,
 			{
 				"type": TYPE_BOOL
@@ -95,19 +95,19 @@ func enable_plugin():
 		)
 
 		ESCProjectSettingsManager.register_setting(
-			SimpleDialogPluginConstants.READING_SPEED_IN_WPM,
-			SimpleDialogPluginConstants.READING_SPEED_IN_WPM_DEFAULT_VALUE,
+			DialogPluginConstants.READING_SPEED_IN_WPM,
+			DialogPluginConstants.READING_SPEED_IN_WPM_DEFAULT_VALUE,
 			{
 				"type": TYPE_INT
 			}
 		)
 
 		var left_click_actions_string: String = \
-				SimpleDialogPluginConstants.left_click_actions.join(",")
+				DialogPluginConstants.left_click_actions.join(",")
 
 		ESCProjectSettingsManager.register_setting(
-			SimpleDialogPluginConstants.LEFT_CLICK_ACTION,
-			SimpleDialogPluginConstants.LEFT_CLICK_ACTION_SPEED_UP,
+			DialogPluginConstants.LEFT_CLICK_ACTION,
+			DialogPluginConstants.LEFT_CLICK_ACTION_SPEED_UP,
 			{
 				"type": TYPE_STRING,
 				"hint": PROPERTY_HINT_ENUM,
@@ -116,11 +116,11 @@ func enable_plugin():
 		)
 
 		var stop_talking_animation_on_options_string: String = \
-				SimpleDialogPluginConstants.stop_talking_animation_on_options.join(",")
+				DialogPluginConstants.stop_talking_animation_on_options.join(",")
 
 		ESCProjectSettingsManager.register_setting(
-			SimpleDialogPluginConstants.STOP_TALKING_ANIMATION_ON,
-			SimpleDialogPluginConstants.STOP_TALKING_ANIMATION_ON_END_OF_AUDIO,
+			DialogPluginConstants.STOP_TALKING_ANIMATION_ON,
+			DialogPluginConstants.STOP_TALKING_ANIMATION_ON_END_OF_AUDIO,
 			{
 				"type": TYPE_STRING,
 				"hint": PROPERTY_HINT_ENUM,

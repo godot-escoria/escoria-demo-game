@@ -124,6 +124,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/scenes/dialogs/state_machine/dialog_interrupt.gd"
 }, {
+"base": "Reference",
+"class": "DialogPluginConstants",
+"language": "GDScript",
+"path": "res://addons/escoria-dialog-simple/constants.gd"
+}, {
 "base": "State",
 "class": "DialogSay",
 "language": "GDScript",
@@ -599,11 +604,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/show_menu.gd"
 }, {
-"base": "Reference",
-"class": "SimpleDialogPluginConstants",
-"language": "GDScript",
-"path": "res://addons/escoria-dialog-simple/constants.gd"
-}, {
 "base": "SlideCommand",
 "class": "SlideBlockCommand",
 "language": "GDScript",
@@ -708,6 +708,7 @@ _global_script_class_icons={
 "DialogFinish": "",
 "DialogIdle": "",
 "DialogInterrupt": "",
+"DialogPluginConstants": "",
 "DialogSay": "",
 "DialogSayFast": "",
 "DialogSayFinish": "",
@@ -803,7 +804,6 @@ _global_script_class_icons={
 "SetSpeedCommand": "",
 "SetStateCommand": "",
 "ShowMenuCommand": "",
-"SimpleDialogPluginConstants": "",
 "SlideBlockCommand": "",
 "SlideCommand": "",
 "SpawnCommand": "",
