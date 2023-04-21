@@ -25,7 +25,6 @@ func _init():
 	escoria.object_manager = ESCObjectManager.new()
 	escoria.command_registry = ESCCommandRegistry.new()
 	escoria.resource_cache = ESCResourceCache.new()
-	escoria.resource_cache.start()
 	escoria.save_manager = ESCSaveManager.new()
 	escoria.inputs_manager = ESCInputsManager.new()
 	escoria.settings_manager = ESCSettingsManager.new()
@@ -45,6 +44,8 @@ func _init():
 
 # Load settings
 func _ready():
+	add_child(escoria.resource_cache)
+
 	_handle_direct_scene_run()
 
 	escoria.settings_manager.load_settings()
