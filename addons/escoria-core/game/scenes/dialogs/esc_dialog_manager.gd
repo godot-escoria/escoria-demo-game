@@ -52,7 +52,8 @@ func say(dialog_player: Node, global_id: String, text: String, type: String):
 # #### Parameters
 # - dialog_player: Node of the dialog player in the UI
 # - dialog: Information about the dialog to display
-func choose(dialog_player: Node, dialog: ESCDialog):
+# - type: The dialog chooser type to use
+func choose(dialog_player: Node, dialog: ESCDialog, type: String):
 	pass
 
 

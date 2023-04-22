@@ -2,7 +2,7 @@
 tool
 extends EditorPlugin
 
-const MANAGER_CLASS="res://addons/escoria-dialog-simple/esc_dialog_simple.gd"
+const MANAGER_CLASS = "res://addons/escoria-dialog-simple/esc_dialog_simple.gd"
 
 const READING_SPEED_IN_WPM_DEFAULT_VALUE = 200
 const TEXT_TIME_PER_LETTER_MS_DEFAULT_VALUE = 100
