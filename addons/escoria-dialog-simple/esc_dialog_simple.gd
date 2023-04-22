@@ -65,10 +65,7 @@ func say(dialog_player: Node, global_id: String, text: String, type: String):
 	_type_player.connect("say_finished", self, "_on_say_finished", [], CONNECT_ONESHOT)
 	_type_player.connect("say_visible", self, "_on_say_visible", [], CONNECT_ONESHOT)
 
-	_dialog_player.add_child(_type_player)
-
 	state_machine._change_state("say")
-#	_type_player.say(global_id, text)
 
 #	yield(_type_player, "say_finished")
 #	if _dialog_player.get_children().has(_type_player):
@@ -77,6 +74,9 @@ func say(dialog_player: Node, global_id: String, text: String, type: String):
 
 
 func do_say(global_id: String, text: String) -> void:
+	# Only add_child here in order to prevent _type_player from running its _process method
+	# before we're ready.
+	_dialog_player.add_child(_type_player)
 	_type_player.say(global_id, text)
 
 
