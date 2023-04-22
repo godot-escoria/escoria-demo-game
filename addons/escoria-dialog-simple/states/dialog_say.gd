@@ -1,10 +1,6 @@
 extends State
 class_name DialogSay
 
-# Since the type of dialog manager can potentially be different for each `say`
-# command, we need to notify the other states of this fact.
-signal dialog_manager_set(dialog_manager)
-
 
 # A regular expression that separates the translation key from the text
 const KEYTEXT_REGEX = "^((?<key>[^:]+):)?\"(?<text>.+)\""

@@ -37,6 +37,11 @@ func _ready():
 # - type: UI to use for the dialog
 # - text: Text to say
 func say(character: String, type: String, text: String) -> void:
+	if type == "":
+		type = ESCProjectSettingsManager.get_setting(
+			ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE
+		)
+
 	_determine_say_dialog_manager(type)
 
 	if not is_a_parent_of(_say_dialog_manager):
@@ -80,11 +85,6 @@ func interrupt() -> void:
 func _determine_say_dialog_manager(_type: String) -> void:
 	var dialog_manager: ESCDialogManager = null
 
-	if _type == "":
-		_type = ESCProjectSettingsManager.get_setting(
-			ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE
-		)
-
 	for _manager_class in ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.DIALOG_MANAGERS
 	):
@@ -111,11 +111,6 @@ func _determine_say_dialog_manager(_type: String) -> void:
 # - _type: The type the dialog manager should support, e.g. "simple"
 func _determine_choose_dialog_manager(_type: String) -> void:
 	var dialog_manager: ESCDialogManager = null
-
-	if _type == "":
-		_type = ESCProjectSettingsManager.get_setting(
-			ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE
-		)
 
 	for _manager_class in ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.DIALOG_MANAGERS
