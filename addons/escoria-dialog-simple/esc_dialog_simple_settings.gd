@@ -1,5 +1,5 @@
 extends Resource
-class_name ESCSimpleDialogSettingsManager
+class_name SimpleDialogSettings
 
 const SETTINGS_ROOT = "escoria/dialog_simple"
 

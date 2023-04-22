@@ -1,5 +1,4 @@
-extends State
-class_name DialogIdle
+extends "res://addons/escoria-dialog-simple/patterns/state_machine/state.gd"
 
 
 func enter():
