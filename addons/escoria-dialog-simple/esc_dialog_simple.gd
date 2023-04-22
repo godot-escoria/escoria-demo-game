@@ -2,11 +2,21 @@
 extends ESCDialogManager
 
 
+# State machine that governs how the dialog manager behaves
+var state_machine = preload("res://addons/escoria-dialog-simple/esc_dialog_simple_state_machine.gd").new()
+
 # The currently running player
 var _type_player: Node = null
 
 # Reference to the dialog player
 var _dialog_player: Node = null
+
+# Basic state tracking
+var _is_saying: bool = false
+
+
+func _ready() -> void:
+	add_child(state_machine)
 
 
 # Check whether a specific type is supported by the
@@ -41,6 +51,8 @@ func has_chooser_type(type: String) -> bool:
 func say(dialog_player: Node, global_id: String, text: String, type: String):
 	_dialog_player = dialog_player
 
+	_initialize_say_states(global_id, text, type)
+
 	if type == "floating":
 		_type_player = preload(\
 			"res://addons/escoria-dialog-simple/types/floating.tscn"\
@@ -54,16 +66,33 @@ func say(dialog_player: Node, global_id: String, text: String, type: String):
 	_type_player.connect("say_visible", self, "_on_say_visible", [], CONNECT_ONESHOT)
 
 	_dialog_player.add_child(_type_player)
-	_type_player.say(global_id, text)
+
+	state_machine._change_state("say")
+#	_type_player.say(global_id, text)
+
 #	yield(_type_player, "say_finished")
 #	if _dialog_player.get_children().has(_type_player):
 #		_dialog_player.remove_child(_type_player)
 #		emit_signal("say_finished")
 
 
+func do_say(global_id: String, text: String) -> void:
+	_type_player.say(global_id, text)
+
+
+func _initialize_say_states(global_id: String, text: String, type: String) -> void:
+	state_machine.states_map["say"].initialize(self, global_id, text, type)
+	state_machine.states_map["finish"].initialize(_dialog_player)
+	state_machine.states_map["say_fast"].initialize(self)
+	state_machine.states_map["say_finish"].initialize(self)
+	state_machine.states_map["visible"].initialize(self)
+	state_machine.states_map["interrupt"].initialize(self)	
+
+
 func _on_say_finished():
 	if _dialog_player.get_children().has(_type_player):
 		_dialog_player.remove_child(_type_player)
+		_is_saying = false
 		emit_signal("say_finished")
 
 
@@ -77,13 +106,26 @@ func _on_say_visible():
 # #### Parameters
 # - dialog_player: Node of the dialog player in the UI
 # - dialog: Information about the dialog to display
-func choose(dialog_player: Node, dialog: ESCDialog):
-	var chooser = preload(\
-		"res://addons/escoria-dialog-simple/chooser/simple.tscn"\
-	).instance()
+# - type: The dialog chooser type to use
+func choose(dialog_player: Node, dialog: ESCDialog, type: String):
+	_dialog_player = dialog_player
+
+	state_machine.states_map["choices"].initialize(dialog_player, self, dialog, type)
+	state_machine._change_state("choices")
+
+
+func do_choose(dialog_player: Node, dialog: ESCDialog, type: String = "simple"):
+	var chooser
+
+	if type == "simple" or type == "":
+		chooser = preload(\
+			"res://addons/escoria-dialog-simple/chooser/simple.tscn"\
+		).instance()
+
 	dialog_player.add_child(chooser)
 	chooser.set_dialog(dialog)
 	chooser.show_chooser()
+
 	var option = yield(chooser, "option_chosen")
 	dialog_player.remove_child(chooser)
 	emit_signal("option_chosen", option)

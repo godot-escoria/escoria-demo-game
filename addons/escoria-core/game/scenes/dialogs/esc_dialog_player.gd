@@ -1,5 +1,5 @@
 # Escoria dialog player
-extends StateMachine
+extends Node
 class_name ESCDialogPlayer
 
 
@@ -14,8 +14,11 @@ signal option_chosen(option)
 signal say_finished
 
 
-# Reference to the currently playing dialog manager
-var _dialog_manager: ESCDialogManager = null
+# Reference to the currently playing "say" dialog manager
+var _say_dialog_manager: ESCDialogManager = null
+
+# Reference to the currently playing "choose" dialog manager
+var _choose_dialog_manager: ESCDialogManager = null
 
 
 # Register the dialog player and load the dialog resources
@@ -24,39 +27,6 @@ func _ready():
 		return
 
 	escoria.dialog_player = self
-
-	_create_states()
-	_add_states_to_machine()
-
-	states_map["say"].connect("dialog_manager_set", self, "_on_dialog_manager_set")
-
-	current_state_name = "idle"
-	START_STATE = states_map[current_state_name]
-
-	initialize(START_STATE)
-
-
-# Creates the states for this state machine.
-func _create_states() -> void:
-	states_map = {
-		"idle": DialogIdle.new(),
-		"say": DialogSay.new(),
-		"say_fast": DialogSayFast.new(),
-		"say_finish": DialogSayFinish.new(),
-		"visible": DialogVisible.new(),
-		"finish": DialogFinish.new(),
-		"interrupt": DialogInterrupt.new(),
-		"choices": DialogChoices.new(),
-	}
-
-	# This state needs a reference to this class.
-	states_map["finish"].initialize(self)
-
-
-# Adds any created states into the state machine as children.
-func _add_states_to_machine() -> void:
-	for key in states_map:
-		add_child(states_map[key])
 
 
 # Make a character say some text
@@ -67,18 +37,14 @@ func _add_states_to_machine() -> void:
 # - type: UI to use for the dialog
 # - text: Text to say
 func say(character: String, type: String, text: String) -> void:
-	states_map["say"].initialize(character, type, text)
-	_change_state("say")
+	_determine_say_dialog_manager(type)
 
+	if not is_a_parent_of(_say_dialog_manager):
+		#remove_child(_say_dialog_manager)
 
-# Called when a dialogue line is to be sped up.
-func speedup() -> void:
-	_change_state("say_fast")
+		add_child(_say_dialog_manager)
 
-
-# Called when a dialogue line is to be finished immediately.
-func finish() -> void:
-	_change_state("say_finish")
+	_say_dialog_manager.say(self, character, text, type)
 
 
 # Display a list of choices
@@ -86,22 +52,85 @@ func finish() -> void:
 # #### Parameters
 #
 # - dialog: The dialog to start
+# - type: The dialog chooser type to use (default: "simple")
 func start_dialog_choices(dialog: ESCDialog, type: String = "simple"):
-	states_map["choices"].initialize(self, dialog, type)
-	_change_state("choices")
+	#states_map["choices"].initialize(self, dialog, type)
+	#_change_state("choices")
+	_determine_choose_dialog_manager(type)
+
+	if not is_a_parent_of(_choose_dialog_manager):
+		#remove_child(_choose_dialog_manager)
+
+		add_child(_choose_dialog_manager)
+
+	_choose_dialog_manager.choose(self, dialog, type)
 
 
 # Interrupt the currently running dialog
 func interrupt() -> void:
-	_change_state("interrupt")
+	if is_instance_valid(_say_dialog_manager):
+		_say_dialog_manager.interrupt()
 
 
-# Since the dialog manager is determined when a `say` command is performed and
-# other states need to know which one was picked, we notify the necessary states
-# via this method.
-func _on_dialog_manager_set(dialog_manager: ESCDialogManager) -> void:
-	_dialog_manager = dialog_manager
-	states_map["say_fast"].initialize(dialog_manager)
-	states_map["say_finish"].initialize(dialog_manager)
-	states_map["visible"].initialize(dialog_manager)
-	states_map["interrupt"].initialize(dialog_manager)
+# Loads the first dialog manager that supports the specified "say" type; otherwise,
+# the engine throws an error and stops.
+#
+# #### Parameters
+# - _type: The type the dialog manager should support, e.g. "floating"
+func _determine_say_dialog_manager(_type: String) -> void:
+	var dialog_manager: ESCDialogManager = null
+
+	if _type == "":
+		_type = ESCProjectSettingsManager.get_setting(
+			ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE
+		)
+
+	for _manager_class in ESCProjectSettingsManager.get_setting(
+		ESCProjectSettingsManager.DIALOG_MANAGERS
+	):
+		if ResourceLoader.exists(_manager_class):
+			var _manager: ESCDialogManager = load(_manager_class).new()
+			if _manager.has_type(_type):
+				dialog_manager = _manager
+			else:
+				dialog_manager = null
+
+	if not is_instance_valid(dialog_manager):
+		escoria.logger.error(
+			self,
+			"No dialog manager called '%s' configured." % _type
+		)
+
+	_say_dialog_manager = dialog_manager
+
+
+# Loads the first dialog manager that supports the specified "choose" type; otherwise,
+# the engine throws an error and stops.
+#
+# #### Parameters
+# - _type: The type the dialog manager should support, e.g. "simple"
+func _determine_choose_dialog_manager(_type: String) -> void:
+	var dialog_manager: ESCDialogManager = null
+
+	if _type == "":
+		_type = ESCProjectSettingsManager.get_setting(
+			ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE
+		)
+
+	for _manager_class in ESCProjectSettingsManager.get_setting(
+		ESCProjectSettingsManager.DIALOG_MANAGERS
+	):
+		if ResourceLoader.exists(_manager_class):
+			var _manager: ESCDialogManager = load(_manager_class).new()
+			if _manager.has_chooser_type(_type):
+				dialog_manager = _manager
+			else:
+				dialog_manager = null
+
+	if not is_instance_valid(dialog_manager):
+		escoria.logger.error(
+			self,
+			"No dialog manager called '%s' configured." % _type
+		)
+
+	_choose_dialog_manager = dialog_manager
