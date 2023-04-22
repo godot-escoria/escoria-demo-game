@@ -44,10 +44,10 @@ func say(character: String, type: String, text: String) -> void:
 
 	_determine_say_dialog_manager(type)
 
-	if not is_a_parent_of(_say_dialog_manager):
-		#remove_child(_say_dialog_manager)
+	if is_a_parent_of(_say_dialog_manager):
+		remove_child(_say_dialog_manager)
 
-		add_child(_say_dialog_manager)
+	add_child(_say_dialog_manager)
 
 	_say_dialog_manager.say(self, character, text, type)
 
@@ -59,14 +59,12 @@ func say(character: String, type: String, text: String) -> void:
 # - dialog: The dialog to start
 # - type: The dialog chooser type to use (default: "simple")
 func start_dialog_choices(dialog: ESCDialog, type: String = "simple"):
-	#states_map["choices"].initialize(self, dialog, type)
-	#_change_state("choices")
 	_determine_choose_dialog_manager(type)
 
-	if not is_a_parent_of(_choose_dialog_manager):
-		#remove_child(_choose_dialog_manager)
+	if is_a_parent_of(_choose_dialog_manager):
+		remove_child(_choose_dialog_manager)
 
-		add_child(_choose_dialog_manager)
+	add_child(_choose_dialog_manager)
 
 	_choose_dialog_manager.choose(self, dialog, type)
 
@@ -81,8 +79,8 @@ func interrupt() -> void:
 # the engine throws an error and stops.
 #
 # #### Parameters
-# - _type: The type the dialog manager should support, e.g. "floating"
-func _determine_say_dialog_manager(_type: String) -> void:
+# - type: The type the dialog manager should support, e.g. "floating"
+func _determine_say_dialog_manager(type: String) -> void:
 	var dialog_manager: ESCDialogManager = null
 
 	for _manager_class in ESCProjectSettingsManager.get_setting(
@@ -90,7 +88,7 @@ func _determine_say_dialog_manager(_type: String) -> void:
 	):
 		if ResourceLoader.exists(_manager_class):
 			var _manager: ESCDialogManager = load(_manager_class).new()
-			if _manager.has_type(_type):
+			if _manager.has_type(type):
 				dialog_manager = _manager
 			else:
 				dialog_manager = null
@@ -98,7 +96,7 @@ func _determine_say_dialog_manager(_type: String) -> void:
 	if not is_instance_valid(dialog_manager):
 		escoria.logger.error(
 			self,
-			"No dialog manager called '%s' configured." % _type
+			"No dialog manager called '%s' configured." % type
 		)
 
 	_say_dialog_manager = dialog_manager
@@ -108,8 +106,8 @@ func _determine_say_dialog_manager(_type: String) -> void:
 # the engine throws an error and stops.
 #
 # #### Parameters
-# - _type: The type the dialog manager should support, e.g. "simple"
-func _determine_choose_dialog_manager(_type: String) -> void:
+# - type: The type the dialog manager should support, e.g. "simple"
+func _determine_choose_dialog_manager(type: String) -> void:
 	var dialog_manager: ESCDialogManager = null
 
 	for _manager_class in ESCProjectSettingsManager.get_setting(
@@ -117,7 +115,7 @@ func _determine_choose_dialog_manager(_type: String) -> void:
 	):
 		if ResourceLoader.exists(_manager_class):
 			var _manager: ESCDialogManager = load(_manager_class).new()
-			if _manager.has_chooser_type(_type):
+			if _manager.has_chooser_type(type):
 				dialog_manager = _manager
 			else:
 				dialog_manager = null
@@ -125,7 +123,7 @@ func _determine_choose_dialog_manager(_type: String) -> void:
 	if not is_instance_valid(dialog_manager):
 		escoria.logger.error(
 			self,
-			"No dialog manager called '%s' configured." % _type
+			"No dialog manager called '%s' configured." % type
 		)
 
 	_choose_dialog_manager = dialog_manager
