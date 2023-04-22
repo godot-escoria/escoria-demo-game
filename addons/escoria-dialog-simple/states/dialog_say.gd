@@ -1,5 +1,4 @@
-extends State
-class_name DialogSay
+extends "res://addons/escoria-dialog-simple/patterns/state_machine/state.gd"
 
 
 # A regular expression that separates the translation key from the text
@@ -37,7 +36,7 @@ func initialize(dialog_manager: ESCDialogManager, character: String, text: Strin
 	_text = text
 	_type = type
 	_stop_talking_animation_on_option = \
-		ESCProjectSettingsManager.get_setting(ESCSimpleDialogSettingsManager.STOP_TALKING_ANIMATION_ON)
+		ESCProjectSettingsManager.get_setting(SimpleDialogSettings.STOP_TALKING_ANIMATION_ON)
 
 
 func handle_input(_event):
@@ -46,20 +45,20 @@ func handle_input(_event):
 			escoria.inputs_manager.INPUT_NONE and \
 			_dialog_manager != null:
 
-			var left_click_action = ESCProjectSettingsManager.get_setting(ESCSimpleDialogSettingsManager.LEFT_CLICK_ACTION)
+			var left_click_action = ESCProjectSettingsManager.get_setting(SimpleDialogSettings.LEFT_CLICK_ACTION)
 
 			_handle_left_click_action(left_click_action)
 
 
 func _handle_left_click_action(left_click_action: String) -> void:
 	match left_click_action:
-		ESCSimpleDialogSettingsManager.LEFT_CLICK_ACTION_SPEED_UP:
+		SimpleDialogSettings.LEFT_CLICK_ACTION_SPEED_UP:
 			if _dialog_manager.is_connected("say_visible", self, "_on_say_visible"):
 				_dialog_manager.disconnect("say_visible", self, "_on_say_visible")
 
 			escoria.logger.trace(self, "Dialog State Machine: 'say' -> 'say_fast'")
 			emit_signal("finished", "say_fast")
-		ESCSimpleDialogSettingsManager.LEFT_CLICK_ACTION_INSTANT_FINISH:
+		SimpleDialogSettings.LEFT_CLICK_ACTION_INSTANT_FINISH:
 			if _dialog_manager.is_connected("say_visible", self, "_on_say_visible"):
 				_dialog_manager.disconnect("say_visible", self, "_on_say_visible")
 
@@ -101,7 +100,7 @@ func enter():
 				 as ESCSpeechPlayer
 			).set_state(_speech_resource)
 
-			if _stop_talking_animation_on_option == ESCSimpleDialogSettingsManager.STOP_TALKING_ANIMATION_ON_END_OF_AUDIO:
+			if _stop_talking_animation_on_option == SimpleDialogSettings.STOP_TALKING_ANIMATION_ON_END_OF_AUDIO:
 				(
 					escoria.object_manager.get_object(escoria.object_manager.SPEECH).node\
 					 as ESCSpeechPlayer

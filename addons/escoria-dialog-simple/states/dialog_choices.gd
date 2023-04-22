@@ -1,5 +1,4 @@
-extends State
-class_name DialogChoices
+extends "res://addons/escoria-dialog-simple/patterns/state_machine/state.gd"
 
 
 # The owning dialog player.

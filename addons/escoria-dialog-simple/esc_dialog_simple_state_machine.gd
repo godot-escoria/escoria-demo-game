@@ -14,14 +14,14 @@ func _init():
 # Creates the states for this state machine.
 func _create_states() -> void:
 	states_map = {
-		"idle": DialogIdle.new(),
-		"say": DialogSay.new(),
-		"say_fast": DialogSayFast.new(),
-		"say_finish": DialogSayFinish.new(),
-		"visible": DialogVisible.new(),
-		"finish": DialogFinish.new(),
-		"interrupt": DialogInterrupt.new(),
-		"choices": DialogChoices.new(),
+		"idle": preload("res://addons/escoria-dialog-simple/states/dialog_idle.gd").new(),
+		"say":  preload("res://addons/escoria-dialog-simple/states/dialog_say.gd").new(),
+		"say_fast":  preload("res://addons/escoria-dialog-simple/states/dialog_say_fast.gd").new(),
+		"say_finish":  preload("res://addons/escoria-dialog-simple/states/dialog_say_finish.gd").new(),
+		"visible":  preload("res://addons/escoria-dialog-simple/states/dialog_visible.gd").new(),
+		"finish":  preload("res://addons/escoria-dialog-simple/states/dialog_finish.gd").new(),
+		"interrupt":  preload("res://addons/escoria-dialog-simple/states/dialog_interrupt.gd").new(),
+		"choices":  preload("res://addons/escoria-dialog-simple/states/dialog_choices.gd").new(),
 	}
 
 

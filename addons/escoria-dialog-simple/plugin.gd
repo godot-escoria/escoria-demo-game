@@ -10,14 +10,14 @@ const TEXT_TIME_PER_LETTER_MS_FAST_DEFAULT_VALUE = 25
 
 
 var left_click_actions: PoolStringArray = [
-	ESCProjectSettingsManager.LEFT_CLICK_ACTION_SPEED_UP,
-	ESCProjectSettingsManager.LEFT_CLICK_ACTION_INSTANT_FINISH,
-	ESCProjectSettingsManager.LEFT_CLICK_ACTION_NOTHING
+	SimpleDialogSettings.LEFT_CLICK_ACTION_SPEED_UP,
+	SimpleDialogSettings.LEFT_CLICK_ACTION_INSTANT_FINISH,
+	SimpleDialogSettings.LEFT_CLICK_ACTION_NOTHING
 ]
 
 var stop_talking_animation_on_options: PoolStringArray = [
-	ESCProjectSettingsManager.STOP_TALKING_ANIMATION_ON_END_OF_TEXT,
-	ESCProjectSettingsManager.STOP_TALKING_ANIMATION_ON_END_OF_AUDIO
+	SimpleDialogSettings.STOP_TALKING_ANIMATION_ON_END_OF_TEXT,
+	SimpleDialogSettings.STOP_TALKING_ANIMATION_ON_END_OF_AUDIO
 ]
 
 
@@ -34,31 +34,31 @@ func disable_plugin():
 	)
 
 	ESCProjectSettingsManager.remove_setting(
-		ESCSimpleDialogSettingsManager.AVATARS_PATH
+		SimpleDialogSettings.AVATARS_PATH
 	)
 
 	ESCProjectSettingsManager.remove_setting(
-		ESCSimpleDialogSettingsManager.TEXT_TIME_PER_LETTER_MS
+		SimpleDialogSettings.TEXT_TIME_PER_LETTER_MS
 	)
 
 	ESCProjectSettingsManager.remove_setting(
-		ESCSimpleDialogSettingsManager.TEXT_TIME_PER_LETTER_MS_FAST
+		SimpleDialogSettings.TEXT_TIME_PER_LETTER_MS_FAST
 	)
 
 	ESCProjectSettingsManager.remove_setting(
-		ESCSimpleDialogSettingsManager.CLEAR_TEXT_BY_CLICK_ONLY
+		SimpleDialogSettings.CLEAR_TEXT_BY_CLICK_ONLY
 	)
 
 	ESCProjectSettingsManager.remove_setting(
-		ESCSimpleDialogSettingsManager.READING_SPEED_IN_WPM
+		SimpleDialogSettings.READING_SPEED_IN_WPM
 	)
 
 	ESCProjectSettingsManager.remove_setting(
-		ESCSimpleDialogSettingsManager.LEFT_CLICK_ACTION
+		SimpleDialogSettings.LEFT_CLICK_ACTION
 	)
 
 	ESCProjectSettingsManager.remove_setting(
-		ESCSimpleDialogSettingsManager.STOP_TALKING_ANIMATION_ON
+		SimpleDialogSettings.STOP_TALKING_ANIMATION_ON
 	)
 
 	EscoriaPlugin.deregister_dialog_manager(MANAGER_CLASS)
@@ -78,7 +78,7 @@ func enable_plugin():
 		)
 
 		ESCProjectSettingsManager.register_setting(
-			ESCSimpleDialogSettingsManager.AVATARS_PATH,
+			SimpleDialogSettings.AVATARS_PATH,
 			"res://game/dialog_avatars",
 			{
 				"type": TYPE_STRING,
@@ -87,7 +87,7 @@ func enable_plugin():
 		)
 
 		ESCProjectSettingsManager.register_setting(
-			ESCSimpleDialogSettingsManager.TEXT_TIME_PER_LETTER_MS,
+			SimpleDialogSettings.TEXT_TIME_PER_LETTER_MS,
 			TEXT_TIME_PER_LETTER_MS_DEFAULT_VALUE,
 			{
 				"type": TYPE_REAL
@@ -95,7 +95,7 @@ func enable_plugin():
 		)
 
 		ESCProjectSettingsManager.register_setting(
-			ESCSimpleDialogSettingsManager.TEXT_TIME_PER_LETTER_MS_FAST,
+			SimpleDialogSettings.TEXT_TIME_PER_LETTER_MS_FAST,
 			TEXT_TIME_PER_LETTER_MS_FAST_DEFAULT_VALUE,
 			{
 				"type": TYPE_REAL
@@ -103,7 +103,7 @@ func enable_plugin():
 		)
 
 		ESCProjectSettingsManager.register_setting(
-			ESCSimpleDialogSettingsManager.CLEAR_TEXT_BY_CLICK_ONLY,
+			SimpleDialogSettings.CLEAR_TEXT_BY_CLICK_ONLY,
 			false,
 			{
 				"type": TYPE_BOOL
@@ -111,7 +111,7 @@ func enable_plugin():
 		)
 
 		ESCProjectSettingsManager.register_setting(
-			ESCSimpleDialogSettingsManager.READING_SPEED_IN_WPM,
+			SimpleDialogSettings.READING_SPEED_IN_WPM,
 			READING_SPEED_IN_WPM_DEFAULT_VALUE,
 			{
 				"type": TYPE_INT
@@ -121,8 +121,8 @@ func enable_plugin():
 		var left_click_actions_string: String = left_click_actions.join(",")
 
 		ESCProjectSettingsManager.register_setting(
-			ESCSimpleDialogSettingsManager.LEFT_CLICK_ACTION,
-			ESCProjectSettingsManager.LEFT_CLICK_ACTION_SPEED_UP,
+			SimpleDialogSettings.LEFT_CLICK_ACTION,
+			SimpleDialogSettings.LEFT_CLICK_ACTION_SPEED_UP,
 			{
 				"type": TYPE_STRING,
 				"hint": PROPERTY_HINT_ENUM,
@@ -133,8 +133,8 @@ func enable_plugin():
 		var stop_talking_animation_on_options_string: String = stop_talking_animation_on_options.join(",")
 
 		ESCProjectSettingsManager.register_setting(
-			ESCSimpleDialogSettingsManager.STOP_TALKING_ANIMATION_ON,
-			ESCProjectSettingsManager.STOP_TALKING_ANIMATION_ON_END_OF_AUDIO,
+			SimpleDialogSettings.STOP_TALKING_ANIMATION_ON,
+			SimpleDialogSettings.STOP_TALKING_ANIMATION_ON_END_OF_AUDIO,
 			{
 				"type": TYPE_STRING,
 				"hint": PROPERTY_HINT_ENUM,
