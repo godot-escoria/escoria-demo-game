@@ -14,6 +14,12 @@ signal option_chosen(option)
 signal say_finished
 
 
+# Used when specifying dialog types in various methods
+const DIALOG_TYPE_SAY = "say"
+
+const DIALOG_TYPE_CHOOSE = "choose"
+
+
 # Reference to the currently playing "say" dialog manager
 var _say_dialog_manager: ESCDialogManager = null
 
@@ -42,12 +48,9 @@ func say(character: String, type: String, text: String) -> void:
 			ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE
 		)
 
-	_determine_say_dialog_manager(type)
-
-	if is_a_parent_of(_say_dialog_manager):
-		remove_child(_say_dialog_manager)
-
-	add_child(_say_dialog_manager)
+	# We only need to remove the dialog manager from the scene tree if the dialog manager type
+	# has changed since the last use of this method.
+	_update_dialog_manager(DIALOG_TYPE_SAY, _say_dialog_manager, type)
 
 	_say_dialog_manager.say(self, character, text, type)
 
@@ -59,12 +62,9 @@ func say(character: String, type: String, text: String) -> void:
 # - dialog: The dialog to start
 # - type: The dialog chooser type to use (default: "simple")
 func start_dialog_choices(dialog: ESCDialog, type: String = "simple"):
-	_determine_choose_dialog_manager(type)
-
-	if is_a_parent_of(_choose_dialog_manager):
-		remove_child(_choose_dialog_manager)
-
-	add_child(_choose_dialog_manager)
+	# We only need to remove the dialog manager from the scene tree if the dialog manager type
+	# has changed since the last use of this method.
+	_update_dialog_manager(DIALOG_TYPE_CHOOSE, _choose_dialog_manager, type)
 
 	_choose_dialog_manager.choose(self, dialog, type)
 
@@ -127,3 +127,44 @@ func _determine_choose_dialog_manager(type: String) -> void:
 		)
 
 	_choose_dialog_manager = dialog_manager
+
+
+# If necessary, updates the dialog manager for the specified dialog type.
+#
+# #### Parameters
+#
+# - dialog_type: The type of dialog that will be managed, e.g. "say" or "choose"
+# - current_dialog_manager: The dialog manager currently being used (if any) for the specified
+#   dialog type
+# - dialog_manager_type: The dialog manager type specific to the dialog manager being requested
+func _update_dialog_manager(dialog_type: String, current_dialog_manager: ESCDialogManager, \
+	dialog_manager_type: String) -> void:
+
+	if is_instance_valid(current_dialog_manager):
+		if not current_dialog_manager.has_type(dialog_manager_type):
+			if is_a_parent_of(current_dialog_manager):
+				remove_child(current_dialog_manager)
+
+			add_child(_determine_dialog_manager(dialog_type, dialog_manager_type))
+	else:
+		add_child(_determine_dialog_manager(dialog_type, dialog_manager_type))
+
+
+# Sets the requested dialog manager type for the specified dialog function.
+#
+# #### Parameters
+#
+# - dialog_type: The type of dialog that will be managed, e.g. "say" or "choose"
+# - dialog_manager_type: The dialog manager type specific to the dialog manager being requested
+#
+# *Returns* the newly-resolved dialog manager
+func _determine_dialog_manager(dialog_type: String, dialog_manager_type: String) -> ESCDialogManager:
+	if dialog_type == DIALOG_TYPE_SAY:
+		_determine_say_dialog_manager(dialog_manager_type)
+		return _say_dialog_manager
+	elif dialog_type == DIALOG_TYPE_CHOOSE:
+		_determine_choose_dialog_manager(dialog_manager_type)
+		return _choose_dialog_manager
+
+	# This line will never be hit as a failure above will result in an Escoria error
+	return null
