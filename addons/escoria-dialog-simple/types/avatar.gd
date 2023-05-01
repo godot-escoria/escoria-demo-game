@@ -223,6 +223,11 @@ func _on_paused():
 # Handler managing resume notification from Escoria
 func _on_resumed():
 	if not tween.is_active():
+		# We can't rely on "show()" to make an invisible popup reappear, as per the docs for
+		# CanvasItem. Instead, we need to use one of the popup_* methods.
+		if is_inside_tree():
+			popup_centered()
+
 		is_paused = false
 		tween.resume_all()
 
