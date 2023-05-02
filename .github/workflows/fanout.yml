@@ -5,6 +5,7 @@ on:
     branches:
       - "main"
       - "develop"
+      - "fanout-fix"
 
 concurrency: fanout-${{ github.ref }}
 
@@ -38,7 +39,7 @@ jobs:
               sudo apt-get install git -y
           fi
       - name: "Checkout"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v3"
         with:
           repository: "godot-escoria/escoria-demo-game"
           ref: "develop"
@@ -55,7 +56,7 @@ jobs:
           git clean -fd
           git status
       - name: "Checkout"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v3"
         with:
           repository: "${{ env.REPO }}"
           ref: "develop"
