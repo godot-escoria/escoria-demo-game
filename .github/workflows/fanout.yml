@@ -44,7 +44,7 @@ jobs:
           repository: "godot-escoria/escoria-demo-game"
           ref: "develop"
           path: "demo-game"
-          token: "${{ secrets.DEPLOYMENT_TOKEN }}"
+          token: "${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}"
           fetch-depth: 0
       - name: "Filtering out ${{ env.DIR }}"
         run: |
@@ -61,7 +61,7 @@ jobs:
           repository: "${{ env.REPO }}"
           ref: "develop"
           path: "target"
-          token: "${{ secrets.DEPLOYMENT_TOKEN }}"
+          token: "${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}"
           fetch-depth: 0
       - name: "Apply changes"
         run: |
