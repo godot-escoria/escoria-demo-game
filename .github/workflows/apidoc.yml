@@ -15,14 +15,14 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v2
               with:
-                token: ${{ secrets.DEPLOYMENT_TOKEN }}
+                token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
                 repository: godot-escoria/escoria-demo-game
                 ref: "develop"
                 path: game
             - name: "Checkout docs repo"
               uses: actions/checkout@v2
               with:
-                token: ${{ secrets.DEPLOYMENT_TOKEN }}
+                token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
                 repository: godot-escoria/escoria-docs
                 ref: "devel"
                 fetch-depth: 0
