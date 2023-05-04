@@ -1,3 +1,51 @@
+## [4.0.0-alpha.241](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.241) (2023-05-04)
+
+
+### Features
+
+* add fullscren option in options menu ([19c7685](https://github.com/godot-escoria/escoria-demo-game/commit/19c7685a68fc820fb0532a46978f9e12411ae7c7))
+* updates checkout action version and allows for testing on this branch ([dd00869](https://github.com/godot-escoria/escoria-demo-game/commit/dd008690a3a71a8cca192e6dba3e6fc5ff65de9e))
+* validates for multiple start locations set in an ESCRoom and updates scene tree with configuration warnings next to the offending ESCLocation nodes ([1f16421](https://github.com/godot-escoria/escoria-demo-game/commit/1f16421d65407c72f78d8e30e41f5299eb8db166))
+* Wizard - set up combine when selected for inventory items ([dc4b6c2](https://github.com/godot-escoria/escoria-demo-game/commit/dc4b6c24fec49190bda594d8dfca83007d1fcb41))
+
+
+### Bug Fixes
+
+* adds code to manually show the popup since, according to Godot docs, using show() in the parent CanvasLayer won't show Popup-derived nodes ([fd05bc9](https://github.com/godot-escoria/escoria-demo-game/commit/fd05bc9f744abf604000925e2c8618a745f02cae))
+* allows for string joining that's compatible with pre-3.5 Godot ([3727f82](https://github.com/godot-escoria/escoria-demo-game/commit/3727f82fbfeedd8bd433aae24b62509351673eb7))
+* Attempted method call on a deleted object. ([#677](https://github.com/godot-escoria/escoria-demo-game/issues/677)) ([39165e4](https://github.com/godot-escoria/escoria-demo-game/commit/39165e4f20ea08329305616df46d78a8dd0249ce))
+* avoids removing and re-adding dialog managers unnecessarily ([fdba154](https://github.com/godot-escoria/escoria-demo-game/commit/fdba1541c05f11128b1ca53cf08ff893559e9196))
+* changes pause mode to block children from processing during pause by default ([648747c](https://github.com/godot-escoria/escoria-demo-game/commit/648747cf62a58becfb7b9ca3583a05bcd82d1722))
+* Character creator - add tooltip, fix 8 dir angles, and make character selectable by default ([b47e653](https://github.com/godot-escoria/escoria-demo-game/commit/b47e65345f1dd453541cd5953063b54db5a7660e))
+* clears tooltip when event is finished ([b827092](https://github.com/godot-escoria/escoria-demo-game/commit/b8270921760b333e2058845df4e1aad7b7d353eb))
+* Correct error message for missing animation player ([82ebdc2](https://github.com/godot-escoria/escoria-demo-game/commit/82ebdc2d6e8e8d122bcb8bb65e97e79c7a9a9eb7))
+* Corrected error message for angle in esc_movable ([5f78c02](https://github.com/godot-escoria/escoria-demo-game/commit/5f78c026dac1511adebac931c1a9d537cc7f4103))
+* Debug message for when an item has no ESCLocation ([1709a25](https://github.com/godot-escoria/escoria-demo-game/commit/1709a25452ed3a1fc0359f2ffa836c68b7811d28))
+* debugging; possible expired token so switching for new one created by me ([1d69c30](https://github.com/godot-escoria/escoria-demo-game/commit/1d69c30eda26ced393bea24b547a0a9eab267df0))
+* Enabled playing of animated sprite by default ([cc0a067](https://github.com/godot-escoria/escoria-demo-game/commit/cc0a067b189e94b9b2ee503526c4f78b1d413682))
+* ensure tidiness ([95f849e](https://github.com/godot-escoria/escoria-demo-game/commit/95f849ed5238b1977f0c9843fa5d8bf6039d5086))
+* ensures proper number of interpolation placeholders ([68220ce](https://github.com/godot-escoria/escoria-demo-game/commit/68220ced91281e15b081283d2a11689a2153774d))
+* Fix bug where inventory is invisible by default ([c597414](https://github.com/godot-escoria/escoria-demo-game/commit/c597414659f4fadb72e4e8cde2fde0acb7d41c29))
+* Fix p_child is null exit on quit ([4604e00](https://github.com/godot-escoria/escoria-demo-game/commit/4604e006485f0f68c44ff056ab2aa785af6fc726))
+* forces current_state updates as options don't always yield ([0ba6c37](https://github.com/godot-escoria/escoria-demo-game/commit/0ba6c3782a06dea0fffc17e6fcb6e272fd54d5da))
+* Issue 336 - unclickable area with simplemouse ([cbb7984](https://github.com/godot-escoria/escoria-demo-game/commit/cbb79842d8b170a15153beb323bbd3b3a5505b3c))
+* Issue-333 Error when room has no Global ID set ([a5195ef](https://github.com/godot-escoria/escoria-demo-game/commit/a5195ef2fc9c362cdd1c90fdb3f01def7b0ff7f5))
+* makes 9verbs the default UI plugin ([14e5625](https://github.com/godot-escoria/escoria-demo-game/commit/14e5625bb572eff2fcdb0f410d77936ccd9f11b6))
+* missing this check to see if the item needs to be combined with something or not ([7f1add6](https://github.com/godot-escoria/escoria-demo-game/commit/7f1add6505189bb355a306a6b953e39952edc6d2))
+* Movable commands on non-movable items will be handled gracefully. ([0ea7b28](https://github.com/godot-escoria/escoria-demo-game/commit/0ea7b285b7e2d3831862910d9a84b3150d46dab9))
+* moves resource caching into _process method and out of a separate thread to avoid odd resource/RID loading issues, as noted here: https://github.com/godotengine/godot/issues/63493 ([cfbc3a5](https://github.com/godot-escoria/escoria-demo-game/commit/cfbc3a5c3137afb98a5ab12dddf8b2af7721b5a5))
+* necessary in order to prevent error message from printing out ([6842ed4](https://github.com/godot-escoria/escoria-demo-game/commit/6842ed48eaf13c21cc1bcce267848bda35723d27))
+* Populate default animation as the object manager expects it ([0610449](https://github.com/godot-escoria/escoria-demo-game/commit/0610449dbf4681e14e2ac07e02174e3e1b77e1e7))
+* Remove call to stop dialog to correct player mirroring ([6692953](https://github.com/godot-escoria/escoria-demo-game/commit/6692953385e1a96082b4dad676715de6f8a0d2c5))
+* removes type as ESCResourceCache checks the type of 'res' and can expect a non-Resource-derived value, e.g. ResourceInteractiveLoader ([16fd3d6](https://github.com/godot-escoria/escoria-demo-game/commit/16fd3d63011e9a18b9abb86a728b7b75bb6644f6))
+* updates various references to use new dialog manager code ([ffb6271](https://github.com/godot-escoria/escoria-demo-game/commit/ffb6271d0eccbe95c5be4377576d0288828f9f09))
+* uses proper casting and updates validation checks ([327b72f](https://github.com/godot-escoria/escoria-demo-game/commit/327b72f67b2a2358977c326d5a2f4516690cb911))
+* uses updated, non-expiring PAT although it's 'personal' and mine; the fix for the fanout issues involved resetting the repos that used 'core' as there was a divergence between the repos ([bf30156](https://github.com/godot-escoria/escoria-demo-game/commit/bf301565eb51409002fcdfaae2ef0890594b87b7))
+* Wizard - NPCs have to be ESCItems instead of ESCPlayers ([b0c0c5d](https://github.com/godot-escoria/escoria-demo-game/commit/b0c0c5d61b70bd0f24d62388deb1425333ac913f))
+* wrong argument passed in turn_to error message ([4e146ae](https://github.com/godot-escoria/escoria-demo-game/commit/4e146ae78ca137f3056668db55bd52e82af23ab7))
+
+
+
 ## [4.0.0-alpha.240](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.240) (2022-12-15)
 
 

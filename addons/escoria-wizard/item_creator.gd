@@ -158,7 +158,7 @@ func _on_CreateButton_pressed() -> void:
 	item.global_id = get_node(GLOBAL_ID_NODE).text
 	item.is_interactive = get_node(INTERACTIVE_NODE).pressed
 	item.tooltip_name = get_node(ITEM_NAME_NODE).text
-	
+
 	var selected_index = get_node(ACTION_NODE).selected
 	item.default_action = get_node(ACTION_NODE).get_item_text(selected_index)
 
@@ -167,7 +167,7 @@ func _on_CreateButton_pressed() -> void:
 		var new_pool_array: PoolStringArray = item.combine_when_selected_action_is_in
 		new_pool_array.append("use")
 		item.combine_when_selected_action_is_in = new_pool_array
-		
+	
 	# Add Dialog Position to the background item
 	var interact_position = ESCLocation.new()
 	interact_position.name = "interact_position"

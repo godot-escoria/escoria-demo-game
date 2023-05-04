@@ -86,7 +86,7 @@ func _initialize_say_states(global_id: String, text: String, type: String) -> vo
 	state_machine.states_map["say_fast"].initialize(self)
 	state_machine.states_map["say_finish"].initialize(self)
 	state_machine.states_map["visible"].initialize(self)
-	state_machine.states_map["interrupt"].initialize(self)	
+	state_machine.states_map["interrupt"].initialize(self)
 
 
 func _on_say_finished():

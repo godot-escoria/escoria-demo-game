@@ -1264,7 +1264,7 @@ func export_player(scene_name) -> void:
 
 	new_character.global_id = get_node(NAME_NODE).get_node("global_id").text
 	new_character.tooltip_name = get_node(NAME_NODE).get_node("node_name").text
-	
+
 	new_character.default_action = "look"
 
 	var animations_resource = ESCAnimationResource.new()

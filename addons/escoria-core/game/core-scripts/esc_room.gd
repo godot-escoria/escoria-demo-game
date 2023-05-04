@@ -70,7 +70,7 @@ func _ready():
 		_connect_location_nodes()
 		_validate_start_locations()
 		return
-	
+
 	# If room has no ESCBackground child, add one
 	var found_escbackground: bool = false
 	for child in get_children():
