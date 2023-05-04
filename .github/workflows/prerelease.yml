@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          token: ${{ secrets.DEPLOYMENT_TOKEN }}
+          token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
       - name: Remove trailing whitespace
         run: |
           OUTPUT=$(find . -name "*.gd" -type f | xargs sed -i 's/[[:space:]]$//')
@@ -29,7 +29,7 @@ jobs:
         id: calculate_version
         uses: mathieudutour/github-tag-action@v5.6
         with:
-          github_token: ${{ secrets.DEPLOYMENT_TOKEN }}
+          github_token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
           dry_run: true
           pre_release_branches: "develop"
           append_to_pre_release_tag: "alpha"
@@ -58,12 +58,12 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          token: ${{ secrets.DEPLOYMENT_TOKEN }}
+          token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
       - name: Create version
         id: create_version
         uses: mathieudutour/github-tag-action@v5.6
         with:
-          github_token: ${{ secrets.DEPLOYMENT_TOKEN }}
+          github_token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
           dry_run: true
           pre_release_branches: "develop"
           append_to_pre_release_tag: "alpha"
@@ -72,7 +72,7 @@ jobs:
       - name: Create a GitHub release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.DEPLOYMENT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
         with:
           tag_name: ${{ steps.create_version.outputs.new_tag }}
           release_name: ${{ steps.create_version.outputs.new_tag }}
