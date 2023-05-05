@@ -41,6 +41,7 @@ func _init():
 	_keywords["or"] = ESCTokenType.TokenType.OR
 	_keywords["pass"] = ESCTokenType.TokenType.PASS
 	_keywords["print"] = ESCTokenType.TokenType.PRINT
+	_keywords["stop"] = ESCTokenType.TokenType.STOP
 	_keywords["true"] = ESCTokenType.TokenType.TRUE
 	_keywords["var"] = ESCTokenType.TokenType.VAR
 	_keywords["while"] = ESCTokenType.TokenType.WHILE

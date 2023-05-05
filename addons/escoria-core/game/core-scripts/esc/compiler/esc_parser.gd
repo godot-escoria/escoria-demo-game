@@ -84,7 +84,7 @@ func _event_declaration():
 
 	var target = ""
 
-	if _check(ESCTokenType.TokenType.STRING):
+	if _check(ESCTokenType.TokenType.STRING) or _check(ESCTokenType.TokenType.IDENTIFIER):
 		var expr = _primary()
 		
 		if expr is ESCParseError:
@@ -138,6 +138,9 @@ func _statement():
 		return stmt
 	if _match(ESCTokenType.TokenType.PASS):
 		var stmt = _pass_statement()
+		return stmt
+	if _match(ESCTokenType.TokenType.STOP):
+		var stmt = _stop_statement()
 		return stmt
 	if _match(ESCTokenType.TokenType.QUESTION_BANG):
 		var stmt = _dialog_statement()
@@ -224,9 +227,9 @@ func _if_statement():
 		if else_branch is ESCParseError:
 			return else_branch
 
-	var toRet = ESCGrammarStmts.If.new()
-	toRet.init(condition, then_branch, elif_branches, else_branch)
-	return toRet
+	var to_ret = ESCGrammarStmts.If.new()
+	to_ret.init(condition, then_branch, elif_branches, else_branch)
+	return to_ret
 
 
 func _elif_statement():
@@ -250,9 +253,9 @@ func _elif_statement():
 	var then_branch = ESCGrammarStmts.Block.new()
 	then_branch.init(then_branch_block)
 
-	var toRet = ESCGrammarStmts.If.new()
-	toRet.init(condition, then_branch, [], null)
-	return toRet
+	var to_ret = ESCGrammarStmts.If.new()
+	to_ret.init(condition, then_branch, [], null)
+	return to_ret
 
 
 func _print_statement():
@@ -260,9 +263,9 @@ func _print_statement():
 
 	_consume(ESCTokenType.TokenType.NEWLINE, "Expected NEWLINE after value.")
 
-	var toRet = ESCGrammarStmts.Print.new()
-	toRet.init(value)
-	return toRet
+	var to_ret = ESCGrammarStmts.Print.new()
+	to_ret.init(value)
+	return to_ret
 
 
 func _while_statement():
@@ -291,12 +294,12 @@ func _while_statement():
 	var body = ESCGrammarStmts.Block.new()
 	body.init(block)
 
-	var toRet = ESCGrammarStmts.While.new()
-	toRet.init(condition, body)
+	var to_ret = ESCGrammarStmts.While.new()
+	to_ret.init(condition, body)
 
 	_loop_level -= 1
 
-	return toRet
+	return to_ret
 
 
 func _pass_statement():
@@ -305,8 +308,18 @@ func _pass_statement():
 	if consume is ESCParseError:
 		return consume
 
-	var toRet = ESCGrammarStmts.Pass.new()
-	return toRet
+	var to_ret = ESCGrammarStmts.Pass.new()
+	return to_ret
+
+
+func _stop_statement():
+	var consume = _consume(ESCTokenType.TokenType.NEWLINE, "Expected NEWLINE after stop statement.")
+
+	if consume is ESCParseError:
+		return consume
+
+	var to_ret = ESCGrammarStmts.Stop.new()
+	return to_ret
 
 
 func _dialog_statement():
@@ -697,7 +710,7 @@ func _call():
 
 func _finish_call(callee: ESCGrammarExpr):
 	var args: Array = []
-	var toReturn = null
+	var to_return = null
 
 	if not _check(ESCTokenType.TokenType.RIGHT_PAREN):
 		var done: bool = false

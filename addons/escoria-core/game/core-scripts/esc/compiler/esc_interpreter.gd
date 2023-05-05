@@ -216,6 +216,10 @@ func visit_pass_stmt(stmt: ESCGrammarStmts.Pass):
 	pass
 
 
+func visit_stop_stmt(stmt: ESCGrammarStmts.Stop):
+	return stmt
+
+
 func visit_var_stmt(stmt: ESCGrammarStmts.Var):
 	var value = null
 
@@ -513,10 +517,11 @@ func _execute_block(statements: Array, env: ESCEnvironment):
 			ret = yield(ret, "completed")
 
 		if ret is ESCGrammarStmts.Break \
-			or ret is ESCGrammarStmts.Done:
+			or ret is ESCGrammarStmts.Done \
+			or ret is ESCGrammarStmts.Stop:
 
 			return ret
-
+			
 		# TODO: Proper error handling per statement?
 		#if ret:
 		#	break

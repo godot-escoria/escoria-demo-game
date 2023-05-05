@@ -271,6 +271,11 @@ class Pass extends ESCGrammarStmt:
 		return visitor.visit_pass_stmt(self)
 
 
+class Stop extends ESCGrammarStmt:
+	func accept(visitor):
+		return visitor.visit_stop_stmt(self)
+
+
 class DialogOption extends ESCGrammarStmt:
 	var _option: ESCGrammarExpr setget ,get_option
 	var _condition: ESCGrammarExpr setget ,get_condition

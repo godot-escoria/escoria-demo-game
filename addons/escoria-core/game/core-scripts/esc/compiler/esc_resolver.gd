@@ -59,6 +59,10 @@ func visit_pass_stmt(stmt: ESCGrammarStmts.Pass):
 	pass
 
 
+func visit_stop_stmt(stmt: ESCGrammarStmts.Stop):
+	pass
+
+
 func visit_var_stmt(stmt: ESCGrammarStmts.Var):
 	_declare(stmt.get_name())
 
