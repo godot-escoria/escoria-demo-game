@@ -118,9 +118,10 @@ func run(command_params: Array) -> int:
 	escoria.dialog_player.say(
 		speaking_character_global_id,
 		command_params[3],
-		command_params[2],
-		command_params[1]
+		command_params[1],
+		command_params[2]
 	)
+
 	yield(escoria.dialog_player, "say_finished")
 	escoria.current_state = escoria.GAME_STATE.DEFAULT
 	return ESCExecution.RC_OK

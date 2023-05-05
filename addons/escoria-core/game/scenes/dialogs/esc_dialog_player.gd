@@ -67,7 +67,8 @@ func disable_preserve_dialog_box() -> void:
 # - character: Character that is talking
 # - type: UI to use for the dialog
 # - text: Text to say
-func say(character: String, type: String, text: String) -> void:
+# - key: Translation key
+func say(character: String, type: String, text: String, key: String) -> void:
 	if type == "":
 		type = ESCProjectSettingsManager.get_setting(
 			ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE
@@ -80,7 +81,7 @@ func say(character: String, type: String, text: String) -> void:
 	if _block_say_enabled:
 		_say_dialog_manager.enable_preserve_dialog_box()
 
-	_say_dialog_manager.say(self, character, text, type)
+	_say_dialog_manager.say(self, character, text, type, key)
 
 
 # Display a list of choices

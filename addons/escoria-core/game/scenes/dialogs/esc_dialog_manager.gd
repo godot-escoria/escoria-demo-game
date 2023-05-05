@@ -42,7 +42,8 @@ func has_chooser_type(type: String) -> bool:
 # - text: Text to say, optional prefixed by a translation key separated
 #   by a ":"
 # - type: Type of dialog box to use
-func say(dialog_player: Node, global_id: String, text: String, type: String):
+# - key: Translation key
+func say(dialog_player: Node, global_id: String, text: String, type: String, key: String):
 	pass
 
 

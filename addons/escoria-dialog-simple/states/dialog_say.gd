@@ -21,16 +21,12 @@ var _ready_to_say: bool
 var _stop_talking_animation_on_option: String
 
 
-# Constructor
-func _init() -> void:
-	_keytext_regex.compile(KEYTEXT_REGEX)
-
-
-func initialize(dialog_manager: ESCDialogManager, character: String, text: String, type: String) -> void:
+func initialize(dialog_manager: ESCDialogManager, character: String, text: String, type: String, key: String) -> void:
 	_dialog_manager = dialog_manager
 	_character = character
 	_text = text
 	_type = type
+	_key = key
 	_stop_talking_animation_on_option = \
 		ESCProjectSettingsManager.get_setting(SimpleDialogSettings.STOP_TALKING_ANIMATION_ON)
 
@@ -70,7 +66,7 @@ func enter():
 	if not _dialog_manager.is_connected("say_visible", self, "_on_say_visible"):
 		_dialog_manager.connect("say_visible", self, "_on_say_visible")
 
-	if not _key.empty():
+	if _key and not _key.empty():
 		var _speech_resource = _get_voice_file(_key)
 
 		if _speech_resource == "":
