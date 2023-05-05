@@ -15,6 +15,7 @@
 # **Parameters**
 #
 # - *object*: Global ID of the object whose state is to be changed
+# - *state*: Name of the state to be set
 # - *immediate*: If an animation for the state exists, specifies
 #   whether it is to skip to the last frame. Can be `true` or `false`.
 #
