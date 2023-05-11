@@ -17,7 +17,7 @@ func enter():
 		_dialog_manager != null:
 
 		if not _dialog_manager.is_connected("say_visible", self, "_on_say_visible"):
-			_dialog_manager.connect("say_visible", self, "_on_say_visible", [], CONNECT_ONESHOT)
+			_dialog_manager.connect("say_visible", self, "_on_say_visible")
 
 		_dialog_manager.finish()
 	else:

@@ -72,7 +72,7 @@ func enter():
 	escoria.logger.trace(self, "Dialog State Machine: Entered 'say'.")
 
 	if not _dialog_manager.is_connected("say_visible", self, "_on_say_visible"):
-		_dialog_manager.connect("say_visible", self, "_on_say_visible", [], CONNECT_ONESHOT)
+		_dialog_manager.connect("say_visible", self, "_on_say_visible")
 
 	var matches = _keytext_regex.search(_text)
 
@@ -101,10 +101,15 @@ func enter():
 			).set_state(_speech_resource)
 
 			if _stop_talking_animation_on_option == SimpleDialogSettings.STOP_TALKING_ANIMATION_ON_END_OF_AUDIO:
-				(
+				if not (
 					escoria.object_manager.get_object(escoria.object_manager.SPEECH).node\
 					 as ESCSpeechPlayer
-				).stream.connect("finished", self, "_on_audio_finished", [], CONNECT_ONESHOT)
+				).stream.is_connected("finished", self, "_on_audio_finished"):
+
+					(
+						escoria.object_manager.get_object(escoria.object_manager.SPEECH).node\
+						 as ESCSpeechPlayer
+					).stream.connect("finished", self, "_on_audio_finished")
 
 		var translated_text: String = tr(matches.get_string("key"))
 

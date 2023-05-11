@@ -7,12 +7,17 @@ var state_machine = preload("res://addons/escoria-dialog-simple/esc_dialog_simpl
 
 # The currently running player
 var _type_player: Node = null
+var _type_player_type: String = ""
 
 # Reference to the dialog player
 var _dialog_player: Node = null
 
 # Basic state tracking
 var _is_saying: bool = false
+
+# Whether to preserve the next dialog box used by `say`, or, if already
+# preserving a dialog box, whether to continue using that dialog box
+var _should_preserve_dialog_box: bool = false
 
 
 func _ready() -> void:
@@ -39,6 +44,31 @@ func has_chooser_type(type: String) -> bool:
 	return true if type == "simple" else false
 
 
+# Instructs the dialog manager to preserve the next dialog box used by a `say`
+# command until a call to `disable_preserve_dialog_box` is made.
+#
+# This method should be idempotent, i.e. if called after the first time and
+# prior to `disable_preserve_dialog_box` being called, the result should be the
+# same.
+func enable_preserve_dialog_box() -> void:
+	_should_preserve_dialog_box = true
+
+
+# Instructs the dialog manager to no longer preserve the currently-preserved
+# dialog box or to not preserve the next dialog box used by a `say` command
+# (this is the default state).
+#
+# This method should be idempotent, i.e. if called after the first time and
+# prior to `enable_preserve_dialog_box` being called, the result should be the
+# same.
+func disable_preserve_dialog_box() -> void:
+	_should_preserve_dialog_box = false
+
+	if is_instance_valid(_dialog_player) and _dialog_player.get_children().has(_type_player):
+		_dialog_player.remove_child(_type_player)
+		_type_player_type = ""
+
+
 # Output a text said by the item specified by the global id. Emit
 # `say_finished` after finishing displaying the text.
 #
@@ -53,17 +83,18 @@ func say(dialog_player: Node, global_id: String, text: String, type: String):
 
 	_initialize_say_states(global_id, text, type)
 
-	if type == "floating":
-		_type_player = preload(\
-			"res://addons/escoria-dialog-simple/types/floating.tscn"\
-		).instance()
-	else:
-		_type_player = preload(\
-			"res://addons/escoria-dialog-simple/types/avatar.tscn"\
-		).instance()
+	# Remove the current dialog box type if we have a new type that differs
+	# from the previously-used type AND we want to preserve the type
+	if _should_preserve_dialog_box:
+		if type != _type_player_type:
+			if _dialog_player.get_children().has(_type_player):
+				_dialog_player.remove_child(_type_player)
 
-	_type_player.connect("say_finished", self, "_on_say_finished", [], CONNECT_ONESHOT)
-	_type_player.connect("say_visible", self, "_on_say_visible", [], CONNECT_ONESHOT)
+			_init_type_player(type)
+		elif not _dialog_player.get_children().has(_type_player):
+			_init_type_player(type)
+	else:
+		_init_type_player(type)
 
 	state_machine._change_state("say")
 
@@ -75,9 +106,26 @@ func say(dialog_player: Node, global_id: String, text: String, type: String):
 
 func do_say(global_id: String, text: String) -> void:
 	# Only add_child here in order to prevent _type_player from running its _process method
-	# before we're ready.
-	_dialog_player.add_child(_type_player)
+	# before we're ready, and only if it's necessary
+	if not _dialog_player.get_children().has(_type_player):
+		_dialog_player.add_child(_type_player)
+
 	_type_player.say(global_id, text)
+
+
+func _init_type_player(type: String) -> void:
+	if type == "floating":
+		_type_player = preload(\
+			"res://addons/escoria-dialog-simple/types/floating.tscn"\
+		).instance()
+	else:
+		_type_player = preload(\
+			"res://addons/escoria-dialog-simple/types/avatar.tscn"\
+		).instance()
+
+	_type_player_type = type
+	_type_player.connect("say_finished", self, "_on_say_finished")
+	_type_player.connect("say_visible", self, "_on_say_visible")
 
 
 func _initialize_say_states(global_id: String, text: String, type: String) -> void:
@@ -90,10 +138,12 @@ func _initialize_say_states(global_id: String, text: String, type: String) -> vo
 
 
 func _on_say_finished():
-	if _dialog_player.get_children().has(_type_player):
+	if not _should_preserve_dialog_box and _dialog_player.get_children().has(_type_player):
 		_dialog_player.remove_child(_type_player)
-		_is_saying = false
-		emit_signal("say_finished")
+
+	_is_saying = false
+
+	emit_signal("say_finished")
 
 
 func _on_say_visible():
@@ -151,7 +201,9 @@ func interrupt():
 			 as ESCSpeechPlayer
 		).set_state("off")
 
-		_dialog_player.remove_child(_type_player)
+		if not _should_preserve_dialog_box and _dialog_player.get_children().has(_type_player):
+			_dialog_player.remove_child(_type_player)
+
 		emit_signal("say_finished")
 
 

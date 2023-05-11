@@ -106,6 +106,8 @@ func _ready():
 	escoria.connect("paused", self, "_on_paused")
 	escoria.connect("resumed", self, "_on_resumed")
 
+	connect("tree_exited", self, "_on_tree_exited")
+
 
 # Switch the current character
 #
@@ -191,8 +193,11 @@ func _on_dialog_line_typed(object, key):
 	text_node.visible_characters = -1
 
 	var time_to_disappear: float = _calculate_time_to_disappear()
+
+	if not $Timer.is_connected("timeout", self, "_on_dialog_finished"):
+		$Timer.connect("timeout", self, "_on_dialog_finished")
+
 	$Timer.start(time_to_disappear)
-	$Timer.connect("timeout", self, "_on_dialog_finished")
 
 	emit_signal("say_visible")
 
@@ -207,10 +212,11 @@ func _get_number_of_words() -> int:
 
 # Ending the dialog
 func _on_dialog_finished():
+	$Timer.stop()
+
 	# Only trigger to clear the text if we aren't limiting the clearing trigger to a click.
 	if not ESCProjectSettingsManager.get_setting(SimpleDialogSettings.CLEAR_TEXT_BY_CLICK_ONLY):
 		emit_signal("say_finished")
-		queue_free()
 
 
 # Handler managing pause notification from Escoria
@@ -232,3 +238,5 @@ func _on_resumed():
 		tween.resume_all()
 
 
+func _on_tree_exited():
+	queue_free()

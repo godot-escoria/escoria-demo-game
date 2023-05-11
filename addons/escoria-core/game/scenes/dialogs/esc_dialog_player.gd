@@ -26,6 +26,9 @@ var _say_dialog_manager: ESCDialogManager = null
 # Reference to the currently playing "choose" dialog manager
 var _choose_dialog_manager: ESCDialogManager = null
 
+# Whether to use the "dialog box preservation" feature
+var _block_say_enabled: bool = false
+
 
 # Register the dialog player and load the dialog resources
 func _ready():
@@ -33,6 +36,28 @@ func _ready():
 		return
 
 	escoria.dialog_player = self
+
+
+# Instructs the dialog manager to preserve the next dialog box used by a `say`
+# command until a call to `disable_preserve_dialog_box` is made.
+#
+# This method should be idempotent, i.e. if called after the first time and
+# prior to `disable_preserve_dialog_box` being called, the result should be the
+# same.
+func enable_preserve_dialog_box() -> void:
+	_block_say_enabled = true
+
+
+# Instructs the dialog manager to no longer preserve the currently-preserved
+# dialog box or to not preserve the next dialog box used by a `say` command
+# (this is the default state).
+#
+# This method should be idempotent, i.e. if called after the first time and
+# prior to `enable_preserve_dialog_box` being called, the result should be the
+# same.
+func disable_preserve_dialog_box() -> void:
+	_block_say_enabled = false
+	_say_dialog_manager.disable_preserve_dialog_box()
 
 
 # Make a character say some text
@@ -51,6 +76,9 @@ func say(character: String, type: String, text: String) -> void:
 	# We only need to remove the dialog manager from the scene tree if the dialog manager type
 	# has changed since the last use of this method.
 	_update_dialog_manager(DIALOG_TYPE_SAY, _say_dialog_manager, type)
+
+	if _block_say_enabled:
+		_say_dialog_manager.enable_preserve_dialog_box()
 
 	_say_dialog_manager.say(self, character, text, type)
 

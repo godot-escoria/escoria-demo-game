@@ -46,6 +46,27 @@ func say(dialog_player: Node, global_id: String, text: String, type: String):
 	pass
 
 
+# Instructs the dialog manager to preserve the next dialog box used by a `say`
+# command until a call to `disable_preserve_dialog_box` is made.
+#
+# This method should be idempotent, i.e. if called after the first time and
+# prior to `disable_preserve_dialog_box` being called, the result should be the
+# same.
+func enable_preserve_dialog_box() -> void:
+	pass
+
+
+# Instructs the dialog manager to no longer preserve the currently-preserved
+# dialog box or to not preserve the next dialog box used by a `say` command
+# (this is the default state).
+#
+# This method should be idempotent, i.e. if called after the first time and
+# prior to `enable_preserve_dialog_box` being called, the result should be the
+# same.
+func disable_preserve_dialog_box() -> void:
+	pass
+
+
 # Present an option chooser to the player and sends the signal
 # `option_chosen` with the chosen dialog option
 #
