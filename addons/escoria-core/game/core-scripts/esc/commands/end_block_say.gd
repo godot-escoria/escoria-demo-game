@@ -11,6 +11,8 @@
 # `say player "And so am I."`
 # `end_block_say`
 #
+# This example will reuse the same dialog box type since they are the same between both `say` calls.
+#
 # @ESC
 extends ESCBaseCommand
 class_name EndBlockSayCommand

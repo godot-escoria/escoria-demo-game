@@ -7,7 +7,7 @@ var state_machine = preload("res://addons/escoria-dialog-simple/esc_dialog_simpl
 
 # The currently running player
 var _type_player: Node = null
-var _type_player_type: String = ""
+var _preserved_type_player_type: String = ""
 
 # Reference to the dialog player
 var _dialog_player: Node = null
@@ -66,7 +66,7 @@ func disable_preserve_dialog_box() -> void:
 
 	if is_instance_valid(_dialog_player) and _dialog_player.get_children().has(_type_player):
 		_dialog_player.remove_child(_type_player)
-		_type_player_type = ""
+		_preserved_type_player_type = ""
 
 
 # Output a text said by the item specified by the global id. Emit
@@ -83,16 +83,17 @@ func say(dialog_player: Node, global_id: String, text: String, type: String):
 
 	_initialize_say_states(global_id, text, type)
 
-	# Remove the current dialog box type if we have a new type that differs
-	# from the previously-used type AND we want to preserve the type
 	if _should_preserve_dialog_box:
-		if type != _type_player_type:
+		# If the dialog box type doesn't match what's currently being reused (if anything),
+		# we want to remove the old one (if it exists) and then initialize and add the new dialog
+		# box type to the dialog player
+		if type != _preserved_type_player_type:
 			if _dialog_player.get_children().has(_type_player):
 				_dialog_player.remove_child(_type_player)
 
 			_init_type_player(type)
-		elif not _dialog_player.get_children().has(_type_player):
-			_init_type_player(type)
+
+		_preserved_type_player_type = type
 	else:
 		_init_type_player(type)
 
@@ -123,7 +124,6 @@ func _init_type_player(type: String) -> void:
 			"res://addons/escoria-dialog-simple/types/avatar.tscn"\
 		).instance()
 
-	_type_player_type = type
 	_type_player.connect("say_finished", self, "_on_say_finished")
 	_type_player.connect("say_visible", self, "_on_say_visible")
 
