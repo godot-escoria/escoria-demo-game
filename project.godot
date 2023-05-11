@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/anim.gd"
 }, {
+"base": "ESCBaseCommand",
+"class": "BlockSayCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/commands/block_say.gd"
+}, {
 "base": "ESCCameraBaseCommand",
 "class": "CameraPushBlockCommand",
 "language": "GDScript",
@@ -429,6 +434,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/enable_terrain.gd"
 }, {
+"base": "ESCBaseCommand",
+"class": "EndBlockSayCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/commands/end_block_say.gd"
+}, {
 "base": "Node",
 "class": "Escoria",
 "language": "GDScript",
@@ -643,6 +653,7 @@ _global_script_class_icons={
 "AcceptInputCommand": "",
 "AnimBlockCommand": "",
 "AnimCommand": "",
+"BlockSayCommand": "",
 "CameraPushBlockCommand": "",
 "CameraPushCommand": "",
 "CameraSetLimitsCommand": "",
@@ -724,6 +735,7 @@ _global_script_class_icons={
 "ESCUtils": "",
 "ESCWalkContext": "",
 "EnableTerrainCommand": "",
+"EndBlockSayCommand": "",
 "Escoria": "",
 "EscoriaPlugin": "",
 "HideMenuCommand": "",
