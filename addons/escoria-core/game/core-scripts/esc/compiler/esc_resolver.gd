@@ -3,6 +3,7 @@ class_name ESCResolver
 
 
 var _interpreter
+var _compiler
 var _scopes: Array = []
 
 
@@ -174,7 +175,10 @@ func visit_variable_expr(expr: ESCGrammarExprs.Variable):
 			"Can't read local variable in own initializer."
 		)
 
-	_resolve_local(expr, expr.get_name())
+	var resolved: bool = _resolve_local(expr, expr.get_name())
+
+	if not resolved:
+		_interpreter.look_up_variable(expr.get_name(), expr)
 
 
 # Private methods
@@ -217,8 +221,11 @@ func _define(name: ESCToken):
 	_scopes.front()[name.get_lexeme()] = true
 
 
-func _resolve_local(expr: ESCGrammarExpr, name: ESCToken):
+func _resolve_local(expr: ESCGrammarExpr, name: ESCToken) -> bool:
 	for i in range(0, _scopes.size()):
 		if _scopes[i].has(name.get_lexeme()):
 			_interpreter.resolve(expr, i)
+			return true
+
+	return false
 

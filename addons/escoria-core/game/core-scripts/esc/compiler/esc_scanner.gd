@@ -74,7 +74,7 @@ func scan_tokens() -> Array:
 		_add_token(ESCTokenType.TokenType.DEDENT, null)
 
 	var token: ESCToken = ESCToken.new()
-	token.init(ESCTokenType.TokenType.EOF, "", null, _line)
+	token.init(ESCTokenType.TokenType.EOF, "", null, _source, _line)
 	_tokens.append(token)
 
 	return _tokens
@@ -317,5 +317,5 @@ func _add_token(type: int, literal) -> void:
 		text = _source.substr(_start, _current - _start)
 
 	var token: ESCToken = ESCToken.new()
-	token.init(type, text, literal, _line)
+	token.init(type, text, literal, _source, _line)
 	_tokens.append(token)

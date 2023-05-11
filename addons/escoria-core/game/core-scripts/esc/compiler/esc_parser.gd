@@ -10,20 +10,10 @@ var _dialog_level: int = 0
 
 var _compiler
 
-var _current_filename: String = "" setget set_current_filename, get_current_filename
-
 
 func init(compiler, tokens: Array) -> void:
 	_compiler = compiler
 	_tokens = tokens
-
-
-func set_current_filename(filename: String) -> void:
-	_current_filename = filename
-
-
-func get_current_filename() -> String:
-	return _current_filename
 
 
 func parse() -> Array:
@@ -883,7 +873,7 @@ func _error(token: ESCToken, message: String) -> ESCParseError:
 	_compiler.had_error = true
 	escoria.logger.warn(
 		self,
-		"%s: Line %s at '%s': %s" % [get_current_filename(), token.get_line(), token.get_lexeme(), message]
+		"%s: Line %s at '%s': %s" % [token.get_source(), token.get_line(), token.get_lexeme(), message]
 	)
 
 	return ESCParseError.new()

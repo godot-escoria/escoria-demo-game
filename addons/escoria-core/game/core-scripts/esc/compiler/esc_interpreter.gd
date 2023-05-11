@@ -10,7 +10,6 @@ var _environment: ESCEnvironment = _globals
 
 var _locals: Dictionary = {}
 
-
 # The interpreter largely doesn't need to track state; however, for interruptions,
 # we need a way to know which event a command is running for. This tracking is
 # minimal and contained within the interpreter itself.
@@ -425,7 +424,7 @@ func visit_variable_expr(expr: ESCGrammarExprs.Variable):
 	if expr.get_name().get_lexeme().begins_with("$"):
 		return _look_up_object(expr.get_name())
 
-	return _look_up_variable(expr.get_name(), expr)
+	return look_up_variable(expr.get_name(), expr)
 
 
 func visit_literal_expr(expr: ESCGrammarExprs.Literal):
@@ -475,7 +474,7 @@ func _look_up_object_by_global_id(global_id: String):
 	return obj
 
 
-func _look_up_variable(name: ESCToken, expr: ESCGrammarExpr):
+func look_up_variable(name: ESCToken, expr: ESCGrammarExpr):
 	var distance: int = _locals[expr] if _locals.has(expr) else -1
 
 	if distance == -1:
@@ -581,7 +580,7 @@ func _check_at_least_one_string(value_1, value_2):
 func _on_global_changed(key: String, old_value, new_value) -> void:
 	# Shoehorn this in as an adapter
 	var token: ESCToken = ESCToken.new()
-	token.init(ESCTokenType.TokenType.IDENTIFIER, key, null, -1)
+	token.init(ESCTokenType.TokenType.IDENTIFIER, key, null, "", -1)
 
-	if _globals.get_values().has(token.get_lexeme()):
+	if _globals.get_values().has(key):
 		_globals.assign(token, new_value)

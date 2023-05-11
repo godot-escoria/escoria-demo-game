@@ -145,7 +145,6 @@ func _compiler_shim(source: String, filename: String = ""):
 
 	var parser: ESCParser = ESCParser.new()
 	parser.init(self, tokens)
-	parser.set_current_filename(filename)
 
 	print("PARSE START")
 
@@ -153,9 +152,12 @@ func _compiler_shim(source: String, filename: String = ""):
 
 	print("PARSE ERROR" if had_error else "No error")
 
-#		if not had_error:
-#			var resolver: ESCResolver = ESCResolver.new(interpreter)
-#			resolver.resolve(parsed_statements)
+	# Some static analysis
+	if not had_error:
+		var resolver: ESCResolver = ESCResolver.new(escoria.interpreter)
+		resolver.set_source(filename)
+		resolver.set_is_static_analysis(true)
+		resolver.resolve(parsed_statements)
 
 	var script = ESCScript.new()
 

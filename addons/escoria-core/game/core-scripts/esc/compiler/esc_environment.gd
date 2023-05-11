@@ -17,7 +17,7 @@ func get_value(name: ESCToken):
 	if _enclosing:
 		return _enclosing.get_value(name)
 
-	return _error("Undefined variable '%s'." % name.get_lexeme())
+	return _error(name, "Undefined variable '%s'." % name.get_lexeme())
 
 
 func assign(name: ESCToken, value):
@@ -29,7 +29,7 @@ func assign(name: ESCToken, value):
 		_enclosing.assign(name, value)
 		return
 
-	return _error("Undefined variable '%s'." % name.get_lexeme())
+	return _error(name, "Undefined variable '%s'." % name.get_lexeme())
 
 
 func define(name: String, value) -> void:
@@ -71,10 +71,16 @@ func get_values():
 	return _values
 
 
-func _error(message: String):
+func _error(token: ESCToken, message: String):
 	escoria.logger.error(
 		self,
-		message
+		"%s: Line %s at '%s': %s" % [token.get_source(), token.get_line(), token.get_lexeme(), message]
 	)
 
 	#return ESCParseError.new()
+
+func _warn(token: ESCToken, message: String):
+	escoria.logger.warn(
+		self,
+		"%s: Line %s at '%s': %s" % [token.get_source(), token.get_line(), token.get_lexeme(), message]
+	)
