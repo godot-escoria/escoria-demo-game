@@ -10,7 +10,7 @@
 #
 # This reuse will continue until a call to `end_block_say` is made.
 #
-# Using `block_say` more than once prior to calling `end_block_say` is idempotent and has the 
+# Using `block_say` more than once prior to calling `end_block_say` is idempotent and has the
 # following behaviour:
 #
 # - If no `say` command has yet been encountered since the first use of `block_say`,

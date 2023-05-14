@@ -321,7 +321,7 @@ class HoverStackSorter:
 func _on_input_event(_viewport: Object, event: InputEvent, _shape_idx: int):
 	if event is InputEventMouseMotion:
 		var physics2d_dss: Physics2DDirectSpaceState = get_world_2d().direct_space_state
-		var colliding: Array = physics2d_dss.intersect_point(get_global_mouse_position(), 32, [], 0x7FFFFFFF, true, true)	
+		var colliding: Array = physics2d_dss.intersect_point(get_global_mouse_position(), 32, [], 0x7FFFFFFF, true, true)
 		var colliding_nodes = []
 		for c in colliding:
 			if c.collider.get("global_id") \
@@ -724,7 +724,7 @@ func check_talk_possible():
 func start_talking():
 	if not check_talk_possible():
 		return
-	
+
 	var animation_player = get_animation_player()
 
 	if animation_player.is_playing():
@@ -744,7 +744,7 @@ func start_talking():
 func stop_talking():
 	if not check_talk_possible():
 		return
-	
+
 	var animation_player = get_animation_player()
 
 	if animation_player.is_playing():

@@ -142,6 +142,6 @@ func _process(_delta) -> void:
 			printt("finished loading ", path)
 			if path in pending: # else it was already retrieved
 				pending[res.get_meta("path")].res = res.get_resource()
-		
+	
 			queue.erase(res) # something might have been put at the front of the queue while we polled, so use erase instead of remove
 			emit_signal("resource_queue_progress", queue.size())

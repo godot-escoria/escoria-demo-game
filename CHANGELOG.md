@@ -1,3 +1,12 @@
+## [4.0.0-alpha.242](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.242) (2023-05-14)
+
+
+### Features
+
+* adds 'block_say' command/structure to allow for the reuse of dialog players, which can produce a better visual experience for characters that have speech spanning more than one dialog box ([04121b0](https://github.com/godot-escoria/escoria-demo-game/commit/04121b087bd1a7a3bd56d4679dbe9833c4b62fc5))
+
+
+
 ## [4.0.0-alpha.241](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.241) (2023-05-04)
 
 

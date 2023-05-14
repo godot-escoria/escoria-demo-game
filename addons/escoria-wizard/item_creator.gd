@@ -167,7 +167,7 @@ func _on_CreateButton_pressed() -> void:
 		var new_pool_array: PoolStringArray = item.combine_when_selected_action_is_in
 		new_pool_array.append("use")
 		item.combine_when_selected_action_is_in = new_pool_array
-	
+
 	# Add Dialog Position to the background item
 	var interact_position = ESCLocation.new()
 	interact_position.name = "interact_position"

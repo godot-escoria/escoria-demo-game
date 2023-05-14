@@ -1,7 +1,7 @@
 # `end_block_say`
 #
 # `say` commands used subsequent to using the `end_block_say` command will no longer
-# reuse the dialog box type used by the previous `say` command(s) encountered. 
+# reuse the dialog box type used by the previous `say` command(s) encountered.
 #
 # Using `end_block_say` more than once is safe and idempotent.
 #
