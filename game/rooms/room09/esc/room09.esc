@@ -1,12 +1,11 @@
 
 :setup
-	a =
 	# In case the bottle is set to visible in the godot editor, either in a 
 	# cupboard or on the stand, hide it regardless. 
 	set_active($r9_bottle_left, false)
 	set_active($r9_bottle_middle, false)
 	set_active($r9_bottle_right, false)
-	set_state($r9_stand, remove_bottle)
+	set_state($r9_stand, "remove_bottle")
 
 	set_active($r9_bottle, false)
 
