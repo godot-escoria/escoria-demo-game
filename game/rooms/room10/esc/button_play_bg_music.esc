@@ -1,2 +1,2 @@
 :use
-play_snd res://game/sfx/contemplation.ogg _music
+	play_snd("res://game/sfx/contemplation.ogg", _music)

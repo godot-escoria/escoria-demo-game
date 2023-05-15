@@ -1,15 +1,11 @@
-
 :setup
-print "This is room 10"
+	print "This is room 10"
 
-> [eq ESC_LAST_SCENE room9]
-	teleport player r10_l_exit
-	# Set player look right
-	set_angle player 180
-	stop
-> [eq ESC_LAST_SCENE room11]
-	teleport player r10_r_exit
-	# Set player look left
-	set_angle player 270
-	stop
-
+	if ESC_LAST_SCENE == "room9":
+		teleport($player, $r10_l_exit)
+		# Set player look right
+		set_angle($player, 180)
+	elif ESC_LAST_SCENE == "room11":
+		teleport($player, $r10_r_exit)
+		# Set player look left
+		set_angle($player, 270)
