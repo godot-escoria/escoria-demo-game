@@ -6,5 +6,7 @@
 		say($player, "I REALLY don't know what that stuff is.", "ROOM1_look_wall_item_2", "avatar")
 		dialog_popup_advance = 2
 	elif dialog_popup_advance == 2:
+		block_say()
 		say($player, "No, SERIOUSLY, I have no idea what that is!", "ROOM1_look_wall_item_3", "avatar")
 		say($player, "Please stop asking me that!", "ROOM1_look_wall_item_4", "avatar")
+		end_block_say()
