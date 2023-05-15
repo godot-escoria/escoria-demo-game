@@ -7,14 +7,16 @@ var _lexeme: String setget ,get_lexeme
 var _literal setget ,get_literal
 var _line: int setget ,get_line
 var _source: String setget set_source, get_source
+var _filename: String setget ,get_filename
 
 
-func init(tokenType: int, lexeme: String, literal, source: String, line: int) -> void:
+func init(tokenType: int, lexeme: String, literal, source: String, line: int, filename: String) -> void:
 	_tokenType = tokenType
 	_lexeme = lexeme
 	_literal = literal
 	_source = source
 	_line = line
+	_filename = filename
 
 
 func set_source(value: String) -> void:
@@ -39,6 +41,10 @@ func get_lexeme() -> String:
 
 func get_line() -> int:
 	return _line
+
+
+func get_filename() -> String:
+	return _filename
 
 
 func _to_string() -> String:

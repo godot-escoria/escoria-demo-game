@@ -132,6 +132,7 @@ static func load_globals():
 func _compiler_shim(source: String, filename: String = ""):
 	var scanner: ESCScanner = ESCScanner.new()
 	scanner.set_source(source)
+	scanner.set_filename(filename)
 	had_error = false
 	
 	print("SCAN START")
@@ -155,8 +156,6 @@ func _compiler_shim(source: String, filename: String = ""):
 	# Some static analysis
 	if not had_error:
 		var resolver: ESCResolver = ESCResolver.new(escoria.interpreter)
-		resolver.set_source(filename)
-		resolver.set_is_static_analysis(true)
 		resolver.resolve(parsed_statements)
 
 	var script = ESCScript.new()

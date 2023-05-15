@@ -177,8 +177,8 @@ func visit_variable_expr(expr: ESCGrammarExprs.Variable):
 
 	var resolved: bool = _resolve_local(expr, expr.get_name())
 
-	if not resolved:
-		_interpreter.look_up_variable(expr.get_name(), expr)
+	#if not resolved:
+	#	_interpreter.look_up_variable(expr.get_name(), expr)
 
 
 # Private methods

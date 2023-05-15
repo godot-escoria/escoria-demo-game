@@ -871,9 +871,10 @@ func _advance() -> ESCToken:
 
 func _error(token: ESCToken, message: String) -> ESCParseError:
 	_compiler.had_error = true
+	var source: String = token.get_filename() if not token.get_filename().empty() else token.get_source()
 	escoria.logger.warn(
 		self,
-		"%s: Line %s at '%s': %s" % [token.get_source(), token.get_line(), token.get_lexeme(), message]
+		"%s: Line %s at '%s': %s" % [source, token.get_line(), token.get_lexeme(), message]
 	)
 
 	return ESCParseError.new()

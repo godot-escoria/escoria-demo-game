@@ -102,6 +102,9 @@ func visit_event_stmt(stmt: ESCGrammarStmts.Event):
 	if typeof(rc) != TYPE_INT:
 		rc = ESCExecution.RC_OK
 
+	if stmt.is_interrupted():
+		rc = ESCExecution.RC_INTERRUPTED
+
 	stmt.emit_finished(rc if rc else ESCExecution.RC_OK)
 	#var event: ESCEvent = ESCEvent.new("")
 	#event.init(stmt.get_name().get_lexeme(), stmt.get_flags())
@@ -580,7 +583,7 @@ func _check_at_least_one_string(value_1, value_2):
 func _on_global_changed(key: String, old_value, new_value) -> void:
 	# Shoehorn this in as an adapter
 	var token: ESCToken = ESCToken.new()
-	token.init(ESCTokenType.TokenType.IDENTIFIER, key, null, "", -1)
+	token.init(ESCTokenType.TokenType.IDENTIFIER, key, null, "", -1, "")
 
 	if _globals.get_values().has(key):
 		_globals.assign(token, new_value)

@@ -1,8 +1,6 @@
 :look
-	var dialog_popup_advance = 0
 	if dialog_popup_advance == 0:
 		say($player, "I don't know what that stuff is.", "ROOM1_look_wall_item_1", "avatar")
-		#set_global(dialog_popup_advance, 1)
 		dialog_popup_advance = 1
 	elif dialog_popup_advance == 1:
 		say($player, "I REALLY don't know what that stuff is.", "ROOM1_look_wall_item_2", "avatar")

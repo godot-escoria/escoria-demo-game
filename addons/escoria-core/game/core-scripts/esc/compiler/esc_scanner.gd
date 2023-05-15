@@ -15,6 +15,7 @@ var _indent_level: int = 0
 var _escape_chars: Array = []
 
 var _source: String setget set_source
+var _filename: String setget set_filename, get_filename
 
 var _alpha_regex: RegEx
 var _digit_regex: RegEx
@@ -64,6 +65,14 @@ func set_source(source: String) -> void:
 	_source = source
 
 
+func set_filename(filename: String) -> void:
+	_filename = filename
+
+
+func get_filename() -> String:
+	return _filename
+
+
 func scan_tokens() -> Array:
 	while not _at_end():
 		_start = _current
@@ -74,7 +83,7 @@ func scan_tokens() -> Array:
 		_add_token(ESCTokenType.TokenType.DEDENT, null)
 
 	var token: ESCToken = ESCToken.new()
-	token.init(ESCTokenType.TokenType.EOF, "", null, _source, _line)
+	token.init(ESCTokenType.TokenType.EOF, "", null, _source, _line, _filename)
 	_tokens.append(token)
 
 	return _tokens
@@ -317,5 +326,5 @@ func _add_token(type: int, literal) -> void:
 		text = _source.substr(_start, _current - _start)
 
 	var token: ESCToken = ESCToken.new()
-	token.init(type, text, literal, _source, _line)
+	token.init(type, text, literal, _source, _line, _filename)
 	_tokens.append(token)
