@@ -76,6 +76,7 @@ func _ready():
 	for child in get_children():
 		if child is ESCBackground:
 			found_escbackground = true
+			move_child(child, 0)
 	if not found_escbackground:
 		var esc_bg = ESCBackground.new()
 		esc_bg.name = "background"
