@@ -117,5 +117,6 @@ func interrupt():
 		tween.stop_all()
 
 
-func _on_tween_completed(tween: Tween):
-	tween.queue_free()
+func _on_tween_completed(tween: Tween, _key: NodePath):
+	if tween:
+		tween.queue_free()
