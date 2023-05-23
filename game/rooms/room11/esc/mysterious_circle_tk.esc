@@ -1,6 +1,5 @@
 :look | TK
-say player "TK"
+	say($player, "TK")
 
 :use | TK
-say player "TK"
-
+	say($player, "TK")

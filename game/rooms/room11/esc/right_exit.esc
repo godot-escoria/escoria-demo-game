@@ -1,5 +1,4 @@
 :exit_scene
-play_snd res://game/sfx/sounds/doorOpen_2.ogg
-transition fade_black out
-change_scene "res://game/rooms/room12/room12.tscn" false
-
+	play_snd("res://game/sfx/sounds/doorOpen_2.ogg")
+	transition("fade_black", "out")
+	change_scene("res://game/rooms/room12/room12.tscn", false)

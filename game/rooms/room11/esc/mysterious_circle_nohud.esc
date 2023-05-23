@@ -1,6 +1,5 @@
 :look | NO_UI
-say player "NO_UI"
+	say($player, "NO_UI")
 
 :use | NO_UI
-say player "NO_UI"
-
+	say($player, "NO_UI")
