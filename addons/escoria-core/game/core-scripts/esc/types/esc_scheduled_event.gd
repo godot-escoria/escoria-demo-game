@@ -4,7 +4,7 @@ class_name ESCScheduledEvent
 
 
 # Event to run when timeout is reached
-var event: ESCEvent
+var event
 
 # The number of seconds until the event is run
 var timeout: float
