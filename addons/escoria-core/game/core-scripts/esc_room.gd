@@ -12,6 +12,8 @@ enum EditorRoomDebugDisplay {
 	CAMERA_LIMITS
 }
 
+const ESC_BACKGROUND_NAME = "escbackground"
+
 
 # The global id of this room
 export(String) var global_id = ""
@@ -76,9 +78,12 @@ func _ready():
 	for child in get_children():
 		if child is ESCBackground:
 			found_escbackground = true
+			move_child(child, 0)
 	if not found_escbackground:
 		var esc_bg = ESCBackground.new()
-		esc_bg.name = "background"
+		esc_bg.name = ESC_BACKGROUND_NAME
+		if not camera_limits.empty():
+			esc_bg.set_size(camera_limits.front().size)
 		add_child(esc_bg)
 		move_child(esc_bg, 0)
 

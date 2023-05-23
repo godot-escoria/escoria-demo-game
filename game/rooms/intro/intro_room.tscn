@@ -1,11 +1,9 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://game/rooms/intro/escoria-logo-comet-anim.png" type="Texture" id=1]
 [ext_resource path="res://game/rooms/intro/intro_background_space.png" type="Texture" id=2]
 [ext_resource path="res://game/rooms/intro/escoria-logo-comet.png" type="Texture" id=3]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_background.gd" type="Script" id=4]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=5]
-[ext_resource path="res://game/rooms/intro/escoria_background.png" type="Texture" id=6]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
 
 [sub_resource type="AtlasTexture" id=1]
@@ -85,7 +83,7 @@ tracks/2/keys = {
 "values": [ false ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("ESCBackground:visible")
+tracks/3/path = NodePath("asteroid:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -93,28 +91,16 @@ tracks/3/enabled = true
 tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
+"update": 0,
+"values": [ Vector2( 620, 450 ) ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("asteroid:position")
+tracks/4/path = NodePath("Polygon2D:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 620, 450 ) ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("Polygon2D:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
@@ -262,15 +248,6 @@ global_id = "intro_cutscene"
 esc_script = "res://game/rooms/intro/esc/intro.esc"
 camera_limits = [ Rect2( 0, 0, 1920, 1080 ) ]
 
-[node name="ESCBackground" type="TextureRect" parent="."]
-margin_right = 1279.0
-margin_bottom = 900.0
-mouse_filter = 2
-texture = ExtResource( 6 )
-expand = true
-stretch_mode = 1
-script = ExtResource( 4 )
-
 [node name="initial_background" type="Sprite" parent="."]
 position = Vector2( 640, 450 )
 texture = ExtResource( 2 )
@@ -295,6 +272,7 @@ texture = ExtResource( 3 )
 pause_mode = 1
 script = ExtResource( 7 )
 global_id = "intro_animation_player"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 

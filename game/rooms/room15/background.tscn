@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=2]
-
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_background.gd" type="Script" id=1]
-
-[node name="background" type="TextureRect"]
-margin_right = 1289.0
-margin_bottom = 555.0
-mouse_filter = 2
-script = ExtResource( 1 )

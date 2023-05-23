@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_exit.gd" type="Script" id=2]
@@ -8,7 +8,6 @@
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
 [ext_resource path="res://game/rooms/room10/room10background.png" type="Texture" id=10]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_background.gd" type="Script" id=11]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1185.27, 712.779, 1187.27, 663.779, 1259.27, 705.779, 1260.27, 800.779, 13.2684, 699.779, 83.2684, 666.779, 85.2684, 704.779, 11.2684, 799.779, 112.268, 685.779, 1153.27, 688.779 )
@@ -61,6 +60,7 @@ esc_script = "res://game/rooms/room10/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -80,6 +80,7 @@ global_id = "r10_btn_stop_bg_music"
 esc_script = "res://game/rooms/room10/esc/button_stop_bg_music.esc"
 tooltip_name = "stop music"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -115,6 +116,7 @@ global_id = "r10_btn_play_bg_music"
 esc_script = "res://game/rooms/room10/esc/button_play_bg_music.esc"
 tooltip_name = "play music"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -148,6 +150,7 @@ global_id = "test_accept_input"
 esc_script = "res://game/rooms/room10/esc/button_accept_input_test.esc"
 tooltip_name = "accept input"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -180,6 +183,7 @@ global_id = "button_slide"
 esc_script = "res://game/rooms/room10/esc/button_slide.esc"
 tooltip_name = "test slide"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -215,6 +219,7 @@ global_id = "button_turn_to"
 esc_script = "res://game/rooms/room10/esc/button_turn_to.esc"
 tooltip_name = "Test turn_to"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -246,6 +251,7 @@ global_id = "r10_btn_play_snd"
 esc_script = "res://game/rooms/room10/esc/button_play_snd.esc"
 tooltip_name = "play sound"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -290,24 +296,15 @@ position = Vector2( 938, 509 )
 script = ExtResource( 5 )
 global_id = "accept_input_location"
 
-[node name="ESCBackground" type="TextureRect" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-mouse_filter = 2
-texture = ExtResource( 10 )
-script = ExtResource( 11 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="room_label" type="Label" parent="ESCBackground"]
+[node name="room_label" type="Label" parent="."]
 margin_right = 92.0
 margin_bottom = 21.0
 custom_fonts/font = ExtResource( 3 )
 text = "ROOM 10"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+
+[node name="Room10Background" type="Sprite" parent="."]
+texture = ExtResource( 10 )
+centered = false
 
 [node name="Room_overview" type="Node2D" parent="."]
 
@@ -336,6 +333,3 @@ boundaries. Turn_to rotates the player
 Accept_input stops the player from 
 interracting with the game while an 
 ESCscript is in progress."
-__meta__ = {
-"_edit_use_anchors_": false
-}
