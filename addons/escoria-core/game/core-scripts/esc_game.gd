@@ -46,6 +46,9 @@ var tooltip_node: Object
 # function of game.gd script.
 var room_ready_for_inputs: bool = false
 
+# Displayer node for hover stack debugging
+var hover_stack_displayer
+
 
 # Function called when ESCGame enters the scene tree.
 func _enter_tree():
@@ -59,12 +62,20 @@ func _enter_tree():
 		self,
 		"_on_action_finished"
 	)
-
 	escoria.main.connect(
 		"room_ready",
 		self,
 		"_on_room_ready"
 	)
+	
+	# Debug display for hover stack
+	if ProjectSettings.get_setting(ESCProjectSettingsManager.ENABLE_HOVER_STACK_VIEWER) and \
+		get_node_or_null("hover_stack_layer") == null:
+		hover_stack_displayer = preload(
+			"res://addons/escoria-core/ui_library/tools/hover_stack/hover_stack.tscn"
+		).instance()
+		add_child(hover_stack_displayer)
+		escoria.inputs_manager.hover_stack.connect("hover_stack_changed", hover_stack_displayer, "update")
 
 
 # Function called when ESCGame exits the scene tree.

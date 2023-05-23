@@ -89,7 +89,7 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 	if escoria.dialog_player:
 		escoria.dialog_player.interrupt()
 
-	escoria.inputs_manager.hover_stack_clear()
+	escoria.inputs_manager.hover_stack.clear()
 
 	# Check if game scene was loaded
 	if not escoria.game_scene:
