@@ -300,7 +300,7 @@ func _ready():
 # the top level of overlapping stack.
 func _on_mouse_exited():
 	if escoria.inputs_manager.hover_stack.has(self):
-		escoria.inputs_manager.hover_stack_erase_item(self)
+		escoria.inputs_manager.hover_stack.erase_item(self)
 	escoria.inputs_manager.unset_hovered_node(self)
 
 
@@ -331,8 +331,8 @@ func _on_input_event(_viewport: Object, event: InputEvent, _shape_idx: int):
 		if colliding_nodes.empty():
 			return
 		colliding_nodes.sort_custom(HoverStackSorter, "sort_ascending_z_index")
-		escoria.inputs_manager.hover_stack_clear()
-		escoria.inputs_manager.hover_stack_add_items(colliding_nodes)
+		escoria.inputs_manager.hover_stack.clear()
+		escoria.inputs_manager.hover_stack.add_items(colliding_nodes)
 		escoria.inputs_manager.set_hovered_node(colliding_nodes.back())
 
 

@@ -53,14 +53,14 @@ func _enter_tree():
 	var room_selector_parent = $ui/Control/panel_down/VBoxContainer\
 			/HBoxContainer/MainMargin/VBoxContainer
 
-	if ProjectSettings.get_setting("escoria/debug/enable_room_selector") and \
+	if ProjectSettings.get_setting(ESCProjectSettingsManager.ENABLE_ROOM_SELECTOR) and \
 			room_selector_parent.get_node_or_null("room_select") == null:
 		room_select = preload(
 			"res://addons/escoria-core/ui_library/tools/room_select" +\
 			"/room_select.tscn"
 		).instance()
 		room_selector_parent.add_child(room_select)
-
+	
 
 ## BACKGROUND ##
 
@@ -121,7 +121,6 @@ func element_focused(element_id: String) -> void:
 			if escoria.action_manager.current_action != VERB_USE \
 					and target_obj is ESCItem:
 				verbs_menu.set_by_name(target_obj.default_action)
-
 		ESCActionManager.ACTION_INPUT_STATE.AWAITING_ITEM:
 			tooltip.set_target(target_obj.tooltip_name)
 

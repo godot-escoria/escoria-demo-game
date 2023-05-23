@@ -30,7 +30,7 @@ const ESC_UI_PRIMARY_ACTION = "esc_ui_primary_action"
 var input_mode = INPUT_ALL
 
 # A LIFO stack of hovered items
-var hover_stack: Array = []
+var hover_stack: HoverStack
 
 # The global id of the topmost item from the hover_stack
 var hotspot_focused: String = ""
@@ -55,6 +55,8 @@ var _hovered_element = null
 # Constructor
 func _init():
 	escoria.event_manager.connect("event_finished", self, "_on_event_finished")
+	hover_stack = HoverStack.new()
+	hover_stack.connect("hover_stack_changed", self, "_on_hover_stack_changed")
 
 
 # Called when an event is finished, so that the current hotspot is reset
@@ -175,22 +177,12 @@ func try_custom_input_handler(event: InputEvent, is_default_state: bool) -> bool
 		return false
 
 
-
-# Unsets the hovered node.
-#
-# **Parameters**
-#
-# - item: the item that was unfocused (mouse_exited)
-func unset_hovered_node(item: ESCItem):
-	if _hovered_element == item:
-		_hovered_element.mouse_exited()
-		_hovered_element = null
-		if hover_stack:
-			set_hovered_node(hover_stack.pop_back())
-		else:
-			hotspot_focused = ""
-
-
+# Callback called by hover stack content change.
+func _on_hover_stack_changed():
+	if hover_stack.empty():
+		unset_hovered_node(_hovered_element)
+	else:
+		set_hovered_node(hover_stack.get_top_item())
 
 
 # Sets the hovered node and calls its mouse_entered() method if it was the top
@@ -203,6 +195,12 @@ func unset_hovered_node(item: ESCItem):
 # **Returns**
 # True if item is the new top hovered object
 func set_hovered_node(item: ESCItem) -> bool:
+	if _hovered_element != item \
+			and escoria.action_manager.is_object_actionable(item.global_id) \
+			or (item is ESCPlayer and not (item as ESCPlayer).selectable):
+		_hovered_element = item
+		_hovered_element.mouse_entered()
+		return true
 	# If tested item was already hovered
 	# or is not actionable (not selectable for ESCPlayer) then do nothing
 	if _hovered_element == item \
@@ -211,13 +209,27 @@ func set_hovered_node(item: ESCItem) -> bool:
 		return true
 	# Else if the tested item is on top of hover stack (or null)
 	# Set that item as hovered and call that item's mouse_entered()
-	if not is_instance_valid(_hovered_element) or hover_stack.back() != item:
+	if not is_instance_valid(_hovered_element) or hover_stack.get_top_item() != item:
 		_hovered_element = item
 		_hovered_element.mouse_entered()
 		return true
 	# Else, the tested item is currently on top of hover stack, then do nothing
 	else:
 		return false
+
+
+# Unsets the hovered node.
+#
+# **Parameters**
+#
+# - item: the item that was unfocused (mouse_exited)
+func unset_hovered_node(item: ESCItem):
+	if item == null:
+		return
+	if _hovered_element == item:
+		_hovered_element.mouse_exited()
+		_hovered_element = null
+		hotspot_focused = ""
 
 
 # The background was clicked with the LMB
@@ -366,7 +378,7 @@ func _on_mouse_entered_item(item: ESCItem) -> void:
 			hotspot_focused = ""
 			escoria.main.current_scene.game.element_unfocused()
 		else:
-			hotspot_focused = hover_stack.back().global_id
+			hotspot_focused = hover_stack.get_top_item().global_id
 			escoria.main.current_scene.game.element_focused(hotspot_focused)
 		return
 
@@ -394,7 +406,7 @@ func _on_mouse_entered_item(item: ESCItem) -> void:
 func _on_mouse_exited_item(item: ESCItem) -> void:
 	var object: ESCObject = escoria.object_manager.get_object(item.global_id)
 	if object and not object.interactive:
-		hover_stack_erase_item(item)
+		hover_stack.erase_item(item)
 		escoria.main.current_scene.game.element_unfocused()
 		return
 
@@ -413,7 +425,7 @@ func _on_mouse_exited_item(item: ESCItem) -> void:
 		hotspot_focused = ""
 		escoria.main.current_scene.game.element_unfocused()
 	else:
-		hotspot_focused = hover_stack.back().global_id
+		hotspot_focused = hover_stack.get_top_item().global_id
 		escoria.main.current_scene.game.element_focused(hotspot_focused)
 
 
@@ -426,13 +438,13 @@ func _on_mouse_exited_item(item: ESCItem) -> void:
 func on_item_non_interactive(item: ESCItem) -> void:
 	var object: ESCObject = escoria.object_manager.get_object(item.global_id)
 	if object and not object.interactive:
-		hover_stack_erase_item(item)
+		hover_stack.erase_item(item)
 		escoria.main.current_scene.game.element_unfocused()
-		hover_stack.sort_custom(HoverStackSorter, "sort_ascending_z_index")
+		
 		if hover_stack.empty():
 			return
 		else:
-			var new_item = hover_stack.back()
+			var new_item = hover_stack.get_top_item()
 			escoria.action_manager.set_action_input_state(ESCActionManager.ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM)
 			new_item.mouse_entered()
 
@@ -454,7 +466,7 @@ func _on_mouse_left_clicked_item(item: ESCItem, event: InputEvent) -> void:
 
 			# Get next object in hover stack and forward event to it
 			if not hover_stack.empty():
-				var next_item = hover_stack.pop_back()
+				var next_item = hover_stack.pop_top_item()
 				_on_mouse_left_clicked_item(next_item, event)
 			else: # if no next object, consider this click as background click
 				hotspot_focused = ""
@@ -498,7 +510,7 @@ func _on_mouse_left_double_clicked_item(
 
 			# Get next object in hover stack and forward event to it
 			if not hover_stack.empty():
-				var next_item = hover_stack.pop_back()
+				var next_item = hover_stack.pop_top_item()
 				_on_mouse_left_double_clicked_item(next_item, event)
 			else: # if no next object, consider this click as background click
 				hotspot_focused = ""
@@ -536,7 +548,7 @@ func _on_mouse_right_clicked_item(item: ESCItem, event: InputEvent) -> void:
 			)
 
 			if not hover_stack.empty():
-				var next_item = hover_stack.pop_back()
+				var next_item = hover_stack.pop_top_item()
 				_on_mouse_right_clicked_item(next_item, event)
 			return
 
@@ -553,7 +565,7 @@ func _on_mouse_right_clicked_item(item: ESCItem, event: InputEvent) -> void:
 		# we consider we clicked through it.
 		var object: ESCObject = escoria.object_manager.get_object(item.global_id)
 		if object.node is ESCPlayer and not (object.node as ESCPlayer).selectable:
-			actual_item = hover_stack.back()
+			actual_item = hover_stack.get_top_item()
 		else:
 			actual_item = item
 
@@ -594,51 +606,121 @@ func _on_pause_menu_requested():
 	escoria.main.current_scene.game.pause_game()
 
 
-# Add the given item to the stack if not already in it.
-#
-# #### Parameters
-# - item: the item to add to the hover stack
-func hover_stack_add_item(item):
-	if item is ESCPlayer and not (item as ESCPlayer).selectable:
-		return
-	if not hover_stack.has(item):
-		hover_stack.push_back(item)
+# Hover Stack implementation.
+class HoverStack:
+
+
+	# Emitted when the content of the hover stack has changed
+	signal hover_stack_changed
+
+	# Emitted when the hover stack was emptied
+	signal hover_stack_emptied
+
+
+	# Array representing the hover stack
+	var hover_stack: Array = []
+
+
+	# Add the given item to the stack if not already in it.
+	#
+	# #### Parameters
+	# - item: the item to add to the hover stack
+	func add_item(item):
+		if item is ESCPlayer and not (item as ESCPlayer).selectable:
+			return
+		if not hover_stack.has(item):
+			hover_stack.push_back(item)
+			_sort()
+			emit_signal("hover_stack_changed")
+
+
+	# Add the items contained in given list to the stack if not already in it.
+	#
+	# #### Parameters
+	# - items: the items list (array) to add to the hover stack
+	func add_items(items: Array):
+		for item in items:
+			if escoria.action_manager.is_object_actionable(item.global_id):
+				add_item(item)
+
+
+	# Clean the hover stack
+	func clean():
+		for e in hover_stack:
+			if e == null or !is_instance_valid(e):
+				hover_stack.erase(e)
+				emit_signal("hover_stack_changed")
+
+
+	# Pops the top element of the hover stack and returns it
+	#
+	# **Returns**
+	# The top element of the hover stack
+	func pop_top_item():
+		var ret = hover_stack.pop_back()
+		if is_instance_valid(ret):
+			emit_signal("hover_stack_changed")
+		return ret
+		
+		
+	# Returns the top element of the hover stack a
+	#
+	# **Returns**
+	# The top element of the hover stack
+	func get_top_item():
+		return hover_stack.back()
+
+
+	# Remove the given item from the stack
+	#
+	# #### Parameters
+	# - item: the item to remove from the hover stack
+	func erase_item(item):
+		hover_stack.erase(item)
+		_sort()
+		emit_signal("hover_stack_changed")
+
+
+	# Clear the stack of hovered items
+	func clear():
+		hover_stack = []
+		emit_signal("hover_stack_emptied")
+
+
+	# Returns true if the hover stack is empty, else false
+	#
+	# **Returns**
+	# True if hover stack is empty, else false
+	func empty() -> bool:
+		return hover_stack.empty()
+
+
+	# Sort the hover stack by items' z-index
+	func _sort():
 		hover_stack.sort_custom(HoverStackSorter, "sort_ascending_z_index")
 
 
-# Add the items contained in given list to the stack if not already in it.
-#
-# #### Parameters
-# - items: the items list (array) to add to the hover stack
-func hover_stack_add_items(items: Array):
-	for item in items:
-		if escoria.action_manager.is_object_actionable(item.global_id):
-			hover_stack_add_item(item)
+	# Returns true if the hover stack contains the given item
+	#
+	# #### Parameters
+	# - item: the item to search
+	#
+	# **Returns**
+	# True if hover stack contains given item, else false
+	func has(item) -> bool:
+		return hover_stack.has(item)
 
 
-# Clean the hover stack
-func _clean_hover_stack():
-	for e in hover_stack:
-		if e == null or !is_instance_valid(e):
-			hover_stack.erase(e)
-
-
-# Remove the given item from the stack
-#
-# #### Parameters
-# - item: the item to remove from the hover stack
-func hover_stack_erase_item(item):
-	hover_stack.erase(item)
-	hover_stack.sort_custom(HoverStackSorter, "sort_ascending_z_index")
-
-
-# Clear the stack of hovered items
-func hover_stack_clear():
-	hover_stack = []
-
-
-class HoverStackSorter:
-	static func sort_ascending_z_index(a, b):
-		if a.z_index < b.z_index:
-			return true
-		return false
+	# Returns the hover stack array
+	#
+	# **Returns**
+	# The hover stack array
+	func get_all() -> Array:
+		return hover_stack
+	
+	# Z Sorter class for hover stack
+	class HoverStackSorter:
+		static func sort_ascending_z_index(a, b):
+			if a.z_index < b.z_index:
+				return true
+			return false
