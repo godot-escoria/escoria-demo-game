@@ -1,7 +1,6 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_background.gd" type="Script" id=2]
 [ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=5]
@@ -248,26 +247,23 @@ script = ExtResource( 5 )
 global_id = "player_start"
 is_start_location = true
 
-[node name="ESCBackground" type="TextureRect" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-mouse_filter = 2
+[node name="Room12Background" type="Sprite" parent="."]
 texture = ExtResource( 9 )
-script = ExtResource( 2 )
+centered = false
 
-[node name="room_label" type="Label" parent="ESCBackground"]
+[node name="room_label" type="Label" parent="Room12Background"]
 margin_right = 92.0
 margin_bottom = 45.0
 custom_fonts/font = ExtResource( 3 )
 text = "ROOM 12
 "
 
-[node name="room_label2" type="Label" parent="ESCBackground"]
+[node name="room_label2" type="Label" parent="Room12Background"]
 modulate = Color( 0.0352941, 0.0705882, 0.239216, 1 )
 margin_left = 121.0
 margin_top = 62.0
-margin_right = 213.0
-margin_bottom = 107.0
+margin_right = 361.0
+margin_bottom = 299.0
 custom_fonts/font = ExtResource( 3 )
 text = "This room demonstrates the
 transitions you can use for room

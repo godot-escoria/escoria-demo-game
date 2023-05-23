@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
 [ext_resource path="res://game/items/inventory/r5_empty_sheet.tscn" type="PackedScene" id=2]
@@ -11,7 +11,6 @@
 [ext_resource path="res://game/rooms/room05/water_droplet.png" type="Texture" id=9]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=11]
 [ext_resource path="res://game/rooms/room05/room5background.png" type="Texture" id=13]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_background.gd" type="Script" id=15]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1187, 387, 1188, 352, 1269.59, 398, 1267, 538, 15, 401, 93, 350, 96, 375, 12, 539, 129.634, 362, 1155, 361 )
@@ -70,24 +69,21 @@ esc_script = "res://game/rooms/room05/esc/room05.esc"
 player_scene = ExtResource( 4 )
 camera_limits = [ Rect2( 0, 0, 1280, 555 ) ]
 
-[node name="ESCBackground" type="TextureRect" parent="."]
-margin_right = 1280.0
-margin_bottom = 550.0
-mouse_filter = 2
+[node name="Room5Background" type="Sprite" parent="."]
 texture = ExtResource( 13 )
-script = ExtResource( 15 )
+centered = false
 
-[node name="room_label" type="Label" parent="ESCBackground"]
+[node name="room_label" type="Label" parent="Room5Background"]
 margin_right = 82.0
 margin_bottom = 21.0
 custom_fonts/font = ExtResource( 3 )
 text = "ROOM 5"
 
-[node name="background_for_text" type="Polygon2D" parent="ESCBackground"]
+[node name="background_for_text" type="Polygon2D" parent="Room5Background"]
 color = Color( 0.364706, 0.109804, 0.447059, 1 )
 polygon = PoolVector2Array( 128, 4, 555, 4, 555, 315, 128, 315 )
 
-[node name="room_details1" type="Label" parent="ESCBackground/background_for_text"]
+[node name="room_details1" type="Label" parent="Room5Background/background_for_text"]
 margin_left = 141.0
 margin_top = 7.0
 margin_right = 427.0
@@ -99,7 +95,7 @@ Combine the pen and paper in your
 inventory to create a new object which
 will be used in the next room."
 
-[node name="room_details2" type="Label" parent="ESCBackground/background_for_text"]
+[node name="room_details2" type="Label" parent="Room5Background/background_for_text"]
 margin_left = 138.0
 margin_top = 136.0
 margin_right = 580.0

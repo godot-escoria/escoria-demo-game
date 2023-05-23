@@ -75,7 +75,7 @@ func _ready():
 	mouse_filter = MOUSE_FILTER_IGNORE
 
 	# If background has no texture, set its rect size to viewport size
-	if texture == null:
+	if texture == null and rect_size == Vector2.ZERO:
 		rect_size = escoria.game_size
 
 	if !Engine.is_editor_hint():

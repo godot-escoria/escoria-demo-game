@@ -1,7 +1,6 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_background.gd" type="Script" id=2]
 [ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=5]
@@ -25,23 +24,20 @@ player_scene = ExtResource( 4 )
 camera_limits = [ Rect2( 0, 0, 2390, 1200 ) ]
 editor_debug_mode = 1
 
-[node name="ESCBackground" type="TextureRect" parent="."]
-margin_right = 2390.0
-margin_bottom = 1200.0
-mouse_filter = 2
+[node name="Forrest" type="Sprite" parent="."]
 texture = ExtResource( 7 )
-script = ExtResource( 2 )
+centered = false
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_lock_": true
 }
 
-[node name="room_label" type="Label" parent="ESCBackground"]
+[node name="room_label" type="Label" parent="Forrest"]
 margin_right = 82.0
 margin_bottom = 21.0
 custom_fonts/font = ExtResource( 3 )
 text = "ROOM 4"
 
-[node name="Label" type="Label" parent="ESCBackground"]
+[node name="Label" type="Label" parent="Forrest"]
 modulate = Color( 0, 0, 0, 1 )
 margin_left = 782.0
 margin_top = 159.0
@@ -61,7 +57,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label2" type="Label" parent="ESCBackground"]
+[node name="Label2" type="Label" parent="Forrest"]
 modulate = Color( 0, 0, 0, 1 )
 margin_left = 1246.0
 margin_top = 506.0
@@ -79,7 +75,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label3" type="Label" parent="ESCBackground"]
+[node name="Label3" type="Label" parent="Forrest"]
 modulate = Color( 0, 0, 0, 1 )
 margin_left = 1285.0
 margin_top = 211.0

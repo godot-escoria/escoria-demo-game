@@ -1,7 +1,6 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_background.gd" type="Script" id=2]
 [ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=5]
@@ -226,28 +225,21 @@ script = ExtResource( 7 )
 global_id = "r8_player_start"
 is_start_location = true
 
-[node name="background" type="TextureRect" parent="."]
-margin_right = 1289.0
-margin_bottom = 555.0
-mouse_filter = 2
+[node name="Room8Background" type="Sprite" parent="."]
 texture = ExtResource( 8 )
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
+centered = false
 
-[node name="Label" type="Label" parent="background"]
-margin_right = 48.0
-margin_bottom = 16.0
+[node name="Label" type="Label" parent="Room8Background"]
+margin_right = 62.0
+margin_bottom = 21.0
 custom_fonts/font = ExtResource( 3 )
 text = "Room 8"
 
-[node name="Label2" type="Label" parent="background"]
+[node name="Label2" type="Label" parent="Room8Background"]
 margin_left = 835.0
 margin_top = 12.0
 margin_right = 1133.0
-margin_bottom = 201.0
+margin_bottom = 249.0
 custom_fonts/font = ExtResource( 3 )
 text = "This room demonstrates mixing Escoria
 with an external GDScript puzzle.
@@ -275,6 +267,7 @@ global_id = "r8_l_exit"
 esc_script = "res://game/rooms/room08/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Exit"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -296,6 +289,7 @@ global_id = "r8_m_door"
 esc_script = "res://game/rooms/room08/esc/middle_exit.esc"
 is_exit = true
 tooltip_name = "Exit"
+combine_when_selected_action_is_in = [  ]
 inventory_texture = ExtResource( 10 )
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
@@ -344,6 +338,7 @@ polygon = PoolVector2Array( 635, 55, 810, 56, 810, 350, 634, 350 )
 pause_mode = 1
 script = ExtResource( 5 )
 global_id = "r8_mini_puzzle_unlocked"
+combine_when_selected_action_is_in = [  ]
 inventory_texture = ExtResource( 11 )
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
@@ -359,6 +354,7 @@ global_id = "r8_mini_puzzle_button"
 esc_script = "res://game/rooms/room08/esc/button_puzzle.esc"
 tooltip_name = "Button"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 inventory_texture = ExtResource( 9 )
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
@@ -391,6 +387,7 @@ global_id = "r8_button_reset_puzzle"
 esc_script = "res://game/rooms/room08/esc/button_reset_puzzle.esc"
 tooltip_name = "Button"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 

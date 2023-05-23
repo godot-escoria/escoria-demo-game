@@ -1,7 +1,6 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_background.gd" type="Script" id=2]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
 [ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=5]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
@@ -672,7 +671,7 @@ __meta__ = {
 global_id = "room7"
 esc_script = "res://game/rooms/room07/esc/room07.esc"
 player_scene = ExtResource( 4 )
-camera_limits = [ Rect2( 0, 0, 1300, 2000 ), Rect2( 0, 0, 2260, 2000 ) ]
+camera_limits = [ Rect2( 0, 0, 2260, 2000 ), Rect2( 0, 0, 1300, 2000 ) ]
 editor_debug_mode = 1
 
 [node name="lift_shaft" type="Polygon2D" parent="."]
@@ -739,29 +738,23 @@ position = Vector2( 1430, 960 )
 scale = Vector2( -1, 1 )
 texture = ExtResource( 12 )
 
-[node name="ESCBackground" type="TextureRect" parent="."]
-margin_right = 2260.0
-margin_bottom = 1600.0
-mouse_filter = 2
+[node name="Room7Background" type="Sprite" parent="."]
 texture = ExtResource( 9 )
-script = ExtResource( 2 )
+centered = false
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_lock_": true
 }
 
-[node name="room_label" type="Label" parent="ESCBackground"]
+[node name="room_label" type="Label" parent="Room7Background"]
 margin_left = 7.0
 margin_top = 3.0
-margin_right = 89.0
+margin_right = 179.0
 margin_bottom = 24.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 5 )
 text = "ROOM 7 upper floor"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="room_label2" type="Label" parent="ESCBackground"]
+[node name="room_label2" type="Label" parent="Room7Background"]
 margin_left = 10.0
 margin_top = 628.0
 margin_right = 182.0
@@ -773,7 +766,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="room_label3" type="Label" parent="ESCBackground"]
+[node name="room_label3" type="Label" parent="Room7Background"]
 margin_left = 275.0
 margin_top = 681.0
 margin_right = 989.0

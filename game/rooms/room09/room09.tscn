@@ -1,7 +1,6 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_background.gd" type="Script" id=2]
 [ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
 [ext_resource path="res://game/rooms/room09/button.png" type="Texture" id=5]
@@ -417,24 +416,21 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="ESCBackground" type="TextureRect" parent="."]
-margin_right = 1280.0
-margin_bottom = 550.0
-mouse_filter = 2
+[node name="Room9Background" type="Sprite" parent="."]
 texture = ExtResource( 9 )
-script = ExtResource( 2 )
+centered = false
 
-[node name="room_label" type="Label" parent="ESCBackground"]
+[node name="room_label" type="Label" parent="Room9Background"]
 margin_right = 82.0
 margin_bottom = 21.0
 custom_fonts/font = ExtResource( 3 )
 text = "ROOM 9"
 
-[node name="Label" type="Label" parent="ESCBackground"]
+[node name="Label" type="Label" parent="Room9Background"]
 margin_left = 841.0
 margin_top = 7.0
-margin_right = 909.0
-margin_bottom = 21.0
+margin_right = 1158.0
+margin_bottom = 225.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "This room demonstrates a puzzle that changes
 depending on what the player does. The bottle

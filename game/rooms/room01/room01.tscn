@@ -1,7 +1,6 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_background.gd" type="Script" id=2]
 [ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=5]
@@ -27,17 +26,14 @@ player_scene = ExtResource( 4 )
 camera_limits = [ Rect2( 0, 0, 1280, 550 ) ]
 editor_debug_mode = 1
 
-[node name="ESCBackground" type="TextureRect" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-mouse_filter = 2
+[node name="Room1Background" type="Sprite" parent="."]
 texture = ExtResource( 8 )
-script = ExtResource( 2 )
+centered = false
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_lock_": true
 }
 
-[node name="advice2" type="Label" parent="ESCBackground"]
+[node name="advice2" type="Label" parent="Room1Background"]
 anchor_right = 0.023274
 anchor_bottom = 0.018018
 margin_left = 90.2752
@@ -47,11 +43,8 @@ margin_bottom = 215.824
 custom_fonts/font = ExtResource( 3 )
 text = "Move : left click
 Fast move : double left click"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="room_label" type="Label" parent="ESCBackground"]
+[node name="room_label" type="Label" parent="Room1Background"]
 margin_left = 7.0
 margin_top = 3.0
 margin_right = 89.0
@@ -62,7 +55,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="advice" type="Label" parent="ESCBackground"]
+[node name="advice" type="Label" parent="Room1Background"]
 anchor_right = 0.023274
 anchor_bottom = 0.018018
 margin_left = 90.0

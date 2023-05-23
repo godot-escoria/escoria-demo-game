@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
 [ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=3]
@@ -6,7 +6,6 @@
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=5]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=8]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_background.gd" type="Script" id=9]
 [ext_resource path="res://game/rooms/room03/room3chasm.png" type="Texture" id=10]
 [ext_resource path="res://game/rooms/room03/room3bridge.png" type="Texture" id=11]
 [ext_resource path="res://game/rooms/room03/room3background.png" type="Texture" id=12]
@@ -159,6 +158,7 @@ __meta__ = {
 }
 global_id = "r3_right_platform"
 esc_script = "res://game/rooms/room03/esc/right_platform.esc"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -187,6 +187,7 @@ esc_script = "res://game/rooms/room03/esc/right_exit.esc"
 is_exit = true
 is_interactive = false
 tooltip_name = "Exit"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -211,6 +212,7 @@ global_id = "r3_l_exit"
 esc_script = "res://game/rooms/room03/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Exit"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
@@ -232,6 +234,7 @@ pause_mode = 1
 script = ExtResource( 5 )
 global_id = "r3_bridge"
 esc_script = "res://game/rooms/room03/esc/room03_bridge.esc"
+combine_when_selected_action_is_in = [  ]
 inventory_texture = ExtResource( 10 )
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
@@ -257,21 +260,15 @@ polygon = PoolVector2Array( 501, 349, 780, 351, 859, 548, 419, 551 )
 position = Vector2( 434, 441 )
 script = ExtResource( 8 )
 
-[node name="ESCBackground" type="TextureRect" parent="."]
-margin_right = 1280.0
-margin_bottom = 550.0
-mouse_filter = 2
+[node name="Room3Background" type="Sprite" parent="."]
 texture = ExtResource( 12 )
-script = ExtResource( 9 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+centered = false
 
-[node name="Polygon2D" type="Polygon2D" parent="ESCBackground"]
+[node name="Polygon2D" type="Polygon2D" parent="Room3Background"]
 color = Color( 0, 0, 0, 1 )
 polygon = PoolVector2Array( 0, 550, 1280, 550, 1280, 800, 0, 800 )
 
-[node name="room_label2" type="Label" parent="ESCBackground"]
+[node name="room_label2" type="Label" parent="Room3Background"]
 margin_left = 17.0
 margin_top = 558.0
 margin_right = 1224.0
@@ -280,18 +277,12 @@ custom_fonts/font = ExtResource( 3 )
 text = "Room  3 demonstrates a chain of steps to complete a game task. It demonstrates different talk responses based on the  state of the button (which sets the
  \"broken_button\" variable to true or false respectively). Setting the \"button_repaired\" state automatically plays the button_repaired animation, which turns off
 the particle emitter for the button. The custom command shows how to execute functions written in gdscript."
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="room_label" type="Label" parent="ESCBackground"]
+[node name="room_label" type="Label" parent="Room3Background"]
 margin_right = 82.0
 margin_bottom = 21.0
 custom_fonts/font = ExtResource( 3 )
 text = "ROOM 3"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="r3_button" type="Area2D" parent="."]
 pause_mode = 1
@@ -300,6 +291,7 @@ global_id = "r3_button"
 esc_script = "res://game/rooms/room03/esc/button.esc"
 tooltip_name = "Button"
 default_action = "use"
+combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
