@@ -86,7 +86,7 @@ class Event extends ESCGrammarStmt:
 		_target = target
 
 		for flag in flags:
-			match flag:
+			match flag.get_lexeme():
 				"TK":
 					_flags |= FLAG_TK
 				"NO_TT":
