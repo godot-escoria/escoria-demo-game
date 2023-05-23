@@ -67,7 +67,7 @@ func _enter_tree():
 		self,
 		"_on_room_ready"
 	)
-	
+
 	# Debug display for hover stack
 	if ProjectSettings.get_setting(ESCProjectSettingsManager.ENABLE_HOVER_STACK_VIEWER) and \
 		get_node_or_null("hover_stack_layer") == null:

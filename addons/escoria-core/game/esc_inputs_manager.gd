@@ -440,7 +440,7 @@ func on_item_non_interactive(item: ESCItem) -> void:
 	if object and not object.interactive:
 		hover_stack.erase_item(item)
 		escoria.main.current_scene.game.element_unfocused()
-		
+	
 		if hover_stack.empty():
 			return
 		else:
@@ -661,8 +661,8 @@ class HoverStack:
 		if is_instance_valid(ret):
 			emit_signal("hover_stack_changed")
 		return ret
-		
-		
+	
+	
 	# Returns the top element of the hover stack a
 	#
 	# **Returns**
@@ -717,7 +717,7 @@ class HoverStack:
 	# The hover stack array
 	func get_all() -> Array:
 		return hover_stack
-	
+
 	# Z Sorter class for hover stack
 	class HoverStackSorter:
 		static func sort_ascending_z_index(a, b):
