@@ -1,3 +1,2 @@
 :use
-
-stop_snd _music
+	stop_snd(_music)
