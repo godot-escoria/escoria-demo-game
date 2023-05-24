@@ -114,14 +114,9 @@ func _process(delta):
 			.get_global_transform_with_canvas().origin
 		rect_position.x -= rect_size.x / 2
 
-		if rect_position.x < 0:
-			rect_position.x = 0
+		_account_for_margin_x()
 
-		var screen_margin = rect_position.x + rect_size.x - \
-				ProjectSettings.get("display/window/size/width")
-
-		if screen_margin > 0:
-			rect_position.x -= screen_margin
+		_account_for_margin_y()
 
 
 # Make a character say something
@@ -156,14 +151,9 @@ func say(character: String, line: String) :
 		rect_position.x = 0
 		rect_size.x = ProjectSettings.get_setting("display/window/size/width")
 
-	if rect_position.x < 0:
-		rect_position.x = 0
+	_account_for_margin_x()
 
-	var screen_margin = rect_position.x + rect_size.x - \
-			ProjectSettings.get("display/window/size/width")
-
-	if screen_margin > 0:
-		rect_position.x -= screen_margin
+	_account_for_margin_y()
 
 	_current_character.start_talking()
 
@@ -254,3 +244,25 @@ func _stop_character_talking():
 	# Make the speaking item animation stop talking, if it is still alive
 	if is_instance_valid(_current_character) and _current_character != null:
 		_current_character.stop_talking()
+
+
+func _account_for_margin_x() -> void:
+	if rect_position.x < 0:
+		rect_position.x = 0
+
+	var screen_margin_x = rect_position.x + rect_size.x - \
+			ProjectSettings.get("display/window/size/width")
+
+	if screen_margin_x > 0:
+		rect_position.x -= screen_margin_x
+
+
+func _account_for_margin_y() -> void:
+	if rect_position.y < 0:
+		rect_position.y = 0
+
+	var screen_margin_y = rect_position.y + rect_size.y - \
+			ProjectSettings.get("display/window/size/height")
+
+	if screen_margin_y > 0:
+		rect_position.y -= screen_margin_y
