@@ -1,12 +1,15 @@
-
 :use
+	# Show pause menu, automatic transition are disabled by default
+	# So we can manage them manually using `transition` ESC command
+	show_menu("pause")
 
-# Show pause menu
-show_menu pause
+	# Wait 2 seconds (this will run AFTER the pause menu is closed since the pause
+	# menu also pauses the game)
+	wait(2)
 
-# Wait 2 seconds (this will run AFTER the pause menu is closed since the pause
-# menu also pauses the game)
-wait 2
+	# Hide pause menu, automatic transition are disabled by default
+	# So we can manage them manually using `transition` ESC command
+	hide_menu("pause")
 
 :look
-say player "Button pause menu"
+	say($player, "Button pause menu")
