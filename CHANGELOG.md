@@ -1,3 +1,12 @@
+## [4.0.0-alpha.245](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.245) (2023-05-24)
+
+
+### Bug Fixes
+
+* fixes incorrect handler signature; also checks for null since it appears that sometimes the tween parameter is null when the handler is called ([0e47989](https://github.com/godot-escoria/escoria-demo-game/commit/0e47989fd1c9fb7cabfdd3b27fc73590d0e01222))
+
+
+
 ## [4.0.0-alpha.244](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.244) (2023-05-23)
 
 
