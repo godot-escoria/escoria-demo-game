@@ -65,10 +65,11 @@ func is_valid() -> bool:
 # Execute this statement and return its return code
 func run() -> int:
 	if parsed_statements.size() > 0:
-		var resolver: ESCResolver = ESCResolver.new(escoria.interpreter)
+		var interpreter = escoria.interpreter_factory.create_interpreter()
+		var resolver: ESCResolver = ESCResolver.new(interpreter)
 		resolver.resolve(parsed_statements)
 		
-		escoria.interpreter.interpret(parsed_statements)
+		interpreter.interpret(parsed_statements)
 		return 0
 
 	var final_rc = ESCExecution.RC_OK

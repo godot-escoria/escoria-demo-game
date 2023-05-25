@@ -298,6 +298,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/compiler/esc_interpreter.gd"
 }, {
+"base": "Reference",
+"class": "ESCInterpreterFactory",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/compiler/esc_interpreter_factory.gd"
+}, {
 "base": "Control",
 "class": "ESCInventory",
 "language": "GDScript",
@@ -827,6 +832,7 @@ _global_script_class_icons={
 "ESCInputsManager": "",
 "ESCInteractionLocation": "res://addons/escoria-core/design/esc_location.svg",
 "ESCInterpreter": "",
+"ESCInterpreterFactory": "",
 "ESCInventory": "",
 "ESCInventoryButton": "",
 "ESCInventoryContainer": "",

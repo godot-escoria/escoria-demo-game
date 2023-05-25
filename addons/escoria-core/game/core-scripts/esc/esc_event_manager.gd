@@ -150,12 +150,15 @@ func _process(delta: float) -> void:
 				escoria.save_manager.save_enabled = false
 
 			#var rc = _running_events[channel_name].run()
-			escoria.interpreter.reset()
-			var resolver: ESCResolver = ESCResolver.new(escoria.interpreter)
+			#escoria.interpreter.reset()
+			#var resolver: ESCResolver = ESCResolver.new(escoria.interpreter)
+			var interpreter: ESCInterpreter = escoria.interpreter_factory.create_interpreter()
+			var resolver: ESCResolver = ESCResolver.new(interpreter)
 			var event = _running_events[channel_name]
 			resolver.resolve(event)
 			
-			var rc = escoria.interpreter.interpret(event)
+			#var rc = escoria.interpreter.interpret(event)
+			var rc = interpreter.interpret(event)
 
 			if rc is GDScriptFunctionState:
 				#_yielding[channel_name] = true

@@ -40,7 +40,9 @@ func _init():
 	escoria.inputs_manager = ESCInputsManager.new()
 	escoria.settings_manager = ESCSettingsManager.new()
 	#escoria.interpreter = ESCInterpreter.new(ESCCompiler.load_commands(), ESCCompiler.load_globals())
-	escoria.interpreter = preload("res://addons/escoria-core/game/core-scripts/esc/compiler/esc_interpreter.gd").new(ESCCompiler.load_commands(), ESCCompiler.load_globals())
+	#escoria.interpreter = preload("res://addons/escoria-core/game/core-scripts/esc/compiler/esc_interpreter.gd").new(ESCCompiler.load_commands(), ESCCompiler.load_globals())
+	#escoria.interpreter_factory = ESCInterpreterFactory.new()
+	escoria.interpreter_factory = preload("res://addons/escoria-core/game/core-scripts/esc/compiler/esc_interpreter_factory.gd").new()
 
 	if ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.GAME_SCENE

@@ -49,6 +49,9 @@ var _command_container = []
 # The currently identified indent
 var _current_indent = 0
 
+# Cache the list of ESC commands available
+var _commands: Array = []
+
 var had_error: bool = false
 
 
@@ -155,7 +158,7 @@ func _compiler_shim(source: String, filename: String = ""):
 
 	# Some static analysis
 	if not had_error:
-		var resolver: ESCResolver = ESCResolver.new(escoria.interpreter)
+		var resolver: ESCResolver = ESCResolver.new(escoria.interpreter_factory.create_interpreter())
 		resolver.resolve(parsed_statements)
 
 	var script = ESCScript.new()

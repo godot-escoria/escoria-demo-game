@@ -24,6 +24,10 @@ var _locals: Dictionary = {}
 # concurrent events running.
 var _current_event: ESCGrammarStmts.Event
 
+# While most of the time we only run a single event at a time, it is possible for
+# multiple events to 
+var _event_stack: Array = []
+
 
 func _init(callables: Array, globals: Dictionary):
 	_globals = ESCEnvironment.new()
@@ -35,6 +39,10 @@ func _init(callables: Array, globals: Dictionary):
 		_globals.define(key, globals[key])
 
 	escoria.globals_manager.connect("global_changed", self, "_on_global_changed")
+
+
+func get_global_values() -> Dictionary:
+	return _globals.get_values()
 
 
 func reset() -> void:
@@ -71,6 +79,9 @@ func visit_block_stmt(stmt: ESCGrammarStmts.Block):
 
 
 func visit_event_stmt(stmt: ESCGrammarStmts.Event):
+	if _current_event:
+		print("-----------------CURRENT EVENT--------------")
+
 	_current_event = stmt
 
 	stmt.reset_interrupt()

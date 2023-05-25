@@ -83,8 +83,8 @@ var resource_cache: ESCResourceCache
 # Dialog player instantiator. This instance is called directly for dialogs.
 var dialog_player: ESCDialogPlayer
 
-# ESCScript interpreter
-var interpreter: ESCInterpreter
+# ESCScript interpreter factory
+var interpreter_factory: ESCInterpreterFactory
 
 # Inventory scene
 var inventory
