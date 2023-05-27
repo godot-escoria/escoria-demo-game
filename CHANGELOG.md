@@ -1,3 +1,12 @@
+## [4.0.0-alpha.246](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.246) (2023-05-27)
+
+
+### Bug Fixes
+
+* accounts for text going past vertical limits of screen ([2294d83](https://github.com/godot-escoria/escoria-demo-game/commit/2294d83ff17e1dfc50523f51dc7439c6b2869e4d))
+
+
+
 ## [4.0.0-alpha.245](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.245) (2023-05-24)
 
 
