@@ -244,6 +244,9 @@ func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
 		[item_global_id, event],
 		true
 	)
+	
+	$mouse_layer/verbs_menu.clear_tool_texture()
+	
 func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
 	mousewheel_action(1)
 
@@ -398,7 +401,6 @@ func _on_action_finished():
 func _on_event_done(_return_code: int, _event_name: String):
 	if _return_code == ESCExecution.RC_OK:
 		escoria.action_manager.clear_current_action()
-		$mouse_layer/verbs_menu.clear_tool_texture()
 		$tooltip_layer/tooltip.set_target("")
 
 
