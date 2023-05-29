@@ -244,9 +244,9 @@ func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
 		[item_global_id, event],
 		true
 	)
-	
+
 	$mouse_layer/verbs_menu.clear_tool_texture()
-	
+
 func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
 	mousewheel_action(1)
 
