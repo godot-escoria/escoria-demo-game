@@ -39,7 +39,7 @@ func run() -> int:
 		if _is_interrupted:
 			final_rc = ESCExecution.RC_INTERRUPTED
 			statement.interrupt()
-			emit_signal("interrupted", self, final_rc)
+			emit_signal("interrupted", self, statement, final_rc)
 			return final_rc
 
 		if statement.is_valid():
