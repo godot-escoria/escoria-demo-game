@@ -1,18 +1,11 @@
-# `show_menu menu_type [enable_automatic_transition]`
+# `show_menu menu_type`
 #
-# Shows either the main menu or the pause menu. The enable_automatic_transition
-# parameter can be used to specify if Escoria manages the graphical transition to
-# the menu or not.
-# Setting `enable_automatic_transition` to false allows you to manage the
-# transition effect for your menu as it transitions in and out. Place a
-# `transition` command in the menu's `setup` event to manage the look of the
-# transition in, and in the menu's `exit_scene` event to manage the look of the
-# transition out.
+# Shows either the main menu or the pause menu. Transitions to the menu using
+# the default transition type (set in the Escoria project settings).
 #
 # **Parameters**
 #
 # - *menu_type*: Which menu to show. Can be either `main` or `pause` (default: `main`)
-# - *enable_automatic_transition*: Whether to automatically transition to the menu (default: `false`)
 #
 # @ESC
 extends ESCBaseCommand
@@ -23,8 +16,8 @@ class_name ShowMenuCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		0,
-		[TYPE_STRING, TYPE_BOOL],
-		["main", false]
+		[TYPE_STRING],
+		["main"]
 	)
 
 
@@ -47,39 +40,33 @@ func run(command_params: Array) -> int:
 	if not escoria.game_scene.is_inside_tree():
 		escoria.add_child(escoria.game_scene)
 
-	if command_params[1]:
-		# Transition out from current scene
-		var transition_id = escoria.main.scene_transition.transition(
-			"",
-			ESCTransitionPlayer.TRANSITION_MODE.OUT
-		)
+	# Transition out from current scene
+	var transition_id = escoria.main.scene_transition.transition(
+		"",
+		ESCTransitionPlayer.TRANSITION_MODE.OUT
+	)
 
-		if transition_id != ESCTransitionPlayer.TRANSITION_ID_INSTANT:
-			while yield(
-				escoria.main.scene_transition,
-				"transition_done"
-			) != transition_id:
-				pass
+	if transition_id != ESCTransitionPlayer.TRANSITION_ID_INSTANT:
+		while yield(
+			escoria.main.scene_transition,
+			"transition_done"
+		) != transition_id:
+			pass
 
-		if command_params[0] == "main":
-			escoria.game_scene.show_main_menu()
-		elif command_params[0] == "pause":
-			escoria.game_scene.pause_game()
+	if command_params[0] == "main":
+		escoria.game_scene.show_main_menu()
+	elif command_params[0] == "pause":
+		escoria.game_scene.pause_game()
 
-		# Transition in to menu
-		transition_id = escoria.main.scene_transition.transition()
+	# Transition in to menu
+	transition_id = escoria.main.scene_transition.transition()
 
-		if transition_id != ESCTransitionPlayer.TRANSITION_ID_INSTANT:
-			while yield(
-				escoria.main.scene_transition,
-				"transition_done"
-			) != transition_id:
-				pass
-	else:
-		if command_params[0] == "main":
-			escoria.game_scene.show_main_menu()
-		elif command_params[0] == "pause":
-			escoria.game_scene.pause_game()
+	if transition_id != ESCTransitionPlayer.TRANSITION_ID_INSTANT:
+		while yield(
+			escoria.main.scene_transition,
+			"transition_done"
+		) != transition_id:
+			pass
 
 	return ESCExecution.RC_OK
 
