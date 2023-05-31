@@ -1,3 +1,13 @@
+## [4.0.0-alpha.248](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.248) (2023-05-31)
+
+
+### Bug Fixes
+
+* corrects the interrupt signal call arguments ([3077907](https://github.com/godot-escoria/escoria-demo-game/commit/30779078443f1eb2ba7dd9f133fd22d804b5502b))
+* forces all show_menu and hide_menu commands to use auto transitions since the pause menu pauses the game, blocking further ESC script commands from running; updates room 14 for now ([6dd0a2c](https://github.com/godot-escoria/escoria-demo-game/commit/6dd0a2cd1958d7dbd7542aa85b09596e4fd14255))
+
+
+
 ## [4.0.0-alpha.247](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.247) (2023-05-29)
 
 
