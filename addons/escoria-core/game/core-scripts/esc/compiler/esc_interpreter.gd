@@ -249,6 +249,8 @@ func visit_global_stmt(stmt: ESCGrammarStmts.Global):
 	if stmt.get_initializer():
 		value = _evaluate(stmt.get_initializer())
 
+	# Only define the global if we haven't already done so; otherwise, just
+	# ignore it
 	if not _globals.get_values().has(stmt.get_name().get_lexeme()):
 		_globals.define(stmt.get_name().get_lexeme(), value)
 
