@@ -676,9 +676,10 @@ class HoverStack:
 	# #### Parameters
 	# - item: the item to remove from the hover stack
 	func erase_item(item):
-		hover_stack.erase(item)
-		_sort()
-		emit_signal("hover_stack_changed")
+		if hover_stack.has(item):
+			hover_stack.erase(item)
+			_sort()
+			emit_signal("hover_stack_changed")
 
 
 	# Clear the stack of hovered items
