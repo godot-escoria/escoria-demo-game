@@ -1,0 +1,180 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=1]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=2]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=3]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=4]
+[ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=5]
+[ext_resource path="res://game/rooms/room20/assets/forrest_height_texture.png" type="Texture" id=6]
+[ext_resource path="res://game/rooms/room20/assets/walk_behind_tree.png" type="Texture" id=7]
+[ext_resource path="res://game/rooms/room20/assets/forrest_light_map.png" type="Texture" id=8]
+[ext_resource path="res://icon.png" type="Texture" id=9]
+[ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=10]
+[ext_resource path="res://game/rooms/room20/assets/forrest.png" type="Texture" id=11]
+[ext_resource path="res://game/rooms/room20/assets/streetlight.png" type="Texture" id=12]
+
+[sub_resource type="NavigationPolygon" id=1]
+vertices = PoolVector2Array( 186.268, 917.779, 38.2684, 886.779, 120.268, 837.779, 257.268, 857.779, 366.268, 1030.78, 263.268, 967.779, 430.268, 934.779, 486.268, 1064.78, 649.268, 1020.78, 605.268, 925.779, 778.268, 954.779, 2168.27, 832.779, 2273.27, 750.779, 2363.27, 804.779, 2277.27, 891.779, 2132.27, 971.779, 2005.27, 870.779, 1939.27, 1010.78, 1825.27, 879.779, 1727.27, 1002.78, 1708.27, 857.779, 1609.27, 948.779, 1608.27, 807.779, 1526.27, 860.779, 1512.27, 744.779, 1433.27, 745.779, 1381.27, 658.779, 1376.27, 675.779, 1301.27, 624.779, 1318.27, 622.779, 1236.27, 593.779, 1221.27, 600.779, 1113.27, 584.779, 1123.27, 594.779, 1061.27, 600.779, 1045.27, 593.779, 996.268, 617.779, 968.268, 612.779, 934.268, 668.779, 894.268, 641.779, 721.268, 837.779, 840.268, 866.779, 887.268, 745.779, 802.268, 715.779 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 0, 3, 6, 7 ), PoolIntArray( 8, 7, 6, 9, 10 ), PoolIntArray( 11, 12, 13, 14, 15 ), PoolIntArray( 16, 11, 15, 17 ), PoolIntArray( 18, 16, 17, 19 ), PoolIntArray( 20, 18, 19, 21 ), PoolIntArray( 22, 20, 21, 23 ), PoolIntArray( 24, 22, 23, 25 ), PoolIntArray( 26, 24, 25, 27 ), PoolIntArray( 26, 27, 28, 29 ), PoolIntArray( 30, 29, 28, 31 ), PoolIntArray( 32, 30, 31, 33 ), PoolIntArray( 32, 33, 34, 35 ), PoolIntArray( 35, 34, 36, 37 ), PoolIntArray( 37, 36, 38, 39 ), PoolIntArray( 10, 9, 40, 41 ), PoolIntArray( 42, 41, 40, 43, 39 ), PoolIntArray( 42, 39, 38 ) ]
+outlines = [ PoolVector2Array( 120.268, 837.779, 257.268, 857.779, 430.268, 934.779, 605.268, 925.779, 721.268, 837.779, 802.268, 715.779, 894.268, 641.779, 968.268, 612.779, 1045.27, 593.779, 1113.27, 584.779, 1236.27, 593.779, 1318.27, 622.779, 1381.27, 658.779, 1512.27, 744.779, 1608.27, 807.779, 1708.27, 857.779, 1825.27, 879.779, 2005.27, 870.779, 2168.27, 832.779, 2273.27, 750.779, 2363.27, 804.779, 2277.27, 891.779, 2132.27, 971.779, 1939.27, 1010.78, 1727.27, 1002.78, 1609.27, 948.779, 1526.27, 860.779, 1433.27, 745.779, 1376.27, 675.779, 1301.27, 624.779, 1221.27, 600.779, 1123.27, 594.779, 1061.27, 600.779, 996.268, 617.779, 934.268, 668.779, 887.268, 745.779, 840.268, 866.779, 778.268, 954.779, 649.268, 1020.78, 486.268, 1064.78, 366.268, 1030.78, 263.268, 967.779, 186.268, 917.779, 38.2684, 886.779 ) ]
+
+[node name="room20" type="Node2D"]
+script = ExtResource( 1 )
+global_id = "room20"
+esc_script = "res://game/rooms/room20/esc/room20.esc"
+player_scene = ExtResource( 10 )
+camera_limits = [ Rect2( 0, 0, 2390, 1200 ) ]
+editor_debug_mode = 1
+
+[node name="Sprite2" type="Sprite" parent="."]
+texture = ExtResource( 11 )
+centered = false
+offset = Vector2( 0.1, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="room_label" type="Label" parent="Sprite2"]
+margin_right = 82.0
+margin_bottom = 21.0
+custom_fonts/font = ExtResource( 5 )
+text = "ROOM 4"
+
+[node name="Label" type="Label" parent="Sprite2"]
+modulate = Color( 0, 0, 0, 1 )
+margin_left = 782.0
+margin_top = 159.0
+margin_right = 1112.0
+margin_bottom = 425.0
+custom_fonts/font = ExtResource( 5 )
+text = "Change player height
+using a greyscale 
+depth map on 
+the ESCTerrain node. 
+Use black for the 
+smallest scale, white for 
+the largest.Image must be
+ the same size as the
+      background."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Sprite2"]
+modulate = Color( 0, 0, 0, 1 )
+margin_left = 1246.0
+margin_top = 506.0
+margin_right = 1576.0
+margin_bottom = 682.0
+custom_fonts/font = ExtResource( 5 )
+text = "Colour the player with a
+lightmap on the ESCTerrain 
+node. Use any RGB colour you
+like. The image must be the same
+size as the background. Here a grey is 
+used to darken the player as they walk 
+through  shadows."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="Sprite2"]
+modulate = Color( 0, 0, 0, 1 )
+margin_left = 1285.0
+margin_top = 211.0
+margin_right = 1615.0
+margin_bottom = 373.0
+custom_fonts/font = ExtResource( 5 )
+text = "Use the \"z index\"
+on sprites to make
+the player walk
+behind them like 
+this tree trunk."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+layer = 0
+scroll_base_offset = Vector2( 2500, 0 )
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 1.5, 1 )
+motion_mirroring = Vector2( 2390, 0 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
+position = Vector2( 436, 331 )
+scale = Vector2( 8.32032, 3.48716 )
+texture = ExtResource( 9 )
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 2, 1 )
+motion_mirroring = Vector2( 2390, 0 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer3"]
+position = Vector2( 1510, 635 )
+scale = Vector2( 1, 1.47432 )
+texture = ExtResource( 12 )
+
+[node name="walkable_area" type="Navigation2D" parent="."]
+script = ExtResource( 2 )
+scales = ExtResource( 6 )
+scale_min = 0.4
+lightmap = ExtResource( 8 )
+player_speed_multiplier = 1.5
+player_doubleclick_speed_multiplier = 1.8
+
+[node name="platform" type="NavigationPolygonInstance" parent="walkable_area"]
+position = Vector2( 6.73163, -264.779 )
+navpoly = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_editor_description_": ""
+}
+
+[node name="player_start" type="Position2D" parent="."]
+position = Vector2( 90, 602 )
+script = ExtResource( 4 )
+global_id = "r4_player_start"
+is_start_location = true
+
+[node name="Hotspots" type="Node2D" parent="."]
+
+[node name="l_door" type="Area2D" parent="Hotspots"]
+pause_mode = 1
+script = ExtResource( 3 )
+global_id = "l_exit"
+esc_script = "res://game/rooms/room20/esc/left_exit.esc"
+is_exit = true
+combine_when_selected_action_is_in = [  ]
+dialog_color = Color( 1, 1, 1, 1 )
+animations = null
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
+polygon = PoolVector2Array( 22, 633, 21, 328, 143, 276, 143, 565 )
+
+[node name="Position2D" type="Position2D" parent="Hotspots/l_door"]
+position = Vector2( 92, 603 )
+script = ExtResource( 4 )
+
+[node name="r_door" type="Area2D" parent="Hotspots"]
+pause_mode = 1
+script = ExtResource( 3 )
+global_id = "r_exit"
+esc_script = "res://game/rooms/room20/esc/right_exit.esc"
+is_exit = true
+combine_when_selected_action_is_in = [  ]
+dialog_color = Color( 1, 1, 1, 1 )
+animations = null
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
+polygon = PoolVector2Array( 2266, 480, 2266, 189, 2385, 242, 2387, 544 )
+
+[node name="Position2D" type="Position2D" parent="Hotspots/r_door"]
+position = Vector2( 2313, 520 )
+script = ExtResource( 4 )
+
+[node name="walk_behind_tree" type="Sprite" parent="."]
+position = Vector2( 1195, 278 )
+z_index = 366
+texture = ExtResource( 7 )
