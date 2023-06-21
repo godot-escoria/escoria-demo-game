@@ -311,13 +311,11 @@ func mousewheel_action(direction: int):
 
 
 func hide_ui():
-	$CanvasLayer/ui/HBoxContainer/inventory_ui.hide()
-	$CanvasLayer/ui.hide()
+	$CanvasLayer/ui.propagate_call("set_visible", [false], true)
 
 
 func show_ui():
-	$CanvasLayer/ui/HBoxContainer/inventory_ui.show()
-	$CanvasLayer/ui.show()
+	$CanvasLayer/ui.propagate_call("set_visible", [true], false)
 
 
 func hide_main_menu():
