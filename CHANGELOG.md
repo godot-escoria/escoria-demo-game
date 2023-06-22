@@ -1,3 +1,12 @@
+## [4.0.0-alpha.251](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.251) (2023-06-22)
+
+
+### Bug Fixes
+
+* properly hides mouse UI and inventory, e.g. when inventory drawer is shown and the UI is then told to hide itself ([47f02a0](https://github.com/godot-escoria/escoria-demo-game/commit/47f02a09e0841eb501c17785e4f64c36548dbba6))
+
+
+
 ## [4.0.0-alpha.250](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.250) (2023-06-16)
 
 
