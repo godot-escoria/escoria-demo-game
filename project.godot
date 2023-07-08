@@ -821,7 +821,7 @@ main/force_quit=true
 main/command_directories=[ "res://addons/escoria-core/game/core-scripts/esc/commands" ]
 main/text_lang="fr_FR"
 main/voice_lang="fr_FR"
-main/savegames_path="res://saves/"
+main/savegames_path="user://saves/"
 main/settings_path="user://"
 main/game_migration_path=""
 debug/terminate_on_warnings=false
@@ -850,7 +850,6 @@ platform/skip_cache=false
 platform/skip_cache.mobile=true
 sound/speech_enabled=1
 ui/tooltip_follows_mouse=false
-main/escoria_version=""
 ui/dialogs_chooser="res://addons/escoria-core/ui_library/dialogs/text_dialog_chooser.tscn"
 ui/default_dialog_scene="res://addons/escoria-core/ui_library/dialogs/floating_dialog_player.tscn"
 main/action_default_script="res://action_defaults.esc"
@@ -865,6 +864,7 @@ dialog_simple/reading_speed_in_wpm=200
 dialog_simple/left_click_action="Speed up"
 dialog_simple/stop_talking_animation_on="End of audio"
 debug/enable_hover_stack_viewer=true
+main/escoria_version="4.0-alpha"
 
 [input]
 
