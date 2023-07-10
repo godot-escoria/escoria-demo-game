@@ -1,3 +1,12 @@
+## [4.0.0-alpha.252](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.252) (2023-07-10)
+
+
+### Bug Fixes
+
+* add .cfg files and R/W permissions to android export ([2b0e65f](https://github.com/godot-escoria/escoria-demo-game/commit/2b0e65f7d1ae8045b338553bc08e8419ca1d4532))
+
+
+
 ## [4.0.0-alpha.251](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.251) (2023-06-22)
 
 
