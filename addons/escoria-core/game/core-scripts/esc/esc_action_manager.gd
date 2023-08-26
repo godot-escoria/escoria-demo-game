@@ -185,7 +185,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 			_:
 				escoria.logger.warn(
 					self,
-					"Action received: %s with params %s.", [action, params]
+					"Action received: '%s' with params %s.", [action, params]
 				)
 	elif escoria.current_state == escoria.GAME_STATE.WAIT:
 		pass
@@ -303,7 +303,7 @@ func _get_event_to_queue(
 								event_to_return = escoria.action_default_script.events[action]
 							else:
 								var errors = [
-									"Attempted to execute action %s between item %s and item %s" % [
+									"Attempted to execute action '%s' between item %s and item %s" % [
 										action,
 										target.global_id,
 										combine_with.global_id
@@ -337,7 +337,7 @@ func _get_event_to_queue(
 				escoria.logger.warn(
 					self,
 					"Invalid action on item: " +
-					"Trying to run action %s on object %s, " %
+					"Trying to run action '%s' on object %s, " %
 					[
 						action,
 						target.node.global_id
@@ -356,7 +356,7 @@ func _get_event_to_queue(
 			escoria.logger.warn(
 				self,
 				"Invalid action: " +
-					"Event for action %s on object %s not found." % [
+					"Event for action '%s' on object '%s' not found." % [
 						action,
 						target.global_id
 					]

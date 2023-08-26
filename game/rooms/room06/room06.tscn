@@ -82,11 +82,11 @@ __meta__ = {
 [node name="worker" parent="Hotspots" instance=ExtResource( 7 )]
 position = Vector2( 478, 377 )
 esc_script = "res://game/rooms/room06/esc/worker.esc"
-interaction_direction = 2
+interaction_angle = 90
 dialog_color = Color( 0.14902, 0.388235, 0.462745, 1 )
 
 [node name="Position2D" type="Position2D" parent="Hotspots/worker"]
-position = Vector2( -81, 2 )
+position = Vector2( -111, 2 )
 script = ExtResource( 9 )
 
 [node name="r6_l_exit" type="Area2D" parent="Hotspots"]

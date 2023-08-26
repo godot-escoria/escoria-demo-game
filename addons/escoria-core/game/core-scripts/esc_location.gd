@@ -21,13 +21,12 @@ export(String) var global_id
 # If true, this ESCLocation is considered as a player start location
 export(bool) var is_start_location = false setget set_is_start_location
 
-# If true, player orients towards 'interaction_direction' as
+# If true, player orients towards 'interaction_angle' as
 # player character arrives.
 export(bool) var player_orients_on_arrival = true
 
-# Let the player turn to this direction when the player arrives
-# at the item
-export(int) var interaction_direction
+# Let the player turn to this angle when the player arrives at the item
+export(int) var interaction_angle
 
 
 var _multiple_start_locations_exist: bool = false setget set_multiple_locations_exist

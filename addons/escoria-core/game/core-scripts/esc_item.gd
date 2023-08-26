@@ -14,6 +14,10 @@ extends Area2D
 class_name ESCItem, "res://addons/escoria-core/design/esc_item.svg"
 
 
+# List of forbidden characters in global_ids
+const FORBIDDEN_CHARACTERS: String = "['\"]"
+
+
 # Emitted when the mouse has entered this item
 #
 # #### Parameters
@@ -90,13 +94,12 @@ export(bool) var is_interactive = true
 # and be moved with commands like teleport and turn_to.
 export(bool) var is_movable = false
 
-# If true, player orients towards 'interaction_direction' as
+# If true, player orients towards 'interaction_angle' as
 # player character arrives.
 export(bool) var player_orients_on_arrival = true
 
-# Let the player turn to this direction when the player arrives at the
-# item
-export(int) var interaction_direction
+# Let the player turn to this angle when the player arrives at the item
+export(int) var interaction_angle
 
 # The name for the tooltip of this item
 export(String) var tooltip_name
@@ -188,6 +191,7 @@ func _ready():
 	add_to_group(GROUP_ITEM_CAN_COLLIDE)
 
 	validate_animations(animations)
+	validate_exported_parameters()
 
 	if not self.is_connected("input_event", self, "_on_input_event"):
 		connect("input_event", self, "_on_input_event")
@@ -294,6 +298,19 @@ func _ready():
 		if (not is_exit or dont_apply_terrain_scaling) and is_movable:
 			_movable.last_scale = scale
 			_movable.update_terrain()
+
+
+# Validates the various exported parameters so we get immediate crash.
+func validate_exported_parameters() -> void:
+	var regex = RegEx.new()
+	regex.compile(FORBIDDEN_CHARACTERS)
+	var result = regex.search(global_id)
+	if result:
+		escoria.logger.error(
+				self, 
+				"Forbidden character in global_id %s (path: %s)" 
+						% [global_id, get_path()]
+				)
 
 
 # Mouse exited happens on any item that mouse cursor exited, even those UNDER
