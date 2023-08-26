@@ -195,7 +195,6 @@ is_start_location = true
 position = Vector2( 400.129, 432.969 )
 script = ExtResource( 7 )
 global_id = "r1_destination_point"
-interaction_direction = 4
 
 [node name="set_angle_by_esc" type="Position2D" parent="."]
 position = Vector2( 934.11, 502.959 )

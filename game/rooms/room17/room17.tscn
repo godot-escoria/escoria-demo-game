@@ -61,7 +61,7 @@ __meta__ = {
 [node name="l_door" type="Area2D" parent="Hotspots"]
 pause_mode = 1
 script = ExtResource( 7 )
-global_id = "r16_l_exit"
+global_id = "r17_l_exit"
 esc_script = "res://game/rooms/room17/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Left exit"
@@ -79,8 +79,8 @@ script = ExtResource( 5 )
 global_id = "r12_l_exit"
 
 [node name="r_door" parent="Hotspots" instance=ExtResource( 8 )]
-global_id = ""
-esc_script = ""
+global_id = "r17_r_exit"
+esc_script = "res://game/rooms/room17/esc/right_exit.esc"
 combine_when_selected_action_is_in = [  ]
 
 [node name="ESCLocation" type="Position2D" parent="Hotspots/r_door"]
@@ -92,4 +92,3 @@ position = Vector2( 243.677, 455.569 )
 script = ExtResource( 5 )
 global_id = "start"
 is_start_location = true
-interaction_direction = 180
