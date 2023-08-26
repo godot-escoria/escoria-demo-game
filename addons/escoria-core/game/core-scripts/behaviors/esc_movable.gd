@@ -271,7 +271,7 @@ func walk_stop(pos: Vector2) -> void:
 		var orientation = _get_dir_deg(walk_context.target_object.node.interaction_angle + 90,
 			parent.animations)
 		if orientation >= parent.animations.dir_angles.size() or orientation < 0:
-			escoria.logger.warn(self, "Orientation is invalid for item %s (received value: %s)\nPath to item: %s.\nDefaulting to 0." 
+			escoria.logger.warn(self, "Orientation is invalid for item '%s' (received value: %s degrees)\nPath to item: '%s'.\nDefaulting to 0 degrees." 
 					% [
 						walk_context.target_object.global_id, 
 						orientation,
