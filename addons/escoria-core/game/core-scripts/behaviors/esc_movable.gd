@@ -260,25 +260,25 @@ func walk_stop(pos: Vector2) -> void:
 
 	task = MovableTask.NONE
 	moved = false
-	set_process(false) 
+	set_process(false)
 
 	# If we're heading to an object and reached its interaction position,
 	# orient towards the defined interaction direction set on the object
 	# (if any), can be ESCItem or ESCLocation
 	if walk_context.target_object and \
 			walk_context.target_object.node.player_orients_on_arrival:
-		
+	
 		var orientation = _get_dir_deg(walk_context.target_object.node.interaction_angle + 90,
 			parent.animations)
 		if orientation >= parent.animations.dir_angles.size() or orientation < 0:
-			escoria.logger.warn(self, "Orientation is invalid for item '%s' (received value: %s degrees)\nPath to item: '%s'.\nDefaulting to 0 degrees." 
+			escoria.logger.warn(self, "Orientation is invalid for item '%s' (received value: %s degrees)\nPath to item: '%s'.\nDefaulting to 0 degrees."
 					% [
-						walk_context.target_object.global_id, 
+						walk_context.target_object.global_id,
 						orientation,
 						walk_context.target_object.node.get_path()
 					])
 			orientation = 0
-		
+	
 		last_dir = orientation
 		parent.get_animation_player().play(
 			parent.animations.idles[orientation].animation

@@ -307,8 +307,8 @@ func validate_exported_parameters() -> void:
 	var result = regex.search(global_id)
 	if result:
 		escoria.logger.error(
-				self, 
-				"Forbidden character in global_id %s (path: %s)" 
+				self,
+				"Forbidden character in global_id %s (path: %s)"
 						% [global_id, get_path()]
 				)
 
