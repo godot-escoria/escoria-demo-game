@@ -37,42 +37,50 @@ func validate(arguments: Array):
 	if not .validate(arguments):
 		return false
 
-	if not escoria.object_manager.has(arguments[0]):
+	if not escoria.object_manager.has(arguments[0]) and not _is_current_room(arguments[0]):
 		escoria.logger.error(
 			self,
-			"Object with global id %s not found." % arguments[0]
+			"No object or room with global id '%s' found." % arguments[0]
 		)
 		return false
-	var node = escoria.object_manager.get_object(
-		arguments[0]
-	).node
+
+	var node = _get_script_node(arguments[0])
+
 	if not "esc_script" in node or node.esc_script == "":
 		escoria.logger.error(
 			self,
-			"Object with global id %s has no ESC script." % arguments[0]
+			"Object/room with global id '%s' has no ESC script." % arguments[0]
 		)
 		return false
+
 	var esc_script = escoria.esc_compiler.load_esc_file(node.esc_script)
+
 	if not arguments[1] in esc_script.events:
 		escoria.logger.error(
 			self,
-			"Event with name %s not found." % arguments[1]
+			"Event with name '%s' not found." % arguments[1]
 		)
 		return false
+
 	if arguments[3] and not escoria.event_manager.is_channel_free(arguments[2]):
 		escoria.logger.error(
 			self,
-			"The queue %s doesn't accept a new event." % arguments[2]
+			"The queue '%s' doesn't accept a new event." % arguments[2]
 		)
 		return false
+
 	return true
+
+
+# Return whether global_id represents the current room the player is in.
+func _is_current_room(global_id: String) -> bool:
+	return escoria.globals_manager.get_global(escoria.room_manager.GLOBAL_CURRENT_SCENE) == global_id
 
 
 # Run the command
 func run(arguments: Array) -> int:
-	var node = escoria.object_manager.get_object(
-		arguments[0]
-	).node
+	var node = _get_script_node(arguments[0])
+
 	var esc_script = escoria.esc_compiler.load_esc_file(node.esc_script)
 
 	return escoria.event_manager.queue_event_from_esc(
@@ -87,3 +95,27 @@ func run(arguments: Array) -> int:
 func interrupt():
 	# Do nothing
 	pass
+
+
+# Fetches the object node or current room containing the desired ESC script.
+#
+# PRE: If global_id represents a room, then `escoria.main.current_scene` must be valid.
+#
+# **Parameters**
+#
+# - global_id: ID of the object or room with the desired ESC script.
+#
+# *Returns*
+#
+# The object node or the current room.
+func _get_script_node(global_id: String):
+	var node = null
+
+	if escoria.object_manager.has(global_id):
+		node = escoria.object_manager.get_object(
+			global_id
+		).node
+	else:
+		node = escoria.main.current_scene
+
+	return node
