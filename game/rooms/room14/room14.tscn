@@ -98,7 +98,6 @@ position = Vector2( 243.677, 455.569 )
 script = ExtResource( 5 )
 global_id = "start"
 is_start_location = true
-interaction_direction = 180
 
 [node name="show_main_menu" parent="." instance=ExtResource( 9 )]
 global_id = "button_main_menu"
