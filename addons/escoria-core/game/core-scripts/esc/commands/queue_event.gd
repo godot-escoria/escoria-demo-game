@@ -44,7 +44,7 @@ func validate(arguments: Array):
 		)
 		return false
 
-	var node = _get_script_node(arguments[0])
+	var node = _get_scripted_node(arguments[0])
 
 	if not "esc_script" in node or node.esc_script == "":
 		escoria.logger.error(
@@ -79,7 +79,7 @@ func _is_current_room(global_id: String) -> bool:
 
 # Run the command
 func run(arguments: Array) -> int:
-	var node = _get_script_node(arguments[0])
+	var node = _get_scripted_node(arguments[0])
 
 	var esc_script = escoria.esc_compiler.load_esc_file(node.esc_script)
 
@@ -108,7 +108,7 @@ func interrupt():
 # *Returns*
 #
 # The object node or the current room.
-func _get_script_node(global_id: String):
+func _get_scripted_node(global_id: String):
 	var node = null
 
 	if escoria.object_manager.has(global_id):
