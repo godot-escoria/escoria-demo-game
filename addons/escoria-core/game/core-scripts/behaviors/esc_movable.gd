@@ -267,7 +267,7 @@ func walk_stop(pos: Vector2) -> void:
 	# (if any), can be ESCItem or ESCLocation
 	if walk_context.target_object and \
 			walk_context.target_object.node.player_orients_on_arrival:
-	
+
 		var orientation = _get_dir_deg(walk_context.target_object.node.interaction_angle + 90,
 			parent.animations)
 		if orientation >= parent.animations.dir_angles.size() or orientation < 0:
@@ -278,7 +278,7 @@ func walk_stop(pos: Vector2) -> void:
 						walk_context.target_object.node.get_path()
 					])
 			orientation = 0
-	
+
 		last_dir = orientation
 		parent.get_animation_player().play(
 			parent.animations.idles[orientation].animation

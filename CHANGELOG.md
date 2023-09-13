@@ -1,3 +1,13 @@
+## [4.0.0-alpha.255](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.255) (2023-09-13)
+
+
+### Bug Fixes
+
+* allows queue_event to execute events located in a room instead of only objects in a room ([483873e](https://github.com/godot-escoria/escoria-demo-game/commit/483873e48b00f22d212a9a7bac012c7ede3ba61e))
+* makes use of better-named method ([4669964](https://github.com/godot-escoria/escoria-demo-game/commit/4669964b572e3df8d722a8a5c353303292ca0854))
+
+
+
 ## [4.0.0-alpha.254](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.254) (2023-09-08)
 
 
