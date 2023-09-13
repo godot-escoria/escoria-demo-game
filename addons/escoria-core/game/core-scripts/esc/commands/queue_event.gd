@@ -107,7 +107,8 @@ func interrupt():
 #
 # *Returns*
 #
-# The object node or the current room.
+# The object node corresponding to global_id, or the current room if global_id is invalid or does
+# not refer to an object registered with the object manager.
 func _get_scripted_node(global_id: String):
 	var node = null
 
