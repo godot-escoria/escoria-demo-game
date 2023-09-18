@@ -1,37 +1,37 @@
 :look
-> [! r2_look_dialog_advance]
-	say player "That button must activate the bridge."
+> [!r2_look_dialog_advance]
+	say player ROOM2_look_button_1:"That button must activate the bridge."
 	set_global r2_look_dialog_advance 1
 	stop
 > [eq r2_look_dialog_advance 1]
-	say player "I already said that this button must activate the bridge."
+	say player ROOM2_look_button_2:"I already said that this button must activate the bridge."
 	set_global r2_look_dialog_advance 2
 	stop
 > [eq r2_look_dialog_advance 2]
 	set_angle player 180
-	say player "Listen closely."
-	say player "This"
-	say player "button"
-	say player "must"
-	say player "activate"
-	say player "the bridge."
+	say player ROOM2_look_button_3a:"Listen closely."
+	say player ROOM2_look_button_3b:"This"
+	say player ROOM2_look_button_3c:"button"
+	say player ROOM2_look_button_3d:"must"
+	say player ROOM2_look_button_3e:"activate"
+	say player ROOM2_look_button_3f:"the bridge."
 	set_global r2_look_dialog_advance 3
 	stop
 > [eq r2_look_dialog_advance 3]
-	say player "I give up."
-	say player "<sob>"
+	say player ROOM2_look_button_4a:"I give up."
+	say player ROOM2_look_button_4b:"<sob>"
 	stop
 
 
 :push
-say player "I must USE this."
-say r2_button "Bzzt, indeed."
-say player "AH! A talking button."
-say r2_button "I am not a button, I am a mighty AI."
-say player "What?"
-say r2_button "I am intelligent, like you."
-say r2_button "Or, like you think you are, apparently..."
-say player "Hey!"
+say player ROOM2_push_button_1:"I must USE this."
+say r2_button ROOM2_push_button_2:"Bzzt, indeed."
+say player ROOM2_push_button_3:"AH! A talking button."
+say r2_button ROOM2_push_button_4:"I am not a button, I am a mighty AI."
+say player ROOM2_push_button_5:"What?"
+say r2_button ROOM2_push_button_6:"I am intelligent, like you."
+say r2_button ROOM2_push_button_7:"Or, like you think you are, apparently..."
+say player ROOM2_push_button_8:"Hey!"
 
 :use
 > [r2_bridge_closed]
