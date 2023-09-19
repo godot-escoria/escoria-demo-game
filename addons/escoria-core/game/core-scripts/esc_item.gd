@@ -149,6 +149,10 @@ export(NodePath) var animation_player_node: NodePath = "" \
 # as a camera target
 export(NodePath) var camera_node
 
+# Custom data dictionary to ease customization and custom command creation.
+# Avoid name collision using proper key names.
+export(Dictionary) var custom_data = {}
+
 
 # ESCAnimationsResource (for walking, idling...)
 var animations: ESCAnimationResource setget set_animations
