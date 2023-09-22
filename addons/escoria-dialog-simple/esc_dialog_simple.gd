@@ -65,7 +65,6 @@ func disable_preserve_dialog_box() -> void:
 	_should_preserve_dialog_box = false
 
 	if is_instance_valid(_dialog_player) and _dialog_player.get_children().has(_type_player):
-		print("REMOVE _type_player 1")
 		_dialog_player.remove_child(_type_player)
 		_preserved_type_player_type = ""
 
@@ -91,7 +90,6 @@ func say(dialog_player: Node, global_id: String, text: String, type: String, key
 		# box type to the dialog player
 		if type != _preserved_type_player_type:
 			if _dialog_player.get_children().has(_type_player):
-				print("REMOVE _type_player 3")
 				_dialog_player.remove_child(_type_player)
 
 			_init_type_player(type)
@@ -112,7 +110,6 @@ func do_say(global_id: String, text: String) -> void:
 	# Only add_child here in order to prevent _type_player from running its _process method
 	# before we're ready, and only if it's necessary
 	if not _dialog_player.get_children().has(_type_player):
-		print("ADD _type_player 1")
 		_dialog_player.add_child(_type_player)
 
 	_type_player.say(global_id, text)
@@ -123,12 +120,10 @@ func _init_type_player(type: String) -> void:
 		_type_player = preload(\
 			"res://addons/escoria-dialog-simple/types/floating.tscn"\
 		).instance()
-		print("INIT _type_player floating")
 	else:
 		_type_player = preload(\
 			"res://addons/escoria-dialog-simple/types/avatar.tscn"\
 		).instance()
-		print("INIT _type_player avatar")
 
 	_type_player.connect("say_finished", self, "_on_say_finished")
 	_type_player.connect("say_visible", self, "_on_say_visible")
@@ -145,7 +140,6 @@ func _initialize_say_states(global_id: String, text: String, type: String, key: 
 
 func _on_say_finished():
 	if not _should_preserve_dialog_box and _dialog_player.get_children().has(_type_player):
-		print("REMOVE _type_player 4")
 		_dialog_player.remove_child(_type_player)
 
 	_is_saying = false
@@ -209,7 +203,6 @@ func interrupt():
 		).set_state("off")
 
 		if not _should_preserve_dialog_box and _dialog_player.get_children().has(_type_player):
-			print("REMOVE _type_player 2")
 			_dialog_player.remove_child(_type_player)
 
 		emit_signal("say_finished")
