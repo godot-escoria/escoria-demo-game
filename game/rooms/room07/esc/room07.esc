@@ -9,10 +9,10 @@
 	camera_set_target(0, $player)
 
 	# camera_set_limits is how you change the active camera limits. 
-	# If you change the below command to "camera_set_limits 0" you'll notice 
+	# If you change the below command to "camera_set_limits 1" you'll notice 
 	# some of the camera commands start  having issues as the camera no longer
 	# has access to the requested  coordinates
-	camera_set_limits(1)
+	camera_set_limits(0)
 
 	if ESC_LAST_SCENE == "room6":
 		teleport($player, $r7_l_exit)
