@@ -18,6 +18,11 @@ var _text: String
 
 var _ready_to_say: bool
 
+# flag for whether the dialog manager has started to "say" to ensure that it has
+# prior to exiting this state as other states need this to happen to continue
+# (other states rely on the setup that the dialog manager does)
+var _say_started: bool
+
 var _stop_talking_animation_on_option: String
 
 
@@ -63,6 +68,8 @@ func _handle_left_click_action(left_click_action: String) -> void:
 func enter():
 	escoria.logger.trace(self, "Dialog State Machine: Entered 'say'.")
 
+	_say_started = false
+
 	if not _dialog_manager.is_connected("say_visible", self, "_on_say_visible"):
 		_dialog_manager.connect("say_visible", self, "_on_say_visible")
 
@@ -106,9 +113,16 @@ func enter():
 	_ready_to_say = true
 
 
+func exit() -> void:
+	if not _say_started:
+		_dialog_manager.do_say(_character, _text)
+		_say_started = true
+
+
 func update(_delta):
 	if _ready_to_say:
 		_dialog_manager.do_say(_character, _text)
+		_say_started = true
 		_ready_to_say = false
 
 
