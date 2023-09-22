@@ -7,7 +7,7 @@
 
 	teleport($player, $r7_lower_stairs)
 	set_angle($player, 270)
-	camera_set_target(0, player)
+	camera_set_target(0, $player)
 	wait(1)
 	enable_terrain("lower_platform")
 	# Reenable player interaction
