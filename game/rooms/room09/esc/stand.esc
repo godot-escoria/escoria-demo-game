@@ -1,5 +1,5 @@
 
-:use $r9_bottle
+:use "r9_bottle"
 	# Make sure the full sequence completes. Let players speed through the text though.
 	accept_input("SKIP")
 	say($player, "This appears to be a magical bottle that unlocks doors.")
@@ -9,7 +9,7 @@
 	set_state($r9_stand, "set_bottle")
 
 	# Animate the door unlocking
-	set_state($r9_r_exit, open_door)
+	set_state($r9_r_exit, "open_door")
 
 	# Mark this room's puzzle as complete. This will stop it resetting and the 
 	# bottle from being displayed in a cupboard.
