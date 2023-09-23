@@ -73,6 +73,7 @@ global_id = "room18"
 pause_mode = 1
 script = ExtResource( 3 )
 global_id = "bottom_item"
+esc_script = "res://game/rooms/room18/esc/bottom_item.esc"
 tooltip_name = "Bottom item"
 default_action = "use"
 combine_when_selected_action_is_in = [  ]
