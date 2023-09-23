@@ -11,7 +11,7 @@
 	global r5_dialog_advance = 0
 
 	# Disable wrench item if present in the inventory
-	if not $r5_wrench in inventory:
+	if $r5_wrench in inventory:
 		set_active("r5_wrench", false)
 
 	if r5_pipe_broken:
