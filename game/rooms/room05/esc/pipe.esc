@@ -1,7 +1,7 @@
 :look
 	if r5_dialog_advance == 0:
 		say("player", "It's a leaking pipe.")
-		global r5_dialog_advance = 1
+		r5_dialog_advance = 1
 	elif r5_dialog_advance == 1:
 		say("player", "I don't think I can turn off the water with my hands.")
 	elif r5_dialog_advance == 2:
@@ -10,10 +10,11 @@
 :use "r5_wrench"
 	if r5_dialog_advance == 2:
 		say("player", "I already fixed the water leak.")
+		stop
 
 	accept_input("SKIP")
 	set_state("r5_pipe", "stop_water")
 	global r5_pipe_broken = false
 	say("player", "The leak's now fixed.")
-	global r5_dialog_advance = 2
+	r5_dialog_advance = 2
 	accept_input("ALL")
