@@ -143,7 +143,7 @@ func validate(command: String, arguments: Array) -> bool:
 			allowed_types = allowed_types.substr(0, allowed_types.length() - 3) + "]"
 			escoria.logger.error(
 				self,
-				"Argument type did not match descriptor for command \"%s\"\n"
+				"Argument type did not match descriptor for command \"%s\": "
 						% command +
 				"Argument %d (\"%s\") is of type %s. Expected %s."
 						% [
