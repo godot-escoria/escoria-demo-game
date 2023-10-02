@@ -12,4 +12,8 @@ var events: Dictionary
 var parsed_events = {}
 
 
+# The name of the ESC file parsed for this script, if this script was in fact
+# loaded from a file (as opposed to being from an internal string).
+var filename: String = ""
+
 ##############

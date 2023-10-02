@@ -139,7 +139,6 @@ func init():
 	# blink. The UI will be "shown" later via a visibility update to the first room.
 	escoria.game_scene.escoria_hide_ui()
 	run_event_from_script(escoria.start_script, escoria.event_manager.EVENT_INIT)
-	pass
 
 
 # Input function to manage specific input keys
@@ -166,10 +165,15 @@ func run_event_from_script(script: ESCScript, event_name: String, from_statement
 	if script == null:
 		escoria.logger.error(
 			self,
-			"Requested action %s on unloaded script %s." % [event_name, script] +
+			"Requested event %s on unloaded script %s." % [event_name, script] +
 			"Please load the ESC script using esc_compiler.load_esc_file()."
 		)
+
+	if not _event_exists_in_script(script, event_name):
+		return
+
 	script.events[event_name].from_statement_id = from_statement_id
+
 	escoria.event_manager.queue_event(script.events[event_name])
 
 	var rc = yield(escoria.event_manager, "event_finished")
@@ -182,6 +186,49 @@ func run_event_from_script(script: ESCScript, event_name: String, from_statement
 			"Start event of the start script returned unsuccessful: %d." % rc[0]
 		)
 		return
+
+
+# Checks for the existence of both mandatory and optional events within a specified script.
+#
+# #### Parameters
+# - script: The script in which to check for the existence of the given event.
+# - event_name: The name of the event to check for inside the given script.
+#
+# *Returns*
+# True iff event_name exists within script. Method will terminate execution of the program
+# if the specified event is required and doesn't exist.
+func _event_exists_in_script(script: ESCScript, event_name: String) -> bool:
+	if script.events.has(event_name):
+		return true
+
+	if _event_is_required(event_name):
+		if script.filename:
+			escoria.logger.error(
+				self,
+				"The script '%s' is missing a required event: '%s'." % [script.filename, event_name]
+			)
+		else:
+			escoria.logger.error(
+				self,
+				"The required event '%s' requested by internal script is missing." % event_name
+			)
+	else:
+		if script.filename:
+			escoria.logger.warn(
+				self,
+				"The script '%s' is missing the requested event: '%s'." % [script.filename, event_name]
+			)
+		else:
+			escoria.logger.warn(
+				self,
+				"The event '%s' requested by internal script is missing." % event_name
+			)
+
+	return false
+
+
+func _event_is_required(event_name: String) -> bool:
+	return event_name in escoria.event_manager.REQUIRED_EVENTS
 
 
 # Called from escoria autoload to start a new game.

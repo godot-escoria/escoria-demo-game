@@ -163,6 +163,8 @@ func _compiler_shim(source: String, filename: String = ""):
 
 	var script = ESCScript.new()
 
+	script.filename = filename
+
 	if not had_error:
 		for ps in parsed_statements:
 			script.events[ps.get_event_name()] = ps

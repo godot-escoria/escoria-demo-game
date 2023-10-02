@@ -34,6 +34,10 @@ const EVENT_TRANSITION_IN = "transition_in"
 const EVENT_TRANSITION_OUT = "transition_out"
 const EVENT_CANT_REACH = "cant_reach"
 
+const REQUIRED_EVENTS = [
+	EVENT_INIT,
+	EVENT_NEW_GAME
+]
 
 # Event channel names
 const CHANNEL_FRONT = "_front"
