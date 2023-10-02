@@ -520,28 +520,53 @@ func get_animation_player() -> Node:
 #
 # **Returns** The interaction position
 func get_interact_position() -> Vector2:
-	var multiple_positions_found = false
+	var pos_2d_count: int = 0
+	var pos_2d_position = null
+	
+	var esclocation_count = 0
+	var esclocation_position = null
+
+	var interact_count = 0
 	var interact_position = null
+	
 	for c in get_children():
 		if c is Position2D:
-			if interact_position != null:
-				multiple_positions_found = true
-			interact_position = c.global_position
-
-	if interact_position == null and collision != null:
-		interact_position = collision.global_position
+			# Identify any Postion2D nodes
+			if c.is_class("ESCLocation"):
+				esclocation_count += 1
+				esclocation_position = c.global_position
+			elif c.is_class("ESCInteractionLocation"):
+				interact_count += 1
+				interact_position = c.global_position
+			else:
+				# This will catch all other Position2D related nodes
+				# including dialog locations and native Position2D nodes.
+				pos_2d_count += 1
+				pos_2d_position = c.global_position				
+	
+	if interact_position == null and \
+		esclocation_position == null and is_instance_valid(collision):
 		escoria.logger.warn(
 			self,
 			"No ESCLocation found to walk to for object " +
 			"%s. Middle of collision shape will be used." % global_id)
+		return collision.global_position
+	
+	if interact_count > 0:
+		if interact_count > 1:
+			escoria.logger.warn(
+				self,
+				"Multiple ESCInteractionLocations found to walk to for " +
+				"object %s. Last one will be used." % global_id)
+		return interact_position
 
-	if multiple_positions_found:
+	if esclocation_count > 1:
 		escoria.logger.warn(
 			self,
 			"Multiple ESClocations found to walk to for object " +
 			"%s. Last one will be used." % global_id)
-	return interact_position
-
+	return esclocation_position
+	
 
 # React to the mouse entering the item by emitting the respective signal
 func mouse_entered():

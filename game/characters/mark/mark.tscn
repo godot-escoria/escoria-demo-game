@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=2]
+[gd_scene load_steps=86 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_player.gd" type="Script" id=1]
 [ext_resource path="res://game/characters/mark/png/mark_talk_down.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://game/characters/mark/png/mark_talk_right.png" type="Texture" id=7]
 [ext_resource path="res://game/characters/mark/mark_animations.tres" type="Resource" id=8]
 [ext_resource path="res://game/characters/mark/png/markjester_talk.png" type="Texture" id=9]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_dialog_location.gd" type="Script" id=10]
 
 [sub_resource type="AtlasTexture" id=18]
 atlas = ExtResource( 4 )
@@ -503,10 +504,8 @@ script = ExtResource( 1 )
 global_id = "player"
 esc_script = "res://game/characters/mark/mark.esc"
 is_movable = true
-tooltip_name = "Me"
 default_action = "look"
 combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
 animations = ExtResource( 8 )
 
 [node name="sprite" type="AnimatedSprite" parent="."]
@@ -528,3 +527,4 @@ __meta__ = {
 
 [node name="dialog_position" type="Position2D" parent="."]
 position = Vector2( 0, -320 )
+script = ExtResource( 10 )

@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=1]
 [ext_resource path="res://game/characters/worker/worker_animations.tres" type="Resource" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://game/characters/worker/png/worker_talk_up.png" type="Texture" id=5]
 [ext_resource path="res://game/characters/worker/png/worker_talk_down.png" type="Texture" id=6]
 [ext_resource path="res://game/characters/worker/png/worker_talk_right.png" type="Texture" id=7]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_dialog_location.gd" type="Script" id=8]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 4 )
@@ -198,3 +199,4 @@ shape = SubResource( 3 )
 [node name="dialog_position" type="Position2D" parent="."]
 position = Vector2( 0.0280151, -352.44 )
 scale = Vector2( 4, 4 )
+script = ExtResource( 8 )

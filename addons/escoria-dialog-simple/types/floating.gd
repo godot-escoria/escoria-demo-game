@@ -42,6 +42,7 @@ onready var text_node: RichTextLabel = self
 # Whether the dialog manager is paused
 onready var is_paused: bool = true
 
+var dialog_location_node = null
 
 # Enable bbcode and catch the signal when a tween completed
 func _ready():
@@ -105,13 +106,13 @@ func _ready():
 
 	_current_line = ""
 
+	
 
 func _process(delta):
 	if _current_character.is_inside_tree() and \
-			_current_character.has_node("dialog_position"):
+			is_instance_valid(dialog_location_node):
 		# Position the RichTextLabel on the character's dialog position, if any.
-		rect_position = _current_character.get_node("dialog_position") \
-			.get_global_transform_with_canvas().origin
+		rect_position = dialog_location_node.get_global_transform_with_canvas().origin
 		rect_position.x -= rect_size.x / 2
 
 		_account_for_margin_x()
@@ -134,6 +135,22 @@ func say(character: String, line: String) :
 	# Position the RichTextLabel on the character's dialog position, if any.
 	_current_character = escoria.object_manager.get_object(character).node
 
+	var dialog_location_count:int = 0
+	
+	for c in escoria.object_manager.get_object(character).node.get_children():
+		if c is Position2D:
+			# Identify any Postion2D nodes
+			if c.is_class("ESCDialogLocation"):
+				dialog_location_count += 1
+				dialog_location_node = c
+	
+	if dialog_location_count > 0:
+		if dialog_location_count > 1:
+			escoria.logger.warn(
+				self,
+				"Multiple ESCDialogLocation nodes found " +
+				"object %s. Last one will be used." % _current_character)
+
 	# Set text color to color set in the actor
 	var text_color = _current_character.dialog_color
 	var text_color_html = text_color.to_html(false)
@@ -142,10 +159,9 @@ func say(character: String, line: String) :
 		.format([text_color_html]) + tr(line) + "[/color][center]"
 
 	if _current_character.is_inside_tree() and \
-			_current_character.has_node("dialog_position"):
-		rect_position = _current_character.get_node(
-			"dialog_position"
-		).get_global_transform_with_canvas().origin
+			is_instance_valid(dialog_location_node):
+		rect_position = dialog_location_node.get_global_transform_with_canvas().origin
+
 		rect_position.x -= rect_size.x / 2
 	else:
 		rect_position.x = 0
