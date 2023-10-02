@@ -129,7 +129,7 @@ export(Texture) var inventory_texture: Texture = null \
 		setget ,_get_inventory_texture
 
 # Color used for dialogs
-export(Color) var dialog_color = ColorN("white")
+export(Color) var dialog_color = Color(1,1,1,1)
 
 # If true, terrain scaling will not be applied and
 # node will remain at the scale set in the scene.
