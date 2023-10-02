@@ -178,28 +178,18 @@ func _compiler_shim(source: String, filename: String = ""):
 func load_esc_file(path: String) -> ESCScript:
 	escoria.logger.debug(self, "Parsing file %s." % path)
 
-	if File.new().file_exists(path):
-		var file = File.new()
-		file.open(path, File.READ)
-		var source = file.get_as_text()
+	if not File.new().file_exists(path):
+		escoria.logger.error(
+			self,
+			"Unable to find ESC file: '%s' could not be found." % path
+		)
 
-		#if "start_game.esc" in path:
-		return _compiler_shim(source, path)
+		return null
 
-	return null
-#	if File.new().file_exists(path):
-#		var file = File.new()
-#		file.open(path, File.READ)
-#		var lines = []
-#		while not file.eof_reached():
-#			lines.append(file.get_line())
-#		return self.compile(lines, path)
-#	else:
-#		escoria.logger.error(
-#			self,
-#			"Can not find ESC file: file %s could not be found." % path
-#		)
-#		return null
+	var file = File.new()
+	file.open(path, File.READ)
+
+	return _compiler_shim(file.get_as_text(), path)
 
 
 # Compiles an array of ESC script strings to an ESCScript
