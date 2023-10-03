@@ -62,6 +62,10 @@ func _init():
 
 
 func set_source(source: String) -> void:
+	# If we don't have a newline terminator, then we add one to be safe.
+	if not source.ends_with("\n"):
+		source += "\n"
+
 	_source = source
 
 
