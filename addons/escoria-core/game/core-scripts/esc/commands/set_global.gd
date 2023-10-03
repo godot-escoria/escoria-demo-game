@@ -35,10 +35,10 @@ func validate(arguments: Array):
 
 	for s in ILLEGAL_STRINGS:
 		if s in arguments[0]:
-			escoria.logger.error(
+			raise_error(
 				self,
-				"[%s]: invalid global variable. Global variable %s cannot contain the string '%s'."
-						% [get_command_name(), arguments[0], s]
+				"Invalid global variable. Global variable '%'s cannot contain the string '%s'." 
+					% [arguments[0], s]
 			)
 			return false
 

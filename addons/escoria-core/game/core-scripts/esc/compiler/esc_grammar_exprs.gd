@@ -131,7 +131,7 @@ class Set extends ESCGrammarExpr:
 
 class Call extends ESCGrammarExpr:
 	var _callee: ESCGrammarExpr setget ,get_callee
-	var _paren: ESCToken
+	var _paren: ESCToken setget ,get_paren_token
 	var _arguments: Array setget ,get_arguments
 
 
@@ -147,6 +147,10 @@ class Call extends ESCGrammarExpr:
 
 	func get_arguments() -> Array:
 		return _arguments
+
+
+	func get_paren_token() -> ESCToken:
+		return _paren
 
 
 	func accept(visitor):

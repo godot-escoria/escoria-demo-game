@@ -36,11 +36,7 @@ func run(command_params: Array) -> int:
 		escoria.room_terrain.current_active_navigation_instance.enabled = true
 		return ESCExecution.RC_OK
 	else:
-		escoria.logger.error(
-			self,
-			"[%s]: Can not find terrain node. Terrain node %s could not be found."
-					% [get_command_name(), name]
-		)
+		raise_error(self, "Can not find terrain node. Terrain node %s could not be found." % name)
 		return ESCExecution.RC_ERROR
 
 

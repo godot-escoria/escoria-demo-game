@@ -38,16 +38,13 @@ func validate(arguments: Array):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]) and not _is_current_room(arguments[0]):
-		escoria.logger.error(
-			self,
-			"No object or room with global id '%s' found." % arguments[0]
-		)
+		raise_error(self, "No object or room with global id '%s' found." % arguments[0])
 		return false
 
 	var node = _get_scripted_node(arguments[0])
 
 	if not "esc_script" in node or node.esc_script == "":
-		escoria.logger.error(
+		raise_error(
 			self,
 			"Object/room with global id '%s' has no ESC script." % arguments[0]
 		)
@@ -56,16 +53,16 @@ func validate(arguments: Array):
 	var esc_script = escoria.esc_compiler.load_esc_file(node.esc_script)
 
 	if not arguments[1] in esc_script.events:
-		escoria.logger.error(
+		raise_error(
 			self,
 			"Event with name '%s' not found." % arguments[1]
 		)
 		return false
 
 	if arguments[3] and not escoria.event_manager.is_channel_free(arguments[2]):
-		escoria.logger.error(
+		raise_error(
 			self,
-			"The queue '%s' doesn't accept a new event." % arguments[2]
+			"The queue '%s' can't currently accept new events." % arguments[2]
 		)
 		return false
 

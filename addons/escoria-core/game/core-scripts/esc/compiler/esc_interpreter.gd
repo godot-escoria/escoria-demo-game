@@ -158,6 +158,7 @@ func visit_call_expr(expr: ESCGrammarExprs.Call):
 	var command = ESCCommand.new()
 	command.parameters = args
 	command.name = callee.get_command_name()
+	command.parser_token = expr.get_paren_token()
 
 	var rc = ESCExecution.RC_OK
 

@@ -33,18 +33,15 @@ func validate(arguments: Array):
 
 	if not escoria.main.scene_transition.has_transition(arguments[0]) \
 		and not arguments[0].empty():
-		escoria.logger.error(
+		raise_error(
 			self,
-			"[%s]: argument invalid. Transition with name '%s' doesn't exist."
-					% [get_command_name(), arguments[0]]
+			"Argument invalid. Transition with name '%s' doesn't exist." % arguments[0]
 		)
 		return false
 	if not arguments[1] in ["in", "out"]:
-		escoria.logger.error(
+		raise_error(
 			self,
-			"[%s]: argument invalid" +
-				"Transition type 'in' or 'out' expected, but '%s' was provided."
-					% [get_command_name(), arguments[1]]
+			"Argument invalid. Transition type 'in' or 'out' expected, but '%s' was provided." % arguments[1]
 		)
 		return false
 	return true

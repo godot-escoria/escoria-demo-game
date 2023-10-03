@@ -159,6 +159,16 @@ func _process(delta: float) -> void:
 			var interpreter: ESCInterpreter = escoria.interpreter_factory.create_interpreter()
 			var resolver: ESCResolver = ESCResolver.new(interpreter)
 			var event = _running_events[channel_name]
+
+			escoria.logger.trace(
+				self,
+				"Processing event '%s' from script '%s'." \
+					% [
+						event.get_name().get_lexeme(), 
+						event.get_name().get_filename() if event.get_name().get_filename() else "<internal>"
+					]
+			)
+
 			resolver.resolve(event)
 			
 			#var rc = escoria.interpreter.interpret(event)

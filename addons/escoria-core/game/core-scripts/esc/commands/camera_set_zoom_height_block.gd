@@ -35,11 +35,7 @@ func validate(arguments: Array):
 		return false
 
 	if arguments[0] <= 0:
-		escoria.logger.error(
-			self,
-			"[%s]: invalid height. Can't zoom to a negative height (%d)."
-					% [get_command_name(), arguments[0]]
-		)
+		raise_error(self, "Invalid height. Can't zoom to a negative height (%d)." % arguments[0])
 		return false
 
 	var camera: ESCCamera = escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera

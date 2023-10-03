@@ -27,9 +27,9 @@ func validate(arguments: Array):
 		return false
 
 	if not arguments[0] in ["main", "pause"]:
-		escoria.logger.error(
+		raise_error(
 			self,
-			"[%s]: menu %s is invalid." % [get_command_name(), arguments[0]]
+			"Menu '%s' is invalid." % arguments[0]
 		)
 		return false
 	return true

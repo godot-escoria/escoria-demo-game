@@ -74,11 +74,7 @@ func validate(arguments: Array):
 
 	if arguments[0].to_upper() != CURRENT_PLAYER_KEYWORD \
 		and not escoria.object_manager.has(arguments[0]):
-		escoria.logger.error(
-			self,
-			"[%s]: Invalid object: Object with global id %s not found."
-					% [get_command_name(), arguments[0]]
-		)
+		raise_invalid_object_error(self, arguments[0])
 		return false
 
 	return true
@@ -91,10 +87,9 @@ func run(command_params: Array) -> int:
 	escoria.current_state = escoria.GAME_STATE.DIALOG
 
 	if !escoria.dialog_player:
-		escoria.logger.error(
+		raise_error(
 			self,
-			"[%s]: No dialog player was registered and the say command was encountered."
-					% get_command_name()
+			"No dialog player was registered and the 'say' command was encountered."
 		)
 		escoria.current_state = escoria.GAME_STATE.DEFAULT
 		return ESCExecution.RC_ERROR
