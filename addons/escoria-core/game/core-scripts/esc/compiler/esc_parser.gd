@@ -107,7 +107,7 @@ func _event_declaration():
 		
 		return ret
 	else:
-		return _error(_peek(), "Expected block after event declaration for '%s'." % name.get_lexeme())
+		return _error(_peek(), "Expected block after event declaration for '%s'. Code blocks require tab(s) at the start of a line." % name.get_lexeme())
 
 
 func _expression():
