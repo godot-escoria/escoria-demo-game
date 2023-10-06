@@ -1,3 +1,12 @@
+## [4.0.0-alpha.259](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.259) (2023-10-06)
+
+
+### Features
+
+* Created interation and dialog node types ([2b3eb45](https://github.com/godot-escoria/escoria-demo-game/commit/2b3eb4579d0d3960d35c32e729908a3f19e11183))
+
+
+
 ## [4.0.0-alpha.258](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.258) (2023-10-03)
 
 

@@ -106,7 +106,7 @@ func _ready():
 
 	_current_line = ""
 
-	
+
 
 func _process(delta):
 	if _current_character.is_inside_tree() and \
@@ -136,14 +136,14 @@ func say(character: String, line: String) :
 	_current_character = escoria.object_manager.get_object(character).node
 
 	var dialog_location_count:int = 0
-	
+
 	for c in escoria.object_manager.get_object(character).node.get_children():
 		if c is Position2D:
 			# Identify any Postion2D nodes
 			if c.is_class("ESCDialogLocation"):
 				dialog_location_count += 1
 				dialog_location_node = c
-	
+
 	if dialog_location_count > 0:
 		if dialog_location_count > 1:
 			escoria.logger.warn(
