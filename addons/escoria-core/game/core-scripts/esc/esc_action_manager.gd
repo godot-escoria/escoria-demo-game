@@ -159,11 +159,17 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 						object_id
 					]
 				)
-				escoria.event_manager.queue_event(
-					escoria.object_manager.get_object(trigger_id).events[
-						trigger_in_verb
-					]
-				)
+				if trigger_in_verb in escoria.object_manager.get_object(trigger_id).events:
+					escoria.event_manager.queue_event(
+						escoria.object_manager.get_object(trigger_id).events[
+							trigger_in_verb
+						]
+					)
+				else:
+					escoria.logger.info(
+						self,
+						"%s event not found for object %s so nothing to do." % \
+							[trigger_in_verb, trigger_id])
 
 			ACTION.TRIGGER_OUT:
 				var trigger_id = params[0]
@@ -176,11 +182,18 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 						object_id
 					]
 				)
-				escoria.event_manager.queue_event(
-					escoria.object_manager.get_object(trigger_id).events[
-						trigger_out_verb
-					]
-				)
+				if trigger_out_verb in escoria.object_manager.get_object(trigger_id).events:
+					escoria.event_manager.queue_event(
+						escoria.object_manager.get_object(trigger_id).events[
+							trigger_out_verb
+						]
+					)
+				else:
+					escoria.logger.info(
+						self,
+						"%s event not found for object %s so nothing to do." % \
+							[trigger_out_verb, trigger_id])
+
 
 			_:
 				escoria.logger.warn(
