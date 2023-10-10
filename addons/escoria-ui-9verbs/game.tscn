@@ -31,9 +31,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 theme = ExtResource( 10 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="panel_down" type="PanelContainer" parent="ui/Control"]
 anchor_top = 0.7
@@ -60,8 +57,7 @@ anchor_bottom = 0.0
 margin_top = 10.0
 margin_right = 1280.0
 margin_bottom = 32.0
-bbcode_text = "[center]Test[/center]"
-text = "Test"
+bbcode_text = ""
 fit_content_height = true
 color = Color( 1, 1, 1, 1 )
 
