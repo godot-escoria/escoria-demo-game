@@ -293,6 +293,7 @@ _global_script_classes=[ {
 "class": "ESCInteractionLocation",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc_interaction_location.gd"
+}, {
 "base": "Reference",
 "class": "ESCInterpreter",
 "language": "GDScript",

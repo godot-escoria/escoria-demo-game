@@ -37,9 +37,8 @@
 	# worker 2 will start walking.
 	queue_event($room14, "sayworker", "_queuedemo", true)
 	queue_event($worker, "moveworker", "_queuedemo", true)
-	queue_event($worker, "moveworker2", "_queuedemo")
+	queue_event($worker2, "moveworker2", "_queuedemo")
 
 
 :sayworker
-	say player "Get ready!"
-
+	say($player, "Get ready!")

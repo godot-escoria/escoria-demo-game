@@ -346,7 +346,7 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 	else:
 		escoria.logger.warn(
 			self,
-			"Object with global id %s in room instance (%s, %s) not found."
+			"Object with global id %s in room instance (%s, %s) not found. This can be safely ignored if a room was being searched for."
 			% [global_id, room_key.room_global_id, room_key.room_instance_id]
 		)
 		if escoria.inventory_manager.inventory_has(global_id):

@@ -149,8 +149,8 @@ func visit_call_expr(expr: ESCGrammarExprs.Call):
 		arg = _evaluate(arg)
 
 		# "Adapter" for current ESC commands since they don't currently take
-		# ESCObjects as arguments.
-		if arg is ESCObject:
+		# ESCObject's (or ESCRoom's) as arguments.
+		if arg is ESCObject or arg is ESCRoom:
 			arg = arg.global_id
 
 		args.append(arg)
@@ -480,15 +480,20 @@ func _look_up_object(name: ESCToken):
 
 
 func _look_up_object_by_global_id(global_id: String):
-	var obj: ESCObject = escoria.object_manager.get_object(global_id)
+	var obj = escoria.object_manager.get_object(global_id) # ESCObject
 
-	if not obj:
-		escoria.logger.error(
-			self,
-			"Unable to resolve object with global ID '%s'." % global_id
-		)
+	if obj:
+		return obj
 
-	return obj
+	if escoria.globals_manager.get_global(escoria.room_manager.GLOBAL_CURRENT_SCENE) == global_id:
+		return escoria.main.current_scene
+	
+	escoria.logger.error(
+		self,
+		"Unable to resolve object with global ID '%s'." % global_id
+	)
+
+	return null
 
 
 func look_up_variable(name: ESCToken, expr: ESCGrammarExpr):
