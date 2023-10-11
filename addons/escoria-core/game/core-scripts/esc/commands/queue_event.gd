@@ -71,7 +71,7 @@ func validate(arguments: Array):
 
 # Return whether global_id represents the current room the player is in.
 func _is_current_room(global_id: String) -> bool:
-	return escoria.globals_manager.get_global(escoria.room_manager.GLOBAL_CURRENT_SCENE) == global_id
+	return escoria.main.current_scene.global_id == global_id
 
 
 # Run the command

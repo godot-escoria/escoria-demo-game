@@ -485,7 +485,7 @@ func _look_up_object_by_global_id(global_id: String):
 	if obj:
 		return obj
 
-	if escoria.globals_manager.get_global(escoria.room_manager.GLOBAL_CURRENT_SCENE) == global_id:
+	if escoria.main.current_scene.global_id == global_id:
 		return escoria.main.current_scene
 	
 	escoria.logger.error(
