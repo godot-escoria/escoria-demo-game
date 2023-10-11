@@ -2,20 +2,20 @@ extends Object
 class_name ESCExprVisitor
 
 
-func visitLogicalExpr(expr: ESCGrammarExpr.Logical):
+func visitLogicalExpr(expr: ESCGrammarExprs.Logical):
 	pass
 
-func visitBinaryExpr(expr: ESCGrammarExpr.Binary):
+func visitBinaryExpr(expr: ESCGrammarExprs.Binary):
 	pass
 
-func visitUnaryExpr(expr: ESCGrammarExpr.Unary):
+func visitUnaryExpr(expr: ESCGrammarExprs.Unary):
 	pass
 
-func visitGetExpr(expr: ESCGrammarExpr.Get):
+func visitGetExpr(expr: ESCGrammarExprs.Get):
 	pass
 
-func visitCallExpr(expr: ESCGrammarExpr.Call):
+func visitCallExpr(expr: ESCGrammarExprs.Call):
 	pass
 
-func visitLiteralExpr(expr: ESCGrammarExpr.Literal):
+func visitLiteralExpr(expr: ESCGrammarExprs.Literal):
 	pass
