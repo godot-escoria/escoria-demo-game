@@ -37,17 +37,21 @@ func validate(arguments: Array):
 
 	var node = _get_scripted_node(arguments[1])
 
-	if not node.events.has(arguments[2]):
+	if not "esc_script" in node or node.esc_script == "":
 		raise_error(
 			self,
-			"Invalid object event. Object or room with global id '%s' has no event '%s'."
-				% [
-					arguments[1],
-					arguments[2],
-				]
+			"Object/room with global id '%s' has no ESC script." % arguments[1]
 		)
 		return false
 
+	var esc_script = escoria.esc_compiler.load_esc_file(node.esc_script)
+
+	if not arguments[2] in esc_script.events:
+		raise_error(
+			self,
+			"Event with name '%s' not found." % arguments[2]
+		)
+		return false
 	return true
 
 
@@ -60,8 +64,10 @@ func _is_current_room(global_id: String) -> bool:
 func run(command_params: Array) -> int:
 	var node = _get_scripted_node(command_params[1])
 
+	var esc_script = escoria.esc_compiler.load_esc_file(node.esc_script)
+
 	escoria.event_manager.schedule_event(
-		node.events[command_params[2]],
+		esc_script.events[command_params[2]],
 		command_params[0],
 		command_params[1]
 	)
@@ -92,7 +98,7 @@ func _get_scripted_node(global_id: String):
 	if escoria.object_manager.has(global_id):
 		node = escoria.object_manager.get_object(
 			global_id
-		)
+		).node
 	else:
 		node = escoria.main.current_scene
 
