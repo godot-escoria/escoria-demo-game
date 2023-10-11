@@ -1,3 +1,12 @@
+## [4.0.0-alpha.260](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.260) (2023-10-11)
+
+
+### Bug Fixes
+
+* Stop crash on missing trigger event ([77c7792](https://github.com/godot-escoria/escoria-demo-game/commit/77c7792fc134e39a9db576636956b41fa9cba802))
+
+
+
 ## [4.0.0-alpha.259](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.259) (2023-10-06)
 
 
