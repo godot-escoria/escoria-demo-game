@@ -2,6 +2,5 @@ keys,en,fr,de,es
 ROOM1_look_wall_item_1,"I don't know what that stuff is.","Je ne sais pas ce que c'est.","Ich habe keine Ahnung, was das ist.","No sé que esta cosa."
 ROOM1_look_wall_item_2,"I REALLY don't know what that stuff is.","Je ne sais VRAIMENT pas ce que c'est.","Ich habe WIRKLICH keine Ahnung, was das ist!","REALMENTE no se que es esta cosa."
 ROOM1_look_wall_item_3,"No, SERIOUSLY, I have no idea what that is!","Non, SÉRIEUSEMENT, je n'ai aucune idée de ce que c'est !","IM ERNST! Ich habe keine Ahnung, was das ist!","No, EN SERIO, no tengo ni idea de lo que es!"
-ROOM1_look_wall_item_4,"Please stop asking me that!","Arrêtez de me demander !","Bite hör' auf, mich danach zu fragen!","Porfa deja de preguntarmelo!"
-ROOM6_dialog_1,"What are you doing here?","Que faites-vous ici ?","Was machst Du hier?","¿Qué haces aquí?"
-ROOM6_dialog_2,"I'm selling these fine leather jackets.", "Je vends ces superbes blousons en cuir.","Ich verkaufe diese schicken Lederjacken.","Vendo estas estupendas chaquetas de cuero."
+ROOM1_look_wall_item_4,"Please stop asking me that!","Arrêtez de me demander !","Bite hör' auf, mich danach zu fragen!","Porfa deja de preguntármelo!"
+ROOM6_dialog_bye,,,,

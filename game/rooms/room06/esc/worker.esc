@@ -52,7 +52,7 @@ turn_to worker player
 		- "I know enough about Loom." [!loom_conversation_done]
 			set_global loom_conversation_done true
 		!
-	- "I'm done."
+	- ROOM6_dialog_bye:"I'm done."
 		say player	"Bye!"
 		turn_to worker worker_face_down
 		stop
