@@ -10,7 +10,7 @@ const REGEX = \
 
 
 # Option displayed in the HUD
-var option: String setget ,get_translated_text
+var option: String setget ,get_translated_option
 
 # Conditions to show this dialog
 var conditions: Array = []
