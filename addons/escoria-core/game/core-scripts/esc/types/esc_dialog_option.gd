@@ -51,7 +51,7 @@ func load_string(option_string: String):
 		)
 
 
-func get_translated_text():
+func get_translated_option():
 	# Check if text has a key
 	if ":" in option:
 		var splitted_text = option.split(":")
