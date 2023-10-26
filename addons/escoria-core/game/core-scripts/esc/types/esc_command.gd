@@ -74,7 +74,7 @@ func _init(command_string):
 							"conditions"
 						).split(","):
 					self.conditions.append(
-						ESCCondition.new(condition.strip_edges())
+						ESCConditionParser.parse(condition.strip_edges())
 					)
 	else:
 		escoria.logger.error(
@@ -156,4 +156,3 @@ func interrupt():
 # Override of built-in _to_string function to display the statement.
 func _to_string() -> String:
 	return "Command %s with parameters: %s" % [name, str(parameters)]
-
