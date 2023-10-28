@@ -13,12 +13,6 @@ enum {
 }
 
 
-# Regex that matches condition lines
-const REGEX = \
-	'^(?<is_negated>!)?(?<comparison>eq|gt|lt)? ?(?<is_inventory>i\/)?' + \
-	'(?<is_activity>a\/)?(?<flag>[^ ]+)( (?<comparison_value>.+))?$'
-
-
 const COMPARISON_DESCRIPTION = [
 	"Checking if %s %s %s true%s",
 	"Checking if %s %s %s equals %s",
@@ -45,51 +39,12 @@ var comparison_value
 
 
 # Create a new condition from an ESC condition string
-func _init(comparison_string: String):
-	var comparison_regex = RegEx.new()
-	comparison_regex.compile(
-		REGEX
-	)
-
-	if comparison_regex.search(comparison_string):
-		for result in comparison_regex.search_all(comparison_string):
-			if "is_negated" in result.names:
-				self.negated = true
-			if "comparison" in result.names:
-				match ESCUtils.get_re_group(result, "comparison"):
-					"eq": self.comparison = COMPARISON_EQ
-					"gt": self.comparison = COMPARISON_GT
-					"lt": self.comparison = COMPARISON_LT
-					_:
-						escoria.logger.error(
-							self,
-							"Invalid comparison type detected: %s" %
-									comparison_string +
-							"Comparison type %s unknown" %
-									ESCUtils.get_re_group(
-										result,
-										"comparison"
-									)
-						)
-			if "comparison_value" in result.names:
-				self.comparison_value = ESCUtils.get_typed_value(
-					ESCUtils.get_re_group(
-						result,
-						"comparison_value"
-					)
-				)
-			if "is_inventory" in result.names:
-				self.inventory = true
-			if "is_activity" in result.names:
-				self.comparison = COMPARISON_ACTIVITY
-			if "flag" in result.names:
-				self.flag = ESCUtils.get_re_group(result, "flag")
-	else:
-		escoria.logger.error(
-			self,
-			"Invalid comparison detected: %s\nComparison regexp didn't match."
-					% comparison_string
-		)
+func _init(flag: String, comparison_value, negated: bool = false, inventory: bool = false, comparison: int = COMPARISON_NONE):
+	self.flag = flag
+	self.comparison_value = comparison_value
+	self.negated = negated
+	self.inventory = inventory
+	self.comparison = comparison
 
 
 # Run this comparison against the globals
