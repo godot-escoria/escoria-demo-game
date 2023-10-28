@@ -153,6 +153,8 @@ export(NodePath) var camera_node
 # Avoid name collision using proper key names.
 export(Dictionary) var custom_data = {}
 
+# Item component reference holder
+var components: Dictionary = {}
 
 # ESCAnimationsResource (for walking, idling...)
 var animations: ESCAnimationResource setget set_animations
@@ -838,6 +840,9 @@ func _detect_children() -> void:
 	for c in get_children():
 		if c is CollisionShape2D or c is CollisionPolygon2D:
 			collision = c
+	# Register item components
+	_register_item_components()
+
 
 
 # Upate the terrain when an event finished
@@ -926,3 +931,30 @@ func _get_identifier_as_key_value() -> String:
 # Returns true if the player is currently moving, false otherwise
 func is_moving() -> bool:
 	return _movable.task != ESCMovable.MovableTask.NONE if is_movable else false
+
+# Return true/false if component reference exists.
+func has_component(key: String)->bool:
+	return components.has(key)
+
+# Returns component or null.	
+func get_component(key: String):
+	if(has_component(key)):
+		return components[key]
+	return null
+
+
+# Detect the child item components and set respective references
+func _register_item_components():
+	# Autoload components on runtime
+	_autoload_item_components()
+	for child in get_children():
+		if(child is ESCItemComponent):
+			child = child as ESCItemComponent
+			# Adds reference for later use.
+			components[child.get_component_type()] = child
+			# Calls the component registration with custom_data as reference.
+			child.register(custom_data)
+
+# Extendable function for addons. Allows to define custom components with code.
+func _autoload_item_components():
+	pass
