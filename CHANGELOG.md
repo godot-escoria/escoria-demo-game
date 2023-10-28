@@ -1,3 +1,12 @@
+## [4.0.0-alpha.261](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.261) (2023-10-28)
+
+
+### Bug Fixes
+
+* use default text for dialog options if text is untranslated ([77eaa4c](https://github.com/godot-escoria/escoria-demo-game/commit/77eaa4c80001b8f98371d725a899f1a9146e81b3))
+
+
+
 ## [4.0.0-alpha.260](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.260) (2023-10-11)
 
 

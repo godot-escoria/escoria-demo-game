@@ -542,7 +542,7 @@ func get_interact_position() -> Vector2:
 				# This will catch all other Position2D related nodes
 				# including dialog locations and native Position2D nodes.
 				pos_2d_count += 1
-				pos_2d_position = c.global_position		
+				pos_2d_position = c.global_position	
 
 	if interact_position == null and \
 		esclocation_position == null and is_instance_valid(collision):
