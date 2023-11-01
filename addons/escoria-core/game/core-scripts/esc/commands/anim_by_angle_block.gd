@@ -22,7 +22,7 @@
 #
 # @ESC
 extends ESCBaseCommand
-class_name AnimByAngleCommand
+class_name AnimByAngleBlockCommand
 
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
