@@ -23,6 +23,18 @@ _global_script_classes=[ {
 "class": "AnimCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/anim.gd"
+},
+{
+"base": "ESCBaseCommand",
+"class": "AnimByAngleCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/commands/anim_by_angle.gd"
+},
+{
+"base": "ESCBaseCommand",
+"class": "AnimByAngleBlockCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/commands/anim_by_angle_block.gd"
 }, {
 "base": "ESCBaseCommand",
 "class": "BlockSayCommand",
@@ -298,6 +310,11 @@ _global_script_classes=[ {
 "class": "ESCMigrationManager",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/migrations/esc_migration_manager.gd"
+}, {
+"base": "Resource",
+"class": "ESCAngledAnimationResource",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/resources/esc_angled_animationresource.gd"
 }, {
 "base": "Node",
 "class": "ESCMovable",
@@ -653,6 +670,8 @@ _global_script_class_icons={
 "AcceptInputCommand": "",
 "AnimBlockCommand": "",
 "AnimCommand": "",
+"AnimByAngleCommand": "",
+"AnimByAngleBlockCommand": "",
 "BlockSayCommand": "",
 "CameraPushBlockCommand": "",
 "CameraPushCommand": "",
@@ -708,6 +727,7 @@ _global_script_class_icons={
 "ESCMain": "",
 "ESCMigration": "",
 "ESCMigrationManager": "",
+"ESCAngledAnimationResource": "",
 "ESCMovable": "",
 "ESCMusicPlayer": "",
 "ESCObject": "",
