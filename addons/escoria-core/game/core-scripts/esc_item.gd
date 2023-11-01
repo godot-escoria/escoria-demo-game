@@ -955,12 +955,12 @@ func anim_by_angle(animation: String) -> void:
 			and not _movable.is_mirrored:
 			_sprite_node.scale.x *= -1
 
-	var animation_direction = _movable.last_dir if is_movable else 0
-	animation_player.play(
-		anim_to_play.animations[animation_direction].animation
-	)
-	yield(animation_player, "animation_finished")
-	anim_by_angle_stop()
+		var animation_direction = _movable.last_dir if is_movable else 0
+		animation_player.play(
+			anim_to_play.animations[animation_direction].animation
+		)
+		yield(animation_player, "animation_finished")
+		anim_by_angle_stop()
 
 func anim_by_angle_block(animation: String) -> void:
 	var animation_player = get_animation_player()
