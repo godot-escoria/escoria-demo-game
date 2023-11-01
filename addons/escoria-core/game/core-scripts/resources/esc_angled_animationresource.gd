@@ -1,6 +1,6 @@
 tool
 extends Resource
-class_name ESCMiscAnimationResource
+class_name ESCAngledAnimationResource
 
 # Name of the animation
 export(String) var animation_name: String

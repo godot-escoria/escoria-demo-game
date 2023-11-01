@@ -1,24 +1,22 @@
-# anim_misc player animation
+# anim_by_angle player animation
 #
-# Plays the selected misc animation on the player.
-# Allows you to play custom animations based on the player angle
-# similarly to how speak & walking animations are handled.
+# Plays the selected angled animation specified in "animation" on "player".
 #
-# To add a misc anim, under your ESC Item,
-# under Misc Anims, add a new array of ESCMiscAnimationResource objects.
-# Each MiscAnimationResource has a *name* and an array of *animationNames*
-# e.g. anim_misc player pickupLow
-# -> Plays a misc animation on player called pickupLow that corresponds
+# To add a angled anim, under your ESC Item,
+# under Angled Anims, add a new array of ESCAngledAnimationResource objects.
+# Each AngledAnimationResource has a *name* and an array of *animationNames*
+# e.g. anim_by_angle player pickupLow
+# -> Plays an angled animation on player called pickupLow that corresponds
 # to the current direction of the player
 #
 # **Parameters**
 #
 # *player*: Global ID of the `ESCPlayer` or `ESCItem` object that is active
-# *animation*: The name of the animation under Misc Animations to be played. 
+# *animation*: The name of the animation under Angled Animations to be played. 
 #
 # @ESC
 extends ESCBaseCommand
-class_name AnimMiscCommand
+class_name AnimByAngleCommand
 
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
@@ -50,5 +48,5 @@ func run(command_params: Array) -> int:
 		command_params[0]).node as ESCItem
 	)
 
-	anim_object_node.anim_misc(anim_id)
+	anim_object_node.anim_by_angle(anim_id)
 	return ESCExecution.RC_OK

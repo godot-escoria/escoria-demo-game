@@ -27,10 +27,10 @@ export(Array, Resource) var idles: Array = [] setget set_idles
 # the animation
 export(Array, Resource) var speaks: Array = [] setget set_speaks
 
-# Array of arrays of containing misc animations for each direction (in the
+# Array of arrays of containing angled animations for each direction (in the
 # order defined by dir_angles): scale parameter can be set to -1 to mirror
 # the animation
-export(Array, Resource) var misc_anims: Array = [] setget set_misc_anims
+export(Array, Resource) var angled_anims: Array = [] setget set_angled_anims
 
 
 # Sets the dir_angles property.
@@ -72,11 +72,11 @@ func set_speaks(p_set_speaks: Array) -> void:
 	speaks = p_set_speaks
 	emit_changed()
 
-# Sets the misc animations property.
+# Sets the angled animations property.
 #
 # #### Parameters
 #
-# - p_misc_anims: array of speak resources to set.
-func set_misc_anims(p_misc_anims: Array) -> void:
-	misc_anims = p_misc_anims
+# - p_angled_anims: array of speak resources to set.
+func set_angled_anims(p_angled_anims: Array) -> void:
+	angled_anims = p_angled_anims
 	emit_changed()
