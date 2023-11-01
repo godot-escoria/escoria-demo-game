@@ -26,15 +26,15 @@ _global_script_classes=[ {
 },
 {
 "base": "ESCBaseCommand",
-"class": "AnimAngledCommand",
+"class": "AnimByAngleCommand",
 "language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/anim_angled.gd"
+"path": "res://addons/escoria-core/game/core-scripts/esc/commands/anim_by_angled.gd"
 },
 {
 "base": "ESCBaseCommand",
-"class": "AnimAngledBlockCommand",
+"class": "AnimByAngleBlockCommand",
 "language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/anim_angled_block.gd"
+"path": "res://addons/escoria-core/game/core-scripts/esc/commands/anim_by_angle_block.gd"
 }, {
 "base": "ESCBaseCommand",
 "class": "BlockSayCommand",

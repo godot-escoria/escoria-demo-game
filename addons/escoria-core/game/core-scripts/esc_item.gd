@@ -962,7 +962,7 @@ func anim_by_angle(animation: String) -> void:
 	yield(animation_player, "animation_finished")
 	anim_by_angle_stop()
 
-func anim_by_angle(animation: String) -> void:
+func anim_by_angle_block(animation: String) -> void:
 	var animation_player = get_animation_player()
 
 	if animation_player.is_playing():
