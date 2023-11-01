@@ -469,6 +469,14 @@ func validate_animations(animations_resource: ESCAnimationResource) -> void:
 		else:
 			_validate_animations_property_all_not_null(animations_resource.speaks, "speaks")
 
+		if animations_resource.misc_anims.size():
+			for misc_anim in animations_resource.misc_anims:
+				if misc_anim.animations.size() != num_dir_angles:
+					_scene_warnings.append("%s animation angles specified but %s misc animation '%s' animation(s) given. [%s]" \
+						% [misc_anim.animation_name, num_dir_angles, misc_anim.animations.size(), _get_identifier_as_key_value()])
+				else:
+					_validate_animations_property_all_not_null(misc_anim.animations, misc_anim.animation_name)
+
 	if Engine.is_editor_hint():
 		update_configuration_warning()
 	elif _scene_warnings.size() > 0:
@@ -926,3 +934,50 @@ func _get_identifier_as_key_value() -> String:
 # Returns true if the player is currently moving, false otherwise
 func is_moving() -> bool:
 	return _movable.task != ESCMovable.MovableTask.NONE if is_movable else false
+
+func anim_misc(animation: String) -> void:
+	var animation_player = get_animation_player()
+
+	if animation_player.is_playing():
+		animation_player.stop()
+
+	var anim_to_play = null
+
+	for anim in animations.misc_anims:
+		var misc_anim := anim as ESCMiscAnimationResource
+
+		if misc_anim and misc_anim.animation_name == animation:
+			anim_to_play = misc_anim
+			break
+
+	if anim_to_play:
+		if is_movable and anim_to_play.animations[_movable.last_dir].mirrored \
+			and not _movable.is_mirrored:
+			_sprite_node.scale.x *= -1
+
+	var animation_direction = _movable.last_dir if is_movable else 0
+	animation_player.play(
+		anim_to_play.animations[animation_direction].animation
+	)
+	yield(animation_player, "animation_finished")
+	anim_misc_stop()
+
+
+
+func anim_misc_stop() -> void:
+	var animation_player = get_animation_player()
+
+	if animation_player.is_playing():
+		animation_player.stop()
+
+	if is_movable:
+		if not _movable.is_mirrored and _sprite_node.scale.x < 1:
+			_sprite_node.scale.x *= -1
+
+		animation_player.play(
+			animations.idles[_movable.last_dir].animation
+		)
+	else:
+		animation_player.play(
+			animations.idles[0].animation
+		)
