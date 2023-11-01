@@ -28,7 +28,7 @@ _global_script_classes=[ {
 "base": "ESCBaseCommand",
 "class": "AnimByAngleCommand",
 "language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/anim_by_angled.gd"
+"path": "res://addons/escoria-core/game/core-scripts/esc/commands/anim_by_angle.gd"
 },
 {
 "base": "ESCBaseCommand",
@@ -670,8 +670,8 @@ _global_script_class_icons={
 "AcceptInputCommand": "",
 "AnimBlockCommand": "",
 "AnimCommand": "",
-"AnimAngledCommand": "",
-"AnimAngledBlockCommand": "",
+"AnimByAngleCommand": "",
+"AnimByAngleBlockCommand": "",
 "BlockSayCommand": "",
 "CameraPushBlockCommand": "",
 "CameraPushCommand": "",
