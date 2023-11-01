@@ -986,33 +986,6 @@ func anim_by_angle_block(animation: String) -> void:
 		animation_player.play(
 			anim_to_play.animations[animation_direction].animation
 		)
-		yield(animation_player, "animation_finished")
-		anim_by_angle_stop()
-
-func anim_by_angle_block(animation: String) -> void:
-	var animation_player = get_animation_player()
-
-	if animation_player.is_playing():
-		animation_player.stop()
-
-	var anim_to_play = null
-
-	for anim in animations.angled_anims:
-		var angled_anim := anim as ESCAngledAnimationResource
-
-		if angled_anim and angled_anim.animation_name == animation:
-			anim_to_play = angled_anim
-			break
-
-	if anim_to_play:
-		if is_movable and anim_to_play.animations[_movable.last_dir].mirrored \
-			and not _movable.is_mirrored:
-			_sprite_node.scale.x *= -1
-
-		var animation_direction = _movable.last_dir if is_movable else 0
-		animation_player.play(
-			anim_to_play.animations[animation_direction].animation
-		)
 		var animation_finished = yield(animation_player, "animation_finished")
 		while animation_finished != anim_id:
 			animation_finished = yield(animation_player, "animation_finished")
