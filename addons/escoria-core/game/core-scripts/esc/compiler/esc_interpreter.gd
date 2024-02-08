@@ -556,7 +556,10 @@ func _is_truthy(value) -> bool:
 	if value == null:
 		return false
 
-	return value == true
+	if typeof(value) in [TYPE_INT, TYPE_REAL, TYPE_STRING, TYPE_BOOL]:
+		return bool(value) == true
+
+	return false
 
 
 func _is_equal(left_part, right_part) -> bool:
