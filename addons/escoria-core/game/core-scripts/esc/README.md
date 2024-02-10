@@ -6,6 +6,8 @@ If you're familiar with languages like Python or GDScript, you should feel right
 
 If you're already familiar with ESCscript from earlier versions of Escoria, much of it is the same in terms of how files and events are laid out, as are the commands available.
 
+An evolving [Design Principles](design-principles.md) document is also available.
+
 # Script Files
 
 ASHES is placed into separate files with the extension `.esc`. These files can then be referenced from specific objects in Escoria, like rooms and inventory items. They're also used to setup and start your game.
