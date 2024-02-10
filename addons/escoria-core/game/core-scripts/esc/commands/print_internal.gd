@@ -1,3 +1,5 @@
+# INTERNAL USE ONLY
+#
 # `print string`
 #
 # Prints a message to the Godot debug window.

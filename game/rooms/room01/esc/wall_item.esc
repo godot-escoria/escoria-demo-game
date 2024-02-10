@@ -2,7 +2,7 @@
 	if dialog_advance == 0:
 		say($player, "I don't know what that stuff is.", "ROOM1_look_wall_item_1")
 		dialog_advance = dialog_advance + 1
-		print "dialog_advance is: " + dialog_advance
+		print("dialog_advance is: " + dialog_advance)
 	elif dialog_advance == 1:
 		say($player, "I REALLY don't know what that stuff is.", "ROOM1_look_wall_item_2")
 		dialog_advance = dialog_advance + 1

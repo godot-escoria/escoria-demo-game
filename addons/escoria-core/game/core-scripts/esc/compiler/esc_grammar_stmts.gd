@@ -228,22 +228,6 @@ class If extends ESCGrammarStmt:
 		return visitor.visit_if_stmt(self)
 
 
-class Print extends ESCGrammarStmt:
-	var _expression: ESCGrammarExpr setget ,get_expression
-
-
-	func init(expression: ESCGrammarExpr):
-		_expression = expression
-
-
-	func get_expression() -> ESCGrammarExpr:
-		return _expression
-
-
-	func accept(visitor):
-		return visitor.visit_print_stmt(self)
-
-
 class While extends ESCGrammarStmt:
 	var _condition: ESCGrammarExpr setget ,get_condition
 	var _body: ESCGrammarStmt setget ,get_body
