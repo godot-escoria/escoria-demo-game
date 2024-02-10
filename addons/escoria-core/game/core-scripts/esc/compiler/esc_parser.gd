@@ -120,9 +120,6 @@ func _statement():
 	if _match(ESCTokenType.TokenType.IF):
 		var stmt = _if_statement()
 		return stmt
-	if _match(ESCTokenType.TokenType.PRINT):
-		var stmt = _print_statement()
-		return stmt
 	if _match(ESCTokenType.TokenType.WHILE):
 		var stmt = _while_statement()
 		return stmt
@@ -245,16 +242,6 @@ func _elif_statement():
 
 	var to_ret = ESCGrammarStmts.If.new()
 	to_ret.init(condition, then_branch, [], null)
-	return to_ret
-
-
-func _print_statement():
-	var value = _expression()
-
-	_consume(ESCTokenType.TokenType.NEWLINE, "Expected NEWLINE after value.")
-
-	var to_ret = ESCGrammarStmts.Print.new()
-	to_ret.init(value)
 	return to_ret
 
 
@@ -891,7 +878,6 @@ func _synchronize() -> void:
 			ESCTokenType.TokenType.VAR,\
 			ESCTokenType.TokenType.IF,\
 			ESCTokenType.TokenType.WHILE,\
-			ESCTokenType.TokenType.PRINT,\
 			ESCTokenType.TokenType.RETURN:
 				return
 

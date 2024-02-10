@@ -77,10 +77,6 @@ func visit_global_stmt(stmt: ESCGrammarStmts.Global):
 	pass
 
 
-func visit_print_stmt(stmt: ESCGrammarStmts.Print):
-	_resolve_expr(stmt.get_expression())
-
-
 func visit_dialog_option_stmt(stmt: ESCGrammarStmts.DialogOption):
 	_resolve_expr(stmt.get_option())
 

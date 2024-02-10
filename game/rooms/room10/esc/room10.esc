@@ -1,5 +1,5 @@
 :setup
-	print "This is room 10"
+	print("This is room 10")
 
 	if ESC_LAST_SCENE == "room9":
 		teleport($player, $r10_l_exit)

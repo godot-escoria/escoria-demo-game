@@ -5,7 +5,7 @@
 		say($player, "It should work now.")
 
 	# Demonstrate printing globals as part of print messages
-	print "r3_button_broken is currently " + r3_button_broken
+	print("r3_button_broken is currently " + r3_button_broken)
 	say($player, "r3_button_broken status: " + r3_button_broken)
 
 :push

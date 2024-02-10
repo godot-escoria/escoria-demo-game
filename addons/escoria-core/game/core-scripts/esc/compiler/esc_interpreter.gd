@@ -28,6 +28,10 @@ var _current_event: ESCGrammarStmts.Event
 # multiple events to 
 var _event_stack: Array = []
 
+var _builtin_functions: Array = [
+	"print"
+]
+
 
 func _init(callables: Array, globals: Dictionary):
 	_globals = ESCEnvironment.new()
@@ -137,12 +141,6 @@ func visit_expression_stmt(stmt: ESCGrammarStmts.ESCExpression):
 func visit_call_expr(expr: ESCGrammarExprs.Call):
 	var callee = _evaluate(expr.get_callee())
 
-	if not callee is ESCBaseCommand:
-		escoria.logger.error(
-			self,
-			"Can only call valid commands."
-		)
-
 	var args: Array = []
 
 	for arg in expr.get_arguments():
@@ -154,6 +152,17 @@ func visit_call_expr(expr: ESCGrammarExprs.Call):
 			arg = arg.global_id
 
 		args.append(arg)
+
+	# if we don't have a command to run, check against any built-in functions and,
+	# if one is found and is executed, we're done
+	if not callee is ESCBaseCommand:
+		if not callee in _builtin_functions:
+			escoria.logger.error(
+				self,
+				"Can only call valid commands."
+			)
+		else:
+			return _handle_builtin_function(callee, args)
 
 	var command = ESCCommand.new()
 	command.parameters = args
@@ -183,6 +192,31 @@ func visit_call_expr(expr: ESCGrammarExprs.Call):
 	return rc
 
 
+# TODO: If we end up having functions that need to return values, use and 'out' parameter.
+func _handle_builtin_function(fn_name: String, args: Array) -> int:
+	var rc = ESCExecution.RC_ERROR
+
+	match fn_name:
+		'print':
+			if args.size() > 1:
+				escoria.logger.error(
+					self,
+					"'print' only takes one argument"
+				)
+
+			_print(args)
+			rc = ESCExecution.RC_OK
+
+	return rc
+
+
+func _print(value):
+	if value[0] == null:
+		value[0] = "nil"
+
+	print(value[0])
+
+
 func visit_if_stmt(stmt: ESCGrammarStmts.If):
 	if _is_truthy(_evaluate(stmt.get_condition())):
 		return _execute(stmt.get_then_branch())
@@ -198,17 +232,6 @@ func visit_if_stmt(stmt: ESCGrammarStmts.If):
 		#if not branched and stmt.get_else_branch():
 		if stmt.get_else_branch():
 			return _execute(stmt.get_else_branch())
-
-	return null
-
-
-func visit_print_stmt(stmt: ESCGrammarStmts.Print):
-	var value = _evaluate(stmt.get_expression())
-
-	if value == null:
-		value = "nil"
-
-	print(value)
 
 	return null
 
@@ -440,6 +463,9 @@ func visit_unary_expr(expr: ESCGrammarExprs.Unary):
 func visit_variable_expr(expr: ESCGrammarExprs.Variable):
 	if expr.get_name().get_lexeme().begins_with("$"):
 		return _look_up_object(expr.get_name())
+
+	if expr.get_name().get_lexeme() in _builtin_functions:
+		return expr.get_name().get_lexeme()
 
 	return look_up_variable(expr.get_name(), expr)
 

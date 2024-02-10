@@ -582,7 +582,7 @@ _global_script_classes=[ {
 "base": "ESCBaseCommand",
 "class": "PrintCommand",
 "language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/print.gd"
+"path": "res://addons/escoria-core/game/core-scripts/esc/commands/print_internal.gd"
 }, {
 "base": "ESCBaseCommand",
 "class": "QueueEventCommand",
