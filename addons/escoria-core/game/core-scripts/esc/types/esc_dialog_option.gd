@@ -54,13 +54,14 @@ func load_string(option_string: String):
 func get_translated_option():
 	# Check if text has a key
 	if ":" in option:
-		var splitted_text = option.split(":")
+		var splitted_text = option.split(":", true, 1)
 		var key = splitted_text[0]
 		var translated_text = tr(key)
 
-		# If no translation is found use default text
 		if key != translated_text:
-			return tr(key)
+			return translated_text
+
+		# If no translation is found return default text
 		if splitted_text.size() > 1:
 			return splitted_text[1]
 
