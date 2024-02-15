@@ -1338,8 +1338,8 @@ func export_player(scene_name) -> void:
 	yield(get_tree(), "idle_frame")
 
 	# Add Dialog Position to the ESCPlayer
-	var dialog_position = ESCLocation.new()
-	dialog_position.name = "dialog_position"
+	var dialog_position = ESCDialogLocation.new()
+	dialog_position.name = "ESCDialogLocation"
 	dialog_position.position.y = -(export_largest_sprite.y * 1.2)
 	new_character.add_child(dialog_position)
 
