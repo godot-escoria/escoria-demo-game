@@ -59,7 +59,7 @@ func _ready() -> void:
 # **Returns** the currently playing animation name
 func get_animation() -> String:
 	if _is_animation_player:
-		return _animation_player.current_animation
+		return _animation_player.assigned_animation
 	else:
 		return _animated_sprite.animation
 

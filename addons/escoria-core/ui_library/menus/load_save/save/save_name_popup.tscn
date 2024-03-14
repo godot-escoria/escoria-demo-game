@@ -3,7 +3,6 @@
 [ext_resource path="res://addons/escoria-core/ui_library/menus/load_save/save/save_name_popup.gd" type="Script" id=2]
 
 [node name="save_name_popup" type="PopupDialog"]
-visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )

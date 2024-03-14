@@ -30,17 +30,32 @@ func _on_back_pressed():
 
 # Create the slots from the list of savegames
 func refresh_savegames():
+	# Clear all UI saves slots
 	for slot in $VBoxContainer/ScrollContainer/slots.get_children():
 		$VBoxContainer/ScrollContainer/slots.remove_child(slot)
 
+	# Get saves list
 	var saves_list = escoria.save_manager.get_saves_list()
-	if not saves_list.empty():
-		for save_key in saves_list.keys():
-			var new_slot = slot_ui_scene.instance()
-			$VBoxContainer/ScrollContainer/slots.add_child(
-				new_slot
-			)
-			# Move newest save to the top of the list
-			$VBoxContainer/ScrollContainer/slots.move_child(new_slot, 0)
-			new_slot.set_slot_name_date(saves_list[save_key]["name"], saves_list[save_key]["date"])
-			new_slot.connect("pressed", self, "_on_slot_pressed", [save_key])
+	if saves_list.values().empty():
+		return
+	var saves_array: Array = saves_list.values()
+	saves_array.sort_custom(SaveGamesSorter, "sort_by_date_descending")
+	
+	for save in saves_array:
+		var new_slot = slot_ui_scene.instance()
+		$VBoxContainer/ScrollContainer/slots.add_child(
+			new_slot
+		)
+		
+		var datetime_string = "%02d/%02d/%02d %02d:%02d" % [
+				save.date["day"],
+				save.date["month"],
+				save.date["year"],
+				save.date["hour"],
+				save.date["minute"],
+			]
+		new_slot.set_slot_name_date(save["name"], datetime_string)
+		new_slot.connect("pressed", self, "_on_slot_pressed", [int(save["slotnumber"])])
+
+
+

@@ -175,3 +175,10 @@ func _on_escoria_global_changed(global: String, old_value, new_value) -> void:
 			self,
 			"Global must contain only one item name (received: %s)." % global
 		)
+
+
+# Clear the inventory UI of all its items.
+func clear() -> void:
+	var items_in_inventory_keys: Array = items_ids_in_inventory.keys()
+	for item_id in items_in_inventory_keys:
+		remove_item_by_id(item_id)

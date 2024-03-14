@@ -202,6 +202,8 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 				)
 	elif escoria.current_state == escoria.GAME_STATE.WAIT:
 		pass
+	elif escoria.current_state == escoria.GAME_STATE.LOADING:
+		pass
 
 
 # Sets the current state of action input.
@@ -269,7 +271,7 @@ func _get_event_to_queue(
 
 	escoria.logger.info(
 		self,
-		"Checking if action '%s' on '%s' is valid..." % [action, target]
+		"Checking if action '%s' on '%s' is valid..." % [action, target.global_id if target is ESCObject else target]
 	)
 
 	var event_to_return: ESCEvent = null
@@ -359,6 +361,10 @@ func _get_event_to_queue(
 				)
 	else:
 		if target.events.has(action):
+			# Reset the event if it was finished.
+			if target.events[action].is_completed:
+				target.events[action].is_completed = false
+				target.events[action].from_statement_id = 0
 			event_to_return = target.events[action]
 		elif escoria.action_default_script \
 			and escoria.action_default_script.events.has(action):
@@ -602,7 +608,7 @@ func perform_inputevent_on_object(
 
 		# Using this instead of is_equal_approx due to
 		# https://github.com/godotengine/godot/issues/65257
-		if (player_global_pos - destination_position).length() > 1:
+		if (player_global_pos - destination_position).length() > 1.0:
 			dont_interact = true
 			escoria.logger.info(
 				self,

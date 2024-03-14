@@ -305,7 +305,6 @@ script = ExtResource( 10 )
 debug_mode = 1
 
 [node name="bridge_open" type="NavigationPolygonInstance" parent="walkable_area"]
-visible = false
 navpoly = SubResource( 1 )
 
 [node name="bridge_closed" type="NavigationPolygonInstance" parent="walkable_area"]

@@ -66,3 +66,35 @@ func set_idles(p_set_idles: Array) -> void:
 func set_speaks(p_set_speaks: Array) -> void:
 	speaks = p_set_speaks
 	emit_changed()
+
+
+# Returns the direction id from an animation name.
+#
+# #### Parameters
+#
+# - p_animation_name: the animation name
+#
+# **Returns** The int value representing the direction id of the animation, or -1 if not found.
+func get_direction_id_from_animation_name(p_animation_name: String) -> int:
+	var founds_array = []
+	
+	for directions_anim_resource in directions:
+		if (directions_anim_resource as ESCAnimationName).animation == p_animation_name:
+			founds_array.push_back(directions.find(directions_anim_resource))
+	for idles_anim_resource in idles:
+		if (idles_anim_resource as ESCAnimationName).animation == p_animation_name:
+			founds_array.push_back(idles.find(idles_anim_resource))
+	for speaks_anim_resource in speaks:
+		if (speaks_anim_resource as ESCAnimationName).animation == p_animation_name:
+			founds_array.push_back(speaks.find(speaks_anim_resource))
+	
+	if founds_array.size() > 1:
+		escoria.logger.warn(
+			self,
+			"Multiple animations found for name %s. Returning first direction found." % p_animation_name
+		)
+	elif founds_array.size() == 0:
+		return -1
+	return founds_array[0]
+	
+	

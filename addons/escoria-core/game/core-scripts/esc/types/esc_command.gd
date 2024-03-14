@@ -19,9 +19,26 @@ var parameters: Array = []
 # Conditions are combined using logical AND
 var conditions: Array = []
 
+# True if command was called from a string (usual case) instead of passing parameters directly.
+var commandCalledAsString = true
 
-# Create a command from a command string
-func _init(command_string):
+func exported() -> Dictionary:
+	var export_dict: Dictionary = .exported()
+	export_dict.class = "ESCCommand"
+	export_dict.name = name
+	export_dict.parameters = parameters
+	export_dict.conditions = conditions
+	return export_dict
+
+# Create a command from a command string or from name, parameters and conditions
+func _init(command_string: String, _name: String="", _parameters: Array=[], _conditions: Array=[]):
+	if _name != "":
+		name = _name
+		parameters = _parameters
+		conditions = _conditions
+		commandCalledAsString = false
+		return
+
 	var command_regex = RegEx.new()
 	command_regex.compile(REGEX)
 
@@ -122,7 +139,7 @@ func run() -> int:
 		var argument_descriptor = command_object.configure()
 		var prepared_arguments = argument_descriptor.prepare_arguments(
 			self.parameters
-		)
+		) if commandCalledAsString else self.parameters
 
 		if command_object.validate(prepared_arguments):
 			escoria.logger.debug(
@@ -155,5 +172,4 @@ func interrupt():
 
 # Override of built-in _to_string function to display the statement.
 func _to_string() -> String:
-	return "Command %s with parameters: %s" % [name, str(parameters)]
-
+	return "%s: %s" % [name, str(parameters)]

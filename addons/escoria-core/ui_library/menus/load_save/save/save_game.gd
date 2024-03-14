@@ -34,12 +34,6 @@ func refresh_savegames():
 		_slots.remove_child(slot)
 
 	var saves_list = escoria.save_manager.get_saves_list()
-	if not saves_list.empty():
-		for save_key in saves_list.keys():
-			var new_slot = slot_ui_scene.instance()
-			_slots.add_child(new_slot)
-			new_slot.set_slot_name_date(saves_list[save_key]["name"], saves_list[save_key]["date"])
-			new_slot.connect("pressed", self, "_on_slot_pressed", [save_key])
 
 	var datetime = OS.get_datetime()
 	var datetime_string = "%02d/%02d/%02d %02d:%02d" % [
@@ -51,8 +45,29 @@ func refresh_savegames():
 	]
 	var new_slot = slot_ui_scene.instance()
 	_slots.add_child(new_slot)
+	_slots.move_child(new_slot, 0)
 	new_slot.set_slot_name_date(tr("New save"), datetime_string)
 	new_slot.connect("pressed", self, "_on_slot_pressed", [saves_list.size()+1])
+
+	if saves_list.values().empty():
+		return
+	var saves_array: Array = saves_list.values()
+	saves_array.sort_custom(SaveGamesSorter, "sort_by_date_descending")
+	
+	for save in saves_array:
+		new_slot = slot_ui_scene.instance()
+		_slots.add_child(new_slot)
+		
+		datetime_string = "%02d/%02d/%02d %02d:%02d" % [
+			save.date["day"],
+			save.date["month"],
+			save.date["year"],
+			save.date["hour"],
+			save.date["minute"],
+		]
+		
+		new_slot.set_slot_name_date(save["name"], datetime_string)
+		new_slot.connect("pressed", self, "_on_slot_pressed", [int(save["slotnumber"])])
 
 
 # The back button was pressed

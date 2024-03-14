@@ -47,3 +47,13 @@ func remove_item(item: String):
 # - item: Inventory item id
 func add_item(item: String):
 	escoria.globals_manager.set_global("i/%s" % item, true)
+
+
+# Save the inventory.
+#
+# #### Parameters
+# - p_savegame: ESCSaveGame resource that holds all data of the save
+func save_game(p_savegame: ESCSaveGame) -> void:
+	p_savegame.inventory = []
+	for item in items_in_inventory():
+		p_savegame.inventory.append(item)

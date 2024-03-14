@@ -48,4 +48,4 @@ func _on_command_text_entered(p_command_str : String):
 
 # Set the focus to the command
 func _on_esc_prompt_popup_about_to_show():
-	command.grab_focus()
+	command.call_deferred("grab_focus")

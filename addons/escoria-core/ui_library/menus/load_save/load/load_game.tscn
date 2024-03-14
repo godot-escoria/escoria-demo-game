@@ -7,9 +7,6 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 slot_ui_scene = ExtResource( 2 )
 
 [node name="Panel" type="Panel" parent="."]
@@ -40,8 +37,7 @@ __meta__ = {
 }
 
 [node name="slots" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
-margin_right = 623.0
-margin_bottom = 336.0
+margin_right = 611.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {

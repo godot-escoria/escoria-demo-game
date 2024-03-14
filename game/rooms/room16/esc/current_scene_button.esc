@@ -1,13 +1,10 @@
 :use
 
 > [eq ESC_CURRENT_SCENE room16]
+	save_game 1 "autosave1"
 	say player "This sure looks like room 16."
+	save_game 2 "autosave2"
 	sched_event 1 worker1 r16_worker1_walk
+	save_game 3 "autosave3"
 	sched_event 2 worker1 r16_worker2_walk
-	
-> [eq ESC_CURRENT_SCENE ESC_LAST_SCENE]
-	say player "I'll never say this."
-
-> [eq ESC_CURRENT_SCENE room1]
-	say player "I'll never say this, either."
-
+	save_game 4 "autosave4"

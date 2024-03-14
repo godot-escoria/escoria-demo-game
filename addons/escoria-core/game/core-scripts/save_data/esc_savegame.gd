@@ -17,7 +17,7 @@ export var game_version: String = ""
 export var name: String = ""
 
 # Date of creation of the savegame.
-export var date: String = ""
+export var date: Dictionary = {}
 
 # Main data to be saved
 export var main: Dictionary = {}
@@ -25,8 +25,20 @@ export var main: Dictionary = {}
 # Escoria Global variables exported from ESCGlobalsManager
 export var globals: Dictionary = {}
 
+# Inventory items
+export var inventory: Array = []
+
 # Escoria objects exported from ESCObjectsManager
 export var objects: Dictionary = {}
+
+# Running event exported from ESCEventManager
+export var events: Dictionary = {}
+
+# Enabled ESCTerrain navpolygons
+export var terrain_navpolys: Dictionary = {}
+
+# Settings
+export var settings: Dictionary = {}
 
 # Custom data
 export var custom_data: Dictionary = {}

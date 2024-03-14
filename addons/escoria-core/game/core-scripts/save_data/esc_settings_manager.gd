@@ -69,7 +69,7 @@ func apply_settings() -> void:
 				ESCProjectSettingsManager.TEXT_LANG
 			)
 		)
-
+		
 		escoria.game_scene.apply_custom_settings(custom_settings)
 
 
@@ -126,6 +126,8 @@ func load_settings():
 	save_settings_resource_to_project_settings(settings)
 
 
+# Load the game settings from the settings file
+# **Returns** An ESCSaveSettings resource
 func get_settings() -> ESCSaveSettings:
 	var settings: ESCSaveSettings = ESCSaveSettings.new()
 	var plugin_config = ConfigFile.new()
@@ -157,9 +159,42 @@ func get_settings() -> ESCSaveSettings:
 		ESCProjectSettingsManager.FULLSCREEN
 	)
 	settings.custom_settings = custom_settings
-
+	
 	return settings
 
+
+func load_settings_from_dict(settings_dict: Dictionary):
+	var settings: ESCSaveSettings = ESCSaveSettings.new()
+	settings.escoria_version = settings_dict["escoria_version"]
+	settings.text_lang = settings_dict["text_lang"]
+	settings.voice_lang = settings_dict["voice_lang"]
+	settings.speech_enabled = settings_dict["speech_enabled"]
+	settings.master_volume = settings_dict["master_volume"]
+	settings.music_volume = settings_dict["music_volume"]
+	settings.sfx_volume = settings_dict["sfx_volume"]
+	settings.speech_volume = settings_dict["speech_volume"]
+	settings.fullscreen = settings_dict["fullscreen"]
+	settings.custom_settings = settings_dict["custom_settings"]
+	save_settings_resource_to_project_settings(settings)
+
+
+# Load the game settings from the settings file
+# **Returns** An Dictionary containing the settings
+func get_settings_dict() -> Dictionary:
+	var settings: ESCSaveSettings = get_settings()
+	var settings_dict: Dictionary = {}
+	settings_dict["escoria_version"] = settings.escoria_version
+	settings_dict["text_lang"] = settings.text_lang
+	settings_dict["voice_lang"] = settings.voice_lang
+	settings_dict["speech_enabled"] = settings.speech_enabled
+	settings_dict["master_volume"] = settings.master_volume
+	settings_dict["music_volume"] = settings.music_volume
+	settings_dict["sfx_volume"] = settings.sfx_volume
+	settings_dict["speech_volume"] = settings.speech_volume
+	settings_dict["fullscreen"] = settings.fullscreen
+	settings_dict["custom_settings"] =  settings.custom_settings
+	
+	return settings_dict
 
 
 # Save the game settings in the settings file.
