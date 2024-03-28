@@ -24,18 +24,19 @@ __meta__ = {
 
 [node name="past_actions" type="TextEdit" parent="VBoxContainer"]
 margin_right = 599.0
-margin_bottom = 240.0
+margin_bottom = 340.0
 size_flags_vertical = 3
+wrap_enabled = true
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
-margin_top = 244.0
+margin_top = 344.0
 margin_right = 599.0
-margin_bottom = 248.0
+margin_bottom = 348.0
 
 [node name="command" type="LineEdit" parent="VBoxContainer"]
-margin_top = 252.0
+margin_top = 352.0
 margin_right = 599.0
-margin_bottom = 276.0
+margin_bottom = 376.0
 caret_blink = true
 
 [connection signal="about_to_show" from="." to="." method="_on_esc_prompt_popup_about_to_show"]

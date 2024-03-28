@@ -104,6 +104,7 @@ func validate(command: String, arguments: Array) -> bool:
 			"Arguments didn't match minimum size {num}: Only {args} {verb} found." \
 				.format({"num":self.min_args,"args":required_args_count,"verb":verb})
 		)
+		return false
 
 	if arguments.size() > self.max_args and not has_varargs:
 		escoria.logger.error(
@@ -113,6 +114,7 @@ func validate(command: String, arguments: Array) -> bool:
 				{"num":self.max_args,"args":arguments}
 			)
 		)
+		return false
 
 	for index in range(arguments.size()):
 		if arguments[index] == null:
@@ -150,6 +152,7 @@ func validate(command: String, arguments: Array) -> bool:
 							allowed_types
 						]
 			)
+			return false
 	return true
 
 
