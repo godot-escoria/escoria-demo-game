@@ -412,7 +412,7 @@ func _on_mouse_exited_item(item: ESCItem) -> void:
 
 	if object and not object.interactive:
 		return
-	if object and object.node is ESCPlayer and not (object.node as ESCPlayer).selectable:
+	if object and is_instance_valid(object.node) and object.node is ESCPlayer and not (object.node as ESCPlayer).selectable:
 		hotspot_focused = ""
 		return
 
