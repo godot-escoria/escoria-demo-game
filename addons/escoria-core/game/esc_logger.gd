@@ -1,6 +1,9 @@
 class ESCLoggerBase:
 	# Perform emergency savegame
 	signal perform_emergency_savegame
+	
+	# Sends the error or warning message in the signal
+	signal error_message(message)
 
 	# Sends the error or warning message in the signal
 	signal error_message_signal(message)
@@ -33,6 +36,7 @@ class ESCLoggerBase:
 		_log_level = _level_map[ESCProjectSettingsManager.get_setting(
 			ESCProjectSettingsManager.LOG_LEVEL
 		).to_upper()]
+		
 
 	func formatted_message(context: String, msg: String, letter: String) -> String:
 		return "ESC ({0}) {1} {2}: {3}".format([_formatted_date(), letter, context, msg])
