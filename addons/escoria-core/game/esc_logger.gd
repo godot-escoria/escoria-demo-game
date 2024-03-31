@@ -31,26 +31,42 @@ class ESCLoggerBase:
 	func formatted_message(context: String, msg: String, letter: String) -> String:
 		return "ESC ({0}) {1} {2}: {3}".format([_formatted_date(), letter, context, msg])
 
-
+	# Trace log
 	func trace(owner: Object, msg: String):
-		var context = owner.get_script().resource_path.get_file()
+		var context: String = owner.get_script().resource_path.get_file()
+		trace_static(context, msg)
+
+	# Static trace log (requiring a string for the context)
+	func trace_static(context: String, msg: String):
 		print(formatted_message(context, msg, "T"))
 
 
 	# Debug log
 	func debug(owner: Object, msg: String):
-		var context = owner.get_script().resource_path.get_file()
+		var context: String = owner.get_script().resource_path.get_file()
+		debug_static(context, msg)
+
+	# Static debug log (requiring a string for the context)
+	func debug_static(context: String, msg: String):
 		print(formatted_message(context, msg, "D"))
 
 
 	func info(owner: Object, msg: String):
-		var context = owner.get_script().resource_path.get_file()
+		var context: String = owner.get_script().resource_path.get_file()
+		info_static(context, msg)
+
+	# Static info log (requiring a string for the context)
+	func info_static(context: String, msg: String):
 		print(formatted_message(context, msg, "I"))
 
 
 	# Warning log
 	func warn(owner: Object, msg: String):
-		var context = owner.get_script().resource_path.get_file()
+		var context: String = owner.get_script().resource_path.get_file()
+		warn_static(context, msg)
+
+	# Static warning log (requiring a string for the context)
+	func warn_static(context: String, msg: String):
 		print(formatted_message(context, msg, "W"))
 		push_warning(formatted_message(context, msg, "W"))
 		if ESCProjectSettingsManager.get_setting(
@@ -63,6 +79,10 @@ class ESCLoggerBase:
 	# Error log
 	func error(owner: Object, msg: String):
 		var context = owner.get_script().resource_path.get_file()
+		error_static(context, msg)
+
+	# Static error log (requiring a string for the context)
+	func error_static(context: String, msg: String):
 		printerr(formatted_message(context, msg, "E"))
 		push_error(formatted_message(context, msg, "E"))
 		if ESCProjectSettingsManager.get_setting(
@@ -74,6 +94,7 @@ class ESCLoggerBase:
 
 	func get_log_level() -> int:
 		return _log_level
+
 
 	func _formatted_date():
 		var info = OS.get_datetime()
@@ -111,10 +132,17 @@ class ESCLoggerFile extends ESCLoggerBase:
 			File.WRITE
 		)
 
+	# Trace log
 	func trace(owner: Object, msg: String):
 		if _log_level >= LOG_TRACE:
 			_log_to_file(owner, msg, "T")
 			.trace(owner, msg)
+
+	# Static trace log
+	func trace_static(context: String, msg: String):
+		if _log_level >= LOG_TRACE:
+			_log_to_file_static(context, msg, "T")
+			.trace_static(context, msg)
 
 	# Debug log
 	func debug(owner: Object, msg: String):
@@ -122,11 +150,24 @@ class ESCLoggerFile extends ESCLoggerBase:
 			_log_to_file(owner, msg, "D")
 			.debug(owner, msg)
 
+	# Static debug log
+	func debug_static(context: String, msg: String):
+		if _log_level >= LOG_DEBUG:
+			_log_to_file_static(context, msg, "D")
+			.debug_static(context, msg)
+
+	# Info log
 	func info(owner: Object, msg: String):
 		if _log_level >= LOG_INFO:
 			_log_to_file(owner, msg, "I")
 			.info(owner, msg)
-
+	
+	# Static info log
+	func info_static(context: String, msg: String):
+		if _log_level >= LOG_INFO:
+			_log_to_file_static(context, msg, "I")
+			.info_static(context, msg)
+			
 	# Warning log
 	func warn(owner: Object, msg: String):
 		if _log_level >= LOG_WARNING:
@@ -134,10 +175,22 @@ class ESCLoggerFile extends ESCLoggerBase:
 			if ESCProjectSettingsManager.get_setting(
 				ESCProjectSettingsManager.TERMINATE_ON_WARNINGS
 			):
-				_log_stack_trace_to_file(owner)
+				_log_stack_trace_to_file()
 				print_stack()
 				close_logs()
 			.warn(owner, msg)
+	
+	# Static warning log
+	func warn_static(context: String, msg: String):
+		if _log_level >= LOG_WARNING:
+			_log_to_file_static(context, msg, "W")
+			if ESCProjectSettingsManager.get_setting(
+				ESCProjectSettingsManager.TERMINATE_ON_WARNINGS
+			):
+				_log_stack_trace_to_file()
+				print_stack()
+				close_logs()
+			.warn_static(context, msg)
 
 	# Error log
 	func error(owner: Object, msg: String):
@@ -146,11 +199,22 @@ class ESCLoggerFile extends ESCLoggerBase:
 			if ESCProjectSettingsManager.get_setting(
 				ESCProjectSettingsManager.TERMINATE_ON_ERRORS
 			):
-				_log_stack_trace_to_file(owner)
+				_log_stack_trace_to_file()
 				print_stack()
 				close_logs()
 			.error(owner, msg)
 
+	# Static eror log
+	func error_static(context: String, msg: String):
+		if _log_level >= LOG_ERROR:
+			_log_to_file_static(context, msg, "E")
+			if ESCProjectSettingsManager.get_setting(
+				ESCProjectSettingsManager.TERMINATE_ON_ERRORS
+			):
+				_log_stack_trace_to_file()
+				print_stack()
+				close_logs()
+			.error_static(context, msg)
 
 	# Close the log file cleanly
 	func close_logs():
@@ -160,17 +224,20 @@ class ESCLoggerFile extends ESCLoggerBase:
 
 
 	func _log_to_file(owner: Object, msg: String, letter: String):
+		var context: String
+		if owner != null:
+			context = owner.get_script().resource_path.get_file()
+			_log_to_file_static(context, msg, letter)
+
+	func _log_to_file_static(context: String, msg: String, letter: String):
 		if log_file.is_open():
-			var context = ""
-			if owner != null:
-				context = owner.get_script().resource_path.get_file()
 			log_file.store_string(formatted_message(context, msg, letter) + "\n")
 
 	func _log_line_to_file(msg: String):
 		if log_file.is_open():
 			log_file.store_string(msg + "\n")
 
-	func _log_stack_trace_to_file(owner: Object):
+	func _log_stack_trace_to_file():
 		var frame_number = 0
 		for stack in get_stack().slice(2, get_stack().size()):
 			_log_line_to_file(
@@ -182,7 +249,7 @@ class ESCLoggerFile extends ESCLoggerBase:
 				]
 			)
 			frame_number += 1
-
+		
 
 # A simple logger that logs to terminal using debug() function
 class ESCLoggerVerbose extends ESCLoggerBase:
