@@ -161,13 +161,13 @@ class ESCLoggerFile extends ESCLoggerBase:
 		if _log_level >= LOG_INFO:
 			_log_to_file(owner, msg, "I")
 			.info(owner, msg)
-	
+
 	# Static info log
 	func info_message(context: String, msg: String):
 		if _log_level >= LOG_INFO:
 			_log_to_file_message(context, msg, "I")
 			.info_message(context, msg)
-			
+		
 	# Warning log
 	func warn(owner: Object, msg: String):
 		if _log_level >= LOG_WARNING:
@@ -179,7 +179,7 @@ class ESCLoggerFile extends ESCLoggerBase:
 				print_stack()
 				close_logs()
 			.warn(owner, msg)
-	
+
 	# Static warning log
 	func warn_message(context: String, msg: String):
 		if _log_level >= LOG_WARNING:
@@ -249,7 +249,7 @@ class ESCLoggerFile extends ESCLoggerBase:
 				]
 			)
 			frame_number += 1
-		
+	
 
 # A simple logger that logs to terminal using debug() function
 class ESCLoggerVerbose extends ESCLoggerBase:
