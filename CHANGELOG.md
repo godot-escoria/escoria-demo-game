@@ -1,3 +1,12 @@
+## [4.0.0-alpha.263](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.263) (2024-06-24)
+
+
+### Bug Fixes
+
+* walking speed depending on Z value ([cef1a65](https://github.com/godot-escoria/escoria-demo-game/commit/cef1a6537a1768880b792c65d5b6540ab0b0fca0))
+
+
+
 ## [4.0.0-alpha.262](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.262) (2024-04-02)
 
 
