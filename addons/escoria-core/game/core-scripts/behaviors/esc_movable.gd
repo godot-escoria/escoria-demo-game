@@ -33,6 +33,9 @@ var moved: bool
 # Player Direction used to reflect the movement to the new position
 var last_dir: int
 
+# Last angle calculated
+var last_angle: float
+
 # The last scaling applied to the parent
 var last_scale: Vector2
 
@@ -105,7 +108,8 @@ func _calculate_movement(delta: float):
 		next = walk_path[path_ofs]
 
 	# Movement speed calculation
-	var movement_speed: float = parent.speed * delta * pow(last_scale.x, 2) * \
+	var a: float = pow(sin(last_angle), 2)
+	var movement_speed: float = parent.speed * delta * last_scale.x * (a * last_scale.x + 1 - a) * \
 			parent.terrain.player_speed_multiplier
 	if walk_context.fast:
 		movement_speed *= parent.terrain.player_doubleclick_speed_multiplier
@@ -142,6 +146,7 @@ func _calculate_movement(delta: float):
 #
 # - angle: the angle X axis and object's facing direction.
 func _perform_walk_orientation(angle: float):
+	last_angle = angle
 	last_dir = _get_dir_deg(ESCUtils.get_deg_from_rad(angle),
 		parent.animations)
 
