@@ -1,18 +1,16 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://addons/escoria-core/ui_library/menus/pause_menu/pause_menu.gd" type="Script" id=1]
 [ext_resource path="res://addons/escoria-core/ui_library/menus/options/options.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/escoria-core/design/escoria-logo-small.png" type="Texture" id=3]
 [ext_resource path="res://addons/escoria-core/ui_library/menus/load_save/save/save_game.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/escoria-core/ui_library/menus/load_save/load/load_game.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/escoria-core/ui_library/theme.tres" type="Theme" id=6]
 
 [node name="pause_menu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Panel" type="Panel" parent="."]
 anchor_right = 1.0
@@ -23,11 +21,13 @@ __meta__ = {
 
 [node name="save_game" parent="." instance=ExtResource( 4 )]
 visible = false
+theme = ExtResource( 6 )
 
 [node name="load_game" parent="." instance=ExtResource( 5 )]
 visible = false
 
 [node name="options" parent="." instance=ExtResource( 2 )]
+visible = false
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_left = 0.5
@@ -37,23 +37,20 @@ margin_left = -308.0
 margin_right = 308.0
 custom_constants/separation = 100
 alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
-margin_top = 147.0
+margin_top = 137.0
 margin_right = 616.0
-margin_bottom = 383.0
+margin_bottom = 363.0
 texture = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="menuitems" type="VBoxContainer" parent="VBoxContainer"]
-margin_top = 483.0
+margin_top = 463.0
 margin_right = 616.0
-margin_bottom = 753.0
+margin_bottom = 763.0
 custom_constants/separation = 10
 __meta__ = {
 "_edit_use_anchors_": false
@@ -69,10 +66,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="save_game" type="Button" parent="VBoxContainer/menuitems"]
+[node name="new_game" type="Button" parent="VBoxContainer/menuitems"]
 margin_top = 160.0
 margin_right = 616.0
 margin_bottom = 180.0
+size_flags_vertical = 3
+text = "NEW_GAME"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="save_game" type="Button" parent="VBoxContainer/menuitems"]
+margin_top = 190.0
+margin_right = 616.0
+margin_bottom = 210.0
 size_flags_vertical = 3
 text = "SAVE_GAME"
 __meta__ = {
@@ -80,9 +87,9 @@ __meta__ = {
 }
 
 [node name="load_game" type="Button" parent="VBoxContainer/menuitems"]
-margin_top = 190.0
+margin_top = 220.0
 margin_right = 616.0
-margin_bottom = 210.0
+margin_bottom = 240.0
 size_flags_vertical = 3
 text = "LOAD_GAME"
 __meta__ = {
@@ -90,15 +97,15 @@ __meta__ = {
 }
 
 [node name="options" type="Button" parent="VBoxContainer/menuitems"]
-margin_top = 220.0
-margin_right = 616.0
-margin_bottom = 240.0
-text = "OPTIONS"
-
-[node name="quit" type="Button" parent="VBoxContainer/menuitems"]
 margin_top = 250.0
 margin_right = 616.0
 margin_bottom = 270.0
+text = "OPTIONS"
+
+[node name="quit" type="Button" parent="VBoxContainer/menuitems"]
+margin_top = 280.0
+margin_right = 616.0
+margin_bottom = 300.0
 size_flags_vertical = 3
 text = "QUIT"
 __meta__ = {
@@ -109,6 +116,7 @@ __meta__ = {
 [connection signal="back_button_pressed" from="load_game" to="." method="_on_load_game_back_button_pressed"]
 [connection signal="back_button_pressed" from="options" to="." method="_on_options_back_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/menuitems/continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="VBoxContainer/menuitems/new_game" to="." method="_on_new_game_pressed"]
 [connection signal="pressed" from="VBoxContainer/menuitems/save_game" to="." method="_on_save_game_pressed"]
 [connection signal="pressed" from="VBoxContainer/menuitems/load_game" to="." method="_on_load_game_pressed"]
 [connection signal="pressed" from="VBoxContainer/menuitems/options" to="." method="_on_options_pressed"]

@@ -59,7 +59,7 @@ onready var task = MovableTask.NONE
 func _ready() -> void:
 	if not parent.has_user_signal("arrived"):
 		parent.add_user_signal("arrived")
-
+	
 
 # Main processing loop
 #
@@ -221,7 +221,7 @@ func teleport_to(target: Vector2) -> void:
 # - p_walk_context: Walk context to use
 func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 	if not parent.terrain:
-		walk_stop(parent.get_position())
+		walk_stop(parent.get_global_position())
 		return
 
 	if task == MovableTask.WALK:
@@ -239,7 +239,7 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 
 	if walk_path.size() == 0:
 		task = MovableTask.NONE
-		walk_stop(parent.get_position())
+		walk_stop(parent.get_global_position())
 		set_process(false)
 		return
 	moved = true
@@ -256,7 +256,6 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 # - pos: Final target position
 func walk_stop(pos: Vector2) -> void:
 	parent.global_position = pos
-#	parent.interact_status = parent.INTERACT_STATES.INTERACT_NONE
 	walk_path = []
 
 	if _orig_speed > 0:
@@ -434,10 +433,28 @@ func set_angle(deg: int, wait: float = 0.0) -> void:
 			"Invalid degree to turn to : %s. Valid angles are between 0 and 360." % str(deg)
 		)
 	moved = true
-
-	var current_dir = last_dir
 	var target_dir = _get_dir_deg(deg, parent.animations)
+	set_direction(target_dir, wait)
 
+
+# Sets character's direction (instead of angle, see set_angle()
+# and plays according animation.
+#
+# #### Parameters
+#
+# - target_dir: int direction to set the character
+# - wait: float Wait this amount of seconds until continuing with turning around
+func set_direction(target_dir: int, wait: float = 0.0) -> void:
+	if target_dir < 0 or target_dir >= parent.animations.dir_angles.size():
+		escoria.logger.warn(
+			self,
+			"Invalid direction to turn to : %s. Valid directions are between 0 and %s. " 
+					% [str(target_dir), parent.animations.dir_angles.size() - 1]
+			+ "Resetting target direction to 0 (up)"
+		)
+		target_dir = 0
+	
+	var current_dir = last_dir
 	var way_to_turn = get_shortest_way_to_dir(current_dir, target_dir)
 
 	var dir = current_dir
@@ -455,7 +472,7 @@ func set_angle(deg: int, wait: float = 0.0) -> void:
 			yield(get_tree().create_timer(wait), "timeout")
 		is_mirrored = parent.animations.idles[dir].mirrored
 
-	last_dir = _get_dir_deg(deg, parent.animations)
+	last_dir = dir
 
 	# The character may have a state animation from before, which would be
 	# resumed, so we immediately force the correct idle animation

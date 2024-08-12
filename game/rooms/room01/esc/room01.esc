@@ -11,6 +11,7 @@
 :ready
 
 play_snd res://game/sfx/contemplation.ogg _music
+set_global hop true
 
 > [!room1_visited]
 	set_global room1_visited true
@@ -25,5 +26,5 @@ play_snd res://game/sfx/contemplation.ogg _music
 	walk_block player r1_destination_point3
 	wait 1
 	turn_to player r1_r_exit
-	
+
 

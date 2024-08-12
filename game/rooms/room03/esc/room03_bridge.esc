@@ -12,7 +12,7 @@
 	set_global r3_button_broken true
 	# The parameters aren't used by the disable_door function, 
 	# they're there as an example of how to pass parameters.
-	custom r3_r_exit door_enabler disable_door a b c 1 2 345 {r3_button_broken}
+	#custom r3_r_exit door_enabler disable_door a b c 1 2 345 {r3_button_broken}
 
 > [r3_bridge_closed]
 	# Make set_state IMMEDIATE to reach the final frame immediately
@@ -23,7 +23,7 @@
 	# We use a custom function to enable the collision polygon on the door
 	# to enable it to work as a door once the bridge is closed.
 	# You'll find the script in room3/Hotspots/r_door/door_enabler
-	custom r3_r_exit door_enabler enable_door
+	#custom r3_r_exit door_enabler enable_door
 
 > [eq ESC_LAST_SCENE room2]
 	teleport player r3_l_exit
@@ -53,7 +53,7 @@
 	set_interactive r3_r_exit true
 	# We use a custom function to enable the collision polygon on the door
 	# to enable it to work as a door once the bridge is closed.
-	custom r3_r_exit door_enabler enable_door
+	#custom r3_r_exit door_enabler enable_door
 	# Set player look left
 	set_angle player 270
 	stop

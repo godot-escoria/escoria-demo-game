@@ -14,15 +14,15 @@
 [sub_resource type="GDScript" id=15]
 script/source = "extends Node2D
 
-# Currently an empty array is passed as a parameter to the function. No parameters are required.
-func enable_door(_notused):
-	# Enable the collision polygon on the door so it is recognised as an ESCItem
-	$\"../CollisionPolygon2D\".disabled = false
-
-# Currently an empty array is passed as a parameter to the function. No parameters are required.
-func disable_door(_notused):
-	# Enable the collision polygon on the door so it is recognised as an ESCItem
-	$\"../CollisionPolygon2D\".disabled = true
+## Currently an empty array is passed as a parameter to the function. No parameters are required.
+#func enable_door(_notused):
+#	# Enable the collision polygon on the door so it is recognised as an ESCItem
+#	$\"../CollisionPolygon2D\".disabled = false
+#
+## Currently an empty array is passed as a parameter to the function. No parameters are required.
+#func disable_door(_notused):
+#	# Enable the collision polygon on the door so it is recognised as an ESCItem
+#	$\"../CollisionPolygon2D\".disabled = true
 "
 
 [sub_resource type="Animation" id=10]
@@ -159,7 +159,6 @@ __meta__ = {
 global_id = "r3_right_platform"
 esc_script = "res://game/rooms/room03/esc/right_platform.esc"
 combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_platform"]
@@ -188,12 +187,10 @@ is_exit = true
 is_interactive = false
 tooltip_name = "Exit"
 combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
 polygon = PoolVector2Array( 1174, 356, 1177, 68, 1278, 110, 1279, 419 )
-disabled = true
 
 [node name="Position2D" type="Position2D" parent="Hotspots/r_door"]
 position = Vector2( 1223, 376 )
@@ -213,7 +210,6 @@ esc_script = "res://game/rooms/room03/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Exit"
 combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
@@ -236,7 +232,6 @@ global_id = "r3_bridge"
 esc_script = "res://game/rooms/room03/esc/room03_bridge.esc"
 combine_when_selected_action_is_in = [  ]
 inventory_texture = ExtResource( 10 )
-dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="r3_bridge"]
@@ -292,7 +287,6 @@ esc_script = "res://game/rooms/room03/esc/button.esc"
 tooltip_name = "Button"
 default_action = "use"
 combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
 [node name="Particles2D" type="Particles2D" parent="r3_button"]

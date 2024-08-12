@@ -27,7 +27,8 @@ say player "I must USE this."
 	# open.
 	# We use a custom function to enable the collision polygon on the door
 	# to enable it to work as a door once the bridge is closed.
-	custom r3_r_exit door_enabler enable_door
+	
+	#custom r3_r_exit door_enabler enable_door
 	stop
 
 # Button is fixed, bridge is open.

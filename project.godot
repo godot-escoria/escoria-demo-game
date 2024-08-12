@@ -184,6 +184,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_dialog.gd"
 }, {
+"base": "ESCLocation",
+"class": "ESCDialogLocation",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc_dialog_location.gd"
+}, {
 "base": "Control",
 "class": "ESCDialogManager",
 "language": "GDScript",
@@ -248,6 +253,11 @@ _global_script_classes=[ {
 "class": "ESCInputsManager",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/esc_inputs_manager.gd"
+}, {
+"base": "ESCLocation",
+"class": "ESCInteractionLocation",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc_interaction_location.gd"
 }, {
 "base": "Control",
 "class": "ESCInventory",
@@ -344,12 +354,17 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc_room.gd"
 }, {
+"base": "Reference",
+"class": "ESCRoomContainer",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_room_container.gd"
+}, {
 "base": "Resource",
 "class": "ESCRoomManager",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/esc_room_manager.gd"
 }, {
-"base": "Reference",
+"base": "ESCRoomContainer",
 "class": "ESCRoomObjects",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_room_objects.gd"
@@ -358,6 +373,11 @@ _global_script_classes=[ {
 "class": "ESCRoomObjectsKey",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_room_objects_key.gd"
+}, {
+"base": "ESCRoomContainer",
+"class": "ESCRoomTerrains",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_room_terrains.gd"
 }, {
 "base": "Resource",
 "class": "ESCSaveGame",
@@ -500,6 +520,16 @@ _global_script_classes=[ {
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/repeat.gd"
 }, {
 "base": "ESCBaseCommand",
+"class": "SaveGameCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/commands/save_game.gd"
+}, {
+"base": "Reference",
+"class": "SaveGamesSorter",
+"language": "GDScript",
+"path": "res://addons/escoria-core/ui_library/menus/load_save/SaveGamesSorter.gd"
+}, {
+"base": "ESCBaseCommand",
 "class": "SayCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/say.gd"
@@ -530,6 +560,11 @@ _global_script_classes=[ {
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_animations.gd"
 }, {
 "base": "ESCBaseCommand",
+"class": "SetDirectionCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_direction.gd"
+}, {
+"base": "ESCBaseCommand",
 "class": "SetGlobalCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_global.gd"
@@ -548,6 +583,11 @@ _global_script_classes=[ {
 "class": "SetInteractiveCommand",
 "language": "GDScript",
 "path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_interactive.gd"
+}, {
+"base": "ESCBaseCommand",
+"class": "SetItemCustomDataCommand",
+"language": "GDScript",
+"path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_item_custom_data.gd"
 }, {
 "base": "ESCBaseCommand",
 "class": "SetSpeedCommand",
@@ -685,6 +725,7 @@ _global_script_class_icons={
 "ESCCompiler": "",
 "ESCCondition": "",
 "ESCDialog": "",
+"ESCDialogLocation": "res://addons/escoria-core/design/esc_location.svg",
 "ESCDialogManager": "",
 "ESCDialogOption": "",
 "ESCDialogOptionsChooser": "",
@@ -698,6 +739,7 @@ _global_script_class_icons={
 "ESCGlobalsManager": "",
 "ESCGroup": "",
 "ESCInputsManager": "",
+"ESCInteractionLocation": "res://addons/escoria-core/design/esc_location.svg",
 "ESCInventory": "",
 "ESCInventoryButton": "",
 "ESCInventoryContainer": "",
@@ -717,9 +759,11 @@ _global_script_class_icons={
 "ESCResourceCache": "",
 "ESCResourceDescriptor": "",
 "ESCRoom": "res://addons/escoria-core/design/esc_room.svg",
+"ESCRoomContainer": "",
 "ESCRoomManager": "",
 "ESCRoomObjects": "",
 "ESCRoomObjectsKey": "",
+"ESCRoomTerrains": "",
 "ESCSaveGame": "",
 "ESCSaveManager": "",
 "ESCSaveSettings": "",
@@ -748,16 +792,20 @@ _global_script_class_icons={
 "QueueResourceCommand": "",
 "RandGlobalCommand": "",
 "RepeatCommand": "",
+"SaveGameCommand": "",
+"SaveGamesSorter": "",
 "SayCommand": "",
 "SchedEventCommand": "",
 "SetActiveCommand": "",
 "SetActiveIfExistsCommand": "",
 "SetAngleCommand": "",
 "SetAnimationsCommand": "",
+"SetDirectionCommand": "",
 "SetGlobalCommand": "",
 "SetGlobalsCommand": "",
 "SetGuiVisibleCommand": "",
 "SetInteractiveCommand": "",
+"SetItemCustomDataCommand": "",
 "SetSpeedCommand": "",
 "SetStateCommand": "",
 "ShowMenuCommand": "",
@@ -811,7 +859,7 @@ search_in_file_extensions=PoolStringArray( "gd", "shader", "esc" )
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-dialog-simple/plugin.cfg", "res://addons/escoria-ui-9verbs/plugin.cfg", "res://addons/escoria-wizard/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-wizard/plugin.cfg" )
 
 [escoria]
 
@@ -821,13 +869,13 @@ main/force_quit=true
 main/command_directories=[ "res://addons/escoria-core/game/core-scripts/esc/commands" ]
 main/text_lang="fr_FR"
 main/voice_lang="fr_FR"
-main/savegames_path="user://saves/"
+main/savegames_path="res://saves/"
 main/settings_path="user://"
 main/game_migration_path=""
 debug/terminate_on_warnings=false
 debug/terminate_on_errors=true
 debug/development_lang="en"
-debug/log_level="TRACE"
+debug/log_level="DEBUG"
 debug/log_file_path="user://"
 debug/crash_message="We're sorry, but the game crashed. Please send us the following files:
 

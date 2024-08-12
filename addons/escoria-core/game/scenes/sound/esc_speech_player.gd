@@ -15,8 +15,9 @@ onready var stream: AudioStreamPlayer = $AudioStreamPlayer
 # #### Parameters
 #
 # - p_state: New state to use
+# - from_seconds: Sets the starting playback position 
 # - p_force: Override the existing state even if the stream is still playing
-func set_state(p_state: String, p_force: bool = false) -> void:
+func set_state(p_state: String, from_seconds: float = 0.0, p_force: bool = false) -> void:
 	# If speech is disabled, return
 	if not ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.SPEECH_ENABLED
@@ -33,7 +34,7 @@ func set_state(p_state: String, p_force: bool = false) -> void:
 
 	if stream.stream:
 		stream.stream.set_loop(false)
-		$AudioStreamPlayer.play()
+		$AudioStreamPlayer.play(from_seconds)
 
 
 # Register to the object registry
@@ -59,3 +60,10 @@ func pause():
 # Unpause the speech player
 func resume():
 	stream.stream_paused = false
+
+
+# Returns the playback position of the audio stream in seconds
+#
+# **Returns** playback position
+func get_playback_position() -> float:
+	return $AudioStreamPlayer.get_playback_position()

@@ -54,15 +54,31 @@ func validate(arguments: Array):
 
 # Run the command
 func run(command_params: Array) -> int:
-	previous_snd_state = escoria.object_manager.get_object(command_params[0]).node.state
-	escoria.object_manager.get_object(command_params[0]).node.set_state(
-		"off"
-	)
+	var sound_player = escoria.object_manager.get_object(command_params[0]).node
+	if sound_player:
+		if sound_player.get("state"):
+			previous_snd_state = sound_player.state
+		sound_player.set_state("off")
 	return ESCExecution.RC_OK
 
 
 # Function called when the command is interrupted.
 func interrupt():
-	escoria.object_manager.get_object(_snd_player).node.set_state(
-		previous_snd_state
-	)
+	var _sound_players = []
+	if previous_snd_state.empty():
+		previous_snd_state = "off"
+	
+	if _snd_player.empty():
+		_sound_players = [
+			ESCObjectManager.MUSIC, 
+			ESCObjectManager.SOUND, 
+			ESCObjectManager.SPEECH
+		]
+	else:
+		_sound_players = [_snd_player]
+	
+	for snd_player in _sound_players:
+		if escoria.object_manager.get_object(snd_player).node:
+			escoria.object_manager.get_object(snd_player).node.set_state(
+				previous_snd_state
+			)

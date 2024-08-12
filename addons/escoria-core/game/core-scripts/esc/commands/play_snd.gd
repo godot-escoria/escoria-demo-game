@@ -1,4 +1,4 @@
-# `play_snd file [player]`
+# `play_snd file [player] [start_position_seconds]`
 #
 # Plays the specified sound without blocking the currently running event.
 #
@@ -22,8 +22,8 @@ var _snd_player: String
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
-		[TYPE_STRING, TYPE_STRING],
-		[null, "_sound"]
+		[TYPE_STRING, TYPE_STRING, TYPE_REAL],
+		[null, "_sound", 0.0]
 	)
 
 
@@ -53,6 +53,6 @@ func validate(arguments: Array):
 # Run the command
 func run(command_params: Array) -> int:
 	escoria.object_manager.get_object(command_params[1]).node.set_state(
-		command_params[0]
+		command_params[0], command_params[2]
 	)
 	return ESCExecution.RC_OK
