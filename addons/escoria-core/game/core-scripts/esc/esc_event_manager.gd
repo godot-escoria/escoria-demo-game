@@ -221,7 +221,9 @@ func queue_event_from_esc(script_object: ESCScript, event: String,
 #
 # #### Parameters
 # - event: Event to run
-func queue_event(event: ESCGrammarStmts.Event, force: bool = false) -> void:
+# - force:
+# - as_first: force the event to be the first in queue
+func queue_event(event: ESCEvent, force: bool = false, as_first = false) -> void:
 	if _changing_scene and not force:
 		escoria.logger.info(
 			self,

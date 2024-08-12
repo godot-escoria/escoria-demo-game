@@ -72,6 +72,16 @@ text = "SAVE_GAME"
 [node name="load_game" type="Button" parent="VBoxContainer/menuitems"]
 layout_mode = 2
 size_flags_vertical = 3
+text = "SAVE_GAME"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="load_game" type="Button" parent="VBoxContainer/menuitems"]
+margin_top = 220.0
+margin_right = 616.0
+margin_bottom = 240.0
+size_flags_vertical = 3
 text = "LOAD_GAME"
 
 [node name="options" type="Button" parent="VBoxContainer/menuitems"]

@@ -73,9 +73,13 @@ func run() -> int:
 		return 0
 
 	var final_rc = ESCExecution.RC_OK
-
+	
 	var statement_id = 0
 	for statement in statements:
+		if statement_id < from_statement_id:
+			statement_id = statement_id + 1
+			continue
+		
 		from_statement_id = statement_id
 		statement_id = statement_id + 1
 		current_statement = statement
@@ -98,6 +102,8 @@ func run() -> int:
 				final_rc = rc
 				current_statement.is_completed = true
 				break
+			elif rc == ESCExecution.RC_OK:
+				current_statement.is_completed = true
 
 	finished.emit(self, current_statement, final_rc)
 	is_completed = true

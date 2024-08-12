@@ -192,6 +192,17 @@ func init_room(room: ESCRoom) -> void:
 	if room.is_run_directly:
 		if escoria.main.current_scene == null:
 			escoria.main.set_scene(room)
+	
+	# Register all navigationpolygons in the terrain
+	if escoria.room_terrain != null:
+		for n in escoria.room_terrain.get_children_navpolys():
+			escoria.object_manager.register_terrain(
+				ESCObject.new(
+					n.name,
+					n
+				),
+				room
+			)
 
 	# Register all navigationpolygons in the terrain
 	if escoria.room_terrain != null:
@@ -325,6 +336,7 @@ func _perform_script_events(room: ESCRoom) -> int:
 	if room.player != null:
 		var startloc := escoria.object_manager.get_start_location()
 		if startloc != null:
+			and not escoria.save_manager.is_loading_game:
 			room.player.teleport(startloc)
 
 	# We make sure 'room' is set as the new current_scene, but without making
@@ -511,3 +523,5 @@ func _run_script_event(event_name: String, room: ESCRoom):
 		return true
 	else:
 		return false
+
+

@@ -289,7 +289,6 @@ func has(global_id: String, room: ESCRoom = null) -> bool:
 
 	return _object_exists_in_room(ESCObject.new(global_id, null), room_key)
 
-
 # Get the object from the object registry
 #
 # #### Parameters
@@ -364,7 +363,7 @@ func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 		# yet being managed.
 		escoria.logger.debug(
 			self,
-			"Unable to unregister object.\n" +
+			"Unable to unregister object. " +
 			"Object with global ID %s room (%s, %s) not found. If this was "
 			% [
 				"?" if object == null else object.global_id,
@@ -481,7 +480,7 @@ func _is_current_room(container: ESCRoomObjects) -> bool:
 # - room_key: The key representing the desired room in the object manager array.
 # **Returns** True iff container represents the object manager entry specified
 # by room_key.
-func _compare_container_to_key(container: ESCRoomObjects, room_key: ESCRoomObjectsKey) -> bool:
+func _compare_container_to_key(container: ESCRoomContainer, room_key: ESCRoomObjectsKey) -> bool:
 	return container.room_global_id == room_key.room_global_id
 
 

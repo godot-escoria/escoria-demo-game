@@ -238,6 +238,14 @@ func load_game(id: int):
 			"Save file %s doesn't exist." % save_file_path
 		)
 		return
+	
+	# Disconnect all trigger areas in the current room so that they don't
+	# trigger after room is loaded (eg: when player was in a trigger area, 
+	# trigger_out won't fire after loading the game)
+	if (escoria.main.current_scene != null):
+		escoria.main.current_scene.get_tree().call_group(escoria.GROUP_ITEM_TRIGGERS, "disconnect_trigger_events")
+	
+	emit_signal("game_is_loading")
 
 	# Disconnect all trigger areas in the current room so that they don't
 	# trigger after room is loaded (eg: when player was in a trigger area,
@@ -255,6 +263,8 @@ func load_game(id: int):
 	escoria.current_state = escoria.GAME_STATE.LOADING
 
 	var save_game: ESCSaveGame = ResourceLoader.load(save_file_path)
+	
+	escoria.settings_manager.load_settings_from_dict(save_game.settings)
 
 	escoria.settings_manager.load_settings_from_dict(save_game.settings)
 
@@ -537,6 +547,16 @@ func load_game(id: int):
 			ESCProjectSettingsManager.DEFAULT_TRANSITION
 		)
 	)
+	
+	# FOLLOW TARGET
+	load_statements.append(
+#					ESCCommand.new("%s %s %s %s" % [
+			ESCCommand.new("%s %s %s" % [
+				_camera_set_target.get_command_name(),
+				0,
+				camera_target_to_follow
+			])
+		)
 
 #	load_statements.append(
 #		ESCCommand.new(

@@ -153,3 +153,4 @@ func save_game(p_savegame: ESCSaveGame) -> void:
 	for g in _globals:
 		if not g.begins_with("i/"):
 			p_savegame.globals[g] = _globals[g]
+
