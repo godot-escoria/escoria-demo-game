@@ -51,6 +51,13 @@ func _on_command_text_entered(p_command_str : String):
 	past_actions.text += "\n"
 	past_actions.text += "# " + p_command_str
 	past_actions.text += "\n"
+	
+	_historize_command(p_command_str)
+	
+	if p_command_str in ["history", "hist"]:
+		for ch in commands_history:
+			past_actions.text += ch + "\n"
+		return
 
 	_historize_command(p_command_str)
 
@@ -75,13 +82,15 @@ func _on_command_text_entered(p_command_str : String):
 		while ret[1] != _print.get_command_name():
 			ret = yield(escoria.event_manager, "event_finished")
 		past_actions.text += "Returned code: %d" % ret[0]
+	
+	past_actions.scroll_vertical = past_actions.get_line_count()
 
 	past_actions.scroll_vertical = past_actions.get_line_count()
 
 
 # Set the focus to the command
 func _on_esc_prompt_popup_about_to_show():
-	command.grab_focus()
+	command.call_deferred("grab_focus")
 
 func _on_error_message(message) -> void:
 	past_actions.text += message + "\n"

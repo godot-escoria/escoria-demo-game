@@ -23,9 +23,6 @@ ui_parent_control_node = NodePath("ui/Control")
 [node name="ESCDialogsPlayer" type="Control" parent="dialog_layer"]
 theme = ExtResource( 10 )
 script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ui" type="CanvasLayer" parent="."]
 

@@ -3,13 +3,9 @@
 [ext_resource path="res://addons/escoria-core/ui_library/menus/load_save/save/overwrite_confirm_popup.gd" type="Script" id=2]
 
 [node name="overwrite_confirm_popup" type="PopupDialog"]
-visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -45,15 +41,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="yes" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 1144.0
-margin_right = 1177.0
-margin_bottom = 20.0
-text = "YES"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="no" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 1187.0
 margin_right = 1220.0
@@ -63,5 +50,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/yes" to="." method="_on_yes_pressed"]
+[node name="yes" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 1144.0
+margin_right = 1177.0
+margin_bottom = 20.0
+text = "YES"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/no" to="." method="_on_no_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/yes" to="." method="_on_yes_pressed"]

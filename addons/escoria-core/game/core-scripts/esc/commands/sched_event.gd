@@ -21,7 +21,7 @@ class_name SchedEventCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		3,
-		[TYPE_INT, TYPE_STRING, TYPE_STRING],
+		[[TYPE_REAL, TYPE_INT], TYPE_STRING, TYPE_STRING],
 		[null, null, null]
 	)
 
@@ -58,7 +58,8 @@ func run(command_params: Array) -> int:
 	escoria.event_manager.schedule_event(
 		escoria.object_manager.get_object(command_params[1])\
 			.events[command_params[2]],
-		command_params[0]
+		command_params[0],
+		command_params[1]
 	)
 	return ESCExecution.RC_OK
 

@@ -53,6 +53,9 @@ const RESERVED_OBJECTS = [
 #	]
 var room_objects: Array = []
 
+# Array containing the encountered terrains so they can be properly saved in savegames 
+var room_terrains: Array = []
+
 # We also store the current room's ids for retrieving the right objects.
 var current_room_key: ESCRoomObjectsKey
 
@@ -156,7 +159,7 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 		return
 	# Object exists in room, set it to is last state (if different from
 	# "default")
-	elif _object_exists_in_room(object, room_key):
+	elif object.node is ESCItem and _object_exists_in_room(object, room_key):
 		# Object is already known, set its state to last known state
 		object.set_state(get_object(object.global_id).state)
 
@@ -226,6 +229,51 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 		room_objects.push_back(room_container)
 
 
+# Register the terrain in the manager
+#
+# #### Parameters
+#
+# - object: Object contianing the terrain to register
+# - room: Room to register the object with in the object manager
+func register_terrain(object: ESCObject, room: ESCRoom = null) -> void:
+	var room_key: ESCRoomObjectsKey = ESCRoomObjectsKey.new()
+
+	# If a room was passed in, then we're going to register the object with it;
+	# otherwise, we register the object with the "current room".
+	if not is_instance_valid(room) or room.global_id.empty():
+		# We duplicate the key so as to not hold a reference when current_room_key
+		# changes.
+		room_key.room_global_id = current_room_key.room_global_id
+		room_key.room_instance_id = current_room_key.room_instance_id
+
+		if not room_key.is_valid():
+			# This condition should very likely never happen.
+			escoria.logger.error(
+				self,
+				"No room was specified to register terrain with, and no current room is properly set.\n" +
+				"Please either pass in a valid ESCRoom to this method, or " + \
+					"call set_current_room() with a valid ESCRoom first."
+			)
+	else:
+		room_key.room_global_id = room.global_id
+		room_key.room_instance_id = room.get_instance_id()
+	
+	var terrains: Dictionary = _get_room_terrain_navpolys(room_key)
+	if object.node is NavigationPolygonInstance:
+		terrains[object.global_id] = object
+		if terrains[object.global_id].node.enabled:
+			terrains[object.global_id].state = "enabled"
+	
+	if terrains.size() == 1:
+		var room_container: ESCRoomTerrains = ESCRoomTerrains.new()
+		room_container.room_global_id = room_key.room_global_id
+		room_container.room_instance_id = room_key.room_instance_id
+		room_container.terrains = terrains
+		if room_terrains.has(room_container):
+			room_terrains.erase(room_container)
+		room_terrains.push_back(room_container)
+
+
 # Check whether an object was registered
 #
 # #### Parameters
@@ -253,7 +301,6 @@ func has(global_id: String, room: ESCRoom = null) -> bool:
 		return false
 
 	return _object_exists_in_room(ESCObject.new(global_id, null), room_key)
-
 
 # Get the object from the object registry
 #
@@ -329,7 +376,7 @@ func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 		# yet being managed.
 		escoria.logger.debug(
 			self,
-			"Unable to unregister object.\n" +
+			"Unable to unregister object. " +
 			"Object with global ID %s room (%s, %s) not found. If this was "
 			% [
 				"?" if object == null else object.global_id,
@@ -375,30 +422,39 @@ func unregister_object_by_global_id(global_id: String, room_key: ESCRoomObjectsK
 #
 # - p_savegame: The savegame resource
 func save_game(p_savegame: ESCSaveGame) -> void:
-	if not current_room_key.is_valid() or not _room_exists(current_room_key):
-		escoria.logger.error(
-			self,
-			"No current room specified or found."
-		)
-
-	var objects: Dictionary = _get_room_objects_objects(current_room_key)
-
 	p_savegame.objects = {}
-
-	for obj_global_id in objects:
-		if not objects[obj_global_id] is ESCObject:
+	
+	for room_obj in room_objects:
+		if room_obj.room_global_id.empty():
 			continue
-		p_savegame.objects[obj_global_id] = \
-			objects[obj_global_id].get_save_data()
-
-	# Add in reserved objects, too.
-	objects = reserved_objects_container.objects
-
-	for obj_global_id in objects:
-		if not objects[obj_global_id] is ESCObject:
+		
+		var room_objects_dict = {}
+		for obj_id in room_obj.objects:
+			var obj: ESCObject = room_obj.objects[obj_id]
+			var obj_json_to_save: Dictionary = obj.get_save_data()
+			if not obj_json_to_save.empty():
+				room_objects_dict[obj_id] = obj_json_to_save
+			
+		p_savegame.objects[room_obj.room_global_id] = room_objects_dict
+		
+	# Add in reserved objects (music, speech, sound), too.
+	var reserved_objects: Dictionary = reserved_objects_container.objects
+	for obj_global_id in reserved_objects:
+		if not reserved_objects[obj_global_id] is ESCObject:
 			continue
-		p_savegame.objects[obj_global_id] = \
-			objects[obj_global_id].get_save_data()
+		p_savegame.objects[obj_global_id] = reserved_objects[obj_global_id].get_save_data()
+	
+	# Add ENABLED terrain navigationpolygons in, too.
+	p_savegame.terrain_navpolys = {}
+	
+	for room_terrain_container in room_terrains:
+		if room_terrain_container.room_global_id == current_room_key.room_global_id:
+			for terrain_name in room_terrain_container.terrains:
+				var terrain_escobj = room_terrain_container.terrains[terrain_name]
+				if terrain_escobj.node.enabled:
+					p_savegame.terrain_navpolys[room_terrain_container.room_global_id] = {}
+					p_savegame.terrain_navpolys[room_terrain_container.room_global_id][terrain_name] = \
+							terrain_escobj.node.enabled
 
 
 # Returns the current room's starting location. If more than one exists, the
@@ -435,9 +491,9 @@ func _is_current_room(container: ESCRoomObjects) -> bool:
 #
 # - container: The entry in the object manager array being checked.
 # - room_key: The key representing the desired room in the object manager array.
-# **Returns** True iff container represents the the object manager entry specified
+# **Returns** True iff container represents the object manager entry specified
 # by room_key.
-func _compare_container_to_key(container: ESCRoomObjects, room_key: ESCRoomObjectsKey) -> bool:
+func _compare_container_to_key(container: ESCRoomContainer, room_key: ESCRoomObjectsKey) -> bool:
 	return container.room_global_id == room_key.room_global_id
 
 
@@ -498,6 +554,7 @@ func _object_state_in_room_is_default(object: ESCObject, room_key: ESCRoomObject
 
 	for room_container in room_objects:
 		if _compare_container_to_key(room_container, room_key) \
+				and room_container.objects.has(object.global_id) \
 				and room_container.objects.get(object.global_id).state == ESCObject.STATE_DEFAULT:
 			return true
 
@@ -516,6 +573,14 @@ func _get_room_objects_objects(room_key: ESCRoomObjectsKey) -> Dictionary:
 	for room_container in room_objects:
 		if _compare_container_to_key(room_container, room_key):
 			return room_container.objects
+
+	return {}
+
+
+func _get_room_terrain_navpolys(room_key: ESCRoomObjectsKey) -> Dictionary:
+	for room_container in room_terrains:
+		if _compare_container_to_key(room_container, room_key):
+			return room_container.terrains
 
 	return {}
 

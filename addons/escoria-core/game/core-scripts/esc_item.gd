@@ -61,10 +61,6 @@ signal mouse_right_clicked_item(global_id)
 signal arrived(walk_context)
 
 
-# Group for ESCItem's that can be collided with in a scene. Used for quick
-# retrieval of such nodes to easily change their attributes at the same time.
-const GROUP_ITEM_CAN_COLLIDE = "item_can_collide"
-
 
 # The global ID of this item
 export(String) var global_id
@@ -192,7 +188,9 @@ func _ready():
 
 	# We add ourselves to this group so we can easily get a reference to all
 	# items in a scene tree.
-	add_to_group(GROUP_ITEM_CAN_COLLIDE)
+	add_to_group(escoria.GROUP_ITEM_CAN_COLLIDE)
+	if is_trigger:
+		add_to_group(escoria.GROUP_ITEM_TRIGGERS)
 
 	validate_animations(animations)
 	validate_exported_parameters()
@@ -207,7 +205,6 @@ func _ready():
 
 		if is_movable:
 			_movable = ESCMovable.new()
-
 			add_child(_movable)
 
 		if not escoria.event_manager.is_connected(
@@ -231,6 +228,17 @@ func _ready():
 		)
 
 		terrain = escoria.room_terrain
+		
+		if escoria.object_manager.get_object(global_id).state == ESCObject.STATE_DEFAULT \
+				and get_animation_player() != null:
+			escoria.object_manager.get_object(global_id) \
+					.set_state(get_animation_player().get_animation())
+			if is_movable:
+				escoria.object_manager.get_object(global_id).node \
+						._movable.last_dir = animations.get_direction_id_from_animation_name(
+							get_animation_player().get_animation()
+						)
+					
 
 		if !is_trigger:
 			if not self.is_connected(
@@ -283,7 +291,7 @@ func _ready():
 					escoria.inputs_manager,
 					"_on_mouse_right_clicked_item"
 				)
-		else:
+		else: # Item is a trigger
 			if not self.is_connected("area_entered", self, "element_entered"):
 				connect("area_entered", self, "element_entered")
 			if not self.is_connected("area_exited", self, "element_exited"):
@@ -304,6 +312,10 @@ func _ready():
 			_movable.update_terrain()
 
 
+func connect_trigger_events():
+	assert(is_trigger)
+	monitoring = true
+
 # Validates the various exported parameters so we get immediate crash.
 func validate_exported_parameters() -> void:
 	var regex = RegEx.new()
@@ -317,6 +329,11 @@ func validate_exported_parameters() -> void:
 				)
 
 
+func disconnect_trigger_events():
+	assert(is_trigger)
+	monitoring = false
+
+	
 # Mouse exited happens on any item that mouse cursor exited, even those UNDER
 # the top level of overlapping stack.
 func _on_mouse_exited():
@@ -594,9 +611,10 @@ func element_entered(body):
 
 
 # Another item (e.g. the player) has exited this element
+#
 # #### Parameters
 #
-# - body: Other object that has entered the item
+# - body: Other object that has exited the item
 func element_exited(body):
 	if body is ESCBackground or body.get_parent() is ESCBackground:
 		return
@@ -713,6 +731,22 @@ func set_angle(deg: int, wait: float = 0.0):
 		escoria.logger.warn(
 			self,
 			"Node %s cannot use \"set_angle\". Its \"is_movable\" parameter is false." % self
+		)
+
+
+# Set the direction id
+#
+# #### Parameters
+#
+# - direction_id: The direction id
+# - wait: Wait this amount of seconds until continuing with turning around
+func set_direction(direction_id: int, wait: float = 0.0):
+	if is_movable:
+		_movable.set_direction(direction_id, wait)
+	else:
+		escoria.logger.warn(
+			self,
+			"Node %s cannot use \"set_direction\". Its \"is_movable\" parameter is false." % self
 		)
 
 
@@ -926,3 +960,15 @@ func _get_identifier_as_key_value() -> String:
 # Returns true if the player is currently moving, false otherwise
 func is_moving() -> bool:
 	return _movable.task != ESCMovable.MovableTask.NONE if is_movable else false
+
+
+func get_directions_quantity() -> int:
+	return animations.dir_angles.size()
+
+
+func get_custom_data() -> Dictionary:
+	return custom_data
+
+
+func set_custom_data(data: Dictionary) -> void:
+	custom_data = data if (data != null) else {}

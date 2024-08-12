@@ -108,18 +108,27 @@ func _set_interactive(value: bool):
 # A dictionary containing the data to be saved for this object.
 func get_save_data() -> Dictionary:
 	var save_data: Dictionary = {}
+	
+	if self.global_id == "player" and not is_instance_valid(self.node):
+		return save_data
+		
 	save_data["active"] = self.active
 	save_data["interactive"] = self.interactive
 	save_data["state"] = self.state
 
-	if is_instance_valid(self.node) and \
-			self.node.get("is_movable") and self.node.is_movable:
-		save_data["global_transform"] = self.node.global_transform
-		save_data["last_deg"] = wrapi(self.node._movable._get_angle() + 1, 0, 360)
-		save_data["last_dir"] = self.node._movable.last_dir
+	if is_instance_valid(self.node):
+		if self.node.get("is_movable") and self.node.is_movable:
+			save_data["global_transform"] = self.node.global_transform
+			save_data["last_deg"] = wrapi(self.node._movable._get_angle() - 90 + 1, 0, 360)
+			save_data["last_dir"] = self.node._movable.last_dir
+		if self.node.has_method("get_custom_data"):
+			save_data["custom_data"] = self.node.get_custom_data()
 
-	if (self.global_id == "_music" or self.global_id == "_sound") \
-			and self.node.get("state"):
+	if self.global_id in ["_music", "_sound"] and self.node.get("state"):
 		save_data["state"] = self.node.get("state")
+		save_data["playback_position"] = self.node.get_playback_position()
+
+	if self.global_id == "_camera":
+		save_data["target"] = self.node.get("_follow_target").global_id
 
 	return save_data

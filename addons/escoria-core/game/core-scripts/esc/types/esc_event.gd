@@ -48,9 +48,21 @@ enum {
 # Name of event
 var name: String
 
+# Original name of the event (in case it is modified when resuming a loaded event)
+var original_name: String
+
 # Flags set to this event
 var flags: int = 0
 
+# Returns a Dictionary containing statements data for serialization
+func exported() -> Dictionary:
+	var exported_dict: Dictionary = .exported()
+	exported_dict.class = "ESCEvent"
+	exported_dict.name = name
+	exported_dict.original_name = original_name
+	exported_dict.flags = flags
+	return exported_dict
+	
 
 # Create a new event from an event line
 func _init(event_string: String):
@@ -62,6 +74,7 @@ func _init(event_string: String):
 			if "name" in result.names:
 				self.name = ESCUtils.get_re_group(result, "name") \
 					.strip_edges()
+				self.original_name = self.name
 			if "flags" in result.names:
 				var _flags = ESCUtils.get_re_group(
 						result,
@@ -90,5 +103,7 @@ func run() -> int:
 		self,
 		"Event %s started." % name
 	)
+	if name == "resume":
+		bypass_conditions = true
 	return .run()
 

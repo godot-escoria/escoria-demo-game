@@ -73,6 +73,18 @@ func _ready():
 	_update_texture()
 
 
+# Returns all NavigationPolygonInstances defined as children of ESCTerrain in an Array.
+#
+# **Returns**
+# A list of NavigationPolygons nodes 
+func get_children_navpolys() -> Array:
+	var navpolys: Array = []
+	for n in get_children():
+		if n is NavigationPolygonInstance:
+			navpolys.push_back(n)
+	return navpolys
+
+
 # Checks whether multiple navigation polygons are enabled.
 # Shows a warning in the terminal if this happens.
 # TODO: change this "simple" console log for an editor warning

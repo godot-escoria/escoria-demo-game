@@ -16,6 +16,7 @@ func _on_continue_pressed():
 # Show the save slots
 func _on_save_game_pressed():
 	$VBoxContainer.hide()
+	$save_game.refresh_savegames()
 	$save_game.show()
 
 
@@ -66,3 +67,9 @@ func reset():
 	$load_game.hide()
 	$options.hide()
 	$VBoxContainer.show()
+
+
+func _on_new_game_pressed():
+	#yield(escoria.new_game(), "completed")
+	escoria.new_game()
+	escoria.main.current_scene.game.unpause_game()
