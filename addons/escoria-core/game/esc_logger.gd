@@ -33,7 +33,7 @@ class ESCLoggerBase:
 		_log_level = _level_map[ESCProjectSettingsManager.get_setting(
 			ESCProjectSettingsManager.LOG_LEVEL
 		).to_upper()]
-	
+
 
 
 	func formatted_message(context: String, msg: String, letter: String) -> String:

@@ -94,4 +94,4 @@ func _historize_command(p_command: String) -> void:
 	if commands_history.size() + 1 > COMMANDS_HISTORY_LENGTH:
 		commands_history.remove(0)
 		commands_history_current_id = COMMANDS_HISTORY_LENGTH - 1
-	
+
