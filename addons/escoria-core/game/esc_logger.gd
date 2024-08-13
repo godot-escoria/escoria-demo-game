@@ -1,7 +1,7 @@
 class ESCLoggerBase:
 	# Perform emergency savegame
 	signal perform_emergency_savegame
-	
+
 	# Sends the error or warning message in the signal
 	signal error_message(message)
 
@@ -23,17 +23,17 @@ class ESCLoggerBase:
 	# Configured log level
 	var _log_level: int
 
-	# If true, assert() functions will not be called, thus the program won't exit or error. 
+	# If true, assert() functions will not be called, thus the program won't exit or error.
 	# Resets to false after an assert() call was ignored once.
 	var dont_assert: bool = false
-	
+
 
 	# Constructor
 	func _init():
 		_log_level = _level_map[ESCProjectSettingsManager.get_setting(
 			ESCProjectSettingsManager.LOG_LEVEL
 		).to_upper()]
-		
+	
 
 
 	func formatted_message(context: String, msg: String, letter: String) -> String:
@@ -180,7 +180,7 @@ class ESCLoggerFile extends ESCLoggerBase:
 		if _log_level >= LOG_INFO:
 			_log_to_file_message(context, msg, "I")
 			.info_message(context, msg)
-	
+
 	# Warning log
 	func warn(owner: Object, msg: String):
 		if _log_level >= LOG_WARNING:
