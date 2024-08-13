@@ -41,7 +41,7 @@ func load_string(option_string: String):
 							"conditions"
 						).split(","):
 					self.conditions.append(
-						ESCCondition.new(condition_text.strip_edges())
+						ESCConditionParser.parse(condition_text.strip_edges())
 					)
 	else:
 		escoria.logger.error(
