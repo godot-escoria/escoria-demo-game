@@ -533,18 +533,15 @@ func load_game(id: int):
 							)
 						)
 
-#				load_statements.append(
-#					ESCCommand.new("%s %s %s" % [
-#						_play_snd.get_command_name(),
-#						save_game.objects[object_global_id]["state"],
-#						object_global_id,
-#					])
-#				)
-
-	load_event_script.add_command(
-		_transition.get_command_name(),
-		ESCProjectSettingsManager.get_setting(
-			ESCProjectSettingsManager.DEFAULT_TRANSITION
+	## TRANSITION
+	load_statements.append(
+		ESCCommand.new(
+			"%s %s in" %
+			[
+				_transition.get_command_name(),
+				ESCProjectSettingsManager.get_setting(
+				ESCProjectSettingsManager.DEFAULT_TRANSITION
+			)]
 		)
 	)
 	
