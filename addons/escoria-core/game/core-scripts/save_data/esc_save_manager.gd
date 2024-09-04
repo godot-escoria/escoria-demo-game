@@ -381,76 +381,79 @@ func load_game(id: int):
 				
 				
 		else:
-			for object_global_id in save_game.objects[room_id].keys():
-				if room_objects[object_global_id].has("active"):
-					load_statements.append(ESCCommand.new("%s %s %s" \
-							% [
-								_set_active_if_exists.get_command_name(),
-								object_global_id,
-								room_objects[object_global_id]["active"]
-							]
-						)
-					)
-
-				if room_objects[object_global_id].has("interactive"):
-					load_statements.append(ESCCommand.new("%s %s %s" \
-							% [
-								_set_interactive.get_command_name(),
-								object_global_id,
-								room_objects[object_global_id]["interactive"]
-							]
-						)
-					)
-				
-				if not room_objects[object_global_id]["state"].empty():
-					if room_objects[object_global_id].has("state"):
-						load_statements.append(ESCCommand.new("%s %s %s true" \
+			if room_id == save_game.main.last_scene_global_id:
+			
+				for object_global_id in save_game.objects[room_id].keys():
+					
+					if save_game.objects[room_id][object_global_id].has("active"):
+						load_statements.append(ESCCommand.new("%s %s %s" \
 								% [
-									_set_state.get_command_name(),
+									_set_active_if_exists.get_command_name(),
 									object_global_id,
-									room_objects[object_global_id]["state"]
+									save_game.objects[room_id][object_global_id]["active"]
 								]
 							)
 						)
 
-				if room_objects[object_global_id].has("global_transform"):
-					load_statements.append(ESCCommand.new("%s %s %s %s" \
-							% [
-								_teleport_pos.get_command_name(),
-								object_global_id,
-								int(room_objects[object_global_id] \
-									["global_transform"].origin.x),
-								int(room_objects[object_global_id] \
-									["global_transform"].origin.y)
-							]
-						)
-					)
-					load_statements.append(ESCCommand.new("%s %s %s" \
-							% [
-								_set_direction.get_command_name(),
-								object_global_id,
-								room_objects[object_global_id]["last_dir"]
-							]
-						)
-					)
-
-				if room_objects[object_global_id].has("custom_data"):
-					var custom_data = room_objects[object_global_id]["custom_data"]
-					if custom_data.size() > 0:
-						load_statements.append(
-							ESCCommand.new(
-								"",
-								_set_item_custom_data.get_command_name(),
-								[
+					if save_game.objects[room_id][object_global_id].has("interactive"):
+						load_statements.append(ESCCommand.new("%s %s %s" \
+								% [
+									_set_interactive.get_command_name(),
 									object_global_id,
-									custom_data
+									save_game.objects[room_id][object_global_id]["interactive"]
+								]
+							)
+						)
+					
+					if not save_game.objects[room_id][object_global_id]["state"].empty():
+						if save_game.objects[room_id][object_global_id].has("state"):
+							load_statements.append(ESCCommand.new("%s %s %s true" \
+									% [
+										_set_state.get_command_name(),
+										object_global_id,
+										save_game.objects[room_id][object_global_id]["state"]
+									]
+								)
+							)
+
+					if save_game.objects[room_id][object_global_id].has("global_transform"):
+						load_statements.append(ESCCommand.new("%s %s %s %s" \
+								% [
+									_teleport_pos.get_command_name(),
+									object_global_id,
+									int(save_game.objects[room_id][object_global_id] \
+										["global_transform"].origin.x),
+									int(save_game.objects[room_id][object_global_id] \
+										["global_transform"].origin.y)
+								]
+							)
+						)
+						load_statements.append(ESCCommand.new("%s %s %s" \
+								% [
+									_set_direction.get_command_name(),
+									object_global_id,
+									save_game.objects[room_id][object_global_id]["last_dir"]
 								]
 							)
 						)
 
-				if room_id in [escoria.object_manager.CAMERA]:
-					camera_target_to_follow = save_game.objects[room_id]["target"]	
-				
+					if save_game.objects[room_id][object_global_id].has("custom_data"):
+						var custom_data = save_game.objects[room_id][object_global_id]["custom_data"]
+						if custom_data.size() > 0:
+							load_statements.append(
+								ESCCommand.new(
+									"",
+									_set_item_custom_data.get_command_name(),
+									[
+										object_global_id,
+										custom_data
+									]
+								)
+							)
+
+					if object_global_id == escoria.object_manager.CAMERA:
+						camera_target_to_follow = save_game.objects[room_id][object_global_id]["target"]
+					
 
 	## TERRAIN NAVPOLYS
 	for room_name in save_game.terrain_navpolys.keys():
