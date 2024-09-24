@@ -27,7 +27,6 @@ var _change_scene: ChangeSceneCommand
 
 func _enter_tree():
 	is_exit = true
-	player_orients_on_arrival = false
 
 
 func _ready():

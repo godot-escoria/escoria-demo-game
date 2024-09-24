@@ -190,6 +190,7 @@ z_index = 400
 texture = ExtResource( 11 )
 
 [node name="Text" type="Node2D" parent="."]
+z_index = 10
 
 [node name="Polygon2D" type="Polygon2D" parent="Text"]
 position = Vector2( 37, 11 )

@@ -322,6 +322,11 @@ func _get_event_to_queue(
 										action,
 										target.global_id,
 										combine_with.global_id
+									],
+									"Check that action ':%s %s' exists in the script of item '%s'" % [
+										action, 
+										target.global_id,
+										combine_with.global_id
 									]
 								]
 
