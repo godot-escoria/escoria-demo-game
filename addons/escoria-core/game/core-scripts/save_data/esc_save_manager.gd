@@ -495,6 +495,9 @@ func load_game(id: int):
 				camera_target_to_follow
 			])
 		)
+	
+	## MAIN
+	escoria.main.last_scene_global_id = save_game.main.last_scene_global_id
 
 	load_event.statements = load_statements
 	
