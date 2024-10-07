@@ -327,7 +327,7 @@ func load_game(id: int):
 
 		if global_value is String and global_value.empty():
 			global_value = "''"
-	
+
 		if not k.begins_with("i/"):
 			load_statements.append(
 				ESCCommand.new("%s %s %s true" %
@@ -349,16 +349,16 @@ func load_game(id: int):
 				]
 			)
 		)
-	
+
 	## OBJECTS
 	var camera_target_to_follow
 
 	for room_id in save_game.objects.keys():
-	
+
 		var room_objects: Array = save_game.objects[room_id].keys()
-	
+
 		if room_id in ESCObjectManager.RESERVED_OBJECTS:
-		
+	
 			if save_game.objects[room_id]["state"] in [
 				"default",
 				"off"
@@ -378,13 +378,13 @@ func load_game(id: int):
 						save_game.objects[room_id]["playback_position"]
 					])
 				)
-			
-			
+		
+		
 		else:
 			if room_id == save_game.main.last_scene_global_id:
-		
+	
 				for object_global_id in save_game.objects[room_id].keys():
-				
+			
 					if save_game.objects[room_id][object_global_id].has("active"):
 						load_statements.append(ESCCommand.new("%s %s %s" \
 								% [
@@ -404,7 +404,7 @@ func load_game(id: int):
 								]
 							)
 						)
-				
+			
 					if not save_game.objects[room_id][object_global_id]["state"].empty():
 						if save_game.objects[room_id][object_global_id].has("state"):
 							load_statements.append(ESCCommand.new("%s %s %s true" \
@@ -453,7 +453,7 @@ func load_game(id: int):
 
 					if object_global_id == escoria.object_manager.CAMERA:
 						camera_target_to_follow = save_game.objects[room_id][object_global_id]["target"]
-				
+			
 
 	## TERRAIN NAVPOLYS
 	for room_name in save_game.terrain_navpolys.keys():
@@ -467,7 +467,7 @@ func load_game(id: int):
 					)
 				)
 				break
-	
+
 	## SCHEDULED EVENTS
 	if save_game.events.has("sched_events") \
 			and not save_game.events.sched_events.empty():

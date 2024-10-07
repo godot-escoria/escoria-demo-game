@@ -427,16 +427,16 @@ func save_game(p_savegame: ESCSaveGame) -> void:
 	for room_obj in room_objects:
 		if room_obj.room_global_id.empty():
 			continue
-	
+
 		var room_objects_dict = {}
 		for obj_id in room_obj.objects:
 			var obj: ESCObject = room_obj.objects[obj_id]
 			var obj_json_to_save: Dictionary = obj.get_save_data()
 			if not obj_json_to_save.empty():
 				room_objects_dict[obj_id] = obj_json_to_save
-		
-		p_savegame.objects[room_obj.room_global_id] = room_objects_dict
 	
+		p_savegame.objects[room_obj.room_global_id] = room_objects_dict
+
 	# Add in reserved objects (music, speech, sound), too.
 	var reserved_objects: Dictionary = reserved_objects_container.objects
 	for obj_global_id in reserved_objects:

@@ -273,11 +273,11 @@ func hide_ui() -> void:
 func hide_current_scene() -> void:
 	if escoria.main.current_scene != null:
 		escoria.main.current_scene.hide()
-		
+	
 func show_ui() -> void:
 	if escoria.main.current_scene != null:
 		escoria.main.current_scene.game.show_ui()
-	
+
 func show_current_scene() -> void:
 	if escoria.main.current_scene != null:
 		escoria.main.current_scene.show()

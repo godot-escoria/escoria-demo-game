@@ -440,7 +440,7 @@ func _on_event_finished(
 			return_code,
 			event.name
 		)
-	
+
 		if finished_event.name == EVENT_LOAD \
 				and escoria.current_state == escoria.GAME_STATE.LOADING:
 			escoria.save_manager.is_loading_game = false

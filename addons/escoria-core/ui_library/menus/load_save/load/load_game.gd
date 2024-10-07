@@ -46,7 +46,7 @@ func refresh_savegames():
 		$VBoxContainer/ScrollContainer/slots.add_child(
 			new_slot
 		)
-	
+
 		var datetime_string = "%02d/%02d/%02d %02d:%02d" % [
 				save.date["day"],
 				save.date["month"],
