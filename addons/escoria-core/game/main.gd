@@ -263,3 +263,21 @@ func _disable_collisions() -> void:
 			item.monitoring = false
 			item.monitorable = false
 
+####################################################################""
+# Facades for current_scene
+
+func hide_ui() -> void:
+	if escoria.main.current_scene != null:
+		escoria.main.current_scene.game.hide_ui()
+
+func hide_current_scene() -> void:
+	if escoria.main.current_scene != null:
+		escoria.main.current_scene.hide()
+		
+func show_ui() -> void:
+	if escoria.main.current_scene != null:
+		escoria.main.current_scene.game.show_ui()
+	
+func show_current_scene() -> void:
+	if escoria.main.current_scene != null:
+		escoria.main.current_scene.show()
