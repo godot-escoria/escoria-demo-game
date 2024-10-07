@@ -200,8 +200,9 @@ func quit():
 
 # Handle anything necessary if the game started a scene directly.
 func _handle_direct_scene_run() -> void:
-	if escoria.is_direct_room_run:
-		escoria.object_manager.set_current_room(get_tree().get_current_scene())
+	var current_scene: Node = get_tree().get_current_scene()
+	if escoria.is_direct_room_run and current_scene is ESCRoom:
+		escoria.object_manager.set_current_room(current_scene)
 
 
 # Used by game.gd to determine whether the game scene is ready to take inputs
