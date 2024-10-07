@@ -70,7 +70,7 @@ func apply_settings() -> void:
 				ESCProjectSettingsManager.TEXT_LANG
 			)
 		)
-	
+
 		escoria.game_scene.apply_custom_settings(custom_settings)
 
 

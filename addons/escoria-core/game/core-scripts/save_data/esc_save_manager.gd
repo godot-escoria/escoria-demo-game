@@ -373,7 +373,7 @@ func load_game(id: int):
 
 		if global_value is String and global_value.is_empty():
 			global_value = "''"
-	
+
 		if not k.begins_with("i/"):
 			load_statements.append(
 				ESCCommand.new("%s %s %s true" %
@@ -395,16 +395,16 @@ func load_game(id: int):
 				]
 			)
 		)
-	
+
 	## OBJECTS
 	var camera_target_to_follow
 
 	for room_id in save_game.objects.keys():
-	
+
 		var room_objects: Array = save_game.objects[room_id].keys()
-	
+
 		if room_id in ESCObjectManager.RESERVED_OBJECTS:
-		
+	
 			if save_game.objects[room_id]["state"] in [
 				"default",
 				"off"
@@ -444,6 +444,85 @@ func load_game(id: int):
 								]
 							)
 						)
+
+					if save_game.objects[room_id][object_global_id].has("interactive"):
+						load_statements.append(ESCCommand.new("%s %s %s" \
+								% [
+									_set_interactive.get_command_name(),
+									object_global_id,
+									save_game.objects[room_id][object_global_id]["interactive"]
+								]
+							)
+						)
+			
+					if not save_game.objects[room_id][object_global_id]["state"].empty():
+						if save_game.objects[room_id][object_global_id].has("state"):
+							load_statements.append(ESCCommand.new("%s %s %s true" \
+									% [
+										_set_state.get_command_name(),
+										object_global_id,
+										save_game.objects[room_id][object_global_id]["state"]
+									]
+								)
+							)
+
+					if save_game.objects[room_id][object_global_id].has("global_transform"):
+						load_statements.append(ESCCommand.new("%s %s %s %s" \
+								% [
+									_teleport_pos.get_command_name(),
+									object_global_id,
+									int(save_game.objects[room_id][object_global_id] \
+										["global_transform"].origin.x),
+									int(save_game.objects[room_id][object_global_id] \
+										["global_transform"].origin.y)
+								]
+							)
+						)
+						load_statements.append(ESCCommand.new("%s %s %s" \
+								% [
+									_set_direction.get_command_name(),
+									object_global_id,
+									save_game.objects[room_id][object_global_id]["last_dir"]
+								]
+							)
+						)
+
+					if save_game.objects[room_id][object_global_id].has("custom_data"):
+						var custom_data = save_game.objects[room_id][object_global_id]["custom_data"]
+						if custom_data.size() > 0:
+							load_statements.append(
+								ESCCommand.new(
+									"",
+									_set_item_custom_data.get_command_name(),
+									[
+										object_global_id,
+										custom_data
+									]
+								)
+							)
+
+					if object_global_id == escoria.object_manager.CAMERA:
+						camera_target_to_follow = save_game.objects[room_id][object_global_id]["target"]
+			
+
+	## TERRAIN NAVPOLYS
+	for room_name in save_game.terrain_navpolys.keys():
+		for terrain_name in save_game.terrain_navpolys[room_name]:
+			if save_game.terrain_navpolys[room_name][terrain_name]:
+				load_statements.append(ESCCommand.new("%s %s" \
+						% [
+							_enable_terrain.get_command_name(),
+							terrain_name
+						]
+					)
+				)
+				break
+
+	## SCHEDULED EVENTS
+	if save_game.events.has("sched_events") \
+			and not save_game.events.sched_events.empty():
+		escoria.event_manager.set_scheduled_events_from_savegame(
+				save_game.events.sched_events)
 
 	## TRANSITION
 	load_statements.append(
