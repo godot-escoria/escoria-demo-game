@@ -73,7 +73,7 @@ func run() -> int:
 		return 0
 
 	var final_rc = ESCExecution.RC_OK
-	
+
 	var statement_id = 0
 	for statement in statements:
 		from_statement_id = statement_id

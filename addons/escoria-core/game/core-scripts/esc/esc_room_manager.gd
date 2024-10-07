@@ -192,7 +192,7 @@ func init_room(room: ESCRoom) -> void:
 	if room.is_run_directly:
 		if escoria.main.current_scene == null:
 			escoria.main.set_scene(room)
-	
+
 	# Register all navigationpolygons in the terrain
 	if escoria.room_terrain != null:
 		for n in escoria.room_terrain.get_children_navpolys():

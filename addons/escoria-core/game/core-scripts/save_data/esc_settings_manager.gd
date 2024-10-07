@@ -70,7 +70,7 @@ func apply_settings() -> void:
 				ESCProjectSettingsManager.TEXT_LANG
 			)
 		)
-		
+	
 		escoria.game_scene.apply_custom_settings(custom_settings)
 
 
@@ -158,7 +158,7 @@ func get_settings() -> ESCSaveSettings:
 		ESCProjectSettingsManager.FULLSCREEN
 	)
 	settings.custom_settings = custom_settings
-	
+
 	return settings
 
 

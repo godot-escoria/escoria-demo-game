@@ -51,9 +51,9 @@ func _on_command_text_entered(p_command_str : String):
 	past_actions.text += "\n"
 	past_actions.text += "# " + p_command_str
 	past_actions.text += "\n"
-	
+
 	_historize_command(p_command_str)
-	
+
 	if p_command_str in ["history", "hist"]:
 		for ch in commands_history:
 			past_actions.text += ch + "\n"
@@ -89,7 +89,7 @@ func _on_command_text_entered(p_command_str : String):
 		while ret[1] != _print.get_command_name():
 			ret = await escoria.event_manager.event_finished
 		past_actions.text += "Returned code: %d" % ret[0]
-	
+
 	past_actions.scroll_vertical = past_actions.get_line_count()
 
 	past_actions.scroll_vertical = past_actions.get_line_count()

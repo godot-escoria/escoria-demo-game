@@ -238,13 +238,13 @@ func load_game(id: int):
 			"Save file %s doesn't exist." % save_file_path
 		)
 		return
-	
+
 	# Disconnect all trigger areas in the current room so that they don't
-	# trigger after room is loaded (eg: when player was in a trigger area, 
+	# trigger after room is loaded (eg: when player was in a trigger area,
 	# trigger_out won't fire after loading the game)
 	if (escoria.main.current_scene != null):
 		escoria.main.current_scene.get_tree().call_group(escoria.GROUP_ITEM_TRIGGERS, "disconnect_trigger_events")
-	
+
 	emit_signal("game_is_loading")
 
 	# Disconnect all trigger areas in the current room so that they don't
@@ -263,7 +263,7 @@ func load_game(id: int):
 	escoria.current_state = escoria.GAME_STATE.LOADING
 
 	var save_game: ESCSaveGame = ResourceLoader.load(save_file_path)
-	
+
 	escoria.settings_manager.load_settings_from_dict(save_game.settings)
 
 	escoria.settings_manager.load_settings_from_dict(save_game.settings)
@@ -373,127 +373,39 @@ func load_game(id: int):
 
 		if global_value is String and global_value.is_empty():
 			global_value = "''"
-
-		load_event_script.add_command(
-			_set_global.get_command_name(),
-			[
-				k,
-				global_value,
-				true
-			]
-		)
-
-#		load_statements.append(
-#			ESCCommand.new("%s %s %s true" %
-#				[
-#					_set_global.get_command_name(),
-#					k,
-#					global_value
-#				]
-#			)
-#		)
-
-	## OBJECTS
-	for object_global_id in save_game.objects.keys():
-		if save_game.objects[object_global_id].has("active"):
-			load_event_script.add_command(
-				_set_active_if_exists.get_command_name(),
-				[
-					object_global_id,
-					save_game.objects[object_global_id]["active"]
-				]
+	
+		if not k.begins_with("i/"):
+			load_statements.append(
+				ESCCommand.new("%s %s %s true" %
+					[
+						_set_global.get_command_name(),
+						k,
+						"\"%s\"" % [global_value] if (global_value is String) else global_value # If global_value is a string ensure it is treated as such
+					]
+				)
 			)
 
-#			load_statements.append(ESCCommand.new("%s %s %s" \
-#					% [
-#						_set_active_if_exists.get_command_name(),
-#						object_global_id,
-#						save_game.objects[object_global_id]["active"]
-#					]
-#				)
-#			)
-
-		if save_game.objects[object_global_id].has("interactive"):
-			load_event_script.add_command(
-				_set_interactive.get_command_name(),
+	# INVENTORY
+	for item_name in save_game.inventory:
+		load_statements.append(
+			ESCCommand.new("%s %s" %
 				[
 					object_global_id,
 					save_game.objects[object_global_id]["interactive"]
 				]
 			)
+		)
+	
+	## OBJECTS
+	var camera_target_to_follow
 
-#			load_statements.append(ESCCommand.new("%s %s %s" \
-#					% [
-#						_set_interactive.get_command_name(),
-#						object_global_id,
-#						save_game.objects[object_global_id]["interactive"]
-#					]
-#				)
-#			)
-
-		if save_game.objects[object_global_id].has("state"):
-			load_event_script.add_command(
-				_set_state.get_command_name(),
-				[
-					object_global_id,
-					save_game.objects[object_global_id]["state"]
-				]
-			)
-#			load_statements.append(ESCCommand.new("%s %s %s true" \
-#					% [
-#						_set_state.get_command_name(),
-#						object_global_id,
-#						save_game.objects[object_global_id]["state"]
-#					]
-#				)
-#			)
-
-		if save_game.objects[object_global_id].has("global_transform"):
-			load_event_script.add_command(
-				_teleport_pos.get_command_name(),
-				[
-					object_global_id,
-					int(save_game.objects[object_global_id] \
-						["global_transform"].origin.x),
-					int(save_game.objects[object_global_id] \
-						["global_transform"].origin.y)
-				]
-			)
-
-#			load_statements.append(ESCCommand.new("%s %s %s %s" \
-#					% [
-#						_teleport_pos.get_command_name(),
-#						object_global_id,
-#						int(save_game.objects[object_global_id] \
-#							["global_transform"].origin.x),
-#						int(save_game.objects[object_global_id] \
-#							["global_transform"].origin.y)
-#					]
-#				)
-#			)
-
-			load_event_script.add_command(
-				_set_angle.get_command_name(),
-				[
-					object_global_id,
-					save_game.objects[object_global_id]["last_deg"]
-				]
-			)
-
-#			load_statements.append(ESCCommand.new("%s %s %s" \
-#					% [
-#						_set_angle.get_command_name(),
-#						object_global_id,
-#						save_game.objects[object_global_id]["last_deg"]
-#					]
-#				)
-#			)
-
-		if object_global_id in [
-				escoria.object_manager.MUSIC,
-				escoria.object_manager.SOUND, escoria.object_manager.SPEECH
-			]:
-			if save_game.objects[object_global_id]["state"] in [
+	for room_id in save_game.objects.keys():
+	
+		var room_objects: Array = save_game.objects[room_id].keys()
+	
+		if room_id in ESCObjectManager.RESERVED_OBJECTS:
+		
+			if save_game.objects[room_id]["state"] in [
 				"default",
 				"off"
 			]:
@@ -544,7 +456,7 @@ func load_game(id: int):
 			)]
 		)
 	)
-	
+
 	# FOLLOW TARGET
 	load_statements.append(
 #					ESCCommand.new("%s %s %s %s" % [
@@ -554,30 +466,27 @@ func load_game(id: int):
 				camera_target_to_follow
 			])
 		)
-	
+
 	## MAIN
 	escoria.main.last_scene_global_id = save_game.main.last_scene_global_id
 
-#	load_statements.append(
-#		ESCCommand.new(
-#			"%s %s in" %
-#			[
-#				_transition.get_command_name(),
-#				ESCProjectSettingsManager.get_setting(
-#				ESCProjectSettingsManager.DEFAULT_TRANSITION
-#			)]
-#		)
-#	)
-
-	#load_event.statements = load_statements
-
-	load_event_script.end_block()
-
-	var load_event: ESCScript = escoria.esc_compiler.compile(load_event_script.build(), get_class())
+	load_event.statements = load_statements
 
 	escoria.set_game_paused(false)
 
-	escoria.event_manager.queue_event(load_event.events.values()[0])
+	# Prepare for loading.
+	escoria.globals_manager.clear()
+	escoria.action_manager.clear_current_action()
+	escoria.action_manager.clear_current_tool()
+
+	# Resume ongoing event, if there was one
+	if save_game.events.has("running_event") \
+			and not save_game.events.running_event.empty():
+		escoria.event_manager.set_running_event_from_savegame(
+				save_game.events.running_event)
+
+	# This is the end: Queue the load game event as first in the queue
+	escoria.event_manager.queue_event(load_event, false, true)
 	escoria.logger.debug(self, "Load event queued.")
 
 	# Resume ongoing event, if there was one

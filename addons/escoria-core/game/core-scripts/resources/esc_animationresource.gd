@@ -96,3 +96,5 @@ func get_direction_id_from_animation_name(p_animation_name: String) -> int:
 	elif founds_array.size() == 0:
 		return -1
 	return founds_array[0]
+
+

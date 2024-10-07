@@ -224,7 +224,7 @@ func _ready():
 		)
 
 		terrain = escoria.room_terrain
-		
+	
 		if escoria.object_manager.get_object(global_id).state == ESCObject.STATE_DEFAULT \
 				and get_animation_player() != null:
 			escoria.object_manager.get_object(global_id) \
@@ -234,7 +234,7 @@ func _ready():
 						._movable.last_dir = animations.get_direction_id_from_animation_name(
 							get_animation_player().get_animation()
 						)
-					
+				
 
 		if escoria.object_manager.get_object(global_id).state == ESCObject.STATE_DEFAULT \
 				and escoria.object_manager.get_object(global_id).node.get_animation_player() != null:

@@ -59,7 +59,7 @@ var _orig_speed: float = 0.0
 func _ready() -> void:
 	if not parent.has_user_signal("arrived"):
 		parent.add_user_signal("arrived")
-	
+
 
 # Main processing loop
 #
