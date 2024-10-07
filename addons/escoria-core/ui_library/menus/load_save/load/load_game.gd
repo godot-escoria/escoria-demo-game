@@ -40,13 +40,13 @@ func refresh_savegames():
 		return
 	var saves_array: Array = saves_list.values()
 	saves_array.sort_custom(SaveGamesSorter, "sort_by_date_descending")
-	
+
 	for save in saves_array:
 		var new_slot = slot_ui_scene.instance()
 		$VBoxContainer/ScrollContainer/slots.add_child(
 			new_slot
 		)
-		
+	
 		var datetime_string = "%02d/%02d/%02d %02d:%02d" % [
 				save.date["day"],
 				save.date["month"],

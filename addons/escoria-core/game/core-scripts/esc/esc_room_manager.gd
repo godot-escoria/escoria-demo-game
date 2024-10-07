@@ -192,7 +192,7 @@ func init_room(room: ESCRoom) -> void:
 	if room.is_run_directly:
 		if escoria.main.current_scene == null:
 			escoria.main.set_scene(room)
-	
+
 	# Register all navigationpolygons in the terrain
 	if escoria.room_terrain != null:
 		for n in escoria.room_terrain.get_children_navpolys():
@@ -292,8 +292,8 @@ func _perform_script_events(room: ESCRoom) -> void:
 
 	if room.global_id.empty():
 		room.global_id = room.name
-	
-	
+
+
 	# Manage player location at room start
 	if room.player != null \
 			and escoria.object_manager.get_start_location() != null \

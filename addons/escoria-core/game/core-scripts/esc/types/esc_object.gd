@@ -108,10 +108,10 @@ func _set_interactive(value: bool):
 # A dictionary containing the data to be saved for this object.
 func get_save_data() -> Dictionary:
 	var save_data: Dictionary = {}
-	
+
 	if self.global_id == "player" and not is_instance_valid(self.node):
 		return save_data
-		
+	
 	save_data["active"] = self.active
 	save_data["interactive"] = self.interactive
 	save_data["state"] = self.state

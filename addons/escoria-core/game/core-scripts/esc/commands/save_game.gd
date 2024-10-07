@@ -2,7 +2,7 @@
 #
 # Saves the game in the [slot_id] slot, and sets the [savegame_description] in
 # the savegame name/title.
-# 
+#
 # Example:
 # `save_game 1 "description of game saved`
 #

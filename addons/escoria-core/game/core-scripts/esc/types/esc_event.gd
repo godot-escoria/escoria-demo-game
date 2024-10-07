@@ -62,7 +62,7 @@ func exported() -> Dictionary:
 	exported_dict.original_name = original_name
 	exported_dict.flags = flags
 	return exported_dict
-	
+
 
 # Create a new event from an event line
 func _init(event_string: String):

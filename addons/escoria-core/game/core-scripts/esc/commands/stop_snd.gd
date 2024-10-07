@@ -67,16 +67,16 @@ func interrupt():
 	var _sound_players = []
 	if previous_snd_state.empty():
 		previous_snd_state = "off"
-	
+
 	if _snd_player.empty():
 		_sound_players = [
-			ESCObjectManager.MUSIC, 
-			ESCObjectManager.SOUND, 
+			ESCObjectManager.MUSIC,
+			ESCObjectManager.SOUND,
 			ESCObjectManager.SPEECH
 		]
 	else:
 		_sound_players = [_snd_player]
-	
+
 	for snd_player in _sound_players:
 		if escoria.object_manager.get_object(snd_player).node:
 			escoria.object_manager.get_object(snd_player).node.set_state(

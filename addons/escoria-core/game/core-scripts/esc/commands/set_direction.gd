@@ -2,8 +2,8 @@
 #
 # Turns a movable `ESCItem` or `ESCPlayer` to face a given target direction id
 # (between 0 and 3 for a 4-directional character, or between 0 and 7 for an
-# 8-directional character). 
-# 
+# 8-directional character).
+#
 # 4-directional :
 # 0 : UP / NORTH
 # 1 : RIGHT / EAST
@@ -70,7 +70,7 @@ func validate(arguments: Array):
 						.node.get_directions_quantity() - 1]
 		)
 		return false
-	
+
 	return true
 
 

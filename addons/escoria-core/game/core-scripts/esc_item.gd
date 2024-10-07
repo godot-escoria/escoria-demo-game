@@ -228,7 +228,7 @@ func _ready():
 		)
 
 		terrain = escoria.room_terrain
-		
+	
 		if escoria.object_manager.get_object(global_id).state == ESCObject.STATE_DEFAULT \
 				and get_animation_player() != null:
 			escoria.object_manager.get_object(global_id) \
@@ -238,7 +238,7 @@ func _ready():
 						._movable.last_dir = animations.get_direction_id_from_animation_name(
 							get_animation_player().get_animation()
 						)
-					
+				
 
 		if !is_trigger:
 			if not self.is_connected(
@@ -333,7 +333,7 @@ func disconnect_trigger_events():
 	assert(is_trigger)
 	monitoring = false
 
-	
+
 # Mouse exited happens on any item that mouse cursor exited, even those UNDER
 # the top level of overlapping stack.
 func _on_mouse_exited():

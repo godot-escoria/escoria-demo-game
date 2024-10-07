@@ -77,7 +77,7 @@ func set_speaks(p_set_speaks: Array) -> void:
 # **Returns** The int value representing the direction id of the animation, or -1 if not found.
 func get_direction_id_from_animation_name(p_animation_name: String) -> int:
 	var founds_array = []
-	
+
 	for directions_anim_resource in directions:
 		if (directions_anim_resource as ESCAnimationName).animation == p_animation_name:
 			founds_array.push_back(directions.find(directions_anim_resource))
@@ -87,7 +87,7 @@ func get_direction_id_from_animation_name(p_animation_name: String) -> int:
 	for speaks_anim_resource in speaks:
 		if (speaks_anim_resource as ESCAnimationName).animation == p_animation_name:
 			founds_array.push_back(speaks.find(speaks_anim_resource))
-	
+
 	if founds_array.size() > 1:
 		escoria.logger.warn(
 			self,
@@ -96,5 +96,5 @@ func get_direction_id_from_animation_name(p_animation_name: String) -> int:
 	elif founds_array.size() == 0:
 		return -1
 	return founds_array[0]
-	
-	
+
+

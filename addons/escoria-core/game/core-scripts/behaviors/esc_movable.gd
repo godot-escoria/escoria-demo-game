@@ -59,7 +59,7 @@ onready var task = MovableTask.NONE
 func _ready() -> void:
 	if not parent.has_user_signal("arrived"):
 		parent.add_user_signal("arrived")
-	
+
 
 # Main processing loop
 #
@@ -448,12 +448,12 @@ func set_direction(target_dir: int, wait: float = 0.0) -> void:
 	if target_dir < 0 or target_dir >= parent.animations.dir_angles.size():
 		escoria.logger.warn(
 			self,
-			"Invalid direction to turn to : %s. Valid directions are between 0 and %s. " 
+			"Invalid direction to turn to : %s. Valid directions are between 0 and %s. "
 					% [str(target_dir), parent.animations.dir_angles.size() - 1]
 			+ "Resetting target direction to 0 (up)"
 		)
 		target_dir = 0
-	
+
 	var current_dir = last_dir
 	var way_to_turn = get_shortest_way_to_dir(current_dir, target_dir)
 

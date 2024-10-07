@@ -1,7 +1,7 @@
 class ESCLoggerBase:
 	# Perform emergency savegame
 	signal perform_emergency_savegame
-	
+
 	# Sends the error or warning message in the signal
 	signal error_message(message)
 
@@ -33,7 +33,7 @@ class ESCLoggerBase:
 		_log_level = _level_map[ESCProjectSettingsManager.get_setting(
 			ESCProjectSettingsManager.LOG_LEVEL
 		).to_upper()]
-		
+	
 
 
 

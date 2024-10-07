@@ -1,3 +1,12 @@
+## [4.0.0-alpha.267](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.267) (2024-10-07)
+
+
+### Bug Fixes
+
+* initialize escoria.main.last_room_id on loading ([ba54f2b](https://github.com/godot-escoria/escoria-demo-game/commit/ba54f2bd4621716e24bc6cf82a45e27435e60c03))
+
+
+
 ## [4.0.0-alpha.266](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.266) (2024-08-13)
 
 

@@ -76,7 +76,7 @@ func _ready():
 # Returns all NavigationPolygonInstances defined as children of ESCTerrain in an Array.
 #
 # **Returns**
-# A list of NavigationPolygons nodes 
+# A list of NavigationPolygons nodes
 func get_children_navpolys() -> Array:
 	var navpolys: Array = []
 	for n in get_children():

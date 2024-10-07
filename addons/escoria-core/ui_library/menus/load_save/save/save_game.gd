@@ -53,11 +53,11 @@ func refresh_savegames():
 		return
 	var saves_array: Array = saves_list.values()
 	saves_array.sort_custom(SaveGamesSorter, "sort_by_date_descending")
-	
+
 	for save in saves_array:
 		new_slot = slot_ui_scene.instance()
 		_slots.add_child(new_slot)
-		
+	
 		datetime_string = "%02d/%02d/%02d %02d:%02d" % [
 			save.date["day"],
 			save.date["month"],
@@ -65,7 +65,7 @@ func refresh_savegames():
 			save.date["hour"],
 			save.date["minute"],
 		]
-		
+	
 		new_slot.set_slot_name_date(save["name"], datetime_string)
 		new_slot.connect("pressed", self, "_on_slot_pressed", [int(save["slotnumber"])])
 

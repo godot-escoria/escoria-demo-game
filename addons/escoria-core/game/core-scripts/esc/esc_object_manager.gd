@@ -53,7 +53,7 @@ const RESERVED_OBJECTS = [
 #	]
 var room_objects: Array = []
 
-# Array containing the encountered terrains so they can be properly saved in savegames 
+# Array containing the encountered terrains so they can be properly saved in savegames
 var room_terrains: Array = []
 
 # We also store the current room's ids for retrieving the right objects.
@@ -257,13 +257,13 @@ func register_terrain(object: ESCObject, room: ESCRoom = null) -> void:
 	else:
 		room_key.room_global_id = room.global_id
 		room_key.room_instance_id = room.get_instance_id()
-	
+
 	var terrains: Dictionary = _get_room_terrain_navpolys(room_key)
 	if object.node is NavigationPolygonInstance:
 		terrains[object.global_id] = object
 		if terrains[object.global_id].node.enabled:
 			terrains[object.global_id].state = "enabled"
-	
+
 	if terrains.size() == 1:
 		var room_container: ESCRoomTerrains = ESCRoomTerrains.new()
 		room_container.room_global_id = room_key.room_global_id
@@ -423,30 +423,30 @@ func unregister_object_by_global_id(global_id: String, room_key: ESCRoomObjectsK
 # - p_savegame: The savegame resource
 func save_game(p_savegame: ESCSaveGame) -> void:
 	p_savegame.objects = {}
-	
+
 	for room_obj in room_objects:
 		if room_obj.room_global_id.empty():
 			continue
-		
+	
 		var room_objects_dict = {}
 		for obj_id in room_obj.objects:
 			var obj: ESCObject = room_obj.objects[obj_id]
 			var obj_json_to_save: Dictionary = obj.get_save_data()
 			if not obj_json_to_save.empty():
 				room_objects_dict[obj_id] = obj_json_to_save
-			
-		p_savegame.objects[room_obj.room_global_id] = room_objects_dict
 		
+		p_savegame.objects[room_obj.room_global_id] = room_objects_dict
+	
 	# Add in reserved objects (music, speech, sound), too.
 	var reserved_objects: Dictionary = reserved_objects_container.objects
 	for obj_global_id in reserved_objects:
 		if not reserved_objects[obj_global_id] is ESCObject:
 			continue
 		p_savegame.objects[obj_global_id] = reserved_objects[obj_global_id].get_save_data()
-	
+
 	# Add ENABLED terrain navigationpolygons in, too.
 	p_savegame.terrain_navpolys = {}
-	
+
 	for room_terrain_container in room_terrains:
 		if room_terrain_container.room_global_id == current_room_key.room_global_id:
 			for terrain_name in room_terrain_container.terrains:

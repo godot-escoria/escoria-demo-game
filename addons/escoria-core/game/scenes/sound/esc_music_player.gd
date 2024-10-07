@@ -21,7 +21,7 @@ onready var stream: AudioStreamPlayer = $AudioStreamPlayer
 # #### Parameters
 #
 # - p_state: New state to use
-# - from_seconds: Sets the starting playback position 
+# - from_seconds: Sets the starting playback position
 # - p_force: Override the existing state even if the stream is still playing
 func set_state(p_state: String, from_seconds: float = 0.0, p_force: bool = false) -> void:
 	# If already playing this stream, keep playing, unless p_force

@@ -27,7 +27,7 @@ var crash_savegame_filename: String
 # Variable containing the settings folder obtained from Project Settings
 var settings_folder: String
 
-# True if escoria is currently loading a savegame. This is used to avoid 
+# True if escoria is currently loading a savegame. This is used to avoid
 # RoomManager to execute room's :setup and :ready events when loading a savegame
 var is_loading_game: bool
 
@@ -236,13 +236,13 @@ func load_game(id: int):
 			"Save file %s doesn't exist." % save_file_path
 		)
 		return
-	
+
 	# Disconnect all trigger areas in the current room so that they don't
-	# trigger after room is loaded (eg: when player was in a trigger area, 
+	# trigger after room is loaded (eg: when player was in a trigger area,
 	# trigger_out won't fire after loading the game)
 	if (escoria.main.current_scene != null):
 		escoria.main.current_scene.get_tree().call_group(escoria.GROUP_ITEM_TRIGGERS, "disconnect_trigger_events")
-	
+
 	emit_signal("game_is_loading")
 
 	escoria.logger.info(
@@ -253,7 +253,7 @@ func load_game(id: int):
 	escoria.current_state = escoria.GAME_STATE.LOADING
 
 	var save_game: ESCSaveGame = ResourceLoader.load(save_file_path)
-	
+
 	escoria.settings_manager.load_settings_from_dict(save_game.settings)
 
 	var plugin_config = ConfigFile.new()
@@ -327,7 +327,7 @@ func load_game(id: int):
 
 		if global_value is String and global_value.empty():
 			global_value = "''"
-		
+	
 		if not k.begins_with("i/"):
 			load_statements.append(
 				ESCCommand.new("%s %s %s true" %
@@ -338,7 +338,7 @@ func load_game(id: int):
 					]
 				)
 			)
-	
+
 	# INVENTORY
 	for item_name in save_game.inventory:
 		load_statements.append(
@@ -349,16 +349,16 @@ func load_game(id: int):
 				]
 			)
 		)
-		
+	
 	## OBJECTS
 	var camera_target_to_follow
-	
+
 	for room_id in save_game.objects.keys():
-		
+	
 		var room_objects: Array = save_game.objects[room_id].keys()
-		
+	
 		if room_id in ESCObjectManager.RESERVED_OBJECTS:
-			
+		
 			if save_game.objects[room_id]["state"] in [
 				"default",
 				"off"
@@ -378,13 +378,13 @@ func load_game(id: int):
 						save_game.objects[room_id]["playback_position"]
 					])
 				)
-				
-				
+			
+			
 		else:
 			if room_id == save_game.main.last_scene_global_id:
-			
+		
 				for object_global_id in save_game.objects[room_id].keys():
-					
+				
 					if save_game.objects[room_id][object_global_id].has("active"):
 						load_statements.append(ESCCommand.new("%s %s %s" \
 								% [
@@ -404,7 +404,7 @@ func load_game(id: int):
 								]
 							)
 						)
-					
+				
 					if not save_game.objects[room_id][object_global_id]["state"].empty():
 						if save_game.objects[room_id][object_global_id].has("state"):
 							load_statements.append(ESCCommand.new("%s %s %s true" \
@@ -453,7 +453,7 @@ func load_game(id: int):
 
 					if object_global_id == escoria.object_manager.CAMERA:
 						camera_target_to_follow = save_game.objects[room_id][object_global_id]["target"]
-					
+				
 
 	## TERRAIN NAVPOLYS
 	for room_name in save_game.terrain_navpolys.keys():
@@ -467,7 +467,7 @@ func load_game(id: int):
 					)
 				)
 				break
-		
+	
 	## SCHEDULED EVENTS
 	if save_game.events.has("sched_events") \
 			and not save_game.events.sched_events.empty():
@@ -485,7 +485,7 @@ func load_game(id: int):
 			)]
 		)
 	)
-	
+
 	# FOLLOW TARGET
 	load_statements.append(
 #					ESCCommand.new("%s %s %s %s" % [
@@ -495,25 +495,25 @@ func load_game(id: int):
 				camera_target_to_follow
 			])
 		)
-	
+
 	## MAIN
 	escoria.main.last_scene_global_id = save_game.main.last_scene_global_id
 
 	load_event.statements = load_statements
-	
+
 	escoria.set_game_paused(false)
-	
+
 	# Prepare for loading.
 	escoria.globals_manager.clear()
 	escoria.action_manager.clear_current_action()
 	escoria.action_manager.clear_current_tool()
-	
+
 	# Resume ongoing event, if there was one
 	if save_game.events.has("running_event") \
 			and not save_game.events.running_event.empty():
 		escoria.event_manager.set_running_event_from_savegame(
 				save_game.events.running_event)
-	
+
 	# This is the end: Queue the load game event as first in the queue
 	escoria.event_manager.queue_event(load_event, false, true)
 	escoria.logger.debug(self, "Load event queued.")

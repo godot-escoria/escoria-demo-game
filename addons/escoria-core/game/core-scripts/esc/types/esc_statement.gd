@@ -58,7 +58,7 @@ func is_valid() -> bool:
 # Execute this statement and return its return code
 func run() -> int:
 	var final_rc = ESCExecution.RC_OK
-	
+
 	var statement_id = 0
 	for statement in statements:
 		from_statement_id = statement_id

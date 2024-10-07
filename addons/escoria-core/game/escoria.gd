@@ -21,8 +21,8 @@ func _on_game_is_loading():
 func _on_game_finished_loading():
 	escoria.logger.info(self, "GAME FINISHED LOADING")
 
-	
-	
+
+
 func _init():
 	escoria.inventory_manager = ESCInventoryManager.new()
 	escoria.action_manager = ESCActionManager.new()
@@ -33,10 +33,10 @@ func _init():
 	escoria.command_registry = ESCCommandRegistry.new()
 	escoria.resource_cache = ESCResourceCache.new()
 	escoria.save_manager = ESCSaveManager.new()
-	
+
 	escoria.save_manager.connect("game_is_loading", self, "_on_game_is_loading")
 	escoria.save_manager.connect("game_finished_loading", self, "_on_game_finished_loading")
-	
+
 	escoria.inputs_manager = ESCInputsManager.new()
 	escoria.settings_manager = ESCSettingsManager.new()
 
