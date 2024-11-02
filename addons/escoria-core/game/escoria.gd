@@ -1,5 +1,5 @@
+@tool
 # The escoria main script
-tool
 extends Node
 class_name Escoria
 
@@ -12,7 +12,7 @@ const ESCORIA_CORE_PLUGIN_NAME: String = "escoria-core"
 
 
 # The main scene
-onready var main = $main
+@onready var main = $main
 
 
 func _on_game_is_loading():
@@ -34,15 +34,15 @@ func _init():
 	escoria.resource_cache = ESCResourceCache.new()
 	escoria.save_manager = ESCSaveManager.new()
 
-	escoria.save_manager.connect("game_is_loading", self, "_on_game_is_loading")
-	escoria.save_manager.connect("game_finished_loading", self, "_on_game_finished_loading")
+	escoria.save_manager.connect("game_is_loading", Callable(self, "_on_game_is_loading"))
+	escoria.save_manager.connect("game_finished_loading", Callable(self, "_on_game_finished_loading"))
 
 	escoria.inputs_manager = ESCInputsManager.new()
 	escoria.settings_manager = ESCSettingsManager.new()
 
 	if ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.GAME_SCENE
-	).empty():
+	).is_empty():
 		escoria.logger.error(
 			self,
 			"Project setting '%s' is not set!" % ESCProjectSettingsManager.GAME_SCENE
@@ -50,7 +50,7 @@ func _init():
 	else:
 		escoria.game_scene = escoria.resource_cache.get_resource(
 			ESCProjectSettingsManager.get_setting(ESCProjectSettingsManager.GAME_SCENE)
-		).instance()
+		).instantiate()
 
 
 # Load settings
@@ -67,7 +67,7 @@ func _ready():
 
 	if ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.GAME_START_SCRIPT
-	).empty():
+	).is_empty():
 		escoria.logger.error(
 			self,
 			"Project setting '%s' is not set!"
@@ -81,7 +81,7 @@ func _ready():
 
 	if ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.ACTION_DEFAULT_SCRIPT
-	).empty():
+	).is_empty():
 		escoria.logger.info(
 			self,
 			"Project setting '%s' is not set. No action defaults will be used."
@@ -104,7 +104,7 @@ func _ready():
 func _perform_plugins_checks():
 	if ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.DIALOG_MANAGERS
-	).empty():
+	).is_empty():
 		escoria.logger.error(
 			self,
 			"No dialog manager configured. Please add a dialog manager plugin."
@@ -117,11 +117,7 @@ func _perform_plugins_checks():
 # - what: the notification constant received (usually defined in MainLoop)
 func _notification(what: int):
 	match what:
-		MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
-			escoria.logger.close_logs()
-			escoria.is_quitting = true
-			get_tree().quit()
-		MainLoop.NOTIFICATION_WM_GO_BACK_REQUEST:
+		NOTIFICATION_WM_CLOSE_REQUEST, NOTIFICATION_WM_GO_BACK_REQUEST:
 			escoria.logger.close_logs()
 			escoria.is_quitting = true
 			get_tree().quit()
@@ -148,7 +144,7 @@ func _input(event: InputEvent):
 		main.get_node("layers/debug_layer/esc_prompt_popup").popup()
 
 	if event.is_action_pressed("ui_cancel"):
-		emit_signal("request_pause_menu")
+		request_pause_menu.emit()
 	pass
 
 
@@ -167,9 +163,9 @@ func run_event_from_script(script: ESCScript, event_name: String, from_statement
 		)
 	script.events[event_name].from_statement_id = from_statement_id
 	escoria.event_manager.queue_event(script.events[event_name])
-	var rc = yield(escoria.event_manager, "event_finished")
+	var rc = await escoria.event_manager.event_finished
 	while rc[1] != event_name:
-		rc = yield(escoria.event_manager, "event_finished")
+		rc = await escoria.event_manager.event_finished
 
 	if rc[0] != ESCExecution.RC_OK:
 		escoria.logger.error(
@@ -195,8 +191,7 @@ func new_game():
 
 # Function called to quit the game.
 func quit():
-	get_tree().notification(MainLoop.NOTIFICATION_WM_QUIT_REQUEST)
-
+	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 
 # Handle anything necessary if the game started a scene directly.
 func _handle_direct_scene_run() -> void:

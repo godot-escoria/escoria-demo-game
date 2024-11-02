@@ -1,6 +1,6 @@
 # Base class for all migration version scripts. Extending scripts should be
 # named like the version they migrate the savegame to. (e.g. 1.0.0.gd, 1.0.1.gd)
-extends Reference
+extends RefCounted
 class_name ESCMigration
 
 

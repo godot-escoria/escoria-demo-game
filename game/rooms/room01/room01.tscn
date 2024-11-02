@@ -1,205 +1,187 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=11 format=3 uid="uid://71iyvfo7gkvu"]
 
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
-[ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=3]
-[ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=5]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=7]
-[ext_resource path="res://game/rooms/room01/room1background.png" type="Texture" id=8]
-[ext_resource path="res://game/rooms/room01/art2.png" type="Texture" id=9]
-[ext_resource path="res://game/rooms/room01/art1.png" type="Texture" id=10]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
+[ext_resource type="FontFile" path="res://game/fonts/caslonantique.tres" id="3"]
+[ext_resource type="PackedScene" uid="uid://chf3qovs1q8kr" path="res://game/characters/mark/mark.tscn" id="4"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="5"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="7"]
+[ext_resource type="Texture2D" uid="uid://doldk8gtw28oy" path="res://game/rooms/room01/room1background.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://dvc7k5ncmppvn" path="res://game/rooms/room01/art2.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://dc7p0qkfntnl3" path="res://game/rooms/room01/art1.png" id="10"]
 
-[sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 125, 357, 1170, 355, 1277, 417, 1279, 550, -1, 548, 0, 449 )
-polygons = [ PoolIntArray( 0, 1, 2, 3, 4, 5 ) ]
-outlines = [ PoolVector2Array( 125, 357, 1170, 355, 1277, 417, 1279, 550, -1, 548, 0, 449 ) ]
+[sub_resource type="NavigationPolygon" id="1"]
+vertices = PackedVector2Array(125, 357, 1170, 355, 1277, 417, 1279, 550, -1, 548, 0, 449)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(125, 357, 1170, 355, 1277, 417, 1279, 550, -1, 548, 0, 449)])
 
 [node name="room1" type="Node2D"]
-script = ExtResource( 6 )
-__meta__ = {
-"_edit_vertical_guides_": [  ]
-}
+script = ExtResource("6")
 global_id = "room1"
 esc_script = "res://game/rooms/room01/esc/room01.esc"
-player_scene = ExtResource( 4 )
-camera_limits = [ Rect2( 0, 0, 1280, 550 ) ]
+player_scene = ExtResource("4")
+camera_limits = [Rect2(0, 0, 1280, 550)]
 editor_debug_mode = 1
 
-[node name="Room1Background" type="Sprite" parent="."]
-texture = ExtResource( 8 )
+[node name="Room1Background" type="Sprite2D" parent="."]
+texture = ExtResource("8")
 centered = false
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="advice2" type="Label" parent="Room1Background"]
+anchors_preset = -1
 anchor_right = 0.023274
 anchor_bottom = 0.018018
-margin_left = 90.2752
-margin_top = 170.824
-margin_right = 298.275
-margin_bottom = 215.824
-custom_fonts/font = ExtResource( 3 )
+offset_left = 90.2752
+offset_top = 170.824
+offset_right = 298.275
+offset_bottom = 215.824
+theme_override_fonts/font = ExtResource("3")
 text = "Move : left click
 Fast move : double left click"
 
 [node name="room_label" type="Label" parent="Room1Background"]
-margin_left = 7.0
-margin_top = 3.0
-margin_right = 89.0
-margin_bottom = 24.0
-custom_fonts/font = ExtResource( 3 )
+offset_left = 7.0
+offset_top = 3.0
+offset_right = 89.0
+offset_bottom = 24.0
+theme_override_fonts/font = ExtResource("3")
 text = "ROOM 1"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="advice" type="Label" parent="Room1Background"]
+anchors_preset = -1
 anchor_right = 0.023274
 anchor_bottom = 0.018018
-margin_left = 90.0
-margin_top = 59.0
-margin_right = 368.0
-margin_bottom = 128.0
-custom_fonts/font = ExtResource( 3 )
+offset_left = 90.0
+offset_top = 59.0
+offset_right = 368.0
+offset_bottom = 128.0
+theme_override_fonts/font = ExtResource("3")
 text = "Don't click immediately! 
 Player will walk around the room, 
 but you can interrupt him if you want."
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="walkable_area" type="Navigation2D" parent="."]
-script = ExtResource( 1 )
+[node name="walkable_area" type="Node2D" parent="."]
+script = ExtResource("1")
 
-[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="walkable_area"]
-navpoly = SubResource( 1 )
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="walkable_area"]
+navigation_polygon = SubResource("1")
 
 [node name="Hotspots" type="Node2D" parent="."]
 
 [node name="r_door" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-script = ExtResource( 5 )
+process_mode = 1
+script = ExtResource("5")
 global_id = "r1_r_exit"
 esc_script = "res://game/rooms/room01/esc/right_exit.esc"
 is_exit = true
 tooltip_name = "Exit to room 2"
 default_action = "walk"
-dialog_color = Color( 1, 1, 1, 1 )
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
-polygon = PoolVector2Array( 1173, 63, 1278, 106, 1278, 420, 1172, 356 )
+polygon = PackedVector2Array(1173, 63, 1278, 106, 1278, 420, 1172, 356)
 
-[node name="ESCLocation" type="Position2D" parent="Hotspots/r_door"]
-position = Vector2( 1221, 400 )
-script = ExtResource( 7 )
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/r_door"]
+position = Vector2(1221, 400)
+script = ExtResource("7")
 
 [node name="artwork1" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-script = ExtResource( 5 )
+process_mode = 1
+script = ExtResource("5")
 global_id = "r1_wall_item1"
 esc_script = "res://game/rooms/room01/esc/wall_item.esc"
 tooltip_name = "Artwork"
 default_action = "look"
-inventory_texture = ExtResource( 10 )
-dialog_color = Color( 1, 1, 1, 1 )
+combine_when_selected_action_is_in = PackedStringArray()
+inventory_texture = ExtResource("10")
 animations = null
 
-[node name="Art1" type="Sprite" parent="Hotspots/artwork1"]
-position = Vector2( 470, 140 )
-texture = ExtResource( 10 )
+[node name="Art1" type="Sprite2D" parent="Hotspots/artwork1"]
+position = Vector2(470, 140)
+texture = ExtResource("10")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/artwork1"]
-position = Vector2( -84, 11.1 )
-polygon = PoolVector2Array( 487, 62, 627, 62, 627, 198, 487, 199 )
+position = Vector2(-84, 11.1)
+polygon = PackedVector2Array(487, 62, 627, 62, 627, 198, 487, 199)
 
-[node name="ESCLocation" type="Position2D" parent="Hotspots/artwork1"]
-position = Vector2( 476, 385 )
-script = ExtResource( 7 )
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/artwork1"]
+position = Vector2(476, 385)
+script = ExtResource("7")
 
 [node name="Label" type="Label" parent="Hotspots/artwork1"]
-margin_left = 375.422
-margin_top = 268.594
-margin_right = 657.422
-margin_bottom = 313.594
-custom_fonts/font = ExtResource( 3 )
+offset_left = 375.422
+offset_top = 268.594
+offset_right = 657.422
+offset_bottom = 313.594
+theme_override_fonts/font = ExtResource("3")
 text = "If you look at this object, the character's
 speech will appear above his head"
-__meta__ = {
-"_edit_use_anchors_": false,
-"_editor_description_": ""
-}
 
 [node name="artwork2" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-script = ExtResource( 5 )
+process_mode = 1
+script = ExtResource("5")
 global_id = "r1_wall_item2"
 esc_script = "res://game/rooms/room01/esc/wall_item_popupdialog.esc"
 tooltip_name = "Artwork 2"
 default_action = "look"
-inventory_texture = ExtResource( 9 )
-dialog_color = Color( 1, 1, 1, 1 )
+combine_when_selected_action_is_in = PackedStringArray()
+inventory_texture = ExtResource("9")
 animations = null
 
-[node name="Art12" type="Sprite" parent="Hotspots/artwork2"]
-position = Vector2( 830, 140 )
-texture = ExtResource( 9 )
+[node name="Art12" type="Sprite2D" parent="Hotspots/artwork2"]
+position = Vector2(830, 140)
+texture = ExtResource("9")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/artwork2"]
-position = Vector2( 273, 11 )
-polygon = PoolVector2Array( 487, 62, 627, 62, 627, 198, 487, 199 )
+position = Vector2(273, 11)
+polygon = PackedVector2Array(487, 62, 627, 62, 627, 198, 487, 199)
 
-[node name="ESCLocation" type="Position2D" parent="Hotspots/artwork2"]
-position = Vector2( 829, 379 )
-script = ExtResource( 7 )
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/artwork2"]
+position = Vector2(829, 379)
+script = ExtResource("7")
 
 [node name="Label2" type="Label" parent="Hotspots/artwork2"]
-margin_left = 734.0
-margin_top = 269.0
-margin_right = 1020.0
-margin_bottom = 314.0
-custom_fonts/font = ExtResource( 3 )
+offset_left = 734.0
+offset_top = 269.0
+offset_right = 1020.0
+offset_bottom = 314.0
+theme_override_fonts/font = ExtResource("3")
 text = "If you look at this object, the character
 will talk via a popup"
-__meta__ = {
-"_edit_use_anchors_": false,
-"_editor_description_": ""
-}
 
 [node name="trigger_talk" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-script = ExtResource( 5 )
+process_mode = 1
+script = ExtResource("5")
 global_id = "trigger_talk"
 esc_script = "res://game/rooms/room01/esc/trigger.esc"
 is_trigger = true
 player_orients_on_arrival = false
-dialog_color = Color( 1, 1, 1, 1 )
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/trigger_talk"]
-polygon = PoolVector2Array( 1027, 352, 1187, 502, 1249.67, 445.131, 1123, 351 )
+polygon = PackedVector2Array(1027, 352, 1187, 502, 1249.67, 445.131, 1123, 351)
 
-[node name="player_start" type="Position2D" parent="."]
-position = Vector2( 172.471, 434.487 )
-script = ExtResource( 7 )
+[node name="player_start" type="Marker2D" parent="."]
+position = Vector2(172.471, 434.487)
+script = ExtResource("7")
 global_id = "r1_start"
 is_start_location = true
 
-[node name="orients_down_on_arrival" type="Position2D" parent="."]
-position = Vector2( 400.129, 432.969 )
-script = ExtResource( 7 )
+[node name="orients_down_on_arrival" type="Marker2D" parent="."]
+position = Vector2(400.129, 432.969)
+script = ExtResource("7")
 global_id = "r1_destination_point"
 
-[node name="set_angle_by_esc" type="Position2D" parent="."]
-position = Vector2( 934.11, 502.959 )
-script = ExtResource( 7 )
+[node name="set_angle_by_esc" type="Marker2D" parent="."]
+position = Vector2(934.11, 502.959)
+script = ExtResource("7")
 global_id = "r1_destination_point2"
 player_orients_on_arrival = false
 
-[node name="turn_to_r_door_by_esc" type="Position2D" parent="."]
-position = Vector2( 660.468, 381.489 )
-script = ExtResource( 7 )
+[node name="turn_to_r_door_by_esc" type="Marker2D" parent="."]
+position = Vector2(660.468, 381.489)
+script = ExtResource("7")
 global_id = "r1_destination_point3"
 player_orients_on_arrival = false

@@ -4,6 +4,6 @@
 
 [node name="camera" type="Camera2D"]
 current = true
-drag_margin_h_enabled = true
-drag_margin_v_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
 script = ExtResource( 1 )

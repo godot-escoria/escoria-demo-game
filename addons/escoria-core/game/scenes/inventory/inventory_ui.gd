@@ -6,7 +6,7 @@ class_name ESCInventory
 
 # Define the actual container node to add items as children of.
 # Should be a Container.
-export(NodePath) var inventory_ui_container
+@export var inventory_ui_container: NodePath
 
 
 # A registry of inventory ESCInventoryItem nodes
@@ -27,12 +27,7 @@ func _ready():
 		call_deferred("add_new_item_by_id", item_id)
 
 	escoria.inventory = self
-
-	escoria.globals_manager.connect(
-		"global_changed", #
-		self,
-		"_on_escoria_global_changed"
-	)
+	escoria.globals_manager.global_changed.connect(_on_escoria_global_changed)
 
 
 # add item to Inventory UI using its id set in its scene
@@ -52,7 +47,7 @@ func add_new_item_by_id(item_id: String) -> void:
 				escoria.object_manager.register_object(
 					ESCObject.new(
 						item_id,
-						ResourceLoader.load(inventory_file).instance()
+						ResourceLoader.load(inventory_file).instantiate()
 					),
 					null,
 					true

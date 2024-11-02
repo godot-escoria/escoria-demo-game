@@ -1,3 +1,4 @@
+@icon("res://addons/escoria-core/design/esc_exit.svg")
 # An ESCExit is a minimal feature node that provides an exit to a room.
 #
 # For exits that don't require scripts, the ``ESCExit`` node is provided.
@@ -11,14 +12,14 @@
 # The game character will automatically walk to an ``ESCLocation`` created as a
 # child of an ``ESCExit`` node.
 extends ESCItem
-class_name ESCExit, "res://addons/escoria-core/design/esc_exit.svg"
+class_name ESCExit
 
 
 # Path to the target scene to change to
-export(String, FILE, "*.tscn") var target_scene = ""
+@export var target_scene = "" # (String, FILE, "*.tscn")
 
 # Sound effect to play when changing the scene
-export(String, FILE, "*.ogg,*.mp3,*.wav") var switch_sound = ""
+@export var switch_sound = "" # (String, FILE, "*.ogg,*.mp3,*.wav")
 
 # ESC commands kept around for references to their command names.
 var _play_snd: PlaySndCommand

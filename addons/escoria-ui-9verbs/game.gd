@@ -41,15 +41,16 @@ Implement methods to react to inputs.
 - _on_event_done(event_name: String)
 """
 
-onready var verbs_menu = $ui/Control/panel_down/VBoxContainer/HBoxContainer\
+@onready var verbs_menu = $ui/Control/panel_down/VBoxContainer/HBoxContainer\
 		/VerbsMargin/verbs_menu
-onready var tooltip = $ui/Control/panel_down/VBoxContainer/MarginContainer\
+@onready var tooltip = $ui/Control/panel_down/VBoxContainer/MarginContainer\
 		/tooltip
-onready var inventory_ui = $ui/Control/panel_down/VBoxContainer/HBoxContainer\
+@onready var inventory_ui = $ui/Control/panel_down/VBoxContainer/HBoxContainer\
 		/InventoryMargin/inventory_ui
 var room_select
 
 func _enter_tree():
+	super()
 	var room_selector_parent = $ui/Control/panel_down/VBoxContainer\
 			/HBoxContainer/MainMargin/VBoxContainer
 
@@ -58,7 +59,7 @@ func _enter_tree():
 		room_select = preload(
 			"res://addons/escoria-core/ui_library/tools/room_select" +\
 			"/room_select.tscn"
-		).instance()
+		).instantiate()
 		room_selector_parent.add_child(room_select)
 
 
@@ -332,7 +333,7 @@ func show_main_menu():
 func unpause_game():
 	if get_node(pause_menu).visible:
 		get_node(pause_menu).hide()
-		escoria.object_manager.get_object(ESCObjectManager.CAMERA).node.current = true
+		escoria.object_manager.get_object(ESCObjectManager.CAMERA).node.make_current()
 		escoria.object_manager.get_object(ESCObjectManager.SPEECH).node.resume()
 		escoria.main.current_scene.game.show_ui()
 		escoria.main.current_scene.show()
@@ -343,7 +344,6 @@ func pause_game():
 		get_node(pause_menu).reset()
 		get_node(pause_menu).set_save_enabled(escoria.save_manager.save_enabled)
 		get_node(pause_menu).show()
-		escoria.object_manager.get_object(ESCObjectManager.CAMERA).node.current = false
 		escoria.object_manager.get_object(ESCObjectManager.SPEECH).node.pause()
 		escoria.main.current_scene.game.hide_ui()
 		escoria.main.current_scene.hide()

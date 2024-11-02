@@ -19,7 +19,7 @@ var _loaded_languages: Array = []
 
 
 # The settings changed
-onready var settings_changed = false
+@onready var changed = false
 
 
 # Initialize the flags
@@ -41,7 +41,7 @@ func _ready() -> void:
 				"/menus/options/flags/%s.png" % lang
 			)
 			_flags_container.add_child(_lang)
-			_lang.connect("gui_input", self, "_on_language_input", [lang])
+			_lang.connect("gui_input", Callable(self, "_on_language_input").bind(lang))
 
 
 # Show the options
@@ -76,7 +76,7 @@ func _on_language_input(event: InputEvent, language: String):
 			ESCProjectSettingsManager.TEXT_LANG,
 			language
 		)
-		settings_changed = true
+		changed = true
 
 
 # Sound volume was changed
@@ -92,7 +92,7 @@ func _on_sound_volume_changed(value):
 			value
 		)
 		escoria.settings_manager.apply_settings()
-		settings_changed = true
+		changed = true
 
 
 # Music volume was changed
@@ -108,7 +108,7 @@ func _on_music_volume_changed(value):
 			value
 		)
 		escoria.settings_manager.apply_settings()
-		settings_changed = true
+		changed = true
 
 
 # General volume was changed
@@ -124,7 +124,7 @@ func _on_general_volume_changed(value):
 			value
 		)
 		escoria.settings_manager.apply_settings()
-		settings_changed = true
+		changed = true
 
 
 # Speech volume was changed
@@ -140,7 +140,7 @@ func _on_speech_volume_value_changed(value: float) -> void:
 			value
 		)
 		escoria.settings_manager.apply_settings()
-		settings_changed = true
+		changed = true
 
 
 # Fullscreen was changed
@@ -156,19 +156,19 @@ func _on_fullscreen_toggled(button_pressed: bool) -> void:
 			button_pressed
 		)
 		escoria.settings_manager.apply_settings()
-		settings_changed = true
+		changed = true
 
 
 # Save the settings
 func _on_apply_pressed():
 	escoria.settings_manager.custom_settings[CUSTOM_SETTING] = 100
 	escoria.settings_manager.save_settings()
-	settings_changed = false
-	emit_signal("back_button_pressed")
+	changed = false
+	back_button_pressed.emit()
 
 
 # The back button was pressed
 func _on_back_pressed():
 	escoria.settings_manager.save_settings_resource_to_project_settings(backup_settings)
 	escoria.settings_manager.apply_settings()
-	emit_signal("back_button_pressed")
+	back_button_pressed.emit()

@@ -1,23 +1,23 @@
 extends ESCTooltip
 
-export var prepositions = {"use": "with", "give": "to"}
+@export var prepositions = {"use": "with", "give": "to"}
 
 func update_tooltip_text():
-	bbcode_text = "[center]"
-	bbcode_text += "[color=#" + color.to_html(false) + "]"
-	if !current_action.empty():
-		bbcode_text += current_action + "\t"
-	bbcode_text += current_target
+	text = "[center]"
+	text += "[color=#" + color.to_html(false) + "]"
+	if !current_action.is_empty():
+		text += current_action + "\t"
+	text += current_target
 
-	if waiting_for_target2 and current_target2.empty():
+	if waiting_for_target2 and current_target2.is_empty():
 		current_prep = prepositions.get(current_action, current_prep)
-		bbcode_text += "\t" + current_prep
+		text += "\t" + current_prep
 
-	if !current_target2.empty():
-		bbcode_text += "\t" + current_prep + "\t" + current_target2
+	if !current_target2.is_empty():
+		text += "\t" + current_prep + "\t" + current_target2
 
-	bbcode_text += "[/color]"
-	bbcode_text += "[/center]"
+	text += "[/color]"
+	text += "[/center]"
 
 #	push_align(RichTextLabel.ALIGN_CENTER)
 #	if !current_action.empty():

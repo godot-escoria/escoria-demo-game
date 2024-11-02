@@ -40,14 +40,14 @@ class_name SetAngleCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
-		[TYPE_STRING,  [TYPE_REAL, TYPE_INT],  [TYPE_REAL, TYPE_INT]],
+		[TYPE_STRING,  [TYPE_FLOAT, TYPE_INT],  [TYPE_FLOAT, TYPE_INT]],
 		[null, null, 0.0]
 	)
 
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):

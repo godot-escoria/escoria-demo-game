@@ -60,7 +60,7 @@ func _init():
 		])
 		var property_info = {
 			"name": COMMAND_DIRECTORIES,
-			"type": TYPE_STRING_ARRAY
+			"type": TYPE_PACKED_STRING_ARRAY
 		}
 		ProjectSettings.add_property_info(property_info)
 
@@ -91,9 +91,8 @@ func _init():
 # Load an ESC file from a file resource
 func load_esc_file(path: String) -> ESCScript:
 	escoria.logger.debug(self, "Parsing file %s." % path)
-	if File.new().file_exists(path):
-		var file = File.new()
-		file.open(path, File.READ)
+	if FileAccess.file_exists(path):
+		var file := FileAccess.open(path, FileAccess.READ)
 		var lines = []
 		while not file.eof_reached():
 			lines.append(file.get_line())

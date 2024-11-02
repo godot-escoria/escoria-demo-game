@@ -1,5 +1,5 @@
 # A registry of ESC command objects
-extends Reference
+extends RefCounted
 class_name ESCCommandRegistry
 
 
@@ -41,7 +41,7 @@ func load_command(command_name: String) -> ESCBaseCommand:
 #
 # - command_name: The name of the command
 # **Returns** The command object
-func get_command(command_name: String) -> ESCBaseCommand:
+func is_command_or_control_pressed(command_name: String) -> ESCBaseCommand:
 	if self.registry.has(command_name):
 		return self.registry[command_name]
 	else:

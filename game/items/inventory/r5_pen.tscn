@@ -1,13 +1,13 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://game/items/inventory/pen.png" type="Texture" id=1]
+[ext_resource path="res://game/items/inventory/pen.png" type="Texture2D" id=1]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 34.5, 37.6304 )
 
 [node name="pen" type="Area2D"]
-pause_mode = 1
+process_mode = 1
 position = Vector2( 0.266479, 2.24493 )
 script = ExtResource( 3 )
 global_id = "r5_pen"
@@ -16,13 +16,13 @@ player_orients_on_arrival = false
 tooltip_name = "pen"
 default_action = "look"
 default_action_inventory = "look"
-combine_when_selected_action_is_in = PoolStringArray( "use" )
+combine_when_selected_action_is_in = PackedStringArray( "use" )
 use_from_inventory_only = true
 inventory_texture = ExtResource( 1 )
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2( 0.222656, -35.5324 )
 texture = ExtResource( 1 )
 

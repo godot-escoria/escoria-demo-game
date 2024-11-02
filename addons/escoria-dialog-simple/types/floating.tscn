@@ -1,19 +1,15 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://duatpb2fc36db"]
 
-[ext_resource path="res://addons/escoria-dialog-simple/types/floating.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://addons/escoria-dialog-simple/types/floating.gd" id="1"]
 
 [node name="dialog_label" type="RichTextLabel"]
-margin_right = 643.0
-margin_bottom = 60.0
+offset_right = 643.0
+offset_bottom = 60.0
 bbcode_enabled = true
-bbcode_text = "[center]Here be some text.[/center]"
 text = "Here be some text."
-fit_content_height = true
-script = ExtResource( 1 )
+script = ExtResource("1")
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Tween" type="Tween" parent="."]
 
 [node name="Timer" type="Timer" parent="."]

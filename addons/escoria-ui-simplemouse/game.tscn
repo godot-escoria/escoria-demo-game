@@ -51,29 +51,29 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ui/HBoxContainer"]
-margin_right = 58.0
-margin_bottom = 90.0
+offset_right = 58.0
+offset_bottom = 90.0
 mouse_filter = 2
 
 [node name="MenuButton" type="Button" parent="CanvasLayer/ui/HBoxContainer/VBoxContainer"]
-margin_right = 58.0
-margin_bottom = 27.0
+offset_right = 58.0
+offset_bottom = 27.0
 text = "Menu"
 
 [node name="Spacer" type="Control" parent="CanvasLayer/ui/HBoxContainer"]
-margin_left = 62.0
-margin_right = 1186.0
-margin_bottom = 90.0
+offset_left = 62.0
+offset_right = 1186.0
+offset_bottom = 90.0
 mouse_filter = 2
 size_flags_horizontal = 3
 
 [node name="inventory_ui" parent="CanvasLayer/ui/HBoxContainer" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 1190.0
-margin_right = 1280.0
-margin_bottom = 90.0
-rect_scale = Vector2( 1, 1 )
+offset_left = 1190.0
+offset_right = 1280.0
+offset_bottom = 90.0
+scale = Vector2( 1, 1 )
 
 [node name="pause_menu" parent="CanvasLayer" instance=ExtResource( 8 )]
 visible = false
@@ -88,7 +88,7 @@ layer = 2
 [node name="tooltip" parent="tooltip_layer" instance=ExtResource( 6 )]
 mouse_filter = 2
 theme = ExtResource( 9 )
-bbcode_text = "[center][color=#000000][/color][/center]"
+text = "[center][color=#000000][/color][/center]"
 fit_content_height = true
 
 [node name="mouse_layer" type="CanvasLayer" parent="."]
@@ -97,10 +97,10 @@ layer = 2
 [node name="verbs_menu" parent="mouse_layer" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 156.0
-margin_top = 810.0
-margin_right = 156.0
-margin_bottom = 900.0
+offset_left = 156.0
+offset_top = 810.0
+offset_right = 156.0
+offset_bottom = 900.0
 grow_horizontal = 0
 size_flags_horizontal = 2
 size_flags_vertical = 3

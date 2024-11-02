@@ -1,13 +1,13 @@
 # A statement in an ESC file
-extends Reference
+extends RefCounted
 class_name ESCStatement
 
 
 # Emitted when the event did finish running
-signal finished(event, return_code)
+signal finished(event: ESCStatement, statement: ESCStatement, return_code: int)
 
 # Emitted when the event was interrupted
-signal interrupted(event, return_code)
+signal interrupted(event: ESCStatement, statement: ESCStatement, return_code: int)
 
 
 # The list of ESC commands
@@ -68,26 +68,23 @@ func run() -> int:
 		if _is_interrupted:
 			final_rc = ESCExecution.RC_INTERRUPTED
 			statement.interrupt()
-			emit_signal("interrupted", self, statement, final_rc)
+			interrupted.emit(self, statement, final_rc)
 			return final_rc
 
-		if bypass_conditions or statement.is_valid():
-			var rc = statement.run()
-			if rc is GDScriptFunctionState:
-				rc = yield(rc, "completed")
-				escoria.logger.debug(
-					self,
-					"Statement (%s) was completed." % statement
-				)
+		if statement.is_valid():
+			var rc = await statement.run()
+			escoria.logger.debug(
+				self,
+				"Statement (%s) was completed." % statement
+			)
 			if rc == ESCExecution.RC_REPEAT:
-				return self.run()
+				return await self.run()
 			elif rc != ESCExecution.RC_OK:
 				final_rc = rc
-				break
-			elif rc == ESCExecution.RC_OK:
 				current_statement.is_completed = true
+				break
 
-	emit_signal("finished", self, current_statement, final_rc)
+	finished.emit(self, current_statement, final_rc)
 	is_completed = true
 	return final_rc
 

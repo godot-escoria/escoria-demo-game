@@ -86,13 +86,12 @@ func get_saves_list() -> Dictionary:
 	regex.compile("save_(?<slotnumber>[0-9]{3})\\.tres")
 
 	var saves = {}
-	var dirsave = Directory.new()
-	if dirsave.open(save_folder) == OK:
-		dirsave.list_dir_begin(true, true)
+	var dirsave = DirAccess.open(save_folder)
+	if dirsave != null:
+		dirsave.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var nextfile = dirsave.get_next()
 		while nextfile != "":
-			var save_path = save_folder.plus_file(nextfile)
-			var file: File = File.new()
+			var save_path = save_folder.path_join(nextfile)
 			var save_game_res: Resource = load(save_path)
 
 			if save_game_res == null:
@@ -117,6 +116,12 @@ func get_saves_list() -> Dictionary:
 								% [save_path, regex.get_pattern()]
 					)
 			nextfile = dirsave.get_next()
+	else:
+		escoria.logger.error(
+			self,
+			"Could not open savegame folder %s" % save_folder
+		)
+	
 	return saves
 
 
@@ -125,9 +130,8 @@ func get_saves_list() -> Dictionary:
 # ## Parameters
 # - id: integer suffix of the savegame file
 func save_game_exists(id: int) -> bool:
-	var save_file_path: String = save_folder.plus_file(SAVE_NAME_TEMPLATE % id)
-	var file: File = File.new()
-	return file.file_exists(save_file_path)
+	var save_file_path: String = save_folder.path_join(SAVE_NAME_TEMPLATE % id)
+	return FileAccess.file_exists(save_file_path)
 
 
 # Save the current state of the game in a file suffixed with the id value.
@@ -140,18 +144,17 @@ func save_game(id: int, p_savename: String):
 	if not save_enabled:
 		escoria.logger.debug(
 			self,
-			"Save requested while saving is not possible. Save cancelled."
+			"Save requested while saving is not possible. Save canceled."
 		)
 		return
 
 	var save_game := _do_save_game(p_savename)
 
-	var directory: Directory = Directory.new()
-	if not directory.dir_exists(save_folder):
-		directory.make_dir_recursive(save_folder)
+	if not DirAccess.dir_exists_absolute(save_folder):
+		DirAccess.make_dir_recursive_absolute(save_folder)
 
-	var save_path = save_folder.plus_file(SAVE_NAME_TEMPLATE % id)
-	var error: int = ResourceSaver.save(save_path, save_game)
+	var save_path = save_folder.path_join(SAVE_NAME_TEMPLATE % id)
+	var error: int = ResourceSaver.save(save_game, save_path)
 	if error != OK:
 		escoria.logger.error(
 			self,
@@ -161,7 +164,7 @@ func save_game(id: int, p_savename: String):
 
 # Performs an emergency savegame in case of crash.
 func save_game_crash():
-	var datetime = OS.get_datetime()
+	var datetime = Time.get_datetime_dict_from_system()
 	var datetime_string = "%02d/%02d/%02d %02d:%02d" % [
 		datetime["day"],
 		datetime["month"],
@@ -175,7 +178,7 @@ func save_game_crash():
 	var save_file_path: String = ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.LOG_FILE_PATH
 	)
-	crash_savegame_filename = save_file_path.plus_file(
+	crash_savegame_filename = save_file_path.path_join(
 		CRASH_SAVE_NAME_TEMPLATE % [
 			str(datetime["year"]) + str(datetime["month"])
 					+ str(datetime["day"]),
@@ -184,7 +187,7 @@ func save_game_crash():
 		]
 	)
 
-	var error: int = ResourceSaver.save(crash_savegame_filename, save_game)
+	var error: int = ResourceSaver.save(save_game, crash_savegame_filename)
 	if error != OK:
 		escoria.logger.error(
 			self,
@@ -210,7 +213,7 @@ func _do_save_game(p_savename: String) -> ESCSaveGame:
 	)
 	save_game.name = p_savename
 
-	save_game.date = OS.get_datetime()
+	save_game.date = Time.get_datetime_dict_from_system()
 
 	escoria.globals_manager.save_game(save_game)
 	escoria.inventory_manager.save_game(save_game)
@@ -228,9 +231,8 @@ func _do_save_game(p_savename: String) -> ESCSaveGame:
 # ## Parameters
 # - id: integer suffix of the savegame file
 func load_game(id: int):
-	var save_file_path: String = save_folder.plus_file(SAVE_NAME_TEMPLATE % id)
-	var file: File = File.new()
-	if not file.file_exists(save_file_path):
+	var save_file_path: String = save_folder.path_join(SAVE_NAME_TEMPLATE % id)
+	if not FileAccess.file_exists(save_file_path):
 		escoria.logger.error(
 			self,
 			"Save file %s doesn't exist." % save_file_path
@@ -243,7 +245,7 @@ func load_game(id: int):
 	if (escoria.main.current_scene != null):
 		escoria.main.current_scene.get_tree().call_group(escoria.GROUP_ITEM_TRIGGERS, "disconnect_trigger_events")
 
-	emit_signal("game_is_loading")
+	game_is_loading.emit()
 
 	escoria.logger.info(
 		self,
@@ -325,7 +327,7 @@ func load_game(id: int):
 	for k in save_game.globals.keys():
 		var global_value = save_game.globals[k]
 
-		if global_value is String and global_value.empty():
+		if global_value is String and global_value.is_empty():
 			global_value = "''"
 
 		if not k.begins_with("i/"):
@@ -405,7 +407,7 @@ func load_game(id: int):
 							)
 						)
 			
-					if not save_game.objects[room_id][object_global_id]["state"].empty():
+					if not save_game.objects[room_id][object_global_id]["state"].is_empty():
 						if save_game.objects[room_id][object_global_id].has("state"):
 							load_statements.append(ESCCommand.new("%s %s %s true" \
 									% [
@@ -470,7 +472,7 @@ func load_game(id: int):
 
 	## SCHEDULED EVENTS
 	if save_game.events.has("sched_events") \
-			and not save_game.events.sched_events.empty():
+			and not save_game.events.sched_events.is_empty():
 		escoria.event_manager.set_scheduled_events_from_savegame(
 				save_game.events.sched_events)
 
@@ -510,7 +512,7 @@ func load_game(id: int):
 
 	# Resume ongoing event, if there was one
 	if save_game.events.has("running_event") \
-			and not save_game.events.running_event.empty():
+			and not save_game.events.running_event.is_empty():
 		escoria.event_manager.set_running_event_from_savegame(
 				save_game.events.running_event)
 

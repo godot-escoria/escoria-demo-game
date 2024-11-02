@@ -72,7 +72,7 @@ var _current_mouse_pos = Vector2.ZERO
 
 
 func _ready():
-	$tooltip_layer/tooltip.connect("tooltip_size_updated", self, "update_tooltip_following_mouse_position")
+	$tooltip_layer/tooltip.connect("tooltip_size_updated", Callable(self, "update_tooltip_following_mouse_position"))
 
 
 func _enter_tree():
@@ -85,7 +85,7 @@ func _enter_tree():
 			preload(
 				"res://addons/escoria-core/ui_library/tools/room_select" +\
 				"/room_select.tscn"
-			).instance()
+			).instantiate()
 		)
 
 	var input_handler = funcref(self, "_process_input")
@@ -95,12 +95,12 @@ func _enter_tree():
 	if _is_gamepad_connected:
 		_on_gamepad_connected()
 
-	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
+	Input.connect("joy_connection_changed", Callable(self, "_on_joy_connection_changed"))
 
 
 func _exit_tree():
 	escoria.inputs_manager.register_custom_input_handler(null)
-	Input.disconnect("joy_connection_changed", self, "_on_joy_connection_changed")
+	Input.disconnect("joy_connection_changed", Callable(self, "_on_joy_connection_changed"))
 	if _is_gamepad_connected:
 		_on_gamepad_disconnected()
 
@@ -368,8 +368,8 @@ func get_custom_data() -> Dictionary:
 func update_tooltip_following_mouse_position():
 	var corrected_position = _current_mouse_pos \
 		- Vector2(
-			tooltip_node.rect_size.x / 2,
-			tooltip_node.rect_size.y / 2
+			tooltip_node.size.x / 2,
+			tooltip_node.size.y / 2
 		)
 
 	# clamp TOP
@@ -377,18 +377,18 @@ func update_tooltip_following_mouse_position():
 		corrected_position.y = mouse_tooltip_margin
 
 	# clamp BOTTOM
-	if tooltip_node.tooltip_distance_to_edge_bottom(_current_mouse_pos + tooltip_node.rect_size) <= mouse_tooltip_margin:
-		corrected_position.y = escoria.game_size.y - mouse_tooltip_margin - tooltip_node.rect_size.y
+	if tooltip_node.tooltip_distance_to_edge_bottom(_current_mouse_pos + tooltip_node.size) <= mouse_tooltip_margin:
+		corrected_position.y = escoria.game_size.y - mouse_tooltip_margin - tooltip_node.size.y
 
 	# clamp LEFT
-	if tooltip_node.tooltip_distance_to_edge_left(_current_mouse_pos - tooltip_node.rect_size/2) <= mouse_tooltip_margin:
+	if tooltip_node.tooltip_distance_to_edge_left(_current_mouse_pos - tooltip_node.size/2) <= mouse_tooltip_margin:
 		corrected_position.x = mouse_tooltip_margin
 
 	# clamp RIGHT
-	if tooltip_node.tooltip_distance_to_edge_right(_current_mouse_pos + tooltip_node.rect_size/2) <= mouse_tooltip_margin:
-		corrected_position.x = escoria.game_size.x - mouse_tooltip_margin - tooltip_node.rect_size.x
+	if tooltip_node.tooltip_distance_to_edge_right(_current_mouse_pos + tooltip_node.size/2) <= mouse_tooltip_margin:
+		corrected_position.x = escoria.game_size.x - mouse_tooltip_margin - tooltip_node.size.x
 
-	tooltip_node.rect_position = corrected_position + tooltip_node.offset_from_cursor
+	tooltip_node.position = corrected_position + tooltip_node.offset_from_cursor
 
 
 func _on_action_finished():

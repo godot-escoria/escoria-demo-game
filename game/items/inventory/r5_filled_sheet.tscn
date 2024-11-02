@@ -1,24 +1,24 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=1]
-[ext_resource path="res://game/items/inventory/filled_sheet.png" type="Texture" id=3]
+[ext_resource path="res://game/items/inventory/filled_sheet.png" type="Texture2D" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 [node name="filled_sheet" type="Area2D"]
-pause_mode = 1
+process_mode = 1
 script = ExtResource( 1 )
 global_id = "r5_filled_sheet"
 esc_script = "res://game/items/inventory/filled_sheet.esc"
 tooltip_name = "completed application form"
-combine_when_selected_action_is_in = PoolStringArray( "use", "give" )
+combine_when_selected_action_is_in = PackedStringArray( "use", "give" )
 combine_is_one_way = true
 use_from_inventory_only = true
 inventory_texture = ExtResource( 3 )
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
-[node name="sprite" type="Sprite" parent="."]
+[node name="sprite" type="Sprite2D" parent="."]
 texture = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

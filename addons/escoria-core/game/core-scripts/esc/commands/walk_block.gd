@@ -37,7 +37,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
@@ -68,7 +68,7 @@ func run(command_params: Array) -> int:
 		escoria.action_manager.ACTION.BACKGROUND_CLICK,
 		command_params
 	)
-	yield(walking_object_node, "arrived")
+	await walking_object_node.arrived
 	return ESCExecution.RC_OK
 
 

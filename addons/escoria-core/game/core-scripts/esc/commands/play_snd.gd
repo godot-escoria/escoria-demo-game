@@ -22,14 +22,14 @@ var _snd_player: String
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
-		[TYPE_STRING, TYPE_STRING, TYPE_REAL],
+		[TYPE_STRING, TYPE_STRING, TYPE_FLOAT],
 		[null, "_sound", 0.0]
 	)
 
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not escoria.object_manager.has(arguments[1]):

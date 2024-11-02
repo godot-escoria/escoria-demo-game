@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=2 format=2]
 
-[ext_resource path="res://addons/escoria-ui-keyboard-9verbs/fonts/caslonantique.tres" type="DynamicFont" id=1]
+[ext_resource path="res://addons/escoria-ui-keyboard-9verbs/fonts/caslonantique.tres" type="FontFile" id=1]
 
 [resource]
 default_font = ExtResource( 1 )

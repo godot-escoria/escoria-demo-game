@@ -31,7 +31,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
@@ -79,7 +79,7 @@ func _slide_object(
 	var tween = Tween.new()
 	(escoria.main as Node).add_child(tween)
 
-	tween.connect("tween_completed", self, "_on_tween_completed")
+	tween.connect("tween_completed", Callable(self, "_on_tween_completed"))
 
 	var duration = source.node.position.distance_to(
 		destination.node.position

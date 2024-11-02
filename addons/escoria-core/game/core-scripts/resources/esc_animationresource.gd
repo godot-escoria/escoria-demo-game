@@ -1,6 +1,6 @@
+@tool
 # Resource containing all defined animations and angles for
 # characters movement.
-tool
 extends Resource
 class_name ESCAnimationResource
 
@@ -10,22 +10,22 @@ class_name ESCAnimationResource
 # start_angle must be between 0 and 360.
 # Angles 0 and 360 are the same and correspond to UP/NORTH,
 # 90 is RIGHT/EAST, 180 is DOWN/SOUTH, 270 is LEFT/WEST etc.
-export(Array, Resource) var dir_angles: Array = [] setget set_dir_angles
+@export var dir_angles: Array = []: set = set_dir_angles
 
 # Array of animations for each direction, from UP to RIGHT_UP clockwise
 # [animation_name, scale]: scale parameter can be set to -1 to mirror
 # the animation
-export(Array, Resource) var directions: Array = [] setget set_directions
+@export var directions: Array = []: set = set_directions
 
 # Array containing the idle animations for each direction (in the
 # order defined by dir_angles): scale parameter can be set to -1 to mirror
 # the animation
-export(Array, Resource) var idles: Array = [] setget set_idles
+@export var idles: Array = []: set = set_idles
 
 # Array containing the speak animations for each direction (in the
 # order defined by dir_angles): scale parameter can be set to -1 to mirror
 # the animation
-export(Array, Resource) var speaks: Array = [] setget set_speaks
+@export var speaks: Array = []: set = set_speaks
 
 
 # Sets the dir_angles property.
@@ -96,5 +96,3 @@ func get_direction_id_from_animation_name(p_animation_name: String) -> int:
 	elif founds_array.size() == 0:
 		return -1
 	return founds_array[0]
-
-

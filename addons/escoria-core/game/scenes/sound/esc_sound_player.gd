@@ -4,7 +4,7 @@ class_name ESCSoundPlayer
 
 
 # Global id of the background sound player
-export var global_id: String = "_sound"
+@export var global_id: String = "_sound"
 
 
 # The state of the sound player. "default" or "off" disable sound
@@ -13,7 +13,7 @@ var state: String = "default"
 
 
 # Reference to the audio player
-onready var stream: AudioStreamPlayer = $AudioStreamPlayer
+@onready var stream: AudioStreamPlayer = $AudioStreamPlayer
 
 
 # Set the state of this player
@@ -40,8 +40,8 @@ func set_state(p_state: String, from_seconds: float = 0.0, p_force: bool = false
 	stream.stream = resource
 
 	if stream.stream:
-		if resource is AudioStreamSample:
-			resource.loop_mode = AudioStreamSample.LOOP_DISABLED
+		if resource is AudioStreamWAV:
+			resource.loop_mode = AudioStreamWAV.LOOP_DISABLED
 		elif "loop" in resource:
 			resource.loop = false
 		stream.play(from_seconds)
@@ -49,7 +49,7 @@ func set_state(p_state: String, from_seconds: float = 0.0, p_force: bool = false
 
 # Register to the object registry
 func _ready():
-	pause_mode = Node.PAUSE_MODE_STOP
+	process_mode = Node.PROCESS_MODE_PAUSABLE
 	escoria.object_manager.register_object(
 		ESCObject.new(global_id, self),
 		null,

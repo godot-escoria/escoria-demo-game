@@ -2,6 +2,7 @@
 extends Resource
 class_name ESCActionManager
 
+const ESCPlayer = preload("res://addons/escoria-core/game/core-scripts/esc_player.gd")
 
 # The current action verb was changed
 signal action_changed
@@ -25,7 +26,7 @@ enum ACTION_INPUT_STATE {
 	# After initial state, verb is defined
 	AWAITING_ITEM,
 	# Item defined requires combine, waiting for  target
-	AWAITING_TARGET_ITEM
+	AWAITING_TARGET_ITEM,
 	# After initial state, item is defined
 	AWAITING_VERB,
 	# Item was defined first, next verb, need verb confirmation
@@ -56,7 +57,7 @@ const ACTION_WALK = "walk"
 
 
 # Current verb used
-var current_action: String = "" setget set_current_action
+var current_action: String = "": set = set_current_action
 
 # Current tool (ESCItem/ESCInventoryItem) used
 var current_tool: ESCObject
@@ -65,8 +66,8 @@ var current_tool: ESCObject
 var current_target: ESCObject
 
 # Current action input state
-var action_state = ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM \
-		setget set_action_input_state
+var action_state = ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM:
+		set = set_action_input_state
 
 
 # Run a generic action
@@ -198,7 +199,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 			_:
 				escoria.logger.warn(
 					self,
-					"Action received: '%s' with params %s.", [action, params]
+					"Action received: '%s' with params %s." % [action, params]
 				)
 	elif escoria.current_state == escoria.GAME_STATE.WAIT:
 		pass
@@ -212,7 +213,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 # - p_state: the action input state to set
 func set_action_input_state(p_state):
 	action_state = p_state
-	emit_signal("action_input_state_changed")
+	action_input_state_changed.emit()
 
 
 # Set the current action verb
@@ -228,16 +229,16 @@ func set_current_action(action: String):
 	if action_state == ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM:
 		set_action_input_state(ACTION_INPUT_STATE.AWAITING_ITEM)
 	elif action_state == ACTION_INPUT_STATE.AWAITING_VERB:
-		set_action_input_state(ACTION_INPUT_STATE.AWAITING_VERB_CONFIRM)
+		set_action_input_state(ACTION_INPUT_STATE.AWAITING_VERB_CONFIRMATION)
 
-	emit_signal("action_changed")
+	action_changed.emit()
 
 
 # Clear the current action
 func clear_current_action():
 	set_current_action("")
 	set_action_input_state(ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM)
-	emit_signal("action_changed")
+	action_changed.emit()
 
 
 # Clear the current tool
@@ -399,19 +400,13 @@ func _get_event_to_queue(
 func _run_event(event: ESCEvent) -> int:
 	escoria.event_manager.queue_event(event)
 
-	var event_returned = yield(
-		escoria.event_manager,
-		"event_finished"
-	)
+	var event_returned = await escoria.event_manager.event_finished
 
 	while event_returned[1] != event.name:
-		event_returned = yield(
-			escoria.event_manager,
-			"event_finished"
-		)
+		event_returned = await escoria.event_manager.event_finished
 
 	clear_current_action()
-	emit_signal("action_finished")
+	action_finished.emit()
 
 	return event_returned[0]
 
@@ -579,7 +574,7 @@ func perform_inputevent_on_object(
 	# player walking towards the destination.
 	if current_action and not event_to_queue:
 		clear_current_action()
-		emit_signal("action_finished")
+		action_finished.emit()
 		return
 
 	var event_flags = event_to_queue.flags if event_to_queue else 0
@@ -592,14 +587,11 @@ func perform_inputevent_on_object(
 		if not obj.node is ESCPlayer and \
 			not escoria.inventory_manager.inventory_has(obj.global_id) and \
 			not event_flags & ESCEvent.FLAG_TK:
-				var context = _walk_towards_object(
+				var context = await _walk_towards_object(
 					obj,
 					event.position,
-					event.doubleclick
+					event.double_click
 				)
-
-				if context is GDScriptFunctionState:
-					context = yield(context, "completed")
 
 				# In case of an interrupted walk, we don't want to proceed.
 				if context == null:
@@ -736,10 +728,7 @@ func _walk_towards_object(
 )
 
 	# Wait for the player to arrive before continuing with action.
-	var context: ESCWalkContext = yield(
-		escoria.main.current_scene.player,
-		"arrived"
-	)
+	var context: ESCWalkContext = await escoria.main.current_scene.player.arrived
 
 	if context.target_object != obj:
 		escoria.logger.debug(

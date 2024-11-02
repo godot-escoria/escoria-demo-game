@@ -1,5 +1,5 @@
 # A set of common utilities
-extends Reference
+extends RefCounted
 class_name ESCUtils
 
 
@@ -10,7 +10,7 @@ class_name ESCUtils
 # - rad_angle: Angle in radians
 # **Returns** Degrees
 static func get_deg_from_rad(rad_angle: float):
-	var deg = rad2deg(rad_angle)
+	var deg = rad_to_deg(rad_angle)
 	if deg >= 360.0:
 		deg = clamp(deg, 0.0, 360.0)
 		if deg == 360.0:

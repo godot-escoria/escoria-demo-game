@@ -34,7 +34,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]) and not _is_current_room(arguments[0]):
@@ -83,7 +83,7 @@ func run(arguments: Array) -> int:
 
 	var esc_script = escoria.esc_compiler.load_esc_file(node.esc_script)
 
-	return escoria.event_manager.queue_event_from_esc(
+	return await escoria.event_manager.queue_event_from_esc(
 		esc_script,
 		arguments[1], # event name
 		arguments[2], # channel name

@@ -1,5 +1,5 @@
-tool
-extends WindowDialog
+@tool
+extends Window
 
 
 # Declare member variables here. Examples:
@@ -8,7 +8,7 @@ extends WindowDialog
 
 const LAST_PAGE = 15
 
-export var current_page = 1
+@export var current_page = 1
 
 
 func help_on_prev_button_pressed() -> void:

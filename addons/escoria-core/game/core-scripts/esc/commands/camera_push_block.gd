@@ -35,21 +35,21 @@ const SUPPORTED_TRANSITIONS = ["LINEAR","SINE","QUINT","QUART","QUAD" ,"EXPO","E
 
 
 # Tween for blocking
-var _camera_tween: Tween
+var _camera_tween: Tween3
 
 
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
-		[TYPE_STRING, [TYPE_REAL, TYPE_INT], TYPE_STRING],
+		[TYPE_STRING, [TYPE_FLOAT, TYPE_INT], TYPE_STRING],
 		[null, 1, "QUAD"]
 	)
 
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
@@ -98,7 +98,7 @@ func run(command_params: Array) -> int:
 		)
 
 	if command_params[1] > 0.0:
-		yield(_camera_tween, "tween_completed")
+		await _camera_tween.tween_completed
 		escoria.logger.debug(
 			self,
 			"camera_push_block tween complete."

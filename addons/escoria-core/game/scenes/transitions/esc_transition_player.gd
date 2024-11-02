@@ -26,7 +26,7 @@ const TRANSITION_INSTANT = "instant"
 var transition_id: int = 0
 
 # The tween instance to animate
-var _tween: Tween
+var _tween: Tween3
 
 # If the current tween was canceled
 var _was_canceled: bool = false
@@ -38,10 +38,10 @@ func _ready() -> void:
 	anchor_top = 0
 	anchor_right = 1
 	anchor_bottom = 1
-	color = Color.white
+	color = Color.WHITE
 	color.a = 0
 	mouse_filter = MOUSE_FILTER_IGNORE
-	_tween = Tween.new()
+	_tween = Tween3.new(self)
 
 
 # Play a transition animation
@@ -62,11 +62,10 @@ func transition(
 	# constructor, the transition will ALWAYS happen on game start, which might
 	# not be desired if 'false' is used for automatic_transitions in a
 	# change_scene call in :init.
-	if not _tween.is_inside_tree():
-		add_child(_tween)
-		_tween.connect("tween_all_completed", self, "_on_tween_completed")
+	if not _tween.is_valid():
+		_tween.connect("tween_all_completed", _on_tween_completed)
 
-	if transition_name.empty():
+	if transition_name.is_empty():
 		transition_name = ESCProjectSettingsManager.get_setting(
 			ESCProjectSettingsManager.DEFAULT_TRANSITION
 		)
@@ -100,7 +99,7 @@ func transition(
 		_was_canceled = true
 		_tween.stop_all()
 		_tween.remove_all()
-		emit_signal("transition_done", transition_id-1)
+		transition_done.emit(transition_id-1)
 
 	_tween.interpolate_property(
 		$".",
@@ -147,7 +146,7 @@ func reset_shader_cutoff() -> void:
 	if not is_instance_valid(material):
 		return
 
-	material.set_shader_param("cutoff", 1.0)
+	material.set_shader_parameter("cutoff", 1.0)
 
 
 func _on_tween_completed():
@@ -155,4 +154,4 @@ func _on_tween_completed():
 		_tween.stop_all()
 		_tween.remove_all()
 		escoria.logger.debug(self, "Transition %s done." % str(transition_id))
-		emit_signal("transition_done", transition_id)
+		transition_done.emit(transition_id)

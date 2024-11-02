@@ -3,9 +3,9 @@
 [ext_resource path="res://addons/escoria-core/ui_library/menus/load_save/load_save_slot/load_save_slot.gd" type="Script" id=2]
 
 [node name="slot" type="Button"]
-margin_right = 665.0
-margin_bottom = 86.0
-rect_min_size = Vector2( 0, 100 )
+offset_right = 665.0
+offset_bottom = 86.0
+custom_minimum_size = Vector2( 0, 100 )
 size_flags_horizontal = 3
 script = ExtResource( 2 )
 __meta__ = {
@@ -21,15 +21,15 @@ __meta__ = {
 }
 
 [node name="slot_name" type="Label" parent="VBoxContainer"]
-margin_top = 34.0
-margin_right = 665.0
-margin_bottom = 48.0
+offset_top = 34.0
+offset_right = 665.0
+offset_bottom = 48.0
 text = "slot_name"
 align = 1
 
 [node name="date" type="Label" parent="VBoxContainer"]
-margin_top = 52.0
-margin_right = 665.0
-margin_bottom = 66.0
+offset_top = 52.0
+offset_right = 665.0
+offset_bottom = 66.0
 text = "date"
 align = 1

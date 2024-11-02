@@ -27,7 +27,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array) -> bool:
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not ResourceLoader.exists(arguments[0]):
@@ -67,7 +67,7 @@ func run(command_params: Array) -> int:
 				]
 	)
 
-	escoria.room_manager.change_scene(command_params[0], command_params[1])
+	escoria.room_manager.change_scene_to_file(command_params[0], command_params[1])
 
 	return ESCExecution.RC_OK
 

@@ -21,14 +21,14 @@ class_name CameraSetTargetCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
-		[[TYPE_REAL, TYPE_INT], TYPE_STRING],
+		[[TYPE_FLOAT, TYPE_INT], TYPE_STRING],
 		[null, null]
 	)
 
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not escoria.object_manager.has(arguments[1]):

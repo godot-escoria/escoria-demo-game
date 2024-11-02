@@ -1,20 +1,20 @@
 [gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
-[ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=3]
+[ext_resource path="res://game/fonts/caslonantique.tres" type="FontFile" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=5]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=7]
-[ext_resource path="res://game/rooms/room08/room8background.png" type="Texture" id=8]
-[ext_resource path="res://game/rooms/room08/locked_button.png" type="Texture" id=9]
-[ext_resource path="res://game/rooms/room08/door.png" type="Texture" id=10]
-[ext_resource path="res://game/rooms/room08/unlocked_button.png" type="Texture" id=11]
+[ext_resource path="res://game/rooms/room08/room8background.png" type="Texture2D" id=8]
+[ext_resource path="res://game/rooms/room08/locked_button.png" type="Texture2D" id=9]
+[ext_resource path="res://game/rooms/room08/door.png" type="Texture2D" id=10]
+[ext_resource path="res://game/rooms/room08/unlocked_button.png" type="Texture2D" id=11]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 4.26837, 653.779, 86.2684, 608.779, 87.2684, 635.779, 1260.27, 808.779, 3.26837, 810.779, 112.268, 621.779, 642.268, 624.779, 1259.27, 687.779, 642.268, 586.779, 790.268, 585.779, 791.268, 624.779, 1154.27, 622.779 )
-polygons = [ PoolIntArray( 0, 1, 2 ), PoolIntArray( 3, 4, 0, 2 ), PoolIntArray( 3, 2, 5, 6, 7 ), PoolIntArray( 6, 8, 9, 10 ), PoolIntArray( 7, 6, 10 ), PoolIntArray( 7, 10, 11 ) ]
-outlines = [ PoolVector2Array( 4.26837, 653.779, 86.2684, 608.779, 87.2684, 635.779, 112.268, 621.779, 642.268, 624.779, 642.268, 586.779, 790.268, 585.779, 791.268, 624.779, 1154.27, 622.779, 1259.27, 687.779, 1260.27, 808.779, 3.26837, 810.779 ) ]
+vertices = PackedVector2Array( 4.26837, 653.779, 86.2684, 608.779, 87.2684, 635.779, 1260.27, 808.779, 3.26837, 810.779, 112.268, 621.779, 642.268, 624.779, 1259.27, 687.779, 642.268, 586.779, 790.268, 585.779, 791.268, 624.779, 1154.27, 622.779 )
+polygons = [ PackedInt32Array( 0, 1, 2 ), PackedInt32Array( 3, 4, 0, 2 ), PackedInt32Array( 3, 2, 5, 6, 7 ), PackedInt32Array( 6, 8, 9, 10 ), PackedInt32Array( 7, 6, 10 ), PackedInt32Array( 7, 10, 11 ) ]
+outlines = [ PackedVector2Array( 4.26837, 653.779, 86.2684, 608.779, 87.2684, 635.779, 112.268, 621.779, 642.268, 624.779, 642.268, 586.779, 790.268, 585.779, 791.268, 624.779, 1154.27, 622.779, 1259.27, 687.779, 1260.27, 808.779, 3.26837, 810.779 ) ]
 
 [sub_resource type="Animation" id=2]
 length = 0.001
@@ -25,8 +25,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Vector2( 723, 203 ) ]
 }
@@ -37,8 +37,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Vector2( 723, 203 ) ]
 }
@@ -49,8 +49,8 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Vector2( 723, 203 ) ]
 }
@@ -61,8 +61,8 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Vector2( 723, 203 ) ]
 }
@@ -73,8 +73,8 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ ExtResource( 10 ) ]
 }
@@ -85,8 +85,8 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ ExtResource( 10 ) ]
 }
@@ -100,8 +100,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 1.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 0.2, 1.5 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 547, 203 ), Vector2( 547, 203 ), Vector2( 723, 203 ) ]
 }
@@ -112,8 +112,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 1.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 0.2, 1.5 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 899, 203 ), Vector2( 899, 203 ), Vector2( 723, 203 ) ]
 }
@@ -124,8 +124,8 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 1.3 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 1.3 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 547, 203 ), Vector2( 723, 203 ) ]
 }
@@ -136,8 +136,8 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 1.3 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 1.3 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 899, 203 ), Vector2( 723, 203 ) ]
 }
@@ -151,8 +151,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 1.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 0.2, 1.5 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 723, 203 ), Vector2( 723, 203 ), Vector2( 547, 203 ) ]
 }
@@ -163,8 +163,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 1.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 0.2, 1.5 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 723, 203 ), Vector2( 723, 203 ), Vector2( 899, 203 ) ]
 }
@@ -175,8 +175,8 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 1.3 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 1.3 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 723, 203 ), Vector2( 547, 203 ) ]
 }
@@ -187,8 +187,8 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 1.3 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 1.3 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 723, 203 ), Vector2( 899, 203 ) ]
 }
@@ -212,35 +212,35 @@ camera_limits = [ Rect2( 0, 0, 1280, 555 ) ]
 [node name="walkable_area" type="Navigation2D" parent="."]
 script = ExtResource( 1 )
 
-[node name="platform" type="NavigationPolygonInstance" parent="walkable_area"]
+[node name="platform" type="NavigationRegion2D" parent="walkable_area"]
 position = Vector2( 6.73163, -264.779 )
-navpoly = SubResource( 1 )
+navigation_polygon = SubResource( 1 )
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="player_start" type="Position2D" parent="."]
+[node name="player_start" type="Marker2D" parent="."]
 position = Vector2( 76.7617, 437.649 )
 script = ExtResource( 7 )
 global_id = "r8_player_start"
 is_start_location = true
 
-[node name="Room8Background" type="Sprite" parent="."]
+[node name="Room8Background" type="Sprite2D" parent="."]
 texture = ExtResource( 8 )
 centered = false
 
 [node name="Label" type="Label" parent="Room8Background"]
-margin_right = 62.0
-margin_bottom = 21.0
-custom_fonts/font = ExtResource( 3 )
+offset_right = 62.0
+offset_bottom = 21.0
+theme_override_fonts/font = ExtResource( 3 )
 text = "Room 8"
 
 [node name="Label2" type="Label" parent="Room8Background"]
-margin_left = 835.0
-margin_top = 12.0
-margin_right = 1133.0
-margin_bottom = 249.0
-custom_fonts/font = ExtResource( 3 )
+offset_left = 835.0
+offset_top = 12.0
+offset_right = 1133.0
+offset_bottom = 249.0
+theme_override_fonts/font = ExtResource( 3 )
 text = "This room demonstrates mixing Escoria
 with an external GDScript puzzle.
 Global variables are set by the puzzle
@@ -258,7 +258,7 @@ __meta__ = {
 [node name="Hotspots" type="Node2D" parent="."]
 
 [node name="l_door" type="Area2D" parent="Hotspots"]
-pause_mode = 1
+process_mode = 1
 script = ExtResource( 5 )
 __meta__ = {
 "_editor_description_": ""
@@ -272,14 +272,14 @@ dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
-polygon = PoolVector2Array( 1, 420, 1, 107, 105, 63, 108, 352 )
+polygon = PackedVector2Array( 1, 420, 1, 107, 105, 63, 108, 352 )
 
-[node name="Position2D" type="Position2D" parent="Hotspots/l_door"]
+[node name="Marker2D" type="Marker2D" parent="Hotspots/l_door"]
 position = Vector2( 45.47, 383.99 )
 script = ExtResource( 7 )
 
 [node name="m_door" type="Area2D" parent="Hotspots"]
-pause_mode = 1
+process_mode = 1
 position = Vector2( 0, -1 )
 script = ExtResource( 5 )
 __meta__ = {
@@ -295,9 +295,9 @@ dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/m_door"]
-polygon = PoolVector2Array( 630, 349, 628, 51, 815, 51, 815, 349 )
+polygon = PackedVector2Array( 630, 349, 628, 51, 815, 51, 815, 349 )
 
-[node name="Position2D" type="Position2D" parent="Hotspots/m_door"]
+[node name="Marker2D" type="Marker2D" parent="Hotspots/m_door"]
 position = Vector2( 724, 354 )
 script = ExtResource( 7 )
 
@@ -306,24 +306,24 @@ anims/RESET = SubResource( 2 )
 anims/door_close = SubResource( 3 )
 anims/door_open = SubResource( 4 )
 
-[node name="door1" type="Sprite" parent="Hotspots/m_door"]
+[node name="door1" type="Sprite2D" parent="Hotspots/m_door"]
 position = Vector2( 723, 203 )
 z_index = -1
 texture = ExtResource( 10 )
 
-[node name="door2" type="Sprite" parent="Hotspots/m_door"]
+[node name="door2" type="Sprite2D" parent="Hotspots/m_door"]
 position = Vector2( 723, 203 )
 scale = Vector2( -1, -1 )
 z_index = -1
 texture = ExtResource( 10 )
 
-[node name="door3" type="Sprite" parent="Hotspots/m_door"]
+[node name="door3" type="Sprite2D" parent="Hotspots/m_door"]
 position = Vector2( 723, 203 )
 scale = Vector2( 1, -1 )
 z_index = -1
 texture = ExtResource( 10 )
 
-[node name="door4" type="Sprite" parent="Hotspots/m_door"]
+[node name="door4" type="Sprite2D" parent="Hotspots/m_door"]
 position = Vector2( 723, 203 )
 scale = Vector2( -1, 1 )
 z_index = -1
@@ -332,10 +332,10 @@ texture = ExtResource( 10 )
 [node name="door_background" type="Polygon2D" parent="Hotspots/m_door"]
 z_index = -2
 color = Color( 0, 0, 0, 1 )
-polygon = PoolVector2Array( 635, 55, 810, 56, 810, 350, 634, 350 )
+polygon = PackedVector2Array( 635, 55, 810, 56, 810, 350, 634, 350 )
 
 [node name="r8_mini_puzzle_unlocked" type="Area2D" parent="Hotspots"]
-pause_mode = 1
+process_mode = 1
 script = ExtResource( 5 )
 global_id = "r8_mini_puzzle_unlocked"
 combine_when_selected_action_is_in = [  ]
@@ -343,12 +343,12 @@ inventory_texture = ExtResource( 11 )
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
-[node name="unlocked_button" type="Sprite" parent="Hotspots/r8_mini_puzzle_unlocked"]
+[node name="unlocked_button" type="Sprite2D" parent="Hotspots/r8_mini_puzzle_unlocked"]
 position = Vector2( 527, 190 )
 texture = ExtResource( 11 )
 
 [node name="r8_mini_puzzle_button" type="Area2D" parent="Hotspots"]
-pause_mode = 1
+process_mode = 1
 script = ExtResource( 5 )
 global_id = "r8_mini_puzzle_button"
 esc_script = "res://game/rooms/room08/esc/button_puzzle.esc"
@@ -359,7 +359,7 @@ inventory_texture = ExtResource( 9 )
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
-[node name="locked_button" type="Sprite" parent="Hotspots/r8_mini_puzzle_button"]
+[node name="locked_button" type="Sprite2D" parent="Hotspots/r8_mini_puzzle_button"]
 position = Vector2( 527, 190 )
 texture = ExtResource( 9 )
 
@@ -367,20 +367,20 @@ texture = ExtResource( 9 )
 position = Vector2( 526, 191.5 )
 shape = SubResource( 5 )
 
-[node name="Position2D" type="Position2D" parent="Hotspots/r8_mini_puzzle_button"]
+[node name="Marker2D" type="Marker2D" parent="Hotspots/r8_mini_puzzle_button"]
 position = Vector2( 532, 370 )
 script = ExtResource( 7 )
 
 [node name="button_puzzle" type="Label" parent="Hotspots/r8_mini_puzzle_button"]
-margin_left = 488.0
-margin_top = 128.0
-margin_right = 572.0
-margin_bottom = 149.0
-custom_fonts/font = ExtResource( 3 )
+offset_left = 488.0
+offset_top = 128.0
+offset_right = 572.0
+offset_bottom = 149.0
+theme_override_fonts/font = ExtResource( 3 )
 text = "Run puzzle"
 
 [node name="r8_reset_puzzle_button" type="Area2D" parent="Hotspots"]
-pause_mode = 1
+process_mode = 1
 position = Vector2( -139.185, 0 )
 script = ExtResource( 5 )
 global_id = "r8_button_reset_puzzle"
@@ -391,19 +391,19 @@ combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
-[node name="Position2D" type="Position2D" parent="Hotspots/r8_reset_puzzle_button"]
+[node name="Marker2D" type="Marker2D" parent="Hotspots/r8_reset_puzzle_button"]
 position = Vector2( 511.185, 370 )
 script = ExtResource( 7 )
 
 [node name="reset_puzzle" type="Label" parent="Hotspots/r8_reset_puzzle_button"]
-margin_left = 466.185
-margin_top = 126.0
-margin_right = 560.185
-margin_bottom = 147.0
-custom_fonts/font = ExtResource( 3 )
+offset_left = 466.185
+offset_top = 126.0
+offset_right = 560.185
+offset_bottom = 147.0
+theme_override_fonts/font = ExtResource( 3 )
 text = "Reset puzzle"
 
-[node name="Sprite3" type="Sprite" parent="Hotspots/r8_reset_puzzle_button"]
+[node name="Sprite3" type="Sprite2D" parent="Hotspots/r8_reset_puzzle_button"]
 position = Vector2( 139.185, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/r8_reset_puzzle_button"]

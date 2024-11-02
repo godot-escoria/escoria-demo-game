@@ -5,42 +5,42 @@ extends Resource
 class_name ESCSaveSettings
 
 # Version of ESCORIA Framework
-export var escoria_version: String
+@export var escoria_version: String
 
 # Language of displayed text
-export var text_lang: String = ProjectSettings.get_setting(
+@export var text_lang: String = ProjectSettings.get_setting(
 	"escoria/main/text_lang"
 )
 
 # Language of voice speech
-export var voice_lang: String = ProjectSettings.get_setting(
+@export var voice_lang: String = ProjectSettings.get_setting(
 	"escoria/main/voice_lang"
 )
 
 # Whether speech is enabled
-export var speech_enabled: bool = ProjectSettings.get_setting(
+@export var speech_enabled: bool = ProjectSettings.get_setting(
 	"escoria/sound/speech_enabled")
 
 # Master volume (mix of music, voice and sfx)
-export var master_volume: float = ProjectSettings.get_setting(
+@export var master_volume: float = ProjectSettings.get_setting(
 	"escoria/sound/master_volume")
 
 # Volume of music only
-export var music_volume: float = ProjectSettings.get_setting(
+@export var music_volume: float = ProjectSettings.get_setting(
 	"escoria/sound/music_volume")
 
 # Volume of SFX only
-export var sfx_volume: float = ProjectSettings.get_setting(
+@export var sfx_volume: float = ProjectSettings.get_setting(
 	"escoria/sound/sfx_volume"
 )
 
 # Speech volume only
-export var speech_volume: float = ProjectSettings.get_setting(
+@export var speech_volume: float = ProjectSettings.get_setting(
 	"escoria/sound/speech_volume")
 
 # True if game has to be fullscreen
-export var fullscreen: bool = ProjectSettings.get_setting(
-	"display/window/size/fullscreen")
+@export var fullscreen: bool = ProjectSettings.get_setting(
+	"display/window/size/mode") == DisplayServer.WINDOW_MODE_FULLSCREEN
 
 # Dictionary containing all user-defined settings.
-export var custom_settings: Dictionary
+@export var custom_settings: Dictionary

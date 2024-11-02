@@ -1,12 +1,12 @@
 extends CanvasLayer
 
-onready var list = $VBoxContainer/hover_stack
+@onready var list = $VBoxContainer/hover_stack
 
 func update() -> void:
 	for e in list.get_children():
 		list.remove_child(e)
 		e.queue_free()
-	if escoria.inputs_manager.hover_stack.empty():
+	if escoria.inputs_manager.hover_stack.is_empty():
 		return
 	for e in escoria.inputs_manager.hover_stack.get_all():
 		var l = Label.new()

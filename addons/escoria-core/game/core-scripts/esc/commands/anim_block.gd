@@ -27,7 +27,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
@@ -53,9 +53,9 @@ func run(command_params: Array) -> int:
 		animator.play(anim_id)
 	if animator.get_length(anim_id) < 1.0:
 		return ESCExecution.RC_OK
-	var animation_finished = yield(animator, "animation_finished")
+	var animation_finished = await animator.animation_finished
 	while animation_finished != anim_id:
-		animation_finished = yield(animator, "animation_finished")
+		animation_finished = await animator.animation_finished
 	return ESCExecution.RC_OK
 
 

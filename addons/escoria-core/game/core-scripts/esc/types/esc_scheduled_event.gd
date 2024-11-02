@@ -1,5 +1,5 @@
 # An event that is scheduled to run later
-extends Reference
+extends RefCounted
 class_name ESCScheduledEvent
 
 
@@ -34,4 +34,4 @@ func exported() -> Dictionary:
 #
 # **Returns** The execution code
 func run() -> int:
-	return event.run()
+	return await event.run()

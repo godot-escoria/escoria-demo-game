@@ -21,18 +21,18 @@ class_name TransitionCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
-		[TYPE_STRING, TYPE_STRING, TYPE_REAL],
+		[TYPE_STRING, TYPE_STRING, TYPE_FLOAT],
 		[null, null, 1.0]
 	)
 
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not escoria.main.scene_transition.has_transition(arguments[0]) \
-		and not arguments[0].empty():
+		and not arguments[0].is_empty():
 		escoria.logger.error(
 			self,
 			"[%s]: argument invalid. Transition with name '%s' doesn't exist."
@@ -72,10 +72,7 @@ func run(command_params: Array) -> int:
 		"Starting transition #%s [%s, %s]."
 				% [transition_id, command_params[0], command_params[1]]
 	)
-	while yield(
-		escoria.main.scene_transition,
-		"transition_done"
-	) != transition_id:
+	while await escoria.main.scene_transition.transition_done != transition_id:
 		pass
 	escoria.logger.debug(
 		self,

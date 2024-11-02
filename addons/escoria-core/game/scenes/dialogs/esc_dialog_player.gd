@@ -170,7 +170,7 @@ func _update_dialog_manager(dialog_type: String, current_dialog_manager: ESCDial
 
 	if is_instance_valid(current_dialog_manager):
 		if not current_dialog_manager.has_type(dialog_manager_type):
-			if is_a_parent_of(current_dialog_manager):
+			if is_ancestor_of(current_dialog_manager):
 				remove_child(current_dialog_manager)
 
 			add_child(_determine_dialog_manager(dialog_type, dialog_manager_type))

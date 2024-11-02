@@ -30,17 +30,17 @@ var _current_line: String
 
 
 # The node holding the avatar
-onready var avatar_node = $Panel/MarginContainer/HSplitContainer/VBoxContainer\
+@onready var avatar_node = $Panel/MarginContainer/HSplitContainer/VBoxContainer\
 		/avatar
 
 # The node showing the text
-onready var text_node = $Panel/MarginContainer/HSplitContainer/text
+@onready var text_node = $Panel/MarginContainer/HSplitContainer/text
 
 # The tween node for text animations
-onready var tween = $Panel/MarginContainer/HSplitContainer/text/Tween
+@onready var tween = $Panel/MarginContainer/HSplitContainer/text/Tween
 
 # Whether the dialog manager is paused
-onready var is_paused: bool = true
+@onready var is_paused: bool = true
 
 
 
@@ -56,11 +56,11 @@ func _ready():
 			"%s setting must be a non-negative number. Will use default value of %s." %
 				[
 					SimpleDialogSettings.TEXT_TIME_PER_LETTER_MS,
-					SimpleDialogSettings.TEXT_TIME_PER_LETTER_MS_DEFAULT_VALUE
+					escoria.TEXT_TIME_PER_LETTER_MS_DEFAULT_VALUE
 				]
 		)
 
-		_text_time_per_character = SimpleDialogSettings.TEXT_TIME_PER_LETTER_MS_DEFAULT_VALUE
+		_text_time_per_character = escoria.TEXT_TIME_PER_LETTER_MS_DEFAULT_VALUE
 
 	_fast_text_time_per_character = ProjectSettings.get_setting(
 		SimpleDialogSettings.TEXT_TIME_PER_LETTER_MS_FAST
@@ -72,11 +72,11 @@ func _ready():
 			"%s setting must be a non-negative number. Will use default value of %s." %
 				[
 					SimpleDialogSettings.TEXT_TIME_PER_LETTER_MS_FAST,
-					SimpleDialogSettings.TEXT_TIME_PER_LETTER_MS_FAST_DEFAULT_VALUE
+					escoria.TEXT_TIME_PER_LETTER_MS_FAST_DEFAULT_VALUE
 				]
 		)
 
-		_fast_text_time_per_character = SimpleDialogSettings.TEXT_TIME_PER_LETTER_MS_FAST_DEFAULT_VALUE
+		_fast_text_time_per_character = escoria.TEXT_TIME_PER_LETTER_MS_FAST_DEFAULT_VALUE
 
 	_reading_speed_in_wpm = ProjectSettings.get_setting(
 		SimpleDialogSettings.READING_SPEED_IN_WPM
@@ -88,25 +88,21 @@ func _ready():
 			"%s setting must be a positive number. Will use default value of %s." %
 				[
 					SimpleDialogSettings.READING_SPEED_IN_WPM,
-					SimpleDialogSettings.READING_SPEED_IN_WPM_DEFAULT_VALUE
+					escoria.READING_SPEED_IN_WPM_DEFAULT_VALUE
 				]
 		)
 
-		_reading_speed_in_wpm = SimpleDialogSettings.READING_SPEED_IN_WPM_DEFAULT_VALUE
+		_reading_speed_in_wpm = escoria.READING_SPEED_IN_WPM_DEFAULT_VALUE
 
 	_word_regex.compile("\\S+")
 
 	text_node.bbcode_enabled = true
-	tween.connect(
-		"tween_completed",
-		self,
-		"_on_dialog_line_typed"
-	)
+	tween.tween_completed.connect(_on_dialog_line_typed)
 
-	escoria.connect("paused", self, "_on_paused")
-	escoria.connect("resumed", self, "_on_resumed")
-
-	connect("tree_exited", self, "_on_tree_exited")
+	escoria.paused.connect(_on_paused)
+	escoria.resumed.connect(_on_resumed)
+	
+	tree_exited.connect(_on_tree_exited)
 
 
 # Switch the current character
@@ -114,7 +110,7 @@ func _ready():
 # #### Parameters
 # - name: The name of the current character
 func set_current_character(name: String):
-	if ProjectSettings.get_setting("escoria/dialog_simple/avatars_path").empty():
+	if ProjectSettings.get_setting("escoria/dialog_simple/avatars_path").is_empty():
 		escoria.logger.warn(self, "Unable to load avatar '%s': Avatar path not specified" % name)
 		return
 
@@ -145,7 +141,7 @@ func say(character: String, line: String):
 	popup_centered()
 	set_current_character(character)
 
-	text_node.bbcode_text = tr(line)
+	text_node.text = tr(line)
 
 	text_node.percent_visible = 0.0
 	var time_show_full_text = _text_time_per_character / 1000 * len(line)
@@ -194,12 +190,12 @@ func _on_dialog_line_typed(object, key):
 
 	var time_to_disappear: float = _calculate_time_to_disappear()
 
-	if not $Timer.is_connected("timeout", self, "_on_dialog_finished"):
-		$Timer.connect("timeout", self, "_on_dialog_finished")
+	if not $Timer.is_connected("timeout", Callable(self, "_on_dialog_finished")):
+		$Timer.connect("timeout", Callable(self, "_on_dialog_finished"))
 
 	$Timer.start(time_to_disappear)
 
-	emit_signal("say_visible")
+	say_visible.emit()
 
 
 func _calculate_time_to_disappear() -> float:
@@ -216,7 +212,7 @@ func _on_dialog_finished():
 
 	# Only trigger to clear the text if we aren't limiting the clearing trigger to a click.
 	if not ESCProjectSettingsManager.get_setting(SimpleDialogSettings.CLEAR_TEXT_BY_CLICK_ONLY):
-		emit_signal("say_finished")
+		say_finished.emit()
 
 
 # Handler managing pause notification from Escoria

@@ -6,7 +6,7 @@ class_name ESCInventoryItem
 var global_id: String = ""
 
 # The texture for the item
-var texture: Texture = null
+var texture: Texture2D = null
 
 
 func _init(p_item: ESCItem) -> void:

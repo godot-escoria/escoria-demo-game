@@ -38,7 +38,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
@@ -65,10 +65,10 @@ func run(command_params: Array) -> int:
 # Function called when the command is interrupted.
 func interrupt():
 	var _sound_players = []
-	if previous_snd_state.empty():
+	if previous_snd_state.is_empty():
 		previous_snd_state = "off"
 
-	if _snd_player.empty():
+	if _snd_player.is_empty():
 		_sound_players = [
 			ESCObjectManager.MUSIC,
 			ESCObjectManager.SOUND,

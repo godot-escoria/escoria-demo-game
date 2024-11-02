@@ -1,4 +1,4 @@
-tool
+@tool
 extends MarginContainer
 
 
@@ -26,7 +26,7 @@ const BACKGROUND_OBJ_NODE = "VBoxContainer/Control/CenterContainer/HBoxContainer
 const CHANGE_PATH_NODE    = "VBoxContainer/Content/GridContainer/ChangePathButton"
 
 var source_image:Image
-var image_stream_texture:StreamTexture
+var image_stream_texture:CompressedTexture2D
 var image_has_been_loaded:bool
 var image_size:Vector2
 var main_menu_requested:bool
@@ -39,7 +39,7 @@ var preview_size:Vector2
 func _ready() -> void:
 	# Capture the size of the window before we update its contents so we have
 	# the absolute size before it gets scaled contents applied to it
-	preview_size = get_node(PREVIEW_NODE).rect_size
+	preview_size = get_node(PREVIEW_NODE).size
 	inventory_mode = not get_node(BACKGROUND_OBJ_NODE).pressed
 	item_creator_reset()
 
@@ -48,7 +48,7 @@ func item_creator_reset() -> void:
 	get_node(ITEM_NAME_NODE).text = "replace_me"
 	get_node(GLOBAL_ID_NODE).text = ""
 	get_node(IMAGE_PATH_NODE).text = ""
-	get_node(INTERACTIVE_NODE).pressed = true
+	get_node(INTERACTIVE_NODE).button_pressed = true
 
 	if get_node(ACTION_NODE).get_item_count() > 0:
 		get_node(ACTION_NODE).clear()
@@ -96,9 +96,9 @@ func resize_image() -> void:
 	preview_scale.y =  preview_size.y / image_size.y
 
 	if preview_scale.y > preview_scale.x:
-		get_node(PREVIEW_NODE).rect_scale = Vector2(preview_scale.x, preview_scale.x)
+		get_node(PREVIEW_NODE).scale = Vector2(preview_scale.x, preview_scale.x)
 	else:
-		get_node(PREVIEW_NODE).rect_scale = Vector2(preview_scale.y, preview_scale.y)
+		get_node(PREVIEW_NODE).scale = Vector2(preview_scale.y, preview_scale.y)
 
 func background_on_ItemName_text_changed(new_text: String) -> void:
 	get_node(GLOBAL_ID_NODE).text = new_text
@@ -127,7 +127,7 @@ func LoadObjectFileDialog_file_selected(path: String) -> void:
 
 func _on_CreateButton_pressed() -> void:
 	var inventory_path = ProjectSettings.get_setting("escoria/ui/inventory_items_path")
-	var directory_test = Directory.new();
+	var directory_test = DirAccess.new();
 	if not directory_test.dir_exists(inventory_path):
 		get_node(ERROR_WINDOW_NODE).dialog_text = \
 			"Folder %s does not exist. Please create or change the destination" % inventory_path
@@ -164,7 +164,7 @@ func _on_CreateButton_pressed() -> void:
 
 	# Make the item by default it's usable straight out of the inventory
 	if inventory_mode == true:
-		var new_pool_array: PoolStringArray = item.combine_when_selected_action_is_in
+		var new_pool_array: PackedStringArray = item.combine_when_selected_action_is_in
 		new_pool_array.append("use")
 		item.combine_when_selected_action_is_in = new_pool_array
 
@@ -183,7 +183,7 @@ func _on_CreateButton_pressed() -> void:
 	item.add_child(collision_shape)
 
 	# Add sprite to the background item
-	var item_sprite = Sprite.new()
+	var item_sprite = Sprite2D.new()
 	item_sprite.texture = get_node(PREVIEW_NODE).texture
 	item.add_child(item_sprite)
 

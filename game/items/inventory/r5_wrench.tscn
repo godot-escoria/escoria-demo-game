@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://game/items/inventory/wrench.png" type="Texture" id=1]
+[ext_resource path="res://game/items/inventory/wrench.png" type="Texture2D" id=1]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=2]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=3]
 
@@ -8,20 +8,20 @@
 extents = Vector2( 37, 33.5 )
 
 [node name="wrench" type="Area2D"]
-pause_mode = 1
+process_mode = 1
 script = ExtResource( 3 )
 global_id = "r5_wrench"
 esc_script = "res://game/items/inventory/wrench.esc"
 tooltip_name = "Wrench"
 default_action = "look"
 default_action_inventory = "look"
-combine_when_selected_action_is_in = PoolStringArray( "use" )
+combine_when_selected_action_is_in = PackedStringArray( "use" )
 use_from_inventory_only = true
 inventory_texture = ExtResource( 1 )
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2( 262, 436 )
 texture = ExtResource( 1 )
 
@@ -29,6 +29,6 @@ texture = ExtResource( 1 )
 position = Vector2( 261, 435.5 )
 shape = SubResource( 2 )
 
-[node name="ESCLocation" type="Position2D" parent="."]
+[node name="ESCLocation" type="Marker2D" parent="."]
 position = Vector2( 258, 486 )
 script = ExtResource( 2 )

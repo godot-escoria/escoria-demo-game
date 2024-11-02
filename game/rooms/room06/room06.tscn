@@ -3,35 +3,35 @@
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_exit.gd" type="Script" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
-[ext_resource path="res://game/rooms/room06/wave.png" type="Texture" id=5]
+[ext_resource path="res://game/rooms/room06/wave.png" type="Texture2D" id=5]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
 [ext_resource path="res://game/characters/worker/worker.tscn" type="PackedScene" id=7]
-[ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=8]
+[ext_resource path="res://game/fonts/caslonantique.tres" type="FontFile" id=8]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=9]
 [ext_resource path="res://game/rooms/room06/scenery.gd" type="Script" id=10]
-[ext_resource path="res://game/rooms/room06/boat_hull.png" type="Texture" id=11]
-[ext_resource path="res://game/rooms/room06/room6background.png" type="Texture" id=12]
-[ext_resource path="res://game/rooms/room06/cloud.png" type="Texture" id=13]
-[ext_resource path="res://game/rooms/room06/boat.png" type="Texture" id=14]
-[ext_resource path="res://game/rooms/room06/locked_door.png" type="Texture" id=16]
+[ext_resource path="res://game/rooms/room06/boat_hull.png" type="Texture2D" id=11]
+[ext_resource path="res://game/rooms/room06/room6background.png" type="Texture2D" id=12]
+[ext_resource path="res://game/rooms/room06/cloud.png" type="Texture2D" id=13]
+[ext_resource path="res://game/rooms/room06/boat.png" type="Texture2D" id=14]
+[ext_resource path="res://game/rooms/room06/locked_door.png" type="Texture2D" id=16]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 28, 365, 924, 369, 923, 389, 28, 385 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
-outlines = [ PoolVector2Array( 28, 365, 924, 369, 923, 389, 28, 385 ) ]
+vertices = PackedVector2Array( 28, 365, 924, 369, 923, 389, 28, 385 )
+polygons = [ PackedInt32Array( 0, 1, 2, 3 ) ]
+outlines = [ PackedVector2Array( 28, 365, 924, 369, 923, 389, 28, 385 ) ]
 
 [sub_resource type="Animation" id=2]
 resource_name = "close_door"
 length = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:visible")
+tracks/0/path = NodePath("Sprite2D:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ true ]
 }
@@ -40,14 +40,14 @@ tracks/0/keys = {
 resource_name = "open_door"
 length = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:visible")
+tracks/0/path = NodePath("Sprite2D:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ false ]
 }
@@ -62,7 +62,7 @@ esc_script = "res://game/rooms/room06/esc/room06.esc"
 player_scene = ExtResource( 4 )
 camera_limits = [ Rect2( 0, 0, 1280, 555 ) ]
 
-[node name="Room6Background" type="Sprite" parent="."]
+[node name="Room6Background" type="Sprite2D" parent="."]
 texture = ExtResource( 12 )
 centered = false
 
@@ -71,8 +71,8 @@ script = ExtResource( 1 )
 scale_min = 0.7
 scale_max = 0.7
 
-[node name="platform" type="NavigationPolygonInstance" parent="walkable_area"]
-navpoly = SubResource( 1 )
+[node name="platform" type="NavigationRegion2D" parent="walkable_area"]
+navigation_polygon = SubResource( 1 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -85,7 +85,7 @@ esc_script = "res://game/rooms/room06/esc/worker.esc"
 interaction_angle = 90
 dialog_color = Color( 0.14902, 0.388235, 0.462745, 1 )
 
-[node name="Position2D" type="Position2D" parent="Hotspots/worker"]
+[node name="Marker2D" type="Marker2D" parent="Hotspots/worker"]
 position = Vector2( -111, 2 )
 script = ExtResource( 9 )
 
@@ -97,12 +97,12 @@ is_exit = true
 tooltip_name = "door"
 default_action = "use"
 
-[node name="ESCLocation" type="Position2D" parent="Hotspots/r6_l_exit"]
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/r6_l_exit"]
 position = Vector2( 59, 375 )
 script = ExtResource( 9 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r6_l_exit"]
-polygon = PoolVector2Array( 23, 384, 21, 183, 41, 167, 64, 163, 88, 168, 103, 183, 107, 385 )
+polygon = PackedVector2Array( 23, 384, 21, 183, 41, 167, 64, 163, 88, 168, 103, 183, 107, 385 )
 
 [node name="r6_r_exit" type="Area2D" parent="Hotspots"]
 script = ExtResource( 3 )
@@ -112,30 +112,30 @@ is_exit = true
 tooltip_name = "door"
 default_action = "use"
 
-[node name="Sprite" type="Sprite" parent="Hotspots/r6_r_exit"]
+[node name="Sprite2D" type="Sprite2D" parent="Hotspots/r6_r_exit"]
 visible = false
 position = Vector2( 562, 232.5 )
 z_index = 11
 texture = ExtResource( 16 )
 
-[node name="ESCLocation" type="Position2D" parent="Hotspots/r6_r_exit"]
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/r6_r_exit"]
 position = Vector2( 563, 380 )
 script = ExtResource( 9 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r6_r_exit"]
 position = Vector2( 499, -2 )
-polygon = PoolVector2Array( 23, 384, 21, 183, 41, 167, 64, 163, 88, 168, 103, 183, 107, 385 )
+polygon = PackedVector2Array( 23, 384, 21, 183, 41, 167, 64, 163, 88, 168, 103, 183, 107, 385 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/r6_r_exit"]
 anims/close_door = SubResource( 2 )
 anims/open_door = SubResource( 3 )
 
-[node name="worker_face_down" type="Position2D" parent="Hotspots"]
+[node name="worker_face_down" type="Marker2D" parent="Hotspots"]
 position = Vector2( 479, 513 )
 script = ExtResource( 9 )
 global_id = "worker_face_down"
 
-[node name="player_start" type="Position2D" parent="."]
+[node name="player_start" type="Marker2D" parent="."]
 position = Vector2( 61, 375 )
 script = ExtResource( 9 )
 global_id = "r6_player_start"
@@ -144,19 +144,19 @@ is_start_location = true
 [node name="scenery" type="Node2D" parent="."]
 script = ExtResource( 10 )
 
-[node name="wave3" type="Sprite" parent="scenery"]
+[node name="wave3" type="Sprite2D" parent="scenery"]
 modulate = Color( 0.00392157, 0.607843, 0.745098, 1 )
 position = Vector2( 958, 677 )
 z_index = 500
 texture = ExtResource( 5 )
 
-[node name="wave2" type="Sprite" parent="scenery"]
+[node name="wave2" type="Sprite2D" parent="scenery"]
 modulate = Color( 0, 0.686275, 0.843137, 1 )
 position = Vector2( 882, 753 )
 z_index = 500
 texture = ExtResource( 5 )
 
-[node name="wave" type="Sprite" parent="scenery"]
+[node name="wave" type="Sprite2D" parent="scenery"]
 position = Vector2( 804, 789 )
 z_index = 500
 texture = ExtResource( 5 )
@@ -164,27 +164,27 @@ texture = ExtResource( 5 )
 [node name="Polygon2D" type="Polygon2D" parent="scenery/wave"]
 z_index = 500
 color = Color( 0, 0.580392, 1, 1 )
-polygon = PoolVector2Array( -900, 90, 900, 90, 900, 600, -900, 600 )
+polygon = PackedVector2Array( -900, 90, 900, 90, 900, 600, -900, 600 )
 
-[node name="cloud" type="Sprite" parent="scenery"]
+[node name="cloud" type="Sprite2D" parent="scenery"]
 position = Vector2( 1267, 116 )
 z_index = 5
 z_as_relative = false
 texture = ExtResource( 13 )
 
-[node name="cloud2" type="Sprite" parent="scenery"]
+[node name="cloud2" type="Sprite2D" parent="scenery"]
 position = Vector2( 1267, 116 )
 z_index = 5
 z_as_relative = false
 texture = ExtResource( 13 )
 
-[node name="boat_rooms" type="Sprite" parent="scenery"]
+[node name="boat_rooms" type="Sprite2D" parent="scenery"]
 position = Vector2( 337.5, 152 )
 z_index = 10
 z_as_relative = false
 texture = ExtResource( 14 )
 
-[node name="boat_hull" type="Sprite" parent="scenery"]
+[node name="boat_hull" type="Sprite2D" parent="scenery"]
 position = Vector2( 640, 427 )
 z_index = 400
 texture = ExtResource( 11 )
@@ -195,15 +195,15 @@ z_index = 10
 [node name="Polygon2D" type="Polygon2D" parent="Text"]
 position = Vector2( 37, 11 )
 color = Color( 1, 1, 1, 0.635294 )
-polygon = PoolVector2Array( 750, 40, 1150, 40, 1150, 200, 750, 200 )
+polygon = PackedVector2Array( 750, 40, 1150, 40, 1150, 200, 750, 200 )
 
 [node name="Label" type="Label" parent="Text/Polygon2D"]
 modulate = Color( 0, 0.227451, 1, 1 )
-margin_left = 762.0
-margin_top = 49.0
-margin_right = 1148.0
-margin_bottom = 190.0
-custom_fonts/font = ExtResource( 8 )
+offset_left = 762.0
+offset_top = 49.0
+offset_right = 1148.0
+offset_bottom = 190.0
+theme_override_fonts/font = ExtResource( 8 )
 text = "This room demonstrates using  items taken from 
 another room and combined then given to an NPC
 to advance the level.

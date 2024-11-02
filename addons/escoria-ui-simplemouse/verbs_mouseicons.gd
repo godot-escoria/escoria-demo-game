@@ -2,7 +2,7 @@ extends Control
 
 
 var current_cursor_id: int = 0
-onready var cursors: Array = $actions.get_children()
+@onready var cursors: Array = $actions.get_children()
 
 
 """
@@ -20,7 +20,7 @@ func _ready():
 		iterate_actions_cursor(UI_ACTIONS_DIRECTION.UP)
 
 func _process(delta):
-	$mouse_position.rect_global_position = get_global_mouse_position()
+	$mouse_position.global_position = get_global_mouse_position()
 
 
 func iterate_actions_cursor(direction: int):
@@ -44,7 +44,7 @@ func set_by_name(name: String) -> void:
 	Input.set_custom_mouse_cursor(cursors[current_cursor_id].texture)
 	escoria.action_manager.set_current_action(cursors[current_cursor_id].name)
 
-func set_tool_texture(texture: Texture):
+func set_tool_texture(texture: Texture2D):
 	set_process(true)
 	$mouse_position/tool.texture = texture
 

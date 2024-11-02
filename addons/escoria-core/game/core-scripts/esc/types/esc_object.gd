@@ -1,4 +1,4 @@
-extends Reference
+extends RefCounted
 # An object handled in Escoria
 class_name ESCObject
 
@@ -11,10 +11,10 @@ const STATE_DEFAULT: String = "default"
 var global_id: String
 
 # Whether the object is active (visible to the player)
-var active: bool = true setget _set_active
+var active: bool = true: set = _set_active
 
 # Whether the object is interactive (clickable by the player)
-var interactive: bool = true setget _set_interactive, _get_interactive
+var interactive: bool = true: get = _get_interactive, set = _set_interactive
 
 # The state of the object. If the object has a respective animation,
 # it will be played

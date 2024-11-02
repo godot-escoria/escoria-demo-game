@@ -23,10 +23,10 @@ func run(command_params: Array) -> int:
 		escoria.object_manager.get_object(command_params[1]),
 		command_params[2]
 	)
-	yield(tween, "tween_all_completed")
+	await tween.tween_all_completed
 	return ESCExecution.RC_OK
 
 
 # Function called when the command is interrupted.
 func interrupt():
-	.interrupt()
+	super.interrupt()

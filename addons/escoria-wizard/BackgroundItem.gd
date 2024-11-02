@@ -1,8 +1,8 @@
-tool
+@tool
 extends MarginContainer
 
 var source_image:Image
-var image_stream_texture:StreamTexture
+var image_stream_texture:CompressedTexture2D
 var image_has_been_loaded:bool
 var image_size:Vector2
 
@@ -14,7 +14,7 @@ func _ready() -> void:
 func background_item_reset() -> void:
 	$Content/GridContainer/ItemName.text = "replace_me"
 	$Content/GridContainer/ItemGlobalID.text = ""
-	$Content/GridContainer/StartsInnteractiveCheckBox.pressed = true
+	$Content/GridContainer/StartsInnteractiveCheckBox.button_pressed = true
 	if $Content/GridContainer/DefaultActionOption.get_item_count() > 0:
 		$Content/GridContainer/DefaultActionOption.clear()
 		for option_list in ["look", "pick up", "open", "close", "use", "push", "pull", "talk"]:
@@ -37,7 +37,7 @@ func LoadObjectFileDialog_file_selected(path: String) -> void:
 
 	$Content/GridContainer/Preview/Preview.texture = image_stream_texture
 
-	var preview_size = $Content/GridContainer/Preview/Preview.rect_size
+	var preview_size = $Content/GridContainer/Preview/Preview.size
 
 	# Calculate the scale to make the preview as big as possible in the preview window depending on
 	# the height to width ratio of the frame
@@ -47,9 +47,9 @@ func LoadObjectFileDialog_file_selected(path: String) -> void:
 	preview_scale.y =  preview_size.y / image_size.y
 
 	if preview_scale.y > preview_scale.x:
-		$Content/GridContainer/Preview/Preview.rect_scale = Vector2(preview_scale.x, preview_scale.x)
+		$Content/GridContainer/Preview/Preview.scale = Vector2(preview_scale.x, preview_scale.x)
 	else:
-		$Content/GridContainer/Preview/Preview.rect_scale = Vector2(preview_scale.y, preview_scale.y)
+		$Content/GridContainer/Preview/Preview.scale = Vector2(preview_scale.y, preview_scale.y)
 
 	$Content/GridContainer/ImageSize.text = "(%s, %s)" % [image_size.x, image_size.y]
 
@@ -81,7 +81,7 @@ func _on_CreateButton_pressed() -> void:
 	item.default_action = $Content/GridContainer/DefaultActionOption.get_item_text(selected_index)
 
 	# Add sprite to the background item
-	var item_sprite = Sprite.new()
+	var item_sprite = Sprite2D.new()
 	item_sprite.texture = $Content/GridContainer/Preview/Preview.texture
 	item.add_child(item_sprite)
 

@@ -31,9 +31,9 @@ func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
 		[
-			[TYPE_INT, TYPE_REAL],
-			[TYPE_INT, TYPE_REAL],
-			[TYPE_INT, TYPE_REAL],
+			[TYPE_INT, TYPE_FLOAT],
+			[TYPE_INT, TYPE_FLOAT],
+			[TYPE_INT, TYPE_FLOAT],
 			TYPE_STRING
 		],
 		[null, null, 1, "QUAD"]
@@ -56,7 +56,7 @@ func run(command_params: Array) -> int:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not arguments[3] in SUPPORTED_TRANSITIONS:

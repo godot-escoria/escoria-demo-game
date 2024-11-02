@@ -23,21 +23,21 @@ extends ESCCameraBaseCommand
 class_name CameraSetZoomBlockCommand
 
 
-var _camera_tween: Tween
+var _camera_tween: Tween3
 
 
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
-		[[TYPE_REAL, TYPE_INT], [TYPE_REAL, TYPE_INT]],
+		[[TYPE_FLOAT, TYPE_INT], [TYPE_FLOAT, TYPE_INT]],
 		[null, 0.0]
 	)
 
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	var camera: ESCCamera = escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera
@@ -50,14 +50,10 @@ func validate(arguments: Array):
 func run(command_params: Array) -> int:
 	var camera: ESCCamera = escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera
 
-	camera\
-		.set_camera_zoom(
-			command_params[0],
-			command_params[1]
-		)
+	camera.set_camera_zoom(command_params[0], command_params[1])
 
 	if command_params[1] > 0.0:
-		yield(_camera_tween, "tween_completed")
+		await _camera_tween.tween_completed
 	escoria.logger.debug(
 			self,
 			"camera_set_zoom_block tween complete."

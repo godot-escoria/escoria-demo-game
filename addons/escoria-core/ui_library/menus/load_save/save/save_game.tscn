@@ -17,8 +17,8 @@ slot_ui_scene = ExtResource( 1 )
 [node name="Panel" type="Panel" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -1.0
-margin_bottom = -1.0
+offset_top = -1.0
+offset_bottom = -1.0
 __meta__ = {
 "_editor_description_": ""
 }
@@ -34,15 +34,15 @@ anchor_left = 0.3
 anchor_top = 0.3
 anchor_right = 0.7
 anchor_bottom = 0.7
-margin_left = -55.5
-margin_right = 55.5
+offset_left = -55.5
+offset_right = 55.5
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
-margin_right = 623.0
-margin_bottom = 336.0
+offset_right = 623.0
+offset_bottom = 336.0
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 __meta__ = {
@@ -50,7 +50,7 @@ __meta__ = {
 }
 
 [node name="slots" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
-margin_right = 611.0
+offset_right = 611.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -58,9 +58,9 @@ __meta__ = {
 }
 
 [node name="back" type="Button" parent="VBoxContainer"]
-margin_top = 340.0
-margin_right = 623.0
-margin_bottom = 360.0
+offset_top = 340.0
+offset_right = 623.0
+offset_bottom = 360.0
 text = "OPTIONS_BACK"
 __meta__ = {
 "_edit_use_anchors_": false

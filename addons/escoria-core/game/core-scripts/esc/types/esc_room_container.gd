@@ -1,5 +1,5 @@
 # Container for ESCObjects stored in the object manager.
-extends Reference
+extends RefCounted
 class_name ESCRoomContainer
 
 
@@ -13,4 +13,3 @@ var room_global_id: String = ""
 # This is used to disambiguate in cases where more than one of the same room
 # exist in the object manager.
 var room_instance_id: int = -1
-

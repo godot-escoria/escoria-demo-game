@@ -1,5 +1,5 @@
+@tool
 # Plugin script to initialize Escoria
-tool
 extends EditorPlugin
 
 # The warning popup displayed on escoria-core enabling.
@@ -32,7 +32,7 @@ func enable_plugin():
 	)
 
 	ProjectSettings.set_setting(
-		"audio/default_bus_layout",
+		"audio/buses/default_bus_layout",
 		"res://addons/escoria-core/default_bus_layout.tres"
 	)
 
@@ -42,8 +42,8 @@ func enable_plugin():
 	Please ignore error messages in Output console and reload your project using
 	Godot editor's "Project / Reload Current Project" menu.
 	"""
-	popup_info.connect("confirmed", self, "_on_warning_popup_confirmed", [], CONNECT_ONESHOT)
-	get_editor_interface().get_editor_viewport().add_child(popup_info)
+	popup_info.connect("confirmed", Callable(self, "_on_warning_popup_confirmed").bind(), CONNECT_ONE_SHOT)
+	get_editor_interface().get_editor_main_screen().add_child(popup_info)
 	popup_info.popup_centered()
 
 
@@ -52,7 +52,7 @@ func _on_warning_popup_confirmed():
 
 
 # Virtual function called when plugin is disabled.
-func disable_plugin():
+func _disable_plugin():
 	remove_autoload_singleton("escoria")
 #	if InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
 #		InputMap.erase_action(ESCInputsManager.SWITCH_ACTION_VERB)
@@ -113,7 +113,7 @@ func set_escoria_ui_settings():
 		],
 		{
 			"name": ESCProjectSettingsManager.TRANSITION_PATHS,
-			"type": TYPE_STRING_ARRAY,
+			"type": TYPE_PACKED_STRING_ARRAY,
 			"hint": PROPERTY_HINT_DIR
 		}
 	)
@@ -131,7 +131,7 @@ func set_escoria_ui_settings():
 		ESCProjectSettingsManager.DIALOG_MANAGERS,
 		[],
 		{
-			"type": TYPE_STRING_ARRAY
+			"type": TYPE_PACKED_STRING_ARRAY
 		}
 	)
 
@@ -317,7 +317,7 @@ func set_escoria_sound_settings():
 		ESCProjectSettingsManager.MASTER_VOLUME,
 		1,
 		{
-			"type": TYPE_REAL,
+			"type": TYPE_FLOAT,
 			"hint": PROPERTY_HINT_RANGE,
 			"hint_string": "0,1"
 		}
@@ -327,7 +327,7 @@ func set_escoria_sound_settings():
 		ESCProjectSettingsManager.MUSIC_VOLUME,
 		1,
 		{
-			"type": TYPE_REAL,
+			"type": TYPE_FLOAT,
 			"hint": PROPERTY_HINT_RANGE,
 			"hint_string": "0,1"
 		}
@@ -337,7 +337,7 @@ func set_escoria_sound_settings():
 		ESCProjectSettingsManager.SFX_VOLUME,
 		1,
 		{
-			"type": TYPE_REAL,
+			"type": TYPE_FLOAT,
 			"hint": PROPERTY_HINT_RANGE,
 			"hint_string": "0,1"
 		}
@@ -347,7 +347,7 @@ func set_escoria_sound_settings():
 		ESCProjectSettingsManager.SPEECH_VOLUME,
 		1,
 		{
-			"type": TYPE_REAL,
+			"type": TYPE_FLOAT,
 			"hint": PROPERTY_HINT_RANGE,
 			"hint_string": "0,1"
 		}

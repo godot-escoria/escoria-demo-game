@@ -22,21 +22,21 @@ enum EDITOR_GAME_DEBUG_DISPLAY {
 
 
 # The main menu node
-export(NodePath) var main_menu
+@export var main_menu: NodePath
 
 # The main menu node
-export(NodePath) var pause_menu
+@export var pause_menu: NodePath
 
 # The safe margin around tooltips
-export(float) var mouse_tooltip_margin = 50.0
+@export var mouse_tooltip_margin: float = 50.0
 
 # Which (if any) debug mode for the editor is used
-export(EDITOR_GAME_DEBUG_DISPLAY) var editor_debug_mode = \
-		EDITOR_GAME_DEBUG_DISPLAY.NONE setget _set_editor_debug_mode
+@export var editor_debug_mode: EDITOR_GAME_DEBUG_DISPLAY = EDITOR_GAME_DEBUG_DISPLAY.NONE:
+	set = _set_editor_debug_mode
 
 # The Control node underneath which all UI must be placed.
 # This should be a Control node and NOT a CanvasLayer (or any other type of) node.
-export(NodePath) var ui_parent_control_node
+@export var ui_parent_control_node: NodePath
 
 # A reference to the node handling tooltips
 var tooltip_node: Object
@@ -52,57 +52,31 @@ var hover_stack_displayer
 
 # Function called when ESCGame enters the scene tree.
 func _enter_tree():
-	escoria.event_manager.connect(
-		"event_finished",
-		self,
-		"_on_event_done"
-	)
-	escoria.action_manager.connect(
-		"action_finished",
-		self,
-		"_on_action_finished"
-	)
-	escoria.main.connect(
-		"room_ready",
-		self,
-		"_on_room_ready"
-	)
+	escoria.event_manager.event_finished.connect(_on_event_done)
+	escoria.action_manager.action_finished.connect(_on_action_finished)
+	escoria.main.room_ready.connect(_on_room_ready)
 
 	# Debug display for hover stack
 	if ProjectSettings.get_setting(ESCProjectSettingsManager.ENABLE_HOVER_STACK_VIEWER) and \
 		get_node_or_null("hover_stack_layer") == null:
 		hover_stack_displayer = preload(
 			"res://addons/escoria-core/ui_library/tools/hover_stack/hover_stack.tscn"
-		).instance()
+		).instantiate()
 		add_child(hover_stack_displayer)
-		escoria.inputs_manager.hover_stack.connect("hover_stack_changed", hover_stack_displayer, "update")
+		escoria.inputs_manager.hover_stack.connect("hover_stack_changed", Callable(hover_stack_displayer, "update"))
 
 
 # Function called when ESCGame exits the scene tree.
 func _exit_tree():
-	escoria.event_manager.disconnect(
-		"event_finished",
-		self,
-		"_on_event_done"
-	)
-	escoria.action_manager.disconnect(
-		"action_finished",
-		self,
-		"_on_action_finished"
-	)
-
-	escoria.main.disconnect(
-		"room_ready",
-		self,
-		"_on_room_ready"
-	)
+	escoria.event_manager.event_finished.disconnect(_on_event_done)
+	escoria.action_manager.action_finished.disconnect(_on_action_finished)
+	escoria.main.room_ready.disconnect(_on_room_ready)
 
 
 # Ready function
 func _ready():
 	escoria.settings_manager.apply_settings()
-	connect("crash_popup_confirmed", escoria, "quit",
-		[], CONNECT_ONESHOT)
+	crash_popup_confirmed.connect(escoria.quit)
 
 
 # Handle debugging visualizations
@@ -119,7 +93,7 @@ func _draw():
 		print("ESC {0}".format([mouse_limits]))
 
 		# Draw lines for tooltip limits
-		draw_rect(mouse_limits, ColorN("red"), false, 10.0)
+		draw_rect(mouse_limits, Color.RED, false, 10.0)
 
 
 # Clears the tooltip content (if an ESCTooltip node exists in UI)
@@ -396,7 +370,7 @@ func show_ui():
 # corresponding to the desired editor debug mode
 func _set_editor_debug_mode(p_editor_debug_mode: int) -> void:
 	editor_debug_mode = p_editor_debug_mode
-	update()
+	queue_redraw()
 
 
 # Automatically called whenever an event is finished. Can be used to reset some
@@ -460,8 +434,8 @@ func get_custom_data() -> Dictionary:
 # - files: Array of strings containing the paths to the files generated on crash
 func show_crash_popup(files: Array = []) -> void:
 	var crash_popup = AcceptDialog.new()
-	crash_popup.popup_exclusive = true
-	crash_popup.pause_mode = Node.PAUSE_MODE_PROCESS
+	crash_popup.exclusive = true
+	crash_popup.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(crash_popup)
 	var files_to_send: String = ""
 	for file in files:
@@ -471,8 +445,8 @@ func show_crash_popup(files: Array = []) -> void:
 	) % files_to_send
 	crash_popup.popup_centered()
 	escoria.set_game_paused(true)
-	yield(crash_popup, "confirmed")
-	emit_signal("crash_popup_confirmed")
+	await crash_popup.confirmed
+	crash_popup_confirmed.emit()
 
 
 # *** FOR USE BY ESCORIA CORE ONLY ***
@@ -512,4 +486,4 @@ func _input(event):
 		return
 
 	if event.is_action_pressed("ui_cancel"):
-		emit_signal("request_pause_menu")
+		request_pause_menu.emit()

@@ -56,7 +56,7 @@ var flags: int = 0
 
 # Returns a Dictionary containing statements data for serialization
 func exported() -> Dictionary:
-	var exported_dict: Dictionary = .exported()
+	var exported_dict: Dictionary = super.exported()
 	exported_dict.class = "ESCEvent"
 	exported_dict.name = name
 	exported_dict.original_name = original_name
@@ -72,8 +72,7 @@ func _init(event_string: String):
 	if event_regex.search(event_string):
 		for result in event_regex.search_all(event_string):
 			if "name" in result.names:
-				self.name = ESCUtils.get_re_group(result, "name") \
-					.strip_edges()
+				self.name = ESCUtils.get_re_group(result, "name").strip_edges()
 				self.original_name = self.name
 			if "flags" in result.names:
 				var _flags = ESCUtils.get_re_group(
@@ -105,5 +104,4 @@ func run() -> int:
 	)
 	if name == "resume":
 		bypass_conditions = true
-	return .run()
-
+	return await super()

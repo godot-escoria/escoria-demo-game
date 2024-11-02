@@ -285,16 +285,16 @@ func _test_dialog() -> bool:
 
 
 func _on_BasicFunctionality_pressed():
-	$VBoxContainer/VBoxContainer/BasicFunctionality.pressed = self._test_basic()
+	$VBoxContainer/VBoxContainer/BasicFunctionality.button_pressed = self._test_basic()
 
 
 func _on_Conditions_pressed():
-	$VBoxContainer/VBoxContainer/Conditions.pressed = self._test_conditions()
+	$VBoxContainer/VBoxContainer/Conditions.button_pressed = self._test_conditions()
 
 
 func _on_EventFlags_pressed():
-	$VBoxContainer/VBoxContainer/EventFlags.pressed = self._test_event_flags()
+	$VBoxContainer/VBoxContainer/EventFlags.button_pressed = self._test_event_flags()
 
 
 func _on_Dialog_pressed():
-	$VBoxContainer/VBoxContainer/Dialog.pressed = self._test_dialog()
+	$VBoxContainer/VBoxContainer/Dialog.button_pressed = self._test_dialog()

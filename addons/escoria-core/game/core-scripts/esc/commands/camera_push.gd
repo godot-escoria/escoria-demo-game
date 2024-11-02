@@ -37,14 +37,14 @@ const SUPPORTED_TRANSITIONS = ["LINEAR","SINE","QUINT","QUART","QUAD" ,"EXPO","E
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
-		[TYPE_STRING, [TYPE_REAL, TYPE_INT], TYPE_STRING],
+		[TYPE_STRING, [TYPE_FLOAT, TYPE_INT], TYPE_STRING],
 		[null, 1, "QUAD"]
 	)
 
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):

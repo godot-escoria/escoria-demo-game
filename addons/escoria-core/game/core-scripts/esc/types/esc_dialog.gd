@@ -90,9 +90,7 @@ func run():
 
 	escoria.dialog_player.start_dialog_choices(self)
 
-	var option = yield(
-		escoria.dialog_player,
-		"option_chosen"
+	var option = (await escoria.dialog_player.option_chosen
 	) as ESCDialogOption
 
 	var rc = ESCExecution.RC_OK
@@ -101,15 +99,13 @@ func run():
 	# If this is the case and the current level of dialog has a parent, it means
 	# it is still yielding and so will be shown again.
 	if option:
-		rc = option.run()
-		if rc is GDScriptFunctionState:
-			rc = yield(rc, "completed")
+		rc = await option.run()
 		if rc != ESCExecution.RC_CANCEL:
 			# We also set this here in case a chosen option doesn't yield, since this block
 			# will return normally and not allow the current_state reset at the bottom of this
 			# method to run.
 			escoria.current_state = escoria.GAME_STATE.DEFAULT
-			return self.run()
+			return await self.run()
 
 	escoria.current_state = escoria.GAME_STATE.DEFAULT
 

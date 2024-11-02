@@ -1,5 +1,5 @@
 # A condition to run a command
-extends Reference
+extends RefCounted
 class_name ESCCondition
 
 
@@ -15,9 +15,8 @@ enum {
 
 # Regex that matches condition lines
 const REGEX = \
-	'^(?<is_negated>!)?(?<comparison>eq|gt|lt)? ?(?<is_inventory>i\/)?' + \
-	'(?<is_activity>a\/)?(?<flag>[^ ]+)( (?<comparison_value>.+))?$'
-
+	'^(?<is_negated>!)?(?<comparison>eq|gt|lt)? ?(?<is_inventory>i\\/)?' + \
+	'(?<is_activity>a\\/)?(?<flag>[^ ]+)( (?<comparison_value>.+))?$'
 
 const COMPARISON_DESCRIPTION = [
 	"Checking if %s %s %s true%s",
@@ -112,16 +111,11 @@ func run() -> bool:
 
 	var return_value = false
 
-	if self.comparison == COMPARISON_NONE:
-		if escoria.globals_manager.has(global_name):
-			return_value = true
-			if escoria.globals_manager.get_global(global_name) is bool:
-				return_value = escoria.globals_manager.get_global(global_name)
-		else:
-			return_value = false
-	elif self.comparison == COMPARISON_NONE and \
-			escoria.globals_manager.has(global_name):
-				return_value = true
+	if self.comparison == COMPARISON_NONE and \
+			escoria.globals_manager.has(global_name) and \
+			escoria.globals_manager.get_global(global_name) is bool and \
+			escoria.globals_manager.get_global(global_name):
+		return_value = true
 	elif self.comparison == COMPARISON_EQ and \
 			escoria.globals_manager.get_global(global_name) == \
 				self.comparison_value:

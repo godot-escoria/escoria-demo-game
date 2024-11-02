@@ -66,7 +66,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if arguments[0].to_upper() != CURRENT_PLAYER_KEYWORD \
@@ -117,7 +117,7 @@ func run(command_params: Array) -> int:
 		command_params[2],
 		command_params[1]
 	)
-	yield(escoria.dialog_player, "say_finished")
+	await escoria.dialog_player.say_finished
 	escoria.current_state = escoria.GAME_STATE.DEFAULT
 	return ESCExecution.RC_OK
 

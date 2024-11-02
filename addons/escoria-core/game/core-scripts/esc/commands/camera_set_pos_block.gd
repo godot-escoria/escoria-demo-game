@@ -19,21 +19,21 @@ class_name CameraSetPosBlockCommand
 
 
 # Tween for blocking
-var _camera_tween: Tween
+var _camera_tween: Tween3
 
 
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		3,
-		[[TYPE_REAL, TYPE_INT], TYPE_INT, TYPE_INT],
+		[[TYPE_FLOAT, TYPE_INT], TYPE_INT, TYPE_INT],
 		[null, null, null]
 	)
 
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	var new_pos: Vector2 = Vector2(arguments[1], arguments[2])
@@ -57,7 +57,7 @@ func run(command_params: Array) -> int:
 			)
 
 	if command_params[0] > 0.0:
-		yield(_camera_tween, "tween_completed")
+		await _camera_tween.tween_completed
 	escoria.logger.debug(
 			self,
 			"camera_set_pos_block tween complete."

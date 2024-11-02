@@ -37,14 +37,14 @@ class_name SetDirectionCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
-		[TYPE_STRING,  [TYPE_INT],  [TYPE_REAL, TYPE_INT]],
+		[TYPE_STRING,  [TYPE_INT],  [TYPE_FLOAT, TYPE_INT]],
 		[null, null, 0.0]
 	)
 
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
@@ -77,8 +77,7 @@ func validate(arguments: Array):
 # Run the command
 func run(command_params: Array) -> int:
 	escoria.object_manager.get_object(command_params[0]).node \
-			.set_direction(command_params[1], command_params[2]
-			)
+			.set_direction(command_params[1], command_params[2])
 	return ESCExecution.RC_OK
 
 

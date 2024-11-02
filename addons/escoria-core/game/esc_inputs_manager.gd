@@ -54,9 +54,9 @@ var _hovered_element = null
 
 # Constructor
 func _init():
-	escoria.event_manager.connect("event_finished", self, "_on_event_finished")
+	escoria.event_manager.connect("event_finished", Callable(self, "_on_event_finished"))
 	hover_stack = HoverStack.new()
-	hover_stack.connect("hover_stack_changed", self, "_on_hover_stack_changed")
+	hover_stack.connect("hover_stack_changed", Callable(self, "_on_hover_stack_changed"))
 
 
 # Called when an event is finished, so that the current hotspot is reset
@@ -73,71 +73,24 @@ func _on_event_finished(return_code: int, event_name: String):
 
 # Register core signals (from escoria.gd)
 func register_core():
-	escoria.game_scene.connect(
-		"request_pause_menu",
-		self,
-		"_on_pause_menu_requested"
-	)
+	escoria.game_scene.request_pause_menu.connect(_on_pause_menu_requested)
 
 
 # Connect the item signals to the local methods
 func register_inventory_item(item: Node):
-	item.connect(
-		"mouse_left_inventory_item",
-		self,
-		"_on_mouse_left_click_inventory_item"
-	)
-	item.connect(
-		"mouse_double_left_inventory_item",
-		self,
-		"_on_mouse_double_left_click_inventory_item"
-	)
-	item.connect(
-		"mouse_right_inventory_item",
-		self,
-		"_on_mouse_right_click_inventory_item"
-	)
-
-	item.connect(
-		"inventory_item_focused",
-		self,
-		"_on_mouse_entered_inventory_item"
-	)
-	item.connect(
-		"inventory_item_unfocused",
-		self,
-		"_on_mouse_exited_inventory_item"
-	)
+	item.mouse_left_inventory_item.connect(_on_mouse_left_click_inventory_item)
+	item.mouse_double_left_inventory_item.connect(_on_mouse_double_left_click_inventory_item)
+	item.mouse_right_inventory_item.connect(_on_mouse_right_click_inventory_item)
+	item.inventory_item_focused.connect(_on_mouse_entered_inventory_item)
+	item.inventory_item_unfocused.connect(_on_mouse_exited_inventory_item)
 
 
 func register_background(background: ESCBackground):
-	background.connect(
-		"left_click_on_bg",
-		self,
-		"_on_left_click_on_bg"
-	)
-	background.connect(
-		"right_click_on_bg",
-		escoria.inputs_manager,
-		"_on_right_click_on_bg"
-	)
-	background.connect(
-		"double_left_click_on_bg",
-		escoria.inputs_manager,
-		"_on_double_left_click_on_bg"
-	)
-	background.connect(
-		"mouse_wheel_up",
-		self,
-		"_on_mousewheel_action",
-		[1]
-	)
-	background.connect(
-		"mouse_wheel_down",
-		self,
-		"_on_mousewheel_action",
-		[-1]
-	)
+	background.left_click_on_bg.connect(_on_left_click_on_bg)
+	background.right_click_on_bg.connect(_on_right_click_on_bg)
+	background.double_left_click_on_bg.connect(_on_double_left_click_on_bg)
+	background.mouse_wheel_up.connect(_on_mousewheel_action.bind(1))
+	background.mouse_wheel_down.connect(_on_mousewheel_action.bind(-1))
 
 
 # Registers a function that can be used to intercept and process input events.
@@ -179,7 +132,7 @@ func try_custom_input_handler(event: InputEvent, is_default_state: bool) -> bool
 
 # Callback called by hover stack content change.
 func _on_hover_stack_changed():
-	if hover_stack.empty():
+	if hover_stack.is_empty():
 		unset_hovered_node(_hovered_element)
 	else:
 		set_hovered_node(hover_stack.get_top_item())
@@ -238,7 +191,7 @@ func unset_hovered_node(item: ESCItem):
 #
 # - position: Position of the click
 func _on_left_click_on_bg(position: Vector2) -> void:
-	if input_mode == INPUT_ALL: # and hotspot_focused.empty():
+	if input_mode == INPUT_ALL: # and hotspot_focused.is_empty():
 		hotspot_focused = ""
 		escoria.logger.info(
 			self,
@@ -253,7 +206,7 @@ func _on_left_click_on_bg(position: Vector2) -> void:
 #
 # - position: Position of the click
 func _on_double_left_click_on_bg(position: Vector2) -> void:
-	if input_mode == INPUT_ALL: # and hotspot_focused.empty():
+	if input_mode == INPUT_ALL: # and hotspot_focused.is_empty():
 		hotspot_focused = ""
 		escoria.logger.info(
 			self,
@@ -268,7 +221,7 @@ func _on_double_left_click_on_bg(position: Vector2) -> void:
 #
 # - position: Position of the click
 func _on_right_click_on_bg(position: Vector2) -> void:
-	if input_mode == INPUT_ALL and hotspot_focused.empty():
+	if input_mode == INPUT_ALL and hotspot_focused.is_empty():
 		escoria.logger.info(
 			self,
 			"Right click on background at %s." % str(position)
@@ -374,7 +327,7 @@ func _on_mouse_entered_item(item: ESCItem) -> void:
 			self,
 			"Ignoring mouse entering player %s: Player not selectable." % [item.global_id]
 		)
-		if hover_stack.empty():
+		if hover_stack.is_empty():
 			hotspot_focused = ""
 			escoria.main.current_scene.game.element_unfocused()
 		else:
@@ -421,7 +374,7 @@ func _on_mouse_exited_item(item: ESCItem) -> void:
 		"Item unfocused: %s" % hotspot_focused
 	)
 
-	if hover_stack.empty():
+	if hover_stack.is_empty():
 		hotspot_focused = ""
 		escoria.main.current_scene.game.element_unfocused()
 	else:
@@ -441,7 +394,7 @@ func on_item_non_interactive(item: ESCItem) -> void:
 		hover_stack.erase_item(item)
 		escoria.main.current_scene.game.element_unfocused()
 
-		if hover_stack.empty():
+		if hover_stack.is_empty():
 			return
 		else:
 			var new_item = hover_stack.get_top_item()
@@ -465,7 +418,7 @@ func _on_mouse_left_clicked_item(item: ESCItem, event: InputEvent) -> void:
 			)
 
 			# Get next object in hover stack and forward event to it
-			if not hover_stack.empty():
+			if not hover_stack.is_empty():
 				var next_item = hover_stack.pop_top_item()
 				_on_mouse_left_clicked_item(next_item, event)
 			else: # if no next object, consider this click as background click
@@ -476,7 +429,7 @@ func _on_mouse_left_clicked_item(item: ESCItem, event: InputEvent) -> void:
 		# Clicked object can't be actioned and there is no other object behind
 		# We consider this click as a background click
 		if not escoria.action_manager.is_object_actionable(item.global_id) \
-				and hover_stack.empty():
+				and hover_stack.is_empty():
 			hotspot_focused = ""
 			_on_left_click_on_bg(event.position)
 			return
@@ -509,7 +462,7 @@ func _on_mouse_left_double_clicked_item(
 			)
 
 			# Get next object in hover stack and forward event to it
-			if not hover_stack.empty():
+			if not hover_stack.is_empty():
 				var next_item = hover_stack.pop_top_item()
 				_on_mouse_left_double_clicked_item(next_item, event)
 			else: # if no next object, consider this click as background click
@@ -520,7 +473,7 @@ func _on_mouse_left_double_clicked_item(
 		# Clicked object can't be actioned and there is no other object behind
 		# We consider this click as a background click
 		if not escoria.action_manager.is_object_actionable(item.global_id) \
-				and hover_stack.empty():
+				and hover_stack.is_empty():
 			hotspot_focused = ""
 			_on_double_left_click_on_bg(event.position)
 			return
@@ -547,13 +500,13 @@ func _on_mouse_right_clicked_item(item: ESCItem, event: InputEvent) -> void:
 				"Ignoring right click on player %s: Player not selectable." % [item.global_id]
 			)
 
-			if not hover_stack.empty():
+			if not hover_stack.is_empty():
 				var next_item = hover_stack.pop_top_item()
 				_on_mouse_right_clicked_item(next_item, event)
 			return
 
 		if not escoria.action_manager.is_object_actionable(item.global_id) \
-				and hover_stack.empty():
+				and hover_stack.is_empty():
 			# Treat this as a background click now
 			hotspot_focused = ""
 			_on_right_click_on_bg(event.position)
@@ -577,7 +530,7 @@ func _on_mouse_right_clicked_item(item: ESCItem, event: InputEvent) -> void:
 					self,
 					"Clicked item %s with event %s cannot be activated (player not selectable or not interactive).\n"
 							% [item.global_id, event] +
-					"No valid item found in the items stack. Action cancelled."
+					"No valid item found in the items stack. Action canceled."
 				)
 		else:
 			escoria.logger.info(
@@ -631,7 +584,7 @@ class HoverStack:
 		if not hover_stack.has(item):
 			hover_stack.push_back(item)
 			_sort()
-			emit_signal("hover_stack_changed")
+			hover_stack_changed.emit()
 
 
 	# Add the items contained in given list to the stack if not already in it.
@@ -649,7 +602,7 @@ class HoverStack:
 		for e in hover_stack:
 			if e == null or !is_instance_valid(e):
 				hover_stack.erase(e)
-				emit_signal("hover_stack_changed")
+				hover_stack_changed.emit()
 
 
 	# Pops the top element of the hover stack and returns it
@@ -659,7 +612,7 @@ class HoverStack:
 	func pop_top_item():
 		var ret = hover_stack.pop_back()
 		if is_instance_valid(ret):
-			emit_signal("hover_stack_changed")
+			hover_stack_changed.emit()
 		return ret
 
 
@@ -679,26 +632,26 @@ class HoverStack:
 		if hover_stack.has(item):
 			hover_stack.erase(item)
 			_sort()
-			emit_signal("hover_stack_changed")
+			hover_stack_changed.emit()
 
 
 	# Clear the stack of hovered items
 	func clear():
 		hover_stack = []
-		emit_signal("hover_stack_emptied")
+		hover_stack_emptied.emit()
 
 
 	# Returns true if the hover stack is empty, else false
 	#
 	# **Returns**
 	# True if hover stack is empty, else false
-	func empty() -> bool:
-		return hover_stack.empty()
+	func is_empty() -> bool:
+		return hover_stack.is_empty()
 
 
 	# Sort the hover stack by items' z-index
 	func _sort():
-		hover_stack.sort_custom(HoverStackSorter, "sort_ascending_z_index")
+		hover_stack.sort_custom(Callable(HoverStackSorter, "sort_ascending_z_index"))
 
 
 	# Returns true if the hover stack contains the given item

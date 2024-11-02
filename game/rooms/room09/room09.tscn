@@ -1,25 +1,25 @@
 [gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
-[ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=3]
+[ext_resource path="res://game/fonts/caslonantique.tres" type="FontFile" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
-[ext_resource path="res://game/rooms/room09/button.png" type="Texture" id=5]
+[ext_resource path="res://game/rooms/room09/button.png" type="Texture2D" id=5]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
-[ext_resource path="res://game/rooms/room09/locker_door_opened.png" type="Texture" id=8]
-[ext_resource path="res://game/rooms/room09/room9background.png" type="Texture" id=9]
-[ext_resource path="res://game/items/textures/genericItem_color_127.png" type="Texture" id=10]
+[ext_resource path="res://game/rooms/room09/locker_door_opened.png" type="Texture2D" id=8]
+[ext_resource path="res://game/rooms/room09/room9background.png" type="Texture2D" id=9]
+[ext_resource path="res://game/items/textures/genericItem_color_127.png" type="Texture2D" id=10]
 [ext_resource path="res://game/items/inventory/r9_bottle.tscn" type="PackedScene" id=11]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=12]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_exit.gd" type="Script" id=13]
-[ext_resource path="res://game/rooms/room09/locker_door_closed.png" type="Texture" id=14]
-[ext_resource path="res://game/items/inventory/bottle.png" type="Texture" id=15]
-[ext_resource path="res://game/rooms/room09/right_door.png" type="Texture" id=16]
+[ext_resource path="res://game/rooms/room09/locker_door_closed.png" type="Texture2D" id=14]
+[ext_resource path="res://game/items/inventory/bottle.png" type="Texture2D" id=15]
+[ext_resource path="res://game/rooms/room09/right_door.png" type="Texture2D" id=16]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, 820.268, 705.779, -9.16094, 803.802, -6.44019, 711.297, 491.268, 705.779, 129.634, 615.792, 455.268, 618.779, 84.5821, 654.06, 3.15687, 646.051, 59.2201, 628.698, 864.626, 613.518, 1143.08, 613.35 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 3, 5, 6, 7 ), PoolIntArray( 8, 9, 7, 10 ), PoolIntArray( 6, 11, 12, 10 ), PoolIntArray( 4, 13, 14, 0, 3 ), PoolIntArray( 7, 6, 10 ) ]
-outlines = [ PoolVector2Array( -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698, 84.5821, 654.06, 129.634, 615.792, 455.268, 618.779, 491.268, 705.779, 820.268, 705.779, 864.626, 613.518, 1143.08, 613.35, 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, -9.16094, 803.802 ) ]
+vertices = PackedVector2Array( 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, 820.268, 705.779, -9.16094, 803.802, -6.44019, 711.297, 491.268, 705.779, 129.634, 615.792, 455.268, 618.779, 84.5821, 654.06, 3.15687, 646.051, 59.2201, 628.698, 864.626, 613.518, 1143.08, 613.35 )
+polygons = [ PackedInt32Array( 0, 1, 2, 3 ), PackedInt32Array( 4, 3, 5, 6, 7 ), PackedInt32Array( 8, 9, 7, 10 ), PackedInt32Array( 6, 11, 12, 10 ), PackedInt32Array( 4, 13, 14, 0, 3 ), PackedInt32Array( 7, 6, 10 ) ]
+outlines = [ PackedVector2Array( -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698, 84.5821, 654.06, 129.634, 615.792, 455.268, 618.779, 491.268, 705.779, 820.268, 705.779, 864.626, 613.518, 1143.08, 613.35, 1168.92, 640.557, 1182.53, 588.863, 1269.59, 622.872, 1275.03, 799.721, -9.16094, 803.802 ) ]
 
 [sub_resource type="Animation" id=2]
 length = 0.001
@@ -30,8 +30,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ false ]
 }
@@ -45,8 +45,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ false ]
 }
@@ -59,8 +59,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ true ]
 }
@@ -68,66 +68,66 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=5]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:position")
+tracks/0/path = NodePath("Sprite2D:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Vector2( 1227, 244 ) ]
 }
 tracks/1/type = "bezier"
-tracks/1/path = NodePath("Sprite:position:x")
+tracks/1/path = NodePath("Sprite2D:position:x")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"points": PoolRealArray( 1227, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
+"points": PackedFloat32Array( 1227, -0.25, 0, 0.25, 0 ),
+"times": PackedFloat32Array( 0 )
 }
 tracks/2/type = "bezier"
-tracks/2/path = NodePath("Sprite:position:y")
+tracks/2/path = NodePath("Sprite2D:position:y")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"points": PoolRealArray( 244, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
+"points": PackedFloat32Array( 244, -0.25, 0, 0.25, 0 ),
+"times": PackedFloat32Array( 0 )
 }
 tracks/3/type = "bezier"
-tracks/3/path = NodePath("Sprite:scale:x")
+tracks/3/path = NodePath("Sprite2D:scale:x")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
+"points": PackedFloat32Array( 1, -0.25, 0, 0.25, 0 ),
+"times": PackedFloat32Array( 0 )
 }
 tracks/4/type = "bezier"
-tracks/4/path = NodePath("Sprite:scale:y")
+tracks/4/path = NodePath("Sprite2D:scale:y")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
+"points": PackedFloat32Array( 1, -0.25, 0, 0.25, 0 ),
+"times": PackedFloat32Array( 0 )
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Sprite:visible")
+tracks/5/path = NodePath("Sprite2D:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ true ]
 }
@@ -136,38 +136,38 @@ tracks/5/keys = {
 resource_name = "close_door"
 length = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:position")
+tracks/0/path = NodePath("Sprite2D:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Vector2( 1227, 244 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprite:scale")
+tracks/1/path = NodePath("Sprite2D:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 0,
 "values": [ Vector2( 1, 1 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Sprite:visible")
+tracks/2/path = NodePath("Sprite2D:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ true ]
 }
@@ -176,54 +176,54 @@ tracks/2/keys = {
 resource_name = "open_door"
 length = 1.1
 tracks/0/type = "bezier"
-tracks/0/path = NodePath("Sprite:position:x")
+tracks/0/path = NodePath("Sprite2D:position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"points": PoolRealArray( 1227, -0.25, 0, 0.25, 0, 1276.43, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 1 )
+"points": PackedFloat32Array( 1227, -0.25, 0, 0.25, 0, 1276.43, -0.25, 0, 0.25, 0 ),
+"times": PackedFloat32Array( 0, 1 )
 }
 tracks/1/type = "bezier"
-tracks/1/path = NodePath("Sprite:position:y")
+tracks/1/path = NodePath("Sprite2D:position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"points": PoolRealArray( 244, -0.25, 0, 0.25, 0, 265.47, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 1 )
+"points": PackedFloat32Array( 244, -0.25, 0, 0.25, 0, 265.47, -0.25, 0, 0.25, 0 ),
+"times": PackedFloat32Array( 0, 1 )
 }
 tracks/2/type = "bezier"
-tracks/2/path = NodePath("Sprite:scale:x")
+tracks/2/path = NodePath("Sprite2D:scale:x")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 0.01, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 1 )
+"points": PackedFloat32Array( 1, -0.25, 0, 0.25, 0, 0.01, -0.25, 0, 0.25, 0 ),
+"times": PackedFloat32Array( 0, 1 )
 }
 tracks/3/type = "bezier"
-tracks/3/path = NodePath("Sprite:scale:y")
+tracks/3/path = NodePath("Sprite2D:scale:y")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 0.88, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 1 )
+"points": PackedFloat32Array( 1, -0.25, 0, 0.25, 0, 0.88, -0.25, 0, 0.25, 0 ),
+"times": PackedFloat32Array( 0, 1 )
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Sprite:visible")
+tracks/4/path = NodePath("Sprite2D:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 1.1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 1.1 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
 }
@@ -243,8 +243,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ true ]
 }
@@ -255,8 +255,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ false ]
 }
@@ -270,8 +270,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ true ]
 }
@@ -282,8 +282,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ false ]
 }
@@ -297,8 +297,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ true ]
 }
@@ -309,8 +309,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ false ]
 }
@@ -324,8 +324,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ true ]
 }
@@ -336,8 +336,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ false ]
 }
@@ -351,8 +351,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ true ]
 }
@@ -363,8 +363,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ false ]
 }
@@ -378,8 +378,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ true ]
 }
@@ -390,8 +390,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ false ]
 }
@@ -409,29 +409,29 @@ camera_limits = [ Rect2( 0, 0, 1280, 555 ) ]
 [node name="walkable_area" type="Navigation2D" parent="."]
 script = ExtResource( 1 )
 
-[node name="platform" type="NavigationPolygonInstance" parent="walkable_area"]
+[node name="platform" type="NavigationRegion2D" parent="walkable_area"]
 position = Vector2( 6.73163, -264.779 )
-navpoly = SubResource( 1 )
+navigation_polygon = SubResource( 1 )
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Room9Background" type="Sprite" parent="."]
+[node name="Room9Background" type="Sprite2D" parent="."]
 texture = ExtResource( 9 )
 centered = false
 
 [node name="room_label" type="Label" parent="Room9Background"]
-margin_right = 82.0
-margin_bottom = 21.0
-custom_fonts/font = ExtResource( 3 )
+offset_right = 82.0
+offset_bottom = 21.0
+theme_override_fonts/font = ExtResource( 3 )
 text = "ROOM 9"
 
 [node name="Label" type="Label" parent="Room9Background"]
-margin_left = 841.0
-margin_top = 7.0
-margin_right = 1158.0
-margin_bottom = 225.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
+offset_left = 841.0
+offset_top = 7.0
+offset_right = 1158.0
+offset_bottom = 225.0
+theme_override_colors/font_color = Color( 0, 0, 0, 1 )
 text = "This room demonstrates a puzzle that changes
 depending on what the player does. The bottle
 will appear in whichever closet is opened last.
@@ -450,12 +450,12 @@ the stand to complete the room."
 position = Vector2( -2, 4 )
 z_index = -2
 color = Color( 0, 0, 0, 1 )
-polygon = PoolVector2Array( 1172, 54, 1280, 96, 1278, 422, 1173, 355 )
+polygon = PackedVector2Array( 1172, 54, 1280, 96, 1278, 422, 1173, 355 )
 
 [node name="Hotspots" type="Node2D" parent="."]
 
 [node name="stand" type="Area2D" parent="Hotspots"]
-pause_mode = 1
+process_mode = 1
 position = Vector2( -125.617, 0.8909 )
 script = ExtResource( 7 )
 global_id = "r9_stand"
@@ -470,9 +470,9 @@ animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/stand"]
 position = Vector2( -11.383, 25.1091 )
-polygon = PoolVector2Array( 1090, 348, 1087.46, 226.857, 1155, 226, 1155, 346 )
+polygon = PackedVector2Array( 1090, 348, 1087.46, 226.857, 1155, 226, 1155, 346 )
 
-[node name="bottle" type="Sprite" parent="Hotspots/stand"]
+[node name="bottle" type="Sprite2D" parent="Hotspots/stand"]
 visible = false
 position = Vector2( 1108.62, 235.109 )
 texture = ExtResource( 15 )
@@ -482,7 +482,7 @@ anims/RESET = SubResource( 2 )
 anims/remove_bottle = SubResource( 3 )
 anims/set_bottle = SubResource( 4 )
 
-[node name="Position2D" type="Position2D" parent="Hotspots/stand"]
+[node name="Marker2D" type="Marker2D" parent="Hotspots/stand"]
 position = Vector2( 1043.27, 359.243 )
 script = ExtResource( 12 )
 
@@ -494,9 +494,9 @@ is_exit = true
 tooltip_name = "Left exit"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/door_l"]
-polygon = PoolVector2Array( 0, 108, 105, 62, 108, 355, 1, 422 )
+polygon = PackedVector2Array( 0, 108, 105, 62, 108, 355, 1, 422 )
 
-[node name="ESCLocation" type="Position2D" parent="Hotspots/door_l"]
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/door_l"]
 position = Vector2( 56, 385 )
 script = ExtResource( 12 )
 
@@ -508,13 +508,13 @@ is_exit = true
 tooltip_name = "Right exit"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/door_r"]
-polygon = PoolVector2Array( 1174, 61, 1280, 107, 1280, 423, 1172, 353 )
+polygon = PackedVector2Array( 1174, 61, 1280, 107, 1280, 423, 1172, 353 )
 
-[node name="ESCLocation" type="Position2D" parent="Hotspots/door_r"]
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/door_r"]
 position = Vector2( 1228, 386 )
 script = ExtResource( 12 )
 
-[node name="Sprite" type="Sprite" parent="Hotspots/door_r"]
+[node name="Sprite2D" type="Sprite2D" parent="Hotspots/door_r"]
 position = Vector2( 1227, 244 )
 z_index = -1
 texture = ExtResource( 16 )
@@ -525,7 +525,7 @@ anims/close_door = SubResource( 6 )
 anims/open_door = SubResource( 7 )
 
 [node name="reset_button" type="Area2D" parent="Hotspots"]
-pause_mode = 1
+process_mode = 1
 position = Vector2( 125, 8 )
 script = ExtResource( 7 )
 global_id = "r9_reset_button"
@@ -542,23 +542,23 @@ position = Vector2( 291, 194 )
 shape = SubResource( 8 )
 
 [node name="Label" type="Label" parent="Hotspots/reset_button"]
-margin_left = 242.0
-margin_top = 233.0
-margin_right = 339.0
-margin_bottom = 254.0
-custom_fonts/font = ExtResource( 3 )
+offset_left = 242.0
+offset_top = 233.0
+offset_right = 339.0
+offset_bottom = 254.0
+theme_override_fonts/font = ExtResource( 3 )
 text = "Reset closets"
 
-[node name="ESCLocation" type="Position2D" parent="Hotspots/reset_button"]
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/reset_button"]
 position = Vector2( 283, 371 )
 script = ExtResource( 12 )
 
-[node name="Sprite" type="Sprite" parent="Hotspots/reset_button"]
+[node name="Sprite2D" type="Sprite2D" parent="Hotspots/reset_button"]
 position = Vector2( 290, 193 )
 texture = ExtResource( 5 )
 
 [node name="r9_closet_left" type="Area2D" parent="Hotspots"]
-pause_mode = 1
+process_mode = 1
 position = Vector2( -1, 0 )
 script = ExtResource( 7 )
 global_id = "r9_closet_left"
@@ -570,16 +570,16 @@ inventory_texture = ExtResource( 14 )
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
-[node name="closed_door" type="Sprite" parent="Hotspots/r9_closet_left"]
+[node name="closed_door" type="Sprite2D" parent="Hotspots/r9_closet_left"]
 visible = false
 position = Vector2( 570, 248 )
 texture = ExtResource( 14 )
 
-[node name="opened_door" type="Sprite" parent="Hotspots/r9_closet_left"]
+[node name="opened_door" type="Sprite2D" parent="Hotspots/r9_closet_left"]
 position = Vector2( 525, 273 )
 texture = ExtResource( 8 )
 
-[node name="ESCLocation" type="Position2D" parent="Hotspots/r9_closet_left"]
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/r9_closet_left"]
 position = Vector2( 571, 447 )
 script = ExtResource( 12 )
 
@@ -592,7 +592,7 @@ position = Vector2( 598, 162 )
 global_id = "r9_bottle_left"
 dont_apply_terrain_scaling = true
 
-[node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_left/bottle_left"]
+[node name="Marker2D" type="Marker2D" parent="Hotspots/r9_closet_left/bottle_left"]
 position = Vector2( -27, 285 )
 script = ExtResource( 12 )
 
@@ -601,7 +601,7 @@ anims/close_door = SubResource( 10 )
 anims/open_door = SubResource( 11 )
 
 [node name="r9_closet_middle" type="Area2D" parent="Hotspots"]
-pause_mode = 1
+process_mode = 1
 script = ExtResource( 7 )
 global_id = "r9_closet_middle"
 esc_script = "res://game/rooms/room09/esc/closet_middle.esc"
@@ -612,16 +612,16 @@ inventory_texture = ExtResource( 14 )
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
-[node name="closed_door" type="Sprite" parent="Hotspots/r9_closet_middle"]
+[node name="closed_door" type="Sprite2D" parent="Hotspots/r9_closet_middle"]
 visible = false
 position = Vector2( 670, 248 )
 texture = ExtResource( 14 )
 
-[node name="opened_door" type="Sprite" parent="Hotspots/r9_closet_middle"]
+[node name="opened_door" type="Sprite2D" parent="Hotspots/r9_closet_middle"]
 position = Vector2( 625, 269 )
 texture = ExtResource( 8 )
 
-[node name="ESCLocation" type="Position2D" parent="Hotspots/r9_closet_middle"]
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/r9_closet_middle"]
 position = Vector2( 671, 446.5 )
 script = ExtResource( 12 )
 
@@ -634,7 +634,7 @@ position = Vector2( 692, 163 )
 global_id = "r9_bottle_middle"
 dont_apply_terrain_scaling = true
 
-[node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_middle/bottle_middle"]
+[node name="Marker2D" type="Marker2D" parent="Hotspots/r9_closet_middle/bottle_middle"]
 position = Vector2( -21, 284 )
 script = ExtResource( 12 )
 
@@ -643,7 +643,7 @@ anims/close_door = SubResource( 12 )
 anims/open_door = SubResource( 13 )
 
 [node name="r9_closet_right" type="Area2D" parent="Hotspots"]
-pause_mode = 1
+process_mode = 1
 position = Vector2( 100, 0 )
 script = ExtResource( 7 )
 global_id = "r9_closet_right"
@@ -655,16 +655,16 @@ inventory_texture = ExtResource( 14 )
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
-[node name="closed_door" type="Sprite" parent="Hotspots/r9_closet_right"]
+[node name="closed_door" type="Sprite2D" parent="Hotspots/r9_closet_right"]
 visible = false
 position = Vector2( 669.5, 248 )
 texture = ExtResource( 14 )
 
-[node name="opened_door" type="Sprite" parent="Hotspots/r9_closet_right"]
+[node name="opened_door" type="Sprite2D" parent="Hotspots/r9_closet_right"]
 position = Vector2( 625, 268 )
 texture = ExtResource( 8 )
 
-[node name="ESCLocation" type="Position2D" parent="Hotspots/r9_closet_right"]
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/r9_closet_right"]
 position = Vector2( 671, 446.5 )
 script = ExtResource( 12 )
 
@@ -677,7 +677,7 @@ position = Vector2( 682, 163 )
 global_id = "r9_bottle_right"
 dont_apply_terrain_scaling = true
 
-[node name="Position2D" type="Position2D" parent="Hotspots/r9_closet_right/bottle_right"]
+[node name="Marker2D" type="Marker2D" parent="Hotspots/r9_closet_right/bottle_right"]
 position = Vector2( -11, 284 )
 script = ExtResource( 12 )
 
@@ -685,7 +685,7 @@ script = ExtResource( 12 )
 anims/close_door = SubResource( 14 )
 anims/open_door = SubResource( 15 )
 
-[node name="player_start" type="Position2D" parent="."]
+[node name="player_start" type="Marker2D" parent="."]
 position = Vector2( 76.7617, 437.649 )
 script = ExtResource( 12 )
 global_id = "r9_player_start"
@@ -695,6 +695,6 @@ is_start_location = true
 position = Vector2( 490.648, 92.016 )
 dont_apply_terrain_scaling = true
 
-[node name="Position2D" type="Position2D" parent="bottle_inventory"]
+[node name="Marker2D" type="Marker2D" parent="bottle_inventory"]
 position = Vector2( -11, 284 )
 script = ExtResource( 12 )

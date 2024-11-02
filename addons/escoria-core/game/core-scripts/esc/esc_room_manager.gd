@@ -52,8 +52,8 @@ func register_reserved_globals() -> void:
 # - room_path: Node path to the room that is to become the new current room.
 # - enable_automatic_transitions: Whether to play the transition between rooms
 #	automatically or to leave the responsibility to the developer.
-func change_scene(room_path: String, enable_automatic_transitions: bool) -> void:
-	if escoria.main and escoria.main.current_scene and escoria.main.current_scene.filename == room_path:
+func change_scene_to_file(room_path: String, enable_automatic_transitions: bool) -> void:
+	if escoria.main and escoria.main.current_scene and escoria.main.current_scene.scene_file_path == room_path:
 		escoria.logger.info(
 			self,
 			"Attempting to change scene to same scene as the current scene. Aborting."
@@ -112,7 +112,7 @@ func change_scene(room_path: String, enable_automatic_transitions: bool) -> void
 	# Load room scene
 	var res_room = escoria.resource_cache.get_resource(room_path)
 
-	var room_scene = res_room.instance()
+	var room_scene = res_room.instantiate()
 	if room_scene:
 		if enable_automatic_transitions \
 				and escoria.event_manager.get_running_event(
@@ -169,14 +169,14 @@ func init_room(room: ESCRoom) -> void:
 			"No valid room was specified for initialization."
 		)
 
-	if room.camera_limits.empty():
+	if room.camera_limits.is_empty():
 		room.camera_limits.push_back(Rect2())
 
-	if room.camera_limits.size() == 1 and room.camera_limits[0].has_no_area():
+	if room.camera_limits.size() == 1 and not room.camera_limits[0].has_area():
 		for child in room.get_children():
 			if child is ESCBackground:
 				room.camera_limits[0] = \
-					Rect2(0, 0, child.rect_size.x, child.rect_size.y)
+					Rect2(0, 0, child.size.x, child.size.y)
 
 	if Engine.is_editor_hint():
 		return
@@ -222,7 +222,8 @@ func init_room(room: ESCRoom) -> void:
 # #### Parameters
 #
 # - room: The ESCRoom to be initialized for use.
-func _perform_script_events(room: ESCRoom) -> void:
+# *Returns* 
+func _perform_script_events(room: ESCRoom) -> int:
 	# Used to track whether any yields have been executed before the call to
 	# set_scene_finish.
 	var yielded: bool = false
@@ -251,9 +252,9 @@ func _perform_script_events(room: ESCRoom) -> void:
 		escoria.set_game_paused(false)
 
 		# Wait for transition_out event to be done
-		var rc = yield(escoria.event_manager, "event_finished")
+		var rc = await escoria.event_manager.event_finished
 		while rc[1] != escoria.event_manager.EVENT_TRANSITION_OUT:
-			rc = yield(escoria.event_manager, "event_finished")
+			rc = await escoria.event_manager.event_finished
 		if rc[0] != ESCExecution.RC_OK:
 			return rc[0]
 
@@ -263,7 +264,7 @@ func _perform_script_events(room: ESCRoom) -> void:
 	# it exists.
 	if room.player_scene:
 		if not is_instance_valid(room.player):
-			room.player = room.player_scene.instance()
+			room.player = room.player_scene.instantiate()
 			room.add_child(room.player)
 			escoria.object_manager.register_object(
 				ESCObject.new(
@@ -290,15 +291,15 @@ func _perform_script_events(room: ESCRoom) -> void:
 
 		#escoria.object_manager.get_object(escoria.object_manager.CAMERA).node.set_target(room.player)
 
-	if room.global_id.empty():
+	if room.global_id.is_empty():
 		room.global_id = room.name
 
 
 	# Manage player location at room start
-	if room.player != null \
-			and escoria.object_manager.get_start_location() != null \
-			and not escoria.save_manager.is_loading_game:
-		room.player.teleport(escoria.object_manager.get_start_location().node)
+	if room.player != null:
+		var startloc := escoria.object_manager.get_start_location()
+		if startloc != null:
+			room.player.teleport(startloc)
 
 	# We make sure 'room' is set as the new current_scene, but without making
 	# it visible/the current scene tree.
@@ -311,7 +312,7 @@ func _perform_script_events(room: ESCRoom) -> void:
 		room.player_camera.queue_free()
 	var new_player_camera: ESCCamera = escoria.resource_cache.get_resource(
 		escoria.CAMERA_SCENE_PATH
-	).instance()
+	).instantiate()
 	new_player_camera.register()
 	room.player_camera = new_player_camera
 
@@ -320,7 +321,7 @@ func _perform_script_events(room: ESCRoom) -> void:
 	escoria.main.set_camera_limits(0, room)
 
 	# Add the camera in to the scene tree but don't make it active just yet.
-	new_player_camera.current = false
+	new_player_camera.enabled = false
 	room.add_child(new_player_camera)
 	room.move_child(new_player_camera, 0)
 
@@ -332,9 +333,9 @@ func _perform_script_events(room: ESCRoom) -> void:
 
 		if setup_event_added:
 			# Wait for setup event to be done
-			var rc = yield(escoria.event_manager, "event_finished")
+			var rc = await escoria.event_manager.event_finished
 			while rc[1] != escoria.event_manager.EVENT_SETUP:
-				rc = yield(escoria.event_manager, "event_finished")
+				rc = await escoria.event_manager.event_finished
 			if rc[0] != ESCExecution.RC_OK:
 				return rc[0]
 
@@ -357,6 +358,7 @@ func _perform_script_events(room: ESCRoom) -> void:
 
 	# Maybe this is ok to put in set_scene_finish() above? But it might be a bit
 	# confusing to not see the matching camera.current updates.
+	new_player_camera.enabled = true
 	new_player_camera.make_current()
 
 	# We know the scene has been loaded. Make its global ID available for
@@ -372,7 +374,7 @@ func _perform_script_events(room: ESCRoom) -> void:
 
 	escoria.inputs_manager.hotspot_focused = ""
 
-	var command_strings: PoolStringArray = []
+	var command_strings: PackedStringArray = []
 
 	command_strings.append("%s%s" % [ESCEvent.PREFIX, escoria.event_manager.EVENT_TRANSITION_IN])
 
@@ -409,9 +411,9 @@ func _perform_script_events(room: ESCRoom) -> void:
 
 		if ready_event_added:
 			# Wait for ready event to be done
-			var rc = yield(escoria.event_manager, "event_finished")
+			var rc = await escoria.event_manager.event_finished
 			while rc[1] != escoria.event_manager.EVENT_READY:
-				rc = yield(escoria.event_manager, "event_finished")
+				rc = await escoria.event_manager.event_finished
 			if rc[0] != ESCExecution.RC_OK:
 				return rc[0]
 
@@ -439,6 +441,8 @@ func _perform_script_events(room: ESCRoom) -> void:
 				if escoria.main.current_scene != null else "",
 		true
 	)
+	
+	return ESCExecution.RC_OK
 
 
 # Runs the script event from the script attached, if any.
@@ -468,5 +472,3 @@ func _run_script_event(event_name: String, room: ESCRoom):
 		return true
 	else:
 		return false
-
-

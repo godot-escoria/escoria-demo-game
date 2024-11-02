@@ -9,7 +9,7 @@ var selected_action
 
 func _ready():
 	for but in get_children():
-		but.connect("pressed", self, "on_action_selected", [but.name])
+		but.connect("pressed", Callable(self, "on_action_selected").bind(but.name))
 		but.toggle_mode = true
 
 func on_action_selected(action: String):

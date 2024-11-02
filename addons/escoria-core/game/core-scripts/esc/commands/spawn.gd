@@ -26,10 +26,10 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
-	if arguments[0].empty() \
+	if arguments[0].is_empty() \
 		or arguments[0] in escoria.object_manager.RESERVED_OBJECTS:
 		escoria.logger.error(
 			self,
@@ -59,7 +59,7 @@ func run(command_params: Array) -> int:
 	var res_scene = escoria.resource_cache.get_resource(command_params[1])
 
 	# Load room scene
-	var scene = res_scene.instance()
+	var scene = res_scene.instantiate()
 	if scene:
 		escoria.main.get_node("/root").add_child(scene)
 		if command_params[3]:

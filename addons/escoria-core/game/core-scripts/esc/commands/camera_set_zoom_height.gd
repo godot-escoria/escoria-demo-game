@@ -19,14 +19,14 @@ class_name CameraSetZoomHeightCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
-		[TYPE_INT, [TYPE_INT, TYPE_REAL]],
+		[TYPE_INT, [TYPE_INT, TYPE_FLOAT]],
 		[null, 0.0]
 	)
 
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if arguments[0] < 0:

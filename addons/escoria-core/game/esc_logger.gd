@@ -3,7 +3,7 @@ class ESCLoggerBase:
 	signal perform_emergency_savegame
 
 	# Sends the error or warning message in the signal
-	signal error_message(message)
+	signal error_message_signal(message)
 
 	# Valid log levels
 	enum { LOG_ERROR, LOG_WARNING, LOG_INFO, LOG_DEBUG, LOG_TRACE }
@@ -33,9 +33,6 @@ class ESCLoggerBase:
 		_log_level = _level_map[ESCProjectSettingsManager.get_setting(
 			ESCProjectSettingsManager.LOG_LEVEL
 		).to_upper()]
-
-
-
 
 	func formatted_message(context: String, msg: String, letter: String) -> String:
 		return "ESC ({0}) {1} {2}: {3}".format([_formatted_date(), letter, context, msg])
@@ -85,7 +82,7 @@ class ESCLoggerBase:
 				assert(false)
 				escoria.get_tree().quit()
 			dont_assert = false
-			emit_signal("error_message", msg)
+			error_message_signal.emit(msg)
 
 
 	# Error log
@@ -104,14 +101,14 @@ class ESCLoggerBase:
 				assert(false)
 				escoria.get_tree().quit()
 			dont_assert = false
-			emit_signal("error_message", msg)
+			error_message_signal.emit(msg)
 
 	func get_log_level() -> int:
 		return _log_level
 
 
 	func _formatted_date():
-		var info = OS.get_datetime()
+		var info = Time.get_datetime_dict_from_system()
 		info["year"] = "%04d" % info["year"]
 		info["month"] = "%02d" % info["month"]
 		info["day"] = "%02d" % info["day"]
@@ -124,63 +121,61 @@ class ESCLoggerBase:
 # A logger that logs to the terminal and to a log file.
 class ESCLoggerFile extends ESCLoggerBase:
 	# Log file handler
-	var log_file: File
+	var log_file: FileAccess
 
 	# Constructor
 	func _init():
-		# Open logfile in write mode
-		log_file = File.new()
-
+		super()
 		# This is left alone as this constructor is called from escoria.gd's own
 		# constructor
 		var log_file_path = ProjectSettings.get_setting(
 			ESCProjectSettingsManager.LOG_FILE_PATH
 		)
-		var date = OS.get_datetime()
-		log_file_path = log_file_path.plus_file(LOG_FILE_FORMAT % [
+		var date = Time.get_datetime_dict_from_system()
+		log_file_path = log_file_path.path_join(LOG_FILE_FORMAT % [
 				str(date["year"]) + str(date["month"]) + str(date["day"]),
 				str(date["hour"]) + str(date["minute"]) + str(date["second"])
 			])
-		log_file.open(
+		log_file = FileAccess.open(
 			log_file_path,
-			File.WRITE
+			FileAccess.WRITE
 		)
 
 	# Trace log
 	func trace(owner: Object, msg: String):
 		if _log_level >= LOG_TRACE:
 			_log_to_file(owner, msg, "T")
-			.trace(owner, msg)
+			super.trace(owner, msg)
 
 	# Static trace log
 	func trace_message(context: String, msg: String):
 		if _log_level >= LOG_TRACE:
 			_log_to_file_message(context, msg, "T")
-			.trace_message(context, msg)
+			super.trace_message(context, msg)
 
 	# Debug log
 	func debug(owner: Object, msg: String):
 		if _log_level >= LOG_DEBUG:
 			_log_to_file(owner, msg, "D")
-			.debug(owner, msg)
+			super.debug(owner, msg)
 
 	# Static debug log
 	func debug_message(context: String, msg: String):
 		if _log_level >= LOG_DEBUG:
 			_log_to_file_message(context, msg, "D")
-			.debug_message(context, msg)
+			super.debug_message(context, msg)
 
 	# Info log
 	func info(owner: Object, msg: String):
 		if _log_level >= LOG_INFO:
 			_log_to_file(owner, msg, "I")
-			.info(owner, msg)
+			super.info(owner, msg)
 
 	# Static info log
 	func info_message(context: String, msg: String):
 		if _log_level >= LOG_INFO:
 			_log_to_file_message(context, msg, "I")
-			.info_message(context, msg)
+			super.info_message(context, msg)
 
 	# Warning log
 	func warn(owner: Object, msg: String):
@@ -192,7 +187,7 @@ class ESCLoggerFile extends ESCLoggerBase:
 				_log_stack_trace_to_file()
 				print_stack()
 				close_logs()
-			.warn(owner, msg)
+			super.warn(owner, msg)
 
 	# Static warning log
 	func warn_message(context: String, msg: String):
@@ -204,7 +199,7 @@ class ESCLoggerFile extends ESCLoggerBase:
 				_log_stack_trace_to_file()
 				print_stack()
 				close_logs()
-			.warn_message(context, msg)
+			super.warn_message(context, msg)
 
 	# Error log
 	func error(owner: Object, msg: String):
@@ -216,7 +211,7 @@ class ESCLoggerFile extends ESCLoggerBase:
 				_log_stack_trace_to_file()
 				print_stack()
 				close_logs()
-			.error(owner, msg)
+			super.error(owner, msg)
 
 	# Static eror log
 	func error_message(context: String, msg: String):
@@ -228,7 +223,7 @@ class ESCLoggerFile extends ESCLoggerBase:
 				_log_stack_trace_to_file()
 				print_stack()
 				close_logs()
-			.error_message(context, msg)
+			super.error_message(context, msg)
 
 	# Close the log file cleanly
 	func close_logs():
@@ -273,4 +268,3 @@ class ESCLoggerVerbose extends ESCLoggerBase:
 	func debug(owner: Object, msg: String):
 		var context = owner.get_script().resource_path.get_file()
 		print(context, ": ", msg)
-

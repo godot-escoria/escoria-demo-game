@@ -6,7 +6,7 @@
 extents = Vector2( 28.6442, 29.8513 )
 
 [node name="button_right" type="Area2D"]
-pause_mode = 1
+process_mode = 1
 script = ExtResource( 1 )
 tooltip_name = "Button"
 default_action = "use"
@@ -14,11 +14,11 @@ dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
 [node name="Line2D" type="Line2D" parent="."]
-points = PoolVector2Array( 2.86993, 4.8189, 2.86993, 53.646, 50.8979, 53.9476, 50.5746, 3.69644, -1.72314, 4.51215 )
+points = PackedVector2Array( 2.86993, 4.8189, 2.86993, 53.646, 50.8979, 53.9476, 50.5746, 3.69644, -1.72314, 4.51215 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 26.9811, 29.4218 )
 shape = SubResource( 1 )
 
-[node name="dialog_position" type="Position2D" parent="."]
+[node name="dialog_position" type="Marker2D" parent="."]
 position = Vector2( 22.0044, -141.187 )

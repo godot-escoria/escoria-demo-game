@@ -34,13 +34,13 @@ var _current_line: String
 
 
 # Tween node for text animation
-onready var tween: Tween = $Tween
+@onready var tween: Tween3 = Tween3.new(self)
 
 # The node showing the text
-onready var text_node: RichTextLabel = self
+@onready var text_node: RichTextLabel = self
 
 # Whether the dialog manager is paused
-onready var is_paused: bool = true
+@onready var is_paused: bool = true
 
 var dialog_location_node = null
 
@@ -97,12 +97,12 @@ func _ready():
 	_word_regex.compile("\\S+")
 
 	bbcode_enabled = true
-	$Tween.connect("tween_completed", self, "_on_dialog_line_typed")
+	$Tween.connect("tween_completed", Callable(self, "_on_dialog_line_typed"))
 
-	connect("tree_exiting", self, "_on_tree_exiting")
+	connect("tree_exiting", Callable(self, "_on_tree_exiting"))
 
-	escoria.connect("paused", self, "_on_paused")
-	escoria.connect("resumed", self, "_on_resumed")
+	escoria.connect("paused", Callable(self, "_on_paused"))
+	escoria.connect("resumed", Callable(self, "_on_resumed"))
 
 	_current_line = ""
 
@@ -112,8 +112,8 @@ func _process(delta):
 	if _current_character.is_inside_tree() and \
 			is_instance_valid(dialog_location_node):
 		# Position the RichTextLabel on the character's dialog position, if any.
-		rect_position = dialog_location_node.get_global_transform_with_canvas().origin
-		rect_position.x -= rect_size.x / 2
+		position = dialog_location_node.get_global_transform_with_canvas().origin
+		position.x -= size.x / 2
 
 		_account_for_margin_x()
 
@@ -138,7 +138,7 @@ func say(character: String, line: String) :
 	var dialog_location_count:int = 0
 
 	for c in escoria.object_manager.get_object(character).node.get_children():
-		if c is Position2D:
+		if c is Marker2D:
 			# Identify any Postion2D nodes
 			if c.is_class("ESCDialogLocation"):
 				dialog_location_count += 1
@@ -155,17 +155,17 @@ func say(character: String, line: String) :
 	var text_color = _current_character.dialog_color
 	var text_color_html = text_color.to_html(false)
 
-	text_node.bbcode_text = "[center][color=#" + text_color_html + "]" \
+	text_node.text = "[center][color=#" + text_color_html + "]" \
 		.format([text_color_html]) + tr(line) + "[/color][center]"
 
 	if _current_character.is_inside_tree() and \
 			is_instance_valid(dialog_location_node):
-		rect_position = dialog_location_node.get_global_transform_with_canvas().origin
+		position = dialog_location_node.get_global_transform_with_canvas().origin
 
-		rect_position.x -= rect_size.x / 2
+		position.x -= size.x / 2
 	else:
-		rect_position.x = 0
-		rect_size.x = ProjectSettings.get_setting("display/window/size/width")
+		position.x = 0
+		size.x = ProjectSettings.get_setting("display/window/size/viewport_width")
 
 	_account_for_margin_x()
 
@@ -217,9 +217,9 @@ func _on_dialog_line_typed(object, key):
 
 	var time_to_disappear: float = _calculate_time_to_disappear()
 	$Timer.start(time_to_disappear)
-	$Timer.connect("timeout", self, "_on_dialog_finished")
+	$Timer.connect("timeout", Callable(self, "_on_dialog_finished"))
 
-	emit_signal("say_visible")
+	say_visible.emit()
 
 
 func _calculate_time_to_disappear() -> float:
@@ -234,7 +234,7 @@ func _get_number_of_words() -> int:
 func _on_dialog_finished():
 	# Only trigger to clear the text if we aren't limiting the clearing trigger to a click.
 	if not ESCProjectSettingsManager.get_setting(SimpleDialogSettings.CLEAR_TEXT_BY_CLICK_ONLY):
-		emit_signal("say_finished")
+		say_finished.emit()
 
 
 # Handler managing pause notification from Escoria
@@ -263,22 +263,22 @@ func _stop_character_talking():
 
 
 func _account_for_margin_x() -> void:
-	if rect_position.x < 0:
-		rect_position.x = 0
+	if position.x < 0:
+		position.x = 0
 
-	var screen_margin_x = rect_position.x + rect_size.x - \
-			ProjectSettings.get("display/window/size/width")
+	var screen_margin_x = position.x + size.x - \
+			ProjectSettings.get("display/window/size/viewport_width")
 
 	if screen_margin_x > 0:
-		rect_position.x -= screen_margin_x
+		position.x -= screen_margin_x
 
 
 func _account_for_margin_y() -> void:
-	if rect_position.y < 0:
-		rect_position.y = 0
+	if position.y < 0:
+		position.y = 0
 
-	var screen_margin_y = rect_position.y + rect_size.y - \
-			ProjectSettings.get("display/window/size/height")
+	var screen_margin_y = position.y + size.y - \
+			ProjectSettings.get("display/window/size/viewport_height")
 
 	if screen_margin_y > 0:
-		rect_position.y -= screen_margin_y
+		position.y -= screen_margin_y

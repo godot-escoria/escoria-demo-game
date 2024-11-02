@@ -100,7 +100,7 @@ func set_current_room(room: ESCRoom) -> void:
 func register_object(object: ESCObject, room: ESCRoom = null, force: bool = false, \
 	auto_unregister: bool = true) -> void:
 
-	if object.global_id.empty():
+	if object.global_id.is_empty():
 		object.global_id = str(object.node.get_path()).split("/root/", false)[0]
 		object.node.global_id = object.global_id
 		escoria.logger.warn(
@@ -121,10 +121,10 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 
 	# If a room was passed in, then we're going to register the object with it;
 	# otherwise, we register the object with the "current room".
-	if room == null or room.global_id.empty():
+	if room == null or room.global_id.is_empty():
 		# We duplicate the key so as to not hold a reference when current_room_key
 		# changes.
-		if current_room_key.room_global_id.empty():
+		if current_room_key.room_global_id.is_empty():
 			escoria.logger.error(
 				self,
 				"The current room has no Global ID.\n" +
@@ -167,16 +167,8 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 	# forcing the registration, since we don't know if this object will be
 	# overwritten ("forced") in the future and, if it is, if it's set to
 	# auto-unregister or not. In most cases, objects are set to auto unregister.
-	if object.node.is_connected(
-		"tree_exited",
-		self,
-		"unregister_object"
-	):
-		object.node.disconnect(
-			"tree_exited",
-			self,
-			"unregister_object"
-		)
+	if object.node.tree_exited.is_connected(unregister_object):
+		object.node.tree_exited.disconnect(unregister_object)
 
 	if force:
 		# If this ID already exists and we're about to overwrite it, do the
@@ -184,17 +176,12 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 		unregister_object_by_global_id(object.global_id, room_key)
 
 	if auto_unregister:
-		object.node.connect(
-			"tree_exited",
-			self,
-			"unregister_object",
-			[object, room_key]
-		)
+		object.node.tree_exited.connect(unregister_object.bind(object, room_key))
 
 	if "is_interactive" in object.node and object.node.is_interactive:
 		object.interactive = true
 
-	if "esc_script" in object.node and not object.node.esc_script.empty():
+	if "esc_script" in object.node and not object.node.esc_script.is_empty():
 		var script = escoria.esc_compiler.load_esc_file(
 			object.node.esc_script
 		)
@@ -240,7 +227,7 @@ func register_terrain(object: ESCObject, room: ESCRoom = null) -> void:
 
 	# If a room was passed in, then we're going to register the object with it;
 	# otherwise, we register the object with the "current room".
-	if not is_instance_valid(room) or room.global_id.empty():
+	if not is_instance_valid(room) or room.global_id.is_empty():
 		# We duplicate the key so as to not hold a reference when current_room_key
 		# changes.
 		room_key.room_global_id = current_room_key.room_global_id
@@ -259,7 +246,7 @@ func register_terrain(object: ESCObject, room: ESCRoom = null) -> void:
 		room_key.room_instance_id = room.get_instance_id()
 
 	var terrains: Dictionary = _get_room_terrain_navpolys(room_key)
-	if object.node is NavigationPolygonInstance:
+	if object.node is NavigationRegion2D:
 		terrains[object.global_id] = object
 		if terrains[object.global_id].node.enabled:
 			terrains[object.global_id].state = "enabled"
@@ -301,6 +288,7 @@ func has(global_id: String, room: ESCRoom = null) -> bool:
 		return false
 
 	return _object_exists_in_room(ESCObject.new(global_id, null), room_key)
+
 
 # Get the object from the object registry
 #
@@ -376,7 +364,7 @@ func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 		# yet being managed.
 		escoria.logger.debug(
 			self,
-			"Unable to unregister object. " +
+			"Unable to unregister object.\n" +
 			"Object with global ID %s room (%s, %s) not found. If this was "
 			% [
 				"?" if object == null else object.global_id,
@@ -425,14 +413,14 @@ func save_game(p_savegame: ESCSaveGame) -> void:
 	p_savegame.objects = {}
 
 	for room_obj in room_objects:
-		if room_obj.room_global_id.empty():
+		if room_obj.room_global_id.is_empty():
 			continue
 
 		var room_objects_dict = {}
 		for obj_id in room_obj.objects:
 			var obj: ESCObject = room_obj.objects[obj_id]
 			var obj_json_to_save: Dictionary = obj.get_save_data()
-			if not obj_json_to_save.empty():
+			if not obj_json_to_save.is_empty():
 				room_objects_dict[obj_id] = obj_json_to_save
 	
 		p_savegame.objects[room_obj.room_global_id] = room_objects_dict
@@ -462,10 +450,10 @@ func save_game(p_savegame: ESCSaveGame) -> void:
 func get_start_location() -> ESCLocation:
 	if _room_exists(current_room_key):
 		for object in _get_room_objects_objects(current_room_key).values():
-			if is_instance_valid(object.node) \
-					and object.node is ESCLocation \
-					and object.node.is_start_location:
-				return object
+			if is_instance_valid(object.node):
+				var loc := object.node as ESCLocation
+				if loc and loc.is_start_location:
+					return loc
 
 	escoria.logger.warn(
 		self,
@@ -493,7 +481,7 @@ func _is_current_room(container: ESCRoomObjects) -> bool:
 # - room_key: The key representing the desired room in the object manager array.
 # **Returns** True iff container represents the object manager entry specified
 # by room_key.
-func _compare_container_to_key(container: ESCRoomContainer, room_key: ESCRoomObjectsKey) -> bool:
+func _compare_container_to_key(container: ESCRoomObjects, room_key: ESCRoomObjectsKey) -> bool:
 	return container.room_global_id == room_key.room_global_id
 
 

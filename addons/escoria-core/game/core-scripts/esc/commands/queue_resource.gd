@@ -24,7 +24,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array) -> bool:
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not ResourceLoader.exists(arguments[0]):

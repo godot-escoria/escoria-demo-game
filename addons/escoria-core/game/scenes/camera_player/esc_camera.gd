@@ -4,7 +4,8 @@ class_name ESCCamera
 
 
 # Reference to the tween node for animating camera movements
-var _tween: Tween
+var _tween: Tween3:
+		get = get_tween
 
 # Target position of the camera
 var _target: Vector2 = Vector2()
@@ -18,20 +19,13 @@ var _zoom_target: Vector2
 
 # Prepare the tween
 func _ready():
-	_tween = Tween.new()
-	add_child(_tween)
-	_tween.connect("tween_all_completed", self, "_target_reached")
-
-
-func _exit_tree():
-	if is_instance_valid(_tween):
-		remove_child(_tween)
-		_tween.queue_free()
+	_tween = Tween3.new(self)
+	_tween.finished.connect(_target_reached)
 
 
 # Update the position if the followed target is moving
 func _process(_delta):
-	if is_instance_valid(_follow_target) and not _tween.is_active() and _follow_target.has_moved():
+	if is_instance_valid(_follow_target) and not _tween.is_running() and _follow_target.has_moved():
 		self.global_position = _follow_target.global_position
 
 
@@ -56,7 +50,7 @@ func register(room = null):
 # Returns the camera's tween.
 #
 # **Returns** the tween owned by this camera.
-func get_tween() -> Tween:
+func get_tween() -> Tween3:
 	return _tween
 
 
@@ -73,8 +67,8 @@ func set_limits(limits: ESCCameraLimits):
 
 
 func set_drag_margin_enabled(p_dm_h_enabled, p_dm_v_enabled):
-	self.drag_margin_h_enabled = p_dm_h_enabled
-	self.drag_margin_v_enabled = p_dm_v_enabled
+	self.drag_horizontal_enabled = p_dm_h_enabled
+	self.drag_vertical_enabled = p_dm_v_enabled
 
 
 # Set the target for the camera
@@ -95,7 +89,7 @@ func set_target(p_target, p_time : float = 0.0):
 	else:
 		# Need to wait a frame in order to ensure the screen centre position is
 		# recalculated. Also to allow any close-calls with the tween to finish.
-		yield(get_tree(), "idle_frame")
+		await get_tree().idle_frame
 
 		if _tween.is_active():
 			escoria.logger.debug(
@@ -143,7 +137,7 @@ func set_camera_zoom(p_zoom_level: float, p_time: float):
 	else:
 		# Need to wait a frame in order to ensure the screen centre position is
 		# recalculated. Also to allow any close-calls with the tween to finish.
-		yield(get_tree(), "idle_frame")
+		await get_tree().idle_frame
 
 		if _tween.is_active():
 			escoria.logger.debug(
@@ -198,7 +192,7 @@ func push(p_target, p_time: float = 0.0, p_type: int = 0):
 	else:
 		# Need to wait a frame in order to ensure the screen centre position is
 		# recalculated. Also to allow any close-calls with the tween to finish.
-		yield(get_tree(), "idle_frame")
+		await get_tree().idle_frame
 
 		if _tween.is_active():
 			escoria.logger.debug(
@@ -257,7 +251,7 @@ func shift(p_target: Vector2, p_time: float, p_type: int):
 	if _tween.is_active():
 		# Need to wait a frame in order to ensure the screen centre position is
 		# recalculated. Also to allow any close-calls with the tween to finish.
-		yield(get_tree(), "idle_frame")
+		await get_tree().idle_frame
 
 		escoria.logger.debug(
 			self,
@@ -339,18 +333,18 @@ func get_camera_limit_rect() -> Rect2:
 func clamp_to_viewport_limits() -> void:
 	var viewport_rect: Rect2 = get_viewport_rect()
 
-	var cur_camera_pos: Vector2 = self.get_camera_screen_center()
+	var cur_camera_pos: Vector2 = self.get_screen_center_position()
 	var ret_position: Vector2 = cur_camera_pos
 
 	if cur_camera_pos.x - viewport_rect.size.x * 0.5 * zoom.x <= limit_left:
-		ret_position.x = limit_left + viewport_rect.size.x * 0.5 * zoom.x * (1 + drag_margin_left)
+		ret_position.x = limit_left + viewport_rect.size.x * 0.5 * zoom.x * (1 + drag_left_margin)
 	elif cur_camera_pos.x + viewport_rect.size.x * 0.5 * zoom.x >= limit_right:
-		ret_position.x = limit_right - viewport_rect.size.x * 0.5 * zoom.x * (1 + drag_margin_right)
+		ret_position.x = limit_right - viewport_rect.size.x * 0.5 * zoom.x * (1 + drag_right_margin)
 
 	if cur_camera_pos.y - viewport_rect.size.y * 0.5 * zoom.y <= limit_top:
-		ret_position.y = limit_top + viewport_rect.size.y * 0.5 * zoom.y * (1 + drag_margin_top)
+		ret_position.y = limit_top + viewport_rect.size.y * 0.5 * zoom.y * (1 + drag_top_margin)
 	elif cur_camera_pos.y + viewport_rect.size.y * 0.5 * zoom.y >= limit_bottom:
-		ret_position.y = limit_bottom - viewport_rect.size.y * 0.5 * zoom.y * (1 + drag_margin_bottom)
+		ret_position.y = limit_bottom - viewport_rect.size.y * 0.5 * zoom.y * (1 + drag_bottom_margin)
 
 	self.global_position = ret_position
 
@@ -370,7 +364,7 @@ func _target_reached():
 # This is something of a hack until we decide on whether we implement an Escoria-specific camera
 # instead of relying on Camera2D.
 func _convert_current_global_pos_for_disabled_drag_margin() -> void:
-	var cur_camera_pos: Vector2 = self.get_camera_screen_center()
+	var cur_camera_pos: Vector2 = self.get_screen_center_position()
 	var ret_position: Vector2 = _convert_pos_for_disabled_drag_margin(cur_camera_pos)
 
 	self.global_position = ret_position
