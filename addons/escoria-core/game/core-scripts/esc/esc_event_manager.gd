@@ -231,7 +231,7 @@ func queue_event_from_esc(script_object: ESCScript, event: String,
 # - event: Event to run
 # - force:
 # - as_first: force the event to be the first in queue
-func queue_event(event: ESCEvent, force: bool = false, as_first = false) -> void:
+func queue_event(event: ESCGrammarStmts.Event, force: bool = false, as_first = false) -> void:
 	if _changing_scene and not force:
 		escoria.logger.info(
 			self,
@@ -624,6 +624,8 @@ func set_running_event_from_savegame(p_running_event: Dictionary):
 	running_event.name = EVENT_RESUME
 	_set_current_statements_in_running_event(running_event, statement_ids_arr)
 	queue_event(running_event)
+	
+	queue_event(script_object.events[event]) # TODO: Figure out how to tell the interpreter which statement in the event to start with.
 
 
 # Sets the scheduled events from an array (loaded from a savegame)
