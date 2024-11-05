@@ -120,7 +120,6 @@ is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
 combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
@@ -141,7 +140,6 @@ is_exit = true
 tooltip_name = "Right exit"
 default_action = "walk"
 combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
@@ -160,7 +158,6 @@ position = Vector2( 379, 348 )
 script = ExtResource( 5 )
 global_id = "start"
 is_start_location = true
-interaction_direction = 180
 
 [node name="say_long_left" type="Area2D" parent="Hotspots"]
 pause_mode = 1
@@ -170,7 +167,6 @@ esc_script = "res://game/rooms/room15/esc/say_long.esc"
 tooltip_name = "Say long test left"
 default_action = "use"
 combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/say_long_left"]
@@ -188,7 +184,6 @@ esc_script = "res://game/rooms/room15/esc/say_long.esc"
 tooltip_name = "Say long test right"
 default_action = "use"
 combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/say_long_right"]
@@ -206,11 +201,11 @@ esc_script = "res://game/rooms/room15/esc/switch_animation.esc"
 tooltip_name = "Switch animation"
 default_action = "use"
 combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
 [node name="Position2D" type="Position2D" parent="switch_animation"]
 position = Vector2( 470, 342 )
+script = ExtResource( 5 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="switch_animation"]
 polygon = PoolVector2Array( 451, 270, 485, 270, 487, 343, 452, 343 )

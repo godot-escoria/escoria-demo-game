@@ -75,7 +75,6 @@ is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
 combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
@@ -100,7 +99,6 @@ position = Vector2( 243.677, 455.569 )
 script = ExtResource( 5 )
 global_id = "start"
 is_start_location = true
-interaction_direction = 180
 
 [node name="current_scene_button" parent="." instance=ExtResource( 9 )]
 position = Vector2( 30, 0 )
@@ -110,6 +108,7 @@ combine_when_selected_action_is_in = [  ]
 
 [node name="Position2D" type="Position2D" parent="current_scene_button"]
 position = Vector2( 336, 384 )
+script = ExtResource( 5 )
 
 [node name="Label" type="Label" parent="current_scene_button"]
 margin_left = 294.887
