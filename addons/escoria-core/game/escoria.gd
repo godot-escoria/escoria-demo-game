@@ -172,8 +172,6 @@ func run_event_from_script(script: ESCScript, event_name: String, from_statement
 	if not _event_exists_in_script(script, event_name):
 		return
 
-	script.events[event_name].from_statement_id = from_statement_id
-
 	escoria.event_manager.queue_event(script.events[event_name])
 
 	var rc = yield(escoria.event_manager, "event_finished")

@@ -412,9 +412,11 @@ func load_game(id: int):
 			else:
 				load_event_script.add_command(
 					_play_snd.get_command_name(),
-					save_game.objects[room_id]["state"],
-					room_id,
-					save_game.objects[room_id]["playback_position"]
+					[
+						save_game.objects[room_id]["state"],
+						room_id,
+						save_game.objects[room_id]["playback_position"]
+					]
 				)
 		
 		
@@ -559,8 +561,10 @@ func load_game(id: int):
 	# FOLLOW TARGET
 	load_event_script.add_command(
 		_camera_set_target.get_command_name(),
-		0,
-		camera_target_to_follow
+		[
+			0,
+			camera_target_to_follow
+		]
 	)
 
 	# TRANSITION

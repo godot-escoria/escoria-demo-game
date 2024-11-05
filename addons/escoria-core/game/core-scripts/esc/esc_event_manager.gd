@@ -411,6 +411,7 @@ func set_changing_scene(p_is_changing_scene: bool) -> void:
 		interrupt([
 			EVENT_INIT,
 			EVENT_EXIT_SCENE,
+			EVENT_NEW_GAME,
 			EVENT_LOAD,
 			EVENT_RESUME,
 			_change_scene.get_command_name()
@@ -491,15 +492,16 @@ func _on_event_finished(finished_event, finished_statement, return_code: int, ch
 			event.get_event_name()
 		)
 
-		if finished_event.name == EVENT_LOAD \
-				and escoria.current_state == escoria.GAME_STATE.LOADING:
-			escoria.save_manager.is_loading_game = false
-			escoria.save_manager.emit_signal("game_finished_loading")
-			escoria.current_state = escoria.GAME_STATE.DEFAULT
-			escoria.main.current_scene.get_tree().call_group(
-				escoria.GROUP_ITEM_TRIGGERS, "connect_trigger_events")
-		elif finished_event.name == EVENT_NEW_GAME:
-			escoria.creating_new_game = false
+# ##SAVEGAME
+#		if finished_event.name == EVENT_LOAD \
+#				and escoria.current_state == escoria.GAME_STATE.LOADING:
+#			escoria.save_manager.is_loading_game = false
+#			escoria.save_manager.emit_signal("game_finished_loading")
+#			escoria.current_state = escoria.GAME_STATE.DEFAULT
+#			escoria.main.current_scene.get_tree().call_group(
+#				escoria.GROUP_ITEM_TRIGGERS, "connect_trigger_events")
+#		elif finished_event.name == EVENT_NEW_GAME:
+#			escoria.creating_new_game = false
 	else:
 		emit_signal(
 			"background_event_finished",
@@ -554,31 +556,31 @@ func _generate_statement_error_warning(statement: ESCStatement, event_name: Stri
 		warning_string
 	)
 
-
+# ##SAVEGAME
 # Save the running event in the savegame, if any.
 #
 # #### Parameters
 # - p_savegame: ESCSaveGame resource that holds all data of the save
-func save_game(p_savegame: ESCSaveGame) -> void:
-	# Running event
-	var running_event = get_running_event(CHANNEL_FRONT)
-	if running_event != null:
-		p_savegame.events.running_event = running_event.exported()
-
-	# Scheduled events
-	var sched_events_array: Array = []
-	for sched_event in scheduled_events:
-		sched_events_array.push_back(sched_event.exported())
-	p_savegame.events.sched_events = sched_events_array
-
-	# Events queue
-	var events_queue_dict: Dictionary = {}
-	for ev_key in events_queue:
-		var events_queue_for_key: Array = []
-		for ev in events_queue[ev_key]:
-			events_queue_for_key.push_back(ev.exported())
-		events_queue_dict[ev_key] = events_queue_for_key
-	p_savegame.events.events_queue = events_queue_dict
+#func save_game(p_savegame: ESCSaveGame) -> void:
+#	# Running event
+#	var running_event = get_running_event(CHANNEL_FRONT)
+#	if running_event != null:
+#		p_savegame.events.running_event = running_event.exported()
+#
+#	# Scheduled events
+#	var sched_events_array: Array = []
+#	for sched_event in scheduled_events:
+#		sched_events_array.push_back(sched_event.exported())
+#	p_savegame.events.sched_events = sched_events_array
+#
+#	# Events queue
+#	var events_queue_dict: Dictionary = {}
+#	for ev_key in events_queue:
+#		var events_queue_for_key: Array = []
+#		for ev in events_queue[ev_key]:
+#			events_queue_for_key.push_back(ev.exported())
+#		events_queue_dict[ev_key] = events_queue_for_key
+#	p_savegame.events.events_queue = events_queue_dict
 
 
 # Recursive function that fills an array with statement ids
@@ -587,12 +589,12 @@ func save_game(p_savegame: ESCSaveGame) -> void:
 # #### Parameters
 # - p_running_event: Dictionary containing the nested ESCStatements (first one should be an ESCEvent)
 # - current_statement_ids: Array of statement ids in the considered event.
-func _get_current_statement_ids_in_running_event(p_running_event: Dictionary, current_statement_ids: Array):
-	if p_running_event.current_statement == null:
-		return
-	else:
-		current_statement_ids.push_back(p_running_event.from_statement_id)
-		_get_current_statement_ids_in_running_event(p_running_event.current_statement, current_statement_ids)
+#func _get_current_statement_ids_in_running_event(p_running_event: Dictionary, current_statement_ids: Array):
+#	if p_running_event.current_statement == null:
+#		return
+#	else:
+#		current_statement_ids.push_back(p_running_event.from_statement_id)
+#		_get_current_statement_ids_in_running_event(p_running_event.current_statement, current_statement_ids)
 
 
 # Recursive function that sets the statement ids to resume in the ongoing event
@@ -601,39 +603,37 @@ func _get_current_statement_ids_in_running_event(p_running_event: Dictionary, cu
 # #### Parameters
 # - running_event: The ESCStatement (on root call, should be an ESCEvent)
 # - statement_ids_arr: Array of statement ids to set
-func _set_current_statements_in_running_event(running_event: ESCStatement, statement_ids_arr: Array):
-	if statement_ids_arr.empty() or running_event.statements.empty():
-		return
-	else:
-		var id = statement_ids_arr.pop_front()
-		running_event.current_statement = running_event.statements[id]
-		running_event.from_statement_id = id
-		_set_current_statements_in_running_event(running_event.current_statement, statement_ids_arr)
+#func _set_current_statements_in_running_event(running_event: ESCStatement, statement_ids_arr: Array):
+#	if statement_ids_arr.empty() or running_event.statements.empty():
+#		return
+#	else:
+#		var id = statement_ids_arr.pop_front()
+#		running_event.current_statement = running_event.statements[id]
+#		running_event.from_statement_id = id
+#		_set_current_statements_in_running_event(running_event.current_statement, statement_ids_arr)
 
 
 # Sets the running event from a Dictionary (loaded from a savegame)
 #
 # #### Parameters
 # - p_running_event: The Dictionary containing the event data
-func set_running_event_from_savegame(p_running_event: Dictionary):
-	# Get ids of the statements to set as current
-	var statement_ids_arr: Array = []
-	_get_current_statement_ids_in_running_event(p_running_event, statement_ids_arr)
-	var script: ESCScript = escoria.esc_compiler.load_esc_file(p_running_event.source)
-	var running_event: ESCEvent = script.events[p_running_event.original_name] # usually "setup" or "ready"
-	running_event.name = EVENT_RESUME
-	_set_current_statements_in_running_event(running_event, statement_ids_arr)
-	queue_event(running_event)
-	
-	queue_event(script_object.events[event]) # TODO: Figure out how to tell the interpreter which statement in the event to start with.
+#func set_running_event_from_savegame(p_running_event: Dictionary):
+#	# Get ids of the statements to set as current
+#	var statement_ids_arr: Array = []
+#	_get_current_statement_ids_in_running_event(p_running_event, statement_ids_arr)
+#	var script: ESCScript = escoria.esc_compiler.load_esc_file(p_running_event.source)
+#	var running_event: ESCEvent = script.events[p_running_event.original_name] # usually "setup" or "ready"
+#	running_event.name = EVENT_RESUME
+#	_set_current_statements_in_running_event(running_event, statement_ids_arr)
+#	queue_event(running_event)
 
 
 # Sets the scheduled events from an array (loaded from a savegame)
 #
 # #### Parameters
 # - p_scheduled_events: The array containing the scheduled event data
-func set_scheduled_events_from_savegame(p_scheduled_events: Array):
-	for sched_ev in p_scheduled_events:
-		var script: ESCScript = escoria.esc_compiler.load_esc_file(sched_ev.event.source)
-		var ev: ESCEvent = script.events[sched_ev.event.original_name]
-		escoria.event_manager.schedule_event(ev, sched_ev.timeout, sched_ev.object)
+#func set_scheduled_events_from_savegame(p_scheduled_events: Array):
+#	for sched_ev in p_scheduled_events:
+#		var script: ESCScript = escoria.esc_compiler.load_esc_file(sched_ev.event.source)
+#		var ev: ESCEvent = script.events[sched_ev.event.original_name]
+#		escoria.event_manager.schedule_event(ev, sched_ev.timeout, sched_ev.object)
