@@ -194,7 +194,7 @@ func init_room(room: ESCRoom) -> void:
 			escoria.main.set_scene(room)
 
 	# Register all navigationpolygons in the terrain
-	if escoria.room_terrain != null:
+	if escoria.room_terrain != null and is_instance_valid(escoria.room_terrain):
 		for n in escoria.room_terrain.get_children_navpolys():
 			escoria.object_manager.register_terrain(
 				ESCObject.new(
