@@ -15,14 +15,14 @@
 script/source = "extends Node2D
 
 ## Currently an empty array is passed as a parameter to the function. No parameters are required.
-#func enable_door(_notused):
-#	# Enable the collision polygon on the door so it is recognised as an ESCItem
-#	$\"../CollisionPolygon2D\".disabled = false
+func enable_door(_notused):
+	# Enable the collision polygon on the door so it is recognised as an ESCItem
+	$\"../CollisionPolygon2D\".disabled = false
 #
 ## Currently an empty array is passed as a parameter to the function. No parameters are required.
-#func disable_door(_notused):
-#	# Enable the collision polygon on the door so it is recognised as an ESCItem
-#	$\"../CollisionPolygon2D\".disabled = true
+func disable_door(_notused):
+	# Enable the collision polygon on the door so it is recognised as an ESCItem
+	$\"../CollisionPolygon2D\".disabled = true
 "
 
 [sub_resource type="Animation" id=10]
