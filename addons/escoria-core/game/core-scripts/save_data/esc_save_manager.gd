@@ -337,38 +337,59 @@ func load_game(id: int):
 
 func _load_savegame_objects(savegame_objects: Dictionary):
 	for object_id in savegame_objects:
-		match object_id:
-			ESCObjectManager.MUSIC:
-				pass
-			ESCObjectManager.SOUND:
-				pass
-			ESCObjectManager.SPEECH:
-				pass
-			_:
-				if object_id == escoria.main.current_scene.global_id:
-					_load_room_objects(object_id, savegame_objects[object_id])
+		var saved_object_data = savegame_objects[object_id]
+		if object_id in ESCObjectManager.RESERVED_OBJECTS: # Sound players only atm
+			if saved_object_data.has("state") \
+					and saved_object_data["state"] in ["off", "default"]:
+				_stop_snd.run([object_id])
+			else:
+				_play_snd.run([saved_object_data["state"], object_id, saved_object_data["playback_position"]])
+		else:
+			if object_id == escoria.main.current_scene.global_id:
+				_load_room_objects(object_id, saved_object_data)
 
 
 func _load_room_objects(room_id: String, objects_dictionary: Dictionary):
 	escoria.logger.info(self, "Managing current room %s" % room_id)
 	for object_id in objects_dictionary:
-		_load_object(object_id, objects_dictionary[object_id])
+		_load_object(object_id, objects_dictionary[object_id], room_id)
 
 
-func _load_object(object_id: String, object_dictionary: Dictionary):
+func _load_object(object_id: String, object_dictionary: Dictionary, room_id: String):
 	escoria.logger.info(self, "Loading object %s" % object_id)
 	if object_id == ESCObjectManager.CAMERA:
-		pass
+		_camera_set_target.run([0, object_dictionary["target"]])
 	else:
+		# Active
+		if object_dictionary.has("active"):
+			_set_active_if_exists.run([object_id, object_dictionary["active"]])
+		
+		# Interactive
+		if object_dictionary.has("interactive"):
+			_set_interactive.run([object_id, object_dictionary["interactive"]])
+		
+		# State
+		if object_dictionary.has("state"):
+			_set_state.run([object_id, object_dictionary["state"], true])
+		
+		# Position
 		if object_dictionary.has("global_transform"):
 			_teleport_pos.run([
 				object_id, 
 				object_dictionary["global_transform"].origin.x,
 				object_dictionary["global_transform"].origin.y
 			])
+		
+		# Orientation
 		if object_dictionary.has("last_dir"):
 			_set_direction.run([object_id, int(object_dictionary["last_dir"]), 0.0])
-				
+		
+		# Custom data
+		if object_dictionary.has("custom"):
+			var custom_data: Dictionary = object_dictionary["custom_data"]
+			if not custom_data.empty():
+				_set_item_custom_data.run([object_id, custom_data])
+			
 
 func _load_savegame_globals(savegame_globals: Dictionary):
 	for g in savegame_globals: 
@@ -376,8 +397,13 @@ func _load_savegame_globals(savegame_globals: Dictionary):
 
 
 func _load_savegame_inventory(savegame_inventory: Array):
-	pass
+	for g in savegame_inventory: 
+		_add_inventory.run([g, savegame_inventory[g]])
 
 
 func _load_savegame_terrain_navpolys(savegame_terrain_navpolys: Dictionary):
-	pass
+	for room_id in savegame_terrain_navpolys:
+		for terrain_id in savegame_terrain_navpolys[room_id]:
+			if savegame_terrain_navpolys[room_id][terrain_id]:
+				_enable_terrain.run([terrain_id])
+				break
