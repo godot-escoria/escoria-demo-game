@@ -562,10 +562,10 @@ func _generate_statement_error_warning(statement: ESCStatement, event_name: Stri
 #### Parameters
 # - p_savegame: ESCSaveGame resource that holds all data of the save
 func save_game(p_savegame: ESCSaveGame) -> void:
-	# Running event
-	var running_event = get_running_event(CHANNEL_FRONT)
-	if running_event != null:
-		p_savegame.events.running_event = running_event.exported()
+#	# Running event
+#	var running_event = get_running_event(CHANNEL_FRONT)
+#	if running_event != null:
+#		p_savegame.events.running_event = running_event.exported()
 
 	# Scheduled events
 	var sched_events_array: Array = []
