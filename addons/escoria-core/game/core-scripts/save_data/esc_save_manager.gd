@@ -228,6 +228,7 @@ func _do_save_game(p_savename: String) -> ESCSaveGame:
 func load_game(id: int):
 	var save_file_path: String = save_folder.plus_file(SAVE_NAME_TEMPLATE % id)
 	var file: File = File.new()
+
 	if not file.file_exists(save_file_path):
 		escoria.logger.error(
 			self,
@@ -245,7 +246,7 @@ func load_game(id: int):
 
 	escoria.logger.info(
 		self,
-		"Loading savegame %s." % str(id)
+		"Loading savegame %s" % str(id)
 	)
 	is_loading_game = true
 	escoria.current_state = escoria.GAME_STATE.LOADING
@@ -287,25 +288,21 @@ func load_game(id: int):
 			)
 		)
 
-
 	escoria.event_manager.interrupt()
+
 	# Hide main and pause menus
 	escoria.game_scene.hide_main_menu()
 	escoria.game_scene.unpause_game()
-	
+
 	escoria.room_manager.change_scene(save_game.main.current_scene_filename, false)
 
-	
 	_load_savegame_objects(save_game.objects)
-	
+
 	escoria.globals_manager.clear()
 	_load_savegame_globals(save_game.globals)
 	_load_savegame_inventory(save_game.inventory)
 	_load_savegame_terrain_navpolys(save_game.terrain_navpolys)
-	
-	
-	
-	
+
 	# 1. Transition
 	# 2. Hide main and pause menus
 	# 3. Change scene
@@ -321,7 +318,6 @@ func load_game(id: int):
 	# 8. Set Navpolys
 	# 9. Reschedule schedulded events
 	# 10. When load is finished and we're ready to give back control to player
-	
 
 	_transition.run(["fade_black", "in", 1.0])
 	
@@ -332,7 +328,10 @@ func load_game(id: int):
 	escoria.inputs_manager.input_mode = escoria.inputs_manager.INPUT_ALL
 	is_loading_game = false
 	escoria.current_state = escoria.GAME_STATE.DEFAULT
+
 	emit_signal("game_finished_loading")
+
+	escoria.logger.info(self, "Finished loading savegame %s" % str(id))
 
 
 func _load_savegame_objects(savegame_objects: Dictionary):
@@ -350,28 +349,32 @@ func _load_savegame_objects(savegame_objects: Dictionary):
 
 
 func _load_room_objects(room_id: String, objects_dictionary: Dictionary):
-	escoria.logger.info(self, "Managing current room %s" % room_id)
+	escoria.logger.info(self, "Loading room '%s'" % room_id)
+
 	for object_id in objects_dictionary:
 		_load_object(object_id, objects_dictionary[object_id], room_id)
 
+	escoria.logger.info(self, "Finished loading room '%s'" % room_id)
+
 
 func _load_object(object_id: String, object_dictionary: Dictionary, room_id: String):
-	escoria.logger.info(self, "Loading object %s" % object_id)
+	escoria.logger.info(self, "Loading object '%s'" % object_id)
+
 	if object_id == ESCObjectManager.CAMERA:
 		_camera_set_target.run([0, object_dictionary["target"]])
 	else:
 		# Active
 		if object_dictionary.has("active"):
 			_set_active_if_exists.run([object_id, object_dictionary["active"]])
-		
+
 		# Interactive
 		if object_dictionary.has("interactive"):
 			_set_interactive.run([object_id, object_dictionary["interactive"]])
-		
+
 		# State
 		if object_dictionary.has("state"):
 			_set_state.run([object_id, object_dictionary["state"], true])
-		
+
 		# Position
 		if object_dictionary.has("global_transform"):
 			_teleport_pos.run([
@@ -379,31 +382,45 @@ func _load_object(object_id: String, object_dictionary: Dictionary, room_id: Str
 				object_dictionary["global_transform"].origin.x,
 				object_dictionary["global_transform"].origin.y
 			])
-		
+
 		# Orientation
 		if object_dictionary.has("last_dir"):
 			_set_direction.run([object_id, int(object_dictionary["last_dir"]), 0.0])
-		
+
 		# Custom data
 		if object_dictionary.has("custom"):
 			var custom_data: Dictionary = object_dictionary["custom_data"]
 			if not custom_data.empty():
 				_set_item_custom_data.run([object_id, custom_data])
-			
+
+	escoria.logger.info(self, "Finished loading object '%s'" % object_id)
+
 
 func _load_savegame_globals(savegame_globals: Dictionary):
+	escoria.logger.info(self, "Loading globals")
+
 	for g in savegame_globals: 
 		_set_global.run([g, savegame_globals[g], true])
 
+	escoria.logger.info(self, "Finished loading globals")
+
 
 func _load_savegame_inventory(savegame_inventory: Array):
+	escoria.logger.info(self, "Loading inventory")
+
 	for g in savegame_inventory: 
 		_add_inventory.run([g, savegame_inventory[g]])
 
+	escoria.logger.info(self, "Finished loading inventory")
+
 
 func _load_savegame_terrain_navpolys(savegame_terrain_navpolys: Dictionary):
+	escoria.logger.info(self, "Loading terrain")
+
 	for room_id in savegame_terrain_navpolys:
 		for terrain_id in savegame_terrain_navpolys[room_id]:
 			if savegame_terrain_navpolys[room_id][terrain_id]:
 				_enable_terrain.run([terrain_id])
 				break
+
+	escoria.logger.info(self, "Finished loading terrain")
