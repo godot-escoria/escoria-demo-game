@@ -28,7 +28,6 @@ const EVENT_LOAD = "load"
 const EVENT_RESUME = "resume"
 const EVENT_NEW_GAME = "newgame"
 const EVENT_READY = "ready"
-const EVENT_ROOM_SELECTOR = "room_selector"
 const EVENT_SETUP = "setup"
 const EVENT_TRANSITION_IN = "transition_in"
 const EVENT_TRANSITION_OUT = "transition_out"
@@ -80,6 +79,7 @@ func _init():
 
 # Make sure to stop when pausing the game
 func _ready():
+	name = "event_manager"
 	self.process_mode = Node.PROCESS_MODE_PAUSABLE
 
 
@@ -546,26 +546,28 @@ func _generate_statement_error_warning(statement: ESCStatement, event_name: Stri
 		warning_string
 	)
 
-# ##SAVEGAME
+
+##SAVEGAME
 # Save the running event in the savegame, if any.
-#
-# #### Parameters
+#### Parameters
 # - p_savegame: ESCSaveGame resource that holds all data of the save
-#func save_game(p_savegame: ESCSaveGame) -> void:
+func save_game(p_savegame: ESCSaveGame) -> void:
 #	# Running event
 #	var running_event = get_running_event(CHANNEL_FRONT)
 #	if running_event != null:
 #		p_savegame.events.running_event = running_event.exported()
-#
-#	# Scheduled events
-#	var sched_events_array: Array = []
-#	for sched_event in scheduled_events:
-#		sched_events_array.push_back(sched_event.exported())
-#	p_savegame.events.sched_events = sched_events_array
-#
+
+	# Scheduled events
+	var sched_events_array: Array = []
+	for sched_event in scheduled_events:
+		sched_events_array.push_back(sched_event.exported())
+	p_savegame.events.sched_events = sched_events_array
+
 #	# Events queue
 #	var events_queue_dict: Dictionary = {}
 #	for ev_key in events_queue:
+#		if events_queue[ev_key].empty():
+#			continue
 #		var events_queue_for_key: Array = []
 #		for ev in events_queue[ev_key]:
 #			events_queue_for_key.push_back(ev.exported())

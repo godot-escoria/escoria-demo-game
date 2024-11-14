@@ -61,15 +61,8 @@ func _on_button_pressed():
 		true
 	)
 
-	var script = escoria.esc_compiler.compile([
-		":room_selector",
-		"change_scene_to_file %s" % _options_paths[_selected_id]
-	],
-	get_class()
-	)
 	escoria.event_manager.interrupt()
-	escoria.event_manager.queue_event(script.events['room_selector'])
-
+	escoria.room_manager.change_scene(_options_paths[_selected_id], false)
 
 
 # A room was selected, store the selection
