@@ -137,8 +137,8 @@ func save_game_exists(id: int) -> bool:
 func save_game(id: int, p_savename: String):
 	if not save_enabled:
 		escoria.logger.debug(
-			self,
-			"Save request while saving is not possible. Save cancelled."
+			self, 
+			"Saving is currently disabled. Save cancelled."
 		)
 		return
 
