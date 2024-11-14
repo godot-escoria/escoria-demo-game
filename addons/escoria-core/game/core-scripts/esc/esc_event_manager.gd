@@ -573,16 +573,16 @@ func save_game(p_savegame: ESCSaveGame) -> void:
 		sched_events_array.push_back(sched_event.exported())
 	p_savegame.events.sched_events = sched_events_array
 
-	# Events queue
-	var events_queue_dict: Dictionary = {}
-	for ev_key in events_queue:
-		if events_queue[ev_key].empty():
-			continue
-		var events_queue_for_key: Array = []
-		for ev in events_queue[ev_key]:
-			events_queue_for_key.push_back(ev.exported())
-		events_queue_dict[ev_key] = events_queue_for_key
-	p_savegame.events.events_queue = events_queue_dict
+#	# Events queue
+#	var events_queue_dict: Dictionary = {}
+#	for ev_key in events_queue:
+#		if events_queue[ev_key].empty():
+#			continue
+#		var events_queue_for_key: Array = []
+#		for ev in events_queue[ev_key]:
+#			events_queue_for_key.push_back(ev.exported())
+#		events_queue_dict[ev_key] = events_queue_for_key
+#	p_savegame.events.events_queue = events_queue_dict
 
 
 # Recursive function that fills an array with statement ids
