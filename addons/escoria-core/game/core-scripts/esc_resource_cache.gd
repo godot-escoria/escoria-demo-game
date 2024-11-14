@@ -12,6 +12,10 @@ var queue: Array = []
 var pending: Dictionary = {}
 
 
+func _ready():
+	name = "resource_cacher"
+
+
 func queue_resource(path: String, p_in_front: bool = false, p_permanent: bool = false):
 	if path in pending:
 		return

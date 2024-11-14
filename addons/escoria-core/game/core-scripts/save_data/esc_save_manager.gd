@@ -43,7 +43,6 @@ var _set_active_if_exists: SetActiveIfExistsCommand
 var _set_interactive: SetInteractiveCommand
 var _set_item_custom_data: SetItemCustomDataCommand
 var _teleport_pos: TeleportPosCommand
-var _set_angle: SetAngleCommand
 var _set_direction: SetDirectionCommand
 var _set_global: SetGlobalCommand
 var _set_state: SetStateCommand
@@ -70,7 +69,6 @@ func _init():
 	_set_interactive = SetInteractiveCommand.new()
 	_set_item_custom_data = SetItemCustomDataCommand.new()
 	_teleport_pos = TeleportPosCommand.new()
-	_set_angle = SetAngleCommand.new()
 	_set_direction = SetDirectionCommand.new()
 	_set_global = SetGlobalCommand.new()
 	_set_state = SetStateCommand.new()
@@ -140,7 +138,7 @@ func save_game(id: int, p_savename: String):
 	if not save_enabled:
 		escoria.logger.debug(
 			self,
-			"Save requested while saving is not possible. Save cancelled."
+			"Save request while saving is not possible. Save cancelled."
 		)
 		return
 
@@ -289,325 +287,97 @@ func load_game(id: int):
 			)
 		)
 
+
 	escoria.event_manager.interrupt()
-
-	var load_event_script: ESCScriptBuilder = ESCScriptBuilder.new()
-
-	#var load_event = ESCEvent.new("%s%s" % [ESCEvent.PREFIX, escoria.event_manager.EVENT_LOAD])
-	load_event_script.add_event(escoria.event_manager.EVENT_LOAD, [])
-	load_event_script.begin_block()
-
-	var load_statements = []
-
-	load_event_script.add_command(
-		_transition.get_command_name(),
-		[
-			ESCProjectSettingsManager.get_setting(
-				ESCProjectSettingsManager.DEFAULT_TRANSITION
-			),
-			"out"
-		])
-
-#	load_statements.append(
-#		ESCCommand.new(
-#			"%s %s out" %
-#			[
-#				_transition.get_command_name(),
-#				ESCProjectSettingsManager.get_setting(
-#					ESCProjectSettingsManager.DEFAULT_TRANSITION
-#			)]
-#		)
-#	)
-
-	load_event_script.add_command(
-		_hide_menu.get_command_name(),
-		"main"
-	)
-
-#	load_statements.append(
-#		ESCCommand.new("%s main" % _hide_menu.get_command_name())
-#	)
-
-	load_event_script.add_command(
-		_hide_menu.get_command_name(),
-		"pause"
-	)
-
-#	load_statements.append(
-#		ESCCommand.new("%s pause" % _hide_menu.get_command_name())
-#	)
-
-	## ROOM
-	load_event_script.add_command(
-		_change_scene.get_command_name(),
-		[
-			save_game.main["current_scene_filename"],
-			false
-		]
-	)
-
-#	load_statements.append(
-#		ESCCommand.new("%s %s false" %
-#				[
-#					_change_scene.get_command_name(),
-#					save_game.main["current_scene_filename"]
-#				]
-#			)
-#	)
-
-	## GLOBALS
-	for k in save_game.globals.keys():
-		var global_value = save_game.globals[k]
-
-		if global_value is String and global_value.empty():
-			global_value = "''"
-
-		if not k.begins_with("i/"):
-			load_event_script.add_command(
-				_set_global.get_command_name(),
-				[
-					k,
-					global_value,
-					true
-				]
-			)
-
-#		load_statements.append(
-#			ESCCommand.new("%s %s %s true" %
-#				[
-#					_set_global.get_command_name(),
-#					k,
-#					global_value
-#				]
-#			)
-#		)
-
-	# INVENTORY
-	for item_name in save_game.inventory:
-		load_event_script.add_command(
-			_add_inventory.get_command_name(),
-			[
-				_add_inventory.get_command_name(),
-				item_name
-			]
-		)
-
-	## OBJECTS
-	var camera_target_to_follow
-
-	for room_id in save_game.objects.keys():
-
-		var room_objects: Array = save_game.objects[room_id].keys()
-
-		if room_id in ESCObjectManager.RESERVED_OBJECTS:
+	# Hide main and pause menus
+	escoria.game_scene.hide_main_menu()
+	escoria.game_scene.unpause_game()
 	
-			if save_game.objects[room_id]["state"] in [
-				"default",
-				"off"
-			]:
-				load_event_script.add_command(
-					_stop_snd.get_command_name(),
-					room_id
-				)
-			else:
-				load_event_script.add_command(
-					_play_snd.get_command_name(),
-					[
-						save_game.objects[room_id]["state"],
-						room_id,
-						save_game.objects[room_id]["playback_position"]
-					]
-				)
-		
-		
-		else:
-			if room_id == save_game.main.last_scene_global_id:
+	escoria.room_manager.change_scene(save_game.main.current_scene_filename, false)
+
 	
-				for object_global_id in save_game.objects[room_id].keys():
-
-					if save_game.objects[object_global_id].has("active"):
-						load_event_script.add_command(
-							_set_active_if_exists.get_command_name(),
-							[
-								object_global_id,
-								save_game.objects[object_global_id]["active"]
-							]
-						)
-
-			#			load_statements.append(ESCCommand.new("%s %s %s" \
-			#					% [
-			#						_set_active_if_exists.get_command_name(),
-			#						object_global_id,
-			#						save_game.objects[object_global_id]["active"]
-			#					]
-			#				)
-			#			)
-
-					if save_game.objects[object_global_id].has("interactive"):
-						load_event_script.add_command(
-							_set_interactive.get_command_name(),
-							[
-								object_global_id,
-								save_game.objects[object_global_id]["interactive"]
-							]
-						)
-
-			#			load_statements.append(ESCCommand.new("%s %s %s" \
-			#					% [
-			#						_set_interactive.get_command_name(),
-			#						object_global_id,
-			#						save_game.objects[object_global_id]["interactive"]
-			#					]
-			#				)
-			#			)
-
-					if save_game.objects[object_global_id].has("state"):
-						load_event_script.add_command(
-							_set_state.get_command_name(),
-							[
-								object_global_id,
-								save_game.objects[object_global_id]["state"]
-							]
-						)
-			#			load_statements.append(ESCCommand.new("%s %s %s true" \
-			#					% [
-			#						_set_state.get_command_name(),
-			#						object_global_id,
-			#						save_game.objects[object_global_id]["state"]
-			#					]
-			#				)
-			#			)
-
-					if save_game.objects[object_global_id].has("global_transform"):
-						load_event_script.add_command(
-							_teleport_pos.get_command_name(),
-							[
-								object_global_id,
-								int(save_game.objects[object_global_id] \
-									["global_transform"].origin.x),
-								int(save_game.objects[object_global_id] \
-									["global_transform"].origin.y)
-							]
-						)
-
-			#			load_statements.append(ESCCommand.new("%s %s %s %s" \
-			#					% [
-			#						_teleport_pos.get_command_name(),
-			#						object_global_id,
-			#						int(save_game.objects[object_global_id] \
-			#							["global_transform"].origin.x),
-			#						int(save_game.objects[object_global_id] \
-			#							["global_transform"].origin.y)
-			#					]
-			#				)
-			#			)
-
-						load_event_script.add_command(
-							_set_direction.get_command_name(),
-							[
-								object_global_id,
-								save_game.objects[object_global_id]["last_dir"]
-							]
-						)
-
-			#			load_statements.append(ESCCommand.new("%s %s %s" \
-			#					% [
-			#						_set_angle.get_command_name(),
-			#						object_global_id,
-			#						save_game.objects[object_global_id]["last_deg"]
-			#					]
-			#				)
-			#			)
-			
-					if save_game.objects[room_id][object_global_id].has("custom_data"):
-						var custom_data = save_game.objects[room_id][object_global_id]["custom_data"]
-						if custom_data.size() > 0:
-							load_event_script.add_command(
-								_set_item_custom_data.get_command_name(),
-								[
-									object_global_id,
-									custom_data
-								]
-							)
-
-					if object_global_id == escoria.object_manager.CAMERA:
-						camera_target_to_follow = save_game.objects[room_id][object_global_id]["target"]
-			
-
-	## TERRAIN NAVPOLYS
-	for room_name in save_game.terrain_navpolys.keys():
-		for terrain_name in save_game.terrain_navpolys[room_name]:
-			if save_game.terrain_navpolys[room_name][terrain_name]:
-				load_event_script.add_command(
-					_enable_terrain.get_command_name(),
-					terrain_name
-				)
-				break
-
-	## SCHEDULED EVENTS
-	if save_game.events.has("sched_events") \
-			and not save_game.events.sched_events.empty():
-		escoria.event_manager.set_scheduled_events_from_savegame(
-				save_game.events.sched_events)
-
-	## TRANSITION
-	load_event_script.add_command(
-		_transition.get_command_name(),
-		ESCProjectSettingsManager.get_setting(
-			ESCProjectSettingsManager.DEFAULT_TRANSITION
-		)
-	)
-
-	# FOLLOW TARGET
-	load_event_script.add_command(
-		_camera_set_target.get_command_name(),
-		[
-			0,
-			camera_target_to_follow
-		]
-	)
-
-	# TRANSITION
-	load_event_script.add_command(
-		_transition.get_command_name(),
-		ESCProjectSettingsManager.get_setting(
-			ESCProjectSettingsManager.DEFAULT_TRANSITION
-		)
-	)
-
-#	load_statements.append(
-#		ESCCommand.new(
-#			"%s %s in" %
-#			[
-#				_transition.get_command_name(),
-#				ESCProjectSettingsManager.get_setting(
-#				ESCProjectSettingsManager.DEFAULT_TRANSITION
-#			)]
-#		)
-#	)
-
-	## MAIN
-	escoria.main.last_scene_global_id = save_game.main.last_scene_global_id
-
-	#load_event.statements = load_statements
-	load_event_script.end_block()
-
-	var load_event: ESCScript = escoria.esc_compiler.compile(load_event_script.build(), get_class())
-
-	escoria.set_game_paused(false)
-
-	# Prepare for loading.
+	_load_savegame_objects(save_game.objects)
+	
 	escoria.globals_manager.clear()
+	_load_savegame_globals(save_game.globals)
+	_load_savegame_inventory(save_game.inventory)
+	_load_savegame_terrain_navpolys(save_game.terrain_navpolys)
+	
+	
+	
+	
+	# 1. Transition
+	# 2. Hide main and pause menus
+	# 3. Change scene
+	# 4. Set all globals
+	# 5. Set player inventory
+	# 6. Set (rooms) objects
+	#		- Sound
+	#		- Active/inactive
+	#		- Interactive or not
+	#		- State
+	#		- Position, direction
+	# 7. Set Camera
+	# 8. Set Navpolys
+	# 9. Reschedule schedulded events
+	# 10. When load is finished and we're ready to give back control to player
+	
+
+	_transition.run(["fade_black", "in", 1.0])
+	
+	escoria.set_game_paused(false)
+	
 	escoria.action_manager.clear_current_action()
 	escoria.action_manager.clear_current_tool()
+	escoria.inputs_manager.input_mode = escoria.inputs_manager.INPUT_ALL
+	is_loading_game = false
+	escoria.current_state = escoria.GAME_STATE.DEFAULT
+	emit_signal("game_finished_loading")
 
-	# Resume ongoing event, if there was one
-	if save_game.events.has("running_event") \
-			and not save_game.events.running_event.empty():
-		escoria.event_manager.set_running_event_from_savegame(
-				save_game.events.running_event)
 
-	# This is the end: Queue the load game event as first in the queue
+func _load_savegame_objects(savegame_objects: Dictionary):
+	for object_id in savegame_objects:
+		match object_id:
+			ESCObjectManager.MUSIC:
+				pass
+			ESCObjectManager.SOUND:
+				pass
+			ESCObjectManager.SPEECH:
+				pass
+			_:
+				if object_id == escoria.main.current_scene.global_id:
+					_load_room_objects(object_id, savegame_objects[object_id])
 
-	escoria.event_manager.queue_event(load_event.events.values()[0])
-	escoria.logger.debug(self, "Load event queued.")
+
+func _load_room_objects(room_id: String, objects_dictionary: Dictionary):
+	escoria.logger.info(self, "Managing current room %s" % room_id)
+	for object_id in objects_dictionary:
+		_load_object(object_id, objects_dictionary[object_id])
+
+
+func _load_object(object_id: String, object_dictionary: Dictionary):
+	escoria.logger.info(self, "Loading object %s" % object_id)
+	if object_id == ESCObjectManager.CAMERA:
+		pass
+	else:
+		if object_dictionary.has("global_transform"):
+			_teleport_pos.run([
+				object_id, 
+				object_dictionary["global_transform"].origin.x,
+				object_dictionary["global_transform"].origin.y
+			])
+		if object_dictionary.has("last_dir"):
+			_set_direction.run([object_id, int(object_dictionary["last_dir"]), 0.0])
+				
+
+func _load_savegame_globals(savegame_globals: Dictionary):
+	for g in savegame_globals: 
+		_set_global.run([g, savegame_globals[g], true])
+
+
+func _load_savegame_inventory(savegame_inventory: Array):
+	pass
+
+
+func _load_savegame_terrain_navpolys(savegame_terrain_navpolys: Dictionary):
+	pass

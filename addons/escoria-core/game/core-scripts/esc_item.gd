@@ -188,9 +188,10 @@ func _ready():
 
 	# We add ourselves to this group so we can easily get a reference to all
 	# items in a scene tree.
-	add_to_group(escoria.GROUP_ITEM_CAN_COLLIDE)
-	if is_trigger:
-		add_to_group(escoria.GROUP_ITEM_TRIGGERS)
+	if not Engine.is_editor_hint():
+		add_to_group(escoria.GROUP_ITEM_CAN_COLLIDE)
+		if is_trigger:
+			add_to_group(escoria.GROUP_ITEM_TRIGGERS)
 
 	validate_animations(animations)
 	validate_exported_parameters()
