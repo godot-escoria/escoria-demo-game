@@ -289,7 +289,30 @@ func load_game(id: int):
 		)
 
 	escoria.event_manager.interrupt()
-
+	
+	# Now the actual savegame loading happens. 
+	# Steps:
+	# 1. Hide main and pause menus
+	# 2. Change the scene to the next room. 
+	#    This does the out transition from the current scene.
+	#    And resets objects lists in various managers so we don't have to reset 
+	#    them all manually.
+	# 3. Load objects for all rooms
+	# 4. Clear current globals (in case the loaded room automatically 
+	#    initializes some - they are loaded anyway)
+	#    Load globals 
+	# 5. Load inventory items
+	# 6. Load room's terrain navigation polygons
+	# 7. Load events (currently only scheduled events)
+	# === At this point we're done loading the saved game and ready to give
+	#     back control to the player
+	# 8. Transition in
+	# 9. Unpause the game
+	# 10. Clear current action, tool
+	#     Reset input mode to accept input
+	#     Reset escoria state
+	#     Set save manager "is_loading_game" var to false since we're now done
+	
 	# Hide main and pause menus
 	escoria.game_scene.hide_main_menu()
 	escoria.game_scene.unpause_game()
@@ -444,13 +467,14 @@ func _load_savegame_terrain_navpolys(savegame_terrain_navpolys: Dictionary):
 # - savegame_events: dictionary containing saved events
 func _load_savegame_events(savegame_events: Dictionary):
 	escoria.logger.info(self, "Loading events")
-	escoria.logger.info(self, "Loading scheduled events")
-	
+
 	if savegame_events.has("sched_events") \
 			and not savegame_events.sched_events.empty():
+		escoria.logger.info(self, "Loading scheduled events")
 		for sched_event in savegame_events.sched_events:
 			var script: ESCScript = escoria.esc_compiler.load_esc_file(sched_event.event.source)
 			var event: ESCEvent = script.events[sched_event.event.original_name]
 			_sched_event.run([sched_event["timeout"], sched_event["object"], event])
-	escoria.logger.info(self, "Finished loading scheduled events")
+		escoria.logger.info(self, "Finished loading scheduled events")
+	
 	escoria.logger.info(self, "Finished loading events")
