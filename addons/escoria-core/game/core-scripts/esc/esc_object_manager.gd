@@ -199,6 +199,8 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 			object.node.esc_script
 		)
 		object.events = script.events
+	elif object.node.has_method("generate_events"):
+		object.events = object.node.generate_events()
 
 	var objects: Dictionary = _get_room_objects_objects(room_key)
 	objects[object.global_id] = object

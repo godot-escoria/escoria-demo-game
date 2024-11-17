@@ -1,6 +1,7 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
+[ext_resource path="res://game/rooms/room03/l_door.gd" type="Script" id=2]
 [ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=3]
 [ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=5]
@@ -201,12 +202,11 @@ script = SubResource( 15 )
 
 [node name="l_door" type="Area2D" parent="Hotspots"]
 pause_mode = 1
-script = ExtResource( 5 )
+script = ExtResource( 2 )
 __meta__ = {
 "_editor_description_": ""
 }
 global_id = "r3_l_exit"
-esc_script = "res://game/rooms/room03/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Exit"
 combine_when_selected_action_is_in = [  ]
