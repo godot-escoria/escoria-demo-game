@@ -121,6 +121,7 @@ var is_quitting: bool = false
 # Whether we're creating a new game
 var creating_new_game: bool = false
 var temp: int = 0
+
 # Whether we're creating a new game
 var creating_new_game: bool = false
 

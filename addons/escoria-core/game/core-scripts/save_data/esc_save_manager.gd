@@ -300,7 +300,30 @@ func load_game(id: int):
 		)
 
 	escoria.event_manager.interrupt()
-
+	
+	# Now the actual savegame loading happens. 
+	# Steps:
+	# 1. Hide main and pause menus
+	# 2. Change the scene to the next room. 
+	#    This does the out transition from the current scene.
+	#    And resets objects lists in various managers so we don't have to reset 
+	#    them all manually.
+	# 3. Load objects for all rooms
+	# 4. Clear current globals (in case the loaded room automatically 
+	#    initializes some - they are loaded anyway)
+	#    Load globals 
+	# 5. Load inventory items
+	# 6. Load room's terrain navigation polygons
+	# 7. Load events (currently only scheduled events)
+	# === At this point we're done loading the saved game and ready to give
+	#     back control to the player
+	# 8. Transition in
+	# 9. Unpause the game
+	# 10. Clear current action, tool
+	#     Reset input mode to accept input
+	#     Reset escoria state
+	#     Set save manager "is_loading_game" var to false since we're now done
+	
 	# Hide main and pause menus
 	escoria.game_scene.hide_main_menu()
 	escoria.game_scene.unpause_game()
@@ -313,24 +336,8 @@ func load_game(id: int):
 	_load_savegame_globals(save_game.globals)
 	_load_savegame_inventory(save_game.inventory)
 	_load_savegame_terrain_navpolys(save_game.terrain_navpolys)
-
-	# 1. Transition
-	# 2. Hide main and pause menus
-	# 3. Change scene
-	# 4. Set all globals
-	# 5. Set player inventory
-	# 6. Set (rooms) objects
-	#		- Sound
-	#		- Active/inactive
-	#		- Interactive or not
-	#		- State
-	#		- Position, direction
-	# 7. Set Camera
-	# 8. Set Navpolys
-	# 9. Reschedule schedulded events
-	# 10. When load is finished and we're ready to give back control to player
-
-	_transition.run(["fade_black", "in", 1.0])
+	_load_savegame_events(save_game.events)
+	_transition.run(["", "in", 1.0])
 	
 	escoria.set_game_paused(false)
 	
@@ -345,6 +352,10 @@ func load_game(id: int):
 	escoria.logger.info(self, "Finished loading savegame %s" % str(id))
 
 
+# Load  all objects saved in a savegame data.
+#
+# ## Parameters
+# - savegame_objects: dictionary containing saved objects
 func _load_savegame_objects(savegame_objects: Dictionary):
 	for object_id in savegame_objects:
 		var saved_object_data = savegame_objects[object_id]
@@ -359,6 +370,11 @@ func _load_savegame_objects(savegame_objects: Dictionary):
 				_load_room_objects(object_id, saved_object_data)
 
 
+# Load objects saved in a savegame data for a given room.
+#
+# ## Parameters
+# - room_id: id of the room
+# - objects_dictionary: dictionary containing the objects data
 func _load_room_objects(room_id: String, objects_dictionary: Dictionary):
 	escoria.logger.info(self, "Loading room '%s'" % room_id)
 
@@ -368,6 +384,13 @@ func _load_room_objects(room_id: String, objects_dictionary: Dictionary):
 	escoria.logger.info(self, "Finished loading room '%s'" % room_id)
 
 
+
+# Load one object saved in a savegame data.
+#
+# ## Parameters
+# - object_id: id of the object
+# - objects_dictionary: dictionary containing the objects data
+# - room_id: id of the room
 func _load_object(object_id: String, object_dictionary: Dictionary, room_id: String):
 	escoria.logger.info(self, "Loading object '%s'" % object_id)
 
@@ -407,6 +430,10 @@ func _load_object(object_id: String, object_dictionary: Dictionary, room_id: Str
 	escoria.logger.info(self, "Finished loading object '%s'" % object_id)
 
 
+# Load globals from a savegame data
+#
+# ## Parameters
+# - savegame_globals: dictionary containing saved globals
 func _load_savegame_globals(savegame_globals: Dictionary):
 	escoria.logger.info(self, "Loading globals")
 
@@ -416,6 +443,10 @@ func _load_savegame_globals(savegame_globals: Dictionary):
 	escoria.logger.info(self, "Finished loading globals")
 
 
+# Load inventory from a savegame data
+#
+# ## Parameters
+# - savegame_inventory: array containing saved inventory items
 func _load_savegame_inventory(savegame_inventory: Array):
 	escoria.logger.info(self, "Loading inventory")
 
@@ -425,6 +456,10 @@ func _load_savegame_inventory(savegame_inventory: Array):
 	escoria.logger.info(self, "Finished loading inventory")
 
 
+# Load terrain navpolys from a savegame data
+#
+# ## Parameters
+# - savegame_terrain_navpolys: dictionary containing saved terrain navpolys
 func _load_savegame_terrain_navpolys(savegame_terrain_navpolys: Dictionary):
 	escoria.logger.info(self, "Loading terrain")
 
@@ -435,3 +470,22 @@ func _load_savegame_terrain_navpolys(savegame_terrain_navpolys: Dictionary):
 				break
 
 	escoria.logger.info(self, "Finished loading terrain")
+
+
+# Load events from a savegame data
+#
+# ## Parameters
+# - savegame_events: dictionary containing saved events
+func _load_savegame_events(savegame_events: Dictionary):
+	escoria.logger.info(self, "Loading events")
+
+	if savegame_events.has("sched_events") \
+			and not savegame_events.sched_events.empty():
+		escoria.logger.info(self, "Loading scheduled events")
+		for sched_event in savegame_events.sched_events:
+			var script: ESCScript = escoria.esc_compiler.load_esc_file(sched_event.event.source)
+			var event: ESCEvent = script.events[sched_event.event.original_name]
+			_sched_event.run([sched_event["timeout"], sched_event["object"], event])
+		escoria.logger.info(self, "Finished loading scheduled events")
+	
+	escoria.logger.info(self, "Finished loading events")
