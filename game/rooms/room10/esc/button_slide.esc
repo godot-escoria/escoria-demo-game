@@ -1,20 +1,19 @@
 # Testing the slide and slide_block command
 
 :use
-accept_input SKIP
-say player "UUUuugh. I'm not feeling so well..."
+	accept_input("SKIP")
+	say($player, "UUUuugh. I'm not feeling so well...")
 
-slide_block player slide_pos_1
+	slide_block($player, $slide_pos_1)
 
-say player "Ugh!"
+	say($player, "Ugh!")
 
-slide player slide_pos_2
-sched_event 5 button_slide slide_back
+	slide($player, $slide_pos_2)
+	sched_event(5, $button_slide, "slide_back")
 
-say player "Heeeeeeeelp!"
-
+	say($player, "Heeeeeeeelp!")
 
 :slide_back
-slide_block player slide_location
-say player "That's better."
-accept_input ALL
+	slide_block($player, $slide_location)
+	say($player, "That's better.")
+	accept_input("ALL")

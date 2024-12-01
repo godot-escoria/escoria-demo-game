@@ -78,10 +78,11 @@ func disable_preserve_dialog_box() -> void:
 # - text: Text to say, optional prefixed by a translation key separated
 #   by a ":"
 # - type: Type of dialog box to use
-func say(dialog_player: Node, global_id: String, text: String, type: String):
+# - *key*: Translation key
+func say(dialog_player: Node, global_id: String, text: String, type: String, key: String):
 	_dialog_player = dialog_player
 
-	_initialize_say_states(global_id, text, type)
+	_initialize_say_states(global_id, text, type, key)
 
 	if _should_preserve_dialog_box:
 		# If the dialog box type doesn't match what's currently being reused (if anything),
@@ -123,8 +124,8 @@ func _init_type_player(type: String) -> void:
 	_type_player.say_visible.connect(_on_say_visible)
 
 
-func _initialize_say_states(global_id: String, text: String, type: String) -> void:
-	state_machine.states_map["say"].initialize(self, global_id, text, type)
+func _initialize_say_states(global_id: String, text: String, type: String, key: String) -> void:
+	state_machine.states_map["say"].initialize(self, global_id, text, type, key)
 	state_machine.states_map["finish"].initialize(_dialog_player)
 	state_machine.states_map["say_fast"].initialize(self)
 	state_machine.states_map["say_finish"].initialize(self)

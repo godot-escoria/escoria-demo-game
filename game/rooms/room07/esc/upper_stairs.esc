@@ -1,14 +1,14 @@
 :exit_scene
 
-# Disable user input or else clicking while this is running might result in
-# a floor change but the enable terrain command might not get run
-accept_input NONE
-say player "movin down"
+	# Disable user input or else clicking while this is running might result in
+	# a floor change but the enable terrain command might not get run
+	accept_input("NONE")
+	say($player, "movin down")
 
-teleport player r7_lower_stairs
-set_angle player 270
-camera_set_target 0 player
-wait 1
-enable_terrain lower_platform
-# Reenable player interaction
-accept_input ALL
+	teleport($player, $r7_lower_stairs)
+	set_angle($player, 270)
+	camera_set_target(0, $player)
+	wait(1)
+	enable_terrain("lower_platform")
+	# Reenable player interaction
+	accept_input("ALL")

@@ -1,5 +1,5 @@
 :r16_worker1_walk
-	walk worker1 worker1location
+	walk($worker1, $worker1location)
 
 :r16_worker2_walk
-	walk worker2 worker2location
+	walk($worker2, $worker2location)

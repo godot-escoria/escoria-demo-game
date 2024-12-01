@@ -95,7 +95,7 @@ global_id = "r6_l_exit"
 esc_script = "res://game/rooms/room06/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "door"
-default_action = "use"
+default_action = "walk"
 
 [node name="ESCLocation" type="Marker2D" parent="Hotspots/r6_l_exit"]
 position = Vector2( 59, 375 )

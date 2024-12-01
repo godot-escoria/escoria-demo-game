@@ -12,9 +12,13 @@ const REGEX = \
 # Option displayed in the HUD
 var option: String: get = get_translated_option
 
+# Maps back to the parsed source option.
+var source_option
+
 # Conditions to show this dialog
 var conditions: Array = []
 
+var _is_valid: bool setget set_is_valid, is_valid
 
 # Create a dialog option from an ESC string
 #
@@ -69,7 +73,12 @@ func get_translated_option():
 
 # Check, if conditions match
 func is_valid() -> bool:
-	for condition in self.conditions:
-		if not (condition as ESCCondition).run():
-			return false
-	return true
+#	for condition in self.conditions:
+#		if not (condition as ESCCondition).run():
+#			return false
+#	return true
+	return _is_valid
+
+
+func set_is_valid(value: bool) -> void:
+	_is_valid = value

@@ -1,30 +1,27 @@
 :setup
+	if ESC_LAST_SCENE == "room2":
+		teleport("player", "r1_r_exit")
+		# Set player look left
+		set_angle("player", 270)
 
-
-> [eq ESC_LAST_SCENE room2]
-	teleport player r1_r_exit
-	# Set player look left
-	set_angle player 270
-	stop
-
+	global dialog_advance = 0
+	global dialog_popup_advance = 0
 
 :ready
+	play_snd("res://game/sfx/contemplation.ogg", _music)
 
-play_snd res://game/sfx/contemplation.ogg _music
-set_global hop true
+	global room1_visited = false
 
-> [!room1_visited]
-	set_global room1_visited true
-	set_global dialog_advance 0 
-	set_global dialog_popup_advance 0
-	walk_block player r1_destination_point
-	wait 2
-	walk_block player r1_destination_point2
-	wait 2
-	set_angle player 225 0.2
-	wait 2
-	walk_block player r1_destination_point3
-	wait 1
-	turn_to player r1_r_exit
-
-
+	if !room1_visited:
+		room1_visited = true
+		dialog_advance = 0
+		dialog_popup_advance = 0
+		walk_block($player, "r1_destination_point")
+		wait(2)
+		walk_block($player, "r1_destination_point2")
+		wait(2)
+		set_angle($player, 225, 0.2)
+		wait(2)
+		walk_block($player, "r1_destination_point")
+		wait(1)
+		turn_to($player, "r1_r_exit")

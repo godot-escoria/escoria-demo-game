@@ -44,93 +44,93 @@ __meta__ = {
 }
 
 [node name="Button" type="Button" parent="GridContainer"]
-offset_right = 191.0
-offset_bottom = 214.0
+margin_right = 192.0
+margin_bottom = 214.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource( 1 )
 toggle_mode = true
 
 [node name="Button2" type="Button" parent="GridContainer"]
-offset_left = 195.0
-offset_right = 386.0
-offset_bottom = 214.0
+margin_left = 196.0
+margin_right = 388.0
+margin_bottom = 214.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource( 1 )
 toggle_mode = true
 
 [node name="Button3" type="Button" parent="GridContainer"]
-offset_left = 390.0
-offset_right = 581.0
-offset_bottom = 214.0
+margin_left = 392.0
+margin_right = 583.0
+margin_bottom = 214.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource( 1 )
 toggle_mode = true
 
 [node name="Button4" type="Button" parent="GridContainer"]
-offset_left = 585.0
-offset_right = 776.0
-offset_bottom = 214.0
+margin_left = 587.0
+margin_right = 778.0
+margin_bottom = 214.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource( 1 )
 toggle_mode = true
 
 [node name="Button5" type="Button" parent="GridContainer"]
-offset_left = 780.0
-offset_right = 971.0
-offset_bottom = 214.0
+margin_left = 782.0
+margin_right = 973.0
+margin_bottom = 214.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource( 1 )
 toggle_mode = true
 
 [node name="Button6" type="Button" parent="GridContainer"]
-offset_top = 218.0
-offset_right = 191.0
-offset_bottom = 432.0
+margin_top = 218.0
+margin_right = 192.0
+margin_bottom = 432.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource( 1 )
 toggle_mode = true
 
 [node name="Button7" type="Button" parent="GridContainer"]
-offset_left = 195.0
-offset_top = 218.0
-offset_right = 386.0
-offset_bottom = 432.0
+margin_left = 196.0
+margin_top = 218.0
+margin_right = 388.0
+margin_bottom = 432.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource( 1 )
 toggle_mode = true
 
 [node name="Button8" type="Button" parent="GridContainer"]
-offset_left = 390.0
-offset_top = 218.0
-offset_right = 581.0
-offset_bottom = 432.0
+margin_left = 392.0
+margin_top = 218.0
+margin_right = 583.0
+margin_bottom = 432.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource( 1 )
 toggle_mode = true
 
 [node name="Button9" type="Button" parent="GridContainer"]
-offset_left = 585.0
-offset_top = 218.0
-offset_right = 776.0
-offset_bottom = 432.0
+margin_left = 587.0
+margin_top = 218.0
+margin_right = 778.0
+margin_bottom = 432.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource( 1 )
 toggle_mode = true
 
 [node name="Button10" type="Button" parent="GridContainer"]
-offset_left = 780.0
-offset_top = 218.0
-offset_right = 971.0
-offset_bottom = 432.0
+margin_left = 782.0
+margin_top = 218.0
+margin_right = 973.0
+margin_bottom = 432.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource( 1 )

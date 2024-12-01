@@ -83,6 +83,9 @@ var resource_cache: ESCResourceCache
 # Dialog player instantiator. This instance is called directly for dialogs.
 var dialog_player: ESCDialogPlayer
 
+# ESCScript interpreter factory
+var interpreter_factory: ESCInterpreterFactory
+
 # Inventory scene
 var inventory
 
@@ -117,6 +120,7 @@ var is_quitting: bool = false
 
 # Whether we're creating a new game
 var creating_new_game: bool = false
+var temp: int = 0
 
 
 # The game resolution

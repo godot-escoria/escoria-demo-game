@@ -109,4 +109,5 @@ func run():
 
 	escoria.current_state = escoria.GAME_STATE.DEFAULT
 
-	return rc
+	#return rc
+	return option

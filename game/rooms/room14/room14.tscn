@@ -73,7 +73,6 @@ is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
 combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]

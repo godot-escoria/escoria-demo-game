@@ -275,7 +275,7 @@ func _get_event_to_queue(
 		"Checking if action '%s' on '%s' is valid..." % [action, target.global_id if target is ESCObject else target]
 	)
 
-	var event_to_return: ESCEvent = null
+	var event_to_return = null
 
 	# If we're using an action which item requires to combine
 	if target.node is ESCItem \
@@ -295,21 +295,25 @@ func _get_event_to_queue(
 						do_combine = false
 
 					if do_combine:
-						var target_event = "%s %s" % [
-							action,
-							combine_with.global_id
-						]
-						var combine_with_event = "%s %s" % [
-							action,
-							target.global_id
-						]
+#						var target_event = "%s %s" % [
+#							action,
+#							combine_with.global_id
+#						]
+#						var combine_with_event = "%s %s" % [
+#							action,
+#							target.global_id
+#						]
 
-						if target.events.has(target_event):
-							event_to_return = target.events[target_event]
-						elif combine_with.events.has(combine_with_event)\
+						if _has_event_with_target(target.events, action, combine_with.global_id):
+						#if target.events.has(target_event):
+							#event_to_return = target.events[target_event]
+							event_to_return = target.events[action]
+						#elif combine_with.events.has(combine_with_event)\
+						elif _has_event_with_target(combine_with.events, action, target.global_id)\
 								and not combine_with.node.combine_is_one_way:
 
-							event_to_return = combine_with.events[combine_with_event]
+							#event_to_return = combine_with.events[combine_with_event]
+							event_to_return = combine_with.events[action]
 						else:
 							# Check to see if there isn't a "fallback" action to
 							# run before we declare this a failure.
@@ -366,11 +370,7 @@ func _get_event_to_queue(
 					+ "but item must be in inventory."
 				)
 	else:
-		if target.events.has(action):
-			# Reset the event if it was finished.
-			if target.events[action].is_completed:
-				target.events[action].is_completed = false
-				target.events[action].from_statement_id = 0
+		if _check_target_has_proper_action(target, action):
 			event_to_return = target.events[action]
 		elif escoria.action_default_script \
 			and escoria.action_default_script.events.has(action):
@@ -390,6 +390,47 @@ func _get_event_to_queue(
 	return event_to_return
 
 
+# Check to make sure `target` contains the specific `action`. If `target` has an entry for
+# `action` that also requires a target itself (e.g. :use "wrench"), then we return false as
+# combinations are handled elsewhere.
+#
+# #### Parameters
+#
+# - target: `ESCObject` whose events we are to check to see if `action` has a corresponding event
+# - action: the action to check
+#
+# *Returns*
+# True iff `target` has an event corresponding to `action` and that event doesn't itself require a target.
+func _check_target_has_proper_action(target: ESCObject, action: String) -> bool:
+	if target.events.has(action):
+		if target.events[action].get_target():
+			return false
+
+		return true
+
+	return false
+
+
+# Determines whether the specified events dictionary contains an event with the
+# specified event name and event target, e.g. :give "filled_out_form"
+#
+# #### Parameters
+#
+# - events_dict: dictionary with events to check
+# - event_name: the event name to search for
+# - event_target: the target for the specified event to check
+#
+# *Returns* true iff events_dict contains an event matching both event_name and
+# event_target
+func _has_event_with_target(events_dict: Dictionary, event_name: String, event_target: String):
+	var event = events_dict.get(event_name)
+
+	if event:
+		return event.get_target_name() == event_target
+
+	return false
+
+
 # Runs the specified event.
 #
 # #### Parameters
@@ -397,7 +438,7 @@ func _get_event_to_queue(
 # - event: the event to be run
 #
 # *Returns* the return code of the event once executed
-func _run_event(event: ESCEvent) -> int:
+func _run_event(event) -> int:
 	escoria.event_manager.queue_event(event)
 
 	var event_returned = await escoria.event_manager.event_finished
@@ -577,7 +618,7 @@ func perform_inputevent_on_object(
 		action_finished.emit()
 		return
 
-	var event_flags = event_to_queue.flags if event_to_queue else 0
+	var event_flags = event_to_queue.get_flags() if event_to_queue else 0
 
 	if escoria.main.current_scene.player:
 		var destination_position: Vector2 = escoria.main.current_scene.player \

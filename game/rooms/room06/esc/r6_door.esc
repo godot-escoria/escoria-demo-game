@@ -1,13 +1,15 @@
 :exit_scene
-change_scene "res://game/rooms/room07/room07.tscn" [!r6_r_exit_locked]
+	if !r6_r_exit_locked:
+		change_scene("res://game/rooms/room07/room07.tscn")
 
 :use
-> [r6_r_exit_locked]
-	say worker "It's locked."
-	say worker "I only unlock it for true adventurers."
-	stop
-	
+	if r6_r_exit_locked:
+		say("worker", "It's locked.")
+		say("worker", "I only unlock it for true adventurers.")
+
 :look
-say player "It's open." [!r6_r_exit_locked]
-say player "It's locked." [r6_r_exit_locked]
+	if !r6_r_exit_locked:
+		say("player", "It's open.")
+	else:
+		say("player", "It's locked.")
 

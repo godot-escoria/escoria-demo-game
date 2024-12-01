@@ -28,18 +28,16 @@ func validate(arguments: Array):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
-		escoria.logger.error(
+		raise_error(
 			self,
-			"[%s]: invalid first object. Object to teleport with global id %s not found."
-					% [get_command_name(), arguments[0]]
+			"Invalid first object. Object to teleport with global id '%s' not found." % arguments[0]
 		)
 		return false
 
 	if not (escoria.object_manager.get_object(arguments[0]).node as ESCItem):
-		escoria.logger.error(
+		raise_error(
 			self,
-			"[%s]: invalid first object.  Object to teleport with global id %s must be of or derived from type ESCItem."
-					% [get_command_name(), arguments[0]]
+			"Invalid first object.  Object to teleport with global id '%s' must be of or derived from type ESCItem." % arguments[0]
 		)
 		return false
 

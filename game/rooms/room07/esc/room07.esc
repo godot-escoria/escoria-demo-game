@@ -1,28 +1,24 @@
 :ready
-# Set which floor the lift is open on for the first visit to the room only.
-set_global lift_floor 1
+	# Set which floor the lift is open on for the first visit to the room only.
+	global lift_floor = 1
 
 :setup
-set_state r7_alarm_cone_floor_1 camera_not_triggered true
-set_state r7_alarm_cone_floor_2 camera_not_triggered true
-set_state r7_lift lift_floor_2_to_1_no_player true
-camera_set_target 0 player
+	set_state($r7_alarm_cone_floor_1, "camera_not_triggered", true)
+	set_state($r7_alarm_cone_floor_2, "camera_not_triggered", true)
+	set_state($r7_lift, "lift_floor_2_to_1_no_player", true)
+	camera_set_target(0, $player)
 
-# camera_set_limits is how you change the active camera limits. 
-# If you change the below command to "camera_set_limits 1" you'll notice 
-# some of the camera commands start  having issues as the camera no longer
-# has access to the requested  coordinates
-camera_set_limits 0
+	# camera_set_limits is how you change the active camera limits. 
+	# If you change the below command to "camera_set_limits 1" you'll notice 
+	# some of the camera commands start  having issues as the camera no longer
+	# has access to the requested  coordinates
+	camera_set_limits(0)
 
-> [eq ESC_LAST_SCENE room6]
-	teleport player r7_l_exit
-	# Set player look right
-	set_angle player 180
-	stop
-> [eq ESC_LAST_SCENE room8]
-	teleport player r7_r_exit
-	# Set player look left
-	set_angle player 270
-	stop
-
-
+	if ESC_LAST_SCENE == "room6":
+		teleport($player, $r7_l_exit)
+		# Set player look right
+		set_angle($player, 180)
+	elif ESC_LAST_SCENE == "room8":
+		teleport($player, $r7_r_exit)
+		# Set player look left
+		set_angle($player, 270)

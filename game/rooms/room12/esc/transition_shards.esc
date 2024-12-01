@@ -1,7 +1,7 @@
 :use
-accept_input NONE
-say player "Shards"
-transition shards out
-wait 1
-transition shards in
-accept_input ALL
+	accept_input("NONE")
+	say($player, "Shards")
+	transition("shards", "out")
+	wait(1)
+	transition("shards", "in")
+	accept_input("ALL")

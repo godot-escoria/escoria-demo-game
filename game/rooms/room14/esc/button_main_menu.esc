@@ -1,14 +1,12 @@
-
 :use
+	# Show main menu, automatic transitions ENABLED
+	show_menu("main")
 
-# Show main menu, automatic transitions ENABLED
-show_menu main
+	# wait 2 seconds
+	wait(2)
 
-# wait 2 seconds
-wait 2
-
-# Hide main menu, automatic transitions ENABLED
-hide_menu main
+	# Hide main menu, automatic transitions ENABLED
+	hide_menu("main")
 
 :look
-say player "button main menu"
+	say($player, "button main menu")

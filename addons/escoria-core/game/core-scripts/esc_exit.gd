@@ -43,22 +43,40 @@ func _register_event():
 			not escoria.event_manager.EVENT_EXIT_SCENE in escoria.object_manager.get_object(
 				self.global_id
 			).events:
-		var exit_scene_event_script = [
-			"%s%s" % [ESCEvent.PREFIX, escoria.event_manager.EVENT_EXIT_SCENE]
-		]
+
+		var exit_scene_script_builder: ESCScriptBuilder = ESCScriptBuilder.new()
+
+		exit_scene_script_builder.add_event(escoria.event_manager.EVENT_EXIT_SCENE, [])
+		exit_scene_script_builder.begin_block()
+
+#		var exit_scene_event_script = [
+#			"%s%s" % [ESCEvent.PREFIX, escoria.event_manager.EVENT_EXIT_SCENE]
+#		]
 
 		if switch_sound != "":
-			exit_scene_event_script.append(
-				"%s %s" % [_play_snd.get_command_name(), switch_sound]
+			exit_scene_script_builder.add_command(
+				_play_snd.get_command_name(),
+				switch_sound
 			)
+#			exit_scene_event_script.append(
+#				"%s %s" % [_play_snd.get_command_name(), switch_sound]
+#			)
 
-		exit_scene_event_script.append(
-			"%s %s" % [_change_scene.get_command_name(), target_scene]
+		exit_scene_script_builder.add_command(
+			_change_scene.get_command_name(),
+			target_scene
 		)
+#		exit_scene_event_script.append(
+#			"%s %s" % [_change_scene.get_command_name(), target_scene]
+#		)
 
-		var exit_scene_event = escoria.esc_compiler.compile(
-			exit_scene_event_script,
-			get_class()
-		).events[escoria.event_manager.EVENT_EXIT_SCENE]
-		escoria.object_manager.get_object(self.global_id)\
-				.events[escoria.event_manager.EVENT_EXIT_SCENE] = exit_scene_event
+#		var exit_scene_event = escoria.esc_compiler.compile(
+#			exit_scene_event_script,
+#			get_class()
+#		)
+		var exit_scene_event = \
+			escoria.esc_compiler.compile(exit_scene_script_builder.build(), get_class()) \
+				.events[escoria.event_manager.EVENT_EXIT_SCENE]
+
+		escoria.object_manager.get_object(self.global_id) \
+			.events[escoria.event_manager.EVENT_EXIT_SCENE] = exit_scene_event

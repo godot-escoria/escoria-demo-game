@@ -15,6 +15,7 @@
 #	player, e.g. in cases where multiple players are playable such as in games
 #	like Maniac Mansion or Day of the Tentacle.
 # - *text*: Text to display.
+# - *key*: Translation key (default: nil)
 # - *type*: Dialog type to use. One of `floating` or `avatar`.
 #   (default: the value set in the setting "Escoria/UI/Default Dialog Type")
 #
@@ -26,7 +27,7 @@
 # displayed is also supported by this mechanism.
 # For more details see: https://docs.escoria-framework.org/en/devel/getting_started/dialogs.html#recorded_speech
 #
-# Example: `say player ROOM1_PICTURE:"Picture's looking good."`
+# Example: `say(player, "Picture's looking good.", "ROOM1_PICTURE")`
 #
 # @ESC
 extends ESCBaseCommand
@@ -50,14 +51,16 @@ func _init() -> void:
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
-		[TYPE_STRING, TYPE_STRING, TYPE_STRING],
+		[TYPE_STRING, TYPE_STRING, TYPE_STRING, TYPE_STRING],
 		[
 			null,
 			null,
+			"",
 			""
 		],
 		[
 			true,
+			false,
 			false,
 			true
 		]
@@ -71,11 +74,7 @@ func validate(arguments: Array):
 
 	if arguments[0].to_upper() != CURRENT_PLAYER_KEYWORD \
 		and not escoria.object_manager.has(arguments[0]):
-		escoria.logger.error(
-			self,
-			"[%s]: Invalid object: Object with global id %s not found."
-					% [get_command_name(), arguments[0]]
-		)
+		raise_invalid_object_error(self, arguments[0])
 		return false
 
 	return true
@@ -88,10 +87,9 @@ func run(command_params: Array) -> int:
 	escoria.current_state = escoria.GAME_STATE.DIALOG
 
 	if !escoria.dialog_player:
-		escoria.logger.error(
+		raise_error(
 			self,
-			"[%s]: No dialog player was registered and the say command was encountered."
-					% get_command_name()
+			"No dialog player was registered and the 'say' command was encountered."
 		)
 		escoria.current_state = escoria.GAME_STATE.DEFAULT
 		return ESCExecution.RC_ERROR
@@ -114,8 +112,9 @@ func run(command_params: Array) -> int:
 
 	escoria.dialog_player.say(
 		speaking_character_global_id,
-		command_params[2],
-		command_params[1]
+		command_params[3],
+		command_params[1],
+		command_params[2]
 	)
 	await escoria.dialog_player.say_finished
 	escoria.current_state = escoria.GAME_STATE.DEFAULT

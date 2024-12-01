@@ -1,18 +1,17 @@
 :look
-say player "That's the button to relock the door."
+	say($player, "That's the button to relock the door.")
 
 :use
-> [r8_m_door_open]
-	# If the door is unlocked, reset the puzzle.
-	# Set the door open to false so the room gets set up
-	# correctly if you exit and reenter
-	set_global r8_m_door_open false
-	# Play the door closing animation to "relock" the door
-	set_state r8_m_door door_close
-	# Reactivate the puzzle button so the player can redo
-	# the puzzle and unlock the door again
-	set_active r8_mini_puzzle_button true
-	stop
-> [!r8_m_door_open]
-	# Don't reset the puzzle if the door is currently locked
-	say player "The puzzle doesn't need to be reset"
+	if r8_m_door_open:
+		# If the door is unlocked, reset the puzzle.
+		# Set the door open to false so the room gets set up
+		# correctly if you exit and reenter
+		r8_m_door_open = false
+		# Play the door closing animation to "relock" the door
+		set_state($r8_m_door, "door_close")
+		# Reactivate the puzzle button so the player can redo
+		# the puzzle and unlock the door again
+		set_active($r8_mini_puzzle_button, true)
+	else:
+		# Don't reset the puzzle if the door is currently locked
+		say($player, "The puzzle doesn't need to be reset")

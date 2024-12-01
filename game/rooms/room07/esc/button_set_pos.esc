@@ -1,14 +1,14 @@
 :look
-say player "That button uses camera_set_pos to point the camera at coordinates (1200,800)."
+	say($player, "That button uses camera_set_pos to point the camera at coordinates (1200,800).")
 
 :use
-# Disable input so all steps run without interruption 
-accept_input NONE
-# Note that camera_set_pos puts the camera centre at a different location depending on
-# the camera's limits 
-camera_set_pos 1.9 1000 500
-wait 2
-camera_set_pos 0 1620 1150
-camera_set_target_block 1 player
-# Re-enable user input
-accept_input ALL
+	# Disable input so all steps run without interruption 
+	accept_input("NONE")
+	# Note that camera_set_pos puts the camera centre at a different location depending on
+	# the camera's limits 
+	camera_set_pos(1.9, 1000, 500)
+	wait(2)
+	camera_set_pos(0, 1620, 1150)
+	camera_set_target_block(1, $player)
+	# Re-enable user input
+	accept_input("ALL")

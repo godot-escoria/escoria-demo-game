@@ -76,19 +76,15 @@ func validate(arguments: Array):
 		return false
 
 	if not arguments[3] in SUPPORTED_TRANSITIONS:
-		escoria.logger.error(
-			self,
-			(
-				"[{command_name}]: invalid transition type" +
-				"Transition type {t_type} is not one of the accepted types : {allowed_types}"
-			).format(
+		raise_error(self, ("Invalid transition type. " +
+				"Transition type {t_type} is not one of the accepted types: {allowed_types}").format(
 				{
-					"command_name": get_command_name(),
-					"t_type":arguments[3],
-					"allowed_types":SUPPORTED_TRANSITIONS
+					"t_type": arguments[3],
+					"allowed_types": SUPPORTED_TRANSITIONS
 				}
 			)
 		)
+
 		return false
 
 	var camera: ESCCamera = escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera
