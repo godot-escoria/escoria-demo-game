@@ -1,4 +1,4 @@
-extends Reference
+extends RefCounted
 class_name ESCResolver
 
 
@@ -162,7 +162,7 @@ func visit_variable_expr(expr: ESCGrammarExprs.Variable):
 	if expr.get_name().get_lexeme().begins_with("$"):
 		return
 
-	if not _scopes.empty() \
+	if not _scopes.is_empty() \
 		and _scopes.front().has(expr.get_name().get_lexeme()) \
 		and not _scopes.front()[expr.get_name().get_lexeme()]:
 
@@ -195,7 +195,7 @@ func _end_scope():
 
 
 func _declare(name: ESCToken):
-	if _scopes.empty():
+	if _scopes.is_empty():
 		return
 
 	var scope: Dictionary = _scopes.front()
@@ -211,7 +211,7 @@ func _declare(name: ESCToken):
 
 
 func _define(name: ESCToken):
-	if _scopes.empty():
+	if _scopes.is_empty():
 		return
 
 	_scopes.front()[name.get_lexeme()] = true
@@ -224,4 +224,3 @@ func _resolve_local(expr: ESCGrammarExpr, name: ESCToken) -> bool:
 			return true
 
 	return false
-

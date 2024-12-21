@@ -1,13 +1,20 @@
-extends Reference
+extends RefCounted
 class_name ESCToken
 
 
-var _tokenType: int setget ,get_type # ESCScanner.TokenType enum
-var _lexeme: String setget ,get_lexeme
-var _literal setget ,get_literal
-var _line: int setget ,get_line
-var _source: String setget set_source, get_source
-var _filename: String setget ,get_filename
+var _tokenType: int: # ESCScanner.TokenType enum
+	get = get_type 
+var _lexeme: String:
+	get = get_lexeme
+var _literal:
+	get = get_literal
+var _line: int:
+	get = get_line
+var _source: String:
+	get = get_source,
+	set = set_source
+var _filename: String:
+	get = get_filename
 
 
 func init(tokenType: int, lexeme: String, literal, source: String, line: int, filename: String) -> void:

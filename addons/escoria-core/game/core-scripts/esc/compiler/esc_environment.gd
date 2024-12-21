@@ -2,8 +2,10 @@ extends Object
 class_name ESCEnvironment
 
 
-var _enclosing setget ,get_enclosing# ESCEnvironment
-var _values: Dictionary = {} setget ,get_values
+var _enclosing: # ESCEnvironment
+	get = get_enclosing
+var _values: Dictionary = {}:
+	get = get_values
 
 
 func init(enclosing) -> void:
@@ -55,10 +57,10 @@ func assign_at(distance: int, name: ESCToken, value):
 
 
 func _to_string():
-	var result: String = JSON.print(_values)
+	var result: String = JSON.stringify(_values)
 
 	if _enclosing:
-		result += " -> %s" % JSON.print(_enclosing._to_string())
+		result += " -> %s" % JSON.stringify(_enclosing._to_string())
 
 	return result
 
@@ -72,7 +74,7 @@ func get_values():
 
 
 func _error(token: ESCToken, message: String):
-	var source: String = token.get_filename() if not token.get_filename().empty() else token.get_source()
+	var source: String = token.get_filename() if not token.get_filename().is_empty() else token.get_source()
 	escoria.logger.error(
 		self,
 		"%s: Line %s at '%s': %s" % [source, token.get_line(), token.get_lexeme(), message]
@@ -81,7 +83,7 @@ func _error(token: ESCToken, message: String):
 	#return ESCParseError.new()
 
 func _warn(token: ESCToken, message: String):
-	var source: String = token.get_filename() if not token.get_filename().empty() else token.get_source()
+	var source: String = token.get_filename() if not token.get_filename().is_empty() else token.get_source()
 	escoria.logger.warn(
 		self,
 		"%s: Line %s at '%s': %s" % [source, token.get_line(), token.get_lexeme(), message]

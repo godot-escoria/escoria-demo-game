@@ -3,9 +3,6 @@ class ESCLoggerBase:
 	signal perform_emergency_savegame
 
 	# Sends the error or warning message in the signal
-	signal error_message(message)
-
-	# Sends the error or warning message in the signal
 	signal error_message_signal(message)
 
 	# Valid log levels

@@ -1,4 +1,4 @@
-extends Reference
+extends RefCounted
 class_name ESCParser
 
 
@@ -72,7 +72,8 @@ func _event_declaration():
 	if name is ESCParseError:
 		return name
 
-	var target = ""
+	var target = ESCGrammarExprs.Literal.new()
+	target.init("")
 
 	if _check(ESCTokenType.TokenType.STRING) or _check(ESCTokenType.TokenType.IDENTIFIER):
 		var expr = _primary()
@@ -473,7 +474,7 @@ func _assignment():
 			var ret = ESCGrammarExprs.Assign.new()
 			ret.init(name, value)
 			return ret
-		elif expr is ESCGrammarExpr.Get:
+		elif expr is ESCGrammarExprs.Get:
 			var ret = ESCGrammarExprs.Set.new()
 			ret.init(expr.get_object(), expr.get_name(), value)
 			return ret
@@ -858,7 +859,7 @@ func _advance() -> ESCToken:
 
 func _error(token: ESCToken, message: String) -> ESCParseError:
 	_compiler.had_error = true
-	var source: String = token.get_filename() if not token.get_filename().empty() else token.get_source()
+	var source: String = token.get_filename() if not token.get_filename().is_empty() else token.get_source()
 	escoria.logger.warn(
 		self,
 		"%s: Line %s at '%s': %s" % [source, token.get_line(), token.get_lexeme(), message]

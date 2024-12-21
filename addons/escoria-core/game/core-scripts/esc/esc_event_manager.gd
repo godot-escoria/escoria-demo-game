@@ -127,7 +127,7 @@ func _process(delta: float) -> void:
 
 			if channel_name == CHANNEL_FRONT:
 				event_started.emit(
-					_running_events[channel_name].name
+					_running_events[channel_name].get_event_name()
 				)
 			else:
 				background_event_started.emit(
@@ -163,12 +163,11 @@ func _process(delta: float) -> void:
 
 			resolver.resolve(event)
 			
-			#var rc = escoria.interpreter.interpret(event)
-			var rc = interpreter.interpret(event)
+			var rc = await interpreter.interpret(event)
 
-			if rc is GDScriptFunctionState:
+			#if rc is GDScriptFunctionState:
 				#_yielding[channel_name] = true
-				rc = yield(rc, "completed")
+				#rc = await (rc, "completed")
 				#_yielding[channel_name] = false
 
 	for event in self.scheduled_events:
@@ -509,7 +508,7 @@ func _on_event_finished(finished_event, finished_statement, return_code: int, ch
 #
 # *Returns* the last ESCEvent queued for the given channel, or null if the
 # channel's queue is empty.
-func _get_last_event_queued(channel_name: String) -> ESCEvent:
+func _get_last_event_queued(channel_name: String):
 	if self.events_queue[channel_name].size() > 0:
 		return self.events_queue[channel_name].back()
 

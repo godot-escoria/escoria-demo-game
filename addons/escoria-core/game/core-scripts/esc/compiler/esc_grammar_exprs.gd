@@ -2,9 +2,11 @@ class_name ESCGrammarExprs
 
 
 class Logical extends ESCGrammarExpr:
-	var _left: ESCGrammarExpr setget ,get_left
+	var _left: ESCGrammarExpr:
+		get = get_left
 	var _operator: ESCToken
-	var _right: ESCGrammarExpr setget ,get_right
+	var _right: ESCGrammarExpr:
+		get = get_right
 
 
 	func init(left: ESCGrammarExpr, operator: ESCToken, right: ESCGrammarExpr):
@@ -30,9 +32,11 @@ class Logical extends ESCGrammarExpr:
 
 
 class Binary extends ESCGrammarExpr:
-	var _left: ESCGrammarExpr setget ,get_left
+	var _left: ESCGrammarExpr:
+		get = get_left
 	var _operator: ESCToken
-	var _right: ESCGrammarExpr setget ,get_right
+	var _right: ESCGrammarExpr:
+		get = get_right
 
 
 	func init(left: ESCGrammarExpr, operator: ESCToken, right: ESCGrammarExpr):
@@ -58,8 +62,10 @@ class Binary extends ESCGrammarExpr:
 
 
 class Unary extends ESCGrammarExpr:
-	var _operator: ESCToken setget ,get_operator
-	var _right: ESCGrammarExpr setget ,get_right
+	var _operator: ESCToken:
+		get = get_operator
+	var _right: ESCGrammarExpr: 
+		get = get_right
 
 
 	func init(operator: ESCToken, right: ESCGrammarExpr):
@@ -80,8 +86,10 @@ class Unary extends ESCGrammarExpr:
 
 
 class Get extends ESCGrammarExpr:
-	var _object: ESCGrammarExpr setget ,get_object
-	var _name: ESCToken setget ,get_name
+	var _object: ESCGrammarExpr: 
+		get = get_object
+	var _name: ESCToken: 
+		get = get_name
 
 
 	func init(object: ESCGrammarExpr, name: ESCToken):
@@ -102,9 +110,12 @@ class Get extends ESCGrammarExpr:
 
 
 class Set extends ESCGrammarExpr:
-	var _object: ESCGrammarExpr setget ,get_object
-	var _name: ESCToken setget ,get_name
-	var _value: ESCGrammarExpr setget ,get_value
+	var _object: ESCGrammarExpr: 
+		get = get_object
+	var _name: ESCToken: 
+		get = get_name
+	var _value: ESCGrammarExpr: 
+		get = get_value
 
 
 	func init(object: ESCGrammarExpr, name: ESCToken, value: ESCGrammarExpr):
@@ -130,9 +141,12 @@ class Set extends ESCGrammarExpr:
 
 
 class Call extends ESCGrammarExpr:
-	var _callee: ESCGrammarExpr setget ,get_callee
-	var _paren: ESCToken setget ,get_paren_token
-	var _arguments: Array setget ,get_arguments
+	var _callee: ESCGrammarExpr: 
+		get = get_callee
+	var _paren: ESCToken: 
+		get = get_paren_token
+	var _arguments: Array: 
+		get = get_arguments
 
 
 	func init(callee: ESCGrammarExpr, paren: ESCToken, arguments: Array):
@@ -154,11 +168,12 @@ class Call extends ESCGrammarExpr:
 
 
 	func accept(visitor):
-		return visitor.visit_call_expr(self)
+		return await visitor.visit_call_expr(self)
 
 
 class Literal extends ESCGrammarExpr:
-	var _value setget ,get_value
+	var _value: 
+		get = get_value
 
 
 	func init(value):
@@ -170,7 +185,7 @@ class Literal extends ESCGrammarExpr:
 
 
 	func accept(visitor):
-		return visitor.visit_literal_expr(self)
+		return await visitor.visit_literal_expr(self)
 
 
 class Variable extends ESCGrammarExpr:
@@ -182,7 +197,7 @@ class Variable extends ESCGrammarExpr:
 
 
 	func accept(visitor):
-		return visitor.visit_variable_expr(self)
+		return await visitor.visit_variable_expr(self)
 
 
 	func get_name() -> ESCToken:
@@ -190,8 +205,10 @@ class Variable extends ESCGrammarExpr:
 
 
 class Assign extends ESCGrammarExpr:
-	var _name: ESCToken setget ,get_name
-	var _value: ESCGrammarExpr setget ,get_value
+	var _name: ESCToken: 
+		get = get_name
+	var _value: ESCGrammarExpr: 
+		get = get_value
 
 
 	func init(name: ESCToken, value: ESCGrammarExpr):
@@ -208,11 +225,12 @@ class Assign extends ESCGrammarExpr:
 
 
 	func accept(visitor):
-		return visitor.visit_assign_expr(self)
+		return await visitor.visit_assign_expr(self)
 
 
 class Grouping extends ESCGrammarExpr:
-	var _expression: ESCGrammarExpr setget ,get_expression
+	var _expression: ESCGrammarExpr: 
+		get = get_expression
 
 
 	func init(expression: ESCGrammarExpr):
@@ -224,7 +242,7 @@ class Grouping extends ESCGrammarExpr:
 
 
 	func accept(visitor):
-		return visitor.visit_grouping_expr(self)
+		return await visitor.visit_grouping_expr(self)
 
 
 class InInventory extends ESCGrammarExpr:
@@ -240,7 +258,7 @@ class InInventory extends ESCGrammarExpr:
 
 
 	func accept(visitor):
-		return visitor.visit_in_inventory_expr(self)
+		return await visitor.visit_in_inventory_expr(self)
 
 
 class Is extends ESCGrammarExpr:
@@ -268,4 +286,4 @@ class Is extends ESCGrammarExpr:
 
 
 	func accept(visitor):
-		return visitor.visit_is_expr(self)
+		return await visitor.visit_is_expr(self)

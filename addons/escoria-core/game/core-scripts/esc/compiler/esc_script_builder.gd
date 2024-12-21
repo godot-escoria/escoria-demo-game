@@ -1,4 +1,4 @@
-extends Reference
+extends RefCounted
 class_name ESCScriptBuilder
 
 
@@ -49,7 +49,7 @@ func add_command(name: String, args):
 	var args_string: String = ""
 
 	for arg in args:
-		if !args_string.empty():
+		if !args_string.is_empty():
 			args_string += ", "
 
 		if arg is String:

@@ -21,7 +21,7 @@ class_name CameraSetTargetBlockCommand
 
 
 # Tween for blocking
-var _camera_tween: Tween
+var _camera_tween: Tween3
 
 
 # Return the descriptor of the arguments of this command

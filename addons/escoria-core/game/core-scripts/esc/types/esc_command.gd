@@ -64,7 +64,7 @@ func command_exists() -> bool:
 
 # Run this command
 func run() -> int:
-	var command_object = escoria.command_registry.get_command(self.name)
+	var command_object = escoria.command_registry.load_command(self.name)
 
 	_decorate_for_debugging(command_object)
 

@@ -18,7 +18,8 @@ var interactive: bool = true: get = _get_interactive, set = _set_interactive
 
 # The state of the object. If the object has a respective animation,
 # it will be played
-var state: String = STATE_DEFAULT setget set_state, get_state
+var state: String = STATE_DEFAULT:
+	get = get_state
 
 # The events registered with the object
 var events: Dictionary = {}

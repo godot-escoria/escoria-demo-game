@@ -55,7 +55,7 @@ func register_reserved_globals() -> void:
 func change_scene_to_file(room_path: String, enable_automatic_transitions: bool) -> void:
 	if escoria.main \
 			and escoria.main.current_scene \
-			and escoria.main.current_scene.filename == room_path:
+			and escoria.main.current_scene.scene_file_path == room_path:
 		escoria.logger.info(
 			self,
 			"Attempting to change scene to same scene as the current scene. Aborting."
@@ -334,8 +334,8 @@ func _perform_script_events(room: ESCRoom) -> int:
 	# Manage player location at room start
 	if room.player != null:
 		var startloc := escoria.object_manager.get_start_location()
-		if startloc != null:
-			and not escoria.save_manager.is_loading_game:
+		if startloc != null \
+				and not escoria.save_manager.is_loading_game:
 			room.player.teleport(startloc)
 
 	# We make sure 'room' is set as the new current_scene, but without making
@@ -522,5 +522,3 @@ func _run_script_event(event_name: String, room: ESCRoom):
 		return true
 	else:
 		return false
-
-

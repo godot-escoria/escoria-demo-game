@@ -1,4 +1,4 @@
-extends Reference
+extends RefCounted
 class_name ESCScanner
 
 
@@ -14,8 +14,11 @@ var _indent_level: int = 0
 
 var _escape_chars: Array = []
 
-var _source: String setget set_source
-var _filename: String setget set_filename, get_filename
+var _source: String:
+	set = set_source
+var _filename: String:
+	set = set_filename, 
+	get = get_filename
 
 var _alpha_regex: RegEx
 var _digit_regex: RegEx
@@ -279,7 +282,7 @@ func _error(line: int, message: String) -> void:
 		"[Line %s]: %s" % [line, message]
 	)
 
-func _match(var expected: String) -> bool:
+func _match(expected: String) -> bool:
 	if _at_end():
 		return false;
 

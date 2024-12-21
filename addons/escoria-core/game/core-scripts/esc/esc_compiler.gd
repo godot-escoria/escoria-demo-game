@@ -100,9 +100,8 @@ static func load_commands() -> Array:
 	for command_directory in ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.COMMAND_DIRECTORIES
 	):
-		var dir: Directory = Directory.new()
-		dir.open(command_directory)
-		dir.list_dir_begin(true, true)
+		var dir = DirAccess.open(command_directory)
+		dir.list_dir_begin()
 
 		var file_name = dir.get_next()
 
@@ -177,13 +176,8 @@ func _compiler_shim(source: String, filename: String = ""):
 # Load an ESC file from a file resource
 func load_esc_file(path: String) -> ESCScript:
 	escoria.logger.debug(self, "Parsing file %s." % path)
-	if FileAccess.file_exists(path):
-		var file := FileAccess.open(path, FileAccess.READ)
-		var lines = []
-		while not file.eof_reached():
-			lines.append(file.get_line())
-		return self.compile(lines, path)
-	else:
+
+	if not FileAccess.file_exists(path):
 		escoria.logger.error(
 			self,
 			"Unable to find ESC file: '%s' could not be found." % path
@@ -191,8 +185,7 @@ func load_esc_file(path: String) -> ESCScript:
 
 		return null
 
-	var file = File.new()
-	file.open(path, File.READ)
+	var file = FileAccess.open(path, FileAccess.READ)
 
 	return _compiler_shim(file.get_as_text(), path)
 

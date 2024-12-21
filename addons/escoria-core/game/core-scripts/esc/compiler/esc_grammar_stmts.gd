@@ -2,8 +2,10 @@ class_name ESCGrammarStmts
 
 
 class Var extends ESCGrammarStmt:
-	var _name: ESCToken setget ,get_name
-	var _initializer: ESCGrammarExpr setget ,get_initializer
+	var _name: ESCToken:
+		get = get_name
+	var _initializer: ESCGrammarExpr:
+		get = get_initializer
 
 
 	func init(name: ESCToken, initializer: ESCGrammarExpr):
@@ -20,12 +22,14 @@ class Var extends ESCGrammarStmt:
 
 
 	func accept(visitor):
-		return visitor.visit_var_stmt(self)
+		return await visitor.visit_var_stmt(self)
 
 
 class Global extends ESCGrammarStmt:
-	var _name: ESCToken setget ,get_name
-	var _initializer: ESCGrammarExpr setget ,get_initializer
+	var _name: ESCToken:
+		get = get_name
+	var _initializer: ESCGrammarExpr:
+		get = get_initializer
 
 
 	func init(name: ESCToken, initializer: ESCGrammarExpr):
@@ -42,22 +46,29 @@ class Global extends ESCGrammarStmt:
 
 
 	func accept(visitor):
-		return visitor.visit_global_stmt(self)
+		return await visitor.visit_global_stmt(self)
 
 
 class Event extends ESCGrammarStmt:
 	signal finished
 	signal interrupted
 
-	var _name: ESCToken setget ,get_name
-	var _target: ESCGrammarExprs.Literal setget ,get_target
-	var _flags: int setget ,get_flags
-	var _body: ESCGrammarStmts.Block setget ,get_body
+	var _name: ESCToken:
+		get = get_name
+	var _target: ESCGrammarExprs.Literal:
+		get = get_target
+	var _flags: int:
+		get = get_flags
+	var _body: ESCGrammarStmts.Block:
+		get = get_body
 
-	var _running_command setget set_running_command, get_running_command
+	var _running_command:
+		set = set_running_command,
+		get = get_running_command
 
 	# Indicates whether this event was interrupted.
-	var _is_interrupted: bool = false setget ,is_interrupted
+	var _is_interrupted: bool = false:
+		get = is_interrupted
 	
 	var source: String = "" # TODO: Make proper use of this
 
@@ -159,11 +170,12 @@ class Event extends ESCGrammarStmt:
 
 
 	func accept(visitor):
-		return visitor.visit_event_stmt(self)
+		return await visitor.visit_event_stmt(self)
 
 
 class Block extends ESCGrammarStmt:
-	var _statements: Array setget ,get_statements
+	var _statements: Array:
+		get = get_statements
 
 
 	func init(statements: Array):
@@ -175,11 +187,12 @@ class Block extends ESCGrammarStmt:
 
 
 	func accept(visitor):
-		return visitor.visit_block_stmt(self)
+		return await visitor.visit_block_stmt(self)
 
 
 class ESCExpression extends ESCGrammarStmt:
-	var _expression: ESCGrammarExpr setget ,get_expression
+	var _expression: ESCGrammarExpr:
+		get = get_expression
 
 
 	func init(expression: ESCGrammarExpr):
@@ -191,14 +204,18 @@ class ESCExpression extends ESCGrammarStmt:
 
 
 	func accept(visitor):
-		return visitor.visit_expression_stmt(self)
+		return await visitor.visit_expression_stmt(self)
 
 
 class If extends ESCGrammarStmt:
-	var _condition: ESCGrammarExpr setget ,get_condition
-	var _then_branch: ESCGrammarStmts.Block setget ,get_then_branch
-	var _elif_branches: Array setget ,get_elif_branches
-	var _else_branch: ESCGrammarStmts.Block setget ,get_else_branch
+	var _condition: ESCGrammarExpr:
+		get = get_condition
+	var _then_branch: ESCGrammarStmts.Block:
+		get = get_then_branch
+	var _elif_branches: Array:
+		get = get_elif_branches
+	var _else_branch: ESCGrammarStmts.Block:
+		get = get_else_branch
 
 
 	func init(condition: ESCGrammarExpr, then_branch: ESCGrammarStmts.Block, elif_branches: Array, else_branch: ESCGrammarStmts.Block):
@@ -225,12 +242,14 @@ class If extends ESCGrammarStmt:
 
 
 	func accept(visitor):
-		return visitor.visit_if_stmt(self)
+		return await visitor.visit_if_stmt(self)
 
 
 class While extends ESCGrammarStmt:
-	var _condition: ESCGrammarExpr setget ,get_condition
-	var _body: ESCGrammarStmt setget ,get_body
+	var _condition: ESCGrammarExpr:
+		get = get_condition
+	var _body: ESCGrammarStmt:
+		get = get_body
 
 
 	func init(condition: ESCGrammarExpr, body: ESCGrammarStmt):
@@ -247,23 +266,26 @@ class While extends ESCGrammarStmt:
 
 
 	func accept(visitor):
-		return visitor.visit_while_stmt(self)
+		return await visitor.visit_while_stmt(self)
 
 
 class Pass extends ESCGrammarStmt:
 	func accept(visitor):
-		return visitor.visit_pass_stmt(self)
+		return await visitor.visit_pass_stmt(self)
 
 
 class Stop extends ESCGrammarStmt:
 	func accept(visitor):
-		return visitor.visit_stop_stmt(self)
+		return await visitor.visit_stop_stmt(self)
 
 
 class DialogOption extends ESCGrammarStmt:
-	var _option: ESCGrammarExpr setget ,get_option
-	var _condition: ESCGrammarExpr setget ,get_condition
-	var _body: ESCGrammarStmt setget ,get_body
+	var _option: ESCGrammarExpr:
+		get = get_option
+	var _condition: ESCGrammarExpr:
+		get = get_condition
+	var _body: ESCGrammarStmt:
+		get = get_body
 
 
 	func init(option: ESCGrammarExpr, condition: ESCGrammarExpr, body: ESCGrammarStmt):
@@ -285,12 +307,14 @@ class DialogOption extends ESCGrammarStmt:
 
 
 	func accept(visitor):
-		return visitor.visit_dialog_option_stmt(self)
+		return await visitor.visit_dialog_option_stmt(self)
 
 
 class Dialog extends ESCGrammarStmt:
-	var _args: Array setget ,get_args
-	var _options: Array setget ,get_options
+	var _args: Array:
+		get = get_args
+	var _options: Array:
+		get = get_options
 
 
 	func init(args: Array, options: Array):
@@ -307,11 +331,12 @@ class Dialog extends ESCGrammarStmt:
 
 
 	func accept(visitor):
-		return visitor.visit_dialog_stmt(self)
+		return await visitor.visit_dialog_stmt(self)
 
 
 class Break extends ESCGrammarStmt:
-	var _levels: ESCGrammarExpr setget ,get_levels
+	var _levels: ESCGrammarExpr:
+		get = get_levels
 
 
 	func init(levels: ESCGrammarExpr):
@@ -323,9 +348,9 @@ class Break extends ESCGrammarStmt:
 
 
 	func accept(visitor):
-		return visitor.visit_break_stmt(self)
+		return await visitor.visit_break_stmt(self)
 
 
 class Done extends ESCGrammarStmt:
 	func accept(visitor):
-		return visitor.visit_done_stmt(self)
+		return await visitor.visit_done_stmt(self)

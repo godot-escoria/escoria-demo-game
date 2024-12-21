@@ -1,4 +1,4 @@
-extends Reference
+extends RefCounted
 class_name ESCInterpreter
 
 
@@ -42,7 +42,7 @@ func _init(callables: Array, globals: Dictionary):
 	for key in globals.keys():
 		_globals.define(key, globals[key])
 
-	escoria.globals_manager.connect("global_changed", self, "_on_global_changed")
+	escoria.globals_manager.global_changed.connect(_on_global_changed)
 
 
 func get_global_values() -> Dictionary:
@@ -65,7 +65,7 @@ func interpret(statements):
 	var rc = 0
 
 	for stmt in statements:
-		rc = _execute(stmt)
+		rc = await _execute(stmt)
 
 		if rc is ESCParseError:
 			# TODO: runtime error handling
@@ -79,7 +79,7 @@ func visit_block_stmt(stmt: ESCGrammarStmts.Block):
 	var env: ESCEnvironment = ESCEnvironment.new()
 	env.init(_environment)
 
-	return _execute_block(stmt.get_statements(), env)
+	return await _execute_block(stmt.get_statements(), env)
 
 
 func visit_event_stmt(stmt: ESCGrammarStmts.Event):
@@ -96,18 +96,11 @@ func visit_event_stmt(stmt: ESCGrammarStmts.Event):
 	)
 
 	# TODO: Handle interrupts.
-	var rc = _execute(stmt.get_body())
-
-	if rc is GDScriptFunctionState:
-		rc = yield(rc, "completed")
-		escoria.logger.debug(
-			self,
-			"Event (%s) was completed." % stmt.get_event_name()
-		)
-#	if rc == ESCExecution.RC_REPEAT:
-#		return self.run()
-#	elif rc != ESCExecution.RC_OK:
-#		final_rc = rc
+	var rc = await _execute(stmt.get_body())
+	escoria.logger.debug(
+		self,
+		"Event (%s) was completed." % stmt.get_event_name()
+	)
 
 	_current_event = null
 
@@ -135,16 +128,16 @@ func visit_event_stmt(stmt: ESCGrammarStmts.Event):
 
 
 func visit_expression_stmt(stmt: ESCGrammarStmts.ESCExpression):
-	return _evaluate(stmt.get_expression())
+	return await _evaluate(stmt.get_expression())
 
 
 func visit_call_expr(expr: ESCGrammarExprs.Call):
-	var callee = _evaluate(expr.get_callee())
+	var callee = await _evaluate(expr.get_callee())
 
 	var args: Array = []
 
 	for arg in expr.get_arguments():
-		arg = _evaluate(arg)
+		arg = await _evaluate(arg)
 
 		# "Adapter" for current ESC commands since they don't currently take
 		# ESCObject's (or ESCRoom's) as arguments.
@@ -173,21 +166,13 @@ func visit_call_expr(expr: ESCGrammarExprs.Call):
 
 	if command.is_valid() and not _current_event.is_interrupted():
 		_current_event.set_running_command(command)
-		rc = command.run()
-
-		if rc is GDScriptFunctionState:
-			rc = yield(rc, "completed")
-			escoria.logger.debug(
-				self,
-				"Statement (%s) was completed." % command
-			)
+		rc = await command.run()
+		escoria.logger.debug(
+			self,
+			"Statement (%s) was completed." % command
+		)
 
 		_current_event.clear_running_command()
-
-#		if rc == ESCExecution.RC_REPEAT:
-#			return self.run()
-#		elif rc != ESCExecution.RC_OK:
-#			final_rc = rc
 
 	return rc
 
@@ -218,30 +203,27 @@ func _print(value):
 
 
 func visit_if_stmt(stmt: ESCGrammarStmts.If):
-	if _is_truthy(_evaluate(stmt.get_condition())):
-		return _execute(stmt.get_then_branch())
+	if _is_truthy(await _evaluate(stmt.get_condition())):
+		return await _execute(stmt.get_then_branch())
 	else:
 		#var branched: bool = false
 
 		for branch in stmt.get_elif_branches():
-			if _is_truthy(_evaluate(branch.get_condition())):
-				return _execute(branch)
+			if _is_truthy(await _evaluate(branch.get_condition())):
+				return await _execute(branch)
 #				branched = true
 #				break
 
 		#if not branched and stmt.get_else_branch():
 		if stmt.get_else_branch():
-			return _execute(stmt.get_else_branch())
+			return await _execute(stmt.get_else_branch())
 
 	return null
 
 
 func visit_while_stmt(stmt: ESCGrammarStmts.While):
-	while _is_truthy(_evaluate(stmt.get_condition())):
-		var ret = _execute(stmt.get_body())
-
-		if ret is GDScriptFunctionState:
-			ret = yield(ret, "completed")
+	while _is_truthy(await _evaluate(stmt.get_condition())):
+		var ret = await _execute(stmt.get_body())
 
 		if ret is ESCGrammarStmts.Break:
 			break
@@ -261,7 +243,7 @@ func visit_var_stmt(stmt: ESCGrammarStmts.Var):
 	var value = null
 
 	if stmt.get_initializer():
-		value = _evaluate(stmt.get_initializer())
+		value = await _evaluate(stmt.get_initializer())
 
 	_environment.define(stmt.get_name().get_lexeme(), value)
 	return null
@@ -271,7 +253,7 @@ func visit_global_stmt(stmt: ESCGrammarStmts.Global):
 	var value = null
 
 	if stmt.get_initializer():
-		value = _evaluate(stmt.get_initializer())
+		value = await _evaluate(stmt.get_initializer())
 
 	# Only define the global if we haven't already done so; otherwise, just
 	# ignore it
@@ -292,10 +274,10 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 			var option: ESCDialogOption = ESCDialogOption.new()
 			# TODO: Translation keys
 			option.source_option = dialog_option
-			option.option = _evaluate(dialog_option.get_option())
+			option.option = await _evaluate(dialog_option.get_option())
 
 			if dialog_option.get_condition():
-				option.set_is_valid(_evaluate(dialog_option.get_condition()))
+				option.set_is_valid(await _evaluate(dialog_option.get_condition()))
 			else:
 				option.set_is_valid(true)
 
@@ -307,26 +289,20 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 		if dialog.is_valid() and not _current_event.is_interrupted():
 			#_current_event.set_running_command(dialog)
 			#rc = dialog.run()
-			var chosen_option = dialog.run()
-
-			if chosen_option is GDScriptFunctionState:
-				chosen_option = yield(chosen_option, "completed")
+			var chosen_option = await dialog.run()
 
 			if chosen_option:
-				var execute_ret = _execute(chosen_option.source_option.get_body())
-
-				if execute_ret is GDScriptFunctionState:
-					execute_ret = yield(execute_ret, "completed")
-					escoria.logger.debug(
-						self,
-						"Chosen dialog option (%s) was completed." % chosen_option
-					)
+				var execute_ret = await _execute(chosen_option.source_option.get_body())
+				escoria.logger.debug(
+					self,
+					"Chosen dialog option (%s) was completed." % chosen_option
+				)
 
 				if execute_ret is ESCGrammarStmts.Break:
 					var break_tracker: ESCBreakCounter = ESCBreakCounter.new()
 
 					if execute_ret.get_levels():
-						break_tracker.set_levels_left(_evaluate(execute_ret.get_levels()) - 1)
+						break_tracker.set_levels_left(await _evaluate(execute_ret.get_levels()) - 1)
 					else:
 						break_tracker.set_levels_left(0)
 
@@ -363,7 +339,7 @@ func visit_done_stmt(stmt: ESCGrammarStmts.Done):
 
 
 func visit_assign_expr(expr: ESCGrammarExprs.Assign):
-	var value = _evaluate(expr.get_value())
+	var value = await _evaluate(expr.get_value())
 
 	var distance: int = _locals.get(expr, -1)
 
@@ -377,7 +353,7 @@ func visit_assign_expr(expr: ESCGrammarExprs.Assign):
 
 
 func visit_in_inventory_expr(expr: ESCGrammarExprs.InInventory):
-	var arg = _evaluate(expr.get_identifier())
+	var arg = await _evaluate(expr.get_identifier())
 
 	if arg is ESCObject:
 		arg = arg.global_id
@@ -386,21 +362,21 @@ func visit_in_inventory_expr(expr: ESCGrammarExprs.InInventory):
 
 
 func visit_is_expr(expr: ESCGrammarExprs.Is):
-	var arg = _evaluate(expr.get_identifier())
+	var arg = await _evaluate(expr.get_identifier())
 
 	if typeof(arg) == TYPE_STRING:
 		if escoria.inventory_manager.inventory_has(arg):
 			arg = _look_up_object_by_global_id(arg)
 
 	if expr.get_state():
-		return arg.get_state() == _evaluate(expr.get_state())
+		return arg.get_state() == await _evaluate(expr.get_state())
 
 	return arg.is_active()
 
 
 func visit_binary_expr(expr: ESCGrammarExprs.Binary):
-	var left_part = _evaluate(expr.get_left())
-	var right_part = _evaluate(expr.get_right())
+	var left_part = await _evaluate(expr.get_left())
+	var right_part = await _evaluate(expr.get_right())
 
 	match expr.get_operator().get_type():
 		ESCTokenType.TokenType.EQUAL_EQUAL:
@@ -448,7 +424,7 @@ func visit_binary_expr(expr: ESCGrammarExprs.Binary):
 
 
 func visit_unary_expr(expr: ESCGrammarExprs.Unary):
-	var right_part = _evaluate(expr.get_right())
+	var right_part = await _evaluate(expr.get_right())
 
 	match expr.get_operator().get_type():
 		ESCTokenType.TokenType.BANG, ESCTokenType.TokenType.NOT:
@@ -475,7 +451,7 @@ func visit_literal_expr(expr: ESCGrammarExprs.Literal):
 
 
 func visit_logical_expr(expr: ESCGrammarExprs.Logical):
-	var left = _evaluate(expr.get_left())
+	var left = await _evaluate(expr.get_left())
 
 	if expr.get_operator().get_type() == ESCTokenType.TokenType.OR:
 		if _is_truthy(left):
@@ -484,11 +460,11 @@ func visit_logical_expr(expr: ESCGrammarExprs.Logical):
 		if not _is_truthy(left):
 			return left
 
-	return _evaluate(expr.get_right())
+	return await _evaluate(expr.get_right())
 
 
 func visit_grouping_expr(expr: ESCGrammarExprs.Grouping):
-	return _evaluate(expr.get_expression())
+	return await _evaluate(expr.get_expression())
 
 
 func resolve(expr: ESCGrammarExpr, depth: int):
@@ -532,20 +508,14 @@ func look_up_variable(name: ESCToken, expr: ESCGrammarExpr):
 
 
 func _evaluate(expr: ESCGrammarExpr):
-	var ret = expr.accept(self)
-
-	if ret is GDScriptFunctionState:
-		ret = yield(ret, "completed")
+	var ret = await expr.accept(self)
 
 	# TODO: Error handling
 	return ret
 
 
 func _execute(stmt: ESCGrammarStmt):
-	var ret = stmt.accept(self)
-
-	if ret is GDScriptFunctionState:
-		ret = yield(ret, "completed")
+	var ret = await stmt.accept(self)
 
 	# TODO: Error handling
 	return ret
@@ -558,10 +528,7 @@ func _execute_block(statements: Array, env: ESCEnvironment):
 	_environment = env
 
 	for stmt in statements:
-		ret = _execute(stmt)
-
-		if ret is GDScriptFunctionState:
-			ret = yield(ret, "completed")
+		ret = await _execute(stmt)
 
 		if ret is ESCGrammarStmts.Break \
 			or ret is ESCGrammarStmts.Done \
@@ -582,7 +549,7 @@ func _is_truthy(value) -> bool:
 	if value == null:
 		return false
 
-	if typeof(value) in [TYPE_INT, TYPE_REAL, TYPE_STRING, TYPE_BOOL]:
+	if typeof(value) in [TYPE_INT, TYPE_FLOAT, TYPE_STRING, TYPE_BOOL]:
 		return bool(value) == true
 
 	return false
@@ -599,7 +566,7 @@ func _is_equal(left_part, right_part) -> bool:
 
 
 func _check_are_numbers(value_1, operator: ESCToken, value_2, strict: bool = true):
-	if typeof(value_1) in [TYPE_INT, TYPE_REAL] and typeof(value_2) in [TYPE_INT, TYPE_REAL]:
+	if typeof(value_1) in [TYPE_INT, TYPE_FLOAT] and typeof(value_2) in [TYPE_INT, TYPE_FLOAT]:
 		return true
 
 	if strict:
@@ -612,7 +579,7 @@ func _check_are_numbers(value_1, operator: ESCToken, value_2, strict: bool = tru
 
 
 func _check_is_number(value, operator: ESCToken, strict: bool = true):
-	if typeof(value) in [TYPE_INT, TYPE_REAL]:
+	if typeof(value) in [TYPE_INT, TYPE_FLOAT]:
 		return true
 
 	if strict:

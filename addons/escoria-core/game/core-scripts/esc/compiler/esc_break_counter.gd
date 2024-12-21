@@ -2,7 +2,9 @@ extends Object
 class_name ESCBreakCounter
 
 
-var _levels_left: int = 0 setget set_levels_left, get_levels_left
+var _levels_left: int = 0:
+	set = set_levels_left, 
+	get = get_levels_left
 
 
 func set_levels_left(levels: int) -> void:

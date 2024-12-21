@@ -10,7 +10,8 @@ const REGEX = \
 
 
 # Option displayed in the HUD
-var option: String: get = get_translated_option
+var option: String: 
+	get = get_translated_option
 
 # Maps back to the parsed source option.
 var source_option
@@ -18,7 +19,9 @@ var source_option
 # Conditions to show this dialog
 var conditions: Array = []
 
-var _is_valid: bool setget set_is_valid, is_valid
+var _is_valid: bool:
+	set = set_is_valid, 
+	get = is_valid
 
 # Create a dialog option from an ESC string
 #
@@ -55,7 +58,7 @@ func load_string(option_string: String):
 		)
 
 
-func get_translated_text():
+func get_translated_option():
 	# Check if text has a key
 	if ":" in option:
 		var splitted_text = option.split(":")

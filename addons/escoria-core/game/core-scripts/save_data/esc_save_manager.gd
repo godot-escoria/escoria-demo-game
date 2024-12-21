@@ -424,7 +424,7 @@ func _load_object(object_id: String, object_dictionary: Dictionary, room_id: Str
 		# Custom data
 		if object_dictionary.has("custom"):
 			var custom_data: Dictionary = object_dictionary["custom_data"]
-			if not custom_data.empty():
+			if not custom_data.is_empty():
 				_set_item_custom_data.run([object_id, custom_data])
 
 	escoria.logger.info(self, "Finished loading object '%s'" % object_id)

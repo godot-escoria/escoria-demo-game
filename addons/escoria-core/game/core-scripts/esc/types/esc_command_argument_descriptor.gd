@@ -178,11 +178,11 @@ func _get_error_info() -> String:
 # - type: Type to check
 # *Returns* Whether the argument is of the given type
 func _is_type(argument, type: int) -> bool:
-	if typeof(argument) == TYPE_REAL:
+	if typeof(argument) == TYPE_FLOAT:
 		if int(argument) == argument and type == TYPE_INT:
 			return true
 	elif typeof(argument) == TYPE_INT:
-		if int(argument) == argument and type == TYPE_REAL:
+		if int(argument) == argument and type == TYPE_FLOAT:
 			return true
 
 	return typeof(argument) == type
