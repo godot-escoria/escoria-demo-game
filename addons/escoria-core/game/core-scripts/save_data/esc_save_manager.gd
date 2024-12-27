@@ -84,7 +84,11 @@ func get_saves_list() -> Dictionary:
 	regex.compile("save_(?<slotnumber>[0-9]{3})\\.tres")
 
 	var saves = {}
+
+	_ensure_directory_exists(save_folder)
+
 	var dirsave = DirAccess.open(save_folder)
+
 	if dirsave != null:
 		dirsave.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var nextfile = dirsave.get_next()
@@ -489,3 +493,14 @@ func _load_savegame_events(savegame_events: Dictionary):
 		escoria.logger.info(self, "Finished loading scheduled events")
 	
 	escoria.logger.info(self, "Finished loading events")
+
+
+func _ensure_directory_exists(dir: String) -> void:
+	if not DirAccess.dir_exists_absolute(save_folder):
+		var return_code = DirAccess.make_dir_absolute(save_folder)
+
+		if return_code != OK:
+			escoria.logger.error(
+				self,
+				"Could not create savegame folder %s" % save_folder
+			)
