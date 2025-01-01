@@ -16,7 +16,7 @@ the node that inherits from this state machine interface
 If you don't the game will crash (on purpose, so you won't
 forget to initialize the state machine)
 """
-@export var START_STATE: NodePath
+@export var START_STATE: Node
 var states_map = {}
 
 var states_stack = []  # can also be used as a pushdown automaton

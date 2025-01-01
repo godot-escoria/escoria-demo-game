@@ -120,7 +120,7 @@ func _init_type_player(type: String) -> void:
 			"res://addons/escoria-dialog-simple/types/avatar.tscn"\
 		).instantiate()
 
-	_type_player.say_finish.connect(_on_say_finished)
+	_type_player.say_finished.connect(_on_say_finished)
 	_type_player.say_visible.connect(_on_say_visible)
 
 

@@ -72,8 +72,7 @@ func _event_declaration():
 	if name is ESCParseError:
 		return name
 
-	var target = ESCGrammarExprs.Literal.new()
-	target.init("")
+	var target = null
 
 	if _check(ESCTokenType.TokenType.STRING) or _check(ESCTokenType.TokenType.IDENTIFIER):
 		var expr = _primary()

@@ -50,14 +50,14 @@ func handle_input(_event):
 func _handle_left_click_action(left_click_action: String) -> void:
 	match left_click_action:
 		SimpleDialogSettings.LEFT_CLICK_ACTION_SPEED_UP:
-			if _dialog_manager.is_connected("say_visible", Callable(self, "_on_say_visible")):
-				_dialog_manager.disconnect("say_visible", Callable(self, "_on_say_visible"))
+			if _dialog_manager.say_visible.is_connected(_on_say_visible):
+				_dialog_manager.say_visible.disconnect(_on_say_visible)
 
 			escoria.logger.trace(self, "Dialog State Machine: 'say' -> 'say_fast'")
 			finished.emit("say_fast")
 		SimpleDialogSettings.LEFT_CLICK_ACTION_INSTANT_FINISH:
-			if _dialog_manager.is_connected("say_visible", Callable(self, "_on_say_visible")):
-				_dialog_manager.disconnect("say_visible", Callable(self, "_on_say_visible"))
+			if _dialog_manager.say_visible.is_connected(_on_say_visible):
+				_dialog_manager.say_visible.disconnect(_on_say_visible)
 
 			escoria.logger.trace(self, "Dialog State Machine: 'say' -> 'say_finish'")
 			finished.emit("say_finish")
@@ -69,10 +69,11 @@ func enter():
 	escoria.logger.trace(self, "Dialog State Machine: Entered 'say'.")
 
 	_say_started = false
-	if not _dialog_manager.is_connected("say_visible", Callable(self, "_on_say_visible")):
-		_dialog_manager.connect("say_visible", Callable(self, "_on_say_visible"))
+	
+	if not _dialog_manager.say_visible.is_connected(_on_say_visible):
+		_dialog_manager.say_visible.connect(_on_say_visible)
 
-	if _key and not _key.empty():
+	if _key and not _key.is_empty():
 		var _speech_resource = _get_voice_file(_key)
 
 		if _speech_resource == "":
@@ -90,12 +91,12 @@ func enter():
 				if not (
 					escoria.object_manager.get_object(escoria.object_manager.SPEECH).node\
 					 as ESCSpeechPlayer
-				).stream.is_connected("finished", Callable(self, "_on_audio_finished")):
+				).stream.finished.is_connected(_on_audio_finished):
 
 					(
 						escoria.object_manager.get_object(escoria.object_manager.SPEECH).node\
 						 as ESCSpeechPlayer
-					).stream.connect("finished", Callable(self, "_on_audio_finished"))
+					).stream.finished.connect(_on_audio_finished)
 
 		var translated_text: String = tr(_key)
 

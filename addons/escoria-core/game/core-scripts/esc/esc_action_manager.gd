@@ -262,13 +262,13 @@ func clear_current_tool():
 # - target: Target ESC object
 # - combine_with: ESC object to combine with
 #
-# *Returns* the appropriate ESCEvent to queue/run, or null if none can be found
+# *Returns* the appropriate ESCGrammarStmts.Event to queue/run, or null if none can be found
 # or there's a reason not to run an event.
 func _get_event_to_queue(
 	action: String,
 	target: ESCObject,
 	combine_with: ESCObject = null
-) -> ESCEvent:
+) -> ESCGrammarStmts.Event:
 
 	escoria.logger.info(
 		self,
@@ -447,7 +447,7 @@ func _run_event(event) -> int:
 
 	var event_returned = await escoria.event_manager.event_finished
 
-	while event_returned[1] != event.name:
+	while event_returned[1] != event.get_event_name():
 		event_returned = await escoria.event_manager.event_finished
 
 	clear_current_action()
@@ -575,7 +575,7 @@ func perform_inputevent_on_object(
 	elif action_state == ACTION_INPUT_STATE.AWAITING_ITEM and need_combine and not tool_just_set:
 		set_action_input_state(ACTION_INPUT_STATE.AWAITING_TARGET_ITEM)
 
-	var event_to_queue: ESCEvent = null
+	var event_to_queue: ESCGrammarStmts.Event = null
 
 	# Manage exits
 	if obj.node.is_exit and current_action in ["", ACTION_WALK]:

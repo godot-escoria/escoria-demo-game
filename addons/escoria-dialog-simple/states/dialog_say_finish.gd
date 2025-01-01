@@ -16,8 +16,8 @@ func enter():
 		escoria.inputs_manager.INPUT_NONE and \
 		_dialog_manager != null:
 
-		if not _dialog_manager.is_connected("say_visible", Callable(self, "_on_say_visible")):
-			_dialog_manager.connect("say_visible", Callable(self, "_on_say_visible"))
+		if not _dialog_manager.say_visible.is_connected(_on_say_visible):
+			_dialog_manager.say_visible.connect(_on_say_visible)
 
 		_dialog_manager.finish()
 	else:

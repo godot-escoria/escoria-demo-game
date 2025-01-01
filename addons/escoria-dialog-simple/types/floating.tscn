@@ -8,8 +8,5 @@ offset_bottom = 60.0
 bbcode_enabled = true
 text = "Here be some text."
 script = ExtResource("1")
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Timer" type="Timer" parent="."]

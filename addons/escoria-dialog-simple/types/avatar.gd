@@ -37,11 +37,10 @@ var _current_line: String
 @onready var text_node = $Panel/MarginContainer/HSplitContainer/text
 
 # The tween node for text animations
-@onready var tween = $Panel/MarginContainer/HSplitContainer/text/Tween
+@onready var tween: Tween3 = Tween3.new(self)
 
 # Whether the dialog manager is paused
 @onready var is_paused: bool = true
-
 
 
 # Build up the UI
@@ -97,7 +96,7 @@ func _ready():
 	_word_regex.compile("\\S+")
 
 	text_node.bbcode_enabled = true
-	tween.tween_completed.connect(_on_dialog_line_typed)
+	tween.finished.connect(_on_dialog_line_typed.bind("", ""))
 
 	escoria.paused.connect(_on_paused)
 	escoria.resumed.connect(_on_resumed)
@@ -143,13 +142,15 @@ func say(character: String, line: String):
 
 	text_node.text = tr(line)
 
-	text_node.percent_visible = 0.0
+	text_node.visible_ratio = 0.0
 	var time_show_full_text = _text_time_per_character / 1000 * len(line)
 
-	tween.interpolate_property(text_node, "percent_visible",
+	tween.reset()
+
+	tween.interpolate_property(text_node, "visible_ratio",
 		0.0, 1.0, time_show_full_text,
 		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tween.start()
+	tween.play()
 
 
 # Called by the dialog player when the
@@ -157,19 +158,19 @@ func speedup():
 	if not _is_speeding_up:
 		_is_speeding_up = true
 		var time_show_full_text = _fast_text_time_per_character / 1000 * len(_current_line)
-		tween.remove_all()
-		tween.interpolate_property(text_node, "percent_visible",
-			text_node.percent_visible, 1.0, time_show_full_text,
+		tween.reset()
+		tween.interpolate_property(text_node, "visible_ratio",
+			text_node.visible_ratio, 1.0, time_show_full_text,
 			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-		tween.start()
+		tween.play()
 
 
 # Called by the dialog player when user wants to finish dialogue immediately.
 func finish():
-	tween.remove_all()
-	tween.interpolate_property(text_node, "percent_visible",
-		text_node.percent_visible, 1.0, 0.0)
-	tween.start()
+	tween.reset()
+	tween.interpolate_property(text_node, "visible_ratio",
+		text_node.visible_ratio, 1.0, 0.0)
+	tween.play()
 
 
 # To be called if voice audio has finished.
@@ -219,7 +220,7 @@ func _on_dialog_finished():
 func _on_paused():
 	if tween.is_active():
 		is_paused = true
-		tween.stop_all()
+		tween.stop()
 
 
 # Handler managing resume notification from Escoria
@@ -231,7 +232,7 @@ func _on_resumed():
 			popup_centered()
 
 		is_paused = false
-		tween.resume_all()
+		tween.resume()
 
 
 func _on_tree_exited():

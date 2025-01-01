@@ -4,10 +4,6 @@ extends EditorPlugin
 
 const MANAGER_CLASS = "res://addons/escoria-dialog-simple/esc_dialog_simple.gd"
 
-const READING_SPEED_IN_WPM_DEFAULT_VALUE = 200
-const TEXT_TIME_PER_LETTER_MS_DEFAULT_VALUE = 100
-const TEXT_TIME_PER_LETTER_MS_FAST_DEFAULT_VALUE = 25
-
 
 var left_click_actions: PackedStringArray = [
 	SimpleDialogSettings.LEFT_CLICK_ACTION_SPEED_UP,

@@ -13,8 +13,8 @@ func enter():
 	escoria.logger.trace(self, "Dialog State Machine: Entered 'interrupt'.")
 
 	if _dialog_manager != null:
-		if not _dialog_manager.is_connected("say_finished", Callable(self, "_on_say_finished")):
-			_dialog_manager.connect("say_finished", Callable(self, "_on_say_finished"))
+		if not _dialog_manager.say_finished.is_connected(_on_say_finished):
+			_dialog_manager.say_finished.connect(_on_say_finished)
 
 		_dialog_manager.interrupt()
 

@@ -97,15 +97,15 @@ func _ready():
 	_word_regex.compile("\\S+")
 
 	bbcode_enabled = true
-	$Tween.connect("tween_completed", Callable(self, "_on_dialog_line_typed"))
+	
+	tween.finished.connect(_on_dialog_line_typed.bind("", ""))
 
-	connect("tree_exiting", Callable(self, "_on_tree_exiting"))
+	tree_exiting.connect(_on_tree_exiting)
 
-	escoria.connect("paused", Callable(self, "_on_paused"))
-	escoria.connect("resumed", Callable(self, "_on_resumed"))
+	escoria.paused.connect(_on_paused)
+	escoria.resumed.connect(_on_resumed)
 
 	_current_line = ""
-
 
 
 func _process(delta):
@@ -173,13 +173,15 @@ func say(character: String, line: String) :
 
 	_current_character.start_talking()
 
-	text_node.percent_visible = 0.0
+	text_node.visible_ratio = 0.0
 	var time_show_full_text = _text_time_per_character / 1000 * len(_current_line)
 
-	tween.interpolate_property(text_node, "percent_visible",
+	tween.reset()
+
+	tween.interpolate_property(text_node, "visible_ratio",
 		0.0, 1.0, time_show_full_text,
 		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tween.start()
+	tween.play()
 	set_process(true)
 
 
@@ -189,19 +191,21 @@ func speedup():
 		_is_speeding_up = true
 		var time_show_full_text = _fast_text_time_per_character / 1000 * len(_current_line)
 
-		tween.remove_all()
-		tween.interpolate_property(text_node, "percent_visible",
-			text_node.percent_visible, 1.0, time_show_full_text,
+		tween.reset()
+
+		tween.interpolate_property(text_node, "visible_ratio",
+			text_node.visible_ratio, 1.0, time_show_full_text,
 			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-		tween.start()
+		tween.play()
 
 
 # Called by the dialog player when user wants to finish dialogue immediately.
 func finish():
-	tween.remove_all()
-	tween.interpolate_property(text_node, "percent_visible",
-		text_node.percent_visible, 1.0, 0.0)
-	tween.start()
+	tween.reset()
+
+	tween.interpolate_property(text_node, "visible_ratio",
+		text_node.visible_ratio, 1.0, 0.0)
+	tween.play()
 
 
 # To be called if voice audio has finished.
@@ -241,14 +245,14 @@ func _on_dialog_finished():
 func _on_paused():
 	if tween.is_active():
 		is_paused = true
-		tween.stop_all()
+		tween.stop()
 
 
 # Handler managing resume notification from Escoria
 func _on_resumed():
 	if not tween.is_active():
 		is_paused = false
-		tween.resume_all()
+		tween.resume()
 
 
  # Handler to deal with this node being removed
