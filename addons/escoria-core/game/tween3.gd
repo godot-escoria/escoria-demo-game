@@ -33,7 +33,7 @@ var _duration: float
 signal finished()
 
 func _on_finished():
-	_tween.finished.emit()
+	finished.emit()
 
 func _init(tween_parent: Node):
 	_tween_parent = tween_parent
