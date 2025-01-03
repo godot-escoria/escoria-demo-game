@@ -140,16 +140,15 @@ func say(character: String, line: String) :
 	for c in escoria.object_manager.get_object(character).node.get_children():
 		if c is Marker2D:
 			# Identify any Postion2D nodes
-			if c.is_class("ESCDialogLocation"):
+			if c is ESCDialogLocation:
 				dialog_location_count += 1
 				dialog_location_node = c
 
-	if dialog_location_count > 0:
-		if dialog_location_count > 1:
-			escoria.logger.warn(
-				self,
-				"Multiple ESCDialogLocation nodes found " +
-				"object %s. Last one will be used." % _current_character)
+	if dialog_location_count > 1:
+		escoria.logger.warn(
+			self,
+			"Multiple ESCDialogLocation nodes found " +
+			"object %s. Last one will be used." % _current_character)
 
 	# Set text color to color set in the actor
 	var text_color = _current_character.dialog_color

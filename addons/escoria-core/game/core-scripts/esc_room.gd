@@ -52,6 +52,9 @@ var enabled_automatic_transitions = true
 # Whether this room was run directly with Play Scene (F6)
 var is_run_directly = false
 
+###### @Tool properties ###### 
+# Default font for tool display in the editor
+var _tool_default_font: Font
 
 # Start the random number generator when the camera limits should be displayed
 func _enter_tree():
@@ -68,6 +71,10 @@ func _ready():
 				"application/run/main_scene"
 			) != self.scene_file_path:
 		is_run_directly = true
+	
+	var temp_control: Control = Control.new()
+	_tool_default_font = temp_control.get_theme_default_font()
+	temp_control.queue_free()
 
 	if Engine.is_editor_hint():
 		_connect_location_nodes()
@@ -110,12 +117,14 @@ func _draw():
 	# Draw lines for camera limits
 	for i in camera_limits.size():
 		draw_rect(camera_limits[i], camera_limits_colors[i], false, 10.0)
-		var temp_control = Control.new()
-		var default_font = temp_control.get_theme_default_font()
-		temp_control.queue_free()
-
-		draw_string(default_font, Vector2(camera_limits[i].position.x + 30,
-			camera_limits[i].position.y + 30), str(i), camera_limits_colors[i])
+		draw_string(
+			_tool_default_font, 
+			Vector2(camera_limits[i].position.x + 30, camera_limits[i].position.y + 30), 
+			str(i), 
+			HORIZONTAL_ALIGNMENT_LEFT, 
+			-1,
+			16,
+			camera_limits_colors[i])
 
 
 # Listen for any signals from ESCLocation indicating that the is_start_location attribute
