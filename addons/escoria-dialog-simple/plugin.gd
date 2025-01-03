@@ -84,7 +84,7 @@ func enable_plugin():
 
 		ESCProjectSettingsManager.register_setting(
 			SimpleDialogSettings.TEXT_TIME_PER_LETTER_MS,
-			TEXT_TIME_PER_LETTER_MS_DEFAULT_VALUE,
+			SimpleDialogSettings.TEXT_TIME_PER_LETTER_MS_DEFAULT_VALUE,
 			{
 				"type": TYPE_FLOAT
 			}
@@ -92,7 +92,7 @@ func enable_plugin():
 
 		ESCProjectSettingsManager.register_setting(
 			SimpleDialogSettings.TEXT_TIME_PER_LETTER_MS_FAST,
-			TEXT_TIME_PER_LETTER_MS_FAST_DEFAULT_VALUE,
+			SimpleDialogSettings.TEXT_TIME_PER_LETTER_MS_FAST_DEFAULT_VALUE,
 			{
 				"type": TYPE_FLOAT
 			}
@@ -108,7 +108,7 @@ func enable_plugin():
 
 		ESCProjectSettingsManager.register_setting(
 			SimpleDialogSettings.READING_SPEED_IN_WPM,
-			READING_SPEED_IN_WPM_DEFAULT_VALUE,
+			SimpleDialogSettings.READING_SPEED_IN_WPM_DEFAULT_VALUE,
 			{
 				"type": TYPE_INT
 			}

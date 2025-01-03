@@ -250,7 +250,7 @@ func _on_paused():
 
 # Handler managing resume notification from Escoria
 func _on_resumed():
-	if not tween.is_active():
+	if not tween.is_running():
 		is_paused = false
 		tween.resume()
 
