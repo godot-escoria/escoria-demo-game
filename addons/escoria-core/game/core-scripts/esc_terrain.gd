@@ -134,10 +134,9 @@ func _check_multiple_enabled_navpolys(node: Node = null, is_exiting: bool = fals
 # - pos: Position to calculate lightmap for
 # **Returns** The color of the given point
 func get_light(pos: Vector2) -> Color:
-	if not lightmap or lightmap.get_data().is_empty():
+	if lightmap == null or lightmap.get_image().is_empty():
 		return Color(1, 1, 1, 1)
-	var c = _get_color(_lightmap_data, pos)
-	return _get_color(_lightmap_data, pos) * lightmap_modulate
+	return _get_color(lightmap.get_image(), pos) * lightmap_modulate
 
 
 # Calculate the scale inside the scale range for a given scale factor
@@ -158,17 +157,14 @@ func get_scale_range(factor: float) -> Vector2:
 # - pos: The position to calculate for
 # **Returns** The scale factor for the given position
 func get_terrain(pos: Vector2) -> float:
-	if scales == null || scales.get_data().is_empty():
+	if scales == null || scales.get_image().is_empty():
 		return 1.0
-	return _get_color(scales.get_data(), pos).v
+	return _get_color(scales.get_image(), pos).v
 
 
 # Small helper to get the color of an image at a position
 func _get_color(image: Image, pos: Vector2) -> Color:
-	false # image.lock() # TODOConverter3To4, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
-	var color=image.get_pixel(pos.x, pos.y)
-	false # image.unlock() # TODOConverter3To4, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
-	return color
+	return image.get_pixel(pos.x, pos.y)
 
 
 # Set the bitmap scaling
@@ -194,10 +190,8 @@ func _set_lightmap(p_lightmap: Texture2D):
 	# It's bad enough a new copy is created when reading a pixel, we don't
 	# also need to get the data for every read to make yet another copy
 	if need_init:
-		if _lightmap_data:
-			false # _lightmap_data.unlock() # TODOConverter3To4, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
-		_lightmap_data = lightmap.get_data()
-		false # _lightmap_data.lock() # TODOConverter3To4, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
+		if _lightmap_data == null:
+			_lightmap_data = lightmap.get_image().get_data()
 
 	_update_texture()
 

@@ -63,7 +63,7 @@ func run(command_params: Array) -> int:
 	# Since the ESC command already gives the right angle, we add 90.
 	escoria.object_manager.get_object(command_params[0]).node\
 			.set_angle(
-				wrapi(int(command_params[1]) + 90, 0, 360),
+				wrapi(int(command_params[1]) - 90, 0, 360),
 				command_params[2]
 			)
 	return ESCExecution.RC_OK

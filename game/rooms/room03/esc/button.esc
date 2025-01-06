@@ -23,7 +23,11 @@
 		# Make it so the right hand side of the screen is no longer an "item"  you can
 		# look at to be told you can't reach it.
 		set_interactive($r3_right_platform, false)
+		
+		set_interactive($r3_bridge, false)
+		
 		set_interactive($r3_r_exit, true)
+		
 		# We start with the collision polygon on the right door disabled
 		# This lets it act as part of the right platform, which responds
 		# with "I can't reach it" when the player clicks it with the bridge
