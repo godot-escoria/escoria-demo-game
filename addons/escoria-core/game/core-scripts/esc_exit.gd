@@ -31,6 +31,7 @@ func _enter_tree():
 
 
 func _ready():
+	super._ready()
 	_play_snd = PlaySndCommand.new()
 	_change_scene = ChangeSceneCommand.new()
 
