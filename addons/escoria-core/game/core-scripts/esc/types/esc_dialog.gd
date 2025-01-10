@@ -98,16 +98,7 @@ func run():
 	# If no valid option was returned, it means this level of dialog is done.
 	# If this is the case and the current level of dialog has a parent, it means
 	# it is still yielding and so will be shown again.
-	if option:
-		rc = await option.run()
-		if rc != ESCExecution.RC_CANCEL:
-			# We also set this here in case a chosen option doesn't yield, since this block
-			# will return normally and not allow the current_state reset at the bottom of this
-			# method to run.
-			escoria.current_state = escoria.GAME_STATE.DEFAULT
-			return await self.run()
 
 	escoria.current_state = escoria.GAME_STATE.DEFAULT
 
-	#return rc
 	return option
