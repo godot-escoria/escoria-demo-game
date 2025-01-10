@@ -191,8 +191,8 @@ func _on_dialog_line_typed(object, key):
 
 	var time_to_disappear: float = _calculate_time_to_disappear()
 
-	if not $Timer.is_connected("timeout", Callable(self, "_on_dialog_finished")):
-		$Timer.connect("timeout", Callable(self, "_on_dialog_finished"))
+	if not $Timer.timeout.is_connected(_on_dialog_finished):
+		$Timer.timeout.connect(_on_dialog_finished)
 
 	$Timer.start(time_to_disappear)
 

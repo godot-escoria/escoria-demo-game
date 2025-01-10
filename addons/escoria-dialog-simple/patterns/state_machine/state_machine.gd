@@ -27,7 +27,7 @@ var _active = false: set = set_active
 
 func initialize(start_state):
 	for child in get_children():
-		child.connect("finished", Callable(self, "_change_state"))
+		child.finished.connect(_change_state)
 
 	set_active(true)
 	states_stack.push_front(start_state)

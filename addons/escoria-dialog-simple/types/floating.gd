@@ -220,7 +220,7 @@ func _on_dialog_line_typed(object, key):
 
 	var time_to_disappear: float = _calculate_time_to_disappear()
 	$Timer.start(time_to_disappear)
-	$Timer.connect("timeout", Callable(self, "_on_dialog_finished"))
+	$Timer.timeout.connect(_on_dialog_finished)
 
 	say_visible.emit()
 
