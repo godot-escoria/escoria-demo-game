@@ -89,17 +89,17 @@ func set_target(p_target, p_time : float = 0.0):
 	else:
 		# Need to wait a frame in order to ensure the screen centre position is
 		# recalculated. Also to allow any close-calls with the tween to finish.
-		await get_tree().idle_frame
+		await get_tree().process_frame
 
-		if _tween.is_active():
+		if _tween.is_running():
 			escoria.logger.debug(
 				self,
-				"set_target tween is still active: %f seconds of %f completed." % [
-					_tween.tell(),
-					_tween.get_runtime()
+				"set_target tween is still active: %f seconds of %s completed." % [
+					_tween.get_total_elapsed_time(),
+					_tween.get_duration()
 				]
 			)
-			_tween.stop_all()
+			_tween.stop()
 
 		set_drag_margin_enabled(false, false)
 
@@ -115,7 +115,7 @@ func set_target(p_target, p_time : float = 0.0):
 			Tween.TRANS_LINEAR,
 			Tween.EASE_IN_OUT
 		)
-		_tween.start()
+		_tween.play()
 
 
 # Set the camera zoom level
@@ -137,17 +137,17 @@ func set_camera_zoom(p_zoom_level: float, p_time: float):
 	else:
 		# Need to wait a frame in order to ensure the screen centre position is
 		# recalculated. Also to allow any close-calls with the tween to finish.
-		await get_tree().idle_frame
+		await get_tree().process_frame
 
-		if _tween.is_active():
+		if _tween.is_running():
 			escoria.logger.debug(
 				self,
-				"set_camera_zoom tween is still active: %f seconds of %f completed." % [
-					_tween.tell(),
-					_tween.get_runtime()
+				"set_camera_zoom tween is still active: %f seconds of %s completed." % [
+					_tween.get_total_elapsed_time(),
+					_tween.get_duration()
 				]
 			)
-			_tween.stop_all()
+			_tween.stop()
 
 		set_drag_margin_enabled(false, false)
 
@@ -162,7 +162,7 @@ func set_camera_zoom(p_zoom_level: float, p_time: float):
 			Tween.TRANS_LINEAR,
 			Tween.EASE_IN_OUT
 		)
-		_tween.start()
+		_tween.play()
 
 
 # Push the camera towards the target in terms of position and zoom level
@@ -192,9 +192,9 @@ func push(p_target, p_time: float = 0.0, p_type: int = 0):
 	else:
 		# Need to wait a frame in order to ensure the screen centre position is
 		# recalculated. Also to allow any close-calls with the tween to finish.
-		await get_tree().idle_frame
+		await get_tree().process_frame
 
-		if _tween.is_active():
+		if _tween.is_running():
 			escoria.logger.debug(
 				self,
 				"camera push tween is still active: %f seconds of %f completed." % [
@@ -202,7 +202,7 @@ func push(p_target, p_time: float = 0.0, p_type: int = 0):
 					_tween.get_runtime()
 				]
 			)
-			_tween.stop_all()
+			_tween.stop()
 
 		if _zoom_target != Vector2():
 			_tween.interpolate_property(
@@ -229,7 +229,7 @@ func push(p_target, p_time: float = 0.0, p_type: int = 0):
 			Tween.EASE_IN_OUT
 		)
 
-		_tween.start()
+		_tween.play()
 
 
 # Shift the camera by the given vector in a given time and using a specific
@@ -248,10 +248,10 @@ func shift(p_target: Vector2, p_time: float, p_type: int):
 	var new_pos = self.global_position + p_target
 	_target = new_pos
 
-	if _tween.is_active():
+	if _tween.is_running():
 		# Need to wait a frame in order to ensure the screen centre position is
 		# recalculated. Also to allow any close-calls with the tween to finish.
-		await get_tree().idle_frame
+		await get_tree().process_frame
 
 		escoria.logger.debug(
 			self,
@@ -260,7 +260,7 @@ func shift(p_target: Vector2, p_time: float, p_type: int):
 				_tween.get_runtime()
 			]
 		)
-		_tween.stop_all()
+		_tween.stop()
 
 	set_drag_margin_enabled(false, false)
 
@@ -275,7 +275,7 @@ func shift(p_target: Vector2, p_time: float, p_type: int):
 		p_type,
 		Tween.EASE_IN_OUT
 	)
-	_tween.start()
+	_tween.play()
 
 
 # Checks whether the given point is contained within the viewport's limits.
@@ -350,7 +350,8 @@ func clamp_to_viewport_limits() -> void:
 
 
 func _target_reached():
-	_tween.stop_all()
+	_tween.stop()
+	_tween.reset()
 	set_drag_margin_enabled(true, true)
 
 

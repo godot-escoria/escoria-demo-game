@@ -94,6 +94,12 @@ dialog_simple/stop_talking_animation_on="End of audio"
 debug/enable_hover_stack_viewer=true
 main/escoria_version="4.0-alpha"
 
+[file_customization]
+
+folder_colors={
+"res://game/rooms/": "teal"
+}
+
 [input]
 
 esc_show_debug_prompt={

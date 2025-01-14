@@ -107,6 +107,7 @@ script = ExtResource("9")
 polygon = PackedVector2Array(23, 384, 21, 183, 41, 167, 64, 163, 88, 168, 103, 183, 107, 385)
 
 [node name="r6_r_exit" type="Area2D" parent="Hotspots"]
+z_index = 100
 script = ExtResource("3")
 global_id = "r6_r_exit"
 esc_script = "res://game/rooms/room06/esc/r6_door.esc"

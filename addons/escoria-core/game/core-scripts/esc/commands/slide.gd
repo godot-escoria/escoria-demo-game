@@ -77,7 +77,7 @@ func _slide_object(
 	var tween = Tween.new()
 	(escoria.main as Node).add_child(tween)
 
-	tween.connect("tween_completed", Callable(self, "_on_tween_completed"))
+	tween.connect("finished", Callable(self, "_on_tween_completed"))
 
 	var duration = source.node.position.distance_to(
 		destination.node.position

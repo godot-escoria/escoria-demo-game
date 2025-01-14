@@ -53,7 +53,7 @@ func run(command_params: Array) -> int:
 	camera.set_camera_zoom(command_params[0], command_params[1])
 
 	if command_params[1] > 0.0:
-		await _camera_tween.tween_completed
+		await _camera_tween.finished
 	escoria.logger.debug(
 			self,
 			"camera_set_zoom_block tween complete."

@@ -89,7 +89,7 @@ func run(command_params: Array) -> int:
 		)
 
 	if command_params[1] > 0.0:
-		await _camera_tween.tween_completed
+		await _camera_tween.finished
 		escoria.logger.debug(
 			self,
 			"camera_push_block tween complete."

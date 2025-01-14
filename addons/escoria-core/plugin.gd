@@ -2,12 +2,15 @@
 # Plugin script to initialize Escoria
 extends EditorPlugin
 
+# Consts values
+const COMMA_SEPARATOR = ","
+const ESC_SCRIPT_EXTENSION = "esc"
+
 # The warning popup displayed on escoria-core enabling.
 var popup_info: AcceptDialog
 
-
 # Virtual function called when plugin is enabled.
-func enable_plugin():
+func _enable_plugin():
 	add_autoload_singleton(
 		"escoria",
 		"res://addons/escoria-core/game/esc_autoload.gd"
@@ -18,6 +21,7 @@ func enable_plugin():
 	set_escoria_ui_settings()
 	set_escoria_sound_settings()
 	set_escoria_platform_settings()
+	set_filesystem_show_esc_files()
 
 	# Add input actions in InputMap
 #	if not InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
@@ -54,6 +58,7 @@ func _on_warning_popup_confirmed():
 # Virtual function called when plugin is disabled.
 func _disable_plugin():
 	remove_autoload_singleton("escoria")
+	set_filesystem_hide_esc_files()
 #	if InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
 #		InputMap.erase_action(ESCInputsManager.SWITCH_ACTION_VERB)
 #	if InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
@@ -421,3 +426,33 @@ static func register_setting(name: String, default, info: Dictionary) -> void:
 		)
 		info.name = name
 		ProjectSettings.add_property_info(info)
+
+
+# Sets the Godot Editor settings to display ESC files in the filesystem.
+func set_filesystem_show_esc_files():
+	print("setting esc files display")
+	var settings = EditorInterface.get_editor_settings()
+	var displayed_extensions: PackedStringArray = settings.get_setting("docks/filesystem/textfile_extensions") \
+			.split(COMMA_SEPARATOR)
+	if not displayed_extensions.has(ESC_SCRIPT_EXTENSION):
+		displayed_extensions.append(ESC_SCRIPT_EXTENSION)
+		settings.set_setting(
+			"docks/filesystem/textfile_extensions",
+			COMMA_SEPARATOR.join(displayed_extensions)
+			)
+
+
+# Sets the Godot Editor settings to hide ESC files in the filesystem.
+func set_filesystem_hide_esc_files():
+	print("setting esc files hide")
+	var settings = EditorInterface.get_editor_settings()
+	var displayed_extensions: PackedStringArray = settings.get_setting("docks/filesystem/textfile_extensions") \
+			.split(COMMA_SEPARATOR)
+	var index: int = displayed_extensions.find(ESC_SCRIPT_EXTENSION)
+	while index != -1:
+		displayed_extensions.remove_at(index)
+		index = displayed_extensions.find(ESC_SCRIPT_EXTENSION)
+	settings.set_setting(
+		"docks/filesystem/textfile_extensions",
+		COMMA_SEPARATOR.join(displayed_extensions)
+		)
