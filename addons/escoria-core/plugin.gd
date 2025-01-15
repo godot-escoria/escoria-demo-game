@@ -107,7 +107,9 @@ func set_escoria_ui_settings():
 		"curtain",
 		{
 			"name": ESCProjectSettingsManager.DEFAULT_TRANSITION,
-			"type": TYPE_STRING
+			"type": TYPE_STRING, 
+			"hint": PROPERTY_HINT_ENUM_SUGGESTION,
+			"hint_string": "instant,fade_black,fade_white,curtain"
 		}
 	)
 
