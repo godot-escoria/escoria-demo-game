@@ -1,4 +1,11 @@
 :exit_scene
 	play_snd("res://game/sfx/sounds/doorOpen_2.ogg")
+	
+	# Here, an `accept_input("NONE") command will certainly be desired by
+	# game developer. If missing, player can still control the player during
+	# following transition, making the transition fade to black, but never 
+	# fading back in.
+	# accept_input("NONE")
+	
 	transition("fade_black", "out")
 	change_scene("res://game/rooms/room12/room12.tscn", false)

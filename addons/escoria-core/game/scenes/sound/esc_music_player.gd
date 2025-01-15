@@ -63,4 +63,3 @@ func _ready():
 # **Returns** playback position
 func get_playback_position() -> float:
 	return $AudioStreamPlayer.get_playback_position()
-
