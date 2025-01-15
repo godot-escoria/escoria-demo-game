@@ -62,8 +62,8 @@ func transition(
 	# constructor, the transition will ALWAYS happen on game start, which might
 	# not be desired if 'false' is used for automatic_transitions in a
 	# change_scene call in :init.
-	if not _tween.is_valid():
-		_tween.connect("tween_all_completed", _on_tween_completed)
+	if not _tween.finished.is_connected(_on_tween_completed):
+		_tween.finished.connect(_on_tween_completed)
 
 	if transition_name.is_empty():
 		transition_name = ESCProjectSettingsManager.get_setting(
@@ -103,13 +103,13 @@ func transition(
 
 	_tween.interpolate_property(
 		$".",
-		"material:shader_param/cutoff",
+		"material:shader_parameter/cutoff",
 		start,
 		end,
 		duration
 	)
 	_was_canceled = false
-	_tween.start()
+	_tween.play()
 	return transition_id
 
 
@@ -151,7 +151,7 @@ func reset_shader_cutoff() -> void:
 
 func _on_tween_completed():
 	if not _was_canceled:
-		_tween.stop_all()
-		_tween.remove_all()
+		_tween.stop()
+		_tween.reset()
 		escoria.logger.debug(self, "Transition %s done." % str(transition_id))
 		transition_done.emit(transition_id)
