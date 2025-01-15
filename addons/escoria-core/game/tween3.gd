@@ -1,5 +1,5 @@
 """
-In Godot 4, tweens cannot be resued. But if you re-create them, the bindings are lost. So this class wraps a tween and offers a reset function.
+In Godot 4, tweens cannot be resumed. But if you re-create them, the bindings are lost. So this class wraps a tween and offers a reset function.
 """
 extends RefCounted
 class_name Tween3

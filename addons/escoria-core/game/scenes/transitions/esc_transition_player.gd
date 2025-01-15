@@ -95,10 +95,10 @@ func transition(
 		start = 1.0
 		end = 0.0
 
-	if _tween.is_active():
+	if _tween.is_running():
 		_was_canceled = true
-		_tween.stop_all()
-		_tween.remove_all()
+		_tween.stop()
+		_tween.reset()
 		transition_done.emit(transition_id-1)
 
 	_tween.interpolate_property(
@@ -124,8 +124,8 @@ func get_transition(name: String) -> String:
 	for directory in ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.TRANSITION_PATHS
 	):
-		if ResourceLoader.exists(directory.plus_file("%s.material" % name)):
-			return directory.plus_file("%s.material" % name)
+		if ResourceLoader.exists(directory.path_join("%s.material" % name)):
+			return directory.path_join("%s.material" % name)
 	return ""
 
 

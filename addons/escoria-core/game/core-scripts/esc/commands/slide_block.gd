@@ -23,7 +23,7 @@ func run(command_params: Array) -> int:
 		escoria.object_manager.get_object(command_params[1]),
 		command_params[2]
 	)
-	await tween.tween_all_completed
+	await tween.finished
 	return ESCExecution.RC_OK
 
 

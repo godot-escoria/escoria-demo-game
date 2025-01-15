@@ -1,43 +1,37 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=10 format=3 uid="uid://r2r2i3515cjg"]
 
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_exit.gd" type="Script" id=2]
-[ext_resource path="res://game/fonts/caslonantique.tres" type="FontFile" id=3]
-[ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=5]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
-[ext_resource path="res://game/rooms/room10/room10background.png" type="Texture2D" id=10]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_exit.gd" id="2"]
+[ext_resource type="FontFile" path="res://game/fonts/caslonantique.tres" id="3"]
+[ext_resource type="PackedScene" uid="uid://chf3qovs1q8kr" path="res://game/characters/mark/mark.tscn" id="4"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="5"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
+[ext_resource type="Texture2D" uid="uid://y8rtc7f60l5i" path="res://game/rooms/room10/room10background.png" id="10"]
 
-[sub_resource type="NavigationPolygon" id=1]
-vertices = PackedVector2Array( 1185.27, 712.779, 1187.27, 663.779, 1259.27, 705.779, 1260.27, 800.779, 13.2684, 699.779, 83.2684, 666.779, 85.2684, 704.779, 11.2684, 799.779, 112.268, 685.779, 1153.27, 688.779 )
-polygons = [ PackedInt32Array( 0, 1, 2, 3 ), PackedInt32Array( 4, 5, 6, 7 ), PackedInt32Array( 8, 9, 0, 3, 7, 6 ) ]
-outlines = [ PackedVector2Array( 13.2684, 699.779, 83.2684, 666.779, 85.2684, 704.779, 112.268, 685.779, 1153.27, 688.779, 1185.27, 712.779, 1187.27, 663.779, 1259.27, 705.779, 1260.27, 800.779, 11.2684, 799.779 ) ]
+[sub_resource type="NavigationPolygon" id="1"]
+vertices = PackedVector2Array(1185.27, 712.779, 1187.27, 663.779, 1259.27, 705.779, 1260.27, 800.779, 13.2684, 699.779, 83.2684, 666.779, 85.2684, 704.779, 11.2684, 799.779, 112.268, 685.779, 1153.27, 688.779)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7), PackedInt32Array(8, 9, 0, 3, 7, 6)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(13.2684, 699.779, 83.2684, 666.779, 85.2684, 704.779, 112.268, 685.779, 1153.27, 688.779, 1185.27, 712.779, 1187.27, 663.779, 1259.27, 705.779, 1260.27, 800.779, 11.2684, 799.779)])
 
 [node name="room10" type="Node2D"]
-script = ExtResource( 6 )
-__meta__ = {
-"_edit_vertical_guides_": [  ]
-}
+script = ExtResource("6")
 global_id = "room10"
 esc_script = "res://game/rooms/room10/esc/room10.esc"
-player_scene = ExtResource( 4 )
-camera_limits = [ Rect2( 0, 0, 1280, 555 ) ]
+player_scene = ExtResource("4")
+camera_limits = [Rect2(0, 0, 1280, 555)]
 
-[node name="walkable_area" type="Navigation2D" parent="."]
-script = ExtResource( 1 )
+[node name="walkable_area" type="Node2D" parent="."]
+script = ExtResource("1")
 
 [node name="platform" type="NavigationRegion2D" parent="walkable_area"]
-position = Vector2( 6.73163, -264.779 )
-navigation_polygon = SubResource( 1 )
-__meta__ = {
-"_editor_description_": ""
-}
+position = Vector2(6.73163, -264.779)
+navigation_polygon = SubResource("1")
 
 [node name="Hotspots" type="Node2D" parent="."]
 
 [node name="r_door" type="Area2D" parent="Hotspots"]
-script = ExtResource( 2 )
+script = ExtResource("2")
 global_id = "r10_r_exit"
 esc_script = "res://game/rooms/room10/esc/right_exit.esc"
 is_exit = true
@@ -45,276 +39,263 @@ tooltip_name = "Exit"
 default_action = "walk"
 
 [node name="ESCLocation" type="Marker2D" parent="Hotspots/r_door"]
-position = Vector2( 1228, 437 )
-script = ExtResource( 5 )
+position = Vector2(1228, 437)
+script = ExtResource("5")
 global_id = "right_door_location"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
-polygon = PackedVector2Array( 1174, 122, 1280, 167, 1279, 482, 1173, 414 )
+polygon = PackedVector2Array(1174, 122, 1280, 167, 1279, 482, 1173, 414)
 
 [node name="l_door" type="Area2D" parent="Hotspots"]
 process_mode = 1
-script = ExtResource( 7 )
+script = ExtResource("7")
 global_id = "r10_l_exit"
 esc_script = "res://game/rooms/room10/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
-polygon = PackedVector2Array( 1, 482, 3, 166, 109, 124, 109, 413 )
+polygon = PackedVector2Array(1, 482, 3, 166, 109, 124, 109, 413)
 
 [node name="Marker2D" type="Marker2D" parent="Hotspots/l_door"]
-position = Vector2( 57, 437 )
-script = ExtResource( 5 )
+position = Vector2(57, 437)
+script = ExtResource("5")
 global_id = "left_door_location"
 
 [node name="button_stop_bg_music" type="Area2D" parent="Hotspots"]
 process_mode = 1
 z_index = 1
-script = ExtResource( 7 )
+script = ExtResource("7")
 global_id = "r10_btn_stop_bg_music"
 esc_script = "res://game/rooms/room10/esc/button_stop_bg_music.esc"
 tooltip_name = "stop music"
 default_action = "use"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
 [node name="ESCLocation" type="Marker2D" parent="Hotspots/button_stop_bg_music"]
-position = Vector2( 541, 446 )
-script = ExtResource( 5 )
+position = Vector2(541, 446)
+script = ExtResource("5")
 
 [node name="Label" type="Label" parent="Hotspots/button_stop_bg_music"]
-offset_left = 496.7
-offset_top = 272.1
-offset_right = 569.7
-offset_bottom = 320.1
-rotation = 3.02975
-scale = Vector2( 1.35938, 1.49065 )
-theme_override_colors/font_color = Color( 0, 0, 0, 1 )
+offset_left = 493.0
+offset_top = 259.0
+offset_right = 586.0
+offset_bottom = 334.0
+rotation = 0.0581226
+scale = Vector2(1.1106, 1.21785)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Stop 
 background
 music"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+horizontal_alignment = 1
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_stop_bg_music"]
-position = Vector2( 137.7, 41.1 )
-polygon = PackedVector2Array( 358, 212, 460, 220, 455, 319, 351, 315 )
+position = Vector2(137.7, 41.1)
+polygon = PackedVector2Array(358, 212, 460, 220, 455, 319, 351, 315)
 
 [node name="button_play_bg_music" type="Area2D" parent="Hotspots"]
 process_mode = 1
 z_index = 1
-script = ExtResource( 7 )
+script = ExtResource("7")
 global_id = "r10_btn_play_bg_music"
 esc_script = "res://game/rooms/room10/esc/button_play_bg_music.esc"
 tooltip_name = "play music"
 default_action = "use"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
 [node name="ESCLocation" type="Marker2D" parent="Hotspots/button_play_bg_music"]
-position = Vector2( 667, 451 )
-script = ExtResource( 5 )
+position = Vector2(667, 451)
+script = ExtResource("5")
 
 [node name="Label" type="Label" parent="Hotspots/button_play_bg_music"]
-offset_left = 595.0
-offset_top = 218.368
-offset_right = 668.0
-offset_bottom = 283.368
-rotation = -26.6278
-scale = Vector2( 1.35608, 1.30798 )
-theme_override_colors/font_color = Color( 0, 0, 0, 1 )
+offset_left = 602.0
+offset_top = 211.0
+offset_right = 675.0
+offset_bottom = 312.0
+rotation = -25.6527
+scale = Vector2(0.927453, 0.894557)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Play
 back-
 ground
 music"
-align = 1
+horizontal_alignment = 1
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_play_bg_music"]
-position = Vector2( 244, -35 )
-polygon = PackedVector2Array( 356, 243, 419, 210, 463, 293, 402, 327 )
+position = Vector2(244, -35)
+polygon = PackedVector2Array(356, 243, 419, 210, 463, 293, 402, 327)
 
 [node name="button_accept_input" type="Area2D" parent="Hotspots"]
 process_mode = 1
 z_index = 1
-script = ExtResource( 7 )
+script = ExtResource("7")
 global_id = "test_accept_input"
 esc_script = "res://game/rooms/room10/esc/button_accept_input_test.esc"
 tooltip_name = "accept input"
 default_action = "use"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
 [node name="ESCLocation" type="Marker2D" parent="Hotspots/button_accept_input"]
-position = Vector2( 770, 448 )
-script = ExtResource( 5 )
+position = Vector2(770, 448)
+script = ExtResource("5")
 
 [node name="Label" type="Label" parent="Hotspots/button_accept_input"]
-offset_left = 731.0
-offset_top = 220.0
-offset_right = 804.0
-offset_bottom = 285.0
-rotation = 6.81876
-scale = Vector2( 1.35608, 2.12674 )
-theme_override_colors/font_color = Color( 0, 0, 0, 1 )
+offset_left = 734.0
+offset_top = 193.0
+offset_right = 807.0
+offset_bottom = 268.0
+rotation = 6.40153
+scale = Vector2(1.35608, 2.12674)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Test 
 Accept
  Input"
-align = 1
+horizontal_alignment = 1
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_accept_input"]
-position = Vector2( -50, -130 )
-polygon = PackedVector2Array( 787, 336, 871, 348, 856, 481, 773, 471 )
+position = Vector2(-50, -130)
+polygon = PackedVector2Array(787, 336, 871, 348, 856, 481, 773, 471)
 
 [node name="button_slide" type="Area2D" parent="Hotspots"]
 process_mode = 1
 z_index = 1
-script = ExtResource( 7 )
+script = ExtResource("7")
 global_id = "button_slide"
 esc_script = "res://game/rooms/room10/esc/button_slide.esc"
 tooltip_name = "test slide"
 default_action = "use"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
 [node name="slide_location" type="Marker2D" parent="Hotspots/button_slide"]
-position = Vector2( 899, 448 )
-script = ExtResource( 5 )
+position = Vector2(899, 448)
+script = ExtResource("5")
 global_id = "slide_location"
 
 [node name="Label" type="Label" parent="Hotspots/button_slide"]
-offset_left = 854.0
-offset_top = 264.0
-offset_right = 927.0
-offset_bottom = 329.0
-rotation = 0.93414
-scale = Vector2( 1.15936, 1.16296 )
-theme_override_colors/font_color = Color( 0, 0, 0, 1 )
+offset_left = 855.0
+offset_top = 252.0
+offset_right = 928.0
+offset_bottom = 317.0
+rotation = -0.0136912
+scale = Vector2(1.15936, 1.16296)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Test 
 Slide"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+horizontal_alignment = 1
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_slide"]
-position = Vector2( 87, -140 )
-polygon = PackedVector2Array( 774, 378, 842, 378, 843, 472, 774, 471 )
+position = Vector2(87, -140)
+polygon = PackedVector2Array(774, 378, 842, 378, 843, 472, 774, 471)
 
 [node name="button_turn_to" type="Area2D" parent="Hotspots"]
 process_mode = 1
 z_index = 1
-script = ExtResource( 7 )
+script = ExtResource("7")
 global_id = "button_turn_to"
 esc_script = "res://game/rooms/room10/esc/button_turn_to.esc"
 tooltip_name = "Test turn_to"
 default_action = "use"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
 [node name="ESCLocation" type="Marker2D" parent="Hotspots/button_turn_to"]
-position = Vector2( 1101, 442 )
-script = ExtResource( 5 )
+position = Vector2(1101, 442)
+script = ExtResource("5")
 
 [node name="Label" type="Label" parent="Hotspots/button_turn_to"]
 offset_left = 1059.0
-offset_top = 238.0
+offset_top = 224.0
 offset_right = 1132.0
-offset_bottom = 303.0
-rotation = 0.93414
-scale = Vector2( 1.08184, 0.99822 )
-theme_override_colors/font_color = Color( 0, 0, 0, 1 )
+offset_bottom = 289.0
+rotation = -0.0023579
+scale = Vector2(1.08184, 0.99822)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Test
 turn_to"
-align = 1
+horizontal_alignment = 1
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_turn_to"]
-position = Vector2( 87, -140 )
-polygon = PackedVector2Array( 976, 347, 1046, 347, 1047, 440, 976, 441 )
+position = Vector2(87, -140)
+polygon = PackedVector2Array(976, 347, 1046, 347, 1047, 440, 976, 441)
 
 [node name="button_play_sound" type="Area2D" parent="Hotspots"]
 process_mode = 1
 z_index = 1
-script = ExtResource( 7 )
+script = ExtResource("7")
 global_id = "r10_btn_play_snd"
 esc_script = "res://game/rooms/room10/esc/button_play_snd.esc"
 tooltip_name = "play sound"
 default_action = "use"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
 [node name="ESCLocation" type="Marker2D" parent="Hotspots/button_play_sound"]
-position = Vector2( 988, 446 )
-script = ExtResource( 5 )
+position = Vector2(988, 446)
+script = ExtResource("5")
 
 [node name="Label" type="Label" parent="Hotspots/button_play_sound"]
-offset_left = 944.0
-offset_top = 290.0
-offset_right = 1017.0
-offset_bottom = 355.0
-rotation = -64.6977
-scale = Vector2( 1.60324, 1.84114 )
-theme_override_colors/font_color = Color( 0, 0, 0, 1 )
+offset_left = 968.0
+offset_top = 193.0
+offset_right = 1041.0
+offset_bottom = 258.0
+rotation = -62.417
+scale = Vector2(1.2743, 1.46339)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Play 
 Sound"
-align = 1
+horizontal_alignment = 1
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_play_sound"]
-position = Vector2( -21, -143 )
-polygon = PackedVector2Array( 1001, 336, 1065, 365, 1027, 451, 962, 423 )
+position = Vector2(-21, -143)
+polygon = PackedVector2Array(1001, 336, 1065, 365, 1027, 451, 962, 423)
 
 [node name="slide_pos_1" type="Marker2D" parent="."]
-position = Vector2( 287, 273 )
-script = ExtResource( 5 )
+position = Vector2(287, 273)
+script = ExtResource("5")
 global_id = "slide_pos_1"
 
 [node name="slide_pos_2" type="Marker2D" parent="."]
-position = Vector2( 958.33, 638.293 )
-script = ExtResource( 5 )
+position = Vector2(958.33, 638.293)
+script = ExtResource("5")
 global_id = "slide_pos_2"
 
 [node name="player_start" type="Marker2D" parent="."]
-position = Vector2( 418, 472 )
-script = ExtResource( 5 )
+position = Vector2(418, 472)
+script = ExtResource("5")
 global_id = "r10_player_start"
 is_start_location = true
 
 [node name="player_accept_input_location" type="Marker2D" parent="."]
-position = Vector2( 938, 509 )
-script = ExtResource( 5 )
+position = Vector2(938, 509)
+script = ExtResource("5")
 global_id = "accept_input_location"
 
 [node name="room_label" type="Label" parent="."]
 offset_right = 92.0
 offset_bottom = 21.0
-theme_override_fonts/font = ExtResource( 3 )
+theme_override_fonts/font = ExtResource("3")
 text = "ROOM 10"
 
 [node name="Room10Background" type="Sprite2D" parent="."]
-texture = ExtResource( 10 )
+texture = ExtResource("10")
 centered = false
 
 [node name="Room_overview" type="Node2D" parent="."]
 
 [node name="Polygon2D" type="Polygon2D" parent="Room_overview"]
-position = Vector2( 3, -138 )
-color = Color( 1, 1, 1, 0.537255 )
-polygon = PackedVector2Array( 152, 175, 424, 175, 424, 421, 152, 421 )
+position = Vector2(3, -138)
+color = Color(1, 1, 1, 0.537255)
+polygon = PackedVector2Array(152, 175, 480, 175, 477, 553, 156, 555)
 
 [node name="Label" type="Label" parent="Room_overview"]
-modulate = Color( 0.0352941, 0.0588235, 0.27451, 1 )
+modulate = Color(0.0352941, 0.0588235, 0.27451, 1)
 offset_left = 163.0
 offset_top = 45.0
 offset_right = 427.0

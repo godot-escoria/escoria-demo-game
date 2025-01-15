@@ -58,26 +58,21 @@ func validate(arguments: Array):
 # - *speed*: The speed at which to slide in pixels per second (will default to
 #   the speed configured on the `object`)
 #
-#
 # **Returns** The generated (and started) tween
 func _slide_object(
 	source: ESCObject,
 	destination: ESCObject,
 	speed: int = -1
-) -> Tween:
+) -> Tween3:
 	if speed == -1:
 		speed = source.node.speed
-
+	var tween: Tween3
 	if _tweens.has(source.global_id):
-		var tween = (_tweens.get(source.global_id) as Tween)
+		tween = (_tweens.get(source.global_id) as Tween3)
 		tween.stop_all()
-		if (escoria.main as Node).has_node(tween.name):
-			(escoria.main as Node).remove_child(tween)
-
-	var tween = Tween.new()
-	(escoria.main as Node).add_child(tween)
-
-	tween.connect("finished", Callable(self, "_on_tween_completed"))
+	else:
+		tween = Tween3.new(source.node)
+		tween.finished.connect(_on_tween_completed)
 
 	var duration = source.node.position.distance_to(
 		destination.node.position
@@ -91,10 +86,8 @@ func _slide_object(
 		duration
 	)
 
-	tween.start()
-
+	tween.play()
 	_tweens[source.global_id] = tween
-
 	return tween
 
 
