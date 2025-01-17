@@ -1,9 +1,13 @@
 :use
+	accept_input("NONE")
 	transition("curtain", "out")
 	wait(2)
 	transition("fade_black", "in")
+	accept_input("ALL")
 
 :look
+	accept_input("NONE")
 	transition("curtain", "out")
 	wait(2)
 	transition("fade_black", "in")
+	accept_input("ALL")

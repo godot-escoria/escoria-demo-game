@@ -218,14 +218,14 @@ func _on_dialog_finished():
 
 # Handler managing pause notification from Escoria
 func _on_paused():
-	if tween.is_active():
+	if tween.is_running():
 		is_paused = true
 		tween.stop()
 
 
 # Handler managing resume notification from Escoria
 func _on_resumed():
-	if not tween.is_active():
+	if not tween.is_running():
 		# We can't rely on "show()" to make an invisible popup reappear, as per the docs for
 		# CanvasItem. Instead, we need to use one of the popup_* methods.
 		if is_inside_tree():

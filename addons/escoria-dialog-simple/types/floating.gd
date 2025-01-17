@@ -242,7 +242,7 @@ func _on_dialog_finished():
 
 # Handler managing pause notification from Escoria
 func _on_paused():
-	if tween.is_active():
+	if tween.is_running():
 		is_paused = true
 		tween.stop()
 

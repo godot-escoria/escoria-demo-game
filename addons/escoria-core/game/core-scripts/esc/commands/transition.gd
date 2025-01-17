@@ -32,7 +32,7 @@ func validate(arguments: Array):
 		return false
 
 	if not escoria.main.scene_transition.has_transition(arguments[0]) \
-		and not arguments[0].empty():
+		and not arguments[0].is_empty():
 		raise_error(
 			self,
 			"Argument invalid. Transition with name '%s' doesn't exist." % arguments[0]
