@@ -42,7 +42,8 @@ func _init(callables: Array, globals: Dictionary):
 	for key in globals.keys():
 		_globals.define(key, globals[key])
 
-	escoria.globals_manager.global_changed.connect(_on_global_changed)
+	if not Engine.is_editor_hint():
+		escoria.globals_manager.global_changed.connect(_on_global_changed)
 
 
 func get_global_values() -> Dictionary:
@@ -83,9 +84,6 @@ func visit_block_stmt(stmt: ESCGrammarStmts.Block):
 
 
 func visit_event_stmt(stmt: ESCGrammarStmts.Event):
-	if _current_event:
-		print("-----------------CURRENT EVENT--------------")
-
 	_current_event = stmt
 
 	stmt.reset_interrupt()

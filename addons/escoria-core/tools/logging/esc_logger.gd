@@ -5,20 +5,8 @@ class ESCLoggerBase:
 	# Sends the error or warning message in the signal
 	signal error_message_signal(message)
 
-	# Valid log levels
-	enum { LOG_ERROR, LOG_WARNING, LOG_INFO, LOG_DEBUG, LOG_TRACE }
-
 	# Log file format
 	const LOG_FILE_FORMAT: String = "log_%s_%s.log"
-
-	# A map of log level names to log level ints
-	var _level_map: Dictionary = {
-		"ERROR": LOG_ERROR,
-		"WARNING": LOG_WARNING,
-		"INFO": LOG_INFO,
-		"DEBUG": LOG_DEBUG,
-		"TRACE": LOG_TRACE,
-	}
 
 	# Configured log level
 	var _log_level: int
@@ -30,9 +18,7 @@ class ESCLoggerBase:
 
 	# Constructor
 	func _init():
-		_log_level = _level_map[ESCProjectSettingsManager.get_setting(
-			ESCProjectSettingsManager.LOG_LEVEL
-		).to_upper()]
+		_log_level = ESCLogLevel.determine_escoria_log_level()
 
 
 	func formatted_message(context: String, msg: String, letter: String) -> String:
@@ -144,43 +130,43 @@ class ESCLoggerFile extends ESCLoggerBase:
 
 	# Trace log
 	func trace(owner: Object, msg: String):
-		if _log_level >= LOG_TRACE:
+		if _log_level >= ESCLogLevel.LOG_TRACE:
 			_log_to_file(owner, msg, "T")
 			super.trace(owner, msg)
 
 	# Static trace log
 	func trace_message(context: String, msg: String):
-		if _log_level >= LOG_TRACE:
+		if _log_level >= ESCLogLevel.LOG_TRACE:
 			_log_to_file_message(context, msg, "T")
 			super.trace_message(context, msg)
 
 	# Debug log
 	func debug(owner: Object, msg: String):
-		if _log_level >= LOG_DEBUG:
+		if _log_level >= ESCLogLevel.LOG_DEBUG:
 			_log_to_file(owner, msg, "D")
 			super.debug(owner, msg)
 
 	# Static debug log
 	func debug_message(context: String, msg: String):
-		if _log_level >= LOG_DEBUG:
+		if _log_level >= ESCLogLevel.LOG_DEBUG:
 			_log_to_file_message(context, msg, "D")
 			super.debug_message(context, msg)
 
 	# Info log
 	func info(owner: Object, msg: String):
-		if _log_level >= LOG_INFO:
+		if _log_level >= ESCLogLevel.LOG_INFO:
 			_log_to_file(owner, msg, "I")
 			super.info(owner, msg)
 
 	# Static info log
 	func info_message(context: String, msg: String):
-		if _log_level >= LOG_INFO:
+		if _log_level >= ESCLogLevel.LOG_INFO:
 			_log_to_file_message(context, msg, "I")
 			super.info_message(context, msg)
 
 	# Warning log
 	func warn(owner: Object, msg: String):
-		if _log_level >= LOG_WARNING:
+		if _log_level >= ESCLogLevel.LOG_WARNING:
 			_log_to_file(owner, msg, "W")
 			if ESCProjectSettingsManager.get_setting(
 				ESCProjectSettingsManager.TERMINATE_ON_WARNINGS
@@ -192,7 +178,7 @@ class ESCLoggerFile extends ESCLoggerBase:
 
 	# Static warning log
 	func warn_message(context: String, msg: String):
-		if _log_level >= LOG_WARNING:
+		if _log_level >= ESCLogLevel.LOG_WARNING:
 			_log_to_file_message(context, msg, "W")
 			if ESCProjectSettingsManager.get_setting(
 				ESCProjectSettingsManager.TERMINATE_ON_WARNINGS
@@ -204,7 +190,7 @@ class ESCLoggerFile extends ESCLoggerBase:
 
 	# Error log
 	func error(owner: Object, msg: String):
-		if _log_level >= LOG_ERROR:
+		if _log_level >= ESCLogLevel.LOG_ERROR:
 			_log_to_file(owner, msg, "E")
 			if ESCProjectSettingsManager.get_setting(
 				ESCProjectSettingsManager.TERMINATE_ON_ERRORS
@@ -216,7 +202,7 @@ class ESCLoggerFile extends ESCLoggerBase:
 
 	# Static eror log
 	func error_message(context: String, msg: String):
-		if _log_level >= LOG_ERROR:
+		if _log_level >= ESCLogLevel.LOG_ERROR:
 			_log_to_file_message(context, msg, "E")
 			if ESCProjectSettingsManager.get_setting(
 				ESCProjectSettingsManager.TERMINATE_ON_ERRORS

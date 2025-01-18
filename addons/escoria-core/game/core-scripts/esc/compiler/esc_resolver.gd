@@ -166,10 +166,7 @@ func visit_variable_expr(expr: ESCGrammarExprs.Variable):
 		and _scopes.front().has(expr.get_name().get_lexeme()) \
 		and not _scopes.front()[expr.get_name().get_lexeme()]:
 
-		escoria.logger.error(
-			self,
-			"Can't read local variable in own initializer."
-		)
+		ESCSafeLogging.log_error(self, "Can't read local variable in own initializer.")
 
 	var resolved: bool = _resolve_local(expr, expr.get_name())
 
@@ -202,10 +199,7 @@ func _declare(name: ESCToken):
 
 	if scope.has(name.get_lexeme()):
 		# TODO: Better error handling
-		escoria.logger.error(
-			self,
-			"Already a variable with name '%s' in this scope." % name.get_lexeme()
-		)
+		ESCSafeLogging.log_error(self, "Already a variable with name '%s' in this scope." % name.get_lexeme())
 
 	scope[name.get_lexeme()] = false
 
