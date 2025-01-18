@@ -11,7 +11,7 @@ const ASHES_ANALYZER_MENU_ITEM = "Analyze Current ASHES Script"
 # The warning popup displayed on escoria-core enabling.
 var popup_info: AcceptDialog
 
-var _compiler_analyzer: AshesAnalyzer = AshesAnalyzer.new()
+var _compiler_analyzer: ESCAshesAnalyzer = ESCAshesAnalyzer.new()
 
 
 # Virtual function called when plugin is enabled.
