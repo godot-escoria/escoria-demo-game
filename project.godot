@@ -114,6 +114,10 @@ switch_action_verb={
 ]
 }
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://game/translations/game.de.translation", "res://game/translations/game.en.translation", "res://game/translations/game.es.translation", "res://game/translations/game.fr.translation", "res://game/translations/main_menu.de.translation", "res://game/translations/main_menu.en.translation", "res://game/translations/main_menu.es.translation", "res://game/translations/main_menu.fr.translation")
+
 [locale]
 
 translations=PackedStringArray("res://game/translations/game.en.translation", "res://game/translations/game.fr.translation", "res://game/translations/main_menu.en.translation", "res://game/translations/main_menu.fr.translation", "res://game/translations/game.de.translation", "res://game/translations/main_menu.de.translation", "res://game/translations/game.es.translation", "res://game/translations/main_menu.es.translation")

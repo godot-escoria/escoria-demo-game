@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bhcfnds3yy2yv"]
 
-[ext_resource type="Texture2D" uid="uid://q0yaug08624x" path="res://addons/escoria-core/ui_library/menus/options/flags/de.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://d1xst80fkddpa" path="res://addons/escoria-core/ui_library/menus/options/flags/de.png" id="1"]
 [ext_resource type="Script" path="res://addons/escoria-core/ui_library/menus/options/options.gd" id="4"]
 
 [node name="options" type="Control"]
@@ -8,6 +8,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("4")
 
 [node name="Panel" type="ColorRect" parent="."]

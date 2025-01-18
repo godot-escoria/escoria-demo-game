@@ -61,7 +61,7 @@ func _disable_plugin():
 
 
 # Add ourselves to the list of dialog managers
-func enable_plugin():
+func _enable_plugin():
 	print("Enabling plugin Escoria Dialog Simple")
 
 	if EscoriaPlugin.register_dialog_manager(self, MANAGER_CLASS):

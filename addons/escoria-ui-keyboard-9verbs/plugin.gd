@@ -15,7 +15,7 @@ func _disable_plugin() -> void:
 
 
 # Register UI with Escoria
-func enable_plugin():
+func _enable_plugin():
 	print("Enabling plugin Escoria UI 9-verbs with keyboard.")
 	if not EscoriaPlugin.register_ui(self, "res://addons/escoria-ui-keyboard-9verbs/game.tscn"):
 		get_editor_interface().set_plugin_enabled(

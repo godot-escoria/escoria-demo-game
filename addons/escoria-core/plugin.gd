@@ -37,7 +37,7 @@ func _enable_plugin():
 
 	ProjectSettings.set_setting(
 		"audio/buses/default_bus_layout",
-		"res://addons/escoria-core/default_bus_layout.tres"
+		"res://addons/escoria-core/buses/default_bus_layout.tres"
 	)
 
 	popup_info = AcceptDialog.new()
