@@ -6,7 +6,7 @@ class_name ESCTerrain
 
 
 # Logger class
-const Logger = preload("res://addons/escoria-core/game/esc_logger.gd")
+const Logger = preload("res://addons/escoria-core/tools/logging/esc_logger.gd")
 
 
 # Visualize scales or the lightmap for debugging purposes

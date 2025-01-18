@@ -64,8 +64,10 @@ func is_valid() -> bool:
 
 # Execute this statement and return its return code
 func run() -> int:
+	# TODO: It's entirely possible that this method is never executed; at some point, we'll need
+	# to trace through this and remove any dead code from this and other classes.
 	if parsed_statements.size() > 0:
-		var interpreter = escoria.interpreter_factory.create_interpreter()
+		var interpreter = ESCInterpreterFactory.create_interpreter()
 		var resolver: ESCResolver = ESCResolver.new(interpreter)
 		resolver.resolve(parsed_statements)
 		

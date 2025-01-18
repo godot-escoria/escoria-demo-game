@@ -5,9 +5,14 @@ extends EditorPlugin
 # Consts values
 const COMMA_SEPARATOR = ","
 const ESC_SCRIPT_EXTENSION = "esc"
+const ASHES_ANALYZER_MENU_ITEM = "Analyze Current ASHES Script"
+
 
 # The warning popup displayed on escoria-core enabling.
 var popup_info: AcceptDialog
+
+var _compiler_analyzer: AshesAnalyzer = AshesAnalyzer.new()
+
 
 # Virtual function called when plugin is enabled.
 func _enable_plugin():
@@ -22,6 +27,8 @@ func _enable_plugin():
 	set_escoria_sound_settings()
 	set_escoria_platform_settings()
 	set_filesystem_show_esc_files()
+
+	#add_tool_menu_item(ASHES_ANALYZER_MENU_ITEM, _compiler_analyzer.analyze)
 
 	# Add input actions in InputMap
 #	if not InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
@@ -59,6 +66,7 @@ func _on_warning_popup_confirmed():
 func _disable_plugin():
 	remove_autoload_singleton("escoria")
 	set_filesystem_hide_esc_files()
+	#remove_tool_menu_item(ASHES_ANALYZER_MENU_ITEM)
 #	if InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
 #		InputMap.erase_action(ESCInputsManager.SWITCH_ACTION_VERB)
 #	if InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
@@ -67,7 +75,12 @@ func _disable_plugin():
 
 # Setup Escoria
 func _enter_tree():
-	pass
+	# have to add this here since reloading the project doesn't re-add the Tools menu item
+	add_tool_menu_item(ASHES_ANALYZER_MENU_ITEM, _compiler_analyzer.analyze)
+
+
+func _exit_tree():
+	remove_tool_menu_item(ASHES_ANALYZER_MENU_ITEM)
 
 
 # Prepare the settings in the Escoria UI category

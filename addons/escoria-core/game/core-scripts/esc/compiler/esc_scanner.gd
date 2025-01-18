@@ -277,10 +277,8 @@ func _is_escape_char() -> bool:
 
 # TODO: Move error reporting up when compiler is updated.
 func _error(line: int, message: String) -> void:
-	escoria.logger.error(
-		self,
-		"[Line %s]: %s" % [line, message]
-	)
+	ESCSafeLogging.log_error(self, "[Line %s]: %s" % [line, message])
+
 
 func _match(expected: String) -> bool:
 	if _at_end():
