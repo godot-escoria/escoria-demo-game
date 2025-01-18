@@ -53,10 +53,12 @@ func run(command_params: Array) -> int:
 			{},
 			true
 		)
-	var animations = escoria.globals_manager.get_global(
+	var animations: Dictionary = escoria.globals_manager.get_global(
 		escoria.room_manager.GLOBAL_ANIMATION_RESOURCES
 	)
-	animations[command_params[0]] = command_params[1]
+	if animations.is_empty():
+		animations = {}
+		animations[command_params[0]] = command_params[1]
 	escoria.globals_manager.set_global(
 		escoria.room_manager.GLOBAL_ANIMATION_RESOURCES,
 		animations,

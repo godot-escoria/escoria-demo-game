@@ -7,3 +7,4 @@
 	else:
 		set_animations($player, "res://game/characters/mark/mark_animations.tres")
 		is_jester = false
+	set_angle($player, 0)
