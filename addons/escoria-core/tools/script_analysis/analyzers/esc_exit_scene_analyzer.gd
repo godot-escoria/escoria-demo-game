@@ -22,7 +22,8 @@ func analyze(statements: Array) -> void:
 			issue_messages = _analyze_exit_scene_event(statement)
 			break
 
-	issue_messages.all(func(message): ESCSafeLogging.log_warn(self, message))
+	for message in issue_messages:
+		ESCSafeLogging.log_warn(self, message)
 
 
 func _analyze_exit_scene_event(event) -> Array[String]:
@@ -120,6 +121,9 @@ func _check_for_change_scene_command(event: ESCGrammarStmts.Event) -> bool:
 		return false
 
 	for statement in block.get_statements():
+		if not statement.has_method('get_expression'):
+			continue
+
 		if _get_command_name_from(statement.get_expression()) == CHANGE_SCENE_COMMAND_NAME:
 			return true
 
