@@ -97,21 +97,23 @@ func _compiler_shim(source: String, filename: String = ""):
 
 	var parsed_statements = parser.parse()
 
-	var error_message: String = ("Error(s) found during parsing" if had_error else "No errors found during parsing") + ("" if filename.is_empty() else " of script '%s'" % filename)
+	if not filename.is_empty():
+		var error_message: String = ("Error(s) found during parsing" if had_error else "No errors found during parsing") + ("" if filename.is_empty() else " of script '%s'" % filename)
 
-	ESCSafeLogging.log_result(self, error_message, not had_error)
+		ESCSafeLogging.log_result(self, error_message, not had_error)
 
 	# Some static analysis
 	if not had_error:
 		var resolver: ESCResolver = ESCResolver.new(ESCInterpreterFactory.create_interpreter())
 		resolver.resolve(parsed_statements)
 
-		ESCSafeLogging.log_info(self, "Analyzing '%s'..." % filename)
+		if not filename.is_empty():
+			ESCSafeLogging.log_info(self, "Analyzing '%s'..." % filename)
 
-		var static_analyzers = ESCStaticAnalyzers.new(parsed_statements)
-		static_analyzers.run()
+			var static_analyzers = ESCStaticAnalyzers.new(parsed_statements)
+			static_analyzers.run()
 
-		ESCSafeLogging.log_info(self, "Finished analyzing '%s'." % filename)
+			ESCSafeLogging.log_info(self, "Finished analyzing '%s'." % filename)
 
 	var script = ESCScript.new()
 
