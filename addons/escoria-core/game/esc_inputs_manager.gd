@@ -125,7 +125,7 @@ func register_custom_input_handler(callback) -> void:
 # **Returns** Result of `custom_input_handler` if set; otherwise, `false`
 func try_custom_input_handler(event: InputEvent, is_default_state: bool) -> bool:
 	if custom_input_handler:
-		return custom_input_handler.call_func(event, is_default_state)
+		return custom_input_handler.call(event, is_default_state)
 	else:
 		return false
 

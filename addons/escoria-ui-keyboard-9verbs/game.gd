@@ -73,7 +73,7 @@ func _enter_tree():
 			).instantiate()
 		)
 
-	var input_handler = funcref(self, "_process_input")
+	var input_handler = Callable(self, "_process_input")
 	escoria.inputs_manager.register_custom_input_handler(input_handler)
 	input_map.add_actions_to_input_map()
 
