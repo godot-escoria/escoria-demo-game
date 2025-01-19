@@ -5,7 +5,7 @@ extends EditorPlugin
 # Consts values
 const COMMA_SEPARATOR = ","
 const ESC_SCRIPT_EXTENSION = "esc"
-const ASHES_ANALYZER_MENU_ITEM = "Analyze Current ASHES Script"
+const ASHES_ANALYZER_MENU_ITEM = "Analyze ASHES Scripts"
 
 
 # The warning popup displayed on escoria-core enabling.
