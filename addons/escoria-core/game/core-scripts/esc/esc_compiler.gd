@@ -106,8 +106,12 @@ func _compiler_shim(source: String, filename: String = ""):
 		var resolver: ESCResolver = ESCResolver.new(ESCInterpreterFactory.create_interpreter())
 		resolver.resolve(parsed_statements)
 
+		ESCSafeLogging.log_info(self, "Analyzing '%s'..." % filename)
+
 		var static_analyzers = ESCStaticAnalyzers.new(parsed_statements)
 		static_analyzers.run()
+
+		ESCSafeLogging.log_info(self, "Finished analyzing '%s'." % filename)
 
 	var script = ESCScript.new()
 
