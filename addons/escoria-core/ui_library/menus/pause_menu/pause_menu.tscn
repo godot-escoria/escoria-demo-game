@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://addons/escoria-core/ui_library/menus/pause_menu/pause_menu.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://bhcfnds3yy2yv" path="res://addons/escoria-core/ui_library/menus/options/options.tscn" id="2"]
-[ext_resource type="Texture2D" uid="uid://dalkbdbnvpk5q" path="res://addons/escoria-core/design/escoria-logo-small.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://d300y13hk5wsn" path="res://addons/escoria-core/design/escoria-logo-small.png" id="3"]
 [ext_resource type="PackedScene" path="res://addons/escoria-core/ui_library/menus/load_save/save/save_game.tscn" id="4"]
-[ext_resource type="PackedScene" path="res://addons/escoria-core/ui_library/menus/load_save/load/load_game.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://j3wkbyhedkpr" path="res://addons/escoria-core/ui_library/menus/load_save/load/load_game.tscn" id="5"]
 [ext_resource type="Theme" path="res://addons/escoria-core/ui_library/theme.tres" id="6"]
 
 [node name="pause_menu" type="Control"]
@@ -12,6 +12,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1")
 
 [node name="Panel" type="ColorRect" parent="."]
@@ -26,16 +28,16 @@ anchors_preset = 0
 theme = ExtResource("6")
 
 [node name="load_game" parent="." instance=ExtResource("5")]
-visible = false
-anchors_preset = 0
-
-[node name="options" parent="." instance=ExtResource("2")]
-visible = false
 layout_mode = 1
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="options" parent="." instance=ExtResource("2")]
+visible = false
+layout_mode = 1
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+visible = false
 layout_mode = 0
 anchor_left = 0.5
 anchor_right = 0.5
@@ -71,16 +73,6 @@ text = "SAVE_GAME"
 
 [node name="load_game" type="Button" parent="VBoxContainer/menuitems"]
 layout_mode = 2
-size_flags_vertical = 3
-text = "SAVE_GAME"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="load_game" type="Button" parent="VBoxContainer/menuitems"]
-margin_top = 220.0
-margin_right = 616.0
-margin_bottom = 240.0
 size_flags_vertical = 3
 text = "LOAD_GAME"
 

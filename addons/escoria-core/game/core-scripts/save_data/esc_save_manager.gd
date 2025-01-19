@@ -332,7 +332,7 @@ func load_game(id: int):
 	escoria.game_scene.hide_main_menu()
 	escoria.game_scene.unpause_game()
 
-	escoria.room_manager.change_scene(save_game.main.current_scene_filename, false)
+	escoria.room_manager.change_scene_to_file(save_game.main.current_scene_filename, false)
 
 	_load_savegame_objects(save_game.objects)
 
@@ -484,7 +484,7 @@ func _load_savegame_events(savegame_events: Dictionary):
 	escoria.logger.info(self, "Loading events")
 
 	if savegame_events.has("sched_events") \
-			and not savegame_events.sched_events.empty():
+			and not savegame_events.sched_events.is_empty():
 		escoria.logger.info(self, "Loading scheduled events")
 		for sched_event in savegame_events.sched_events:
 			var script: ESCScript = escoria.esc_compiler.load_esc_file(sched_event.event.source)

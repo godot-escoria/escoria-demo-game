@@ -135,7 +135,7 @@ func seek_end(name: String):
 		_animation_player.seek(_animation_player.get_animation(name).length, true)
 	else:
 		_animated_sprite.animation = name
-		_animated_sprite.frame = _animated_sprite.frames.get_frame_count(name)
+		_animated_sprite.frame = _animated_sprite.sprite_frames.get_frame_count(name)
 
 
 # Get the length of the specified animation

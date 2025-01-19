@@ -196,7 +196,7 @@ func set_camera_limits(camera_limit_id: int = 0, scene: Node = current_scene) ->
 func save_game(p_savegame_res: Resource) -> void:
 	p_savegame_res.main = {
 		ESCSaveGame.MAIN_LAST_SCENE_GLOBAL_ID_KEY: last_scene_global_id,
-		ESCSaveGame.MAIN_CURRENT_SCENE_FILENAME_KEY: current_scene.filename \
+		ESCSaveGame.MAIN_CURRENT_SCENE_FILENAME_KEY: current_scene.scene_file_path \
 				if current_scene != null \
 				else "No current scene (not loaded yet)"
 	}
