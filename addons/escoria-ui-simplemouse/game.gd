@@ -51,15 +51,15 @@ const DEADZONE = 0.2
 # Multiplier to apply to axis when it exceeds DEADZONE.
 const AXIS_WEIGHT = 50.0
 
-# JOY_BUTTON_2 corresponds to the "X" button on an XBox controller
+# JOY_BUTTON_X corresponds to the "X" button on an XBox controller
 # or the Square button on a Playstation controller. These appear to
 # map to the "primary action," in practice, so we treat it like a left click.
-const PRIMARY_ACTION_BUTTON = JOY_BUTTON_2
+const PRIMARY_ACTION_BUTTON = JOY_BUTTON_X
 
-# JOY_BUTTON_3 corresponds to the "Y" button on an XBox controller
+# JOY_BUTTON_Y corresponds to the "Y" button on an XBox controller
 # or the Triangle button on a Playstation controller. These appear to
 # map to the "secondary action," in practice, so we treat it like a right click.
-const CHANGE_VERB_BUTTON = JOY_BUTTON_3
+const CHANGE_VERB_BUTTON = JOY_BUTTON_Y
 
 # Input action for use by InputMap
 const ESC_UI_CHANGE_VERB_ACTION = "esc_change_verb"
@@ -88,7 +88,7 @@ func _enter_tree():
 			).instantiate()
 		)
 
-	var input_handler = funcref(self, "_process_input")
+	var input_handler = Callable(self, "_process_input")
 	escoria.inputs_manager.register_custom_input_handler(input_handler)
 
 	_is_gamepad_connected = Input.is_joy_known(JOY_DEVICE)
@@ -153,15 +153,15 @@ func _process(_delta) -> void:
 	if !_is_gamepad_connected:
 		return
 
-	var x = Input.get_joy_axis(JOY_DEVICE, JOY_AXIS_0)
-	var y = Input.get_joy_axis(JOY_DEVICE, JOY_AXIS_1)
+	var x = Input.get_joy_axis(JOY_DEVICE, JOY_AXIS_LEFT_X)
+	var y = Input.get_joy_axis(JOY_DEVICE, JOY_AXIS_LEFT_Y)
 	var delta_x = int(x * AXIS_WEIGHT) if abs(x) > DEADZONE else 0
 	var delta_y = int(y * AXIS_WEIGHT) if abs(y) > DEADZONE else 0
 	if delta_x or delta_y:
 		var direction: Vector2
 		direction.x = delta_x
 		direction.y = delta_y
-		escoria.logger.trace("gamepad direction:", [direction])
+		escoria.logger.trace(self, "gamepad direction: %s" % [direction])
 		var viewport = get_viewport()
 		viewport.warp_mouse(viewport.get_mouse_position() + direction)
 
@@ -172,7 +172,7 @@ func _process_input(event: InputEvent, is_default_state: bool) -> bool:
 		# the "New Game" screen.
 		return false
 	elif _is_gamepad_connected and event is InputEventJoypadButton:
-		escoria.logger.trace("InputEventJoypadButton:", [event.as_text()])
+		escoria.logger.trace(self, "InputEventJoypadButton: %s" % [event.as_text()])
 		if event.is_action_pressed(escoria.inputs_manager.ESC_UI_PRIMARY_ACTION):
 			# Admittedly, this breaks abstraction barriers and is completely
 			# inappropriate, but it's what works right now.

@@ -37,6 +37,13 @@ func has(key: String) -> bool:
 # Clear all globals.
 func clear():
 	_globals.clear()
+	if (escoria.inventory == null):
+		escoria.logger.error(
+			self, 
+			"The escoria.inventory property is null." 
+			+ "Please verify that the inventory scene (inheriting ESCInventory)" 
+			+ " main script's _ready() function calls super._ready()."
+		)
 	escoria.inventory.clear()
 
 
