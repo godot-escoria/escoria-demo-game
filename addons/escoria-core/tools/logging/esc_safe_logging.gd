@@ -16,28 +16,35 @@ static func log_level() -> String:
 
 
 static func log_error(owner: Object, message: String) -> void:
-	if Engine.is_editor_hint() and ESCLogLevel.determine_escoria_log_level() >= ESCLogLevel.LOG_ERROR:
+	if Engine.is_editor_hint():
 		print_rich("[color=%s]%s[/color]" % [COLOUR_RED, message])
 	else:
 		escoria.logger.error(owner, message)
 
 
 static func log_warn(owner: Object, message: String) -> void:
-	if Engine.is_editor_hint() and ESCLogLevel.determine_escoria_log_level() >= ESCLogLevel.LOG_WARNING:
+	if Engine.is_editor_hint():
 		print_rich("[color=%s]%s[/color]" % [COLOUR_YELLOW, message])
 	else:
 		escoria.logger.warn(owner, message)
 
 
+static func log_info(owner: Object, message: String) -> void:
+	if Engine.is_editor_hint():
+		print(message)
+	else:
+		escoria.logger.info(owner, message)
+
+
 static func log_debug(owner: Object, message: String) -> void:
-	if Engine.is_editor_hint() and ESCLogLevel.determine_escoria_log_level() >= ESCLogLevel.LOG_DEBUG:
+	if Engine.is_editor_hint():
 		print(message)
 	else:
 		escoria.logger.debug(owner, message)
 
 
 static func log_trace(owner: Object, message: String) -> void:
-	if Engine.is_editor_hint() and ESCLogLevel.determine_escoria_log_level() >= ESCLogLevel.LOG_TRACE:
+	if Engine.is_editor_hint():
 		print(message)
 	else:
 		escoria.logger.trace(owner, message)
