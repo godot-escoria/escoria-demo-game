@@ -1,6 +1,6 @@
 @tool
 @icon("res://addons/escoria-core/design/esc_terrain.svg")
-# A walkable Terrains
+## A walkable Terrain for Escoria rooms.
 extends Node2D
 class_name ESCTerrain
 
@@ -17,37 +17,46 @@ enum DebugMode {
 }
 
 
-# Scaling texture
+## Scaling texture.
+## This is a greycale image defining how close to the camera the character will 
+## look at each pixel position. White is closer, black is further.
 @export var scales: Texture2D: set = _set_scales
 
-# Minimum scaling
+## Minimum scaling. Corresponding to the scale used for characters when they are
+## located at the blackest pixel of scaling texture, at which they will appear 
+## smaller.
 @export var scale_min: float = 0.3
 
-# Maximum scaling
+## Maximum scaling. Corresponding to the scale used for characters when they are
+## located at the whitest pixel of scaling texture, at which they will appear 
+## bigger.
 @export var scale_max: float = 1.0
 
-# Lightmap texture
+## Lightmap texture.
 @export var lightmap: Texture2D: set = _set_lightmap
 
-# The scaling factor for the scale and light maps
-@export var bitmaps_scale: Vector2 = Vector2(1,1): set = _set_bm_scale
-
-# Multiplier applied to the player speed on this terrain
-@export var player_speed_multiplier: float = 1.0
-
-# Multiplier how much faster the player will walk when fast mode is on
-# (double clicked)
-@export var player_doubleclick_speed_multiplier: float = 1.5
-
-# Additional modulator to the lightmap texture
+## Additional modulator to the lightmap texture
 @export var lightmap_modulate: Color = Color(1, 1, 1, 1)
 
-# Currently selected debug visualize mode
+## Scaling factor for the scale and light maps.
+@export var bitmaps_scale: Vector2 = Vector2(1,1): set = _set_bm_scale
+
+## Multiplier applied to the player speed on this terrain.
+@export var player_speed_multiplier: float = 1.0
+
+## Multiplier how much faster the player will walk when fast mode is on
+## (double clicked)
+@export var player_doubleclick_speed_multiplier: float = 1.5
+
+## Debug display mode. 
+## None: no debug display
+## Scales: displays the scales map
+## Lightmap: displays the lightmap
 @export var debug_mode = DebugMode.NONE: # (int, "None", "Scales", "Lightmap")
 		set = _set_debug_mode
 
 
-# The currently activ navigation polygon
+# The currently active navigation polygon
 var current_active_navigation_instance: NavigationRegion2D = null
 
 # Currently visualized texture for debug mode
