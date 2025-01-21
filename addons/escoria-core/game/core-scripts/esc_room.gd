@@ -1,6 +1,6 @@
 @tool
 @icon("res://addons/escoria-core/design/esc_room.svg")
-# A room in an Escora based game
+## A room in an Escoria based game
 extends Node2D
 class_name ESCRoom
 
@@ -16,20 +16,22 @@ enum EditorRoomDebugDisplay {
 const ESC_BACKGROUND_NAME = "escbackground"
 
 
-# The global id of this room
+## The global id of this room
 @export var global_id: String = ""
 
-# The ESC script of this room
-@export var esc_script = "" # (String, FILE, "*.esc")
+## The ESC script of this room
+@export_file("*.esc") var esc_script: String = ""
 
-# The player inside this scene
+## The player scene to use inside this room
 @export var player_scene: PackedScene
 
-# The camera limits available in this room
+## The camera limits available in this room
 @export var camera_limits: Array = [Rect2()]: # (Array, Rect2)
 	set = set_camera_limits
 
-# The editor debug display mode
+## The room's debug display mode.
+## Camera Limits: show a colored frame for each camera limit of the room.
+## None: no debug display
 @export var editor_debug_mode: EditorRoomDebugDisplay = EditorRoomDebugDisplay.NONE:
 	set = set_editor_debug_mode
 
