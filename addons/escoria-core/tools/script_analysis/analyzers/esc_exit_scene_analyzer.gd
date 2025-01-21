@@ -6,6 +6,13 @@ const EXIT_SCENE_EVENT_NAME = "exit_scene"
 const ACCEPT_INPUT_DISABLE_ARGS = ["none", "skip"]
 const ACCEPT_INPUT_ENABLE_ARG = "all"
 
+const CHANGE_SCENE_MISSING_MESSAGE = "Event ':exit_scene' is missing 'change_scene' command. Scene might not change as expected."
+
+const MISSING_ACCEPT_INPUT_MESSAGE = \
+	"Event ':exit_scene' may allow for the player character to move while exiting and changing the scene." \
+	+ " To prevent this, ensure a call to 'accept_input' with an argument evaluating to 'NONE' or 'SKIP' is" \
+	+ " made before any calls to 'transition' and/or 'change_scene', and a call to 'accept_input' with an argument evaluating to 'ALL' exists after those calls."
+
 
 # These are vars because they have to be, but should be treated as consts
 var TRANSITION_COMMAND_NAME = TransitionCommand.new().get_command_name()
@@ -30,13 +37,10 @@ func _analyze_exit_scene_event(event) -> Array[String]:
 	var issue_messages: Array[String] = []
 
 	if not _check_for_change_scene_command(event):
-		issue_messages.push_back("Event ':exit_scene' is missing 'change_scene' command. Scene might not change as expected.")
+		issue_messages.push_back(CHANGE_SCENE_MISSING_MESSAGE)
 
 	if _allows_undesired_player_movement(event):
-		issue_messages.push_back( \
-			"Event ':exit_scene' allows for player character to move during scene change." \
-			+ " Consider adding calls to 'accept_input('NONE')' or 'accept_input('SKIP')' before any calls to 'transition' and/or 'change_scene', and 'accept_input('ALL')' after those calls." \
-		)
+		issue_messages.push_back(MISSING_ACCEPT_INPUT_MESSAGE)
 
 	return issue_messages
 
@@ -47,6 +51,9 @@ func _analyze_exit_scene_event(event) -> Array[String]:
 # ...is called without being surrounded by:
 # - `accept_input(NONE)` or `accept_input(SKIP), and,
 # - `accept_input(ALL)
+#
+# (Note it is impossible to determine the value of arguments to the commands above if the arguments
+# are anything other than a literal.)
 func _allows_undesired_player_movement(event: ESCGrammarStmts.Event) -> bool:
 	var block: ESCGrammarStmts.Block = event.get_body()
 
