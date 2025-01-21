@@ -28,8 +28,6 @@ func _enable_plugin():
 	set_escoria_platform_settings()
 	set_filesystem_show_esc_files()
 
-	#add_tool_menu_item(ASHES_ANALYZER_MENU_ITEM, _compiler_analyzer.analyze)
-
 	# Add input actions in InputMap
 #	if not InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
 #		InputMap.add_action(ESCInputsManager.SWITCH_ACTION_VERB)
