@@ -64,66 +64,88 @@ signal mouse_right_clicked_item(global_id)
 signal arrived(walk_context)
 
 
-
-# The global ID of this item
+## The global ID of this item
 @export var global_id: String
 
-# The ESC script for this item
+## The ESC script for this item
 @export_file("*.esc") var esc_script: String # (String, FILE, "*.esc")
 
-# If true, the ESC script may have an ``:exit_scene`` event to manage scene changes.
-# For simple exits that do not require scripted actions, the ``ESCExit`` node may be
-# preferred.
-@export var is_exit: bool
+## The node that references the camera position and zoom if this item is used
+## as a camera target
+@export var camera_node: NodePath
 
-# If true, object is considered as trigger. Allows using :trigger_in and
-# :trigger_out verbs in ESC scripts.
-@export var is_trigger: bool
+@export_group("Display")
 
-# The verb used for the trigger in ESC events
-@export var trigger_in_verb: String = "trigger_in"
-
-# The verb used for the trigger out ESC events
-@export var trigger_out_verb: String = "trigger_out"
-
-# If true, the player can interact with this item
-@export var is_interactive: bool = true
-
-# Whether this item is movable. A movable item will be scaled with the terrain
-# and be moved with commands like teleport and turn_to.
-@export var is_movable: bool = false
-
-# If true, player orients towards 'interaction_angle' as
-# player character arrives.
-@export var player_orients_on_arrival: bool = true
-
-# Let the player turn to this angle when the player arrives at the item
-@export var interaction_angle: int
-
-# The name for the tooltip of this item
+## The name for the tooltip of this item.
 @export var tooltip_name: String
 
-# Default action to use if object is not in the inventory
+@export_group("","")
+@export_group("Item Behavior")
+
+## Color used for dialogs if that item talks.
+@export var dialog_color: Color = Color(1,1,1,1)
+
+## Default action to use if object is not in the inventory.
 @export var default_action: String
 
-# Default action to use if object is in the inventory
-@export var default_action_inventory: String
-
-# If action used by player is in this list, the game will wait for a second
-# click on another item to combine objects together (typical
-# `USE <X> WITH <Y>`, `GIVE <X> TO <Y>`)
+## If action used by player is in this list, the game will wait for a second
+## click on another item to combine objects together (typical
+## `USE <X> WITH <Y>`, `GIVE <X> TO <Y>`)
 @export var combine_when_selected_action_is_in: PackedStringArray = []
 
-# If true, combination must be done in the way it is written in ESC script
-# ie. :use ON_ITEM
-# If false, combination will be tried in the other way.
+## If true, the ESC script may have an :exit_scene event to manage scene changes.
+## For simple exits that do not require scripted actions, the ESCExit node may be
+## preferred.
+@export var is_exit: bool
+
+## Defines this item as acting as a trigger if true.
+## Allows using specific events (defined in trigger_in_verb and trigger_out_verb
+## properties) in ESC scripts.
+@export var is_trigger: bool
+
+## Event name that is activated when another item enters the area defined by the
+## trigger item. By default, "trigger_in".
+@export var trigger_in_verb: String = "trigger_in"
+
+## Event name that is activated when another item exits the area defined by the
+## trigger item. By default, "trigger_out".
+@export var trigger_out_verb: String = "trigger_out"
+
+## Defines whether the player can interact with this item. If false, the item
+## will not react to inputs and mouse hovers. 
+@export var is_interactive: bool = true
+
+## Whether this item is movable. A movable item will be scaled with the terrain
+## and be moved with commands like teleport and turn_to.
+@export var is_movable: bool = false
+
+@export_group("","")
+@export_group("Player behavior on arrival")
+
+## Whether player character orients towards 'interaction_angle' as it arrives at 
+## the item's interaction position.
+@export var player_orients_on_arrival: bool = true
+
+## If 'player_orients_on_arrival' is enabled, let the player character turn to 
+## this angle when it arrives at the item's interaction position.
+@export var interaction_angle: int
+
+@export_group("","")
+@export_group("Inventory")
+
+## Default action to use if object is in the inventory
+@export var default_action_inventory: String
+
+## If enabled, combination must be done in the way it is written in ESC script
+## ie. :use ON_ITEM
+## If disabled, combination will be tried in the other way.
 @export var combine_is_one_way: bool = false
 
-# If true, then the object must have been picked up before using it.
-# A false value is useful for items in the background, such as buttons.
+## If enabled, then the object must have been picked up before using it.
+## Keep disabled for items in the background, such as buttons.
 @export var use_from_inventory_only: bool = false
 
-# The visual representation for this item when its in the inventory
+## The visual representation for this item when its in the inventory
 @export var inventory_texture: Texture2D = null:
 		get = _get_inventory_texture
 
@@ -131,35 +153,38 @@ signal arrived(walk_context)
 @export var inventory_texture_hovered: Texture2D = null:
 		get = _get_inventory_texture_hovered
 
-# Color used for dialogs
-@export var dialog_color: Color = Color(1,1,1,1)
+@export_group("","")
+@export_group("Movement")
 
-# If true, terrain scaling will not be applied and
-# node will remain at the scale set in the scene.
+## If enabled, terrain scaling will not be applied and
+## node will remain at the scale set in the scene.
 @export var dont_apply_terrain_scaling: bool = false
 
-# Speed of this item ifmovable
+## Speed of this item if movable
 @export var speed: int = 300
 
-# Speed damp of this item if movable
+## Speed damp of this item if movable
 @export var v_speed_damp: float = 1.0
 
-# The node used to play animations
+@export_group("","")
+@export_group("Animations")
+
+## Animations resource for the item (walking, idling...)
+@export var animations: ESCAnimationResource: 
+		set = set_animations
+
+## The node used to play animations
 @export var animation_player_node: NodePath = "":
 		set = _set_animation_player_node
 
-# The node that references the camera position and zoom if this item is used
-# as a camera target
-@export var camera_node: NodePath
+@export_group("","")
+@export_group("Custom actions")
 
-# Custom data dictionary to ease customization and custom command creation.
-# Avoid name collision using proper key names.
+## Custom data dictionary to ease customization and custom command creation.
+## Avoid name collision using proper key names.
 @export var custom_data: Dictionary = {}
 
-
-# ESCAnimationsResource (for walking, idling...)
-var animations: ESCAnimationResource: 
-		set = set_animations
+@export_group("","")
 
 # Reference to the animation node (null if none was found)
 var animation_sprite = null
