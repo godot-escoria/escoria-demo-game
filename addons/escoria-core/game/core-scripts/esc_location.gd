@@ -16,18 +16,23 @@ const MULTIPLE_START_LOCATIONS_WARNING = \
 	"Only 1 ESCLocation should have is_start_location set to true in an ESCRoom"
 
 
-# The global ID of this item
+## The global ID of this item
 @export var global_id: String
 
-# If true, this ESCLocation is considered as a player start location
+## If enabled, this ESCLocation is considered as a player start location
 @export var is_start_location: bool = false: set = set_is_start_location
 
-# If true, player orients towards 'interaction_angle' as
-# player character arrives.
+@export_group("Player behavior on arrival")
+
+## Whether player character orients towards 'interaction_angle' as it arrives at 
+## the item's interaction position.
 @export var player_orients_on_arrival: bool = true
 
-# Let the player turn to this angle when the player arrives at the item
+## If 'player_orients_on_arrival' is enabled, let the player character turn to 
+## this angle when it arrives at the item's interaction position.
 @export var interaction_angle: int
+
+@export_group("","")
 
 
 var _multiple_start_locations_exist: bool = false: set = set_multiple_locations_exist

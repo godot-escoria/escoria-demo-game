@@ -17,7 +17,9 @@ enum DebugMode {
 }
 
 
-## Scaling texture.
+
+@export_group("Scales")
+## Scaling texture. If empty, items scale will always be 1.0.
 ## This is a greycale image defining how close to the camera the character will 
 ## look at each pixel position. White is closer, black is further.
 @export var scales: Texture2D: set = _set_scales
@@ -25,21 +27,33 @@ enum DebugMode {
 ## Minimum scaling. Corresponding to the scale used for characters when they are
 ## located at the blackest pixel of scaling texture, at which they will appear 
 ## smaller.
+## Unused if scales texture is not set.
 @export var scale_min: float = 0.3
 
 ## Maximum scaling. Corresponding to the scale used for characters when they are
 ## located at the whitest pixel of scaling texture, at which they will appear 
 ## bigger.
+## Unused if scales texture is not set.
 @export var scale_max: float = 1.0
+
+@export_group("","")
+@export_group("Lightmap")
 
 ## Lightmap texture.
 @export var lightmap: Texture2D: set = _set_lightmap
 
-## Additional modulator to the lightmap texture
+## Additional modulator to the lightmap texture.
 @export var lightmap_modulate: Color = Color(1, 1, 1, 1)
+
+@export_group("","")
+@export_group("Bitmaps scale")
+
 
 ## Scaling factor for the scale and light maps.
 @export var bitmaps_scale: Vector2 = Vector2(1,1): set = _set_bm_scale
+
+@export_group("","")
+@export_group("Movement speed")
 
 ## Multiplier applied to the player speed on this terrain.
 @export var player_speed_multiplier: float = 1.0
@@ -48,13 +62,18 @@ enum DebugMode {
 ## (double clicked)
 @export var player_doubleclick_speed_multiplier: float = 1.5
 
+@export_group("","")
+@export_group("Debug display")
+
+
 ## Debug display mode. 
 ## None: no debug display
 ## Scales: displays the scales map
 ## Lightmap: displays the lightmap
-@export var debug_mode = DebugMode.NONE: # (int, "None", "Scales", "Lightmap")
-		set = _set_debug_mode
+@export var editor_debug_mode = DebugMode.NONE: # (int, "None", "Scales", "Lightmap")
+		set = _set_editor_debug_mode
 
+@export_group("","")
 
 # The currently active navigation polygon
 var current_active_navigation_instance: NavigationRegion2D = null
@@ -220,8 +239,8 @@ func _set_scales(p_scales: Texture2D):
 # #### Parameters
 #
 # - p_mode: Debug mode to set
-func _set_debug_mode(p_mode: int):
-	debug_mode = p_mode
+func _set_editor_debug_mode(p_mode: int):
+	editor_debug_mode = p_mode
 	_update_texture()
 
 
@@ -239,15 +258,15 @@ func _do_update_texture():
 	if !is_inside_tree() or !Engine.is_editor_hint():
 		return
 
-	if debug_mode == DebugMode.NONE:
+	if editor_debug_mode == DebugMode.NONE:
 		queue_redraw()
 		return
 
 	_texture = ImageTexture.new()
-	if debug_mode == DebugMode.SCALES:
+	if editor_debug_mode == DebugMode.SCALES:
 		if scales != null:
 			_texture = scales
-	elif debug_mode == DebugMode.LIGHTMAP:
+	elif editor_debug_mode == DebugMode.LIGHTMAP:
 		if lightmap != null:
 			_texture = lightmap
 
@@ -258,7 +277,7 @@ func _do_update_texture():
 func _draw():
 	if _texture == null or \
 			not Engine.is_editor_hint() or \
-			debug_mode == DebugMode.NONE:
+			editor_debug_mode == DebugMode.NONE:
 		if current_active_navigation_instance:
 			current_active_navigation_instance.visible = true
 		return
