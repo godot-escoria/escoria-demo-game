@@ -6,13 +6,14 @@ class_name ESCAshesAnalyzer
 # TODO: Update this when we move from the .esc extension for Escoria scripts to .ash
 const FILE_EXTENSION_ASHES = "esc"
 const DIRECTORIES_TO_EXCLUDE = ["addons"]
+const BASE_PROJECT_DIR = "res://"
 
 
 var _compiler: ESCCompiler = ESCCompiler.new()
 
 
 func analyze() -> void:
-	var files: Array[String] = _get_script_files_recursive("res://")
+	var files: Array[String] = _get_script_files_recursive(BASE_PROJECT_DIR)
 
 	files.sort()
 

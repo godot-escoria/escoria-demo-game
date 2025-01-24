@@ -12,6 +12,16 @@ func init(enclosing) -> void:
 	_enclosing = enclosing
 
 
+func is_valid_key(name: ESCToken):
+	if _values.has(name.get_lexeme()):
+		return true
+
+	if _enclosing:
+		return _enclosing.is_valid_key(name)
+
+	return false
+
+
 func get_value(name: ESCToken):
 	if _values.has(name.get_lexeme()):
 		return _values.get(name.get_lexeme())
@@ -75,12 +85,11 @@ func get_values():
 
 func _error(token: ESCToken, message: String):
 	var source: String = token.get_filename() if not token.get_filename().is_empty() else token.get_source()
-	escoria.logger.error(
+	ESCSafeLogging.log_error(
 		self,
 		"%s: Line %s at '%s': %s" % [source, token.get_line(), token.get_lexeme(), message]
 	)
 
-	#return ESCParseError.new()
 
 func _warn(token: ESCToken, message: String):
 	var source: String = token.get_filename() if not token.get_filename().is_empty() else token.get_source()
