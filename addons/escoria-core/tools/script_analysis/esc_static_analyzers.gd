@@ -16,3 +16,4 @@ func _init(parsed_statements: Array) -> void:
 func run() -> void:
 	for analyzer in _analyzers:
 		analyzer.analyze(_parsed_statements)
+		analyzer.print_messages()
