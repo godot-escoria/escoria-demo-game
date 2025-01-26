@@ -1,14 +1,16 @@
-[gd_scene load_steps=27 format=3 uid="uid://dmooj3417oxux"]
+[gd_scene load_steps=29 format=3 uid="uid://dmooj3417oxux"]
 
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://chf3qovs1q8kr" path="res://game/characters/mark/mark.tscn" id="4"]
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="8"]
-[ext_resource type="Texture2D" uid="uid://dcyw6l4hdk1pm" path="res://game/rooms/room07/room7background.png" id="9"]
-[ext_resource type="Texture2D" uid="uid://ch5wvghho41gv" path="res://game/rooms/room07/alarm_cone.png" id="10"]
-[ext_resource type="Texture2D" uid="uid://pud4mvni7dnm" path="res://game/rooms/room07/elevator_edge.png" id="11"]
-[ext_resource type="Texture2D" uid="uid://dd3cngilgi321" path="res://game/rooms/room07/elevator_door.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://db1ga57tukwla" path="res://game/rooms/room07/room7background.png" id="9"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_exit.gd" id="9_l5rvy"]
+[ext_resource type="Texture2D" uid="uid://bqyrej8140qim" path="res://game/rooms/room07/alarm_cone.png" id="10"]
+[ext_resource type="AudioStream" uid="uid://cjjp3ukvmevd4" path="res://game/sfx/sounds/doorOpen_2.ogg" id="10_pi6m2"]
+[ext_resource type="Texture2D" uid="uid://cv407pveqsosv" path="res://game/rooms/room07/elevator_edge.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://sbinfk1wd8jb" path="res://game/rooms/room07/elevator_door.png" id="12"]
 [ext_resource type="Texture2D" uid="uid://cll6rbfhvxvhc" path="res://game/characters/mark/png/mark.png" id="13"]
 
 [sub_resource type="Animation" id="1"]
@@ -830,6 +832,20 @@ enabled = false
 
 [node name="Hotspots" type="Node2D" parent="."]
 
+[node name="r7_r_exit" type="Area2D" parent="Hotspots"]
+script = ExtResource("9_l5rvy")
+target_scene = "res://game/rooms/room08/room08.tscn"
+switch_sound = ExtResource("10_pi6m2")
+global_id = "r7_r_exit"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r7_r_exit"]
+position = Vector2(0, 1409.59)
+polygon = PackedVector2Array(2150, -303.59, 2150, -601.59, 2258, -554.59, 2253, -241.59)
+
+[node name="Position2D" type="Marker2D" parent="Hotspots/r7_r_exit"]
+position = Vector2(2209, 1137)
+script = ExtResource("8")
+
 [node name="l_exit" type="Area2D" parent="Hotspots"]
 process_mode = 1
 position = Vector2(0, 1409.59)
@@ -848,33 +864,14 @@ polygon = PackedVector2Array(9, -245.59, 5, -555.59, 107, -597.59, 111, -309.59)
 position = Vector2(51, -279.59)
 script = ExtResource("8")
 
-[node name="r_exit" type="Area2D" parent="Hotspots"]
-process_mode = 1
-position = Vector2(0, 1409.59)
-script = ExtResource("7")
-global_id = "r7_r_exit"
-esc_script = "res://game/rooms/room07/esc/right_exit.esc"
-is_exit = true
-tooltip_name = "Exit"
-combine_when_selected_action_is_in = PackedStringArray()
-animations = null
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_exit"]
-polygon = PackedVector2Array(2150, -303.59, 2150, -601.59, 2258, -554.59, 2253, -241.59)
-
-[node name="Position2D" type="Marker2D" parent="Hotspots/r_exit"]
-position = Vector2(2209, -272.59)
-script = ExtResource("8")
-
 [node name="lower_stairs" type="Area2D" parent="Hotspots"]
 process_mode = 1
 position = Vector2(1906, 1096)
 script = ExtResource("7")
 global_id = "r7_lower_stairs"
 esc_script = "res://game/rooms/room07/esc/lower_stairs.esc"
-is_exit = true
 tooltip_name = "stairs"
-default_action = "walk"
+default_action = "use"
 combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
@@ -892,9 +889,8 @@ position = Vector2(1908, 390)
 script = ExtResource("7")
 global_id = "r7_upper_stairs"
 esc_script = "res://game/rooms/room07/esc/upper_stairs.esc"
-is_exit = true
 tooltip_name = "Stairs"
-default_action = "walk"
+default_action = "use"
 combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 

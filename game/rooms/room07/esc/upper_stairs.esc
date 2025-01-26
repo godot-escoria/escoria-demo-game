@@ -1,5 +1,4 @@
-:exit_scene
-
+:use
 	# Disable user input or else clicking while this is running might result in
 	# a floor change but the enable terrain command might not get run
 	accept_input("NONE")

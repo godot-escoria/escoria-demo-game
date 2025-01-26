@@ -16,10 +16,10 @@ class_name ESCExit
 
 
 # Path to the target scene to change to
-@export var target_scene = "" # (String, FILE, "*.tscn")
+@export_file("*.tscn", "*.scn") var target_scene = "" # (String, FILE, "*.tscn")
 
 # Sound effect to play when changing the scene
-@export var switch_sound = "" # (String, FILE, "*.ogg,*.mp3,*.wav")
+@export var switch_sound: Resource # (String, FILE, "*.ogg,*.mp3,*.wav")
 
 # ESC commands kept around for references to their command names.
 var _play_snd: PlaySndCommand
@@ -54,10 +54,10 @@ func _register_event():
 #			"%s%s" % [ESCEvent.PREFIX, escoria.event_manager.EVENT_EXIT_SCENE]
 #		]
 
-		if switch_sound != "":
+		if switch_sound != null:
 			exit_scene_script_builder.add_command(
 				_play_snd.get_command_name(),
-				switch_sound
+				switch_sound.resource_path
 			)
 #			exit_scene_event_script.append(
 #				"%s %s" % [_play_snd.get_command_name(), switch_sound]
