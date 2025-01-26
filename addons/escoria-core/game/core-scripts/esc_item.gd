@@ -223,7 +223,7 @@ func _ready():
 			_force_registration
 		)
 
-		terrain = escoria.room_terrain
+		terrain = escoria.room_terrain if is_instance_valid(escoria.room_terrain) else null
 
 		if escoria.object_manager.get_object(global_id).state == ESCObject.STATE_DEFAULT \
 				and get_animation_player() != null:
