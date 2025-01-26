@@ -5,7 +5,7 @@ class_name ESCExitSceneScriptAnalyzer
 const EXIT_SCENE_EVENT_NAME = "exit_scene"
 const ACCEPT_INPUT_DISABLE_ARGS = ["none", "skip"]
 
-const CHANGE_SCENE_MISSING_MESSAGE = "Event ':exit_scene' is missing 'change_scene' command. Scene might not change as expected."
+const CHANGE_SCENE_MISSING_MESSAGE = "Event ':exit_scene' is missing 'change_scene' command. Scene might not change as expected. Ignore this warning if the command was omitted on purpose."
 
 const MISSING_ACCEPT_INPUT_MESSAGE = \
 	"Event ':exit_scene' may allow for the player character to move while exiting and changing the scene." \
