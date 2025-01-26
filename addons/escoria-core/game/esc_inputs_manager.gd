@@ -180,7 +180,7 @@ func unset_hovered_node(item: ESCItem):
 	if item == null:
 		return
 	if _hovered_element == item:
-		_hovered_element.mouse_exited()
+		_hovered_element.do_mouse_exited()
 		_hovered_element = null
 		hotspot_focused = ""
 

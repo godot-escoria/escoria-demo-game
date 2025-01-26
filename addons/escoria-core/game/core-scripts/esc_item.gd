@@ -182,7 +182,6 @@ var _force_registration: bool = false
 # Warnings for scene.
 var _scene_warnings: PackedStringArray = []
 
-
 # Add the movable node, connect signals, detect child nodes
 # and register this item
 func _ready():
@@ -200,10 +199,10 @@ func _ready():
 	validate_animations(animations)
 	validate_exported_parameters()
 
-	if not self.is_connected("input_event", Callable(self, "_on_input_event")):
-		connect("input_event", Callable(self, "_on_input_event"))
-	if not self.is_connected("mouse_exited", Callable(self, "_on_mouse_exited")):
-		connect("mouse_exited", Callable(self, "_on_mouse_exited"))
+	if not input_event.is_connected(_on_input_event):
+		input_event.connect(_on_input_event)
+	if not mouse_exited.is_connected(_on_mouse_exited):
+		mouse_exited.connect(_on_mouse_exited)
 
 	# Register and connect all elements to Escoria backoffice.
 	if not Engine.is_editor_hint():
@@ -319,6 +318,12 @@ func validate_exported_parameters() -> void:
 				self,
 				"Forbidden character in global_id %s (path: %s)"
 						% [global_id, get_path()]
+				)
+	if global_id.is_empty():
+		escoria.logger.error(
+				self,
+				"global_id of item is empty (node name : %s, path: %s)"
+						% [name, get_path()]
 				)
 
 
@@ -588,7 +593,7 @@ func mouse_entered():
 
 
 # React to the mouse exiting the item by emitting the respective signal
-func mouse_exited():
+func do_mouse_exited():
 	mouse_exited_item.emit(self)
 
 
