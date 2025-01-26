@@ -20,9 +20,13 @@ var ACCEPT_INPUT_COMMAND_NAME = AcceptInputCommand.new().get_command_name()
 
 var _has_change_scene_command: bool = false
 
+var _has_commands_after_change_scene_command: bool = false
+
+var _change_scene_token: ESCToken = null
+
 var _accept_input_disable_missing: bool = false
 
-var _accept_input_disabled_token: ESCToken = null
+var _accept_input_token: ESCToken = null
 
 
 func analyze(statements: Array) -> void:
@@ -75,33 +79,39 @@ func visit_call_expr(expr: ESCGrammarExprs.Call):
 	if callee.get_command_name() == CHANGE_SCENE_COMMAND_NAME:
 		_has_change_scene_command = true
 
+		_change_scene_token = expr.get_paren_token()
+		_environment.define(_change_scene_token.get_lexeme(), true)
+
 		# First arg is always the path of the scene to transition to.
 		# Second arg determines whether the transition is automatic, and defaults to true
 		if args.size() > 1:
 			var is_auto_transition = args[1] as bool
 
 			if is_auto_transition != null and not is_auto_transition:
-				_check_for_missing_accept_input_disable(_accept_input_disabled_token)
+				_check_for_missing_accept_input_disable()
 	elif callee.get_command_name() == TRANSITION_COMMAND_NAME:
-		_check_for_missing_accept_input_disable(_accept_input_disabled_token)
+		_check_for_missing_accept_input_disable()
 	elif callee.get_command_name() == ACCEPT_INPUT_COMMAND_NAME:
 		var first_arg = args[0] as String
 
 		if first_arg != null and first_arg.to_lower() in ACCEPT_INPUT_DISABLE_ARGS:
-			_accept_input_disabled_token = expr.get_paren_token()
-			_environment.define(_accept_input_disabled_token.get_lexeme(), true)
+			_accept_input_token = expr.get_paren_token()
+			_environment.define(_accept_input_token.get_lexeme(), true)
 
 	return ESCExecution.RC_OK
 
 
-# Parameters:
-# - accept_input_token: ESCToken containing info pertaining to command about to be called; also used
 # as a key in the environment/scope to serve as a marker to check concerning whether `accept_input`
 # has previously been called with the appropriate argument
-func _check_for_missing_accept_input_disable(accept_input_token: ESCToken) -> void:
-	if accept_input_token == null:
+func _check_for_missing_accept_input_disable() -> void:
+	if _accept_input_token == null:
 		_accept_input_disable_missing = true
 		return
 
-	if not _environment.is_valid_key(accept_input_token) or not _environment.get_value(accept_input_token):
+	if not _environment.is_valid_key(_accept_input_token) or not _environment.get_value(_accept_input_token):
 		_accept_input_disable_missing = true
+
+
+#func _check_for_commands_after_change_scene_command() -> void:
+	#if 
+	#if _has_change_scene_command:
