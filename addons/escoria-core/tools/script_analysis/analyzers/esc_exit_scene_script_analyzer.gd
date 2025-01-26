@@ -108,10 +108,14 @@ func _check_for_missing_accept_input_disable() -> void:
 		_accept_input_disable_missing = true
 		return
 
-	if not _environment.is_valid_key(_accept_input_token) or not _environment.get_value(_accept_input_token):
-		_accept_input_disable_missing = true
+	_accept_input_disable_missing = \
+		not _environment.is_valid_key(_accept_input_token) \
+		or not _environment.get_value(_accept_input_token)
 
 
 #func _check_for_commands_after_change_scene_command() -> void:
-	#if 
-	#if _has_change_scene_command:
+	#if _change_scene_token == null:
+		#return
+#
+	#if not _environment.is_valid_key(_accept_input_token) or not _environment.get_value(_accept_input_token):
+		#_accept_input_disable_missing = true
