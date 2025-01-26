@@ -62,7 +62,7 @@ func _on_button_pressed():
 	)
 
 	escoria.event_manager.interrupt()
-	escoria.room_manager.change_scene(_options_paths[_selected_id], false)
+	escoria.room_manager.change_scene_to_file(_options_paths[_selected_id], false)
 
 
 # A room was selected, store the selection
