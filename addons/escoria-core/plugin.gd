@@ -328,6 +328,14 @@ func set_escoria_debug_settings():
 		}
 	)
 
+	register_setting(
+		ESCProjectSettingsManager.PERFORM_SCRIPT_ANALYSIS_AT_RUNTIME,
+		true,
+		{
+			"type": TYPE_BOOL
+		}
+	)
+
 
 # Prepare the settings in the Escoria sound settings
 func set_escoria_sound_settings():

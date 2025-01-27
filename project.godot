@@ -93,6 +93,7 @@ dialog_simple/left_click_action="Speed up"
 dialog_simple/stop_talking_animation_on="End of audio"
 debug/enable_hover_stack_viewer=true
 main/escoria_version="4.0-alpha"
+debug/perform_script_analysis_at_runtime=true
 
 [file_customization]
 
