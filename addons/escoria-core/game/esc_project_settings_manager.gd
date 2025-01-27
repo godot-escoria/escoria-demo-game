@@ -46,6 +46,9 @@ const TERMINATE_ON_ERRORS = _ESCORIA_SETTINGS_ROOT + "/" + _DEBUG_ROOT + "/" + "
 const TERMINATE_ON_WARNINGS = _ESCORIA_SETTINGS_ROOT + "/" + _DEBUG_ROOT + "/" + "terminate_on_warnings"
 # If enabled, displays the hover stack on screen
 const ENABLE_HOVER_STACK_VIEWER = _ESCORIA_SETTINGS_ROOT + "/" + _DEBUG_ROOT + "/" + "enable_hover_stack_viewer"
+# If enabled, 
+const PERFORM_SCRIPT_ANALYSIS_AT_RUNTIME = _ESCORIA_SETTINGS_ROOT + "/" + _DEBUG_ROOT + "/" + "perform_script_analysis_at_runtime"
+
 
 # Sound-related Escoria project settings
 const _SOUND_ROOT = "sound"

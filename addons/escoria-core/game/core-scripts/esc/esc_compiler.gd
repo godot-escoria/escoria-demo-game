@@ -103,7 +103,7 @@ func _compiler_shim(source: String, filename: String = ""):
 		ESCSafeLogging.log_result(self, error_message, not had_error)
 
 	# Some static analysis
-	if not had_error:
+	if not had_error and _run_script_analysis():
 		var resolver: ESCResolver = ESCResolver.new(ESCInterpreterFactory.create_interpreter())
 		resolver.resolve(parsed_statements)
 
@@ -144,3 +144,12 @@ func load_esc_file(path: String) -> ESCScript:
 
 func compile(script: String, path: String = "") -> ESCScript:
 	return _compiler_shim(script)
+
+
+# *Returns*
+# true iff this is being called in-editor or the appropriate project setting is enabled
+func _run_script_analysis() -> bool:
+	if Engine.is_editor_hint():
+		return true
+
+	return ProjectSettings.get_setting(ESCProjectSettingsManager.ENABLE_HOVER_STACK_VIEWER)
