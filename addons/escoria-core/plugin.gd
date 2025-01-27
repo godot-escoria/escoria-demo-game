@@ -11,6 +11,7 @@ const ASHES_ANALYZER_MENU_ITEM = "Analyze ASHES Scripts"
 # The warning popup displayed on escoria-core enabling.
 var popup_info: AcceptDialog
 
+# ASHES scripts analyzer
 var _compiler_analyzer: ESCAshesAnalyzer = ESCAshesAnalyzer.new()
 
 
@@ -27,12 +28,6 @@ func _enable_plugin():
 	set_escoria_sound_settings()
 	set_escoria_platform_settings()
 	set_filesystem_show_esc_files()
-
-	# Add input actions in InputMap
-#	if not InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
-#		InputMap.add_action(ESCInputsManager.SWITCH_ACTION_VERB)
-#	if not InputMap.has_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT):
-#		InputMap.add_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT)
 
 	# Define standard settings
 	ProjectSettings.set_setting(
@@ -64,11 +59,6 @@ func _on_warning_popup_confirmed():
 func _disable_plugin():
 	remove_autoload_singleton("escoria")
 	set_filesystem_hide_esc_files()
-	#remove_tool_menu_item(ASHES_ANALYZER_MENU_ITEM)
-#	if InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
-#		InputMap.erase_action(ESCInputsManager.SWITCH_ACTION_VERB)
-#	if InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
-#		InputMap.erase_action(ESCInputsManager.SWITCH_ACTION_VERB)
 
 
 # Setup Escoria
