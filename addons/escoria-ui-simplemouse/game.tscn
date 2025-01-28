@@ -1,109 +1,98 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=3 uid="uid://u646id5k2hvg"]
 
-[ext_resource path="res://addons/escoria-ui-simplemouse/inventory/inventory_ui.tscn" type="PackedScene" id=1]
-[ext_resource path="res://addons/escoria-core/game/scenes/dialogs/esc_dialog_player.gd" type="Script" id=2]
-[ext_resource path="res://addons/escoria-core/game/scenes/camera_player/camera.tscn" type="PackedScene" id=3]
-[ext_resource path="res://addons/escoria-ui-simplemouse/verbs_mouseicons.tscn" type="PackedScene" id=4]
-[ext_resource path="res://addons/escoria-ui-simplemouse/game.gd" type="Script" id=5]
-[ext_resource path="res://addons/escoria-ui-simplemouse/tooltip/target_tooltip.tscn" type="PackedScene" id=6]
-[ext_resource path="res://addons/escoria-core/ui_library/menus/main_menu/main_menu.tscn" type="PackedScene" id=7]
-[ext_resource path="res://addons/escoria-core/ui_library/menus/pause_menu/pause_menu.tscn" type="PackedScene" id=8]
-[ext_resource path="res://addons/escoria-ui-simplemouse/theme.tres" type="Theme" id=9]
+[ext_resource type="PackedScene" uid="uid://ciy2hn83a3rim" path="res://addons/escoria-ui-simplemouse/inventory/inventory_ui.tscn" id="1"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/scenes/dialogs/esc_dialog_player.gd" id="2"]
+[ext_resource type="PackedScene" path="res://addons/escoria-core/game/scenes/camera_player/camera.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://0qms6fx5siad" path="res://addons/escoria-ui-simplemouse/verbs_mouseicons.tscn" id="4"]
+[ext_resource type="Script" path="res://addons/escoria-ui-simplemouse/game.gd" id="5"]
+[ext_resource type="PackedScene" path="res://addons/escoria-ui-simplemouse/tooltip/target_tooltip.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://u8an5av5fuxx" path="res://addons/escoria-core/ui_library/menus/main_menu/main_menu.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://gfjgmbcafyyt" path="res://addons/escoria-core/ui_library/menus/pause_menu/pause_menu.tscn" id="8"]
+[ext_resource type="FontFile" path="res://addons/escoria-ui-simplemouse/fonts/caslonantique.tres" id="8_c4xbd"]
+[ext_resource type="Theme" uid="uid://cujvdn6gu1j74" path="res://addons/escoria-ui-simplemouse/theme.tres" id="9"]
 
 [node name="game" type="Node2D"]
-script = ExtResource( 5 )
-main_menu = NodePath("CanvasLayer/main_menu")
-pause_menu = NodePath("CanvasLayer/pause_menu")
+script = ExtResource("5")
+main_menu = NodePath("menus_layer/main_menu")
+pause_menu = NodePath("menus_layer/pause_menu")
 editor_debug_mode = 1
-ui_parent_control_node = NodePath("CanvasLayer/ui")
 
-[node name="camera" parent="." instance=ExtResource( 3 )]
+[node name="camera" parent="." instance=ExtResource("3")]
 
 [node name="dialog_layer" type="CanvasLayer" parent="."]
 layer = 3
 
 [node name="ESCDialogsPlayer" type="Control" parent="dialog_layer"]
-theme = ExtResource( 9 )
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 3
+anchors_preset = 0
+theme = ExtResource("9")
+script = ExtResource("2")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="menus_layer" type="CanvasLayer" parent="."]
 
-[node name="ui" type="Control" parent="CanvasLayer"]
-anchor_top = 0.9
+[node name="pause_menu" parent="menus_layer" instance=ExtResource("8")]
+visible = false
+theme = ExtResource("9")
+
+[node name="main_menu" parent="menus_layer" instance=ExtResource("7")]
+visible = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="menus_layer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-mouse_filter = 2
+offset_left = 11.0
+offset_top = 621.0
+offset_right = -442.0
+offset_bottom = -107.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource( 9 )
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ui"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ui/HBoxContainer"]
-offset_right = 58.0
-offset_bottom = 90.0
 mouse_filter = 2
 
-[node name="MenuButton" type="Button" parent="CanvasLayer/ui/HBoxContainer/VBoxContainer"]
-offset_right = 58.0
-offset_bottom = 27.0
+[node name="VBoxContainer" type="VBoxContainer" parent="menus_layer/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MenuButton" type="Button" parent="menus_layer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
 text = "Menu"
-
-[node name="Spacer" type="Control" parent="CanvasLayer/ui/HBoxContainer"]
-offset_left = 62.0
-offset_right = 1186.0
-offset_bottom = 90.0
-mouse_filter = 2
-size_flags_horizontal = 3
-
-[node name="inventory_ui" parent="CanvasLayer/ui/HBoxContainer" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 1190.0
-offset_right = 1280.0
-offset_bottom = 90.0
-scale = Vector2( 1, 1 )
-
-[node name="pause_menu" parent="CanvasLayer" instance=ExtResource( 8 )]
-visible = false
-theme = ExtResource( 9 )
-
-[node name="main_menu" parent="CanvasLayer" instance=ExtResource( 7 )]
-visible = false
 
 [node name="tooltip_layer" type="CanvasLayer" parent="."]
 layer = 2
 
-[node name="tooltip" parent="tooltip_layer" instance=ExtResource( 6 )]
+[node name="tooltip" parent="tooltip_layer" instance=ExtResource("6")]
+offset_right = 1.0
 mouse_filter = 2
-theme = ExtResource( 9 )
+theme_override_fonts/normal_font = ExtResource("8_c4xbd")
+theme_override_font_sizes/normal_font_size = 21
 text = "[center][color=#000000][/color][/center]"
-fit_content_height = true
+fit_content = true
 
 [node name="mouse_layer" type="CanvasLayer" parent="."]
 layer = 2
 
-[node name="verbs_menu" parent="mouse_layer" instance=ExtResource( 4 )]
+[node name="verbs_menu" parent="mouse_layer" instance=ExtResource("4")]
+anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 156.0
 offset_top = 810.0
 offset_right = 156.0
 offset_bottom = 900.0
-grow_horizontal = 0
+grow_horizontal = 1
+grow_vertical = 1
 size_flags_horizontal = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
 
-[connection signal="pressed" from="CanvasLayer/ui/HBoxContainer/VBoxContainer/MenuButton" to="." method="_on_MenuButton_pressed"]
+[node name="inventory_layer" type="CanvasLayer" parent="."]
+
+[node name="inventory_ui" parent="inventory_layer" instance=ExtResource("1")]
+offset_right = 1281.0
+offset_bottom = 90.0
+size_flags_horizontal = 2
+size_flags_vertical = 1
+
+[connection signal="pressed" from="menus_layer/HBoxContainer/VBoxContainer/MenuButton" to="." method="_on_MenuButton_pressed"]

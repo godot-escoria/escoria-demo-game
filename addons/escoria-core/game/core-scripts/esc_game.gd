@@ -52,6 +52,9 @@ var hover_stack_displayer
 
 # Function called when ESCGame enters the scene tree.
 func _enter_tree():
+	initialize_esc_game()
+
+func initialize_esc_game() -> void:
 	escoria.event_manager.event_finished.connect(_on_event_done)
 	escoria.action_manager.action_finished.connect(_on_action_finished)
 	escoria.main.room_ready.connect(_on_room_ready)
@@ -473,7 +476,7 @@ func escoria_show_ui():
 		)
 
 
-# Manage signal room_deady from main.gd.
+# Manage signal room_ready from main.gd.
 func _on_room_ready():
 	room_ready_for_inputs = true
 

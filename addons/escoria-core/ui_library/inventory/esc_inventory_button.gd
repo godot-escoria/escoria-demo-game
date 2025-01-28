@@ -54,9 +54,9 @@ func _process(_delta: float) -> void:
 
 # Connect input handlers
 func _ready():
-	connect("gui_input", Callable(self, "_on_inventory_item_gui_input"))
-	connect("mouse_entered", Callable(self, "_on_inventory_item_mouse_enter"))
-	connect("mouse_exited", Callable(self, "_on_inventory_item_mouse_exit"))
+	gui_input.connect(_on_inventory_item_gui_input)
+	mouse_entered.connect(_on_inventory_item_mouse_enter)
+	mouse_exited.connect(_on_inventory_item_mouse_exit)
 
 
 # Handle the gui input and emit the respective signals

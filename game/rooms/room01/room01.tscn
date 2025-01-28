@@ -6,9 +6,9 @@
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="5"]
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="7"]
-[ext_resource type="Texture2D" uid="uid://bk07xffucax1v" path="res://game/rooms/room01/room1background.png" id="8"]
-[ext_resource type="Texture2D" uid="uid://dq6sks6k8g1nk" path="res://game/rooms/room01/art2.png" id="9"]
-[ext_resource type="Texture2D" uid="uid://dct6xovemh14d" path="res://game/rooms/room01/art1.png" id="10"]
+[ext_resource type="Texture2D" uid="uid://b40bc1luk2je" path="res://game/rooms/room01/room1background.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://b65oxp02mfp4u" path="res://game/rooms/room01/art2.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://bbv7qlb0vmqww" path="res://game/rooms/room01/art1.png" id="10"]
 
 [sub_resource type="NavigationPolygon" id="1"]
 vertices = PackedVector2Array(125, 357, 1170, 355, 1277, 417, 1279, 550, -1, 548, 0, 449)

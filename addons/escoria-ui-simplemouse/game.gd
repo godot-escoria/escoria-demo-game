@@ -68,7 +68,7 @@ const ESC_UI_CHANGE_VERB_ACTION = "esc_change_verb"
 var _is_gamepad_connected = false
 
 # Tracks the mouse's current position onscreen.
-var _current_mouse_pos = Vector2.ZERO
+var _current_mouse_pos: Vector2 = Vector2.ZERO
 
 
 func _ready():
@@ -76,7 +76,8 @@ func _ready():
 
 
 func _enter_tree():
-	var room_selector_parent = $CanvasLayer/ui/HBoxContainer/VBoxContainer
+	initialize_esc_game()
+	var room_selector_parent = $menus_layer/HBoxContainer/VBoxContainer
 
 	if ESCProjectSettingsManager.get_setting(ESCProjectSettingsManager.ENABLE_ROOM_SELECTOR) \
 		and room_selector_parent.get_node_or_null("room_select") == null:
@@ -88,7 +89,7 @@ func _enter_tree():
 			).instantiate()
 		)
 
-	var input_handler = Callable(self, "_process_input")
+	var input_handler = Callable(self._process_input)
 	escoria.inputs_manager.register_custom_input_handler(input_handler)
 
 	_is_gamepad_connected = Input.is_joy_known(JOY_DEVICE)
@@ -218,14 +219,22 @@ func element_focused(element_id: String) -> void:
 	if escoria.action_manager.current_action != VERB_USE \
 			and escoria.action_manager.current_tool == null \
 			and target_obj is ESCItem:
-
-			$mouse_layer/verbs_menu.set_by_name(
-				target_obj.default_action
-			)
+			
+			if target_obj.is_exit:
+				if element_id.contains("_l_"):
+					$mouse_layer/verbs_menu.set_by_name("exit_left", "walk")
+				elif element_id.contains("_r_"):
+					$mouse_layer/verbs_menu.set_by_name("exit_right", "walk")
+				else:
+					$mouse_layer/verbs_menu.set_by_name("walk")
+			else:
+				$mouse_layer/verbs_menu.set_by_name(
+					target_obj.default_action
+				)
 
 func element_unfocused() -> void:
 	$tooltip_layer/tooltip.set_target("")
-
+	$mouse_layer/verbs_menu.set_by_name("walk")
 
 ## ITEMS ##
 func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
@@ -248,7 +257,15 @@ func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
 	$mouse_layer/verbs_menu.clear_tool_texture()
 
 func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
-	mousewheel_action(1)
+	element_focused(item_global_id)
+	var object = escoria.object_manager.get_object(item_global_id)
+	if object != null:
+		$mouse_layer/verbs_menu.set_by_name("look")
+	escoria.action_manager.do(
+		escoria.action_manager.ACTION.ITEM_RIGHT_CLICK,
+		[item_global_id, event],
+		true
+	)
 
 func left_double_click_on_item(item_global_id: String, event: InputEvent) -> void:
 	escoria.action_manager.do(
@@ -299,11 +316,11 @@ func inventory_item_unfocused() -> void:
 
 
 func open_inventory():
-	$CanvasLayer/ui/HBoxContainer/inventory_ui.show_inventory()
+	$inventory_layer/inventory_ui.show_inventory()
 
 
 func close_inventory():
-	$CanvasLayer/ui/HBoxContainer/inventory_ui.hide_inventory()
+	$inventory_layer/inventory_ui.hide_inventory()
 
 
 func mousewheel_action(direction: int):
@@ -311,12 +328,12 @@ func mousewheel_action(direction: int):
 
 
 func hide_ui():
-	$CanvasLayer/ui.propagate_call("set_visible", [false], true)
-
+	$inventory_layer.propagate_call("set_visible", [false], true)
+	$menus_layer/HBoxContainer.propagate_call("set_visible", [false], true)
 
 func show_ui():
-	$CanvasLayer/ui.propagate_call("set_visible", [true], false)
-
+	$inventory_layer.propagate_call("set_visible", [true], false)
+	$menus_layer/HBoxContainer.propagate_call("set_visible", [true], false)
 
 func hide_main_menu():
 	if get_node(main_menu).visible:
@@ -330,7 +347,6 @@ func show_main_menu():
 func unpause_game():
 	if get_node(pause_menu).visible:
 		get_node(pause_menu).hide()
-		escoria.object_manager.get_object(ESCObjectManager.CAMERA).node.current = true
 		escoria.object_manager.get_object(ESCObjectManager.SPEECH).node.resume()
 		escoria.main.current_scene.game.show_ui()
 		escoria.main.current_scene.show()
@@ -343,7 +359,6 @@ func pause_game():
 			escoria.save_manager.save_enabled
 		)
 		get_node(pause_menu).show()
-		escoria.object_manager.get_object(ESCObjectManager.CAMERA).node.current = false
 		escoria.object_manager.get_object(ESCObjectManager.SPEECH).node.pause()
 		escoria.main.current_scene.game.hide_ui()
 		escoria.main.current_scene.hide()
@@ -366,11 +381,9 @@ func get_custom_data() -> Dictionary:
 
 # Update the tooltip
 func update_tooltip_following_mouse_position():
+	_current_mouse_pos = get_global_mouse_position()
 	var corrected_position = _current_mouse_pos \
-		- Vector2(
-			tooltip_node.size.x / 2,
-			tooltip_node.size.y / 2
-		)
+		+ Vector2(32, -tooltip_node.size.y/2)
 
 	# clamp TOP
 	if tooltip_node.tooltip_distance_to_edge_top(_current_mouse_pos) <= mouse_tooltip_margin:
