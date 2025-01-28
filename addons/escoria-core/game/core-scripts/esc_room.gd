@@ -60,7 +60,7 @@ var _tool_default_font: Font
 func _enter_tree():
 	if editor_debug_mode == EditorRoomDebugDisplay.CAMERA_LIMITS:
 		randomize()
-
+	
 
 # Sanitize camera limits, add player node and set the global id to the
 # name of this node if it's not set manually

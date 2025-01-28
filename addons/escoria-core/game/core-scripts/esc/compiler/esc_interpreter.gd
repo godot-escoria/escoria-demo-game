@@ -56,7 +56,7 @@ func reset() -> void:
 
 func interrupt() -> void:
 	if _current_event and _current_event.get_running_command():
-		_current_event.interrupt_running_command()
+		_current_event.interrupt()
 
 
 func interpret(statements):

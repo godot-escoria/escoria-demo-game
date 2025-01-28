@@ -1,91 +1,88 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=3 uid="uid://0qms6fx5siad"]
 
-[ext_resource path="res://addons/escoria-ui-simplemouse/verbs_mouseicons.gd" type="Script" id=1]
-[ext_resource path="res://addons/escoria-ui-simplemouse/cursors/cursor_examine.png" type="Texture2D" id=2]
-[ext_resource path="res://addons/escoria-ui-simplemouse/cursors/cursor_tool.png" type="Texture2D" id=3]
-[ext_resource path="res://addons/escoria-ui-simplemouse/cursors/cursor_dialog.png" type="Texture2D" id=4]
-[ext_resource path="res://addons/escoria-ui-simplemouse/cursors/cursor_foot.png" type="Texture2D" id=5]
-[ext_resource path="res://addons/escoria-ui-simplemouse/cursors/cursor_hand.png" type="Texture2D" id=6]
+[ext_resource type="Script" path="res://addons/escoria-ui-simplemouse/verbs_mouseicons.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://dy1v07dsq0gv6" path="res://addons/escoria-ui-simplemouse/cursors/new/target_a.png" id="2_pg8p6"]
+[ext_resource type="Texture2D" uid="uid://kntfqvpgma13" path="res://addons/escoria-ui-simplemouse/cursors/new/look_b.png" id="3_iryjo"]
+[ext_resource type="Texture2D" uid="uid://2tj2uhyd8un1" path="res://addons/escoria-ui-simplemouse/cursors/new/hand_open.png" id="4_63dmd"]
+[ext_resource type="Texture2D" uid="uid://c6dy0a2st8l6k" path="res://addons/escoria-ui-simplemouse/cursors/new/tool_wrench.png" id="5_8bddv"]
+[ext_resource type="Texture2D" uid="uid://dsvbjwnblrs51" path="res://addons/escoria-ui-simplemouse/cursors/new/message_dots_round.png" id="6_u34a3"]
+[ext_resource type="Texture2D" uid="uid://bmah30wxobv25" path="res://addons/escoria-ui-simplemouse/cursors/new/arrow_w.png" id="7_p2p4e"]
+[ext_resource type="Texture2D" uid="uid://bm7mm8uhe2dey" path="res://addons/escoria-ui-simplemouse/cursors/new/arrow_e.png" id="8_5phyn"]
 
 [node name="verbs_menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
 
 [node name="actions" type="HBoxContainer" parent="."]
 visible = false
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -6.0
+offset_top = -1.0
+offset_right = -6.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="walk" type="TextureRect" parent="actions"]
-offset_left = 94.0
-offset_top = 418.0
-offset_right = 158.0
-offset_bottom = 482.0
+layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
-texture = ExtResource( 5 )
+texture = ExtResource("2_pg8p6")
 
 [node name="look" type="TextureRect" parent="actions"]
-offset_left = 350.0
-offset_top = 418.0
-offset_right = 414.0
-offset_bottom = 482.0
+layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
-texture = ExtResource( 2 )
+texture = ExtResource("3_iryjo")
 
 [node name="pickup" type="TextureRect" parent="actions"]
-offset_left = 607.0
-offset_top = 418.0
-offset_right = 671.0
-offset_bottom = 482.0
+layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
-texture = ExtResource( 6 )
+texture = ExtResource("4_63dmd")
 
 [node name="use" type="TextureRect" parent="actions"]
-offset_left = 864.0
-offset_top = 418.0
-offset_right = 928.0
-offset_bottom = 482.0
+layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
-texture = ExtResource( 3 )
+texture = ExtResource("5_8bddv")
 
 [node name="talk" type="TextureRect" parent="actions"]
-offset_left = 1121.0
-offset_top = 418.0
-offset_right = 1185.0
-offset_bottom = 482.0
+layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
-texture = ExtResource( 4 )
+texture = ExtResource("6_u34a3")
+
+[node name="exit_left" type="TextureRect" parent="actions"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture = ExtResource("7_p2p4e")
+
+[node name="exit_right" type="TextureRect" parent="actions"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture = ExtResource("8_5phyn")
 
 [node name="mouse_position" type="Control" parent="."]
-offset_left = 546.519
-offset_top = 524.76
-offset_right = 546.519
-offset_bottom = 524.76
+anchors_preset = 0
 mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="tool" type="TextureRect" parent="mouse_position"]
+layout_mode = 0
 offset_left = 46.4475
 offset_top = 45.6984
 offset_right = 86.4475
 offset_bottom = 85.6984
 mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}

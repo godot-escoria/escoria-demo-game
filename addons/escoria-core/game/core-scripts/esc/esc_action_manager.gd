@@ -147,7 +147,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 
 					var item = escoria.object_manager.get_object(params[0])
 
-					self.perform_inputevent_on_object(item, params[1], true)
+					self.perform_inputevent_on_object(item, params[1])
 
 			ACTION.TRIGGER_IN:
 				var trigger_id = params[0]

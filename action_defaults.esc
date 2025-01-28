@@ -1,2 +1,5 @@
 :use | TK
 	say($current_player, "I can't use this!")
+
+:pickup | TK
+	say($current_player, "I can't take this!")

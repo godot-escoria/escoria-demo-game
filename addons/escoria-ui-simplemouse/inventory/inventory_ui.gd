@@ -5,33 +5,27 @@ extends ESCInventory
 var inventory_visible: bool = false
 var _tween: Tween3
 
+@onready var inventory_scene = $panel
+
 func _ready() -> void:
 	super._ready()
-	# Hide inventory by default
-	$FloatingInventory/panel.position.x = \
-		ProjectSettings.get_setting("display/window/size/viewport_width")
 	_tween = Tween3.new(self)
-
-func _on_inventory_button_pressed():
-	if _tween.is_running():
-		return
-	if inventory_visible:
-		hide_inventory()
-	else:
-		show_inventory()
+	# Hide inventory by default
+	hide_inventory()
 
 
 func show_inventory():
 	_tween.stop()
 	_tween.reset()
-	var start_pos = $FloatingInventory/panel.position.x
-	var end_pos = 120
+	var start_pos_y = inventory_scene.position.y
+	var end_pos_y = 706
 	_tween.interpolate_property(
-		$FloatingInventory/panel,
-		"position:x",
-		start_pos,
-		end_pos,
-		0.6
+		inventory_scene,
+		"position:y",
+		start_pos_y,
+		end_pos_y,
+		0.6,
+		Tween.TransitionType.TRANS_CUBIC
 	)
 	_tween.play()
 	await _tween.finished
@@ -42,16 +36,26 @@ func show_inventory():
 func hide_inventory():
 	_tween.stop()
 	_tween.reset()
+	var start_pos_y = inventory_scene.position.y
+	var end_pos_y = 866
 	_tween.interpolate_property(
-		$FloatingInventory/panel,
-		"position:x",
-		$FloatingInventory/panel.position.x,
-		$FloatingInventory/panel.position.x + \
-				$FloatingInventory/panel.size.x + \
-				$HBoxContainer/inventory_button.size.x,
-		0.6
+		inventory_scene,
+		"position:y",
+		start_pos_y,
+		end_pos_y,
+		0.6,
+		Tween.TransitionType.TRANS_CUBIC
 	)
 	_tween.play()
 	await _tween.finished
 	_tween.stop()
 	inventory_visible = false
+
+
+func _on_panel_mouse_entered():
+	if not inventory_visible:
+		show_inventory()
+
+func _on_panel_mouse_exited():
+	if inventory_visible:
+		hide_inventory()

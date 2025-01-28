@@ -12,4 +12,3 @@ var texture: Texture2D = null
 func _init(p_item: ESCItem) -> void:
 	global_id = p_item.global_id
 	texture = p_item._get_inventory_texture()
-

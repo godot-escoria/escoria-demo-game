@@ -6,11 +6,11 @@
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="8"]
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="10"]
-[ext_resource type="Texture2D" uid="uid://dj0u36c6q353t" path="res://game/rooms/room02/room2background.png" id="11"]
-[ext_resource type="Texture2D" uid="uid://iksvooucqvmb" path="res://game/rooms/room02/floor3.png" id="12"]
-[ext_resource type="Texture2D" uid="uid://dssaf4m2fm4b4" path="res://game/rooms/room02/floor1.png" id="13"]
-[ext_resource type="Texture2D" uid="uid://biqillo3t010c" path="res://game/rooms/room02/floor4.png" id="14"]
-[ext_resource type="Texture2D" uid="uid://b2e4o1f75paag" path="res://game/rooms/room02/floor2.png" id="15"]
+[ext_resource type="Texture2D" uid="uid://dg6wor5u2h1iq" path="res://game/rooms/room02/room2background.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://d0ypnnis8oiym" path="res://game/rooms/room02/floor3.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://dtt6uo1nv4nk2" path="res://game/rooms/room02/floor1.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://bdklqci3umhdo" path="res://game/rooms/room02/floor4.png" id="14"]
+[ext_resource type="Texture2D" uid="uid://nhp2hw4l5dqe" path="res://game/rooms/room02/floor2.png" id="15"]
 
 [sub_resource type="NavigationPolygon" id="1"]
 vertices = PackedVector2Array(10, 378, 86, 337, 88, 374, 8, 545, 121, 355, 488, 354, 409, 546, 1184, 373, 1185, 343, 1272, 393, 1272, 548, 875, 546, 802, 357, 1161, 358)

@@ -127,7 +127,13 @@ func update_size():
 	if not get_tree():
 		# We're not in the tree anymore. Return
 		return
-	size = get_theme_font("normal_font").get_string_size(current_target)
+	size = get_theme_font("normal_font").get_string_size(
+			current_target,
+			HORIZONTAL_ALIGNMENT_CENTER, 
+			-1,
+			get("theme_override_font_sizes/normal_font_size")
+			)
+
 
 # Calculate the offset of the label depending on its position.
 #

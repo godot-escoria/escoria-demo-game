@@ -8,9 +8,9 @@
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
 [ext_resource type="PackedScene" path="res://game/items/inventory/r5_wrench.tscn" id="8"]
-[ext_resource type="Texture2D" uid="uid://bndx0x1mirqfc" path="res://game/rooms/room05/water_droplet.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://carbm85e2un02" path="res://game/rooms/room05/water_droplet.png" id="9"]
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="11"]
-[ext_resource type="Texture2D" uid="uid://cyw7rqp4nxl8d" path="res://game/rooms/room05/room5background.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://doyoo3rvuhtbe" path="res://game/rooms/room05/room5background.png" id="13"]
 
 [sub_resource type="NavigationPolygon" id="1"]
 vertices = PackedVector2Array(1187, 387, 1188, 352, 1269.59, 398, 1267, 538, 15, 401, 93, 350, 96, 375, 12, 539, 129.634, 362, 1155, 361)
@@ -200,12 +200,15 @@ position = Vector2(618, 393)
 script = ExtResource("11")
 
 [node name="wrench" parent="Hotspots" instance=ExtResource("8")]
+default_action = "pickup"
 
 [node name="paper" parent="Hotspots" instance=ExtResource("2")]
 position = Vector2(1005, 450)
+default_action = "pickup"
 
 [node name="pen" parent="Hotspots" instance=ExtResource("5")]
 position = Vector2(915, 450)
+default_action = "pickup"
 
 [node name="player_start" type="Marker2D" parent="."]
 position = Vector2(75, 450)
