@@ -2,6 +2,7 @@
 extends Control
 class_name ESCInventoryContainer
 
+var item_focused: bool = false
 
 # Get whether the inventory container currently is empty
 # **Returns** Whether the container is empty or not
@@ -16,6 +17,8 @@ func is_empty() -> bool:
 # **Returns** The button generated for the item
 func add_item(inventory_item: ESCInventoryItem) -> ESCInventoryButton:
 	var button = ESCInventoryButton.new(inventory_item)
+	button.inventory_item_focused.connect(_on_inventory_item_focused)
+	button.inventory_item_unfocused.connect(_on_inventory_item_unfocused)
 	add_child(button)
 	return button
 
@@ -42,3 +45,11 @@ func get_inventory_button(inventory_item: ESCInventoryItem) -> ESCInventoryButto
 			inventory_button = c
 			break
 	return inventory_button
+
+
+func _on_inventory_item_focused(item_id):
+	item_focused = true
+
+
+func _on_inventory_item_unfocused(item_id):
+	item_focused = false

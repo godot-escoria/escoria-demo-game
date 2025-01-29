@@ -3,6 +3,9 @@ extends ESCInventory
 
 # Whether the inventory is visible currently
 var inventory_visible: bool = false
+
+var hovering_inventory_item: bool = false
+
 var _tween: Tween3
 
 @onready var inventory_scene = $panel
@@ -54,8 +57,10 @@ func hide_inventory():
 
 func _on_panel_mouse_entered():
 	if not inventory_visible:
+		$panel/MarginContainer/ScrollContainer/container.item_focused = false
 		show_inventory()
 
 func _on_panel_mouse_exited():
-	if inventory_visible:
+	if inventory_visible \
+			and not $panel/MarginContainer/ScrollContainer/container.item_focused:
 		hide_inventory()

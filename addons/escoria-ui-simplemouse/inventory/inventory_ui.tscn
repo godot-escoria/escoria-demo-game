@@ -29,11 +29,12 @@ texture = ExtResource("2_grkag")
 
 [node name="Label" type="Label" parent="panel"]
 layout_mode = 2
-offset_left = 114.0
+offset_left = 75.0
 offset_top = 6.0
-offset_right = 271.0
+offset_right = 315.0
 offset_bottom = 29.0
-text = "{INVENTORY_LABEL}"
+text = "INVENTORY_LABEL"
+horizontal_alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="panel"]
 layout_mode = 2
