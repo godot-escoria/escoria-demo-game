@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://addons/escoria-ui-keyboard-9verbs/game.gd" id="5"]
 [ext_resource type="PackedScene" path="res://addons/escoria-core/game/scenes/camera_player/camera.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://u8an5av5fuxx" path="res://addons/escoria-core/ui_library/menus/main_menu/main_menu.tscn" id="7"]
-[ext_resource type="PackedScene" path="res://addons/escoria-core/ui_library/menus/pause_menu/pause_menu.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://gfjgmbcafyyt" path="res://addons/escoria-core/ui_library/menus/pause_menu/pause_menu.tscn" id="9"]
 [ext_resource type="Theme" path="res://addons/escoria-ui-keyboard-9verbs/theme.tres" id="10"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
@@ -34,6 +34,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("10")
 
@@ -119,13 +121,9 @@ offset_bottom = 107.819
 
 [node name="main_menu" parent="ui" instance=ExtResource("7")]
 visible = false
-grow_horizontal = 2
-grow_vertical = 2
 
 [node name="pause_menu" parent="ui" instance=ExtResource("9")]
 visible = false
-layout_mode = 3
-anchors_preset = 15
 theme = ExtResource("10")
 
 [node name="camera" parent="." instance=ExtResource("6")]

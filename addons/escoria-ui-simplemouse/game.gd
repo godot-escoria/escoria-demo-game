@@ -72,12 +72,14 @@ var _current_mouse_pos: Vector2 = Vector2.ZERO
 
 
 func _ready():
-	$tooltip_layer/tooltip.connect("tooltip_size_updated", Callable(self, "update_tooltip_following_mouse_position"))
+	hide_ui()
+	$ui/tooltip.connect("tooltip_size_updated", Callable(self, "update_tooltip_following_mouse_position"))
 
 
 func _enter_tree():
 	initialize_esc_game()
-	var room_selector_parent = $menus_layer/HBoxContainer/VBoxContainer
+	
+	var room_selector_parent = $ui/HBoxContainer/VBoxContainer
 
 	if ESCProjectSettingsManager.get_setting(ESCProjectSettingsManager.ENABLE_ROOM_SELECTOR) \
 		and room_selector_parent.get_node_or_null("room_select") == null:
@@ -214,7 +216,7 @@ func left_double_click_on_bg(position: Vector2) -> void:
 
 func element_focused(element_id: String) -> void:
 	var target_obj = escoria.object_manager.get_object(element_id).node
-	$tooltip_layer/tooltip.set_target(target_obj.tooltip_name)
+	$ui/tooltip.set_target(target_obj.tooltip_name)
 
 	if escoria.action_manager.current_action != VERB_USE \
 			and escoria.action_manager.current_tool == null \
@@ -233,7 +235,7 @@ func element_focused(element_id: String) -> void:
 				)
 
 func element_unfocused() -> void:
-	$tooltip_layer/tooltip.set_target("")
+	$ui/tooltip.set_target("")
 	$mouse_layer/verbs_menu.set_by_name("walk")
 
 ## ITEMS ##
@@ -304,7 +306,7 @@ func left_double_click_on_inventory_item(inventory_item_global_id: String, event
 
 
 func inventory_item_focused(inventory_item_global_id: String) -> void:
-	$tooltip_layer/tooltip.set_target(
+	$ui/tooltip.set_target(
 		escoria.object_manager.get_object(
 			inventory_item_global_id
 		).node.tooltip_name
@@ -312,15 +314,15 @@ func inventory_item_focused(inventory_item_global_id: String) -> void:
 
 
 func inventory_item_unfocused() -> void:
-	$tooltip_layer/tooltip.set_target("")
+	$ui/tooltip.set_target("")
 
 
 func open_inventory():
-	$inventory_layer/inventory_ui.show_inventory()
+	$ui/inventory_ui.show_inventory()
 
 
 func close_inventory():
-	$inventory_layer/inventory_ui.hide_inventory()
+	$ui/inventory_ui.hide_inventory()
 
 
 func mousewheel_action(direction: int):
@@ -328,23 +330,32 @@ func mousewheel_action(direction: int):
 
 
 func hide_ui():
-	$inventory_layer.propagate_call("set_visible", [false], true)
-	$menus_layer/HBoxContainer.propagate_call("set_visible", [false], true)
+	$ui/inventory_ui.propagate_call("set_visible", [false], true)
+	$ui/tooltip.propagate_call("set_visible", [false], true)
+	$ui/HBoxContainer/VBoxContainer.visible = false
+	$ui/HBoxContainer/VBoxContainer/MenuButton.visible = false
+
 
 func show_ui():
-	$inventory_layer.propagate_call("set_visible", [true], false)
-	$menus_layer/HBoxContainer.propagate_call("set_visible", [true], false)
+	$ui/inventory_ui.propagate_call("set_visible", [true], true)
+	$ui/tooltip.propagate_call("set_visible", [true], true)
+	$ui/HBoxContainer/VBoxContainer.visible = true
+	$ui/HBoxContainer/VBoxContainer/MenuButton.visible = true
+
 
 func hide_main_menu():
+	show_ui()
 	if get_node(main_menu).visible:
 		get_node(main_menu).hide()
 
 func show_main_menu():
+	hide_ui()
 	if not get_node(main_menu).visible:
 		get_node(main_menu).reset()
 		get_node(main_menu).show()
 
 func unpause_game():
+	show_ui()
 	if get_node(pause_menu).visible:
 		get_node(pause_menu).hide()
 		escoria.object_manager.get_object(ESCObjectManager.SPEECH).node.resume()
@@ -352,6 +363,7 @@ func unpause_game():
 		escoria.main.current_scene.show()
 
 func pause_game():
+	show_ui()
 	if not get_node(pause_menu).visible:
 		get_node(main_menu).reset()
 		get_node(pause_menu).reset()
@@ -412,7 +424,7 @@ func _on_action_finished():
 func _on_event_done(_return_code: int, _event_name: String):
 	if _return_code == ESCExecution.RC_OK:
 		escoria.action_manager.clear_current_action()
-		$tooltip_layer/tooltip.set_target("")
+		$ui/tooltip.set_target("")
 
 
 func _on_MenuButton_pressed() -> void:

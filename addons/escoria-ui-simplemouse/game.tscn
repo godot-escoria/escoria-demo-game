@@ -13,8 +13,8 @@
 
 [node name="game" type="Node2D"]
 script = ExtResource("5")
-main_menu = NodePath("menus_layer/main_menu")
-pause_menu = NodePath("menus_layer/pause_menu")
+main_menu = NodePath("ui/main_menu")
+pause_menu = NodePath("ui/pause_menu")
 editor_debug_mode = 1
 
 [node name="camera" parent="." instance=ExtResource("3")]
@@ -28,16 +28,9 @@ anchors_preset = 0
 theme = ExtResource("9")
 script = ExtResource("2")
 
-[node name="menus_layer" type="CanvasLayer" parent="."]
+[node name="ui" type="CanvasLayer" parent="."]
 
-[node name="pause_menu" parent="menus_layer" instance=ExtResource("8")]
-visible = false
-theme = ExtResource("9")
-
-[node name="main_menu" parent="menus_layer" instance=ExtResource("7")]
-visible = false
-
-[node name="HBoxContainer" type="HBoxContainer" parent="menus_layer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ui"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -51,24 +44,34 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="menus_layer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ui/HBoxContainer"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="MenuButton" type="Button" parent="menus_layer/HBoxContainer/VBoxContainer"]
+[node name="MenuButton" type="Button" parent="ui/HBoxContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Menu"
 
-[node name="tooltip_layer" type="CanvasLayer" parent="."]
-layer = 2
-
-[node name="tooltip" parent="tooltip_layer" instance=ExtResource("6")]
+[node name="tooltip" parent="ui" instance=ExtResource("6")]
 offset_right = 1.0
 mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("8_c4xbd")
 theme_override_font_sizes/normal_font_size = 21
 text = "[center][color=#000000][/color][/center]"
 fit_content = true
+
+[node name="inventory_ui" parent="ui" instance=ExtResource("1")]
+offset_right = 1281.0
+offset_bottom = 90.0
+size_flags_horizontal = 2
+size_flags_vertical = 1
+
+[node name="pause_menu" parent="ui" instance=ExtResource("8")]
+theme = ExtResource("9")
+
+[node name="main_menu" parent="ui" instance=ExtResource("7")]
+visible = false
 
 [node name="mouse_layer" type="CanvasLayer" parent="."]
 layer = 2
@@ -87,12 +90,4 @@ size_flags_horizontal = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
 
-[node name="inventory_layer" type="CanvasLayer" parent="."]
-
-[node name="inventory_ui" parent="inventory_layer" instance=ExtResource("1")]
-offset_right = 1281.0
-offset_bottom = 90.0
-size_flags_horizontal = 2
-size_flags_vertical = 1
-
-[connection signal="pressed" from="menus_layer/HBoxContainer/VBoxContainer/MenuButton" to="." method="_on_MenuButton_pressed"]
+[connection signal="pressed" from="ui/HBoxContainer/VBoxContainer/MenuButton" to="." method="_on_MenuButton_pressed"]
