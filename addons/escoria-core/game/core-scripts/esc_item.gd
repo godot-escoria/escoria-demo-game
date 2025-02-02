@@ -127,6 +127,10 @@ signal arrived(walk_context)
 @export var inventory_texture: Texture2D = null:
 		get = _get_inventory_texture
 
+# The visual representation for this item when its in the inventory and hovered
+@export var inventory_texture_hovered: Texture2D = null:
+		get = _get_inventory_texture_hovered
+
 # Color used for dialogs
 @export var dialog_color: Color = Color(1,1,1,1)
 
@@ -926,6 +930,15 @@ func _get_inventory_texture() -> Texture2D:
 	else:
 		return inventory_texture
 
+
+func _get_inventory_texture_hovered() -> Texture2D:
+	if inventory_texture_hovered == null:
+		for c in get_children():
+			if c is TextureRect or c is Sprite2D:
+				return c.texture
+		return null
+	else:
+		return inventory_texture_hovered
 
 # Checks whether the given ESCAnimationResource property array has all non-null entries, and adds
 # to the scene's warnings if not.

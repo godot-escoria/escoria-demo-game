@@ -10,9 +10,6 @@ func _ready():
 		current_cursor_id = cursors.size()
 		set_by_name("walk")
 
-func _process(delta):
-	$mouse_position.global_position = get_global_mouse_position()
-
 
 func iterate_actions_cursor(direction: int):
 	current_cursor_id += direction

@@ -60,7 +60,6 @@ func _on_panel_mouse_entered():
 		$panel/MarginContainer/ScrollContainer/container.item_focused = false
 		show_inventory()
 
-func _on_panel_mouse_exited():
-	if inventory_visible \
-			and not $panel/MarginContainer/ScrollContainer/container.item_focused:
+func _on_area_2d_mouse_entered():
+	if inventory_visible:
 		hide_inventory()

@@ -68,6 +68,7 @@ size_flags_horizontal = 2
 size_flags_vertical = 1
 
 [node name="pause_menu" parent="ui" instance=ExtResource("8")]
+visible = false
 theme = ExtResource("9")
 
 [node name="main_menu" parent="ui" instance=ExtResource("7")]
