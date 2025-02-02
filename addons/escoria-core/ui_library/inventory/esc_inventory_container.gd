@@ -51,5 +51,5 @@ func _on_inventory_item_focused(item_id):
 	item_focused = true
 
 
-func _on_inventory_item_unfocused(item_id):
+func _on_inventory_item_unfocused():
 	item_focused = false

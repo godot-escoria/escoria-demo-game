@@ -41,4 +41,3 @@
 		teleport("player", "r5_r_exit")
 		# Set player look left
 		set_angle("player", 270)
-

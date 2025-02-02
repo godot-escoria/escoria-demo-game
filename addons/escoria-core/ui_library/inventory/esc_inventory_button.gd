@@ -70,8 +70,10 @@ func _on_inventory_item_gui_input(event: InputEvent):
 			and event.is_action_pressed("switch_action_verb"):
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			escoria.inputs_manager._on_mousewheel_action(-1)
+			get_viewport().set_input_as_handled()
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			escoria.inputs_manager._on_mousewheel_action(1)
+			get_viewport().set_input_as_handled()
 	if event is InputEventMouseButton:
 #		var p = get_global_mouse_position()
 		if event.double_click:
