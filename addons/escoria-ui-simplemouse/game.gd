@@ -306,15 +306,16 @@ func left_double_click_on_inventory_item(inventory_item_global_id: String, event
 
 
 func inventory_item_focused(inventory_item_global_id: String) -> void:
-	$ui/tooltip.set_target(
-		escoria.object_manager.get_object(
+	var item_node: ESCItem = escoria.object_manager.get_object(
 			inventory_item_global_id
-		).node.tooltip_name
-	)
+		).node
+	$ui/tooltip.set_target(item_node.tooltip_name)
+	$mouse_layer/verbs_menu.set_by_name(item_node.default_action)
+
 
 
 func inventory_item_unfocused() -> void:
-	$ui/tooltip.set_target("")
+	$ui/tooltip.set_target("walk")
 
 
 func open_inventory():

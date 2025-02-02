@@ -42,7 +42,8 @@ var global_id: String = ""
 
 func _init(p_item: ESCInventoryItem) -> void:
 	global_id = p_item.global_id
-	texture_normal = p_item.texture
+	texture_normal = p_item.texture_normal
+	texture_hover = p_item.texture_hovered
 	stretch_mode = TextureButton.STRETCH_KEEP_ASPECT
 
 
@@ -102,7 +103,6 @@ func _on_inventory_item_gui_input(event: InputEvent):
 # Handle mouse entering the item and send the respecitve signal
 func _on_inventory_item_mouse_enter():
 	inventory_item_focused.emit(global_id)
-
 
 # Handle mouse leaving the item and send the respecitve signal
 func _on_inventory_item_mouse_exit():

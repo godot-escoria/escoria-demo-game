@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bxq2nu4whwsq0"]
+[gd_scene load_steps=20 format=3 uid="uid://bxq2nu4whwsq0"]
 
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
 [ext_resource type="PackedScene" path="res://game/items/inventory/r5_empty_sheet.tscn" id="2"]
@@ -7,10 +7,12 @@
 [ext_resource type="PackedScene" path="res://game/items/inventory/r5_pen.tscn" id="5"]
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
-[ext_resource type="PackedScene" path="res://game/items/inventory/r5_wrench.tscn" id="8"]
+[ext_resource type="PackedScene" uid="uid://cwg2l8cs056p" path="res://game/items/inventory/r5_wrench.tscn" id="8"]
 [ext_resource type="Texture2D" uid="uid://carbm85e2un02" path="res://game/rooms/room05/water_droplet.png" id="9"]
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="11"]
+[ext_resource type="Texture2D" uid="uid://dyr8gn28g6pvb" path="res://game/rooms/room05/clipboard.png" id="12_jepwi"]
 [ext_resource type="Texture2D" uid="uid://doyoo3rvuhtbe" path="res://game/rooms/room05/room5background.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://bm8lvtsrldgrj" path="res://game/items/inventory/pen.png" id="14_e7cj6"]
 
 [sub_resource type="NavigationPolygon" id="1"]
 vertices = PackedVector2Array(1187, 387, 1188, 352, 1269.59, 398, 1267, 538, 15, 401, 93, 350, 96, 375, 12, 539, 129.634, 362, 1155, 361)
@@ -205,10 +207,12 @@ default_action = "pickup"
 [node name="paper" parent="Hotspots" instance=ExtResource("2")]
 position = Vector2(1005, 450)
 default_action = "pickup"
+inventory_texture_hovered = ExtResource("12_jepwi")
 
 [node name="pen" parent="Hotspots" instance=ExtResource("5")]
 position = Vector2(915, 450)
 default_action = "pickup"
+inventory_texture_hovered = ExtResource("14_e7cj6")
 
 [node name="player_start" type="Marker2D" parent="."]
 position = Vector2(75, 450)
