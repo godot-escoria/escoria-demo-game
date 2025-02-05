@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://cwg2l8cs056p"]
 
-[ext_resource type="Texture2D" uid="uid://c1ehcxbldrkfs" path="res://game/items/inventory/wrench.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://dfb1q2irn3ybh" path="res://game/items/inventory/wrench.png" id="1"]
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="2"]
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="3"]
-[ext_resource type="Texture2D" uid="uid://cugq45pbg8txg" path="res://game/items/inventory/wrench_inventory_hovered.png" id="3_qlcni"]
+[ext_resource type="Texture2D" uid="uid://dk8qdxv6upnor" path="res://game/items/inventory/wrench_inventory_hovered.png" id="3_qlcni"]
 
 [sub_resource type="RectangleShape2D" id="2"]
 size = Vector2(74, 67)
@@ -14,8 +14,8 @@ script = ExtResource("3")
 global_id = "r5_wrench"
 esc_script = "res://game/items/inventory/wrench.esc"
 tooltip_name = "Wrench"
-default_action = "look"
-default_action_inventory = "look"
+default_action = "pickup"
+default_action_inventory = "use"
 combine_when_selected_action_is_in = PackedStringArray("use")
 use_from_inventory_only = true
 inventory_texture = ExtResource("1")
