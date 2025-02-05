@@ -1,11 +1,11 @@
 [gd_scene load_steps=11 format=3 uid="uid://u646id5k2hvg"]
 
 [ext_resource type="PackedScene" uid="uid://ciy2hn83a3rim" path="res://addons/escoria-ui-simplemouse/inventory/inventory_ui.tscn" id="1"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/scenes/dialogs/esc_dialog_player.gd" id="2"]
+[ext_resource type="Script" uid="uid://cs4klolovc2nn" path="res://addons/escoria-core/game/scenes/dialogs/esc_dialog_player.gd" id="2"]
 [ext_resource type="PackedScene" path="res://addons/escoria-core/game/scenes/camera_player/camera.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://0qms6fx5siad" path="res://addons/escoria-ui-simplemouse/verbs_mouseicons.tscn" id="4"]
 [ext_resource type="Script" path="res://addons/escoria-ui-simplemouse/game.gd" id="5"]
-[ext_resource type="PackedScene" path="res://addons/escoria-ui-simplemouse/tooltip/target_tooltip.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://b3hru28v8y36i" path="res://addons/escoria-ui-simplemouse/tooltip/target_tooltip.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://u8an5av5fuxx" path="res://addons/escoria-core/ui_library/menus/main_menu/main_menu.tscn" id="7"]
 [ext_resource type="PackedScene" uid="uid://gfjgmbcafyyt" path="res://addons/escoria-core/ui_library/menus/pause_menu/pause_menu.tscn" id="8"]
 [ext_resource type="FontFile" path="res://addons/escoria-ui-simplemouse/fonts/caslonantique.tres" id="8_c4xbd"]
