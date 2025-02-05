@@ -4,6 +4,8 @@ extends Control
 var current_cursor_id: int = 0
 @onready var cursors: Array = $actions.get_children()
 
+@onready var action_manually_changed = false
+
 
 func _ready():
 	if !Engine.is_editor_hint():
@@ -24,6 +26,7 @@ func iterate_actions_cursor(direction: int):
 	set_by_name(cursors[current_cursor_id].name)
 	if $mouse_position/tool.texture != null:
 		clear_tool_texture()
+	action_manually_changed = true
 
 
 func set_by_name(name: String, force_verb: String = "") -> void:

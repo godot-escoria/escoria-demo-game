@@ -198,6 +198,7 @@ func left_click_on_bg(position: Vector2) -> void:
 		)
 		$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
 		$mouse_layer/verbs_menu.clear_tool_texture()
+		$mouse_layer/verbs_menu.action_manually_changed = false
 
 func right_click_on_bg(position: Vector2) -> void:
 	mousewheel_action(1)
@@ -211,6 +212,7 @@ func left_double_click_on_bg(position: Vector2) -> void:
 		)
 		$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
 		$mouse_layer/verbs_menu.clear_tool_texture()
+		$mouse_layer/verbs_menu.action_manually_changed = false
 
 ## ITEM/HOTSPOT FOCUS ##
 
@@ -229,7 +231,7 @@ func element_focused(element_id: String) -> void:
 					$mouse_layer/verbs_menu.set_by_name("exit_right", "walk")
 				else:
 					$mouse_layer/verbs_menu.set_by_name("walk")
-			else:
+			elif not $mouse_layer/verbs_menu.action_manually_changed:
 				$mouse_layer/verbs_menu.set_by_name(
 					target_obj.default_action
 				)
@@ -237,6 +239,8 @@ func element_focused(element_id: String) -> void:
 func element_unfocused() -> void:
 	$ui/tooltip.set_target("")
 	$mouse_layer/verbs_menu.set_by_name("walk")
+	if $mouse_layer/verbs_menu.action_manually_changed:
+		$mouse_layer/verbs_menu.action_manually_changed = false
 
 ## ITEMS ##
 func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
@@ -306,16 +310,20 @@ func left_double_click_on_inventory_item(inventory_item_global_id: String, event
 
 
 func inventory_item_focused(inventory_item_global_id: String) -> void:
-	var item_node: ESCItem = escoria.object_manager.get_object(
-			inventory_item_global_id
-		).node
-	$ui/tooltip.set_target(item_node.tooltip_name)
-	$mouse_layer/verbs_menu.set_by_name(item_node.default_action)
+	if not $mouse_layer/verbs_menu.action_manually_changed:
+		var item_node: ESCItem = escoria.object_manager.get_object(
+				inventory_item_global_id
+			).node
+		$ui/tooltip.set_target(item_node.tooltip_name)
+		$mouse_layer/verbs_menu.set_by_name(item_node.default_action)
 
 
 
 func inventory_item_unfocused() -> void:
-	$ui/tooltip.set_target("walk")
+	$ui/tooltip.clear()
+	$mouse_layer/verbs_menu.set_by_name("walk")
+	if $mouse_layer/verbs_menu.action_manually_changed:
+		$mouse_layer/verbs_menu.action_manually_changed = false
 
 
 func open_inventory():

@@ -1,11 +1,11 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://b3hru28v8y36i"]
 
-[ext_resource path="res://addons/escoria-ui-simplemouse/tooltip/tooltip_target.gd" type="Script" id=2]
+[ext_resource type="Script" uid="uid://w4t2ulpnthhu" path="res://addons/escoria-ui-simplemouse/tooltip/tooltip_target.gd" id="2"]
 
 [node name="tooltip" type="RichTextLabel"]
 bbcode_enabled = true
 text = "[center][color=#ffffff][/color][/center]"
 scroll_active = false
-script = ExtResource( 2 )
-color = Color( 1, 1, 1, 1 )
-offset_from_cursor = Vector2( 0, 0 )
+script = ExtResource("2")
+color = Color(1, 1, 1, 1)
+offset_from_cursor = Vector2(0, 0)
