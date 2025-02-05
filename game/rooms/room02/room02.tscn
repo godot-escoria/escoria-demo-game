@@ -6,11 +6,11 @@
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="8"]
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="10"]
-[ext_resource type="Texture2D" uid="uid://dg6wor5u2h1iq" path="res://game/rooms/room02/room2background.png" id="11"]
-[ext_resource type="Texture2D" uid="uid://d0ypnnis8oiym" path="res://game/rooms/room02/floor3.png" id="12"]
-[ext_resource type="Texture2D" uid="uid://dtt6uo1nv4nk2" path="res://game/rooms/room02/floor1.png" id="13"]
-[ext_resource type="Texture2D" uid="uid://bdklqci3umhdo" path="res://game/rooms/room02/floor4.png" id="14"]
-[ext_resource type="Texture2D" uid="uid://nhp2hw4l5dqe" path="res://game/rooms/room02/floor2.png" id="15"]
+[ext_resource type="Texture2D" uid="uid://np2gs7cworil" path="res://game/rooms/room02/room2background.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://b3eoos4774fxy" path="res://game/rooms/room02/floor3.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://ddy4t8pr2hcxl" path="res://game/rooms/room02/floor1.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://cft5n7oe4qbra" path="res://game/rooms/room02/floor4.png" id="14"]
+[ext_resource type="Texture2D" uid="uid://c3460mwplxiqy" path="res://game/rooms/room02/floor2.png" id="15"]
 
 [sub_resource type="NavigationPolygon" id="1"]
 vertices = PackedVector2Array(10, 378, 86, 337, 88, 374, 8, 545, 121, 355, 488, 354, 409, 546, 1184, 373, 1185, 343, 1272, 393, 1272, 548, 875, 546, 802, 357, 1161, 358)
@@ -249,7 +249,6 @@ esc_script = "res://game/rooms/room02/esc/right_platform.esc"
 tooltip_name = "Right platform"
 default_action = "look"
 combine_when_selected_action_is_in = PackedStringArray()
-animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="r_platform"]
 polygon = PackedVector2Array(870.974, 538.342, 827.536, 353.995, 1181.4, 357.174, 1287.34, 413.325, 1289.46, 545.758)
@@ -263,11 +262,10 @@ process_mode = 1
 script = ExtResource("7")
 global_id = "r2_r_exit"
 esc_script = "res://game/rooms/room02/esc/right_exit.esc"
-is_exit = true
 tooltip_name = "Right exit"
 default_action = "walk"
 combine_when_selected_action_is_in = PackedStringArray()
-animations = null
+is_exit = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="r_door"]
 polygon = PackedVector2Array(1177.94, 348.61, 1175.95, 45.3759, 1276.06, 92.0953, 1277.95, 399.407)
@@ -281,11 +279,10 @@ process_mode = 1
 script = ExtResource("7")
 global_id = "r2_l_exit"
 esc_script = "res://game/rooms/room02/esc/left_exit.esc"
-is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
 combine_when_selected_action_is_in = PackedStringArray()
-animations = null
+is_exit = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="l_door"]
 polygon = PackedVector2Array(-1.37926, 443.158, 7.96461, 122.796, 84.0504, 77.4118, 88.055, 377.751)
@@ -302,10 +299,8 @@ is_start_location = true
 
 [node name="walkable_area" type="Node2D" parent="."]
 script = ExtResource("10")
-debug_mode = 1
 
 [node name="bridge_open" type="NavigationRegion2D" parent="walkable_area"]
-visible = false
 navigation_polygon = SubResource("1")
 
 [node name="bridge_closed" type="NavigationRegion2D" parent="walkable_area"]
@@ -319,10 +314,9 @@ script = ExtResource("7")
 global_id = "r2_button"
 esc_script = "res://game/rooms/room02/esc/button.esc"
 tooltip_name = "button"
+dialog_color = Color(0.196078, 1, 0, 1)
 default_action = "use"
 combine_when_selected_action_is_in = PackedStringArray()
-dialog_color = Color(0.196078, 1, 0, 1)
-animations = null
 
 [node name="Marker2D" type="Marker2D" parent="button_left"]
 
@@ -340,10 +334,9 @@ script = ExtResource("7")
 global_id = "r2_button_right"
 esc_script = "res://game/rooms/room02/esc/button.esc"
 tooltip_name = "button"
+dialog_color = Color(0.196078, 1, 0, 1)
 default_action = "use"
 combine_when_selected_action_is_in = PackedStringArray()
-dialog_color = Color(0.196078, 1, 0, 1)
-animations = null
 
 [node name="Marker2D" type="Marker2D" parent="button_right2"]
 
@@ -360,7 +353,6 @@ process_mode = 1
 script = ExtResource("7")
 global_id = "r2_bridge"
 combine_when_selected_action_is_in = PackedStringArray()
-animations = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="bridge"]
 root_node = NodePath("../..")

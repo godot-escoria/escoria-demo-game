@@ -19,8 +19,8 @@ const ESC_BACKGROUND_NAME = "escbackground"
 ## The global id of this room
 @export var global_id: String = ""
 
-## The ESC script of this room
-@export_file("*.esc") var esc_script: String = ""
+## The ASHES script of this room
+@export_file("*.esc", "*.ash") var esc_script: String = ""
 
 ## The player scene to use inside this room
 @export var player_scene: PackedScene

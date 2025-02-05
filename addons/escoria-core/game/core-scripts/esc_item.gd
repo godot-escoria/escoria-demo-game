@@ -67,8 +67,8 @@ signal arrived(walk_context)
 ## The global ID of this item
 @export var global_id: String
 
-## The ESC script for this item
-@export_file("*.esc") var esc_script: String # (String, FILE, "*.esc")
+## The ASHES script for this item
+@export_file("*.esc", "*.ash") var esc_script: String
 
 ## The node that references the camera position and zoom if this item is used
 ## as a camera target
@@ -89,18 +89,18 @@ signal arrived(walk_context)
 @export var default_action: String
 
 ## If action used by player is in this list, the game will wait for a second
-## click on another item to combine objects together (typical
+## click on another item to combine objects together (typically
 ## `USE <X> WITH <Y>`, `GIVE <X> TO <Y>`)
 @export var combine_when_selected_action_is_in: PackedStringArray = []
 
-## If true, the ESC script may have an :exit_scene event to manage scene changes.
+## If enabled, the ASHES script may have an :exit_scene event to manage scene changes.
 ## For simple exits that do not require scripted actions, the ESCExit node may be
 ## preferred.
 @export var is_exit: bool
 
-## Defines this item as acting as a trigger if true.
+## Defines this item as acting as a trigger if enabled.
 ## Allows using specific events (defined in trigger_in_verb and trigger_out_verb
-## properties) in ESC scripts.
+## properties) in ASHES scripts.
 @export var is_trigger: bool
 
 ## Event name that is activated when another item enters the area defined by the
@@ -116,7 +116,7 @@ signal arrived(walk_context)
 @export var is_interactive: bool = true
 
 ## Whether this item is movable. A movable item will be scaled with the terrain
-## and be moved with commands like teleport and turn_to.
+## and be moved with commands like ``teleport`` and ``turn_to``.
 @export var is_movable: bool = false
 
 @export_group("","")
@@ -136,7 +136,7 @@ signal arrived(walk_context)
 ## Default action to use if object is in the inventory
 @export var default_action_inventory: String
 
-## If enabled, combination must be done in the way it is written in ESC script
+## If enabled, combination must be done in the way it is written in ASHES script
 ## ie. :use ON_ITEM
 ## If disabled, combination will be tried in the other way.
 @export var combine_is_one_way: bool = false
@@ -145,11 +145,11 @@ signal arrived(walk_context)
 ## Keep disabled for items in the background, such as buttons.
 @export var use_from_inventory_only: bool = false
 
-## The visual representation for this item when its in the inventory
+## The visual representation for this item when it's in the inventory
 @export var inventory_texture: Texture2D = null:
 		get = _get_inventory_texture
 
-# The visual representation for this item when its in the inventory and hovered
+## The visual representation for this item when it's in the inventory and hovered
 @export var inventory_texture_hovered: Texture2D = null:
 		get = _get_inventory_texture_hovered
 

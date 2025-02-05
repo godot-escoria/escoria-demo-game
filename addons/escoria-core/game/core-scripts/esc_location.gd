@@ -19,7 +19,7 @@ const MULTIPLE_START_LOCATIONS_WARNING = \
 ## The global ID of this item
 @export var global_id: String
 
-## If enabled, this ESCLocation is considered as a player start location
+## If enabled, this ``ESCLocation`` is considered as a player start location
 @export var is_start_location: bool = false: set = set_is_start_location
 
 @export_group("Player behavior on arrival")

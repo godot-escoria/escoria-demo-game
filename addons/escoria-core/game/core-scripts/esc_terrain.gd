@@ -20,20 +20,20 @@ enum DebugMode {
 
 @export_group("Scales")
 ## Scaling texture. If empty, items scale will always be 1.0.
-## This is a greycale image defining how close to the camera the character will 
-## look at each pixel position. White is closer, black is further.
+## This is a greyscale image defining how close to the camera the character will 
+## appear at each pixel position. White is closer, black is further.
 @export var scales: Texture2D: set = _set_scales
 
-## Minimum scaling. Corresponding to the scale used for characters when they are
+## Minimum scaling. Corresponds to the scale used for characters when they are
 ## located at the blackest pixel of scaling texture, at which they will appear 
-## smaller.
-## Unused if scales texture is not set.
+## smallest.
+## Unused if scaling texture is not set.
 @export var scale_min: float = 0.3
 
-## Maximum scaling. Corresponding to the scale used for characters when they are
+## Maximum scaling. Corresponds the scale used for characters when they are
 ## located at the whitest pixel of scaling texture, at which they will appear 
-## bigger.
-## Unused if scales texture is not set.
+## biggest.
+## Unused if scaling texture is not set.
 @export var scale_max: float = 1.0
 
 @export_group("","")
@@ -58,8 +58,8 @@ enum DebugMode {
 ## Multiplier applied to the player speed on this terrain.
 @export var player_speed_multiplier: float = 1.0
 
-## Multiplier how much faster the player will walk when fast mode is on
-## (double clicked)
+## Multiplier that determines how much faster the player will walk when fast 
+## mode is on (double clicked)
 @export var player_doubleclick_speed_multiplier: float = 1.5
 
 @export_group("","")
