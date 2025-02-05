@@ -62,6 +62,7 @@ but you can interrupt him if you want."
 
 [node name="walkable_area" type="Node2D" parent="."]
 script = ExtResource("1")
+editor_debug_mode = null
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="walkable_area"]
 navigation_polygon = SubResource("1")
@@ -74,11 +75,10 @@ position = Vector2(1229, 234)
 script = ExtResource("5")
 global_id = "r1_r_exit"
 esc_script = "res://game/rooms/room01/esc/right_exit.esc"
-is_exit = true
 tooltip_name = "Exit to room 2"
 default_action = "walk"
 combine_when_selected_action_is_in = PackedStringArray()
-animations = null
+is_exit = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
 position = Vector2(-1227, -231)
@@ -97,7 +97,6 @@ tooltip_name = "Artwork"
 default_action = "look"
 combine_when_selected_action_is_in = PackedStringArray()
 inventory_texture = ExtResource("10")
-animations = null
 
 [node name="Art1" type="Sprite2D" parent="Hotspots/artwork1"]
 position = Vector2(470, 140)
@@ -129,7 +128,6 @@ tooltip_name = "Artwork 2"
 default_action = "look"
 combine_when_selected_action_is_in = PackedStringArray()
 inventory_texture = ExtResource("9")
-animations = null
 
 [node name="Art12" type="Sprite2D" parent="Hotspots/artwork2"]
 position = Vector2(830, 140)
@@ -157,10 +155,9 @@ process_mode = 1
 script = ExtResource("5")
 global_id = "trigger_talk"
 esc_script = "res://game/rooms/room01/esc/trigger.esc"
+combine_when_selected_action_is_in = PackedStringArray()
 is_trigger = true
 player_orients_on_arrival = false
-combine_when_selected_action_is_in = PackedStringArray()
-animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/trigger_talk"]
 polygon = PackedVector2Array(1027, 352, 1187, 502, 1249.67, 445.131, 1123, 351)

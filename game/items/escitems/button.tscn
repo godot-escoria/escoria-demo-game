@@ -1,100 +1,96 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=3 uid="uid://1kxo8k6wdlaq"]
 
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=1]
-[ext_resource path="res://game/rooms/room03/smoke.png" type="Texture2D" id=2]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cag2tv2frq5vj" path="res://game/rooms/room03/smoke.png" id="2"]
 
-[sub_resource type="Gradient" id=1]
-offsets = PackedFloat32Array( 0, 0.830189 )
-colors = PackedColorArray( 1, 1, 1, 1, 0.353516, 0.353516, 0.353516, 1 )
+[sub_resource type="Gradient" id="1"]
+offsets = PackedFloat32Array(0, 0.830189)
+colors = PackedColorArray(1, 1, 1, 1, 0.353516, 0.353516, 0.353516, 1)
 
-[sub_resource type="GradientTexture2D" id=8]
-gradient = SubResource( 1 )
+[sub_resource type="GradientTexture2D" id="8"]
+gradient = SubResource("1")
 
-[sub_resource type="Curve" id=3]
-_data = [ Vector2( 0, 0.0886364 ), 0.0, 0.0, 0, 0, Vector2( 0.612766, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.770213, 0.95 ), -1.55372, -1.55372, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+[sub_resource type="Curve" id="3"]
+_data = [Vector2(0, 0.0886364), 0.0, 0.0, 0, 0, Vector2(0.612766, 1), 0.0, 0.0, 0, 0, Vector2(0.770213, 0.95), -1.55372, -1.55372, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
 
-[sub_resource type="CurveTexture" id=9]
-curve = SubResource( 3 )
+[sub_resource type="CurveTexture" id="9"]
+curve = SubResource("3")
 
-[sub_resource type="ParticleProcessMaterial" id=5]
+[sub_resource type="ParticleProcessMaterial" id="5"]
 lifetime_randomness = 0.2
 emission_shape = 1
 emission_sphere_radius = 1.0
-flag_disable_z = true
-gravity = Vector3( 0, -9.81, 0 )
-angular_velocity = 14.47
-orbit_velocity = 0.0
-orbit_velocity_random = 1.0
-radial_accel = 3.97
-radial_accel_random = 0.63
-angle = 160.0
-angle_random = 1.0
-scale = 0.5
-scale_random = 0.45
-scale_curve = SubResource( 9 )
-color_ramp = SubResource( 8 )
+gravity = Vector3(0, -9.81, 0)
+scale_min = 0.0
+scale_max = 0.0
+scale_curve = SubResource("9")
+color_ramp = SubResource("8")
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id="6"]
 resource_name = "button_broken"
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("GPUParticles2D:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PackedFloat32Array( 0 ),
-"transitions": PackedFloat32Array( 1 ),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ true ]
+"values": [true]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id="7"]
 resource_name = "button_repaired"
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("GPUParticles2D:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PackedFloat32Array( 0 ),
-"transitions": PackedFloat32Array( 1 ),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ false ]
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_frgsd"]
+_data = {
+"button_broken": SubResource("6"),
+"button_repaired": SubResource("7")
 }
 
 [node name="button" type="Area2D"]
 process_mode = 1
-script = ExtResource( 1 )
+script = ExtResource("1")
 tooltip_name = "Button"
 default_action = "use"
-dialog_color = Color( 1, 1, 1, 1 )
-animations = null
+combine_when_selected_action_is_in = PackedStringArray()
 
 [node name="lines" type="Line2D" parent="."]
-position = Vector2( 0, -266.591 )
-points = PackedVector2Array( 322.305, 390.985, 322.305, 439.068, 368.698, 440.037, 368.974, 392.399, 319.028, 391.549 )
+position = Vector2(0, -266.591)
+points = PackedVector2Array(322.305, 390.985, 322.305, 439.068, 368.698, 440.037, 368.974, 392.399, 319.028, 391.549)
 
 [node name="Polygon2D" type="Polygon2D" parent="lines"]
 visible = false
-polygon = PackedVector2Array( 343.993, 396.767, 323.298, 415.689, 344.585, 438.158, 365.872, 417.463 )
+polygon = PackedVector2Array(343.993, 396.767, 323.298, 415.689, 344.585, 438.158, 365.872, 417.463)
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
-position = Vector2( 344.768, 142.144 )
+position = Vector2(344.768, 142.144)
 amount = 16
+process_material = SubResource("5")
+texture = ExtResource("2")
 lifetime = 4.0
 preprocess = 1.99
 speed_scale = 1.39
-process_material = SubResource( 5 )
-texture = ExtResource( 2 )
-__meta__ = {
-"_editor_description_": ""
-}
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/button_broken = SubResource( 6 )
-anims/button_repaired = SubResource( 7 )
+libraries = {
+"": SubResource("AnimationLibrary_frgsd")
+}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array( 319.633, 122.126, 320.427, 177.685, 371.224, 176.098, 372.811, 121.332 )
+polygon = PackedVector2Array(319.633, 122.126, 320.427, 177.685, 371.224, 176.098, 372.811, 121.332)

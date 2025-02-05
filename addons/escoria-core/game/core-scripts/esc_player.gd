@@ -5,9 +5,8 @@ extends ESCItem
 class_name ESCPlayer
 
 
-
-
-# Whether the player can be selected like an item
+## Whether the player can be hovered and actioned like an item. 
+## This allows to perform actions or use items on the player character.
 @export var selectable: bool = false
 
 

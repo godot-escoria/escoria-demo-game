@@ -55,11 +55,10 @@ process_mode = 1
 script = ExtResource("7")
 global_id = "r11_l_exit"
 esc_script = "res://game/rooms/room11/esc/left_exit.esc"
-is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
 combine_when_selected_action_is_in = PackedStringArray()
-animations = null
+is_exit = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
 polygon = PackedVector2Array(0.328762, 440.897, 1.85199, 119.926, 85.9517, 74.6212, 87.1409, 377.869)
@@ -86,7 +85,6 @@ esc_script = "res://game/rooms/room11/esc/mysterious_circle_tk.esc"
 tooltip_name = "Mysterious circle"
 default_action = "use"
 combine_when_selected_action_is_in = PackedStringArray()
-animations = null
 
 [node name="Polygon2D" type="Polygon2D" parent="Hotspots/circleTK"]
 position = Vector2(50.9425, -76.4136)
@@ -116,7 +114,6 @@ esc_script = "res://game/rooms/room11/esc/mysterious_circle_nott.esc"
 tooltip_name = "Mysterious circle"
 default_action = "use"
 combine_when_selected_action_is_in = PackedStringArray()
-animations = null
 
 [node name="Polygon2D" type="Polygon2D" parent="Hotspots/circleNoTT"]
 position = Vector2(50.9425, -76.4136)
@@ -146,7 +143,6 @@ esc_script = "res://game/rooms/room11/esc/mysterious_circle_nohud.esc"
 tooltip_name = "Mysterious circle"
 default_action = "use"
 combine_when_selected_action_is_in = PackedStringArray()
-animations = null
 
 [node name="Polygon2D" type="Polygon2D" parent="Hotspots/circleNoHUD"]
 position = Vector2(50.9425, -76.4136)
@@ -176,7 +172,6 @@ esc_script = "res://game/rooms/room11/esc/mysterious_circle_nosave.esc"
 tooltip_name = "Mysterious circle"
 default_action = "use"
 combine_when_selected_action_is_in = PackedStringArray()
-animations = null
 
 [node name="Polygon2D" type="Polygon2D" parent="Hotspots/circleNoSave"]
 position = Vector2(50.9425, -76.4136)
@@ -206,7 +201,6 @@ esc_script = "res://game/rooms/room11/esc/mysterious_circle_fadein.esc"
 tooltip_name = "Mysterious circle"
 default_action = "use"
 combine_when_selected_action_is_in = PackedStringArray()
-animations = null
 
 [node name="Polygon2D" type="Polygon2D" parent="Hotspots/circleFadeIn"]
 position = Vector2(50.9425, -76.4136)

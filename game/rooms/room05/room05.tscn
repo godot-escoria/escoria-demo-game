@@ -140,10 +140,9 @@ process_mode = 1
 script = ExtResource("7")
 global_id = "r5_l_exit"
 esc_script = "res://game/rooms/room05/esc/left_exit.esc"
-is_exit = true
 tooltip_name = "Left exit"
 combine_when_selected_action_is_in = PackedStringArray()
-animations = null
+is_exit = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
 position = Vector2(53, -12)
@@ -159,10 +158,9 @@ position = Vector2(-1, 0)
 script = ExtResource("7")
 global_id = "r5_r_exit"
 esc_script = "res://game/rooms/room05/esc/right_exit.esc"
-is_exit = true
 tooltip_name = "Right exit"
 combine_when_selected_action_is_in = PackedStringArray()
-animations = null
+is_exit = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
 polygon = PackedVector2Array(1174, 358, 1175, 62, 1280, 109, 1280, 419)
@@ -179,7 +177,6 @@ esc_script = "res://game/rooms/room05/esc/pipe.esc"
 tooltip_name = "pipe"
 default_action = "look"
 combine_when_selected_action_is_in = PackedStringArray()
-animations = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/pipe"]
 position = Vector2(618, 243)
