@@ -201,7 +201,7 @@ func left_click_on_bg(position: Vector2) -> void:
 		$mouse_layer/verbs_menu.action_manually_changed = false
 
 func right_click_on_bg(position: Vector2) -> void:
-	mousewheel_action(1)
+	pass
 
 func left_double_click_on_bg(position: Vector2) -> void:
 	if escoria.main.current_scene.player:
@@ -302,7 +302,16 @@ func left_click_on_inventory_item(inventory_item_global_id: String, event: Input
 			)
 
 func right_click_on_inventory_item(inventory_item_global_id: String, event: InputEvent) -> void:
-	mousewheel_action(1)
+	element_focused(inventory_item_global_id)
+	var object = escoria.object_manager.get_object(inventory_item_global_id)
+	if object != null:
+		#$mouse_layer/verbs_menu.set_by_name("look")
+		escoria.action_manager.set_current_action("look")
+	escoria.action_manager.do(
+		escoria.action_manager.ACTION.ITEM_RIGHT_CLICK,
+		[inventory_item_global_id, event],
+		true
+	)
 
 
 func left_double_click_on_inventory_item(inventory_item_global_id: String, event: InputEvent) -> void:
