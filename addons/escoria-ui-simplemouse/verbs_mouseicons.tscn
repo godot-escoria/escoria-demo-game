@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=3 uid="uid://0qms6fx5siad"]
 
 [ext_resource type="Script" path="res://addons/escoria-ui-simplemouse/verbs_mouseicons.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://dy1v07dsq0gv6" path="res://addons/escoria-ui-simplemouse/cursors/new/target_a.png" id="2_pg8p6"]
-[ext_resource type="Texture2D" uid="uid://kntfqvpgma13" path="res://addons/escoria-ui-simplemouse/cursors/new/look_b.png" id="3_iryjo"]
-[ext_resource type="Texture2D" uid="uid://2tj2uhyd8un1" path="res://addons/escoria-ui-simplemouse/cursors/new/hand_open.png" id="4_63dmd"]
-[ext_resource type="Texture2D" uid="uid://c6dy0a2st8l6k" path="res://addons/escoria-ui-simplemouse/cursors/new/tool_wrench.png" id="5_8bddv"]
-[ext_resource type="Texture2D" uid="uid://dsvbjwnblrs51" path="res://addons/escoria-ui-simplemouse/cursors/new/message_dots_round.png" id="6_u34a3"]
-[ext_resource type="Texture2D" uid="uid://bmah30wxobv25" path="res://addons/escoria-ui-simplemouse/cursors/new/arrow_w.png" id="7_p2p4e"]
-[ext_resource type="Texture2D" uid="uid://bm7mm8uhe2dey" path="res://addons/escoria-ui-simplemouse/cursors/new/arrow_e.png" id="8_5phyn"]
+[ext_resource type="Texture2D" uid="uid://dxna16g0h0tod" path="res://addons/escoria-ui-simplemouse/cursors/new/target_a.png" id="2_pg8p6"]
+[ext_resource type="Texture2D" uid="uid://c6qbdal6ayi40" path="res://addons/escoria-ui-simplemouse/cursors/new/look_b.png" id="3_iryjo"]
+[ext_resource type="Texture2D" uid="uid://cwsapwdu7kaoh" path="res://addons/escoria-ui-simplemouse/cursors/new/hand_open.png" id="4_63dmd"]
+[ext_resource type="Texture2D" uid="uid://kvqu1wup3mi1" path="res://addons/escoria-ui-simplemouse/cursors/new/tool_wrench.png" id="5_8bddv"]
+[ext_resource type="Texture2D" uid="uid://bpx2sk8djgn6d" path="res://addons/escoria-ui-simplemouse/cursors/new/message_dots_round.png" id="6_u34a3"]
+[ext_resource type="Texture2D" uid="uid://duga04veli3i5" path="res://addons/escoria-ui-simplemouse/cursors/new/arrow_w.png" id="7_p2p4e"]
+[ext_resource type="Texture2D" uid="uid://2yl0fvaxxmx3" path="res://addons/escoria-ui-simplemouse/cursors/new/arrow_e.png" id="8_5phyn"]
 
 [node name="verbs_menu" type="Control"]
 layout_mode = 3
@@ -81,8 +81,8 @@ mouse_filter = 2
 
 [node name="tool" type="TextureRect" parent="mouse_position"]
 layout_mode = 0
-offset_left = 46.4475
-offset_top = 45.6984
-offset_right = 86.4475
-offset_bottom = 85.6984
+offset_left = 48.0
+offset_top = -16.0
+offset_right = 88.0
+offset_bottom = 24.0
 mouse_filter = 2
