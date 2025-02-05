@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="ESCAnimationResource" load_steps=36 format=3 uid="uid://bc0436mj552uc"]
 
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/resources/esc_animationresource.gd" id="1"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/resources/esc_directionangle.gd" id="2"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/resources/esc_animationname.gd" id="3"]
+[ext_resource type="Script" uid="uid://njssvlf0e1wr" path="res://addons/escoria-core/game/core-scripts/resources/esc_directionangle.gd" id="2"]
+[ext_resource type="Script" uid="uid://cuevfsun7h0ah" path="res://addons/escoria-core/game/core-scripts/resources/esc_animationname.gd" id="3"]
 
 [sub_resource type="Resource" id="1"]
 script = ExtResource("2")

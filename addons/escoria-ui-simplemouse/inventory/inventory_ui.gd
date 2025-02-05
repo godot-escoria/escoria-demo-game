@@ -10,6 +10,11 @@ var _tween: Tween3
 
 @onready var inventory_scene = $panel
 
+# Height of the title part of the inventory that stays visible when inventory
+# is hidden. To be computed depending on the resolution of the game, hardcoded
+# here for demonstration purpose.
+const _inventory_title_height: int = 34
+
 func _ready() -> void:
 	super._ready()
 	_tween = Tween3.new(self)
@@ -21,7 +26,7 @@ func show_inventory():
 	_tween.stop()
 	_tween.reset()
 	var start_pos_y = inventory_scene.position.y
-	var end_pos_y = 706
+	var end_pos_y = get_viewport_rect().size.y - $panel.size.y
 	_tween.interpolate_property(
 		inventory_scene,
 		"position:y",
@@ -40,7 +45,7 @@ func hide_inventory():
 	_tween.stop()
 	_tween.reset()
 	var start_pos_y = inventory_scene.position.y
-	var end_pos_y = 866
+	var end_pos_y = get_viewport_rect().size.y - _inventory_title_height 
 	_tween.interpolate_property(
 		inventory_scene,
 		"position:y",

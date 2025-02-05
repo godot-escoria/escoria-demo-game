@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://ciy2hn83a3rim"]
 
 [ext_resource type="Script" path="res://addons/escoria-ui-simplemouse/inventory/inventory_ui.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://yegfvvcmtdnp" path="res://addons/escoria-ui-simplemouse/images/inventory_panel.png" id="2_grkag"]
+[ext_resource type="Texture2D" uid="uid://c4i2tkqiplv13" path="res://addons/escoria-ui-simplemouse/images/inventory_panel.png" id="2_grkag"]
 [ext_resource type="Script" path="res://addons/escoria-core/ui_library/inventory/esc_inventory_container.gd" id="3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nkmk8"]
