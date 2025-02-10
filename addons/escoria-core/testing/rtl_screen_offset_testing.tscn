@@ -1,86 +1,68 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://diq5rsixfcxri"]
 
-[ext_resource path="res://addons/escoria-core/testing/rtl_screen_offset_testing.gd" type="Script" id=1]
-[ext_resource path="res://game/ui/ui_mouse_icons/tooltip/target_tooltip.tscn" type="PackedScene" id=2]
-
-[sub_resource type="ButtonGroup" id=1]
+[ext_resource type="Script" path="res://addons/escoria-core/testing/rtl_screen_offset_testing.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://b3hru28v8y36i" path="res://addons/escoria-ui-simplemouse/tooltip/target_tooltip.tscn" id="2"]
 
 [node name="rtl_screen_offset" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = -1280.0
 offset_bottom = -800.0
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_lock_": true
-}
+script = ExtResource("1")
 path_to_richtextlabel = NodePath("tooltip")
 
 [node name="Line2D" type="Line2D" parent="."]
-points = PackedVector2Array( 40, 40, 40, 976, 1808, 976, 1808, 40, 40, 40 )
+points = PackedVector2Array(40, 40, 40, 976, 1808, 976, 1808, 40, 40, 40)
 width = 2.51
 texture_mode = 116
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
 offset_left = 315.72
 offset_top = 269.104
 offset_right = 475.72
 offset_bottom = 321.104
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-offset_right = 160.0
-offset_bottom = 24.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
-offset_top = 5.0
-offset_right = 98.0
-offset_bottom = 19.0
+layout_mode = 2
 text = "Clamp distance"
 
 [node name="clamp_distance" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
-offset_left = 102.0
-offset_right = 160.0
-offset_bottom = 24.0
+layout_mode = 2
 text = "40"
 max_length = 4
 
 [node name="HBoxContainer2" type="VBoxContainer" parent="."]
+layout_mode = 0
 offset_left = 310.0
 offset_top = 340.0
 offset_right = 470.0
 offset_bottom = 380.0
 
 [node name="foo" type="CheckBox" parent="HBoxContainer2"]
-offset_right = 588.0
-offset_bottom = 24.0
-pressed = true
-group = SubResource( 1 )
+layout_mode = 2
 text = "Foo"
 
 [node name="foobar" type="CheckBox" parent="HBoxContainer2"]
-offset_top = 28.0
-offset_right = 588.0
-offset_bottom = 52.0
-group = SubResource( 1 )
+layout_mode = 2
 text = "Foo bar"
 
 [node name="whatisit" type="CheckBox" parent="HBoxContainer2"]
-offset_top = 56.0
-offset_right = 588.0
-offset_bottom = 80.0
-group = SubResource( 1 )
+layout_mode = 2
 text = "A super extremely long sentence to test<br>the behaviour of that RichTextLabel node..."
 
-[node name="tooltip" parent="." instance=ExtResource( 2 )]
+[node name="tooltip" parent="." instance=ExtResource("2")]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 0
 offset_left = 238.815
 offset_top = 131.18
 offset_right = 638.815
 offset_bottom = 231.18
-custom_minimum_size = Vector2( 400, 0 )
-text = "[center][color=#200606][/color][/center]"
 text = "[center][color=#200606][/color][/center]"
 
 [connection signal="mouse_moved" from="." to="." method="_on_Control_mouse_moved"]

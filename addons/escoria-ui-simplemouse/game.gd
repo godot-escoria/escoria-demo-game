@@ -70,6 +70,8 @@ var _is_gamepad_connected = false
 # Tracks the mouse's current position onscreen.
 var _current_mouse_pos: Vector2 = Vector2.ZERO
 
+var targeted_node: Node
+
 
 func _ready():
 	hide_ui()
@@ -219,7 +221,14 @@ func left_double_click_on_bg(position: Vector2) -> void:
 ## ITEM/HOTSPOT FOCUS ##
 
 func element_focused(element_id: String) -> void:
-	var target_obj = escoria.object_manager.get_object(element_id).node
+	var target_obj: ESCItem = escoria.object_manager.get_object(element_id).node
+	
+	# This code is commented to demonstrate how to implement a simple hover
+	# behaviour on an item.
+	#if target_obj.has_method("get_sprite") and target_obj.get_sprite().texture:
+		#targeted_node = target_obj.get_sprite()
+		#targeted_node.modulate = Color.GRAY
+	
 	$ui/tooltip.set_target(target_obj.tooltip_name)
 
 	if escoria.action_manager.current_action != VERB_USE \
@@ -244,6 +253,11 @@ func element_unfocused() -> void:
 	$mouse_layer/verbs_menu.set_by_name("walk")
 	if $mouse_layer/verbs_menu.action_manually_changed:
 		$mouse_layer/verbs_menu.action_manually_changed = false
+	
+	# This code is commented to demonstrate how to implement a simple unhover
+	# behaviour on an item.
+	#if targeted_node != null:
+		#targeted_node.modulate = Color.WHITE
 
 ## ITEMS ##
 func left_click_on_item(item_global_id: String, event: InputEvent) -> void:

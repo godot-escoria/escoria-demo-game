@@ -21,7 +21,7 @@ func _test_basic() -> bool:
 	say player  "Test 6"
 	say player TEST:"Test 7"
 	"""
-	var script = escoria.esc_compiler.compile(esc.split("\n"))
+	var script = escoria.esc_compiler.compile(esc)
 
 	var subject = script
 	assert(subject is ESCScript)
@@ -100,7 +100,7 @@ say player "Test" [eq flag 3]
 say player "Test" [eq flag 3,gt flag 5]
 say player "Test" [!eq flag 3]
 	"""
-	var script = escoria.esc_compiler.compile(esc.split("\n"))
+	var script = escoria.esc_compiler.compile(esc)
 
 	var subject = script.events["test"].statements[0]
 	assert(subject is ESCCommand)
@@ -175,7 +175,7 @@ func _test_event_flags() -> bool:
 :test2 | TK NO_TT
 :test3 | TK NO_TT NO_UI
 	"""
-	var script = escoria.esc_compiler.compile(esc.split("\n"))
+	var script = escoria.esc_compiler.compile(esc)
 
 	var subject = script.events
 	assert(subject.keys().size() == 3)
@@ -225,7 +225,7 @@ func _test_dialog() -> bool:
 		say player "test4"
 !
 	"""
-	var script = escoria.esc_compiler.compile(esc.split("\n"))
+	var script = escoria.esc_compiler.compile(esc)
 
 	var subject = script.events["test"].statements
 	assert(subject.size() == 1)

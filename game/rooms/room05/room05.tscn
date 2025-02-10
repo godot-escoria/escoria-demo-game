@@ -8,9 +8,9 @@
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
 [ext_resource type="PackedScene" uid="uid://cwg2l8cs056p" path="res://game/items/inventory/r5_wrench.tscn" id="8"]
-[ext_resource type="Texture2D" uid="uid://cfr3sk7ll48s1" path="res://game/rooms/room05/water_droplet.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://carbm85e2un02" path="res://game/rooms/room05/water_droplet.png" id="9"]
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="11"]
-[ext_resource type="Texture2D" uid="uid://dwfn55yb8xdqe" path="res://game/rooms/room05/room5background.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://doyoo3rvuhtbe" path="res://game/rooms/room05/room5background.png" id="13"]
 
 [sub_resource type="NavigationPolygon" id="1"]
 vertices = PackedVector2Array(1187, 387, 1188, 352, 1269.59, 398, 1267, 538, 15, 401, 93, 350, 96, 375, 12, 539, 129.634, 362, 1155, 361)
