@@ -334,10 +334,12 @@ func inventory_item_focused(inventory_item_global_id: String) -> void:
 
 func inventory_item_unfocused() -> void:
 	$ui/tooltip.clear()
-	if escoria.action_manager.current_action == "walk":
-		$mouse_layer/verbs_menu.set_by_name("walk")
+	if escoria.action_manager.current_action == VERB_WALK:
+		$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
 		if $mouse_layer/verbs_menu.action_manually_changed:
 			$mouse_layer/verbs_menu.action_manually_changed = false
+	elif not $mouse_layer/verbs_menu.action_manually_changed:
+		$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
 
 
 func open_inventory():
