@@ -1,56 +1,41 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://btv33yamt7164"]
 
-[ext_resource path="res://addons/escoria-core/_test/test_esc_compiler.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://addons/escoria-core/_test/deprecated/test_esc_compiler.gd" id="1"]
 
 [node name="Testsuite" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("1")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = 1.0
 offset_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
-offset_right = 1281.0
-offset_bottom = 172.0
+layout_mode = 2
 
 [node name="BasicFunctionality" type="CheckButton" parent="VBoxContainer/VBoxContainer"]
-offset_right = 1281.0
-offset_bottom = 40.0
+layout_mode = 2
 text = "Basic Functionality"
-align = 1
 
 [node name="Conditions" type="CheckButton" parent="VBoxContainer/VBoxContainer"]
-offset_top = 44.0
-offset_right = 1281.0
-offset_bottom = 84.0
+layout_mode = 2
 text = "Check conditions"
-align = 1
 
 [node name="EventFlags" type="CheckButton" parent="VBoxContainer/VBoxContainer"]
-offset_top = 88.0
-offset_right = 1281.0
-offset_bottom = 128.0
+layout_mode = 2
 text = "Check event flags"
-align = 1
 
 [node name="Dialog" type="CheckButton" parent="VBoxContainer/VBoxContainer"]
-offset_top = 132.0
-offset_right = 1281.0
-offset_bottom = 172.0
+layout_mode = 2
 text = "Check dialogs"
-align = 1
 
 [connection signal="pressed" from="VBoxContainer/VBoxContainer/BasicFunctionality" to="." method="_on_BasicFunctionality_pressed"]
 [connection signal="pressed" from="VBoxContainer/VBoxContainer/Conditions" to="." method="_on_Conditions_pressed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://71iyvfo7gkvu"]
+[gd_scene load_steps=14 format=3 uid="uid://71iyvfo7gkvu"]
 
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
 [ext_resource type="FontFile" path="res://game/fonts/caslonantique.tres" id="3"]
@@ -7,13 +7,17 @@
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
 [ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="7"]
 [ext_resource type="Texture2D" uid="uid://b40bc1luk2je" path="res://game/rooms/room01/room1background.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://cxxsnnrekdl0q" path="res://game/rooms/room01/art1_hovered.png" id="8_a1vxf"]
 [ext_resource type="Texture2D" uid="uid://b65oxp02mfp4u" path="res://game/rooms/room01/art2.png" id="9"]
+[ext_resource type="Material" uid="uid://bredlcniiy5bp" path="res://game/shaders/shadermaterial_outline_green5px.tres" id="9_at68y"]
 [ext_resource type="Texture2D" uid="uid://bbv7qlb0vmqww" path="res://game/rooms/room01/art1.png" id="10"]
 
 [sub_resource type="NavigationPolygon" id="1"]
 vertices = PackedVector2Array(125, 357, 1170, 355, 1277, 417, 1279, 550, -1, 548, 0, 449)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(125, 357, 1170, 355, 1277, 417, 1279, 550, -1, 548, 0, 449)])
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ogbs0"]
 
 [node name="room1" type="Node2D"]
 script = ExtResource("6")
@@ -62,7 +66,6 @@ but you can interrupt him if you want."
 
 [node name="walkable_area" type="Node2D" parent="."]
 script = ExtResource("1")
-editor_debug_mode = null
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="walkable_area"]
 navigation_polygon = SubResource("1")
@@ -96,13 +99,19 @@ esc_script = "res://game/rooms/room01/esc/wall_item.esc"
 tooltip_name = "Artwork"
 default_action = "look"
 combine_when_selected_action_is_in = PackedStringArray()
+hover_enabled = true
+hover_texture = ExtResource("8_a1vxf")
+hover_shader = ExtResource("9_at68y")
 inventory_texture = ExtResource("10")
+inventory_texture_hovered = ExtResource("10")
 
 [node name="Art1" type="Sprite2D" parent="Hotspots/artwork1"]
+material = SubResource("ShaderMaterial_ogbs0")
 position = Vector2(470, 140)
 texture = ExtResource("10")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/artwork1"]
+visible = false
 position = Vector2(-84, 11.1)
 polygon = PackedVector2Array(487, 62, 627, 62, 627, 198, 487, 199)
 
@@ -127,7 +136,10 @@ esc_script = "res://game/rooms/room01/esc/wall_item_popupdialog.esc"
 tooltip_name = "Artwork 2"
 default_action = "look"
 combine_when_selected_action_is_in = PackedStringArray()
+hover_enabled = true
+hover_modulate = Color(0.419813, 0.419813, 0.419813, 1)
 inventory_texture = ExtResource("9")
+inventory_texture_hovered = ExtResource("9")
 
 [node name="Art12" type="Sprite2D" parent="Hotspots/artwork2"]
 position = Vector2(830, 140)

@@ -82,6 +82,10 @@ signal arrived(walk_context)
 @export_group("","")
 @export_group("Item Behavior")
 
+## Whether this item is movable. A movable item will be scaled with the terrain
+## and be moved with commands like ``teleport`` and ``turn_to``.
+@export var is_movable: bool = false
+
 ## Color used for dialogs if that item talks.
 @export var dialog_color: Color = Color(1,1,1,1)
 
@@ -115,9 +119,27 @@ signal arrived(walk_context)
 ## will not react to inputs and mouse hovers. 
 @export var is_interactive: bool = true
 
-## Whether this item is movable. A movable item will be scaled with the terrain
-## and be moved with commands like ``teleport`` and ``turn_to``.
-@export var is_movable: bool = false
+
+@export_subgroup("Hover Behavior")
+
+## Defines whether Escoria will manage a specific hover behavior when the item
+## is focused. All options below can be used together.
+## This can also be expanded or overriden in your ESCGame implementation 
+## (in methods ``element_focused()`` and ``element_unfocused()``).
+@export var hover_enabled: bool = false
+
+## If hover is enabled, applies this color modulation on the ESCItem sprite.
+@export var hover_modulate: Color = Color.WHITE
+var _previous_color_modulate: Color
+
+## If hover is enabled, replaces this ESCItem sprite texture by this one.
+@export var hover_texture: Texture2D = null
+var _previous_texture: Texture2D = null
+
+## If hover is enabled, applies this shader to the ESCItem sprite.
+@export var hover_shader: ShaderMaterial = null
+
+@export_subgroup("","")
 
 @export_group("","")
 @export_group("Player behavior on arrival")
@@ -367,6 +389,7 @@ func _on_mouse_exited():
 	if escoria.inputs_manager.hover_stack.has(self):
 		escoria.inputs_manager.hover_stack.erase_item(self)
 	escoria.inputs_manager.unset_hovered_node(self)
+	_apply_unhover_behavior()
 
 
 class HoverStackSorter:
@@ -403,7 +426,7 @@ func _on_input_event(_viewport: Object, event: InputEvent, _shape_idx: int):
 		escoria.inputs_manager.hover_stack.clear()
 		escoria.inputs_manager.hover_stack.add_items(colliding_nodes)
 		escoria.inputs_manager.set_hovered_node(colliding_nodes.back())
-
+	
 # Manage mouse button clicks on this item by sending out signals
 #
 # #### Parameters
@@ -619,12 +642,13 @@ func get_interact_position() -> Vector2:
 func mouse_entered():
 	if escoria.action_manager.is_object_actionable(global_id):
 		mouse_entered_item.emit(self)
+		_apply_hover_behavior()
+
 
 
 # React to the mouse exiting the item by emitting the respective signal
 func do_mouse_exited():
 	mouse_exited_item.emit(self)
-
 
 # Another item (e.g. the player) has entered this item
 #
@@ -733,6 +757,14 @@ func set_velocity(speed_value: int) -> void:
 func has_moved() -> bool:
 	return _movable.moved if is_movable else false
 
+func has_sprite() -> bool:
+	if _sprite_node != null:
+		return true
+	else: # confirm
+		for child in self.get_children():
+			if child is AnimatedSprite2D or child is Sprite2D:
+				return true
+		return false
 
 # Return the sprite node
 func get_sprite() -> Node:
@@ -992,6 +1024,32 @@ func _get_identifier_as_key_value() -> String:
 	else:
 		return "node: %s" % get_name()
 
+
+func _apply_hover_behavior() -> void:
+	if not hover_enabled:
+		return
+	if has_sprite():
+		var sprite = get_sprite()
+		_previous_color_modulate = modulate
+		sprite.modulate = hover_modulate
+		if sprite is Sprite2D:
+			if hover_texture != null:
+				_previous_texture = sprite.texture
+				sprite.texture = hover_texture
+			if hover_shader != null:
+				sprite.material = hover_shader
+
+func _apply_unhover_behavior() -> void:
+	if not hover_enabled:
+		return
+	if has_sprite():
+		var sprite = get_sprite()
+		sprite.modulate = _previous_color_modulate
+		if sprite is Sprite2D:
+			if hover_texture != null:
+				sprite.texture = _previous_texture
+			if hover_shader != null:
+				sprite.material = null
 
 # Whether the item is currently moving.
 #

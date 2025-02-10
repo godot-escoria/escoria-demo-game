@@ -17,6 +17,12 @@ func _ready():
 	assert(!path_to_richtextlabel.is_empty())
 	$VBoxContainer/HBoxContainer/clamp_distance.text = str(global_distance_to_clamp)
 
+	var button_group = ButtonGroup.new()
+	$HBoxContainer2/foo.button_group = button_group
+	$HBoxContainer2/foobar.button_group = button_group
+	$HBoxContainer2/whatisit.button_group = button_group
+	
+
 	# Add a white TextureRect behind the RTL to see its actual size
 	var texturerect_node = TextureRect.new()
 	get_node(path_to_richtextlabel).add_child(texturerect_node)
@@ -59,7 +65,9 @@ func update_line2d():
 
 
 func _on_new_text_pressed():
-	var pressed_button = $HBoxContainer2/foo.group.get_pressed_button()
+	var pressed_button = $HBoxContainer2/foo.button_group.get_pressed_button()
+	if pressed_button == null:
+		return
 	printt(pressed_button.name, pressed_button.text)
 	text_selected.emit(pressed_button.text)
 
@@ -137,8 +145,8 @@ func update_size():
 	var nblines = nb_visible_lines
 	if nblines >= 1:
 
-		await get_tree().idle_frame
-		await get_tree().idle_frame
+		await get_tree().process_frame
+		await get_tree().process_frame
 		var text_height = rtl_node.get_content_height()
 		if text_height > MAX_HEIGHT:
 			text_height = MAX_HEIGHT
