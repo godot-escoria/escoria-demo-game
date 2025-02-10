@@ -1,11 +1,11 @@
 [gd_scene load_steps=5 format=3 uid="uid://ciy2hn83a3rim"]
 
 [ext_resource type="Script" path="res://addons/escoria-ui-simplemouse/inventory/inventory_ui.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://c4i2tkqiplv13" path="res://addons/escoria-ui-simplemouse/images/inventory_panel.png" id="2_grkag"]
+[ext_resource type="Texture2D" uid="uid://yegfvvcmtdnp" path="res://addons/escoria-ui-simplemouse/images/inventory_panel.png" id="2_grkag"]
 [ext_resource type="Script" path="res://addons/escoria-core/ui_library/inventory/esc_inventory_container.gd" id="3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nkmk8"]
-size = Vector2(1280, 45)
+size = Vector2(1280, 860.5)
 
 [node name="inventory_ui" type="Control"]
 custom_minimum_size = Vector2(90, 90)
@@ -71,7 +71,7 @@ script = ExtResource("3")
 [node name="Area2D" type="Area2D" parent="panel"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="panel/Area2D"]
-position = Vector2(639, -28)
+position = Vector2(639, -435.75)
 shape = SubResource("RectangleShape2D_nkmk8")
 
 [connection signal="mouse_entered" from="panel" to="." method="_on_panel_mouse_entered"]
