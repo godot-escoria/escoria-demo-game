@@ -67,9 +67,10 @@ script = ExtResource("3")
 
 [node name="exit_inventory_area" type="Control" parent="panel"]
 anchors_preset = 0
-offset_top = -866.0
+offset_top = -97.0
 offset_right = 1278.0
 offset_bottom = -5.0
+mouse_filter = 1
 
 [connection signal="mouse_entered" from="panel" to="." method="_on_panel_mouse_entered"]
 [connection signal="mouse_entered" from="panel/exit_inventory_area" to="." method="_on_exit_inventory_area_mouse_entered"]

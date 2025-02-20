@@ -66,8 +66,7 @@ func _ready():
 #
 # - event: The event received
 func _on_inventory_item_gui_input(event: InputEvent):
-	if InputMap.has_action("switch_action_verb") \
-			and event.is_action_pressed("switch_action_verb"):
+	if event.is_pressed():
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			escoria.inputs_manager._on_mousewheel_action(-1)
 			get_viewport().set_input_as_handled()

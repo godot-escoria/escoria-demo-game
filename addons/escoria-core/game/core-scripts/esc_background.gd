@@ -93,13 +93,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if not is_default_state:
 		return
-	if InputMap.has_action(escoria.inputs_manager.SWITCH_ACTION_VERB) \
-			and event.is_action_pressed(escoria.inputs_manager.SWITCH_ACTION_VERB):
+	if event is InputEventMouseButton and event.is_pressed():
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			mouse_wheel_up.emit()
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			mouse_wheel_down.emit()
-	if event is InputEventMouseButton and event.is_pressed():
 		var p = get_global_mouse_position()
 		var size
 		if get_texture():
