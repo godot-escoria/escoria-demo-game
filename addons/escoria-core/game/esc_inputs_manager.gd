@@ -16,9 +16,6 @@ enum {
 
 
 # Input action for use by InputMap
-const SWITCH_ACTION_VERB = "switch_action_verb"
-
-# Input action for use by InputMap
 const ESC_SHOW_DEBUG_PROMPT = "esc_show_debug_prompt"
 
 # Input action for use by InputMap that represents a "primary action" from an
