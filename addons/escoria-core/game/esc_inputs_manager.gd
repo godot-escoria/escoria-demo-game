@@ -88,7 +88,7 @@ func register_background(background: ESCBackground):
 	background.double_left_click_on_bg.connect(_on_double_left_click_on_bg)
 	background.mouse_wheel_up.connect(_on_mousewheel_action.bind(1))
 	background.mouse_wheel_down.connect(_on_mousewheel_action.bind(-1))
-
+	background.hovered_bg.connect(_on_hover_bg)
 
 # Registers a function that can be used to intercept and process input events.
 # `callback` must have the following signature:
@@ -181,6 +181,9 @@ func unset_hovered_node(item: ESCItem):
 		_hovered_element = null
 		hotspot_focused = ""
 
+# Background was hovered
+func _on_hover_bg() -> void:
+	escoria.main.current_scene.game.hovered_bg()
 
 # The background was clicked with the LMB
 #

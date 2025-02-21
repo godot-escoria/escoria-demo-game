@@ -41,6 +41,7 @@ signal mouse_wheel_up
 # Emitted when the mouse wheel was turned down
 signal mouse_wheel_down
 
+signal hovered_bg
 
 # The ESC script connected to this background
 @export var esc_script = "" # (String, FILE, "*.esc")
@@ -93,6 +94,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if not is_default_state:
 		return
+	if event is InputEventMouseMotion:
+		hovered_bg.emit()
 	if event is InputEventMouseButton and event.is_pressed():
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			mouse_wheel_up.emit()

@@ -8,6 +8,9 @@ var hovering_inventory_item: bool = false
 
 var _tween: Tween3
 
+var being_closed: bool
+var being_opened: bool
+
 @onready var inventory_scene = $panel
 
 # Height of the title part of the inventory that stays visible when inventory
@@ -23,10 +26,13 @@ func _ready() -> void:
 
 
 func show_inventory():
+	if being_opened:
+		return
+	being_opened = true
 	_tween.stop()
 	_tween.reset()
 	var start_pos_y = inventory_scene.position.y
-	var end_pos_y = get_viewport_rect().size.y - $panel.size.y
+	var end_pos_y = get_viewport_rect().size.y - inventory_scene.size.y
 	_tween.interpolate_property(
 		inventory_scene,
 		"position:y",
@@ -39,9 +45,12 @@ func show_inventory():
 	await _tween.finished
 	_tween.stop()
 	inventory_visible = true
-
+	being_opened = false
 
 func hide_inventory():
+	if being_closed:
+		return
+	being_closed = true
 	_tween.stop()
 	_tween.reset()
 	var start_pos_y = inventory_scene.position.y
@@ -58,14 +67,15 @@ func hide_inventory():
 	await _tween.finished
 	_tween.stop()
 	inventory_visible = false
+	being_closed = false
 
 
-func _on_panel_mouse_entered():
+func detector_in():
 	if not inventory_visible:
-		$panel/MarginContainer/ScrollContainer/container.item_focused = false
+		inventory_scene.get_node("MarginContainer/ScrollContainer/container").item_focused = false
 		show_inventory()
 
 
-func _on_exit_inventory_area_mouse_entered():
+func detector_out():
 	if inventory_visible:
 		hide_inventory()

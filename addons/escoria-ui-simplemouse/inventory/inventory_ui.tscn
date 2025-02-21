@@ -12,6 +12,7 @@ offset_right = 1280.0
 offset_bottom = 900.0
 size_flags_horizontal = 0
 size_flags_vertical = 3
+mouse_filter = 2
 script = ExtResource("1")
 inventory_ui_container = NodePath("panel/MarginContainer/ScrollContainer/container")
 
@@ -65,12 +66,22 @@ mouse_filter = 2
 theme_override_constants/separation = 20
 script = ExtResource("3")
 
-[node name="exit_inventory_area" type="Control" parent="panel"]
+[node name="detector_in" type="Control" parent="panel"]
 anchors_preset = 0
-offset_top = -97.0
-offset_right = 1278.0
-offset_bottom = -5.0
+offset_right = 1281.0
+offset_bottom = 34.0
 mouse_filter = 1
 
-[connection signal="mouse_entered" from="panel" to="." method="_on_panel_mouse_entered"]
-[connection signal="mouse_entered" from="panel/exit_inventory_area" to="." method="_on_exit_inventory_area_mouse_entered"]
+[node name="detector_out" type="Control" parent="panel"]
+layout_mode = 1
+anchor_top = -4.469
+anchor_right = 1.0
+anchor_bottom = 0.18
+offset_top = -0.013916
+offset_bottom = -36.92
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[connection signal="mouse_entered" from="panel/detector_in" to="." method="detector_in"]
+[connection signal="mouse_entered" from="panel/detector_out" to="." method="detector_out"]
