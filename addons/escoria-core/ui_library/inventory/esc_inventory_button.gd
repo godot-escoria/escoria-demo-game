@@ -66,16 +66,14 @@ func _ready():
 #
 # - event: The event received
 func _on_inventory_item_gui_input(event: InputEvent):
-	if event.is_pressed():
+	if event is InputEventMouseButton and event.is_pressed():
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			escoria.inputs_manager._on_mousewheel_action(-1)
 			get_viewport().set_input_as_handled()
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			escoria.inputs_manager._on_mousewheel_action(1)
 			get_viewport().set_input_as_handled()
-	if event is InputEventMouseButton:
-#		var p = get_global_mouse_position()
-		if event.double_click:
+		elif event.double_click:
 			if event.button_index == MOUSE_BUTTON_LEFT:
 				mouse_double_left_inventory_item.emit(
 					global_id,
@@ -88,17 +86,16 @@ func _on_inventory_item_gui_input(event: InputEvent):
 						event
 					)
 		else:
-			if event.is_pressed():
-				if event.button_index == MOUSE_BUTTON_LEFT:
-					mouse_left_inventory_item.emit(
-						global_id,
-						event
-					)
-				if event.button_index == MOUSE_BUTTON_RIGHT:
-					mouse_right_inventory_item.emit(
-						global_id,
-						event
-					)
+			if event.button_index == MOUSE_BUTTON_LEFT:
+				mouse_left_inventory_item.emit(
+					global_id,
+					event
+				)
+			if event.button_index == MOUSE_BUTTON_RIGHT:
+				mouse_right_inventory_item.emit(
+					global_id,
+					event
+				)
 
 
 # Handle mouse entering the item and send the respecitve signal

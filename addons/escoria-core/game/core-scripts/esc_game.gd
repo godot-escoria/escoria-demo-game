@@ -149,6 +149,11 @@ func do_walk(destination, params: Array = [], can_interrupt: bool = false) -> vo
 	escoria.action_manager.perform_walk(moving_obj, target, walk_fast)
 
 
+# Called when a mouse motion happens on the background.
+func hovered_bg() -> void:
+	pass
+
+
 # Called when the player left clicks on the background
 # (Needs to be overridden, if supported)
 #
