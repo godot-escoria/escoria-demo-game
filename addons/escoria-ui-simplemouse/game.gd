@@ -249,9 +249,11 @@ func element_focused(element_id: String) -> void:
 
 func element_unfocused() -> void:
 	$ui/tooltip.set_target("")
-	$mouse_layer/verbs_menu.set_by_name("walk")
-	if $mouse_layer/verbs_menu.action_manually_changed:
-		$mouse_layer/verbs_menu.action_manually_changed = false
+	if not $mouse_layer/verbs_menu.action_manually_changed:
+		$mouse_layer/verbs_menu.set_by_name("walk")
+	#if $mouse_layer/verbs_menu.action_manually_changed:
+		#$mouse_layer/verbs_menu.action_manually_changed = false
+
 	
 	# This code is commented to demonstrate how to implement a simple unhover
 	# behaviour on an item.
@@ -469,6 +471,8 @@ func _on_event_done(_return_code: int, _event_name: String):
 	if _return_code == ESCExecution.RC_OK:
 		escoria.action_manager.clear_current_action()
 		$ui/tooltip.set_target("")
+		$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
+		
 
 
 func _on_MenuButton_pressed() -> void:

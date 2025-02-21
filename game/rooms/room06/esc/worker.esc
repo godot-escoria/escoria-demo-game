@@ -104,3 +104,26 @@
 
 	set_gui_visible(true)
 	accept_input("ALL")
+
+:use "r5_filled_sheet"
+	set_gui_visible(false)
+	accept_input("SKIP")
+
+	inventory_remove("r5_filled_sheet")
+	say("worker", "I've unlocked the door, in you go!")
+	walk("worker", "r6_r_exit")
+
+	# Open the door
+	r6_r_exit_locked = false
+	# Hide the closed door graphic
+	set_state("r6_r_exit", "open_door")
+	# Make the open exit visible
+	set_active("r6_r_exit", true)
+
+	# Disappear!
+	say("worker", "I will see you again... MUAHAHAHAHA!")
+	wait(1)
+	set_active("worker", false)
+
+	set_gui_visible(true)
+	accept_input("ALL")
