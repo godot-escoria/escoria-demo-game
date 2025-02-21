@@ -38,7 +38,7 @@ func show_inventory():
 		"position:y",
 		start_pos_y,
 		end_pos_y,
-		0.6,
+		0.4,
 		Tween.TransitionType.TRANS_CUBIC
 	)
 	_tween.play()
@@ -60,7 +60,7 @@ func hide_inventory():
 		"position:y",
 		start_pos_y,
 		end_pos_y,
-		0.6,
+		0.4,
 		Tween.TransitionType.TRANS_CUBIC
 	)
 	_tween.play()
@@ -79,3 +79,7 @@ func detector_in():
 func detector_out():
 	if inventory_visible:
 		hide_inventory()
+
+
+func _on_detector_out_gui_input(event):
+	detector_out()

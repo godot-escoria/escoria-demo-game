@@ -84,4 +84,5 @@ grow_vertical = 2
 mouse_filter = 1
 
 [connection signal="mouse_entered" from="panel/detector_in" to="." method="detector_in"]
+[connection signal="gui_input" from="panel/detector_out" to="." method="_on_detector_out_gui_input"]
 [connection signal="mouse_entered" from="panel/detector_out" to="." method="detector_out"]
