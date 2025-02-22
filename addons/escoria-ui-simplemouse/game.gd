@@ -242,8 +242,6 @@ func element_focused(element_id: String) -> void:
 					$mouse_layer/verbs_menu.set_by_name("exit_right", "walk")
 				else:
 					$mouse_layer/verbs_menu.set_by_name("walk")
-			#elif not $mouse_layer/verbs_menu.action_manually_changed \
-					#and escoria.action_manager.action_state != escoria.action_manager.ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM:
 			elif not $mouse_layer/verbs_menu.action_manually_changed:
 				$mouse_layer/verbs_menu.set_by_name(target_obj.default_action)
 
@@ -251,8 +249,6 @@ func element_unfocused() -> void:
 	$ui/tooltip.set_target("")
 	if not $mouse_layer/verbs_menu.action_manually_changed:
 		$mouse_layer/verbs_menu.set_by_name("walk")
-	#if $mouse_layer/verbs_menu.action_manually_changed:
-		#$mouse_layer/verbs_menu.action_manually_changed = false
 
 	
 	# This code is commented to demonstrate how to implement a simple unhover
