@@ -61,147 +61,67 @@ default_color = Color(1, 1, 1, 1)
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 offset_right = 370.0
 offset_bottom = 170.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 visible = false
-offset_right = 420.0
-offset_bottom = 24.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
-offset_top = 5.0
-offset_right = 136.0
-offset_bottom = 19.0
+layout_mode = 2
 text = "Number of directions"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="number_of_directions" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
-offset_left = 140.0
-offset_right = 198.0
-offset_bottom = 24.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 2
 
 [node name="angle_x" type="HBoxContainer" parent="VBoxContainer"]
-offset_right = 370.0
-offset_bottom = 24.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/angle_x"]
-offset_top = 5.0
-offset_right = 173.0
-offset_bottom = 19.0
+layout_mode = 2
 text = "Angle on horizontal axis (X)"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="angle_horiz" type="LineEdit" parent="VBoxContainer/angle_x"]
-offset_left = 177.0
-offset_right = 235.0
-offset_bottom = 24.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 2
 
 [node name="angle_y" type="HBoxContainer" parent="VBoxContainer"]
-offset_top = 28.0
-offset_right = 370.0
-offset_bottom = 52.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/angle_y"]
-offset_top = 5.0
-offset_right = 155.0
-offset_bottom = 19.0
+layout_mode = 2
 text = "Angle on vertical axis (Y)"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="angle_vert" type="LineEdit" parent="VBoxContainer/angle_y"]
-offset_left = 159.0
-offset_right = 217.0
-offset_bottom = 24.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 2
 
 [node name="angle_diag" type="HBoxContainer" parent="VBoxContainer"]
-offset_top = 56.0
-offset_right = 370.0
-offset_bottom = 80.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/angle_diag"]
-offset_top = 5.0
-offset_right = 146.0
-offset_bottom = 19.0
+layout_mode = 2
 text = "Angle on diagonal axes"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="angle_diag" type="LineEdit" parent="VBoxContainer/angle_diag"]
-offset_left = 150.0
-offset_right = 208.0
-offset_bottom = 24.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 2
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
-offset_top = 84.0
-offset_right = 370.0
-offset_bottom = 88.0
+layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
-offset_top = 92.0
-offset_right = 370.0
-offset_bottom = 170.0
+layout_mode = 2
 size_flags_vertical = 3
-__meta__ = {
-"_editor_description_": ""
-}
 
 [node name="angles" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
-offset_right = 370.0
-offset_bottom = 78.0
+layout_mode = 2
 size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/angles"]
-offset_top = 32.0
-offset_right = 78.0
-offset_bottom = 46.0
+layout_mode = 2
 text = "Angles array"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="angle_array" type="TextEdit" parent="VBoxContainer/VBoxContainer/angles"]
-offset_left = 82.0
-offset_right = 370.0
-offset_bottom = 78.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-wrap_enabled = true
 
 [node name="player_animations" type="OptionButton" parent="."]
 visible = false
@@ -209,9 +129,6 @@ offset_left = 470.0
 offset_top = 10.0
 offset_right = 638.0
 offset_bottom = 33.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [connection signal="text_changed" from="VBoxContainer/HBoxContainer/number_of_directions" to="." method="_on_number_of_directions_text_changed"]
 [connection signal="text_changed" from="VBoxContainer/angle_x/angle_horiz" to="." method="_on_angle_horiz_text_changed"]
