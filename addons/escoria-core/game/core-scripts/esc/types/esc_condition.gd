@@ -110,7 +110,7 @@ func run() -> bool:
 		global_name = "i/%s" % flag
 
 	var return_value = false
-	
+
 	if self.comparison == COMPARISON_NONE:
 		if escoria.globals_manager.has(global_name):
 			return_value = true

@@ -17,7 +17,7 @@ var _escape_chars: Array = []
 var _source: String:
 	set = set_source
 var _filename: String:
-	set = set_filename, 
+	set = set_filename,
 	get = get_filename
 
 var _alpha_regex: RegEx
@@ -59,7 +59,7 @@ func _init():
 
 	_alphanumeric_regex = RegEx.new()
 	_alphanumeric_regex.compile("[a-zA-Z0-9_\\$]")
-	
+
 	_indent_level_stack.push_front(0)
 
 
@@ -93,7 +93,7 @@ func scan_tokens() -> Array:
 	_tokens.append(token)
 
 	return _tokens
-	
+
 
 func _scan_token():
 	var c: String = _advance()

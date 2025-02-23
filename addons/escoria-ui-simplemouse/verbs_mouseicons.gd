@@ -37,7 +37,7 @@ func set_by_name(name: String, force_verb: String = "") -> void:
 
 	Input.set_custom_mouse_cursor(
 		cursors[current_cursor_id].texture,
-		Input.CURSOR_ARROW, 
+		Input.CURSOR_ARROW,
 		Vector2(32,32)
 	)
 	if force_verb.is_empty():

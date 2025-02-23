@@ -69,7 +69,7 @@ func refresh_savegames():
 		new_slot.set_slot_name_date(save["name"], datetime_string)
 		new_slot.connect("pressed", Callable(self, "_on_slot_pressed").bind(int(save["slotnumber"])))
 
-	
+
 # The back button was pressed
 func _on_back_pressed():
 	back_button_pressed.emit()

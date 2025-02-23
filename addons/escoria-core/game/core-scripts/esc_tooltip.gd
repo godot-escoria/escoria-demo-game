@@ -129,7 +129,7 @@ func update_size():
 		return
 	size = get_theme_font("normal_font").get_string_size(
 			current_target,
-			HORIZONTAL_ALIGNMENT_CENTER, 
+			HORIZONTAL_ALIGNMENT_CENTER,
 			-1,
 			get("theme_override_font_sizes/normal_font_size")
 			)

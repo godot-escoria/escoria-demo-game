@@ -69,7 +69,7 @@ class Event extends ESCGrammarStmt:
 	# Indicates whether this event was interrupted.
 	var _is_interrupted: bool = false:
 		get = is_interrupted
-	
+
 	var source: String = "" # TODO: Make proper use of this
 
 

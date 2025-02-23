@@ -37,7 +37,7 @@ func validate(arguments: Array):
 		if s in arguments[0]:
 			raise_error(
 				self,
-				"Invalid global variable. Global variable '%'s cannot contain the string '%s'." 
+				"Invalid global variable. Global variable '%'s cannot contain the string '%s'."
 					% [arguments[0], s]
 			)
 			return false

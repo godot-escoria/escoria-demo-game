@@ -13,16 +13,16 @@ static func tween_interpolate_property(
 				delay: float = 0) -> bool:
 	var t := tween.tween_property(object, property, final_val, duration)
 	assert(t != null, "Cannot interpolate property \"%s\" in \"%s\"! Did you reset the tween?" % [property, str(object)])
-	
+
 	if initial_val == null:
 		t.as_relative()
 	else:
 		t.from(initial_val)
-		
+	
 	t.set_trans(trans_type)
 	t.set_ease(ease_type)
 	t.set_delay(delay)
-	
+
 	return true
 
 
@@ -38,20 +38,20 @@ func _on_finished():
 func _init(tween_parent: Node):
 	_tween_parent = tween_parent
 	_duration = 0
-	
+
 	_create_tween()
 
 func _create_tween():
 	_tween = _tween_parent.get_tree().create_tween()
 	_tween.pause()  # prevent autoplay
-	
+
 	_tween.finished.connect(_on_finished)
 
 func reset():
 	_duration = 0
 	_tween.stop()
 	_tween.kill()
-	
+
 	_create_tween()
 
 func tween_method(method: Callable, from: Variant, to: Variant, duration: float) -> void:

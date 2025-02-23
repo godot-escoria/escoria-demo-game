@@ -232,7 +232,7 @@ func init_room(room: ESCRoom) -> void:
 # #### Parameters
 #
 # - room: The ESCRoom to be initialized for use.
-# *Returns* 
+# *Returns*
 func _perform_script_events(room: ESCRoom) -> int:
 	# Used to track whether any yields have been executed before the call to
 	# set_scene_finish.
@@ -491,7 +491,7 @@ func _perform_script_events(room: ESCRoom) -> int:
 				if escoria.main.current_scene != null else "",
 		true
 	)
-	
+
 	return ESCExecution.RC_OK
 
 

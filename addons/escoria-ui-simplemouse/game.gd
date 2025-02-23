@@ -80,7 +80,7 @@ func _ready():
 
 func _enter_tree():
 	initialize_esc_game()
-	
+
 	var room_selector_parent = $ui/HBoxContainer/VBoxContainer
 
 	if ESCProjectSettingsManager.get_setting(ESCProjectSettingsManager.ENABLE_ROOM_SELECTOR) \
@@ -222,19 +222,19 @@ func left_double_click_on_bg(position: Vector2) -> void:
 
 func element_focused(element_id: String) -> void:
 	var target_obj: ESCItem = escoria.object_manager.get_object(element_id).node
-	
+
 	# This code is commented to demonstrate how to implement a simple hover
 	# behaviour on an item.
 	#if target_obj.has_method("get_sprite") and target_obj.get_sprite().texture:
 		#targeted_node = target_obj.get_sprite()
 		#targeted_node.modulate = Color.GRAY
-	
+
 	$ui/tooltip.set_target(target_obj.tooltip_name)
 
 	if escoria.action_manager.current_action != VERB_USE \
 			and escoria.action_manager.current_tool == null \
 			and target_obj is ESCItem:
-			
+		
 			if target_obj.is_exit:
 				if element_id.contains("_l_"):
 					$mouse_layer/verbs_menu.set_by_name("exit_left", "walk")
@@ -250,7 +250,7 @@ func element_unfocused() -> void:
 	if not $mouse_layer/verbs_menu.action_manually_changed:
 		$mouse_layer/verbs_menu.set_by_name("walk")
 
-	
+
 	# This code is commented to demonstrate how to implement a simple unhover
 	# behaviour on an item.
 	#if targeted_node != null:
@@ -318,7 +318,7 @@ func left_click_on_inventory_item(inventory_item_global_id: String, event: Input
 				item.inventory_item.texture_normal
 			)
 		escoria.action_manager.current_tool = object
-		
+	
 		if escoria.action_manager.current_target != null:
 			$mouse_layer/verbs_menu.clear_tool_texture()
 			$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
@@ -468,7 +468,7 @@ func _on_event_done(_return_code: int, _event_name: String):
 		escoria.action_manager.clear_current_action()
 		$ui/tooltip.set_target("")
 		$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
-		
+	
 
 
 func _on_MenuButton_pressed() -> void:

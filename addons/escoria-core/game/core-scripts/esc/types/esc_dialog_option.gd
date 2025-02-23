@@ -10,7 +10,7 @@ const REGEX = \
 
 
 # Option displayed in the HUD
-var option: String: 
+var option: String:
 	get = get_translated_option
 
 # Maps back to the parsed source option.
@@ -20,7 +20,7 @@ var source_option
 var conditions: Array = []
 
 var _is_valid: bool:
-	set = set_is_valid, 
+	set = set_is_valid,
 	get = is_valid
 
 # Create a dialog option from an ESC string

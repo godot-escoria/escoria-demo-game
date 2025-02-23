@@ -25,7 +25,7 @@ var _locals: Dictionary = {}
 var _current_event: ESCGrammarStmts.Event
 
 # While most of the time we only run a single event at a time, it is possible for
-# multiple events to 
+# multiple events to
 var _event_stack: Array = []
 
 var _builtin_functions: Array = [
@@ -119,9 +119,9 @@ func visit_event_stmt(stmt: ESCGrammarStmts.Event):
 
 	#for statement in stmt.get_statements():
 	#	statements.append(_execute(statement))
-	
+
 	#event.statements = statements
-	
+
 	#return event
 
 
@@ -487,7 +487,7 @@ func _look_up_object_by_global_id(global_id: String):
 
 	if escoria.main.current_scene.global_id == global_id:
 		return escoria.main.current_scene
-	
+
 	escoria.logger.error(
 		self,
 		"Unable to resolve object with global ID '%s'." % global_id
@@ -533,7 +533,7 @@ func _execute_block(statements: Array, env: ESCEnvironment):
 			or ret is ESCGrammarStmts.Stop:
 
 			return ret
-			
+		
 		# TODO: Proper error handling per statement?
 		#if ret:
 		#	break

@@ -55,9 +55,9 @@ func run(command_params: Array) -> int:
 # Return the name of the command based on the script's filename
 func get_command_name() -> String:
 	var path := get_script().get_path() as String
-	
+
 	return path.get_basename().get_file()
-	
+
 	# FIXME: This did not work for some paths although it should
 	#return command_name_regex.search(path).get_string(FILE_REGEX_GROUP)
 

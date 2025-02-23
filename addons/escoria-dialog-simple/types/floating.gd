@@ -97,7 +97,7 @@ func _ready():
 	_word_regex.compile("\\S+")
 
 	bbcode_enabled = true
-	
+
 	tween.finished.connect(_on_dialog_line_typed.bind("", ""))
 
 	tree_exiting.connect(_on_tree_exiting)

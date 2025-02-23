@@ -1,7 +1,7 @@
 extends "res://addons/escoria-dialog-simple/patterns/state_machine/state.gd"
 
 
-# Reference to the currently playing dialog manager 
+# Reference to the currently playing dialog manager
 var _dialog_manager: ESCDialogManager = null
 
 # Character that is talking
@@ -69,7 +69,7 @@ func enter():
 	escoria.logger.trace(self, "Dialog State Machine: Entered 'say'.")
 
 	_say_started = false
-	
+
 	if not _dialog_manager.say_visible.is_connected(_on_say_visible):
 		_dialog_manager.say_visible.connect(_on_say_visible)
 

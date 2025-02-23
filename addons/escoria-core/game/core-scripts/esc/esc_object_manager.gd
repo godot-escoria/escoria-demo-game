@@ -421,7 +421,7 @@ func save_game(p_savegame: ESCSaveGame) -> void:
 			var obj_json_to_save: Dictionary = obj.get_save_data()
 			if not obj_json_to_save.is_empty():
 				room_objects_dict[obj_id] = obj_json_to_save
-	
+
 		p_savegame.objects[room_obj.room_global_id] = room_objects_dict
 
 	# Add in reserved objects (music, speech, sound), too.

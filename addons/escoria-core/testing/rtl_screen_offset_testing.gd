@@ -21,7 +21,7 @@ func _ready():
 	$HBoxContainer2/foo.button_group = button_group
 	$HBoxContainer2/foobar.button_group = button_group
 	$HBoxContainer2/whatisit.button_group = button_group
-	
+
 
 	# Add a white TextureRect behind the RTL to see its actual size
 	var texturerect_node = TextureRect.new()

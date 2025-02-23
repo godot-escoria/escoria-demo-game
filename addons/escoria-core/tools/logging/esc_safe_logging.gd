@@ -1,4 +1,4 @@
-# This static class is primarily for situations where there's a possibility that logging to the 
+# This static class is primarily for situations where there's a possibility that logging to the
 # console may be done by a tool script, and so won't have access to the autoloader/singleton that is
 # `escoria`.
 class_name ESCSafeLogging

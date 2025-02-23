@@ -123,7 +123,7 @@ func get_saves_list() -> Dictionary:
 			self,
 			"Could not open savegame folder %s" % save_folder
 		)
-	
+
 	return saves
 
 
@@ -145,7 +145,7 @@ func save_game_exists(id: int) -> bool:
 func save_game(id: int, p_savename: String):
 	if not save_enabled:
 		escoria.logger.debug(
-			self, 
+			self,
 			"Saving is currently disabled. Save cancelled."
 		)
 		return
@@ -304,18 +304,18 @@ func load_game(id: int):
 		)
 
 	escoria.event_manager.interrupt()
-	
-	# Now the actual savegame loading happens. 
+
+	# Now the actual savegame loading happens.
 	# Steps:
 	# 1. Hide main and pause menus
-	# 2. Change the scene to the next room. 
+	# 2. Change the scene to the next room.
 	#    This does the out transition from the current scene.
-	#    And resets objects lists in various managers so we don't have to reset 
+	#    And resets objects lists in various managers so we don't have to reset
 	#    them all manually.
 	# 3. Load objects for all rooms
-	# 4. Clear current globals (in case the loaded room automatically 
+	# 4. Clear current globals (in case the loaded room automatically
 	#    initializes some - they are loaded anyway)
-	#    Load globals 
+	#    Load globals
 	# 5. Load inventory items
 	# 6. Load room's terrain navigation polygons
 	# 7. Load events (currently only scheduled events)
@@ -327,7 +327,7 @@ func load_game(id: int):
 	#     Reset input mode to accept input
 	#     Reset escoria state
 	#     Set save manager "is_loading_game" var to false since we're now done
-	
+
 	# Hide main and pause menus
 	escoria.game_scene.hide_main_menu()
 	escoria.game_scene.unpause_game()
@@ -342,9 +342,9 @@ func load_game(id: int):
 	_load_savegame_terrain_navpolys(save_game.terrain_navpolys)
 	_load_savegame_events(save_game.events)
 	_transition.run(["", "in", 1.0])
-	
+
 	escoria.set_game_paused(false)
-	
+
 	escoria.action_manager.clear_current_action()
 	escoria.action_manager.clear_current_tool()
 	escoria.inputs_manager.input_mode = escoria.inputs_manager.INPUT_ALL
@@ -416,7 +416,7 @@ func _load_object(object_id: String, object_dictionary: Dictionary, room_id: Str
 		# Position
 		if object_dictionary.has("global_transform"):
 			_teleport_pos.run([
-				object_id, 
+				object_id,
 				object_dictionary["global_transform"].origin.x,
 				object_dictionary["global_transform"].origin.y
 			])
@@ -441,7 +441,7 @@ func _load_object(object_id: String, object_dictionary: Dictionary, room_id: Str
 func _load_savegame_globals(savegame_globals: Dictionary):
 	escoria.logger.info(self, "Loading globals")
 
-	for g in savegame_globals: 
+	for g in savegame_globals:
 		_set_global.run([g, savegame_globals[g], true])
 
 	escoria.logger.info(self, "Finished loading globals")
@@ -454,7 +454,7 @@ func _load_savegame_globals(savegame_globals: Dictionary):
 func _load_savegame_inventory(savegame_inventory: Array):
 	escoria.logger.info(self, "Loading inventory")
 
-	for g in savegame_inventory: 
+	for g in savegame_inventory:
 		_add_inventory.run([g, savegame_inventory[g]])
 
 	escoria.logger.info(self, "Finished loading inventory")
@@ -491,7 +491,7 @@ func _load_savegame_events(savegame_events: Dictionary):
 			var event: ESCEvent = script.events[sched_event.event.original_name]
 			_sched_event.run([sched_event["timeout"], sched_event["object"], event])
 		escoria.logger.info(self, "Finished loading scheduled events")
-	
+
 	escoria.logger.info(self, "Finished loading events")
 
 

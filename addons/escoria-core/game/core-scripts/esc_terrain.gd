@@ -20,18 +20,18 @@ enum DebugMode {
 
 @export_group("Scales")
 ## Scaling texture. If empty, items scale will always be 1.0.
-## This is a greyscale image defining how close to the camera the character will 
+## This is a greyscale image defining how close to the camera the character will
 ## appear at each pixel position. White is closer, black is further.
 @export var scales: Texture2D: set = _set_scales
 
 ## Minimum scaling. Corresponds to the scale used for characters when they are
-## located at the blackest pixel of scaling texture, at which they will appear 
+## located at the blackest pixel of scaling texture, at which they will appear
 ## smallest.
 ## Unused if scaling texture is not set.
 @export var scale_min: float = 0.3
 
 ## Maximum scaling. Corresponds the scale used for characters when they are
-## located at the whitest pixel of scaling texture, at which they will appear 
+## located at the whitest pixel of scaling texture, at which they will appear
 ## biggest.
 ## Unused if scaling texture is not set.
 @export var scale_max: float = 1.0
@@ -58,7 +58,7 @@ enum DebugMode {
 ## Multiplier applied to the player speed on this terrain.
 @export var player_speed_multiplier: float = 1.0
 
-## Multiplier that determines how much faster the player will walk when fast 
+## Multiplier that determines how much faster the player will walk when fast
 ## mode is on (double clicked)
 @export var player_doubleclick_speed_multiplier: float = 1.5
 
@@ -66,7 +66,7 @@ enum DebugMode {
 @export_group("Debug display")
 
 
-## Debug display mode. 
+## Debug display mode.
 ## None: no debug display
 ## Scales: displays the scales map
 ## Lightmap: displays the lightmap
@@ -126,8 +126,8 @@ func get_children_navpolys() -> Array:
 # child_exited_tree signals, parameter is the added node.
 func _check_multiple_enabled_navpolys(node: Node = null, is_exiting: bool = false) -> void:
 	var navigation_enabled_found = false
-	if (node != null 
-			and not is_exiting 
+	if (node != null
+			and not is_exiting
 			and node is NavigationRegion2D
 			and node.enabled):
 		navigation_enabled_found = true
@@ -299,13 +299,13 @@ func _draw():
 
 
 func get_simple_path(
-		from: Vector2, 
-		to: Vector2, 
-		optimize: bool = true, 
+		from: Vector2,
+		to: Vector2,
+		optimize: bool = true,
 		layers: int = 1) -> PackedVector2Array:
 	return NavigationServer2D.map_get_path(
-		get_world_2d().navigation_map, 
-		from, 
-		to, 
-		optimize, 
+		get_world_2d().navigation_map,
+		from,
+		to,
+		optimize,
 		layers)

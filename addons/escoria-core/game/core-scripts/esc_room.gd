@@ -54,7 +54,7 @@ var enabled_automatic_transitions = true
 # Whether this room was run directly with Play Scene (F6)
 var is_run_directly = false
 
-###### @Tool properties ###### 
+###### @Tool properties ######
 # Default font for tool display in the editor
 var _tool_default_font: Font
 
@@ -62,7 +62,7 @@ var _tool_default_font: Font
 func _enter_tree():
 	if editor_debug_mode == EditorRoomDebugDisplay.CAMERA_LIMITS:
 		randomize()
-	
+
 
 # Sanitize camera limits, add player node and set the global id to the
 # name of this node if it's not set manually
@@ -73,7 +73,7 @@ func _ready():
 				"application/run/main_scene"
 			) != self.scene_file_path:
 		is_run_directly = true
-	
+
 	var temp_control: Control = Control.new()
 	_tool_default_font = temp_control.get_theme_default_font()
 	temp_control.queue_free()
@@ -120,10 +120,10 @@ func _draw():
 	for i in camera_limits.size():
 		draw_rect(camera_limits[i], camera_limits_colors[i], false, 10.0)
 		draw_string(
-			_tool_default_font, 
-			Vector2(camera_limits[i].position.x + 30, camera_limits[i].position.y + 30), 
-			str(i), 
-			HORIZONTAL_ALIGNMENT_LEFT, 
+			_tool_default_font,
+			Vector2(camera_limits[i].position.x + 30, camera_limits[i].position.y + 30),
+			str(i),
+			HORIZONTAL_ALIGNMENT_LEFT,
 			-1,
 			16,
 			camera_limits_colors[i])

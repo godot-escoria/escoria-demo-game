@@ -3,7 +3,7 @@ class_name ESCBreakCounter
 
 
 var _levels_left: int = 0:
-	set = set_levels_left, 
+	set = set_levels_left,
 	get = get_levels_left
 
 

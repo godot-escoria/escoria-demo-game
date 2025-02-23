@@ -61,10 +61,10 @@ func apply_settings() -> void:
 				)
 			)
 		)
-		
+	
 		var mode = Window.MODE_EXCLUSIVE_FULLSCREEN if ESCProjectSettingsManager.get_setting(ESCProjectSettingsManager.FULLSCREEN) else Window.MODE_WINDOWED
 		DisplayServer.window_set_mode(mode)
-		
+	
 		TranslationServer.set_locale(
 			ESCProjectSettingsManager.get_setting(
 				ESCProjectSettingsManager.TEXT_LANG

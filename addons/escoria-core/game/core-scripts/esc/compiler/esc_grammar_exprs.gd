@@ -64,7 +64,7 @@ class Binary extends ESCGrammarExpr:
 class Unary extends ESCGrammarExpr:
 	var _operator: ESCToken:
 		get = get_operator
-	var _right: ESCGrammarExpr: 
+	var _right: ESCGrammarExpr:
 		get = get_right
 
 
@@ -86,9 +86,9 @@ class Unary extends ESCGrammarExpr:
 
 
 class Get extends ESCGrammarExpr:
-	var _object: ESCGrammarExpr: 
+	var _object: ESCGrammarExpr:
 		get = get_object
-	var _name: ESCToken: 
+	var _name: ESCToken:
 		get = get_name
 
 
@@ -110,11 +110,11 @@ class Get extends ESCGrammarExpr:
 
 
 class Set extends ESCGrammarExpr:
-	var _object: ESCGrammarExpr: 
+	var _object: ESCGrammarExpr:
 		get = get_object
-	var _name: ESCToken: 
+	var _name: ESCToken:
 		get = get_name
-	var _value: ESCGrammarExpr: 
+	var _value: ESCGrammarExpr:
 		get = get_value
 
 
@@ -141,11 +141,11 @@ class Set extends ESCGrammarExpr:
 
 
 class Call extends ESCGrammarExpr:
-	var _callee: ESCGrammarExpr: 
+	var _callee: ESCGrammarExpr:
 		get = get_callee
-	var _paren: ESCToken: 
+	var _paren: ESCToken:
 		get = get_paren_token
-	var _arguments: Array: 
+	var _arguments: Array:
 		get = get_arguments
 
 
@@ -172,7 +172,7 @@ class Call extends ESCGrammarExpr:
 
 
 class Literal extends ESCGrammarExpr:
-	var _value: 
+	var _value:
 		get = get_value
 
 
@@ -205,9 +205,9 @@ class Variable extends ESCGrammarExpr:
 
 
 class Assign extends ESCGrammarExpr:
-	var _name: ESCToken: 
+	var _name: ESCToken:
 		get = get_name
-	var _value: ESCGrammarExpr: 
+	var _value: ESCGrammarExpr:
 		get = get_value
 
 
@@ -229,7 +229,7 @@ class Assign extends ESCGrammarExpr:
 
 
 class Grouping extends ESCGrammarExpr:
-	var _expression: ESCGrammarExpr: 
+	var _expression: ESCGrammarExpr:
 		get = get_expression
 
 

@@ -24,11 +24,11 @@ const MULTIPLE_START_LOCATIONS_WARNING = \
 
 @export_group("Player behavior on arrival")
 
-## Whether player character orients towards 'interaction_angle' as it arrives at 
+## Whether player character orients towards 'interaction_angle' as it arrives at
 ## the item's interaction position.
 @export var player_orients_on_arrival: bool = true
 
-## If 'player_orients_on_arrival' is enabled, let the player character turn to 
+## If 'player_orients_on_arrival' is enabled, let the player character turn to
 ## this angle when it arrives at the item's interaction position.
 @export var interaction_angle: int
 

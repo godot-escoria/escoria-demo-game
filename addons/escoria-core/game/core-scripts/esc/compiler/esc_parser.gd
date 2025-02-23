@@ -76,7 +76,7 @@ func _event_declaration():
 
 	if _check(ESCTokenType.TokenType.STRING) or _check(ESCTokenType.TokenType.IDENTIFIER):
 		var expr = _primary()
-		
+	
 		if expr is ESCParseError:
 			return expr
 
@@ -104,7 +104,7 @@ func _event_declaration():
 
 		var ret = ESCGrammarStmts.Event.new()
 		ret.init(name, target, flags, body)
-		
+	
 		return ret
 	else:
 		return _error(_peek(), "Expected block after event declaration for '%s'. Code blocks require tab(s) at the start of a line." % name.get_lexeme())
@@ -379,7 +379,7 @@ func _dialog_option_statement():
 
 	if _match(ESCTokenType.TokenType.LEFT_SQUARE):
 		condition = _expression()
-		
+	
 		if condition is ESCParseError:
 			return condition
 

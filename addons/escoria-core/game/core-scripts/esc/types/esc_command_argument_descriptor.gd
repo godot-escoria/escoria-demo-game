@@ -120,7 +120,7 @@ func validate(command: String, arguments: Array) -> bool:
 			"Invalid arguments for command %s. " % command +
 			"Maximum number of arguments ({num}) exceeded: {args}.".format(
 				{"num":self.max_args,"args":arguments}
-			) + 
+			) +
 			" %s" % _get_error_info()
 		)
 		return false

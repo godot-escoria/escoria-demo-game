@@ -116,7 +116,7 @@ signal arrived(walk_context)
 @export var trigger_out_verb: String = "trigger_out"
 
 ## Defines whether the player can interact with this item. If false, the item
-## will not react to inputs and mouse hovers. 
+## will not react to inputs and mouse hovers.
 @export var is_interactive: bool = true
 
 
@@ -124,7 +124,7 @@ signal arrived(walk_context)
 
 ## Defines whether Escoria will manage a specific hover behavior when the item
 ## is focused. All options below can be used together.
-## This can also be expanded or overriden in your ESCGame implementation 
+## This can also be expanded or overriden in your ESCGame implementation
 ## (in methods ``element_focused()`` and ``element_unfocused()``).
 @export var hover_enabled: bool = false
 
@@ -144,11 +144,11 @@ var _previous_texture: Texture2D = null
 @export_group("","")
 @export_group("Player behavior on arrival")
 
-## Whether player character orients towards 'interaction_angle' as it arrives at 
+## Whether player character orients towards 'interaction_angle' as it arrives at
 ## the item's interaction position.
 @export var player_orients_on_arrival: bool = true
 
-## If 'player_orients_on_arrival' is enabled, let the player character turn to 
+## If 'player_orients_on_arrival' is enabled, let the player character turn to
 ## this angle when it arrives at the item's interaction position.
 @export var interaction_angle: int
 
@@ -192,7 +192,7 @@ var _previous_texture: Texture2D = null
 @export_group("Animations")
 
 ## Animations resource for the item (walking, idling...)
-@export var animations: ESCAnimationResource: 
+@export var animations: ESCAnimationResource:
 		set = set_animations
 
 ## The node used to play animations
@@ -285,7 +285,7 @@ func _ready():
 						._movable.last_dir = animations.get_direction_id_from_animation_name(
 							get_animation_player().get_animation()
 						)
-			
+		
 
 		if escoria.object_manager.get_object(global_id).state == ESCObject.STATE_DEFAULT \
 				and escoria.object_manager.get_object(global_id).node.get_animation_player() != null:
@@ -296,25 +296,25 @@ func _ready():
 						#animations.get_direction_id_from_animation_name(
 							#.get_animation_player().get_animation()
 						#)
-			
+		
 
 		if !is_trigger:
 			if not self.is_connected(
-					"mouse_entered_item", 
+					"mouse_entered_item",
 					escoria.inputs_manager._on_mouse_entered_item
 			):
 				mouse_entered_item.connect(
 					escoria.inputs_manager._on_mouse_entered_item
 				)
 			if not self.is_connected(
-					"mouse_exited_item", 
+					"mouse_exited_item",
 					escoria.inputs_manager._on_mouse_exited_item
 			):
 				mouse_exited_item.connect(
 					escoria.inputs_manager._on_mouse_exited_item
 				)
 			if not self.is_connected(
-					"mouse_left_clicked_item", 
+					"mouse_left_clicked_item",
 					escoria.inputs_manager._on_mouse_left_clicked_item
 			):
 				mouse_left_clicked_item.connect(
@@ -426,7 +426,7 @@ func _on_input_event(_viewport: Object, event: InputEvent, _shape_idx: int):
 		escoria.inputs_manager.hover_stack.clear()
 		escoria.inputs_manager.hover_stack.add_items(colliding_nodes)
 		escoria.inputs_manager.set_hovered_node(colliding_nodes.back())
-	
+
 # Manage mouse button clicks on this item by sending out signals
 #
 # #### Parameters

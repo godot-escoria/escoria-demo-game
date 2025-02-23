@@ -3,7 +3,7 @@ class_name ESCToken
 
 
 var _tokenType: int: # ESCScanner.TokenType enum
-	get = get_type 
+	get = get_type
 var _lexeme: String:
 	get = get_lexeme
 var _literal:

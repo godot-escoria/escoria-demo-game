@@ -54,7 +54,7 @@ func hide_inventory():
 	_tween.stop()
 	_tween.reset()
 	var start_pos_y = inventory_scene.position.y
-	var end_pos_y = get_viewport_rect().size.y - _inventory_title_height 
+	var end_pos_y = get_viewport_rect().size.y - _inventory_title_height
 	_tween.interpolate_property(
 		inventory_scene,
 		"position:y",

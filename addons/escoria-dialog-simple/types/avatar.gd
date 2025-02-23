@@ -100,7 +100,7 @@ func _ready():
 
 	escoria.paused.connect(_on_paused)
 	escoria.resumed.connect(_on_resumed)
-	
+
 	tree_exited.connect(_on_tree_exited)
 
 

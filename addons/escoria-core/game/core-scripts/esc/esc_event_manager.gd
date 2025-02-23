@@ -156,13 +156,13 @@ func _process(delta: float) -> void:
 				self,
 				"Processing event '%s' from script '%s'." \
 					% [
-						event.get_name().get_lexeme(), 
+						event.get_name().get_lexeme(),
 						event.get_name().get_filename() if event.get_name().get_filename() else "<internal>"
 					]
 			)
 
 			resolver.resolve(event)
-			
+		
 			var rc = await interpreter.interpret(event)
 
 			#if rc is GDScriptFunctionState:

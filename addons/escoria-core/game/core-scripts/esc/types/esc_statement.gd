@@ -70,7 +70,7 @@ func run() -> int:
 		var interpreter = ESCInterpreterFactory.create_interpreter()
 		var resolver: ESCResolver = ESCResolver.new(interpreter)
 		resolver.resolve(parsed_statements)
-		
+	
 		interpreter.interpret(parsed_statements)
 		return 0
 
