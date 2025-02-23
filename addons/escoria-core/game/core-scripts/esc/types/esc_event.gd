@@ -37,11 +37,11 @@ const PREFIX = ":"
 #   disable input for skipping dialog.
 # * NO_SAVE: disables saving. Use this in cut scenes and anywhere a
 #   badly-timed autosave would leave your game in a messed-up state.
-enum {
-	FLAG_TK = 1,
-	FLAG_NO_TT = 2,
-	FLAG_NO_UI = 4,
-	FLAG_NO_SAVE = 8
+enum FLAGS {
+	TK = 1,
+	NO_TT = 2,
+	NO_UI = 4,
+	NO_SAVE = 8
 }
 
 
@@ -79,14 +79,7 @@ func _init(event_string: String):
 						result,
 						"flags"
 					).strip_edges().split(" ")
-				if "TK" in _flags:
-					self.flags |= FLAG_TK
-				if "NO_TT" in _flags:
-					self.flags |= FLAG_NO_TT
-				if "NO_UI" in _flags:
-					self.flags |= FLAG_NO_UI
-				if "NO_SAVE" in _flags:
-					self.flags |= FLAG_NO_SAVE
+				self.flags = get_flags_from_list(_flags)
 	else:
 		escoria.logger.warn(
 			self,
@@ -97,17 +90,22 @@ func _init(event_string: String):
 
 func init(event_name: String, event_flags: Array):
 	name = event_name
+	flags = get_flags_from_list(event_flags)
 
+
+static func get_flags_from_list(event_flags: Array[String]) -> int:
+	var computed_flags: int = 0
 	for flag in event_flags:
 		match flag:
 			"TK":
-				flags |= FLAG_TK
+				computed_flags |= FLAGS.TK
 			"NO_TT":
-				flags |= FLAG_NO_TT
+				computed_flags |= FLAGS.NO_TT
 			"NO_UI":
-				flags |= FLAG_NO_UI
+				computed_flags |= FLAGS.NO_UI
 			"NO_SAVE":
-				flags |= FLAG_NO_SAVE
+				computed_flags |= FLAGS.NO_SAVE
+	return computed_flags
 
 
 # Execute this statement and return its return code
