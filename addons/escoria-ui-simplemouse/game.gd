@@ -234,7 +234,7 @@ func element_focused(element_id: String) -> void:
 	if escoria.action_manager.current_action != VERB_USE \
 			and escoria.action_manager.current_tool == null \
 			and target_obj is ESCItem:
-		
+	
 			if target_obj.is_exit:
 				if element_id.contains("_l_"):
 					$mouse_layer/verbs_menu.set_by_name("exit_left", "walk")
@@ -318,7 +318,7 @@ func left_click_on_inventory_item(inventory_item_global_id: String, event: Input
 				item.inventory_item.texture_normal
 			)
 		escoria.action_manager.current_tool = object
-	
+
 		if escoria.action_manager.current_target != null:
 			$mouse_layer/verbs_menu.clear_tool_texture()
 			$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
@@ -468,7 +468,7 @@ func _on_event_done(_return_code: int, _event_name: String):
 		escoria.action_manager.clear_current_action()
 		$ui/tooltip.set_target("")
 		$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
-	
+
 
 
 func _on_MenuButton_pressed() -> void:

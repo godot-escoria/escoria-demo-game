@@ -18,7 +18,7 @@ static func tween_interpolate_property(
 		t.as_relative()
 	else:
 		t.from(initial_val)
-	
+
 	t.set_trans(trans_type)
 	t.set_ease(ease_type)
 	t.set_delay(delay)

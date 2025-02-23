@@ -285,7 +285,7 @@ func _ready():
 						._movable.last_dir = animations.get_direction_id_from_animation_name(
 							get_animation_player().get_animation()
 						)
-		
+	
 
 		if escoria.object_manager.get_object(global_id).state == ESCObject.STATE_DEFAULT \
 				and escoria.object_manager.get_object(global_id).node.get_animation_player() != null:
@@ -296,7 +296,7 @@ func _ready():
 						#animations.get_direction_id_from_animation_name(
 							#.get_animation_player().get_animation()
 						#)
-		
+	
 
 		if !is_trigger:
 			if not self.is_connected(

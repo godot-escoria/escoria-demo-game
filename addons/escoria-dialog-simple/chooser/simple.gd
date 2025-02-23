@@ -40,7 +40,7 @@ func show_chooser():
 			_option_node.add_theme_color_override("font_color", color_normal)
 			_option_node.add_theme_color_override("font_color_hover", color_hover)
 			_vbox.add_child(_option_node)
-		
+	
 			_option_node.pressed.connect(_on_answer_selected.bind(option))
 
 	# If we've no options left, signify as much and start the timer with a

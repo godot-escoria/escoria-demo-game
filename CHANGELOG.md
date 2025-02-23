@@ -1,3 +1,12 @@
+## [4.0.0-alpha.270](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.270) (2025-02-23)
+
+
+### Bug Fixes
+
+* fanout ([87c931c](https://github.com/godot-escoria/escoria-demo-game/commit/87c931c572463ffae141a04990022973435f727e))
+
+
+
 ## [4.0.0-alpha.269](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.269) (2025-02-23)
 
 
