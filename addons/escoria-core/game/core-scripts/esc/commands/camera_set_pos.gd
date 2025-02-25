@@ -1,21 +1,21 @@
-# `camera_set_pos time x y`
-#
-# Moves the camera to the given absolute position over a time period.
-#
-# **Parameters**
-#
-# - *time*: Number of seconds the transition should take
-# - *x*: Target X coordinate
-# - "y*: Target Y coordinate
-#
-# For more details see: https://docs.escoria-framework.org/camera
-#
-# @ESC
+## `camera_set_pos(time: Number, x: Integer, y: Integer)`
+##
+## Moves the camera to the given absolute position over a time period.[br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *time*: Number of seconds the transition should take[br]
+## - *x*: Target X coordinate[br]
+## - "y*: Target Y coordinate[br]
+##[br]
+## For more details see: https://docs.escoria-framework.org/camera
+##
+## @ESC
 extends ESCCameraBaseCommand
 class_name CameraSetPosCommand
 
 
-# Return the descriptor of the arguments of this command
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		3,
@@ -24,7 +24,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate whether the given arguments match the command descriptor
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -39,7 +39,7 @@ func validate(arguments: Array):
 	return true
 
 
-# Run the command
+## Run the command
 func run(command_params: Array) -> int:
 	(escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera)\
 			.set_target(
@@ -49,7 +49,7 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-# Function called when the command is interrupted.
+## Function called when the command is interrupted.
 func interrupt():
 	escoria.logger.debug(
 		self,

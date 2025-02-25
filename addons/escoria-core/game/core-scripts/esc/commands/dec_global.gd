@@ -1,18 +1,18 @@
-# `dec_global name value`
-#
-# Subtract the given value from the specified global.
-#
-# **Parameters**
-#
-# - *name*: Name of the global to be changed
-# - *value*: Value to be subtracted (default: 1)
-#
-# @ESC
+## `dec_global(name: String, value: Integer)`
+##
+## Subtract the given value from the specified global.[br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *name*: Name of the global to be changed[br]
+## - *value*: Value to be subtracted (default: 1)
+##
+## @ESC
 extends ESCBaseCommand
 class_name DecGlobalCommand
 
 
-# Return the descriptor of the arguments of this command
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
@@ -21,7 +21,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate whether the given arguments match the command descriptor
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -35,7 +35,7 @@ func validate(arguments: Array):
 	return true
 
 
-# Run the command
+## Run the command
 func run(command_params: Array) -> int:
 	escoria.globals_manager.set_global(
 		command_params[0],
@@ -45,7 +45,7 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-# Function called when the command is interrupted.
+## Function called when the command is interrupted.
 func interrupt():
-	# Do nothing
+	## Do nothing
 	pass

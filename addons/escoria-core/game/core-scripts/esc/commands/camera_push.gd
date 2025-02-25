@@ -1,30 +1,30 @@
-# `camera_push target [time] [type]`
-#
-# Pushes (moves) the camera so it points at a specific `target`. If the camera
-# was following a target (like the player) previously, it will no longer follow
-# this target.
-#
-# Make sure the target is reachable if camera limits have been configured.
-#
-# **Parameters**
-#
-# - *target*: Global ID of the `ESCItem` to push the camera to. `ESCItem`s have
-#   a "camera_node" property that can be set to point to a node (usually an
-#   `ESCLocation` node). If the "camera_node" property is empty, `camera_push`
-#   will point the camera at the `ESCItem`s location. If however, the `ESCItem`
-#   has its "camera_node" property set, the command will instead point the
-#   camera at the node referenced by the `ESCItem`s "camera_node" property.
-# - *time*: Number of seconds the transition should take (default: `1`)
-# - *type*: Transition type to use (default: `QUAD`)
-#
-# Supported transitions include the names of the values used
-# in the "TransitionType" enum of the "Tween" type (without the "TRANS_" prefix):
-#
-# See https://docs.godotengine.org/en/stable/classes/class_tween.html?highlight=tween#enumerations
-#
-# For more details see: https://docs.escoria-framework.org/camera
-#
-# @ESC
+## `camera_push(target: String[, time: Number[, type: String]])`
+##
+## Pushes (moves) the camera so it points at a specific `target`. If the camera
+## was following a target (like the player) previously, it will no longer follow
+## this target.[br]
+##[br]
+## Make sure the target is reachable if camera limits have been configured.[br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *target*: Global ID of the `ESCItem` to push the camera to. `ESCItem`s have
+##   a "camera_node" property that can be set to point to a node (usually an
+##   `ESCLocation` node). If the "camera_node" property is empty, `camera_push`
+##   will point the camera at the `ESCItem`s location. If however, the `ESCItem`
+##   has its "camera_node" property set, the command will instead point the
+##   camera at the node referenced by the `ESCItem`s "camera_node" property.[br]
+## - *time*: Number of seconds the transition should take (default: `1`)[br]
+## - *type*: Transition type to use (default: `QUAD`)[br]
+##[br]
+## Supported transitions include the names of the values used
+## in the "TransitionType" enum of the "Tween" type (without the "TRANS_" prefix):[br]
+##[br]
+## See https://docs.godotengine.org/en/stable/classes/class_tween.html?highlight=tween#enumerations[br]
+##[br]
+## For more details see: https://docs.escoria-framework.org/camera
+##
+## @ESC
 extends ESCCameraBaseCommand
 class_name CameraPushCommand
 
@@ -33,7 +33,7 @@ const SUPPORTED_TRANSITIONS = ["LINEAR","SINE","QUINT","QUART","QUAD" ,"EXPO","E
 	"CIRC","BOUNCE","BACK"]
 
 
-# Return the descriptor of the arguments of this command
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
@@ -42,7 +42,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate whether the given arguments match the command descriptor
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -72,7 +72,7 @@ func validate(arguments: Array):
 	return true
 
 
-# Run the command
+## Run the command
 func run(command_params: Array) -> int:
 	(escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera)\
 		.push(
@@ -83,7 +83,7 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-# Function called when the command is interrupted.
+## Function called when the command is interrupted.
 func interrupt():
 	escoria.logger.debug(
 		self,
@@ -93,7 +93,7 @@ func interrupt():
 
 # Gets the appropriate target position from the `ESCItem`, as used by the camera.
 #
-# #### Parameters
+# ######## Parameters
 #
 # - target_global_id: The `global_id` of the `ESCItem` to check.
 #

@@ -1,18 +1,18 @@
-# `show_menu menu_type`
-#
-# Shows either the main menu or the pause menu. Transitions to the menu using
-# the default transition type (set in the Escoria project settings).
-#
-# **Parameters**
-#
-# - *menu_type*: Which menu to show. Can be either `main` or `pause` (default: `main`)
-#
-# @ESC
+## `show_menu(menu_type: String)`
+##
+## Shows either the main menu or the pause menu. Transitions to the menu using
+## the default transition type (set in the Escoria project settings).[br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *menu_type*: Which menu to show. Can be either `main` or `pause` (default: `main`)
+##
+## @ESC
 extends ESCBaseCommand
 class_name ShowMenuCommand
 
 
-# Return the descriptor of the arguments of this command
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		0,
@@ -21,7 +21,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate whether the given arguments match the command descriptor
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -35,7 +35,7 @@ func validate(arguments: Array):
 	return true
 
 
-# Run the command
+## Run the command
 func run(command_params: Array) -> int:
 	if not escoria.game_scene.is_inside_tree():
 		escoria.add_child(escoria.game_scene)
@@ -67,7 +67,7 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-# Function called when the command is interrupted.
+## Function called when the command is interrupted.
 func interrupt():
 	# Do nothing
 	pass
