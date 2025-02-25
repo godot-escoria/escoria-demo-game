@@ -1,32 +1,32 @@
-# `camera_shift x y [time] [type]`
-#
-# Shifts the camera by the given horizontal and vertical amounts relative to the
-# current location.
-#
-# **Parameters**
-#
-# - *x*: Shift by x pixels along the x-axis
-# - *y*: Shift by y pixels along the y-axis
-# - *time*: Number of seconds the transition should take, with a value of `0`
-#   meaning the zoom should happen instantly (default: `1`)
-# - *type*: Transition type to use (default: `QUAD`)
-#
-# Supported transitions include the names of the values used
-# in the "TransitionType" enum of the "Tween" type (without the "TRANS_" prefix):
-#
-# https://docs.godotengine.org/en/stable/classes/class_tween.html?highlight=tween#enumerations
-#
-# For more details see: https://docs.escoria-framework.org/camera
-#
-# @ESC
+## `camera_shift x y [time] [type]`
+##
+## Shifts the camera by the given horizontal and vertical amounts relative to the
+## current location.[br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *x*: Shift by x pixels along the x-axis[br]
+## - *y*: Shift by y pixels along the y-axis[br]
+## - *time*: Number of seconds the transition should take, with a value of `0`
+##   meaning the zoom should happen instantly (default: `1`)[br]
+## - *type*: Transition type to use (default: `QUAD`)[br]
+##[br]
+## Supported transitions include the names of the values used
+## in the "TransitionType" enum of the "Tween" type (without the "TRANS_" prefix):[br]
+##[br]
+## https://docs.godotengine.org/en/stable/classes/class_tween.html?highlight=tween#enumerations[br]
+##[br]
+## For more details see: https://docs.escoria-framework.org/camera
+##
+## @ESC
 extends ESCCameraBaseCommand
 class_name CameraShiftCommand
 
-# The list of supported transitions as per the link mentioned above
+## The list of supported transitions as per the link mentioned above
 const SUPPORTED_TRANSITIONS = ["LINEAR","SINE","QUINT","QUART","QUAD" ,"EXPO","ELASTIC","CUBIC",
 	"CIRC","BOUNCE","BACK"]
 
-# Return the descriptor of the arguments of this command
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
@@ -40,7 +40,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Run the command
+## Run the command
 func run(command_params: Array) -> int:
 	(escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera)\
 		.shift(
@@ -54,7 +54,7 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-# Validate whether the given arguments match the command descriptor
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -82,7 +82,7 @@ func validate(arguments: Array):
 	return true
 
 
-# Function called when the command is interrupted.
+## Function called when the command is interrupted.
 func interrupt():
 	escoria.logger.debug(
 		self,

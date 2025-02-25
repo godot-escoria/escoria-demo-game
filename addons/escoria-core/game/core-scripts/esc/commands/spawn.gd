@@ -1,21 +1,21 @@
-# `spawn identifier path [is_active] [position_target]`
-#
-# Programmatically adds a new item to the scene.
-#
-# **Parameters**
-#
-# - *identifier*: Global ID to use for the new object
-# - *path*: Path to the scene file of the object
-# - *is_active*: Whether the new object should be set to active (default: `true`)
-# - *position_target*: Global ID of another object that will be used to
-#   position the new object (when omitted, the new object's position is not specified)
-#
-# @ESC
+## `spawn identifier path [is_active] [position_target]`
+##
+## Programmatically adds a new item to the scene.[br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *identifier*: Global ID to use for the new object[br]
+## - *path*: Path to the scene file of the object[br]
+## - *is_active*: Whether the new object should be set to active (default: `true`)[br]
+## - *position_target*: Global ID of another object that will be used to
+##   position the new object (when omitted, the new object's position is not specified)
+##
+## @ESC
 extends ESCBaseCommand
 class_name SpawnCommand
 
 
-# Return the descriptor of the arguments of this command
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
@@ -24,7 +24,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate whether the given arguments match the command descriptor
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -48,7 +48,7 @@ func validate(arguments: Array):
 	return true
 
 
-# Run the command
+## Run the command
 func run(command_params: Array) -> int:
 	var res_scene = escoria.resource_cache.get_resource(command_params[1])
 
@@ -82,7 +82,7 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-# Function called when the command is interrupted.
+## Function called when the command is interrupted.
 func interrupt():
 	# Do nothing
 	pass
