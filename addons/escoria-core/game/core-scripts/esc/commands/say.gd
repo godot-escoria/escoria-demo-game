@@ -1,35 +1,36 @@
-# `say player text [type]`
-#
-# Displays the specified string as dialog spoken by the player. This command
-# blocks further event execution until the dialog has finished being 'said'
-# (either as displayed text or as audible speech from a file).
-#
-# Global variables can be substituted into the text by wrapping the global
-# name in braces.
-# e.g. say player "I have {coin_count} coins remaining".
-#
-# **Parameters**
-#
-# - *player*: Global ID of the `ESCPlayer` or `ESCItem` object that is active.
-#	You can specify `current_player` in order to refer to the currently active
-#	player, e.g. in cases where multiple players are playable such as in games
-#	like Maniac Mansion or Day of the Tentacle.
-# - *text*: Text to display.
-# - *key*: Translation key (default: nil)
-# - *type*: Dialog type to use. One of `floating` or `avatar`.
-#   (default: the value set in the setting "Escoria/UI/Default Dialog Type")
-#
-# The text supports translation keys by prepending the key followed by
-# a colon (`:`) to the text.
-# For more details see: https://docs.escoria-framework.org/en/devel/getting_started/dialogs.html#translations
-#
-# Playing an audio file while the text is being
-# displayed is also supported by this mechanism.
-# For more details see: https://docs.escoria-framework.org/en/devel/getting_started/dialogs.html#recorded_speech
-#
-# Example: `say(player, "Picture's looking good.", "ROOM1_PICTURE")`
-#
-# @ESC
+## `say player text [type]`
+##
+## Displays the specified string as dialog spoken by the player. This command
+## blocks further event execution until the dialog has finished being 'said'
+## (either as displayed text or as audible speech from a file).[br]
+##[br]
+## Global variables can be substituted into the text by wrapping the global
+## name in braces, e.g. say player "I have {coin_count} coins remaining".[br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *player*: Global ID of the `ESCPlayer` or `ESCItem` object that is active.
+##	You can specify `current_player` in order to refer to the currently active
+##	player, e.g. in cases where multiple players are playable such as in games
+##	like Maniac Mansion or Day of the Tentacle.[br]
+## - *text*: Text to display.[br]
+## - *key*: Translation key (default: nil)[br]
+## - *type*: Dialog type to use. One of `floating` or `avatar`.
+##   (default: the value set in the setting "Escoria/UI/Default Dialog Type")[br]
+##[br]
+## The text supports translation keys by prepending the key followed by
+## a colon (`:`) to the text.[br]
+##[br]
+## For more details see: https://docs.escoria-framework.org/en/devel/getting_started/dialogs.html#translations[br]
+##[br]
+## Playing an audio file while the text is being
+## displayed is also supported by this mechanism.
+##[br]
+## For more details see: https://docs.escoria-framework.org/en/devel/getting_started/dialogs.html#recorded_speech[br]
+##[br]
+## Example: `say(player, "Picture's looking good.", "ROOM1_PICTURE")`
+##
+## @ESC
 extends ESCBaseCommand
 class_name SayCommand
 
@@ -43,11 +44,11 @@ var globals_regex : RegEx		# Regex to match global variables in strings
 # Constructor
 func _init() -> void:
 	globals_regex = RegEx.new()
-	# Use look-ahead/behind to capture the term (i.e. global) in braces
+	## Use look-ahead/behind to capture the term (i.e. global) in braces
 	globals_regex.compile("(?<=\\{)(.*)(?=\\})")
 
 
-# Return the descriptor of the arguments of this command
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
@@ -67,7 +68,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate whether the given arguments match the command descriptor
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -80,7 +81,7 @@ func validate(arguments: Array):
 	return true
 
 
-# Run the command
+## Run the command
 func run(command_params: Array) -> int:
 	var dict: Dictionary
 
@@ -121,7 +122,7 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-# Function called when the command is interrupted.
+## Function called when the command is interrupted.
 func interrupt():
 	escoria.logger.debug(
 		self,

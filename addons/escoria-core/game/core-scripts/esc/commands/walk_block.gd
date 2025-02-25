@@ -14,7 +14,7 @@
 ## - *target*: Global ID of the target object[br]
 ## - *walk_fast*: Whether to walk fast (`true`) or normal speed (`false`).
 ##   (default: false)[br]
-##[br]
+##
 ## @ESC
 extends ESCBaseCommand
 class_name WalkBlockCommand
