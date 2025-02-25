@@ -1,13 +1,14 @@
-# Escoria inputs manager
-# Catches, handles and distributes input events for the game
+## Escoria inputs manager
+##
+## Catches, handles and distributes input events for the game.
 extends Resource
 class_name ESCInputsManager
 
 
-# Valid input flags
-# * INPUT_ALL: All input is allowed
-# * INPUT_NONE: No input is allowed at all
-# * INPUT_SKIP: Only skipping dialogs is allowed
+## Valid input flags[br]
+## * INPUT_ALL: All input is allowed[br]
+## * INPUT_NONE: No input is allowed at all[br]
+## * INPUT_SKIP: Only skipping dialogs is allowed
 enum {
 	INPUT_ALL,
 	INPUT_NONE,
@@ -15,34 +16,35 @@ enum {
 }
 
 
-# Input action for use by InputMap
+## Input action for use by InputMap
 const ESC_SHOW_DEBUG_PROMPT = "esc_show_debug_prompt"
 
-# Input action for use by InputMap that represents a "primary action" from an
-# input device, such as a left-click on a mouse or the X button on an XBox
-# controller
+## Input action for use by InputMap that represents a "primary action" from an
+## input device, such as a left-click on a mouse or the X button on an XBox
+## controller
 const ESC_UI_PRIMARY_ACTION = "esc_ui_primary_action"
 
-# The current input mode
+
+## The current input mode
 var input_mode = INPUT_ALL
 
-# A LIFO stack of hovered items
+## A LIFO stack of hovered items
 var hover_stack: HoverStack
 
-# The global id of the topmost item from the hover_stack
+## The global id of the topmost item from the hover_stack
 var hotspot_focused: String = ""
 
-# Function reference that can be used to intercept and process input events.
-# If set, this function must have the following signature:
-#
-# (event: InputEvent, is_default_state: bool) -> bool
-#
-# #### Parameters
-#
-# - event: The event to process
-# - is_default_state: Whether the current state is escoria.GAME_STATE.DEFAULT
-#
-# **Returns** Whether the function processed the event.
+## Function reference that can be used to intercept and process input events.
+## If set, this function must have the following signature:[br]
+##[br]
+## (event: InputEvent, is_default_state: bool) -> bool[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - event: The event to process[br]
+## - is_default_state: Whether the current state is escoria.GAME_STATE.DEFAULT[br]
+##[br]
+## **Returns** Whether the function processed the event.
 var custom_input_handler = null
 
 # The currently hovered element. Usually the one on top of the hover stack.
@@ -68,12 +70,12 @@ func _on_event_finished(return_code: int, event_name: String):
 		hotspot_focused = ""
 
 
-# Register core signals (from escoria.gd)
+## Register core signals (from escoria.gd)
 func register_core():
 	escoria.game_scene.request_pause_menu.connect(_on_pause_menu_requested)
 
 
-# Connect the item signals to the local methods
+## Connects the item signals to local methods
 func register_inventory_item(item: Node):
 	item.mouse_left_inventory_item.connect(_on_mouse_left_click_inventory_item)
 	item.mouse_double_left_inventory_item.connect(_on_mouse_double_left_click_inventory_item)
@@ -82,6 +84,7 @@ func register_inventory_item(item: Node):
 	item.inventory_item_unfocused.connect(_on_mouse_exited_inventory_item)
 
 
+## Connects the background signals to local methods
 func register_background(background: ESCBackground):
 	background.left_click_on_bg.connect(_on_left_click_on_bg)
 	background.right_click_on_bg.connect(_on_right_click_on_bg)
@@ -90,36 +93,37 @@ func register_background(background: ESCBackground):
 	background.mouse_wheel_down.connect(_on_mousewheel_action.bind(-1))
 	background.hovered_bg.connect(_on_hover_bg)
 
-# Registers a function that can be used to intercept and process input events.
-# `callback` must have the following signature:
-#
-# (event: InputEvent, is_default_state: bool) -> bool
-#
-# where
-#
-# - event: The event to process
-# - is_default_state: Whether the current state is escoria.GAME_STATE.DEFAULT
-# - returns whether the function processed the event
-#
-# `callback` is responsible for calling `get_tree().set_input_as_handled()`,
-# if appropriate.
-#
-# #### Parameters
-# - callback: Function reference satisfying the above contract
+
+## Registers a function that can be used to intercept and process input events.
+## `callback` must have the following signature:[br]
+##[br]
+## (event: InputEvent, is_default_state: bool) -> bool[br]
+##[br]
+## ...where:[br]
+##[br]
+## - event: The event to process[br]
+## - is_default_state: Whether the current state is escoria.GAME_STATE.DEFAULT[br]
+## - returns whether the function processed the event[br]
+##[br]
+## `callback` is responsible for calling `get_tree().set_input_as_handled()`, 
+## if appropriate.[br]
+##[br]
+## #### Parameters[br]
+## - callback: Function reference satisfying the above contract
 func register_custom_input_handler(callback) -> void:
 	custom_input_handler = callback
 
 
-# If a callback was specified via `register_custom_input_handler()`,
-# forwards the event to the callback and returns its result; otherwise,
-# returns `false`.
-#
-# #### Parameters
-#
-# - event: The event to process
-# - is_default_state: Whether the current state is escoria.GAME_STATE.DEFAULT
-#
-# **Returns** Result of `custom_input_handler` if set; otherwise, `false`
+## If a callback was specified via `register_custom_input_handler()`,
+## forwards the event to the callback and returns its result; otherwise,
+## returns `false`.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - event: The event to process[br]
+## - is_default_state: Whether the current state is escoria.GAME_STATE.DEFAULT[br]
+##[br]
+## **Returns** Result of `custom_input_handler` if set; otherwise, `false`
 func try_custom_input_handler(event: InputEvent, is_default_state: bool) -> bool:
 	if custom_input_handler:
 		return custom_input_handler.call(event, is_default_state)
@@ -135,15 +139,14 @@ func _on_hover_stack_changed():
 		set_hovered_node(hover_stack.get_top_item())
 
 
-# Sets the hovered node and calls its mouse_entered() method if it was the top
-# most item in hover_stack.
-#
-# #### Parameters
-#
-# - item: the item that was focused (mouse_entered)
-#
-# **Returns**
-# True if item is the new top hovered object
+## Sets the hovered node and calls its mouse_entered() method if it was the top
+## most item in hover_stack.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - item: the item that was focused (mouse_entered)[br]
+##[br]
+## **Returns** True if item is the new top hovered object
 func set_hovered_node(item: ESCItem) -> bool:
 	if _hovered_element != item \
 			and escoria.action_manager.is_object_actionable(item.global_id) \
@@ -168,11 +171,11 @@ func set_hovered_node(item: ESCItem) -> bool:
 		return false
 
 
-# Unsets the hovered node.
-#
-# **Parameters**
-#
-# - item: the item that was unfocused (mouse_exited)
+## Unsets the hovered node.[br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - item: the item that was unfocused (mouse_exited)
 func unset_hovered_node(item: ESCItem):
 	if item == null:
 		return
@@ -180,6 +183,7 @@ func unset_hovered_node(item: ESCItem):
 		_hovered_element.do_mouse_exited()
 		_hovered_element = null
 		hotspot_focused = ""
+
 
 # Background was hovered
 func _on_hover_bg() -> void:
@@ -382,12 +386,12 @@ func _on_mouse_exited_item(item: ESCItem) -> void:
 		escoria.main.current_scene.game.element_focused(hotspot_focused)
 
 
-# Function called when the item is set interactive, to re-trigger an input on
-# underlying item.
-#
-# #### Parameters
-#
-# - item: The ESCCItem that was set non-interactive
+## Function called when the item is set interactive, to re-trigger an input on
+## underlying item.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - item: The ESCCItem that was set non-interactive
 func on_item_non_interactive(item: ESCItem) -> void:
 	var object: ESCObject = escoria.object_manager.get_object(item.global_id)
 	if object and not object.interactive:
@@ -400,6 +404,7 @@ func on_item_non_interactive(item: ESCItem) -> void:
 			var new_item = hover_stack.get_top_item()
 			escoria.action_manager.set_action_input_state(ESCActionManager.ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM)
 			new_item.mouse_entered()
+
 
 # An Escoria item was clicked with the LMB
 #
@@ -544,7 +549,6 @@ func _on_mouse_right_clicked_item(item: ESCItem, event: InputEvent) -> void:
 			)
 
 
-
 # The mousewheel was turned
 #
 # #### Parameters
@@ -559,25 +563,25 @@ func _on_pause_menu_requested():
 	escoria.main.current_scene.game.pause_game()
 
 
-# Hover Stack implementation.
+## Hover Stack implementation.
 class HoverStack:
 
 
-	# Emitted when the content of the hover stack has changed
+	## Emitted when the content of the hover stack has changed
 	signal hover_stack_changed
 
-	# Emitted when the hover stack was emptied
+	## Emitted when the hover stack was emptied
 	signal hover_stack_emptied
 
 
-	# Array representing the hover stack
+	## Array representing the hover stack
 	var hover_stack: Array = []
 
 
-	# Add the given item to the stack if not already in it.
-	#
-	# #### Parameters
-	# - item: the item to add to the hover stack
+	## Add the given item to the stack if not already in it.[br]
+	##[br]
+	## #### Parameters[br]
+	## - item: the item to add to the hover stack
 	func add_item(item):
 		if item is ESCPlayer and not (item as ESCPlayer).selectable:
 			return
@@ -587,17 +591,17 @@ class HoverStack:
 			hover_stack_changed.emit()
 
 
-	# Add the items contained in given list to the stack if not already in it.
-	#
-	# #### Parameters
-	# - items: the items list (array) to add to the hover stack
+	## Add the items contained in given list to the stack if not already in it.[br]
+	##[br]
+	## #### Parameters[br]
+	## - items: the items list (array) to add to the hover stack
 	func add_items(items: Array):
 		for item in items:
 			if escoria.action_manager.is_object_actionable(item.global_id):
 				add_item(item)
 
 
-	# Clean the hover stack
+	## Clean the hover stack
 	func clean():
 		for e in hover_stack:
 			if e == null or !is_instance_valid(e):
@@ -605,10 +609,9 @@ class HoverStack:
 				hover_stack_changed.emit()
 
 
-	# Pops the top element of the hover stack and returns it
-	#
-	# **Returns**
-	# The top element of the hover stack
+	## Pops the top element of the hover stack and returns it[br]
+	##[br]
+	## **Returns** The top element of the hover stack
 	func pop_top_item():
 		var ret = hover_stack.pop_back()
 		if is_instance_valid(ret):
@@ -616,18 +619,17 @@ class HoverStack:
 		return ret
 
 
-	# Returns the top element of the hover stack a
-	#
-	# **Returns**
-	# The top element of the hover stack
+	## Returns the top element of the hover stack[br]
+	##[br]
+	## **Returns** The top element of the hover stack
 	func get_top_item():
 		return hover_stack.back()
 
 
-	# Remove the given item from the stack
-	#
-	# #### Parameters
-	# - item: the item to remove from the hover stack
+	## Remove the given item from the stack[br]
+	##[br]
+	## #### Parameters[br]
+	## - item: the item to remove from the hover stack
 	func erase_item(item):
 		if hover_stack.has(item):
 			hover_stack.erase(item)
@@ -635,16 +637,15 @@ class HoverStack:
 			hover_stack_changed.emit()
 
 
-	# Clear the stack of hovered items
+	## Clear the stack of hovered items
 	func clear():
 		hover_stack = []
 		hover_stack_emptied.emit()
 
 
-	# Returns true if the hover stack is empty, else false
-	#
-	# **Returns**
-	# True if hover stack is empty, else false
+	## Returns true if the hover stack is empty, else false[br]
+	##[br]
+	## **Returns** True if hover stack is empty, else false
 	func is_empty() -> bool:
 		return hover_stack.is_empty()
 
@@ -654,25 +655,23 @@ class HoverStack:
 		hover_stack.sort_custom(Callable(HoverStackSorter, "sort_ascending_z_index"))
 
 
-	# Returns true if the hover stack contains the given item
-	#
-	# #### Parameters
-	# - item: the item to search
-	#
-	# **Returns**
-	# True if hover stack contains given item, else false
+	## Returns true if the hover stack contains the given item[br]
+	##[br]
+	## #### Parameters[br]
+	## - item: the item to search[br]
+	##[br]
+	## **Returns** True if hover stack contains given item, else false
 	func has(item) -> bool:
 		return hover_stack.has(item)
 
 
-	# Returns the hover stack array
-	#
-	# **Returns**
-	# The hover stack array
+	## Returns the hover stack array[br]
+	##[br]
+	## **Returns** The hover stack array
 	func get_all() -> Array:
 		return hover_stack
 
-	# Z Sorter class for hover stack
+	## Z Sorter class for hover stack
 	class HoverStackSorter:
 		static func sort_ascending_z_index(a, b):
 			if a.z_index < b.z_index:

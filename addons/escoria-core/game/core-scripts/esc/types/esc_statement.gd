@@ -54,11 +54,8 @@ var parsed_statements = []
 
 ##############
 
-# Check whether the statement should be run based on its conditions
+## Returns `true` iff the statement is valid.
 func is_valid() -> bool:
-	for condition in self.conditions:
-		if not (condition as ESCCondition).run():
-			return false
 	return true
 
 

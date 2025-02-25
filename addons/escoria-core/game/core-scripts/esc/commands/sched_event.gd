@@ -1,23 +1,23 @@
-# `sched_event time object event`
-#
-# Schedules an event to run at a later time.
-#
-# If another event is already running when the scheduled
-# event is supposed to start, execution of the scheduled event
-# begins when the already-running event ends.
-#
-# **Parameters**
-#
-# - *time*: Time in seconds until the scheduled event starts
-# - *object*: Global ID of the ESCItem that holds the ESC script
-# - *event*: Name of the event to schedule
-#
-# @ESC
+## `sched_event(time: Number, object: String, event: String)`
+##
+## Schedules an event to run at a later time.[br]
+##[br]
+## If another event is already running when the scheduled
+## event is supposed to start, execution of the scheduled event
+## begins when the already-running event ends.[br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *time*: Time in seconds until the scheduled event starts[br]
+## - *object*: Global ID of the ESCItem that holds the ESC script[br]
+## - *event*: Name of the event to schedule
+##
+## @ESC
 extends ESCBaseCommand
 class_name SchedEventCommand
 
 
-# Return the descriptor of the arguments of this command
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		3,
@@ -26,7 +26,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate whether the given arguments match the command descriptor
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -60,7 +60,7 @@ func _is_current_room(global_id: String) -> bool:
 	return escoria.main.current_scene.global_id == global_id
 
 
-# Run the command
+## Run the command
 func run(command_params: Array) -> int:
 	var node = _get_scripted_node(command_params[1])
 
@@ -74,7 +74,7 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-# Function called when the command is interrupted.
+## Function called when the command is interrupted.
 func interrupt():
 	# Do nothing
 	pass

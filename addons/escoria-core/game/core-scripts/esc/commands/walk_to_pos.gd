@@ -1,19 +1,20 @@
-# `walk_to_pos object x y [walk_fast]`
-#
-# Moves the specified `ESCPlayer` or movable `ESCItem` to the absolute
-# coordinates provided while playing the `object`'s walking animation.
-# This command is non-blocking.
-# This command will use the normal walk speed by default.
-#
-# **Parameters**
-#
-# - *object*: Global ID of the object to move
-# - *x*: X-coordinate of target position
-# - *y*: Y-coordinate of target position
-# - *walk_fast*: Whether to walk fast (`true`) or normal speed (`false`).
-#   (default: false)
-#
-# @ESC
+## `walk_to_pos(object: String, x: Integer, y: Integer[, walk_fast: Boolean])`
+##
+## Moves the specified `ESCPlayer` or movable `ESCItem` to the absolute
+## coordinates provided while playing the `object`'s walking animation.
+## This command is non-blocking.[br]
+##[br]
+## This command will use the normal walk speed by default.[br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *object*: Global ID of the object to move[br]
+## - *x*: X-coordinate of target position[br]
+## - *y*: Y-coordinate of target position[br]
+## - *walk_fast*: Whether to walk fast (`true`) or normal speed (`false`).
+##   (default: false)
+##
+## @ESC
 extends ESCBaseCommand
 class_name WalkToPosCommand
 
@@ -22,7 +23,7 @@ class_name WalkToPosCommand
 var walking_object_node: ESCItem
 
 
-# Return the descriptor of the arguments of this command
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		3,
@@ -31,7 +32,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate whether the given arguments match the command descriptor
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -49,7 +50,7 @@ func validate(arguments: Array):
 	return true
 
 
-# Run the command
+## Run the command
 func run(command_params: Array) -> int:
 	escoria.action_manager.do(escoria.action_manager.ACTION.BACKGROUND_CLICK, [
 		command_params[0],
@@ -58,7 +59,7 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-# Function called when the command is interrupted.
+## Function called when the command is interrupted.
 func interrupt():
 	if walking_object_node != null and not walking_object_node is ESCPlayer:
 		walking_object_node.stop_walking_now()

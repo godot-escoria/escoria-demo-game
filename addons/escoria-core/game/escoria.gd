@@ -1,26 +1,26 @@
 @tool
-# The escoria main script
+## The main Escoria script
 extends Node
 class_name Escoria
 
-# Signal sent when pause menu has to be displayed
+## Signal sent when pause menu has to be displayed
 signal request_pause_menu
 
 
-# Name of the Escoria core plugin
+## Name of the Escoria core plugin
 const ESCORIA_CORE_PLUGIN_NAME: String = "escoria-core"
 
 
-# The main scene
+## The main scene
 @onready var main = $main
 
 
 func _on_game_is_loading():
 	escoria.logger.info(self, "GAME IS LOADING")
 
+
 func _on_game_finished_loading():
 	escoria.logger.info(self, "GAME FINISHED LOADING")
-
 
 
 func _init():
@@ -39,9 +39,6 @@ func _init():
 
 	escoria.inputs_manager = ESCInputsManager.new()
 	escoria.settings_manager = ESCSettingsManager.new()
-	#escoria.interpreter = ESCInterpreter.new(ESCCompiler.load_commands(), ESCCompiler.load_globals())
-	#escoria.interpreter = preload("res://addons/escoria-core/game/core-scripts/esc/compiler/esc_interpreter.gd").new(ESCCompiler.load_commands(), ESCCompiler.load_globals())
-	#escoria.interpreter_factory = ESCInterpreterFactory.new()
 	escoria.interpreter_factory = preload("res://addons/escoria-core/game/core-scripts/esc/compiler/esc_interpreter_factory.gd").new()
 
 	if ESCProjectSettingsManager.get_setting(
@@ -127,9 +124,9 @@ func _notification(what: int):
 			get_tree().quit()
 
 
-# Called by Escoria's main_scene as very very first event EVER.
-# Usually you'll want to show some logos animations before spawning the main
-# menu in the escoria/main/game_start_script 's :init event
+## Called by Escoria's main_scene as very very first event EVER.
+## Usually you'll want to show some logos animations before spawning the main
+## menu in the escoria/main/game_start_script 's `:init` event
 func init():
 	# Don't show the UI until we're ready in order to avoid a sometimes-noticeable
 	# blink. The UI will be "shown" later via a visibility update to the first room.
@@ -151,12 +148,12 @@ func _input(event: InputEvent):
 	pass
 
 
-# Runs the event "event_name" from the "script" ESC script.
-#
-# #### Parameters
-# - script: ESC script containing the event to run. The script must have been
-# loaded.
-# - event_name: Name of the event to run
+## Runs the event "event_name" from the "script" ESC script.[br]
+##[br]
+## #### Parameters[br]
+## - script: ESC script containing the event to run. The script must have been
+## loaded.[br]
+## - event_name: Name of the event to run
 func run_event_from_script(script: ESCScript, event_name: String, from_statement_id: int = 0):
 	if script == null:
 		escoria.logger.error(
@@ -224,7 +221,7 @@ func _event_is_required(event_name: String) -> bool:
 	return event_name in escoria.event_manager.REQUIRED_EVENTS
 
 
-# Called from escoria autoload to start a new game.
+## Called from escoria autoload to start a new game.
 func new_game():
 	escoria.event_manager.interrupt() # interrupt first because we're going to reset the interpreter
 	escoria.game_scene.escoria_show_ui()
@@ -239,9 +236,11 @@ func new_game():
 		)
 	run_event_from_script(escoria.start_script, escoria.event_manager.EVENT_NEW_GAME)
 
-# Function called to quit the game.
+
+## Function called to quit the game.
 func quit():
 	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
+
 
 # Handle anything necessary if the game started a scene directly.
 func _handle_direct_scene_run() -> void:
@@ -250,13 +249,12 @@ func _handle_direct_scene_run() -> void:
 		escoria.object_manager.set_current_room(current_scene)
 
 
-# Used by game.gd to determine whether the game scene is ready to take inputs
-# from the _input() function. To do so, the current_scene must be set, the game
-# scene must be set, and the game scene must've been notified that the room
-# is ready.
-#
-# *Returns*
-# true if game scene is ready for inputs
+## Used by game.gd to determine whether the game scene is ready to take inputs
+## from the _input() function. To do so, the current_scene must be set, the game
+## scene must be set, and the game scene must've been notified that the room
+## is ready.[br]
+##[br]
+## *Returns* true if game scene is ready for inputs
 func is_ready_for_inputs() -> bool:
 	return main.current_scene and main.current_scene.game \
 			and main.current_scene.game.room_ready_for_inputs

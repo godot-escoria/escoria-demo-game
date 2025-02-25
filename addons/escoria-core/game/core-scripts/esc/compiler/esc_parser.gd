@@ -1,3 +1,9 @@
+## Class that handles parsing of scanned tokens in order to generate a list of 
+## statements for the interpreter to execute.
+##
+## Note that the vast majority of this class consists of (effectively) private methods 
+## in order to facilitate encapsulation, but if you're interested in how the parser 
+## is implemented, [check out the class in GitHub](https://github.com/godot-escoria/escoria-demo-game/blob/main/addons/escoria-core/game/core-scripts/esc/compiler/esc_interpreter.gd)
 extends RefCounted
 class_name ESCParser
 
@@ -12,12 +18,20 @@ var _dialog_level: int = 0
 var _compiler
 
 
+## Initialization method. Must be called after instantiation.[br]
+##[br]
+## #### Parameters ####[br]
+## - *compiler*: a reference to the ASHES compiler; used primarily for error tracking[br]
+## - *tokens*: an array of tokens produced by the ASHES scanner
 func init(compiler, tokens: Array, associated_object_global_id: String) -> void:
 	_compiler = compiler
 	_tokens = tokens
 	_associated_object_global_id = associated_object_global_id
 
 
+## Entry point for the parser. Begins parsing the tokens passed in to the `init` method.[br]
+##[br]
+## Returns an array of statements for the interpreter to execute.
 func parse() -> Array:
 	_loop_level = 0
 	_dialog_level = 0

@@ -1,22 +1,23 @@
-# `anim_block object name [reverse]`
-#
-# Executes the animation specified in "name" on "object" while blocking other
-# events from starting.
-# The next command in the event will be executed when the animation is
-# finished playing.
-#
-# **Parameters**
-#
-# * *object*: Global ID of the object with the animation
-# * *name*: Name of the animation to play
-# * *reverse*: Plays the animation in reverse when true
-#
-# @ESC
+## `anim_block(object: String, name: String[, reverse: Boolean])`
+##
+## Executes the animation specified in "name" on "object" while blocking other
+## events from starting.[br]
+##[br]
+## The next command in the event will be executed when the animation is
+## finished playing.[br]
+##[br]
+## **Parameters**[br]
+##[br]
+## * *object*: Global ID of the object with the animation[br]
+## * *name*: Name of the animation to play[br]
+## * *reverse*: Plays the animation in reverse when true
+##
+## @ESC
 extends ESCBaseCommand
 class_name AnimBlockCommand
 
 
-# Return the descriptor of the arguments of this command
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
@@ -25,7 +26,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate whether the given arguments match the command descriptor
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -36,7 +37,7 @@ func validate(arguments: Array):
 	return true
 
 
-# Run the command
+## Run the command
 func run(command_params: Array) -> int:
 	var obj = escoria.object_manager.get_object(command_params[0])
 	var anim_id = command_params[1]
@@ -55,7 +56,7 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-# Function called when the command is interrupted.
+## Function called when the command is interrupted.
 func interrupt():
 	escoria.logger.debug(
 		self,

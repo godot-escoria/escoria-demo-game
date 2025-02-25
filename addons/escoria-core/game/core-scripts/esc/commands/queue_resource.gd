@@ -1,19 +1,19 @@
-# `queue_resource path [front_of_queue]`
-#
-# Queues the loading of the given resource into the resource cache.
-#
-# **Parameters**
-#
-# - *path*: Path of the resource to cache
-# - *front_of_queue*: Whether to put the resource at the front of the
-#   queue in order to load it as soon as possible (default: `false`)
-#
-# @ESC
+## `queue_resource(path: String[, front_of_queue: Boolean])`
+##
+## Queues the loading of the given resource into the resource cache.[br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *path*: Path of the resource to cache[br]
+## - *front_of_queue*: Whether to put the resource at the front of the
+##   queue in order to load it as soon as possible (default: `false`)
+##
+## @ESC
 extends ESCBaseCommand
 class_name QueueResourceCommand
 
 
-# Return the descriptor of the arguments of this command
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
@@ -22,7 +22,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate whether the given arguments match the command descriptor
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array) -> bool:
 	if not super.validate(arguments):
 		return false
@@ -36,7 +36,7 @@ func validate(arguments: Array) -> bool:
 	return true
 
 
-# Run the command
+## Run the command
 func run(command_params: Array) -> int:
 	escoria.resource_cache.queue_resource(
 		command_params[0],
@@ -45,7 +45,7 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-# Function called when the command is interrupted.
+## Function called when the command is interrupted.
 func interrupt():
 	# Do nothing
 	pass
