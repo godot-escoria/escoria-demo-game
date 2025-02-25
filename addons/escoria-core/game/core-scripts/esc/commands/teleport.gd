@@ -1,19 +1,19 @@
-# `teleport object target`
-#
-# Instantly moves an object to a new position.
-#
-# **Parameters**
-#
-# - *object*: Global ID of the object to move
-# - *target*: Global ID of the object to use as the destination coordinates
-#   for `object`
-#
-# @ESC
+## `teleport object target`
+##
+## Instantly moves an object to a new position.[br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *object*: Global ID of the object to move[br]
+## - *target*: Global ID of the object to use as the destination coordinates
+##   for `object`
+##
+## @ESC
 extends ESCBaseCommand
 class_name TeleportCommand
 
 
-# Return the descriptor of the arguments of this command
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
@@ -22,7 +22,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate whether the given arguments match the command descriptor
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -50,7 +50,7 @@ func validate(arguments: Array):
 	return true
 
 
-# Run the command
+## Run the command
 func run(command_params: Array) -> int:
 	(escoria.object_manager.get_object(command_params[0]).node as ESCItem) \
 		.teleport(
@@ -59,7 +59,7 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-# Function called when the command is interrupted.
+## Function called when the command is interrupted.
 func interrupt():
 	# Do nothing
 	pass
