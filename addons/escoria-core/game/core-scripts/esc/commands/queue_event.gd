@@ -1,29 +1,29 @@
-# `queue_event object event [channel] [block]`
-#
-# Queue an event to run.
-#
-# If you queue multiple events on a channel and none of them are blocking
-# events, all events will effectively run at the same time. As the events are
-# placed on the channel's queue, if one event contains a blocking command, the
-# next event on that channel's queue won't be processed until the blocking
-# command finishes.
-#
-# **Parameters**
-#
-# - object: Object that holds the ESC script with the event
-# - event: Name of the event to queue
-# - channel: Channel to run the event on (default: `_front`). Using a
-#   previously unused channel name will create a new channel.
-# - block: Whether to wait for the queue to finish. This is only possible, if
-#   the queued event is not to be run on the same event as this command
-#   (default: `false`)
-#
-# @ESC
+## `queue_event object event [channel] [block]`
+##
+## Queue an event to run.[br]
+##[br]
+## If you queue multiple events on a channel and none of them are blocking
+## events, all events will effectively run at the same time. As the events are
+## placed on the channel's queue, if one event contains a blocking command, the
+## next event on that channel's queue won't be processed until the blocking
+## command finishes.[br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - object: Object that holds the ESC script with the event[br]
+## - event: Name of the event to queue[br]
+## - channel: Channel to run the event on (default: `_front`). Using a
+##   previously unused channel name will create a new channel.[br]
+## - block: Whether to wait for the queue to finish. This is only possible, if
+##   the queued event is not to be run on the same event as this command
+##   (default: `false`)
+##
+## @ESC
 extends ESCBaseCommand
 class_name QueueEventCommand
 
 
-# Return the descriptor of the arguments of this command
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
@@ -32,7 +32,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate whether the given arguments match the command descriptor
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -74,7 +74,7 @@ func _is_current_room(global_id: String) -> bool:
 	return escoria.main.current_scene.global_id == global_id
 
 
-# Run the command
+## Run the command
 func run(arguments: Array) -> int:
 	var node = _get_scripted_node(arguments[0])
 
@@ -82,13 +82,13 @@ func run(arguments: Array) -> int:
 
 	return await escoria.event_manager.queue_event_from_esc(
 		esc_script,
-		arguments[1], # event name
-		arguments[2], # channel name
-		arguments[3]  # whether to block
+		arguments[1], ## event name
+		arguments[2], ## channel name
+		arguments[3]  ## whether to block
 	)
 
 
-# Function called when the command is interrupted.
+## Function called when the command is interrupted.
 func interrupt():
 	# Do nothing
 	pass

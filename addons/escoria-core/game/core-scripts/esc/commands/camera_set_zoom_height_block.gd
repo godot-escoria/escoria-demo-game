@@ -1,17 +1,17 @@
-# `camera_set_zoom_height_block pixels [time]`
-#
-# Zooms the camera in/out so it occupies the given height in pixels.
-# Blocks until the command completes.
-#
-# **Parameters**
-#
-# - *pixels*: Target height in pixels (integer values only)
-# - *time*: Number of seconds the transition should take, with a value of `0`
-#   meaning the zoom should happen instantly (default: `0`)
-#
-# For more details see: https://docs.escoria-framework.org/camera
-#
-# @ESC
+## `camera_set_zoom_height_block pixels [time]`
+##
+## Zooms the camera in/out so it occupies the given height in pixels.
+## Blocks until the command completes.[br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *pixels*: Target height in pixels (integer values only)[br]
+## - *time*: Number of seconds the transition should take, with a value of `0`
+##   meaning the zoom should happen instantly (default: `0`)[br]
+##[br]
+## For more details see: https://docs.escoria-framework.org/camera
+##
+## @ESC
 extends ESCBaseCommand
 class_name CameraSetZoomHeightBlockCommand
 
@@ -20,7 +20,7 @@ class_name CameraSetZoomHeightBlockCommand
 var _camera_tween: Tween3
 
 
-# Return the descriptor of the arguments of this command
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
@@ -29,7 +29,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate whether the given arguments match the command descriptor
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -44,7 +44,7 @@ func validate(arguments: Array):
 	return true
 
 
-# Run the command
+## Run the command
 func run(command_params: Array) -> int:
 	(escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera)\
 		.set_camera_zoom(
@@ -61,7 +61,7 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-# Function called when the command is interrupted.
+## Function called when the command is interrupted.
 func interrupt():
 	escoria.logger.debug(
 		self,
