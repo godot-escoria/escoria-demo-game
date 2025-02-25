@@ -1,15 +1,15 @@
-# `play_snd file [player] [start_position_seconds]`
-#
-# Plays the specified sound without blocking the currently running event.
-#
-# **Parameters**
-#
-# - *file*: Sound file to play
-# - *player*: Sound player to use. Can either be `_sound`, which is used to play non-
-#   looping sound effects; `_music`, which plays looping music; or `_speech`, which
-#   plays non-looping voice files (default: `_sound`)
-#
-# @ESC
+## `play_snd file [player] [start_position_seconds]`
+##
+## Plays the specified sound without blocking the currently running event.[br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *file*: Sound file to play[br]
+## - *player*: Sound player to use. Can either be `_sound`, which is used to play non-
+##   looping sound effects; `_music`, which plays looping music; or `_speech`, which
+##   plays non-looping voice files (default: `_sound`)
+##
+## @ESC
 extends ESCBaseCommand
 class_name PlaySndCommand
 
@@ -18,7 +18,7 @@ class_name PlaySndCommand
 var _snd_player: String
 
 
-# Return the descriptor of the arguments of this command
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
@@ -27,7 +27,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate whether the given arguments match the command descriptor
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -42,7 +42,7 @@ func validate(arguments: Array):
 	return true
 
 
-# Run the command
+## Run the command
 func run(command_params: Array) -> int:
 	escoria.object_manager.get_object(command_params[1]).node.set_state(
 		command_params[0], command_params[2]

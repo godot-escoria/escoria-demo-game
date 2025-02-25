@@ -1,12 +1,12 @@
-# `wait seconds`
-#
-# Blocks execution of the current event.
-#
-# **Parameters**
-#
-# - *seconds*: Number of seconds to block
-#
-# @ESC
+## `wait seconds`
+##
+## Blocks execution of the current event.[br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *seconds*: Number of seconds to block
+##
+## @ESC
 extends ESCBaseCommand
 class_name WaitCommand
 
@@ -14,7 +14,7 @@ class_name WaitCommand
 var timer: Timer
 
 
-# Return the descriptor of the arguments of this command
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
@@ -23,7 +23,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate whether the given arguments match the command descriptor
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -38,7 +38,7 @@ func validate(arguments: Array):
 
 	return true
 
-# Run the command
+## Run the command
 func run(command_params: Array) -> int:
 	timer = Timer.new()
 	timer.wait_time = float(command_params[0])
@@ -49,7 +49,7 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-# Function called when the command is interrupted.
+## Function called when the command is interrupted.
 func interrupt():
 	if timer == null:
 		return
