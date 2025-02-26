@@ -533,7 +533,7 @@ func _execute_block(statements: Array, env: ESCEnvironment):
 			or ret is ESCGrammarStmts.Stop:
 
 			return ret
-	
+
 		# TODO: Proper error handling per statement?
 		#if ret:
 		#	break

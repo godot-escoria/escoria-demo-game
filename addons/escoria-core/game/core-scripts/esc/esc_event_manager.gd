@@ -162,7 +162,7 @@ func _process(delta: float) -> void:
 			)
 
 			resolver.resolve(event)
-	
+
 			var rc = await interpreter.interpret(event)
 
 			#if rc is GDScriptFunctionState:
