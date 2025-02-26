@@ -9,6 +9,7 @@ concurrency: api-${{ github.ref }}
 
 jobs:
     apidoc:
+        if: ${{ false }} # <- This make sure the workflow is skipped without any alert
         name: Update API docs
         runs-on: ubuntu-latest
         steps:
