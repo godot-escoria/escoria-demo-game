@@ -1,82 +1,129 @@
-# `say object text [type] [avatar]`
+# `say player text [type]`
 #
-# Runs the specified string as a dialog said by the object. Blocks execution 
-# until the dialog finishes playing. 
+# Displays the specified string as dialog spoken by the player. This command
+# blocks further event execution until the dialog has finished being 'said'
+# (either as displayed text or as audible speech from a file).
 #
-# The text supports translation keys by prepending the key and separating
-# it with a `:` from the text.
-# 
-# Example: `say player ROOM1_PICTURE:"Picture's looking good."`
+# Global variables can be substituted into the text by wrapping the global
+# name in braces.
+# e.g. say player "I have {coin_count} coins remaining".
 #
-# Optional parameters:
-# 
-# * "type" determines the type of dialog UI to use. Default value is "default"
-# * "avatar" determines the avatar to use for the dialog. Default value is 
-#   "default"
+# **Parameters**
+#
+# - *player*: Global ID of the `ESCPlayer` or `ESCItem` object that is active.
+#	You can specify `current_player` in order to refer to the currently active
+#	player, e.g. in cases where multiple players are playable such as in games
+#	like Maniac Mansion or Day of the Tentacle.
+# - *text*: Text to display.
+# - *key*: Translation key (default: nil)
+# - *type*: Dialog type to use. One of `floating` or `avatar`.
+#   (default: the value set in the setting "Escoria/UI/Default Dialog Type")
+#
+# The text supports translation keys by prepending the key followed by
+# a colon (`:`) to the text.
+# For more details see: https://docs.escoria-framework.org/en/devel/getting_started/dialogs.html#translations
+#
+# Playing an audio file while the text is being
+# displayed is also supported by this mechanism.
+# For more details see: https://docs.escoria-framework.org/en/devel/getting_started/dialogs.html#recorded_speech
+#
+# Example: `say(player, "Picture's looking good.", "ROOM1_PICTURE")`
 #
 # @ESC
 extends ESCBaseCommand
 class_name SayCommand
 
 
+const CURRENT_PLAYER_KEYWORD = "CURRENT_PLAYER"
+
+
+var globals_regex : RegEx		# Regex to match global variables in strings
+
+
+# Constructor
+func _init() -> void:
+	globals_regex = RegEx.new()
+	# Use look-ahead/behind to capture the term (i.e. global) in braces
+	globals_regex.compile("(?<=\\{)(.*)(?=\\})")
+
+
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, TYPE_STRING, TYPE_STRING, TYPE_STRING],
 		[
-			null, 
-			null, 
-			ProjectSettings.get_setting("escoria/ui/default_dialog_scene")\
-					.get_file().get_basename(), 
-			"default"
+			null,
+			null,
+			"",
+			""
+		],
+		[
+			true,
+			false,
+			false,
+			true
 		]
 	)
 
 
+# Validate whether the given arguments match the command descriptor
+func validate(arguments: Array):
+	if not super.validate(arguments):
+		return false
+
+	if arguments[0].to_upper() != CURRENT_PLAYER_KEYWORD \
+		and not escoria.object_manager.has(arguments[0]):
+		raise_invalid_object_error(self, arguments[0])
+		return false
+
+	return true
+
+
 # Run the command
 func run(command_params: Array) -> int:
-	
 	var dict: Dictionary
-	var dialog_scene_name = ProjectSettings.get_setting(
-		"escoria/ui/default_dialog_scene"
-	)
-	
-	if dialog_scene_name.empty():
-		escoria.logger.report_errors(
-			"say()", 
-			[
-				"Project setting 'escoria/ui/default_dialog_scene' is not set.", 
-				"Please set a default dialog scene."
-			]
-		)
-		return ESCExecution.RC_ERROR
-		
-	var file = dialog_scene_name.get_file()
-	var extension = dialog_scene_name.get_extension()
-	dialog_scene_name = file.rstrip("." + extension)
-	
-	# Manage specific dialog scene
-	if command_params.size() > 2:
-		dialog_scene_name = command_params[2]
-	
+
 	escoria.current_state = escoria.GAME_STATE.DIALOG
-	
+
 	if !escoria.dialog_player:
-		escoria.logger.report_errors(
-			"No dialog player registered", 
-			[
-				"No dialog player was registered and the say command was" +
-						"encountered."
-			]
+		raise_error(
+			self,
+			"No dialog player was registered and the 'say' command was encountered."
 		)
+		escoria.current_state = escoria.GAME_STATE.DEFAULT
 		return ESCExecution.RC_ERROR
-	
+
+	if not escoria.main.current_scene.player:
+		escoria.logger.warn(
+			self,
+			"[%s]: No player item in the current scene was registered and the say command was encountered."
+					% get_command_name()
+		)
+		escoria.current_state = escoria.GAME_STATE.DEFAULT
+		return ESCExecution.RC_CANCEL
+
+	# Replace the names of any globals in "{ }" with their value
+	command_params[1] = escoria.globals_manager.replace_globals(command_params[1])
+
+	var speaking_character_global_id = escoria.main.current_scene.player.global_id \
+		if command_params[0].to_upper() == CURRENT_PLAYER_KEYWORD \
+		else command_params[0]
+
 	escoria.dialog_player.say(
-		command_params[0], 
-		dialog_scene_name, 
-		command_params[1]
+		speaking_character_global_id,
+		command_params[3],
+		command_params[1],
+		command_params[2]
 	)
-	yield(escoria.dialog_player, "dialog_line_finished")
+	await escoria.dialog_player.say_finished
 	escoria.current_state = escoria.GAME_STATE.DEFAULT
 	return ESCExecution.RC_OK
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	escoria.logger.debug(
+		self,
+		"[%s] interrupt() function not implemented." % get_command_name()
+	)

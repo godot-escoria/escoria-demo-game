@@ -1,0 +1,79 @@
+name: "Release new prerelease version"
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  prerelease:
+    if: "github.event.head_commit.message != 'chore: storing version and changelog'"
+    name: Preparing release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
+      - name: Remove trailing whitespace
+        run: |
+          OUTPUT=$(find . -name "*.gd" -type f | xargs sed -i 's/[[:space:]]$//')
+          RC=$?
+          if [[ $RC -ne 0 ]] && [[ $RC -ne 128 ]]
+          then
+            echo $OUTPUT
+            exit $RC 
+          fi
+          exit 0
+      - name: Calculate version
+        id: calculate_version
+        uses: mathieudutour/github-tag-action@v5.6
+        with:
+          github_token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
+          dry_run: true
+          pre_release_branches: "develop"
+          append_to_pre_release_tag: "alpha"
+          default_bump: "release"
+          custom_release_rules: "fix:prerelease,feat:prerelease"
+      - name: "Write changelog"
+        if: "steps.calculate_version.outputs.changelog != ''"
+        run: |
+          CHANGELOG=""
+          if [ -e CHANGELOG.md ]
+          then
+              CHANGELOG=$(cat CHANGELOG.md)
+          fi
+          echo -e "${{steps.calculate_version.outputs.changelog}}\n\n${CHANGELOG}" > CHANGELOG.md
+      - name: "Commit"
+        if: "steps.calculate_version.outputs.changelog != ''"
+        uses: EndBug/add-and-commit@v7.2.1
+        with:
+          message: "chore: storing version and changelog"
+          push: true
+  release:
+    if: "github.event.head_commit.message == 'chore: storing version and changelog'"
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
+      - name: Create version
+        id: create_version
+        uses: mathieudutour/github-tag-action@v5.6
+        with:
+          github_token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
+          dry_run: true
+          pre_release_branches: "develop"
+          append_to_pre_release_tag: "alpha"
+          default_bump: "release"
+          custom_release_rules: "fix:prerelease,feat:prerelease"
+      - name: Create a GitHub release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
+        with:
+          tag_name: ${{ steps.create_version.outputs.new_tag }}
+          release_name: ${{ steps.create_version.outputs.new_tag }}
+          body: ${{ steps.create_version.outputs.changelog }}

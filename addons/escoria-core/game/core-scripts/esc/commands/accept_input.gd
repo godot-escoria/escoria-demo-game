@@ -1,40 +1,54 @@
-# `accept_input [ALL|NONE|SKIP]`
+# `accept_input [type]`
 #
-# What type of input does the game accept. ALL is the default, SKIP allows 
-# skipping of dialog but nothing else, NONE denies all input. Including opening 
-# the menu etc. SKIP and NONE also disable autosaves.
+# Sets how much input the game is to accept. This allows for cut scenes
+# in which dialogue can be skipped (if [type] is set to SKIP), and ones where
+# it can't (if [type] is set to NONE).
 #
-# *Note* that SKIP gets reset to ALL when the event is done, but NONE persists. 
-# This allows you to create cut scenes with SKIP where the dialog can be 
-# skipped, but also initiate locked#### down cutscenes with accept_input 
-# NONE in :setup and accept_input ALL later in :ready.
+# **Parameters**
+#
+# - *type*: Type of inputs to accept (ALL)
+#   `ALL`: Accept all types of user input
+#   `SKIP`: Accept skipping dialogues but nothing else
+#   `NONE`: Deny all inputs (including opening menus)
+#
+# **Warning**: `SKIP` and `NONE` also disable autosaves.
+#
+# **Warning**: The type of user input accepted will persist even after the
+# current event has ended. Remember to reset the input type at the end of
+# cut-scenes!
 #
 # @ESC
 extends ESCBaseCommand
 class_name AcceptInputCommand
 
 
+# The list of supported input types
+const SUPPORTED_INPUT_TYPES = ["ALL", "NONE", "SKIP"]
+
+
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		1, 
+		1,
 		[TYPE_STRING],
 		["ALL"]
 	)
 
 
-# Validate wether the given arguments match the command descriptor
+# Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not arguments[0] in ["ALL", "NONE", "SKIP"]:
-		escoria.logger.report_errors(
-			"accept_input: invalid parameter",
-			[
-				"%s is not a valid parameter value (ALL, NONE, SKIP)" %\
-						arguments[0]
-			]
-		)
+	if not super.validate(arguments):
 		return false
-	return .validate(arguments)
+
+	if not arguments[0] in SUPPORTED_INPUT_TYPES:
+		raise_error(self, "Invalid parameter. %s is not a valid value. " +
+			"Should be one of: %s"
+					% [
+						arguments[0],
+						str(SUPPORTED_INPUT_TYPES)
+					])
+		return false
+	return true
 
 
 # Run the command
@@ -45,6 +59,12 @@ func run(command_params: Array) -> int:
 			mode = escoria.inputs_manager.INPUT_NONE
 		"SKIP":
 			mode = escoria.inputs_manager.INPUT_SKIP
-	
+
 	escoria.inputs_manager.input_mode = mode
 	return ESCExecution.RC_OK
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	# Do nothing
+	pass

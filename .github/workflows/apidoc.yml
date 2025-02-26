@@ -1,37 +1,57 @@
 name: "Update API docs"
 
 on:
-    - push
+  push:
+    branches:
+      - "develop"
 
 concurrency: api-${{ github.ref }}
 
 jobs:
-    update:
-        if: "${{ github.event.head_commit.message != 'docs: Automatic update of API docs' }}"
-        name: Update
+    apidoc:
+        if: ${{ false }} # <- This make sure the workflow is skipped without any alert
+        name: Update API docs
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
               uses: actions/checkout@v2
               with:
-                token: ${{ secrets.DEPLOYMENT_TOKEN }}
+                token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
+                repository: godot-escoria/escoria-demo-game
+                ref: "develop"
+                path: game
+            - name: "Checkout docs repo"
+              uses: actions/checkout@v2
+              with:
+                token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
+                repository: godot-escoria/escoria-docs
+                ref: "devel"
+                fetch-depth: 0
+                path: docs
             - name: Remove existing docs
               run: |
-                rm -rf docs/api
+                mv docs/api/index.rst .
+                rm -rf docs/api/*
+                mv index.rst docs/api
             - name: "Update docs"
               uses: docker://gdquest/gdscript-docs-maker:1
               with:
                 entrypoint: "bash"
-                args: "-c \"cd /app && ./generate_reference /github/workspace -o /github/workspace/docs/api -d addons/escoria-core\""
+                args: "-c \"BASEDIR=$(pwd) && cd /app && ./generate_reference $BASEDIR/game -o $BASEDIR/docs/api -d addons/escoria-core\""
             - name: "Update ESC reference"
               run: |
-                apt update && apt install -y python3
+                apt update && apt install -y python3 python3-pip
+                pip3 install m2r2
+                cd docs
                 python3 extractesc.py
+                git status
             - name: "Commit"
               uses: EndBug/add-and-commit@v7.2.1
               with:
-                add: "docs"
+                add: '["api", "scripting/z_esc_reference.rst"]'
                 message: 'docs: Automatic update of API docs'
                 push: true
+                cwd: "docs"
+                branch: "devel"
 
                

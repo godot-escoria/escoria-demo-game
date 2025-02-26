@@ -1,0 +1,533 @@
+[gd_scene load_steps=19 format=2]
+
+[ext_resource path="res://addons/escoria-wizard/graphics/help/left3.png" type="Texture2D" id=1]
+[ext_resource path="res://addons/escoria-wizard/graphics/help/left4.png" type="Texture2D" id=2]
+[ext_resource path="res://addons/escoria-wizard/graphics/help/left5.png" type="Texture2D" id=3]
+[ext_resource path="res://addons/escoria-wizard/graphics/help/middle3.png" type="Texture2D" id=4]
+[ext_resource path="res://addons/escoria-wizard/graphics/help/right4.png" type="Texture2D" id=5]
+[ext_resource path="res://addons/escoria-wizard/graphics/help/middleall.png" type="Texture2D" id=6]
+[ext_resource path="res://addons/escoria-wizard/graphics/help/middle2.png" type="Texture2D" id=7]
+[ext_resource path="res://addons/escoria-wizard/graphics/help/left2.png" type="Texture2D" id=8]
+[ext_resource path="res://addons/escoria-wizard/graphics/help/rightall.png" type="Texture2D" id=9]
+[ext_resource path="res://addons/escoria-wizard/graphics/help/right5.png" type="Texture2D" id=10]
+[ext_resource path="res://addons/escoria-wizard/graphics/help/right2.png" type="Texture2D" id=11]
+[ext_resource path="res://addons/escoria-wizard/graphics/help/right3.png" type="Texture2D" id=12]
+[ext_resource path="res://addons/escoria-wizard/graphics/help/leftall.png" type="Texture2D" id=13]
+[ext_resource path="res://addons/escoria-wizard/graphics/help/help_background.png" type="Texture2D" id=14]
+[ext_resource path="res://addons/escoria-wizard/graphics/help/left1.png" type="Texture2D" id=15]
+[ext_resource path="res://addons/escoria-wizard/graphics/help/middle1.png" type="Texture2D" id=16]
+[ext_resource path="res://addons/escoria-wizard/graphics/help/right1.png" type="Texture2D" id=17]
+[ext_resource path="res://addons/escoria-wizard/help_window.gd" type="Script" id=18]
+
+[node name="help_window" type="Window"]
+offset_left = 100.0
+offset_top = 100.0
+offset_right = 1012.0
+offset_bottom = 742.0
+exclusive = true
+script = ExtResource( 18 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 908.0
+offset_bottom = 638.0
+
+[node name="Background" type="TextureRect" parent="VBoxContainer"]
+offset_right = 904.0
+offset_bottom = 610.0
+texture = ExtResource( 14 )
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer"]
+offset_top = 614.0
+offset_right = 904.0
+offset_bottom = 634.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/CenterContainer"]
+offset_left = 322.0
+offset_right = 581.0
+offset_bottom = 20.0
+
+[node name="prev_button" type="Button" parent="VBoxContainer/CenterContainer/HBoxContainer"]
+offset_right = 118.0
+offset_bottom = 20.0
+text = "<- Previous Page"
+
+[node name="Control" type="Control" parent="VBoxContainer/CenterContainer/HBoxContainer"]
+offset_left = 122.0
+offset_right = 162.0
+offset_bottom = 20.0
+custom_minimum_size = Vector2( 40, 20 )
+
+[node name="next_button" type="Button" parent="VBoxContainer/CenterContainer/HBoxContainer"]
+offset_left = 166.0
+offset_right = 259.0
+offset_bottom = 20.0
+text = "Next Page ->"
+
+[node name="masks" type="Control" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="leftall" type="TextureRect" parent="masks" groups=["masks"]]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 309.0
+offset_bottom = 610.0
+texture = ExtResource( 13 )
+
+[node name="middleall" type="TextureRect" parent="masks" groups=["masks"]]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+offset_left = 324.0
+offset_top = 8.0
+offset_right = 663.0
+offset_bottom = 610.0
+texture = ExtResource( 6 )
+
+[node name="rightall" type="TextureRect" parent="masks" groups=["masks"]]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+offset_left = 678.0
+offset_top = 8.0
+offset_right = 904.0
+offset_bottom = 610.0
+texture = ExtResource( 9 )
+
+[node name="page1" type="TextureRect" parent="masks" groups=["masks"]]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 305.0
+offset_bottom = 606.0
+
+[node name="page2" type="TextureRect" parent="masks" groups=["masks"]]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 309.0
+offset_bottom = 610.0
+texture = ExtResource( 15 )
+
+[node name="page3" type="TextureRect" parent="masks" groups=["masks"]]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+offset_left = 678.0
+offset_top = 8.0
+offset_right = 904.0
+offset_bottom = 610.0
+texture = ExtResource( 17 )
+
+[node name="page4" type="TextureRect" parent="masks" groups=["masks"]]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 309.0
+offset_bottom = 610.0
+texture = ExtResource( 8 )
+
+[node name="page5" type="TextureRect" parent="masks" groups=["masks"]]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 309.0
+offset_bottom = 610.0
+texture = ExtResource( 1 )
+
+[node name="page6" type="TextureRect" parent="masks" groups=["masks"]]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 309.0
+offset_bottom = 610.0
+texture = ExtResource( 2 )
+
+[node name="page7" type="TextureRect" parent="masks" groups=["masks"]]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 309.0
+offset_bottom = 610.0
+texture = ExtResource( 3 )
+
+[node name="page8" type="TextureRect" parent="masks" groups=["masks"]]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+offset_left = 324.0
+offset_top = 8.0
+offset_right = 663.0
+offset_bottom = 610.0
+texture = ExtResource( 16 )
+
+[node name="page9" type="TextureRect" parent="masks" groups=["masks"]]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+offset_left = 324.0
+offset_top = 8.0
+offset_right = 663.0
+offset_bottom = 610.0
+texture = ExtResource( 7 )
+
+[node name="page10" type="TextureRect" parent="masks" groups=["masks"]]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+offset_left = 324.0
+offset_top = 8.0
+offset_right = 663.0
+offset_bottom = 610.0
+texture = ExtResource( 4 )
+
+[node name="page11" type="TextureRect" parent="masks" groups=["masks"]]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+offset_left = 678.0
+offset_top = 8.0
+offset_right = 904.0
+offset_bottom = 610.0
+texture = ExtResource( 11 )
+
+[node name="page12" type="TextureRect" parent="masks" groups=["masks"]]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+offset_left = 678.0
+offset_top = 8.0
+offset_right = 904.0
+offset_bottom = 610.0
+texture = ExtResource( 12 )
+
+[node name="page13" type="TextureRect" parent="masks" groups=["masks"]]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+offset_left = 678.0
+offset_top = 8.0
+offset_right = 904.0
+offset_bottom = 610.0
+texture = ExtResource( 5 )
+
+[node name="page14" type="TextureRect" parent="masks" groups=["masks"]]
+visible = false
+modulate = Color( 1, 1, 1, 0.882353 )
+offset_left = 678.0
+offset_top = 8.0
+offset_right = 904.0
+offset_bottom = 610.0
+texture = ExtResource( 10 )
+
+[node name="page15" type="TextureRect" parent="masks" groups=["masks"]]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+offset_left = 678.0
+offset_top = 8.0
+offset_right = 979.0
+offset_bottom = 610.0
+
+[node name="text" type="Control" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="page1" type="Label" parent="text" groups=["pagetext"]]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 229.0
+offset_top = 137.0
+offset_right = 699.0
+offset_bottom = 440.0
+text = "Escoria Player Creator
+
+Game characters in Escoria are Godot scenes with an ESCPlayer node.
+The ESCPlayer requires configuration to define things like how many
+directions the character has animations defined for, and which
+movement direction in the game world corresponds to each animation.
+ 
+While Escoria can create characters that can move  in as many
+directions as you like, most games will feature characters that can
+move in either 4 or 8 directions. For each direction, walk, talk and idle
+animations are required. This tool simplifies the process for  configuring
+all these settings.
+
+These help pages will guide you through the process, but essentially you
+give your character a name, choose 4 or 8 directions, then choose frames
+from sprite sheets for walk, talk and idle animations in each direction.
+
+Click the \"Next Page\" button below to progress to the next help page."
+
+[node name="page2" type="Label" parent="text" groups=["pagetext"]]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 301.0
+offset_top = 6.0
+offset_right = 657.0
+offset_bottom = 156.0
+text = "Use the name field to supply a name for your character.
+Any changes to the name will be reflected to the
+global_id field. The global_id is used to identify the
+character in scripts.
+
+Note that you can change the global_id to be different
+from the name if you choose. It's generally easiest
+to keep them the same but there's no requirement to.
+"
+
+[node name="page3" type="Label" parent="text" groups=["pagetext"]]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 299.0
+offset_top = 10.0
+offset_right = 654.0
+offset_bottom = 194.0
+text = "Use the \"Load Spritesheet\" button to load a spritesheet
+graphic. The spritesheet is an image that contains one
+or more sprite frames that will be used for the walk,
+talk and/or idle animation frames for the character.
+
+The character creator remembers which spritesheet is
+used for each type and direction of animation, so you
+can use one spritesheet for all the animations, one
+spritesheet per animation, or any combination 
+inbetween.
+"
+
+[node name="page4" type="Label" parent="text" groups=["pagetext"]]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 298.0
+offset_top = 59.0
+offset_right = 591.0
+offset_bottom = 124.0
+text = "Use these buttons to indicate whether your
+character will have animations facing in either
+4 or 8 directions. This can be changed at any
+time while creating the character."
+
+[node name="page5" type="Label" parent="text" groups=["pagetext"]]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 303.0
+offset_top = 105.0
+offset_right = 596.0
+offset_bottom = 170.0
+text = "You will use these buttons to choose whether
+you are currently creating walk, talk, or idle
+animations."
+
+[node name="page6" type="Label" parent="text" groups=["pagetext"]]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 133.0
+offset_top = 126.0
+offset_right = 523.0
+offset_bottom = 378.0
+text = "Click the arrow matching the direction you wish to create 
+an animation for. For example, if you select walk from the
+options above, and the right arrow, you'll be creating the 
+animation for the character walking right.
+
+Once you store (save) the animation, the arrow will change
+to a green colour to show you the animation has been
+configured. It can still be edited once it has been stored.
+
+When you select an direction that isn't up or down, the
+mirror button will appear. If you click this button, the
+animation will be created automatically as a mirror of the
+opposite side's animation. e.g. If you create the right side
+animation, you can click the left arrow then the mirror
+button to quickly create the left hand animation."
+
+[node name="page7" type="Label" parent="text" groups=["pagetext"]]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 63.0
+offset_top = 369.0
+offset_right = 334.0
+offset_bottom = 417.0
+text = "When you select the animation frames to
+define a particular animation, a preview 
+of the animation will be shown in this box."
+
+[node name="page8" type="Label" parent="text" groups=["pagetext"]]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 37.0
+offset_top = 21.0
+offset_right = 308.0
+offset_bottom = 103.0
+text = "This is the currently loaded spritesheet.
+As you select particular frames to be
+part of the current animation, a box will
+be drawn around them to help you see
+what is included in the animation."
+
+[node name="page9" type="Label" parent="text" groups=["pagetext"]]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 339.0
+offset_top = 422.0
+offset_right = 610.0
+offset_bottom = 538.0
+text = "Use this slider to reset the zoom level
+on the spritesheet. The zoom is only
+used in this tool and will not affect the
+zoom level of your character in game.
+
+Use the reset button to reset the zoom 
+level."
+
+[node name="page10" type="Label" parent="text" groups=["pagetext"]]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 354.0
+offset_top = 511.0
+offset_right = 594.0
+offset_bottom = 559.0
+text = "This information window tells you the
+filename of the currently loaded
+spritesheet."
+
+[node name="page11" type="Label" parent="text" groups=["pagetext"]]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 297.0
+offset_top = 28.0
+offset_right = 622.0
+offset_bottom = 229.0
+text = "Once you've loaded your spritesheet you need to
+tell the character creator how to divide it into
+individual frames with the horizontal/vertical
+frames selectors.
+
+The start/end frame selectors tell the tool which
+frames to use from the spritesheet to create the
+animation.
+
+The speed slider defines the speed of this
+animation in frames per second. Each animation
+can have a different speed value if desired."
+
+[node name="page12" type="Label" parent="text" groups=["pagetext"]]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 374.0
+offset_top = 124.0
+offset_right = 651.0
+offset_bottom = 189.0
+text = "These lines are informational. They tell you
+how big the current spritesheet is, and how
+big each animation frame is based on the
+frame settings above."
+
+[node name="page13" type="Label" parent="text" groups=["pagetext"]]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 374.0
+offset_top = 171.0
+offset_right = 648.0
+offset_bottom = 321.0
+text = "When you change the settings for the
+current animation, the \"store animation\"
+button will appear. This saves the current
+settings to the selected animation.
+
+If the settings are changed back to how
+they were, the store button will 
+disappear to tell you that there is currently
+no change to save."
+
+[node name="page14" type="Label" parent="text" groups=["pagetext"]]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 332.0
+offset_top = 228.0
+offset_right = 660.0
+offset_bottom = 429.0
+text = "Click this button to export the completed character
+out to a Godot scene for use by Escoria.
+Note that a walk, talk and idle animation for each of
+the specified (4 or 8) directions must have been
+set up before you can export the character.
+
+If any animations haven't been configured, it will
+tell you that animations are missing. 
+
+Direction arrows that haven't turned green are a
+visual indicator of the directions still requiring
+animations."
+
+[node name="page15" type="Label" parent="text" groups=["pagetext"]]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 273.0
+offset_top = 143.0
+offset_right = 663.0
+offset_bottom = 412.0
+text = "Once you have exported your character they will be a saved
+ESCPlayer scene in your filesystem. The scene will be named
+based on the name you gave your character in the Name
+field.
+
+If this is a user-controllable character, this character can now
+be included in your game by :
+
+* Creating a Godot scene for your room 
+* Creating an ESCRoom node
+* Selecting the created ESCPlayer scene as the Player Scene
+   property in that node.
+
+If they are an NPC, add the scene to your scene tree, and
+program them in your ESC scripts using the global_id you
+have configured."
+
+[connection signal="pressed" from="VBoxContainer/CenterContainer/HBoxContainer/prev_button" to="." method="help_on_prev_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/CenterContainer/HBoxContainer/next_button" to="." method="help_on_next_button_pressed"]

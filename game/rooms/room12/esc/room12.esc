@@ -1,19 +1,19 @@
 
 :setup
+	if ESC_LAST_SCENE == "room11":
+		teleport($player, $r12_l_exit)
+		# Set player look right
+		set_angle($player, 180)
 
-> [eq ESC_LAST_SCENE room11]
-	teleport player r12_l_exit
-	# Set player look right
-	set_angle player 180
-	stop
-> [eq ESC_LAST_SCENE room13]
-	teleport player r12_r_exit
-	# Set player look left
-	set_angle player 270
-	stop
-> [!last_scene]
-	teleport player player_start
-	stop
+		# If we transition in here, the room will show up before it's done being
+		# prepared, since the rooms change over immediately after :setup and
+		# immediately before :ready. We leave this commented here as a reminder.
+		# transition curtain in
 
+	elif ESC_LAST_SCENE == "room13":
+		teleport($player, $r12_r_exit)
+		# Set player look left
+		set_angle($player, 270)
 
 :ready
+	transition("instant", "in")

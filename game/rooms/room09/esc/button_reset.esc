@@ -1,8 +1,25 @@
-# :SETUP is called EVERY TIME the room is loaded
-# :READY is called only the FIRST TIME the room is loaded
+# :SETUP is called EVERY TIME the room is loaded BEFORE ready
+# :READY is called EVERY TIME the room is loaded AFTER setup
 
 :use
-set_global open_closets 0
-set_state r9_closet_left closed
-set_state r9_closet_middle closed
-set_state r9_closet_right closed
+	# Set the counter of open closets to 0. Used for the magic bottle appearance.
+	open_closets = 0
+	# Clear the variable holding which closet contains the bottle
+	# (Used for if the player exits then reenters the room)
+	r9_bottle_closet = 0
+
+	# If the bottle is active in any cupboard, disable it
+	set_active($r9_bottle_left, false)
+	set_active($r9_bottle_middle, false)
+	set_active($r9_bottle_right, false)
+
+	# Animate all the doors closing
+	set_state($r9_closet_left, "close_door")
+	set_state($r9_closet_middle, "close_door")
+	set_state($r9_closet_right, "close_door")
+
+	# Mark all the doors closed. Used to work out if we ignore the close command
+	# on a closed closet, or the open command on an opened closet.
+	left_closet_open = false
+	middle_closet_open = false
+	right_closet_open = false

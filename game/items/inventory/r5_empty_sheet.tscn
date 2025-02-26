@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://36ogrtwqmj0h"]
+
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://dj1xnpk3j7gf" path="res://game/rooms/room05/clipboard.png" id="2"]
+
+[sub_resource type="RectangleShape2D" id="4"]
+size = Vector2(69, 90)
+
+[node name="paper" type="Area2D"]
+process_mode = 1
+script = ExtResource("1")
+global_id = "r5_empty_sheet"
+esc_script = "res://game/items/inventory/empty_sheet.esc"
+player_orients_on_arrival = false
+tooltip_name = "application form"
+default_action = "pickup"
+default_action_inventory = "use"
+combine_when_selected_action_is_in = PackedStringArray("use")
+use_from_inventory_only = true
+inventory_texture = ExtResource("2")
+inventory_texture_hovered = ExtResource("2")
+animations = null
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0.249146, -42.8763)
+texture = ExtResource("2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.498291, -44.6254)
+shape = SubResource("4")

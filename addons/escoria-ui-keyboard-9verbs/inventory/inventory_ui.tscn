@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/escoria-core/game/scenes/inventory/inventory_ui.gd" type="Script" id=1]
+[ext_resource path="res://addons/escoria-core/ui_library/inventory/esc_inventory_container.gd" type="Script" id=3]
+
+[node name="inventory_ui" type="PanelContainer"]
+offset_right = 600.0
+offset_bottom = 175.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+inventory_ui_container = NodePath("ScrollContainer/GridContainer")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 593.0
+offset_bottom = 168.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer"]
+offset_right = 586.0
+offset_bottom = 161.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/v_separation = 16
+theme_override_constants/h_separation = 16
+columns = 4
+script = ExtResource( 3 )

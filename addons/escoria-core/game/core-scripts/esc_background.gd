@@ -1,16 +1,17 @@
-# ESCBackground's purpose is to display a background image and receive input 
-# events on the background. More precisely, the TextureRect under ESCBackground 
-# does not receive events itself - if it did, it would also eat all events like 
-# hotspot focusing and such. Instead, we set the TextureRect mouse filter to 
+@tool
+@icon("res://addons/escoria-core/design/esc_background.svg")
+# ESCBackground's purpose is to display a background image and receive input
+# events on the background. More precisely, the TextureRect under ESCBackground
+# does not receive events itself - if it did, it would also eat all events like
+# hotspot focusing and such. Instead, we set the TextureRect mouse filter to
 # MOUSE_FILTER_IGNORE, and we use an Area2D node to receive the input events.
-# 
-# If ESCBackground doesn't contain a texture, it is important that its rect_size 
-# is set over the whole scene, because its rect_size is then used to create the 
-# Area2D node under it. If the rect_size is wrongly set, the background may 
+#
+# If ESCBackground doesn't contain a texture, it is important that its rect_size
+# is set over the whole scene, because its rect_size is then used to create the
+# Area2D node under it. If the rect_size is wrongly set, the background may
 # receive no input.
-tool
 extends TextureRect
-class_name ESCBackground, "res://addons/escoria-core/design/esc_background.svg"
+class_name ESCBackground
 
 
 # The background was double clicked
@@ -40,9 +41,10 @@ signal mouse_wheel_up
 # Emitted when the mouse wheel was turned down
 signal mouse_wheel_down
 
+signal hovered_bg
 
 # The ESC script connected to this background
-export(String, FILE, "*.esc") var esc_script = ""
+@export var esc_script = "" # (String, FILE, "*.esc")
 
 
 # Create the underlying Area2D as an input device
@@ -51,7 +53,7 @@ func _enter_tree():
 	if get_texture():
 		size = get_texture().get_size()
 	else:
-		size = rect_size
+		size = self.size
 
 	var area = Area2D.new()
 	var shape = RectangleShape2D.new()
@@ -64,16 +66,20 @@ func _enter_tree():
 	area.shape_owner_set_transform(sid, transform)
 
 	# Set extents of RectangleShape2D to cover entire TextureRect
-	shape.set_extents(size / 2)
+	shape.size = size / 2
 	area.shape_owner_add_shape(sid, shape)
-	
+
 	add_child(area)
 
 # Disable mouse filter events and connect our own events to the ESC input
 # manager
 func _ready():
 	mouse_filter = MOUSE_FILTER_IGNORE
-	
+
+	# If background has no texture, set its rect size to viewport size
+	if texture == null and size == Vector2.ZERO:
+		size = escoria.game_size
+
 	if !Engine.is_editor_hint():
 		escoria.inputs_manager.register_background(self)
 
@@ -82,29 +88,32 @@ func _ready():
 #
 # #### Parameters
 # - event: Event received
-func _input(event) -> void:
-	if not escoria.current_state == escoria.GAME_STATE.DEFAULT:
+func _unhandled_input(event: InputEvent) -> void:
+	var is_default_state = escoria.current_state == escoria.GAME_STATE.DEFAULT
+	if escoria.inputs_manager.try_custom_input_handler(event, is_default_state):
 		return
-	if InputMap.has_action("switch_action_verb") \
-			and event.is_action_pressed("switch_action_verb"):
-		if event.button_index == BUTTON_WHEEL_UP:
-			emit_signal("mouse_wheel_up")
-		elif event.button_index == BUTTON_WHEEL_DOWN:
-			emit_signal("mouse_wheel_down")
+	if not is_default_state:
+		return
+	if event is InputEventMouseMotion:
+		hovered_bg.emit()
 	if event is InputEventMouseButton and event.is_pressed():
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+			mouse_wheel_up.emit()
+		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			mouse_wheel_down.emit()
 		var p = get_global_mouse_position()
 		var size
 		if get_texture():
 			size = get_texture().get_size()
 		else:
-			size = rect_size
-		if Rect2(rect_position, size).has_point(p):
-			if event.doubleclick and event.button_index == BUTTON_LEFT:
-				emit_signal("double_left_click_on_bg", p)
-			elif event.button_index == BUTTON_LEFT:
-				emit_signal("left_click_on_bg", p)
-			elif event.button_index == BUTTON_RIGHT:
-				emit_signal("right_click_on_bg", p)
+			size = self.size
+		if Rect2(position, size).has_point(p):
+			if event.double_click and event.button_index == MOUSE_BUTTON_LEFT:
+				double_left_click_on_bg.emit(p)
+			elif event.button_index == MOUSE_BUTTON_LEFT:
+				left_click_on_bg.emit(p)
+			elif event.button_index == MOUSE_BUTTON_RIGHT:
+				right_click_on_bg.emit(p)
 
 
 # Calculate the actual area taken by this background depending on its
@@ -117,11 +126,11 @@ func get_full_area_rect2() -> Rect2:
 	if get_texture():
 		size = get_texture().get_size()
 	else:
-		size = rect_size
-		
-	if rect_scale.x != 1 or rect_scale.y != 1:
-		size.x *= rect_scale.x
-		size.y *= rect_scale.y
+		size = size
+
+	if scale.x != 1 or scale.y != 1:
+		size.x *= scale.x
+		size.y *= scale.y
 
 	area_rect2 = area_rect2.expand(pos)
 	area_rect2 = area_rect2.expand(pos + size)

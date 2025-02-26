@@ -1,476 +1,1129 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=29 format=3 uid="uid://dmooj3417oxux"]
 
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
-[ext_resource path="res://game/rooms/room07/background.tscn" type="PackedScene" id=2]
-[ext_resource path="res://game/items/escitems/button.tscn" type="PackedScene" id=3]
-[ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
-[ext_resource path="res://game/ui/commons/fonts/caslonantique.tres" type="DynamicFont" id=5]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=8]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://chf3qovs1q8kr" path="res://game/characters/mark/mark.tscn" id="4"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="8"]
+[ext_resource type="Texture2D" uid="uid://db1ga57tukwla" path="res://game/rooms/room07/room7background.png" id="9"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_exit.gd" id="9_l5rvy"]
+[ext_resource type="Texture2D" uid="uid://bqyrej8140qim" path="res://game/rooms/room07/alarm_cone.png" id="10"]
+[ext_resource type="AudioStream" uid="uid://cjjp3ukvmevd4" path="res://game/sfx/sounds/doorOpen_2.ogg" id="10_pi6m2"]
+[ext_resource type="Texture2D" uid="uid://cv407pveqsosv" path="res://game/rooms/room07/elevator_edge.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://sbinfk1wd8jb" path="res://game/rooms/room07/elevator_door.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://cll6rbfhvxvhc" path="res://game/characters/mark/png/mark.png" id="13"]
 
-[sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 1976.63, 640.557, 1987.95, 588.863, 2070.07, 622.872, 2066.3, 799.721, 1015.72, 626.818, 1956.81, 616.096, -9.16094, 803.802, -6.44019, 711.297, 911.239, 554.152, 991.239, 554.152, 858.566, 628.405, 741.099, 620.468, 84.5821, 654.06, 3.15687, 646.051, 59.2201, 628.698, 129.634, 615.792 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 0, 3, 6, 7 ), PoolIntArray( 8, 9, 4, 10 ), PoolIntArray( 10, 4, 7 ), PoolIntArray( 11, 10, 7, 12 ), PoolIntArray( 7, 13, 14, 12 ), PoolIntArray( 11, 12, 15 ) ]
-outlines = [ PoolVector2Array( -6.44019, 711.297, 3.15687, 646.051, 59.2201, 628.698, 84.5821, 654.06, 129.634, 615.792, 741.099, 620.468, 858.566, 628.405, 911.239, 554.152, 991.239, 554.152, 1015.72, 626.818, 1956.81, 616.096, 1976.63, 640.557, 1987.95, 588.863, 2070.07, 622.872, 2066.3, 799.721, -9.16094, 803.802 ) ]
-
-[sub_resource type="NavigationPolygon" id=2]
-vertices = PoolVector2Array( 2031.55, -451.45, 135.719, -939.662, 287.172, -941.444, 1235.09, -777.519, 2027.99, -629.63, 1390.1, -752.574, 1343.78, -834.537, 1425.74, -843.446, 1448.12, -803.5 )
-polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 5, 4, 3 ), PoolIntArray( 5, 3, 6, 7, 8 ) ]
-outlines = [ PoolVector2Array( 2027.99, -629.63, 1390.1, -752.574, 1448.12, -803.5, 1425.74, -843.446, 1343.78, -834.537, 1235.09, -777.519, 287.172, -941.444, 135.719, -939.662, 2031.55, -451.45 ) ]
-
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 79.0288, 129.758 )
-
-[sub_resource type="CircleShape2D" id=4]
-radius = 35.4361
-
-[sub_resource type="Animation" id=5]
-resource_name = "green"
+[sub_resource type="Animation" id="1"]
+length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Polygon2D:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [ Color( 0.0313726, 0.996078, 0, 1 ) ]
+"values": [Vector2(1391, 812)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("lift_door_r:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(119, 148.5)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("elevator_body:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(79, 149)]
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("lift_door_r:position:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(119, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("lift_door_r:position:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(148.5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("lift_door_l:position:x")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(39, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/6/type = "bezier"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("lift_door_l:position:y")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(148.5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("lift_door_l:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, -1)]
+}
+tracks/8/type = "bezier"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath(".:position:x")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1391, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/9/type = "bezier"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath(".:position:y")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(812, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/10/type = "bezier"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("../door_1_floor_1:position:x")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1510, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/11/type = "bezier"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("../door_1_floor_1:position:y")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(960, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/12/type = "bezier"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("../door_2_floor_1:position:x")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1430, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/13/type = "bezier"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("../door_2_floor_1:position:y")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(960, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/14/type = "bezier"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("../door_2_floor_2:position:x")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1431, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/15/type = "bezier"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("../door_2_floor_2:position:y")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(251, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/16/type = "bezier"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("../door_1_floor_2:position:x")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1510, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/17/type = "bezier"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("../door_1_floor_2:position:y")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(251, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/18/type = "value"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("player_in_lift_sprite:visible")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "red"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Polygon2D:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
+[sub_resource type="Animation" id="2"]
+resource_name = "lift_floor_1_to_2_no_player"
+length = 5.5
+tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 0, 0, 1 ) ]
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(812, -0.25, 0, 0.25, 0, 812, -0.25, 0, 0.25, 0, 812, -0.25, 0, 1.2, -4.05182, 102, -1.5, 1.57617, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5, 2, 3.5)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("lift_door_r:position:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0, 0),
+"points": PackedFloat32Array(198, -0.25, 0, 0.5, 0.00619507, 198, -0.25, 0, 0.5, 0.00619507, 119, -0.7, 0.000434875, 0.25, 0, 119, -0.25, 0, 0.25, 0, 119, -0.25, 0, 0.25, 0, 119, -0.25, 0, 0.25, 0, 198, -0.9, 0.00012207, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5, 1.5, 2, 3.5, 4, 5)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("lift_door_l:position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0, 0),
+"points": PackedFloat32Array(-40, -0.25, 0, 0.5, 0.00728989, -40, -0.25, 0, 0.5, 0.00728989, 39, -0.7, 0.000236511, 0.25, 0, 39, -0.25, 0, 0.25, 0, 39, -0.25, 0, 0.3, -0.00482178, 39, -0.25, 0, 0.3, 0.000236511, -40, -0.8, -0.00528717, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5, 1.5, 2, 3.5, 4, 5)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../door_1_floor_1:position:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1589, -0.25, 0, 0.25, 0, 1510, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../door_2_floor_1:position:x")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1351, -0.25, 0, 0.25, 0, 1430, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../door_2_floor_2:position:x")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1431, -0.25, 0, 0.25, 0, 1431, -0.25, 0, 0.25, 0, 1351, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 4.5, 5.5)
+}
+tracks/6/type = "bezier"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../door_1_floor_2:position:x")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1510, -0.25, 0, 0.25, 0, 1510, -0.25, 0, 0.25, 0, 1588, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 4.5, 5.5)
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("player_in_lift_sprite:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "green"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Polygon2D:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
+[sub_resource type="Animation" id="3"]
+resource_name = "lift_floor_1_to_2_with_player"
+length = 5.5
+tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 0.0313726, 0.996078, 0, 1 ) ]
+"handle_modes": PackedInt32Array(0, 0, 97, 0),
+"points": PackedFloat32Array(812, -0.25, 0, 0.25, 0, 812, -0.25, 0, 0.25, 0, 812, -0.25, 0, 1.2, -4.05182, 102, -1.5, 1.57617, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5, 2, 3.5)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("lift_door_r:position:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0, 0),
+"points": PackedFloat32Array(198, -0.25, 0, 0.5, 0.00619507, 198, -0.25, 0, 0.5, 0.00619507, 119, -0.7, 0.000434875, 0.25, 0, 119, -0.25, 0, 0.25, 0, 119, -0.25, 0, 0.25, 0, 119, -0.25, 0, 0.25, 0, 198, -0.9, 0.00012207, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5, 1.5, 2, 3.5, 4, 5)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("lift_door_l:position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0, 0),
+"points": PackedFloat32Array(-40, -0.25, 0, 0.5, 0.00728989, -40, -0.25, 0, 0.5, 0.00728989, 39, -0.7, 0.000236511, 0.25, 0, 39, -0.25, 0, 0.25, 0, 39, -0.25, 0, 0.3, -0.00482178, 39, -0.25, 0, 0.3, 0.000236511, -40, -0.8, -0.00528717, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5, 1.5, 2, 3.5, 4, 5)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../door_1_floor_1:position:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1589, -0.25, 0, 0.25, 0, 1510, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../door_2_floor_1:position:x")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1351, -0.25, 0, 0.25, 0, 1430, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../door_2_floor_2:position:x")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1431, -0.25, 0, 0.25, 0, 1431, -0.25, 0, 0.25, 0, 1351, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 4.5, 5.5)
+}
+tracks/6/type = "bezier"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../door_1_floor_2:position:x")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1510, -0.25, 0, 0.25, 0, 1510, -0.25, 0, 0.25, 0, 1588, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 4.5, 5.5)
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("player_in_lift_sprite:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 5.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
 }
 
-[sub_resource type="Animation" id=8]
-resource_name = "red"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Polygon2D:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
+[sub_resource type="Animation" id="4"]
+resource_name = "lift_floor_2_to_1_no_player"
+length = 5.5
+tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
+"points": PackedFloat32Array(102, -0.25, 0, 0.25, 0, 102, -0.25, 0, 0.25, 0, 102, -0.2, -2.05635, 1.5, 1.52682, 812, -1.2, 0.00787354, 0.3, 0.00787354, 812, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5, 2, 3.5, 5)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("lift_door_r:position:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0),
+"points": PackedFloat32Array(198, -0.895961, 0.331177, 1, 0.00241089, 198, -0.895961, 0.331177, 1, 0.00241089, 119, -0.25, 0, 0.25, 0, 119, -0.2, 0.00127411, 0.7, -0.000419617, 119, -0.2, 0.00127411, 0.7, -0.00211334, 198, -0.5, -0.00366211, 0.2, -0.00364685),
+"times": PackedFloat32Array(0, 0.5, 1.5, 3.5, 4, 5)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("lift_door_l:position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0),
+"points": PackedFloat32Array(-40, -0.8, 0.569336, 0.8, -0.00188828, -40, -0.8, 0.569336, 0.8, -0.00188828, 39, -0.25, 0, 0.3, 0.00193787, 39, -0.2, 0.00193787, 0.7, 0.00193787, 39, -0.2, 0.00193787, 0.7, -0.000499725, -40, -0.5, -0.00188828, 0.2, -0.00188828),
+"times": PackedFloat32Array(0, 0.5, 1.5, 3.5, 4, 5)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../door_1_floor_2:position:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1588, -0.25, 0, 0.25, 0, 1510, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../door_2_floor_2:position:x")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1351, -0.25, 0, 0.25, 0, 1430, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../door_1_floor_1:position:x")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1510, -0.25, 0, 0.25, 0, 1510, -0.25, 0, 0.25, 0, 1588, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 4.5, 5.5)
+}
+tracks/6/type = "bezier"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../door_2_floor_1:position:x")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1430, -0.25, 0, 0.25, 0, 1430, -0.25, 0, 0.25, 0, 1352, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 4.5, 5.5)
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("player_in_lift_sprite:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="5"]
+resource_name = "lift_floor_2_to_1_with_player"
+length = 5.5
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
+"points": PackedFloat32Array(102, -0.25, 0, 0.25, 0, 102, -0.25, 0, 0.25, 0, 102, -0.2, -2.05635, 1.5, 1.52682, 812, -1.2, 0.00787354, 0.3, 0.00787354, 812, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5, 2, 3.5, 5)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("lift_door_r:position:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 30778),
+"points": PackedFloat32Array(198, -0.895961, 0.331177, 1, 0.00241089, 198, -0.895961, 0.331177, 1, 0.00241089, 119, -0.25, 0, 0.25, 0, 119, -0.2, 0.00127411, 0.7, -0.000419617, 119, -0.2, 0.00127411, 0.7, -0.00211334, 198, -0.5, -0.00366211, 0.2, -0.00364685),
+"times": PackedFloat32Array(0, 0.5, 1.5, 3.5, 4, 5)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("lift_door_l:position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 30778),
+"points": PackedFloat32Array(-40, -0.8, 0.569336, 0.8, -0.00188828, -40, -0.8, 0.569336, 0.8, -0.00188828, 39, -0.25, 0, 0.3, 0.00193787, 39, -0.2, 0.00193787, 0.7, 0.00193787, 39, -0.2, 0.00193787, 0.7, -0.000499725, -40, -0.5, -0.00188828, 0.2, -0.00188828),
+"times": PackedFloat32Array(0, 0.5, 1.5, 3.5, 4, 5)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../door_1_floor_2:position:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1588, -0.25, 0, 0.25, 0, 1510, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../door_2_floor_2:position:x")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1351, -0.25, 0, 0.25, 0, 1430, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../door_1_floor_1:position:x")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1510, -0.25, 0, 0.25, 0, 1510, -0.25, 0, 0.25, 0, 1588, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 4.5, 5.5)
+}
+tracks/6/type = "bezier"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../door_2_floor_1:position:x")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1430, -0.25, 0, 0.25, 0, 1430, -0.25, 0, 0.25, 0, 1352, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 4.5, 5.5)
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("player_in_lift_sprite:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 5.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5ysog"]
+_data = {
+"RESET": SubResource("1"),
+"lift_floor_1_to_2_no_player": SubResource("2"),
+"lift_floor_1_to_2_with_player": SubResource("3"),
+"lift_floor_2_to_1_no_player": SubResource("4"),
+"lift_floor_2_to_1_with_player": SubResource("5")
+}
+
+[sub_resource type="NavigationPolygon" id="6"]
+vertices = PackedVector2Array(2161.27, 3.52002, 2166.27, -45.48, 2237.27, 3.52002, 2237.27, 150.52, 6.26837, -11.48, 73.2684, -50.48, 76.2684, 11.52, 3.26837, 147.52, 127.268, -36.48, 1852.27, -39.48, 1954.27, -36.48, 1855.27, -76.48, 1954.27, -76.48, 2104.27, -36.48)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7), PackedInt32Array(3, 7, 6, 8, 9, 10), PackedInt32Array(11, 12, 10, 9), PackedInt32Array(3, 10, 13, 0)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(127.268, -36.48, 1852.27, -39.48, 1855.27, -76.48, 1954.27, -76.48, 1954.27, -36.48, 2104.27, -36.48, 2161.27, 3.52002, 2166.27, -45.48, 2237.27, 3.52002, 2237.27, 150.52, 3.26837, 147.52, 6.26837, -11.48, 73.2684, -50.48, 76.2684, 11.52)])
+
+[sub_resource type="NavigationPolygon" id="7"]
+vertices = PackedVector2Array(2237, -827.26, 14, -822.26, 14, -932.26, 144, -1011.26, 1844, -1005.26, 2240, -926.26, 1844, -1020.26, 1968, -1022.26, 1974, -1005.26, 2126, -1008.26)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5), PackedInt32Array(4, 6, 7, 8), PackedInt32Array(5, 4, 8), PackedInt32Array(5, 8, 9)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(2237, -827.26, 2240, -926.26, 2126, -1008.26, 1974, -1005.26, 1968, -1022.26, 1844, -1020.26, 1844, -1005.26, 144, -1011.26, 14, -932.26, 14, -822.26)])
+
+[sub_resource type="Animation" id="8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AlarmCone:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [ Color( 1, 0, 0, 1 ) ]
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="9"]
+resource_name = "camera_not_triggered"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AlarmCone:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="10"]
+resource_name = "camera_triggered"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AlarmCone:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4os3p"]
+_data = {
+"RESET": SubResource("8"),
+"camera_not_triggered": SubResource("9"),
+"camera_triggered": SubResource("10")
+}
+
+[sub_resource type="Animation" id="11"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AlarmCone:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="12"]
+resource_name = "camera_not_triggered"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AlarmCone:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="13"]
+resource_name = "camera_triggered"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AlarmCone:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_o2bpp"]
+_data = {
+"RESET": SubResource("11"),
+"camera_not_triggered": SubResource("12"),
+"camera_triggered": SubResource("13")
 }
 
 [node name="room7" type="Node2D"]
-script = ExtResource( 6 )
-__meta__ = {
-"_edit_vertical_guides_": [  ]
-}
+script = ExtResource("6")
 global_id = "room7"
 esc_script = "res://game/rooms/room07/esc/room07.esc"
-player_scene = ExtResource( 4 )
-camera_limits = [ Rect2( 0, 1350, 2098, 800 ), Rect2( 0, 0, 2098, 1050 ), Rect2( 0, 0, 2098, 2150 ) ]
+player_scene = ExtResource("4")
+camera_limits = [Rect2(0, 0, 2260, 2000), Rect2(0, 0, 1300, 2000)]
 editor_debug_mode = 1
 
-[node name="background" parent="." instance=ExtResource( 2 )]
-margin_right = 2098.0
-margin_bottom = 1961.0
+[node name="lift_shaft" type="Polygon2D" parent="."]
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(1377, 61, 1562, 61, 1568, 1127, 1370, 1127)
 
-[node name="room_label_1" type="Label" parent="background"]
-margin_right = 40.0
-margin_bottom = 14.0
-custom_fonts/font = ExtResource( 5 )
-text = "ROOM 7 - upstairs"
-__meta__ = {
-"_edit_use_anchors_": false
+[node name="lift" type="Area2D" parent="."]
+process_mode = 1
+script = ExtResource("7")
+global_id = "r7_lift"
+is_interactive = false
+combine_when_selected_action_is_in = PackedStringArray()
+inventory_texture = ExtResource("12")
+animations = null
+
+[node name="lift" type="Node2D" parent="lift"]
+position = Vector2(1391, 812)
+
+[node name="elevator_body" type="Sprite2D" parent="lift/lift"]
+position = Vector2(79, 149)
+texture = ExtResource("11")
+
+[node name="player_in_lift_sprite" type="Sprite2D" parent="lift/lift"]
+visible = false
+position = Vector2(82, 148)
+scale = Vector2(4, 4)
+texture = ExtResource("13")
+hframes = 21
+
+[node name="lift_door_r" type="Sprite2D" parent="lift/lift"]
+position = Vector2(119, 148.5)
+texture = ExtResource("12")
+
+[node name="lift_door_l" type="Sprite2D" parent="lift/lift"]
+position = Vector2(39, 148.5)
+rotation = -3.14159
+scale = Vector2(1, -1)
+texture = ExtResource("12")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="lift"]
+root_node = NodePath("../lift")
+libraries = {
+"": SubResource("AnimationLibrary_5ysog")
 }
 
-[node name="room_label_2" type="Label" parent="background"]
-margin_top = 1354.53
-margin_right = 136.0
-margin_bottom = 1368.53
-custom_fonts/font = ExtResource( 5 )
-text = "ROOM 7 - downstairs"
+[node name="door_1_floor_2" type="Sprite2D" parent="lift"]
+position = Vector2(1510, 251)
+texture = ExtResource("12")
 
-[node name="walkable_area" type="Navigation2D" parent="."]
-script = ExtResource( 1 )
+[node name="door_2_floor_2" type="Sprite2D" parent="lift"]
+position = Vector2(1431, 251)
+scale = Vector2(-1, 1)
+texture = ExtResource("12")
 
-[node name="lower_platform" type="NavigationPolygonInstance" parent="walkable_area"]
-position = Vector2( 7.73163, 1138.48 )
-navpoly = SubResource( 1 )
-__meta__ = {
-"_editor_description_": ""
-}
+[node name="door_1_floor_1" type="Sprite2D" parent="lift"]
+position = Vector2(1510, 960)
+texture = ExtResource("12")
 
-[node name="upper_platform" type="NavigationPolygonInstance" parent="walkable_area"]
-position = Vector2( 0, 1403.26 )
-navpoly = SubResource( 2 )
+[node name="door_2_floor_1" type="Sprite2D" parent="lift"]
+position = Vector2(1430, 960)
+scale = Vector2(-1, 1)
+texture = ExtResource("12")
+
+[node name="Room7Background" type="Sprite2D" parent="."]
+texture = ExtResource("9")
+centered = false
+
+[node name="room_label" type="Label" parent="Room7Background"]
+text = "ROOM 7 upper floor"
+
+[node name="room_label2" type="Label" parent="Room7Background"]
+text = "ROOM 7 lower floor"
+
+[node name="room_label3" type="Label" parent="Room7Background"]
+text = "camera_push : This will point the camera at a specific location.
+camera_shift : Moves the camera by an amount of pixels in x and y relative to the current location
+camera_zoom : Adjust the zoom level relative to the initial camera zoom
+camera_set_pos : Moves the camera to an absolute position. Notice how you get two different
+                                 results based on the camera limits that are defined in the room definition.
+camera_set_target : This tells the camera to follow a specific item or player as they move.
+                                      The buttons for all the above will do a camera_set_target at the end to make
+									                                      sure the player is visible for playing the level."
+
+[node name="walkable_area" type="Node2D" parent="."]
+script = ExtResource("1")
+
+[node name="lower_platform" type="NavigationRegion2D" parent="walkable_area"]
+position = Vector2(7.73163, 1138.48)
+navigation_polygon = SubResource("6")
+
+[node name="upper_platform" type="NavigationRegion2D" parent="walkable_area"]
+position = Vector2(0, 1403.26)
+navigation_polygon = SubResource("7")
 enabled = false
 
-[node name="Hotspots" type="Node" parent="."]
+[node name="Hotspots" type="Node2D" parent="."]
+
+[node name="r7_r_exit" type="Area2D" parent="Hotspots"]
+script = ExtResource("9_l5rvy")
+target_scene = "res://game/rooms/room08/room08.tscn"
+switch_sound = ExtResource("10_pi6m2")
+global_id = "r7_r_exit"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r7_r_exit"]
+position = Vector2(0, 1409.59)
+polygon = PackedVector2Array(2150, -303.59, 2150, -601.59, 2258, -554.59, 2253, -241.59)
+
+[node name="Position2D" type="Marker2D" parent="Hotspots/r7_r_exit"]
+position = Vector2(2209, 1137)
+script = ExtResource("8")
 
 [node name="l_exit" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-position = Vector2( 0, 1409.59 )
-script = ExtResource( 7 )
-__meta__ = {
-"_editor_description_": ""
-}
+process_mode = 1
+position = Vector2(0, 1409.59)
+script = ExtResource("7")
 global_id = "r7_l_exit"
 esc_script = "res://game/rooms/room07/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Exit"
-dialog_color = Color( 1, 1, 1, 1 )
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_exit"]
-polygon = PoolVector2Array( 0.328762, 440.897, 1.85199, 119.926, 85.9517, 74.6212, 87.1409, 377.869 )
+polygon = PackedVector2Array(9, -245.59, 5, -555.59, 107, -597.59, 111, -309.59)
 
-[node name="Position2D" type="Position2D" parent="Hotspots/l_exit"]
-position = Vector2( 37.4521, 392.045 )
-script = ExtResource( 8 )
-
-[node name="r_exit" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-position = Vector2( 0, 1409.59 )
-script = ExtResource( 7 )
-__meta__ = {
-"_editor_description_": ""
-}
-global_id = "r7_r_exit"
-esc_script = "res://game/rooms/room07/esc/right_exit.esc"
-is_exit = true
-interaction_direction = 1
-tooltip_name = "Exit"
-dialog_color = Color( 1, 1, 1, 1 )
-animations = null
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_exit"]
-polygon = PoolVector2Array( 1982.34, 349.116, 1980.1, 46.0513, 2081.12, 86.4599, 2075, 394 )
-
-[node name="Position2D" type="Position2D" parent="Hotspots/r_exit"]
-position = Vector2( 2038.8, 347.193 )
-script = ExtResource( 8 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="object_1" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-position = Vector2( 358.099, -1195.07 )
-script = ExtResource( 7 )
-global_id = "r7_object_1"
-dialog_color = Color( 1, 1, 1, 1 )
-animations = null
-
-[node name="Line2D" type="Line2D" parent="Hotspots/object_1"]
-position = Vector2( 0, 1345.52 )
-points = PoolVector2Array( 398.738, 142.591, 518.947, 64.809, 516.118, 275.527 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/object_1"]
-position = Vector2( 460.841, 1515.95 )
-shape = SubResource( 3 )
-
-[node name="object2" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-position = Vector2( 1770.63, 1358.99 )
-script = ExtResource( 7 )
-__meta__ = {
-"_editor_description_": ""
-}
-global_id = "r7_object2"
-dialog_color = Color( 1, 1, 1, 1 )
-animations = null
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/object2"]
-polygon = PoolVector2Array( -112.101, 14.6226, -103.122, 288.503, 130.35, 286.258, 125.861, 16.8675 )
-
-[node name="Line2D" type="Line2D" parent="Hotspots/object2"]
-points = PoolVector2Array( -74.0056, 70.7457, 2.32182, 28.0921, 89.8739, 77.4804, -82.9853, 268.299, 110.078, 261.564 )
+[node name="Position2D" type="Marker2D" parent="Hotspots/l_exit"]
+position = Vector2(51, -279.59)
+script = ExtResource("8")
 
 [node name="lower_stairs" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-position = Vector2( 0, 1409.59 )
-script = ExtResource( 7 )
-__meta__ = {
-"_editor_description_": ""
-}
+process_mode = 1
+position = Vector2(1906, 1096)
+script = ExtResource("7")
 global_id = "r7_lower_stairs"
 esc_script = "res://game/rooms/room07/esc/lower_stairs.esc"
-is_exit = true
-dialog_color = Color( 1, 1, 1, 1 )
+tooltip_name = "stairs"
+default_action = "use"
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/lower_stairs"]
-polygon = PoolVector2Array( 831.375, 344.577, 829.788, 19.1602, 1058.37, 19.1602, 1052.02, 347.752 )
+position = Vector2(-1908, 314)
+polygon = PackedVector2Array(1819, -309.59, 1820, -598, 2000, -598, 2000, -311)
 
-[node name="Position2D" type="Position2D" parent="Hotspots/lower_stairs"]
-position = Vector2( 953.985, 315.526 )
-script = ExtResource( 8 )
+[node name="Position2D" type="Marker2D" parent="Hotspots/lower_stairs"]
+position = Vector2(1, 0)
+script = ExtResource("8")
 
 [node name="upper_stairs" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-position = Vector2( 1347.64, 473.026 )
-script = ExtResource( 7 )
+process_mode = 1
+position = Vector2(1908, 390)
+script = ExtResource("7")
 global_id = "r7_upper_stairs"
 esc_script = "res://game/rooms/room07/esc/upper_stairs.esc"
-is_exit = true
 tooltip_name = "Stairs"
-dialog_color = Color( 1, 1, 1, 1 )
+default_action = "use"
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/upper_stairs"]
-position = Vector2( -1334.92, 936.565 )
-polygon = PoolVector2Array( 1221.86, -804.627, 1220.52, -1158.36, 1450.46, -1134.88, 1454.12, -757.908 )
+position = Vector2(-1896, 1022)
+polygon = PackedVector2Array(1805.28, -1020.59, 1806.28, -1304.59, 1982.28, -1304.59, 1983.28, -1019.59)
 
-[node name="Position2D" type="Position2D" parent="Hotspots/upper_stairs"]
-position = Vector2( 27.5337, 131.767 )
-script = ExtResource( 8 )
+[node name="Position2D" type="Marker2D" parent="Hotspots/upper_stairs"]
+position = Vector2(-5.00012, -2)
+script = ExtResource("8")
 
-[node name="button_camera_push" parent="Hotspots" instance=ExtResource( 3 )]
-pause_mode = 1
-position = Vector2( -167.43, 1463.23 )
+[node name="button_camera_push" type="Area2D" parent="Hotspots"]
+process_mode = 1
+script = ExtResource("7")
 global_id = "r7_button_push"
 esc_script = "res://game/rooms/room07/esc/button_push.esc"
+tooltip_name = "button"
+default_action = "use"
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
-[node name="Position2D" type="Position2D" parent="Hotspots/button_camera_push"]
-position = Vector2( 343.048, 300.613 )
-script = ExtResource( 8 )
-__meta__ = {
-"_editor_description_": ""
-}
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_camera_push"]
+polygon = PackedVector2Array(299, 954, 335, 954, 335, 992, 299, 992)
 
 [node name="Label" type="Label" parent="Hotspots/button_camera_push"]
-margin_left = 304.871
-margin_top = 97.219
-margin_right = 384.871
-margin_bottom = 113.219
-custom_fonts/font = ExtResource( 5 )
 text = "Camera_push"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="button_camera_shift" parent="Hotspots" instance=ExtResource( 3 )]
-pause_mode = 1
-position = Vector2( 9.393, 1464.03 )
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/button_camera_push"]
+position = Vector2(314, 1108)
+script = ExtResource("8")
+
+[node name="button_camera_shift" type="Area2D" parent="Hotspots"]
+process_mode = 1
+position = Vector2(125, 0)
+script = ExtResource("7")
 global_id = "r7_button_shift"
 esc_script = "res://game/rooms/room07/esc/button_shift.esc"
+tooltip_name = "button"
+default_action = "use"
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
-[node name="Position2D" type="Position2D" parent="Hotspots/button_camera_shift"]
-position = Vector2( 350.258, 301.616 )
-script = ExtResource( 8 )
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_camera_shift"]
+polygon = PackedVector2Array(299, 954, 335, 954, 335, 992, 299, 992)
 
 [node name="Label" type="Label" parent="Hotspots/button_camera_shift"]
-margin_left = 305.626
-margin_top = 97.515
-margin_right = 387.626
-margin_bottom = 113.515
-custom_fonts/font = ExtResource( 5 )
 text = "Camera_shift"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="button_camera_follow" parent="Hotspots" instance=ExtResource( 3 )]
-pause_mode = 1
-position = Vector2( 172.527, 1464.03 )
-global_id = "r7_button_follow"
-esc_script = "res://game/rooms/room07/esc/button_follow.esc"
-animations = null
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/button_camera_shift"]
+position = Vector2(311, 1108)
+script = ExtResource("8")
 
-[node name="Position2D" type="Position2D" parent="Hotspots/button_camera_follow"]
-position = Vector2( 350.258, 301.616 )
-script = ExtResource( 8 )
-
-[node name="Label" type="Label" parent="Hotspots/button_camera_follow"]
-margin_left = 305.626
-margin_top = 97.515
-margin_right = 387.626
-margin_bottom = 113.515
-custom_fonts/font = ExtResource( 5 )
-text = "Camera_follow"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="button_camera_zoom" parent="Hotspots" instance=ExtResource( 3 )]
-pause_mode = 1
-position = Vector2( 332.527, 1464.03 )
+[node name="button_camera_zoom" type="Area2D" parent="Hotspots"]
+process_mode = 1
+position = Vector2(250, 0)
+script = ExtResource("7")
 global_id = "r7_button_zoom"
 esc_script = "res://game/rooms/room07/esc/button_zoom.esc"
+tooltip_name = "button"
+default_action = "use"
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
-[node name="Position2D" type="Position2D" parent="Hotspots/button_camera_zoom"]
-position = Vector2( 350.258, 301.616 )
-script = ExtResource( 8 )
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_camera_zoom"]
+polygon = PackedVector2Array(299, 954, 335, 954, 335, 992, 299, 992)
 
 [node name="Label" type="Label" parent="Hotspots/button_camera_zoom"]
-margin_left = 305.626
-margin_top = 97.515
-margin_right = 387.626
-margin_bottom = 113.515
-custom_fonts/font = ExtResource( 5 )
 text = "Camera_zoom"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="button_camera_set_pos" parent="Hotspots" instance=ExtResource( 3 )]
-pause_mode = 1
-position = Vector2( 910.482, 1464.03 )
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/button_camera_zoom"]
+position = Vector2(316, 1108)
+script = ExtResource("8")
+
+[node name="button_camera_set_pos" type="Area2D" parent="Hotspots"]
+process_mode = 1
+position = Vector2(375, 0)
+script = ExtResource("7")
 global_id = "r7_button_set_pos"
 esc_script = "res://game/rooms/room07/esc/button_set_pos.esc"
+tooltip_name = "button"
+default_action = "use"
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
-[node name="Position2D" type="Position2D" parent="Hotspots/button_camera_set_pos"]
-position = Vector2( 350.258, 301.616 )
-script = ExtResource( 8 )
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_camera_set_pos"]
+polygon = PackedVector2Array(299, 954, 335, 954, 335, 992, 299, 992)
 
 [node name="Label" type="Label" parent="Hotspots/button_camera_set_pos"]
-margin_left = 292.919
-margin_top = 96.8108
-margin_right = 390.919
-margin_bottom = 112.811
-custom_fonts/font = ExtResource( 5 )
 text = "Camera_set_pos"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="trigger_left" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-position = Vector2( 406, 0 )
-script = ExtResource( 7 )
-global_id = "trigger_left"
-esc_script = "res://game/rooms/room07/esc/trigger_left.esc"
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/button_camera_set_pos"]
+position = Vector2(315, 1108)
+script = ExtResource("8")
+
+[node name="alarm_cone_floor1" type="Area2D" parent="Hotspots"]
+process_mode = 1
+script = ExtResource("7")
+global_id = "r7_alarm_cone_floor_1"
+esc_script = "res://game/rooms/room07/esc/alarm_cone_floor_1.esc"
 is_trigger = true
 is_interactive = false
 player_orients_on_arrival = false
-dialog_color = Color( 1, 1, 1, 1 )
+combine_when_selected_action_is_in = PackedStringArray()
+inventory_texture = ExtResource("10")
 animations = null
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/trigger_left"]
-polygon = PoolVector2Array( 724.356, 1944.36, 716.865, 1752.57, 800.77, 1752.57, 814.254, 1942.86 )
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/alarm_cone_floor1"]
+position = Vector2(406, 0)
+polygon = PackedVector2Array(598, 1100, 776, 1101, 833, 1300, 541, 1300)
 
-[node name="Label" type="Label" parent="Hotspots/trigger_left"]
-margin_left = 672.764
-margin_top = 1705.64
-margin_right = 812.764
-margin_bottom = 1740.64
-custom_fonts/font = ExtResource( 5 )
-text = "This trigger is activated 
-once if player walks on it"
-__meta__ = {
-"_edit_use_anchors_": false
+[node name="AlarmCone" type="Sprite2D" parent="Hotspots/alarm_cone_floor1"]
+position = Vector2(1093, 1055)
+texture = ExtResource("10")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/alarm_cone_floor1"]
+libraries = {
+"": SubResource("AnimationLibrary_4os3p")
 }
 
-[node name="Line2D" type="Line2D" parent="Hotspots/trigger_left"]
-points = PoolVector2Array( 718.237, 1756.04, 724.544, 1950.34, 815.761, 1947.51, 801.579, 1756.32, 719.359, 1756.32 )
-width = 2.0
-
-[node name="trigger_right" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-position = Vector2( 220, 0 )
-script = ExtResource( 7 )
-global_id = "trigger_right"
-esc_script = "res://game/rooms/room07/esc/trigger_right.esc"
-is_trigger = true
-is_interactive = false
-player_orients_on_arrival = false
-dialog_color = Color( 1, 1, 1, 1 )
-animations = null
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/trigger_right"]
-position = Vector2( 372.68, 4.12805 )
-polygon = PoolVector2Array( 724.356, 1944.36, 716.865, 1752.57, 800.77, 1752.57, 814.254, 1942.86 )
-
-[node name="Label" type="Label" parent="Hotspots/trigger_right"]
-margin_left = 1068.46
-margin_top = 1707.64
-margin_right = 1218.46
-margin_bottom = 1742.64
-custom_fonts/font = ExtResource( 5 )
+[node name="Label" type="Label" parent="Hotspots/alarm_cone_floor1"]
 text = "This trigger activates when
  player walks in AND out"
-__meta__ = {
-"_edit_use_anchors_": false
+
+[node name="alarm_cone_floor2" type="Area2D" parent="Hotspots"]
+process_mode = 1
+script = ExtResource("7")
+global_id = "r7_alarm_cone_floor_2"
+esc_script = "res://game/rooms/room07/esc/alarm_cone_floor_2.esc"
+is_trigger = true
+is_interactive = false
+player_orients_on_arrival = false
+combine_when_selected_action_is_in = PackedStringArray()
+inventory_texture = ExtResource("10")
+animations = null
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/alarm_cone_floor2"]
+position = Vector2(428, -694)
+polygon = PackedVector2Array(577, 1085, 753, 1085, 811, 1285, 519, 1286)
+
+[node name="AlarmCone" type="Sprite2D" parent="Hotspots/alarm_cone_floor2"]
+position = Vector2(1093, 346)
+texture = ExtResource("10")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/alarm_cone_floor2"]
+libraries = {
+"": SubResource("AnimationLibrary_o2bpp")
 }
 
-[node name="Line2D" type="Line2D" parent="Hotspots/trigger_right"]
-points = PoolVector2Array( 1089.37, 1757.17, 1097.85, 1949.99, 1187.37, 1947.87, 1174.21, 1755.79, 1090.78, 1756.18 )
-width = 2.0
+[node name="Label" type="Label" parent="Hotspots/alarm_cone_floor2"]
+text = "This trigger activates when
+ player walks out only"
 
-[node name="light_left" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-position = Vector2( 412, 0 )
-script = ExtResource( 7 )
-global_id = "r7_light_left"
-is_interactive = false
-dialog_color = Color( 1, 1, 1, 1 )
-animations = null
-
-[node name="Polygon2D" type="Polygon2D" parent="Hotspots/light_left"]
-color = Color( 0.0313726, 0.996078, 0, 1 )
-polygon = PoolVector2Array( 718.946, 1494.91, 709.047, 1518.24, 717.885, 1540.16, 740.837, 1551.8, 764.908, 1541.57, 774.1, 1519.65, 763.847, 1494.2, 742.336, 1484.38 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/light_left"]
-position = Vector2( 742.194, 1518.8 )
-shape = SubResource( 4 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/light_left"]
-anims/green = SubResource( 5 )
-anims/red = SubResource( 6 )
-
-[node name="light_right" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-position = Vector2( 613.333, -1.13 )
-script = ExtResource( 7 )
-global_id = "r7_light_right"
-is_interactive = false
-dialog_color = Color( 1, 1, 1, 1 )
-animations = null
-
-[node name="Polygon2D" type="Polygon2D" parent="Hotspots/light_right"]
-color = Color( 1, 0, 0, 1 )
-polygon = PoolVector2Array( 718.946, 1494.91, 709.047, 1518.24, 717.885, 1540.16, 740.837, 1551.8, 764.908, 1541.57, 774.1, 1519.65, 763.847, 1494.2, 742.336, 1484.38 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/light_right"]
-position = Vector2( 742.194, 1518.8 )
-shape = SubResource( 4 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/light_right"]
-anims/green = SubResource( 7 )
-anims/red = SubResource( 8 )
-
-[node name="player_start" type="Position2D" parent="."]
-position = Vector2( 76.7617, 1847.24 )
-script = ExtResource( 8 )
+[node name="player_start" type="Marker2D" parent="."]
+position = Vector2(128, 1162)
+script = ExtResource("8")
 global_id = "r7_player_start"
 is_start_location = true
+
+[node name="lift_button_floor_1" type="Area2D" parent="."]
+process_mode = 1
+script = ExtResource("7")
+global_id = "r7_lift_button_floor_1"
+esc_script = "res://game/rooms/room07/esc/lift_button_floor_1.esc"
+tooltip_name = "Lift Button"
+default_action = "use"
+combine_when_selected_action_is_in = PackedStringArray()
+animations = null
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="lift_button_floor_1"]
+polygon = PackedVector2Array(1311, 954, 1347, 954, 1347, 992, 1311, 992)
+
+[node name="ESCLocation" type="Marker2D" parent="lift_button_floor_1"]
+position = Vector2(1329, 1119)
+script = ExtResource("8")
+
+[node name="lift_button_floor_2" type="Area2D" parent="."]
+process_mode = 1
+script = ExtResource("7")
+global_id = "r7_lift_button_floor_2"
+esc_script = "res://game/rooms/room07/esc/lift_button_floor_2.esc"
+tooltip_name = "Lift Button"
+default_action = "use"
+combine_when_selected_action_is_in = PackedStringArray()
+camera_node = NodePath("ESCLocation")
+animations = null
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="lift_button_floor_2"]
+polygon = PackedVector2Array(1311, 245, 1347, 245, 1347, 283, 1311, 283)
+
+[node name="ESCLocation" type="Marker2D" parent="lift_button_floor_2"]
+position = Vector2(1331, 450)
+script = ExtResource("8")
+
+[node name="lift_door_floor_1" type="Area2D" parent="."]
+process_mode = 1
+script = ExtResource("7")
+global_id = "r7_lift_door_floor_1"
+esc_script = "res://game/rooms/room07/esc/lift_door_floor_1.esc"
+tooltip_name = "lift"
+default_action = "use"
+combine_when_selected_action_is_in = PackedStringArray()
+camera_node = NodePath("camera_node")
+animations = null
+
+[node name="ESCLocation" type="Marker2D" parent="lift_door_floor_1"]
+position = Vector2(1470, 1100)
+script = ExtResource("8")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="lift_door_floor_1"]
+polygon = PackedVector2Array(1391, 815, 1551, 812, 1551, 1098, 1394, 1101)
+
+[node name="camera_node" type="Marker2D" parent="lift_door_floor_1"]
+position = Vector2(1466, 1109)
+script = ExtResource("8")
+
+[node name="lift_door_floor_2" type="Area2D" parent="."]
+process_mode = 1
+script = ExtResource("7")
+global_id = "r7_lift_door_floor_2"
+esc_script = "res://game/rooms/room07/esc/lift_door_floor_2.esc"
+tooltip_name = "lift"
+default_action = "use"
+combine_when_selected_action_is_in = PackedStringArray()
+camera_node = NodePath("camera_node")
+animations = null
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="lift_door_floor_2"]
+polygon = PackedVector2Array(1389, 100, 1551, 103, 1551, 390, 1392, 390)
+
+[node name="camera_node" type="Marker2D" parent="lift_door_floor_2"]
+position = Vector2(1472, 480)
+script = ExtResource("8")
+
+[node name="ESCLocation" type="Marker2D" parent="lift_door_floor_2"]
+position = Vector2(1472, 398)
+script = ExtResource("8")

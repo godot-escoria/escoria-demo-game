@@ -1,9 +1,9 @@
 :use
 
-say player "Huh?"
+	say($player, "Huh?")
 
-turn_to player slide_pos_1
+	turn_to($player, $left_door_location)
 
-say player "Nothing."
+	say($player, "Nothing.")
 
-turn_to player slide_pos_2 0.2
+	turn_to($player, $right_door_location, 0.2)

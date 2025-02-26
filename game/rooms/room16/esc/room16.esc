@@ -1,0 +1,10 @@
+:setup
+
+	if ESC_LAST_SCENE == "room15":
+		teleport($player, $r16_l_exit)
+		# Set player look right
+		set_angle($player, 90)
+	elif ESC_LAST_SCENE == "room17":
+		teleport($player, $r16_r_exit)
+		# Set player look down
+		set_angle($player, 180)

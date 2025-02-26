@@ -1,53 +1,129 @@
 # Saves and loads savegame and settings files
 class_name ESCSaveManager
 
+
+signal game_is_loading
+signal game_finished_loading
+
+# Template for settings filename
+const SETTINGS_TEMPLATE: String = "settings.tres"
+
+# Template for savegames filenames
+const SAVE_NAME_TEMPLATE: String = "save_%03d.tres"
+
+# Template for crash savegames filenames
+const CRASH_SAVE_NAME_TEMPLATE: String = "crash_autosave_%s_%s.tres"
+
+
 # If true, saving a game is enabled. Else, saving is disabled
 var save_enabled: bool = true
 
 # Variable containing the saves folder obtained from Project Settings
 var save_folder: String
 
-# Template for savegames filenames
-const SAVE_NAME_TEMPLATE: String = "save_%03d.tres"
+# Filename of the latest crash savegame file
+var crash_savegame_filename: String
 
 # Variable containing the settings folder obtained from Project Settings
 var settings_folder: String
 
-# Template for settings filename
-const SETTINGS_TEMPLATE: String = "settings.tres"
+# True if escoria is currently loading a savegame. This is used to avoid
+# RoomManager to execute room's :setup and :ready events when loading a savegame
+var is_loading_game: bool
+
+# ESC commands kept around for references to their command names.
+var _add_inventory: InventoryAddCommand
+var _transition: TransitionCommand
+var _hide_menu: HideMenuCommand
+var _camera_set_target: CameraSetTargetCommand
+var _change_scene: ChangeSceneCommand
+var _enable_terrain: EnableTerrainCommand
+var _set_active: SetActiveCommand
+var _set_active_if_exists: SetActiveIfExistsCommand
+var _set_interactive: SetInteractiveCommand
+var _set_item_custom_data: SetItemCustomDataCommand
+var _teleport_pos: TeleportPosCommand
+var _set_direction: SetDirectionCommand
+var _set_global: SetGlobalCommand
+var _set_state: SetStateCommand
+var _stop_snd: StopSndCommand
+var _play_snd: PlaySndCommand
+var _sched_event: SchedEventCommand
+
 
 # Constructor of ESCSaveManager object.
 func _init():
+	# We leave the calls to ProjectSettings as-is since this constructor can be
+	# called from escoria.gd's own.
 	save_folder = ProjectSettings.get_setting("escoria/main/savegames_path")
 	settings_folder = ProjectSettings.get_setting("escoria/main/settings_path")
 
-# Return a list of savegames metadata (id, date, name and game version) 
+	_add_inventory = InventoryAddCommand.new()
+	_transition = TransitionCommand.new()
+	_hide_menu = HideMenuCommand.new()
+	_camera_set_target = CameraSetTargetCommand.new()
+	_change_scene = ChangeSceneCommand.new()
+	_enable_terrain = EnableTerrainCommand.new()
+	_set_active = SetActiveCommand.new()
+	_set_active_if_exists = SetActiveIfExistsCommand.new()
+	_set_interactive = SetInteractiveCommand.new()
+	_set_item_custom_data = SetItemCustomDataCommand.new()
+	_teleport_pos = TeleportPosCommand.new()
+	_set_direction = SetDirectionCommand.new()
+	_set_global = SetGlobalCommand.new()
+	_set_state = SetStateCommand.new()
+	_stop_snd = StopSndCommand.new()
+	_play_snd = PlaySndCommand.new()
+	_sched_event = SchedEventCommand.new()
+	is_loading_game = false
+
+
+# Return a list of savegames metadata (id, date, name and game version)
 func get_saves_list() -> Dictionary:
 	var regex = RegEx.new()
-	regex.compile("save_([0-9]{3})\\.tres")
-	
+	regex.compile("save_(?<slotnumber>[0-9]{3})\\.tres")
+
 	var saves = {}
-	var dirsave = Directory.new()
-	if dirsave.open(save_folder) == OK:
-		dirsave.list_dir_begin(true, true)
+
+	_ensure_directory_exists(save_folder)
+
+	var dirsave = DirAccess.open(save_folder)
+
+	if dirsave != null:
+		dirsave.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var nextfile = dirsave.get_next()
 		while nextfile != "":
-			var save_path = save_folder.plus_file(nextfile)
-			var file: File = File.new()
+			var save_path = save_folder.path_join(nextfile)
 			var save_game_res: Resource = load(save_path)
-			var save_game_data = {
-				"date": save_game_res["date"],
-				"name": save_game_res["name"],
-				"game_version": save_game_res["game_version"],
-			}
-			
-			var id: int
-			var matches = regex.search(nextfile)
-			if matches.strings.size() > 1:
-				id = int(matches.strings[1])
-			
-			saves[id] = save_game_data
+
+			if save_game_res == null:
+				escoria.logger.warn(
+					self,
+					"Savegame file %s is corrupted. Skipping." % save_path
+				)
+			else:
+				var matches = regex.search(nextfile)
+				if matches != null and matches.get_string("slotnumber") != null:
+					var save_game_data = {
+						"date": save_game_res["date"],
+						"name": save_game_res["name"],
+						"game_version": save_game_res["game_version"],
+						"slotnumber": matches.get_string("slotnumber")
+					}
+					saves[int(matches.get_string("slotnumber"))] = save_game_data
+				else:
+					escoria.logger.warn(
+						self,
+						"Savegame file %s contains valid data but doesn't match filename format %s. Skipping."
+								% [save_path, regex.get_pattern()]
+					)
 			nextfile = dirsave.get_next()
+	else:
+		escoria.logger.error(
+			self,
+			"Could not open savegame folder %s" % save_folder
+		)
+
 	return saves
 
 
@@ -56,9 +132,8 @@ func get_saves_list() -> Dictionary:
 # ## Parameters
 # - id: integer suffix of the savegame file
 func save_game_exists(id: int) -> bool:
-	var save_file_path: String = save_folder.plus_file(SAVE_NAME_TEMPLATE % id)
-	var file: File = File.new()
-	return file.file_exists(save_file_path)
+	var save_file_path: String = save_folder.path_join(SAVE_NAME_TEMPLATE % id)
+	return FileAccess.file_exists(save_file_path)
 
 
 # Save the current state of the game in a file suffixed with the id value.
@@ -70,18 +145,28 @@ func save_game_exists(id: int) -> bool:
 func save_game(id: int, p_savename: String):
 	if not save_enabled:
 		escoria.logger.debug(
-			"esc_save_data_resources.gd",
-			["Save requested while saving is not possible. Save canceled."])
+			self,
+			"Saving is currently disabled. Save cancelled."
+		)
 		return
-	
-	var save_game := ESCSaveGame.new()
-	save_game.escoria_version = escoria.ESCORIA_VERSION
-	save_game.game_version = ProjectSettings.get_setting(
-		"escoria/main/game_version"
-	)
-	save_game.name = p_savename
-	
-	var datetime = OS.get_datetime()
+
+	var save_game := _do_save_game(p_savename)
+
+	if not DirAccess.dir_exists_absolute(save_folder):
+		DirAccess.make_dir_recursive_absolute(save_folder)
+
+	var save_path = save_folder.path_join(SAVE_NAME_TEMPLATE % id)
+	var error: int = ResourceSaver.save(save_game, save_path)
+	if error != OK:
+		escoria.logger.error(
+			self,
+			"There was an issue writing savegame number %s to %s." % [id, save_path]
+		)
+
+
+# Performs an emergency savegame in case of crash.
+func save_game_crash():
+	var datetime = Time.get_datetime_dict_from_system()
 	var datetime_string = "%02d/%02d/%02d %02d:%02d" % [
 		datetime["day"],
 		datetime["month"],
@@ -89,136 +174,333 @@ func save_game(id: int, p_savename: String):
 		datetime["hour"],
 		datetime["minute"],
 	]
-	save_game.date = datetime_string
-	
+
+	var save_game := _do_save_game("Crash %s" % datetime_string)
+
+	var save_file_path: String = ESCProjectSettingsManager.get_setting(
+		ESCProjectSettingsManager.LOG_FILE_PATH
+	)
+	crash_savegame_filename = save_file_path.path_join(
+		CRASH_SAVE_NAME_TEMPLATE % [
+			str(datetime["year"]) + str(datetime["month"])
+					+ str(datetime["day"]),
+			str(datetime["hour"]) + str(datetime["minute"])
+					+ str(datetime["second"])
+		]
+	)
+
+	var error: int = ResourceSaver.save(save_game, crash_savegame_filename)
+	if error != OK:
+		escoria.logger.error(
+			self,
+			"There was an issue writing the crash save to %s."
+				% crash_savegame_filename
+		)
+	return error
+
+
+# Actual savegame function.
+#
+# ## Parameters
+# - p_savename: name of the savegame
+func _do_save_game(p_savename: String) -> ESCSaveGame:
+	var save_game = ESCSaveGame.new()
+
+	var plugin_config = ConfigFile.new()
+	plugin_config.load("res://addons/escoria-core/plugin.cfg")
+	save_game.escoria_version = plugin_config.get_value("plugin", "version")
+
+	save_game.game_version = ESCProjectSettingsManager.get_setting(
+		ESCProjectSettingsManager.GAME_VERSION
+	)
+	save_game.name = p_savename
+
+	save_game.date = Time.get_datetime_dict_from_system()
+
 	escoria.globals_manager.save_game(save_game)
+	escoria.inventory_manager.save_game(save_game)
 	escoria.object_manager.save_game(save_game)
 	escoria.main.save_game(save_game)
+	escoria.event_manager.save_game(save_game)
+	save_game.settings = escoria.settings_manager.get_settings_dict()
+	save_game.custom_data = escoria.game_scene.get_custom_data()
 
-	var directory: Directory = Directory.new()
-	if not directory.dir_exists(save_folder):
-		directory.make_dir_recursive(save_folder)
+	return save_game
 
-	var save_path = save_folder.plus_file(SAVE_NAME_TEMPLATE % id)
-	var error: int = ResourceSaver.save(save_path, save_game)
-	if error != OK:
-		escoria.logger.report_errors(
-			"esc_save_data_resources.gd",
-			["There was an issue writing the save %s to %s" % [id, save_path]])
 
 # Load a savegame file from its id.
 #
 # ## Parameters
 # - id: integer suffix of the savegame file
 func load_game(id: int):
-	var save_file_path: String = save_folder.plus_file(SAVE_NAME_TEMPLATE % id)
-	var file: File = File.new()
-	if not file.file_exists(save_file_path):
-		escoria.logger.report_errors(
-			"esc_save_data_resources.gd",
-			["Save file %s doesn't exist" % save_file_path])
+	var save_file_path: String = save_folder.path_join(SAVE_NAME_TEMPLATE % id)
+	if not FileAccess.file_exists(save_file_path):
+		escoria.logger.error(
+			self,
+			"Save file %s doesn't exist." % save_file_path
+		)
 		return
 
-	var save_game: Resource = ResourceLoader.load(save_file_path)
+	# Disconnect all trigger areas in the current room so that they don't
+	# trigger after room is loaded (eg: when player was in a trigger area,
+	# trigger_out won't fire after loading the game)
+	if (escoria.main.current_scene != null):
+		escoria.main.current_scene.get_tree().call_group(escoria.GROUP_ITEM_TRIGGERS, "disconnect_trigger_events")
 
-	var load_event = ESCEvent.new(":load")
-	var load_statements = []
-	
-	## GLOBALS
-	for k in save_game.globals.keys():
-		load_statements.append(
-			ESCCommand.new("set_global %s \"%s\"\n" \
-				% [k, save_game.globals[k]])
-		)
-	
-	## ROOM
-	load_statements.append(
-		ESCCommand.new("change_scene %s true" \
-			% save_game.main["current_scene_filename"])
+	emit_signal("game_is_loading")
+
+	# Disconnect all trigger areas in the current room so that they don't
+	# trigger after room is loaded (eg: when player was in a trigger area,
+	# trigger_out won't fire after loading the game)
+	if (escoria.main.current_scene != null):
+		escoria.main.current_scene.get_tree().call_group(escoria.GROUP_ITEM_TRIGGERS, "disconnect_trigger_events")
+
+	game_is_loading.emit()
+
+	escoria.logger.info(
+		self,
+		"Loading savegame %s" % str(id)
 	)
-	
-	## OBJECTS
-	for object_global_id in save_game.objects.keys():
-		if save_game.objects[object_global_id].has("active"):
-			load_statements.append(ESCCommand.new("set_active %s %s" \
-				% [object_global_id, 
-				save_game.objects[object_global_id]["active"]])
+	is_loading_game = true
+	escoria.current_state = escoria.GAME_STATE.LOADING
+
+	var save_game: ESCSaveGame = ResourceLoader.load(save_file_path)
+
+	escoria.settings_manager.load_settings_from_dict(save_game.settings)
+
+	escoria.settings_manager.load_settings_from_dict(save_game.settings)
+
+	var plugin_config = ConfigFile.new()
+	plugin_config.load("res://addons/escoria-core/plugin.cfg")
+	var escoria_version = plugin_config.get_value("plugin", "version")
+
+	# Migrate savegame through escoria versions
+	if escoria_version != save_game.escoria_version:
+		var migration_manager: ESCMigrationManager = ESCMigrationManager.new()
+		save_game = migration_manager.migrate(
+			save_game,
+			save_game.escoria_version,
+			escoria_version,
+			"res://addons/escoria-core/game/core-scripts/migrations/versions"
+		)
+
+	# Migrate savegame through game versions
+	if ESCProjectSettingsManager.get_setting(
+			ESCProjectSettingsManager.GAME_VERSION
+		) != save_game.game_version \
+		and ESCProjectSettingsManager.get_setting(
+			ESCProjectSettingsManager.GAME_MIGRATION_PATH
+		) != "":
+		var migration_manager: ESCMigrationManager = ESCMigrationManager.new()
+		save_game = migration_manager.migrate(
+			save_game,
+			save_game.game_version,
+			ESCProjectSettingsManager.get_setting(
+				ESCProjectSettingsManager.GAME_VERSION
+			),
+			ESCProjectSettingsManager.get_setting(
+				ESCProjectSettingsManager.GAME_MIGRATION_PATH
 			)
-		
-		if save_game.objects[object_global_id].has("interactive"):
-			load_statements.append(ESCCommand.new("set_interactive %s %s" \
-				% [object_global_id,
-				save_game.objects[object_global_id]["interactive"]])
-			)
-			
-		if save_game.objects[object_global_id].has("state"):
-			load_statements.append(ESCCommand.new("set_state %s %s true" \
-				% [object_global_id,
-				save_game.objects[object_global_id]["state"]])
-			)
-			
-		if save_game.objects[object_global_id].has("global_transform"):
-			load_statements.append(ESCCommand.new("teleport_pos %s %s %s" \
-				% [object_global_id, 
-				int(save_game.objects[object_global_id] \
-					["global_transform"].origin.x),
-				int(save_game.objects[object_global_id] \
-					["global_transform"].origin.y)]
-				)
-			)
-			load_statements.append(ESCCommand.new("set_angle %s %s" \
-				% [object_global_id, 
-				save_game.objects[object_global_id]["last_deg"]])
-			)
-		
-		if object_global_id == "_music" or object_global_id == "_sound":
-			load_statements.append(ESCCommand.new("set_sound_state %s %s true" \
-				% [object_global_id,
-				save_game.objects[object_global_id]["state"]])
-			)
-	
-	load_event.statements = load_statements
-	
+		)
+
+	escoria.event_manager.interrupt()
+
+	# Now the actual savegame loading happens.
+	# Steps:
+	# 1. Hide main and pause menus
+	# 2. Change the scene to the next room.
+	#    This does the out transition from the current scene.
+	#    And resets objects lists in various managers so we don't have to reset
+	#    them all manually.
+	# 3. Load objects for all rooms
+	# 4. Clear current globals (in case the loaded room automatically
+	#    initializes some - they are loaded anyway)
+	#    Load globals
+	# 5. Load inventory items
+	# 6. Load room's terrain navigation polygons
+	# 7. Load events (currently only scheduled events)
+	# === At this point we're done loading the saved game and ready to give
+	#     back control to the player
+	# 8. Transition in
+	# 9. Unpause the game
+	# 10. Clear current action, tool
+	#     Reset input mode to accept input
+	#     Reset escoria state
+	#     Set save manager "is_loading_game" var to false since we're now done
+
+	# Hide main and pause menus
+	escoria.game_scene.hide_main_menu()
+	escoria.game_scene.unpause_game()
+
+	escoria.room_manager.change_scene_to_file(save_game.main.current_scene_filename, false)
+
+	_load_savegame_objects(save_game.objects)
+
+	escoria.globals_manager.clear()
+	_load_savegame_globals(save_game.globals)
+	_load_savegame_inventory(save_game.inventory)
+	_load_savegame_terrain_navpolys(save_game.terrain_navpolys)
+	_load_savegame_events(save_game.events)
+	_transition.run(["", "in", 1.0])
+
 	escoria.set_game_paused(false)
-	
-	escoria.event_manager.queue_event(load_event)
-	
-	
-# Save the game settings in the settings file.
-func save_settings():
-	var settings_res := ESCSaveSettings.new()
-	settings_res.escoria_version = escoria.ESCORIA_VERSION
-	settings_res.text_lang = escoria.settings.text_lang
-	settings_res.voice_lang = escoria.settings.voice_lang
-	settings_res.speech_enabled = escoria.settings.speech_enabled
-	settings_res.master_volume = escoria.settings.master_volume
-	settings_res.music_volume = escoria.settings.music_volume
-	settings_res.sfx_volume = escoria.settings.sfx_volume
-	settings_res.speech_volume = escoria.settings.speech_volume
-	settings_res.fullscreen = escoria.settings.fullscreen
-	settings_res.skip_dialog = escoria.settings.skip_dialog
 
-	var directory: Directory = Directory.new()
-	if not directory.dir_exists(settings_folder):
-		directory.make_dir_recursive(settings_folder)
+	escoria.action_manager.clear_current_action()
+	escoria.action_manager.clear_current_tool()
+	escoria.inputs_manager.input_mode = escoria.inputs_manager.INPUT_ALL
+	is_loading_game = false
+	escoria.current_state = escoria.GAME_STATE.DEFAULT
 
-	var save_path = settings_folder.plus_file(SETTINGS_TEMPLATE)
-	var error: int = ResourceSaver.save(save_path, settings_res)
-	if error != OK:
-		escoria.logger.report_errors(
-			"esc_save_data_resources.gd:save_settings()",
-			["There was an issue writing settings %s" % save_path])
+	emit_signal("game_finished_loading")
 
-# Load the game settings from the settings file
-# **Returns** The Resource structure loaded from settings file
-func load_settings() -> Resource:
-	var save_settings_path: String = settings_folder.plus_file(SETTINGS_TEMPLATE)
-	var file: File = File.new()
-	if not file.file_exists(save_settings_path):
-		escoria.logger.report_warnings(
-			"esc_save_data_resources.gd:load_settings()",
-			["Settings file %s doesn't exist" % save_settings_path,
-			"Setting default settings."])
-		save_settings()
+	escoria.logger.info(self, "Finished loading savegame %s" % str(id))
 
-	return load(save_settings_path)
+
+# Load  all objects saved in a savegame data.
+#
+# ## Parameters
+# - savegame_objects: dictionary containing saved objects
+func _load_savegame_objects(savegame_objects: Dictionary):
+	for object_id in savegame_objects:
+		var saved_object_data = savegame_objects[object_id]
+		if object_id in ESCObjectManager.RESERVED_OBJECTS: # Sound players only atm
+			if saved_object_data.has("state") \
+					and saved_object_data["state"] in ["off", "default"]:
+				_stop_snd.run([object_id])
+			else:
+				_play_snd.run([saved_object_data["state"], object_id, saved_object_data["playback_position"]])
+		else:
+			if object_id == escoria.main.current_scene.global_id:
+				_load_room_objects(object_id, saved_object_data)
+
+
+# Load objects saved in a savegame data for a given room.
+#
+# ## Parameters
+# - room_id: id of the room
+# - objects_dictionary: dictionary containing the objects data
+func _load_room_objects(room_id: String, objects_dictionary: Dictionary):
+	escoria.logger.info(self, "Loading room '%s'" % room_id)
+
+	for object_id in objects_dictionary:
+		_load_object(object_id, objects_dictionary[object_id], room_id)
+
+	escoria.logger.info(self, "Finished loading room '%s'" % room_id)
+
+
+
+# Load one object saved in a savegame data.
+#
+# ## Parameters
+# - object_id: id of the object
+# - objects_dictionary: dictionary containing the objects data
+# - room_id: id of the room
+func _load_object(object_id: String, object_dictionary: Dictionary, room_id: String):
+	escoria.logger.info(self, "Loading object '%s'" % object_id)
+
+	if object_id == ESCObjectManager.CAMERA:
+		_camera_set_target.run([0, object_dictionary["target"]])
+	else:
+		# Active
+		if object_dictionary.has("active"):
+			_set_active_if_exists.run([object_id, object_dictionary["active"]])
+
+		# Interactive
+		if object_dictionary.has("interactive"):
+			_set_interactive.run([object_id, object_dictionary["interactive"]])
+
+		# State
+		if object_dictionary.has("state"):
+			_set_state.run([object_id, object_dictionary["state"], true])
+
+		# Position
+		if object_dictionary.has("global_transform"):
+			_teleport_pos.run([
+				object_id,
+				object_dictionary["global_transform"].origin.x,
+				object_dictionary["global_transform"].origin.y
+			])
+
+		# Orientation
+		if object_dictionary.has("last_dir"):
+			_set_direction.run([object_id, int(object_dictionary["last_dir"]), 0.0])
+
+		# Custom data
+		if object_dictionary.has("custom"):
+			var custom_data: Dictionary = object_dictionary["custom_data"]
+			if not custom_data.is_empty():
+				_set_item_custom_data.run([object_id, custom_data])
+
+	escoria.logger.info(self, "Finished loading object '%s'" % object_id)
+
+
+# Load globals from a savegame data
+#
+# ## Parameters
+# - savegame_globals: dictionary containing saved globals
+func _load_savegame_globals(savegame_globals: Dictionary):
+	escoria.logger.info(self, "Loading globals")
+
+	for g in savegame_globals:
+		_set_global.run([g, savegame_globals[g], true])
+
+	escoria.logger.info(self, "Finished loading globals")
+
+
+# Load inventory from a savegame data
+#
+# ## Parameters
+# - savegame_inventory: array containing saved inventory items
+func _load_savegame_inventory(savegame_inventory: Array):
+	escoria.logger.info(self, "Loading inventory")
+
+	for g in savegame_inventory:
+		_add_inventory.run([g, savegame_inventory[g]])
+
+	escoria.logger.info(self, "Finished loading inventory")
+
+
+# Load terrain navpolys from a savegame data
+#
+# ## Parameters
+# - savegame_terrain_navpolys: dictionary containing saved terrain navpolys
+func _load_savegame_terrain_navpolys(savegame_terrain_navpolys: Dictionary):
+	escoria.logger.info(self, "Loading terrain")
+
+	for room_id in savegame_terrain_navpolys:
+		for terrain_id in savegame_terrain_navpolys[room_id]:
+			if savegame_terrain_navpolys[room_id][terrain_id]:
+				_enable_terrain.run([terrain_id])
+				break
+
+	escoria.logger.info(self, "Finished loading terrain")
+
+
+# Load events from a savegame data
+#
+# ## Parameters
+# - savegame_events: dictionary containing saved events
+func _load_savegame_events(savegame_events: Dictionary):
+	escoria.logger.info(self, "Loading events")
+
+	if savegame_events.has("sched_events") \
+			and not savegame_events.sched_events.is_empty():
+		escoria.logger.info(self, "Loading scheduled events")
+		for sched_event in savegame_events.sched_events:
+			var script: ESCScript = escoria.esc_compiler.load_esc_file(sched_event.event.source)
+			var event: ESCEvent = script.events[sched_event.event.original_name]
+			_sched_event.run([sched_event["timeout"], sched_event["object"], event])
+		escoria.logger.info(self, "Finished loading scheduled events")
+
+	escoria.logger.info(self, "Finished loading events")
+
+
+func _ensure_directory_exists(dir: String) -> void:
+	if not DirAccess.dir_exists_absolute(save_folder):
+		var return_code = DirAccess.make_dir_absolute(save_folder)
+
+		if return_code != OK:
+			escoria.logger.error(
+				self,
+				"Could not create savegame folder %s" % save_folder
+			)

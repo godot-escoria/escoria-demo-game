@@ -1,7 +1,27 @@
-keys,en,fr,de
-ROOM1_look_wall_item_1,"I don't know what that stuff is.","Je ne sais pas ce que c'est.","Ich habe keine Ahnung, was das ist."
-ROOM1_look_wall_item_2,"I REALLY don't know what that stuff is.","Je ne sais VRAIMENT pas ce que c'est.","Ich habe WIRKLICH keine Ahnung, was das ist!"
-ROOM1_look_wall_item_3,"No, SERIOUSLY, I have no idea what that is!","Non, SÉRIEUSEMENT, je n'ai aucune idée de ce que c'est !","IM ERNST! Ich habe keine Ahnung, was das ist!"
-ROOM1_look_wall_item_4,"Please stop asking me that!","Arrêtez de me demander !","Bite hör' auf, mich danach zu fragen!"
-ROOM6_dialog_1,"What are you doing here?","Que faites-vous ici ?","Was machst Du hier?"
-ROOM6_dialog_2,"I'm selling these fine leather jackets.", "Je vends ces superbes blousons en cuir.","Ich verkaufe diese schicken Lederjacken."
+keys,en,fr,de,es
+ROOM1_look_wall_item_1,I don't know what that stuff is.,Je ne sais pas ce que c'est.,"Ich habe keine Ahnung, was das ist.",No sé que esta cosa.
+ROOM1_look_wall_item_2,I REALLY don't know what that stuff is.,Je ne sais VRAIMENT pas ce que c'est.,"Ich habe WIRKLICH keine Ahnung, was das ist!",REALMENTE no se que es esta cosa.
+ROOM1_look_wall_item_3,"No, SERIOUSLY, I have no idea what that is!","Non, SÉRIEUSEMENT, je n'ai aucune idée de ce que c'est !","IM ERNST! Ich habe keine Ahnung, was das ist!","No, EN SERIO, no tengo ni idea de lo que es!"
+ROOM1_look_wall_item_4,Please stop asking me that!,Arrêtez de me demander !,"Bite hör' auf, mich danach zu fragen!",Porfa deja de preguntármelo!
+ROOM2_look_button_1,That button must activate the bridge.,Ce bouton doit activer le pont.,Diese Schaltfläche soll die Brücke aktivieren.,Este botón debe activar el puente.
+ROOM2_look_button_2,I already said that this button must activate the bridge.,J’ai déjà dit que ce bouton devait activer le pont.,"Ich habe bereits gesagt, dass dieser Knopf die Brücke aktivieren soll.",Ya he dicho que este botón debe activar el puente.
+ROOM2_look_button_3a,Listen closely.,Écoutez attentivement.,Hören Sie genau zu.,Escuchen con atención.
+ROOM2_look_button_3b,This,Ce,Diese,Este
+ROOM2_look_button_3c,button,bouton,Schaltfläche,botón
+ROOM2_look_button_3d,must,doit,muss,debe
+ROOM2_look_button_3e,activate,activer,die Brücke,activar
+ROOM2_look_button_3f,the bridge.,le pont.,aktiviert werden.,el puente.
+ROOM2_look_button_4a,I give up.,J’abandonne.,Ich gebe auf.,Me rindo.
+ROOM2_look_button_4b,<sob>,<sanglot>,<Schluchzen>,<sollozo>
+ROOM2_push_button_1,I must USE this.,Je dois UTILISER ceci.,Ich muss dies BENUTZEN.,Tengo que USAR esto.
+ROOM2_push_button_2,"Bzzt, indeed.","Bzzt, en effet.","Bzzt, in der Tat.","Bzzt, en efecto."
+ROOM2_push_button_3,AH! A talking button.,AH ! Un bouton qui parle.,"AH! Ein Knopf, der spricht.",¡AH! Un botón que habla.
+ROOM2_push_button_4,"I am not a button, I am a mighty AI.","Je ne suis pas un bouton, je suis une puissante IA.","Ich bin kein Knopf, ich bin eine mächtige KI.","No soy un botón, soy una poderosa IA."
+ROOM2_push_button_5,What?,Quoi ?,Was ist das?,¿Qué es?
+ROOM2_push_button_6,"I am intelligent, like you.","Je suis intelligent, comme toi.","Ich bin intelligent, genau wie du.","Soy inteligente, como tú."
+ROOM2_push_button_7,"Or, like you think you are, apparently...","Ou plutôt, comme tu crois l’être toi-même, apparemment…","Oder besser gesagt, wie du anscheinend glaubst, selbst intelligent zu sein...","O más bien, como tú crees que eres, aparentemente..."
+ROOM2_push_button_8,Hey!,Hé !,Hey!,¡Oye!
+ROOM6_dialog_1,What are you doing here?,Que faites-vous ici ?,Was machst Du hier?,¿Qué haces aquí?
+ROOM6_dialog_2,I'm selling these fine leather jackets.,Je vends ces superbes blousons en cuir.,Ich verkaufe diese schicken Lederjacken.,Vendiendo estas increíbles chaquetas de cuero.
+ROOM6_dialog_bye,,,,
+INVENTORY_LABEL,Inventory,Inventaire,Inventar,Inventario

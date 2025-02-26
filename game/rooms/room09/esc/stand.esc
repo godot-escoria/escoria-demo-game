@@ -1,6 +1,25 @@
 
-:use r9_bottle
-inventory_remove r9_bottle
-set_state r9_stand set_bottle
-set_state r9_r_exit r_door_open
+:use "r9_bottle"
+	# Make sure the full sequence completes. Let players speed through the text though.
+	accept_input("SKIP")
+	say($player, "This appears to be a magical bottle that unlocks doors.")
+	inventory_remove($r9_bottle)
 
+	# Place the bottle on the stand (i.e. unhide the placed bottle graphic)
+	set_state($r9_stand, "set_bottle")
+
+	# Animate the door unlocking
+	set_state($r9_r_exit, "open_door")
+
+	# Mark this room's puzzle as complete. This will stop it resetting and the 
+	# bottle from being displayed in a cupboard.
+	r9_puzzle_complete = true
+	r9_bottle_closet = 0
+	accept_input("ALL")
+
+:look
+	if r9_puzzle_complete:
+		say($player, "Unlocking a door with a bottle, how strange.")
+	else:
+		say($player, "That stand looks like the perfect place")
+		say($player, "to put a bottle.")

@@ -1,9 +1,15 @@
-# `slide_block object1 object2 [speed]`
+# `slide_block object target [speed]`
 #
-# Moves object1 towards the position of object2, at the speed determined by 
-# object1's "speed" property, unless overridden. This command is blocking. 
-# It does not respect the room's navigation polygons, so you can move items 
-# where the player can't walk.
+# Moves `object` towards the position of `target`. This command is
+# blocking.
+#
+# - *object*: Global ID of the object to move
+# - *target*: Global ID of the target object
+# - *speed*: The speed at which to slide in pixels per second (will default to
+#   the speed configured on the `object`)
+#
+# **Warning** This command does not respect the room's navigation polygons, so
+# `object` can be moved even when outside walkable areas.
 #
 # @ESC
 extends SlideCommand
@@ -17,5 +23,10 @@ func run(command_params: Array) -> int:
 		escoria.object_manager.get_object(command_params[1]),
 		command_params[2]
 	)
-	yield(tween, "tween_all_completed")
+	await tween.finished
 	return ESCExecution.RC_OK
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	super.interrupt()

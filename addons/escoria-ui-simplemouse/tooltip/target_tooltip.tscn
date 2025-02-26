@@ -1,28 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://b3hru28v8y36i"]
 
-[ext_resource path="res://addons/escoria-core/game/assets/fonts/onesize/ONESIZE_.TTF" type="DynamicFontData" id=1]
-[ext_resource path="res://addons/escoria-ui-simplemouse/tooltip/tooltip_target.gd" type="Script" id=2]
-
-[sub_resource type="DynamicFont" id=1]
-size = 30
-font_data = ExtResource( 1 )
-
-[sub_resource type="DynamicFont" id=2]
-size = 30
-font_data = ExtResource( 1 )
+[ext_resource type="Script" uid="uid://w4t2ulpnthhu" path="res://addons/escoria-ui-simplemouse/tooltip/tooltip_target.gd" id="2"]
 
 [node name="tooltip" type="RichTextLabel"]
-margin_right = 200.0
-margin_bottom = 32.0
-rect_min_size = Vector2( 200, 32 )
-custom_fonts/mono_font = SubResource( 1 )
-custom_fonts/normal_font = SubResource( 2 )
 bbcode_enabled = true
-bbcode_text = "[center][color=#ffffff][/color][/center]"
+text = "[center][color=#ffffff][/color][/center]"
 scroll_active = false
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-color = Color( 1, 1, 1, 1 )
-offset_from_cursor = Vector2( 100, 10 )
+script = ExtResource("2")
+color = Color(1, 1, 1, 1)
+offset_from_cursor = Vector2(0, 0)

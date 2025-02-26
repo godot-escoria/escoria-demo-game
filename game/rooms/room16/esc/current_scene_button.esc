@@ -1,0 +1,12 @@
+:use
+
+	if ESC_CURRENT_SCENE == "room16":
+		say($player, "This sure looks like room 16.")
+		sched_event(1, $worker1, "r16_worker1_walk")
+		sched_event(2, $worker1, "r16_worker2_walk")
+
+	elif ESC_CURRENT_SCENE == ESC_LAST_SCENE:
+		say($player, "I'll never say this.")
+
+	elif ESC_CURRENT_SCENE == "room1":
+		say($player, "I'll never say this, either.")

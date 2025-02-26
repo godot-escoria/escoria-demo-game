@@ -1,50 +1,45 @@
 :look
-> [! r2_look_dialog_advance]
-	say player "That button must activate the bridge."
-	set_global r2_look_dialog_advance 1
-	stop
-> [eq r2_look_dialog_advance 1]
-	say player "I already said that this button must activate the bridge."
-	set_global r2_look_dialog_advance 2
-	stop
-> [eq r2_look_dialog_advance 2]
-	set_angle player 180
-	say player "Listen closely."
-	say player "This"
-	say player "button"
-	say player "must"
-	say player "activate"
-	say player "the bridge."
-	set_global r2_look_dialog_advance 3
-	stop
-> [eq r2_look_dialog_advance 3]
-	say player "I give up."
-	say player "<sob>"
-	stop
+	global r2_look_dialog_advance = 0
 
+	if not r2_look_dialog_advance:
+		say($player, "That button must activate the bridge.")
+		r2_look_dialog_advance = 1
+	elif r2_look_dialog_advance == 1:
+		say($player, "I already said that this button must activate the bridge.")
+		r2_look_dialog_advance = 2
+	elif r2_look_dialog_advance == 2:
+		set_angle($player, 180)
+		say($player, "Listen closely.")
+		say($player, "This")
+		say($player, "button")
+		say($player, "must")
+		say($player, "activate")
+		say($player, "the bridge.")
+		r2_look_dialog_advance = 3
+	elif r2_look_dialog_advance == 3:
+		say($player, "I give up.")
+		say($player, "<sob>")
 
 :push
-say player "I must USE this."
-say r2_button "Bzzt, indeed."
-say player "AH! A talking button."
-say r2_button "I am not a button, I am a mighty AI."
-say player "What?"
-say r2_button "I am intelligent, like you."
-say r2_button "Or, like you think you are, apparently..."
-say player "Hey!"
+	say($player, "I must USE this.")
+	say($r2_button, "Bzzt, indeed.")
+	say($player, "AH! A talking button.")
+	say($r2_button, "I am not a button, I am a mighty AI.")
+	say($player, "What?")
+	say($r2_button, "I am intelligent, like you.")
+	say($r2_button, "Or, like you think you are, apparently...")
+	say($player, "Hey!")
 
 :use
-> [r2_bridge_closed]
-	set_state r2_bridge bridge_open
-	enable_terrain bridge_open
-	set_global r2_bridge_closed false
-	#set_interactive r2_right_platform true
-	set_interactive r2_bridge false
-	stop
-> [!r2_bridge_closed]
-	set_state r2_bridge bridge_close 
-	enable_terrain bridge_closed
-	set_global r2_bridge_closed true
-	set_interactive r2_right_platform false
-	set_interactive r2_bridge false
-	stop
+	if r2_bridge_closed:
+		set_state($r2_bridge, "bridge_open")
+		enable_terrain("bridge_open")
+		r2_bridge_closed = false
+		#set_interactive r2_right_platform true
+		set_interactive($r2_bridge, false)
+	else:
+		set_state($r2_bridge, "bridge_close")
+		enable_terrain("bridge_closed")
+		r2_bridge_closed = true
+		set_interactive($r2_right_platform, false)
+		set_interactive($r2_bridge, false)

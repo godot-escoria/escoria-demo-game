@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/escoria-core/ui_library/menus/load_save/load_save_slot/load_save_slot.gd" type="Script" id=2]
+
+[node name="slot" type="Button"]
+offset_right = 665.0
+offset_bottom = 86.0
+custom_minimum_size = Vector2( 0, 100 )
+size_flags_horizontal = 3
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="slot_name" type="Label" parent="VBoxContainer"]
+offset_top = 34.0
+offset_right = 665.0
+offset_bottom = 48.0
+text = "slot_name"
+align = 1
+
+[node name="date" type="Label" parent="VBoxContainer"]
+offset_top = 52.0
+offset_right = 665.0
+offset_bottom = 66.0
+text = "date"
+align = 1

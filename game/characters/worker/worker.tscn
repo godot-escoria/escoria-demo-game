@@ -1,18 +1,172 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=1]
 [ext_resource path="res://game/characters/worker/worker_animations.tres" type="Resource" id=2]
-[ext_resource path="res://game/characters/worker/png/worker.png" type="Texture" id=4]
+[ext_resource path="res://game/characters/worker/png/worker_talk_down_right.png" type="Texture2D" id=3]
+[ext_resource path="res://game/characters/worker/png/worker.png" type="Texture2D" id=4]
+[ext_resource path="res://game/characters/worker/png/worker_talk_up.png" type="Texture2D" id=5]
+[ext_resource path="res://game/characters/worker/png/worker_talk_down.png" type="Texture2D" id=6]
+[ext_resource path="res://game/characters/worker/png/worker_talk_right.png" type="Texture2D" id=7]
+[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_dialog_location.gd" type="Script" id=8]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 4 )
 region = Rect2( 0, 0, 24, 70 )
 
+[sub_resource type="AtlasTexture" id=29]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=28]
+atlas = ExtResource( 4 )
+region = Rect2( 48, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 4 )
+region = Rect2( 384, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 6 )
+region = Rect2( 0, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 6 )
+region = Rect2( 24, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 6 )
+region = Rect2( 48, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 7 )
+region = Rect2( 0, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 7 )
+region = Rect2( 24, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 7 )
+region = Rect2( 48, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 7 )
+region = Rect2( 72, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 7 )
+region = Rect2( 96, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 5 )
+region = Rect2( 24, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 4 )
+region = Rect2( 144, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 4 )
+region = Rect2( 168, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=17]
+atlas = ExtResource( 4 )
+region = Rect2( 192, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=18]
+atlas = ExtResource( 4 )
+region = Rect2( 216, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=19]
+atlas = ExtResource( 4 )
+region = Rect2( 240, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=20]
+atlas = ExtResource( 4 )
+region = Rect2( 264, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=21]
+atlas = ExtResource( 4 )
+region = Rect2( 288, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = ExtResource( 4 )
+region = Rect2( 312, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=23]
+atlas = ExtResource( 4 )
+region = Rect2( 336, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=24]
+atlas = ExtResource( 4 )
+region = Rect2( 360, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=25]
+atlas = ExtResource( 4 )
+region = Rect2( 384, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=26]
+atlas = ExtResource( 4 )
+region = Rect2( 408, 0, 24, 70 )
+
+[sub_resource type="AtlasTexture" id=27]
+atlas = ExtResource( 4 )
+region = Rect2( 432, 0, 24, 70 )
+
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [ SubResource( 1 ) ],
 "loop": true,
-"name": "idle_front",
+"name": "idle_down",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 29 ) ],
+"loop": true,
+"name": "idle_down_right",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 28 ) ],
+"loop": true,
+"name": "idle_right",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 14 ) ],
+"loop": true,
+"name": "idle_up",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 5 ) ],
+"loop": true,
+"name": "speak_down",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
+"loop": true,
+"name": "speak_right",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 7 ), SubResource( 8 ) ],
+"loop": true,
+"name": "speak_up",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ) ],
+"loop": true,
+"name": "walk_down",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ) ],
+"loop": true,
+"name": "walk_right",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ) ],
+"loop": true,
+"name": "walk_up",
 "speed": 5.0
 } ]
 
@@ -20,26 +174,29 @@ animations = [ {
 extents = Vector2( 40.4907, 142.11 )
 
 [node name="worker" type="Area2D"]
+process_mode = 1
 script = ExtResource( 1 )
 global_id = "worker"
 esc_script = "res://game/rooms/room6/esc/worker.esc"
 is_movable = true
 tooltip_name = "Worker"
 default_action = "look"
-dialog_color = Color( 0.196078, 0, 1, 1 )
+combine_when_selected_action_is_in = [  ]
+dialog_color = Color( 0.501961, 0.882353, 1, 1 )
 animations = ExtResource( 2 )
 
-[node name="sprite" type="AnimatedSprite" parent="."]
+[node name="sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2( 0.0280151, -16.7213 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 2 )
-animation = "idle_front"
+animation = "idle_down"
 offset = Vector2( -0.0280151, -30.9602 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -1.662, -141.108 )
 shape = SubResource( 3 )
 
-[node name="dialog_position" type="Position2D" parent="."]
+[node name="dialog_position" type="Marker2D" parent="."]
 position = Vector2( 0.0280151, -352.44 )
 scale = Vector2( 4, 4 )
+script = ExtResource( 8 )

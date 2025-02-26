@@ -1,20 +1,28 @@
 :setup
-> [eq ESC_LAST_SCENE room5]
-	teleport player r6_l_exit
-	# Set player look right
-	set_angle player 180
-	stop
-> [eq ESC_LAST_SCENE room7]
-	teleport player r6_door
-	# Set player look left
-	set_angle player 270
-	stop
-> [!last_scene]
-	teleport player player_start
-	stop
 
-#set_global i/r5_pen true
-#set_active r5_pen false
-#set_global i/r5_empty_sheet true
-#set_active r5_empty_sheet false
-#inventory_add r5_filled_sheet
+	global room6_visited = false
+	global r6_r_exit_locked = false
+	global talked_once = false
+	global loom_conversation_done = false
+	global name_known = false
+	global fun_game_asked = false
+
+	if !room6_visited:
+		r6_r_exit_locked = true
+		# Show the closed door, hide the open one
+		set_state("r6_r_exit", "close_door")
+	elif ESC_LAST_SCENE == "room5":
+		teleport("player", "r6_l_exit")
+		# Set player look right
+		set_angle("player", 180)
+	elif ESC_LAST_SCENE == "room7":
+		teleport("player", "r6_r_exit")
+		# Set player look left
+		set_angle("player", 270)
+
+
+:ready
+	if !room6_visited:
+		room6_visited = true
+#		if true:
+#					say("player", "Second indent.")

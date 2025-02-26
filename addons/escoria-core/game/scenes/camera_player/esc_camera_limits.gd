@@ -1,5 +1,5 @@
 # Describes a bounding box that limits the camera movement in the scene
-extends Object
+extends RefCounted
 class_name ESCCameraLimits
 
 
@@ -17,9 +17,9 @@ var limit_bottom: int = 10000
 
 
 func _init(
-	left: int, 
-	right: int, 
-	top: int, 
+	left: int,
+	right: int,
+	top: int,
 	bottom: int
 ):
 	limit_left = left

@@ -1,2 +1,5 @@
 :exit_scene
-change_scene "res://game/rooms/room10/room10.tscn"
+	if r9_puzzle_complete:
+		change_scene("res://game/rooms/room10/room10.tscn")
+	else:
+		say($player, "The door is locked")

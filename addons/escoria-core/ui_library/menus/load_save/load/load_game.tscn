@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3 uid="uid://j3wkbyhedkpr"]
+
+[ext_resource type="PackedScene" path="res://addons/escoria-core/ui_library/menus/load_save/load_save_slot/load_save_slot.tscn" id="2"]
+[ext_resource type="Script" path="res://addons/escoria-core/ui_library/menus/load_save/load/load_game.gd" id="3"]
+
+[node name="load_game" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3")
+slot_ui_scene = ExtResource("2")
+
+[node name="Panel" type="ColorRect" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.270588, 0.270588, 0.270588, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+anchor_left = 0.3
+anchor_top = 0.3
+anchor_right = 0.7
+anchor_bottom = 0.7
+offset_left = -55.5
+offset_right = 55.5
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="slots" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="back" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "OPTIONS_BACK"
+
+[connection signal="pressed" from="VBoxContainer/back" to="." method="_on_back_pressed"]

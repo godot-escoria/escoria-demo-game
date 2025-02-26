@@ -1,0 +1,7 @@
+:use
+	accept_input("NONE")
+	say($player, "Fade white")
+	transition("fade_white", "out")
+	wait(1)
+	transition("fade_white", "in")
+	accept_input("ALL")

@@ -1,10 +1,14 @@
 :look
-say player "That must be the command to open the door."
+	say($player, "That's the button to open the door.")
 
 :use
-> [!r8_m_door_open]
-	#superpose_scene "res://game/rooms/room08/puzzle/10_buttons_puzzle.tscn"
-	spawn puzzle "res://game/rooms/room08/puzzle/10_buttons_puzzle.tscn"
-	
-> [r8_m_door_open]
-	say player "The door is already open."
+	if not r8_m_door_open:
+		# Load the puzzle
+		spawn("puzzle", "res://game/rooms/room08/puzzle/10_buttons_puzzle.tscn")
+
+	# Currently the button gets disabled when you beat the puzzle, so there's
+	# no button you can interract with. If you set it up so the button was 
+	# still enabled, this code would provide feedback to the user if they
+	# attempted to "use" the already unlocked puzzle.
+	#> [r8_m_door_open]
+	#	say player "The door is already open."

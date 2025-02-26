@@ -1,0 +1,7 @@
+:use
+	accept_input("NONE")
+	say($player, "From Center")
+	transition("from_center", "out")
+	wait(1)
+	transition("from_center", "in")
+	accept_input("ALL")

@@ -1,0 +1,1541 @@
+[gd_scene load_steps=40 format=2]
+
+[ext_resource path="res://addons/escoria-wizard/graphics/darkgreenarrow_down.png" type="Texture2D" id=1]
+[ext_resource path="res://addons/escoria-wizard/graphics/greyarrow_r.png" type="Texture2D" id=2]
+[ext_resource path="res://addons/escoria-wizard/graphics/darkgreenarrow_right.png" type="Texture2D" id=3]
+[ext_resource path="res://addons/escoria-wizard/graphics/greenarrow_right.png" type="Texture2D" id=4]
+[ext_resource path="res://addons/escoria-wizard/graphics/greenarrow_down.png" type="Texture2D" id=5]
+[ext_resource path="res://addons/escoria-wizard/graphics/greyarrow_ul.png" type="Texture2D" id=6]
+[ext_resource path="res://addons/escoria-wizard/graphics/greyarrow_dl.png" type="Texture2D" id=7]
+[ext_resource path="res://addons/escoria-wizard/graphics/darkgreyarrow_d.png" type="Texture2D" id=8]
+[ext_resource path="res://addons/escoria-wizard/graphics/no_animation.png" type="Texture2D" id=9]
+[ext_resource path="res://addons/escoria-wizard/graphics/greenarrow_downleft.png" type="Texture2D" id=10]
+[ext_resource path="res://addons/escoria-wizard/graphics/darkgreenarrow_downleft.png" type="Texture2D" id=11]
+[ext_resource path="res://addons/escoria-wizard/graphics/darkgreenarrow_left.png" type="Texture2D" id=12]
+[ext_resource path="res://addons/escoria-wizard/graphics/greyarrow_l.png" type="Texture2D" id=13]
+[ext_resource path="res://addons/escoria-wizard/graphics/darkgreyarrow_ur.png" type="Texture2D" id=14]
+[ext_resource path="res://addons/escoria-wizard/graphics/darkgreyarrow_ul.png" type="Texture2D" id=15]
+[ext_resource path="res://addons/escoria-wizard/graphics/darkgreenarrow_upright.png" type="Texture2D" id=16]
+[ext_resource path="res://addons/escoria-wizard/graphics/greyarrow_ur.png" type="Texture2D" id=17]
+[ext_resource path="res://addons/escoria-wizard/graphics/greyarrow_u.png" type="Texture2D" id=18]
+[ext_resource path="res://addons/escoria-wizard/graphics/darkgreyarrow_r.png" type="Texture2D" id=19]
+[ext_resource path="res://addons/escoria-wizard/graphics/darkgreyarrow_u.png" type="Texture2D" id=20]
+[ext_resource path="res://addons/escoria-wizard/graphics/darkgreyarrow_l.png" type="Texture2D" id=21]
+[ext_resource path="res://addons/escoria-wizard/graphics/greyarrow_dr.png" type="Texture2D" id=22]
+[ext_resource path="res://addons/escoria-wizard/graphics/greenarrow_up.png" type="Texture2D" id=23]
+[ext_resource path="res://addons/escoria-wizard/graphics/greenarrow_upright.png" type="Texture2D" id=24]
+[ext_resource path="res://addons/escoria-wizard/graphics/darkgreenarrow_downright.png" type="Texture2D" id=25]
+[ext_resource path="res://addons/escoria-wizard/graphics/greenarrow_left.png" type="Texture2D" id=26]
+[ext_resource path="res://addons/escoria-wizard/graphics/darkgreenarrow_upleft.png" type="Texture2D" id=27]
+[ext_resource path="res://addons/escoria-wizard/graphics/darkgreenarrow_up.png" type="Texture2D" id=28]
+[ext_resource path="res://addons/escoria-wizard/graphics/no_spritesheet.png" type="Texture2D" id=29]
+[ext_resource path="res://addons/escoria-wizard/graphics/greenarrow_upleft.png" type="Texture2D" id=30]
+[ext_resource path="res://addons/escoria-wizard/graphics/greenarrow_downright.png" type="Texture2D" id=31]
+[ext_resource path="res://addons/escoria-wizard/graphics/icon.png" type="Texture2D" id=32]
+[ext_resource path="res://addons/escoria-wizard/graphics/greyarrow_d.png" type="Texture2D" id=33]
+[ext_resource path="res://addons/escoria-wizard/graphics/darkgreyarrow_dr.png" type="Texture2D" id=34]
+[ext_resource path="res://addons/escoria-wizard/graphics/darkgreyarrow_dl.png" type="Texture2D" id=35]
+[ext_resource path="res://addons/escoria-wizard/draw_frame_rects.gd" type="Script" id=36]
+[ext_resource path="res://addons/escoria-wizard/CharacterCreator.gd" type="Script" id=37]
+[ext_resource path="res://addons/escoria-wizard/help_window.tscn" type="PackedScene" id=38]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [  ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "in_progress",
+"speed": 5.0
+} ]
+
+[node name="CharacterCreator" type="MarginContainer"]
+offset_right = 1290.0
+offset_bottom = 900.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_bottom = 50
+script = ExtResource( 37 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 1240.0
+offset_bottom = 850.0
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+offset_right = 1190.0
+offset_bottom = 14.0
+
+[node name="node_name_colorrect2" type="ColorRect" parent="VBoxContainer/MarginContainer"]
+offset_right = 1190.0
+offset_bottom = 14.0
+custom_minimum_size = Vector2( 400, 0 )
+color = Color( 0.235294, 0.341176, 0.290196, 1 )
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/MarginContainer"]
+offset_right = 1190.0
+offset_bottom = 14.0
+
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/CenterContainer"]
+offset_left = 527.0
+offset_right = 663.0
+offset_bottom = 14.0
+theme_override_colors/font_color = Color( 0.921569, 1, 0, 1 )
+theme_override_colors/font_shadow_color = Color( 0, 0, 0, 1 )
+text = "Character Creator"
+uppercase = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+offset_top = 18.0
+offset_right = 1190.0
+offset_bottom = 800.0
+custom_minimum_size = Vector2( 1190, 550 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+
+[node name="configuration" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
+offset_right = 400.0
+offset_bottom = 782.0
+custom_minimum_size = Vector2( 400, 550 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="node_name_colorrect" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration"]
+offset_right = 400.0
+offset_bottom = 782.0
+custom_minimum_size = Vector2( 400, 0 )
+color = Color( 0.235294, 0.341176, 0.290196, 1 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/configuration"]
+offset_right = 400.0
+offset_bottom = 782.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="node_name" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer"]
+offset_right = 400.0
+offset_bottom = 130.0
+custom_minimum_size = Vector2( 400, 130 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name"]
+offset_right = 400.0
+offset_bottom = 24.0
+
+[node name="name_colorrect" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer"]
+offset_right = 400.0
+offset_bottom = 24.0
+size_flags_vertical = 3
+color = Color( 0.215686, 0.478431, 0.235294, 1 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer"]
+offset_right = 400.0
+offset_bottom = 24.0
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer/MarginContainer"]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 395.0
+offset_bottom = 19.0
+size_flags_vertical = 6
+text = "Node Details"
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name"]
+offset_top = 28.0
+offset_right = 400.0
+offset_bottom = 108.0
+theme_override_constants/margin_left = 5
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2"]
+offset_left = 5.0
+offset_right = 400.0
+offset_bottom = 80.0
+columns = 3
+
+[node name="node_name_label" type="Label" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer"]
+offset_top = 5.0
+offset_right = 91.0
+offset_bottom = 19.0
+text = "Name:"
+
+[node name="node_name" type="LineEdit" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer"]
+offset_left = 95.0
+offset_right = 295.0
+offset_bottom = 24.0
+custom_minimum_size = Vector2( 200, 0 )
+tooltip_text = "The will be the name of the node in your scene tree."
+text = "replace_me"
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="Spacer" type="Control" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer"]
+offset_left = 299.0
+offset_right = 357.0
+offset_bottom = 24.0
+
+[node name="global_id_label" type="Label" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer"]
+offset_top = 33.0
+offset_right = 91.0
+offset_bottom = 47.0
+text = "Global ID:"
+
+[node name="global_id" type="LineEdit" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer"]
+offset_left = 95.0
+offset_top = 28.0
+offset_right = 295.0
+offset_bottom = 52.0
+custom_minimum_size = Vector2( 200, 0 )
+tooltip_text = "The global id for the character to be used in ESC scripts."
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="Spacer2" type="Control" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer"]
+offset_left = 299.0
+offset_top = 28.0
+offset_right = 357.0
+offset_bottom = 52.0
+
+[node name="character_path_label" type="Label" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer"]
+offset_top = 61.0
+offset_right = 91.0
+offset_bottom = 75.0
+text = "Save to folder:"
+
+[node name="character_path" type="LineEdit" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer"]
+offset_left = 95.0
+offset_top = 56.0
+offset_right = 295.0
+offset_bottom = 80.0
+custom_minimum_size = Vector2( 200, 0 )
+tooltip_text = "The directory on disk where the character scene will be saved."
+text = "res://"
+editable = false
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="character_path_change_button" type="Button" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer"]
+offset_left = 299.0
+offset_top = 56.0
+offset_right = 357.0
+offset_bottom = 80.0
+text = "Change"
+
+[node name="charactertype" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer"]
+offset_top = 134.0
+offset_right = 400.0
+offset_bottom = 186.0
+custom_minimum_size = Vector2( 400, 50 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype"]
+offset_right = 400.0
+offset_bottom = 24.0
+
+[node name="directions_colorrect" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype/MarginContainer"]
+offset_right = 400.0
+offset_bottom = 24.0
+color = Color( 0.215686, 0.478431, 0.235294, 1 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype/MarginContainer"]
+offset_right = 400.0
+offset_bottom = 24.0
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="direction_number_label" type="Label" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype/MarginContainer/MarginContainer"]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 395.0
+offset_bottom = 19.0
+text = "Player or NPC?"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype"]
+offset_top = 28.0
+offset_right = 400.0
+offset_bottom = 52.0
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="player" type="CheckBox" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype/HBoxContainer"]
+offset_left = 116.0
+offset_right = 183.0
+offset_bottom = 24.0
+tooltip_text = "Create a user-controlled character"
+pressed = true
+text = "player"
+
+[node name="npc" type="CheckBox" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype/HBoxContainer"]
+offset_left = 233.0
+offset_right = 284.0
+offset_bottom = 24.0
+tooltip_text = "Create a non-player character"
+text = "npc"
+
+[node name="directions" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer"]
+offset_top = 190.0
+offset_right = 400.0
+offset_bottom = 242.0
+custom_minimum_size = Vector2( 400, 50 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions"]
+offset_right = 400.0
+offset_bottom = 24.0
+
+[node name="directions_colorrect" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/MarginContainer"]
+offset_right = 400.0
+offset_bottom = 24.0
+color = Color( 0.215686, 0.478431, 0.235294, 1 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/MarginContainer"]
+offset_right = 400.0
+offset_bottom = 24.0
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="direction_number_label" type="Label" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/MarginContainer/MarginContainer"]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 395.0
+offset_bottom = 19.0
+text = "Number of Directions"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions"]
+offset_top = 28.0
+offset_right = 400.0
+offset_bottom = 52.0
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="one_direction" type="CheckBox" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer"]
+offset_left = 53.0
+offset_right = 89.0
+offset_bottom = 24.0
+tooltip_text = "Create 4 directions of animation"
+text = "1"
+
+[node name="two_directions" type="CheckBox" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer"]
+offset_left = 139.0
+offset_right = 175.0
+offset_bottom = 24.0
+tooltip_text = "Create 4 directions of animation"
+text = "2"
+
+[node name="four_directions" type="CheckBox" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer"]
+offset_left = 225.0
+offset_right = 261.0
+offset_bottom = 24.0
+tooltip_text = "Create 4 directions of animation"
+pressed = true
+text = "4"
+
+[node name="eight_directions" type="CheckBox" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer"]
+offset_left = 311.0
+offset_right = 347.0
+offset_bottom = 24.0
+tooltip_text = "Create 8 directions of animation"
+text = "8"
+
+[node name="animation" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer"]
+offset_top = 246.0
+offset_right = 400.0
+offset_bottom = 684.0
+custom_minimum_size = Vector2( 400, 200 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation"]
+offset_right = 400.0
+offset_bottom = 24.0
+
+[node name="animation_type_colorrect" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/MarginContainer"]
+offset_right = 400.0
+offset_bottom = 24.0
+color = Color( 0.215686, 0.478431, 0.235294, 1 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/MarginContainer"]
+offset_right = 400.0
+offset_bottom = 24.0
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="animation_type_label" type="Label" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/MarginContainer/MarginContainer"]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 395.0
+offset_bottom = 19.0
+text = "Animation"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation"]
+offset_top = 28.0
+offset_right = 400.0
+offset_bottom = 52.0
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="walk_checkbox" type="CheckBox" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer"]
+offset_left = 100.0
+offset_right = 156.0
+offset_bottom = 24.0
+tooltip_text = "Configure walk animations"
+pressed = true
+text = "walk"
+
+[node name="talk_checkbox" type="CheckBox" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer"]
+offset_left = 176.0
+offset_right = 227.0
+offset_bottom = 24.0
+tooltip_text = "Configure talk animations"
+text = "talk"
+
+[node name="idle_checkbox" type="CheckBox" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer"]
+offset_left = 247.0
+offset_right = 299.0
+offset_bottom = 24.0
+tooltip_text = "Configure idle animations"
+text = "idle"
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation"]
+offset_top = 56.0
+offset_right = 400.0
+offset_bottom = 106.0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/MarginContainer2"]
+offset_right = 400.0
+offset_bottom = 50.0
+custom_minimum_size = Vector2( 0, 50 )
+
+[node name="HBoxContainer2" type="GridContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation"]
+offset_top = 110.0
+offset_right = 400.0
+offset_bottom = 328.0
+columns = 5
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2"]
+offset_right = 50.0
+offset_bottom = 200.0
+custom_minimum_size = Vector2( 50, 0 )
+
+[node name="HBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2"]
+offset_left = 54.0
+offset_right = 164.0
+offset_bottom = 200.0
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer"]
+offset_right = 110.0
+offset_bottom = 8.0
+theme_override_constants/margin_left = 5
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2"]
+offset_left = 5.0
+offset_right = 110.0
+offset_bottom = 8.0
+columns = 3
+
+[node name="Container_upleft" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
+
+[node name="set_dir_upleft" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_upleft" groups=["8_direction_buttons", "direction_buttons"]]
+visible = false
+offset_right = 28.0
+offset_bottom = 28.0
+tooltip_text = "Up left animation (configured)"
+toggle_mode = true
+texture_normal = ExtResource( 27 )
+texture_pressed = ExtResource( 30 )
+texture_hover = ExtResource( 30 )
+
+[node name="unset_dir_upleft" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_upleft" groups=["8_direction_buttons", "direction_buttons"]]
+visible = false
+offset_right = 28.0
+offset_bottom = 28.0
+tooltip_text = "Up left animation (unconfigured)"
+toggle_mode = true
+texture_normal = ExtResource( 15 )
+texture_pressed = ExtResource( 6 )
+texture_hover = ExtResource( 6 )
+
+[node name="Container_up" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
+offset_left = 4.0
+offset_right = 4.0
+
+[node name="set_dir_up" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_up" groups=["direction_buttons"]]
+visible = false
+offset_right = 28.0
+offset_bottom = 28.0
+tooltip_text = "Up animation (configured)"
+toggle_mode = true
+texture_normal = ExtResource( 28 )
+texture_pressed = ExtResource( 23 )
+texture_hover = ExtResource( 23 )
+
+[node name="unset_dir_up" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_up" groups=["direction_buttons"]]
+visible = false
+offset_right = 28.0
+offset_bottom = 28.0
+tooltip_text = "Up animation (unconfigured)"
+toggle_mode = true
+texture_normal = ExtResource( 20 )
+texture_pressed = ExtResource( 18 )
+texture_hover = ExtResource( 18 )
+
+[node name="ColorRectSpacer" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_up"]
+visible = false
+modulate = Color( 0.235294, 0.341176, 0.290196, 1 )
+offset_right = 28.0
+offset_bottom = 28.0
+custom_minimum_size = Vector2( 28, 28 )
+
+[node name="Container_upright" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
+offset_left = 8.0
+offset_right = 8.0
+
+[node name="unset_dir_upright" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_upright" groups=["8_direction_buttons", "direction_buttons"]]
+visible = false
+offset_right = 28.0
+offset_bottom = 28.0
+tooltip_text = "Up right animation (unconfigured)"
+toggle_mode = true
+texture_normal = ExtResource( 14 )
+texture_pressed = ExtResource( 17 )
+texture_hover = ExtResource( 17 )
+
+[node name="set_dir_upright" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_upright" groups=["8_direction_buttons", "direction_buttons"]]
+visible = false
+offset_right = 28.0
+offset_bottom = 28.0
+tooltip_text = "Up right animation (configured)"
+toggle_mode = true
+texture_normal = ExtResource( 16 )
+texture_pressed = ExtResource( 24 )
+texture_hover = ExtResource( 24 )
+
+[node name="Container_left" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
+offset_top = 4.0
+offset_bottom = 4.0
+
+[node name="set_dir_left" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_left" groups=["direction_buttons"]]
+visible = false
+offset_right = 28.0
+offset_bottom = 28.0
+tooltip_text = "Left animation (configured)"
+toggle_mode = true
+texture_normal = ExtResource( 12 )
+texture_pressed = ExtResource( 26 )
+texture_hover = ExtResource( 26 )
+
+[node name="unset_dir_left" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_left" groups=["direction_buttons"]]
+visible = false
+offset_right = 28.0
+offset_bottom = 28.0
+tooltip_text = "Left animation (unconfigured)"
+toggle_mode = true
+texture_normal = ExtResource( 21 )
+texture_pressed = ExtResource( 13 )
+texture_hover = ExtResource( 13 )
+
+[node name="ColorRectSpacer" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_left"]
+visible = false
+modulate = Color( 0.235294, 0.341176, 0.290196, 1 )
+offset_right = 28.0
+offset_bottom = 28.0
+custom_minimum_size = Vector2( 28, 28 )
+
+[node name="Container_centre" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 4.0
+offset_bottom = 4.0
+
+[node name="Container_right" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
+offset_left = 8.0
+offset_top = 4.0
+offset_right = 8.0
+offset_bottom = 4.0
+
+[node name="set_dir_right" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_right" groups=["direction_buttons"]]
+visible = false
+offset_right = 28.0
+offset_bottom = 28.0
+tooltip_text = "Right animation (configured)"
+toggle_mode = true
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 4 )
+texture_hover = ExtResource( 4 )
+
+[node name="unset_dir_right" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_right" groups=["direction_buttons"]]
+visible = false
+offset_right = 28.0
+offset_bottom = 28.0
+tooltip_text = "Right animation (unconfigured)"
+toggle_mode = true
+texture_normal = ExtResource( 19 )
+texture_pressed = ExtResource( 2 )
+texture_hover = ExtResource( 2 )
+
+[node name="Container_downleft" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
+offset_top = 8.0
+offset_bottom = 8.0
+
+[node name="unset_dir_downleft" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_downleft" groups=["8_direction_buttons", "direction_buttons"]]
+visible = false
+offset_right = 28.0
+offset_bottom = 28.0
+tooltip_text = "Down left animation (unconfigured)"
+toggle_mode = true
+texture_normal = ExtResource( 35 )
+texture_pressed = ExtResource( 7 )
+texture_hover = ExtResource( 7 )
+
+[node name="set_dir_downleft" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_downleft" groups=["8_direction_buttons", "direction_buttons"]]
+visible = false
+offset_right = 28.0
+offset_bottom = 28.0
+tooltip_text = "Down left animation (configured)"
+toggle_mode = true
+texture_normal = ExtResource( 11 )
+texture_pressed = ExtResource( 10 )
+texture_hover = ExtResource( 10 )
+
+[node name="Container_down" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
+offset_left = 4.0
+offset_top = 8.0
+offset_right = 4.0
+offset_bottom = 8.0
+
+[node name="set_dir_down" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_down" groups=["direction_buttons"]]
+visible = false
+offset_right = 28.0
+offset_bottom = 28.0
+tooltip_text = "Down animation (configured)"
+toggle_mode = true
+texture_normal = ExtResource( 1 )
+texture_pressed = ExtResource( 5 )
+texture_hover = ExtResource( 5 )
+
+[node name="unset_dir_down" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_down" groups=["direction_buttons"]]
+visible = false
+offset_right = 28.0
+offset_bottom = 28.0
+tooltip_text = "Down animation (unconfigured)"
+toggle_mode = true
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 33 )
+texture_hover = ExtResource( 33 )
+
+[node name="ColorRectSpacer" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_down"]
+visible = false
+modulate = Color( 0.235294, 0.341176, 0.290196, 1 )
+offset_right = 28.0
+offset_bottom = 28.0
+custom_minimum_size = Vector2( 28, 28 )
+
+[node name="Container_downright" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="set_dir_downright" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_downright" groups=["8_direction_buttons", "direction_buttons"]]
+visible = false
+offset_right = 28.0
+offset_bottom = 28.0
+tooltip_text = "Down right animation (configured)"
+toggle_mode = true
+texture_normal = ExtResource( 25 )
+texture_pressed = ExtResource( 31 )
+texture_hover = ExtResource( 31 )
+
+[node name="unset_dir_downright" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_downright" groups=["8_direction_buttons", "direction_buttons"]]
+visible = false
+offset_right = 28.0
+offset_bottom = 28.0
+tooltip_text = "Down right animation (unconfigured)"
+toggle_mode = true
+texture_normal = ExtResource( 34 )
+texture_pressed = ExtResource( 22 )
+texture_hover = ExtResource( 22 )
+
+[node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer"]
+offset_top = 12.0
+offset_right = 110.0
+offset_bottom = 161.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 15
+
+[node name="mirror_checkbox" type="CheckBox" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer3"]
+visible = false
+offset_left = 15.0
+offset_right = 110.0
+offset_bottom = 149.0
+tooltip_text = "Mirror opposite direction's animation"
+text = "Mirror"
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer"]
+offset_top = 165.0
+offset_right = 110.0
+offset_bottom = 200.0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer"]
+offset_right = 110.0
+offset_bottom = 35.0
+custom_minimum_size = Vector2( 0, 35 )
+
+[node name="Control2" type="Control" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2"]
+offset_left = 168.0
+offset_right = 218.0
+offset_bottom = 200.0
+custom_minimum_size = Vector2( 50, 0 )
+
+[node name="preview" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2"]
+offset_left = 222.0
+offset_right = 342.0
+offset_bottom = 200.0
+custom_minimum_size = Vector2( 100, 200 )
+
+[node name="anim_preview_background" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview"]
+offset_right = 120.0
+offset_bottom = 200.0
+tooltip_text = "Animation preview based on current animation settings"
+color = Color( 0.215686, 0.207843, 0.207843, 1 )
+
+[node name="MarginContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview"]
+offset_right = 120.0
+offset_bottom = 200.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="anim_preview_sprite" type="AnimatedSprite2D" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/MarginContainer"]
+visible = false
+scale = Vector2( 0.05, 0.05 )
+frames = SubResource( 1 )
+animation = "in_progress"
+playing = true
+centered = false
+
+[node name="no_anim_found_sprite" type="TextureRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/MarginContainer"]
+offset_left = 10.0
+offset_right = 110.0
+offset_bottom = 200.0
+texture = ExtResource( 9 )
+
+[node name="Control3" type="Control" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2"]
+offset_left = 346.0
+offset_right = 396.0
+offset_bottom = 200.0
+custom_minimum_size = Vector2( 50, 0 )
+
+[node name="Control4" type="Control" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2"]
+offset_top = 204.0
+offset_right = 50.0
+offset_bottom = 218.0
+custom_minimum_size = Vector2( 50, 0 )
+
+[node name="current_direction_label" type="Label" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2"]
+offset_left = 54.0
+offset_top = 204.0
+offset_right = 164.0
+offset_bottom = 218.0
+text = "Current Direction"
+
+[node name="Control5" type="Control" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2"]
+offset_left = 168.0
+offset_top = 204.0
+offset_right = 218.0
+offset_bottom = 218.0
+custom_minimum_size = Vector2( 50, 0 )
+
+[node name="anim_preview_label" type="Label" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2"]
+offset_left = 222.0
+offset_top = 204.0
+offset_right = 342.0
+offset_bottom = 218.0
+text = "Animation Preview"
+
+[node name="Control6" type="Control" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2"]
+offset_left = 346.0
+offset_top = 204.0
+offset_right = 396.0
+offset_bottom = 218.0
+custom_minimum_size = Vector2( 50, 0 )
+
+[node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation"]
+offset_top = 332.0
+offset_right = 400.0
+offset_bottom = 382.0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/MarginContainer3"]
+offset_right = 400.0
+offset_bottom = 50.0
+custom_minimum_size = Vector2( 0, 50 )
+
+[node name="autosave" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation"]
+offset_top = 386.0
+offset_right = 400.0
+offset_bottom = 438.0
+custom_minimum_size = Vector2( 400, 50 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/autosave"]
+offset_right = 400.0
+offset_bottom = 24.0
+
+[node name="autosave_colorrect" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/autosave/MarginContainer"]
+offset_right = 400.0
+offset_bottom = 24.0
+color = Color( 0.215686, 0.478431, 0.235294, 1 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/autosave/MarginContainer"]
+offset_right = 400.0
+offset_bottom = 24.0
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Autosave_label" type="Label" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/autosave/MarginContainer/MarginContainer"]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 395.0
+offset_bottom = 19.0
+text = "Autosave changes"
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/autosave/MarginContainer"]
+offset_right = 400.0
+offset_bottom = 24.0
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Autosave_label" type="Label" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/autosave/MarginContainer/MarginContainer2"]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 395.0
+offset_bottom = 19.0
+text = "Autosave changes"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/autosave"]
+offset_top = 28.0
+offset_right = 400.0
+offset_bottom = 52.0
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="AutoStoreCheckBox" type="CheckBox" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/autosave/HBoxContainer"]
+offset_left = 60.0
+offset_right = 339.0
+offset_bottom = 24.0
+tooltip_text = "All changes in this tool are automatically saved for a quicker workflow."
+text = "Auto-store all changes to this character"
+
+[node name="spritesheet" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
+offset_left = 420.0
+offset_right = 870.0
+offset_bottom = 782.0
+custom_minimum_size = Vector2( 440, 550 )
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="spritesheet_background" type="ColorRect" parent="VBoxContainer/HBoxContainer/spritesheet"]
+offset_right = 450.0
+offset_bottom = 782.0
+mouse_filter = 1
+color = Color( 0.235294, 0.341176, 0.290196, 1 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/spritesheet"]
+offset_right = 450.0
+offset_bottom = 782.0
+custom_minimum_size = Vector2( 450, 550 )
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer"]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 445.0
+offset_bottom = 777.0
+
+[node name="spritesheet_scroll_container" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer"]
+offset_right = 440.0
+offset_bottom = 714.0
+tooltip_text = "Loaded spritesheet"
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="control" type="MarginContainer" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container"]
+offset_right = 440.0
+offset_bottom = 714.0
+custom_minimum_size = Vector2( 192, 210 )
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="spritesheet_area" type="ColorRect" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control"]
+offset_right = 440.0
+offset_bottom = 714.0
+mouse_filter = 1
+color = Color( 0.203922, 0.184314, 0.184314, 1 )
+
+[node name="spritesheet_sprite" type="TextureRect" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control"]
+offset_right = 240.0
+offset_bottom = 25.0
+custom_minimum_size = Vector2( 240, 25 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+expand = true
+
+[node name="frame_rectangles" type="Control" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control"]
+offset_right = 440.0
+offset_bottom = 714.0
+mouse_filter = 1
+script = ExtResource( 36 )
+total_num_rows = 1
+total_num_columns = 1
+cell_size = Vector2( 1, 1 )
+zoom_factor = 0.01
+
+[node name="MarginContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control"]
+offset_right = 440.0
+offset_bottom = 714.0
+mouse_filter = 1
+
+[node name="no_spritesheet_found_sprite" type="TextureRect" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control/MarginContainer"]
+offset_left = 20.0
+offset_top = 157.0
+offset_right = 420.0
+offset_bottom = 557.0
+texture = ExtResource( 29 )
+
+[node name="zoom_scroll" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer"]
+offset_top = 718.0
+offset_right = 440.0
+offset_bottom = 738.0
+custom_minimum_size = Vector2( 440, 0 )
+
+[node name="zoom_label" type="Label" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll"]
+offset_top = 3.0
+offset_right = 80.0
+offset_bottom = 17.0
+custom_minimum_size = Vector2( 80, 0 )
+text = "Zoom: 1x"
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll"]
+offset_left = 84.0
+offset_right = 388.0
+offset_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="zoom_scrollbar" type="HScrollBar" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll/MarginContainer"]
+offset_right = 304.0
+offset_bottom = 20.0
+tooltip_text = "Current spritesheet zoom level"
+size_flags_horizontal = 3
+size_flags_vertical = 3
+min_value = 0.1
+max_value = 5.0
+value = 1.0
+
+[node name="zoom_reset_button" type="Button" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll"]
+offset_left = 392.0
+offset_right = 440.0
+offset_bottom = 20.0
+tooltip_text = "Reset spritesheet zoom"
+text = "Reset"
+
+[node name="zoom_current" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer"]
+offset_top = 742.0
+offset_right = 440.0
+offset_bottom = 772.0
+custom_minimum_size = Vector2( 440, 30 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_current"]
+offset_right = 128.0
+offset_bottom = 30.0
+
+[node name="current_spritesheet" type="Label" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_current/MarginContainer"]
+offset_top = 8.0
+offset_right = 128.0
+offset_bottom = 22.0
+text = "Current spritesheet:"
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_current"]
+offset_left = 132.0
+offset_right = 440.0
+offset_bottom = 30.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="current_spritesheet_label" type="TextEdit" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_current/MarginContainer2"]
+offset_right = 308.0
+offset_bottom = 30.0
+size_flags_horizontal = 3
+text = "No spritesheet loaded."
+readonly = true
+
+[node name="spritesheet_controls" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
+offset_left = 890.0
+offset_right = 1190.0
+offset_bottom = 782.0
+custom_minimum_size = Vector2( 300, 450 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="background_colorrect" type="ColorRect" parent="VBoxContainer/HBoxContainer/spritesheet_controls"]
+offset_right = 300.0
+offset_bottom = 782.0
+color = Color( 0.235294, 0.341176, 0.290196, 1 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/spritesheet_controls"]
+offset_right = 300.0
+offset_bottom = 782.0
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer"]
+offset_right = 300.0
+offset_bottom = 30.0
+theme_override_constants/margin_bottom = 6
+
+[node name="name_colorrect3" type="ColorRect" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/MarginContainer"]
+offset_right = 300.0
+offset_bottom = 24.0
+color = Color( 0.215686, 0.478431, 0.235294, 1 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/MarginContainer"]
+offset_right = 300.0
+offset_bottom = 24.0
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/MarginContainer/MarginContainer"]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 295.0
+offset_bottom = 19.0
+text = "Spritesheet Details"
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer"]
+offset_top = 34.0
+offset_right = 300.0
+offset_bottom = 54.0
+
+[node name="load_spritesheet_button" type="Button" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/CenterContainer"]
+offset_left = 90.0
+offset_right = 209.0
+offset_bottom = 20.0
+tooltip_text = "Load a new spritesheet to create animations"
+text = "Load spritesheet"
+
+[node name="spritesheet_details_container" type="CenterContainer" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer"]
+offset_top = 58.0
+offset_right = 300.0
+offset_bottom = 256.0
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/spritesheet_details_container"]
+offset_left = 20.0
+offset_right = 280.0
+offset_bottom = 198.0
+custom_minimum_size = Vector2( 260, 0 )
+theme_override_constants/v_separation = 10
+theme_override_constants/h_separation = 8
+columns = 2
+
+[node name="h_frames_label" type="Label" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/spritesheet_details_container/GridContainer"]
+offset_top = 5.0
+offset_right = 154.0
+offset_bottom = 19.0
+text = "Horizontal frames:"
+align = 2
+
+[node name="h_frames_spin_box" type="SpinBox" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/spritesheet_details_container/GridContainer"]
+offset_left = 162.0
+offset_right = 236.0
+offset_bottom = 24.0
+tooltip_text = "Divide spritesheet into this many horizontal frames"
+min_value = 1.0
+value = 1.0
+exp_edit = true
+rounded = true
+
+[node name="v_frames_label" type="Label" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/spritesheet_details_container/GridContainer"]
+offset_top = 39.0
+offset_right = 154.0
+offset_bottom = 53.0
+text = "Vertical frames:"
+align = 2
+
+[node name="v_frames_spin_box" type="SpinBox" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/spritesheet_details_container/GridContainer"]
+offset_left = 162.0
+offset_top = 34.0
+offset_right = 236.0
+offset_bottom = 58.0
+tooltip_text = "Divide spritesheet into this many vertical frames"
+min_value = 1.0
+value = 1.0
+rounded = true
+
+[node name="start_frame_label" type="Label" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/spritesheet_details_container/GridContainer"]
+offset_top = 73.0
+offset_right = 154.0
+offset_bottom = 87.0
+text = "Start frame:"
+align = 2
+
+[node name="start_frame" type="SpinBox" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/spritesheet_details_container/GridContainer"]
+offset_left = 162.0
+offset_top = 68.0
+offset_right = 236.0
+offset_bottom = 92.0
+tooltip_text = "Start frame to use for this animation"
+max_value = 1000.0
+rounded = true
+
+[node name="end_frame_label" type="Label" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/spritesheet_details_container/GridContainer"]
+offset_top = 107.0
+offset_right = 154.0
+offset_bottom = 121.0
+text = "End frame:"
+align = 2
+
+[node name="end_frame" type="SpinBox" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/spritesheet_details_container/GridContainer"]
+offset_left = 162.0
+offset_top = 102.0
+offset_right = 236.0
+offset_bottom = 126.0
+tooltip_text = "End frame to use for this animation"
+max_value = 1000.0
+rounded = true
+
+[node name="anim_speed_label" type="Label" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/spritesheet_details_container/GridContainer"]
+offset_top = 136.0
+offset_right = 154.0
+offset_bottom = 150.0
+text = "Animation speed: 5 FPS"
+align = 2
+
+[node name="anim_speed_scroll_bar" type="HScrollBar" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/spritesheet_details_container/GridContainer"]
+offset_left = 162.0
+offset_top = 136.0
+offset_right = 236.0
+offset_bottom = 148.0
+tooltip_text = "Speed of the current animation"
+min_value = 1.0
+max_value = 60.0
+step = 1.0
+value = 5.0
+rounded = true
+
+[node name="original_size_label" type="Label" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/spritesheet_details_container/GridContainer"]
+offset_top = 160.0
+offset_right = 154.0
+offset_bottom = 174.0
+text = "Source sprite size: (0, 0)"
+align = 2
+
+[node name="empty_node2" type="Control" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/spritesheet_details_container/GridContainer"]
+offset_left = 162.0
+offset_top = 160.0
+offset_right = 236.0
+offset_bottom = 174.0
+
+[node name="frame_size_label" type="Label" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/spritesheet_details_container/GridContainer"]
+offset_top = 184.0
+offset_right = 154.0
+offset_bottom = 198.0
+text = "Frame size: (0, 0)"
+align = 2
+
+[node name="empty_node3" type="Control" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/spritesheet_details_container/GridContainer"]
+offset_left = 162.0
+offset_top = 184.0
+offset_right = 236.0
+offset_bottom = 198.0
+
+[node name="empty_node" type="Control" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer"]
+offset_top = 260.0
+offset_right = 300.0
+offset_bottom = 310.0
+custom_minimum_size = Vector2( 0, 50 )
+
+[node name="store_anim" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer"]
+visible = false
+offset_top = 314.0
+offset_right = 300.0
+offset_bottom = 414.0
+custom_minimum_size = Vector2( 300, 100 )
+theme_override_constants/separation = 10
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/store_anim"]
+offset_right = 300.0
+offset_bottom = 36.0
+
+[node name="name_colorrect2" type="ColorRect" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/store_anim/MarginContainer"]
+offset_right = 300.0
+offset_bottom = 36.0
+color = Color( 0.215686, 0.478431, 0.235294, 1 )
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/store_anim/MarginContainer"]
+offset_right = 300.0
+offset_bottom = 36.0
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_left = 5
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/store_anim/MarginContainer/MarginContainer"]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 295.0
+offset_bottom = 36.0
+size_flags_vertical = 6
+text = "Store Animation
+"
+valign = 1
+
+[node name="CenterContainer2" type="CenterContainer" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/store_anim"]
+offset_top = 46.0
+offset_right = 300.0
+offset_bottom = 66.0
+
+[node name="anim_store_button" type="Button" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/store_anim/CenterContainer2"]
+offset_left = 92.0
+offset_right = 207.0
+offset_bottom = 20.0
+text = "Store Animation"
+
+[node name="MarginContainer2" type="CenterContainer" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer"]
+offset_top = 314.0
+offset_right = 300.0
+offset_bottom = 379.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/MarginContainer2"]
+offset_left = 17.0
+offset_right = 283.0
+offset_bottom = 65.0
+
+[node name="export_button" type="Button" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/MarginContainer2/VBoxContainer"]
+offset_right = 266.0
+offset_bottom = 61.0
+tooltip_text = "Export all animations to a Godot scene"
+theme_override_colors/font_color = Color( 0, 1, 0.0392157, 1 )
+text = "Export Character to Godot Scene"
+icon = ExtResource( 32 )
+
+[node name="name_colorrect4" type="ColorRect" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/MarginContainer2/VBoxContainer"]
+offset_top = 65.0
+offset_right = 266.0
+offset_bottom = 65.0
+color = Color( 0.215686, 0.478431, 0.235294, 1 )
+
+[node name="empty_node2" type="Control" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer"]
+offset_top = 383.0
+offset_right = 300.0
+offset_bottom = 663.0
+custom_minimum_size = Vector2( 0, 280 )
+
+[node name="MarginContainer3" type="CenterContainer" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer"]
+offset_top = 667.0
+offset_right = 300.0
+offset_bottom = 687.0
+
+[node name="HBoxContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/MarginContainer3"]
+offset_left = 48.0
+offset_right = 251.0
+offset_bottom = 20.0
+theme_override_constants/h_separation = 15
+columns = 3
+
+[node name="help_button" type="Button" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/MarginContainer3/HBoxContainer"]
+offset_right = 42.0
+offset_bottom = 20.0
+tooltip_text = "Export all animations to a Godot scene"
+text = "Help"
+
+[node name="reset_button" type="Button" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/MarginContainer3/HBoxContainer"]
+offset_left = 57.0
+offset_right = 105.0
+offset_bottom = 20.0
+text = "Reset"
+
+[node name="main_menu" type="Button" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/MarginContainer3/HBoxContainer"]
+offset_left = 120.0
+offset_right = 203.0
+offset_bottom = 20.0
+text = "Main Menu"
+
+[node name="ImageFileDialog" type="FileDialog" parent="."]
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 1240.0
+offset_bottom = 850.0
+exclusive = true
+window_title = "Open a File"
+mode = 0
+access = 2
+filters = PackedStringArray( "*.png, *.jpg, *.jpeg ; Supported Images" )
+
+[node name="CharacterPathFileDialog" type="FileDialog" parent="."]
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 1240.0
+offset_bottom = 850.0
+window_title = "Open a DirAccess"
+mode = 2
+
+[node name="InformationWindows" type="Control" parent="."]
+visible = false
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 1240.0
+offset_bottom = 850.0
+
+[node name="unstored_changes_window" type="Window" parent="InformationWindows"]
+offset_left = 295.0
+offset_top = 154.0
+offset_right = 985.0
+offset_bottom = 454.0
+exclusive = true
+window_title = "WARNING : Unstored changes"
+
+[node name="Label" type="Label" parent="InformationWindows/unstored_changes_window"]
+offset_left = 86.0
+offset_top = 57.0
+offset_right = 605.0
+offset_bottom = 156.0
+text = "WARNING : You have made changes to this animation which haven't been stored.
+
+You can 
+* Commit the changes, and then change to the selected direction.
+* Lose the changes, and then change to the selected direction.
+* Cancel the request to change directions and keep editing this direction."
+
+[node name="commit_button" type="Button" parent="InformationWindows/unstored_changes_window"]
+offset_left = 45.0
+offset_top = 250.0
+offset_right = 215.0
+offset_bottom = 270.0
+text = "Commit changes"
+
+[node name="lose_button" type="Button" parent="InformationWindows/unstored_changes_window"]
+offset_left = 260.0
+offset_top = 250.0
+offset_right = 430.0
+offset_bottom = 270.0
+text = "Lose changes"
+
+[node name="cancel_button" type="Button" parent="InformationWindows/unstored_changes_window"]
+offset_left = 475.0
+offset_top = 250.0
+offset_right = 645.0
+offset_bottom = 270.0
+text = "Cancel and keep editing"
+
+[node name="unstored_changes_window_anim_change" type="Window" parent="InformationWindows"]
+offset_left = 295.0
+offset_top = 154.0
+offset_right = 985.0
+offset_bottom = 454.0
+exclusive = true
+window_title = "WARNING : Unstored changes"
+
+[node name="Label" type="Label" parent="InformationWindows/unstored_changes_window_anim_change"]
+offset_left = 86.0
+offset_top = 57.0
+offset_right = 605.0
+offset_bottom = 156.0
+text = "WARNING : You have made changes to this animation which haven't been stored.
+
+You can 
+* Commit the changes, and then change to the selected direction.
+* Lose the changes, and then change to the selected direction.
+* Cancel the request to change directions and keep editing this direction."
+
+[node name="commit_button" type="Button" parent="InformationWindows/unstored_changes_window_anim_change"]
+offset_left = 45.0
+offset_top = 250.0
+offset_right = 215.0
+offset_bottom = 270.0
+text = "Commit changes"
+
+[node name="lose_button" type="Button" parent="InformationWindows/unstored_changes_window_anim_change"]
+offset_left = 260.0
+offset_top = 250.0
+offset_right = 430.0
+offset_bottom = 270.0
+text = "Lose changes"
+
+[node name="cancel_button" type="Button" parent="InformationWindows/unstored_changes_window_anim_change"]
+offset_left = 475.0
+offset_top = 250.0
+offset_right = 645.0
+offset_bottom = 270.0
+text = "Cancel and keep editing"
+
+[node name="generic_error_window" type="AcceptDialog" parent="InformationWindows"]
+offset_left = 343.0
+offset_top = 242.0
+offset_right = 943.0
+offset_bottom = 402.0
+input_pass_on_modal_close_click = false
+exclusive = true
+dialog_text = "Please load a spritesheet to begin."
+
+[node name="export_progress" type="Window" parent="InformationWindows"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -151.0
+offset_top = -87.0
+offset_right = 249.0
+offset_bottom = 113.0
+size_flags_horizontal = 3
+exclusive = true
+window_title = "Export Status"
+
+[node name="progress_label" type="Label" parent="InformationWindows/export_progress"]
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 30.0
+offset_right = 200.0
+offset_bottom = 78.0
+size_flags_horizontal = 3
+size_flags_vertical = 5
+text = "Exporting animations to ESCPlayer node."
+align = 1
+
+[node name="progress_bar" type="ProgressBar" parent="InformationWindows/export_progress"]
+offset_left = 50.0
+offset_top = 100.0
+offset_right = 350.0
+offset_bottom = 130.0
+max_value = 31.0
+rounded = true
+
+[node name="export_complete" type="AcceptDialog" parent="InformationWindows"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -208.0
+offset_top = -132.0
+offset_right = 309.0
+offset_bottom = 147.0
+window_title = "Export complete"
+dialog_text = "The new  ESCPlayer node has now been exported. 
+For your convenience, it has been automatically opened in the Godot editor.
+
+Some actions you may now want to perform:
+
+* A dialog position node has been created. This is where text will appear when
+the player talks. You will want to move this either above the character's head
+or below their feet.
+
+*  The CollisionShape3D child node defines the bounds of the character. You may
+want to resize or change the shape assigned to this node.
+
+* You should move all child nodes down so the crosshairs are directly between
+the character's feet. This ensures that where you click lines up with where the
+character walks to.
+
+* If you want to swap a player character to an NPC, change the parent node
+from an ESCPlayer to an ESCItem. Similarly, change an NPC to a player
+character by changing the parent node to an ESCPlayer node.
+"
+
+[node name="help_window" parent="InformationWindows" instance=ExtResource( 38 )]
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="InformationWindows"]
+offset_left = 479.0
+offset_top = 312.0
+offset_right = 817.0
+offset_bottom = 404.0
+exclusive = true
+dialog_text = "WARNING!
+
+If you continue you will lose the current character."
+
+[node name="MainMenuConfirmation" type="ConfirmationDialog" parent="InformationWindows"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -122.5
+offset_top = -46.0
+offset_right = 122.5
+offset_bottom = 46.0
+dialog_text = "If you return to the main menu
+you will lose your current character.
+"
+
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer/node_name" to="." method="nodename_on_node_name_text_changed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer2/GridContainer/character_path_change_button" to="." method="_on_character_path_change_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype/HBoxContainer/player" to="." method="_on_player_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype/HBoxContainer/npc" to="." method="_on_npc_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/one_direction" to="." method="directions_on_one_direction_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/two_directions" to="." method="directions_on_two_directions_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/four_directions" to="." method="directions_on_four_directions_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/HBoxContainer/eight_directions" to="." method="directions_on_eight_directions_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer/walk_checkbox" to="." method="animation_on_walk_checkbox_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer/talk_checkbox" to="." method="animation_on_talk_checkbox_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer/idle_checkbox" to="." method="animation_on_idle_checkbox_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_upleft/set_dir_upleft" to="." method="animation_on_dir_upleft_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_upleft/unset_dir_upleft" to="." method="animation_on_dir_upleft_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_up/set_dir_up" to="." method="animation_on_dir_up_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_up/unset_dir_up" to="." method="animation_on_dir_up_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_upright/unset_dir_upright" to="." method="animation_on_dir_upright_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_upright/set_dir_upright" to="." method="animation_on_dir_upright_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_left/set_dir_left" to="." method="animation_on_dir_left_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_left/unset_dir_left" to="." method="animation_on_dir_left_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_right/set_dir_right" to="." method="animation_on_dir_right_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_right/unset_dir_right" to="." method="animation_on_dir_right_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_downleft/unset_dir_downleft" to="." method="animation_on_dir_downleft_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_downleft/set_dir_downleft" to="." method="animation_on_dir_downleft_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_down/set_dir_down" to="." method="animation_on_dir_down_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_down/unset_dir_down" to="." method="animation_on_dir_down_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_downright/set_dir_downright" to="." method="animation_on_dir_downright_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_downright/unset_dir_downright" to="." method="animation_on_dir_downright_pressed"]
+[connection signal="toggled" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer3/mirror_checkbox" to="." method="animation_on_mirror_checkbox_toggled"]
+[connection signal="toggled" from="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/autosave/HBoxContainer/AutoStoreCheckBox" to="." method="_on_AutoStoreCheckBox_toggled"]
+[connection signal="gui_input" from="VBoxContainer/HBoxContainer/spritesheet" to="." method="_on_spritesheet_gui_input"]
+[connection signal="gui_input" from="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control" to="." method="_on_control_gui_input"]
+[connection signal="value_changed" from="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll/MarginContainer/zoom_scrollbar" to="." method="spritesheet_on_zoom_scrollbar_value_changed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll/zoom_reset_button" to="." method="spritesheet_on_zoom_reset_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/CenterContainer/load_spritesheet_button" to="." method="spritesheet_on_load_spritesheet_button_pressed"]
+[connection signal="changed" from="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/spritesheet_details_container/GridContainer/anim_speed_scroll_bar" to="." method="controls_on_anim_speed_scroll_bar_value_changed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/store_anim/CenterContainer2/anim_store_button" to="." method="store_on_anim_store_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/MarginContainer2/VBoxContainer/export_button" to="." method="spritesheet_on_export_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/MarginContainer3/HBoxContainer/help_button" to="." method="spritesheet_on_help_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/MarginContainer3/HBoxContainer/reset_button" to="." method="spritesheet_on_reset_button_pressed"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/MarginContainer3/HBoxContainer/main_menu" to="." method="spritesheet_on_main_menu_button_up"]
+[connection signal="file_selected" from="ImageFileDialog" to="." method="controls_on_FileDialog_file_selected"]
+[connection signal="dir_selected" from="CharacterPathFileDialog" to="." method="_on_CharacterPathFileDialog_dir_selected"]
+[connection signal="pressed" from="InformationWindows/unstored_changes_window/commit_button" to="." method="unstored_warning_on_commit_button_pressed"]
+[connection signal="pressed" from="InformationWindows/unstored_changes_window/lose_button" to="." method="unstored_warning_on_lose_button_pressed"]
+[connection signal="pressed" from="InformationWindows/unstored_changes_window/cancel_button" to="." method="unstored_warning_on_cancel_button_pressed"]
+[connection signal="pressed" from="InformationWindows/unstored_changes_window_anim_change/commit_button" to="." method="unstored_animchange_warning_on_commit_button_pressed"]
+[connection signal="pressed" from="InformationWindows/unstored_changes_window_anim_change/lose_button" to="." method="unstored_animchange_warning_on_lose_button_pressed"]
+[connection signal="pressed" from="InformationWindows/unstored_changes_window_anim_change/cancel_button" to="." method="unstored_animchange_warning_on_cancel_button_pressed"]
+[connection signal="confirmed" from="InformationWindows/ConfirmationDialog" to="." method="spritesheet_on_reset_confirmed"]
+[connection signal="confirmed" from="InformationWindows/MainMenuConfirmation" to="." method="spritesheet_on_MainMenuConfirmation_confirmed"]

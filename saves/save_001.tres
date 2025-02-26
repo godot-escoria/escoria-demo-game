@@ -1,50 +1,75 @@
-[gd_resource type="Resource" load_steps=2 format=2]
+[gd_resource type="Resource" script_class="ESCSaveGame" load_steps=2 format=3]
 
-[ext_resource path="res://addons/escoria-core/game/core-scripts/save_data/esc_savegame.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/save_data/esc_savegame.gd" id="1_ggm0a"]
 
 [resource]
-script = ExtResource( 1 )
-escoria_version = "0.1.0"
+script = ExtResource("1_ggm0a")
+escoria_version = "1.0.0"
 game_version = "0.1.0"
-name = "3"
-date = "11/08/2021 21:14"
+name = "r1"
+date = {
+"day": 19,
+"dst": false,
+"hour": 2,
+"minute": 31,
+"month": 1,
+"second": 26,
+"weekday": 0,
+"year": 2025
+}
 main = {
 "current_scene_filename": "res://game/rooms/room01/room01.tscn",
-"last_scene_global_id": ""
+"last_scene_global_id": "room1"
 }
 globals = {
-"dialog_advance": 0,
-"dialog_popup_advance": 0,
+"ESC_CURRENT_SCENE": "room1",
+"ESC_LAST_SCENE": null,
+"FORCE_LAST_SCENE_NULL": true,
+"dialog_advance": 1.0,
+"dialog_popup_advance": 0.0,
 "room1_visited": true
 }
+inventory = []
 objects = {
-"bg_music": {
+"_music": {
 "active": true,
 "interactive": true,
+"playback_position": 6.09814,
 "state": "res://game/sfx/contemplation.ogg"
 },
-"bg_sound": {
+"_sound": {
+"active": true,
+"interactive": true,
+"playback_position": 0.0,
+"state": "default"
+},
+"_speech": {
 "active": true,
 "interactive": true,
 "state": "default"
 },
-"camera": {
+"intro_cutscene": {
+"intro_animation_player": {
 "active": true,
 "interactive": true,
-"state": "default"
+"state": ""
+}
+},
+"room1": {
+"_camera": {
+"active": true,
+"interactive": true,
+"state": "default",
+"target": "player"
 },
 "player": {
 "active": true,
-"global_transform": Transform2D( 1, 0, 0, 1, 621.898, 479.227 ),
+"custom_data": {},
+"global_transform": Transform2D(1, 0, 0, 1, 600, 453),
 "interactive": true,
-"last_deg": 71,
-"last_dir": 2,
-"state": "default"
-},
-"player_start": {
-"active": true,
-"interactive": true,
-"state": "default"
+"last_deg": 21,
+"last_dir": 3,
+"state": "idle_down"
 },
 "r1_destination_point": {
 "active": true,
@@ -56,13 +81,14 @@ objects = {
 "interactive": true,
 "state": "default"
 },
-"r1_left_object_interaction": {
+"r1_destination_point3": {
 "active": true,
 "interactive": true,
 "state": "default"
 },
 "r1_r_exit": {
 "active": true,
+"custom_data": {},
 "interactive": true,
 "state": "default"
 },
@@ -73,17 +99,46 @@ objects = {
 },
 "r1_wall_item1": {
 "active": true,
+"custom_data": {},
 "interactive": true,
 "state": "default"
 },
 "r1_wall_item2": {
 "active": true,
+"custom_data": {},
 "interactive": true,
 "state": "default"
 },
-"r2_left_object_interaction": {
+"trigger_talk": {
 "active": true,
+"custom_data": {},
 "interactive": true,
 "state": "default"
 }
+}
+}
+events = {
+"sched_events": []
+}
+terrain_navpolys = {
+"room1": {
+"NavigationRegion2D": true
+}
+}
+settings = {
+"custom_settings": {
+"a_custom_setting": 100
+},
+"escoria_version": "1.0.0",
+"fullscreen": false,
+"master_volume": 1.0,
+"music_volume": 0.094,
+"sfx_volume": 1.0,
+"speech_enabled": true,
+"speech_volume": 1.0,
+"text_lang": "en",
+"voice_lang": "fr_FR"
+}
+custom_data = {
+"ui_type": "9verbs"
 }

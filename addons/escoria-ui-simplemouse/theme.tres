@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cujvdn6gu1j74"]
+
+[ext_resource type="FontFile" path="res://addons/escoria-ui-simplemouse/fonts/caslonantique.tres" id="1"]
+
+[resource]
+default_font = ExtResource("1")

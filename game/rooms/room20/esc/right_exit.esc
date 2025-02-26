@@ -1,0 +1,3 @@
+:exit_scene
+	say($player, "This is the end! Looks like I can't get out this way.")
+	#change_scene("res://game/rooms/room05/room05.tscn")

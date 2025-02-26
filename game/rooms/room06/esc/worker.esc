@@ -1,55 +1,129 @@
 :look
-say player "He's looking a bit odd."
+	say("player", "He's wearing a badge that says \"Careers Officer\".")
 
 ####################################################################################################
 :pickup
-say player "I don't think he'd like that."
+	say("player", "I don't think he'd like that.")
 
 ####################################################################################################
 :talk
-> [!talked_once]
-	say player "Uhm..."
-	say worker "Yeah?"
-	set_global talked_once true
+	# This block will only execute once per game
+	if !talked_once:
+		turn_to("worker", "player")
+		say("worker", "If you talk to me again")
+		say("worker", "I will not say this opening sentence.")
+		talked_once = true
 
-? res://game/characters/mark/mark_talk.tscn 5 1
-	- ROOM6_dialog_1:"What are you doing here?"
-		say player 	"What are you doing here?"
-		say worker 	"I'm working! Can't you see that?"
-		say worker	"My colleague is supposed to bring me an important report. And he's not coming!"
-		?
-			- "I'll bring you this report!"
-				say player	"I'll bring you this report!"
-				say worker	"You will? Great!"
-				say worker	"Now please hurry up so I can leave and have lunch."
-				stop
-			- "I've got better things to do."
-				say player	"I've got better things to do."
-				say worker	"Eh! I'm not asking you anythin'!"
-				stop
-		!
-	- ROOM6_dialog_2:"I'm selling these fine leather jackets."
-		say player	"I'm selling these fine leather jackets."
-		say worker 	"Go away, kid."
-		stop
-!		
+	# Reset flag so the Loom conversation will be available every time 
+	# you restart the conversation with the worker during a game.
+	# The Loom inner conversation block will exit back to the outer question block
+	# once all options are exhausted, which is why all of them have a conditional
+	# flag to make them disappear once you choose
+	# "I don't want to talk at all any more"
+
+	loom_conversation_done = false
+	turn_to("worker", "player")
+	?!
+		- "What is your name?"
+			say("current_player", "Who are you?")
+
+			if !name_known:
+				say("worker", "I'm the worker")
+			else:
+				say("worker", "You already asked me that")
+
+			name_known = true
+
+		- "Why are you here?"
+			say("current_player", "Why are you here?")
+			say("worker", "I'm waiting for you to give me the")
+			say("worker", "filled form from room 5.")
+		# This starts an inner subset of questions
+		- "Can I ask you about Loom?" [!loom_conversation_done]
+			say("current_player", "What do you know about Loom?")
+			say("worker", "What do you want to know about Loom?")
+			?!
+				- "Could it be created in Escoria?" #[!loom_conversation_done]
+					say("player",	"Could Loom be created in Escoria?")
+					say("worker",	"Yes!")
+				- "Is it an old game?"
+					say("current_player", "Is the game as old as you are?")
+					say("worker", "You'd better be kidding...")
+					?!
+						- "I am."
+							say("current_player", "I am. Sorry.")
+							break
+						- "Not really."
+							say("current_player", "Not really.")
+							say("current_player", "Let's talk about something else.")
+							var break_level = 2
+							break break_level
+				- "Is it a fun game?" #[!loom_conversation_done and !fun_game_asked]
+					say("player",	"Is Loom a fun game?")
+					say("worker",	"Yes!")
+					fun_game_asked = true
+				- "I don't want to talk at all any more." #[!loom_conversation_done]
+					turn_to("worker", "worker_face_down")
+					done
+				# This will take you back to the outer set of questions
+				- "I know enough about Loom." #[!loom_conversation_done]
+					loom_conversation_done = true
+					break
+	#			!?
+		- "I'm done."
+			say("player",	"Bye!")
+			turn_to("worker", "worker_face_down")
+			done
+			#stop
+#	!?
+
+	say("player", "That discussion was exhausting!")
+
+
 ####################################################################################################
-:use r5_filled_sheet
-#jump give r5_filled_sheet
+# accept both use or give commands to progress the game
+:give "r5_filled_sheet"
+	set_gui_visible(false)
+	accept_input("SKIP")
 
-####################################################################################################
-:give r5_filled_sheet
-inventory_remove r5_filled_sheet
-say worker "Hey! That's perfect!"
-say worker "I can finally get away from here!"
-walk_to_pos_block worker 1200 400
+	inventory_remove("r5_filled_sheet")
+	say("worker", "I've unlocked the door, in you go!")
+	walk("worker", "r6_r_exit")
 
-#set_angle worker 45
+	# Open the door
+	r6_r_exit_locked = false
+	# Hide the closed door graphic
+	set_state("r6_r_exit", "open_door")
+	# Make the open exit visible
+	set_active("r6_r_exit", true)
 
-# Open the door
-set_state r6_door r_door_open
-set_global r6_door_open true
+	# Disappear!
+	say("worker", "I will see you again... MUAHAHAHAHA!")
+	wait(1)
+	set_active("worker", false)
 
-# Disappear!
-wait 1
-set_active worker false
+	set_gui_visible(true)
+	accept_input("ALL")
+
+:use "r5_filled_sheet"
+	set_gui_visible(false)
+	accept_input("SKIP")
+
+	inventory_remove("r5_filled_sheet")
+	say("worker", "I've unlocked the door, in you go!")
+	walk("worker", "r6_r_exit")
+
+	# Open the door
+	r6_r_exit_locked = false
+	# Hide the closed door graphic
+	set_state("r6_r_exit", "open_door")
+	# Make the open exit visible
+	set_active("r6_r_exit", true)
+
+	# Disappear!
+	say("worker", "I will see you again... MUAHAHAHAHA!")
+	wait(1)
+	set_active("worker", false)
+
+	set_gui_visible(true)
+	accept_input("ALL")

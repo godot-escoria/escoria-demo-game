@@ -1,0 +1,11 @@
+:look
+	if !("r5_wrench" in inventory):
+		say("player", "That's a wrench on the floor.")
+	else:
+		say("player", "It seems even more useful now that I picked it up.")
+
+:pickup
+	inventory_add("r5_wrench")
+	set_active("r5_wrench", false)
+
+

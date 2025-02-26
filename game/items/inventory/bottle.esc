@@ -1,0 +1,9 @@
+:look
+	say($player, "It's a bottle.")
+
+
+:pickup
+	inventory_add($r9_bottle)
+	set_active($r9_bottle_left, false)
+	set_active($r9_bottle_middle, false)
+	set_active($r9_bottle_right, false)

@@ -1,2 +1,2 @@
 :look
-	say player "I can just click the exits apparently."
+	say($player, "I can just click the exits apparently.")

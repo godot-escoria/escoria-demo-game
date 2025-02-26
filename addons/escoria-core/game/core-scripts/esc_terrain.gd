@@ -1,50 +1,82 @@
-# A walkable Terrains
-tool
-extends Navigation2D
-class_name ESCTerrain, "res://addons/escoria-core/design/esc_terrain.svg"
+@tool
+@icon("res://addons/escoria-core/design/esc_terrain.svg")
+## A walkable Terrain for Escoria rooms.
+extends Node2D
+class_name ESCTerrain
+
+
+# Logger class
+const Logger = preload("res://addons/escoria-core/tools/logging/esc_logger.gd")
 
 
 # Visualize scales or the lightmap for debugging purposes
 enum DebugMode {
-	NONE
-	SCALES
-	LIGHTMAP
+	NONE,
+	SCALES,
+	LIGHTMAP,
 }
 
 
-# Scaling texture
-export(Texture) var scales setget _set_scales
 
-# Minimum scaling
-export(float) var scale_min = 0.3
+@export_group("Scales")
+## Scaling texture. If empty, items scale will always be 1.0.
+## This is a greyscale image defining how close to the camera the character will
+## appear at each pixel position. White is closer, black is further.
+@export var scales: Texture2D: set = _set_scales
 
-# Maximum scaling
-export(float) var scale_max = 1.0
+## Minimum scaling. Corresponds to the scale used for characters when they are
+## located at the blackest pixel of scaling texture, at which they will appear
+## smallest.
+## Unused if scaling texture is not set.
+@export var scale_min: float = 0.3
 
-# Lightmap texture
-export(Texture) var lightmap setget _set_lightmap
+## Maximum scaling. Corresponds the scale used for characters when they are
+## located at the whitest pixel of scaling texture, at which they will appear
+## biggest.
+## Unused if scaling texture is not set.
+@export var scale_max: float = 1.0
 
-# The scaling factor for the scale and light maps
-export(Vector2) var bitmaps_scale = Vector2(1,1) setget _set_bm_scale
+@export_group("","")
+@export_group("Lightmap")
 
-# Multiplier applied to the player speed on this terrain
-export(float) var player_speed_multiplier = 1.0  
+## Lightmap texture.
+@export var lightmap: Texture2D: set = _set_lightmap
 
-# Multiplier how much faster the player will walk when fast mode is on
-# (double clicked)
-export(float) var player_doubleclick_speed_multiplier = 1.5
+## Additional modulator to the lightmap texture.
+@export var lightmap_modulate: Color = Color(1, 1, 1, 1)
 
-# Additional modulator to the lightmap texture
-export(Color) var lightmap_modulate = Color(1, 1, 1, 1)
-
-# Currently selected debug visualize mode
-export(int, "None", "Scales", "Lightmap") var debug_mode = DebugMode.NONE \
-		setget _set_debug_mode
+@export_group("","")
+@export_group("Bitmaps scale")
 
 
-# The currently activ navigation polygon
-var current_active_navigation_instance: NavigationPolygonInstance = null
+## Scaling factor for the scale and light maps.
+@export var bitmaps_scale: Vector2 = Vector2(1,1): set = _set_bm_scale
 
+@export_group("","")
+@export_group("Movement speed")
+
+## Multiplier applied to the player speed on this terrain.
+@export var player_speed_multiplier: float = 1.0
+
+## Multiplier that determines how much faster the player will walk when fast
+## mode is on (double clicked)
+@export var player_doubleclick_speed_multiplier: float = 1.5
+
+@export_group("","")
+@export_group("Debug display")
+
+
+## Debug display mode.
+## None: no debug display
+## Scales: displays the scales map
+## Lightmap: displays the lightmap
+@export var editor_debug_mode = DebugMode.NONE: # (int, "None", "Scales", "Lightmap")
+		set = _set_editor_debug_mode
+
+@export_group("","")
+
+# The currently active navigation polygon
+var current_active_navigation_instance: NavigationRegion2D = null
 
 # Currently visualized texture for debug mode
 var _texture = null
@@ -55,29 +87,72 @@ var _lightmap_data
 # Prohibits multiple calls to update_texture
 var _texture_in_update = false
 
+# Logger instance
+@onready var logger = Logger.ESCLoggerFile.new()
 
 # Set a reference to the active navigation polygon, register to Escoria
 # and update the texture
 func _ready():
-	var navigation_enabled_found = false
-	for n in get_children():
-		if n is NavigationPolygonInstance:
-			if n.enabled:
-				if navigation_enabled_found:
-					escoria.logger.report_errors(
-						"ESCTerrain:_ready()", 
-						[
-							"Multiple NavigationPolygonInstances enabled " + \
-							"at the same time."
-						]
-					)
-				navigation_enabled_found = true
-				current_active_navigation_instance = n
-	
-	
+	connect("child_entered_tree", Callable(self, "_check_multiple_enabled_navpolys"))
+	connect("child_exiting_tree", Callable(self, "_check_multiple_enabled_navpolys").bind(true))
+
+	_check_multiple_enabled_navpolys()
 	if !Engine.is_editor_hint():
 		escoria.room_terrain = self
 	_update_texture()
+
+
+# Returns all NavigationPolygonInstances defined as children of ESCTerrain in an Array.
+#
+# **Returns**
+# A list of NavigationPolygons nodes
+func get_children_navpolys() -> Array:
+	var navpolys: Array = []
+	for n in get_children():
+		if n is NavigationRegion2D:
+			navpolys.push_back(n)
+	return navpolys
+
+
+# Checks whether multiple navigation polygons are enabled.
+# Shows a warning in the terminal if this happens.
+# TODO: change this "simple" console log for an editor warning
+# by overriding Node._get_configuration_warning() after we get rid of
+# deprecated Navigation2D.
+#
+# #### Parameters
+#
+# - node: if this method is triggered by child_entered_tree or
+# child_exited_tree signals, parameter is the added node.
+func _check_multiple_enabled_navpolys(node: Node = null, is_exiting: bool = false) -> void:
+	var navigation_enabled_found = false
+	if (node != null
+			and not is_exiting
+			and node is NavigationRegion2D
+			and node.enabled):
+		navigation_enabled_found = true
+
+	for n in get_children():
+		if is_exiting and n == node:
+			continue
+		if n is NavigationRegion2D and n.enabled:
+			if navigation_enabled_found:
+				if Engine.is_editor_hint():
+					logger.warn(
+						self,
+						"Multiple NavigationPolygonInstances enabled " + \
+						"at the same time."
+					)
+				else:
+					logger.error(
+						self,
+						"Multiple NavigationPolygonInstances enabled " + \
+						"at the same time."
+					)
+				return
+			else:
+				navigation_enabled_found = true
+				current_active_navigation_instance = n
 
 
 # Return the Color of the lightmap pixel for the specified position
@@ -87,10 +162,9 @@ func _ready():
 # - pos: Position to calculate lightmap for
 # **Returns** The color of the given point
 func get_light(pos: Vector2) -> Color:
-	if not lightmap or lightmap.get_data().is_empty():
+	if lightmap == null or lightmap.get_image().is_empty():
 		return Color(1, 1, 1, 1)
-	var c = _get_color(_lightmap_data, pos)
-	return _get_color(_lightmap_data, pos) * lightmap_modulate
+	return _get_color(lightmap.get_image(), pos) * lightmap_modulate
 
 
 # Calculate the scale inside the scale range for a given scale factor
@@ -111,17 +185,14 @@ func get_scale_range(factor: float) -> Vector2:
 # - pos: The position to calculate for
 # **Returns** The scale factor for the given position
 func get_terrain(pos: Vector2) -> float:
-	if scales == null || scales.get_data().is_empty():
+	if scales == null || scales.get_image().is_empty():
 		return 1.0
-	return _get_color(scales.get_data(), pos).v
+	return _get_color(scales.get_image(), pos).v
 
 
 # Small helper to get the color of an image at a position
 func _get_color(image: Image, pos: Vector2) -> Color:
-	image.lock()
-	var color=image.get_pixel(pos.x, pos.y)
-	image.unlock()
-	return color
+	return image.get_pixel(pos.x, pos.y)
 
 
 # Set the bitmap scaling
@@ -139,7 +210,7 @@ func _set_bm_scale(p_scale: Vector2):
 # #### Parameters
 #
 # - p_lightmap: Lightmap texture to set
-func _set_lightmap(p_lightmap: Texture):
+func _set_lightmap(p_lightmap: Texture2D):
 	var need_init = (lightmap != p_lightmap) or (lightmap and not _lightmap_data)
 
 	lightmap = p_lightmap
@@ -147,10 +218,8 @@ func _set_lightmap(p_lightmap: Texture):
 	# It's bad enough a new copy is created when reading a pixel, we don't
 	# also need to get the data for every read to make yet another copy
 	if need_init:
-		if _lightmap_data:
-			_lightmap_data.unlock()
-		_lightmap_data = lightmap.get_data()
-		_lightmap_data.lock()
+		if _lightmap_data == null:
+			_lightmap_data = lightmap.get_image().get_data()
 
 	_update_texture()
 
@@ -160,7 +229,7 @@ func _set_lightmap(p_lightmap: Texture):
 # #### Parameters
 #
 # - p_scales: Scale texture to set
-func _set_scales(p_scales: Texture):
+func _set_scales(p_scales: Texture2D):
 	scales = p_scales
 	_update_texture()
 
@@ -170,8 +239,8 @@ func _set_scales(p_scales: Texture):
 # #### Parameters
 #
 # - p_mode: Debug mode to set
-func _set_debug_mode(p_mode: int):
-	debug_mode = p_mode
+func _set_editor_debug_mode(p_mode: int):
+	editor_debug_mode = p_mode
 	_update_texture()
 
 
@@ -189,30 +258,30 @@ func _do_update_texture():
 	if !is_inside_tree() or !Engine.is_editor_hint():
 		return
 
-	if debug_mode == DebugMode.NONE:
-		update()
+	if editor_debug_mode == DebugMode.NONE:
+		queue_redraw()
 		return
 
 	_texture = ImageTexture.new()
-	if debug_mode == DebugMode.SCALES:
+	if editor_debug_mode == DebugMode.SCALES:
 		if scales != null:
 			_texture = scales
-	elif debug_mode == DebugMode.LIGHTMAP:
+	elif editor_debug_mode == DebugMode.LIGHTMAP:
 		if lightmap != null:
 			_texture = lightmap
 
-	update()
+	queue_redraw()
 
 
 # Draw debugging visualizations
 func _draw():
 	if _texture == null or \
 			not Engine.is_editor_hint() or \
-			debug_mode == DebugMode.NONE:
+			editor_debug_mode == DebugMode.NONE:
 		if current_active_navigation_instance:
 			current_active_navigation_instance.visible = true
 		return
-	
+
 	var scale_vect = bitmaps_scale
 
 	if current_active_navigation_instance:
@@ -220,10 +289,23 @@ func _draw():
 
 	var src = Rect2(0, 0, _texture.get_width(), _texture.get_height())
 	var dst = Rect2(
-		0, 
-		0, 
-		_texture.get_width() * scale_vect.x, 
+		0,
+		0,
+		_texture.get_width() * scale_vect.x,
 		_texture.get_height() * scale_vect.y
 	)
 
 	draw_texture_rect_region(_texture, dst, src)
+
+
+func get_simple_path(
+		from: Vector2,
+		to: Vector2,
+		optimize: bool = true,
+		layers: int = 1) -> PackedVector2Array:
+	return NavigationServer2D.map_get_path(
+		get_world_2d().navigation_map,
+		from,
+		to,
+		optimize,
+		layers)

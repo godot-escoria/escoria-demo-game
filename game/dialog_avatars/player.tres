@@ -1,0 +1,14 @@
+[gd_resource type="AnimatedTexture" load_steps=4 format=3 uid="uid://biv4ritcbiojc"]
+
+[ext_resource type="Texture2D" uid="uid://bj2veqv6r6f4m" path="res://game/dialog_avatars/mark_talk_down_right_1.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://dchpb5a8kp7j4" path="res://game/dialog_avatars/mark_talk_down_right_3.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://b41yjao6awc3r" path="res://game/dialog_avatars/mark_talk_down_right_2.png" id="3"]
+
+[resource]
+frames = 3
+frame_0/texture = ExtResource("1")
+frame_0/duration = 0.5
+frame_1/texture = ExtResource("3")
+frame_1/duration = 0.5
+frame_2/texture = ExtResource("2")
+frame_2/duration = 0.5

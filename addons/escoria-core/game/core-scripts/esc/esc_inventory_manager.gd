@@ -1,5 +1,5 @@
 # A manager for inventory objects
-extends Object
+extends Resource
 class_name ESCInventoryManager
 
 
@@ -8,7 +8,7 @@ class_name ESCInventoryManager
 # #### Parameters
 #
 # - item: Inventory item id
-# **Returns** Wether the player has the inventory
+# **Returns** Whether the player has the inventory
 func inventory_has(item: String) -> bool:
 	return escoria.globals_manager.has("i/%s" % item)
 
@@ -31,11 +31,10 @@ func items_in_inventory() -> Array:
 # - item: Inventory item id
 func remove_item(item: String):
 	if not inventory_has(item):
-		self.logger.report_errors(
-			"ESCInventoryManager.remove_item: Error removing inventory item",
-			[
-				"Trying to remove non-existent item %s" % item
-			]
+		escoria.logger.error(
+			self,
+			"Error removing inventory item: " +
+			"Trying to remove non-existent item %s." % item
 		)
 	else:
 		escoria.globals_manager.set_global("i/%s" % item, false)
@@ -48,3 +47,13 @@ func remove_item(item: String):
 # - item: Inventory item id
 func add_item(item: String):
 	escoria.globals_manager.set_global("i/%s" % item, true)
+
+
+# Save the inventory.
+#
+# #### Parameters
+# - p_savegame: ESCSaveGame resource that holds all data of the save
+func save_game(p_savegame: ESCSaveGame) -> void:
+	p_savegame.inventory = []
+	for item in items_in_inventory():
+		p_savegame.inventory.append(item)

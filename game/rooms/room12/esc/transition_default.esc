@@ -1,0 +1,7 @@
+:use
+	accept_input("NONE")
+	say($player, "Default")
+	transition("", "out")
+	wait(1)
+	transition("", "in")
+	accept_input("ALL")

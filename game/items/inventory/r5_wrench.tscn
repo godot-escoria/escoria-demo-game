@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=3 uid="uid://cwg2l8cs056p"]
+
+[ext_resource type="Texture2D" uid="uid://c1ehcxbldrkfs" path="res://game/items/inventory/wrench.png" id="1"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="2"]
+[ext_resource type="Material" uid="uid://bredlcniiy5bp" path="res://game/shaders/shadermaterial_outline_green5px.tres" id="2_r6a7q"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="3"]
+[ext_resource type="Texture2D" uid="uid://cugq45pbg8txg" path="res://game/items/inventory/wrench_inventory_hovered.png" id="3_qlcni"]
+
+[sub_resource type="RectangleShape2D" id="2"]
+size = Vector2(74, 67)
+
+[node name="wrench" type="Area2D"]
+process_mode = 1
+script = ExtResource("3")
+global_id = "r5_wrench"
+esc_script = "res://game/items/inventory/wrench.esc"
+tooltip_name = "Wrench"
+default_action = "pickup"
+combine_when_selected_action_is_in = PackedStringArray("use")
+hover_enabled = true
+hover_shader = ExtResource("2_r6a7q")
+default_action_inventory = "use"
+use_from_inventory_only = true
+inventory_texture = ExtResource("1")
+inventory_texture_hovered = ExtResource("3_qlcni")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(262, 436)
+texture = ExtResource("1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(261, 435.5)
+shape = SubResource("2")
+
+[node name="ESCLocation" type="Marker2D" parent="."]
+position = Vector2(258, 486)
+script = ExtResource("2")

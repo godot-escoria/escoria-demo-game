@@ -1,280 +1,398 @@
+@tool
 # Plugin script to initialize Escoria
-tool
 extends EditorPlugin
 
-# Autoloads to instantiate
-const autoloads = {
-	"escoria": "res://addons/escoria-core/game/escoria.tscn",
-}
+# Consts values
+const COMMA_SEPARATOR = ","
+const ESC_SCRIPT_EXTENSION = "esc"
+const ASHES_ANALYZER_MENU_ITEM = "Analyze ASHES Scripts"
 
 
-# Setup Escoria
-func _enter_tree():
-	for key in autoloads.keys():
-		add_autoload_singleton(key, autoloads[key])
-		
-	# Add input actions in InputMap
-	InputMap.add_action("switch_action_verb")
-	InputMap.add_action("esc_show_debug_prompt")
-	
+# The warning popup displayed on escoria-core enabling.
+var popup_info: AcceptDialog
+
+# ASHES scripts analyzer
+var _compiler_analyzer: ESCAshesAnalyzer = ESCAshesAnalyzer.new()
+
+
+# Virtual function called when plugin is enabled.
+func _enable_plugin():
+	add_autoload_singleton(
+		"escoria",
+		"res://addons/escoria-core/game/esc_autoload.gd"
+	)
 	# Prepare settings
 	set_escoria_main_settings()
 	set_escoria_debug_settings()
 	set_escoria_ui_settings()
 	set_escoria_sound_settings()
 	set_escoria_platform_settings()
+	set_filesystem_show_esc_files()
+
+	# Define standard settings
+	ProjectSettings.set_setting(
+		"application/run/main_scene",
+		"res://addons/escoria-core/game/main_scene.tscn"
+	)
+
+	ProjectSettings.set_setting(
+		"audio/buses/default_bus_layout",
+		"res://addons/escoria-core/buses/default_bus_layout.tres"
+	)
+
+	popup_info = AcceptDialog.new()
+	popup_info.dialog_text = """You enabled escoria-core plugin.
+
+	Please ignore error messages in Output console and reload your project using
+	Godot editor's "Project / Reload Current Project" menu.
+	"""
+	popup_info.connect("confirmed", Callable(self, "_on_warning_popup_confirmed").bind(), CONNECT_ONE_SHOT)
+	get_editor_interface().get_editor_main_screen().add_child(popup_info)
+	popup_info.popup_centered()
+
+
+func _on_warning_popup_confirmed():
+	popup_info.queue_free()
+
+
+# Virtual function called when plugin is disabled.
+func _disable_plugin():
+	remove_autoload_singleton("escoria")
+	set_filesystem_hide_esc_files()
+
+
+# Setup Escoria
+func _enter_tree():
+	# have to add this here since reloading the project doesn't re-add the Tools menu item
+	add_tool_menu_item(ASHES_ANALYZER_MENU_ITEM, _compiler_analyzer.analyze)
+
+
+func _exit_tree():
+	remove_tool_menu_item(ASHES_ANALYZER_MENU_ITEM)
 
 
 # Prepare the settings in the Escoria UI category
 func set_escoria_ui_settings():
-	ProjectSettings.set_setting(
-		"audio/default_bus_layout", 
-		"res://addons/escoria-core/default_bus_layout.tres"
-	)
-	if !ProjectSettings.has_setting("escoria/ui/tooltip_follows_mouse"):
-		ProjectSettings.set_setting("escoria/ui/tooltip_follows_mouse", true)
-	
-	if !ProjectSettings.has_setting("escoria/ui/dialogs_chooser"):
-		ProjectSettings.set_setting("escoria/ui/dialogs_chooser", "")
-		var dialogs_chooser_property_info = {
-			"name": "escoria/ui/dialogs_chooser",
-			"type": TYPE_STRING,
-			"hint": PROPERTY_HINT_FILE,
-			"hint_string": "*.tscn, *.scn"
-		}
-		ProjectSettings.add_property_info(dialogs_chooser_property_info)
-		
-	if !ProjectSettings.has_setting("escoria/ui/default_dialog_scene"):
-		ProjectSettings.set_setting("escoria/ui/default_dialog_scene", "")
-		var default_dialog_scene_property_info = {
-			"name": "escoria/ui/default_dialog_scene",
-			"type": TYPE_STRING,
-			"hint": PROPERTY_HINT_FILE,
-			"hint_string": "*.tscn, *.scn"
-		}
-		ProjectSettings.add_property_info(default_dialog_scene_property_info)
-	
-	if !ProjectSettings.has_setting("escoria/ui/game_scene"):
-		ProjectSettings.set_setting("escoria/ui/game_scene", "")
-		var game_scene_property_info = {
-			"name": "escoria/ui/game_scene",
-			"type": TYPE_STRING,
-			"hint": PROPERTY_HINT_FILE,
-			"hint_string": "*.tscn, *.scn"
-		}
-		ProjectSettings.add_property_info(game_scene_property_info)
-		
-	if !ProjectSettings.has_setting("escoria/ui/items_autoregister_path"):
-		ProjectSettings.set_setting(
-			"escoria/ui/items_autoregister_path", 
-			"res://game/items/escitems/"
-		)
-		var game_scene_property_info = {
-			"name": "escoria/ui/items_autoregister_path",
-			"type": TYPE_STRING,
-			"hint": PROPERTY_HINT_DIR
-		}
-		ProjectSettings.add_property_info(game_scene_property_info)
-	
-	if !ProjectSettings.has_setting("escoria/ui/default_transition"):
-		ProjectSettings.set_setting(
-			"escoria/ui/default_transition",
-			"curtain"
-		)
-		ProjectSettings.add_property_info({
-			"name": "escoria/ui/default_transition",
+	register_setting(
+		ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE,
+		"",
+		{
 			"type": TYPE_STRING
-		})
-		
-	if !ProjectSettings.has_setting("escoria/ui/transition_paths"):
-		ProjectSettings.set_setting(
-			"escoria/ui/transition_paths",
-			[
-				"res://addons/escoria-core/game/scenes/transitions/shaders/"
-			]
-		)
-		ProjectSettings.add_property_info({
-			"name": "escoria/ui/transition_paths",
-			"type": TYPE_STRING_ARRAY,
+		}
+	)
+	print("DEFAULT DIALOG TYPE RESET !!!")
+
+	register_setting(
+		ESCProjectSettingsManager.GAME_SCENE,
+		"",
+		{
+			"name": ESCProjectSettingsManager.GAME_SCENE,
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_FILE,
+			"hint_string": "*.tscn, *.scn"
+		}
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.INVENTORY_ITEMS_PATH,
+		"res://game/items/inventory/",
+		{
+			"name": ESCProjectSettingsManager.INVENTORY_ITEMS_PATH,
+			"type": TYPE_STRING,
 			"hint": PROPERTY_HINT_DIR
-		})
-	
+		}
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.DEFAULT_TRANSITION,
+		"curtain",
+		{
+			"name": ESCProjectSettingsManager.DEFAULT_TRANSITION,
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_ENUM_SUGGESTION,
+			"hint_string": "instant,fade_black,fade_white,curtain"
+		}
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.TRANSITION_PATHS,
+		[
+			"res://addons/escoria-core/game/scenes/transitions/shaders/"
+		],
+		{
+			"name": ESCProjectSettingsManager.TRANSITION_PATHS,
+			"type": TYPE_PACKED_STRING_ARRAY,
+			"hint": PROPERTY_HINT_DIR
+		}
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.INVENTORY_ITEM_SIZE,
+		Vector2(72, 72),
+		{
+			"name": ESCProjectSettingsManager.INVENTORY_ITEM_SIZE,
+			"type": TYPE_VECTOR2
+		}
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.DIALOG_MANAGERS,
+		[],
+		{
+			"type": TYPE_PACKED_STRING_ARRAY
+		}
+	)
+
 
 # Prepare the settings in the Escoria main category
 func set_escoria_main_settings():
-	
-	if !ProjectSettings.has_setting("escoria/main/game_version"):
-		ProjectSettings.set_setting("escoria/main/game_version", "")
-		var game_version_property_info = {
-			"name": "escoria/main/game_version",
+	register_setting(
+		ESCProjectSettingsManager.GAME_VERSION,
+		"",
+		{
 			"type": TYPE_STRING
 		}
-		ProjectSettings.add_property_info(game_version_property_info)
-	
-	if !ProjectSettings.has_setting("escoria/main/game_start_script"):
-		ProjectSettings.set_setting("escoria/main/game_start_script", "")
-		var game_start_script_property_info = {
-			"name": "escoria/main/game_start_script",
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.GAME_START_SCRIPT,
+		"",
+		{
 			"type": TYPE_STRING,
 			"hint": PROPERTY_HINT_FILE,
 			"hint_string": "*.esc"
 		}
-		ProjectSettings.add_property_info(game_start_script_property_info)
-	
-	if !ProjectSettings.has_setting("escoria/main/force_quit"):
-		ProjectSettings.set_setting("escoria/main/force_quit", true)
-		var force_quit_property_info = {
-			"name": "escoria/main/force_quit",
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.ACTION_DEFAULT_SCRIPT,
+		"",
+		{
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_FILE,
+			"hint_string": "*.esc"
+		}
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.FORCE_QUIT,
+		true,
+		{
 			"type": TYPE_BOOL
 		}
-		ProjectSettings.add_property_info(force_quit_property_info)
-	
-	ProjectSettings.set_setting("application/run/main_scene", "res://addons/escoria-core/game/main_scene.tscn")
+	)
 
-	if not ProjectSettings.has_setting("escoria/main/command_directories"):
-		ProjectSettings.set_setting("escoria/main/command_directories", [
+	register_setting(
+		ESCProjectSettingsManager.COMMAND_DIRECTORIES,
+		[
 			"res://addons/escoria-core/game/core-scripts/esc/commands"
-		])
-		ProjectSettings.add_property_info({
-			"name": "escoria/main/command_directories",
+		],
+		{
 			"type": TYPE_ARRAY,
-		})
+		}
+	)
 
-	if !ProjectSettings.has_setting("escoria/main/text_lang"):
-		ProjectSettings.set_setting("escoria/main/text_lang", TranslationServer.get_locale())
-		var text_lang_property_info = {
-			"name": "escoria/main/text_lang",
+	register_setting(
+		ESCProjectSettingsManager.TEXT_LANG,
+		TranslationServer.get_locale(),
+		{
 			"type": TYPE_STRING,
 			"hint": PROPERTY_HINT_NONE
 		}
-		ProjectSettings.add_property_info(text_lang_property_info)
+	)
 
-	if !ProjectSettings.has_setting("escoria/main/voice_lang"):
-		ProjectSettings.set_setting("escoria/main/voice_lang", TranslationServer.get_locale())
-		var voice_lang_property_info = {
-			"name": "escoria/main/voice_lang",
+	register_setting(
+		ESCProjectSettingsManager.VOICE_LANG,
+		TranslationServer.get_locale(),
+		{
 			"type": TYPE_STRING,
 			"hint": PROPERTY_HINT_NONE
 		}
-		ProjectSettings.add_property_info(voice_lang_property_info)
-		
-	if !ProjectSettings.has_setting("escoria/main/savegames_path"):
-		ProjectSettings.set_setting(
-			"escoria/main/savegames_path", 
-			"user://saves/"
-		)
-		var savegames_path_property_info = {
-			"name": "escoria/main/savegames_path",
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.SAVEGAMES_PATH,
+		"user://saves/",
+		{
 			"type": TYPE_STRING,
 			"hint": PROPERTY_HINT_DIR
 		}
-		ProjectSettings.add_property_info(savegames_path_property_info)
-	
-	if !ProjectSettings.has_setting("escoria/main/settings_path"):
-		ProjectSettings.set_setting(
-			"escoria/main/settings_path", 
-			"user://"
-		)
-		var settings_path_property_info = {
-			"name": "escoria/main/settings_path",
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.SETTINGS_PATH,
+		"user://",
+		{
 			"type": TYPE_STRING,
 			"hint": PROPERTY_HINT_DIR
 		}
-		ProjectSettings.add_property_info(settings_path_property_info)
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.GAME_MIGRATION_PATH,
+		"",
+		{
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_DIR
+		}
+	)
 
 
 # Prepare the settings in the Escoria debug category
 func set_escoria_debug_settings():
-	if !ProjectSettings.has_setting("escoria/debug/terminate_on_warnings"):
-		ProjectSettings.set_setting("escoria/debug/terminate_on_warnings", false)
-	
-	if !ProjectSettings.has_setting("escoria/debug/terminate_on_errors"):
-		ProjectSettings.set_setting("escoria/debug/terminate_on_errors", true)
-	
-	# Main language the game is developed in. Useful for translation management
-	if !ProjectSettings.has_setting("escoria/debug/development_lang"):
-		ProjectSettings.set_setting("escoria/debug/development_lang", "en")
-		
-	# Assure log level preference
-	if not ProjectSettings.has_setting("escoria/debug/log_level"):
-		ProjectSettings.set_setting("escoria/debug/log_level", "ERROR")
-		var property_info = {
-			"name": "escoria/debug/log_level",
+	register_setting(
+		ESCProjectSettingsManager.TERMINATE_ON_WARNINGS,
+		false,
+		{
+			"type": TYPE_BOOL
+		}
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.TERMINATE_ON_ERRORS,
+		true,
+		{
+			"type": TYPE_BOOL
+		}
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.DEVELOPMENT_LANG,
+		"en",
+		{
+			"type": TYPE_STRING
+		}
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.LOG_LEVEL,
+		"ERROR",
+		{
 			"type": TYPE_STRING,
 			"hint": PROPERTY_HINT_ENUM,
-			"hint_string": "ERROR,WARNING,INFO,DEBUG"
+			"hint_string": "ERROR,WARNING,INFO,DEBUG,TRACE"
 		}
-		ProjectSettings.add_property_info(property_info)
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.LOG_FILE_PATH,
+		"user://",
+		{
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_DIR
+		}
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.CRASH_MESSAGE,
+		"We're sorry, but the game crashed. Please send us the " +
+		"following files:\n\n%s",
+		{
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_MULTILINE_TEXT
+		}
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.ENABLE_ROOM_SELECTOR,
+		false,
+		{
+			"type": TYPE_BOOL
+		}
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.ROOM_SELECTOR_ROOM_DIR,
+		"",
+		{
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_DIR
+		}
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.ENABLE_HOVER_STACK_VIEWER,
+		false,
+		{
+			"type": TYPE_BOOL
+		}
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.PERFORM_SCRIPT_ANALYSIS_AT_RUNTIME,
+		true,
+		{
+			"type": TYPE_BOOL
+		}
+	)
 
 
 # Prepare the settings in the Escoria sound settings
 func set_escoria_sound_settings():
-	if !ProjectSettings.has_setting("escoria/sound/master_volume"):
-		ProjectSettings.set_setting("escoria/sound/master_volume", 1)
-		var master_data_property_info = {
-			"name": "escoria/sound/master_volume",
-			"type": TYPE_INT,
+	register_setting(
+		ESCProjectSettingsManager.MASTER_VOLUME,
+		1,
+		{
+			"type": TYPE_FLOAT,
 			"hint": PROPERTY_HINT_RANGE,
 			"hint_string": "0,1"
 		}
-		ProjectSettings.add_property_info(master_data_property_info)
+	)
 
-	if !ProjectSettings.has_setting("escoria/sound/music_volume"):
-		ProjectSettings.set_setting("escoria/sound/music_volume", 1)
-		var music_data_property_info = {
-			"name": "escoria/sound/music_volume",
-			"type": TYPE_INT,
+	register_setting(
+		ESCProjectSettingsManager.MUSIC_VOLUME,
+		1,
+		{
+			"type": TYPE_FLOAT,
 			"hint": PROPERTY_HINT_RANGE,
 			"hint_string": "0,1"
 		}
-		ProjectSettings.add_property_info(music_data_property_info)
-		
-	if !ProjectSettings.has_setting("escoria/sound/sfx_volume"):
-		ProjectSettings.set_setting("escoria/sound/sfx_volume", 1)
-		var sound_data_property_info = {
-			"name": "escoria/sound/sfx_volume",
-			"type": TYPE_INT,
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.SFX_VOLUME,
+		1,
+		{
+			"type": TYPE_FLOAT,
 			"hint": PROPERTY_HINT_RANGE,
 			"hint_string": "0,1"
 		}
-		ProjectSettings.add_property_info(sound_data_property_info)
-	
-	if !ProjectSettings.has_setting("escoria/sound/speech_volume"):
-		ProjectSettings.set_setting("escoria/sound/speech_volume", 1)
-		var speech_data_property_info = {
-			"name": "escoria/sound/speech_volume",
-			"type": TYPE_INT,
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.SPEECH_VOLUME,
+		1,
+		{
+			"type": TYPE_FLOAT,
 			"hint": PROPERTY_HINT_RANGE,
 			"hint_string": "0,1"
 		}
-		ProjectSettings.add_property_info(speech_data_property_info)
-	
-	if !ProjectSettings.has_setting("escoria/sound/speech_enabled"):
-		ProjectSettings.set_setting("escoria/sound/speech_enabled", 1)
-		var speech_enabled_property_info = {
-			"name": "escoria/sound/speech_enabled",
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.SPEECH_ENABLED,
+		true,
+		{
 			"type": TYPE_BOOL
 		}
-		ProjectSettings.add_property_info(speech_enabled_property_info)
-	if !ProjectSettings.has_setting("escoria/sound/speech_folder"):
-		ProjectSettings.set_setting(
-			"escoria/sound/speech_folder",
-			"res://speech"
-		)
-		ProjectSettings.add_property_info({
-			"name": "escoria/sound/speech_folder",
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.SPEECH_FOLDER,
+		"res://speech",
+		{
 			"type": TYPE_STRING,
 			"hint": PROPERTY_HINT_DIR
-		})
-	if !ProjectSettings.has_setting("escoria/sound/speech_extension"):
-		ProjectSettings.set_setting(
-			"escoria/sound/speech_extension",
-			"ogg"
-		)
-		ProjectSettings.add_property_info({
-			"name": "escoria/sound/speech_extension",
+		}
+	)
+
+	register_setting(
+		ESCProjectSettingsManager.SPEECH_EXTENSION,
+		"ogg",
+		{
 			"type": TYPE_STRING
-		})
+		}
+	)
 
 
 # Prepare the settings in the Escoria platform category and may need special
@@ -284,18 +402,68 @@ func set_escoria_platform_settings():
 	# scenes.
 	# If set to true, all generic scenes (UI, inventory, etc) will be loaded
 	# as any other scene.
-	if !ProjectSettings.has_setting("escoria/platform/skip_cache"):
-		ProjectSettings.set_setting("escoria/platform/skip_cache", false)
-	if !ProjectSettings.has_setting("escoria/platform/skip_cache.mobile"):
-		ProjectSettings.set_setting("escoria/platform/skip_cache.mobile", true)
+	register_setting(
+		ESCProjectSettingsManager.SKIP_CACHE,
+		false,
+		{
+			"type": TYPE_BOOL
+		}
+	)
 
-# Uninstall plugin
-func _exit_tree():
-	for key in autoloads.keys():
-		if ProjectSettings.has_setting(key):
-			remove_autoload_singleton(key)
-	
-	InputMap.erase_action("switch_action_verb")
-	InputMap.erase_action("esc_show_debug_prompt")
-	
-	
+	register_setting(
+		ESCProjectSettingsManager.SKIP_CACHE_MOBILE,
+		true,
+		{
+			"type": TYPE_BOOL
+		}
+	)
+
+
+# Register a new project setting if it hasn't been defined already
+#
+# #### Parameters
+#
+# - name: Name of the project setting
+# - default: Default value
+# - info: Property info for the setting
+static func register_setting(name: String, default, info: Dictionary) -> void:
+	if not ProjectSettings.has_setting(name):
+		# Only core settings should set this to true. Settings configured in
+		# plugins should not set this to true.
+		info["core_setting"] = "true"
+		ProjectSettings.set_setting(
+			name,
+			default
+		)
+		info.name = name
+		ProjectSettings.add_property_info(info)
+
+
+# Sets the Godot Editor settings to display ESC files in the filesystem.
+func set_filesystem_show_esc_files():
+	print("setting esc files display")
+	var settings = EditorInterface.get_editor_settings()
+	var displayed_extensions: PackedStringArray = settings.get_setting("docks/filesystem/textfile_extensions") \
+			.split(COMMA_SEPARATOR)
+	if not displayed_extensions.has(ESC_SCRIPT_EXTENSION):
+		displayed_extensions.append(ESC_SCRIPT_EXTENSION)
+		settings.set_setting(
+			"docks/filesystem/textfile_extensions",
+			COMMA_SEPARATOR.join(displayed_extensions)
+			)
+
+
+# Sets the Godot Editor settings to hide ESC files in the filesystem.
+func set_filesystem_hide_esc_files():
+	print("setting esc files hide")
+	var settings = EditorInterface.get_editor_settings()
+	var displayed_extensions: PackedStringArray = settings.get_setting("docks/filesystem/textfile_extensions") \
+			.split(COMMA_SEPARATOR)
+	var index: int = displayed_extensions.find(ESC_SCRIPT_EXTENSION)
+	while index != -1:
+		displayed_extensions.remove_at(index)
+		index = displayed_extensions.find(ESC_SCRIPT_EXTENSION)
+	settings.set_setting(
+		"docks/filesystem/textfile_extensions",
+		COMMA_SEPARATOR.join(displayed_extensions)
+		)

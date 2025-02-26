@@ -1,34 +1,74 @@
 # Magical closet: the object is always in the LAST opened closet 
 
+# We want "use" and "open" to give the same end result
+# so we duplicate everything for use and open
 :use
-> [right_closet_open]
-	stop
+	if right_closet_open:
+		# The closet is already open, so exit the command
+		stop
 
-set_global right_closet_open true
-inc_global open_closets 1
-	
-> [lt open_closets 3]
-	set_state r9_closet_right open
-	stop
+	right_closet_open = true
+	# Increment the counter of the number of open closets
+	open_closets = open_closets + 1
 
-> [eq open_closets 3]
-	set_state r9_closet_right open
-	set_active r9_bottle_right true
-	stop
+	# Animate the door opening
+	set_state($r9_closet_right, "open_door")
+
+	if open_closets == 3:
+		# After opening this one, we have 3 closets open
+		# Activate the magic bottle in this particular closet
+		if $r9_bottle in inventory or r9_puzzle_complete:
+			# If they've already picked up the bottle or completed the puzzle, don't make it appear
+			stop
+
+		set_active($r9_bottle_right, true)
+		# Note which cupboard the bottle is in in case the player
+		# exits then reenters the room
+		r9_bottle_closet = 3
 
 
 :open
-> [right_closet_open]
-	stop
+	if right_closet_open:
+		# The closet is already open, so exit the command
+		stop
 
-set_global right_closet_open true
-inc_global open_closets 1
-	
-> [lt open_closets 3]
-	set_state r9_closet_right open
-	stop
+	right_closet_open = true
+	# Increment the counter of the number of open closets
+	open_closets = open_closets + 1
 
-> [eq open_closets 3]
-	set_state r9_closet_right open
-	set_active r9_bottle_right true
-	stop
+	# Animate the door opening
+	set_state($r9_closet_right, "open_door")
+
+	if open_closets == 3:
+		# After opening this one, we have 3 closets open
+		# Activate the magic bottle in this particular closet
+		if $r9_bottle in inventory or r9_puzzle_complete:
+			# If they've already picked up the bottle or completed the puzzle, don't make it appear
+			stop
+
+		set_active($r9_bottle_right, true)
+		# Note which cupboard the bottle is in in case the player
+		# exits then reenters the room
+		r9_bottle_closet = 3
+
+
+:close
+	if !right_closet_open:
+		# If the closet isn't open, ignore the close command
+		stop
+		
+	if open_closets == 3:
+		# If there's 3 closets open, the bottle was made active
+		# We don't know which closet it was activated in so lets
+		# deactivate all of them
+		set_active($r9_bottle_left, false)
+		set_active($r9_bottle_middle, false)
+		set_active($r9_bottle_right, false)
+
+	# Animate the door closing	
+	set_state($r9_closet_right, "close_door")
+
+	right_closet_open = false
+	# Decrement the counter of closets open (used to determine when to show
+	# the magic bottle)
+	open_closets = open_closets - 1

@@ -1,29 +1,43 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://dwlr0gu4erswn"]
 
-[ext_resource path="res://addons/escoria-core/game/main.gd" type="Script" id=1]
-[ext_resource path="res://addons/escoria-core/game/scenes/esc_prompt/esc_prompt_popup.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/escoria-core/game/scenes/sound/esc_music_player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://addons/escoria-core/game/scenes/sound/esc_sound_player.tscn" type="PackedScene" id=5]
-[ext_resource path="res://addons/escoria-core/game/scenes/sound/esc_speech_player.tscn" type="PackedScene" id=6]
+[ext_resource type="Script" path="res://addons/escoria-core/game/main.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://b0q36us3uuimq" path="res://addons/escoria-core/game/scenes/esc_prompt/esc_prompt_popup.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://addons/escoria-core/game/scenes/sound/esc_music_player.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://addons/escoria-core/game/scenes/sound/esc_sound_player.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://addons/escoria-core/game/scenes/sound/esc_speech_player.tscn" id="6"]
 
 [node name="main" type="Node"]
-script = ExtResource( 1 )
+script = ExtResource("1")
 
 [node name="layers" type="Node" parent="."]
 
 [node name="curtain" type="CanvasLayer" parent="layers"]
 layer = 20
 
-[node name="menu" type="CanvasLayer" parent="layers"]
-
 [node name="wait_timer" type="Timer" parent="layers"]
 
 [node name="debug_layer" type="CanvasLayer" parent="layers"]
 
-[node name="esc_prompt_popup" parent="layers/debug_layer" instance=ExtResource( 2 )]
+[node name="esc_prompt_popup" parent="layers/debug_layer" instance=ExtResource("2")]
 
-[node name="bg_music" parent="." instance=ExtResource( 3 )]
+[node name="bg_music" parent="." instance=ExtResource("3")]
+layout_mode = 3
+anchors_preset = 15
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="bg_sound" parent="." instance=ExtResource( 5 )]
+[node name="bg_sound" parent="." instance=ExtResource("5")]
+layout_mode = 3
+anchors_preset = 15
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="speech" parent="." instance=ExtResource( 6 )]
+[node name="speech" parent="." instance=ExtResource("6")]
+layout_mode = 3
+anchors_preset = 15
+grow_horizontal = 2
+grow_vertical = 2

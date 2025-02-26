@@ -1,2 +1,2 @@
 :use
-set_sound_state _music off true
+	stop_snd()

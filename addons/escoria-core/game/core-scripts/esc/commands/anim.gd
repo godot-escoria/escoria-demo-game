@@ -1,10 +1,14 @@
 # `anim object name [reverse]`
 #
-# Executes the animation specificed with the "name" parameter on the object, 
-# without blocking. The next command in the event will be executed immediately 
-# after. Optional parameters:
+# Executes the animation specified in "name" on "object" without blocking.
+# The next command in the event will be executed immediately after the
+# animation is started.
 #
-# * reverse: plays the animation in reverse when true
+# **Parameters**
+#
+# * *object*: Global ID of the object with the animation
+# * *name*: Name of the animation to play
+# * *reverse*: Plays the animation in reverse when true
 #
 # @ESC
 extends ESCBaseCommand
@@ -14,28 +18,26 @@ class_name AnimCommand
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
-		2, 
+		2,
 		[TYPE_STRING, TYPE_STRING, TYPE_BOOL],
 		[null, null, false]
 	)
-	
-	
-# Validate wether the given arguments match the command descriptor
+
+
+# Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not escoria.object_manager.objects.has(arguments[0]):
-		escoria.logger.report_errors(
-			"anim: invalid object",
-			[
-				"Object with global id %s not found." % arguments[0]
-			]
-		)
+	if not super.validate(arguments):
 		return false
-	return .validate(arguments)
+
+	if not escoria.object_manager.has(arguments[0]):
+		raise_invalid_object_error(self, arguments[0])
+		return false
+	return true
 
 
 # Run the command
 func run(command_params: Array) -> int:
-	var obj = escoria.object_manager.objects[command_params[0]]
+	var obj = escoria.object_manager.get_object(command_params[0])
 	var anim_id = command_params[1]
 	var reverse = command_params[2]
 	var animator: ESCAnimationPlayer = \
@@ -45,3 +47,11 @@ func run(command_params: Array) -> int:
 	else:
 		animator.play(anim_id)
 	return ESCExecution.RC_OK
+
+
+# Function called when the command is interrupted.
+func interrupt():
+	escoria.logger.debug(
+		self,
+		"[%s] interrupt() function not implemented." % get_command_name()
+	)

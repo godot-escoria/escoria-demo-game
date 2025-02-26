@@ -1,13 +1,12 @@
 :look
-> [eq dialog_popup_advance 0]
-	say player ROOM1_look_wall_item_1:"I don't know what that stuff is." dialog_box_inset
-	set_global dialog_popup_advance 1
-	stop
-> [eq dialog_popup_advance 1]
-	say player ROOM1_look_wall_item_2:"I REALLY don't know what that stuff is." dialog_box_inset
-	set_global dialog_popup_advance 2
-	stop
-> [eq dialog_popup_advance 2]
-	say player ROOM1_look_wall_item_3:"No, SERIOUSLY, I have no idea what that is!" dialog_box_inset
-	say player ROOM1_look_wall_item_4:"Please stop asking me that!" dialog_box_inset
-	stop
+	if dialog_popup_advance == 0:
+		say($player, "I don't know what that stuff is.", "ROOM1_look_wall_item_1", "avatar")
+		dialog_popup_advance = 1
+	elif dialog_popup_advance == 1:
+		say($player, "I REALLY don't know what that stuff is.", "ROOM1_look_wall_item_2", "avatar")
+		dialog_popup_advance = 2
+	elif dialog_popup_advance == 2:
+		block_say()
+		say($player, "No, SERIOUSLY, I have no idea what that is!", "ROOM1_look_wall_item_3", "avatar")
+		say($player, "Please stop asking me that!", "ROOM1_look_wall_item_4", "avatar")
+		end_block_say()

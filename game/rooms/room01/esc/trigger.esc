@@ -1,0 +1,5 @@
+:trigger_in
+	pass
+
+:trigger_out
+	say("player", "I'm near the door.")

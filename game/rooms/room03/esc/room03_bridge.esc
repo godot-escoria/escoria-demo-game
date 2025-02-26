@@ -1,45 +1,73 @@
 # THIS ROOMS FEATURES AN OPEN BRIDGE WITH A ***BROKEN*** BUTTON TO USE IN ORDER TO OPEN
 
-
 :setup
+	global room3_visited = false
+	global r3_bridge_closed = false
+	global r3_button_broken = true
 
-> [!room3_visited]
-	set_global room3_visited true
-	set_global r3_bridge_closed false
-	set_state r3_button button_broken
-	set_global button_broken true
+	# If the room hasn't been visited previously, open the bridge and break the button
+	if not room3_visited:
+		room3_visited = true
+		# Mark the bridge as open
+		r3_bridge_closed = false
+		# Set a global for the button state so we can write test logic for it
+		# This will start the animation with the check in the "ready:" state below.
+		r3_button_broken = true
+		# The parameters aren't used by the disable_door function, 
+		# they're there as an example of how to pass parameters.
+		custom($r3_r_exit, "door_enabler", "disable_door", "a", "b", "c", 1, 2, 345, r3_button_broken)
 
-> [r3_bridge_closed]
-	# Make set_state IMMEDIATE to reach the final frame immediately
-	set_state r3_bridge bridge_close true
-	enable_terrain bridge_closed
-	set_interactive r3_right_platform false
+	if r3_bridge_closed:
+		# Make set_state IMMEDIATE to reach the final frame immediately
+		set_state($r3_bridge, "bridge_close", true)
+		enable_terrain("bridge_closed")
+		set_interactive($r3_right_platform, false)
+		set_interactive($r3_r_exit, true)
+		# We use a custom function to enable the collision polygon on the door
+		# to enable it to work as a door once the bridge is closed.
+		# You'll find the script in room3/Hotspots/r_door/door_enabler
+		custom($r3_r_exit, "door_enabler", "enable_door")
 
-> [eq ESC_LAST_SCENE room2]
-	teleport player r3_l_exit
-	# Set player look right
-	set_angle player 180
-	stop
-> [eq ESC_LAST_SCENE room4]
-	teleport player r3_r_exit
-	# Set player look left
-	set_angle player 270
-	
-	# If bridge not closed
-	> [!r3_bridge_closed]
-		set_interactive r3_right_platform false
-	stop
-> [!last_scene]
-	teleport player player_start
-	stop
+	if ESC_LAST_SCENE == "room2":
+		teleport($player, $r3_l_exit)
+		# Set player look down
+		set_angle($player, 180)
+	#	> [r3_button_broken]
+	#		set_state r3_button button_broken
+	elif ESC_LAST_SCENE == "room4":
+		# Set the bridge closed and button fixed or else you cant get back to the left hand side
+		# if you started the game in room 4
+		r3_bridge_closed = true
+		r3_button_broken = false
 
+		# Turn off the button's smoke animation
+		#set_state r3_button button_repaired true
+
+		teleport($player, $r3_r_exit)
+		# Set the bridge state which will also run the bridge closing animation
+		set_state($r3_bridge, "bridge_close", true)
+		# Enable the whole room terrain so the player can walk across the whole room
+		enable_terrain("bridge_closed")
+		# Don't make the right platform a separate object you can click. This is only valid when
+		# the bridge is open
+		set_interactive($r3_right_platform, false)
+		set_interactive($r3_r_exit, true)
+		# We use a custom function to enable the collision polygon on the door
+		# to enable it to work as a door once the bridge is closed.
+		custom($r3_r_exit, "door_enabler", "enable_door")
+		# Set player look left
+		set_angle($player, 270)
 
 :ready
+	if r3_button_broken:
+		# Mark the button as broken and play the smoke animation
+		set_state($r3_button, "button_broken")
+	else:
+		# Turn off the button's smoke animation
+		set_state($r3_button, "button_repaired", true)
 
-# DEBUG
-#set_state r3_bridge bridge_close 
-#enable_terrain bridge_closed
-#set_global bridge_closed true
-#set_interactive r3_right_platform false
-## /DEBUG
+	if r3_bridge_closed:
+		# This is for when you close the bridge then go back to room 2
+		# Set the bridge closed
 
+		r3_bridge_closed = true

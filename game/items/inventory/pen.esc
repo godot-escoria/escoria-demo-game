@@ -1,0 +1,24 @@
+:look
+	say("player", "It's a pen.")
+
+
+:pickup
+	# Add the pen to the inventory
+	inventory_add("r5_pen")
+	# Hide the pen graphic in the room
+	set_active("r5_pen", false)
+
+
+# This only works if you add "use" as a "Combine when Selected Action in" action
+# to both the pen and empty_sheet ESCitems.
+:use "r5_empty_sheet"
+	# Dont let the player interrupt the sequence
+	accept_input("SKIP")
+	inventory_remove("r5_pen")
+	inventory_remove("r5_empty_sheet")
+	say("player", "Hmmm...")
+	say("player", "Name...")
+	say("player", "Address...")
+	inventory_add("r5_filled_sheet")
+	# Allow player interaction again
+	accept_input("ALL")

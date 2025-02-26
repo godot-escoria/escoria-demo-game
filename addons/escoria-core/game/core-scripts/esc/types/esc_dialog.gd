@@ -27,67 +27,78 @@ var timeout_option: int = 0
 var options: Array
 
 
-# Construct a dialog from a dialog string
-func _init(dialog_string: String):
+# Construct a dialog from an ESC dialog string
+#
+# #### Parameters
+# - dialog_string: ESC dialog string
+func load_string(dialog_string: String):
 	var dialog_regex = RegEx.new()
 	dialog_regex.compile(REGEX)
-	
+
 	if dialog_regex.search(dialog_string):
 		for result in dialog_regex.search_all(dialog_string):
 			if "avatar" in result.names:
-				self.avatar = escoria.utils.get_re_group(result, "avatar")
+				self.avatar = ESCUtils.get_re_group(result, "avatar")
 			if "timeout" in result.names:
 				self.timeout = int(
-					escoria.utils.get_re_group(result, "timeout")
+					ESCUtils.get_re_group(result, "timeout")
 				)
 			if "timeout_option" in result.names:
 				self.timeout_option = int(
-					escoria.utils.get_re_group(result, "timeout_option")
+					ESCUtils.get_re_group(result, "timeout_option")
 				)
 	else:
-		escoria.logger.report_errors(
-			"Invalid dialog detected: %s" % dialog_string,
-			[
-				"Dialog regexp didn't match"
-			]
+		escoria.logger.error(
+			self,
+			"Invalid dialog detected: %s\nDialog regexp didn't match."
+					% dialog_string
 		)
 
 
 # Check if dialog is valid
 func is_valid() -> bool:
 	if self.avatar != "-" and not ResourceLoader.exists(self.avatar):
-		escoria.logger.report_errors(
-			"Avatar scene not found: %s" % self.avatar,
-			[]
+		escoria.logger.error(
+			self,
+			"Avatar scene not found: %s." % self.avatar
 		)
 		return false
 	if self.timeout_option > self.options.size() \
 			or self.timeout_option < 0:
-		escoria.logger.report_errors(
-			"Invalid timeout_option parameter given: %d" % self.timeout_option,
-			[]
+		escoria.logger.error(
+			self,
+			"Invalid timeout_option parameter given: %d." % self.timeout_option
 		)
 		return false
-		
+
 	return true
 
 
 # Run this dialog
 func run():
-	escoria.logger.debug("Starting dialog")
+	escoria.logger.debug(
+		self,
+		"Starting dialog."
+	)
+
 	escoria.current_state = escoria.GAME_STATE.DIALOG
+
 	if !escoria.dialog_player:
 		escoria.dialog_player = escoria.main.current_scene.get_node(
 			"game/ui/dialog_layer/dialog_player"
 		)
+
 	escoria.dialog_player.start_dialog_choices(self)
-	var option = yield(
-		escoria.dialog_player, 
-		"option_chosen"
+
+	var option = (await escoria.dialog_player.option_chosen
 	) as ESCDialogOption
-	var rc = option.run()
-	if rc is GDScriptFunctionState:
-		rc = yield(rc, "completed")
-	if rc != ESCExecution.RC_CANCEL:
-		return self.run()
-	return rc
+
+	var rc = ESCExecution.RC_OK
+
+	# If no valid option was returned, it means this level of dialog is done.
+	# If this is the case and the current level of dialog has a parent, it means
+	# it is still yielding and so will be shown again.
+
+	escoria.current_state = escoria.GAME_STATE.DEFAULT
+
+	return option

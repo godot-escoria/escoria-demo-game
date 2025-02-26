@@ -6,703 +6,130 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
-
-_global_script_classes=[ {
-"base": "ESCBaseCommand",
-"class": "AcceptInputCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/accept_input.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "AnimCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/anim.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "CameraPushCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/camera_push.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "CameraSetLimitsCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/camera_set_limits.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "CameraSetPosCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/camera_set_pos.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "CameraSetTargetCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/camera_set_target.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "CameraSetZoomCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/camera_set_zoom.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "CameraSetZoomHeightCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/camera_set_zoom_height.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "CameraShiftCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/camera_shift.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "ChangeSceneCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/change_scene.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "CustomCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/custom.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "CutSceneCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/cut_scene.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "DebugCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/debug.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "DecGlobalCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/dec_global.gd"
-}, {
-"base": "Object",
-"class": "ESCActionManager",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/esc_action_manager.gd"
-}, {
-"base": "Resource",
-"class": "ESCAnimationName",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/resources/esc_animationname.gd"
-}, {
-"base": "Node",
-"class": "ESCAnimationPlayer",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc_animation_player.gd"
-}, {
-"base": "Resource",
-"class": "ESCAnimationResource",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/resources/esc_animationresource.gd"
-}, {
-"base": "TextureRect",
-"class": "ESCBackground",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc_background.gd"
-}, {
-"base": "Node",
-"class": "ESCBaseCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_base_command.gd"
-}, {
-"base": "Camera2D",
-"class": "ESCCamera",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/scenes/camera_player/esc_camera.gd"
-}, {
-"base": "Object",
-"class": "ESCCameraLimits",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/scenes/camera_player/esc_camera_limits.gd"
-}, {
-"base": "ESCStatement",
-"class": "ESCCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_command.gd"
-}, {
-"base": "Object",
-"class": "ESCCommandArgumentDescriptor",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_command_argument_descriptor.gd"
-}, {
-"base": "Object",
-"class": "ESCCommandRegistry",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/esc_command_registry.gd"
-}, {
-"base": "Object",
-"class": "ESCCompiler",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/esc_compiler.gd"
-}, {
-"base": "Object",
-"class": "ESCCondition",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_condition.gd"
-}, {
-"base": "Reference",
-"class": "ESCController",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc_controller.gd"
-}, {
-"base": "ESCStatement",
-"class": "ESCDialog",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_dialog.gd"
-}, {
-"base": "ESCStatement",
-"class": "ESCDialogOption",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_dialog_option.gd"
-}, {
-"base": "Node",
-"class": "ESCDialogOptionsChooser",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/scenes/dialogs/esc_dialog_options_chooser.gd"
-}, {
-"base": "ResourcePreloader",
-"class": "ESCDialogsPlayer",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/scenes/dialogs/esc_dialog_player.gd"
-}, {
-"base": "Resource",
-"class": "ESCDirectionAngle",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/resources/esc_directionangle.gd"
-}, {
-"base": "ESCStatement",
-"class": "ESCEvent",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_event.gd"
-}, {
-"base": "Node",
-"class": "ESCEventManager",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/esc_event_manager.gd"
-}, {
-"base": "Object",
-"class": "ESCExecution",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_execution.gd"
-}, {
-"base": "Node2D",
-"class": "ESCGame",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc_game.gd"
-}, {
-"base": "Resource",
-"class": "ESCGlobalsManager",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/esc_globals_manager.gd"
-}, {
-"base": "ESCStatement",
-"class": "ESCGroup",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_group.gd"
-}, {
-"base": "Node",
-"class": "ESCInputsManager",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/inputs_manager.gd"
-}, {
-"base": "Control",
-"class": "ESCInventory",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/scenes/inventory/inventory_ui.gd"
-}, {
-"base": "TextureButton",
-"class": "ESCInventoryItem",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc_inventory_item.gd"
-}, {
-"base": "Object",
-"class": "ESCInventoryManager",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/esc_inventory_manager.gd"
-}, {
-"base": "Area2D",
-"class": "ESCItem",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc_item.gd"
-}, {
-"base": "Position2D",
-"class": "ESCLocation",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc_location.gd"
-}, {
-"base": "Object",
-"class": "ESCLogger",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/log/esc_logger.gd"
-}, {
-"base": "Node",
-"class": "ESCMovable",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/behaviors/esc_movable.gd"
-}, {
-"base": "Control",
-"class": "ESCMusicPlayer",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/scenes/sound/esc_music_player.gd"
-}, {
-"base": "Node",
-"class": "ESCObject",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_object.gd"
-}, {
-"base": "Node",
-"class": "ESCObjectManager",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/esc_object_manager.gd"
-}, {
-"base": "ESCItem",
-"class": "ESCPlayer",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc_player.gd"
-}, {
-"base": "Object",
-"class": "ESCResourceCache",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc_resource_cache.gd"
-}, {
-"base": "Node2D",
-"class": "ESCRoom",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc_room.gd"
-}, {
-"base": "Resource",
-"class": "ESCSaveGame",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/save_data/esc_savegame.gd"
-}, {
-"base": "Reference",
-"class": "ESCSaveManager",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/save_data/esc_save_manager.gd"
-}, {
-"base": "Resource",
-"class": "ESCSaveSettings",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/save_data/esc_savesettings.gd"
-}, {
-"base": "Object",
-"class": "ESCScheduledEvent",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_scheduled_event.gd"
-}, {
-"base": "Object",
-"class": "ESCScript",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_script.gd"
-}, {
-"base": "Control",
-"class": "ESCSoundPlayer",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/scenes/sound/esc_sound_player.gd"
-}, {
-"base": "Control",
-"class": "ESCSpeechPlayer",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/scenes/sound/esc_speech_player.gd"
-}, {
-"base": "Object",
-"class": "ESCStatement",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/types/esc_statement.gd"
-}, {
-"base": "Navigation2D",
-"class": "ESCTerrain",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc_terrain.gd"
-}, {
-"base": "RichTextLabel",
-"class": "ESCTooltip",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc_tooltip.gd"
-}, {
-"base": "ColorRect",
-"class": "ESCTransitionPlayer",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/scenes/transitions/esc_transition_player.gd"
-}, {
-"base": "Object",
-"class": "ESCUtils",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/utils/esc_utils.gd"
-}, {
-"base": "Object",
-"class": "ESCWalkContext",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc_walk_context.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "EnableTerrainCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/enable_terrain.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "IncGlobalCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/inc_global.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "InventoryAddCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/inventory_add.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "InventoryRemoveCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/inventory_remove.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "PlaySndCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/play_snd.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "QueueResourceCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/queue_resource.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "RandGlobalCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/rand_global.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "RepeatCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/repeat.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "SayCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/say.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "SchedEventCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/sched_event.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "SetActiveCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_active.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "SetAngleCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_angle.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "SetAnimationsCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_animations.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "SetGlobalCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_global.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "SetGlobalsCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_globals.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "SetHudVisibleCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_hud_visible.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "SetInteractiveCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_interactive.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "SetSoundStateCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_sound_state.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "SetSpeedCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_speed.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "SetStateCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/set_state.gd"
-}, {
-"base": "SlideCommand",
-"class": "SlideBlockCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/slide_block.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "SlideCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/slide.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "SpawnCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/spawn.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "StopCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/stop.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "TeleportCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/teleport.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "TeleportPosCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/teleport_pos.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "TransitionCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/transition.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "TurnToCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/turn_to.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "WaitCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/wait.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "WalkBlockCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/walk_block.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "WalkCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/walk.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "WalkToPosBlockCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/walk_to_pos_block.gd"
-}, {
-"base": "ESCBaseCommand",
-"class": "WalkToPosCommand",
-"language": "GDScript",
-"path": "res://addons/escoria-core/game/core-scripts/esc/commands/walk_to_pos.gd"
-} ]
-_global_script_class_icons={
-"AcceptInputCommand": "",
-"AnimCommand": "",
-"CameraPushCommand": "",
-"CameraSetLimitsCommand": "",
-"CameraSetPosCommand": "",
-"CameraSetTargetCommand": "",
-"CameraSetZoomCommand": "",
-"CameraSetZoomHeightCommand": "",
-"CameraShiftCommand": "",
-"ChangeSceneCommand": "",
-"CustomCommand": "",
-"CutSceneCommand": "",
-"DebugCommand": "",
-"DecGlobalCommand": "",
-"ESCActionManager": "",
-"ESCAnimationName": "",
-"ESCAnimationPlayer": "",
-"ESCAnimationResource": "",
-"ESCBackground": "res://addons/escoria-core/design/esc_background.svg",
-"ESCBaseCommand": "",
-"ESCCamera": "",
-"ESCCameraLimits": "",
-"ESCCommand": "",
-"ESCCommandArgumentDescriptor": "",
-"ESCCommandRegistry": "",
-"ESCCompiler": "",
-"ESCCondition": "",
-"ESCController": "",
-"ESCDialog": "",
-"ESCDialogOption": "",
-"ESCDialogOptionsChooser": "",
-"ESCDialogsPlayer": "",
-"ESCDirectionAngle": "",
-"ESCEvent": "",
-"ESCEventManager": "",
-"ESCExecution": "",
-"ESCGame": "",
-"ESCGlobalsManager": "",
-"ESCGroup": "",
-"ESCInputsManager": "",
-"ESCInventory": "",
-"ESCInventoryItem": "res://addons/escoria-core/design/esc_inventory_item.svg",
-"ESCInventoryManager": "",
-"ESCItem": "res://addons/escoria-core/design/esc_item.svg",
-"ESCLocation": "res://addons/escoria-core/design/esc_location.svg",
-"ESCLogger": "",
-"ESCMovable": "",
-"ESCMusicPlayer": "",
-"ESCObject": "",
-"ESCObjectManager": "",
-"ESCPlayer": "res://addons/escoria-core/design/esc_player.svg",
-"ESCResourceCache": "",
-"ESCRoom": "res://addons/escoria-core/design/esc_room.svg",
-"ESCSaveGame": "",
-"ESCSaveManager": "",
-"ESCSaveSettings": "",
-"ESCScheduledEvent": "",
-"ESCScript": "",
-"ESCSoundPlayer": "",
-"ESCSpeechPlayer": "",
-"ESCStatement": "",
-"ESCTerrain": "res://addons/escoria-core/design/esc_terrain.svg",
-"ESCTooltip": "",
-"ESCTransitionPlayer": "",
-"ESCUtils": "",
-"ESCWalkContext": "",
-"EnableTerrainCommand": "",
-"IncGlobalCommand": "",
-"InventoryAddCommand": "",
-"InventoryRemoveCommand": "",
-"PlaySndCommand": "",
-"QueueResourceCommand": "",
-"RandGlobalCommand": "",
-"RepeatCommand": "",
-"SayCommand": "",
-"SchedEventCommand": "",
-"SetActiveCommand": "",
-"SetAngleCommand": "",
-"SetAnimationsCommand": "",
-"SetGlobalCommand": "",
-"SetGlobalsCommand": "",
-"SetHudVisibleCommand": "",
-"SetInteractiveCommand": "",
-"SetSoundStateCommand": "",
-"SetSpeedCommand": "",
-"SetStateCommand": "",
-"SlideBlockCommand": "",
-"SlideCommand": "",
-"SpawnCommand": "",
-"StopCommand": "",
-"TeleportCommand": "",
-"TeleportPosCommand": "",
-"TransitionCommand": "",
-"TurnToCommand": "",
-"WaitCommand": "",
-"WalkBlockCommand": "",
-"WalkCommand": "",
-"WalkToPosBlockCommand": "",
-"WalkToPosCommand": ""
-}
+config_version=5
 
 [application]
 
 config/name="Escoria"
 run/main_scene="res://addons/escoria-core/game/main_scene.tscn"
+config/features=PackedStringArray("4.3")
+boot_splash/bg_color=Color(0.960784, 0.384314, 0, 1)
 boot_splash/image="res://addons/escoria-core/design/escoria-logo-small.png"
 boot_splash/fullsize=false
 boot_splash/use_filter=false
-boot_splash/bg_color=Color( 0.960784, 0.384314, 0, 1 )
 config/icon="res://icon.png"
 
 [audio]
 
-default_bus_layout="res://addons/escoria-core/default_bus_layout.tres"
+buses/default_bus_layout="res://addons/escoria-core/buses/default_bus_layout.tres"
 
 [autoload]
 
-escoria="*res://addons/escoria-core/game/escoria.tscn"
+escoria="*res://addons/escoria-core/game/esc_autoload.gd"
 
 [display]
 
-window/size/width=1280
-window/size/height=900
-window/stretch/mode="2d"
-window/stretch/aspect="keep"
+window/size/viewport_width=1280
+window/size/viewport_height=900
+window/stretch/mode="canvas_items"
 
 [editor]
 
-search_in_file_extensions=PoolStringArray( "gd", "shader", "esc" )
+search_in_file_extensions=PackedStringArray("gd", "shader", "esc")
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/escoria-core/plugin.cfg", "res://addons/escoria-ui-simplemouse/plugin.cfg" )
+enabled=PackedStringArray("res://addons/escoria-core/plugin.cfg", "res://addons/escoria-dialog-simple/plugin.cfg", "res://addons/escoria-ui-simplemouse/plugin.cfg")
 
 [escoria]
 
+main/game_version="0.1.0"
 main/game_start_script="res://game/start_game.esc"
 main/force_quit=true
+main/command_directories=["res://addons/escoria-core/game/core-scripts/esc/commands"]
+main/text_lang="fr_FR"
+main/voice_lang="fr_FR"
+main/savegames_path="res://saves/"
+main/settings_path="user://"
+main/game_migration_path=""
 debug/terminate_on_warnings=false
 debug/terminate_on_errors=true
 debug/development_lang="en"
-ui/tooltip_follows_mouse=true
-ui/default_dialog_scene="res://game/ui/commons/dialogs/dialog_label.tscn"
-main/text_lang="fr_FR"
-main/voice_lang="fr_FR"
+debug/log_level="DEBUG"
+debug/log_file_path="user://"
+debug/crash_message="We're sorry, but the game crashed. Please send us the following files:
+
+%s"
+debug/enable_room_selector=true
+debug/room_selector_room_dir="res://game/rooms"
+ui/game_scene="res://addons/escoria-ui-simplemouse/game.tscn"
+ui/inventory_items_path="res://game/items/inventory"
+ui/default_transition="instant"
+ui/transition_paths=["res://addons/escoria-core/game/scenes/transitions/shaders/"]
+ui/inventory_item_size=Vector2(72, 72)
+ui/dialog_managers=["res://addons/escoria-dialog-simple/esc_dialog_simple.gd"]
+sound/master_volume=1
 sound/music_volume=1
 sound/sfx_volume=1
 sound/speech_volume=1
-sound/master_volume=1
-main/command_directories=[ "res://addons/escoria-core/game/core-scripts/esc/commands" ]
-debug/log_level="DEBUG"
-platform/skip_cache=false
-platform/skip_cache.mobile=true
-ui/items_autoregister_path="res://game/items/escitems/"
-main/game_version="0.1.0"
-main/savegames_path="res://saves/"
-main/settings_path="user://"
-main/escoria_version=""
-sound/speech_enabled=1
-ui/game_scene="res://addons/escoria-ui-simplemouse/game.tscn"
-ui/dialogs_chooser="res://game/ui/commons/dialogs/text_dialog_choice.tscn"
 sound/speech_folder="res://game/speech"
 sound/speech_extension="ogg"
-ui/default_transition="curtain"
-ui/transition_paths=[ "res://addons/escoria-core/game/scenes/transitions/shaders/" ]
-ui/main_menu_scene="res://game/ui/commons/main_menu/main_menu.tscn"
-ui/pause_menu_scene="res://game/ui/commons/pause_menu/pause_menu.tscn"
-internals/save_data=""
+platform/skip_cache=false
+platform/skip_cache.mobile=true
+sound/speech_enabled=1
+ui/tooltip_follows_mouse=false
+ui/dialogs_chooser="res://addons/escoria-core/ui_library/dialogs/text_dialog_chooser.tscn"
+ui/default_dialog_scene="res://addons/escoria-core/ui_library/dialogs/floating_dialog_player.tscn"
+main/action_default_script="res://action_defaults.esc"
+dialog_simple/text_speed_per_character=0.1
+dialog_simple/fast_text_speed_per_character=0.25
+ui/default_dialog_type="floating"
+dialog_simple/avatars_path="res://game/dialog_avatars"
+dialog_simple/text_time_per_letter_ms=100
+dialog_simple/text_time_per_fast_letter_ms=25
+dialog_simple/clear_text_by_click_only=false
+dialog_simple/reading_speed_in_wpm=200
+dialog_simple/left_click_action="Speed up"
+dialog_simple/stop_talking_animation_on="End of audio"
+debug/enable_hover_stack_viewer=true
+main/escoria_version="4.0-alpha"
+debug/perform_script_analysis_at_runtime=true
+
+[file_customization]
+
+folder_colors={
+"res://game/rooms/": "teal"
+}
 
 [input]
 
 esc_show_debug_prompt={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777245,"unicode":0,"echo":false,"script":null)
- ]
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194333,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
 }
-switch_action_verb={
-"deadzone": 0.5,
-"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":4,"pressed":false,"doubleclick":false,"script":null)
-, Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":5,"pressed":false,"doubleclick":false,"script":null)
- ]
-}
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://game/translations/game.de.translation", "res://game/translations/game.en.translation", "res://game/translations/game.es.translation", "res://game/translations/game.fr.translation", "res://game/translations/main_menu.de.translation", "res://game/translations/main_menu.en.translation", "res://game/translations/main_menu.es.translation", "res://game/translations/main_menu.fr.translation")
 
 [locale]
 
-translations=PoolStringArray( "res://game/translations/game.en.translation", "res://game/translations/game.fr.translation", "res://game/translations/main_menu.en.translation", "res://game/translations/main_menu.fr.translation", "res://game/translations/game.de.translation", "res://game/translations/main_menu.de.translation" )
-locale_filter=[ 0, [  ] ]
+translations=PackedStringArray("res://game/translations/game.en.translation", "res://game/translations/game.fr.translation", "res://game/translations/main_menu.en.translation", "res://game/translations/main_menu.fr.translation", "res://game/translations/game.de.translation", "res://game/translations/main_menu.de.translation", "res://game/translations/game.es.translation", "res://game/translations/main_menu.es.translation")
+locale_filter=[0, []]
 translation_remaps={
-"res://game/speech/room01/ROOM1_look_wall_item_1.ogg": PoolStringArray( "res://game/speech/room01/ROOM1_look_wall_item_1_de.ogg:de" ),
-"res://game/speech/room01/ROOM1_look_wall_item_2.ogg": PoolStringArray( "res://game/speech/room01/ROOM1_look_wall_item_2_de.ogg:de" ),
-"res://game/speech/room01/ROOM1_look_wall_item_3.ogg": PoolStringArray( "res://game/speech/room01/ROOM1_look_wall_item_3_de.ogg:de" ),
-"res://game/speech/room01/ROOM1_look_wall_item_4.ogg": PoolStringArray( "res://game/speech/room01/ROOM1_look_wall_item_4_de.ogg:de" )
+"res://game/speech/room01/ROOM1_look_wall_item_1.ogg": PackedStringArray("res://game/speech/room01/ROOM1_look_wall_item_1_de.ogg:de"),
+"res://game/speech/room01/ROOM1_look_wall_item_2.ogg": PackedStringArray("res://game/speech/room01/ROOM1_look_wall_item_2_de.ogg:de"),
+"res://game/speech/room01/ROOM1_look_wall_item_3.ogg": PackedStringArray("res://game/speech/room01/ROOM1_look_wall_item_3_de.ogg:de"),
+"res://game/speech/room01/ROOM1_look_wall_item_4.ogg": PackedStringArray("res://game/speech/room01/ROOM1_look_wall_item_4_de.ogg:de")
 }
 
 [network]
 
-limits/debugger_stdout/max_chars_per_second=99999999
+limits/debugger/max_chars_per_second=99999999
 
 [rendering]
 
-environment/default_environment="res://default_env.tres"
+textures/canvas_textures/default_texture_filter=0
+textures/vram_compression/import_etc2_astc=true
+environment/defaults/default_environment="res://default_env.tres"

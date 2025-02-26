@@ -16,21 +16,20 @@ var conditions: Array = []
 func _init(group_string: String):
 	var group_regex = RegEx.new()
 	group_regex.compile(REGEX)
-	
+
 	if group_regex.search(group_string):
 		for result in group_regex.search_all(group_string):
 			if "conditions" in result.names:
-				for condition in escoria.utils.get_re_group(
-						result, 
+				for condition in ESCUtils.get_re_group(
+						result,
 						"conditions"
 					).split(","):
 					self.conditions.append(
 						ESCCondition.new(condition.strip_edges())
 					)
 	else:
-		escoria.logger.report_errors(
-			"Invalid group detected: %s" % group_string,
-			[
-				"Group regexp didn't match"
-			]
+		escoria.logger.error(
+			self,
+			"Invalid group detected: %s\nGroup regexp didn't match."
+					% group_string
 		)

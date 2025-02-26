@@ -1,92 +1,90 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=3 uid="uid://u646id5k2hvg"]
 
-[ext_resource path="res://addons/escoria-ui-simplemouse/inventory/inventory_ui.tscn" type="PackedScene" id=1]
-[ext_resource path="res://addons/escoria-core/game/scenes/dialogs/esc_dialog_player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/escoria-core/game/scenes/camera_player/camera.tscn" type="PackedScene" id=3]
-[ext_resource path="res://addons/escoria-ui-simplemouse/verbs_mouseicons.tscn" type="PackedScene" id=4]
-[ext_resource path="res://addons/escoria-ui-simplemouse/game.gd" type="Script" id=5]
-[ext_resource path="res://addons/escoria-ui-simplemouse/tooltip/target_tooltip.tscn" type="PackedScene" id=6]
-[ext_resource path="res://game/ui/commons/room_select.tscn" type="PackedScene" id=7]
-[ext_resource path="res://game/ui/commons/pause_menu/pause_menu.tscn" type="PackedScene" id=8]
+[ext_resource type="PackedScene" uid="uid://ciy2hn83a3rim" path="res://addons/escoria-ui-simplemouse/inventory/inventory_ui.tscn" id="1"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/scenes/dialogs/esc_dialog_player.gd" id="2"]
+[ext_resource type="PackedScene" path="res://addons/escoria-core/game/scenes/camera_player/camera.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://0qms6fx5siad" path="res://addons/escoria-ui-simplemouse/verbs_mouseicons.tscn" id="4"]
+[ext_resource type="Script" path="res://addons/escoria-ui-simplemouse/game.gd" id="5"]
+[ext_resource type="PackedScene" uid="uid://b3hru28v8y36i" path="res://addons/escoria-ui-simplemouse/tooltip/target_tooltip.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://u8an5av5fuxx" path="res://addons/escoria-core/ui_library/menus/main_menu/main_menu.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://gfjgmbcafyyt" path="res://addons/escoria-core/ui_library/menus/pause_menu/pause_menu.tscn" id="8"]
+[ext_resource type="FontFile" path="res://addons/escoria-ui-simplemouse/fonts/caslonantique.tres" id="8_c4xbd"]
+[ext_resource type="Theme" uid="uid://cujvdn6gu1j74" path="res://addons/escoria-ui-simplemouse/theme.tres" id="9"]
 
 [node name="game" type="Node2D"]
-script = ExtResource( 5 )
+script = ExtResource("5")
+main_menu = NodePath("ui/main_menu")
+pause_menu = NodePath("ui/pause_menu")
 editor_debug_mode = 1
 
-[node name="camera" parent="." instance=ExtResource( 3 )]
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="ui" type="Control" parent="CanvasLayer"]
-anchor_top = 0.9
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ui"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ui/HBoxContainer"]
-margin_right = 200.0
-margin_bottom = 90.0
-
-[node name="MenuButton" type="Button" parent="CanvasLayer/ui/HBoxContainer/VBoxContainer"]
-margin_right = 200.0
-margin_bottom = 20.0
-text = "Menu"
-
-[node name="room_select" parent="CanvasLayer/ui/HBoxContainer/VBoxContainer" instance=ExtResource( 7 )]
-margin_top = 47.0
-margin_right = 200.0
-margin_bottom = 67.0
-rect_min_size = Vector2( 200, 0 )
-size_flags_horizontal = 2
-size_flags_vertical = 6
-
-[node name="verbs_menu" parent="CanvasLayer/ui/HBoxContainer" instance=ExtResource( 4 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 204.0
-margin_right = 204.0
-margin_bottom = 90.0
-grow_horizontal = 0
-size_flags_horizontal = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 3.0
-
-[node name="inventory_ui" parent="CanvasLayer/ui/HBoxContainer" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 1190.0
-margin_right = 1280.0
-margin_bottom = 90.0
-rect_scale = Vector2( 1, 1 )
-
-[node name="pause_menu" parent="CanvasLayer" instance=ExtResource( 8 )]
-visible = false
+[node name="camera" parent="." instance=ExtResource("3")]
 
 [node name="dialog_layer" type="CanvasLayer" parent="."]
 layer = 3
 
-[node name="dialog_player" parent="dialog_layer" instance=ExtResource( 2 )]
+[node name="ESCDialogsPlayer" type="Control" parent="dialog_layer"]
+layout_mode = 3
+anchors_preset = 0
+theme = ExtResource("9")
+script = ExtResource("2")
 
-[node name="tooltip_layer" type="CanvasLayer" parent="."]
+[node name="ui" type="CanvasLayer" parent="."]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ui"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 11.0
+offset_top = 621.0
+offset_right = -442.0
+offset_bottom = -107.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MenuButton" type="Button" parent="ui/HBoxContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Menu"
+
+[node name="tooltip" parent="ui" instance=ExtResource("6")]
+offset_right = 1.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("8_c4xbd")
+theme_override_font_sizes/normal_font_size = 21
+text = "[center][color=#000000][/color][/center]"
+fit_content = true
+
+[node name="inventory_ui" parent="ui" instance=ExtResource("1")]
+
+[node name="pause_menu" parent="ui" instance=ExtResource("8")]
+visible = false
+theme = ExtResource("9")
+
+[node name="main_menu" parent="ui" instance=ExtResource("7")]
+visible = false
+
+[node name="mouse_layer" type="CanvasLayer" parent="."]
 layer = 2
 
-[node name="tooltip" parent="tooltip_layer" instance=ExtResource( 6 )]
-mouse_filter = 2
-bbcode_text = "[center][color=#000000][/color][/center]"
-fit_content_height = true
-offset_from_cursor = Vector2( 75, 10 )
+[node name="verbs_menu" parent="mouse_layer" instance=ExtResource("4")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 156.0
+offset_top = 810.0
+offset_right = 156.0
+offset_bottom = 900.0
+grow_horizontal = 1
+grow_vertical = 1
+size_flags_horizontal = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
 
-[connection signal="pressed" from="CanvasLayer/ui/HBoxContainer/VBoxContainer/MenuButton" to="." method="_on_MenuButton_pressed"]
+[connection signal="pressed" from="ui/HBoxContainer/VBoxContainer/MenuButton" to="." method="_on_MenuButton_pressed"]

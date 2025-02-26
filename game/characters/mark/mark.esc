@@ -1,3 +1,2 @@
 :look
-
-say player "That's a-me, Mark-io."
+	say("player", "That's a-me, Mark-io.")

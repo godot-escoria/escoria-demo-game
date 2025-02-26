@@ -1,19 +1,16 @@
 :init
+# Play Escoria logo cutscene
+	change_scene("res://game/rooms/intro/intro_room.tscn", false)
 
-spawn _main_menu res://game/ui/commons/main_menu/main_menu.tscn false
-set_active _main_menu true
-
+# When control is passed back after the logo, start the music
+	play_snd("res://game/sfx/Game-Menu_Looping.mp3", _music)
 
 :newgame
-
-# Hide main menu
-set_active _main_menu false
-
-# 1/ Simple scene
-change_scene res://game/rooms/room01/room01.tscn
+	# 1/ Simple scene
+	change_scene("res://game/rooms/room01/room01.tscn")
 
 # 2/ Button bridge
-#change_scene res://game/rooms/room02/room02.tscn
+#change_scene "res://game/rooms/room02/room02.tscn"
 
 # 3/ Broken button
 #change_scene res://game/rooms/room03/room03.tscn
@@ -46,4 +43,9 @@ change_scene res://game/rooms/room01/room01.tscn
 # 12/ Event flags tests 2
 #change_scene res://game/rooms/room12/room12.tscn
 
+# 13/ 
+#change_scene res://game/rooms/room13/room13.tscn
+
+# 14/ 
+#change_scene res://game/rooms/room14/room14.tscn
 

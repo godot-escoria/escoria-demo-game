@@ -1,20 +1,21 @@
-keys,en,fr,de
-NEW_GAME,New game,Nouvelle partie,Neues Spiel
-CONTINUE_GAME,Continue game,Continuer la partie,Weiterspielen
-LOAD_GAME,Load game,Charger,Spiel laden
-SAVE_GAME,Save game,Sauvegarder,Spiel speichern
-OPTIONS,Options,Options,Einstellungen
-QUIT,Quit,Quitter,Beenden
-OPTIONS_BACK,Back,Retour,Zurück
-OPTIONS_LANGUAGE,Language,Langue,Sprache
-GENERAL_VOLUME,General,Général,Allgemein
-MUSIC_VOLUME,Music,Musique,Musik
-SOUND_VOLUME,Sound effects,Effets sonores,Soundeffekte
-SPEECH_VOLUME,Speech,Voix,Sprachausgabe
-CANCEL,Cancel,Annuler,Abbrechen
-OK,OK,Ok,Ok
-ENTER_SAVE_NAME,Enter the save name:,Entrez un nom de sauvegarde,Bitte gib einen Namen für das Spiel ein:
-APPLY,Apply,Appliquer,Anwenden
-CONFIRM_OVERWRITE,Overwrite the savegame?,Écraser la sauvegarde ?,Soll das Spiel überschrieben werden?
-YES,Yes,Oui,Ja
-NO,No,Non,Nein
+keys,en,fr,de,es
+NEW_GAME,New game,Nouvelle partie,Neues Spiel,Nueva partida
+CONTINUE_GAME,Continue game,Continuer la partie,Weiterspielen,Continuar
+LOAD_GAME,Load game,Charger,Spiel laden,Cargar partida
+SAVE_GAME,Save game,Sauvegarder,Spiel speichern,Guardar partida
+OPTIONS,Options,Options,Einstellungen,Opciones
+QUIT,Quit,Quitter,Beenden,Salir
+OPTIONS_BACK,Back,Retour,Zurück,Volver
+OPTIONS_LANGUAGE,Language,Langue,Sprache,Idioma
+GENERAL_VOLUME,General,Général,Allgemein,General
+MUSIC_VOLUME,Music,Musique,Musik,Música
+SOUND_VOLUME,Sound effects,Effets sonores,Soundeffekte,Efectos de sonido
+SPEECH_VOLUME,Speech,Voix,Sprachausgabe,Voz
+FULLSCREEN,Fullscreen,Plein écran,Vollbild,Pantalla completa
+CANCEL,Cancel,Annuler,Abbrechen,Cancelar
+OK,OK,Ok,Ok,Ok
+ENTER_SAVE_NAME,Enter the save name:,Entrez un nom de sauvegarde,Bitte gib einen Namen für das Spiel ein:,Introduce el nombre de la partida:
+APPLY,Apply,Appliquer,Anwenden,Aplicar
+CONFIRM_OVERWRITE,Overwrite the savegame?,Écraser la sauvegarde ?,Soll das Spiel überschrieben werden?, ¿Sobreescribir la partida?
+YES,Yes,Oui,Ja,Sí
+NO,No,Non,Nein,No

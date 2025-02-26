@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://bxk33ufxexw1g"]
+
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://dibsc8djdgbs1" path="res://game/items/inventory/filled_sheet_inventory.png" id="2_pwp0v"]
+[ext_resource type="Texture2D" uid="uid://86ymlu47eidd" path="res://game/items/inventory/filled_sheet.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://b7ykwgmr412bu" path="res://game/items/inventory/filled_sheet_inventory_hover.png" id="3_pdqhu"]
+
+[sub_resource type="RectangleShape2D" id="1"]
+
+[node name="filled_sheet" type="Area2D"]
+process_mode = 1
+script = ExtResource("1")
+global_id = "r5_filled_sheet"
+esc_script = "res://game/items/inventory/filled_sheet.esc"
+tooltip_name = "completed application form"
+default_action = "look"
+default_action_inventory = "look"
+combine_when_selected_action_is_in = PackedStringArray("use", "give")
+combine_is_one_way = true
+use_from_inventory_only = true
+inventory_texture = ExtResource("2_pwp0v")
+inventory_texture_hovered = ExtResource("3_pdqhu")
+animations = null
+
+[node name="sprite" type="Sprite2D" parent="."]
+texture = ExtResource("3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("1")
