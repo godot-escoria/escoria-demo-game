@@ -1,7 +1,9 @@
-# Main_scene is the entry point for Godot Engine.
-# This scene sets up the main menu scene to load.
+## Main_scene is the entry point for Godot Engine.
+##
+## This scene sets up the main menu scene to load.
 extends Node
 class_name ESCMain
+
 
 var escoria_node: Escoria
 
