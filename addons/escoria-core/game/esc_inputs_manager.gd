@@ -5,10 +5,10 @@ extends Resource
 class_name ESCInputsManager
 
 
-# Valid input flags
-# * INPUT_ALL: All input is allowed
-# * INPUT_NONE: No input is allowed at all
-# * INPUT_SKIP: Only skipping dialogs is allowed
+## Valid input flags[br]
+## * INPUT_ALL: All input is allowed[br]
+## * INPUT_NONE: No input is allowed at all[br]
+## * INPUT_SKIP: Only skipping dialogs is allowed
 enum {
 	INPUT_ALL,
 	INPUT_NONE,
@@ -16,13 +16,14 @@ enum {
 }
 
 
-# Input action for use by InputMap
+## Input action for use by InputMap
 const ESC_SHOW_DEBUG_PROMPT = "esc_show_debug_prompt"
 
-# Input action for use by InputMap that represents a "primary action" from an
-# input device, such as a left-click on a mouse or the X button on an XBox
-# controller
+## Input action for use by InputMap that represents a "primary action" from an
+## input device, such as a left-click on a mouse or the X button on an XBox
+## controller
 const ESC_UI_PRIMARY_ACTION = "esc_ui_primary_action"
+
 
 ## The current input mode
 var input_mode = INPUT_ALL
