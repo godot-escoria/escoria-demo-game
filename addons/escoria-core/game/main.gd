@@ -1,26 +1,26 @@
-# Escoria main room handling and scene switcher
+## Escoria main room handling and scene switcher
+##
+## This script is basically the scene-switcher.
 extends Node
 
-# This script is basically the scene-switcher.
 
-
-# Signal sent when the room is loaded and ready.
+## Signal sent when the room is loaded and ready.
 signal room_ready
 
 
-# Global id of the last scene the player was before current scene
+## Global id of the last scene the player was before current scene
 var last_scene_global_id: String
 
-# Current scene room being displayed
+## Current scene room being displayed
 var current_scene: Node
 
-# Scene that was previously the current scene.
+## Scene that was previously the current scene.
 var previous_scene: Node
 
-# The Escoria context currently in wait state
+## The Escoria context currently in wait state
 var wait_level
 
-# Reference to the scene transition node
+## Reference to the scene transition node
 @onready var scene_transition: ESCTransitionPlayer
 
 
@@ -35,11 +35,11 @@ func _exit_tree():
 	$layers/curtain.remove_child(scene_transition)
 	scene_transition.queue_free()
 
-# Set current scene
-#
-# #### Parameters
-#
-# - p_scene: Scene to set
+## Sets the current scene[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - p_scene: Scene to set
 func set_scene(p_scene: Node) -> void:
 	if !p_scene:
 		escoria.logger.error(
@@ -76,13 +76,12 @@ func set_scene(p_scene: Node) -> void:
 	last_scene_global_id = p_scene.global_id
 
 
-
-# Only called by the room manager in the case where it hasn't executed a
-# coroutine prior to calling set_scene_finish().
-#
-# ### Parameters
-#
-# - p_scene: The scene currently being initialized by set_scene.
+## Only called by the room manager in the case where it hasn't executed a
+## coroutine prior to calling set_scene_finish().[br]
+##[br]
+## ### Parameters[br]
+##[br]
+## - p_scene: The scene currently being initialized by set_scene.
 func finish_current_scene_init(p_scene: Node) -> void:
 	if is_ancestor_of(p_scene):
 		move_child(p_scene, 0)
@@ -90,8 +89,8 @@ func finish_current_scene_init(p_scene: Node) -> void:
 	current_scene = p_scene
 
 
-# Completes the room swap and should be called by the room manager at the
-# appropriate time.
+## Completes the room swap and should be called by the room manager at the
+## appropriate time.
 func set_scene_finish() -> void:
 	# Final check for the critical game scene's existence.
 	check_game_scene_methods()
@@ -103,8 +102,7 @@ func set_scene_finish() -> void:
 	room_ready.emit()
 
 
-
-# Cleanup the previous scene if there was one.
+## Cleanup the previous scene if there was one.
 func clear_previous_scene() -> void:
 	if previous_scene == null:
 		return
@@ -127,14 +125,14 @@ func _on_wait_finished() -> void:
 	escoria.esc_level_runner.finished(wait_level)
 
 
-# Set the camera limits
-#
-# #### Parameters
-#
-# * camera_limits_id: The id of the room's camera limits to set
-# * scene: The scene to set the camera limits for. We make this optional since
-# most times it'll be current_scene that needs setting; however, e.g. when
-# starting up Escoria, we might not have already set the current_scene.
+## Set the camera limits[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## * camera_limits_id: The id of the room's camera limits to set[br]
+## * scene: The scene to set the camera limits for. We make this optional since
+## most times it'll be current_scene that needs setting; however, e.g. when
+## starting up Escoria, we might not have already set the current_scene.
 func set_camera_limits(camera_limit_id: int = 0, scene: Node = current_scene) -> void:
 	var limits = {}
 	var last_available_camera_limit = scene.camera_limits.size() - 1
@@ -202,9 +200,9 @@ func save_game(p_savegame_res: Resource) -> void:
 	}
 
 
-# Sanity check that the game.tscn scene's root node script MUST
-# implement the following methods. If they do not exist, stop immediately.
-# Implement them, even if empty
+## Sanity check that the game.tscn scene's root node script MUST
+## implement the following methods. If they do not exist, stop immediately.
+## Implement them, even if empty
 func check_game_scene_methods():
 	assert(current_scene.game.has_method("left_click_on_bg"))
 	assert(current_scene.game.has_method("right_click_on_bg"))
@@ -263,7 +261,7 @@ func _disable_collisions() -> void:
 			item.monitoring = false
 			item.monitorable = false
 
-####################################################################""
+# ###################################################################
 # Facades for current_scene
 
 func hide_ui() -> void:
