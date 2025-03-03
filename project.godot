@@ -12,11 +12,11 @@ config_version=5
 
 config/name="Escoria"
 run/main_scene="res://addons/escoria-core/game/main_scene.tscn"
-config/features=PackedStringArray("4.3")
+config/features=PackedStringArray("4.4")
 boot_splash/bg_color=Color(0.960784, 0.384314, 0, 1)
-boot_splash/image="res://addons/escoria-core/design/escoria-logo-small.png"
 boot_splash/fullsize=false
 boot_splash/use_filter=false
+boot_splash/image="res://addons/escoria-core/design/escoria-logo-small.png"
 config/icon="res://icon.png"
 
 [audio]

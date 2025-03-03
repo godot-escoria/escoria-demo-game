@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://j3wkbyhedkpr"]
 
 [ext_resource type="PackedScene" path="res://addons/escoria-core/ui_library/menus/load_save/load_save_slot/load_save_slot.tscn" id="2"]
-[ext_resource type="Script" path="res://addons/escoria-core/ui_library/menus/load_save/load/load_game.gd" id="3"]
+[ext_resource type="Script" uid="uid://yfabboc406rf" path="res://addons/escoria-core/ui_library/menus/load_save/load/load_game.gd" id="3"]
 
 [node name="load_game" type="Control"]
 layout_mode = 3

@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=3 uid="uid://dpkh2jfbl65k5"]
 
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
+[ext_resource type="Script" uid="uid://5pbcieq7gpdo" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
 [ext_resource type="FontFile" path="res://game/fonts/caslonantique.tres" id="3"]
 [ext_resource type="PackedScene" uid="uid://chf3qovs1q8kr" path="res://game/characters/mark/mark.tscn" id="4"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="5"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
+[ext_resource type="Script" uid="uid://beh3ds4eapldu" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="5"]
+[ext_resource type="Script" uid="uid://c7fcpp72w3dnj" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
+[ext_resource type="Script" uid="uid://dshelmw7y44qg" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
 [ext_resource type="PackedScene" path="res://game/rooms/room11/r_door.tscn" id="8"]
 
 [sub_resource type="NavigationPolygon" id="1"]

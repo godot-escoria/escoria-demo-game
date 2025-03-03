@@ -2,15 +2,15 @@
 
 [ext_resource type="FontFile" path="res://game/fonts/caslonantique.tres" id="3"]
 [ext_resource type="PackedScene" uid="uid://chf3qovs1q8kr" path="res://game/characters/mark/mark.tscn" id="4"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="8"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="10"]
-[ext_resource type="Texture2D" uid="uid://np2gs7cworil" path="res://game/rooms/room02/room2background.png" id="11"]
-[ext_resource type="Texture2D" uid="uid://b3eoos4774fxy" path="res://game/rooms/room02/floor3.png" id="12"]
-[ext_resource type="Texture2D" uid="uid://ddy4t8pr2hcxl" path="res://game/rooms/room02/floor1.png" id="13"]
-[ext_resource type="Texture2D" uid="uid://cft5n7oe4qbra" path="res://game/rooms/room02/floor4.png" id="14"]
-[ext_resource type="Texture2D" uid="uid://c3460mwplxiqy" path="res://game/rooms/room02/floor2.png" id="15"]
+[ext_resource type="Script" uid="uid://c7fcpp72w3dnj" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
+[ext_resource type="Script" uid="uid://dshelmw7y44qg" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
+[ext_resource type="Script" uid="uid://beh3ds4eapldu" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="8"]
+[ext_resource type="Script" uid="uid://5pbcieq7gpdo" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="10"]
+[ext_resource type="Texture2D" uid="uid://dg6wor5u2h1iq" path="res://game/rooms/room02/room2background.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://d0ypnnis8oiym" path="res://game/rooms/room02/floor3.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://dtt6uo1nv4nk2" path="res://game/rooms/room02/floor1.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://bdklqci3umhdo" path="res://game/rooms/room02/floor4.png" id="14"]
+[ext_resource type="Texture2D" uid="uid://nhp2hw4l5dqe" path="res://game/rooms/room02/floor2.png" id="15"]
 
 [sub_resource type="NavigationPolygon" id="1"]
 vertices = PackedVector2Array(10, 378, 86, 337, 88, 374, 8, 545, 121, 355, 488, 354, 409, 546, 1184, 373, 1185, 343, 1272, 393, 1272, 548, 875, 546, 802, 357, 1161, 358)
@@ -183,9 +183,9 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8318n"]
 _data = {
-"RESET": SubResource("5"),
-"bridge_close": SubResource("6"),
-"bridge_open": SubResource("7")
+&"RESET": SubResource("5"),
+&"bridge_close": SubResource("6"),
+&"bridge_open": SubResource("7")
 }
 
 [sub_resource type="CapsuleShape2D" id="8"]

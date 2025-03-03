@@ -1,13 +1,13 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://c8ecyitwga1dx"]
 
-[ext_resource path="res://addons/escoria-core/game/scenes/sound/esc_speech_player.gd" type="Script" id=1]
+[ext_resource type="Script" uid="uid://6aijk4hl0t0o" path="res://addons/escoria-core/game/scenes/sound/esc_speech_player.gd" id="1"]
 
 [node name="Control" type="Control"]
 process_mode = 3
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-script = ExtResource( 1 )
+script = ExtResource("1")
 __meta__ = {
 "_edit_use_anchors_": false
 }

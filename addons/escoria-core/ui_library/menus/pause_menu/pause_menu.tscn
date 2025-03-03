@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://gfjgmbcafyyt"]
 
-[ext_resource type="Script" path="res://addons/escoria-core/ui_library/menus/pause_menu/pause_menu.gd" id="1"]
+[ext_resource type="Script" uid="uid://dvx5soxivafmw" path="res://addons/escoria-core/ui_library/menus/pause_menu/pause_menu.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://bhcfnds3yy2yv" path="res://addons/escoria-core/ui_library/menus/options/options.tscn" id="2"]
 [ext_resource type="Texture2D" uid="uid://bwplh73qf2twk" path="res://addons/escoria-core/design/escoria-logo-small.png" id="3"]
 [ext_resource type="PackedScene" uid="uid://cj440t8pub603" path="res://addons/escoria-core/ui_library/menus/load_save/save/save_game.tscn" id="4"]

@@ -1,15 +1,15 @@
 [gd_scene load_steps=18 format=3 uid="uid://bxq2nu4whwsq0"]
 
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
+[ext_resource type="Script" uid="uid://5pbcieq7gpdo" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://36ogrtwqmj0h" path="res://game/items/inventory/r5_empty_sheet.tscn" id="2"]
 [ext_resource type="FontFile" path="res://game/fonts/caslonantique.tres" id="3"]
 [ext_resource type="PackedScene" uid="uid://chf3qovs1q8kr" path="res://game/characters/mark/mark.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://cghbbulb4pw6b" path="res://game/items/inventory/r5_pen.tscn" id="5"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
+[ext_resource type="Script" uid="uid://c7fcpp72w3dnj" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
+[ext_resource type="Script" uid="uid://dshelmw7y44qg" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
 [ext_resource type="PackedScene" uid="uid://cwg2l8cs056p" path="res://game/items/inventory/r5_wrench.tscn" id="8"]
 [ext_resource type="Texture2D" uid="uid://carbm85e2un02" path="res://game/rooms/room05/water_droplet.png" id="9"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="11"]
+[ext_resource type="Script" uid="uid://beh3ds4eapldu" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="11"]
 [ext_resource type="Texture2D" uid="uid://doyoo3rvuhtbe" path="res://game/rooms/room05/room5background.png" id="13"]
 
 [sub_resource type="NavigationPolygon" id="1"]
@@ -52,8 +52,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ck3xl"]
 _data = {
-"start_water": SubResource("3"),
-"stop_water": SubResource("4")
+&"start_water": SubResource("3"),
+&"stop_water": SubResource("4")
 }
 
 [sub_resource type="ParticleProcessMaterial" id="5"]

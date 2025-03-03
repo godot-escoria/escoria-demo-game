@@ -1,56 +1,56 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=40 format=3 uid="uid://cmd72pi6txw2v"]
 
-[ext_resource path="res://addons/escoria-wizard/graphics/darkgreenarrow_down.png" type="Texture2D" id=1]
-[ext_resource path="res://addons/escoria-wizard/graphics/greyarrow_r.png" type="Texture2D" id=2]
-[ext_resource path="res://addons/escoria-wizard/graphics/darkgreenarrow_right.png" type="Texture2D" id=3]
-[ext_resource path="res://addons/escoria-wizard/graphics/greenarrow_right.png" type="Texture2D" id=4]
-[ext_resource path="res://addons/escoria-wizard/graphics/greenarrow_down.png" type="Texture2D" id=5]
-[ext_resource path="res://addons/escoria-wizard/graphics/greyarrow_ul.png" type="Texture2D" id=6]
-[ext_resource path="res://addons/escoria-wizard/graphics/greyarrow_dl.png" type="Texture2D" id=7]
-[ext_resource path="res://addons/escoria-wizard/graphics/darkgreyarrow_d.png" type="Texture2D" id=8]
-[ext_resource path="res://addons/escoria-wizard/graphics/no_animation.png" type="Texture2D" id=9]
-[ext_resource path="res://addons/escoria-wizard/graphics/greenarrow_downleft.png" type="Texture2D" id=10]
-[ext_resource path="res://addons/escoria-wizard/graphics/darkgreenarrow_downleft.png" type="Texture2D" id=11]
-[ext_resource path="res://addons/escoria-wizard/graphics/darkgreenarrow_left.png" type="Texture2D" id=12]
-[ext_resource path="res://addons/escoria-wizard/graphics/greyarrow_l.png" type="Texture2D" id=13]
-[ext_resource path="res://addons/escoria-wizard/graphics/darkgreyarrow_ur.png" type="Texture2D" id=14]
-[ext_resource path="res://addons/escoria-wizard/graphics/darkgreyarrow_ul.png" type="Texture2D" id=15]
-[ext_resource path="res://addons/escoria-wizard/graphics/darkgreenarrow_upright.png" type="Texture2D" id=16]
-[ext_resource path="res://addons/escoria-wizard/graphics/greyarrow_ur.png" type="Texture2D" id=17]
-[ext_resource path="res://addons/escoria-wizard/graphics/greyarrow_u.png" type="Texture2D" id=18]
-[ext_resource path="res://addons/escoria-wizard/graphics/darkgreyarrow_r.png" type="Texture2D" id=19]
-[ext_resource path="res://addons/escoria-wizard/graphics/darkgreyarrow_u.png" type="Texture2D" id=20]
-[ext_resource path="res://addons/escoria-wizard/graphics/darkgreyarrow_l.png" type="Texture2D" id=21]
-[ext_resource path="res://addons/escoria-wizard/graphics/greyarrow_dr.png" type="Texture2D" id=22]
-[ext_resource path="res://addons/escoria-wizard/graphics/greenarrow_up.png" type="Texture2D" id=23]
-[ext_resource path="res://addons/escoria-wizard/graphics/greenarrow_upright.png" type="Texture2D" id=24]
-[ext_resource path="res://addons/escoria-wizard/graphics/darkgreenarrow_downright.png" type="Texture2D" id=25]
-[ext_resource path="res://addons/escoria-wizard/graphics/greenarrow_left.png" type="Texture2D" id=26]
-[ext_resource path="res://addons/escoria-wizard/graphics/darkgreenarrow_upleft.png" type="Texture2D" id=27]
-[ext_resource path="res://addons/escoria-wizard/graphics/darkgreenarrow_up.png" type="Texture2D" id=28]
-[ext_resource path="res://addons/escoria-wizard/graphics/no_spritesheet.png" type="Texture2D" id=29]
-[ext_resource path="res://addons/escoria-wizard/graphics/greenarrow_upleft.png" type="Texture2D" id=30]
-[ext_resource path="res://addons/escoria-wizard/graphics/greenarrow_downright.png" type="Texture2D" id=31]
-[ext_resource path="res://addons/escoria-wizard/graphics/icon.png" type="Texture2D" id=32]
-[ext_resource path="res://addons/escoria-wizard/graphics/greyarrow_d.png" type="Texture2D" id=33]
-[ext_resource path="res://addons/escoria-wizard/graphics/darkgreyarrow_dr.png" type="Texture2D" id=34]
-[ext_resource path="res://addons/escoria-wizard/graphics/darkgreyarrow_dl.png" type="Texture2D" id=35]
-[ext_resource path="res://addons/escoria-wizard/draw_frame_rects.gd" type="Script" id=36]
-[ext_resource path="res://addons/escoria-wizard/CharacterCreator.gd" type="Script" id=37]
-[ext_resource path="res://addons/escoria-wizard/help_window.tscn" type="PackedScene" id=38]
+[ext_resource type="Texture2D" uid="uid://brw0kqhxh5xuo" path="res://addons/escoria-wizard/graphics/darkgreenarrow_down.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://ced0i32m5uuqo" path="res://addons/escoria-wizard/graphics/greyarrow_r.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://cckj1wjm01v41" path="res://addons/escoria-wizard/graphics/darkgreenarrow_right.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://2bxyvg5a18am" path="res://addons/escoria-wizard/graphics/greenarrow_right.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://dbcr1dl7s1blo" path="res://addons/escoria-wizard/graphics/greenarrow_down.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://b1dchnvif88a3" path="res://addons/escoria-wizard/graphics/greyarrow_ul.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://conmu6o38nsaj" path="res://addons/escoria-wizard/graphics/greyarrow_dl.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://bbw1oxg7vk5fi" path="res://addons/escoria-wizard/graphics/darkgreyarrow_d.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://bnafdwjprij01" path="res://addons/escoria-wizard/graphics/no_animation.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://dfqfvi405uy8a" path="res://addons/escoria-wizard/graphics/greenarrow_downleft.png" id="10"]
+[ext_resource type="Texture2D" uid="uid://yopf2p7t7epk" path="res://addons/escoria-wizard/graphics/darkgreenarrow_downleft.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://x5hxnkqm4gm0" path="res://addons/escoria-wizard/graphics/darkgreenarrow_left.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://0n4ummllt074" path="res://addons/escoria-wizard/graphics/greyarrow_l.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://dqkk6aofvdrsi" path="res://addons/escoria-wizard/graphics/darkgreyarrow_ur.png" id="14"]
+[ext_resource type="Texture2D" uid="uid://d3eu0fx1brsnd" path="res://addons/escoria-wizard/graphics/darkgreyarrow_ul.png" id="15"]
+[ext_resource type="Texture2D" uid="uid://c2yynd0wv7j47" path="res://addons/escoria-wizard/graphics/darkgreenarrow_upright.png" id="16"]
+[ext_resource type="Texture2D" uid="uid://bxnf4lnatceks" path="res://addons/escoria-wizard/graphics/greyarrow_ur.png" id="17"]
+[ext_resource type="Texture2D" uid="uid://bhrlniycc8imh" path="res://addons/escoria-wizard/graphics/greyarrow_u.png" id="18"]
+[ext_resource type="Texture2D" uid="uid://8lgvmhwmmhep" path="res://addons/escoria-wizard/graphics/darkgreyarrow_r.png" id="19"]
+[ext_resource type="Texture2D" uid="uid://psiug40pn26s" path="res://addons/escoria-wizard/graphics/darkgreyarrow_u.png" id="20"]
+[ext_resource type="Texture2D" uid="uid://dyen33x0ii3d8" path="res://addons/escoria-wizard/graphics/darkgreyarrow_l.png" id="21"]
+[ext_resource type="Texture2D" uid="uid://35hujxswuyjt" path="res://addons/escoria-wizard/graphics/greyarrow_dr.png" id="22"]
+[ext_resource type="Texture2D" uid="uid://bkdbyhd6735xf" path="res://addons/escoria-wizard/graphics/greenarrow_up.png" id="23"]
+[ext_resource type="Texture2D" uid="uid://c36kgtjeb8hha" path="res://addons/escoria-wizard/graphics/greenarrow_upright.png" id="24"]
+[ext_resource type="Texture2D" uid="uid://bchwg8ebm3170" path="res://addons/escoria-wizard/graphics/darkgreenarrow_downright.png" id="25"]
+[ext_resource type="Texture2D" uid="uid://bka1k1om7v7ds" path="res://addons/escoria-wizard/graphics/greenarrow_left.png" id="26"]
+[ext_resource type="Texture2D" uid="uid://b585i0ke2k6ba" path="res://addons/escoria-wizard/graphics/darkgreenarrow_upleft.png" id="27"]
+[ext_resource type="Texture2D" uid="uid://cqkym4wfph7pl" path="res://addons/escoria-wizard/graphics/darkgreenarrow_up.png" id="28"]
+[ext_resource type="Texture2D" uid="uid://d0hvgnegbrayg" path="res://addons/escoria-wizard/graphics/no_spritesheet.png" id="29"]
+[ext_resource type="Texture2D" uid="uid://b851aipoqdu05" path="res://addons/escoria-wizard/graphics/greenarrow_upleft.png" id="30"]
+[ext_resource type="Texture2D" uid="uid://c287qbfl7eef4" path="res://addons/escoria-wizard/graphics/greenarrow_downright.png" id="31"]
+[ext_resource type="Texture2D" uid="uid://ba0fg0rdub2mp" path="res://addons/escoria-wizard/graphics/icon.png" id="32"]
+[ext_resource type="Texture2D" uid="uid://br4l35mhxea40" path="res://addons/escoria-wizard/graphics/greyarrow_d.png" id="33"]
+[ext_resource type="Texture2D" uid="uid://0dp8yjpc5qbx" path="res://addons/escoria-wizard/graphics/darkgreyarrow_dr.png" id="34"]
+[ext_resource type="Texture2D" uid="uid://dpjolxjmnvr3c" path="res://addons/escoria-wizard/graphics/darkgreyarrow_dl.png" id="35"]
+[ext_resource type="Script" uid="uid://ihbrgvupidxn" path="res://addons/escoria-wizard/draw_frame_rects.gd" id="36"]
+[ext_resource type="Script" uid="uid://bwbxhkbjuggxq" path="res://addons/escoria-wizard/CharacterCreator.gd" id="37"]
+[ext_resource type="PackedScene" path="res://addons/escoria-wizard/help_window.tscn" id="38"]
 
-[sub_resource type="SpriteFrames" id=1]
-animations = [ {
-"frames": [  ],
+[sub_resource type="SpriteFrames" id="1"]
+animations = [{
+"frames": [],
 "loop": true,
-"name": "default",
+"name": &"default",
 "speed": 5.0
 }, {
-"frames": [  ],
+"frames": [],
 "loop": true,
-"name": "in_progress",
+"name": &"in_progress",
 "speed": 5.0
-} ]
+}]
 
 [node name="CharacterCreator" type="MarginContainer"]
 offset_right = 1290.0
@@ -61,7 +61,7 @@ theme_override_constants/margin_right = 50
 theme_override_constants/margin_top = 50
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_bottom = 50
-script = ExtResource( 37 )
+script = ExtResource("37")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 offset_left = 50.0
@@ -76,8 +76,8 @@ offset_bottom = 14.0
 [node name="node_name_colorrect2" type="ColorRect" parent="VBoxContainer/MarginContainer"]
 offset_right = 1190.0
 offset_bottom = 14.0
-custom_minimum_size = Vector2( 400, 0 )
-color = Color( 0.235294, 0.341176, 0.290196, 1 )
+custom_minimum_size = Vector2(400, 0)
+color = Color(0.235294, 0.341176, 0.290196, 1)
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/MarginContainer"]
 offset_right = 1190.0
@@ -87,8 +87,8 @@ offset_bottom = 14.0
 offset_left = 527.0
 offset_right = 663.0
 offset_bottom = 14.0
-theme_override_colors/font_color = Color( 0.921569, 1, 0, 1 )
-theme_override_colors/font_shadow_color = Color( 0, 0, 0, 1 )
+theme_override_colors/font_color = Color(0.921569, 1, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 text = "Character Creator"
 uppercase = true
 
@@ -96,7 +96,7 @@ uppercase = true
 offset_top = 18.0
 offset_right = 1190.0
 offset_bottom = 800.0
-custom_minimum_size = Vector2( 1190, 550 )
+custom_minimum_size = Vector2(1190, 550)
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 20
@@ -104,15 +104,15 @@ theme_override_constants/separation = 20
 [node name="configuration" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
 offset_right = 400.0
 offset_bottom = 782.0
-custom_minimum_size = Vector2( 400, 550 )
+custom_minimum_size = Vector2(400, 550)
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="node_name_colorrect" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration"]
 offset_right = 400.0
 offset_bottom = 782.0
-custom_minimum_size = Vector2( 400, 0 )
-color = Color( 0.235294, 0.341176, 0.290196, 1 )
+custom_minimum_size = Vector2(400, 0)
+color = Color(0.235294, 0.341176, 0.290196, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/configuration"]
 offset_right = 400.0
@@ -123,7 +123,7 @@ size_flags_vertical = 3
 [node name="node_name" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer"]
 offset_right = 400.0
 offset_bottom = 130.0
-custom_minimum_size = Vector2( 400, 130 )
+custom_minimum_size = Vector2(400, 130)
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name"]
 offset_right = 400.0
@@ -133,7 +133,7 @@ offset_bottom = 24.0
 offset_right = 400.0
 offset_bottom = 24.0
 size_flags_vertical = 3
-color = Color( 0.215686, 0.478431, 0.235294, 1 )
+color = Color(0.215686, 0.478431, 0.235294, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/node_name/MarginContainer"]
 offset_right = 400.0
@@ -173,7 +173,7 @@ text = "Name:"
 offset_left = 95.0
 offset_right = 295.0
 offset_bottom = 24.0
-custom_minimum_size = Vector2( 200, 0 )
+custom_minimum_size = Vector2(200, 0)
 tooltip_text = "The will be the name of the node in your scene tree."
 text = "replace_me"
 caret_blink = true
@@ -195,7 +195,7 @@ offset_left = 95.0
 offset_top = 28.0
 offset_right = 295.0
 offset_bottom = 52.0
-custom_minimum_size = Vector2( 200, 0 )
+custom_minimum_size = Vector2(200, 0)
 tooltip_text = "The global id for the character to be used in ESC scripts."
 caret_blink = true
 caret_blink_interval = 0.5
@@ -217,7 +217,7 @@ offset_left = 95.0
 offset_top = 56.0
 offset_right = 295.0
 offset_bottom = 80.0
-custom_minimum_size = Vector2( 200, 0 )
+custom_minimum_size = Vector2(200, 0)
 tooltip_text = "The directory on disk where the character scene will be saved."
 text = "res://"
 editable = false
@@ -235,7 +235,7 @@ text = "Change"
 offset_top = 134.0
 offset_right = 400.0
 offset_bottom = 186.0
-custom_minimum_size = Vector2( 400, 50 )
+custom_minimum_size = Vector2(400, 50)
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype"]
 offset_right = 400.0
@@ -244,7 +244,7 @@ offset_bottom = 24.0
 [node name="directions_colorrect" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype/MarginContainer"]
 offset_right = 400.0
 offset_bottom = 24.0
-color = Color( 0.215686, 0.478431, 0.235294, 1 )
+color = Color(0.215686, 0.478431, 0.235294, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/charactertype/MarginContainer"]
 offset_right = 400.0
@@ -287,7 +287,7 @@ text = "npc"
 offset_top = 190.0
 offset_right = 400.0
 offset_bottom = 242.0
-custom_minimum_size = Vector2( 400, 50 )
+custom_minimum_size = Vector2(400, 50)
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions"]
 offset_right = 400.0
@@ -296,7 +296,7 @@ offset_bottom = 24.0
 [node name="directions_colorrect" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/MarginContainer"]
 offset_right = 400.0
 offset_bottom = 24.0
-color = Color( 0.215686, 0.478431, 0.235294, 1 )
+color = Color(0.215686, 0.478431, 0.235294, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/directions/MarginContainer"]
 offset_right = 400.0
@@ -353,7 +353,7 @@ text = "8"
 offset_top = 246.0
 offset_right = 400.0
 offset_bottom = 684.0
-custom_minimum_size = Vector2( 400, 200 )
+custom_minimum_size = Vector2(400, 200)
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation"]
 offset_right = 400.0
@@ -362,7 +362,7 @@ offset_bottom = 24.0
 [node name="animation_type_colorrect" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/MarginContainer"]
 offset_right = 400.0
 offset_bottom = 24.0
-color = Color( 0.215686, 0.478431, 0.235294, 1 )
+color = Color(0.215686, 0.478431, 0.235294, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/MarginContainer"]
 offset_right = 400.0
@@ -416,7 +416,7 @@ offset_bottom = 106.0
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/MarginContainer2"]
 offset_right = 400.0
 offset_bottom = 50.0
-custom_minimum_size = Vector2( 0, 50 )
+custom_minimum_size = Vector2(0, 50)
 
 [node name="HBoxContainer2" type="GridContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation"]
 offset_top = 110.0
@@ -427,7 +427,7 @@ columns = 5
 [node name="Control" type="Control" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2"]
 offset_right = 50.0
 offset_bottom = 200.0
-custom_minimum_size = Vector2( 50, 0 )
+custom_minimum_size = Vector2(50, 0)
 
 [node name="HBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2"]
 offset_left = 54.0
@@ -453,9 +453,9 @@ offset_right = 28.0
 offset_bottom = 28.0
 tooltip_text = "Up left animation (configured)"
 toggle_mode = true
-texture_normal = ExtResource( 27 )
-texture_pressed = ExtResource( 30 )
-texture_hover = ExtResource( 30 )
+texture_normal = ExtResource("27")
+texture_pressed = ExtResource("30")
+texture_hover = ExtResource("30")
 
 [node name="unset_dir_upleft" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_upleft" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
@@ -463,9 +463,9 @@ offset_right = 28.0
 offset_bottom = 28.0
 tooltip_text = "Up left animation (unconfigured)"
 toggle_mode = true
-texture_normal = ExtResource( 15 )
-texture_pressed = ExtResource( 6 )
-texture_hover = ExtResource( 6 )
+texture_normal = ExtResource("15")
+texture_pressed = ExtResource("6")
+texture_hover = ExtResource("6")
 
 [node name="Container_up" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
 offset_left = 4.0
@@ -477,9 +477,9 @@ offset_right = 28.0
 offset_bottom = 28.0
 tooltip_text = "Up animation (configured)"
 toggle_mode = true
-texture_normal = ExtResource( 28 )
-texture_pressed = ExtResource( 23 )
-texture_hover = ExtResource( 23 )
+texture_normal = ExtResource("28")
+texture_pressed = ExtResource("23")
+texture_hover = ExtResource("23")
 
 [node name="unset_dir_up" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_up" groups=["direction_buttons"]]
 visible = false
@@ -487,16 +487,16 @@ offset_right = 28.0
 offset_bottom = 28.0
 tooltip_text = "Up animation (unconfigured)"
 toggle_mode = true
-texture_normal = ExtResource( 20 )
-texture_pressed = ExtResource( 18 )
-texture_hover = ExtResource( 18 )
+texture_normal = ExtResource("20")
+texture_pressed = ExtResource("18")
+texture_hover = ExtResource("18")
 
 [node name="ColorRectSpacer" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_up"]
 visible = false
-modulate = Color( 0.235294, 0.341176, 0.290196, 1 )
+modulate = Color(0.235294, 0.341176, 0.290196, 1)
 offset_right = 28.0
 offset_bottom = 28.0
-custom_minimum_size = Vector2( 28, 28 )
+custom_minimum_size = Vector2(28, 28)
 
 [node name="Container_upright" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
 offset_left = 8.0
@@ -508,9 +508,9 @@ offset_right = 28.0
 offset_bottom = 28.0
 tooltip_text = "Up right animation (unconfigured)"
 toggle_mode = true
-texture_normal = ExtResource( 14 )
-texture_pressed = ExtResource( 17 )
-texture_hover = ExtResource( 17 )
+texture_normal = ExtResource("14")
+texture_pressed = ExtResource("17")
+texture_hover = ExtResource("17")
 
 [node name="set_dir_upright" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_upright" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
@@ -518,9 +518,9 @@ offset_right = 28.0
 offset_bottom = 28.0
 tooltip_text = "Up right animation (configured)"
 toggle_mode = true
-texture_normal = ExtResource( 16 )
-texture_pressed = ExtResource( 24 )
-texture_hover = ExtResource( 24 )
+texture_normal = ExtResource("16")
+texture_pressed = ExtResource("24")
+texture_hover = ExtResource("24")
 
 [node name="Container_left" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
 offset_top = 4.0
@@ -532,9 +532,9 @@ offset_right = 28.0
 offset_bottom = 28.0
 tooltip_text = "Left animation (configured)"
 toggle_mode = true
-texture_normal = ExtResource( 12 )
-texture_pressed = ExtResource( 26 )
-texture_hover = ExtResource( 26 )
+texture_normal = ExtResource("12")
+texture_pressed = ExtResource("26")
+texture_hover = ExtResource("26")
 
 [node name="unset_dir_left" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_left" groups=["direction_buttons"]]
 visible = false
@@ -542,16 +542,16 @@ offset_right = 28.0
 offset_bottom = 28.0
 tooltip_text = "Left animation (unconfigured)"
 toggle_mode = true
-texture_normal = ExtResource( 21 )
-texture_pressed = ExtResource( 13 )
-texture_hover = ExtResource( 13 )
+texture_normal = ExtResource("21")
+texture_pressed = ExtResource("13")
+texture_hover = ExtResource("13")
 
 [node name="ColorRectSpacer" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_left"]
 visible = false
-modulate = Color( 0.235294, 0.341176, 0.290196, 1 )
+modulate = Color(0.235294, 0.341176, 0.290196, 1)
 offset_right = 28.0
 offset_bottom = 28.0
-custom_minimum_size = Vector2( 28, 28 )
+custom_minimum_size = Vector2(28, 28)
 
 [node name="Container_centre" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
 offset_left = 4.0
@@ -571,9 +571,9 @@ offset_right = 28.0
 offset_bottom = 28.0
 tooltip_text = "Right animation (configured)"
 toggle_mode = true
-texture_normal = ExtResource( 3 )
-texture_pressed = ExtResource( 4 )
-texture_hover = ExtResource( 4 )
+texture_normal = ExtResource("3")
+texture_pressed = ExtResource("4")
+texture_hover = ExtResource("4")
 
 [node name="unset_dir_right" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_right" groups=["direction_buttons"]]
 visible = false
@@ -581,9 +581,9 @@ offset_right = 28.0
 offset_bottom = 28.0
 tooltip_text = "Right animation (unconfigured)"
 toggle_mode = true
-texture_normal = ExtResource( 19 )
-texture_pressed = ExtResource( 2 )
-texture_hover = ExtResource( 2 )
+texture_normal = ExtResource("19")
+texture_pressed = ExtResource("2")
+texture_hover = ExtResource("2")
 
 [node name="Container_downleft" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
 offset_top = 8.0
@@ -595,9 +595,9 @@ offset_right = 28.0
 offset_bottom = 28.0
 tooltip_text = "Down left animation (unconfigured)"
 toggle_mode = true
-texture_normal = ExtResource( 35 )
-texture_pressed = ExtResource( 7 )
-texture_hover = ExtResource( 7 )
+texture_normal = ExtResource("35")
+texture_pressed = ExtResource("7")
+texture_hover = ExtResource("7")
 
 [node name="set_dir_downleft" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_downleft" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
@@ -605,9 +605,9 @@ offset_right = 28.0
 offset_bottom = 28.0
 tooltip_text = "Down left animation (configured)"
 toggle_mode = true
-texture_normal = ExtResource( 11 )
-texture_pressed = ExtResource( 10 )
-texture_hover = ExtResource( 10 )
+texture_normal = ExtResource("11")
+texture_pressed = ExtResource("10")
+texture_hover = ExtResource("10")
 
 [node name="Container_down" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
 offset_left = 4.0
@@ -621,9 +621,9 @@ offset_right = 28.0
 offset_bottom = 28.0
 tooltip_text = "Down animation (configured)"
 toggle_mode = true
-texture_normal = ExtResource( 1 )
-texture_pressed = ExtResource( 5 )
-texture_hover = ExtResource( 5 )
+texture_normal = ExtResource("1")
+texture_pressed = ExtResource("5")
+texture_hover = ExtResource("5")
 
 [node name="unset_dir_down" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_down" groups=["direction_buttons"]]
 visible = false
@@ -631,16 +631,16 @@ offset_right = 28.0
 offset_bottom = 28.0
 tooltip_text = "Down animation (unconfigured)"
 toggle_mode = true
-texture_normal = ExtResource( 8 )
-texture_pressed = ExtResource( 33 )
-texture_hover = ExtResource( 33 )
+texture_normal = ExtResource("8")
+texture_pressed = ExtResource("33")
+texture_hover = ExtResource("33")
 
 [node name="ColorRectSpacer" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_down"]
 visible = false
-modulate = Color( 0.235294, 0.341176, 0.290196, 1 )
+modulate = Color(0.235294, 0.341176, 0.290196, 1)
 offset_right = 28.0
 offset_bottom = 28.0
-custom_minimum_size = Vector2( 28, 28 )
+custom_minimum_size = Vector2(28, 28)
 
 [node name="Container_downright" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer"]
 offset_left = 8.0
@@ -654,9 +654,9 @@ offset_right = 28.0
 offset_bottom = 28.0
 tooltip_text = "Down right animation (configured)"
 toggle_mode = true
-texture_normal = ExtResource( 25 )
-texture_pressed = ExtResource( 31 )
-texture_hover = ExtResource( 31 )
+texture_normal = ExtResource("25")
+texture_pressed = ExtResource("31")
+texture_hover = ExtResource("31")
 
 [node name="unset_dir_downright" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_downright" groups=["8_direction_buttons", "direction_buttons"]]
 visible = false
@@ -664,9 +664,9 @@ offset_right = 28.0
 offset_bottom = 28.0
 tooltip_text = "Down right animation (unconfigured)"
 toggle_mode = true
-texture_normal = ExtResource( 34 )
-texture_pressed = ExtResource( 22 )
-texture_hover = ExtResource( 22 )
+texture_normal = ExtResource("34")
+texture_pressed = ExtResource("22")
+texture_hover = ExtResource("22")
 
 [node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer"]
 offset_top = 12.0
@@ -692,25 +692,25 @@ offset_bottom = 200.0
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer"]
 offset_right = 110.0
 offset_bottom = 35.0
-custom_minimum_size = Vector2( 0, 35 )
+custom_minimum_size = Vector2(0, 35)
 
 [node name="Control2" type="Control" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2"]
 offset_left = 168.0
 offset_right = 218.0
 offset_bottom = 200.0
-custom_minimum_size = Vector2( 50, 0 )
+custom_minimum_size = Vector2(50, 0)
 
 [node name="preview" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2"]
 offset_left = 222.0
 offset_right = 342.0
 offset_bottom = 200.0
-custom_minimum_size = Vector2( 100, 200 )
+custom_minimum_size = Vector2(100, 200)
 
 [node name="anim_preview_background" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview"]
 offset_right = 120.0
 offset_bottom = 200.0
 tooltip_text = "Animation preview based on current animation settings"
-color = Color( 0.215686, 0.207843, 0.207843, 1 )
+color = Color(0.215686, 0.207843, 0.207843, 1)
 
 [node name="MarginContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview"]
 offset_right = 120.0
@@ -720,8 +720,8 @@ size_flags_vertical = 3
 
 [node name="anim_preview_sprite" type="AnimatedSprite2D" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/preview/MarginContainer"]
 visible = false
-scale = Vector2( 0.05, 0.05 )
-frames = SubResource( 1 )
+scale = Vector2(0.05, 0.05)
+frames = SubResource("1")
 animation = "in_progress"
 playing = true
 centered = false
@@ -730,19 +730,19 @@ centered = false
 offset_left = 10.0
 offset_right = 110.0
 offset_bottom = 200.0
-texture = ExtResource( 9 )
+texture = ExtResource("9")
 
 [node name="Control3" type="Control" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2"]
 offset_left = 346.0
 offset_right = 396.0
 offset_bottom = 200.0
-custom_minimum_size = Vector2( 50, 0 )
+custom_minimum_size = Vector2(50, 0)
 
 [node name="Control4" type="Control" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2"]
 offset_top = 204.0
 offset_right = 50.0
 offset_bottom = 218.0
-custom_minimum_size = Vector2( 50, 0 )
+custom_minimum_size = Vector2(50, 0)
 
 [node name="current_direction_label" type="Label" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2"]
 offset_left = 54.0
@@ -756,7 +756,7 @@ offset_left = 168.0
 offset_top = 204.0
 offset_right = 218.0
 offset_bottom = 218.0
-custom_minimum_size = Vector2( 50, 0 )
+custom_minimum_size = Vector2(50, 0)
 
 [node name="anim_preview_label" type="Label" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2"]
 offset_left = 222.0
@@ -770,7 +770,7 @@ offset_left = 346.0
 offset_top = 204.0
 offset_right = 396.0
 offset_bottom = 218.0
-custom_minimum_size = Vector2( 50, 0 )
+custom_minimum_size = Vector2(50, 0)
 
 [node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation"]
 offset_top = 332.0
@@ -780,13 +780,13 @@ offset_bottom = 382.0
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/MarginContainer3"]
 offset_right = 400.0
 offset_bottom = 50.0
-custom_minimum_size = Vector2( 0, 50 )
+custom_minimum_size = Vector2(0, 50)
 
 [node name="autosave" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation"]
 offset_top = 386.0
 offset_right = 400.0
 offset_bottom = 438.0
-custom_minimum_size = Vector2( 400, 50 )
+custom_minimum_size = Vector2(400, 50)
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/autosave"]
 offset_right = 400.0
@@ -795,7 +795,7 @@ offset_bottom = 24.0
 [node name="autosave_colorrect" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/autosave/MarginContainer"]
 offset_right = 400.0
 offset_bottom = 24.0
-color = Color( 0.215686, 0.478431, 0.235294, 1 )
+color = Color(0.215686, 0.478431, 0.235294, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/autosave/MarginContainer"]
 offset_right = 400.0
@@ -845,7 +845,7 @@ text = "Auto-store all changes to this character"
 offset_left = 420.0
 offset_right = 870.0
 offset_bottom = 782.0
-custom_minimum_size = Vector2( 440, 550 )
+custom_minimum_size = Vector2(440, 550)
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -854,12 +854,12 @@ size_flags_vertical = 3
 offset_right = 450.0
 offset_bottom = 782.0
 mouse_filter = 1
-color = Color( 0.235294, 0.341176, 0.290196, 1 )
+color = Color(0.235294, 0.341176, 0.290196, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/spritesheet"]
 offset_right = 450.0
 offset_bottom = 782.0
-custom_minimum_size = Vector2( 450, 550 )
+custom_minimum_size = Vector2(450, 550)
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -885,7 +885,7 @@ size_flags_vertical = 3
 [node name="control" type="MarginContainer" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container"]
 offset_right = 440.0
 offset_bottom = 714.0
-custom_minimum_size = Vector2( 192, 210 )
+custom_minimum_size = Vector2(192, 210)
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -894,12 +894,12 @@ size_flags_vertical = 3
 offset_right = 440.0
 offset_bottom = 714.0
 mouse_filter = 1
-color = Color( 0.203922, 0.184314, 0.184314, 1 )
+color = Color(0.203922, 0.184314, 0.184314, 1)
 
 [node name="spritesheet_sprite" type="TextureRect" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control"]
 offset_right = 240.0
 offset_bottom = 25.0
-custom_minimum_size = Vector2( 240, 25 )
+custom_minimum_size = Vector2(240, 25)
 size_flags_horizontal = 0
 size_flags_vertical = 0
 expand = true
@@ -908,10 +908,10 @@ expand = true
 offset_right = 440.0
 offset_bottom = 714.0
 mouse_filter = 1
-script = ExtResource( 36 )
+script = ExtResource("36")
 total_num_rows = 1
 total_num_columns = 1
-cell_size = Vector2( 1, 1 )
+cell_size = Vector2(1, 1)
 zoom_factor = 0.01
 
 [node name="MarginContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/spritesheet_scroll_container/control"]
@@ -924,19 +924,19 @@ offset_left = 20.0
 offset_top = 157.0
 offset_right = 420.0
 offset_bottom = 557.0
-texture = ExtResource( 29 )
+texture = ExtResource("29")
 
 [node name="zoom_scroll" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer"]
 offset_top = 718.0
 offset_right = 440.0
 offset_bottom = 738.0
-custom_minimum_size = Vector2( 440, 0 )
+custom_minimum_size = Vector2(440, 0)
 
 [node name="zoom_label" type="Label" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll"]
 offset_top = 3.0
 offset_right = 80.0
 offset_bottom = 17.0
-custom_minimum_size = Vector2( 80, 0 )
+custom_minimum_size = Vector2(80, 0)
 text = "Zoom: 1x"
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_scroll"]
@@ -967,7 +967,7 @@ text = "Reset"
 offset_top = 742.0
 offset_right = 440.0
 offset_bottom = 772.0
-custom_minimum_size = Vector2( 440, 30 )
+custom_minimum_size = Vector2(440, 30)
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/spritesheet/MarginContainer/VBoxContainer/zoom_current"]
 offset_right = 128.0
@@ -997,14 +997,14 @@ readonly = true
 offset_left = 890.0
 offset_right = 1190.0
 offset_bottom = 782.0
-custom_minimum_size = Vector2( 300, 450 )
+custom_minimum_size = Vector2(300, 450)
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="background_colorrect" type="ColorRect" parent="VBoxContainer/HBoxContainer/spritesheet_controls"]
 offset_right = 300.0
 offset_bottom = 782.0
-color = Color( 0.235294, 0.341176, 0.290196, 1 )
+color = Color(0.235294, 0.341176, 0.290196, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/spritesheet_controls"]
 offset_right = 300.0
@@ -1018,7 +1018,7 @@ theme_override_constants/margin_bottom = 6
 [node name="name_colorrect3" type="ColorRect" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/MarginContainer"]
 offset_right = 300.0
 offset_bottom = 24.0
-color = Color( 0.215686, 0.478431, 0.235294, 1 )
+color = Color(0.215686, 0.478431, 0.235294, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/MarginContainer"]
 offset_right = 300.0
@@ -1056,7 +1056,7 @@ offset_bottom = 256.0
 offset_left = 20.0
 offset_right = 280.0
 offset_bottom = 198.0
-custom_minimum_size = Vector2( 260, 0 )
+custom_minimum_size = Vector2(260, 0)
 theme_override_constants/v_separation = 10
 theme_override_constants/h_separation = 8
 columns = 2
@@ -1176,14 +1176,14 @@ offset_bottom = 198.0
 offset_top = 260.0
 offset_right = 300.0
 offset_bottom = 310.0
-custom_minimum_size = Vector2( 0, 50 )
+custom_minimum_size = Vector2(0, 50)
 
 [node name="store_anim" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer"]
 visible = false
 offset_top = 314.0
 offset_right = 300.0
 offset_bottom = 414.0
-custom_minimum_size = Vector2( 300, 100 )
+custom_minimum_size = Vector2(300, 100)
 theme_override_constants/separation = 10
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/store_anim"]
@@ -1193,7 +1193,7 @@ offset_bottom = 36.0
 [node name="name_colorrect2" type="ColorRect" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/store_anim/MarginContainer"]
 offset_right = 300.0
 offset_bottom = 36.0
-color = Color( 0.215686, 0.478431, 0.235294, 1 )
+color = Color(0.215686, 0.478431, 0.235294, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/store_anim/MarginContainer"]
 offset_right = 300.0
@@ -1237,21 +1237,21 @@ offset_bottom = 65.0
 offset_right = 266.0
 offset_bottom = 61.0
 tooltip_text = "Export all animations to a Godot scene"
-theme_override_colors/font_color = Color( 0, 1, 0.0392157, 1 )
+theme_override_colors/font_color = Color(0, 1, 0.0392157, 1)
 text = "Export Character to Godot Scene"
-icon = ExtResource( 32 )
+icon = ExtResource("32")
 
 [node name="name_colorrect4" type="ColorRect" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer/MarginContainer2/VBoxContainer"]
 offset_top = 65.0
 offset_right = 266.0
 offset_bottom = 65.0
-color = Color( 0.215686, 0.478431, 0.235294, 1 )
+color = Color(0.215686, 0.478431, 0.235294, 1)
 
 [node name="empty_node2" type="Control" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer"]
 offset_top = 383.0
 offset_right = 300.0
 offset_bottom = 663.0
-custom_minimum_size = Vector2( 0, 280 )
+custom_minimum_size = Vector2(0, 280)
 
 [node name="MarginContainer3" type="CenterContainer" parent="VBoxContainer/HBoxContainer/spritesheet_controls/VBoxContainer"]
 offset_top = 667.0
@@ -1292,7 +1292,7 @@ exclusive = true
 window_title = "Open a File"
 mode = 0
 access = 2
-filters = PackedStringArray( "*.png, *.jpg, *.jpeg ; Supported Images" )
+filters = PackedStringArray("*.png, *.jpg, *.jpeg ; Supported Images")
 
 [node name="CharacterPathFileDialog" type="FileDialog" parent="."]
 offset_left = 50.0
@@ -1464,7 +1464,7 @@ from an ESCPlayer to an ESCItem. Similarly, change an NPC to a player
 character by changing the parent node to an ESCPlayer node.
 "
 
-[node name="help_window" parent="InformationWindows" instance=ExtResource( 38 )]
+[node name="help_window" parent="InformationWindows" instance=ExtResource("38")]
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="InformationWindows"]
 offset_left = 479.0

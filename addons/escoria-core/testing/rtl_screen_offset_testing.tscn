@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://diq5rsixfcxri"]
 
-[ext_resource type="Script" path="res://addons/escoria-core/testing/rtl_screen_offset_testing.gd" id="1"]
+[ext_resource type="Script" uid="uid://cgtqofwnv18rn" path="res://addons/escoria-core/testing/rtl_screen_offset_testing.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://b3hru28v8y36i" path="res://addons/escoria-ui-simplemouse/tooltip/target_tooltip.tscn" id="2"]
 
 [node name="rtl_screen_offset" type="Control"]

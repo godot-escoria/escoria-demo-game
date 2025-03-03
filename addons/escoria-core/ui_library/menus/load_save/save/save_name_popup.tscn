@@ -1,11 +1,11 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://coiqm0xcq8f8o"]
 
-[ext_resource path="res://addons/escoria-core/ui_library/menus/load_save/save/save_name_popup.gd" type="Script" id=2]
+[ext_resource type="Script" uid="uid://blqbjhwtenth5" path="res://addons/escoria-core/ui_library/menus/load_save/save/save_name_popup.gd" id="2"]
 
 [node name="save_name_popup" type="Popup"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 2 )
+script = ExtResource("2")
 __meta__ = {
 "_edit_use_anchors_": false
 }

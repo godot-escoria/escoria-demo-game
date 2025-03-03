@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://36ogrtwqmj0h"]
 
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://dj1xnpk3j7gf" path="res://game/rooms/room05/clipboard.png" id="2"]
+[ext_resource type="Script" uid="uid://dshelmw7y44qg" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://dyr8gn28g6pvb" path="res://game/rooms/room05/clipboard.png" id="2"]
 
 [sub_resource type="RectangleShape2D" id="4"]
 size = Vector2(69, 90)

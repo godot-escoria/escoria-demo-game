@@ -1,11 +1,11 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://ck1ew8vbwietx"]
 
-[ext_resource path="res://addons/escoria-core/_test/test_migrations.gd" type="Script" id=1]
+[ext_resource type="Script" uid="uid://b7x4hqeh2dtgi" path="res://addons/escoria-core/_test/test_migrations.gd" id="1"]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
+script = ExtResource("1")
 __meta__ = {
 "_edit_use_anchors_": false
 }

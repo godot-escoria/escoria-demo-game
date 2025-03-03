@@ -37,14 +37,14 @@ const starting_angles = [
 ]
 
 var colors = [
-	ColorN("red"),		# 0 NORTH
-	ColorN("green"),	# 1 NORTHEAST
-	ColorN("blue"),		# 2 EAST
-	ColorN("black"),	# 3 SOUTHEAST
-	ColorN("yellow"),	# 4 SOUTH
-	ColorN("cyan"),		# 5 SOUTHWEST
-	ColorN("white"),	# 6 WEST
-	ColorN("purple")	# 7 NORTHWEST
+	Color("red"),		# 0 NORTH
+	Color("green"),	# 1 NORTHEAST
+	Color("blue"),		# 2 EAST
+	Color("black"),	# 3 SOUTHEAST
+	Color("yellow"),	# 4 SOUTH
+	Color("cyan"),		# 5 SOUTHWEST
+	Color("white"),	# 6 WEST
+	Color("purple")	# 7 NORTHWEST
 ]
 
 var result_angles = []
@@ -178,8 +178,9 @@ func construct_scene_nodes(angles):
 
 			var p_points = []
 			p_points.push_back($player.position)
-			p_points.push_back(polar2cartesian(POLYGON_DISTANCE, angles[i][0]) + $player.position)
-			p_points.push_back(polar2cartesian(POLYGON_DISTANCE, angles[i][1]) + $player.position)
+			p_points.push_back(POLYGON_DISTANCE * Vector2.from_angle(angles[i][0]) + $player.position)
+			p_points.push_back(POLYGON_DISTANCE * Vector2.from_angle(angles[i][1]) + $player.position)
+
 			polygon_node.polygon = p_points
 			collision_shape.points = p_points
 			collision.set_shape(collision_shape)

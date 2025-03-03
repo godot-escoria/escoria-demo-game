@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://cj440t8pub603"]
 
-[ext_resource type="PackedScene" path="res://addons/escoria-core/ui_library/menus/load_save/load_save_slot/load_save_slot.tscn" id="1"]
-[ext_resource type="Script" path="res://addons/escoria-core/ui_library/menus/load_save/save/save_game.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://ciysuxd81qucn" path="res://addons/escoria-core/ui_library/menus/load_save/load_save_slot/load_save_slot.tscn" id="1"]
+[ext_resource type="Script" uid="uid://crpi3w8bdekpc" path="res://addons/escoria-core/ui_library/menus/load_save/save/save_game.gd" id="2"]
 [ext_resource type="PackedScene" path="res://addons/escoria-core/ui_library/menus/load_save/save/save_name_popup.tscn" id="4"]
-[ext_resource type="PackedScene" path="res://addons/escoria-core/ui_library/menus/load_save/save/overwrite_confirm_popup.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://c4ldxsprk70gi" path="res://addons/escoria-core/ui_library/menus/load_save/save/overwrite_confirm_popup.tscn" id="5"]
 
 [node name="save_game" type="Control"]
 layout_mode = 3

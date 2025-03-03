@@ -1,12 +1,12 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://b5yss2p8c83cp"]
 
-[ext_resource path="res://addons/escoria-core/game/scenes/inventory/inventory_ui.gd" type="Script" id=1]
-[ext_resource path="res://addons/escoria-core/ui_library/inventory/esc_inventory_container.gd" type="Script" id=3]
+[ext_resource type="Script" uid="uid://b1l4nnky23hwo" path="res://addons/escoria-core/game/scenes/inventory/inventory_ui.gd" id="1"]
+[ext_resource type="Script" uid="uid://c4syt26p7mg66" path="res://addons/escoria-core/ui_library/inventory/esc_inventory_container.gd" id="3"]
 
 [node name="inventory_ui" type="PanelContainer"]
 offset_right = 600.0
 offset_bottom = 175.0
-script = ExtResource( 1 )
+script = ExtResource("1")
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -28,4 +28,4 @@ size_flags_vertical = 3
 theme_override_constants/v_separation = 16
 theme_override_constants/h_separation = 16
 columns = 4
-script = ExtResource( 3 )
+script = ExtResource("3")

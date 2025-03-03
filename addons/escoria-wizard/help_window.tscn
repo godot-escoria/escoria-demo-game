@@ -1,23 +1,23 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=19 format=3 uid="uid://b1mr4ghmqeyo"]
 
-[ext_resource path="res://addons/escoria-wizard/graphics/help/left3.png" type="Texture2D" id=1]
-[ext_resource path="res://addons/escoria-wizard/graphics/help/left4.png" type="Texture2D" id=2]
-[ext_resource path="res://addons/escoria-wizard/graphics/help/left5.png" type="Texture2D" id=3]
-[ext_resource path="res://addons/escoria-wizard/graphics/help/middle3.png" type="Texture2D" id=4]
-[ext_resource path="res://addons/escoria-wizard/graphics/help/right4.png" type="Texture2D" id=5]
-[ext_resource path="res://addons/escoria-wizard/graphics/help/middleall.png" type="Texture2D" id=6]
-[ext_resource path="res://addons/escoria-wizard/graphics/help/middle2.png" type="Texture2D" id=7]
-[ext_resource path="res://addons/escoria-wizard/graphics/help/left2.png" type="Texture2D" id=8]
-[ext_resource path="res://addons/escoria-wizard/graphics/help/rightall.png" type="Texture2D" id=9]
-[ext_resource path="res://addons/escoria-wizard/graphics/help/right5.png" type="Texture2D" id=10]
-[ext_resource path="res://addons/escoria-wizard/graphics/help/right2.png" type="Texture2D" id=11]
-[ext_resource path="res://addons/escoria-wizard/graphics/help/right3.png" type="Texture2D" id=12]
-[ext_resource path="res://addons/escoria-wizard/graphics/help/leftall.png" type="Texture2D" id=13]
-[ext_resource path="res://addons/escoria-wizard/graphics/help/help_background.png" type="Texture2D" id=14]
-[ext_resource path="res://addons/escoria-wizard/graphics/help/left1.png" type="Texture2D" id=15]
-[ext_resource path="res://addons/escoria-wizard/graphics/help/middle1.png" type="Texture2D" id=16]
-[ext_resource path="res://addons/escoria-wizard/graphics/help/right1.png" type="Texture2D" id=17]
-[ext_resource path="res://addons/escoria-wizard/help_window.gd" type="Script" id=18]
+[ext_resource type="Texture2D" uid="uid://bk42g7swptckx" path="res://addons/escoria-wizard/graphics/help/left3.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://fhwjj4mcqyp4" path="res://addons/escoria-wizard/graphics/help/left4.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://dx2k6obns2lx3" path="res://addons/escoria-wizard/graphics/help/left5.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://chbetjsjyrmru" path="res://addons/escoria-wizard/graphics/help/middle3.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://brbr5j744smij" path="res://addons/escoria-wizard/graphics/help/right4.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://c3q71qajm62nc" path="res://addons/escoria-wizard/graphics/help/middleall.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://cjtmb5ixclpa4" path="res://addons/escoria-wizard/graphics/help/middle2.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://l4hk2jsss4ws" path="res://addons/escoria-wizard/graphics/help/left2.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://c6rmxfpjue4u2" path="res://addons/escoria-wizard/graphics/help/rightall.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://bmnty6hjnn14x" path="res://addons/escoria-wizard/graphics/help/right5.png" id="10"]
+[ext_resource type="Texture2D" uid="uid://sa36pne4uc5n" path="res://addons/escoria-wizard/graphics/help/right2.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://f8qkphr8kabf" path="res://addons/escoria-wizard/graphics/help/right3.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://b14qtmdrlmnxd" path="res://addons/escoria-wizard/graphics/help/leftall.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://csceo5toi5hcr" path="res://addons/escoria-wizard/graphics/help/help_background.png" id="14"]
+[ext_resource type="Texture2D" uid="uid://c1c2xkxrfxsrb" path="res://addons/escoria-wizard/graphics/help/left1.png" id="15"]
+[ext_resource type="Texture2D" uid="uid://dw1eanwchdhp3" path="res://addons/escoria-wizard/graphics/help/middle1.png" id="16"]
+[ext_resource type="Texture2D" uid="uid://g5u5gkw15akq" path="res://addons/escoria-wizard/graphics/help/right1.png" id="17"]
+[ext_resource type="Script" uid="uid://de8nuechh5y3b" path="res://addons/escoria-wizard/help_window.gd" id="18"]
 
 [node name="help_window" type="Window"]
 offset_left = 100.0
@@ -25,7 +25,7 @@ offset_top = 100.0
 offset_right = 1012.0
 offset_bottom = 742.0
 exclusive = true
-script = ExtResource( 18 )
+script = ExtResource("18")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 offset_left = 4.0
@@ -36,7 +36,7 @@ offset_bottom = 638.0
 [node name="Background" type="TextureRect" parent="VBoxContainer"]
 offset_right = 904.0
 offset_bottom = 610.0
-texture = ExtResource( 14 )
+texture = ExtResource("14")
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer"]
 offset_top = 614.0
@@ -57,7 +57,7 @@ text = "<- Previous Page"
 offset_left = 122.0
 offset_right = 162.0
 offset_bottom = 20.0
-custom_minimum_size = Vector2( 40, 20 )
+custom_minimum_size = Vector2(40, 20)
 
 [node name="next_button" type="Button" parent="VBoxContainer/CenterContainer/HBoxContainer"]
 offset_left = 166.0
@@ -71,34 +71,34 @@ offset_bottom = 40.0
 
 [node name="leftall" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
-modulate = Color( 1, 1, 1, 0.784314 )
+modulate = Color(1, 1, 1, 0.784314)
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 309.0
 offset_bottom = 610.0
-texture = ExtResource( 13 )
+texture = ExtResource("13")
 
 [node name="middleall" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
-modulate = Color( 1, 1, 1, 0.784314 )
+modulate = Color(1, 1, 1, 0.784314)
 offset_left = 324.0
 offset_top = 8.0
 offset_right = 663.0
 offset_bottom = 610.0
-texture = ExtResource( 6 )
+texture = ExtResource("6")
 
 [node name="rightall" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
-modulate = Color( 1, 1, 1, 0.784314 )
+modulate = Color(1, 1, 1, 0.784314)
 offset_left = 678.0
 offset_top = 8.0
 offset_right = 904.0
 offset_bottom = 610.0
-texture = ExtResource( 9 )
+texture = ExtResource("9")
 
 [node name="page1" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
-modulate = Color( 1, 1, 1, 0.784314 )
+modulate = Color(1, 1, 1, 0.784314)
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 305.0
@@ -106,124 +106,124 @@ offset_bottom = 606.0
 
 [node name="page2" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
-modulate = Color( 1, 1, 1, 0.784314 )
+modulate = Color(1, 1, 1, 0.784314)
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 309.0
 offset_bottom = 610.0
-texture = ExtResource( 15 )
+texture = ExtResource("15")
 
 [node name="page3" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
-modulate = Color( 1, 1, 1, 0.784314 )
+modulate = Color(1, 1, 1, 0.784314)
 offset_left = 678.0
 offset_top = 8.0
 offset_right = 904.0
 offset_bottom = 610.0
-texture = ExtResource( 17 )
+texture = ExtResource("17")
 
 [node name="page4" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
-modulate = Color( 1, 1, 1, 0.784314 )
+modulate = Color(1, 1, 1, 0.784314)
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 309.0
 offset_bottom = 610.0
-texture = ExtResource( 8 )
+texture = ExtResource("8")
 
 [node name="page5" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
-modulate = Color( 1, 1, 1, 0.784314 )
+modulate = Color(1, 1, 1, 0.784314)
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 309.0
 offset_bottom = 610.0
-texture = ExtResource( 1 )
+texture = ExtResource("1")
 
 [node name="page6" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
-modulate = Color( 1, 1, 1, 0.784314 )
+modulate = Color(1, 1, 1, 0.784314)
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 309.0
 offset_bottom = 610.0
-texture = ExtResource( 2 )
+texture = ExtResource("2")
 
 [node name="page7" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
-modulate = Color( 1, 1, 1, 0.784314 )
+modulate = Color(1, 1, 1, 0.784314)
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 309.0
 offset_bottom = 610.0
-texture = ExtResource( 3 )
+texture = ExtResource("3")
 
 [node name="page8" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
-modulate = Color( 1, 1, 1, 0.784314 )
+modulate = Color(1, 1, 1, 0.784314)
 offset_left = 324.0
 offset_top = 8.0
 offset_right = 663.0
 offset_bottom = 610.0
-texture = ExtResource( 16 )
+texture = ExtResource("16")
 
 [node name="page9" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
-modulate = Color( 1, 1, 1, 0.784314 )
+modulate = Color(1, 1, 1, 0.784314)
 offset_left = 324.0
 offset_top = 8.0
 offset_right = 663.0
 offset_bottom = 610.0
-texture = ExtResource( 7 )
+texture = ExtResource("7")
 
 [node name="page10" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
-modulate = Color( 1, 1, 1, 0.784314 )
+modulate = Color(1, 1, 1, 0.784314)
 offset_left = 324.0
 offset_top = 8.0
 offset_right = 663.0
 offset_bottom = 610.0
-texture = ExtResource( 4 )
+texture = ExtResource("4")
 
 [node name="page11" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
-modulate = Color( 1, 1, 1, 0.784314 )
+modulate = Color(1, 1, 1, 0.784314)
 offset_left = 678.0
 offset_top = 8.0
 offset_right = 904.0
 offset_bottom = 610.0
-texture = ExtResource( 11 )
+texture = ExtResource("11")
 
 [node name="page12" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
-modulate = Color( 1, 1, 1, 0.784314 )
+modulate = Color(1, 1, 1, 0.784314)
 offset_left = 678.0
 offset_top = 8.0
 offset_right = 904.0
 offset_bottom = 610.0
-texture = ExtResource( 12 )
+texture = ExtResource("12")
 
 [node name="page13" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
-modulate = Color( 1, 1, 1, 0.784314 )
+modulate = Color(1, 1, 1, 0.784314)
 offset_left = 678.0
 offset_top = 8.0
 offset_right = 904.0
 offset_bottom = 610.0
-texture = ExtResource( 5 )
+texture = ExtResource("5")
 
 [node name="page14" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
-modulate = Color( 1, 1, 1, 0.882353 )
+modulate = Color(1, 1, 1, 0.882353)
 offset_left = 678.0
 offset_top = 8.0
 offset_right = 904.0
 offset_bottom = 610.0
-texture = ExtResource( 10 )
+texture = ExtResource("10")
 
 [node name="page15" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
-modulate = Color( 1, 1, 1, 0.784314 )
+modulate = Color(1, 1, 1, 0.784314)
 offset_left = 678.0
 offset_top = 8.0
 offset_right = 979.0

@@ -1,12 +1,12 @@
 [gd_scene load_steps=29 format=3 uid="uid://dmooj3417oxux"]
 
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
+[ext_resource type="Script" uid="uid://5pbcieq7gpdo" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://chf3qovs1q8kr" path="res://game/characters/mark/mark.tscn" id="4"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="8"]
+[ext_resource type="Script" uid="uid://c7fcpp72w3dnj" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
+[ext_resource type="Script" uid="uid://dshelmw7y44qg" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
+[ext_resource type="Script" uid="uid://beh3ds4eapldu" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="8"]
 [ext_resource type="Texture2D" uid="uid://db1ga57tukwla" path="res://game/rooms/room07/room7background.png" id="9"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_exit.gd" id="9_l5rvy"]
+[ext_resource type="Script" uid="uid://btt4cprco53ec" path="res://addons/escoria-core/game/core-scripts/esc_exit.gd" id="9_l5rvy"]
 [ext_resource type="Texture2D" uid="uid://bqyrej8140qim" path="res://game/rooms/room07/alarm_cone.png" id="10"]
 [ext_resource type="AudioStream" uid="uid://cjjp3ukvmevd4" path="res://game/sfx/sounds/doorOpen_2.ogg" id="10_pi6m2"]
 [ext_resource type="Texture2D" uid="uid://cv407pveqsosv" path="res://game/rooms/room07/elevator_edge.png" id="11"]
@@ -604,11 +604,11 @@ tracks/7/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5ysog"]
 _data = {
-"RESET": SubResource("1"),
-"lift_floor_1_to_2_no_player": SubResource("2"),
-"lift_floor_1_to_2_with_player": SubResource("3"),
-"lift_floor_2_to_1_no_player": SubResource("4"),
-"lift_floor_2_to_1_with_player": SubResource("5")
+&"RESET": SubResource("1"),
+&"lift_floor_1_to_2_no_player": SubResource("2"),
+&"lift_floor_1_to_2_with_player": SubResource("3"),
+&"lift_floor_2_to_1_no_player": SubResource("4"),
+&"lift_floor_2_to_1_with_player": SubResource("5")
 }
 
 [sub_resource type="NavigationPolygon" id="6"]
@@ -670,9 +670,9 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4os3p"]
 _data = {
-"RESET": SubResource("8"),
-"camera_not_triggered": SubResource("9"),
-"camera_triggered": SubResource("10")
+&"RESET": SubResource("8"),
+&"camera_not_triggered": SubResource("9"),
+&"camera_triggered": SubResource("10")
 }
 
 [sub_resource type="Animation" id="11"]
@@ -724,9 +724,9 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_o2bpp"]
 _data = {
-"RESET": SubResource("11"),
-"camera_not_triggered": SubResource("12"),
-"camera_triggered": SubResource("13")
+&"RESET": SubResource("11"),
+&"camera_not_triggered": SubResource("12"),
+&"camera_triggered": SubResource("13")
 }
 
 [node name="room7" type="Node2D"]

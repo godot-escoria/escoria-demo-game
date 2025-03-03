@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bkygfxo5vhqsy"]
 
-[ext_resource type="Script" path="res://addons/escoria-dialog-simple/chooser/simple.gd" id="1"]
+[ext_resource type="Script" uid="uid://bfwgvr8mfsqvb" path="res://addons/escoria-dialog-simple/chooser/simple.gd" id="1"]
 
 [sub_resource type="Gradient" id="1"]
 colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)
