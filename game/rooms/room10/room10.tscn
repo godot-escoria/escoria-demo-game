@@ -1,13 +1,13 @@
 [gd_scene load_steps=10 format=3 uid="uid://r2r2i3515cjg"]
 
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_exit.gd" id="2"]
+[ext_resource type="Script" uid="uid://5pbcieq7gpdo" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
+[ext_resource type="Script" uid="uid://btt4cprco53ec" path="res://addons/escoria-core/game/core-scripts/esc_exit.gd" id="2"]
 [ext_resource type="FontFile" path="res://game/fonts/caslonantique.tres" id="3"]
 [ext_resource type="PackedScene" uid="uid://chf3qovs1q8kr" path="res://game/characters/mark/mark.tscn" id="4"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="5"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
-[ext_resource type="Texture2D" uid="uid://y8rtc7f60l5i" path="res://game/rooms/room10/room10background.png" id="10"]
+[ext_resource type="Script" uid="uid://beh3ds4eapldu" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="5"]
+[ext_resource type="Script" uid="uid://c7fcpp72w3dnj" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
+[ext_resource type="Script" uid="uid://dshelmw7y44qg" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
+[ext_resource type="Texture2D" uid="uid://bjlfpoydwhmor" path="res://game/rooms/room10/room10background.png" id="10"]
 
 [sub_resource type="NavigationPolygon" id="1"]
 vertices = PackedVector2Array(1185.27, 712.779, 1187.27, 663.779, 1259.27, 705.779, 1260.27, 800.779, 13.2684, 699.779, 83.2684, 666.779, 85.2684, 704.779, 11.2684, 799.779, 112.268, 685.779, 1153.27, 688.779)

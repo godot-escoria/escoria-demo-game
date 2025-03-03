@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://duatpb2fc36db"]
 
-[ext_resource type="Script" path="res://addons/escoria-dialog-simple/types/floating.gd" id="1"]
+[ext_resource type="Script" uid="uid://jhr1gt0fmm0u" path="res://addons/escoria-dialog-simple/types/floating.gd" id="1"]
 
 [node name="dialog_label" type="RichTextLabel"]
 offset_right = 643.0

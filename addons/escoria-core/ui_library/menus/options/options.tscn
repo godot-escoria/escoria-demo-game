@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bhcfnds3yy2yv"]
 
-[ext_resource type="Texture2D" uid="uid://d1xst80fkddpa" path="res://addons/escoria-core/ui_library/menus/options/flags/de.png" id="1"]
-[ext_resource type="Script" path="res://addons/escoria-core/ui_library/menus/options/options.gd" id="4"]
+[ext_resource type="Texture2D" uid="uid://gwy5bljr0ik1" path="res://addons/escoria-core/ui_library/menus/options/flags/de.png" id="1"]
+[ext_resource type="Script" uid="uid://btyrwps5h2qn7" path="res://addons/escoria-core/ui_library/menus/options/options.gd" id="4"]
 
 [node name="options" type="Control"]
 layout_mode = 3

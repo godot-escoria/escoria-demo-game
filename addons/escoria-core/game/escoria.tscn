@@ -1,11 +1,11 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://g1d0qhep3ywi"]
 
-[ext_resource path="res://addons/escoria-core/game/main.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/escoria-core/game/escoria.gd" type="Script" id=3]
+[ext_resource type="PackedScene" uid="uid://dwlr0gu4erswn" path="res://addons/escoria-core/game/main.tscn" id="2"]
+[ext_resource type="Script" uid="uid://cdp5mdxmuvr22" path="res://addons/escoria-core/game/escoria.gd" id="3"]
 
 [node name="escoria_scene" type="Node"]
-script = ExtResource( 3 )
+script = ExtResource("3")
 
-[node name="main" parent="." instance=ExtResource( 2 )]
+[node name="main" parent="." instance=ExtResource("2")]
 
 [editable path="main"]

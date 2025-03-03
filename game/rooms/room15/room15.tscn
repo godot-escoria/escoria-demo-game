@@ -1,13 +1,13 @@
 [gd_scene load_steps=10 format=3 uid="uid://b10t1nxqox24i"]
 
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
+[ext_resource type="Script" uid="uid://5pbcieq7gpdo" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
 [ext_resource type="FontFile" path="res://game/fonts/caslonantique.tres" id="3"]
 [ext_resource type="PackedScene" uid="uid://chf3qovs1q8kr" path="res://game/characters/mark/mark.tscn" id="4"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="5"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
-[ext_resource type="Texture2D" uid="uid://baa3i4j5ud4jv" path="res://game/rooms/room15/room15.png" id="8"]
-[ext_resource type="Texture2D" uid="uid://di6o3hxp38wfw" path="res://game/rooms/room15/room15scale.png" id="10"]
+[ext_resource type="Script" uid="uid://beh3ds4eapldu" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="5"]
+[ext_resource type="Script" uid="uid://c7fcpp72w3dnj" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
+[ext_resource type="Script" uid="uid://dshelmw7y44qg" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
+[ext_resource type="Texture2D" uid="uid://p1hoh7ckckq3" path="res://game/rooms/room15/room15.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://fftyawdvuo3f" path="res://game/rooms/room15/room15scale.png" id="10"]
 
 [sub_resource type="NavigationPolygon" id="1"]
 vertices = PackedVector2Array(849.268, 604.779, 878.268, 604.779, 877.809, 609.779, 848.967, 609.779, 448.544, 609.779, 448.268, 604.779, 476.268, 604.779, 476.638, 609.779, 1264.27, 831.779, 0.26837, 834.779, 1.26837, 741.779, 302.268, 656.779, 339.268, 609.779, 359.021, 609.779, 359.268, 605.779, 387.268, 605.779, 388.268, 609.779, 490.268, 633.779, 485.268, 609.779, 778.268, 634.779, 995.268, 662.779, 1265.27, 738.779, 794.268, 609.779, 903.268, 609.779)

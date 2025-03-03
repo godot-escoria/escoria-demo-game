@@ -1,11 +1,11 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://ch7pt3cgtkv5b"]
 
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=1]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=2]
+[ext_resource type="Script" uid="uid://dshelmw7y44qg" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="1"]
+[ext_resource type="Script" uid="uid://beh3ds4eapldu" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="2"]
 
 [node name="r_door" type="Area2D"]
 process_mode = 1
-script = ExtResource( 1 )
+script = ExtResource("1")
 __meta__ = {
 "_editor_description_": ""
 }
@@ -14,12 +14,12 @@ esc_script = "res://game/rooms/room01/esc/right_exit.esc"
 is_exit = true
 tooltip_name = "Exit"
 default_action = "walk"
-dialog_color = Color( 1, 1, 1, 1 )
+dialog_color = Color(1, 1, 1, 1)
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array( 1177.94, 348.61, 1175.95, 45.3759, 1276.06, 92.0953, 1277.95, 399.407 )
+polygon = PackedVector2Array(1177.94, 348.61, 1175.95, 45.3759, 1276.06, 92.0953, 1277.95, 399.407)
 
 [node name="Marker2D" type="Marker2D" parent="."]
-position = Vector2( 1225.47, 353.99 )
-script = ExtResource( 2 )
+position = Vector2(1225.47, 353.99)
+script = ExtResource("2")

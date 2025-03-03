@@ -1,12 +1,12 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://dsfxk5xxh41kp"]
 
-[ext_resource path="res://game/fonts/caslonantique.tres" type="FontFile" id=1]
-[ext_resource path="res://game/rooms/room08/puzzle/10_buttons_puzzle.gd" type="Script" id=2]
+[ext_resource type="FontFile" path="res://game/fonts/caslonantique.tres" id="1"]
+[ext_resource type="Script" uid="uid://c8l7xqn2mmcea" path="res://game/rooms/room08/puzzle/10_buttons_puzzle.gd" id="2"]
 
 [node name="10_buttons_puzzle" type="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 2 )
+script = ExtResource("2")
 __meta__ = {
 "_edit_lock_": true
 }
@@ -16,7 +16,7 @@ offset_left = 174.813
 offset_top = 79.6769
 offset_right = 899.813
 offset_bottom = 126.677
-theme_override_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource("1")
 text = "Click the buttons in the increasing order"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -27,7 +27,7 @@ offset_left = 558.177
 offset_top = 674.983
 offset_right = 719.177
 offset_bottom = 721.983
-theme_override_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource("1")
 text = "Well done!"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -48,7 +48,7 @@ margin_right = 192.0
 margin_bottom = 214.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource("1")
 toggle_mode = true
 
 [node name="Button2" type="Button" parent="GridContainer"]
@@ -57,7 +57,7 @@ margin_right = 388.0
 margin_bottom = 214.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource("1")
 toggle_mode = true
 
 [node name="Button3" type="Button" parent="GridContainer"]
@@ -66,7 +66,7 @@ margin_right = 583.0
 margin_bottom = 214.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource("1")
 toggle_mode = true
 
 [node name="Button4" type="Button" parent="GridContainer"]
@@ -75,7 +75,7 @@ margin_right = 778.0
 margin_bottom = 214.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource("1")
 toggle_mode = true
 
 [node name="Button5" type="Button" parent="GridContainer"]
@@ -84,7 +84,7 @@ margin_right = 973.0
 margin_bottom = 214.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource("1")
 toggle_mode = true
 
 [node name="Button6" type="Button" parent="GridContainer"]
@@ -93,7 +93,7 @@ margin_right = 192.0
 margin_bottom = 432.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource("1")
 toggle_mode = true
 
 [node name="Button7" type="Button" parent="GridContainer"]
@@ -103,7 +103,7 @@ margin_right = 388.0
 margin_bottom = 432.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource("1")
 toggle_mode = true
 
 [node name="Button8" type="Button" parent="GridContainer"]
@@ -113,7 +113,7 @@ margin_right = 583.0
 margin_bottom = 432.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource("1")
 toggle_mode = true
 
 [node name="Button9" type="Button" parent="GridContainer"]
@@ -123,7 +123,7 @@ margin_right = 778.0
 margin_bottom = 432.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource("1")
 toggle_mode = true
 
 [node name="Button10" type="Button" parent="GridContainer"]
@@ -133,7 +133,7 @@ margin_right = 973.0
 margin_bottom = 432.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource("1")
 toggle_mode = true
 
 [node name="quit" type="Button" parent="."]
@@ -141,7 +141,7 @@ offset_left = 1148.0
 offset_top = 56.0
 offset_right = 1193.0
 offset_bottom = 109.0
-theme_override_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource("1")
 text = "X"
 
 [connection signal="pressed" from="quit" to="." method="_on_quit_pressed"]

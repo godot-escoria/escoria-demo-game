@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://bxk33ufxexw1g"]
 
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://dibsc8djdgbs1" path="res://game/items/inventory/filled_sheet_inventory.png" id="2_pwp0v"]
-[ext_resource type="Texture2D" uid="uid://86ymlu47eidd" path="res://game/items/inventory/filled_sheet.png" id="3"]
-[ext_resource type="Texture2D" uid="uid://b7ykwgmr412bu" path="res://game/items/inventory/filled_sheet_inventory_hover.png" id="3_pdqhu"]
+[ext_resource type="Script" uid="uid://dshelmw7y44qg" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://dgxaf4euf268b" path="res://game/items/inventory/filled_sheet_inventory.png" id="2_pwp0v"]
+[ext_resource type="Texture2D" uid="uid://5b7ngdlve4o2" path="res://game/items/inventory/filled_sheet.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://dyahihyjisexe" path="res://game/items/inventory/filled_sheet_inventory_hover.png" id="3_pdqhu"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 

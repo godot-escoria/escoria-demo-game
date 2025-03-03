@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://cghbbulb4pw6b"]
 
-[ext_resource type="Texture2D" uid="uid://dtj04s0m8lwlj" path="res://game/items/inventory/pen.png" id="1"]
-[ext_resource type="Texture2D" uid="uid://ycnma585p50a" path="res://game/items/inventory/pen_inventory.png" id="2_f3i4w"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="3"]
-[ext_resource type="Texture2D" uid="uid://c58oqhn4ps7k2" path="res://game/items/inventory/pen_inventory_hovered.png" id="3_pubs0"]
+[ext_resource type="Texture2D" uid="uid://bm8lvtsrldgrj" path="res://game/items/inventory/pen.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://djvmqnqtplka3" path="res://game/items/inventory/pen_inventory.png" id="2_f3i4w"]
+[ext_resource type="Script" uid="uid://dshelmw7y44qg" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="3"]
+[ext_resource type="Texture2D" uid="uid://dva82y00wxe8d" path="res://game/items/inventory/pen_inventory_hovered.png" id="3_pubs0"]
 
 [sub_resource type="RectangleShape2D" id="4"]
 size = Vector2(69, 75.2608)

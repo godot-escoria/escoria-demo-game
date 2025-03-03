@@ -1,15 +1,15 @@
 [gd_scene load_steps=28 format=3 uid="uid://4ev5xsn2aqha"]
 
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
+[ext_resource type="Script" uid="uid://5pbcieq7gpdo" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
 [ext_resource type="FontFile" path="res://game/fonts/caslonantique.tres" id="3"]
 [ext_resource type="PackedScene" uid="uid://chf3qovs1q8kr" path="res://game/characters/mark/mark.tscn" id="4"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="5"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="8"]
-[ext_resource type="Texture2D" uid="uid://bc6pmxtq7ndcs" path="res://game/rooms/room03/room3chasm.png" id="10"]
-[ext_resource type="Texture2D" uid="uid://3o81uq0olrcd" path="res://game/rooms/room03/room3bridge.png" id="11"]
-[ext_resource type="Texture2D" uid="uid://coe67wt6bcld5" path="res://game/rooms/room03/room3background.png" id="12"]
-[ext_resource type="Texture2D" uid="uid://bf4n1qqc2fvtr" path="res://game/rooms/room03/smoke.png" id="13"]
+[ext_resource type="Script" uid="uid://dshelmw7y44qg" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="5"]
+[ext_resource type="Script" uid="uid://c7fcpp72w3dnj" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
+[ext_resource type="Script" uid="uid://beh3ds4eapldu" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="8"]
+[ext_resource type="Texture2D" uid="uid://cwal105qd1pee" path="res://game/rooms/room03/room3chasm.png" id="10"]
+[ext_resource type="Texture2D" uid="uid://cj4b2a0e8qhfn" path="res://game/rooms/room03/room3bridge.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://idv14ytbpnai" path="res://game/rooms/room03/room3background.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://cag2tv2frq5vj" path="res://game/rooms/room03/smoke.png" id="13"]
 
 [sub_resource type="GDScript" id="15"]
 script/source = "extends Node2D
@@ -72,9 +72,9 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_h47y2"]
 _data = {
-"RESET": SubResource("10"),
-"bridge_close": SubResource("11"),
-"bridge_open": SubResource("12")
+&"RESET": SubResource("10"),
+&"bridge_close": SubResource("11"),
+&"bridge_open": SubResource("12")
 }
 
 [sub_resource type="Curve" id="Curve_m1rrq"]
@@ -142,8 +142,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_73gw1"]
 _data = {
-"button_broken": SubResource("8"),
-"button_repaired": SubResource("9")
+&"button_broken": SubResource("8"),
+&"button_repaired": SubResource("9")
 }
 
 [sub_resource type="NavigationPolygon" id="13"]

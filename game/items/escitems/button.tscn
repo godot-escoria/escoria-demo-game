@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://1kxo8k6wdlaq"]
 
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="1"]
+[ext_resource type="Script" uid="uid://dshelmw7y44qg" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://cag2tv2frq5vj" path="res://game/rooms/room03/smoke.png" id="2"]
 
 [sub_resource type="Gradient" id="1"]
@@ -59,8 +59,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_frgsd"]
 _data = {
-"button_broken": SubResource("6"),
-"button_repaired": SubResource("7")
+&"button_broken": SubResource("6"),
+&"button_repaired": SubResource("7")
 }
 
 [node name="button" type="Area2D"]

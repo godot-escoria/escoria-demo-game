@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://dwlr0gu4erswn"]
 
-[ext_resource type="Script" path="res://addons/escoria-core/game/main.gd" id="1"]
+[ext_resource type="Script" uid="uid://cgvex4ltwyld6" path="res://addons/escoria-core/game/main.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://b0q36us3uuimq" path="res://addons/escoria-core/game/scenes/esc_prompt/esc_prompt_popup.tscn" id="2"]
-[ext_resource type="PackedScene" path="res://addons/escoria-core/game/scenes/sound/esc_music_player.tscn" id="3"]
-[ext_resource type="PackedScene" path="res://addons/escoria-core/game/scenes/sound/esc_sound_player.tscn" id="5"]
-[ext_resource type="PackedScene" path="res://addons/escoria-core/game/scenes/sound/esc_speech_player.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://c1txn45mpksqd" path="res://addons/escoria-core/game/scenes/sound/esc_music_player.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://uwqpnwjmp6aq" path="res://addons/escoria-core/game/scenes/sound/esc_sound_player.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://c8ecyitwga1dx" path="res://addons/escoria-core/game/scenes/sound/esc_speech_player.tscn" id="6"]
 
 [node name="main" type="Node"]
 script = ExtResource("1")

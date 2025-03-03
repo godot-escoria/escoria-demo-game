@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://mqlogqf4yljw"]
 
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="1"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="3"]
+[ext_resource type="Script" uid="uid://c7fcpp72w3dnj" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="1"]
+[ext_resource type="Script" uid="uid://dshelmw7y44qg" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="3"]
 
 [sub_resource type="Animation" id="3"]
 length = 0.001
@@ -35,8 +35,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_lyeop"]
 _data = {
-"RESET": SubResource("3"),
-"folded": SubResource("4")
+&"RESET": SubResource("3"),
+&"folded": SubResource("4")
 }
 
 [sub_resource type="Animation" id="1"]
@@ -71,8 +71,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_cilgv"]
 _data = {
-"RESET": SubResource("1"),
-"folded": SubResource("2")
+&"RESET": SubResource("1"),
+&"folded": SubResource("2")
 }
 
 [node name="room18" type="Node2D"]

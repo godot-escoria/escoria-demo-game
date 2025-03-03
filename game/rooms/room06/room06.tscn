@@ -1,19 +1,19 @@
 [gd_scene load_steps=19 format=3 uid="uid://d4l4dxxrbc27i"]
 
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_exit.gd" id="3"]
+[ext_resource type="Script" uid="uid://5pbcieq7gpdo" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
+[ext_resource type="Script" uid="uid://btt4cprco53ec" path="res://addons/escoria-core/game/core-scripts/esc_exit.gd" id="3"]
 [ext_resource type="PackedScene" uid="uid://chf3qovs1q8kr" path="res://game/characters/mark/mark.tscn" id="4"]
-[ext_resource type="Texture2D" uid="uid://crhg2q55dxpyt" path="res://game/rooms/room06/wave.png" id="5"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
-[ext_resource type="PackedScene" path="res://game/characters/worker/worker.tscn" id="7"]
+[ext_resource type="Texture2D" uid="uid://b53pqqunb887h" path="res://game/rooms/room06/wave.png" id="5"]
+[ext_resource type="Script" uid="uid://c7fcpp72w3dnj" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
+[ext_resource type="PackedScene" uid="uid://b415eoguy2fid" path="res://game/characters/worker/worker.tscn" id="7"]
 [ext_resource type="FontFile" path="res://game/fonts/caslonantique.tres" id="8"]
-[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="9"]
-[ext_resource type="Script" path="res://game/rooms/room06/scenery.gd" id="10"]
-[ext_resource type="Texture2D" uid="uid://dfws31piay4wi" path="res://game/rooms/room06/boat_hull.png" id="11"]
-[ext_resource type="Texture2D" uid="uid://bdtkpt658pl7g" path="res://game/rooms/room06/room6background.png" id="12"]
-[ext_resource type="Texture2D" uid="uid://epexeiufr7jw" path="res://game/rooms/room06/cloud.png" id="13"]
-[ext_resource type="Texture2D" uid="uid://ts7mlufvqufa" path="res://game/rooms/room06/boat.png" id="14"]
-[ext_resource type="Texture2D" uid="uid://bddse1rarq2k2" path="res://game/rooms/room06/locked_door.png" id="16"]
+[ext_resource type="Script" uid="uid://beh3ds4eapldu" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="9"]
+[ext_resource type="Script" uid="uid://dsmrbd8i03n88" path="res://game/rooms/room06/scenery.gd" id="10"]
+[ext_resource type="Texture2D" uid="uid://dwep2v3npiw6n" path="res://game/rooms/room06/boat_hull.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://dak60hpii57r0" path="res://game/rooms/room06/room6background.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://iuw6njtjw2hh" path="res://game/rooms/room06/cloud.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://ukafxnr3523i" path="res://game/rooms/room06/boat.png" id="14"]
+[ext_resource type="Texture2D" uid="uid://0tp7uft51ybk" path="res://game/rooms/room06/locked_door.png" id="16"]
 
 [sub_resource type="NavigationPolygon" id="1"]
 vertices = PackedVector2Array(28, 365, 924, 369, 923, 389, 28, 385)
@@ -54,8 +54,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_53608"]
 _data = {
-"close_door": SubResource("2"),
-"open_door": SubResource("3")
+&"close_door": SubResource("2"),
+&"open_door": SubResource("3")
 }
 
 [node name="room6" type="Node2D"]

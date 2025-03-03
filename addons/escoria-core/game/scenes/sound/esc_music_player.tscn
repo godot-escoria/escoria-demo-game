@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://c1txn45mpksqd"]
 
-[ext_resource path="res://addons/escoria-core/game/scenes/sound/esc_music_player.gd" type="Script" id=1]
+[ext_resource type="Script" uid="uid://ch8x1lue4qy34" path="res://addons/escoria-core/game/scenes/sound/esc_music_player.gd" id="1"]
 
 [node name="bg_music" type="Control"]
 process_mode = 3
@@ -9,7 +9,7 @@ anchor_bottom = 1.0
 offset_right = -1680.0
 offset_bottom = -1050.0
 mouse_filter = 2
-script = ExtResource( 1 )
+script = ExtResource("1")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 bus = "Music"

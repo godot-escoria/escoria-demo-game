@@ -1,62 +1,62 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://cj02p2rfv12br"]
 
-[ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=1]
-[ext_resource path="res://addons/escoria-core/testing/player_angles_finder.gd" type="Script" id=2]
+[ext_resource type="PackedScene" uid="uid://chf3qovs1q8kr" path="res://game/characters/mark/mark.tscn" id="1"]
+[ext_resource type="Script" uid="uid://grwlokhruew6" path="res://addons/escoria-core/testing/player_angles_finder.gd" id="2"]
 
 [node name="player_angles_finder" type="Node2D"]
-script = ExtResource( 2 )
+script = ExtResource("2")
 
 [node name="areas" type="Node2D" parent="."]
 
-[node name="player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 640, 480 )
+[node name="player" parent="." instance=ExtResource("1")]
+position = Vector2(640, 480)
 dialog_position_node = NodePath("../../player_angles_finder/player/dialog_position")
 
 [node name="x_axis" type="Line2D" parent="."]
-points = PackedVector2Array( -10, 480, 1300, 480 )
+points = PackedVector2Array(-10, 480, 1300, 480)
 width = 2.0
-default_color = Color( 0.980392, 0.00392157, 0.00392157, 1 )
+default_color = Color(0.980392, 0.00392157, 0.00392157, 1)
 
 [node name="y_axis" type="Line2D" parent="."]
-points = PackedVector2Array( 640, -20, 640, 810 )
+points = PackedVector2Array(640, -20, 640, 810)
 width = 2.0
-default_color = Color( 0.156863, 0.0117647, 0.984314, 1 )
+default_color = Color(0.156863, 0.0117647, 0.984314, 1)
 
 [node name="three" type="Node2D" parent="."]
 visible = false
 
 [node name="Line2D" type="Line2D" parent="three"]
-points = PackedVector2Array( 160, 0, 1120, 960 )
+points = PackedVector2Array(160, 0, 1120, 960)
 width = 2.0
-default_color = Color( 1, 1, 1, 1 )
+default_color = Color(1, 1, 1, 1)
 
 [node name="Line2D2" type="Line2D" parent="three"]
-points = PackedVector2Array( 160, 960, 1120, 0 )
+points = PackedVector2Array(160, 960, 1120, 0)
 width = 2.0
-default_color = Color( 1, 1, 1, 1 )
+default_color = Color(1, 1, 1, 1)
 
 [node name="six" type="Node2D" parent="."]
 visible = false
 
 [node name="Line2D" type="Line2D" parent="six"]
-points = PackedVector2Array( 0, 210, 640, 480 )
+points = PackedVector2Array(0, 210, 640, 480)
 width = 2.0
-default_color = Color( 1, 1, 1, 1 )
+default_color = Color(1, 1, 1, 1)
 
 [node name="Line2D4" type="Line2D" parent="six"]
-points = PackedVector2Array( 320, 0, 640, 480 )
+points = PackedVector2Array(320, 0, 640, 480)
 width = 2.0
-default_color = Color( 1, 1, 1, 1 )
+default_color = Color(1, 1, 1, 1)
 
 [node name="Line2D2" type="Line2D" parent="six"]
-points = PackedVector2Array( 640, 480, 1280, 210 )
+points = PackedVector2Array(640, 480, 1280, 210)
 width = 2.0
-default_color = Color( 1, 1, 1, 1 )
+default_color = Color(1, 1, 1, 1)
 
 [node name="Line2D3" type="Line2D" parent="six"]
-points = PackedVector2Array( 640, 480, 960, 0 )
+points = PackedVector2Array(640, 480, 960, 0)
 width = 2.0
-default_color = Color( 1, 1, 1, 1 )
+default_color = Color(1, 1, 1, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 offset_right = 370.0

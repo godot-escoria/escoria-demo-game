@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://btv33yamt7164"]
 
-[ext_resource type="Script" path="res://addons/escoria-core/_test/deprecated/test_esc_compiler.gd" id="1"]
+[ext_resource type="Script" uid="uid://cjhr78sjyfnb3" path="res://addons/escoria-core/_test/deprecated/test_esc_compiler.gd" id="1"]
 
 [node name="Testsuite" type="Control"]
 layout_mode = 3
