@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - "main"
-      - "develop"
 
 concurrency: fanout-${{ github.ref }}
 
@@ -41,7 +40,7 @@ jobs:
         uses: "actions/checkout@v3"
         with:
           repository: "godot-escoria/escoria-demo-game"
-          ref: "develop"
+          ref: "main"
           path: "demo-game"
           token: "${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}"
           fetch-depth: 0
@@ -58,7 +57,7 @@ jobs:
         uses: "actions/checkout@v3"
         with:
           repository: "${{ env.REPO }}"
-          ref: "develop"
+          ref: "main"
           path: "target"
           token: "${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}"
           fetch-depth: 0
@@ -67,5 +66,5 @@ jobs:
           cd target
           git config --global user.email "contact@escoria-framework.org"
           git config --global user.name "Escoria merge bot"
-          git pull ../demo-game develop --rebase
+          git pull ../demo-game main --rebase
           git push --force
