@@ -155,8 +155,8 @@ func get_settings() -> ESCSaveSettings:
 		ESCProjectSettingsManager.SPEECH_VOLUME
 	)
 	settings.fullscreen = ESCProjectSettingsManager.get_setting(
-		ESCProjectSettingsManager.FULLSCREEN
-	)
+		ESCProjectSettingsManager.WINDOW_MODE
+	) in [DisplayServer.WINDOW_MODE_FULLSCREEN, DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN]
 	settings.custom_settings = custom_settings
 
 	return settings

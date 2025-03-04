@@ -71,6 +71,7 @@ const SKIP_CACHE_MOBILE = _ESCORIA_SETTINGS_ROOT + "/" + _PLATFORM_ROOT + "/" + 
 const DISPLAY = "display"
 const WINDOW = "window"
 const SIZE = "size"
+const WINDOW_MODE = DISPLAY + "/" + WINDOW + "/" + SIZE + "/" + "mode"
 const FULLSCREEN = DISPLAY + "/" + WINDOW + "/" + SIZE + "/" + "fullscreen"
 
 
