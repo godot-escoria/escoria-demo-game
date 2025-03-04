@@ -30,6 +30,16 @@ script = ExtResource("2")
 
 [node name="ui" type="CanvasLayer" parent="."]
 
+[node name="tooltip" parent="ui" instance=ExtResource("6")]
+offset_right = 1.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("8_c4xbd")
+theme_override_font_sizes/normal_font_size = 21
+text = "[center][color=#000000][/color][/center]"
+fit_content = true
+
+[node name="inventory_ui" parent="ui" instance=ExtResource("1")]
+
 [node name="HBoxContainer" type="HBoxContainer" parent="ui"]
 anchors_preset = 15
 anchor_right = 1.0
@@ -49,19 +59,8 @@ layout_mode = 2
 mouse_filter = 2
 
 [node name="MenuButton" type="Button" parent="ui/HBoxContainer/VBoxContainer"]
-visible = false
 layout_mode = 2
 text = "Menu"
-
-[node name="tooltip" parent="ui" instance=ExtResource("6")]
-offset_right = 1.0
-mouse_filter = 2
-theme_override_fonts/normal_font = ExtResource("8_c4xbd")
-theme_override_font_sizes/normal_font_size = 21
-text = "[center][color=#000000][/color][/center]"
-fit_content = true
-
-[node name="inventory_ui" parent="ui" instance=ExtResource("1")]
 
 [node name="pause_menu" parent="ui" instance=ExtResource("8")]
 visible = false
