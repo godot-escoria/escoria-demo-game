@@ -1,3 +1,4 @@
+## Implements all language constructs to represent the scripting grammar.
 class_name ESCGrammarExprs
 
 
