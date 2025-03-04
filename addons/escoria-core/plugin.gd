@@ -237,6 +237,14 @@ func set_escoria_main_settings():
 		}
 	)
 
+	register_setting(
+		ESCProjectSettingsManager.WINDOW_MODE,
+		false,
+		{
+			"type": TYPE_BOOL,
+		}
+	)
+
 
 # Prepare the settings in the Escoria debug category
 func set_escoria_debug_settings():
