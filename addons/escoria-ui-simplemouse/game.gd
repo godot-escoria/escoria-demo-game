@@ -111,6 +111,7 @@ func _exit_tree():
 
 
 func _input(event: InputEvent) -> void:
+	super._input(event)
 	if escoria.get_escoria().is_ready_for_inputs():
 		if event is InputEventMouseMotion:
 			_current_mouse_pos = get_global_mouse_position()
