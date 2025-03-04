@@ -3,7 +3,7 @@ name: "Update API docs"
 on:
   push:
     branches:
-      - "develop"
+      - "main"
 
 concurrency: api-${{ github.ref }}
 
@@ -18,7 +18,7 @@ jobs:
               with:
                 token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
                 repository: godot-escoria/escoria-demo-game
-                ref: "develop"
+                ref: "main"
                 path: game
             - name: "Checkout docs repo"
               uses: actions/checkout@v2

@@ -3,7 +3,7 @@ name: "Release new prerelease version"
 on:
   push:
     branches:
-      - develop
+      - main
 
 jobs:
   prerelease:
@@ -31,7 +31,7 @@ jobs:
         with:
           github_token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
           dry_run: true
-          pre_release_branches: "develop"
+          pre_release_branches: "main"
           append_to_pre_release_tag: "alpha"
           default_bump: "release"
           custom_release_rules: "fix:prerelease,feat:prerelease"
@@ -65,7 +65,7 @@ jobs:
         with:
           github_token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
           dry_run: true
-          pre_release_branches: "develop"
+          pre_release_branches: "main"
           append_to_pre_release_tag: "alpha"
           default_bump: "release"
           custom_release_rules: "fix:prerelease,feat:prerelease"
