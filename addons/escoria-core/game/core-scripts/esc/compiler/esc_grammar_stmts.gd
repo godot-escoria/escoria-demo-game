@@ -130,6 +130,9 @@ class Event extends ESCGrammarStmt:
 		return _flags
 
 
+	func add_flag(flag: ESCEvent.FLAGS):
+		_flags |= flag
+
 	func get_body() -> ESCGrammarStmts.Block:
 		return _body
 
