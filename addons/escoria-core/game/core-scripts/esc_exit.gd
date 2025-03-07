@@ -21,6 +21,9 @@ class_name ESCExit
 # Sound effect to play when changing the scene
 @export var switch_sound: Resource # (String, FILE, "*.ogg,*.mp3,*.wav")
 
+## String value to be used as UI hint, for example to determine the mouse cursor to use.
+@export var exit_direction = ""
+
 # ESC commands kept around for references to their command names.
 var _play_snd: PlaySndCommand
 var _change_scene: ChangeSceneCommand
