@@ -1,3 +1,14 @@
+## [4.0.0-alpha.272](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.272) (2025-03-11)
+
+
+### Bug Fixes
+
+* corrects repo path and variable reference ([fea6977](https://github.com/godot-escoria/escoria-demo-game/commit/fea69775c0dd8bc97450bd99fecc3b7394e472a3))
+* updates Actions to act only on 'main' branch ([#734](https://github.com/godot-escoria/escoria-demo-game/issues/734)) ([14bcf32](https://github.com/godot-escoria/escoria-demo-game/commit/14bcf3248617cf882fe58627984d56296f60aa86))
+* updates fanout to use PAT ([6fe17c2](https://github.com/godot-escoria/escoria-demo-game/commit/6fe17c237ef1eff1bf345db162b99c7557717a44))
+
+
+
 ## [4.0.0-alpha.271](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.271) (2025-02-26)
 
 
