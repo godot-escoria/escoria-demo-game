@@ -67,4 +67,4 @@ jobs:
           git config --global user.email "contact@escoria-framework.org"
           git config --global user.name "Escoria merge bot"
           git pull ../demo-game main --rebase
-          git push --force
+          git push --force https://x-access-token:${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}@github.com/godot-escoria/${{ matrix.repo }}.git
