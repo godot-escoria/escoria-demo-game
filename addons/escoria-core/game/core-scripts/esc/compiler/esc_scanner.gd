@@ -1,3 +1,8 @@
+## ASHES language scanner.
+##
+## This is the first link in the ASHES compiler toolchain, and takes in ASHES 
+## script as text in order to provide a list of tokens to be handled by the 
+## ASHES parser.
 extends RefCounted
 class_name ESCScanner
 
@@ -63,6 +68,8 @@ func _init():
 	_indent_level_stack.push_front(0)
 
 
+## Sets the ASHES source as a string. This is the source that will be scanned 
+## and turned into tokens.
 func set_source(source: String) -> void:
 	# If we don't have a newline terminator, then we add one to be safe.
 	if not source.ends_with("\n"):
@@ -71,14 +78,20 @@ func set_source(source: String) -> void:
 	_source = source
 
 
+## Sets the path of the file containing the source to be scanned.
 func set_filename(filename: String) -> void:
 	_filename = filename
 
 
+## Returns the path of the file containing the source to be scanned.
 func get_filename() -> String:
 	return _filename
 
 
+## Entry point for the scanner. Begins scanning the source and returns an array 
+## of tokens corresponding to the source.[br]
+##[br]
+## `set_source` must be called prior to calling this method.
 func scan_tokens() -> Array:
 	while not _at_end():
 		_start = _current
