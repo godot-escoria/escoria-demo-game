@@ -1,7 +1,9 @@
+## The actual interpreter that processes a parsed ASHES script.
 extends RefCounted
 class_name ESCInterpreter
 
 
+## Used to represent the current player character in scripts.
 const CURRENT_PLAYER_KEYWORD = "CURRENT_PLAYER"
 
 
@@ -46,19 +48,29 @@ func _init(callables: Array, globals: Dictionary):
 		escoria.globals_manager.global_changed.connect(_on_global_changed)
 
 
+## Returns the dictionary containing any and all global variables. 
 func get_global_values() -> Dictionary:
 	return _globals.get_values()
 
 
+## Resets the interpreter, specifically any locally-scoped variables.
 func reset() -> void:
 	_locals = {}
 
 
+## Issues an interrupt to the currently-running event, if there is one.
 func interrupt() -> void:
 	if _current_event and _current_event.get_running_command():
 		_current_event.interrupt()
 
 
+## The main entry point for the interpreter. Takes one or more statements and 
+## begins to interpret them. These usually represent the statements at the top level 
+## of the script being processed.[br]
+##[br]
+## #### Parameters ####[br]
+## - statements: a single `ESCGrammarStmt`-derived statement or an array of them, 
+## representing the statements to be interpreted 
 func interpret(statements):
 	if not statements is Array:
 		statements = [statements]
@@ -76,6 +88,8 @@ func interpret(statements):
 
 
 # Visitor implementations
+
+## Executes code relevant to interpreting a statement block.
 func visit_block_stmt(stmt: ESCGrammarStmts.Block):
 	var env: ESCEnvironment = ESCEnvironment.new()
 	env.init(_environment)
@@ -83,6 +97,11 @@ func visit_block_stmt(stmt: ESCGrammarStmts.Block):
 	return await _execute_block(stmt.get_statements(), env)
 
 
+## Executes code relevant to interpreting an event in ASHES, e.g. `:look`. 
+## Emits the statement's `finished` signal upon completion, containing the return code.[br]
+##[br]
+## #### Parameters ####[br]
+## - stmt: the `ESCGrammarStmt` representing the ASHES event
 func visit_event_stmt(stmt: ESCGrammarStmts.Event):
 	_current_event = stmt
 
@@ -125,10 +144,15 @@ func visit_event_stmt(stmt: ESCGrammarStmts.Event):
 	#return event
 
 
+## Executes code relevant to interpreting an expression contained in a statement.
 func visit_expression_stmt(stmt: ESCGrammarStmts.ESCExpression):
 	return await _evaluate(stmt.get_expression())
 
 
+## Executes code relevant to interpreting a function/method call.[br]
+##[br]
+## #### Parameters ####[br]
+## - expr: the expression representing the function/method call to make
 func visit_call_expr(expr: ESCGrammarExprs.Call):
 	var callee = await _evaluate(expr.get_callee())
 
@@ -175,7 +199,7 @@ func visit_call_expr(expr: ESCGrammarExprs.Call):
 	return rc
 
 
-# TODO: If we end up having functions that need to return values, use and 'out' parameter.
+# TODO: If we end up having functions that need to return values, use an 'out' parameter.
 func _handle_builtin_function(fn_name: String, args: Array) -> int:
 	var rc = ESCExecution.RC_ERROR
 
@@ -200,25 +224,22 @@ func _print(value):
 	print(value[0])
 
 
+## Executes code relevant to interpreting an `if` statement.
 func visit_if_stmt(stmt: ESCGrammarStmts.If):
 	if _is_truthy(await _evaluate(stmt.get_condition())):
 		return await _execute(stmt.get_then_branch())
 	else:
-		#var branched: bool = false
-
 		for branch in stmt.get_elif_branches():
 			if _is_truthy(await _evaluate(branch.get_condition())):
 				return await _execute(branch)
-#				branched = true
-#				break
 
-		#if not branched and stmt.get_else_branch():
 		if stmt.get_else_branch():
 			return await _execute(stmt.get_else_branch())
 
 	return null
 
 
+## Executes code relevant to interpreting a `while` loop.
 func visit_while_stmt(stmt: ESCGrammarStmts.While):
 	while _is_truthy(await _evaluate(stmt.get_condition())):
 		var ret = await _execute(stmt.get_body())
@@ -229,14 +250,19 @@ func visit_while_stmt(stmt: ESCGrammarStmts.While):
 	return null
 
 
+## Executes code relevant to interpreting a `pass` statement.
 func visit_pass_stmt(stmt: ESCGrammarStmts.Pass):
 	pass
 
 
+## Executes code relevant to interpreting a `stop` statement. Relevant only to 
+## dialogs.
 func visit_stop_stmt(stmt: ESCGrammarStmts.Stop):
 	return stmt
 
 
+## Executes code relevant to interpreting a variable declaration and possible 
+## initialization.
 func visit_var_stmt(stmt: ESCGrammarStmts.Var):
 	var value = null
 
@@ -247,6 +273,8 @@ func visit_var_stmt(stmt: ESCGrammarStmts.Var):
 	return null
 
 
+## Executes code relevant to interpreting a global variable declaration and possible 
+## initialization.
 func visit_global_stmt(stmt: ESCGrammarStmts.Global):
 	var value = null
 
@@ -261,6 +289,7 @@ func visit_global_stmt(stmt: ESCGrammarStmts.Global):
 	return null
 
 
+## Executes code relevant to interpreting a block of dialog.
 func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 	var dialog: ESCDialog = ESCDialog.new()
 	var rc = ESCExecution.RC_OK
@@ -285,8 +314,6 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 			break
 
 		if dialog.is_valid() and not _current_event.is_interrupted():
-			#_current_event.set_running_command(dialog)
-			#rc = dialog.run()
 			var chosen_option = await dialog.run()
 
 			if chosen_option:
@@ -312,30 +339,29 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 						execute_ret.dec_levels_left()
 						return execute_ret
 
-#		if rc is GDScriptFunctionState:
-#			rc = yield(rc, "completed")
-#			escoria.logger.debug(
-#				self,
-#				"Dialog (%s) was completed." % dialog
-#			)
-
-		#_current_event.clear_running_command()
-
 	return rc
 
 
+## Executes code relevant to interpreting a dialog option, although this is more of
+## a placeholder to keep the processing of the syntax tree going since dialog options 
+## are handled by the overall dialog block.
 func visit_dialog_option_stmt(stmt: ESCGrammarStmts.DialogOption):
 	pass
 
 
+## Executes code relevant to interpreting a `break` statement.
 func visit_break_stmt(stmt: ESCGrammarStmts.Break):
 	return stmt
 
 
+## Executes code relevant to interpreting a `done` statement. Only relevant when 
+## processing dialogs.
 func visit_done_stmt(stmt: ESCGrammarStmts.Done):
 	return stmt
 
 
+## Executes code relevant to interpreting an expression that assigns a value to 
+## a variable. Enforces traditional scoping rules.
 func visit_assign_expr(expr: ESCGrammarExprs.Assign):
 	var value = await _evaluate(expr.get_value())
 
@@ -350,6 +376,8 @@ func visit_assign_expr(expr: ESCGrammarExprs.Assign):
 	return value
 
 
+## Executes code relevant to interpreting an `in` statement when checking whether 
+## an item in Escoria is in the player's inventory.
 func visit_in_inventory_expr(expr: ESCGrammarExprs.InInventory):
 	var arg = await _evaluate(expr.get_identifier())
 
@@ -359,6 +387,8 @@ func visit_in_inventory_expr(expr: ESCGrammarExprs.InInventory):
 	return escoria.inventory_manager.inventory_has(arg)
 
 
+## Executes code relevant to interpreting an `is` statement when checking whether 
+## an item in Escoria has a particular state and/or is active.
 func visit_is_expr(expr: ESCGrammarExprs.Is):
 	var arg = await _evaluate(expr.get_identifier())
 
@@ -372,6 +402,7 @@ func visit_is_expr(expr: ESCGrammarExprs.Is):
 	return arg.is_active()
 
 
+## Executes code relevant to interpreting binary expressions, e.g. `==`, `!=`, etc.
 func visit_binary_expr(expr: ESCGrammarExprs.Binary):
 	var left_part = await _evaluate(expr.get_left())
 	var right_part = await _evaluate(expr.get_right())
@@ -421,6 +452,7 @@ func visit_binary_expr(expr: ESCGrammarExprs.Binary):
 	return null
 
 
+## Executes code relevant to interpreting unary expressions, e.g. `!`, `-`.
 func visit_unary_expr(expr: ESCGrammarExprs.Unary):
 	var right_part = await _evaluate(expr.get_right())
 
@@ -434,6 +466,9 @@ func visit_unary_expr(expr: ESCGrammarExprs.Unary):
 	return null
 
 
+## Executes code relevant to interpreting variable expressions. Worth noting is 
+## that variables prefixed with a `$` are treated as global IDs, e.g. `$npc_character` 
+## is interperted as the global ID `npc_character`.
 func visit_variable_expr(expr: ESCGrammarExprs.Variable):
 	if expr.get_name().get_lexeme().begins_with("$"):
 		return _look_up_object(expr.get_name())
@@ -444,10 +479,13 @@ func visit_variable_expr(expr: ESCGrammarExprs.Variable):
 	return look_up_variable(expr.get_name(), expr)
 
 
+## Executes code relevant to interpreting literal expressions, e.g. `"some string", 
+## `1234`, etc.
 func visit_literal_expr(expr: ESCGrammarExprs.Literal):
 	return expr.get_value()
 
 
+## Executes code relevant to interpreting logical expressions, e.g. `AND`, `OR`, etc.
 func visit_logical_expr(expr: ESCGrammarExprs.Logical):
 	var left = await _evaluate(expr.get_left())
 
@@ -461,12 +499,34 @@ func visit_logical_expr(expr: ESCGrammarExprs.Logical):
 	return await _evaluate(expr.get_right())
 
 
+## Executes code relevant to interpreting grouped expressions, e.g. those surrounded 
+## by parentheses.
 func visit_grouping_expr(expr: ESCGrammarExprs.Grouping):
 	return await _evaluate(expr.get_expression())
 
 
+## Performs resolution of the specified expression by specifying its scope depth.[br]
+##[br]
+## #### Parameters ####[br]
+## - expr: the expression requiring access to locally scoped variables[br]
+## - depth: the scope depth of the local variables to be used by the expression
 func resolve(expr: ESCGrammarExpr, depth: int):
 	_locals[expr] = depth
+
+
+## Fetches the value of the variable specified by `name` provided it exists within 
+## the applicable scope for the expression `expr`.[br]
+##[br]
+## #### Parameters ####
+## - name: the name of the variable to look up; the name is an `ESCToken`[br]
+## - expr: the expression containing the variable identified by `name`
+func look_up_variable(name: ESCToken, expr: ESCGrammarExpr):
+	var distance: int = _locals[expr] if _locals.has(expr) else -1
+
+	if distance == -1:
+		return _globals.get_value(name)
+	else:
+		return _environment.get_at(distance, name.get_lexeme())
 
 
 # Private methods
@@ -494,15 +554,6 @@ func _look_up_object_by_global_id(global_id: String):
 	)
 
 	return null
-
-
-func look_up_variable(name: ESCToken, expr: ESCGrammarExpr):
-	var distance: int = _locals[expr] if _locals.has(expr) else -1
-
-	if distance == -1:
-		return _globals.get_value(name)
-	else:
-		return _environment.get_at(distance, name.get_lexeme())
 
 
 func _evaluate(expr: ESCGrammarExpr):
