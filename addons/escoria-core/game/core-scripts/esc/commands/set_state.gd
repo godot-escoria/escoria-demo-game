@@ -1,4 +1,4 @@
-## `set_state object state [immediate]`
+## `set_state(object: String, state: String[, immediate: Boolean])`
 ##
 ## Changes the state of `object` to the one specified.[br]
 ##[br]

@@ -1,4 +1,4 @@
-## `camera_set_target time object`
+## `camera_set_target(time: Number, object: String)`
 ##
 ## Configures the camera to follow the specified target `object` as it moves
 ## around the current room. The transition to focus on the `object` will happen

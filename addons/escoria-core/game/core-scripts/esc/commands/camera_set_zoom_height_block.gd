@@ -1,4 +1,4 @@
-## `camera_set_zoom_height_block pixels [time]`
+## `camera_set_zoom_height_block(pixels: Integer[, time: Number])`
 ##
 ## Zooms the camera in/out so it occupies the given height in pixels.
 ## Blocks until the command completes.[br]

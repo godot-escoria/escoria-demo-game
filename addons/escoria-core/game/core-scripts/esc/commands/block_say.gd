@@ -1,4 +1,4 @@
-## `block_say`
+## `block_say()`
 ##
 ## `say` commands called subsequent to using the `block_say` command will reuse the
 ## dialog box type of the previous `say` command if both dialog box types between the two `say`

@@ -1,4 +1,4 @@
-## `set_direction object direction_id [wait]`
+## `set_direction(object: String, direction_id: Integer[, wait: Number])`
 ##
 ## Turns a movable `ESCItem` or `ESCPlayer` to face a given target direction id
 ## (between 0 and 3 for a 4-directional character, or between 0 and 7 for an

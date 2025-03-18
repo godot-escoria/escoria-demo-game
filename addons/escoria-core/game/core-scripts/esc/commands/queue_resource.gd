@@ -1,4 +1,4 @@
-## `queue_resource path [front_of_queue]`
+## `queue_resource(path: String[, front_of_queue: Boolean])`
 ##
 ## Queues the loading of the given resource into the resource cache.[br]
 ##[br]

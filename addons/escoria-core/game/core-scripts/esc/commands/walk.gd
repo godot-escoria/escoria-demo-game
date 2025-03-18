@@ -1,4 +1,4 @@
-## `walk object target [walk_fast]`
+## `walk(object: String, target: String[, walk_fast: Boolean])`
 ##
 ## Moves the specified `ESCPlayer` or movable `ESCItem` to the `target`
 ## ESCItem's location while playing `object`'s walking animation. This command

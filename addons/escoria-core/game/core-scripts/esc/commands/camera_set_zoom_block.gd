@@ -1,4 +1,4 @@
-## `camera_set_zoom_block magnitude [time]`
+## `camera_set_zoom_block(magnitude: Number[, time: Number])`
 ##
 ## Zooms the camera in/out to the desired `magnitude`. Values larger than '1' zoom
 ## the camera out while smaller values zoom in. These values are relative to the

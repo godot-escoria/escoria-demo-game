@@ -1,4 +1,4 @@
-## `teleport_pos object x y`
+## `teleport_pos(object: String, x: Integer, y: Integer)`
 ##
 ## Instantly moves an object to the specified (absolute) coordinates.[br]
 ##[br]

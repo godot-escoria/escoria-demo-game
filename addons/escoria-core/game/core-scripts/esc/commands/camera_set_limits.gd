@@ -1,4 +1,4 @@
-## `camera_set_limits camlimits_id`
+## `camera_set_limits(camlimits_id: Integer)`
 ##
 ## Limits the current camera's movement to a limit defined in the `ESCRoom`'s
 ## definition. A limit is defined as an upper-left (x, y) coordinate, a width

@@ -1,4 +1,4 @@
-## `inventory_remove item`
+## `inventory_remove(item: String)`
 ##
 ## Removes an item from the inventory. You may wish to use this command in
 ## conjuction with the `set_active` command to show an item in the scene,

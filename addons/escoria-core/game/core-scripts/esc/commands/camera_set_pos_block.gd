@@ -1,4 +1,4 @@
-## `camera_set_pos_block time x y`
+## `camera_set_pos_block(time: Number, x: Integer, y: Integer)`
 ##
 ## Moves the camera to the given absolute position over a time period. Blocks
 ## until the command completes.[br]

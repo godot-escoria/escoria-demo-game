@@ -1,4 +1,4 @@
-## `show_menu menu_type`
+## `show_menu(menu_type: String)`
 ##
 ## Shows either the main menu or the pause menu. Transitions to the menu using
 ## the default transition type (set in the Escoria project settings).[br]

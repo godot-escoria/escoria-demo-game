@@ -1,4 +1,4 @@
-## `play_snd file [player] [start_position_seconds]`
+## `play_snd(file: String[, player: String[, start_position_seconds: Number]])`
 ##
 ## Plays the specified sound without blocking the currently running event.[br]
 ##[br]

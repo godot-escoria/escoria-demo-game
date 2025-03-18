@@ -1,4 +1,4 @@
-## `walk_to_pos_block object x y [walk_fast]`
+## `walk_to_pos_block(object: String, x: Integer, y: Integer[, walk_fast: Boolean])`
 ##
 ## Moves the specified `ESCPlayer` or movable `ESCItem` to the absolute
 ## coordinates provided while playing the `object`'s walking animation.[br]

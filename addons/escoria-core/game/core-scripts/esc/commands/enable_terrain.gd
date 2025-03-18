@@ -1,4 +1,4 @@
-## `enable_terrain node_name`
+## `enable_terrain(node_name: String)`
 ##
 ## Enables the `ESCTerrain`'s `NavigationPolygonInstance` specified by the given
 ## node name. It will also disable the previously-activated

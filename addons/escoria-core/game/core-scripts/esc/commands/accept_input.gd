@@ -1,4 +1,4 @@
-## `accept_input [type]`
+## `accept_input([type: String])`
 ##
 ## Sets how much input the game is to accept. This allows for cut scenes
 ## in which dialogue can be skipped (if [type] is set to SKIP), and ones where

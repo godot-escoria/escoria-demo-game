@@ -1,4 +1,4 @@
-## `camera_set_zoom_height pixels [time]`
+## `camera_set_zoom_height(pixels: Integer[, time: Number])`
 ##
 ## Zooms the camera in/out so it occupies the given height in pixels.[br]
 ##[br]

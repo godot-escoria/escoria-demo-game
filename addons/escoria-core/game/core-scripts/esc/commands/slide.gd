@@ -1,4 +1,4 @@
-## `slide object target [speed]`
+## `slide(object: String, target: String[, speed: Integer])`
 ##
 ## Moves `object` towards the position of `target`. This command is
 ## non-blocking.[br]

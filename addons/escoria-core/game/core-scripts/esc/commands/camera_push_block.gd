@@ -1,4 +1,4 @@
-## `camera_push_block target [time] [type]`
+## `camera_push_block(target: String[, time: Number[, type: String]])`
 ##
 ## Pushes (moves) the camera so it points at a specific `target`. If the camera
 ## was following a target (like the player) previously, it will no longer follow

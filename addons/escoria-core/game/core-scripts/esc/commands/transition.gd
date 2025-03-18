@@ -1,4 +1,4 @@
-## `transition transition_name mode [delay]`
+## `transition(transition_name: String, mode: String[, delay: Number])`
 ##
 ## Runs a transition effect - generally used when entering or leaving a room.
 ## Transitions are implemented as Godot shaders. Custom transitions can be made

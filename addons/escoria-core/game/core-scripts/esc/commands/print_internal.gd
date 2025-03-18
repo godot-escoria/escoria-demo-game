@@ -1,4 +1,4 @@
-## `print string`
+## `print(string: String)`
 ##
 ## INTERNAL USE ONLY[br]
 ##[br]

@@ -1,4 +1,4 @@
-## *** FOR INTERNAL USE ONLY *** `set_active_if_exists object active`
+## *** FOR INTERNAL USE ONLY *** `set_active_if_exists(object: String, active: Boolean)`
 ##
 ## Changes the "active" state of the object in the current room if it currently
 ## exists in the object manager. If it doesn't, then, unlike set_active, we don't

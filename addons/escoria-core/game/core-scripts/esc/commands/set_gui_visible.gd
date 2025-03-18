@@ -1,4 +1,4 @@
-## `set_gui_visible visible`
+## `set_gui_visible(visible: Boolean)`
 ##
 ## Show or hide the GUI.[br]
 ##[br]

@@ -1,4 +1,4 @@
-## `set_globals pattern value`
+## `set_globals(pattern: String, value: String|Integer|Boolean)`
 ##
 ## Changes the value of multiple globals using a wildcard pattern, where `*`
 ## matches zero or more arbitrary characters and `?` matches any single

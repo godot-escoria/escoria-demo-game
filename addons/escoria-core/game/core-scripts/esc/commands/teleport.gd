@@ -1,4 +1,4 @@
-## `teleport object target`
+## `teleport(object: String, target: String)`
 ##
 ## Instantly moves an object to a new position.[br]
 ##[br]

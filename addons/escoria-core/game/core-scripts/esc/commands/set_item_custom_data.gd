@@ -1,4 +1,4 @@
-## *** FOR INTERNAL USE ONLY *** `set_item_custom_data item custom_data`
+## *** FOR INTERNAL USE ONLY *** `set_item_custom_data(item: String, custom_data: Dictionary)`
 ##
 ## Sets the "custom_data" of the item if it currently exists in the object manager.[br]
 ##[br]
