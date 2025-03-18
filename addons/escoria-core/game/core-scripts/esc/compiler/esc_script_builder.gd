@@ -20,8 +20,8 @@ func build():
 ## Adds an Escoria event to the script.[br]
 ##[br]
 ## #### Parameters ####[br]
-## - name: the name of the event, without any prefixes; e.g. `look`[br]
-## - flags: an array of flags for the event, e.g. `TK`
+## - *name*: the name of the event, without any prefixes; e.g. `look`[br]
+## - *flags*: an array of flags for the event, e.g. `TK`
 func add_event(name: String, flags: Array):
 	_script += ":" + name
 
@@ -51,8 +51,8 @@ func end_block():
 ## Adds a command to be called in the script.[br]
 ##[br]
 ## #### Parameters ####[br]
-## - name: the name of the command to be called[br]
-## - args: the arguments for the command; can be a single argument or an array
+## - *name*: the name of the command to be called[br]
+## - *args*: the arguments for the command; can be a single argument or an array
 func add_command(name: String, args):
 	if not args is Array:
 		args = [args]

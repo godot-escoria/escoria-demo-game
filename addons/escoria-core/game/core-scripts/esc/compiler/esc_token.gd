@@ -25,12 +25,12 @@ var _filename: String:
 ## Initialization method. Must be called after instantiation.[br]
 ##[br]
 ## #### Parameters ####[br]
-## - tokenType: a value from `ESCTokenType.TokenType`[br]
-## - lexeme: text corresponding to the scanned token[br]
-## - literal: if the token represents a literal value, this is that value; can be null[br]
-## - source: the source code (script) containing the token, if available[br]
-## - line: the line in the source containing the token, if available[br]
-## - filename: the path of the file containing the token, if available
+## - *tokenType*: a value from `ESCTokenType.TokenType`[br]
+## - *lexeme*: text corresponding to the scanned token[br]
+## - *literal*: if the token represents a literal value, this is that value; can be null[br]
+## - *source*: the source code (script) containing the token, if available[br]
+## - *line*: the line in the source containing the token, if available[br]
+## - *filename*: the path of the file containing the token, if available
 func init(tokenType: int, lexeme: String, literal, source: String, line: int, filename: String) -> void:
 	_tokenType = tokenType
 	_lexeme = lexeme
