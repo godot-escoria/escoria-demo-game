@@ -180,9 +180,9 @@ class Call extends ESCGrammarExpr:
 	## Initialization method. Must be called after instantiation.[br]
 	##[br]
 	## #### Parameters ####[br]
-	## - callee: the expression representing the function to be called[br]
-	## - paren: token containing debug information for feedback purposes[br]
-	## - arguments: array containing arguments to be passed to the callee
+	## - *callee*: the expression representing the function to be called[br]
+	## - *paren*: token containing debug information for feedback purposes[br]
+	## - *arguments*: array containing arguments to be passed to the callee
 	func init(callee: ESCGrammarExpr, paren: ESCToken, arguments: Array):
 		_callee = callee
 		_paren = paren
@@ -218,7 +218,7 @@ class Literal extends ESCGrammarExpr:
 	## Initialization method. Must be called after instantiation.[br]
 	##[br]
 	## #### Parameters ####[br]
-	## - value: the value of the literal
+	## - *value*: the value of the literal
 	func init(value):
 		_value = value
 
@@ -240,7 +240,7 @@ class Variable extends ESCGrammarExpr:
 	## Initialization method. Must be called after instantiation.[br]
 	##[br]
 	## #### Parameters ####[br]
-	## - name: `ESCToken` representing the name of the variable
+	## - *name*: `ESCToken` representing the name of the variable
 	func init(name: ESCToken):
 		_name = name
 
@@ -267,8 +267,8 @@ class Assign extends ESCGrammarExpr:
 	## Initialization method. Must be called after instantiation.[br]
 	##[br]
 	## #### Parameters ####[br]
-	## - name: `ESCToken` representing the name of the variable[br]
-	## - value: the value to assign to the variable; must be an expression itself
+	## - *name*: `ESCToken` representing the name of the variable[br]
+	## - *value*: the value to assign to the variable; must be an expression itself
 	func init(name: ESCToken, value: ESCGrammarExpr):
 		_name = name
 		_value = value
@@ -299,7 +299,7 @@ class Grouping extends ESCGrammarExpr:
 	## Initialization method. Must be called after instantiation.[br]
 	##[br]
 	## #### Parameters ####[br]
-	## - expression: the expression contained inside the parentheses[br]
+	## - *expression*: the expression contained inside the parentheses[br]
 	func init(expression: ESCGrammarExpr):
 		_expression = expression
 
@@ -347,10 +347,10 @@ class Is extends ESCGrammarExpr:
 
 	## Initialization method. Must be called after instantiation.[br]
 	## #### Parameters ####[br]
-	## - identifier: the expression representing the identifier of the object to examine[br]
-	## - state: the expression to evaluate that is used when checking the state of the object 
+	## - *identifier*: the expression representing the identifier of the object to examine[br]
+	## - *state*: the expression to evaluate that is used when checking the state of the object 
 	## represented by `identifier`[br]
-	## - descriptor: not currently used
+	## - *descriptor*: not currently used
 	func init(identifier: ESCGrammarExpr, state: ESCGrammarExpr, descriptor: ESCToken):
 		_identifer = identifier
 		_state = state
