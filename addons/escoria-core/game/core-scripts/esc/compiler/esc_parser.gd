@@ -20,8 +20,8 @@ var _compiler
 ## Initialization method. Must be called after instantiation.[br]
 ##[br]
 ## #### Parameters ####[br]
-## - compiler: a reference to the ASHES compiler; used primarily for error tracking[br]
-## - tokens: an array of tokens produced by the ASHES scanner
+## - *compiler*: a reference to the ASHES compiler; used primarily for error tracking[br]
+## - *tokens*: an array of tokens produced by the ASHES scanner
 func init(compiler, tokens: Array) -> void:
 	_compiler = compiler
 	_tokens = tokens
