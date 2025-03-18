@@ -21,9 +21,9 @@ func init(enclosing) -> void:
 ## either within this scope or an enclosing scope.[br]
 ##[br]
 ## #### Parameters ####[br]
-## - name: the script variable to look up; must be a valid `ESCToken`[br]
+## - *name*: the script variable to look up; must be a valid `ESCToken`[br]
 ##[br]
-## *Returns* true iff `name` is defined within this scope or an enclosing one
+## **Returns** true iff `name` is defined within this scope or an enclosing one
 func is_valid_key(name: ESCToken):
 	if _values.has(name.get_lexeme()):
 		return true
@@ -38,9 +38,9 @@ func is_valid_key(name: ESCToken):
 ## scope or an enclosing one.[br]
 ##[br]
 ## #### Parameters ####[br]
-## - name: the script variable to look up; must be a valid `ESCToken`[br]
+## - *name*: the script variable to look up; must be a valid `ESCToken`[br]
 ##[br]
-## *Returns* the value if `name` is defined within this scope or an enclosing one; 
+## **Returns** the value if `name` is defined within this scope or an enclosing one; 
 ## otherwise, an error is produced
 func get_value(name: ESCToken):
 	if _values.has(name.get_lexeme()):
@@ -56,10 +56,10 @@ func get_value(name: ESCToken):
 ## scope or an enclosing one.[br]
 ##[br]
 ## #### Parameters ####[br]
-## - name: the script variable to look up; must be a valid `ESCToken`[br]
-## - value: the value to be assigned to the script variable
+## - *name*: the script variable to look up; must be a valid `ESCToken`[br]
+## - *value*: the value to be assigned to the script variable
 ##[br]
-## *Returns* an error if `name` isn't defined within this scope or an enclosing one
+## **Returns** an error if `name` isn't defined within this scope or an enclosing one
 func assign(name: ESCToken, value):
 	if _values.has(name.get_lexeme()):
 		_values[name.get_lexeme()] = value
@@ -75,8 +75,8 @@ func assign(name: ESCToken, value):
 ## Defines a script variable in this scope and assigns it a value.[br]
 ##[br]
 ## #### Parameters ####[br]
-## - name: the script variable to look up; must be a valid `ESCToken`[br]
-## - value: the value to be assigned to the script variable
+## - *name*: the script variable to look up; must be a valid `ESCToken`[br]
+## - *value*: the value to be assigned to the script variable
 func define(name: String, value) -> void:
 	_values[name] = value
 
@@ -85,11 +85,11 @@ func define(name: String, value) -> void:
 ## levels above this one, if it exists.[br]
 ##[br]
 ## #### Parameters ####[br]
-## - distance: the number of levels above this one from which to fetch the 
+## - *distance*: the number of levels above this one from which to fetch the 
 ## associated environment; e.g. `distance == 2` is the enclosing scope's own 
 ## enclosing scope; `distance == 0` is this scope's enclosing scope, etc.[br]
 ##[br]
-## *Returns* the enclosing scope (environment) of the environment that is `distance` 
+## **Returns** the enclosing scope (environment) of the environment that is `distance` 
 ## levels above this one.
 func ancestor(distance: int):
 	var env = self
@@ -104,12 +104,12 @@ func ancestor(distance: int):
 ## levels above this one.[br]
 ##[br]
 ## #### Parameters ####
-## - distance: the number of levels above this one from which to fetch the 
+## - *distance*: the number of levels above this one from which to fetch the 
 ## associated environment; e.g. `distance == 2` is the enclosing scope's own 
 ## enclosing scope; `distance == 0` is this scope's enclosing scope, etc.[br]
-## - name: the script variable to look up; note that this must be a String[br]
+## - *name*: the script variable to look up; note that this must be a String[br]
 ##[br]
-## *Returns* the value associated with the script variable, if it exists
+## **Returns** the value associated with the script variable, if it exists
 func get_at(distance: int, name: String):
 	return ancestor(distance).get_values().get(name)
 
@@ -118,11 +118,11 @@ func get_at(distance: int, name: String):
 ## most `distance` levels above this one.[br]
 ##[br]
 ## #### Parameters ####
-## - distance: the number of levels above this one from which to fetch the 
+## - *distance*: the number of levels above this one from which to fetch the 
 ## associated environment; e.g. `distance == 2` is the enclosing scope's own 
 ## enclosing scope; `distance == 0` is this scope's enclosing scope, etc.[br]
-## - name: the script variable to look up; must be a valid `ESCToken`[br]
-## - value: the value to assign to the script variable
+## - *name*: the script variable to look up; must be a valid `ESCToken`[br]
+## - *value*: the value to assign to the script variable
 func assign_at(distance: int, name: ESCToken, value):
 	ancestor(distance).get_values()[name.get_lexeme()] = value
 

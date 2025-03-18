@@ -18,7 +18,7 @@ func _init(interpreter) -> void:
 ## passed in.[br]
 ##[br]
 ## #### Parameters ####[br]
-## - statements: a single `ESCGrammarStmt`-derived statement or an array of them, 
+## - *statements*: a single `ESCGrammarStmt`-derived statement or an array of them, 
 ## representing the statements to be resolved
 func resolve(statements):
 	if not statements is Array:
