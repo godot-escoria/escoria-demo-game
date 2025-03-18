@@ -1,4 +1,4 @@
-## `camera_set_pos time x y`
+## `camera_set_pos(time: Number, x: Integer, y: Integer)`
 ##
 ## Moves the camera to the given absolute position over a time period.[br]
 ##[br]

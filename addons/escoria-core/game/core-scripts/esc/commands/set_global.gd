@@ -1,4 +1,4 @@
-## `set_global name value [force=false]`
+## `set_global(name: String, value: String|Integer|Boolean[, force: Boolean=false])`
 ##
 ## Changes the value of a global.[br]
 ##[br]

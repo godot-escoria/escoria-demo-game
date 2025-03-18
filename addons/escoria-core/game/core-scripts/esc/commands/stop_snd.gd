@@ -1,4 +1,4 @@
-## `stop_snd [audio_bus]`
+## `stop_snd([audio_bus: String])`
 ##
 ## Stops the given audio bus's stream.[br]
 ##[br]
