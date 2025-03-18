@@ -1,4 +1,4 @@
-## `turn_to object object_to_face [wait]`
+## `turn_to(object: String, object_to_face: String[, wait: Number])`
 ##
 ## Turns `object` to face another object.[br]
 ##[br]

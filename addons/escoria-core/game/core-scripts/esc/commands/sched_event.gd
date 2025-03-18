@@ -1,4 +1,4 @@
-## `sched_event time object event`
+## `sched_event(time: Number, object: String, event: String)`
 ##
 ## Schedules an event to run at a later time.[br]
 ##[br]

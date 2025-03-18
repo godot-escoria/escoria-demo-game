@@ -1,4 +1,4 @@
-## `set_interactive object interactive`
+## `set_interactive(object: String, interactive: Boolean)`
 ##
 ## Sets whether an object is interactive.[br]
 ##[br]
