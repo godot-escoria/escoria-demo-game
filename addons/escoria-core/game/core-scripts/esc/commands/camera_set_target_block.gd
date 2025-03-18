@@ -1,4 +1,4 @@
-## `camera_set_target_block time object`
+## `camera_set_target_block(time: Number, object: String)`
 ##
 ## Configures the camera to follow the specified target `object` (ESCItem) as it moves
 ## around the current room. The transition to focus on the `object` will happen

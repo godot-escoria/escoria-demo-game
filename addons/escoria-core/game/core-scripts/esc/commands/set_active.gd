@@ -1,4 +1,4 @@
-## `set_active object active`
+## `set_active(object: String, active: Boolean)`
 ##
 ## Changes the "active" state of the object. Inactive objects are invisible in the room.[br]
 ##[br]

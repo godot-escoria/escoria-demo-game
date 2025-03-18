@@ -1,4 +1,4 @@
-## `set_speed object speed`
+## `set_speed(object: String, speed: Integer)`
 ##
 ## Sets the speed of a `ESCPlayer` or movable `ESCItem`.[br]
 ##[br]

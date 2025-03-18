@@ -1,4 +1,4 @@
-## `wait seconds`
+## `wait(seconds: Number)`
 ##
 ## Blocks execution of the current event.[br]
 ##[br]

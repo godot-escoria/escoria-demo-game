@@ -1,4 +1,4 @@
-## `rand_global name max_value`
+## `rand_global(name: String, max_value: Integer)`
 ##
 ## Sets the given global to a random integer between 0 and `max_value`
 ## (inclusive). e.g. Setting `max_value` to 2 could result in '0', '1' or '2'

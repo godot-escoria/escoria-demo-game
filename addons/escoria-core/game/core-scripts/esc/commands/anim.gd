@@ -1,4 +1,4 @@
-## `anim object name [reverse]`
+## `anim(object: String, name: String[, reverse: Boolean])`
 ##
 ## Executes the animation specified in "name" on "object" without blocking.
 ## The next command in the event will be executed immediately after the

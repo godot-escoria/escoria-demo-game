@@ -1,4 +1,4 @@
-## `anim_block object name [reverse]`
+## `anim_block(object: String, name: String[, reverse: Boolean])`
 ##
 ## Executes the animation specified in "name" on "object" while blocking other
 ## events from starting.[br]

@@ -1,4 +1,4 @@
-## `save_game slot_id savegame_description`
+## `save_game(slot_id: Integer, savegame_description: String)`
 ##
 ## Saves the game in the [slot_id] slot, and sets the [savegame_description] in
 ## the savegame name/title.[br]

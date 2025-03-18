@@ -1,4 +1,4 @@
-## `hide_menu menu_type`
+## `hide_menu(menu_type: String)`
 ##
 ## Hides either the main menu or the pause menu. Transitions from the menu using
 ## the default transition type (set in the Escoria project settings).[br]
