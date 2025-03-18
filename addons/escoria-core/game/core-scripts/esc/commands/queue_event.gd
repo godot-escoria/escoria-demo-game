@@ -1,4 +1,4 @@
-## `queue_event object event [channel] [block]`
+## `queue_event(object: String, event: String[, channel: String[, block: Boolean]])`
 ##
 ## Queue an event to run.[br]
 ##[br]

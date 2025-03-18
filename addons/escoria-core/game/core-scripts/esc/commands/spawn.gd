@@ -1,4 +1,4 @@
-## `spawn identifier path [is_active] [position_target]`
+## `spawn(identifier: String, path: String[, is_active: Boolean[, position_target: String]])`
 ##
 ## Programmatically adds a new item to the scene.[br]
 ##[br]

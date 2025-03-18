@@ -1,4 +1,4 @@
-## `dec_global name value`
+## `dec_global(name: String, value: Integer)`
 ##
 ## Subtract the given value from the specified global.[br]
 ##[br]

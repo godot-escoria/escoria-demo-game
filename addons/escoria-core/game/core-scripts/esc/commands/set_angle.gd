@@ -1,4 +1,4 @@
-## `set_angle object target_degrees [wait]`
+## `set_angle(object: String, target_degrees: Number[, wait: Number])`
 ##
 ## Turns a movable `ESCItem` or `ESCPlayer` to face a given target direction.[br]
 ##[br]
