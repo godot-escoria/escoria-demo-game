@@ -517,7 +517,7 @@ func resolve(expr: ESCGrammarExpr, depth: int):
 ## Fetches the value of the variable specified by `name` provided it exists within 
 ## the applicable scope for the expression `expr`.[br]
 ##[br]
-## #### Parameters ####
+## #### Parameters ####[br]
 ## - name: the name of the variable to look up; the name is an `ESCToken`[br]
 ## - expr: the expression containing the variable identified by `name`
 func look_up_variable(name: ESCToken, expr: ESCGrammarExpr):
