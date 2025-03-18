@@ -113,10 +113,10 @@ class Event extends ESCGrammarStmt:
 	## Initialization method. Must be called after instantiation.[br]
 	##[br]
 	## #### Parameters ####[br]
-	## - name: `ESCToken` representing the name of the event.[br]
-	## - target: a literal representing the global ID of an object the event is meant to act on; can be null.[br]
-	## - flags: an array containing event flags to be applied; can be null/empty.[br]
-	## - body: the body of the event; this is the script block that will be executed when the event is run.
+	## - *name*: `ESCToken` representing the name of the event.[br]
+	## - *target*: a literal representing the global ID of an object the event is meant to act on; can be null.[br]
+	## - *flags*: an array containing event flags to be applied; can be null/empty.[br]
+	## - *body*: the body of the event; this is the script block that will be executed when the event is run.
 	func init(name: ESCToken, target: ESCGrammarExprs.Literal, flags: Array, body: ESCGrammarStmts.Block):
 		_name = name
 		_target = target
@@ -284,11 +284,11 @@ class If extends ESCGrammarStmt:
 	## Initialization method. Must be called after instantiation.[br]
 	##[br]
 	## #### Parameters ####[br]
-	## - condition: the expression to be evaluated and tested for the `if` block.[br]
-	## - then_branch: the block of statements to be executed should `condition` evaluate to `true`.[br]
-	## - elif_branches: an array containing any desired `elif` branches, with each element corresponding 
+	## - *condition*: the expression to be evaluated and tested for the `if` block.[br]
+	## - *then_branch*: the block of statements to be executed should `condition` evaluate to `true`.[br]
+	## - *elif_branches*: an array containing any desired `elif` branches, with each element corresponding 
 	## to its own `if` statement.[br]
-	## - else_branch: the block of staetments to be executed should `condition` evaluate to `false`.
+	## - *else_branch*: the block of staetments to be executed should `condition` evaluate to `false`.
 	func init(condition: ESCGrammarExpr, then_branch: ESCGrammarStmts.Block, elif_branches: Array, else_branch: ESCGrammarStmts.Block):
 		_condition = condition
 		_then_branch = then_branch
@@ -336,8 +336,8 @@ class While extends ESCGrammarStmt:
 	## Initialization method. Must be called after instantiation.[br]
 	##[br]
 	## #### Parameters ####[br]
-	## - condition: the expression to be evaluated and tested in order for the `while` loop to be entered/continue executing.[br]
-	## - body: the block of statements to be executed should `condition` evaluate to `true`.[br]
+	## - *condition*: the expression to be evaluated and tested in order for the `while` loop to be entered/continue executing.[br]
+	## - *body*: the block of statements to be executed should `condition` evaluate to `true`.[br]
 	func init(condition: ESCGrammarExpr, body: ESCGrammarStmt):
 		_condition = condition
 		_body = body
@@ -405,11 +405,11 @@ class DialogOption extends ESCGrammarStmt:
 	## Initialization method. Must be called after instantiation.[br]
 	##[br]
 	## #### Parameters ####[br]
-	## - option: the expression whose results will be displayed on screen as an 
+	## - *option*: the expression whose results will be displayed on screen as an 
 	## option to be selected alongside any other options at the current level[br]
-	## - condition: an optional condition to be evaluated that is used to determine whether 
+	## - *condition*: an optional condition to be evaluated that is used to determine whether 
 	## the option should be displayed at all[br]
-	## - body: the block of statements to be executed should this dialog option be selected
+	## - *body*: the block of statements to be executed should this dialog option be selected
 	func init(option: ESCGrammarExpr, condition: ESCGrammarExpr, body: ESCGrammarStmt):
 		_option = option
 		_condition = condition
@@ -464,11 +464,11 @@ class Dialog extends ESCGrammarStmt:
 	## Initialization method. Must be called after instantiation.[br]
 	##[br]
 	## #### Parameters ####[br]
-	## - args: the arguments pertaining to this dialog; the array is typically ordered:[br]
+	## - *args*: the arguments pertaining to this dialog; the array is typically ordered:[br]
 	## 		- Path to avatar to be used for this dialog,[br]
 	##		- Timeout (in seconds) until the default option is automatically selected,[br]
 	##		- Timeout option to be selected once the timeout is reached.[br]
-	## - options: the dialog options available to this dialog
+	## - *options*: the dialog options available to this dialog
 	func init(args: Array, options: Array):
 		_options = options
 		_args = args
@@ -501,7 +501,7 @@ class Break extends ESCGrammarStmt:
 	## Initialization method. Must be called after instantiation.[br]
 	##[br]
 	## #### Parameters ####[br]
-	## - levels: an expression whose result will be used to determine how many 
+	## - *levels*: an expression whose result will be used to determine how many 
 	## levels of nested dialogs to break out from; not applicable for loops.
 	func init(levels: ESCGrammarExpr):
 		_levels = levels

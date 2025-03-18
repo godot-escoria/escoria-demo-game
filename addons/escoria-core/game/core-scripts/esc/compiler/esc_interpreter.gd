@@ -69,7 +69,7 @@ func interrupt() -> void:
 ## of the script being processed.[br]
 ##[br]
 ## #### Parameters ####[br]
-## - statements: a single `ESCGrammarStmt`-derived statement or an array of them, 
+## - *statements*: a single `ESCGrammarStmt`-derived statement or an array of them, 
 ## representing the statements to be interpreted 
 func interpret(statements):
 	if not statements is Array:
@@ -101,7 +101,7 @@ func visit_block_stmt(stmt: ESCGrammarStmts.Block):
 ## Emits the statement's `finished` signal upon completion, containing the return code.[br]
 ##[br]
 ## #### Parameters ####[br]
-## - stmt: the `ESCGrammarStmt` representing the ASHES event
+## - *stmt*: the `ESCGrammarStmt` representing the ASHES event
 func visit_event_stmt(stmt: ESCGrammarStmts.Event):
 	_current_event = stmt
 
@@ -152,7 +152,7 @@ func visit_expression_stmt(stmt: ESCGrammarStmts.ESCExpression):
 ## Executes code relevant to interpreting a function/method call.[br]
 ##[br]
 ## #### Parameters ####[br]
-## - expr: the expression representing the function/method call to make
+## - *expr*: the expression representing the function/method call to make
 func visit_call_expr(expr: ESCGrammarExprs.Call):
 	var callee = await _evaluate(expr.get_callee())
 
@@ -508,8 +508,8 @@ func visit_grouping_expr(expr: ESCGrammarExprs.Grouping):
 ## Performs resolution of the specified expression by specifying its scope depth.[br]
 ##[br]
 ## #### Parameters ####[br]
-## - expr: the expression requiring access to locally scoped variables[br]
-## - depth: the scope depth of the local variables to be used by the expression
+## - *expr*: the expression requiring access to locally scoped variables[br]
+## - *depth*: the scope depth of the local variables to be used by the expression
 func resolve(expr: ESCGrammarExpr, depth: int):
 	_locals[expr] = depth
 
@@ -518,8 +518,8 @@ func resolve(expr: ESCGrammarExpr, depth: int):
 ## the applicable scope for the expression `expr`.[br]
 ##[br]
 ## #### Parameters ####[br]
-## - name: the name of the variable to look up; the name is an `ESCToken`[br]
-## - expr: the expression containing the variable identified by `name`
+## - *name*: the name of the variable to look up; the name is an `ESCToken`[br]
+## - *expr*: the expression containing the variable identified by `name`
 func look_up_variable(name: ESCToken, expr: ESCGrammarExpr):
 	var distance: int = _locals[expr] if _locals.has(expr) else -1
 
