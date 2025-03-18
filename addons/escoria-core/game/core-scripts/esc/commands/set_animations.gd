@@ -1,4 +1,4 @@
-## `set_animations object animations`
+## `set_animations(object: String, animations: String)`
 ##
 ## Sets the animation resource for the given `ESCPlayer` or movable `ESCItem`.[br]
 ##[br]

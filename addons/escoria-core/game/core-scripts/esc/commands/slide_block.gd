@@ -1,4 +1,4 @@
-## `slide_block object target [speed]`
+## `slide_block(object: String, target: String[, speed: Integer])`
 ##
 ## Moves `object` towards the position of `target`. This command is
 ## blocking.[br]

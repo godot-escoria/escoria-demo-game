@@ -1,4 +1,4 @@
-## `repeat`
+## `repeat()`
 ##
 ## Makes the current script loop back to the start. Currently the only way to
 ## exit the loop is via the `stop` command which will stop the script

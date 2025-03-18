@@ -1,4 +1,4 @@
-## `end_block_say`
+## `end_block_say()`
 ##
 ## `say` commands used subsequent to using the `end_block_say` command will no longer
 ## reuse the dialog box type used by the previous `say` command(s) encountered.[br]

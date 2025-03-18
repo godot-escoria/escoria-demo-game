@@ -1,4 +1,4 @@
-## `camera_shift x y [time] [type]`
+## `camera_shift(x: Number, y: Number[, time: Number[, type: String]])`
 ##
 ## Shifts the camera by the given horizontal and vertical amounts relative to the
 ## current location.[br]
