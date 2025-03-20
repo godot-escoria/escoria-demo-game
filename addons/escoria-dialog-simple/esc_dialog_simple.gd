@@ -89,7 +89,7 @@ func say(dialog_player: Node, global_id: String, text: String, type: String, key
 		# we want to remove the old one (if it exists) and then initialize and add the new dialog
 		# box type to the dialog player
 		if type != _preserved_type_player_type:
-			if _dialog_player.get_children().has(_type_player):
+			if is_instance_valid(_type_player) and _dialog_player.get_children().has(_type_player):
 				_dialog_player.remove_child(_type_player)
 
 			_init_type_player(type)
