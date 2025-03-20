@@ -1,5 +1,5 @@
 # A dialog GUI showing a dialog box and character portraits
-extends Popup
+extends Window
 
 
 # Signal emitted when text has been said
@@ -41,7 +41,6 @@ var _current_line: String
 
 # Whether the dialog manager is paused
 @onready var is_paused: bool = true
-
 
 # Build up the UI
 func _ready():
@@ -137,6 +136,7 @@ func say(character: String, line: String):
 	_current_line = line
 
 	_is_speeding_up = false
+
 	popup_centered()
 	set_current_character(character)
 
