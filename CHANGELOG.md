@@ -1,3 +1,12 @@
+## [4.0.0-alpha.273](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.273) (2025-03-21)
+
+
+### Bug Fixes
+
+* needs a guard since has doesn't like dealing with an invalid instance ([c24e8d9](https://github.com/godot-escoria/escoria-demo-game/commit/c24e8d9248ddb275d8b6ad2655aac89ad517820f))
+
+
+
 ## [4.0.0-alpha.272](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.272) (2025-03-11)
 
 
