@@ -1,15 +1,15 @@
-## `set_direction(object: String, direction_id: Integer[, wait: Number])`
-##
+## `set_direction object direction_id [wait]`[br]
+## [br]
 ## Turns a movable `ESCItem` or `ESCPlayer` to face a given target direction id
 ## (between 0 and 3 for a 4-directional character, or between 0 and 7 for an
 ## 8-directional character).[br]
-##[br]
+## [br]
 ## 4-directional :[br]
 ## 0 : UP / NORTH[br]
 ## 1 : RIGHT / EAST[br]
 ## 2 : DOWN / SOUTH[br]
 ## 3 : LEFT / WEST[br]
-##[br]
+## [br]
 ## 8-directional :[br]
 ## 0 : UP / NORTH[br]
 ## 1 : UP-RIGHT / NORTH-EAST[br]
@@ -19,21 +19,23 @@
 ## 5 : DOWN-LEFT / SOUTH-WEST[br]
 ## 6 : LEFT / WEST[br]
 ## 7 : TOP-LEFT / NORTH-WEST[br]
-##[br]
-## **Parameters**[br]
-##[br]
+## [br]
+## #### Parameters[br]
+## [br]
 ## - *object*: Global ID of the object to turn[br]
 ## - *target_direction_id*: id of the direction as defined in the player animations[br]
 ## - *wait*: Number of seconds to wait while playing each animation occurring
 ##   between the current direction of `object` and the target direction. A value of
-##   `0` will complete the turn immediately (default: `0`)
-##
+##   `0` will complete the turn immediately (default: `0`)[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name SetDirectionCommand
 
 
-## Return the descriptor of the arguments of this command
+## Returns the descriptor of the arguments of this command.[br]
+## [br]
+## *Returns* The argument descriptor for this command.
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
@@ -42,7 +44,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-## Validate whether the given arguments match the command descriptor
+## Validates whether the given arguments match the command descriptor.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - arguments: The arguments to validate.[br]
+## [br]
+## *Returns* True if the arguments are valid, false otherwise.
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -74,7 +82,13 @@ func validate(arguments: Array):
 	return true
 
 
-## Run the command
+## Runs the command.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - command_params: The parameters for the command.[br]
+## [br]
+## *Returns* The execution result code.
 func run(command_params: Array) -> int:
 	escoria.object_manager.get_object(command_params[0]).node \
 			.set_direction(command_params[1], command_params[2])

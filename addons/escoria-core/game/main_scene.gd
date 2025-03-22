@@ -1,14 +1,13 @@
-## Main_scene is the entry point for Godot Engine.
-##
+## Main_scene is the entry point for Godot Engine.[br]
 ## This scene sets up the main menu scene to load.
 extends Node
 class_name ESCMain
 
-
+## Reference to the Escoria node instance.
 var escoria_node: Escoria
 
 
-# Start the main menu
+## Instanciate Escoria scene
 func _ready():
 	escoria.logger.info(self, "Escoria starts...")
 

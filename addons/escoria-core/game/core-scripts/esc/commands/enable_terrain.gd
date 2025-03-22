@@ -1,22 +1,23 @@
-## `enable_terrain(node_name: String)`
-##
+## `enable_terrain node_name`[br]
+## [br]
 ## Enables the `ESCTerrain`'s `NavigationPolygonInstance` specified by the given
 ## node name. It will also disable the previously-activated
 ## `NavigationPolygonInstance`.[br]
-## [br]
 ## Use this to change where the player can walk, allowing them to walk into the
 ## next room once a door has been opened, for example.[br]
-##[br]
-## **Parameters**[br]
-##[br]
-## - *node_name*: Name of the `NavigationPolygonInstance` node to activate
-##
+## [br]
+## #### Parameters[br]
+## [br]
+## - *node_name*: Name of the `NavigationPolygonInstance` node to activate[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name EnableTerrainCommand
 
 
-## Return the descriptor of the arguments of this command
+## Returns the descriptor of the arguments of this command.[br]
+## [br]
+## *Returns* The argument descriptor for this command.
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
@@ -25,7 +26,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-## Run the command
+## Runs the command.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - command_params: The parameters for the command.[br]
+## [br]
+## *Returns* The execution result code.
 func run(command_params: Array) -> int:
 	var name: String = command_params[0]
 	if escoria.room_terrain.has_node(name):

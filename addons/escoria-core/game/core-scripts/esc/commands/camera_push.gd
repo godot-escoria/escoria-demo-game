@@ -1,13 +1,13 @@
-## `camera_push(target: String[, time: Number[, type: String]])`
-##
+## `camera_push target [time] [type]`[br]
+## [br]
 ## Pushes (moves) the camera so it points at a specific `target`. If the camera
 ## was following a target (like the player) previously, it will no longer follow
 ## this target.[br]
-##[br]
+## [br]
 ## Make sure the target is reachable if camera limits have been configured.[br]
-##[br]
-## **Parameters**[br]
-##[br]
+## [br]
+## #### Parameters[br]
+## [br]
 ## - *target*: Global ID of the `ESCItem` to push the camera to. `ESCItem`s have
 ##   a "camera_node" property that can be set to point to a node (usually an
 ##   `ESCLocation` node). If the "camera_node" property is empty, `camera_push`
@@ -16,24 +16,26 @@
 ##   camera at the node referenced by the `ESCItem`s "camera_node" property.[br]
 ## - *time*: Number of seconds the transition should take (default: `1`)[br]
 ## - *type*: Transition type to use (default: `QUAD`)[br]
-##[br]
+## [br]
 ## Supported transitions include the names of the values used
 ## in the "TransitionType" enum of the "Tween" type (without the "TRANS_" prefix):[br]
-##[br]
-## See https://docs.godotengine.org/en/stable/classes/class_tween.html?highlight=tween#enumerations[br]
-##[br]
-## For more details see: https://docs.escoria-framework.org/camera
-##
+## [br]
+## See https://docs.godotengine.org/en/stable/classes/class_tween.html?highlight=tween##enumerations[br]
+## [br]
+## For more details see: https://docs.escoria-framework.org/camera [br]
+## [br]
 ## @ESC
 extends ESCCameraBaseCommand
 class_name CameraPushCommand
 
-# The list of supported transitions as per the link mentioned above
+## The list of supported transitions as per the link mentioned above
 const SUPPORTED_TRANSITIONS = ["LINEAR","SINE","QUINT","QUART","QUAD" ,"EXPO","ELASTIC","CUBIC",
 	"CIRC","BOUNCE","BACK"]
 
 
-## Return the descriptor of the arguments of this command
+## Returns the descriptor of the arguments of this command.[br]
+## [br]
+## *Returns* The argument descriptor for this command.
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
@@ -42,7 +44,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-## Validate whether the given arguments match the command descriptor
+## Validates whether the given arguments match the command descriptor.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - arguments: The arguments to validate.[br]
+## [br]
+## *Returns* True if the arguments are valid, false otherwise.
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -72,7 +80,13 @@ func validate(arguments: Array):
 	return true
 
 
-## Run the command
+## Runs the command.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - command_params: The parameters for the command.[br]
+## [br]
+## *Returns* The execution result code.
 func run(command_params: Array) -> int:
 	(escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera)\
 		.push(
@@ -91,13 +105,13 @@ func interrupt():
 	)
 
 
-# Gets the appropriate target position from the `ESCItem`, as used by the camera.
-#
-# ######## Parameters
-#
-# - target_global_id: The `global_id` of the `ESCItem` to check.
-#
-# **Returns** the item's position based on its camera node.
+## Gets the appropriate target position from the `ESCItem`, as used by the camera.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - target_global_id: The `global_id` of the `ESCItem` to check.[br]
+## [br]
+## *Returns* the item's position based on its camera node.
 func _get_target_pos(target_global_id: String) -> Vector2:
 	var target = escoria.object_manager.get_object(target_global_id).node as ESCItem
 	return target.get_camera_node().global_position

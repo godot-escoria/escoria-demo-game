@@ -1,44 +1,45 @@
-# Resource used for holding savegames data.
+## Resource used for holding savegames data.
 extends Resource
 class_name ESCSaveGame
 
-# Access key for the main data last_scene_global_id
+## Access key for the main data last_scene_global_id.
 const MAIN_LAST_SCENE_GLOBAL_ID_KEY = "last_scene_global_id"
-# Access key for the main data current_scene_filename
+
+## Access key for the main data current_scene_filename.
 const MAIN_CURRENT_SCENE_FILENAME_KEY = "current_scene_filename"
 
-# Escoria version which the savegame was created with.
+## Escoria version which the savegame was created with.
 @export var escoria_version: String
 
-# Game version which the savegame was created with.
+## Game version which the savegame was created with.
 @export var game_version: String = ""
 
-# Name of the savegame. Can be custom value, provided by the player.
+## Name of the savegame. Can be custom value, provided by the player.
 @export var name: String = ""
 
-# Date of creation of the savegame.
+## Date of creation of the savegame.
 @export var date: Dictionary = {}
 
-# Main data to be saved
+## Main data to be saved.
 @export var main: Dictionary = {}
 
-# Escoria Global variables exported from ESCGlobalsManager
+## Escoria Global variables exported from ESCGlobalsManager.
 @export var globals: Dictionary = {}
 
-# Inventory items
+## Inventory items.
 @export var inventory: Array = []
 
-# Escoria objects exported from ESCObjectsManager
+## Escoria objects exported from ESCObjectsManager.
 @export var objects: Dictionary = {}
 
-# Running event exported from ESCEventManager
+## Running event exported from ESCEventManager.
 @export var events: Dictionary = {}
 
-# Enabled ESCTerrain navpolygons
+## Enabled ESCTerrain navpolygons.
 @export var terrain_navpolys: Dictionary = {}
 
-# Settings
+## Settings.
 @export var settings: Dictionary = {}
 
-# Custom data
+## Custom data.
 @export var custom_data: Dictionary = {}

@@ -29,7 +29,7 @@ escoria="*res://addons/escoria-core/game/esc_autoload.gd"
 
 [display]
 
-window/size/viewport_width=1280
+window/size/viewport_width=1300
 window/size/viewport_height=900
 window/stretch/mode="canvas_items"
 

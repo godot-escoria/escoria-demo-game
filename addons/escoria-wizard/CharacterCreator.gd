@@ -1559,7 +1559,7 @@ func load_settings() -> void:
 # - type: One of TYPE_WALK, TYPE_TALK, TYPE_IDLE (these are consts defined at the top of this script)
 # - dir_name: One of DIR_LIST_8's or DIR_LIST_4's entries (these are consts defined at the top of this script)
 #
-# *Returns* a valid ESCAnimationName object.
+# **Returns** a valid ESCAnimationName object.
 func _create_esc_animation(type: String, dir_name: String) -> ESCAnimationName:
 	var anim_details = ESCAnimationName.new()
 

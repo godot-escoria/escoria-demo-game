@@ -1,12 +1,14 @@
-# A simple dialog manager for Escoria
+## A simple dialog manager for Escoria
 extends ESCDialogManager
 
 
-# State machine that governs how the dialog manager behaves
+## State machine that governs how the dialog manager behaves
 var state_machine = preload("res://addons/escoria-dialog-simple/esc_dialog_simple_state_machine.gd").new()
 
 # The currently running player
 var _type_player: Node = null
+
+
 var _preserved_type_player_type: String = ""
 
 # Reference to the dialog player
@@ -29,7 +31,7 @@ func _ready() -> void:
 #
 # #### Parameters
 # - type: required type
-# *Returns* Whether the type is supported or not
+# **Returns** Whether the type is supported or not
 func has_type(type: String) -> bool:
 	return true if type in ["floating", "avatar"] else false
 
@@ -39,7 +41,7 @@ func has_type(type: String) -> bool:
 #
 # #### Parameters
 # - type: required chooser type
-# *Returns* Whether the type is supported or not
+# **Returns** Whether the type is supported or not
 func has_chooser_type(type: String) -> bool:
 	return true if type == "simple" else false
 

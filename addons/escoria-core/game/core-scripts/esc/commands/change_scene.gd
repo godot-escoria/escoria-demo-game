@@ -1,22 +1,24 @@
-## `change_scene(path: String[, enable_automatic_transition: Boolean[, run_events: Boolean]])`
-##
+## `change_scene path [enable_automatic_transition] [run_events]`[br]
+## [br]
 ## Switches the game from the current scene to another scene. Use this to move
 ## the player to a new room when they walk through an unlocked door, for
 ## example.[br]
-##[br]
-## **Parameters**[br]
-##[br]
+## [br]
+## ##### Parameters[br]
+## [br]
 ## - *path*: Path of the new scene[br]
 ## - *enable_automatic_transition*: Automatically transition to the new scene
 ##   (default: `true`)[br]
-## - *run_events*: Run the standard ESC events of the new scene (default: `true`)
-##
+## - *run_events*: Run the standard ESC events of the new scene (default: `true`)[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name ChangeSceneCommand
 
 
-## Return the descriptor of the arguments of this command
+## Returns the descriptor of the arguments of this command.[br]
+## [br]
+## *Returns* The argument descriptor for this command.
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
@@ -25,7 +27,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-## Validate whether the given arguments match the command descriptor
+## Validates whether the given arguments match the command descriptor.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - arguments: The arguments to validate.[br]
+## [br]
+## *Returns* True if the arguments are valid, false otherwise.
 func validate(arguments: Array) -> bool:
 	if not super.validate(arguments):
 		return false
@@ -48,7 +56,13 @@ func validate(arguments: Array) -> bool:
 	return true
 
 
-## Run the command
+## Runs the command.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - command_params: The parameters for the command.[br]
+## [br]
+## *Returns* The execution result code.
 func run(command_params: Array) -> int:
 	escoria.logger.info(
 		self,

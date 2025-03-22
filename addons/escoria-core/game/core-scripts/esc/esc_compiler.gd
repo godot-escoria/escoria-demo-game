@@ -1,37 +1,17 @@
-# Compiler of the ESC language
+## Compiler for the ASHES language.
 extends Resource
 class_name ESCCompiler
 
 
-# This must match ESCProjectSettingsManager.COMMAND_DIRECTORIES.
-# We do not reference it directly to avoid circular dependencies.
+## This must match `ESCProjectSettingsManager.COMMAND_DIRECTORIES`.
+## We do not reference it directly in order to avoid circular dependencies.
 const COMMAND_DIRECTORIES = "escoria/main/command_directories"
 
-# The currently compiled event
-var _current_event = null
 
-# A stack of groups currently compiling
-var _groups_stack = []
-
-# A stack of dialogs currently compiling
-var _dialogs_stack = []
-
-# A stack of dialog options currently compiling
-var _dialogs_option_stack = []
-
-# A pointer to the current container (group, dialog option)
-# that should get the current command
-var _command_container = []
-
-# The currently identified indent
-var _current_indent = 0
-
-# Cache the list of ESC commands available
-var _commands: Array = []
-
+## Whether an error has been encountered during the compilation process.
 var had_error: bool = false
 
-
+## Initialize the ESCCompiler and assure command list preference.
 func _init():
 	# Assure command list preference
 	# (we use ProjectSettings instead of ESCProjectSettingsManager
@@ -47,6 +27,11 @@ func _init():
 		ProjectSettings.add_property_info(property_info)
 
 
+## Static method to pre-load all ASHES commands from 
+## `ESCProjectSettingsManager.COMMAND_DIRECTORIES`. All commands must extend 
+## `ESCBaseCommand`.[br]
+##[br]
+## **Returns** an array containing the commands as loaded resources.
 static func load_commands() -> Array:
 	var commands: Array = []
 
@@ -72,7 +57,10 @@ static func load_commands() -> Array:
 	return commands
 
 
-static func load_globals():
+## Static method to load all Escoria reserved objects and reserved globals.[br]
+##[br]
+## **Returns** a `Dictionary` containing all reserved objects and reserved globals.
+static func load_globals() -> Dictionary:
 	var globals: Dictionary = {}
 
 	for obj in ESCObjectManager.RESERVED_OBJECTS:
@@ -84,6 +72,15 @@ static func load_globals():
 	return globals
 
 
+## Compile the given ESC source code into an ESCScript object.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - source: The ESC source code to compile.[br]
+## - filename: Optional filename for error reporting.[br]
+## - associated_global_id: Optional global id associated with the script.[br]
+## [br]
+## **Returns** An ESCScript object representing the compiled script.
 func _compiler_shim(source: String, filename: String = "", associated_global_id: String = ""):
 	var scanner: ESCScanner = ESCScanner.new()
 	scanner.set_source(source)
@@ -121,11 +118,11 @@ func _compiler_shim(source: String, filename: String = "", associated_global_id:
 
 	if not had_error:
 		for ps in parsed_statements:
-			script.events[ps.get_event_name()] = ps
-
+			var event_name = ps.get_event_name()
+			if ps.get_target() != null:
+				event_name += " " + ps.get_target_name()
+			script.events[event_name] = ps
 	return script
-	#if not had_error:
-	#	interpreter.interpret(parsed_statements)
 
 
 # Load an ESC file from a file resource. We also accept an optional global ID of
@@ -145,12 +142,23 @@ func load_esc_file(path: String, associated_global_id: String = "") -> ESCScript
 	return _compiler_shim(file.get_as_text(), path, associated_global_id)
 
 
+## Compiles the passed-in script.[br]
+##[br]
+## TODO: `path` is extraneous and left in for legacy purposes; at some point, this will be removed 
+## which will require updating other methods that reference this one to ensure they don't pass in
+## a second argument.[br]
+##[br]
+## #### Parameters ####[br]
+## * script: A `String` containing the entirety of the script to be compiled.[br]
+## * path: NOT USED.
 func compile(script: String, path: String = "") -> ESCScript:
 	return _compiler_shim(script)
 
 
-# *Returns*
-# true iff this is being called in-editor or the appropriate project setting is enabled
+## Returns true if this is being called in-editor or the appropriate project
+## setting is enabled.[br]
+## [br]
+## **Returns** true if script analysis should be run.
 func _run_script_analysis() -> bool:
 	if Engine.is_editor_hint():
 		return true

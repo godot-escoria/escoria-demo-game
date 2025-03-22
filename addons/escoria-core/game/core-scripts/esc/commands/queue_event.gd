@@ -1,29 +1,31 @@
-## `queue_event(object: String, event: String[, channel: String[, block: Boolean]])`
-##
+## `queue_event object event [channel] [block]`[br]
+## [br]
 ## Queue an event to run.[br]
-##[br]
+## [br]
 ## If you queue multiple events on a channel and none of them are blocking
 ## events, all events will effectively run at the same time. As the events are
 ## placed on the channel's queue, if one event contains a blocking command, the
 ## next event on that channel's queue won't be processed until the blocking
 ## command finishes.[br]
-##[br]
-## **Parameters**[br]
-##[br]
-## - object: Object that holds the ESC script with the event[br]
-## - event: Name of the event to queue[br]
-## - channel: Channel to run the event on (default: `_front`). Using a
+## [br]
+## #### Parameters[br]
+## [br]
+## - *object*: Object that holds the ESC script with the event[br]
+## - *event*: Name of the event to queue[br]
+## - *channel*: Channel to run the event on (default: `_front`). Using a
 ##   previously unused channel name will create a new channel.[br]
-## - block: Whether to wait for the queue to finish. This is only possible, if
+## - *block*: Whether to wait for the queue to finish. This is only possible, if
 ##   the queued event is not to be run on the same event as this command
-##   (default: `false`)
-##
+##   (default: `false`)[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name QueueEventCommand
 
 
-## Return the descriptor of the arguments of this command
+## Returns the descriptor of the arguments of this command.[br]
+## [br]
+## *Returns* The argument descriptor for this command.
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
@@ -32,7 +34,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-## Validate whether the given arguments match the command descriptor
+## Validates whether the given arguments match the command descriptor.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - arguments: The arguments to validate.[br]
+## [br]
+## *Returns* True if the arguments are valid, false otherwise.
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -69,12 +77,23 @@ func validate(arguments: Array):
 	return true
 
 
-# Return whether global_id represents the current room the player is in.
+## Returns whether global_id represents the current room the player is in.[br]
+## [br]
+## #### Parameters[br]
+## - global_id: The global ID to check.[br]
+## [br]
+## *Returns* True if global_id represents the current room, false otherwise.
 func _is_current_room(global_id: String) -> bool:
 	return escoria.main.current_scene.global_id == global_id
 
 
-## Run the command
+## Runs the command.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - command_params: The parameters for the command.[br]
+## [br]
+## *Returns* The execution result code.
 func run(arguments: Array) -> int:
 	var node = _get_scripted_node(arguments[0])
 
@@ -98,7 +117,7 @@ func interrupt():
 #
 # PRE: If global_id represents a room, then `escoria.main.current_scene` must be valid.
 #
-# **Parameters**
+## #### Parameters
 #
 # - global_id: ID of the object or room with the desired ESC script.
 #

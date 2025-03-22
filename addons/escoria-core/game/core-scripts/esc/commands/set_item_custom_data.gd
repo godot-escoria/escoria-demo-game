@@ -1,18 +1,22 @@
-## *** FOR INTERNAL USE ONLY *** `set_item_custom_data(item: String, custom_data: Dictionary)`
-##
+## INTERNAL USE ONLY[br]
+## [br]
+## `set_item_custom_data item custom_data`[br]
+## [br]
 ## Sets the "custom_data" of the item if it currently exists in the object manager.[br]
-##[br]
-## **Parameters**[br]
-##[br]
+## [br]
+## #### Parameters[br]
+## [br]
 ## - *item* Global ID of the item[br]
-## - *custom_data* Dictionary with custom data. If null empty dictionary will be assigned.
-##
+## - *custom_data* Dictionary with custom data. If null empty dictionary will be assigned.[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name SetItemCustomDataCommand
 
 
-## Return the descriptor of the arguments of this command
+## Returns the descriptor of the arguments of this command.[br]
+## [br]
+## *Returns* The argument descriptor for this command.
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
@@ -21,7 +25,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-## Run the command
+## Runs the command.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - command_params: The parameters for the command.[br]
+## [br]
+## *Returns* The execution result code.
 func run(command_params: Array) -> int:
 	var global_id: String = command_params[0]
 	if escoria.object_manager.has(global_id):
