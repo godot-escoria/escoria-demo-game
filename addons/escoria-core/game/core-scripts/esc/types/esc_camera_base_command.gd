@@ -1,13 +1,14 @@
+## Abstract base class for those commands that implement camera-based functionality.
 extends ESCBaseCommand
 class_name ESCCameraBaseCommand
 
 
-# Generaters a log entry when attempting to move the camera to an invalid position.
-#
-# #### Parameters
-#
-# - pos: The offending position.
-# - camera: The camera object that `pos` was checked against.
+## Generaters a log entry when attempting to move the camera to an invalid position.[br]
+##[br]
+## #### Parameters ####[br]
+##[br]
+## - *pos*: The offending position, represented by a `Vector2`.[br]
+## - *camera*: The camera object as an `ESCCamera` that `pos` was checked against.
 func generate_viewport_warning(pos: Vector2, camera: ESCCamera) -> void:
 	var camera_limit: Rect2 = camera.get_camera_limit_rect()
 	var message: String = \
