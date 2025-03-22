@@ -181,6 +181,10 @@ class Event extends ESCGrammarStmt:
 		return _body
 
 
+	func get_object_global_id() -> String:
+		return _object_global_id
+
+
 	## Returns the number of top-level statements in the body. Generally only useful for internal 
 	## purposes.
 	func get_num_statements_in_block() -> int:

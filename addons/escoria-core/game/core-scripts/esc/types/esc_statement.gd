@@ -1,38 +1,47 @@
-# A statement in an ESC file
+## Abstract base class representing a "statement" that has been interpreted from 
+## an ASHES script file and is used to carry out its execution in Escoria.
+##
+## NOTE: This class is legacy code related to the ESCScript language that precedes the 
+## newer ASHES scripting language used by Escoria. Although this class is extended 
+## to facilitate the execution of actual commands and dialogs, the name may be 
+## a bit misleading and may eventually be renamed or refactored.
 extends RefCounted
 class_name ESCStatement
 
 
-# Emitted when the event did finish running
+## Emitted when the event has finished running.
 signal finished(event: ESCStatement, statement: ESCStatement, return_code: int)
 
-# Emitted when the event was interrupted
+## Emitted if the event has been interrupted
 signal interrupted(event: ESCStatement, statement: ESCStatement, return_code: int)
 
 
-# The list of ESC commands
+## The list of command to be executed.
 var statements: Array = []
 
-# The source of this statement, e.g. an ESC script or a class.
+## The source of this statement, e.g. an ASHES script or a class.
 var source: String = ""
+
+## Indictates whether this statement has completed.
+var is_completed: bool = false
+
+## The currently running statement.
+var current_statement: ESCStatement = null
+
+## Value from which to start assigning the IDs of statements to be executed. Defaults to 0.
+var from_statement_id = 0
+
+## Determines whether conditions will be checked during execution or skipped.
+var bypass_conditions = false
+
+## TODO: Can probably delete.
+var parsed_statements = []
 
 # Indicates whether this event was interrupted.
 var _is_interrupted: bool = false
 
-# Indictates whether this statement was completed
-var is_completed: bool = false
 
-# Currently running statement
-var current_statement: ESCStatement = null
-
-# Id of the statement to start from. By default, equal to 0.
-var from_statement_id = 0
-
-# If true, conditions will not be tested and are always considered true
-var bypass_conditions = false
-
-
-# Returns a Dictionary containing statements data for serialization
+## Returns a `Dictionary` containing relevant data for serialization.
 func exported() -> Dictionary:
 	var export_dict: Dictionary = {}
 	export_dict.class = "ESCStatement"
@@ -47,22 +56,18 @@ func exported() -> Dictionary:
 	return export_dict
 
 
-##############
-# New interpreter stuff
-var parsed_statements = []
 
-
-##############
-
-## Returns `true` iff the statement is valid.
+## Returns whether the statement should be run based on its conditions.[br]
+## [br]
+## *Returns* True if the statement is valid.
 func is_valid() -> bool:
 	return true
 
 
-# Execute this statement and return its return code
+## Executes this statement and returns its return code.[br]
+## [br]
+## *Returns* The return code of the statement.
 func run() -> int:
-	# TODO: It's entirely possible that this method is never executed; at some point, we'll need
-	# to trace through this and remove any dead code from this and other classes.
 	if parsed_statements.size() > 0:
 		var interpreter = ESCInterpreterFactory.create_interpreter()
 		var resolver: ESCResolver = ESCResolver.new(interpreter)
@@ -105,12 +110,12 @@ func run() -> int:
 	return final_rc
 
 
-# Interrupt the statement in the middle of its execution.
+## Interrupts the statement in the middle of its execution.
 func interrupt():
 	escoria.logger.info(
 		self,
 		"Interrupting event %s (%s)."
-				% [self.name if "name" in self else "group", str(self)]
+			% [self.name if "name" in self else "group", str(self)]
 	)
 	_is_interrupted = true
 	for statement in statements:
@@ -118,7 +123,7 @@ func interrupt():
 			statement.interrupt()
 
 
-# Resets an interrupted event
+## Resets all affected statements' interrupts.
 func reset_interrupt():
 	_is_interrupted = false
 	for statement in statements:

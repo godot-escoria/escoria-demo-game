@@ -1,23 +1,25 @@
-## `transition(transition_name: String, mode: String[, delay: Number])`
-##
+## `transition transition_name mode [delay]`[br]
+## [br]
 ## Runs a transition effect - generally used when entering or leaving a room.
 ## Transitions are implemented as Godot shaders. Custom transitions can be made
 ## by creating a shader in the `game/scenes/transitions/shaders/` folder within
 ## the escoria-core plugin folder.[br]
-##[br]
-## **Parameters**[br]
-##[br]
+## [br]
+## #### Parameters[br]
+## [br]
 ## - *transition_name*: Name of the transition shader from one of the transition
 ##   directories[br]
 ## - *mode*: Set to `in` to transition into or `out` to transition out of the room[br]
-## - *delay*: Delay in seconds before starting the transition (default: `1.0`)
-##
+## - *delay*: Delay in seconds before starting the transition (default: `1.0`)[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name TransitionCommand
 
 
-## Return the descriptor of the arguments of this command
+## Returns the descriptor of the arguments of this command.[br]
+## [br]
+## *Returns* The argument descriptor for this command.
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
@@ -26,7 +28,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-## Validate whether the given arguments match the command descriptor
+## Validates whether the given arguments match the command descriptor.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - arguments: The arguments to validate.[br]
+## [br]
+## *Returns* True if the arguments are valid, false otherwise.
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -47,7 +55,13 @@ func validate(arguments: Array):
 	return true
 
 
-## Run the command
+## Runs the command.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - command_params: The parameters for the command.[br]
+## [br]
+## *Returns* The execution result code.
 func run(command_params: Array) -> int:
 	var transition_id = escoria.main.scene_transition.transition(
 		command_params[0],

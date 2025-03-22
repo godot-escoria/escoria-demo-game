@@ -1,18 +1,20 @@
-## `show_menu(menu_type: String)`
-##
+## `show_menu menu_type`[br]
+## [br]
 ## Shows either the main menu or the pause menu. Transitions to the menu using
 ## the default transition type (set in the Escoria project settings).[br]
-##[br]
-## **Parameters**[br]
-##[br]
-## - *menu_type*: Which menu to show. Can be either `main` or `pause` (default: `main`)
-##
+## [br]
+## #### Parameters[br]
+## [br]
+## - menu_type: Which menu to show. Can be either `main` or `pause` (default: `main`).
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name ShowMenuCommand
 
 
-## Return the descriptor of the arguments of this command
+## Returns the descriptor of the arguments of this command.[br]
+## [br]
+## *Returns* The argument descriptor for this command.
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		0,
@@ -21,7 +23,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-## Validate whether the given arguments match the command descriptor
+## Validates whether the given arguments match the command descriptor.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - arguments: The arguments to validate.[br]
+## [br]
+## *Returns* True if the arguments are valid, false otherwise.
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -35,7 +43,13 @@ func validate(arguments: Array):
 	return true
 
 
-## Run the command
+## Runs the command.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - command_params: The parameters for the command.[br]
+## [br]
+## *Returns* The execution result code.
 func run(command_params: Array) -> int:
 	if not escoria.game_scene.is_inside_tree():
 		escoria.add_child(escoria.game_scene)

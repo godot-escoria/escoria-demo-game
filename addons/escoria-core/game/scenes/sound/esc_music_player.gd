@@ -1,28 +1,24 @@
-# Background music player
+## Background music player
 extends Control
 class_name ESCMusicPlayer
 
-
-# Global id of the background music player
+## Global id of the background music player.
 @export var global_id: String = "_music"
 
-
-# The state of the music player. "default" or "off" disable music
-# Any other state refers to a music stream that should be played
+## The state of the music player. "default" or "off" disable music. Any other
+## state refers to a music stream that should be played.
 var state: String = "default"
 
-
-# Reference to the audio player
+## Reference to the audio player.
 @onready var stream: AudioStreamPlayer = $AudioStreamPlayer
 
-
-# Set the state of this player
-#
-# #### Parameters
-#
-# - p_state: New state to use
-# - from_seconds: Sets the starting playback position
-# - p_force: Override the existing state even if the stream is still playing
+## Sets the state of this player.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - p_state: New state to use.[br]
+## - from_seconds: Sets the starting playback position.[br]
+## - p_force: Override the existing state even if the stream is still playing.
 func set_state(p_state: String, from_seconds: float = 0.0, p_force: bool = false) -> void:
 	# If already playing this stream, keep playing, unless p_force
 	if p_state == state and not p_force and stream.is_playing():
@@ -48,7 +44,7 @@ func set_state(p_state: String, from_seconds: float = 0.0, p_force: bool = false
 		stream.play(from_seconds)
 
 
-# Register to the object registry
+## Registers this music player to the object registry.
 func _ready():
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	escoria.object_manager.register_object(
@@ -58,8 +54,8 @@ func _ready():
 	)
 
 
-# Returns the playback position of the audio stream in seconds
-#
-# **Returns** playback position
+## Returns the playback position of the audio stream in seconds.[br]
+## [br]
+## *Returns* the playback position as a float value.
 func get_playback_position() -> float:
 	return $AudioStreamPlayer.get_playback_position()

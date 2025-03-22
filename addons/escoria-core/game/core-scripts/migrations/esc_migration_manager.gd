@@ -1,28 +1,32 @@
-# Class that handles migrations between different game or escoria versions
+## Class that handles migrations between different game or escoria versions
 extends RefCounted
 class_name ESCMigrationManager
+## Class that handles migrations between different game or escoria versions
 
 
-# Regular expression that matches a simple semver version string
+## Regular expression that matches a simple semver version string
 const VERSION_REGEX = "^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
 
 
-# Compiled regex
+## Compiled regex
 var version_regex: RegEx
 
-
+## Constructor of the migration manager.
 func _init() -> void:
 	version_regex = RegEx.new()
 	version_regex.compile(VERSION_REGEX)
 
 
-# Migrates the specified savegame from a specified version to another version
-# based on a directory of migration scripts.
-#
-# The migration manager searches for scripts from after the given version up
-# to the target version in this directory, loads them and applies the version.
-#
-# Each migration will return a modified version of the given savegame
+## Migrates the specified savegame from a specified version to another version
+## based on a directory of migration scripts.[br]
+## [br]
+## The migration manager searches for scripts from after the given version up
+## to the target version in this directory, loads them and applies the 
+## version.[br]
+## [br]
+## Each migration will return a modified version of the given savegame.
+## [br]
+## **Returns** The migrated Savegame object
 func migrate(
 	savegame: ESCSaveGame,
 	from: String,
@@ -80,14 +84,14 @@ func migrate(
 	return savegame
 
 
-# Find all fitting version scripts between the given versions in a directory
-# and all its subdirectories
-#
-# #### Parameters
-# - directory: Directory to search in
-# - from: Start version to check
-# - to: End version to check
-# **Returns** A list of version scripts
+## Find all fitting version scripts between the given versions in a directory
+## and all its subdirectories.[br]
+## [br]
+## #### Parameters[br]
+## - directory: Directory to search in[br]
+## - from: Start version to check[br]
+## - to: End version to check[br]
+## **Returns** A list of version scripts
 func _find_versions(directory: String, from: String, to: String) -> Array:
 	escoria.logger.trace(
 		self,
@@ -95,7 +99,7 @@ func _find_versions(directory: String, from: String, to: String) -> Array:
 	)
 	var versions = []
 	var dir = DirAccess.open(directory)
-	dir.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
+	dir.list_dir_begin()
 	var file_name = dir.get_next()
 	while file_name != "":
 		var version = file_name.get_basename()
@@ -118,13 +122,14 @@ func _find_versions(directory: String, from: String, to: String) -> Array:
 	return versions
 
 
-# Check, whether the given version is >= from and <= to
-#
-# #### Parameters
-# - version: Version to check
-# - from: Start version
-# - to: End version
-# **Returns** Whether the version matches
+## Check, whether the given version is >= from and <= to[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - version: Version to check[br]
+## - from: Start version[br]
+## - to: End version[br]
+## **Returns** Whether the version matches
 func _version_between(version: String, from: String, to: String) -> bool:
 	var version_info = version_regex.search(version)
 	var from_info = version_regex.search(from)
@@ -152,12 +157,14 @@ func _version_between(version: String, from: String, to: String) -> bool:
 	return false
 
 
-# Compare to version strings
-#
-# #### Parameters
-# - version_a: First version to compare
-# - version_b: Second version to compare
-# **Returns** true when version_b should be sorted after version_a
+## Comparator function for version strings.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - version_a: First version to compare[br]
+## - version_b: Second version to compare[br]
+## [br]
+## **Returns** true when version_b should be sorted after version_a
 func _compare_version(version_a: String, version_b: String) -> bool:
 	var a_info = version_regex.search(version_a.get_file().get_basename())
 	var b_info = version_regex.search(version_b.get_file().get_basename())

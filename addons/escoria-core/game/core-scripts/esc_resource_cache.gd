@@ -1,4 +1,4 @@
-# A cache for resources
+## A cache for resources
 extends Node
 class_name ESCResourceCache
 
@@ -14,6 +14,9 @@ var pending: Dictionary = {}
 
 func _ready():
 	name = "resource_cacher"
+	resource_loading_progress.connect(print_progress)
+	resource_loading_done.connect(res_loaded)
+	resource_queue_progress.connect(print_queue_progress)
 
 
 func queue_resource(path: String, p_in_front: bool = false, p_permanent: bool = false):
@@ -116,23 +119,15 @@ func get_resource(path):
 
 
 func print_progress(p_path, p_progress):
-	printt(p_path, "loading", round(p_progress * 100), "%")
+	escoria.logger.info(self, "{0} loading: {1}%".format([p_path, round(p_progress * 100)]))
 
 
 func res_loaded(p_path):
-	printt("loaded resource", p_path)
+	escoria.logger.info(self, "loaded resource: {0}%".format([p_path]))
 
 
 func print_queue_progress(p_queue_size):
-	printt("queue size:", p_queue_size)
-
-
-func start():
-	pass
-	## Uncomment these for debug, or wait for someone to implement log levels
-	# connect("resource_loading_progress", self, "print_progress")
-	# connect("resource_loading_done", self, "res_loaded")
-	# connect("resource_queue_progress", self, "print_queue_progress")
+	escoria.logger.info(self, "queue size: {0}%".format([p_queue_size]))
 
 
 func _process(_delta) -> void:

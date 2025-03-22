@@ -1,13 +1,14 @@
-# Node that performs the moving (walk, teleport, terrain scaling...) actions on
-# its parent node.
+## Node that performs the moving (walk, teleport, terrain scaling...) actions on
+## its parent node.
 extends Node
 class_name ESCMovable
 
 
-# Tasks carried out by this walkable node
-# NONE - The node is inactive
-# WALK - The node walks the parent somewhere
-# SLIDE - The node slides the parent somewhere
+## Tasks carried out by this walkable node[br]
+## NONE - The node is inactive[br]
+## WALK - The node walks the parent somewhere[br]
+## SLIDE - The node slides the parent somewhere
+# TODO Currently SLIDE is no different from WALK. Consider removing.
 enum MovableTask {
 	NONE,
 	WALK,
@@ -15,57 +16,53 @@ enum MovableTask {
 }
 
 
-# Character path through the scene as calculated by the Pathfinder
+## Character path through the scene as calculated by the Pathfinder
 var walk_path: Array = []
 
-# Current active walk path entry
+## Current active walk path entry
 var path_ofs: int
 
-# The destination where the character should be moving to
+## The destination where the character should be moving to
 var walk_destination: Vector2
 
-# The walk context currently carried out by this movable node
+## The walk context currently carried out by this movable node
 var walk_context: ESCWalkContext = null
 
-# Whether the character was moved at all
+## Whether the character was moved at all
 var moved: bool
 
-# Player Direction used to reflect the movement to the new position
+## Player Direction used to reflect the movement to the new position
 var last_dir: int
 
-# Last angle calculated
+## Last angle calculated
 var last_angle: float
 
-# The last scaling applied to the parent
+## The last scaling applied to the parent
 var last_scale: Vector2
 
-# Whether the current direction animation is flipped
+## Whether the current direction animation is flipped
 var is_mirrored: bool
 
-
-var _orig_speed: float = 0.0
-
-
-# Shortcut variable that references the node's parent
+## Shortcut variable that references the node's parent
 @onready var parent = get_parent()
 
 
-# Currenly running task
+## Currenly running task
 @onready var task = MovableTask.NONE
 
 
-# Add the signal "arrived" to the parent node, which is emitted when
-# the destination position was reached
+## Ready function. Adds the signal "arrived" to the parent node, which is
+## emitted when the destination position was reached.
 func _ready() -> void:
 	if not parent.has_user_signal("arrived"):
 		parent.add_user_signal("arrived")
 
 
-# Main processing loop
-#
-# #### Parameters
-#
-# - delta: Time that has passed since the last call to this function
+## Main processing loop[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - delta: Time that has passed since the last call to this function
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
@@ -87,14 +84,13 @@ func _process(delta: float) -> void:
 		set_process(false)
 
 
-# Calculates the next position of the object.
-#
-# #### Parameters
-#
-# - delta: the time elapsed from last frame
-#
-# *Returns*
-# The new Vector2 position of the object, or null if stop walking.
+## Calculates the next position of the object.[br]
+## [br]
+## #### Parameters[br]
+##
+## - delta: the time elapsed from last frame[br]
+## [br]
+## **Returns** The new Vector2 position of the object, or null if stop walking.
 func _calculate_movement(delta: float):
 	# Initialize the current pos and previous pos variables
 	var pos: Vector2 = parent.get_position()
@@ -139,12 +135,12 @@ func _calculate_movement(delta: float):
 	parent.set_position(pos)
 	return pos
 
-# Calculates the orientation of the object while walking, to play the right
-# animation according to this orientation.
-#
-# #### Parameters
-#
-# - angle: the angle X axis and object's facing direction.
+## Calculates the orientation of the object while walking, to play the right
+## animation according to this orientation.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - angle: the angle X axis and object's facing direction.
 func _perform_walk_orientation(angle: float):
 	last_angle = angle
 	last_dir = _get_dir_deg(ESCUtils.get_deg_from_rad(angle),
@@ -172,11 +168,11 @@ func _perform_walk_orientation(angle: float):
 	is_mirrored = parent.animations.directions[last_dir].mirrored
 
 
-# Teleports this item to the target position.
-#
-# #### Parameters
-#
-# - target: Position2d or ESCItem to teleport to
+## Teleports this item to the target position.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - target: ESCLocation or ESCItem to teleport to
 func teleport(target: Node) -> void:
 	if target.has_method("get_interact_position"):
 		parent.global_position = target.get_interact_position()
@@ -199,11 +195,11 @@ func teleport(target: Node) -> void:
 		)
 
 
-# Teleports this item to the target position.
-#
-# #### Parameters
-#
-# - target: Vector2 target position to teleport to
+## Teleports this item to the target position.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - target: Vector2 target position to teleport to
 func teleport_to(target: Vector2) -> void:
 	escoria.logger.info(
 		self,
@@ -213,12 +209,12 @@ func teleport_to(target: Vector2) -> void:
 	parent.global_position = target
 
 
-# Walk to a given position
-#
-# #### Parameters
-#
-# - pos: Position to walk to
-# - p_walk_context: Walk context to use
+## Walk to a given position[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - pos: Position to walk to[br]
+## - p_walk_context: Walk context to use
 func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 	if not parent.terrain:
 		walk_stop(parent.get_global_position())
@@ -249,18 +245,14 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 	set_process(true)
 
 
-# We have finished walking. Set the idle pose and complete
-#
-# #### Parameters
-#
-# - pos: Final target position
+## We have finished walking. Set the idle pose and complete.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - pos: Final target position
 func walk_stop(pos: Vector2) -> void:
 	parent.global_position = pos
 	walk_path = []
-
-	if _orig_speed > 0:
-		parent.speed = _orig_speed
-		_orig_speed = 0.0
 
 	task = MovableTask.NONE
 	moved = false
@@ -315,11 +307,11 @@ func walk_stop(pos: Vector2) -> void:
 	parent.arrived.emit(walk_context)
 
 
-# Update the sprite scale and lighting
-#
-# #### Parameters
-#
-# - on_event_finished_name: Used if this function is called from an ESC event
+## Update the sprite scale and lighting.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - on_event_finished_name: Used if this function is called from an ESC event
 func update_terrain(on_event_finished_name = null) -> void:
 	if !parent.terrain or parent.terrain == null \
 			or !is_instance_valid(parent.terrain):
@@ -367,12 +359,12 @@ func update_terrain(on_event_finished_name = null) -> void:
 		parent.collision.scale.x *= -1
 
 
-# Get the player direction index based on degrees
-#
-# #### Parameters
-#
-# - deg: Degrees
-# - animations: Player animations script
+## Get the player direction index based on degrees.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - deg: Degrees[br]
+## - animations: Player animations script
 func _get_dir_deg(deg: int, animations: ESCAnimationResource) -> int:
 	# We turn the angle by -90° because angle_to_point gives the angle
 	# against X axis, not Y
@@ -399,15 +391,15 @@ func _get_dir_deg(deg: int, animations: ESCAnimationResource) -> int:
 	return dir
 
 
-# Returns true if given angle is inside the interval given by a starting_angle
-# and the size.
-#
-# #### Parameters
-#
-# - angle: Angle to test
-# - direction_angle: ESCDirectionAngle resource, containing the starting angle,
-#  and the size of interval
-# eg: angle_start=90, angle_size=40 corresponds to angle between 90° and 130°
+## Returns true if given angle is inside the interval given by a starting_angle
+## and the size.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - angle: Angle to test[br]
+## - direction_angle: ESCDirectionAngle resource, containing the starting angle,
+##  and the size of interval eg: angle_start=90, angle_size=40 corresponds to 
+##  angle between 90° and 130°
 func _is_angle_in_interval(
 		angle: float,
 		direction_angle: ESCDirectionAngle
@@ -421,12 +413,12 @@ func _is_angle_in_interval(
 	return (start_angle <= angle and angle <= end_angle)
 
 
-# Sets character's angle and plays according animation.
-#
-# #### Parameters
-#
-# - deg int angle to set the character
-# - wait float Wait this amount of seconds until continuing with turning around
+## Sets character's angle and plays according animation.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - deg int angle to set the character[br]
+## - wait float Wait this amount of seconds until continuing with turning around
 func set_angle(deg: int, wait: float = 0.0) -> void:
 	if deg < 0 or deg > 360:
 		escoria.logger.error(
@@ -438,13 +430,13 @@ func set_angle(deg: int, wait: float = 0.0) -> void:
 	set_direction(target_dir, wait)
 
 
-# Sets character's direction (instead of angle, see set_angle()
-# and plays according animation.
-#
-# #### Parameters
-#
-# - target_dir: int direction to set the character
-# - wait: float Wait this amount of seconds until continuing with turning around
+## Sets character's direction (instead of angle, see set_angle()
+## and plays according animation.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - target_dir: int direction to set the character[br]
+## - wait: float Wait this amount of seconds until continuing with turning around
 func set_direction(target_dir: int, wait: float = 0.0) -> void:
 	if target_dir < 0 or target_dir >= parent.animations.dir_angles.size():
 		escoria.logger.warn(
@@ -485,12 +477,12 @@ func set_direction(target_dir: int, wait: float = 0.0) -> void:
 	update_terrain()
 
 
-# Turns the character to face another item or character.
-#
-# #### Parameters
-#
-# - item_id id of the object to face.
-# - float Wait this amount of seconds until continuing with turning around
+## Turns the character to face another item or character.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - item_id id of the object to face.[br]
+## - float Wait this amount of seconds until continuing with turning around
 func turn_to(item: Node, wait: float = 0.0) -> void:
 	set_angle(
 		wrapi(
@@ -502,25 +494,25 @@ func turn_to(item: Node, wait: float = 0.0) -> void:
 	)
 
 
-# Returns the angle that corresponds to the current direction of the object.
+## Returns the angle that corresponds to the current direction of the object.[br]
+## **Returns** int value of the current animation's angle range  
 func _get_angle() -> int:
 	return parent.animations.dir_angles[last_dir].angle_start
 
 
-# Return the shortest way to turn from a direction to another. Returned way is
-# either:
-# -1 (shortest way is to turn anti-clockwise)
-# 0 (already at the right direction)
-# 1 (clockwise).
-#
-# ####Parameters
-# - current_dir: integer corresponding to the starting direction as defined in
-# the attached ESCAnimationResource.directions.
-# - target_dir: integer corresponding to the target direction as defined in
-# the attached ESCAnimationResource.directions.
-#
-# *Returns*
-# Integer: -1 (anti-clockwise), 1 (clockwise) or 0 (no movement needed).
+## Return the shortest way to turn from a direction to another. Returned way is
+## either:[br]
+## -1 (shortest way is to turn anti-clockwise)[br]
+## 0 (already at the right direction)[br]
+## 1 (clockwise).[br]
+## [br]
+## #### Parameters[br]
+## - current_dir: integer corresponding to the starting direction as defined in
+## the attached ESCAnimationResource.directions.[br]
+## - target_dir: integer corresponding to the target direction as defined in
+## the attached ESCAnimationResource.directions.[br]
+## [br]
+## **Returns** Integer: -1 (anti-clockwise), 1 (clockwise) or 0 (no movement needed).
 func get_shortest_way_to_dir(current_dir: int, target_dir: int) -> int:
 	if current_dir < 0 or current_dir > parent.animations.dir_angles.size() - 1:
 		escoria.logger.error(

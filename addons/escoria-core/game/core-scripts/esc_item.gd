@@ -1,10 +1,10 @@
 @tool
 @icon("res://addons/escoria-core/design/esc_item.svg")
-## An ``ESCItem`` defines a (usually interactive) item in the game.
-##
+## An ``ESCItem`` defines a (usually interactive) item in the game.[br]
+## [br]
 ## When interacting with an ``ESCItem``, the game character will automatically
 ## walk to an ``ESCLocation`` that is created as a child of an ``ESCItem``.[br]
-##[br]
+## [br]
 ## By selecting the "Is Exit" checkbox when you create an ``ESCItem``
 ## node, Escoria will look for an ``:exit_scene`` event in the attached script file.
 ## Any commands you place in the ``:exit_scene`` event will be run when the player
@@ -19,45 +19,45 @@ class_name ESCItem
 const FORBIDDEN_CHARACTERS: String = "['\"]"
 
 
-## Emitted when the mouse has entered this item
-##
-## #### Parameters
-##
-## - items: The inventory item node
+## Emitted when the mouse has entered this item.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - items: The item node
 signal mouse_entered_item(item)
 
-## Emitted when the mouse has exited this item
-##
-## #### Parameters
-##
-## - items: The inventory item node
+## Emitted when the mouse has exited this item.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - item: The item node
 signal mouse_exited_item(item)
 
-## Emitted when the item was left cliced
-##
-## #### Parameters
-##
+## Emitted when the item was left clicked[br]
+## [br]
+## #### Parameters[br]
+## [br]
 ## - global_id: ID of this item
 signal mouse_left_clicked_item(global_id)
 
-## Emitted when the item was double cliced
-##
-## #### Parameters
-##
+## Emitted when the item was double cliced[br]
+## [br]
+## #### Parameters[br]
+## [br]
 ## - global_id: ID of this item
 signal mouse_double_left_clicked_item(global_id)
 
-## Emitted when the item was right cliced
-##
-## #### Parameters
-##
+## Emitted when the item was right clicked[br]
+## [br]
+## #### Parameters[br]
+## [br]
 ## - global_id: ID of this item
 signal mouse_right_clicked_item(global_id)
 
-## Emitted when the item walked to a destination
-##
-## #### Parameters
-##
+## Emitted when the item walked to a destination[br]
+## [br]
+## #### Parameters[br]
+## [br]
 ## - walk_context: The walk context of the command
 signal arrived(walk_context)
 
@@ -202,7 +202,10 @@ var _previous_texture: Texture2D = null
 
 ## Custom data dictionary to ease customization and custom command creation.
 ## Avoid name collision using proper key names.
-@export var custom_data: Dictionary = {}
+@export var custom_data: Dictionary = {}:
+		get = get_custom_data,
+		set = set_custom_data
+		
 
 @export_group("","")
 
@@ -216,24 +219,23 @@ var terrain: ESCTerrain
 var collision: Node
 
 
-# Reference to the sprite node
+## Reference to the sprite node
 var _sprite_node: Node = null
 
-# The movable subnode
+## The movable subnode
 var _movable: ESCMovable = null
 
-# The identified animation player
+## The identified animation player
 var _animation_player: ESCAnimationPlayer = null
 
-# Whether to force regsitration with the object manager. Defaults to false.
+## Whether to force regsitration with the object manager. Defaults to false.
 var _force_registration: bool = false
 
-# Warnings for scene.
+## Warnings for scene.
 var _scene_warnings: PackedStringArray = []
 
-
-# Add the movable node, connect signals, detect child nodes
-# and register this item
+## Add the movable node, connect signals, detect child nodes[br]
+## and register this item
 func _ready():
 	self.process_mode = Node.PROCESS_MODE_PAUSABLE
 
@@ -352,11 +354,10 @@ func _ready():
 			_movable.last_scale = scale
 			_movable.update_terrain()
 
-
+## For trigger items, enable monitoring to detect collisions.
 func connect_trigger_events():
 	assert(is_trigger)
-	monitoring = true
-
+	self.monitoring = true
 
 ## Validates the various exported parameters so we get immediate crash.
 func validate_exported_parameters() -> void:
@@ -376,21 +377,21 @@ func validate_exported_parameters() -> void:
 						% [name, get_path()]
 				)
 
-
+## For trigger items, disable monitoring to disable collisions detection.
 func disconnect_trigger_events():
 	assert(is_trigger)
-	monitoring = false
+	self.monitoring = false
 
 
-# Mouse exited happens on any item that mouse cursor exited, even those UNDER
-# the top level of overlapping stack.
+## Mouse exited happens on any item that mouse cursor exited, even those UNDER
+## the top level of overlapping stack.
 func _on_mouse_exited():
 	if escoria.inputs_manager.hover_stack.has(self):
 		escoria.inputs_manager.hover_stack.erase_item(self)
 	escoria.inputs_manager.unset_hovered_node(self)
 	_apply_unhover_behavior()
 
-
+## Special helper class used to sort stacked items by z-index. 
 class HoverStackSorter:
 	static func sort_ascending_z_index(a, b):
 		if a.z_index < b.z_index:
@@ -398,13 +399,13 @@ class HoverStackSorter:
 		return false
 
 
-# Manage input events on the item
-#
-# #### Parameters
-#
-# - _viewport: the viewport node the event entered
-# - event: the input event
-# - _shape_idx is the child index of the clicked Shape2D.
+## Manage input events on the item[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - _viewport: the viewport node the event entered[br]
+## - event: the input event[br]
+## - _shape_idx is the child index of the clicked Shape2D.
 func _on_input_event(_viewport: Object, event: InputEvent, _shape_idx: int):
 	if event is InputEventMouseMotion:
 		var physics2d_dss: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
@@ -426,11 +427,11 @@ func _on_input_event(_viewport: Object, event: InputEvent, _shape_idx: int):
 		escoria.inputs_manager.hover_stack.add_items(colliding_nodes)
 		escoria.inputs_manager.set_hovered_node(colliding_nodes.back())
 
-# Manage mouse button clicks on this item by sending out signals
-#
-# #### Parameters
-#
-# - input_event: Triggered event
+## Manage mouse button clicks on this item by sending out signals[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - input_event: Triggered event
 func _unhandled_input(input_event: InputEvent) -> void:
 	# If this is a trigger, then escoria.inputs_manager is not wired up to
 	# receive the signals this function might dispatch. In particular,
@@ -478,12 +479,16 @@ func _unhandled_input(input_event: InputEvent) -> void:
 				get_viewport().set_input_as_handled()
 
 
-# To display warnings in the scene tree should there be any.
+## To display warnings in the scene tree should there be any.
 func _get_configuration_warnings():
 	validate_animations(animations)
 	return "\n".join(_scene_warnings)
 
-
+## Tests whether given point is inside a shape.
+## [br]
+## #### Parameters[br]
+## [br]
+## - position: point coordinates to test
 func _is_in_shape(position: Vector2) -> bool:
 	var params := PhysicsPointQueryParameters2D.new()
 	params.position = position
@@ -504,9 +509,9 @@ func _is_in_shape(position: Vector2) -> bool:
 ## Validates the ESCAnimationResource if it exists. Note that we pass in the
 ## ESCAnimationResource as an argument so that it can also be used to validate
 ## an ESCAnimationResource prior to being set.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - animation_resource: the ESCAnimationResource to validate.
 func validate_animations(animations_resource: ESCAnimationResource) -> void:
 	if not is_instance_valid(animations_resource):
@@ -548,6 +553,10 @@ func validate_animations(animations_resource: ESCAnimationResource) -> void:
 
 
 ## Setter for the animations property.
+## [br]
+## #### Parameters[br]
+## [br]
+## - p_animations: the ESCAnimationResource to set.
 func set_animations(p_animations: ESCAnimationResource) -> void:
 	if p_animations == null:
 		return
@@ -558,7 +567,8 @@ func set_animations(p_animations: ESCAnimationResource) -> void:
 		animations.connect("changed", Callable(self, "_validate_animations"))
 
 
-## Return the animation player node
+## Returns the animation player node
+## **Returns** The actual node acting as animation for the item
 func get_animation_player() -> Node:
 	if _animation_player == null:
 		var player_node_path = animation_player_node
@@ -585,8 +595,8 @@ func get_animation_player() -> Node:
 
 
 ## Return the position the player needs to walk to to interact with this
-## item. That can either be a direct Position2D child or a collision shape[br]
-##[br]
+## item. That can either be a direct Position2D child or a collision shape.[br]
+## [br]
 ## **Returns** The interaction position
 func get_interact_position() -> Vector2:
 	var pos_2d_count: int = 0
@@ -644,17 +654,15 @@ func mouse_entered():
 		_apply_hover_behavior()
 
 
-
 ## React to the mouse exiting the item by emitting the respective signal
 func do_mouse_exited():
 	mouse_exited_item.emit(self)
 
-
-# Another item (e.g. the player) has entered this item
-#
-# #### Parameters
-#
-# - body: Other object that has entered the item
+## Another item (e.g. the player) has entered this item[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - body: Other object that has entered the item
 func _element_entered(body):
 	if body is ESCBackground or body.get_parent() is ESCBackground:
 		return
@@ -664,11 +672,11 @@ func _element_entered(body):
 	)
 
 
-# Another item (e.g. the player) has exited this element
-#
-# #### Parameters
-#
-# - body: Other object that has exited the item
+## Another item (e.g. the player) has exited this element[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - body: Other object that has exited the item
 func _element_exited(body):
 	if body is ESCBackground or body.get_parent() is ESCBackground:
 		return
@@ -679,9 +687,9 @@ func _element_exited(body):
 
 
 ## Use the movable node to teleport this item to the target item[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - target: Target node to teleport to
 func teleport(target: Node) -> void:
 	if is_movable:
@@ -694,9 +702,9 @@ func teleport(target: Node) -> void:
 
 
 ## Use the movable node to teleport this item to the target position[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - target: Vector2 position to teleport to
 func teleport_to(target: Vector2) -> void:
 	if is_movable:
@@ -709,9 +717,9 @@ func teleport_to(target: Vector2) -> void:
 
 
 ## Use the movable node to make the item walk to the given position[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - pos: Position to walk to[br]
 ## - p_walk_context: Walk context to use
 func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
@@ -726,9 +734,9 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 
 ## Stop the movable node immediately and remain where it is at this moment,
 ## or teleport it directly at destination position if 'to_target' is true.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - to_target: if true, the movable node is teleport directly at its target
 ## destination
 func stop_walking_now(to_target: bool = false) -> void:
@@ -745,19 +753,22 @@ func stop_walking_now(to_target: bool = false) -> void:
 
 
 ## Set the moving speed[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - speed_value: Set the new speed
 func set_velocity(speed_value: int) -> void:
 	speed = speed_value
 
 
-## Check whether this item moved
+## Checks whether this item moved[br]
+## **Returns** True if the item has moved, false otherwise
 func has_moved() -> bool:
 	return _movable.moved if is_movable else false
 
 
+## Checks whether this item mhas a sprite.[br]
+## **Returns** True if the item has a sprite, false otherwise
 func has_sprite() -> bool:
 	if _sprite_node != null:
 		return true
@@ -767,7 +778,8 @@ func has_sprite() -> bool:
 				return true
 		return false
 
-## Return the sprite node
+## Return the sprite node.[br]
+## **Returns** The sprite node (Sprite2D or AnimatedSprite2D)
 func get_sprite() -> Node:
 	if _sprite_node == null:
 		for child in self.get_children():
@@ -781,10 +793,10 @@ func get_sprite() -> Node:
 	return _sprite_node
 
 
-## Set the angle[br]
-##[br]
+## Set the angle of the item.[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - deg: The angle degree to set[br]
 ## - wait: Wait this amount of seconds until continuing with turning around
 func set_angle(deg: int, wait: float = 0.0):
@@ -798,9 +810,9 @@ func set_angle(deg: int, wait: float = 0.0):
 
 
 ## Set the direction id[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - direction_id: The direction id[br]
 ## - wait: Wait this amount of seconds until continuing with turning around
 func set_direction(direction_id: int, wait: float = 0.0):
@@ -814,9 +826,9 @@ func set_direction(direction_id: int, wait: float = 0.0):
 
 
 ## Turn to face another object[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - deg: The angle degree to set[br]
 ## - float Wait this amount of seconds until continuing with turning around
 func turn_to(object: Node, wait: float = 0.0):
@@ -829,8 +841,10 @@ func turn_to(object: Node, wait: float = 0.0):
 		)
 
 
-## Check everything is in place to play talk animations
-func check_talk_possible():
+## Check everything is in place to play talk animations.[br]
+## A warning indicating the problem is printed in console, if necessary.[br]
+## **Returns** True if talk is possible now, false otherwise
+func check_talk_possible() -> bool:
 	if is_movable and (_movable.last_dir < 0 \
 			or _movable.last_dir >= animations.speaks.size()):
 		ESCSafeLogging.log_warn(
@@ -909,8 +923,7 @@ func stop_talking():
 			animations.idles[0].animation
 		)
 
-
-## Replay the last idle animation
+## Replay the last idle animation.
 func update_idle():
 	get_animation_player().play(
 		animations.idles[_movable.last_dir].animation
@@ -918,8 +931,9 @@ func update_idle():
 
 
 ## Return the camera position if a camera_position_node exists or the
-## global position of the player.
-func get_camera_node():
+## global position of the player
+## **Returns** The camera node.
+func get_camera_node() -> Node:
 	if has_node(camera_node):
 		ESCSafeLogging.log_debug(
 			self,
@@ -930,7 +944,7 @@ func get_camera_node():
 	return self
 
 
-# Detect the child nodes and set respective references
+## Detect the child nodes and set respective references.
 func _detect_children() -> void:
 	# Initialize collision variable.
 	for c in get_children():
@@ -938,12 +952,17 @@ func _detect_children() -> void:
 			collision = c
 
 
-# Upate the terrain when an event finished
+## Update the terrain when an event finished[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - rc: Return code of the event that just finished[br]
+## - event_name: Event that just finished to provide to update terrain call.
 func _update_terrain(rc: int, event_name: String) -> void:
 	if is_movable:
 		_movable.update_terrain(event_name)
 
-
+## Godot method override to provide more information about this object.
 func _get_property_list():
 	var properties = []
 	properties.append({
@@ -955,11 +974,11 @@ func _get_property_list():
 	return properties
 
 
-# Set the node path to the animation player
-#
-# #### Parameters
-#
-# - node_path: Path to the player node
+## Set the node path to the animation player[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - node_path: Path to the player node
 func _set_animation_player_node(node_path: NodePath):
 	if not Engine.is_editor_hint():
 		return
@@ -978,8 +997,8 @@ func _set_animation_player_node(node_path: NodePath):
 	animation_player_node = node_path
 
 
-# Returns either the set inventory texture or the texture of a TextureRect
-# found as a child if it is null
+## Returns either the set inventory texture or the texture of a TextureRect
+## found as a child if it is null
 func _get_inventory_texture() -> Texture2D:
 	if inventory_texture == null:
 		for c in get_children():
@@ -996,13 +1015,13 @@ func _get_inventory_texture_hovered() -> Texture2D:
 	else:
 		return inventory_texture_hovered
 
-# Checks whether the given ESCAnimationResource property array has all non-null entries, and adds
-# to the scene's warnings if not.
-#
-# #### Parameters
-#
-# - property: ESCAnimationResource property. Must be an array.
-# - property_name: the name of the property being passed in.
+## Checks whether the given ESCAnimationResource property array has all non-null entries, and adds
+## to the scene's warnings if not[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - property: ESCAnimationResource property. Must be an array.[br]
+## - property_name: the name of the property being passed in.
 func _validate_animations_property_all_not_null(property: Array, property_name: String) -> void:
 	var has_empty_entry: bool = false
 
@@ -1015,15 +1034,19 @@ func _validate_animations_property_all_not_null(property: Array, property_name: 
 		_scene_warnings.append("At least one entry in '%s' is empty. [%s]" % [property_name, _get_identifier_as_key_value()])
 
 
-# Returns the global ID as a key/value pair. If none is specified, use the node name.
-# Used to tag messages.
+## Returns the global ID as a key/value pair. If none is specified, use the node
+## name.[br]
+## Used to tag messages.
+## **Returns** A global id as string 
 func _get_identifier_as_key_value() -> String:
 	if self.global_id:
 		return "global_id: %s" % self.global_id
 	else:
 		return "node: %s" % get_name()
 
-
+## Applies hover behavior on this ESCItem: if hover is enabled, applies the 
+## defined hover color modulate and/or hover texture and/or hover shader on the 
+## Sprite2D node, if any.
 func _apply_hover_behavior() -> void:
 	if not hover_enabled:
 		return
@@ -1038,7 +1061,9 @@ func _apply_hover_behavior() -> void:
 			if hover_shader != null:
 				sprite.material = hover_shader
 
-
+## Applies unhover behavior on this ESCItem: if hover is enabled, reverts back 
+## to normal the defined hover color modulate and/or hover texture and/or hover 
+## shader on the Sprite2D node, if any.
 func _apply_unhover_behavior() -> void:
 	if not hover_enabled:
 		return
@@ -1051,22 +1076,23 @@ func _apply_unhover_behavior() -> void:
 			if hover_shader != null:
 				sprite.material = null
 
-
 ## Whether the item is currently moving.[br]
-##[br]
-## *Returns*[br]
-## Returns true if the player is currently moving, false otherwise
+## **Returns** True if the player is currently moving, false otherwise
 func is_moving() -> bool:
 	return _movable.task != ESCMovable.MovableTask.NONE if is_movable else false
 
-
+## Returns the number of defined animation directions for this ESCItem.[br]
+## **Returns** an integer corresponding to the number of directions
 func get_directions_quantity() -> int:
 	return animations.dir_angles.size()
 
 
+## Returns a Dictionary containing custom data defined for this ESCItem.
+## **Returns** The `custom_data` dictionary ({} by default).
 func get_custom_data() -> Dictionary:
 	return custom_data
 
-
+## Sets the `custom_data` Dictionary containing custom data defined for this
+## ESCItem.
 func set_custom_data(data: Dictionary) -> void:
 	custom_data = data if (data != null) else {}

@@ -1,54 +1,56 @@
 @tool
 @icon("res://addons/escoria-core/design/esc_background.svg")
-# ESCBackground's purpose is to display a background image and receive input
-# events on the background. More precisely, the TextureRect under ESCBackground
-# does not receive events itself - if it did, it would also eat all events like
-# hotspot focusing and such. Instead, we set the TextureRect mouse filter to
-# MOUSE_FILTER_IGNORE, and we use an Area2D node to receive the input events.
-#
-# If ESCBackground doesn't contain a texture, it is important that its rect_size
-# is set over the whole scene, because its rect_size is then used to create the
-# Area2D node under it. If the rect_size is wrongly set, the background may
-# receive no input.
+## ESCBackground's purpose is to display a background image and receive input
+## events on the background. More precisely, the TextureRect under ESCBackground
+## does not receive events itself - if it did, it would also eat all events like
+## hotspot focusing and such. Instead, we set the TextureRect mouse filter to
+## MOUSE_FILTER_IGNORE, and we use an Area2D node to receive the input events.[br]
+## [br]
+## If ESCBackground doesn't contain a texture, it is important that its rect_size
+## is set over the whole scene, because its rect_size is then used to create the
+## Area2D node under it. If the rect_size is wrongly set, the background may
+## receive no input.
 extends TextureRect
 class_name ESCBackground
 
 
-# The background was double clicked
-#
-# #### Parameters
-#
-# - position: The position where the player clicked
+## The background was double clicked[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - position: The position where the player clicked
 signal double_left_click_on_bg(position)
 
-# The background was left clicked
-#
-# #### Parameters
-#
-# - position: The position where the player clicked
+## The background was left clicked[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - position: The position where the player clicked
 signal left_click_on_bg(position)
 
-# The background was right clicked
-#
-# #### Parameters
-#
-# - position: The position where the player clicked
+## The background was right clicked[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - position: The position where the player clicked
 signal right_click_on_bg(position)
 
-# Emitted when the mouse wheel was turned up
+## Emitted when the mouse wheel was turned up
 signal mouse_wheel_up
 
-# Emitted when the mouse wheel was turned down
+## Emitted when the mouse wheel was turned down
 signal mouse_wheel_down
 
+## Emitted when the background is hovered.
 signal hovered_bg
 
-# The ESC script connected to this background
-@export var esc_script = "" # (String, FILE, "*.esc")
+## The ESC/ASH script connected to this background
+@export_file("*.esc", "*.ash") var esc_script: String = ""
 
 
-# Create the underlying Area2D as an input device
+## Create the underlying Area2D as an input device
 func _enter_tree():
+	name = "escbackground"
 	var size
 	if get_texture():
 		size = get_texture().get_size()
@@ -71,8 +73,7 @@ func _enter_tree():
 
 	add_child(area)
 
-# Disable mouse filter events and connect our own events to the ESC input
-# manager
+## Disable mouse filter events and connect our own events to the ESC input manager
 func _ready():
 	mouse_filter = MOUSE_FILTER_IGNORE
 
@@ -84,10 +85,11 @@ func _ready():
 		escoria.inputs_manager.register_background(self)
 
 
-# Manage inputs reaching the Area2D and emit the events to the input manager
-#
-# #### Parameters
-# - event: Event received
+## Manage inputs reaching the Area2D and emit the events to the input manager[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - event: Event received
 func _unhandled_input(event: InputEvent) -> void:
 	var is_default_state = escoria.current_state == escoria.GAME_STATE.DEFAULT
 	if escoria.inputs_manager.try_custom_input_handler(event, is_default_state):
@@ -116,9 +118,9 @@ func _unhandled_input(event: InputEvent) -> void:
 				right_click_on_bg.emit(p)
 
 
-# Calculate the actual area taken by this background depending on its
-# Texture or set size
-# **Returns** The correct area size
+## Calculate the actual area taken by this background depending on its
+## Texture or set size[br]
+## **Returns** The correct area size
 func get_full_area_rect2() -> Rect2:
 	var area_rect2: Rect2 = Rect2()
 	var pos = get_global_position()

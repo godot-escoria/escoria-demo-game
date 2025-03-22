@@ -1,61 +1,23 @@
-# An ESC dialog
+## Represents a dialog in Escoria.
 extends ESCStatement
 class_name ESCDialog
 
 
-# Regex that matches dialog lines
-const REGEX = \
-	'^(\\s*)\\?( (?<avatar>[^ ]+))?' +\
-	'( (?<timeout>[^ ]+))?( (?<timeout_option>.+))?$'
-
-
-# A Regex that matches the end of a dialog
-const END_REGEX = \
-	'^(?<indent>\\s*)!.*$'
-
-
-# Avatar used in the dialog
+## Avatar used in the dialog, if any.
 var avatar: String = "-"
 
-# Timeout until the timeout_option option is selected. Use 0 for no timeout
+## Timeout until the timeout_option option is selected. Use 0 for no timeout.
 var timeout: int = 0
 
-# The dialog option to select when timeout is reached
+## The dialog option to select when timeout is reached.
 var timeout_option: int = 0
 
-# A list of ESCDialogOptions
+## A list of `ESCDialogOption`s.
 var options: Array
 
-
-# Construct a dialog from an ESC dialog string
-#
-# #### Parameters
-# - dialog_string: ESC dialog string
-func load_string(dialog_string: String):
-	var dialog_regex = RegEx.new()
-	dialog_regex.compile(REGEX)
-
-	if dialog_regex.search(dialog_string):
-		for result in dialog_regex.search_all(dialog_string):
-			if "avatar" in result.names:
-				self.avatar = ESCUtils.get_re_group(result, "avatar")
-			if "timeout" in result.names:
-				self.timeout = int(
-					ESCUtils.get_re_group(result, "timeout")
-				)
-			if "timeout_option" in result.names:
-				self.timeout_option = int(
-					ESCUtils.get_re_group(result, "timeout_option")
-				)
-	else:
-		escoria.logger.error(
-			self,
-			"Invalid dialog detected: %s\nDialog regexp didn't match."
-					% dialog_string
-		)
-
-
-# Check if dialog is valid
+## Checks if dialog is valid.[br]
+## [br]
+## *Returns* True if the dialog is valid, false otherwise.
 func is_valid() -> bool:
 	if self.avatar != "-" and not ResourceLoader.exists(self.avatar):
 		escoria.logger.error(
@@ -74,7 +36,13 @@ func is_valid() -> bool:
 	return true
 
 
-# Run this dialog
+## Run this dialog.[br]
+##[br]
+## TODO: Although this method overrides its parent version, the return type here 
+## does NOT match the parent's signature. Consider either changing the parent's 
+## return type to be a `Variant`, or doing something to ensure greater consistency.[br]
+##[br]
+## *Returns* the `ESCDialogOption` chosen by the player.
 func run():
 	escoria.logger.debug(
 		self,
@@ -90,10 +58,9 @@ func run():
 
 	escoria.dialog_player.start_dialog_choices(self)
 
-	var option = (await escoria.dialog_player.option_chosen
+	var option = (
+		await escoria.dialog_player.option_chosen
 	) as ESCDialogOption
-
-	var rc = ESCExecution.RC_OK
 
 	# If no valid option was returned, it means this level of dialog is done.
 	# If this is the case and the current level of dialog has a parent, it means

@@ -42,8 +42,15 @@ var filename: String = ""
 ## The line number from the file the relevant command is being called from.
 var line_number: int = 0
 
-
-# Initialize the descriptor
+## Initializes the descriptor.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - p_min_args: Minimum number of required arguments.[br]
+## - p_types: Array of argument types.[br]
+## - p_defaults: Array of default values for arguments.[br]
+## - p_strip_quotes: Array indicating whether to strip quotes.[br]
+## - p_has_varargs: Whether the final argument is a series of varargs.
 func _init(
 	p_min_args: int = 0,
 	p_types: Array = [],
@@ -182,17 +189,21 @@ func validate(command: String, arguments: Array) -> bool:
 	return true
 
 
+## Returns a string with the file and line number for error reporting.[br]
+## [br]
+## *Returns* The error info string.
 func _get_error_info() -> String:
 	return "(File: \"%s\", line %s.)" % [filename, line_number]
 
 
-# Check whether the given argument is of the given type
-#
-# #### Parameters
-#
-# - argument: Argument to test
-# - type: Type to check
-# *Returns* Whether the argument is of the given type
+## Checks whether the given argument is of the given type.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - argument: Argument to test.[br]
+## - type: Type to check.[br]
+## [br]
+## *Returns* Whether the argument is of the given type.
 func _is_type(argument, type: int) -> bool:
 	if typeof(argument) == TYPE_FLOAT:
 		if int(argument) == argument and type == TYPE_INT:
@@ -204,16 +215,16 @@ func _is_type(argument, type: int) -> bool:
 	return typeof(argument) == type
 
 
-# Counts the number of non-null values that exist at the beginning of the array up
-# to a specified index.
-#
-# #### Parameters
-#
-# - array_to_check: Array to check for leading non-null values
-# - max_index: Maximum (inclusive) index to check in array_to_check
-#
-# *Returns* the total number of entries at the start of
-# array_to_check that are not null
+## Counts the number of non-null values that exist at the beginning of the array[br]
+## up to a specified index.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - array_to_check: Array to check for leading non-null values.[br]
+## - max_index: Maximum (inclusive) index to check in array_to_check.[br]
+## [br]
+## *Returns* The total number of entries at the start of array_to_check that are
+## not null.
 func _count_leading_non_null_values(array_to_check: Array, max_index: int) -> int:
 	if array_to_check == null or max_index < 0:
 		return 0

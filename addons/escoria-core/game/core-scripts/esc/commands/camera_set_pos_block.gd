@@ -1,19 +1,19 @@
-## `camera_set_pos_block(time: Number, x: Integer, y: Integer)`
-##
+## `camera_set_pos_block time x y`[br]
+## [br]
 ## Moves the camera to the given absolute position over a time period. Blocks
 ## until the command completes.[br]
-##[br]
+## [br]
 ## Make sure the coordinates are reachable if camera limits have been configured.[br]
-##[br]
-## **Parameters**[br]
-##[br]
+## [br]
+## #### Parameters[br]
+## [br]
 ## - *time*: Number of seconds the transition should take[br]
 ## - *x*: Target X coordinate[br]
 ## - "y*: Target Y coordinate[br]
-##[br]
-## For more details see: https://docs.escoria-framework.org/camera
-##
-## @ESC
+## [br]
+## For more details see: https://docs.escoria-framework.org/camera [br]
+## [br]
+# @ESC
 extends ESCCameraBaseCommand
 class_name CameraSetPosBlockCommand
 
@@ -22,7 +22,9 @@ class_name CameraSetPosBlockCommand
 var _camera_tween: Tween3
 
 
-## Return the descriptor of the arguments of this command
+## Returns the descriptor of the arguments of this command.[br]
+## [br]
+## *Returns* The argument descriptor for this command.
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		3,
@@ -31,7 +33,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-## Validate whether the given arguments match the command descriptor
+## Validates whether the given arguments match the command descriptor.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - arguments: The arguments to validate.[br]
+## [br]
+## *Returns* True if the arguments are valid, false otherwise.
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -48,7 +56,13 @@ func validate(arguments: Array):
 	return true
 
 
-## Run the command
+## Runs the command.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - command_params: The parameters for the command.[br]
+## [br]
+## *Returns* The execution result code.
 func run(command_params: Array) -> int:
 	(escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera)\
 			.set_target(

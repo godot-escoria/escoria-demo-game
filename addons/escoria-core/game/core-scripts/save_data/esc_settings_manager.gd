@@ -1,27 +1,26 @@
-# Manages settings
+## Escoria settings manager.
 class_name ESCSettingsManager
 
-
-# Template for settings filename
+## Template for settings filename.
 const SETTINGS_TEMPLATE: String = "settings.tres"
 
-# Variable containing the settings folder obtained from Project Settings
+## Variable containing the settings folder obtained from Project Settings.
 var settings_folder: String
 
-# Dictionary containing specific settings that gamedev wants to save in settings
-# This variable is access-free. Getting its content is gamedev's duty.
-# It is saved with other Escoria settings data when save_settings() is called.
+## Dictionary containing specific settings that gamedev wants to save in settings.
+## This variable is access-free. Getting its content is gamedev's duty. It is
+## saved with other Escoria settings data when save_settings() is called.
 var custom_settings: Dictionary
 
 
-# Constructor of ESCSaveManager object.
+## Constructor of ESCSettingsManager object.
 func _init():
 	# We leave the calls to ProjectSettings as-is since this constructor can be
 	# called from escoria.gd's own.
 	settings_folder = ProjectSettings.get_setting("escoria/main/settings_path")
 
 
-# Apply the loaded settings
+## Apply the loaded settings.
 func apply_settings() -> void:
 	if not Engine.is_editor_hint():
 		escoria.logger.info(
@@ -74,6 +73,11 @@ func apply_settings() -> void:
 		escoria.game_scene.apply_custom_settings(custom_settings)
 
 
+## Save the settings resource to project settings.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - settings: ESCSaveSettings resource to save.
 func save_settings_resource_to_project_settings(settings: ESCSaveSettings):
 	ESCProjectSettingsManager.set_setting(
 		ESCProjectSettingsManager.TEXT_LANG,
@@ -110,7 +114,7 @@ func save_settings_resource_to_project_settings(settings: ESCSaveSettings):
 	custom_settings = settings.custom_settings
 
 
-# Load the game settings from the settings file
+## Load the game settings from the settings file.
 func load_settings():
 	var save_settings_path: String = settings_folder.path_join(SETTINGS_TEMPLATE)
 	if not FileAccess.file_exists(save_settings_path):
@@ -125,8 +129,9 @@ func load_settings():
 	save_settings_resource_to_project_settings(settings)
 
 
-# Load the game settings from the settings file
-# **Returns** An ESCSaveSettings resource
+## Load the game settings from the settings file.[br]
+## [br]
+## **Returns** An ESCSaveSettings resource.
 func get_settings() -> ESCSaveSettings:
 	var settings: ESCSaveSettings = ESCSaveSettings.new()
 	var plugin_config = ConfigFile.new()
@@ -162,6 +167,11 @@ func get_settings() -> ESCSaveSettings:
 	return settings
 
 
+## Load the game settings from a dictionary.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - settings_dict: Dictionary containing the settings to load.
 func load_settings_from_dict(settings_dict: Dictionary):
 	var settings: ESCSaveSettings = ESCSaveSettings.new()
 	settings.escoria_version = settings_dict["escoria_version"]
@@ -177,8 +187,9 @@ func load_settings_from_dict(settings_dict: Dictionary):
 	save_settings_resource_to_project_settings(settings)
 
 
-# Load the game settings from the settings file
-# **Returns** An Dictionary containing the settings
+## Get the game settings as a dictionary.[br]
+## [br]
+## **Returns** A dictionary containing the settings.
 func get_settings_dict() -> Dictionary:
 	var settings: ESCSaveSettings = get_settings()
 	var settings_dict: Dictionary = {}
@@ -196,7 +207,7 @@ func get_settings_dict() -> Dictionary:
 	return settings_dict
 
 
-# Save the game settings in the settings file.
+## Save the game settings in the settings file.
 func save_settings():
 	var settings = get_settings()
 

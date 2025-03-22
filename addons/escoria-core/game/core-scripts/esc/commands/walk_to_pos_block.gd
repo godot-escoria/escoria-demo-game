@@ -1,30 +1,30 @@
-## `walk_to_pos_block(object: String, x: Integer, y: Integer[, walk_fast: Boolean])`
-##
+## `walk_to_pos_block object x y [walk_fast]`[br]
+## [br]
 ## Moves the specified `ESCPlayer` or movable `ESCItem` to the absolute
 ## coordinates provided while playing the `object`'s walking animation.[br]
-##[br]
 ## This command is blocking.[br]
-##[br]
 ## This command will use the normal walk speed by default.[br]
-##[br]
-## **Parameters**[br]
-##[br]
+## [br]
+## #### Parameters[br]
+## [br]
 ## - *object*: Global ID of the object to move[br]
 ## - *x*: X-coordinate of target position[br]
 ## - *y*: Y-coordinate of target position[br]
 ## - *walk_fast*: Whether to walk fast (`true`) or normal speed (`false`).
-##   (default: false)
-##
+##   (default: false)[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name WalkToPosBlockCommand
 
 
-# Walking object
+## Walking object
 var walking_object_node: ESCItem
 
 
-## Return the descriptor of the arguments of this command
+## Returns the descriptor of the arguments of this command.[br]
+## [br]
+## *Returns* The argument descriptor for this command.
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		3,
@@ -33,7 +33,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-## Validate whether the given arguments match the command descriptor
+## Validates whether the given arguments match the command descriptor.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - arguments: The arguments to validate.[br]
+## [br]
+## *Returns* True if the arguments are valid, false otherwise.
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -51,7 +57,13 @@ func validate(arguments: Array):
 	return true
 
 
-## Run the command
+## Runs the command.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - command_params: The parameters for the command.[br]
+## [br]
+## *Returns* The execution result code.
 func run(command_params: Array) -> int:
 	escoria.action_manager.do(escoria.action_manager.ACTION.BACKGROUND_CLICK, [
 		command_params[0],
