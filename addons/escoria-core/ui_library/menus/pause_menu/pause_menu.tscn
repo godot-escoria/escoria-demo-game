@@ -24,9 +24,7 @@ color = Color(0.270588, 0.270588, 0.270588, 1)
 
 [node name="save_game" parent="." instance=ExtResource("4")]
 visible = false
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
+layout_mode = 1
 theme = ExtResource("6")
 
 [node name="load_game" parent="." instance=ExtResource("5")]

@@ -404,9 +404,11 @@ func unpause_game():
 		escoria.object_manager.get_object(ESCObjectManager.SPEECH).node.resume()
 		escoria.main.current_scene.game.show_ui()
 		escoria.main.current_scene.show()
+		escoria.set_game_paused(false)
 
 func pause_game():
 	show_ui()
+	
 	if not get_node(pause_menu).visible:
 		get_node(main_menu).reset()
 		get_node(pause_menu).reset()
@@ -417,6 +419,7 @@ func pause_game():
 		escoria.object_manager.get_object(ESCObjectManager.SPEECH).node.pause()
 		escoria.main.current_scene.game.hide_ui()
 		escoria.main.current_scene.hide()
+		escoria.set_game_paused(true)
 
 
 func apply_custom_settings(custom_settings: Dictionary):
