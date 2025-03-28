@@ -12,7 +12,7 @@ var timeout: int = 0
 ## The dialog option to select when timeout is reached.
 var timeout_option: int = 0
 
-## A list of `ESCDialogOption`s
+## A list of `ESCDialogOption`s.
 var options: Array
 
 
