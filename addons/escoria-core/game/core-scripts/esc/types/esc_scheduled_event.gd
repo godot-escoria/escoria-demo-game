@@ -1,15 +1,15 @@
-# An event that is scheduled to run later
+## Represents an event that is scheduled to run sometime in the future.
 extends RefCounted
 class_name ESCScheduledEvent
 
 
-# Event to run when timeout is reached
+## The event to run when timeout is reached.
 var event
 
-# The number of seconds until the event is run
+## The number of seconds until the event is to be run.
 var timeout: float
 
-# The target object
+## The target object.
 var object: String
 
 
@@ -20,7 +20,7 @@ func _init(p_event, p_timeout: float, p_object: String):
 	self.object = p_object
 
 
-# Returns a Dictionary containing statements data for serialization
+## Returns a `Dictionary` containing relevant data for serialization.
 func exported() -> Dictionary:
 	var exported_dict: Dictionary = {}
 	exported_dict.class = "ESCScheduledEvent"
@@ -30,8 +30,8 @@ func exported() -> Dictionary:
 	return exported_dict
 
 
-# Run the event
-#
-# **Returns** The execution code
+## Runs the event.[br]
+##[br]
+## **Returns** the event's resulting execution code (see `ESCExecution`).
 func run() -> int:
 	return await event.run()

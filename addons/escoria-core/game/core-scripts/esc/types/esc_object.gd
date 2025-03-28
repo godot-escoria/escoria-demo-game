@@ -1,30 +1,30 @@
+## Represents an object that is able to be handled by Escoria.
 extends RefCounted
-# An object handled in Escoria
 class_name ESCObject
 
 
-# Default object state
+## Default object state.
 const STATE_DEFAULT: String = "default"
 
 
-# The global id of the object
+## The global id of the object.
 var global_id: String
 
-# Whether the object is active (visible to the player)
+## Whether the object is active (i.e. is actually visible to the player).
 var active: bool = true: set = _set_active
 
-# Whether the object is interactive (clickable by the player)
+## Whether the object is interactive (i.e. is clickable by the player).
 var interactive: bool = true: get = _get_interactive, set = _set_interactive
 
-# The state of the object. If the object has a respective animation,
-# it will be played
+## The state of the object. If the object has a respective animation,
+## it will be played.
 var state: String = STATE_DEFAULT:
 	get = get_state
 
-# The events registered with the object
+## The events registered with the object.
 var events: Dictionary = {}
 
-# The node in the scene. Can be an ESCItem or an ESCCamera
+## The node representing the object in the scene.
 var node: Node
 
 
@@ -33,19 +33,19 @@ func _init(p_global_id: String, p_node: Node):
 	node = p_node
 
 
-# Get the current state
-#
-# *Returns* the current state
+## Gets the current state.[br]
+##[br]
+## **Returns** the current state.
 func get_state() -> String:
 	return state
 
 
-# Set the state and start a possible animation
-#
-# #### Parameters
-#
-# - p_state: State to set
-# - immediate: If true, skip directly to the end
+## Set the state and start a possible animation.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## *p_state*: The state in which this object should placed.[br]
+## *immediate*: If true, skips any animation directly to its end.
 func set_state(p_state: String, immediate: bool = false):
 	state = p_state
 
@@ -78,19 +78,19 @@ func set_state(p_state: String, immediate: bool = false):
 				)
 
 
-# Set the active value, thus hiding or showing the object
-#
-# #### Parameters
-#
-# - value: Value to set
+## Sets the active value, thus hiding or showing the object.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## *value*: A boolean determining whether the object should become active or inactive.
 func _set_active(value: bool):
 	active = value
 	self.node.visible = value
 
 
-# Returns whether the object is active
-#
-# *Returns* true iff the object is active
+## Returns whether the object is active.[br]
+##[br]
+## **Returns** true iff the object is active.
 func is_active() -> bool:
 	return active
 
@@ -117,10 +117,9 @@ func _set_interactive(value: bool):
 			escoria.inputs_manager.on_item_non_interactive(self.node)
 
 
-# Return the data of the object to be inserted in a savegame file.
-#
-# **Returns**
-# A dictionary containing the data to be saved for this object.
+## Return the data of the object to be inserted in a savegame file.[br]
+##[br]
+## **Returns** a dictionary containing the data to be saved for this object.
 func get_save_data() -> Dictionary:
 	var save_data: Dictionary = {}
 
