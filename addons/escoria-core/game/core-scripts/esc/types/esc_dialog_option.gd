@@ -1,13 +1,15 @@
-# An option of an ESC dialog
+## A single option used as part of a dialog.
+##
+## `ESCDialog` makes use of these when assembling an actual dialog in Escoria.
 extends ESCStatement
 class_name ESCDialogOption
 
 
-# Option displayed in the HUD
+## Option text displayed in the HUD.
 var option: String:
 	get = get_translated_option
 
-# Maps back to the parsed source option.
+## Maps back to the parsed source option.
 var source_option
 
 var _is_valid: bool:
@@ -15,7 +17,9 @@ var _is_valid: bool:
 	get = is_valid
 
 
-func get_translated_option():
+## Returns the translated version of the option, if one exists; otherwise, the 
+## default text is returned.
+func get_translated_option() -> String:
 	# Check if text has a key
 	if ":" in option:
 		var splitted_text = option.split(":")
@@ -31,10 +35,12 @@ func get_translated_option():
 	return option
 
 
-# Check, if conditions match
+## Check if conditions match. Currently, this method should always return `true`.
 func is_valid() -> bool:
 	return _is_valid
 
 
+## Sets whether the option is valid, although this value isn't currently used 
+## as part of any useful checks.
 func set_is_valid(value: bool) -> void:
 	_is_valid = value
