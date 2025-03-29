@@ -1,75 +1,75 @@
 
 :setup
+	# In case the bottle is set to visible in the godot editor, either in a 
+	# cupboard or on the stand, hide it regardless. 
+	set_active($r9_bottle_left, false)
+	set_active($r9_bottle_middle, false)
+	set_active($r9_bottle_right, false)
+	set_state($r9_stand, "remove_bottle")
 
-# In case the bottle is set to visible in the godot editor, either in a 
-# cupboard or on the stand, hide it regardless. 
-set_active r9_bottle_left false
-set_active r9_bottle_middle false
-set_active r9_bottle_right false
-set_state r9_stand remove_bottle
+	set_active($r9_bottle, false)
 
-set_active r9_bottle false
-
-# Run all the animations to make sure the closet doors are closed
-set_state r9_closet_left close_door
-set_state r9_closet_middle close_door
-set_state r9_closet_right close_door
-
-> [room09_visited]
-	> [r9_puzzle_complete]
-		# If the player has been here before and completed the puzzle
-		set_state r9_stand set_bottle
-		# Open the right doorway by using the open_door animation
-		set_state r9_r_exit open_door true
-
-	# Open the closets as they were if the player exits then reenters
-	> [left_closet_open]
-		set_state r9_closet_left open_door
-	> [middle_closet_open]
-		set_state r9_closet_middle open_door
-	> [right_closet_open]
-		set_state r9_closet_right open_door	
-		
-	# If the player has left everything open but the bottle hasn't been 
-	# retrieved, show it where it used to be.
-	> [!i/r9_bottle]
-		# If the player isn't holding the bottle already, draw it if necessary
-		> [eq r9_bottle_closet 1]
-			set_active r9_bottle_left true
-		> [eq r9_bottle_closet 2]
-			set_active r9_bottle_middle true
-		> [eq r9_bottle_closet 3]
-			set_active r9_bottle_right true
-	
-
-	
-> [!room09_visited]
-	# Run initial set up steps. This will only happen once per game.
-	set_global room09_visited true
-	
-	# Set the count of open closets to 0. Used with the magic bottle.
-	set_global open_closets 0
-	
 	# Run all the animations to make sure the closet doors are closed
-	set_state r9_closet_left close_door
-	set_state r9_closet_middle close_door
-	set_state r9_closet_right close_door
-	
-	# Mark the puzzle uncomplete
-	set_global r9_puzzle_complete false
-	# Set up a variable to hold which cupboard contains the bottle
-	# It will be used if the player exits then reenters the room
-	set_global r9_bottle_closet 0
+	set_state($r9_closet_left, "close_door")
+	set_state($r9_closet_middle, "close_door")
+	set_state($r9_closet_right, "close_door")
 
-> [eq ESC_LAST_SCENE room8]
-	teleport player r9_l_exit
-	# Set player look right
-	set_angle player 180
-	stop
-> [eq ESC_LAST_SCENE room10]
-	teleport player r9_r_exit
-	# Set player look left
-	set_angle player 270
-	stop
+	global room09_visited = false
+	global left_closet_open = false
+	global middle_closet_open = false
+	global right_closet_open = false
+
+	if room09_visited:
+		if r9_puzzle_complete:
+			# If the player has been here before and completed the puzzle
+			set_state($r9_stand, "set_bottle")
+			# Open the right doorway by using the open_door animation
+			set_state($r9_r_exit, "open_door", true)
+
+		# Open the closets as they were if the player exits then reenters
+		if left_closet_open:
+			set_state($r9_closet_left, "open_door")
+		if middle_closet_open:
+			set_state($r9_closet_middle, "open_door")
+		if right_closet_open:
+			set_state($r9_closet_right, "open_door")
+			
+		# If the player has left everything open but the bottle hasn't been 
+		# retrieved, show it where it used to be.
+		if !($r9_bottle in inventory):
+			# If the player isn't holding the bottle already, draw it if necessary
+			if r9_bottle_closet == 1:
+				set_active($r9_bottle_left, true)
+			elif r9_bottle_closet == 2:
+				set_active($r9_bottle_middle, true)
+			elif r9_bottle_closet == 3:
+				set_active($r9_bottle_right, true)
+
+	if !room09_visited:
+		# Run initial set up steps. This will only happen once per game.
+		global room09_visited = true
+		
+		# Set the count of open closets to 0. Used with the magic bottle.
+		global open_closets = 0
+		
+		# Run all the animations to make sure the closet doors are closed
+		set_state($r9_closet_left, "close_door")
+		set_state($r9_closet_middle, "close_door")
+		set_state($r9_closet_right, "close_door")
+		
+		# Mark the puzzle uncomplete
+		global r9_puzzle_complete = false
+		# Set up a variable to hold which cupboard contains the bottle
+		# It will be used if the player exits then reenters the room
+		global r9_bottle_closet = 0
+
+	if ESC_LAST_SCENE == "room8":
+		teleport($player, $r9_l_exit)
+		# Set player look right
+		set_angle($player, 180)
+	elif ESC_LAST_SCENE == "room10":
+		teleport($player, $r9_r_exit)
+		# Set player look left
+		set_angle($player, 270)
 
 

@@ -1,14 +1,13 @@
 :look
-say player "That's the door to room 9"
+	say($player, "That's the door to room 9")
 
 :exit_scene
-> [r8_m_door_open]
-	# Only let the player into the next room if they've passed the puzzle
-	change_scene "res://game/rooms/room09/room09.tscn"
-
-> [!r8_m_door_open]
-	# The door is always an exit, but trying to go through it won't change 
-	# scenes if you haven't unlocked the puzzle.
-	say player "The door is locked"
+	if r8_m_door_open:
+		# Only let the player into the next room if they've passed the puzzle
+		change_scene("res://game/rooms/room09/room09.tscn")
+	else:
+		# The door is always an exit, but trying to go through it won't change 
+		# scenes if you haven't unlocked the puzzle.
+		say($player, "The door is locked")
 
 

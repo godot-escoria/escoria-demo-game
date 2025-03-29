@@ -1,6 +1,6 @@
-[gd_resource type="Theme" load_steps=2 format=2]
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cujvdn6gu1j74"]
 
-[ext_resource path="res://addons/escoria-ui-simplemouse/fonts/caslonantique.tres" type="DynamicFont" id=1]
+[ext_resource type="FontFile" path="res://addons/escoria-ui-simplemouse/fonts/caslonantique.tres" id="1"]
 
 [resource]
-default_font = ExtResource( 1 )
+default_font = ExtResource("1")

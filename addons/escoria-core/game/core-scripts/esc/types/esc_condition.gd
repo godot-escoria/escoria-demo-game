@@ -1,5 +1,5 @@
 # A condition to run a command
-extends Reference
+extends RefCounted
 class_name ESCCondition
 
 
@@ -15,9 +15,8 @@ enum {
 
 # Regex that matches condition lines
 const REGEX = \
-	'^(?<is_negated>!)?(?<comparison>eq|gt|lt)? ?(?<is_inventory>i\/)?' + \
-	'(?<is_activity>a\/)?(?<flag>[^ ]+)( (?<comparison_value>.+))?$'
-
+	'^(?<is_negated>!)?(?<comparison>eq|gt|lt)? ?(?<is_inventory>i\\/)?' + \
+	'(?<is_activity>a\\/)?(?<flag>[^ ]+)( (?<comparison_value>.+))?$'
 
 const COMPARISON_DESCRIPTION = [
 	"Checking if %s %s %s true%s",

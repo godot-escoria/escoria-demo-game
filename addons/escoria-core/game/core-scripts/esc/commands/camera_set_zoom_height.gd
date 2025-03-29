@@ -19,22 +19,18 @@ class_name CameraSetZoomHeightCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
-		[TYPE_INT, [TYPE_INT, TYPE_REAL]],
+		[TYPE_INT, [TYPE_INT, TYPE_FLOAT]],
 		[null, 0.0]
 	)
 
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if arguments[0] < 0:
-		escoria.logger.error(
-			self,
-			"[%s]: invalid height. Can't zoom to a negative height (%d)."
-					% [get_command_name(), arguments[0]]
-		)
+		raise_error(self, "Invalid height. Can't zoom to a negative height (%d)." % arguments[0])
 		return false
 
 	return true

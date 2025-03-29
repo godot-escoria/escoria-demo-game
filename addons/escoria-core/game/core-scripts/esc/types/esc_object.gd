@@ -1,4 +1,4 @@
-extends Reference
+extends RefCounted
 # An object handled in Escoria
 class_name ESCObject
 
@@ -11,14 +11,15 @@ const STATE_DEFAULT: String = "default"
 var global_id: String
 
 # Whether the object is active (visible to the player)
-var active: bool = true setget _set_active
+var active: bool = true: set = _set_active
 
 # Whether the object is interactive (clickable by the player)
-var interactive: bool = true setget _set_interactive, _get_interactive
+var interactive: bool = true: get = _get_interactive, set = _set_interactive
 
 # The state of the object. If the object has a respective animation,
 # it will be played
-var state: String = STATE_DEFAULT
+var state: String = STATE_DEFAULT:
+	get = get_state
 
 # The events registered with the object
 var events: Dictionary = {}
@@ -30,6 +31,13 @@ var node: Node
 func _init(p_global_id: String, p_node: Node):
 	global_id = p_global_id
 	node = p_node
+
+
+# Get the current state
+#
+# *Returns* the current state
+func get_state() -> String:
+	return state
 
 
 # Set the state and start a possible animation
@@ -78,6 +86,13 @@ func set_state(p_state: String, immediate: bool = false):
 func _set_active(value: bool):
 	active = value
 	self.node.visible = value
+
+
+# Returns whether the object is active
+#
+# *Returns* true iff the object is active
+func is_active() -> bool:
+	return active
 
 
 # Get the interactive value from the node

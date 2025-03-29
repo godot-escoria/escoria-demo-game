@@ -21,14 +21,14 @@ var previous_scene: Node
 var wait_level
 
 # Reference to the scene transition node
-onready var scene_transition: ESCTransitionPlayer
+@onready var scene_transition: ESCTransitionPlayer
 
 
 # Connect the wait timer event
 func _ready() -> void:
 	scene_transition = ESCTransitionPlayer.new()
 	$layers/curtain.add_child(scene_transition)
-	$layers/wait_timer.connect("timeout", self, "_on_wait_finished")
+	$layers/wait_timer.connect("timeout", Callable(self, "_on_wait_finished"))
 
 
 func _exit_tree():
@@ -84,7 +84,7 @@ func set_scene(p_scene: Node) -> void:
 #
 # - p_scene: The scene currently being initialized by set_scene.
 func finish_current_scene_init(p_scene: Node) -> void:
-	if is_a_parent_of(p_scene):
+	if is_ancestor_of(p_scene):
 		move_child(p_scene, 0)
 
 	current_scene = p_scene
@@ -100,7 +100,7 @@ func set_scene_finish() -> void:
 	current_scene.visible = true
 
 	clear_previous_scene()
-	emit_signal("room_ready")
+	room_ready.emit()
 
 
 
@@ -141,7 +141,7 @@ func set_camera_limits(camera_limit_id: int = 0, scene: Node = current_scene) ->
 	if camera_limit_id > last_available_camera_limit:
 		escoria.logger.error(
 			self,
-			"Camera limit %d requested. Last available camera limit is %d." % [
+			"Camera3D limit %d requested. Last available camera limit is %d." % [
 				camera_limit_id,
 				last_available_camera_limit
 			]
@@ -196,7 +196,7 @@ func set_camera_limits(camera_limit_id: int = 0, scene: Node = current_scene) ->
 func save_game(p_savegame_res: Resource) -> void:
 	p_savegame_res.main = {
 		ESCSaveGame.MAIN_LAST_SCENE_GLOBAL_ID_KEY: last_scene_global_id,
-		ESCSaveGame.MAIN_CURRENT_SCENE_FILENAME_KEY: current_scene.filename \
+		ESCSaveGame.MAIN_CURRENT_SCENE_FILENAME_KEY: current_scene.scene_file_path \
 				if current_scene != null \
 				else "No current scene (not loaded yet)"
 	}
@@ -273,7 +273,7 @@ func hide_ui() -> void:
 func hide_current_scene() -> void:
 	if escoria.main.current_scene != null:
 		escoria.main.current_scene.hide()
-	
+
 func show_ui() -> void:
 	if escoria.main.current_scene != null:
 		escoria.main.current_scene.game.show_ui()

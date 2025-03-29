@@ -34,7 +34,7 @@ const CAMERA_SCENE_PATH = "res://addons/escoria-core/game/scenes/camera_player/c
 
 
 # Logger class
-const Logger = preload("res://addons/escoria-core/game/esc_logger.gd")
+const Logger = preload("res://addons/escoria-core/tools/logging/esc_logger.gd")
 
 # Group for ESCItem's that can be collided with in a scene. Used for quick
 # retrieval of such nodes to easily change their attributes at the same time.
@@ -83,6 +83,9 @@ var resource_cache: ESCResourceCache
 # Dialog player instantiator. This instance is called directly for dialogs.
 var dialog_player: ESCDialogPlayer
 
+# ESCScript interpreter factory
+var interpreter_factory: ESCInterpreterFactory
+
 # Inventory scene
 var inventory
 
@@ -117,13 +120,13 @@ var is_quitting: bool = false
 
 # Whether we're creating a new game
 var creating_new_game: bool = false
-
+var temp: int = 0
 
 # The game resolution
-onready var game_size = get_viewport().size
+@onready var game_size = get_viewport().size
 
 # The current state of the game
-onready var current_state = GAME_STATE.DEFAULT
+@onready var current_state = GAME_STATE.DEFAULT
 
 
 # Ready function
@@ -133,7 +136,7 @@ func _ready():
 		# Running a room scene. We need to instantiate the main scene ourselves
 		# so that the Escoria scene is created and managers are instanced as well.
 		is_direct_room_run = true
-		var main_scene = preload("res://addons/escoria-core/game/main_scene.tscn").instance()
+		var main_scene = preload("res://addons/escoria-core/game/main_scene.tscn").instantiate()
 		add_child(main_scene)
 
 
@@ -154,9 +157,9 @@ func get_escoria():
 # - p_paused: if true, pauses the game. If false, unpauses the game.
 func set_game_paused(p_paused: bool):
 	if p_paused:
-		emit_signal("paused")
+		paused.emit()
 	else:
-		emit_signal("resumed")
+		resumed.emit()
 
 	var scene_tree = get_tree()
 
@@ -173,4 +176,3 @@ func new_game():
 func quit():
 	is_quitting = true
 	get_escoria().quit()
-

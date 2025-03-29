@@ -1,2 +1,2 @@
 :use
-stop_snd
+	stop_snd()

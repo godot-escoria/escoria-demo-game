@@ -12,8 +12,8 @@ func initialize(dialog_manager: ESCDialogManager) -> void:
 func enter():
 	escoria.logger.trace(self, "Dialog State Machine: Entered 'visible'.")
 
-	if not _dialog_manager.is_connected("say_finished", self, "_on_say_finished"):
-		_dialog_manager.connect("say_finished", self, "_on_say_finished")
+	if not _dialog_manager.say_finished.is_connected(_on_say_finished):
+		_dialog_manager.say_finished.connect(_on_say_finished)
 
 
 func handle_input(_event):
@@ -21,14 +21,14 @@ func handle_input(_event):
 		if escoria.inputs_manager.input_mode != \
 			escoria.inputs_manager.INPUT_NONE:
 
-			if _dialog_manager.is_connected("say_finished", self, "_on_say_finished"):
-				_dialog_manager.disconnect("say_finished", self, "_on_say_finished")
+			if _dialog_manager.say_finished.is_connected(_on_say_finished):
+				_dialog_manager.say_finished.disconnect(_on_say_finished)
 
-			emit_signal("finished", "interrupt")
-			get_tree().set_input_as_handled()
+			finished.emit("interrupt")
+			get_viewport().set_input_as_handled()
 
 
 # Handles the end of a say function after it has emitted say_finished.
 func _on_say_finished():
 	escoria.logger.trace(self, "Dialog State Machine: 'visible' -> 'finish'")
-	emit_signal("finished", "finish")
+	finished.emit("finish")

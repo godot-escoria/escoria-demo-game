@@ -33,14 +33,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
-		escoria.logger.error(
+		raise_error(
 			self,
-			"[%s]: invalid first object. The object to make walk with global id %s was not found."
-					% [get_command_name(), arguments[0]]
+			"Invalid first object. The object to make walk with global id '%s' was not found." % arguments[0]
 		)
 		return false
 
@@ -56,10 +55,7 @@ func run(command_params: Array) -> int:
 		command_params[0],
 		Vector2(command_params[1], command_params[2]), command_params[3]
 	])
-	yield(
-		(escoria.object_manager.get_object(command_params[0]).node as ESCItem),
-		"arrived"
-	)
+	await (escoria.object_manager.get_object(command_params[0]).node as ESCItem).arrived
 	return ESCExecution.RC_OK
 
 

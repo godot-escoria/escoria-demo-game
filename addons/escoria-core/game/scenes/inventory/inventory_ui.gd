@@ -6,7 +6,7 @@ class_name ESCInventory
 
 # Define the actual container node to add items as children of.
 # Should be a Container.
-export(NodePath) var inventory_ui_container
+@export var inventory_ui_container: NodePath
 
 
 # A registry of inventory ESCInventoryItem nodes
@@ -27,12 +27,7 @@ func _ready():
 		call_deferred("add_new_item_by_id", item_id)
 
 	escoria.inventory = self
-
-	escoria.globals_manager.connect(
-		"global_changed", #
-		self,
-		"_on_escoria_global_changed"
-	)
+	escoria.globals_manager.global_changed.connect(_on_escoria_global_changed)
 
 
 # add item to Inventory UI using its id set in its scene
@@ -52,7 +47,7 @@ func add_new_item_by_id(item_id: String) -> void:
 				escoria.object_manager.register_object(
 					ESCObject.new(
 						item_id,
-						ResourceLoader.load(inventory_file).instance()
+						ResourceLoader.load(inventory_file).instantiate()
 					),
 					null,
 					true
@@ -105,55 +100,35 @@ func remove_item_by_id(item_id: String) -> void:
 			inventory_ui_container
 		).get_inventory_button(item_inventory)
 
-		if item_inventory_button.is_connected(
-			"mouse_left_inventory_item",
-			escoria.inputs_manager,
-			"_on_mouse_left_click_inventory_item"
+		if item_inventory_button.mouse_left_inventory_item.is_connected(
+			escoria.inputs_manager._on_mouse_left_click_inventory_item
 		):
-			item_inventory_button.disconnect(
-				"mouse_left_inventory_item",
-				escoria.inputs_manager,
-				"_on_mouse_left_click_inventory_item"
+			item_inventory_button.mouse_left_inventory_item.disconnect(
+				escoria.inputs_manager._on_mouse_left_click_inventory_item
 			)
-		if item_inventory_button.is_connected(
-			"mouse_double_left_inventory_item",
-			escoria.inputs_manager,
-			"_on_mouse_double_left_click_inventory_item"
+		if item_inventory_button.mouse_double_left_inventory_item.is_connected(
+			escoria.inputs_manager._on_mouse_double_left_click_inventory_item
 		):
-			item_inventory_button.disconnect(
-				"mouse_double_left_inventory_item",
-				escoria.inputs_manager,
-				"_on_mouse_double_left_click_inventory_item"
+			item_inventory_button.mouse_double_left_inventory_item.disconnect(
+				escoria.inputs_manager._on_mouse_double_left_click_inventory_item
 			)
-		if item_inventory_button.is_connected(
-			"mouse_right_inventory_item",
-			escoria.inputs_manager,
-			"_on_mouse_right_click_inventory_item"
+		if item_inventory_button.mouse_right_inventory_item.is_connected(
+			escoria.inputs_manager._on_mouse_right_click_inventory_item
 		):
-			item_inventory_button.disconnect(
-				"mouse_right_inventory_item",
-				escoria.inputs_manager,
-				"_on_mouse_right_click_inventory_item"
+			item_inventory_button.mouse_right_inventory_item.disconnect(
+				escoria.inputs_manager._on_mouse_right_click_inventory_item
 			)
-		if item_inventory_button.is_connected(
-			"inventory_item_focused",
-			escoria.inputs_manager,
-			"_on_mouse_entered_inventory_item"
+		if item_inventory_button.inventory_item_focused.is_connected(
+			escoria.inputs_manager._on_mouse_entered_inventory_item
 		):
-			item_inventory_button.disconnect(
-				"inventory_item_focused",
-				escoria.inputs_manager,
-				"_on_mouse_entered_inventory_item"
+			item_inventory_button.inventory_item_focused.disconnect(
+				escoria.inputs_manager._on_mouse_entered_inventory_item
 			)
-		if item_inventory_button.is_connected(
-			"inventory_item_unfocused",
-			escoria.inputs_manager,
-			"_on_mouse_exited_inventory_item"
+		if item_inventory_button.inventory_item_unfocused.is_connected(
+			escoria.inputs_manager._on_mouse_exited_inventory_item
 		):
-			item_inventory_button.disconnect(
-				"inventory_item_unfocused",
-				escoria.inputs_manager,
-				"_on_mouse_exited_inventory_item"
+			item_inventory_button.inventory_item_unfocused.disconnect(
+				escoria.inputs_manager._on_mouse_exited_inventory_item
 			)
 
 		get_node(inventory_ui_container).remove_item(item_inventory)

@@ -27,16 +27,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	for s in ILLEGAL_STRINGS:
 		if s in arguments[0]:
-			escoria.logger.error(
-				self,
-				"[%s]: invalid item name. Item name %s cannot contain the string '%s'."
-						% [get_command_name(), arguments[0], s]
-			)
+			raise_error(self, "Invalid item name. Item name '%s' cannot contain the string '%s'."
+						% [arguments[0], s])
 			return false
 
 	return true

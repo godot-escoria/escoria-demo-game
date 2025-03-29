@@ -2,48 +2,42 @@
 # can see the room.
 
 :setup
-> [!room5_visited]
+	#if !room5_visited:
 	# This runs only the first time the room is ever opened.
 	# That way, if you fix the pipe then leave the room, this will not
 	# break the pipe when you come back
-	set_global room5_visited true
-	set_global r5_pipe_broken true
-	set_global r5_dialog_advance 0
+	global room5_visited = true
+	global r5_pipe_broken = true
+	global r5_dialog_advance = 0
 
-# Disable wrench item if present in the inventory
-> [i/r5_wrench]
-	set_active r5_wrench false
-	
-> [r5_pipe_broken]
-	set_state r5_pipe start_water
+	# Disable wrench item if present in the inventory
+	if $r5_wrench in inventory:
+		set_active("r5_wrench", false)
 
-> [!r5_pipe_broken]
-	set_state r5_pipe stop_water
-	
+	if r5_pipe_broken:
+		set_state("r5_pipe", "start_water")
+	else:
+		set_state("r5_pipe", "stop_water")
 
-# Disable pen item if present in the inventory
-> [i/r5_pen]
-	set_active r5_pen false
+	# Disable pen item if present in the inventory
+	if "r5_pen" in inventory:
+		set_active("r5_pen", false)
 
-# Disable empty_sheet item if present in the inventory
-> [i/r5_empty_sheet]
-	set_active r5_empty_sheet false
+	# Disable empty_sheet item if present in the inventory
+	if "r5_empty_sheet" in inventory:
+		set_active("r5_empty_sheet", false)
 
-# Disable both the pen and sheet if the completed form is present in the inventory
-> [i/r5_filled_sheet]
-	set_active r5_pen false
-	set_active r5_empty_sheet false
+	# Disable both the pen and sheet if the completed form is present in the inventory
+	if "r5_filled_sheet" in inventory:
+		set_active("r5_pen", false)
+		set_active("r5_empty_sheet", false)
 
-	
-# Manage player position depending on where he comes from
-> [eq ESC_LAST_SCENE room4]
-	teleport player r5_l_exit
-	# Set player look right
-	set_angle player 180
-	stop
-> [eq ESC_LAST_SCENE room6]
-	teleport player r5_r_exit
-	# Set player look left
-	set_angle player 270
-	stop
-
+	# Manage player position depending on where he comes from
+	if ESC_LAST_SCENE == "room4":
+		teleport("player", "r5_l_exit")
+		# Set player look right
+		set_angle("player", 180)
+	elif ESC_LAST_SCENE == "room6":
+		teleport("player", "r5_r_exit")
+		# Set player look left
+		set_angle("player", 270)

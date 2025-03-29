@@ -68,5 +68,3 @@ func _process(delta: float) -> void:
 	animate_waves(delta)
 	# Animate the clouds
 	animate_cloud(delta)
-
-

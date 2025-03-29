@@ -1,10 +1,10 @@
 # An event that is scheduled to run later
-extends Reference
+extends RefCounted
 class_name ESCScheduledEvent
 
 
 # Event to run when timeout is reached
-var event: ESCEvent
+var event
 
 # The number of seconds until the event is run
 var timeout: float
@@ -14,7 +14,7 @@ var object: String
 
 
 # Create a new scheduled event
-func _init(p_event: ESCEvent, p_timeout: float, p_object: String):
+func _init(p_event, p_timeout: float, p_object: String):
 	self.event = p_event
 	self.timeout = p_timeout
 	self.object = p_object
@@ -34,4 +34,4 @@ func exported() -> Dictionary:
 #
 # **Returns** The execution code
 func run() -> int:
-	return event.run()
+	return await event.run()

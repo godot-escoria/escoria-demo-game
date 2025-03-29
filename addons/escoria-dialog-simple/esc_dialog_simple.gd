@@ -78,10 +78,11 @@ func disable_preserve_dialog_box() -> void:
 # - text: Text to say, optional prefixed by a translation key separated
 #   by a ":"
 # - type: Type of dialog box to use
-func say(dialog_player: Node, global_id: String, text: String, type: String):
+# - *key*: Translation key
+func say(dialog_player: Node, global_id: String, text: String, type: String, key: String):
 	_dialog_player = dialog_player
 
-	_initialize_say_states(global_id, text, type)
+	_initialize_say_states(global_id, text, type, key)
 
 	if _should_preserve_dialog_box:
 		# If the dialog box type doesn't match what's currently being reused (if anything),
@@ -99,11 +100,6 @@ func say(dialog_player: Node, global_id: String, text: String, type: String):
 
 	state_machine._change_state("say")
 
-#	yield(_type_player, "say_finished")
-#	if _dialog_player.get_children().has(_type_player):
-#		_dialog_player.remove_child(_type_player)
-#		emit_signal("say_finished")
-
 
 func do_say(global_id: String, text: String) -> void:
 	# Only add_child here in order to prevent _type_player from running its _process method
@@ -118,18 +114,18 @@ func _init_type_player(type: String) -> void:
 	if type == "floating":
 		_type_player = preload(\
 			"res://addons/escoria-dialog-simple/types/floating.tscn"\
-		).instance()
+		).instantiate()
 	else:
 		_type_player = preload(\
 			"res://addons/escoria-dialog-simple/types/avatar.tscn"\
-		).instance()
+		).instantiate()
 
-	_type_player.connect("say_finished", self, "_on_say_finished")
-	_type_player.connect("say_visible", self, "_on_say_visible")
+	_type_player.say_finished.connect(_on_say_finished)
+	_type_player.say_visible.connect(_on_say_visible)
 
 
-func _initialize_say_states(global_id: String, text: String, type: String) -> void:
-	state_machine.states_map["say"].initialize(self, global_id, text, type)
+func _initialize_say_states(global_id: String, text: String, type: String, key: String) -> void:
+	state_machine.states_map["say"].initialize(self, global_id, text, type, key)
 	state_machine.states_map["finish"].initialize(_dialog_player)
 	state_machine.states_map["say_fast"].initialize(self)
 	state_machine.states_map["say_finish"].initialize(self)
@@ -143,11 +139,11 @@ func _on_say_finished():
 
 	_is_saying = false
 
-	emit_signal("say_finished")
+	say_finished.emit()
 
 
 func _on_say_visible():
-	emit_signal("say_visible")
+	say_visible.emit()
 
 
 # Present an option chooser to the player and sends the signal
@@ -170,15 +166,15 @@ func do_choose(dialog_player: Node, dialog: ESCDialog, type: String = "simple"):
 	if type == "simple" or type == "":
 		chooser = preload(\
 			"res://addons/escoria-dialog-simple/chooser/simple.tscn"\
-		).instance()
+		).instantiate()
 
 	dialog_player.add_child(chooser)
 	chooser.set_dialog(dialog)
 	chooser.show_chooser()
 
-	var option = yield(chooser, "option_chosen")
+	var option = await chooser.option_chosen
 	dialog_player.remove_child(chooser)
-	emit_signal("option_chosen", option)
+	option_chosen.emit(option)
 
 
 # Trigger running the dialogue faster
@@ -204,7 +200,7 @@ func interrupt():
 		if not _should_preserve_dialog_box and _dialog_player.get_children().has(_type_player):
 			_dialog_player.remove_child(_type_player)
 
-		emit_signal("say_finished")
+		say_finished.emit()
 
 
 # To be called if voice audio has finished.

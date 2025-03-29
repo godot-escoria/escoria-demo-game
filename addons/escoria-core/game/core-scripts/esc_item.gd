@@ -1,3 +1,5 @@
+@tool
+@icon("res://addons/escoria-core/design/esc_item.svg")
 # An ``ESCItem`` defines a (usually interactive) item in the game.
 #
 # When interacting with an ``ESCItem``, the game character will automatically
@@ -9,9 +11,10 @@
 # chooses to "use" the exit - for example, saying a goodbye, or running a
 # cutscene. Place a ``change_scene`` command inside this event to move the
 # character to the next room.
-tool
 extends Area2D
-class_name ESCItem, "res://addons/escoria-core/design/esc_item.svg"
+class_name ESCItem
+
+
 
 
 # List of forbidden characters in global_ids
@@ -61,97 +64,149 @@ signal mouse_right_clicked_item(global_id)
 signal arrived(walk_context)
 
 
+## The global ID of this item
+@export var global_id: String
 
-# The global ID of this item
-export(String) var global_id
+## The ASHES script for this item
+@export_file("*.esc", "*.ash") var esc_script: String
 
-# The ESC script for this item
-export(String, FILE, "*.esc") var esc_script
+## The node that references the camera position and zoom if this item is used
+## as a camera target
+@export var camera_node: NodePath
 
-# If true, the ESC script may have an ``:exit_scene`` event to manage scene changes.
-# For simple exits that do not require scripted actions, the ``ESCExit`` node may be
-# preferred.
-export(bool) var is_exit
+@export_group("Display")
 
-# If true, object is considered as trigger. Allows using :trigger_in and
-# :trigger_out verbs in ESC scripts.
-export(bool) var is_trigger
+## The name for the tooltip of this item.
+@export var tooltip_name: String
 
-# The verb used for the trigger in ESC events
-export(String) var trigger_in_verb = "trigger_in"
+@export_group("","")
+@export_group("Item Behavior")
 
-# The verb used for the trigger out ESC events
-export(String) var trigger_out_verb = "trigger_out"
+## Whether this item is movable. A movable item will be scaled with the terrain
+## and be moved with commands like ``teleport`` and ``turn_to``.
+@export var is_movable: bool = false
 
-# If true, the player can interact with this item
-export(bool) var is_interactive = true
+## Color used for dialogs if that item talks.
+@export var dialog_color: Color = Color(1,1,1,1)
 
-# Whether this item is movable. A movable item will be scaled with the terrain
-# and be moved with commands like teleport and turn_to.
-export(bool) var is_movable = false
+## Default action to use if object is not in the inventory.
+@export var default_action: String
 
-# If true, player orients towards 'interaction_angle' as
-# player character arrives.
-export(bool) var player_orients_on_arrival = true
+## If action used by player is in this list, the game will wait for a second
+## click on another item to combine objects together (typically
+## `USE <X> WITH <Y>`, `GIVE <X> TO <Y>`)
+@export var combine_when_selected_action_is_in: PackedStringArray = []
 
-# Let the player turn to this angle when the player arrives at the item
-export(int) var interaction_angle
+## If enabled, the ASHES script may have an :exit_scene event to manage scene changes.
+## For simple exits that do not require scripted actions, the ESCExit node may be
+## preferred.
+@export var is_exit: bool
 
-# The name for the tooltip of this item
-export(String) var tooltip_name
+## Defines this item as acting as a trigger if enabled.
+## Allows using specific events (defined in trigger_in_verb and trigger_out_verb
+## properties) in ASHES scripts.
+@export var is_trigger: bool
 
-# Default action to use if object is not in the inventory
-export(String) var default_action
+## Event name that is activated when another item enters the area defined by the
+## trigger item. By default, "trigger_in".
+@export var trigger_in_verb: String = "trigger_in"
 
-# Default action to use if object is in the inventory
-export(String) var default_action_inventory
+## Event name that is activated when another item exits the area defined by the
+## trigger item. By default, "trigger_out".
+@export var trigger_out_verb: String = "trigger_out"
 
-# If action used by player is in this list, the game will wait for a second
-# click on another item to combine objects together (typical
-# `USE <X> WITH <Y>`, `GIVE <X> TO <Y>`)
-export(PoolStringArray) var combine_when_selected_action_is_in = []
-
-# If true, combination must be done in the way it is written in ESC script
-# ie. :use ON_ITEM
-# If false, combination will be tried in the other way.
-export(bool) var combine_is_one_way = false
-
-# If true, then the object must have been picked up before using it.
-# A false value is useful for items in the background, such as buttons.
-export(bool) var use_from_inventory_only = false
-
-# The visual representation for this item when its in the inventory
-export(Texture) var inventory_texture: Texture = null \
-		setget ,_get_inventory_texture
-
-# Color used for dialogs
-export(Color) var dialog_color = Color(1,1,1,1)
-
-# If true, terrain scaling will not be applied and
-# node will remain at the scale set in the scene.
-export(bool) var dont_apply_terrain_scaling = false
-
-# Speed of this item ifmovable
-export(int) var speed: int = 300
-
-# Speed damp of this item if movable
-export(float) var v_speed_damp: float = 1.0
-
-# The node used to play animations
-export(NodePath) var animation_player_node: NodePath = "" \
-		setget _set_animation_player_node
-
-# The node that references the camera position and zoom if this item is used
-# as a camera target
-export(NodePath) var camera_node
-
-# Custom data dictionary to ease customization and custom command creation.
-# Avoid name collision using proper key names.
-export(Dictionary) var custom_data = {}
+## Defines whether the player can interact with this item. If false, the item
+## will not react to inputs and mouse hovers.
+@export var is_interactive: bool = true
 
 
-# ESCAnimationsResource (for walking, idling...)
-var animations: ESCAnimationResource setget set_animations
+@export_subgroup("Hover Behavior")
+
+## Defines whether Escoria will manage a specific hover behavior when the item
+## is focused. All options below can be used together.
+## This can also be expanded or overriden in your ESCGame implementation
+## (in methods ``element_focused()`` and ``element_unfocused()``).
+@export var hover_enabled: bool = false
+
+## If hover is enabled, applies this color modulation on the ESCItem sprite.
+@export var hover_modulate: Color = Color.WHITE
+var _previous_color_modulate: Color
+
+## If hover is enabled, replaces this ESCItem sprite texture by this one.
+@export var hover_texture: Texture2D = null
+var _previous_texture: Texture2D = null
+
+## If hover is enabled, applies this shader to the ESCItem sprite.
+@export var hover_shader: ShaderMaterial = null
+
+@export_subgroup("","")
+
+@export_group("","")
+@export_group("Player behavior on arrival")
+
+## Whether player character orients towards 'interaction_angle' as it arrives at
+## the item's interaction position.
+@export var player_orients_on_arrival: bool = true
+
+## If 'player_orients_on_arrival' is enabled, let the player character turn to
+## this angle when it arrives at the item's interaction position.
+@export var interaction_angle: int
+
+@export_group("","")
+@export_group("Inventory")
+
+## Default action to use if object is in the inventory
+@export var default_action_inventory: String
+
+## If enabled, combination must be done in the way it is written in ASHES script
+## ie. :use ON_ITEM
+## If disabled, combination will be tried in the other way.
+@export var combine_is_one_way: bool = false
+
+## If enabled, then the object must have been picked up before using it.
+## Keep disabled for items in the background, such as buttons.
+@export var use_from_inventory_only: bool = false
+
+## The visual representation for this item when it's in the inventory
+@export var inventory_texture: Texture2D = null:
+		get = _get_inventory_texture
+
+## The visual representation for this item when it's in the inventory and hovered
+@export var inventory_texture_hovered: Texture2D = null:
+		get = _get_inventory_texture_hovered
+
+@export_group("","")
+@export_group("Movement")
+
+## If enabled, terrain scaling will not be applied and
+## node will remain at the scale set in the scene.
+@export var dont_apply_terrain_scaling: bool = false
+
+## Speed of this item if movable
+@export var speed: int = 300
+
+## Speed damp of this item if movable
+@export var v_speed_damp: float = 1.0
+
+@export_group("","")
+@export_group("Animations")
+
+## Animations resource for the item (walking, idling...)
+@export var animations: ESCAnimationResource:
+		set = set_animations
+
+## The node used to play animations
+@export var animation_player_node: NodePath = "":
+		set = _set_animation_player_node
+
+@export_group("","")
+@export_group("Custom actions")
+
+## Custom data dictionary to ease customization and custom command creation.
+## Avoid name collision using proper key names.
+@export var custom_data: Dictionary = {}
+
+@export_group("","")
 
 # Reference to the animation node (null if none was found)
 var animation_sprite = null
@@ -176,29 +231,29 @@ var _animation_player: ESCAnimationPlayer = null
 var _force_registration: bool = false
 
 # Warnings for scene.
-var _scene_warnings: PoolStringArray = []
-
+var _scene_warnings: PackedStringArray = []
 
 # Add the movable node, connect signals, detect child nodes
 # and register this item
 func _ready():
-	self.pause_mode = Node.PAUSE_MODE_STOP
+	self.process_mode = Node.PROCESS_MODE_PAUSABLE
 
 	_detect_children()
 
 	# We add ourselves to this group so we can easily get a reference to all
 	# items in a scene tree.
-	add_to_group(escoria.GROUP_ITEM_CAN_COLLIDE)
-	if is_trigger:
-		add_to_group(escoria.GROUP_ITEM_TRIGGERS)
+	if not Engine.is_editor_hint():
+		add_to_group(escoria.GROUP_ITEM_CAN_COLLIDE)
+		if is_trigger:
+			add_to_group(escoria.GROUP_ITEM_TRIGGERS)
 
 	validate_animations(animations)
 	validate_exported_parameters()
 
-	if not self.is_connected("input_event", self, "_on_input_event"):
-		connect("input_event", self, "_on_input_event")
-	if not self.is_connected("mouse_exited", self, "_on_mouse_exited"):
-		connect("mouse_exited", self, "_on_mouse_exited")
+	if not input_event.is_connected(_on_input_event):
+		input_event.connect(_on_input_event)
+	if not mouse_exited.is_connected(_on_mouse_exited):
+		mouse_exited.connect(_on_mouse_exited)
 
 	# Register and connect all elements to Escoria backoffice.
 	if not Engine.is_editor_hint():
@@ -207,16 +262,8 @@ func _ready():
 			_movable = ESCMovable.new()
 			add_child(_movable)
 
-		if not escoria.event_manager.is_connected(
-			"event_finished",
-			self,
-			"_update_terrain"
-		):
-			escoria.event_manager.connect(
-				"event_finished",
-				self,
-				"_update_terrain"
-			)
+		if not escoria.event_manager.event_finished.is_connected(_update_terrain):
+			escoria.event_manager.event_finished.connect(_update_terrain)
 
 		escoria.object_manager.register_object(
 			ESCObject.new(
@@ -227,7 +274,7 @@ func _ready():
 			_force_registration
 		)
 
-		terrain = escoria.room_terrain
+		terrain = escoria.room_terrain if is_instance_valid(escoria.room_terrain) else null
 
 		if escoria.object_manager.get_object(global_id).state == ESCObject.STATE_DEFAULT \
 				and get_animation_player() != null:
@@ -238,72 +285,68 @@ func _ready():
 						._movable.last_dir = animations.get_direction_id_from_animation_name(
 							get_animation_player().get_animation()
 						)
-			
+
+
+		if escoria.object_manager.get_object(global_id).state == ESCObject.STATE_DEFAULT \
+				and escoria.object_manager.get_object(global_id).node.get_animation_player() != null:
+			escoria.object_manager.get_object(global_id) \
+					.set_state(get_animation_player().get_animation())
+			if is_movable:
+				escoria.object_manager.get_object(global_id).node._movable.last_dir = 1
+						#animations.get_direction_id_from_animation_name(
+							#.get_animation_player().get_animation()
+						#)
+
 
 		if !is_trigger:
 			if not self.is_connected(
-				"mouse_entered_item",
-				escoria.inputs_manager,
-				"_on_mouse_entered_item"
-			):
-				connect(
 					"mouse_entered_item",
-					escoria.inputs_manager,
-					"_on_mouse_entered_item"
+					escoria.inputs_manager._on_mouse_entered_item
+			):
+				mouse_entered_item.connect(
+					escoria.inputs_manager._on_mouse_entered_item
 				)
 			if not self.is_connected(
-				"mouse_exited_item",
-				escoria.inputs_manager,
-				"_on_mouse_exited_item"
-			):
-				connect(
 					"mouse_exited_item",
-					escoria.inputs_manager,
-					"_on_mouse_exited_item"
+					escoria.inputs_manager._on_mouse_exited_item
+			):
+				mouse_exited_item.connect(
+					escoria.inputs_manager._on_mouse_exited_item
 				)
 			if not self.is_connected(
-				"mouse_left_clicked_item",
-				escoria.inputs_manager,
-				"_on_mouse_left_clicked_item"
-			):
-				connect(
 					"mouse_left_clicked_item",
-					escoria.inputs_manager,
-					"_on_mouse_left_clicked_item"
+					escoria.inputs_manager._on_mouse_left_clicked_item
+			):
+				mouse_left_clicked_item.connect(
+					escoria.inputs_manager._on_mouse_left_clicked_item
 				)
 			if not self.is_connected(
 				"mouse_double_left_clicked_item",
-				escoria.inputs_manager,
-				"_on_mouse_left_double_clicked_item"
+				escoria.inputs_manager._on_mouse_left_double_clicked_item
 			):
-				connect(
-					"mouse_double_left_clicked_item",
-					escoria.inputs_manager,
-					"_on_mouse_left_double_clicked_item"
+				mouse_double_left_clicked_item.connect(
+					escoria.inputs_manager._on_mouse_left_double_clicked_item
 				)
 			if not self.is_connected(
 				"mouse_right_clicked_item",
-				escoria.inputs_manager,
-				"_on_mouse_right_clicked_item"
+				escoria.inputs_manager._on_mouse_right_clicked_item
 			):
-				connect(
-					"mouse_right_clicked_item",
-					escoria.inputs_manager,
-					"_on_mouse_right_clicked_item"
+				mouse_right_clicked_item.connect(
+					escoria.inputs_manager._on_mouse_right_clicked_item
 				)
 		else: # Item is a trigger
-			if not self.is_connected("area_entered", self, "element_entered"):
-				connect("area_entered", self, "element_entered")
-			if not self.is_connected("area_exited", self, "element_exited"):
-				connect("area_exited", self, "element_exited")
-			if not self.is_connected("body_entered", self, "element_entered"):
-				connect("body_entered", self, "element_entered")
-			if not self.is_connected("body_exited", self, "element_exited"):
-				connect("body_exited", self, "element_exited")
+			if not self.is_connected("area_entered", element_entered):
+				area_entered.connect(element_entered)
+			if not self.is_connected("area_exited", element_exited):
+				area_exited.connect(element_exited)
+			if not self.is_connected("body_entered", element_entered):
+				body_entered.connect(element_entered)
+			if not self.is_connected("body_exited", element_exited):
+				body_exited.connect(element_exited)
 
 		# If object can be in the inventory, set default_action_inventory to same as
 		# default_action, if default_action_inventory is not set
-		if use_from_inventory_only and default_action_inventory.empty():
+		if use_from_inventory_only and default_action_inventory.is_empty():
 			default_action_inventory = default_action
 
 		# Perform a first terrain scaling if we have to.
@@ -327,6 +370,12 @@ func validate_exported_parameters() -> void:
 				"Forbidden character in global_id %s (path: %s)"
 						% [global_id, get_path()]
 				)
+	if global_id.is_empty():
+		escoria.logger.error(
+				self,
+				"global_id of item is empty (node name : %s, path: %s)"
+						% [name, get_path()]
+				)
 
 
 func disconnect_trigger_events():
@@ -340,6 +389,7 @@ func _on_mouse_exited():
 	if escoria.inputs_manager.hover_stack.has(self):
 		escoria.inputs_manager.hover_stack.erase_item(self)
 	escoria.inputs_manager.unset_hovered_node(self)
+	_apply_unhover_behavior()
 
 
 class HoverStackSorter:
@@ -358,21 +408,24 @@ class HoverStackSorter:
 # - _shape_idx is the child index of the clicked Shape2D.
 func _on_input_event(_viewport: Object, event: InputEvent, _shape_idx: int):
 	if event is InputEventMouseMotion:
-		var physics2d_dss: Physics2DDirectSpaceState = get_world_2d().direct_space_state
-		var colliding: Array = physics2d_dss.intersect_point(get_global_mouse_position(), 32, [], 0x7FFFFFFF, true, true)
+		var physics2d_dss: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
+		var params := PhysicsPointQueryParameters2D.new()
+		params.position = get_global_mouse_position()
+		params.collision_mask = 0x7FFFFFFF
+		params.collide_with_areas = true
+		var colliding: Array = physics2d_dss.intersect_point(params, 32)
 		var colliding_nodes = []
 		for c in colliding:
 			if c.collider.get("global_id") \
 					and escoria.action_manager.is_object_actionable(c.collider.global_id):
 				colliding_nodes.push_back(c.collider)
 
-		if colliding_nodes.empty():
+		if colliding_nodes.is_empty():
 			return
-		colliding_nodes.sort_custom(HoverStackSorter, "sort_ascending_z_index")
+		colliding_nodes.sort_custom(Callable(HoverStackSorter, "sort_ascending_z_index"))
 		escoria.inputs_manager.hover_stack.clear()
 		escoria.inputs_manager.hover_stack.add_items(colliding_nodes)
 		escoria.inputs_manager.set_hovered_node(colliding_nodes.back())
-
 
 # Manage mouse button clicks on this item by sending out signals
 #
@@ -400,9 +453,9 @@ func _unhandled_input(input_event: InputEvent) -> void:
 		# to accommodate gamepad support, we create a synthetic mouse event
 		# based on the InputEventJoypadButton.
 		event = InputEventMouseButton.new()
-		event.button_index = BUTTON_LEFT
-		event.doubleclick = false
-		event.pressed = true
+		event.button_index = MOUSE_BUTTON_LEFT
+		event.double_click = false
+		event.button_pressed = true
 		# ESCActionManager expects to read the position off of the event.
 		event.position = get_global_mouse_position()
 
@@ -415,31 +468,31 @@ func _unhandled_input(input_event: InputEvent) -> void:
 			return
 		var p = get_global_mouse_position()
 		if _is_in_shape(p) and escoria.action_manager.is_object_actionable(global_id):
-			if event.doubleclick and event.button_index == BUTTON_LEFT:
-				emit_signal("mouse_double_left_clicked_item", self, event)
-				get_tree().set_input_as_handled()
-			elif event.button_index == BUTTON_LEFT:
-				emit_signal("mouse_left_clicked_item", self, event)
-				get_tree().set_input_as_handled()
-			elif event.button_index == BUTTON_RIGHT:
-				emit_signal("mouse_right_clicked_item", self, event)
-				get_tree().set_input_as_handled()
+			if event.double_click and event.button_index == MOUSE_BUTTON_LEFT:
+				mouse_double_left_clicked_item.emit(self, event)
+				get_viewport().set_input_as_handled()
+			elif event.button_index == MOUSE_BUTTON_LEFT:
+				mouse_left_clicked_item.emit(self, event)
+				get_viewport().set_input_as_handled()
+			elif event.button_index == MOUSE_BUTTON_RIGHT:
+				mouse_right_clicked_item.emit(self, event)
+				get_viewport().set_input_as_handled()
 
 
 # To display warnings in the scene tree should there be any.
-func _get_configuration_warning():
+func _get_configuration_warnings():
 	validate_animations(animations)
-	return _scene_warnings.join("\n")
+	return "\n".join(_scene_warnings)
 
 
 func _is_in_shape(position: Vector2) -> bool:
+	var params := PhysicsPointQueryParameters2D.new()
+	params.position = position
+	params.collision_mask = 2147483647
+	params.collide_with_areas = true
 	var colliders = get_world_2d().direct_space_state.intersect_point(
-		position,
-		32,
-		[],
-		2147483647,
-		true,
-		true
+		params,
+		32
 	)
 	for _owner in get_shape_owners():
 		for _shape_id in range(0, shape_owner_get_shape_count(_owner)):
@@ -487,11 +540,11 @@ func validate_animations(animations_resource: ESCAnimationResource) -> void:
 			_validate_animations_property_all_not_null(animations_resource.speaks, "speaks")
 
 	if Engine.is_editor_hint():
-		update_configuration_warning()
+		update_configuration_warnings()
 	elif _scene_warnings.size() > 0:
 		escoria.logger.error(
 			self,
-			_scene_warnings.join(", ")
+			", ".join(_scene_warnings)
 		)
 
 
@@ -502,20 +555,20 @@ func set_animations(p_animations: ESCAnimationResource) -> void:
 
 	animations = p_animations
 
-	if not animations.is_connected("changed", self, "_validate_animations"):
-		animations.connect("changed", self, "_validate_animations")
+	if not animations.is_connected("changed", Callable(self, "_validate_animations")):
+		animations.connect("changed", Callable(self, "_validate_animations"))
 
 
 # Return the animation player node
 func get_animation_player() -> Node:
 	if _animation_player == null:
 		var player_node_path = animation_player_node
-		if player_node_path == "":
+		if player_node_path.is_empty():
 			for child in self.get_children():
-				if child is AnimatedSprite or \
+				if child is AnimatedSprite2D or \
 						child is AnimationPlayer:
 					player_node_path = child.get_path()
-		if player_node_path == "":
+		if player_node_path.is_empty():
 			escoria.logger.warn(
 				self,
 				"Can not find animation_player or animated sprite for %s." % global_id
@@ -547,12 +600,12 @@ func get_interact_position() -> Vector2:
 	var interact_position = null
 
 	for c in get_children():
-		if c is Position2D:
+		if c is Marker2D:
 			# Identify any Postion2D nodes
-			if c.is_class("ESCLocation"):
+			if c is ESCLocation:
 				esclocation_count += 1
 				esclocation_position = c.global_position
-			elif c.is_class("ESCInteractionLocation"):
+			elif c is ESCInteractionLocation:
 				interact_count += 1
 				interact_position = c.global_position
 			else:
@@ -588,13 +641,14 @@ func get_interact_position() -> Vector2:
 # React to the mouse entering the item by emitting the respective signal
 func mouse_entered():
 	if escoria.action_manager.is_object_actionable(global_id):
-		emit_signal("mouse_entered_item", self)
+		mouse_entered_item.emit(self)
+		_apply_hover_behavior()
+
 
 
 # React to the mouse exiting the item by emitting the respective signal
-func mouse_exited():
-	emit_signal("mouse_exited_item",  self)
-
+func do_mouse_exited():
+	mouse_exited_item.emit(self)
 
 # Another item (e.g. the player) has entered this item
 #
@@ -695,7 +749,7 @@ func stop_walking_now(to_target: bool = false) -> void:
 # #### Parameters
 #
 # - speed_value: Set the new speed
-func set_speed(speed_value: int) -> void:
+func set_velocity(speed_value: int) -> void:
 	speed = speed_value
 
 
@@ -703,12 +757,20 @@ func set_speed(speed_value: int) -> void:
 func has_moved() -> bool:
 	return _movable.moved if is_movable else false
 
+func has_sprite() -> bool:
+	if _sprite_node != null:
+		return true
+	else: # confirm
+		for child in self.get_children():
+			if child is AnimatedSprite2D or child is Sprite2D:
+				return true
+		return false
 
 # Return the sprite node
 func get_sprite() -> Node:
 	if _sprite_node == null:
 		for child in self.get_children():
-			if child is AnimatedSprite or child is Sprite:
+			if child is AnimatedSprite2D or child is Sprite2D:
 				_sprite_node = child
 	if _sprite_node == null:
 		escoria.logger.error(
@@ -859,7 +921,7 @@ func get_camera_node():
 	if has_node(camera_node):
 		escoria.logger.debug(
 			self,
-			"Camera node found - directing camera to the camera_node on %s."
+			"Camera3D node found - directing camera to the camera_node on %s."
 				% global_id
 		)
 		return get_node(camera_node)
@@ -900,15 +962,15 @@ func _set_animation_player_node(node_path: NodePath):
 	if not Engine.is_editor_hint():
 		return
 
-	if node_path == "":
+	if node_path.is_empty():
 		animation_player_node = node_path
 		return
 
 	assert(has_node(node_path), "Node with path %s not found" % node_path)
 	assert(
-		get_node(node_path) is AnimatedSprite or \
+		get_node(node_path) is AnimatedSprite2D or \
 				get_node(node_path) is AnimationPlayer,
-		"Selected node has to be an AnimatedSprite or AnimationPlayer node"
+		"Selected node has to be an AnimatedSprite2D or AnimationPlayer node"
 	)
 
 	animation_player_node = node_path
@@ -916,15 +978,24 @@ func _set_animation_player_node(node_path: NodePath):
 
 # Returns either the set inventory texture or the texture of a TextureRect
 # found as a child if it is null
-func _get_inventory_texture() -> Texture:
+func _get_inventory_texture() -> Texture2D:
 	if inventory_texture == null:
 		for c in get_children():
-			if c is TextureRect or c is Sprite:
+			if c is TextureRect or c is Sprite2D:
 				return c.texture
 		return null
 	else:
 		return inventory_texture
 
+
+func _get_inventory_texture_hovered() -> Texture2D:
+	if inventory_texture_hovered == null:
+		for c in get_children():
+			if c is TextureRect or c is Sprite2D:
+				return c.texture
+		return null
+	else:
+		return inventory_texture_hovered
 
 # Checks whether the given ESCAnimationResource property array has all non-null entries, and adds
 # to the scene's warnings if not.
@@ -953,6 +1024,32 @@ func _get_identifier_as_key_value() -> String:
 	else:
 		return "node: %s" % get_name()
 
+
+func _apply_hover_behavior() -> void:
+	if not hover_enabled:
+		return
+	if has_sprite():
+		var sprite = get_sprite()
+		_previous_color_modulate = modulate
+		sprite.modulate = hover_modulate
+		if sprite is Sprite2D:
+			if hover_texture != null:
+				_previous_texture = sprite.texture
+				sprite.texture = hover_texture
+			if hover_shader != null:
+				sprite.material = hover_shader
+
+func _apply_unhover_behavior() -> void:
+	if not hover_enabled:
+		return
+	if has_sprite():
+		var sprite = get_sprite()
+		sprite.modulate = _previous_color_modulate
+		if sprite is Sprite2D:
+			if hover_texture != null:
+				sprite.texture = _previous_texture
+			if hover_shader != null:
+				sprite.material = null
 
 # Whether the item is currently moving.
 #

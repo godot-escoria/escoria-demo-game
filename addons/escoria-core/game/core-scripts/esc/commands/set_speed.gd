@@ -22,22 +22,18 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
-		escoria.logger.error(
-			self,
-			"[%s]: invalid object. Object with global id %s not found."
-					% [get_command_name(), arguments[0]]
-		)
+		raise_invalid_object_error(self, arguments[0])
 		return false
 	return true
 
 # Run the command
 func run(command_params: Array) -> int:
 	(escoria.object_manager.get_object(command_params[0]).node as ESCItem).\
-			set_speed(command_params[1])
+			set_velocity(command_params[1])
 	return ESCExecution.RC_OK
 
 

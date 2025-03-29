@@ -1,168 +1,186 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=3 uid="uid://ficbtnbk6e60"]
 
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=1]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=3]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="1"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="3"]
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="Animation" id="1"]
 length = 0.001
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Polygon2D:polygon")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [ PoolVector2Array( 191, 80, 159, 753, 405, 751, 1066, 815, 1143, 637, 1180, 314, 827, 126 ) ]
+"values": [PackedVector2Array(191, 80, 159, 753, 405, 751, 1066, 815, 1143, 637, 1180, 314, 827, 126)]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id="2"]
 resource_name = "folded"
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Polygon2D:polygon")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [ PoolVector2Array( 191, 80, 159, 753, 405, 751, 1066, 815, 1143, 637, 1180, 314, 827, 126 ), PoolVector2Array( 191, 80, 159, 753, 213, 755, 203, 570, 222, 489, 272, 223, 246, 99 ) ]
+"values": [PackedVector2Array(191, 80, 159, 753, 405, 751, 1066, 815, 1143, 637, 1180, 314, 827, 126), PackedVector2Array(191, 80, 159, 753, 213, 755, 203, 570, 222, 489, 272, 223, 246, 99)]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_62vps"]
+_data = {
+"RESET": SubResource("1"),
+"folded": SubResource("2")
+}
+
+[sub_resource type="Animation" id="3"]
 length = 0.001
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Polygon2D:polygon")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [ PoolVector2Array( 393, 334, 243, 564, 460, 682, 948, 598, 1020, 517, 802, 285, 608, 245 ) ]
+"values": [PackedVector2Array(393, 334, 243, 564, 460, 682, 948, 598, 1020, 517, 802, 285, 608, 245)]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id="4"]
 resource_name = "folded"
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Polygon2D:polygon")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [ PoolVector2Array( 393, 334, 243, 564, 460, 682, 948, 598, 1020, 517, 802, 285, 608, 245 ), PoolVector2Array( 950, 337, 988, 484, 962, 639, 1002, 667, 1020, 517, 986, 258, 967, 277 ) ]
+"values": [PackedVector2Array(393, 334, 243, 564, 460, 682, 948, 598, 1020, 517, 802, 285, 608, 245), PackedVector2Array(950, 337, 988, 484, 962, 639, 1002, 667, 1020, 517, 986, 258, 967, 277)]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qeb0g"]
+_data = {
+"RESET": SubResource("3"),
+"folded": SubResource("4")
+}
+
+[sub_resource type="Animation" id="5"]
 length = 0.001
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Polygon2D:polygon")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [ PoolVector2Array( 460, 418, 413, 568, 672, 693, 906, 484, 679, 346 ) ]
+"values": [PackedVector2Array(460, 418, 413, 568, 672, 693, 906, 484, 679, 346)]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id="6"]
 resource_name = "folded"
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Polygon2D:polygon")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [ PoolVector2Array( 460, 418, 413, 568, 672, 693, 906, 484, 679, 346 ), PoolVector2Array( 646, 366, 665, 382, 684, 377, 697, 367, 679, 346 ) ]
+"values": [PackedVector2Array(460, 418, 413, 568, 672, 693, 906, 484, 679, 346), PackedVector2Array(646, 366, 665, 382, 684, 377, 697, 367, 679, 346)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4auuy"]
+_data = {
+"RESET": SubResource("5"),
+"folded": SubResource("6")
 }
 
 [node name="room19" type="Node2D"]
-script = ExtResource( 1 )
+script = ExtResource("1")
 global_id = "room19"
 
 [node name="items" type="Node2D" parent="."]
 
 [node name="bottom_item" type="Area2D" parent="items"]
-pause_mode = 1
-script = ExtResource( 3 )
+process_mode = 1
+script = ExtResource("3")
 global_id = "bottom_item"
 esc_script = "res://game/rooms/room19/esc/bottom_item.esc"
 tooltip_name = "Bottom item"
 default_action = "use"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
 [node name="Polygon2D" type="Polygon2D" parent="items/bottom_item"]
-color = Color( 0.0666667, 0, 0.541176, 1 )
-polygon = PoolVector2Array( 191, 80, 159, 753, 405, 751, 1066, 815, 1143, 637, 1180, 314, 827, 126 )
+color = Color(0.0666667, 0, 0.541176, 1)
+polygon = PackedVector2Array(191, 80, 159, 753, 405, 751, 1066, 815, 1143, 637, 1180, 314, 827, 126)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="items/bottom_item"]
-polygon = PoolVector2Array( 190, 73, 156, 763, 420, 751, 1064, 818, 1144, 630, 1177, 318, 833, 123 )
+polygon = PackedVector2Array(190, 73, 156, 763, 420, 751, 1064, 818, 1144, 630, 1177, 318, 833, 123)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="items/bottom_item"]
-anims/RESET = SubResource( 1 )
-anims/folded = SubResource( 2 )
+libraries = {
+"": SubResource("AnimationLibrary_62vps")
+}
 
 [node name="middle_item" type="Area2D" parent="items"]
-pause_mode = 1
+process_mode = 1
 z_index = 2
-script = ExtResource( 3 )
+script = ExtResource("3")
 global_id = "middle_item"
 esc_script = "res://game/rooms/room19/esc/middle_item.esc"
 tooltip_name = "Middle item"
 default_action = "use"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
 [node name="Polygon2D" type="Polygon2D" parent="items/middle_item"]
-color = Color( 0.254902, 0.388235, 0, 1 )
-polygon = PoolVector2Array( 393, 334, 243, 564, 460, 682, 948, 598, 1020, 517, 802, 285, 608, 245 )
+color = Color(0.254902, 0.388235, 0, 1)
+polygon = PackedVector2Array(393, 334, 243, 564, 460, 682, 948, 598, 1020, 517, 802, 285, 608, 245)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="items/middle_item"]
-polygon = PoolVector2Array( 396, 336, 239, 565, 466, 680, 948, 592, 1024, 514, 802, 282, 603, 246 )
+polygon = PackedVector2Array(396, 336, 239, 565, 466, 680, 948, 592, 1024, 514, 802, 282, 603, 246)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="items/middle_item"]
-anims/RESET = SubResource( 3 )
-anims/folded = SubResource( 4 )
+libraries = {
+"": SubResource("AnimationLibrary_qeb0g")
+}
 
 [node name="upper_item" type="Area2D" parent="items"]
-pause_mode = 1
+process_mode = 1
 z_index = 3
-script = ExtResource( 3 )
+script = ExtResource("3")
 global_id = "upper_item"
 esc_script = "res://game/rooms/room19/esc/upper_item.esc"
 tooltip_name = "Upper item"
 default_action = "use"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
 [node name="Polygon2D" type="Polygon2D" parent="items/upper_item"]
-color = Color( 0.552941, 0, 0, 1 )
-polygon = PoolVector2Array( 460, 418, 413, 568, 672, 693, 906, 484, 679, 346 )
+color = Color(0.552941, 0, 0, 1)
+polygon = PackedVector2Array(460, 418, 413, 568, 672, 693, 906, 484, 679, 346)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="items/upper_item"]
-polygon = PoolVector2Array( 466, 424, 418, 570, 679, 701, 904, 485, 682, 347 )
+polygon = PackedVector2Array(466, 424, 418, 570, 679, 701, 904, 485, 682, 347)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="items/upper_item"]
-anims/RESET = SubResource( 5 )
-anims/folded = SubResource( 6 )
+libraries = {
+"": SubResource("AnimationLibrary_4auuy")
+}

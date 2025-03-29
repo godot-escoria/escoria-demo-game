@@ -15,6 +15,7 @@
 # **Parameters**
 #
 # - *object*: Global ID of the object whose state is to be changed
+# - *state*: Name of the state to be set
 # - *immediate*: If an animation for the state exists, specifies
 #   whether it is to skip to the last frame. Can be `true` or `false`.
 #
@@ -34,16 +35,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
-		escoria.logger.error(
-			self,
-			"[%s]: invalid object. Object %s not found."
-					% [get_command_name(), arguments[0]]
-		)
+		raise_invalid_object_error(self, arguments[0])
 		return false
+
 	return true
 
 

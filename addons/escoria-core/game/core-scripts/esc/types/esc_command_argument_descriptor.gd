@@ -1,5 +1,5 @@
 # The descriptor of the arguments of an ESC command
-extends Reference
+extends RefCounted
 class_name ESCCommandArgumentDescriptor
 
 # As the get_type command was deprecated with Godot 2.x w we need a way to determine
@@ -32,6 +32,12 @@ var strip_quotes: Array = []
 
 # Whether the final argument is a series of varargs
 var has_varargs: bool = false
+
+# The filename from which the relevant command is being called, if available.
+var filename: String = ""
+
+# The line number from the file the relevant command is being called from.
+var line_number: int = 0
 
 
 # Initialize the descriptor
@@ -71,10 +77,11 @@ func prepare_arguments(arguments: Array) -> Array:
 			# appear at the very end of a command's argument list.
 			varargs.append(arguments[index])
 		else:
-			complete_arguments[index] = ESCUtils.get_typed_value(
-				arguments[index],
-				types[index]
-			)
+#			complete_arguments[index] = ESCUtils.get_typed_value(
+#				arguments[index],
+#				types[index]
+#			)
+			complete_arguments[index] = arguments[index]
 			var strip = strip_quotes[0]
 			if strip_quotes.size() == complete_arguments.size():
 				strip = strip_quotes[index]
@@ -100,19 +107,21 @@ func validate(command: String, arguments: Array) -> bool:
 
 		escoria.logger.error(
 			self,
-			"Invalid arguments for command %s. " % command +
-			"Arguments didn't match minimum size {num}: Only {args} {verb} found." \
-				.format({"num":self.min_args,"args":required_args_count,"verb":verb})
+			"Invalid arguments for command %s." % command +
+			" Arguments didn't match minimum size {num}: Only {args} {verb} found." \
+				.format({"num":self.min_args,"args":required_args_count,"verb":verb}) +
+			" %s" % _get_error_info()
 		)
 		return false
 
 	if arguments.size() > self.max_args and not has_varargs:
 		escoria.logger.error(
 			self,
-			"Invalid arguments for command %s" % command +
+			"Invalid arguments for command %s. " % command +
 			"Maximum number of arguments ({num}) exceeded: {args}.".format(
 				{"num":self.max_args,"args":arguments}
-			)
+			) +
+			" %s" % _get_error_info()
 		)
 		return false
 
@@ -142,7 +151,7 @@ func validate(command: String, arguments: Array) -> bool:
 			allowed_types = allowed_types.substr(0, allowed_types.length() - 3) + "]"
 			escoria.logger.error(
 				self,
-				"Argument type did not match descriptor for command \"%s\"\n"
+				"Argument type did not match descriptor for command \"%s\". "
 						% command +
 				"Argument %d (\"%s\") is of type %s. Expected %s."
 						% [
@@ -150,10 +159,15 @@ func validate(command: String, arguments: Array) -> bool:
 							arguments[index],
 							GODOT_TYPE_LIST[typeof(arguments[index])],
 							allowed_types
-						]
+						] +
+				" %s" % _get_error_info()
 			)
 			return false
 	return true
+
+
+func _get_error_info() -> String:
+	return "(File: \"%s\", line %s.)" % [filename, line_number]
 
 
 # Check whether the given argument is of the given type
@@ -164,6 +178,13 @@ func validate(command: String, arguments: Array) -> bool:
 # - type: Type to check
 # *Returns* Whether the argument is of the given type
 func _is_type(argument, type: int) -> bool:
+	if typeof(argument) == TYPE_FLOAT:
+		if int(argument) == argument and type == TYPE_INT:
+			return true
+	elif typeof(argument) == TYPE_INT:
+		if int(argument) == argument and type == TYPE_FLOAT:
+			return true
+
 	return typeof(argument) == type
 
 

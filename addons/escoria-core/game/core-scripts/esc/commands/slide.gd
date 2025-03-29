@@ -31,21 +31,19 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
-		escoria.logger.error(
+		raise_error(
 			self,
-			"[%s]: invalid first object. Object with global id %s not found."
-					% [get_command_name(), arguments[0]]
+			"Invalid first object. Object with global id '%s' not found." % arguments[0]
 		)
 		return false
 	if not escoria.object_manager.has(arguments[1]):
-		escoria.logger.error(
+		raise_error(
 			self,
-			"[%s]: invalid second object. Object with global id %s not found."
-					% [get_command_name(), arguments[1]]
+			"Invalid second object. Object with global id '%s' not found." % arguments[1]
 		)
 		return false
 	return true
@@ -60,26 +58,21 @@ func validate(arguments: Array):
 # - *speed*: The speed at which to slide in pixels per second (will default to
 #   the speed configured on the `object`)
 #
-#
 # **Returns** The generated (and started) tween
 func _slide_object(
 	source: ESCObject,
 	destination: ESCObject,
 	speed: int = -1
-) -> Tween:
+) -> Tween3:
 	if speed == -1:
 		speed = source.node.speed
-
+	var tween: Tween3
 	if _tweens.has(source.global_id):
-		var tween = (_tweens.get(source.global_id) as Tween)
+		tween = (_tweens.get(source.global_id) as Tween3)
 		tween.stop_all()
-		if (escoria.main as Node).has_node(tween.name):
-			(escoria.main as Node).remove_child(tween)
-
-	var tween = Tween.new()
-	(escoria.main as Node).add_child(tween)
-
-	tween.connect("tween_completed", self, "_on_tween_completed")
+	else:
+		tween = Tween3.new(source.node)
+		tween.finished.connect(_on_tween_completed)
 
 	var duration = source.node.position.distance_to(
 		destination.node.position
@@ -93,10 +86,8 @@ func _slide_object(
 		duration
 	)
 
-	tween.start()
-
+	tween.play()
 	_tweens[source.global_id] = tween
-
 	return tween
 
 

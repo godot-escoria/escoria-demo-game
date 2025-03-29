@@ -1,6 +1,6 @@
 # Simple pair container to store a room's identifying information for use in
 # the object manager.
-extends Reference
+extends RefCounted
 class_name ESCRoomObjectsKey
 
 
@@ -15,4 +15,4 @@ var room_instance_id: int = -1
 #
 # **Returns** true iff the key has a valid global_id and room instance ID.
 func is_valid() -> bool:
-	return not room_global_id.empty() and room_instance_id > -1
+	return not room_global_id.is_empty() and room_instance_id > -1

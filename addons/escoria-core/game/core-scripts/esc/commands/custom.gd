@@ -31,28 +31,20 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
-		escoria.logger.error(
-			self,
-			"[%s]: invalid object. Object with global id %s not found."
-					% [get_command_name(), arguments[0]]
-		)
+		raise_invalid_object_error(self, arguments[0])
 		return false
 	elif not escoria.object_manager.get_object(arguments[0]).node.has_node(
 		arguments[1]
 	):
-		escoria.logger.error(
-			self,
-			"[%s]: invalid node. Object with global id %s has no child node called %s."
+		raise_error(self, "Invalid node. Object with global id %s has no child node called %s."
 					% [
-						get_command_name(),
 						arguments[0],
 						arguments[1],
-					]
-		)
+					])
 		return false
 	elif not escoria.object_manager.get_object(arguments[0]).node\
 		.get_node(
@@ -61,16 +53,13 @@ func validate(arguments: Array):
 		.has_method(
 			arguments[2]
 		):
-		escoria.logger.error(
-			self,
-			"[%s]: invalid function. Object with global id %s and node %s has no function called %s."
+		raise_error(self, "Invalid function. Object with global id %s and node %s has no function called %s."
 					% [
-						get_command_name(),
 						arguments[0],
 						arguments[1],
 						arguments[2],
-					]
-		)
+					])
+
 		return false
 	return true
 
@@ -82,8 +71,9 @@ func run(command_params: Array) -> int:
 	)
 	# Global variables can be substituted into the command arguments by wrapping the global
 	# name in braces.
-	for loop in command_params[3].size():
-		command_params[3][loop] = escoria.globals_manager.replace_globals(command_params[3][loop])
+	for loop in command_params[3].size():\
+		if typeof(command_params[3][loop]) == TYPE_STRING:
+			command_params[3][loop] = escoria.globals_manager.replace_globals(command_params[3][loop])
 
 	object.node.get_node(command_params[1]).call(
 		command_params[2],

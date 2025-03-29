@@ -1,9 +1,10 @@
 :use
-> [!is_jester]
-    set_animations player res://game/characters/mark/mark_animations_jester.tres
-	set_global is_jester true
-	stop
-> [is_jester]
-    set_animations player res://game/characters/mark/mark_animations.tres
-	set_global is_jester false
-	stop
+	global is_jester = false
+
+	if not is_jester:
+		set_animations($player, "res://game/characters/mark/mark_animations_jester.tres")
+		is_jester = true
+	else:
+		set_animations($player, "res://game/characters/mark/mark_animations.tres")
+		is_jester = false
+	set_angle($player, 0)

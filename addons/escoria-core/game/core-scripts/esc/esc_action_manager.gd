@@ -2,6 +2,7 @@
 extends Resource
 class_name ESCActionManager
 
+const ESCPlayer = preload("res://addons/escoria-core/game/core-scripts/esc_player.gd")
 
 # The current action verb was changed
 signal action_changed
@@ -25,7 +26,7 @@ enum ACTION_INPUT_STATE {
 	# After initial state, verb is defined
 	AWAITING_ITEM,
 	# Item defined requires combine, waiting for  target
-	AWAITING_TARGET_ITEM
+	AWAITING_TARGET_ITEM,
 	# After initial state, item is defined
 	AWAITING_VERB,
 	# Item was defined first, next verb, need verb confirmation
@@ -56,7 +57,7 @@ const ACTION_WALK = "walk"
 
 
 # Current verb used
-var current_action: String = "" setget set_current_action
+var current_action: String = "": set = set_current_action
 
 # Current tool (ESCItem/ESCInventoryItem) used
 var current_tool: ESCObject
@@ -65,8 +66,8 @@ var current_tool: ESCObject
 var current_target: ESCObject
 
 # Current action input state
-var action_state = ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM \
-		setget set_action_input_state
+var action_state = ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM:
+		set = set_action_input_state
 
 
 # Run a generic action
@@ -146,7 +147,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 
 					var item = escoria.object_manager.get_object(params[0])
 
-					self.perform_inputevent_on_object(item, params[1], true)
+					self.perform_inputevent_on_object(item, params[1])
 
 			ACTION.TRIGGER_IN:
 				var trigger_id = params[0]
@@ -198,7 +199,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 			_:
 				escoria.logger.warn(
 					self,
-					"Action received: '%s' with params %s.", [action, params]
+					"Action received: '%s' with params %s." % [action, params]
 				)
 	elif escoria.current_state == escoria.GAME_STATE.WAIT:
 		pass
@@ -212,7 +213,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 # - p_state: the action input state to set
 func set_action_input_state(p_state):
 	action_state = p_state
-	emit_signal("action_input_state_changed")
+	action_input_state_changed.emit()
 
 
 # Set the current action verb
@@ -228,16 +229,16 @@ func set_current_action(action: String):
 	if action_state == ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM:
 		set_action_input_state(ACTION_INPUT_STATE.AWAITING_ITEM)
 	elif action_state == ACTION_INPUT_STATE.AWAITING_VERB:
-		set_action_input_state(ACTION_INPUT_STATE.AWAITING_VERB_CONFIRM)
+		set_action_input_state(ACTION_INPUT_STATE.AWAITING_VERB_CONFIRMATION)
 
-	emit_signal("action_changed")
+	action_changed.emit()
 
 
 # Clear the current action
 func clear_current_action():
 	set_current_action("")
 	set_action_input_state(ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM)
-	emit_signal("action_changed")
+	action_changed.emit()
 
 
 # Clear the current tool
@@ -261,20 +262,20 @@ func clear_current_tool():
 # - target: Target ESC object
 # - combine_with: ESC object to combine with
 #
-# *Returns* the appropriate ESCEvent to queue/run, or null if none can be found
+# *Returns* the appropriate ESCGrammarStmts.Event to queue/run, or null if none can be found
 # or there's a reason not to run an event.
 func _get_event_to_queue(
 	action: String,
 	target: ESCObject,
 	combine_with: ESCObject = null
-) -> ESCEvent:
+) -> ESCGrammarStmts.Event:
 
 	escoria.logger.info(
 		self,
 		"Checking if action '%s' on '%s' is valid..." % [action, target.global_id if target is ESCObject else target]
 	)
 
-	var event_to_return: ESCEvent = null
+	var event_to_return = null
 
 	# If we're using an action which item requires to combine
 	if target.node is ESCItem \
@@ -294,21 +295,25 @@ func _get_event_to_queue(
 						do_combine = false
 
 					if do_combine:
-						var target_event = "%s %s" % [
-							action,
-							combine_with.global_id
-						]
-						var combine_with_event = "%s %s" % [
-							action,
-							target.global_id
-						]
+#						var target_event = "%s %s" % [
+#							action,
+#							combine_with.global_id
+#						]
+#						var combine_with_event = "%s %s" % [
+#							action,
+#							target.global_id
+#						]
 
-						if target.events.has(target_event):
-							event_to_return = target.events[target_event]
-						elif combine_with.events.has(combine_with_event)\
+						if _has_event_with_target(target.events, action, combine_with.global_id):
+						#if target.events.has(target_event):
+							#event_to_return = target.events[target_event]
+							event_to_return = target.events[action]
+						#elif combine_with.events.has(combine_with_event)\
+						elif _has_event_with_target(combine_with.events, action, target.global_id)\
 								and not combine_with.node.combine_is_one_way:
 
-							event_to_return = combine_with.events[combine_with_event]
+							#event_to_return = combine_with.events[combine_with_event]
+							event_to_return = combine_with.events[action]
 						else:
 							# Check to see if there isn't a "fallback" action to
 							# run before we declare this a failure.
@@ -365,11 +370,11 @@ func _get_event_to_queue(
 					+ "but item must be in inventory."
 				)
 	else:
-		if target.events.has(action):
-			# Reset the event if it was finished.
-			if target.events[action].is_completed:
-				target.events[action].is_completed = false
-				target.events[action].from_statement_id = 0
+		if _check_target_has_proper_action(target, action):
+#			##SAVEGAME
+#			if target.events[action].is_completed:
+#				target.events[action].is_completed = false
+#				target.events[action].from_statement_id = 0
 			event_to_return = target.events[action]
 		elif escoria.action_default_script \
 			and escoria.action_default_script.events.has(action):
@@ -389,6 +394,47 @@ func _get_event_to_queue(
 	return event_to_return
 
 
+# Check to make sure `target` contains the specific `action`. If `target` has an entry for
+# `action` that also requires a target itself (e.g. :use "wrench"), then we return false as
+# combinations are handled elsewhere.
+#
+# #### Parameters
+#
+# - target: `ESCObject` whose events we are to check to see if `action` has a corresponding event
+# - action: the action to check
+#
+# *Returns*
+# True iff `target` has an event corresponding to `action` and that event doesn't itself require a target.
+func _check_target_has_proper_action(target: ESCObject, action: String) -> bool:
+	if target.events.has(action):
+		if target.events[action].get_target():
+			return false
+
+		return true
+
+	return false
+
+
+# Determines whether the specified events dictionary contains an event with the
+# specified event name and event target, e.g. :give "filled_out_form"
+#
+# #### Parameters
+#
+# - events_dict: dictionary with events to check
+# - event_name: the event name to search for
+# - event_target: the target for the specified event to check
+#
+# *Returns* true iff events_dict contains an event matching both event_name and
+# event_target
+func _has_event_with_target(events_dict: Dictionary, event_name: String, event_target: String):
+	var event = events_dict.get(event_name)
+
+	if event:
+		return event.get_target_name() == event_target
+
+	return false
+
+
 # Runs the specified event.
 #
 # #### Parameters
@@ -396,22 +442,16 @@ func _get_event_to_queue(
 # - event: the event to be run
 #
 # *Returns* the return code of the event once executed
-func _run_event(event: ESCEvent) -> int:
+func _run_event(event) -> int:
 	escoria.event_manager.queue_event(event)
 
-	var event_returned = yield(
-		escoria.event_manager,
-		"event_finished"
-	)
+	var event_returned = await escoria.event_manager.event_finished
 
-	while event_returned[1] != event.name:
-		event_returned = yield(
-			escoria.event_manager,
-			"event_finished"
-		)
+	while event_returned[1] != event.get_event_name():
+		event_returned = await escoria.event_manager.event_finished
 
 	clear_current_action()
-	emit_signal("action_finished")
+	action_finished.emit()
 
 	return event_returned[0]
 
@@ -535,7 +575,7 @@ func perform_inputevent_on_object(
 	elif action_state == ACTION_INPUT_STATE.AWAITING_ITEM and need_combine and not tool_just_set:
 		set_action_input_state(ACTION_INPUT_STATE.AWAITING_TARGET_ITEM)
 
-	var event_to_queue: ESCEvent = null
+	var event_to_queue: ESCGrammarStmts.Event = null
 
 	# Manage exits
 	if obj.node.is_exit and current_action in ["", ACTION_WALK]:
@@ -579,10 +619,10 @@ func perform_inputevent_on_object(
 	# player walking towards the destination.
 	if current_action and not event_to_queue:
 		clear_current_action()
-		emit_signal("action_finished")
+		action_finished.emit()
 		return
 
-	var event_flags = event_to_queue.flags if event_to_queue else 0
+	var event_flags = event_to_queue.get_flags() if event_to_queue else 0
 
 	if escoria.main.current_scene.player:
 		var destination_position: Vector2 = escoria.main.current_scene.player \
@@ -592,14 +632,11 @@ func perform_inputevent_on_object(
 		if not obj.node is ESCPlayer and \
 			not escoria.inventory_manager.inventory_has(obj.global_id) and \
 			not event_flags & ESCEvent.FLAG_TK:
-				var context = _walk_towards_object(
+				var context = await _walk_towards_object(
 					obj,
 					event.position,
-					event.doubleclick
+					event.double_click
 				)
-
-				if context is GDScriptFunctionState:
-					context = yield(context, "completed")
 
 				# In case of an interrupted walk, we don't want to proceed.
 				if context == null:
@@ -736,10 +773,7 @@ func _walk_towards_object(
 )
 
 	# Wait for the player to arrive before continuing with action.
-	var context: ESCWalkContext = yield(
-		escoria.main.current_scene.player,
-		"arrived"
-	)
+	var context: ESCWalkContext = await escoria.main.current_scene.player.arrived
 
 	if context.target_object != obj:
 		escoria.logger.debug(

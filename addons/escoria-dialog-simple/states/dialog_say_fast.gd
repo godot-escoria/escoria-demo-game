@@ -16,8 +16,8 @@ func enter():
 		escoria.inputs_manager.INPUT_NONE and \
 		_dialog_manager != null:
 
-		if not _dialog_manager.is_connected("say_visible", self, "_on_say_visible"):
-			_dialog_manager.connect("say_visible", self, "_on_say_visible")
+		if not _dialog_manager.say_visible.is_connected(_on_say_visible):
+			_dialog_manager.say_visible.connect(_on_say_visible)
 
 		_dialog_manager.speedup()
 	else:
@@ -26,4 +26,4 @@ func enter():
 
 func _on_say_visible() -> void:
 	escoria.logger.trace(self, "Dialog State Machine: 'say_fast' -> 'visible'")
-	emit_signal("finished", "visible")
+	finished.emit("visible")

@@ -1,13 +1,13 @@
 # A statement in an ESC file
-extends Reference
+extends RefCounted
 class_name ESCStatement
 
 
 # Emitted when the event did finish running
-signal finished(event, return_code)
+signal finished(event: ESCStatement, statement: ESCStatement, return_code: int)
 
 # Emitted when the event was interrupted
-signal interrupted(event, return_code)
+signal interrupted(event: ESCStatement, statement: ESCStatement, return_code: int)
 
 
 # The list of ESC commands
@@ -47,6 +47,13 @@ func exported() -> Dictionary:
 	return export_dict
 
 
+##############
+# New interpreter stuff
+var parsed_statements = []
+
+
+##############
+
 # Check whether the statement should be run based on its conditions
 func is_valid() -> bool:
 	for condition in self.conditions:
@@ -57,6 +64,16 @@ func is_valid() -> bool:
 
 # Execute this statement and return its return code
 func run() -> int:
+	# TODO: It's entirely possible that this method is never executed; at some point, we'll need
+	# to trace through this and remove any dead code from this and other classes.
+	if parsed_statements.size() > 0:
+		var interpreter = ESCInterpreterFactory.create_interpreter()
+		var resolver: ESCResolver = ESCResolver.new(interpreter)
+		resolver.resolve(parsed_statements)
+
+		interpreter.interpret(parsed_statements)
+		return 0
+
 	var final_rc = ESCExecution.RC_OK
 
 	var statement_id = 0
@@ -68,26 +85,25 @@ func run() -> int:
 		if _is_interrupted:
 			final_rc = ESCExecution.RC_INTERRUPTED
 			statement.interrupt()
-			emit_signal("interrupted", self, statement, final_rc)
+			interrupted.emit(self, statement, final_rc)
 			return final_rc
 
-		if bypass_conditions or statement.is_valid():
-			var rc = statement.run()
-			if rc is GDScriptFunctionState:
-				rc = yield(rc, "completed")
-				escoria.logger.debug(
-					self,
-					"Statement (%s) was completed." % statement
-				)
+		if statement.is_valid():
+			var rc = await statement.run()
+			escoria.logger.debug(
+				self,
+				"Statement (%s) was completed." % statement
+			)
 			if rc == ESCExecution.RC_REPEAT:
-				return self.run()
+				return await self.run()
 			elif rc != ESCExecution.RC_OK:
 				final_rc = rc
+				current_statement.is_completed = true
 				break
 			elif rc == ESCExecution.RC_OK:
 				current_statement.is_completed = true
 
-	emit_signal("finished", self, current_statement, final_rc)
+	finished.emit(self, current_statement, final_rc)
 	is_completed = true
 	return final_rc
 

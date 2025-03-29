@@ -1,13 +1,22 @@
+@tool
 # Plugin script to initialize Escoria
-tool
 extends EditorPlugin
+
+# Consts values
+const COMMA_SEPARATOR = ","
+const ESC_SCRIPT_EXTENSION = "esc"
+const ASHES_ANALYZER_MENU_ITEM = "Analyze ASHES Scripts"
+
 
 # The warning popup displayed on escoria-core enabling.
 var popup_info: AcceptDialog
 
+# ASHES scripts analyzer
+var _compiler_analyzer: ESCAshesAnalyzer = ESCAshesAnalyzer.new()
+
 
 # Virtual function called when plugin is enabled.
-func enable_plugin():
+func _enable_plugin():
 	add_autoload_singleton(
 		"escoria",
 		"res://addons/escoria-core/game/esc_autoload.gd"
@@ -18,12 +27,7 @@ func enable_plugin():
 	set_escoria_ui_settings()
 	set_escoria_sound_settings()
 	set_escoria_platform_settings()
-
-	# Add input actions in InputMap
-#	if not InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
-#		InputMap.add_action(ESCInputsManager.SWITCH_ACTION_VERB)
-#	if not InputMap.has_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT):
-#		InputMap.add_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT)
+	set_filesystem_show_esc_files()
 
 	# Define standard settings
 	ProjectSettings.set_setting(
@@ -32,8 +36,8 @@ func enable_plugin():
 	)
 
 	ProjectSettings.set_setting(
-		"audio/default_bus_layout",
-		"res://addons/escoria-core/default_bus_layout.tres"
+		"audio/buses/default_bus_layout",
+		"res://addons/escoria-core/buses/default_bus_layout.tres"
 	)
 
 	popup_info = AcceptDialog.new()
@@ -42,8 +46,8 @@ func enable_plugin():
 	Please ignore error messages in Output console and reload your project using
 	Godot editor's "Project / Reload Current Project" menu.
 	"""
-	popup_info.connect("confirmed", self, "_on_warning_popup_confirmed", [], CONNECT_ONESHOT)
-	get_editor_interface().get_editor_viewport().add_child(popup_info)
+	popup_info.connect("confirmed", Callable(self, "_on_warning_popup_confirmed").bind(), CONNECT_ONE_SHOT)
+	get_editor_interface().get_editor_main_screen().add_child(popup_info)
 	popup_info.popup_centered()
 
 
@@ -52,17 +56,19 @@ func _on_warning_popup_confirmed():
 
 
 # Virtual function called when plugin is disabled.
-func disable_plugin():
+func _disable_plugin():
 	remove_autoload_singleton("escoria")
-#	if InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
-#		InputMap.erase_action(ESCInputsManager.SWITCH_ACTION_VERB)
-#	if InputMap.has_action(ESCInputsManager.SWITCH_ACTION_VERB):
-#		InputMap.erase_action(ESCInputsManager.SWITCH_ACTION_VERB)
+	set_filesystem_hide_esc_files()
 
 
 # Setup Escoria
 func _enter_tree():
-	pass
+	# have to add this here since reloading the project doesn't re-add the Tools menu item
+	add_tool_menu_item(ASHES_ANALYZER_MENU_ITEM, _compiler_analyzer.analyze)
+
+
+func _exit_tree():
+	remove_tool_menu_item(ASHES_ANALYZER_MENU_ITEM)
 
 
 # Prepare the settings in the Escoria UI category
@@ -102,7 +108,9 @@ func set_escoria_ui_settings():
 		"curtain",
 		{
 			"name": ESCProjectSettingsManager.DEFAULT_TRANSITION,
-			"type": TYPE_STRING
+			"type": TYPE_STRING,
+			"hint": PROPERTY_HINT_ENUM_SUGGESTION,
+			"hint_string": "instant,fade_black,fade_white,curtain"
 		}
 	)
 
@@ -113,7 +121,7 @@ func set_escoria_ui_settings():
 		],
 		{
 			"name": ESCProjectSettingsManager.TRANSITION_PATHS,
-			"type": TYPE_STRING_ARRAY,
+			"type": TYPE_PACKED_STRING_ARRAY,
 			"hint": PROPERTY_HINT_DIR
 		}
 	)
@@ -131,7 +139,7 @@ func set_escoria_ui_settings():
 		ESCProjectSettingsManager.DIALOG_MANAGERS,
 		[],
 		{
-			"type": TYPE_STRING_ARRAY
+			"type": TYPE_PACKED_STRING_ARRAY
 		}
 	)
 
@@ -310,6 +318,14 @@ func set_escoria_debug_settings():
 		}
 	)
 
+	register_setting(
+		ESCProjectSettingsManager.PERFORM_SCRIPT_ANALYSIS_AT_RUNTIME,
+		true,
+		{
+			"type": TYPE_BOOL
+		}
+	)
+
 
 # Prepare the settings in the Escoria sound settings
 func set_escoria_sound_settings():
@@ -317,7 +333,7 @@ func set_escoria_sound_settings():
 		ESCProjectSettingsManager.MASTER_VOLUME,
 		1,
 		{
-			"type": TYPE_REAL,
+			"type": TYPE_FLOAT,
 			"hint": PROPERTY_HINT_RANGE,
 			"hint_string": "0,1"
 		}
@@ -327,7 +343,7 @@ func set_escoria_sound_settings():
 		ESCProjectSettingsManager.MUSIC_VOLUME,
 		1,
 		{
-			"type": TYPE_REAL,
+			"type": TYPE_FLOAT,
 			"hint": PROPERTY_HINT_RANGE,
 			"hint_string": "0,1"
 		}
@@ -337,7 +353,7 @@ func set_escoria_sound_settings():
 		ESCProjectSettingsManager.SFX_VOLUME,
 		1,
 		{
-			"type": TYPE_REAL,
+			"type": TYPE_FLOAT,
 			"hint": PROPERTY_HINT_RANGE,
 			"hint_string": "0,1"
 		}
@@ -347,7 +363,7 @@ func set_escoria_sound_settings():
 		ESCProjectSettingsManager.SPEECH_VOLUME,
 		1,
 		{
-			"type": TYPE_REAL,
+			"type": TYPE_FLOAT,
 			"hint": PROPERTY_HINT_RANGE,
 			"hint_string": "0,1"
 		}
@@ -421,3 +437,33 @@ static func register_setting(name: String, default, info: Dictionary) -> void:
 		)
 		info.name = name
 		ProjectSettings.add_property_info(info)
+
+
+# Sets the Godot Editor settings to display ESC files in the filesystem.
+func set_filesystem_show_esc_files():
+	print("setting esc files display")
+	var settings = EditorInterface.get_editor_settings()
+	var displayed_extensions: PackedStringArray = settings.get_setting("docks/filesystem/textfile_extensions") \
+			.split(COMMA_SEPARATOR)
+	if not displayed_extensions.has(ESC_SCRIPT_EXTENSION):
+		displayed_extensions.append(ESC_SCRIPT_EXTENSION)
+		settings.set_setting(
+			"docks/filesystem/textfile_extensions",
+			COMMA_SEPARATOR.join(displayed_extensions)
+			)
+
+
+# Sets the Godot Editor settings to hide ESC files in the filesystem.
+func set_filesystem_hide_esc_files():
+	print("setting esc files hide")
+	var settings = EditorInterface.get_editor_settings()
+	var displayed_extensions: PackedStringArray = settings.get_setting("docks/filesystem/textfile_extensions") \
+			.split(COMMA_SEPARATOR)
+	var index: int = displayed_extensions.find(ESC_SCRIPT_EXTENSION)
+	while index != -1:
+		displayed_extensions.remove_at(index)
+		index = displayed_extensions.find(ESC_SCRIPT_EXTENSION)
+	settings.set_setting(
+		"docks/filesystem/textfile_extensions",
+		COMMA_SEPARATOR.join(displayed_extensions)
+		)

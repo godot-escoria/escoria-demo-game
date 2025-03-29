@@ -1,2 +1,2 @@
 :exit_scene
-change_scene "res://game/rooms/room14/room14.tscn"
+	change_scene("res://game/rooms/room14/room14.tscn")

@@ -42,13 +42,13 @@ const action_to_scancode = [
 static func add_actions_to_input_map() -> void:
 	for entry in action_to_scancode:
 		var action = entry[0]
-		var scancode = entry[1]
+		var keycode = entry[1]
 		var event = InputEventKey.new()
 		# Based on https://github.com/godotengine/godot/pull/18020,
 		# `physical_scancode` seems like a more appropriate property than
 		# `scancode` in order to support non-QWERTY keyboard layouts while
 		# preserving the geometric pattern of the shortcuts.
-		event.physical_scancode = scancode
+		event.physical_keycode = keycode
 		InputMap.add_action(action)
 		InputMap.action_add_event(action, event)
 

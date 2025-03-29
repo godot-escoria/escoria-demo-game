@@ -10,7 +10,7 @@ func _ready():
 	reset()
 
 	for button in $GridContainer.get_children():
-		button.connect("pressed", self, "_button_pressed", [button])
+		button.connect("pressed", Callable(self, "_button_pressed").bind(button))
 
 	escoria.main.current_scene.game.hide_ui()
 	escoria.main.current_scene.hide()
@@ -27,7 +27,7 @@ func reset():
 	for button in $GridContainer.get_children():
 		var number = numbers_array[i]
 		button.text = str(number)
-		button.pressed = false
+		button.button_pressed = false
 		button.disabled = false
 		i += 1
 
@@ -45,7 +45,7 @@ func _button_pressed(button: Button):
 
 func win():
 	$win_label.show()
-	yield(get_tree().create_timer(2), "timeout")
+	await get_tree().create_timer(2).timeout
 	hide()
 
 	escoria.main.current_scene.game.show_ui()

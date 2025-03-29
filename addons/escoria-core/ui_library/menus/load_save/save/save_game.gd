@@ -6,7 +6,7 @@ signal back_button_pressed
 
 
 # The scene to display a slot
-export(PackedScene) var slot_ui_scene
+@export var slot_ui_scene: PackedScene
 
 
 # The slot that was pressed
@@ -35,7 +35,7 @@ func refresh_savegames():
 
 	var saves_list = escoria.save_manager.get_saves_list()
 
-	var datetime = OS.get_datetime()
+	var datetime = Time.get_datetime_dict_from_system()
 	var datetime_string = "%02d/%02d/%02d %02d:%02d" % [
 		datetime["day"],
 		datetime["month"],
@@ -43,19 +43,19 @@ func refresh_savegames():
 		datetime["hour"],
 		datetime["minute"],
 	]
-	var new_slot = slot_ui_scene.instance()
+	var new_slot = slot_ui_scene.instantiate()
 	_slots.add_child(new_slot)
 	_slots.move_child(new_slot, 0)
 	new_slot.set_slot_name_date(tr("New save"), datetime_string)
-	new_slot.connect("pressed", self, "_on_slot_pressed", [saves_list.size()+1])
+	new_slot.connect("pressed", Callable(self, "_on_slot_pressed").bind(saves_list.size()+1))
 
-	if saves_list.values().empty():
+	if saves_list.values().is_empty():
 		return
 	var saves_array: Array = saves_list.values()
-	saves_array.sort_custom(SaveGamesSorter, "sort_by_date_descending")
+	saves_array.sort_custom(Callable(SaveGamesSorter, "sort_by_date_descending"))
 
 	for save in saves_array:
-		new_slot = slot_ui_scene.instance()
+		new_slot = slot_ui_scene.instantiate()
 		_slots.add_child(new_slot)
 
 		datetime_string = "%02d/%02d/%02d %02d:%02d" % [
@@ -67,12 +67,12 @@ func refresh_savegames():
 		]
 
 		new_slot.set_slot_name_date(save["name"], datetime_string)
-		new_slot.connect("pressed", self, "_on_slot_pressed", [int(save["slotnumber"])])
+		new_slot.connect("pressed", Callable(self, "_on_slot_pressed").bind(int(save["slotnumber"])))
 
 
 # The back button was pressed
 func _on_back_pressed():
-	emit_signal("back_button_pressed")
+	back_button_pressed.emit()
 
 
 # The name for the save game was given, save the game.

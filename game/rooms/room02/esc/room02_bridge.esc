@@ -1,36 +1,32 @@
 # THIS ROOMS FEATURES AN OPEN BRIDGE WITH A BUTTON TO USE IN ORDER TO OPEN
 
 :setup
+	global r2_bridge_closed = false
 
-> [r2_bridge_closed]
-	# Make set_state IMMEDIATE to reach the final frame immediately
-	set_state r2_bridge bridge_close true
-	enable_terrain bridge_closed
-	set_interactive r2_right_platform false
+	if r2_bridge_closed:
+		# Make set_state IMMEDIATE to reach the final frame immediately
+		set_state($r2_bridge, "bridge_close", true)
+		enable_terrain("bridge_closed")
+		set_interactive($r2_right_platform, false)
 
-> [eq ESC_LAST_SCENE room1]
-	teleport player r2_l_exit
-	# Set player look left
-	set_angle player 180
-	stop
-	
-> [eq ESC_LAST_SCENE room3]
-	teleport player r2_r_exit
-	# Set player look left
-	set_angle player 270
-	
-	# Activate bridge, else player is stuck
-	#set_state r2_bridge bridge_close 
-	#enable_terrain bridge_closed
-	#set_global r2_bridge_closed true
-	set_interactive r2_right_platform false
-	#set_interactive r2_bridge false
-	stop
-
-
+	if ESC_LAST_SCENE == "room1":
+		teleport($player, $r2_l_exit)
+		# Set player look left
+		set_angle($player, 180)
+	elif ESC_LAST_SCENE == "room3":
+		teleport($player, $r2_r_exit)
+		# Set player look left
+		set_angle($player, 270)
+		
+		# Activate bridge, else player is stuck
+		#set_state r2_bridge bridge_close 
+		#enable_terrain bridge_closed
+		#set_global r2_bridge_closed true
+		set_interactive($r2_right_platform, false)
+		#set_interactive r2_bridge false
 
 :ready
-
+	pass
 # DEBUG
 #set_state r2_bridge bridge_close 
 #enable_terrain bridge_closed

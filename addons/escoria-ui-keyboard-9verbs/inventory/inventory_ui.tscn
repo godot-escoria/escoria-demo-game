@@ -4,8 +4,8 @@
 [ext_resource path="res://addons/escoria-core/ui_library/inventory/esc_inventory_container.gd" type="Script" id=3]
 
 [node name="inventory_ui" type="PanelContainer"]
-margin_right = 600.0
-margin_bottom = 175.0
+offset_right = 600.0
+offset_bottom = 175.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -13,19 +13,19 @@ __meta__ = {
 inventory_ui_container = NodePath("ScrollContainer/GridContainer")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 593.0
-margin_bottom = 168.0
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 593.0
+offset_bottom = 168.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="GridContainer" type="GridContainer" parent="ScrollContainer"]
-margin_right = 586.0
-margin_bottom = 161.0
+offset_right = 586.0
+offset_bottom = 161.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/vseparation = 16
-custom_constants/hseparation = 16
+theme_override_constants/v_separation = 16
+theme_override_constants/h_separation = 16
 columns = 4
 script = ExtResource( 3 )

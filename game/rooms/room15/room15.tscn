@@ -1,44 +1,42 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=10 format=3 uid="uid://b10t1nxqox24i"]
 
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
-[ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=3]
-[ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=5]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
-[ext_resource path="res://game/rooms/room15/room15.png" type="Texture" id=8]
-[ext_resource path="res://game/rooms/room15/room15scale.png" type="Texture" id=10]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
+[ext_resource type="FontFile" path="res://game/fonts/caslonantique.tres" id="3"]
+[ext_resource type="PackedScene" uid="uid://chf3qovs1q8kr" path="res://game/characters/mark/mark.tscn" id="4"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="5"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
+[ext_resource type="Texture2D" uid="uid://baa3i4j5ud4jv" path="res://game/rooms/room15/room15.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://di6o3hxp38wfw" path="res://game/rooms/room15/room15scale.png" id="10"]
 
-[sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 849.268, 604.779, 878.268, 604.779, 877.809, 609.779, 848.967, 609.779, 448.544, 609.779, 448.268, 604.779, 476.268, 604.779, 476.638, 609.779, 1264.27, 831.779, 0.26837, 834.779, 1.26837, 741.779, 302.268, 656.779, 339.268, 609.779, 359.021, 609.779, 359.268, 605.779, 387.268, 605.779, 388.268, 609.779, 490.268, 633.779, 485.268, 609.779, 778.268, 634.779, 995.268, 662.779, 1265.27, 738.779, 794.268, 609.779, 903.268, 609.779 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7 ), PoolIntArray( 8, 9, 10, 11 ), PoolIntArray( 8, 11, 12, 13 ), PoolIntArray( 13, 14, 15, 16 ), PoolIntArray( 8, 13, 16, 17 ), PoolIntArray( 7, 18, 17 ), PoolIntArray( 19, 20, 21, 8, 17 ), PoolIntArray( 4, 7, 17 ), PoolIntArray( 19, 22, 3 ), PoolIntArray( 2, 23, 20, 19 ), PoolIntArray( 16, 4, 17 ), PoolIntArray( 2, 19, 3 ) ]
-outlines = [ PoolVector2Array( 1.26837, 741.779, 302.268, 656.779, 339.268, 609.779, 359.021, 609.779, 359.268, 605.779, 387.268, 605.779, 388.268, 609.779, 448.544, 609.779, 448.268, 604.779, 476.268, 604.779, 476.638, 609.779, 485.268, 609.779, 490.268, 633.779, 778.268, 634.779, 794.268, 609.779, 848.967, 609.779, 849.268, 604.779, 878.268, 604.779, 877.809, 609.779, 903.268, 609.779, 995.268, 662.779, 1265.27, 738.779, 1264.27, 831.779, 0.26837, 834.779 ) ]
+[sub_resource type="NavigationPolygon" id="1"]
+vertices = PackedVector2Array(849.268, 604.779, 878.268, 604.779, 877.809, 609.779, 848.967, 609.779, 448.544, 609.779, 448.268, 604.779, 476.268, 604.779, 476.638, 609.779, 1264.27, 831.779, 0.26837, 834.779, 1.26837, 741.779, 302.268, 656.779, 339.268, 609.779, 359.021, 609.779, 359.268, 605.779, 387.268, 605.779, 388.268, 609.779, 490.268, 633.779, 485.268, 609.779, 778.268, 634.779, 995.268, 662.779, 1265.27, 738.779, 794.268, 609.779, 903.268, 609.779)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7), PackedInt32Array(8, 9, 10, 11), PackedInt32Array(8, 11, 12, 13), PackedInt32Array(13, 14, 15, 16), PackedInt32Array(8, 13, 16, 17), PackedInt32Array(7, 18, 17), PackedInt32Array(19, 20, 21, 8, 17), PackedInt32Array(4, 7, 17), PackedInt32Array(19, 22, 3), PackedInt32Array(2, 23, 20, 19), PackedInt32Array(16, 4, 17), PackedInt32Array(2, 19, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(1.26837, 741.779, 302.268, 656.779, 339.268, 609.779, 359.021, 609.779, 359.268, 605.779, 387.268, 605.779, 388.268, 609.779, 448.544, 609.779, 448.268, 604.779, 476.268, 604.779, 476.638, 609.779, 485.268, 609.779, 490.268, 633.779, 778.268, 634.779, 794.268, 609.779, 848.967, 609.779, 849.268, 604.779, 878.268, 604.779, 877.809, 609.779, 903.268, 609.779, 995.268, 662.779, 1265.27, 738.779, 1264.27, 831.779, 0.26837, 834.779)])
 
 [node name="room15" type="Node2D"]
-script = ExtResource( 6 )
-__meta__ = {
-"_edit_vertical_guides_": [  ]
-}
+script = ExtResource("6")
 global_id = "room15"
 esc_script = "res://game/rooms/room15/esc/room15.esc"
-player_scene = ExtResource( 4 )
-camera_limits = [ Rect2( 0, 0, 1280, 555 ) ]
+player_scene = ExtResource("4")
+camera_limits = [Rect2(0, 0, 1280, 555)]
 
-[node name="Room15" type="Sprite" parent="."]
-texture = ExtResource( 8 )
+[node name="Room15" type="Sprite2D" parent="."]
+texture = ExtResource("8")
 centered = false
 
 [node name="ColorRect" type="ColorRect" parent="Room15"]
-margin_right = 387.0
-margin_bottom = 207.0
-color = Color( 0, 0, 0, 0.501961 )
+offset_right = 387.0
+offset_bottom = 207.0
+color = Color(0, 0, 0, 0.501961)
 
 [node name="description" type="Label" parent="Room15/ColorRect"]
-margin_left = 9.0
-margin_top = 32.0
-margin_right = 615.0
-margin_bottom = 195.0
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 0
+offset_left = 9.0
+offset_top = 32.0
+offset_right = 615.0
+offset_bottom = 195.0
+theme_override_fonts/font = ExtResource("3")
 text = "This room has no ESC Script attached so the
 player will spawn at starting location if there is one. 
 
@@ -46,171 +44,164 @@ If there is none, the player will spawn at origin
  (0,0), top-left corner of the screen. "
 
 [node name="room_label" type="Label" parent="Room15/ColorRect"]
-margin_right = 92.0
-margin_bottom = 21.0
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 0
+offset_right = 92.0
+offset_bottom = 21.0
+theme_override_fonts/font = ExtResource("3")
 text = "ROOM 15"
 
 [node name="ColorRect2" type="ColorRect" parent="Room15"]
-margin_left = 461.0
-margin_top = 393.0
-margin_right = 847.0
-margin_bottom = 433.0
-color = Color( 0, 0, 0, 0.501961 )
+offset_left = 461.0
+offset_top = 393.0
+offset_right = 847.0
+offset_bottom = 433.0
+color = Color(0, 0, 0, 0.501961)
 
 [node name="description" type="Label" parent="Room15/ColorRect2"]
-margin_left = 9.0
-margin_top = 9.0
-margin_right = 615.0
-margin_bottom = 195.0
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = 615.0
+offset_bottom = 195.0
+theme_override_fonts/font = ExtResource("3")
 text = "Use the second door to change between costumes"
 
 [node name="ColorRect3" type="ColorRect" parent="Room15"]
-margin_left = 22.0
-margin_top = 505.0
-margin_right = 322.0
-margin_bottom = 545.0
-color = Color( 0, 0, 0, 0.501961 )
+offset_left = 22.0
+offset_top = 505.0
+offset_right = 322.0
+offset_bottom = 545.0
+color = Color(0, 0, 0, 0.501961)
 
 [node name="description" type="Label" parent="Room15/ColorRect3"]
-margin_left = 9.0
-margin_top = 9.0
-margin_right = 615.0
-margin_bottom = 195.0
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = 615.0
+offset_bottom = 195.0
+theme_override_fonts/font = ExtResource("3")
 text = "Use the left column for say long left"
 
 [node name="ColorRect4" type="ColorRect" parent="Room15"]
-margin_left = 952.0
-margin_top = 502.0
-margin_right = 1262.0
-margin_bottom = 542.0
-color = Color( 0, 0, 0, 0.501961 )
+offset_left = 952.0
+offset_top = 502.0
+offset_right = 1262.0
+offset_bottom = 542.0
+color = Color(0, 0, 0, 0.501961)
 
 [node name="description" type="Label" parent="Room15/ColorRect4"]
-margin_left = 9.0
-margin_top = 9.0
-margin_right = 615.0
-margin_bottom = 195.0
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = 615.0
+offset_bottom = 195.0
+theme_override_fonts/font = ExtResource("3")
 text = "Use the left column for say long right"
 
-[node name="walkable_area" type="Navigation2D" parent="."]
-script = ExtResource( 1 )
-scales = ExtResource( 10 )
+[node name="walkable_area" type="Node2D" parent="."]
+script = ExtResource("1")
+scales = ExtResource("10")
 scale_min = 0.1
 player_speed_multiplier = 4.0
 
-[node name="platform" type="NavigationPolygonInstance" parent="walkable_area"]
-position = Vector2( 6.73163, -264.779 )
-navpoly = SubResource( 1 )
-__meta__ = {
-"_editor_description_": ""
-}
+[node name="platform" type="NavigationRegion2D" parent="walkable_area"]
+position = Vector2(6.73163, -264.779)
+navigation_polygon = SubResource("1")
 
 [node name="Hotspots" type="Node2D" parent="."]
 
 [node name="l_door" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-script = ExtResource( 7 )
+process_mode = 1
+script = ExtResource("7")
 global_id = "r15_l_exit"
 esc_script = "res://game/rooms/room15/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
-scale = Vector2( 4.57162, 0.938339 )
-polygon = PoolVector2Array( 79.1842, 366.605, 79.403, 287.743, 87.0589, 287.743, 87.1409, 366.605 )
+scale = Vector2(4.57162, 0.938339)
+polygon = PackedVector2Array(79.1842, 366.605, 79.403, 287.743, 87.0589, 287.743, 87.1409, 366.605)
 
-[node name="Position2D" type="Position2D" parent="Hotspots/l_door"]
-position = Vector2( 379, 345 )
-script = ExtResource( 5 )
+[node name="Marker2D" type="Marker2D" parent="Hotspots/l_door"]
+position = Vector2(379, 345)
+script = ExtResource("5")
 global_id = "r12_l_exit"
 
 [node name="r_door" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-script = ExtResource( 7 )
+process_mode = 1
+script = ExtResource("7")
 global_id = "r15_r_exit"
 esc_script = "res://game/rooms/room15/esc/right_exit.esc"
 is_exit = true
 tooltip_name = "Right exit"
 default_action = "walk"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
-position = Vector2( 0, -1 )
-polygon = PoolVector2Array( 853, 344, 854, 271, 888, 271, 888, 344 )
-__meta__ = {
-"_editor_description_": ""
-}
+position = Vector2(0, -1)
+polygon = PackedVector2Array(853, 344, 854, 271, 888, 271, 888, 344)
 
-[node name="ESCLocation" type="Position2D" parent="Hotspots/r_door"]
-position = Vector2( 870, 342 )
-script = ExtResource( 5 )
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/r_door"]
+position = Vector2(870, 342)
+script = ExtResource("5")
 
-[node name="start" type="Position2D" parent="Hotspots"]
-position = Vector2( 379, 348 )
-script = ExtResource( 5 )
+[node name="start" type="Marker2D" parent="Hotspots"]
+position = Vector2(379, 348)
+script = ExtResource("5")
 global_id = "start"
 is_start_location = true
-interaction_direction = 180
 
 [node name="say_long_left" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-script = ExtResource( 7 )
+process_mode = 1
+script = ExtResource("7")
 global_id = "say_long_left"
 esc_script = "res://game/rooms/room15/esc/say_long.esc"
 tooltip_name = "Say long test left"
 default_action = "use"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/say_long_left"]
-polygon = PoolVector2Array( 12, 0, 30, 0, 30, 460, 12, 460 )
+polygon = PackedVector2Array(12, 0, 30, 0, 30, 460, 12, 460)
 
-[node name="ESCLocation" type="Position2D" parent="Hotspots/say_long_left"]
-position = Vector2( 113, 479 )
-script = ExtResource( 5 )
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/say_long_left"]
+position = Vector2(113, 479)
+script = ExtResource("5")
 
 [node name="say_long_right" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-script = ExtResource( 7 )
+process_mode = 1
+script = ExtResource("7")
 global_id = "say_long_right"
 esc_script = "res://game/rooms/room15/esc/say_long.esc"
 tooltip_name = "Say long test right"
 default_action = "use"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/say_long_right"]
-polygon = PoolVector2Array( 1252, -1, 1272, 0, 1272, 461, 1255, 461 )
+polygon = PackedVector2Array(1252, -1, 1272, 0, 1272, 461, 1255, 461)
 
-[node name="ESCLocation" type="Position2D" parent="Hotspots/say_long_right"]
-position = Vector2( 1142, 491 )
-script = ExtResource( 5 )
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/say_long_right"]
+position = Vector2(1142, 491)
+script = ExtResource("5")
 
 [node name="switch_animation" type="Area2D" parent="."]
-pause_mode = 1
-script = ExtResource( 7 )
+process_mode = 1
+script = ExtResource("7")
 global_id = "switch_animation"
 esc_script = "res://game/rooms/room15/esc/switch_animation.esc"
 tooltip_name = "Switch animation"
 default_action = "use"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
+combine_when_selected_action_is_in = PackedStringArray()
 animations = null
 
-[node name="Position2D" type="Position2D" parent="switch_animation"]
-position = Vector2( 470, 342 )
+[node name="Marker2D" type="Marker2D" parent="switch_animation"]
+position = Vector2(470, 342)
+script = ExtResource("5")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="switch_animation"]
-polygon = PoolVector2Array( 451, 270, 485, 270, 487, 343, 452, 343 )
+polygon = PackedVector2Array(451, 270, 485, 270, 487, 343, 452, 343)

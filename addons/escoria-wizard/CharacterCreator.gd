@@ -1,10 +1,10 @@
+@tool
 # Outstanding proposed features
 # v1.1 features
 # * Have the editor kick in when an ESCPlayer is selected, i.e. "load/edit"
 # * Add a settings page (if there's enough features to warrant it). This would have the path the scene gets written to,  default angles for each direction so the developer can change them from the default 90s / 45s they are now, whether the ESCPlayer is click-through, errr can't think of anything else.
 # * Redo the Escoria tutorial to use the plugin.
 
-tool
 extends Control
 
 const METADATA_ANIM_NAME = "anim_name"
@@ -135,22 +135,22 @@ func character_creator_reset() -> void:
 
 	get_node(NAME_NODE).get_node("node_name").text = "replace_me"
 	get_node(NAME_NODE).get_node("global_id").text = ""
-	get_node(DIR_COUNT_NODE).get_node("four_directions").pressed = true
+	get_node(DIR_COUNT_NODE).get_node("four_directions").button_pressed = true
 
 	# For unknown reasons the above doesn't cause the trigger to fire so manual steps required
-	get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed = false
-	get_node(DIR_COUNT_NODE).get_node("two_directions").pressed = false
-	get_node(DIR_COUNT_NODE).get_node("one_direction").pressed = false
+	get_node(DIR_COUNT_NODE).get_node("eight_directions").button_pressed = false
+	get_node(DIR_COUNT_NODE).get_node("two_directions").button_pressed = false
+	get_node(DIR_COUNT_NODE).get_node("one_direction").button_pressed = false
 
-	get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed = true
+	get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").button_pressed = true
 	animation_type_selected = "walk"
 
 	# For unknown reasons the above doesn't cause the trigger to fire so manual steps required
 	if get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").pressed:
-		get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").pressed = false
+		get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").button_pressed = false
 
 	if get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").pressed:
-		get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").pressed = false
+		get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").button_pressed = false
 
 	get_node(NO_SPRITESHEET_NODE).visible = true
 	zoom_value = 1
@@ -189,28 +189,28 @@ func character_creator_reset() -> void:
 
 
 func connect_selector_signals() -> void:
-	get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").connect("value_changed", self, "controls_on_h_frames_spin_box_value_changed")
-	get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").connect("value_changed", self, "controls_on_v_frames_spin_box_value_changed")
-	get_node(ANIM_CONTROLS_NODE).get_node("start_frame").connect("value_changed", self, "controls_on_start_frame_value_changed")
-	get_node(ANIM_CONTROLS_NODE).get_node("end_frame").connect("value_changed", self, "controls_on_end_frame_value_changed")
-	get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_scroll_bar").connect("value_changed", self, "controls_on_anim_speed_scroll_bar_value_changed")
+	get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").connect("value_changed", Callable(self, "controls_on_h_frames_spin_box_value_changed"))
+	get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").connect("value_changed", Callable(self, "controls_on_v_frames_spin_box_value_changed"))
+	get_node(ANIM_CONTROLS_NODE).get_node("start_frame").connect("value_changed", Callable(self, "controls_on_start_frame_value_changed"))
+	get_node(ANIM_CONTROLS_NODE).get_node("end_frame").connect("value_changed", Callable(self, "controls_on_end_frame_value_changed"))
+	get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_scroll_bar").connect("value_changed", Callable(self, "controls_on_anim_speed_scroll_bar_value_changed"))
 
 
 func disconnect_selector_signals() -> void:
-	if get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").is_connected("value_changed", self, "controls_on_h_frames_spin_box_value_changed"):
-		get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").disconnect("value_changed", self, "controls_on_h_frames_spin_box_value_changed")
+	if get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").is_connected("value_changed", Callable(self, "controls_on_h_frames_spin_box_value_changed")):
+		get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").disconnect("value_changed", Callable(self, "controls_on_h_frames_spin_box_value_changed"))
 
-	if get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").is_connected("value_changed", self, "controls_on_v_frames_spin_box_value_changed"):
-		get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").disconnect("value_changed", self, "controls_on_v_frames_spin_box_value_changed")
+	if get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").is_connected("value_changed", Callable(self, "controls_on_v_frames_spin_box_value_changed")):
+		get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").disconnect("value_changed", Callable(self, "controls_on_v_frames_spin_box_value_changed"))
 
-	if get_node(ANIM_CONTROLS_NODE).get_node("start_frame").is_connected("value_changed", self, "controls_on_start_frame_value_changed"):
-		get_node(ANIM_CONTROLS_NODE).get_node("start_frame").disconnect("value_changed", self, "controls_on_start_frame_value_changed")
+	if get_node(ANIM_CONTROLS_NODE).get_node("start_frame").is_connected("value_changed", Callable(self, "controls_on_start_frame_value_changed")):
+		get_node(ANIM_CONTROLS_NODE).get_node("start_frame").disconnect("value_changed", Callable(self, "controls_on_start_frame_value_changed"))
 
-	if get_node(ANIM_CONTROLS_NODE).get_node("end_frame").is_connected("value_changed", self, "controls_on_end_frame_value_changed"):
-		get_node(ANIM_CONTROLS_NODE).get_node("end_frame").disconnect("value_changed", self, "controls_on_end_frame_value_changed")
+	if get_node(ANIM_CONTROLS_NODE).get_node("end_frame").is_connected("value_changed", Callable(self, "controls_on_end_frame_value_changed")):
+		get_node(ANIM_CONTROLS_NODE).get_node("end_frame").disconnect("value_changed", Callable(self, "controls_on_end_frame_value_changed"))
 
-	if get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_scroll_bar").is_connected("value_changed", self, "controls_on_anim_speed_scroll_bar_value_changed"):
-		get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_scroll_bar").disconnect("value_changed", self, "controls_on_anim_speed_scroll_bar_value_changed")
+	if get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_scroll_bar").is_connected("value_changed", Callable(self, "controls_on_anim_speed_scroll_bar_value_changed")):
+		get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_scroll_bar").disconnect("value_changed", Callable(self, "controls_on_anim_speed_scroll_bar_value_changed"))
 
 
 func reset_frame_outlines() -> void:
@@ -313,9 +313,9 @@ func setup_test_data() -> void:
 		anim_metadata[loop][METADATA_SPRITESHEET_FRAMES_VERT] = frames_v[loop]
 
 	get_node(NO_SPRITESHEET_NODE).visible = false
-	get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed = true
+	get_node(DIR_COUNT_NODE).get_node("eight_directions").button_pressed = true
 	for loop in ["four_directions", "two_directions", "one_direction"]:
-		get_node(DIR_COUNT_NODE).get_node(loop).pressed = false
+		get_node(DIR_COUNT_NODE).get_node(loop).button_pressed = false
 	reset_arrow_colours()
 
 
@@ -384,13 +384,13 @@ func load_spritesheet(file_to_load, read_settings_from_metadata: bool = false, m
 	set_zoom_scale_automatically(source_image.get_size())
 
 	# Make scroll bars appear if necessary
-	get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").rect_min_size = source_image.get_size() * zoom_value
+	get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").custom_minimum_size = source_image.get_size() * zoom_value
 
 
 # spritesheet is loaded.
 func set_zoom_scale_automatically(spritesheet_size) -> void:
 
-	var available_space = get_node(SCROLL_VBOX_NODE).get_node("spritesheet_scroll_container").rect_size
+	var available_space = get_node(SCROLL_VBOX_NODE).get_node("spritesheet_scroll_container").size
 
 	# Calculate the scale to make the preview as big as possible in the preview window depending on
 	# the height to width ratio of the frame
@@ -571,8 +571,8 @@ func preview_update() -> void:
 		# Calculate the scale to make the preview as big as possible in the preview window depending on
 		# the height to width ratio of the frame
 		var preview_scale = Vector2.ONE
-		preview_scale.x = get_node(PREVIEW_BGRND_NODE).rect_size.x / frame_size.x
-		preview_scale.y = get_node(PREVIEW_BGRND_NODE).rect_size.y / frame_size.y
+		preview_scale.x = get_node(PREVIEW_BGRND_NODE).size.x / frame_size.x
+		preview_scale.y = get_node(PREVIEW_BGRND_NODE).size.y / frame_size.y
 
 		if preview_scale.y > preview_scale.x:
 			get_node(PREVIEW_NODE).get_node("anim_preview_sprite").scale = Vector2(preview_scale.x, preview_scale.x)
@@ -670,7 +670,7 @@ func animation_on_mirror_checkbox_toggled(button_pressed: bool) -> void:
 	if not has_spritesheet_been_loaded():
 		get_node(GENERIC_ERROR_NODE).dialog_text = "No animation has been configured."
 		get_node(GENERIC_ERROR_NODE).popup()
-		get_node(MIRROR_NODE).pressed = false
+		get_node(MIRROR_NODE).button_pressed = false
 		return
 
 	var opp_dir = find_opposite_direction(direction_selected)
@@ -901,15 +901,15 @@ func spritesheet_on_zoom_scrollbar_value_changed(value: float) -> void:
 	if not has_spritesheet_been_loaded():
 		return
 
-	zoom_value = stepify(value, 0.1)
+	zoom_value = snapped(value, 0.1)
 	get_node(ZOOM_LABEL_NODE).text = "Zoom: %sx" % str(zoom_value)
 	if zoom_value > 1.0:
-		get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").rect_min_size = source_image.get_size() * zoom_value
-		get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").rect_scale = Vector2.ONE
+		get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").custom_minimum_size = source_image.get_size() * zoom_value
+		get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").scale = Vector2.ONE
 	else:
-		get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").rect_min_size = source_image.get_size()
-		get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").rect_scale.x = zoom_value
-		get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").rect_scale.y = zoom_value
+		get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").custom_minimum_size = source_image.get_size()
+		get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").scale.x = zoom_value
+		get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").scale.y = zoom_value
 	draw_frame_outlines()
 
 
@@ -941,10 +941,10 @@ func nodename_on_node_name_text_changed(new_text: String) -> void:
 func directions_on_eight_directions_pressed() -> void:
 	if not get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed:
 		# Don't let them untick all boxes
-		get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed = true
+		get_node(DIR_COUNT_NODE).get_node("eight_directions").button_pressed = true
 
 	for loop in ["four_directions", "two_directions", "one_direction"]:
-		get_node(DIR_COUNT_NODE).get_node(loop).pressed = false
+		get_node(DIR_COUNT_NODE).get_node(loop).button_pressed = false
 	reset_arrow_colours()
 
 
@@ -953,11 +953,11 @@ func directions_on_eight_directions_pressed() -> void:
 func directions_on_four_directions_pressed() -> void:
 	if not get_node(DIR_COUNT_NODE).get_node("four_directions").pressed:
 		# Don't let them untick all boxes
-		get_node(DIR_COUNT_NODE).get_node("four_directions").pressed = true
+		get_node(DIR_COUNT_NODE).get_node("four_directions").button_pressed = true
 	else:
 		# Current direction is illegal
 		for loop in ["eight_directions", "two_directions", "one_direction"]:
-			get_node(DIR_COUNT_NODE).get_node(loop).pressed = false
+			get_node(DIR_COUNT_NODE).get_node(loop).button_pressed = false
 		if not direction_selected in DIR_LIST_4:
 			direction_selected = DIR_UP
 			activate_direction(DIR_UP)
@@ -969,10 +969,10 @@ func directions_on_four_directions_pressed() -> void:
 func directions_on_two_directions_pressed() -> void:
 	if not get_node(DIR_COUNT_NODE).get_node("two_directions").pressed:
 		# Don't let them untick all boxes
-		get_node(DIR_COUNT_NODE).get_node("two_directions").pressed = true
+		get_node(DIR_COUNT_NODE).get_node("two_directions").button_pressed = true
 	else:
 		for loop in ["eight_directions", "four_directions", "one_direction"]:
-			get_node(DIR_COUNT_NODE).get_node(loop).pressed = false
+			get_node(DIR_COUNT_NODE).get_node(loop).button_pressed = false
 		# Current direction is illegal
 		if not direction_selected in DIR_LIST_2:
 			direction_selected = DIR_RIGHT
@@ -985,10 +985,10 @@ func directions_on_two_directions_pressed() -> void:
 func directions_on_one_direction_pressed() -> void:
 	if not get_node(DIR_COUNT_NODE).get_node("one_direction").pressed:
 		# Don't let them untick all boxes
-		get_node(DIR_COUNT_NODE).get_node("one_direction").pressed = true
+		get_node(DIR_COUNT_NODE).get_node("one_direction").button_pressed = true
 	else:
 		for loop in ["eight_directions", "four_directions", "two_directions"]:
-			get_node(DIR_COUNT_NODE).get_node(loop).pressed = false
+			get_node(DIR_COUNT_NODE).get_node(loop).button_pressed = false
 		# Current direction is illegal
 		if not direction_selected in DIR_LIST_1:
 			direction_selected = DIR_DOWN
@@ -1006,7 +1006,7 @@ func return_current_animation_type() -> String:
 	elif get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").pressed:
 		animation_type = TYPE_IDLE
 
-	assert(not animation_type.empty(), "No animation type selected.")
+	assert(not animation_type.is_empty(), "No animation type selected.")
 
 	return animation_type
 
@@ -1018,8 +1018,8 @@ func check_activate_direction(direction) -> void:
 	direction_requested = direction
 
 	if get_node(STORE_ANIM_NODE).visible:
-		get_node(ARROWS_NODE).get_node("Container_%s" % direction).get_node("set_dir_%s" % direction).pressed = false
-		get_node(ARROWS_NODE).get_node("Container_%s" % direction).get_node("unset_dir_%s" % direction).pressed = false
+		get_node(ARROWS_NODE).get_node("Container_%s" % direction).get_node("set_dir_%s" % direction).button_pressed = false
+		get_node(ARROWS_NODE).get_node("Container_%s" % direction).get_node("unset_dir_%s" % direction).button_pressed = false
 		$InformationWindows/unstored_changes_window.popup()
 	else:
 		activate_direction(direction)
@@ -1039,7 +1039,7 @@ func activate_direction(direction) -> void:
 	direction_selected = direction
 
 	for arrow in arrows:
-		arrow.pressed = false
+		arrow.button_pressed = false
 
 	if direction == DIR_UP or direction == DIR_DOWN:
 		get_node(MIRROR_NODE).visible = false
@@ -1050,7 +1050,7 @@ func activate_direction(direction) -> void:
 
 	# If no animation has been created yet for this direction
 	if anim_metadata[get_metadata_array_offset()][METADATA_SPRITESHEET_FIRST_FRAME] == 0:
-		get_node(ARROWS_NODE).get_node("Container_%s" % direction).get_node("unset_dir_%s" % direction).pressed = true
+		get_node(ARROWS_NODE).get_node("Container_%s" % direction).get_node("unset_dir_%s" % direction).button_pressed = true
 		spritesheet_settings[2] = 0
 		spritesheet_settings[3] = 0
 
@@ -1058,7 +1058,7 @@ func activate_direction(direction) -> void:
 		get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value = 0
 		preview_hide()
 	else:
-		get_node(ARROWS_NODE).get_node("Container_%s" % direction).get_node("set_dir_%s" % direction).pressed = true
+		get_node(ARROWS_NODE).get_node("Container_%s" % direction).get_node("set_dir_%s" % direction).button_pressed = true
 
 		var metadata = anim_metadata[get_metadata_array_offset()]
 
@@ -1215,7 +1215,7 @@ func find_opposite_direction(direction:String) -> String:
 		DIR_UP_LEFT:
 			opposite_dir = DIR_UP_RIGHT
 
-	assert(not opposite_dir.empty(), "This should never happen : direction = %s" % direction)
+	assert(not opposite_dir.is_empty(), "This should never happen : direction = %s" % direction)
 	return opposite_dir
 
 
@@ -1322,12 +1322,12 @@ func export_player(scene_name) -> void:
 	# when the child yields
 	var export_state = export_generate_animations(new_character, num_directions)
 	if export_state is GDScriptFunctionState:
-		export_state = yield(export_state, "completed")
+		export_state = await export_state.completed
 	# Add Collision shape to the ESCPlayer
 	var rectangle_shape = RectangleShape2D.new()
 	var collision_shape = CollisionShape2D.new()
 	progress_bar_update("Creating collision shape")
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 
 	collision_shape.shape = rectangle_shape
 	collision_shape.shape.extents = export_largest_sprite / 2
@@ -1335,7 +1335,7 @@ func export_player(scene_name) -> void:
 
 	new_character.add_child(collision_shape)
 	progress_bar_update("Setting up dialog position")
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 
 	# Add Dialog Position to the ESCPlayer
 	var dialog_position = ESCDialogLocation.new()
@@ -1352,11 +1352,11 @@ func export_player(scene_name) -> void:
 		interaction_position.set_owner(new_character)
 
 	progress_bar_update("Configuring animations")
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 	# Make it so all the nodes can be seen in the scene tree
 	new_character.animations = animations_resource
 	progress_bar_update("Adding child to scene tree")
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 	get_tree().edited_scene_root.add_child(new_character)
 	new_character.set_owner(get_tree().edited_scene_root)
 
@@ -1371,21 +1371,21 @@ func export_player(scene_name) -> void:
 	var packed_scene = PackedScene.new()
 
 	progress_bar_update("Packing scene - this might take up to 30 seconds")
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 	packed_scene.pack(get_tree().edited_scene_root.get_node(new_character.name))
 
 	progress_bar_update("Resource saving - this might take up to 30 seconds")
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 	# Flag suggestions from https://godotengine.org/qa/50437/how-to-turn-a-node-into-a-packedscene-via-gdscript
 	ResourceSaver.save(scene_name, packed_scene, ResourceSaver.FLAG_CHANGE_PATH|ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS|ResourceSaver.FLAG_COMPRESS)
 
 	progress_bar_update("Releasing resources - this might take up to 30 seconds")
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 	new_character.queue_free()
 
 	get_tree().edited_scene_root.get_node(new_character.name).queue_free()
 	plugin_reference.open_scene(scene_name)
-	plugin_reference.make_visible(false)
+	plugin_reference._make_visible(false)
 	get_node(EXPORT_PROGRESS_NODE).hide()
 	get_node(EXPORT_COMPLETE_NODE).popup()
 
@@ -1405,7 +1405,7 @@ func progress_bar_update(message, bar_increase_amount = 1) -> void:
 func export_generate_animations(character_node, num_directions) -> void:
 	# This variable is used instead of running this function in a thread as I hit this issue
 	# when I tried to thread this - https://github.com/godotengine/godot/issues/38058
-	var display_refresh_timer:int = OS.get_ticks_msec()
+	var display_refresh_timer:int = Time.get_ticks_msec()
 	var direction_names
 	var loaded_spritesheet: String
 	var largest_frame_dimensions: Vector2 = Vector2.ZERO
@@ -1425,9 +1425,9 @@ func export_generate_animations(character_node, num_directions) -> void:
 		for anim_dir in direction_names:
 			# Using this in place of threads due to the above mentioned issue so that the
 			# UI continues to update while the export is running
-			var current_ticks = OS.get_ticks_msec()
+			var current_ticks = Time.get_ticks_msec()
 			if current_ticks - display_refresh_timer > 30:
-				yield(get_tree(), "idle_frame")
+				await get_tree().idle_frame
 
 				display_refresh_timer = current_ticks
 
@@ -1486,7 +1486,7 @@ func export_generate_animations(character_node, num_directions) -> void:
 		sprite_frames.add_frame ("default", texture, loop )
 		sprite_frames.set_animation_speed("default", default_anim_speed)
 
-	var animated_sprite = AnimatedSprite.new()
+	var animated_sprite = AnimatedSprite2D.new()
 
 	progress_bar_update("Adding sprite frames to node")
 	animated_sprite.frames = sprite_frames
@@ -1595,9 +1595,9 @@ func _on_control_gui_input(event: InputEvent) -> void:
 
 		var AbsoluteFrame = ((ClickedTile.y * NumHorizFrames) + ClickedTile.x) + 1
 
-		if event.button_index == BUTTON_LEFT:
+		if event.button_index == MOUSE_BUTTON_LEFT:
 			get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value = AbsoluteFrame
-		if event.button_index == BUTTON_RIGHT:
+		if event.button_index == MOUSE_BUTTON_RIGHT:
 			get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value = AbsoluteFrame
 
 
@@ -1634,19 +1634,19 @@ func unstored_animchange_warning_on_cancel_button_pressed() -> void:
 
 func change_animation_type(anim_type) -> void:
 	if anim_type == "walk":
-		get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed = true
-		get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").pressed = false
-		get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").pressed = false
+		get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").button_pressed = true
+		get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").button_pressed = false
+		get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").button_pressed = false
 		animation_type_selected = "walk"
 	elif anim_type == "talk":
-		get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").pressed = true
-		get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").pressed = false
-		get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed = false
+		get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").button_pressed = true
+		get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").button_pressed = false
+		get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").button_pressed = false
 		animation_type_selected = "talk"
 	else:	# idle
-		get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").pressed = true
-		get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed = false
-		get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").pressed = false
+		get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").button_pressed = true
+		get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").button_pressed = false
+		get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").button_pressed = false
 		animation_type_selected = "idle"
 	reset_arrow_colours()
 
@@ -1657,15 +1657,15 @@ func change_animation_type(anim_type) -> void:
 func animation_on_walk_checkbox_pressed() -> void:
 	# Don't let the checkbox be unselected if it's currently selected
 	if animation_type_selected == "walk":
-		get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed = true
+		get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").button_pressed = true
 		return
 	if get_node(STORE_ANIM_NODE).visible:
 		# Reset the buttons back to how they were
-		get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed = false
+		get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").button_pressed = false
 		if animation_type_selected == "talk":
-			get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").pressed = true
+			get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").button_pressed = true
 		if animation_type_selected == "idle":
-			get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").pressed = true
+			get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").button_pressed = true
 		animation_type_requested="walk"
 		get_node(UNSTORED_ANIMTYPE_CHANGE_NODE).popup()
 	else:
@@ -1678,15 +1678,15 @@ func animation_on_walk_checkbox_pressed() -> void:
 func animation_on_talk_checkbox_pressed() -> void:
 	# Don't let the checkbox be unselected if it's currently selected
 	if animation_type_selected == "talk":
-		get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").pressed = true
+		get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").button_pressed = true
 		return
 	if get_node(STORE_ANIM_NODE).visible:
 		# Reset the buttons back to how they were
-		get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").pressed = false
+		get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").button_pressed = false
 		if animation_type_selected == "idle":
-			get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").pressed = true
+			get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").button_pressed = true
 		if animation_type_selected == "walk":
-			get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed = true
+			get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").button_pressed = true
 		animation_type_requested="talk"
 		get_node(UNSTORED_ANIMTYPE_CHANGE_NODE).popup()
 	else:
@@ -1699,15 +1699,15 @@ func animation_on_talk_checkbox_pressed() -> void:
 func animation_on_idle_checkbox_pressed() -> void:
 	# Don't let the checkbox be unselected if it's currently selected
 	if animation_type_selected == "idle":
-		get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").pressed = true
+		get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").button_pressed = true
 		return
 	if get_node(STORE_ANIM_NODE).visible:
 		# Reset the buttons back to how they were
-		get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").pressed = false
+		get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").button_pressed = false
 		if animation_type_selected == "talk":
-			get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").pressed = true
+			get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").button_pressed = true
 		if animation_type_selected == "walk":
-			get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed = true
+			get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").button_pressed = true
 		animation_type_requested="idle"
 		get_node(UNSTORED_ANIMTYPE_CHANGE_NODE).popup()
 	else:
@@ -1722,12 +1722,12 @@ func _on_AutoStoreCheckBox_toggled(button_pressed: bool) -> void:
 # When player checkbox selected
 func _on_player_pressed():
 # If player button was already selected, don't let it be unselected.
-	get_node(CHAR_TYPE_NODE).get_node("player").pressed = true
-	get_node(CHAR_TYPE_NODE).get_node("npc").pressed = false
+	get_node(CHAR_TYPE_NODE).get_node("player").button_pressed = true
+	get_node(CHAR_TYPE_NODE).get_node("npc").button_pressed = false
 
 
 # When NPC checkbox selected
 func _on_npc_pressed():
 # If npc button was already selected, don't let it be unselected.
-	get_node(CHAR_TYPE_NODE).get_node("npc").pressed = true
-	get_node(CHAR_TYPE_NODE).get_node("player").pressed = false
+	get_node(CHAR_TYPE_NODE).get_node("npc").button_pressed = true
+	get_node(CHAR_TYPE_NODE).get_node("player").button_pressed = false

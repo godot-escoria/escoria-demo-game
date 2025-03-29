@@ -1,372 +1,364 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=3 uid="uid://176d1virb6l5"]
 
-[ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=3]
-[ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=8]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=10]
-[ext_resource path="res://game/rooms/room02/room2background.png" type="Texture" id=11]
-[ext_resource path="res://game/rooms/room02/floor3.png" type="Texture" id=12]
-[ext_resource path="res://game/rooms/room02/floor1.png" type="Texture" id=13]
-[ext_resource path="res://game/rooms/room02/floor4.png" type="Texture" id=14]
-[ext_resource path="res://game/rooms/room02/floor2.png" type="Texture" id=15]
+[ext_resource type="FontFile" path="res://game/fonts/caslonantique.tres" id="3"]
+[ext_resource type="PackedScene" uid="uid://chf3qovs1q8kr" path="res://game/characters/mark/mark.tscn" id="4"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="8"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="10"]
+[ext_resource type="Texture2D" uid="uid://np2gs7cworil" path="res://game/rooms/room02/room2background.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://b3eoos4774fxy" path="res://game/rooms/room02/floor3.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://ddy4t8pr2hcxl" path="res://game/rooms/room02/floor1.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://cft5n7oe4qbra" path="res://game/rooms/room02/floor4.png" id="14"]
+[ext_resource type="Texture2D" uid="uid://c3460mwplxiqy" path="res://game/rooms/room02/floor2.png" id="15"]
 
-[sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 10, 378, 86, 337, 88, 374, 8, 545, 121, 355, 488, 354, 409, 546, 1184, 373, 1185, 343, 1272, 393, 1272, 548, 875, 546, 802, 357, 1161, 358 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 3, 2 ), PoolIntArray( 7, 8, 9, 10 ), PoolIntArray( 10, 11, 12, 13, 7 ) ]
-outlines = [ PoolVector2Array( 121, 355, 488, 354, 409, 546, 8, 545, 10, 378, 86, 337, 88, 374 ), PoolVector2Array( 802, 357, 875, 546, 1272, 548, 1272, 393, 1185, 343, 1184, 373, 1161, 358 ) ]
+[sub_resource type="NavigationPolygon" id="1"]
+vertices = PackedVector2Array(10, 378, 86, 337, 88, 374, 8, 545, 121, 355, 488, 354, 409, 546, 1184, 373, 1185, 343, 1272, 393, 1272, 548, 875, 546, 802, 357, 1161, 358)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 3, 2), PackedInt32Array(7, 8, 9, 10), PackedInt32Array(10, 11, 12, 13, 7)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(121, 355, 488, 354, 409, 546, 8, 545, 10, 378, 86, 337, 88, 374), PackedVector2Array(802, 357, 875, 546, 1272, 548, 1272, 393, 1185, 343, 1184, 373, 1161, 358)])
 
-[sub_resource type="NavigationPolygon" id=2]
-vertices = PoolVector2Array( 10, 378, 88, 335, 86, 373, 8, 542, 1185, 374, 1185, 343, 1270, 395, 1272, 545, 114, 355, 1161, 357 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6 ), PoolIntArray( 6, 7, 3, 4 ), PoolIntArray( 8, 9, 4, 3, 2 ) ]
-outlines = [ PoolVector2Array( 88, 335, 86, 373, 114, 355, 1161, 357, 1185, 374, 1185, 343, 1270, 395, 1272, 545, 8, 542, 10, 378 ) ]
+[sub_resource type="NavigationPolygon" id="2"]
+vertices = PackedVector2Array(10, 378, 88, 335, 86, 373, 8, 542, 1185, 374, 1185, 343, 1270, 395, 1272, 545, 114, 355, 1161, 357)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6), PackedInt32Array(6, 7, 3, 4), PackedInt32Array(8, 9, 4, 3, 2)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(88, 335, 86, 373, 114, 355, 1161, 357, 1185, 374, 1185, 343, 1270, 395, 1272, 545, 8, 542, 10, 378)])
 
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 39, 39.5 )
+[sub_resource type="RectangleShape2D" id="3"]
+size = Vector2(78, 79)
 
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 39, 39.5 )
+[sub_resource type="RectangleShape2D" id="4"]
+size = Vector2(78, 79)
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id="5"]
 length = 0.001
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Room2Background/Floor1:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [ Vector2( 495, 650 ) ]
+"values": [Vector2(495, 650)]
 }
 tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
 tracks/1/path = NodePath("Room2Background/Floor2:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [ Vector2( 585, 650 ) ]
+"values": [Vector2(585, 650)]
 }
 tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
 tracks/2/path = NodePath("Room2Background/Floor3:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [ Vector2( 696, 650 ) ]
+"values": [Vector2(696, 650)]
 }
 tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
 tracks/3/path = NodePath("Room2Background/Floor4:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [ Vector2( 786, 650 ) ]
+"values": [Vector2(786, 650)]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id="6"]
 length = 1.6
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Room2Background/Floor1:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 0.5, 1 ),
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.5, 1),
 "update": 0,
-"values": [ Vector2( 495, 650 ), Vector2( 495, 450 ) ]
+"values": [Vector2(495, 650), Vector2(495, 450)]
 }
 tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
 tracks/1/path = NodePath("Room2Background/Floor2:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 1.2 ),
-"transitions": PoolRealArray( 1, 0.5, 1 ),
+"times": PackedFloat32Array(0, 0.2, 1.2),
+"transitions": PackedFloat32Array(1, 0.5, 1),
 "update": 0,
-"values": [ Vector2( 585, 650 ), Vector2( 585, 650 ), Vector2( 585, 450 ) ]
+"values": [Vector2(585, 650), Vector2(585, 650), Vector2(585, 450)]
 }
 tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
 tracks/2/path = NodePath("Room2Background/Floor4:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.6, 1.6 ),
-"transitions": PoolRealArray( 1, 0.5, 1 ),
+"times": PackedFloat32Array(0, 0.6, 1.6),
+"transitions": PackedFloat32Array(1, 0.5, 1),
 "update": 0,
-"values": [ Vector2( 786, 650 ), Vector2( 786, 650 ), Vector2( 786, 450 ) ]
+"values": [Vector2(786, 650), Vector2(786, 650), Vector2(786, 450)]
 }
 tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
 tracks/3/path = NodePath("Room2Background/Floor3:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.4, 1.4 ),
-"transitions": PoolRealArray( 1, 0.5, 1 ),
+"times": PackedFloat32Array(0, 0.4, 1.4),
+"transitions": PackedFloat32Array(1, 0.5, 1),
 "update": 0,
-"values": [ Vector2( 696, 650 ), Vector2( 696, 650 ), Vector2( 696, 450 ) ]
+"values": [Vector2(696, 650), Vector2(696, 650), Vector2(696, 450)]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id="7"]
 length = 1.6
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("Room2Background/Floor1:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.6, 1.6 ),
-"transitions": PoolRealArray( 1.94482e-05, 2.05675, 2 ),
+"times": PackedFloat32Array(0, 0.6, 1.6),
+"transitions": PackedFloat32Array(1.94482e-05, 2.05675, 2),
 "update": 0,
-"values": [ Vector2( 495, 450 ), Vector2( 495, 450 ), Vector2( 495, 650 ) ]
+"values": [Vector2(495, 450), Vector2(495, 450), Vector2(495, 650)]
 }
 tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
 tracks/1/path = NodePath("Room2Background/Floor2:position")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.4, 1.4 ),
-"transitions": PoolRealArray( 1e-05, 2, 2 ),
+"times": PackedFloat32Array(0, 0.4, 1.4),
+"transitions": PackedFloat32Array(1e-05, 2, 2),
 "update": 0,
-"values": [ Vector2( 585, 450 ), Vector2( 585, 450 ), Vector2( 585, 650 ) ]
+"values": [Vector2(585, 450), Vector2(585, 450), Vector2(585, 650)]
 }
 tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
 tracks/2/path = NodePath("Room2Background/Floor3:position")
 tracks/2/interp = 2
 tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.2, 1.2 ),
-"transitions": PoolRealArray( 1e-05, 2, 2 ),
+"times": PackedFloat32Array(0, 0.2, 1.2),
+"transitions": PackedFloat32Array(1e-05, 2, 2),
 "update": 0,
-"values": [ Vector2( 696, 450 ), Vector2( 696, 450 ), Vector2( 696, 650 ) ]
+"values": [Vector2(696, 450), Vector2(696, 450), Vector2(696, 650)]
 }
 tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
 tracks/3/path = NodePath("Room2Background/Floor4:position")
 tracks/3/interp = 2
 tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 2.05675, 2 ),
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(2.05675, 2),
 "update": 0,
-"values": [ Vector2( 786, 450 ), Vector2( 786, 650 ) ]
+"values": [Vector2(786, 450), Vector2(786, 650)]
 }
 
-[sub_resource type="CapsuleShape2D" id=8]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8318n"]
+_data = {
+"RESET": SubResource("5"),
+"bridge_close": SubResource("6"),
+"bridge_open": SubResource("7")
+}
+
+[sub_resource type="CapsuleShape2D" id="8"]
 
 [node name="room2" type="Node2D"]
-script = ExtResource( 6 )
+script = ExtResource("6")
 global_id = "room2"
 esc_script = "res://game/rooms/room02/esc/room02_bridge.esc"
-player_scene = ExtResource( 4 )
-camera_limits = [ Rect2( 0, 0, 1280, 555 ) ]
+player_scene = ExtResource("4")
+camera_limits = [Rect2(0, 0, 1280, 555)]
 editor_debug_mode = 1
 
-[node name="Room2Background" type="Sprite" parent="."]
-texture = ExtResource( 11 )
+[node name="Room2Background" type="Sprite2D" parent="."]
+texture = ExtResource("11")
 centered = false
 
 [node name="room_label" type="Label" parent="Room2Background"]
-margin_left = 18.0
-margin_top = 12.0
-margin_right = 100.0
-margin_bottom = 33.0
-custom_fonts/font = ExtResource( 3 )
+offset_left = 18.0
+offset_top = 12.0
+offset_right = 100.0
+offset_bottom = 33.0
+theme_override_fonts/font = ExtResource("3")
 text = "ROOM 2"
 
-[node name="Floor1" type="Sprite" parent="Room2Background"]
-position = Vector2( 495, 650 )
-texture = ExtResource( 13 )
+[node name="Floor1" type="Sprite2D" parent="Room2Background"]
+position = Vector2(495, 650)
+texture = ExtResource("13")
 
-[node name="Floor2" type="Sprite" parent="Room2Background"]
-position = Vector2( 585, 650 )
-texture = ExtResource( 15 )
+[node name="Floor2" type="Sprite2D" parent="Room2Background"]
+position = Vector2(585, 650)
+texture = ExtResource("15")
 
-[node name="Floor4" type="Sprite" parent="Room2Background"]
-position = Vector2( 786, 650 )
-texture = ExtResource( 14 )
+[node name="Floor4" type="Sprite2D" parent="Room2Background"]
+position = Vector2(786, 650)
+texture = ExtResource("14")
 
-[node name="Floor3" type="Sprite" parent="Room2Background"]
-position = Vector2( 696, 650 )
-scale = Vector2( 1.01351, 1 )
-texture = ExtResource( 12 )
+[node name="Floor3" type="Sprite2D" parent="Room2Background"]
+position = Vector2(696, 650)
+scale = Vector2(1.01351, 1)
+texture = ExtResource("12")
 
 [node name="Polygon2D" type="Polygon2D" parent="Room2Background"]
-color = Color( 0, 0, 0, 1 )
-polygon = PoolVector2Array( 0, 550, 1280, 550, 1280, 800, 0, 800 )
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(0, 550, 1280, 550, 1280, 800, 0, 800)
 
 [node name="room_label2" type="Label" parent="Room2Background"]
-margin_left = 17.0
-margin_top = 558.0
-margin_right = 1126.0
-margin_bottom = 627.0
-custom_fonts/font = ExtResource( 3 )
-text = "Room  2 demonstrates modifying the walkable area of a room. Performing \"use\" on the button will cause the original navmesh (which has a gap 
+offset_left = 17.0
+offset_top = 558.0
+offset_right = 1126.0
+offset_bottom = 627.0
+theme_override_fonts/font = ExtResource("3")
+text = "Room  2 demonstrates modifying the walkable area of a room. Performing \"use\" on the button will cause the original navigation_mesh (which has a gap 
 in the middle) with one that covers the whole room (platforms + bridge) - allowing the player to walk from one side to the other.
 Setting the state of the r2_bridge variable to \"bridge_open\" or \"bridge_closed\" (see button.esc) automatically runs the animation with the same name."
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="r_platform" type="Area2D" parent="."]
-pause_mode = 1
-script = ExtResource( 7 )
+process_mode = 1
+script = ExtResource("7")
 global_id = "r2_right_platform"
 esc_script = "res://game/rooms/room02/esc/right_platform.esc"
-interaction_direction = 3
 tooltip_name = "Right platform"
 default_action = "look"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
-animations = null
+combine_when_selected_action_is_in = PackedStringArray()
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="r_platform"]
-polygon = PoolVector2Array( 870.974, 538.342, 827.536, 353.995, 1181.4, 357.174, 1287.34, 413.325, 1289.46, 545.758 )
+polygon = PackedVector2Array(870.974, 538.342, 827.536, 353.995, 1181.4, 357.174, 1287.34, 413.325, 1289.46, 545.758)
 
-[node name="action_pos" type="Position2D" parent="r_platform"]
-position = Vector2( 394, 460 )
-script = ExtResource( 8 )
+[node name="action_pos" type="Marker2D" parent="r_platform"]
+position = Vector2(394, 460)
+script = ExtResource("8")
 
 [node name="r_door" type="Area2D" parent="."]
-pause_mode = 1
-script = ExtResource( 7 )
+process_mode = 1
+script = ExtResource("7")
 global_id = "r2_r_exit"
 esc_script = "res://game/rooms/room02/esc/right_exit.esc"
-is_exit = true
 tooltip_name = "Right exit"
 default_action = "walk"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
-animations = null
+combine_when_selected_action_is_in = PackedStringArray()
+is_exit = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="r_door"]
-polygon = PoolVector2Array( 1177.94, 348.61, 1175.95, 45.3759, 1276.06, 92.0953, 1277.95, 399.407 )
+polygon = PackedVector2Array(1177.94, 348.61, 1175.95, 45.3759, 1276.06, 92.0953, 1277.95, 399.407)
 
-[node name="Position2D" type="Position2D" parent="r_door"]
-position = Vector2( 1227, 387 )
-script = ExtResource( 8 )
+[node name="Marker2D" type="Marker2D" parent="r_door"]
+position = Vector2(1227, 387)
+script = ExtResource("8")
 
 [node name="l_door" type="Area2D" parent="."]
-pause_mode = 1
-script = ExtResource( 7 )
+process_mode = 1
+script = ExtResource("7")
 global_id = "r2_l_exit"
 esc_script = "res://game/rooms/room02/esc/left_exit.esc"
-is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
-animations = null
+combine_when_selected_action_is_in = PackedStringArray()
+is_exit = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="l_door"]
-polygon = PoolVector2Array( -1.37926, 443.158, 7.96461, 122.796, 84.0504, 77.4118, 88.055, 377.751 )
+polygon = PackedVector2Array(-1.37926, 443.158, 7.96461, 122.796, 84.0504, 77.4118, 88.055, 377.751)
 
-[node name="Position2D" type="Position2D" parent="l_door"]
-position = Vector2( 52.1462, 384.691 )
-script = ExtResource( 8 )
+[node name="Marker2D" type="Marker2D" parent="l_door"]
+position = Vector2(52.1462, 384.691)
+script = ExtResource("8")
 
-[node name="player_start" type="Position2D" parent="."]
-position = Vector2( 76.7617, 437.649 )
-script = ExtResource( 8 )
+[node name="player_start" type="Marker2D" parent="."]
+position = Vector2(76.7617, 437.649)
+script = ExtResource("8")
 global_id = "r2_player_start"
 is_start_location = true
 
-[node name="walkable_area" type="Navigation2D" parent="."]
-script = ExtResource( 10 )
-debug_mode = 1
+[node name="walkable_area" type="Node2D" parent="."]
+script = ExtResource("10")
 
-[node name="bridge_open" type="NavigationPolygonInstance" parent="walkable_area"]
-navpoly = SubResource( 1 )
+[node name="bridge_open" type="NavigationRegion2D" parent="walkable_area"]
+navigation_polygon = SubResource("1")
 
-[node name="bridge_closed" type="NavigationPolygonInstance" parent="walkable_area"]
+[node name="bridge_closed" type="NavigationRegion2D" parent="walkable_area"]
 visible = false
-navpoly = SubResource( 2 )
+navigation_polygon = SubResource("2")
 enabled = false
 
 [node name="button_left" type="Area2D" parent="."]
-pause_mode = 1
-script = ExtResource( 7 )
+process_mode = 1
+script = ExtResource("7")
 global_id = "r2_button"
 esc_script = "res://game/rooms/room02/esc/button.esc"
 tooltip_name = "button"
+dialog_color = Color(0.196078, 1, 0, 1)
 default_action = "use"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 0.196078, 1, 0, 1 )
-animations = null
+combine_when_selected_action_is_in = PackedStringArray()
 
-[node name="Position2D" type="Position2D" parent="button_left"]
+[node name="Marker2D" type="Marker2D" parent="button_left"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="button_left"]
-position = Vector2( 370, 190.5 )
-shape = SubResource( 3 )
+position = Vector2(370, 190.5)
+shape = SubResource("3")
 
-[node name="ESCLocation" type="Position2D" parent="button_left"]
-position = Vector2( 369, 375 )
-script = ExtResource( 8 )
+[node name="ESCLocation" type="Marker2D" parent="button_left"]
+position = Vector2(369, 375)
+script = ExtResource("8")
 
 [node name="button_right2" type="Area2D" parent="."]
-pause_mode = 1
-script = ExtResource( 7 )
+process_mode = 1
+script = ExtResource("7")
 global_id = "r2_button_right"
 esc_script = "res://game/rooms/room02/esc/button.esc"
 tooltip_name = "button"
+dialog_color = Color(0.196078, 1, 0, 1)
 default_action = "use"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 0.196078, 1, 0, 1 )
-animations = null
+combine_when_selected_action_is_in = PackedStringArray()
 
-[node name="Position2D" type="Position2D" parent="button_right2"]
+[node name="Marker2D" type="Marker2D" parent="button_right2"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="button_right2"]
-position = Vector2( 911, 190.5 )
-shape = SubResource( 4 )
+position = Vector2(911, 190.5)
+shape = SubResource("4")
 
-[node name="ESCLocation" type="Position2D" parent="button_right2"]
-position = Vector2( 914, 378 )
-script = ExtResource( 8 )
+[node name="ESCLocation" type="Marker2D" parent="button_right2"]
+position = Vector2(914, 378)
+script = ExtResource("8")
 
 [node name="bridge" type="Area2D" parent="."]
-pause_mode = 1
-script = ExtResource( 7 )
+process_mode = 1
+script = ExtResource("7")
 global_id = "r2_bridge"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
-animations = null
+combine_when_selected_action_is_in = PackedStringArray()
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="bridge"]
 root_node = NodePath("../..")
-anims/RESET = SubResource( 5 )
-anims/bridge_close = SubResource( 6 )
-anims/bridge_open = SubResource( 7 )
+libraries = {
+"": SubResource("AnimationLibrary_8318n")
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="bridge"]
-shape = SubResource( 8 )
+shape = SubResource("8")

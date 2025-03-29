@@ -4,7 +4,7 @@ extends Control
 
 # Make the pause menu process in pause mode and hide it just to be sure
 func _ready():
-	self.pause_mode = Node.PAUSE_MODE_PROCESS
+	self.process_mode = Node.PROCESS_MODE_ALWAYS
 	hide()
 
 

@@ -1,33 +1,29 @@
+@tool
 # A simple dialog manager for Escoria
-tool
 extends EditorPlugin
 
 const MANAGER_CLASS = "res://addons/escoria-dialog-simple/esc_dialog_simple.gd"
 
-const READING_SPEED_IN_WPM_DEFAULT_VALUE = 200
-const TEXT_TIME_PER_LETTER_MS_DEFAULT_VALUE = 100
-const TEXT_TIME_PER_LETTER_MS_FAST_DEFAULT_VALUE = 25
 
-
-var left_click_actions: PoolStringArray = [
+var left_click_actions: PackedStringArray = [
 	SimpleDialogSettings.LEFT_CLICK_ACTION_SPEED_UP,
 	SimpleDialogSettings.LEFT_CLICK_ACTION_INSTANT_FINISH,
 	SimpleDialogSettings.LEFT_CLICK_ACTION_NOTHING
 ]
 
-var stop_talking_animation_on_options: PoolStringArray = [
+var stop_talking_animation_on_options: PackedStringArray = [
 	SimpleDialogSettings.STOP_TALKING_ANIMATION_ON_END_OF_TEXT,
 	SimpleDialogSettings.STOP_TALKING_ANIMATION_ON_END_OF_AUDIO
 ]
 
 
 # Override function to return the plugin name.
-func get_plugin_name():
+func _get_plugin_name():
 	return "escoria-dialog-simple"
 
 
 # Unregister ourselves
-func disable_plugin():
+func _disable_plugin():
 	print("Disabling plugin Escoria Dialog Simple")
 	ESCProjectSettingsManager.remove_setting(
 		ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE
@@ -65,7 +61,7 @@ func disable_plugin():
 
 
 # Add ourselves to the list of dialog managers
-func enable_plugin():
+func _enable_plugin():
 	print("Enabling plugin Escoria Dialog Simple")
 
 	if EscoriaPlugin.register_dialog_manager(self, MANAGER_CLASS):
@@ -88,17 +84,17 @@ func enable_plugin():
 
 		ESCProjectSettingsManager.register_setting(
 			SimpleDialogSettings.TEXT_TIME_PER_LETTER_MS,
-			TEXT_TIME_PER_LETTER_MS_DEFAULT_VALUE,
+			SimpleDialogSettings.TEXT_TIME_PER_LETTER_MS_DEFAULT_VALUE,
 			{
-				"type": TYPE_REAL
+				"type": TYPE_FLOAT
 			}
 		)
 
 		ESCProjectSettingsManager.register_setting(
 			SimpleDialogSettings.TEXT_TIME_PER_LETTER_MS_FAST,
-			TEXT_TIME_PER_LETTER_MS_FAST_DEFAULT_VALUE,
+			SimpleDialogSettings.TEXT_TIME_PER_LETTER_MS_FAST_DEFAULT_VALUE,
 			{
-				"type": TYPE_REAL
+				"type": TYPE_FLOAT
 			}
 		)
 
@@ -112,13 +108,13 @@ func enable_plugin():
 
 		ESCProjectSettingsManager.register_setting(
 			SimpleDialogSettings.READING_SPEED_IN_WPM,
-			READING_SPEED_IN_WPM_DEFAULT_VALUE,
+			SimpleDialogSettings.READING_SPEED_IN_WPM_DEFAULT_VALUE,
 			{
 				"type": TYPE_INT
 			}
 		)
 
-		var left_click_actions_string: String = left_click_actions.join(",")
+		var left_click_actions_string: String = ",".join(left_click_actions)
 
 		ESCProjectSettingsManager.register_setting(
 			SimpleDialogSettings.LEFT_CLICK_ACTION,
@@ -130,7 +126,7 @@ func enable_plugin():
 			}
 		)
 
-		var stop_talking_animation_on_options_string: String = stop_talking_animation_on_options.join(",")
+		var stop_talking_animation_on_options_string: String = ",".join(stop_talking_animation_on_options)
 
 		ESCProjectSettingsManager.register_setting(
 			SimpleDialogSettings.STOP_TALKING_ANIMATION_ON,
@@ -144,6 +140,6 @@ func enable_plugin():
 
 	else:
 		get_editor_interface().set_plugin_enabled(
-			get_plugin_name(),
+			_get_plugin_name(),
 			false
 		)

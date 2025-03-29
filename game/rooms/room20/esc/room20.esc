@@ -1,16 +1,13 @@
 :setup
-set_global r20_door_look_count 0
+	global r20_door_look_count = 0
 
-> [eq ESC_LAST_SCENE room3]
-	teleport player l_exit
-	# Set player look right
-	set_angle player 180
-	camera_set_target 0 player
-	stop
-> [eq ESC_LAST_SCENE room5]
-	teleport player r_exit
-	# Set player look left
-	camera_set_target 0 player
-	set_angle player 270
-	stop
-
+	if ESC_LAST_SCENE == "room3":
+		teleport($player, $l_exit)
+		# Set player look right
+		set_angle($player, 180)
+		camera_set_target(0, $player)
+	elif ESC_LAST_SCENE == "room5":
+		teleport($player, $r_exit)
+		# Set player look left
+		camera_set_target(0, $player)
+		set_angle($player, 270)

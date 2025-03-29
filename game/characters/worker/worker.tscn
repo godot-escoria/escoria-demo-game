@@ -2,11 +2,11 @@
 
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=1]
 [ext_resource path="res://game/characters/worker/worker_animations.tres" type="Resource" id=2]
-[ext_resource path="res://game/characters/worker/png/worker_talk_down_right.png" type="Texture" id=3]
-[ext_resource path="res://game/characters/worker/png/worker.png" type="Texture" id=4]
-[ext_resource path="res://game/characters/worker/png/worker_talk_up.png" type="Texture" id=5]
-[ext_resource path="res://game/characters/worker/png/worker_talk_down.png" type="Texture" id=6]
-[ext_resource path="res://game/characters/worker/png/worker_talk_right.png" type="Texture" id=7]
+[ext_resource path="res://game/characters/worker/png/worker_talk_down_right.png" type="Texture2D" id=3]
+[ext_resource path="res://game/characters/worker/png/worker.png" type="Texture2D" id=4]
+[ext_resource path="res://game/characters/worker/png/worker_talk_up.png" type="Texture2D" id=5]
+[ext_resource path="res://game/characters/worker/png/worker_talk_down.png" type="Texture2D" id=6]
+[ext_resource path="res://game/characters/worker/png/worker_talk_right.png" type="Texture2D" id=7]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_dialog_location.gd" type="Script" id=8]
 
 [sub_resource type="AtlasTexture" id=1]
@@ -174,7 +174,7 @@ animations = [ {
 extents = Vector2( 40.4907, 142.11 )
 
 [node name="worker" type="Area2D"]
-pause_mode = 1
+process_mode = 1
 script = ExtResource( 1 )
 global_id = "worker"
 esc_script = "res://game/rooms/room6/esc/worker.esc"
@@ -185,7 +185,7 @@ combine_when_selected_action_is_in = [  ]
 dialog_color = Color( 0.501961, 0.882353, 1, 1 )
 animations = ExtResource( 2 )
 
-[node name="sprite" type="AnimatedSprite" parent="."]
+[node name="sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2( 0.0280151, -16.7213 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 2 )
@@ -196,7 +196,7 @@ offset = Vector2( -0.0280151, -30.9602 )
 position = Vector2( -1.662, -141.108 )
 shape = SubResource( 3 )
 
-[node name="dialog_position" type="Position2D" parent="."]
+[node name="dialog_position" type="Marker2D" parent="."]
 position = Vector2( 0.0280151, -352.44 )
 scale = Vector2( 4, 4 )
 script = ExtResource( 8 )

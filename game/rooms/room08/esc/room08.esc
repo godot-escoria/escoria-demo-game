@@ -1,31 +1,30 @@
 :setup
+	global room8_visited = false
+	global r8_m_door_open = false
 
-# This code will run only the first time you enter the room.
-> [!room8_visited]
-	set_global room8_visited true
-	set_global r8_m_door_open false
-	# Activate locked puzzle button the first time you enter the room only.
-	# It will keep it's locked/unlocked state on future room entrances.
-	# It should already be active, this is a safety precaution.
-	set_active r8_mini_puzzle_button true
-	
-> [r8_m_door_open]
-	# If the door was previously opened, quickly play the open animation
-	# so you don't see a closed door when the room appears.
-	set_state r8_m_door door_open true
-	# Hide locked puzzle icon and make the button non-interactive as
-	# the puzzle was previously unlocked
-	set_active r8_mini_puzzle_button false
-	
+	# This code will run only the first time you enter the room.
+	if not room8_visited:
+		room8_visited = true
+		r8_m_door_open = false
+		# Activate locked puzzle button the first time you enter the room only.
+		# It will keep it's locked/unlocked state on future room entrances.
+		# It should already be active, this is a safety precaution.
+		set_active($r8_mini_puzzle_button, true)
+		
+	if r8_m_door_open:
+		# If the door was previously opened, quickly play the open animation
+		# so you don't see a closed door when the room appears.
+		set_state($r8_m_door, "door_open", true)
+		# Hide locked puzzle icon and make the button non-interactive as
+		# the puzzle was previously unlocked
+		set_active($r8_mini_puzzle_button, false)
+		
 
-> [eq ESC_LAST_SCENE room7]
-	teleport player r8_l_exit
-	# Set player look right
-	set_angle player 90
-	stop
-> [eq ESC_LAST_SCENE room9]
-	teleport player r8_m_door
-	# Set player look down
-	set_angle player 180
-	stop
-
+	if ESC_LAST_SCENE == "room7":
+		teleport($player, $r8_l_exit)
+		# Set player look right
+		set_angle($player, 90)
+	elif ESC_LAST_SCENE == "room9":
+		teleport($player, $r8_m_door)
+		# Set player look down
+		set_angle($player, 180)

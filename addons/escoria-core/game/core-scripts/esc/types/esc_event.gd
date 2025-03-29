@@ -56,7 +56,7 @@ var flags: int = 0
 
 # Returns a Dictionary containing statements data for serialization
 func exported() -> Dictionary:
-	var exported_dict: Dictionary = .exported()
+	var exported_dict: Dictionary = super.exported()
 	exported_dict.class = "ESCEvent"
 	exported_dict.name = name
 	exported_dict.original_name = original_name
@@ -72,8 +72,7 @@ func _init(event_string: String):
 	if event_regex.search(event_string):
 		for result in event_regex.search_all(event_string):
 			if "name" in result.names:
-				self.name = ESCUtils.get_re_group(result, "name") \
-					.strip_edges()
+				self.name = ESCUtils.get_re_group(result, "name").strip_edges()
 				self.original_name = self.name
 			if "flags" in result.names:
 				var _flags = ESCUtils.get_re_group(
@@ -89,11 +88,26 @@ func _init(event_string: String):
 				if "NO_SAVE" in _flags:
 					self.flags |= FLAG_NO_SAVE
 	else:
-		escoria.logger.error(
+		escoria.logger.warn(
 			self,
 			"Invalid event detected: %s\nEvent regexp didn't match."
 					% event_string
 		)
+
+
+func init(event_name: String, event_flags: Array):
+	name = event_name
+
+	for flag in event_flags:
+		match flag:
+			"TK":
+				flags |= FLAG_TK
+			"NO_TT":
+				flags |= FLAG_NO_TT
+			"NO_UI":
+				flags |= FLAG_NO_UI
+			"NO_SAVE":
+				flags |= FLAG_NO_SAVE
 
 
 # Execute this statement and return its return code
@@ -105,5 +119,8 @@ func run() -> int:
 	)
 	if name == "resume":
 		bypass_conditions = true
-	return .run()
+	return await super()
 
+
+func get_event_name() -> String:
+	return name

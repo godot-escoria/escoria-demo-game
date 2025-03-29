@@ -1,6 +1,6 @@
 # The walk context describes the target of a walk command and if that command
 # should be executed fast
-extends Reference
+extends RefCounted
 class_name ESCWalkContext
 
 

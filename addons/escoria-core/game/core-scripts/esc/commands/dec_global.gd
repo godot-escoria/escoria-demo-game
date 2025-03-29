@@ -23,16 +23,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not escoria.globals_manager.get_global(arguments[0]) is int:
-		escoria.logger.error(
-			self,
-			"[%s]: invalid global. Global %s isn't an integer value."
-					% [get_command_name(), arguments[0]]
-		)
+		raise_error(self, "Invalid global. Global %s isn't an integer value." % arguments[0])
 		return false
+
 	return true
 
 

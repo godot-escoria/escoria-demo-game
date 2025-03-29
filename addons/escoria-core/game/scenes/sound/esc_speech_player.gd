@@ -4,10 +4,10 @@ class_name ESCSpeechPlayer
 
 
 # Global id of the background music player
-export var global_id: String = "_speech"
+@export var global_id: String = "_speech"
 
 # Reference to the audio player
-onready var stream: AudioStreamPlayer = $AudioStreamPlayer
+@onready var stream: AudioStreamPlayer = $AudioStreamPlayer
 
 
 # Set the state of this player
@@ -39,7 +39,7 @@ func set_state(p_state: String, from_seconds: float = 0.0, p_force: bool = false
 
 # Register to the object registry
 func _ready():
-	pause_mode = Node.PAUSE_MODE_STOP
+	process_mode = Node.PROCESS_MODE_PAUSABLE
 	escoria.object_manager.register_object(
 		ESCObject.new(global_id, self),
 		null,

@@ -1,3 +1,54 @@
+## [4.0.0-alpha.271](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.271) (2025-02-26)
+
+
+
+## [4.0.0-alpha.270](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.270) (2025-02-23)
+
+
+### Bug Fixes
+
+* fanout ([87c931c](https://github.com/godot-escoria/escoria-demo-game/commit/87c931c572463ffae141a04990022973435f727e))
+
+
+
+## [4.0.0-alpha.269](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.269) (2025-02-23)
+
+
+### Features
+
+* adds analysis for exit_scene event that allows potential player character movement during transition/change; still has a bug concerning scanning entire project directory: forces the editor to freeze; for now, we only scan room11 ([af3c801](https://github.com/godot-escoria/escoria-demo-game/commit/af3c8012c5bd9c402db3007dc47b3ba44e58fe51))
+* adds check for commands after change_scene as they won't be executed; also some refactoring and improvements in warning message rendering and formatting ([ef680be](https://github.com/godot-escoria/escoria-demo-game/commit/ef680bec967d46491022e69a170a033158d5b963))
+* adds project setting dictating whether script analysis is to be run during runtime ([e96b4f4](https://github.com/godot-escoria/escoria-demo-game/commit/e96b4f4ca452c9e3c7e67f4176991f1b0711759c))
+* implement a color modulate on item hovering ([6c567eb](https://github.com/godot-escoria/escoria-demo-game/commit/6c567ebb94f7ea4adf656e1a65526d5ddb8feab7))
+* New compiler/interpreter ([aaa47d5](https://github.com/godot-escoria/escoria-demo-game/commit/aaa47d59b2812c00515f2b11936befb715f77961))
+* updated and upgraded simple mouse plugin ([004667f](https://github.com/godot-escoria/escoria-demo-game/commit/004667fa56b16900d82310b0cc6c676ea0db9653))
+
+
+### Bug Fixes
+
+* adds proper recursion through all project directories; excludes specified directories; misc. fixes and cleanup ([6e44267](https://github.com/godot-escoria/escoria-demo-game/commit/6e4426710e6f02d04853621955be021ae6e5a0a0))
+* Allow right click on inventory item without changing cursor ([0d218b4](https://github.com/godot-escoria/escoria-demo-game/commit/0d218b481d29e7260254070be9004eb6777c993e))
+* avoid inventory remain up if mouse leaves it too fast ([a3e6372](https://github.com/godot-escoria/escoria-demo-game/commit/a3e637262582ee6b44ca2ea77eade2f74cd7611b))
+* clone give action to use for room06 npc ([d04de7b](https://github.com/godot-escoria/escoria-demo-game/commit/d04de7b85e82c35f078730249b4fb7082c5719fa))
+* corrects the class name ([fb2a395](https://github.com/godot-escoria/escoria-demo-game/commit/fb2a395813933b62f3eacdf6ad5d22f3c733756f))
+* don't use Area2d in inventory to avoid overlapping with ESCItems ([b574748](https://github.com/godot-escoria/escoria-demo-game/commit/b5747485ad6a63d2879a687b7d0132104ea2c186))
+* don't use default action on item if action was manually selected ([31c9a2d](https://github.com/godot-escoria/escoria-demo-game/commit/31c9a2d2fe2900dfb28488da3ed2f0bc4d6c0a92))
+* emits the wrapper signal instead of the wrapped tween's finished signal ([47eea81](https://github.com/godot-escoria/escoria-demo-game/commit/47eea81e78647b602144425e078869a0da1f1480))
+* ensures savegame folder exists or creates it ([f23f3cd](https://github.com/godot-escoria/escoria-demo-game/commit/f23f3cd1ed2244b5f07561f143568db73b2df699))
+* initial hovering item ([c9fb11e](https://github.com/godot-escoria/escoria-demo-game/commit/c9fb11e35bf03d32528366a163801c0649e71ec5))
+* initialize escoria.main.last_room_id on loading ([eaee281](https://github.com/godot-escoria/escoria-demo-game/commit/eaee281568ac484b9c0a15d7d5cbe574e16451a5))
+* inventory now closes if mouse gets out of window ([b02f402](https://github.com/godot-escoria/escoria-demo-game/commit/b02f402060137641c7bc05cd70daeac6eef3d151))
+* mousewheel event trigger twice on inventory button ([6d4608d](https://github.com/godot-escoria/escoria-demo-game/commit/6d4608d0602703543e609c241c33a57aafde566d))
+* refactors to use offline interpreter to traverse through scripts to check for more complicated conditions; for now, it's just the :exit_scene event checker, and will need some testing since the accept_input check can happen in any scope within the event; we make best efforts to sort this out, but we will never be able to deal with variables that can change at runtime, and so we don't check scenarios such as that ([6eff3c3](https://github.com/godot-escoria/escoria-demo-game/commit/6eff3c399f319cdea4be108187e9e8e88fbe2b1f))
+* removes unnecessary (and leftover) processing used before new interpreter; for some reason, this block was commented out in the cfg-interpreter branch but reverted back to another version, likely as part of the big rebasing effort when creating this branch ([2834468](https://github.com/godot-escoria/escoria-demo-game/commit/2834468b266c66836a431a9da8135952853d645f))
+* Room 06 and 07 - camera fixes ([c70baa7](https://github.com/godot-escoria/escoria-demo-game/commit/c70baa729830a828df2397d7284b13ccf7f36b37))
+* Tween is_active() missing function ([48b362d](https://github.com/godot-escoria/escoria-demo-game/commit/48b362d655c796eefb014fdddb4a8e8be5087e8e))
+* ui was visible on main menu ([d474b66](https://github.com/godot-escoria/escoria-demo-game/commit/d474b6620db7d59ad5ad50bd0fe1214bef8c3b03))
+* updates dialogs to work; still have to test dialog choices and fix possible rendering issues with the avatar type ([254b08e](https://github.com/godot-escoria/escoria-demo-game/commit/254b08eb8756e6c8acfbc5af017bceb471160606))
+* use default text for dialog options if text is untranslated ([752a856](https://github.com/godot-escoria/escoria-demo-game/commit/752a856614d1abe388b76a8389d34919217bb367))
+
+
+
 ## [4.0.0-alpha.268](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.268) (2024-10-07)
 
 

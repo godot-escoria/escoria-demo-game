@@ -10,7 +10,7 @@ signal global_changed(global, old_value, new_value)
 
 
 # The globals registry
-export(Dictionary) var _globals = {}
+@export var _globals: Dictionary = {}
 
 
 # Registry of globals that are to be reserved for internal use only.
@@ -37,6 +37,13 @@ func has(key: String) -> bool:
 # Clear all globals.
 func clear():
 	_globals.clear()
+	if (escoria.inventory == null):
+		escoria.logger.error(
+			self,
+			"The escoria.inventory property is null."
+			+ "Please verify that the inventory scene (inheriting ESCInventory)"
+			+ " main script's _ready() function calls super._ready()."
+		)
 	escoria.inventory.clear()
 
 
@@ -59,7 +66,7 @@ func register_reserved_global(key: String, value = null) -> void:
 	_globals[key] = value
 
 	if value != null:
-		emit_signal("global_changed", key, old_value, _globals[key])
+		global_changed.emit(key, old_value, _globals[key])
 
 
 # Get the current value of a global
@@ -104,8 +111,7 @@ func set_global(key: String, value, ignore_reserved: bool = false) -> void:
 			"Global key %s is reserved and can not be overridden." % key
 		)
 
-	emit_signal(
-		"global_changed",
+	global_changed.emit(
 		key,
 		_globals[key] if _globals.has(key) else null,
 		value
@@ -154,4 +160,3 @@ func save_game(p_savegame: ESCSaveGame) -> void:
 	for g in _globals:
 		if not g.begins_with("i/"):
 			p_savegame.globals[g] = _globals[g]
-

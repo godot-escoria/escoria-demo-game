@@ -26,7 +26,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 # Run the command
 func run(command_params: Array) -> int:
 	randomize()
-	var rnd = randi() % (command_params[1] + 1)
+	var rnd = randi() % (int(command_params[1]) + 1)
 	escoria.globals_manager.set_global(
 		command_params[0],
 		rnd

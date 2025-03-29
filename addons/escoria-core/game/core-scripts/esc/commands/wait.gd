@@ -18,22 +18,21 @@ var timer: Timer
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
-		[[TYPE_INT, TYPE_REAL]],
+		[[TYPE_INT, TYPE_FLOAT]],
 		[null]
 	)
 
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	# We can't wait for 0 or fewer seconds, now, can we?
 	if arguments[0] <= 0.0:
-		escoria.logger.error(
+		raise_error(
 			self,
-			"[%s]: argument invalid. %s is an invalid amount of time to wait (must be positive)."
-					% [get_command_name(), arguments[0]]
+			"Argument invalid. %s is an invalid amount of time to wait (must be positive)." % arguments[0]
 		)
 		return false
 
@@ -45,7 +44,7 @@ func run(command_params: Array) -> int:
 	timer.wait_time = float(command_params[0])
 	escoria.add_child(timer)
 	timer.start()
-	yield(timer, "timeout")
+	await timer.timeout
 	escoria.remove_child(timer)
 	return ESCExecution.RC_OK
 
@@ -55,4 +54,4 @@ func interrupt():
 	if timer == null:
 		return
 
-	timer.emit_signal("timeout")
+	timer.timeout.emit()

@@ -6,10 +6,12 @@ class_name ESCInventoryItem
 var global_id: String = ""
 
 # The texture for the item
-var texture: Texture = null
+var texture_normal: Texture2D = null
 
+# The texture for the item when hovered
+var texture_hovered: Texture2D = null
 
 func _init(p_item: ESCItem) -> void:
 	global_id = p_item.global_id
-	texture = p_item._get_inventory_texture()
-
+	texture_normal = p_item._get_inventory_texture()
+	texture_hovered = p_item._get_inventory_texture_hovered()

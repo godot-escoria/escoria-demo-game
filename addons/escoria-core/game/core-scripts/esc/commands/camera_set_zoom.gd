@@ -23,7 +23,7 @@ class_name CameraSetZoomCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
-		[[TYPE_REAL, TYPE_INT], [TYPE_REAL, TYPE_INT]],
+		[[TYPE_FLOAT, TYPE_INT], [TYPE_FLOAT, TYPE_INT]],
 		[null, 0.0]
 	)
 

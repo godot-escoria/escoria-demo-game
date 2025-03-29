@@ -15,5 +15,5 @@ func enter():
 
 func update(_delta):
 	escoria.logger.trace(self, "Dialog State Machine: 'finish' -> 'idle'")
-	emit_signal("finished", "idle")
-	_dialog_player.emit_signal("say_finished")
+	finished.emit("idle")
+	_dialog_player.say_finished.emit()

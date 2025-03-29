@@ -1,13 +1,13 @@
 :setup
-anim_block intro_animation_player RESET
+	anim_block("intro_animation_player", "RESET")
 
 :ready | NO_UI
-# Until we have a proper way to skip animations/cutscenes, we want to prevent
-# something silly like being able to pause during the intro.
-accept_input NONE
+	# Until we have a proper way to skip animations/cutscenes, we want to prevent
+	# something silly like being able to pause during the intro.
+	accept_input("NONE")
 
-anim_block intro_animation_player intro
+	anim_block("intro_animation_player", "intro")
 
-accept_input ALL
+	accept_input("ALL")
 
-show_menu main
+	show_menu("main")

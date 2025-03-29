@@ -1,7 +1,7 @@
 :exit_scene
-change_scene "res://game/rooms/room03/room03.tscn"
+	change_scene("res://game/rooms/room19/room19.tscn")
 
 :look
-# Test globals in say command
-inc_global r4_door_look_count 1
-say player "You have looked at the doorway {r4_door_look_count} times"
+	# Test globals in say command
+	r20_door_look_count = r20_door_look_count + 1
+	say($player, "You have looked at the doorway {r20_door_look_count} times")

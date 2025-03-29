@@ -19,14 +19,14 @@ class_name CameraSetPosCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		3,
-		[[TYPE_REAL, TYPE_INT], TYPE_INT, TYPE_INT],
+		[[TYPE_FLOAT, TYPE_INT], TYPE_INT, TYPE_INT],
 		[null, null, null]
 	)
 
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	var new_pos: Vector2 = Vector2(arguments[1], arguments[2])

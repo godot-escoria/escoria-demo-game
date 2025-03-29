@@ -10,11 +10,18 @@ const REGEX = \
 
 
 # Option displayed in the HUD
-var option: String setget ,get_translated_option
+var option: String:
+	get = get_translated_option
+
+# Maps back to the parsed source option.
+var source_option
 
 # Conditions to show this dialog
 var conditions: Array = []
 
+var _is_valid: bool:
+	set = set_is_valid,
+	get = is_valid
 
 # Create a dialog option from an ESC string
 #
@@ -46,7 +53,7 @@ func load_string(option_string: String):
 	else:
 		escoria.logger.error(
 			self,
-			"Invalid dialog option detected: %s." % option_string,
+			"Invalid dialog option detected: %s." % option_string +
 				"Dialog option regexp didn't match"
 		)
 
@@ -69,7 +76,12 @@ func get_translated_option():
 
 # Check, if conditions match
 func is_valid() -> bool:
-	for condition in self.conditions:
-		if not (condition as ESCCondition).run():
-			return false
-	return true
+#	for condition in self.conditions:
+#		if not (condition as ESCCondition).run():
+#			return false
+#	return true
+	return _is_valid
+
+
+func set_is_valid(value: bool) -> void:
+	_is_valid = value

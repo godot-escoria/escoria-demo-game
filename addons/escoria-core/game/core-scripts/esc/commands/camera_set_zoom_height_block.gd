@@ -17,29 +17,25 @@ class_name CameraSetZoomHeightBlockCommand
 
 
 # Tween for blocking
-var _camera_tween: Tween
+var _camera_tween: Tween3
 
 
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
-		[TYPE_INT, [TYPE_INT, TYPE_REAL]],
+		[TYPE_INT, [TYPE_INT, TYPE_FLOAT]],
 		[null, 0.0]
 	)
 
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if arguments[0] <= 0:
-		escoria.logger.error(
-			self,
-			"[%s]: invalid height. Can't zoom to a negative height (%d)."
-					% [get_command_name(), arguments[0]]
-		)
+		raise_error(self, "Invalid height. Can't zoom to a negative height (%d)." % arguments[0])
 		return false
 
 	var camera: ESCCamera = escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera
@@ -57,7 +53,7 @@ func run(command_params: Array) -> int:
 		)
 
 	if command_params[1] > 0.0:
-		yield(_camera_tween, "tween_completed")
+		await _camera_tween.finished
 	escoria.logger.debug(
 			self,
 			"camera_set_zoom_height_block tween complete."

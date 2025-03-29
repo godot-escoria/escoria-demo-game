@@ -1,7 +1,8 @@
-# A room in an Escora based game
-tool
+@tool
+@icon("res://addons/escoria-core/design/esc_room.svg")
+## A room in an Escoria based game
 extends Node2D
-class_name ESCRoom, "res://addons/escoria-core/design/esc_room.svg"
+class_name ESCRoom
 
 
 # Debugging displays for a room
@@ -15,22 +16,24 @@ enum EditorRoomDebugDisplay {
 const ESC_BACKGROUND_NAME = "escbackground"
 
 
-# The global id of this room
-export(String) var global_id = ""
+## The global id of this room
+@export var global_id: String = ""
 
-# The ESC script of this room
-export(String, FILE, "*.esc") var esc_script = ""
+## The ASHES script of this room
+@export_file("*.esc", "*.ash") var esc_script: String = ""
 
-# The player inside this scene
-export(PackedScene) var player_scene
+## The player scene to use inside this room
+@export var player_scene: PackedScene
 
-# The camera limits available in this room
-export(Array, Rect2) var camera_limits: Array \
-	= [Rect2()] setget set_camera_limits
+## The camera limits available in this room
+@export var camera_limits: Array = [Rect2()]: # (Array, Rect2)
+	set = set_camera_limits
 
-# The editor debug display mode
-export(EditorRoomDebugDisplay) var editor_debug_mode \
-	= EditorRoomDebugDisplay.NONE setget set_editor_debug_mode
+## The room's debug display mode.
+## Camera Limits: show a colored frame for each camera limit of the room.
+## None: no debug display
+@export var editor_debug_mode: EditorRoomDebugDisplay = EditorRoomDebugDisplay.NONE:
+	set = set_editor_debug_mode
 
 
 # The player scene instance
@@ -51,6 +54,9 @@ var enabled_automatic_transitions = true
 # Whether this room was run directly with Play Scene (F6)
 var is_run_directly = false
 
+###### @Tool properties ######
+# Default font for tool display in the editor
+var _tool_default_font: Font
 
 # Start the random number generator when the camera limits should be displayed
 func _enter_tree():
@@ -65,8 +71,12 @@ func _ready():
 	if get_parent() == get_tree().root \
 			and ESCProjectSettingsManager.get_setting(
 				"application/run/main_scene"
-			) != self.filename:
+			) != self.scene_file_path:
 		is_run_directly = true
+
+	var temp_control: Control = Control.new()
+	_tool_default_font = temp_control.get_theme_default_font()
+	temp_control.queue_free()
 
 	if Engine.is_editor_hint():
 		_connect_location_nodes()
@@ -82,7 +92,7 @@ func _ready():
 	if not found_escbackground:
 		var esc_bg = ESCBackground.new()
 		esc_bg.name = ESC_BACKGROUND_NAME
-		if not camera_limits.empty():
+		if not camera_limits.is_empty():
 			esc_bg.set_size(camera_limits.front().size)
 		add_child(esc_bg)
 		move_child(esc_bg, 0)
@@ -98,7 +108,7 @@ func _draw():
 		return
 
 	var camera_limits_colors: Array = [
-		ColorN("red"), ColorN("blue"), ColorN("green")
+		Color("red"), Color("blue"), Color("green")
 	]
 
 	# If there are more camera limits than colors defined for them, add more.
@@ -109,12 +119,14 @@ func _draw():
 	# Draw lines for camera limits
 	for i in camera_limits.size():
 		draw_rect(camera_limits[i], camera_limits_colors[i], false, 10.0)
-		var temp_control = Control.new()
-		var default_font = temp_control.get_font("font")
-		temp_control.queue_free()
-
-		draw_string(default_font, Vector2(camera_limits[i].position.x + 30,
-			camera_limits[i].position.y + 30), str(i), camera_limits_colors[i])
+		draw_string(
+			_tool_default_font,
+			Vector2(camera_limits[i].position.x + 30, camera_limits[i].position.y + 30),
+			str(i),
+			HORIZONTAL_ALIGNMENT_LEFT,
+			-1,
+			16,
+			camera_limits_colors[i])
 
 
 # Listen for any signals from ESCLocation indicating that the is_start_location attribute
@@ -126,8 +138,8 @@ func _connect_location_nodes() -> void:
 func _connect_location_nodes_in_tree(node: Node):
 	for n in node.get_children():
 		if n is ESCLocation:
-			if not n.is_connected("is_start_location_set", self, "_validate_start_locations"):
-				n.connect("is_start_location_set", self, "_validate_start_locations")
+			if not n.is_connected("is_start_location_set", Callable(self, "_validate_start_locations")):
+				n.connect("is_start_location_set", Callable(self, "_validate_start_locations"))
 
 		if n.get_child_count() > 0:
 			_connect_location_nodes_in_tree(n)
@@ -174,7 +186,7 @@ func _find_esc_locations(node: Node) -> Array:
 # - p_camera_limits: An array of Rect2Ds as camera limits
 func set_camera_limits(p_camera_limits: Array) -> void:
 	camera_limits = p_camera_limits
-	update()
+	queue_redraw()
 
 
 # Set the editor debug mode
@@ -184,5 +196,4 @@ func set_camera_limits(p_camera_limits: Array) -> void:
 # - p_editor_debug_mode: The debug mode to set for the room
 func set_editor_debug_mode(p_editor_debug_mode: int) -> void:
 	editor_debug_mode = p_editor_debug_mode
-	update()
-
+	queue_redraw()

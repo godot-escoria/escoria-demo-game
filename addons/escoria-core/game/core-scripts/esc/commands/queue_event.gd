@@ -34,20 +34,17 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]) and not _is_current_room(arguments[0]):
-		escoria.logger.error(
-			self,
-			"No object or room with global id '%s' found." % arguments[0]
-		)
+		raise_error(self, "No object or room with global id '%s' found." % arguments[0])
 		return false
 
 	var node = _get_scripted_node(arguments[0])
 
 	if not "esc_script" in node or node.esc_script == "":
-		escoria.logger.error(
+		raise_error(
 			self,
 			"Object/room with global id '%s' has no ESC script." % arguments[0]
 		)
@@ -56,16 +53,16 @@ func validate(arguments: Array):
 	var esc_script = escoria.esc_compiler.load_esc_file(node.esc_script)
 
 	if not arguments[1] in esc_script.events:
-		escoria.logger.error(
+		raise_error(
 			self,
 			"Event with name '%s' not found." % arguments[1]
 		)
 		return false
 
 	if arguments[3] and not escoria.event_manager.is_channel_free(arguments[2]):
-		escoria.logger.error(
+		raise_error(
 			self,
-			"The queue '%s' doesn't accept a new event." % arguments[2]
+			"The queue '%s' can't currently accept new events." % arguments[2]
 		)
 		return false
 
@@ -74,7 +71,7 @@ func validate(arguments: Array):
 
 # Return whether global_id represents the current room the player is in.
 func _is_current_room(global_id: String) -> bool:
-	return escoria.globals_manager.get_global(escoria.room_manager.GLOBAL_CURRENT_SCENE) == global_id
+	return escoria.main.current_scene.global_id == global_id
 
 
 # Run the command
@@ -83,7 +80,7 @@ func run(arguments: Array) -> int:
 
 	var esc_script = escoria.esc_compiler.load_esc_file(node.esc_script)
 
-	return escoria.event_manager.queue_event_from_esc(
+	return await escoria.event_manager.queue_event_from_esc(
 		esc_script,
 		arguments[1], # event name
 		arguments[2], # channel name

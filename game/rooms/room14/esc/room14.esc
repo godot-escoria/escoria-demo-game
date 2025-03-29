@@ -1,51 +1,44 @@
-
 :setup
+	global transition_manual = false
 
-> [eq ESC_LAST_SCENE room13]
-	teleport player r14_l_exit
-	# Set player look right
-	set_angle player 90
-	stop
+	if ESC_LAST_SCENE == "room13":
+		teleport($player, $r14_l_exit)
+		# Set player look right
+		set_angle($player, 90)
+	elif ESC_LAST_SCENE == "room15":
+		teleport($player, $r14_r_exit)
+		# Set player look left
+		set_angle($player, 270)
 
-> [eq ESC_LAST_SCENE room15]
-	teleport player r14_r_exit
-	# Set player look left
-	set_angle player 270
-	stop
-
-# If we're coming from the same room as this one, we manage the player's position 
-# AND the transition IN manually if we pushed that button
-> [eq ESC_LAST_SCENE room14, transition_manual]
-	teleport player start
+	# If we're coming from the same room as this one, we manage the player's position 
+	# AND the transition IN manually if we pushed that button
+	elif ESC_LAST_SCENE == "room14" and transition_manual:
+		teleport($player, $start)
 	
-	# Set player look left
-	set_angle player 270
-	
-	# Fade in from black
-	transition fade_black in
-	stop
+		# Set player look left
+		set_angle($player, 270)
+		
+		# Fade in from black
+		transition("fade_black", "in")
 
-# If we're coming from the same room as this one, we manage the player's position only
-> [eq ESC_LAST_SCENE room14, !transition_manual]
-	teleport player start
+	# If we're coming from the same room as this one, we manage the player's position only
+	elif ESC_LAST_SCENE == "room14" and not transition_manual:
+		teleport($player, "start")
 	
-	# Set player look left
-	set_angle player 270
-	
-	stop
-
+		# Set player look left
+		set_angle($player, 270)
 
 :ready
-# All events will queue one after the other. As event "moveworker" features 
-# both a blocking and non-blocking command, the blocking command will block
-# until it's finished. At this point, moveworker2's event will fire. 
-# The end result is that you'll see worker1 start moving while the player
-# speaks for the second time, and once the second say command concludes,
-# worker 2 will start walking.
-	queue_event room14 sayworker _queuedemo true
-	queue_event worker moveworker _queuedemo true
-	queue_event worker2 moveworker2 _queuedemo
+	# All events will queue one after the other. As event "moveworker" features 
+	# both a blocking and non-blocking command, the blocking command will block
+	# until it's finished. At this point, moveworker2's event will fire. 
+	# The end result is that you'll see worker1 start moving while the player
+	# speaks for the second time, and once the second say command concludes,
+	# worker 2 will start walking.
+	queue_event($room14, "sayworker", "_queuedemo", true)
+	queue_event($worker, "moveworker", "_queuedemo", true)
+	queue_event($worker2, "moveworker2", "_queuedemo")
 
 
 :sayworker
-	say player "Get ready!"
+	say($player, "Get ready!")

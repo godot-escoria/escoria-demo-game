@@ -35,29 +35,25 @@ const SUPPORTED_TRANSITIONS = ["LINEAR","SINE","QUINT","QUART","QUAD" ,"EXPO","E
 
 
 # Tween for blocking
-var _camera_tween: Tween
+var _camera_tween: Tween3
 
 
 # Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
-		[TYPE_STRING, [TYPE_REAL, TYPE_INT], TYPE_STRING],
+		[TYPE_STRING, [TYPE_FLOAT, TYPE_INT], TYPE_STRING],
 		[null, 1, "QUAD"]
 	)
 
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
-		escoria.logger.error(
-			self,
-			"[%s]: invalid object. Object global id %s not found."
-					% [get_command_name(), arguments[0]]
-		)
+		raise_invalid_object_error(self, arguments[0])
 		return false
 
 	var target_pos = _get_target_pos(arguments[0])
@@ -68,19 +64,14 @@ func validate(arguments: Array):
 		return false
 
 	if not arguments[2] in SUPPORTED_TRANSITIONS:
-		escoria.logger.error(
-			self,
-			(
-				"[{command_name}]: invalid transition type. Transition type {t_type} " +
-				"is not one of the accepted types : {allowed_types}"
-			).format(
+		raise_error(self, ("Invalid transition type. Transition type {t_type} " +
+				"is not one of the accepted types: {allowed_types}").format(
 					{
-						"command_name":get_command_name(),
-						"t_type":arguments[2],
-						"allowed_types":SUPPORTED_TRANSITIONS
+						"t_type": arguments[2],
+						"allowed_types": SUPPORTED_TRANSITIONS
 					}
-				)
-		)
+				))
+
 		return false
 
 	_camera_tween = camera.get_tween()
@@ -98,7 +89,7 @@ func run(command_params: Array) -> int:
 		)
 
 	if command_params[1] > 0.0:
-		yield(_camera_tween, "tween_completed")
+		await _camera_tween.finished
 		escoria.logger.debug(
 			self,
 			"camera_push_block tween complete."

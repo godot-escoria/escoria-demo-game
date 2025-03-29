@@ -1,94 +1,91 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=3 uid="uid://bxq2nu4whwsq0"]
 
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" type="Script" id=1]
-[ext_resource path="res://game/items/inventory/r5_empty_sheet.tscn" type="PackedScene" id=2]
-[ext_resource path="res://game/fonts/caslonantique.tres" type="DynamicFont" id=3]
-[ext_resource path="res://game/characters/mark/mark.tscn" type="PackedScene" id=4]
-[ext_resource path="res://game/items/inventory/r5_pen.tscn" type="PackedScene" id=5]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_room.gd" type="Script" id=6]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=7]
-[ext_resource path="res://game/items/inventory/r5_wrench.tscn" type="PackedScene" id=8]
-[ext_resource path="res://game/rooms/room05/water_droplet.png" type="Texture" id=9]
-[ext_resource path="res://addons/escoria-core/game/core-scripts/esc_location.gd" type="Script" id=11]
-[ext_resource path="res://game/rooms/room05/room5background.png" type="Texture" id=13]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://36ogrtwqmj0h" path="res://game/items/inventory/r5_empty_sheet.tscn" id="2"]
+[ext_resource type="FontFile" path="res://game/fonts/caslonantique.tres" id="3"]
+[ext_resource type="PackedScene" uid="uid://chf3qovs1q8kr" path="res://game/characters/mark/mark.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://cghbbulb4pw6b" path="res://game/items/inventory/r5_pen.tscn" id="5"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
+[ext_resource type="PackedScene" uid="uid://cwg2l8cs056p" path="res://game/items/inventory/r5_wrench.tscn" id="8"]
+[ext_resource type="Texture2D" uid="uid://carbm85e2un02" path="res://game/rooms/room05/water_droplet.png" id="9"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="11"]
+[ext_resource type="Texture2D" uid="uid://doyoo3rvuhtbe" path="res://game/rooms/room05/room5background.png" id="13"]
 
-[sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 1187, 387, 1188, 352, 1269.59, 398, 1267, 538, 15, 401, 93, 350, 96, 375, 12, 539, 129.634, 362, 1155, 361 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6 ), PoolIntArray( 3, 7, 4, 6 ), PoolIntArray( 3, 6, 8, 9, 0 ) ]
-outlines = [ PoolVector2Array( 12, 539, 15, 401, 93, 350, 96, 375, 129.634, 362, 1155, 361, 1187, 387, 1188, 352, 1269.59, 398, 1267, 538 ) ]
+[sub_resource type="NavigationPolygon" id="1"]
+vertices = PackedVector2Array(1187, 387, 1188, 352, 1269.59, 398, 1267, 538, 15, 401, 93, 350, 96, 375, 12, 539, 129.634, 362, 1155, 361)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6), PackedInt32Array(3, 7, 4, 6), PackedInt32Array(3, 6, 8, 9, 0)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(12, 539, 15, 401, 93, 350, 96, 375, 129.634, 362, 1155, 361, 1187, 387, 1188, 352, 1269.59, 398, 1267, 538)])
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 36, 33.5 )
+[sub_resource type="RectangleShape2D" id="2"]
+size = Vector2(72, 67)
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id="3"]
 resource_name = "start_water"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Particles2D:emitting")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
+tracks/0/path = NodePath("GPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ true ]
+"values": [true]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id="4"]
 resource_name = "stop_water"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Particles2D:emitting")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
+tracks/0/path = NodePath("GPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ false ]
+"values": [false]
 }
 
-[sub_resource type="ParticlesMaterial" id=5]
-flag_disable_z = true
-gravity = Vector3( 0, 98, 0 )
-initial_velocity = -30.0
-angular_velocity = 61.72
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-angle = -90.0
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ck3xl"]
+_data = {
+"start_water": SubResource("3"),
+"stop_water": SubResource("4")
+}
+
+[sub_resource type="ParticleProcessMaterial" id="5"]
+gravity = Vector3(0, 98, 0)
 
 [node name="room5" type="Node2D"]
-script = ExtResource( 6 )
-__meta__ = {
-"_edit_vertical_guides_": [  ]
-}
+script = ExtResource("6")
 global_id = "room5"
 esc_script = "res://game/rooms/room05/esc/room05.esc"
-player_scene = ExtResource( 4 )
-camera_limits = [ Rect2( 0, 0, 1280, 555 ) ]
+player_scene = ExtResource("4")
+camera_limits = [Rect2(0, 0, 1280, 555)]
 
-[node name="Room5Background" type="Sprite" parent="."]
-texture = ExtResource( 13 )
+[node name="Room5Background" type="Sprite2D" parent="."]
+texture = ExtResource("13")
 centered = false
 
 [node name="room_label" type="Label" parent="Room5Background"]
-margin_right = 82.0
-margin_bottom = 21.0
-custom_fonts/font = ExtResource( 3 )
+offset_right = 82.0
+offset_bottom = 21.0
+theme_override_fonts/font = ExtResource("3")
 text = "ROOM 5"
 
 [node name="background_for_text" type="Polygon2D" parent="Room5Background"]
-color = Color( 0.364706, 0.109804, 0.447059, 1 )
-polygon = PoolVector2Array( 128, 4, 555, 4, 555, 315, 128, 315 )
+color = Color(0.364706, 0.109804, 0.447059, 1)
+polygon = PackedVector2Array(128, 4, 555, 4, 555, 315, 128, 315)
 
 [node name="room_details1" type="Label" parent="Room5Background/background_for_text"]
-margin_left = 141.0
-margin_top = 7.0
-margin_right = 427.0
-margin_bottom = 124.0
-custom_fonts/font = ExtResource( 3 )
+offset_left = 141.0
+offset_top = 7.0
+offset_right = 427.0
+offset_bottom = 124.0
+theme_override_fonts/font = ExtResource("3")
 text = "This room demonstrates inventory
 objects. Use the wrench to fix the pipe.
 Combine the pen and paper in your
@@ -96,11 +93,11 @@ inventory to create a new object which
 will be used in the next room."
 
 [node name="room_details2" type="Label" parent="Room5Background/background_for_text"]
-margin_left = 138.0
-margin_top = 136.0
-margin_right = 580.0
-margin_bottom = 301.0
-custom_fonts/font = ExtResource( 3 )
+offset_left = 138.0
+offset_top = 136.0
+offset_right = 580.0
+offset_bottom = 301.0
+theme_override_fonts/font = ExtResource("3")
 text = "One of the settings inside Godot's settings is 
 \"Escoria/UI/Inventory Items path\".
 Inventory items need to be ESCItems saved as 
@@ -110,116 +107,105 @@ automatically instantiate the xyz object from this folder
 into your inventory."
 
 [node name="pen_label" type="Label" parent="."]
-margin_left = 844.0
-margin_top = 470.0
-margin_right = 1212.0
-margin_bottom = 539.0
-custom_fonts/font = ExtResource( 3 )
+offset_left = 844.0
+offset_top = 470.0
+offset_right = 1212.0
+offset_bottom = 539.0
+theme_override_fonts/font = ExtResource("3")
 text = "Pickup & combine these together in the inventory
 Note: you can combine in both directions
 (i.e. pen with paper, or paper with pen)"
 
 [node name="pipe_label" type="Label" parent="."]
-margin_left = 142.828
-margin_top = 492.556
-margin_right = 410.828
-margin_bottom = 537.556
-custom_fonts/font = ExtResource( 3 )
+offset_left = 142.828
+offset_top = 492.556
+offset_right = 410.828
+offset_bottom = 537.556
+theme_override_fonts/font = ExtResource("3")
 text = "Pickup & use on pipe
 "
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="walkable_area" type="Navigation2D" parent="."]
-script = ExtResource( 1 )
+[node name="walkable_area" type="Node2D" parent="."]
+script = ExtResource("1")
 
-[node name="platform" type="NavigationPolygonInstance" parent="walkable_area"]
-navpoly = SubResource( 1 )
-__meta__ = {
-"_editor_description_": ""
-}
+[node name="platform" type="NavigationRegion2D" parent="walkable_area"]
+navigation_polygon = SubResource("1")
 
 [node name="Hotspots" type="Node2D" parent="."]
 
 [node name="l_door" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-script = ExtResource( 7 )
+process_mode = 1
+script = ExtResource("7")
 global_id = "r5_l_exit"
 esc_script = "res://game/rooms/room05/esc/left_exit.esc"
-is_exit = true
 tooltip_name = "Left exit"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
-animations = null
+combine_when_selected_action_is_in = PackedStringArray()
+is_exit = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
-position = Vector2( 53, -12 )
-polygon = PoolVector2Array( -52, 432, -53, 121, 53, 79, 55, 365 )
+position = Vector2(53, -12)
+polygon = PackedVector2Array(-52, 432, -53, 121, 53, 79, 55, 365)
 
-[node name="Position2D" type="Position2D" parent="Hotspots/l_door"]
-position = Vector2( 57, 381 )
-script = ExtResource( 11 )
+[node name="Marker2D" type="Marker2D" parent="Hotspots/l_door"]
+position = Vector2(57, 381)
+script = ExtResource("11")
 
 [node name="r_door" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-position = Vector2( -1, 0 )
-script = ExtResource( 7 )
+process_mode = 1
+position = Vector2(-1, 0)
+script = ExtResource("7")
 global_id = "r5_r_exit"
 esc_script = "res://game/rooms/room05/esc/right_exit.esc"
-is_exit = true
 tooltip_name = "Right exit"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
-animations = null
+combine_when_selected_action_is_in = PackedStringArray()
+is_exit = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
-polygon = PoolVector2Array( 1174, 358, 1175, 62, 1280, 109, 1280, 419 )
+polygon = PackedVector2Array(1174, 358, 1175, 62, 1280, 109, 1280, 419)
 
-[node name="Position2D" type="Position2D" parent="Hotspots/r_door"]
-position = Vector2( 1228, 382 )
-script = ExtResource( 11 )
+[node name="Marker2D" type="Marker2D" parent="Hotspots/r_door"]
+position = Vector2(1228, 382)
+script = ExtResource("11")
 
 [node name="pipe" type="Area2D" parent="Hotspots"]
-pause_mode = 1
-script = ExtResource( 7 )
+process_mode = 1
+script = ExtResource("7")
 global_id = "r5_pipe"
 esc_script = "res://game/rooms/room05/esc/pipe.esc"
 tooltip_name = "pipe"
 default_action = "look"
-combine_when_selected_action_is_in = [  ]
-dialog_color = Color( 1, 1, 1, 1 )
-animations = null
+combine_when_selected_action_is_in = PackedStringArray()
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/pipe"]
-position = Vector2( 618, 243 )
-shape = SubResource( 2 )
+position = Vector2(618, 243)
+shape = SubResource("2")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/pipe"]
-anims/start_water = SubResource( 3 )
-anims/stop_water = SubResource( 4 )
+libraries = {
+"": SubResource("AnimationLibrary_ck3xl")
+}
 
-[node name="Particles2D" type="Particles2D" parent="Hotspots/pipe"]
-position = Vector2( 593, 244 )
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Hotspots/pipe"]
+position = Vector2(593, 244)
 emitting = false
+process_material = SubResource("5")
+texture = ExtResource("9")
 lifetime = 1.5
-process_material = SubResource( 5 )
-texture = ExtResource( 9 )
 
-[node name="ESCLocation" type="Position2D" parent="Hotspots/pipe"]
-position = Vector2( 618, 393 )
-script = ExtResource( 11 )
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/pipe"]
+position = Vector2(618, 393)
+script = ExtResource("11")
 
-[node name="wrench" parent="Hotspots" instance=ExtResource( 8 )]
+[node name="wrench" parent="Hotspots" instance=ExtResource("8")]
 
-[node name="paper" parent="Hotspots" instance=ExtResource( 2 )]
-position = Vector2( 1005, 450 )
+[node name="paper" parent="Hotspots" instance=ExtResource("2")]
+position = Vector2(1005, 450)
 
-[node name="pen" parent="Hotspots" instance=ExtResource( 5 )]
-position = Vector2( 915, 450 )
+[node name="pen" parent="Hotspots" instance=ExtResource("5")]
+position = Vector2(897, 451)
 
-[node name="player_start" type="Position2D" parent="."]
-position = Vector2( 75, 450 )
-script = ExtResource( 11 )
+[node name="player_start" type="Marker2D" parent="."]
+position = Vector2(75, 450)
+script = ExtResource("11")
 global_id = "r5_player_start"
 is_start_location = true

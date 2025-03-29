@@ -1,11 +1,11 @@
 :look
-say player "That button uses camera_shift to move the camera by (1000,-400) pixels."
+	say($player, "That button uses camera_shift to move the camera by (1000,-400) pixels.")
 
 :use
-# Disable input so all steps run without interruption 
-accept_input NONE
-camera_shift 1000 -400 2 LINEAR
-wait 3
-camera_set_target 1 player
-# Re-enable user input
-accept_input ALL
+	# Disable input so all steps run without interruption 
+	accept_input("NONE")
+	camera_shift(1000, -400, 2, "LINEAR")
+	wait(3)
+	camera_set_target(1, $player)
+	# Re-enable user input
+	accept_input("ALL")

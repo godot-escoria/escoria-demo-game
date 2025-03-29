@@ -1,5 +1,5 @@
+@tool
 # A tooltip displaying <verb> <item1> [<item2>]
-tool
 extends RichTextLabel
 class_name ESCTooltip
 
@@ -18,20 +18,20 @@ const ONE_LINE_HEIGHT = 16
 
 
 # Color of the label
-export(Color) var color setget set_color
+@export var color: Color: set = set_color
 
 # Vector2 defining the offset from the cursor
-export(Vector2) var offset_from_cursor = Vector2(10,0)
+@export var offset_from_cursor: Vector2 = Vector2(10,0)
 
 # Activates debug mode. If enabled, shows the label with a white background.
-export(bool) var debug_mode = false setget set_debug_mode
+@export var debug_mode: bool = false: set = set_debug_mode
 
 
 # Infinitive verb
 var current_action: String
 
 # Target item/hotspot
-var current_target: String setget set_target
+var current_target: String
 
 # Preposition: on, with...
 var current_prep: String = "with"
@@ -51,8 +51,8 @@ var _room_is_ready: bool = false
 
 # Connect relevant functions
 func _ready():
-	escoria.main.connect("room_ready", self, "_on_room_ready")
-	escoria.action_manager.connect("action_changed", self, "_on_action_selected")
+	escoria.main.room_ready.connect(_on_room_ready)
+	escoria.action_manager.action_changed.connect(_on_action_selected)
 
 
 # Set the color of the label
@@ -127,7 +127,12 @@ func update_size():
 	if not get_tree():
 		# We're not in the tree anymore. Return
 		return
-	rect_size = get_font("normal_font").get_string_size(current_target)
+	size = get_theme_font("normal_font").get_string_size(
+			current_target,
+			HORIZONTAL_ALIGNMENT_CENTER,
+			-1,
+			get("theme_override_font_sizes/normal_font_size")
+			)
 
 
 # Calculate the offset of the label depending on its position.
@@ -138,7 +143,7 @@ func update_size():
 # **Return**
 # The calculated offset
 func _offset(position: Vector2) -> Vector2:
-	var center_offset_x = rect_size.x / 2
+	var center_offset_x = size.x / 2
 	var offset_y = 5
 
 	position.x -= center_offset_x

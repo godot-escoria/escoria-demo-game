@@ -7,7 +7,7 @@ signal back_button_pressed
 
 
 # The scene to display a slot
-export(PackedScene) var slot_ui_scene
+@export var slot_ui_scene: PackedScene
 
 
 # Load the savegames when loaded
@@ -25,7 +25,7 @@ func _on_slot_pressed(slot_id: int) -> void:
 
 # The back button was pressed
 func _on_back_pressed():
-	emit_signal("back_button_pressed")
+	back_button_pressed.emit()
 
 
 # Create the slots from the list of savegames
@@ -36,13 +36,13 @@ func refresh_savegames():
 
 	# Get saves list
 	var saves_list = escoria.save_manager.get_saves_list()
-	if saves_list.values().empty():
+	if saves_list.values().is_empty():
 		return
 	var saves_array: Array = saves_list.values()
-	saves_array.sort_custom(SaveGamesSorter, "sort_by_date_descending")
+	saves_array.sort_custom(Callable(SaveGamesSorter, "sort_by_date_descending"))
 
 	for save in saves_array:
-		var new_slot = slot_ui_scene.instance()
+		var new_slot = slot_ui_scene.instantiate()
 		$VBoxContainer/ScrollContainer/slots.add_child(
 			new_slot
 		)
@@ -55,7 +55,4 @@ func refresh_savegames():
 				save.date["minute"],
 			]
 		new_slot.set_slot_name_date(save["name"], datetime_string)
-		new_slot.connect("pressed", self, "_on_slot_pressed", [int(save["slotnumber"])])
-
-
-
+		new_slot.connect("pressed", Callable(self, "_on_slot_pressed").bind(int(save["slotnumber"])))

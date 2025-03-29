@@ -1,4 +1,4 @@
-tool
+@tool
 extends Control
 
 const ROOM_NAME                = "MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer/RoomName"
@@ -31,18 +31,18 @@ var settings_modified: bool
 
 
 func _ready() -> void:
-	$"InformationWindows/PlayerSceneFileDialog".get_cancel().connect("pressed", self, "PlayerSceneCancelled")
-	$"InformationWindows/BackgroundImageFileDialog".get_cancel().connect("pressed", self, "BackgroundFileCancelled")
+	$"InformationWindows/PlayerSceneFileDialog".get_cancel_button().connect("pressed", Callable(self, "PlayerSceneCancelled"))
+	$"InformationWindows/BackgroundImageFileDialog".get_cancel_button().connect("pressed", Callable(self, "BackgroundFileCancelled"))
 
 
 func PlayerSceneCancelled() -> void:
 	if get_node(PLAYER_SCENE).text == PLAYER_SELECT_TEXT:
-		get_node(USE_EMPTY_PLAYER_BUTTON).pressed = true
+		get_node(USE_EMPTY_PLAYER_BUTTON).button_pressed = true
 
 
 func BackgroundFileCancelled() -> void:
 	if get_node(BACKGROUND_IMAGE).text == BACKGROUND_SELECT_TEXT:
-		get_node(USE_EMPTY_BACKGROUND).pressed = true
+		get_node(USE_EMPTY_BACKGROUND).button_pressed = true
 
 
 func room_creator_reset() -> void:
@@ -51,13 +51,13 @@ func room_creator_reset() -> void:
 	get_node(PLAYER_SCENE).text = PLAYER_BLANK_TEXT
 	get_node(SELECT_PLAYER_SCENE).visible = false
 	get_node(SELECT_PLAYER_SCENE_SPACER).visible = true
-	get_node(USE_EMPTY_PLAYER_BUTTON).pressed = true
+	get_node(USE_EMPTY_PLAYER_BUTTON).button_pressed = true
 	get_node(ESC_SCRIPT).editable = false
 	get_node(ESC_SCRIPT).text = SCRIPT_BLANK_TEXT
-	get_node(USE_EMPTY_ROOM_SCRIPT).pressed = true
+	get_node(USE_EMPTY_ROOM_SCRIPT).button_pressed = true
 	get_node(BACKGROUND_IMAGE).text = BACKGROUND_BLANK_TEXT
 	get_node(USE_EMPTY_ROOM_SPACER).visible = true
-	get_node(USE_EMPTY_BACKGROUND).pressed = true
+	get_node(USE_EMPTY_BACKGROUND).button_pressed = true
 	get_node(SELECT_BACKGROUND).visible = false
 	get_node(SELECT_BACKGROUNDSPACER).visible = true
 	get_node(BACKGROUND_PREVIEW).visible = true
@@ -131,18 +131,18 @@ func _on_UseEmptyBackground_toggled(button_pressed: bool) -> void:
 		get_node(BACKGROUND_IMAGE).text = BACKGROUND_SELECT_TEXT
 
 		var viewport_centre: Vector2 = get_viewport_rect().size / 2
-		var dialog_start: Vector2 = $"InformationWindows/BackgroundImageFileDialog".rect_size / 2
+		var dialog_start: Vector2 = $"InformationWindows/BackgroundImageFileDialog".size / 2
 		var dialog_pos: Vector2 = viewport_centre - dialog_start
-		$"InformationWindows/BackgroundImageFileDialog".rect_position = dialog_pos
+		$"InformationWindows/BackgroundImageFileDialog".position = dialog_pos
 
 		$"InformationWindows/BackgroundImageFileDialog".popup_centered()
 
 
 func _on_SelectBackground_pressed() -> void:
 	var viewport_centre: Vector2 = get_viewport_rect().size / 2
-	var dialog_start: Vector2 = $"InformationWindows/BackgroundImageFileDialog".rect_size / 2
+	var dialog_start: Vector2 = $"InformationWindows/BackgroundImageFileDialog".size / 2
 	var dialog_pos: Vector2 = viewport_centre - dialog_start
-	$"InformationWindows/BackgroundImageFileDialog".rect_position = dialog_pos
+	$"InformationWindows/BackgroundImageFileDialog".position = dialog_pos
 
 	$"InformationWindows/BackgroundImageFileDialog".visible = true
 	$"InformationWindows/BackgroundImageFileDialog".invalidate()
@@ -153,7 +153,7 @@ func _on_BackgroundImageFileDialog_file_selected(path: String) -> void:
 
 	get_node(BACKGROUND_IMAGE).text = path
 
-	var image_stream_texture:StreamTexture
+	var image_stream_texture:CompressedTexture2D
 
 	image_stream_texture = load(path)
 
@@ -175,10 +175,10 @@ func set_preview_scale() -> void:
 
 #	print("scale = "+str(preview_scale)+", preview size = "+str(preview_size)+", image_size = "+str(image_size))
 	if preview_scale.y > preview_scale.x:
-		get_node(BACKGROUND_PREVIEW).rect_scale = Vector2(preview_scale.x, preview_scale.x)
+		get_node(BACKGROUND_PREVIEW).scale = Vector2(preview_scale.x, preview_scale.x)
 	else:
 		# Image width will hit the preview boundary before the height will
-		get_node(BACKGROUND_PREVIEW).rect_scale = Vector2(preview_scale.y, preview_scale.y)
+		get_node(BACKGROUND_PREVIEW).scale = Vector2(preview_scale.y, preview_scale.y)
 
 
 func _on_ClearButton_pressed() -> void:
@@ -227,7 +227,7 @@ func _on_CreateButton_pressed() -> void:
 
 	var ScriptName = get_node(ESC_SCRIPT).text
 
-	if get_node(USE_EMPTY_ROOM_SCRIPT).pressed == false:
+	if get_node(USE_EMPTY_ROOM_SCRIPT).button_pressed == false:
 		if ScriptName.length() < 5 or ! ScriptName.substr(ScriptName.length() - 4) == ".esc":
 			$"InformationWindows/GenericErrorDialog".dialog_text = "Error!\n\n" \
 			+ "Room ESC script must be a filename ending in '.esc'"
@@ -265,18 +265,18 @@ func _on_CreateButton_pressed() -> void:
 	else:
 		# Set TextureRect to have the same size as the Viewport so that the room
 		# works even if no texture is set in the TextureRect
-		BackgroundSize = Vector2(ProjectSettings.get_setting("display/window/size/width"), \
-							ProjectSettings.get_setting("display/window/size/height"))
-		Background.rect_size = BackgroundSize
+		BackgroundSize = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width"), \
+							ProjectSettings.get_setting("display/window/size/viewport_height"))
+		Background.size = BackgroundSize
 
 	NewRoom.add_child(Background)
 
 	var NewTerrain = ESCTerrain.new()
 	NewTerrain.name = "WalkableArea"
-	var NewNavigationPolygonInstance = NavigationPolygonInstance.new()
+	var NewNavigationPolygonInstance = NavigationRegion2D.new()
 
 	var NewNavigationPolygon = NavigationPolygon.new()
-	NewNavigationPolygonInstance.navpoly = NewNavigationPolygon
+	NewNavigationPolygonInstance.navigation_polygon = NewNavigationPolygon
 
 	NewRoom.add_child(NewTerrain)
 
@@ -301,7 +301,7 @@ func _on_CreateButton_pressed() -> void:
 	Objects.set_owner(NewRoom)
 	StartPos.set_owner(NewRoom)
 
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	dir.make_dir_recursive("%s/%s/scripts" % [BaseDir, RoomName])
 	dir.make_dir_recursive("%s/%s/objects" % [BaseDir, RoomName])
 	dir.copy("res://addons/escoria-wizard/room_script_template.esc", "%s/%s/scripts/%s" % \

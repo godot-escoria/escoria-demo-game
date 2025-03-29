@@ -1,4 +1,4 @@
-extends PopupDialog
+extends Popup
 
 signal confirm_yes
 
@@ -10,5 +10,5 @@ func _on_no_pressed():
 
 
 func _on_yes_pressed():
-	emit_signal("confirm_yes")
+	confirm_yes.emit()
 	hide()

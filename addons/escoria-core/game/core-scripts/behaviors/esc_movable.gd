@@ -47,11 +47,11 @@ var _orig_speed: float = 0.0
 
 
 # Shortcut variable that references the node's parent
-onready var parent = get_parent()
+@onready var parent = get_parent()
 
 
 # Currenly running task
-onready var task = MovableTask.NONE
+@onready var task = MovableTask.NONE
 
 
 # Add the signal "arrived" to the parent node, which is emitted when
@@ -272,7 +272,7 @@ func walk_stop(pos: Vector2) -> void:
 	if walk_context.target_object and \
 			walk_context.target_object.node.player_orients_on_arrival:
 
-		var orientation = _get_dir_deg(walk_context.target_object.node.interaction_angle + 90,
+		var orientation = _get_dir_deg(walk_context.target_object.node.interaction_angle - 90,
 			parent.animations)
 		if orientation >= parent.animations.dir_angles.size() or orientation < 0:
 			escoria.logger.warn(self, "Orientation is invalid for item '%s' (received value: %s degrees)\nPath to item: '%s'.\nDefaulting to 0 degrees."
@@ -312,7 +312,7 @@ func walk_stop(pos: Vector2) -> void:
 				walk_context.target_position
 			]
 		)
-	parent.emit_signal("arrived", walk_context)
+	parent.arrived.emit(walk_context)
 
 
 # Update the sprite scale and lighting
@@ -335,10 +335,10 @@ func update_terrain(on_event_finished_name = null) -> void:
 		return
 
 	var pos = parent.global_position
-	if pos.y <= VisualServer.CANVAS_ITEM_Z_MAX:
+	if pos.y <= RenderingServer.CANVAS_ITEM_Z_MAX:
 		parent.z_index = pos.y
 	else:
-		parent.z_index = VisualServer.CANVAS_ITEM_Z_MAX
+		parent.z_index = RenderingServer.CANVAS_ITEM_Z_MAX
 
 	var factor = parent.terrain.get_terrain(pos)
 	var scal = parent.terrain.get_scale_range(factor)
@@ -376,7 +376,8 @@ func update_terrain(on_event_finished_name = null) -> void:
 func _get_dir_deg(deg: int, animations: ESCAnimationResource) -> int:
 	# We turn the angle by -90° because angle_to_point gives the angle
 	# against X axis, not Y
-	deg = wrapi(deg - 90, 0, 360)
+	deg = wrapi(deg + 90, 0, 360)
+
 	var dir = -1
 	var i = 0
 
@@ -469,7 +470,7 @@ func set_direction(target_dir: int, wait: float = 0.0) -> void:
 			parent.animations.idles[dir].animation
 		)
 		if wait > 0.0:
-			yield(get_tree().create_timer(wait), "timeout")
+			await get_tree().create_timer(wait).timeout
 		is_mirrored = parent.animations.idles[dir].mirrored
 
 	last_dir = dir
@@ -493,7 +494,7 @@ func set_direction(target_dir: int, wait: float = 0.0) -> void:
 func turn_to(item: Node, wait: float = 0.0) -> void:
 	set_angle(
 		wrapi(
-			rad2deg(parent.get_position().angle_to_point(item.get_position())),
+			rad_to_deg(parent.get_position().angle_to_point(item.get_position())),
 			0,
 			360
 		),

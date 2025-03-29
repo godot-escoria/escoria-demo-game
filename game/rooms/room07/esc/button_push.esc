@@ -1,11 +1,11 @@
 :look
-say player "That button uses camera_push to point the camera at the object r7_lower_stairs."
+	say($player, "That button uses camera_push to point the camera at the object r7_lower_stairs.")
 
 :use
-# Disable input so all steps run without interruption 
-accept_input NONE
-camera_push r7_lift_button_floor_2 1 LINEAR
-wait 2
-camera_set_target 1 player
-# Re-enable user input
-accept_input ALL
+	# Disable input so all steps run without interruption 
+	accept_input("NONE")
+	camera_push($r7_lift_button_floor_2, 1, "LINEAR")
+	wait(2)
+	camera_set_target(1, $player)
+	# Re-enable user input
+	accept_input("ALL")

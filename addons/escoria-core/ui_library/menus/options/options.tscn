@@ -1,172 +1,120 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://bhcfnds3yy2yv"]
 
-[ext_resource path="res://addons/escoria-core/ui_library/menus/options/flags/de.png" type="Texture" id=1]
-[ext_resource path="res://addons/escoria-core/ui_library/menus/options/options.gd" type="Script" id=4]
+[ext_resource type="Texture2D" uid="uid://d1xst80fkddpa" path="res://addons/escoria-core/ui_library/menus/options/flags/de.png" id="1"]
+[ext_resource type="Script" path="res://addons/escoria-core/ui_library/menus/options/options.gd" id="4"]
 
 [node name="options" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 4 )
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="ColorRect" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_editor_description_": ""
-}
+color = Color(0.270588, 0.270588, 0.270588, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
-margin_left = 391.0
-margin_top = 340.0
-margin_right = 888.0
-margin_bottom = 535.0
+layout_mode = 2
 size_flags_horizontal = 6
-custom_constants/margin_right = 20
-custom_constants/margin_top = 20
-custom_constants/margin_left = 20
-custom_constants/margin_bottom = 20
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 
 [node name="options" type="GridContainer" parent="VBoxContainer/MarginContainer"]
-margin_left = 20.0
-margin_top = 20.0
-margin_right = 477.0
-margin_bottom = 175.0
+layout_mode = 2
 size_flags_vertical = 6
-custom_constants/hseparation = 40
+theme_override_constants/h_separation = 40
 columns = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="label" type="Label" parent="VBoxContainer/MarginContainer/options"]
-margin_top = 30.0
-margin_right = 137.0
-margin_bottom = 44.0
+layout_mode = 2
 text = "OPTIONS_LANGUAGE"
 
 [node name="flags" type="HBoxContainer" parent="VBoxContainer/MarginContainer/options"]
-margin_left = 177.0
-margin_right = 457.0
-margin_bottom = 75.0
+layout_mode = 2
 size_flags_vertical = 3
-custom_constants/separation = 30
+theme_override_constants/separation = 30
 alignment = 1
 
 [node name="TextureRect2" type="TextureRect" parent="VBoxContainer/MarginContainer/options/flags"]
-margin_right = 125.0
-margin_bottom = 75.0
-texture = ExtResource( 1 )
+layout_mode = 2
+texture = ExtResource("1")
 
 [node name="TextureRect3" type="TextureRect" parent="VBoxContainer/MarginContainer/options/flags"]
-margin_left = 155.0
-margin_right = 280.0
-margin_bottom = 75.0
-texture = ExtResource( 1 )
+layout_mode = 2
+texture = ExtResource("1")
 
 [node name="label2" type="Label" parent="VBoxContainer/MarginContainer/options"]
-margin_top = 80.0
-margin_right = 137.0
-margin_bottom = 94.0
+layout_mode = 2
 text = "GENERAL_VOLUME"
 
 [node name="general_volume" type="HSlider" parent="VBoxContainer/MarginContainer/options"]
-margin_left = 177.0
-margin_top = 79.0
-margin_right = 457.0
-margin_bottom = 95.0
+layout_mode = 2
 size_flags_horizontal = 3
 max_value = 1.0
 step = 0.001
 
 [node name="label3" type="Label" parent="VBoxContainer/MarginContainer/options"]
-margin_top = 100.0
-margin_right = 137.0
-margin_bottom = 114.0
+layout_mode = 2
 text = "SOUND_VOLUME"
 
 [node name="sound_volume" type="HSlider" parent="VBoxContainer/MarginContainer/options"]
-margin_left = 177.0
-margin_top = 99.0
-margin_right = 457.0
-margin_bottom = 115.0
+layout_mode = 2
 size_flags_horizontal = 3
 max_value = 1.0
 step = 0.001
 
 [node name="label4" type="Label" parent="VBoxContainer/MarginContainer/options"]
-margin_top = 120.0
-margin_right = 137.0
-margin_bottom = 134.0
+layout_mode = 2
 text = "MUSIC_VOLUME"
 
 [node name="music_volume" type="HSlider" parent="VBoxContainer/MarginContainer/options"]
-margin_left = 177.0
-margin_top = 119.0
-margin_right = 457.0
-margin_bottom = 135.0
+layout_mode = 2
 size_flags_horizontal = 3
 max_value = 1.0
 step = 0.001
 
 [node name="label5" type="Label" parent="VBoxContainer/MarginContainer/options"]
-margin_top = 140.0
-margin_right = 137.0
-margin_bottom = 154.0
+layout_mode = 2
 text = "SPEECH_VOLUME"
 
 [node name="speech_volume" type="HSlider" parent="VBoxContainer/MarginContainer/options"]
-margin_left = 177.0
-margin_top = 139.0
-margin_right = 457.0
-margin_bottom = 155.0
+layout_mode = 2
 size_flags_horizontal = 3
 max_value = 1.0
 step = 0.001
 
 [node name="label6" type="Label" parent="VBoxContainer/MarginContainer/options"]
-margin_top = 160.0
-margin_right = 137.0
-margin_bottom = 154.0
+layout_mode = 2
 text = "FULLSCREEN"
 
 [node name="fullscreen" type="CheckBox" parent="VBoxContainer/MarginContainer/options"]
-margin_left = 177.0
-margin_top = 160.0
-margin_right = 457.0
-margin_bottom = 155.0
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 539.0
-margin_right = 1280.0
-margin_bottom = 500
-custom_constants/separation = 20
+layout_mode = 2
+theme_override_constants/separation = 20
 alignment = 1
 
 [node name="back" type="Button" parent="VBoxContainer/HBoxContainer"]
-margin_left = 549.0
-margin_right = 660.0
-margin_bottom = 20.0
+layout_mode = 2
 text = "OPTIONS_BACK"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="apply" type="Button" parent="VBoxContainer/HBoxContainer"]
-margin_left = 680.0
-margin_right = 731.0
-margin_bottom = 20.0
+layout_mode = 2
 text = "APPLY"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [connection signal="value_changed" from="VBoxContainer/MarginContainer/options/general_volume" to="." method="_on_general_volume_changed"]
 [connection signal="value_changed" from="VBoxContainer/MarginContainer/options/sound_volume" to="." method="_on_sound_volume_changed"]

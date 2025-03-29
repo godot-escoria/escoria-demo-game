@@ -1,13 +1,13 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://game/items/inventory/bottle.png" type="Texture" id=2]
+[ext_resource path="res://game/items/inventory/bottle.png" type="Texture2D" id=2]
 [ext_resource path="res://addons/escoria-core/game/core-scripts/esc_item.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 12.5, 34 )
 
 [node name="bottle" type="Area2D"]
-pause_mode = 1
+process_mode = 1
 z_index = 1
 script = ExtResource( 3 )
 global_id = "r9_bottle"
@@ -15,13 +15,13 @@ esc_script = "res://game/items/inventory/bottle.esc"
 tooltip_name = "Bottle"
 default_action = "pickup"
 default_action_inventory = "look"
-combine_when_selected_action_is_in = PoolStringArray( "use" )
+combine_when_selected_action_is_in = PackedStringArray( "use" )
 use_from_inventory_only = true
 inventory_texture = ExtResource( 2 )
 dialog_color = Color( 1, 1, 1, 1 )
 animations = null
 
-[node name="sprite" type="Sprite" parent="."]
+[node name="sprite" type="Sprite2D" parent="."]
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

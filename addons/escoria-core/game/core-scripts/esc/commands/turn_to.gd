@@ -34,28 +34,24 @@ class_name TurnToCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
-		[TYPE_STRING, TYPE_STRING, TYPE_REAL],
+		[TYPE_STRING, TYPE_STRING, TYPE_FLOAT],
 		[null, null, 0.0]
 	)
 
 
 # Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
-	if not .validate(arguments):
+	if not super.validate(arguments):
 		return false
 
 	if not escoria.object_manager.has(arguments[0]):
-		escoria.logger.error(
-			self,
-			 "[%s]: Cannot turn \"%s\". Object not found."
-				% [get_command_name(), arguments[0]]
-		)
+		raise_invalid_object_error(self, arguments[0])
 		return false
 	if not escoria.object_manager.has(arguments[1]):
-		escoria.logger.error(
+		raise_error(
 			self,
-			"[%s]: Cannot turn \"%s\" towards \"%s\". \"%s\" was not found."
-				% [get_command_name(), arguments[0], arguments[1] , arguments[1]]
+			"Cannot turn \"%s\" towards \"%s\". \"%s\" was not found."
+				% [arguments[0], arguments[1] , arguments[1]]
 		)
 		return false
 	return true

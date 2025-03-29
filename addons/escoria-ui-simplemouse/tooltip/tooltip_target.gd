@@ -14,13 +14,13 @@ func update_tooltip_text():
 	# processing. We signal here to avoid "lagging" behind a frame since
 	# tooltips are presently dependent on the size of the bounding box around
 	# the rendered string.
-	emit_signal("tooltip_size_updated")
+	tooltip_size_updated.emit()
 
-	bbcode_text = "[center]"
-	bbcode_text += "[color=#" + color.to_html(false) + "]"
-	bbcode_text += current_target
-	bbcode_text += "[/color]"
-	bbcode_text += "[/center]"
+	text = "[center]"
+	text += "[color=#" + color.to_html(false) + "]"
+	text += current_target
+	text += "[/color]"
+	text += "[/center]"
 #	push_align(RichTextLabel.ALIGN_CENTER)
 #	push_color(color)
 #	append_bbcode(current_target)

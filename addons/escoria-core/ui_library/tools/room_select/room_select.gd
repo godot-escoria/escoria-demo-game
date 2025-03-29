@@ -20,14 +20,13 @@ func _ready():
 				ESCProjectSettingsManager.ENABLE_ROOM_SELECTOR
 			):
 		return
-	var dir = Directory.new()
 	var rooms_list: Array = []
 	var path = ProjectSettings.globalize_path(rooms_folder)
 	if not OS.has_feature("editor"):
-		path = OS.get_executable_path().get_base_dir().plus_file(path)
-	var tmp = dir.open(path)
-	if tmp == OK:
-		dir.list_dir_begin(true)
+		path = OS.get_executable_path().get_base_dir().path_join(path)
+	var dir = DirAccess.open(path)
+	if dir != null:
+		dir.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var file_name = dir.get_next()
 		while file_name != "":
 			if dir.current_is_dir():
@@ -62,15 +61,8 @@ func _on_button_pressed():
 		true
 	)
 
-	var script = escoria.esc_compiler.compile([
-		":room_selector",
-		"change_scene %s" % _options_paths[_selected_id]
-	],
-	get_class()
-	)
 	escoria.event_manager.interrupt()
-	escoria.event_manager.queue_event(script.events['room_selector'])
-
+	escoria.room_manager.change_scene_to_file(_options_paths[_selected_id], false)
 
 
 # A room was selected, store the selection

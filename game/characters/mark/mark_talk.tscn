@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://game/characters/mark/png/mark_talk_right.png" type="Texture" id=1]
+[ext_resource path="res://game/characters/mark/png/mark_talk_right.png" type="Texture2D" id=1]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
@@ -30,5 +30,5 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="AnimatedSprite" type="AnimatedSprite"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
 frames = SubResource( 6 )

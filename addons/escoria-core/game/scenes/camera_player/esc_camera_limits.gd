@@ -1,5 +1,5 @@
 # Describes a bounding box that limits the camera movement in the scene
-extends Reference
+extends RefCounted
 class_name ESCCameraLimits
 
 

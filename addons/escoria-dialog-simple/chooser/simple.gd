@@ -3,8 +3,8 @@
 extends ESCDialogOptionsChooser
 
 
-export(Color, RGB) var color_normal = Color(1.0,1.0,1.0,1.0)
-export(Color, RGB) var color_hover = Color(165.0,42.0,42.0, 1.0)
+@export var color_normal = Color(1.0,1.0,1.0,1.0) # (Color, RGB)
+@export var color_hover = Color(165.0,42.0,42.0, 1.0) # (Color, RGB)
 
 
 var _no_more_options: bool = false
@@ -13,7 +13,7 @@ var _no_more_options: bool = false
 # Hide the chooser at the start just to be safe
 func _ready() -> void:
 	hide_chooser()
-	pause_mode = PAUSE_MODE_STOP
+	process_mode = PROCESS_MODE_PAUSABLE
 
 
 # Process the timeout display
@@ -37,12 +37,11 @@ func show_chooser():
 			var _option_node = Button.new()
 			_option_node.text = (option as ESCDialogOption).option
 			_option_node.flat = true
-			_option_node.add_color_override("font_color", color_normal)
-			_option_node.add_color_override("font_color_hover", color_hover)
+			_option_node.add_theme_color_override("font_color", color_normal)
+			_option_node.add_theme_color_override("font_color_hover", color_hover)
 			_vbox.add_child(_option_node)
-			_option_node.connect("pressed", self, "_on_answer_selected", [
-				option
-			])
+
+			_option_node.pressed.connect(_on_answer_selected.bind(option))
 
 	# If we've no options left, signify as much and start the timer with a
 	# very short interval so the appropriate signal can be fired. Note that
@@ -55,7 +54,7 @@ func show_chooser():
 
 	if self.dialog.avatar != "-":
 		$AvatarContainer.add_child(
-			ResourceLoader.load(self.dialog.avatar).instance()
+			ResourceLoader.load(self.dialog.avatar).instantiate()
 		)
 
 	$MarginContainer.show()
@@ -76,7 +75,7 @@ func hide_chooser():
 func _option_chosen(option: ESCDialogOption):
 	_remove_avatar()
 	$TimerProgress.value = 0
-	emit_signal("option_chosen", option)
+	option_chosen.emit(option)
 
 
 # An option was chosen directly from the list

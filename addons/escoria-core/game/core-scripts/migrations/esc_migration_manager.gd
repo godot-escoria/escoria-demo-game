@@ -1,5 +1,5 @@
 # Class that handles migrations between different game or escoria versions
-extends Reference
+extends RefCounted
 class_name ESCMigrationManager
 
 
@@ -58,7 +58,7 @@ func migrate(
 		)
 
 	var versions = _find_versions(versions_directory, from, to)
-	versions.sort_custom(self, "_compare_version")
+	versions.sort_custom(Callable(self, "_compare_version"))
 	if versions[0].get_file().get_basename() == from:
 		versions.pop_front()
 
@@ -94,16 +94,15 @@ func _find_versions(directory: String, from: String, to: String) -> Array:
 		"Searching directory %s." % directory
 	)
 	var versions = []
-	var dir = Directory.new()
-	dir.open(directory)
-	dir.list_dir_begin(true, true)
+	var dir = DirAccess.open(directory)
+	dir.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 	var file_name = dir.get_next()
 	while file_name != "":
 		var version = file_name.get_basename()
 		var regex_result = version_regex.search(version)
 		if dir.current_is_dir():
 			versions += _find_versions(
-				directory.plus_file(file_name),
+				directory.path_join(file_name),
 				from,
 				to
 			)
@@ -113,7 +112,7 @@ func _find_versions(directory: String, from: String, to: String) -> Array:
 				"Found compatible savegame migration script for version %s." % version
 			)
 			versions.append(
-				directory.plus_file(file_name)
+				directory.path_join(file_name)
 			)
 		file_name = dir.get_next()
 	return versions
@@ -174,4 +173,3 @@ func _compare_version(version_a: String, version_b: String) -> bool:
 		return true
 
 	return false
-
