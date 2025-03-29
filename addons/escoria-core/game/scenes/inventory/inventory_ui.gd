@@ -70,7 +70,7 @@ func add_new_item_by_id(item_id: String) -> void:
 						]
 				)
 
-		var inventory_item = ESCInventoryItem.new(
+		var inventory_item = escoria.di.esc_inventory_item(
 			escoria.object_manager.get_object(item_id).node
 		)
 		var inventory_item_button = get_node(
