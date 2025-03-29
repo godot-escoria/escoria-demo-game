@@ -56,6 +56,9 @@ var object_manager = ESCObjectManager.new()
 # ESC Room Manager
 var room_manager = ESCRoomManager.new()
 
+# ESC Dependency Injector
+var di = ESCDependencyInjector.new()
+
 # Terrain of the current room
 var room_terrain
 
