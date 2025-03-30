@@ -455,7 +455,7 @@ func _load_savegame_inventory(savegame_inventory: Array):
 	escoria.logger.info(self, "Loading inventory")
 
 	for g in savegame_inventory:
-		_add_inventory.run([g, savegame_inventory[g]])
+		_add_inventory.run([g])
 
 	escoria.logger.info(self, "Finished loading inventory")
 
