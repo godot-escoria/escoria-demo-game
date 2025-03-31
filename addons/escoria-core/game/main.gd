@@ -1,4 +1,4 @@
-## Escoria main room handling and scene switcher
+## Escoria main scene script.
 ##
 ## This script is basically the scene-switcher.
 extends Node

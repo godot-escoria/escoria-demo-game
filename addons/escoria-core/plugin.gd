@@ -1,21 +1,23 @@
 @tool
-# Plugin script to initialize Escoria
+## Plugin script to initialize Escoria
 extends EditorPlugin
 
 # Consts values
 const COMMA_SEPARATOR = ","
 const ESC_SCRIPT_EXTENSION = "esc"
+const ASH_SCRIPT_EXTENSION = "ash"
 const ASHES_ANALYZER_MENU_ITEM = "Analyze ASHES Scripts"
 
 
-# The warning popup displayed on escoria-core enabling.
+## The warning popup displayed on escoria-core enabling.
 var popup_info: AcceptDialog
 
-# ASHES scripts analyzer
+## ASHES scripts analyzer. Needed to allow calling the analyzer from 
+## Project>Tools menu.
 var _compiler_analyzer: ESCAshesAnalyzer = ESCAshesAnalyzer.new()
 
 
-# Virtual function called when plugin is enabled.
+## Virtual function called when plugin is enabled.
 func _enable_plugin():
 	add_autoload_singleton(
 		"escoria",
@@ -46,32 +48,34 @@ func _enable_plugin():
 	Please ignore error messages in Output console and reload your project using
 	Godot editor's "Project / Reload Current Project" menu.
 	"""
-	popup_info.connect("confirmed", Callable(self, "_on_warning_popup_confirmed").bind(), CONNECT_ONE_SHOT)
+	popup_info.confirmed.connect(self._on_warning_popup_confirmed, CONNECT_ONE_SHOT)
 	get_editor_interface().get_editor_main_screen().add_child(popup_info)
 	popup_info.popup_centered()
 
 
+## Callback for warning popup displayed on escoria-core plugin enabling.
 func _on_warning_popup_confirmed():
 	popup_info.queue_free()
 
 
-# Virtual function called when plugin is disabled.
+## Virtual function called when plugin is disabled.
 func _disable_plugin():
 	remove_autoload_singleton("escoria")
 	set_filesystem_hide_esc_files()
 
 
-# Setup Escoria
+## Called when Escoria plugin gets added to Godot Editor's tree.
 func _enter_tree():
 	# have to add this here since reloading the project doesn't re-add the Tools menu item
 	add_tool_menu_item(ASHES_ANALYZER_MENU_ITEM, _compiler_analyzer.analyze)
 
 
+## Called when Escoria plugin gets removed from Godot Editor's tree.
 func _exit_tree():
 	remove_tool_menu_item(ASHES_ANALYZER_MENU_ITEM)
 
 
-# Prepare the settings in the Escoria UI category
+## Prepare the settings in the Escoria UI category
 func set_escoria_ui_settings():
 	register_setting(
 		ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE,
@@ -80,7 +84,7 @@ func set_escoria_ui_settings():
 			"type": TYPE_STRING
 		}
 	)
-	print("DEFAULT DIALOG TYPE RESET !!!")
+	print("Default dialog type has been reset!")
 
 	register_setting(
 		ESCProjectSettingsManager.GAME_SCENE,
@@ -144,7 +148,7 @@ func set_escoria_ui_settings():
 	)
 
 
-# Prepare the settings in the Escoria main category
+## Prepare the settings in the Escoria main category
 func set_escoria_main_settings():
 	register_setting(
 		ESCProjectSettingsManager.GAME_VERSION,
@@ -160,7 +164,7 @@ func set_escoria_main_settings():
 		{
 			"type": TYPE_STRING,
 			"hint": PROPERTY_HINT_FILE,
-			"hint_string": "*.esc"
+			"hint_string": "*.esc,*.ash"
 		}
 	)
 
@@ -170,7 +174,7 @@ func set_escoria_main_settings():
 		{
 			"type": TYPE_STRING,
 			"hint": PROPERTY_HINT_FILE,
-			"hint_string": "*.esc"
+			"hint_string": "*.esc,*.ash"
 		}
 	)
 
@@ -246,7 +250,7 @@ func set_escoria_main_settings():
 	)
 
 
-# Prepare the settings in the Escoria debug category
+## Prepare the settings in the Escoria debug category
 func set_escoria_debug_settings():
 	register_setting(
 		ESCProjectSettingsManager.TERMINATE_ON_WARNINGS,
@@ -335,7 +339,7 @@ func set_escoria_debug_settings():
 	)
 
 
-# Prepare the settings in the Escoria sound settings
+## Prepare the settings in the Escoria sound settings
 func set_escoria_sound_settings():
 	register_setting(
 		ESCProjectSettingsManager.MASTER_VOLUME,
@@ -403,8 +407,8 @@ func set_escoria_sound_settings():
 	)
 
 
-# Prepare the settings in the Escoria platform category and may need special
-# setting per build
+## Prepare the settings in the Escoria platform category and may need special
+## setting per build.
 func set_escoria_platform_settings():
 	# Skip cache - certain platforms (esp. mobile) lack memory for caching
 	# scenes.
@@ -427,14 +431,14 @@ func set_escoria_platform_settings():
 	)
 
 
-# Register a new project setting if it hasn't been defined already
-#
-# #### Parameters
-#
-# - name: Name of the project setting
-# - default: Default value
-# - info: Property info for the setting
-static func register_setting(name: String, default, info: Dictionary) -> void:
+## Register a new project setting if it hasn't been defined already[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - name: Name of the project setting[br]
+## - default: Default value[br]
+## - info: Property info for the setting[br]
+static func register_setting(name: String, default: Variant, info: Dictionary) -> void:
 	if not ProjectSettings.has_setting(name):
 		# Only core settings should set this to true. Settings configured in
 		# plugins should not set this to true.
@@ -447,31 +451,45 @@ static func register_setting(name: String, default, info: Dictionary) -> void:
 		ProjectSettings.add_property_info(info)
 
 
-# Sets the Godot Editor settings to display ESC files in the filesystem.
+## Sets the Godot Editor settings to display ESC files in the filesystem.
 func set_filesystem_show_esc_files():
-	print("setting esc files display")
+	print("setting esc and ash files display")
 	var settings = EditorInterface.get_editor_settings()
-	var displayed_extensions: PackedStringArray = settings.get_setting("docks/filesystem/textfile_extensions") \
-			.split(COMMA_SEPARATOR)
-	if not displayed_extensions.has(ESC_SCRIPT_EXTENSION):
+	var displayed_extensions: PackedStringArray = settings.get_setting(
+			"docks/filesystem/textfile_extensions").split(COMMA_SEPARATOR)
+	var needs_modification: bool = false
+	if not ESC_SCRIPT_EXTENSION in displayed_extensions:
 		displayed_extensions.append(ESC_SCRIPT_EXTENSION)
+		needs_modification = true
+	if not ASH_SCRIPT_EXTENSION in displayed_extensions:
+		displayed_extensions.append(ASH_SCRIPT_EXTENSION)
+		needs_modification = true
+	if needs_modification:
 		settings.set_setting(
 			"docks/filesystem/textfile_extensions",
 			COMMA_SEPARATOR.join(displayed_extensions)
 			)
 
 
-# Sets the Godot Editor settings to hide ESC files in the filesystem.
+## Sets the Godot Editor settings to hide ESC and ASH files in the filesystem.
 func set_filesystem_hide_esc_files():
 	print("setting esc files hide")
 	var settings = EditorInterface.get_editor_settings()
-	var displayed_extensions: PackedStringArray = settings.get_setting("docks/filesystem/textfile_extensions") \
-			.split(COMMA_SEPARATOR)
-	var index: int = displayed_extensions.find(ESC_SCRIPT_EXTENSION)
-	while index != -1:
-		displayed_extensions.remove_at(index)
-		index = displayed_extensions.find(ESC_SCRIPT_EXTENSION)
-	settings.set_setting(
-		"docks/filesystem/textfile_extensions",
-		COMMA_SEPARATOR.join(displayed_extensions)
-		)
+	var displayed_extensions: PackedStringArray = settings.get_setting(
+			"docks/filesystem/textfile_extensions").split(COMMA_SEPARATOR)
+	var index_esc: int = displayed_extensions.find(ESC_SCRIPT_EXTENSION)
+	var index_ash: int = displayed_extensions.find(ASH_SCRIPT_EXTENSION)
+	var needs_modification: bool = false
+	while index_esc != -1:
+		displayed_extensions.remove_at(index_esc)
+		index_esc = displayed_extensions.find(ESC_SCRIPT_EXTENSION)
+		needs_modification = true
+	while index_ash != -1:
+		displayed_extensions.remove_at(index_ash)
+		index_ash = displayed_extensions.find(ASH_SCRIPT_EXTENSION)
+		needs_modification = true
+	if needs_modification:
+		settings.set_setting(
+			"docks/filesystem/textfile_extensions",
+			COMMA_SEPARATOR.join(displayed_extensions)
+			)

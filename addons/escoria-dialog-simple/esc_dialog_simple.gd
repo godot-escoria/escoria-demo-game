@@ -1,12 +1,14 @@
-# A simple dialog manager for Escoria
+## A simple dialog manager for Escoria
 extends ESCDialogManager
 
 
-# State machine that governs how the dialog manager behaves
+## State machine that governs how the dialog manager behaves
 var state_machine = preload("res://addons/escoria-dialog-simple/esc_dialog_simple_state_machine.gd").new()
 
 # The currently running player
 var _type_player: Node = null
+
+
 var _preserved_type_player_type: String = ""
 
 # Reference to the dialog player
