@@ -1,21 +1,24 @@
 extends Resource
 class_name ESCRoomManager
+## The room manager scene.
+## Manages room loading and keeps in memory 
 
-
-# Reserved globals which can not be overridden; prefixed with "GLOBAL_"
-#
-# Contains the global_id of previous room
+## Reserved global containing the global_id of previous room. Cannot be overriden.
 const GLOBAL_LAST_SCENE = "ESC_LAST_SCENE"
 
-# If true, ESC_LAST_SCENE is not considered for automatic transitions
+## Reserved global name determining whether ESC_LAST_SCENE is considered for automatic transitions.
 const GLOBAL_FORCE_LAST_SCENE_NULL = "FORCE_LAST_SCENE_NULL"
 
+## Reserved global name containing the animations
 const GLOBAL_ANIMATION_RESOURCES = "ANIMATION_RESOURCES"
 
-# Contains the global_id of the current room
+## Reserved global name containing the global_id of the current room
 const GLOBAL_CURRENT_SCENE = "ESC_CURRENT_SCENE"
 
-# Dict of the reserved globals to register and their initial values.
+## Path to escoria-core camera scene
+const CAMERA_SCENE_PATH = "res://addons/escoria-core/game/scenes/camera_player/camera.tscn"
+
+## Dictionary of the reserved globals to register and their initial values.
 const RESERVED_GLOBALS = {
 	GLOBAL_LAST_SCENE: "",
 	GLOBAL_FORCE_LAST_SCENE_NULL: false,
@@ -25,18 +28,21 @@ const RESERVED_GLOBALS = {
 
 
 # ESC commands kept around for references to their command names.
+## Transition command
 var _transition: TransitionCommand
+## Wait command
 var _wait: WaitCommand
+## Accept input command
 var _accept_input: AcceptInputCommand
 
-
+## Constructor
 func _init() -> void:
 	_transition = TransitionCommand.new()
 	_wait = WaitCommand.new()
 	_accept_input = AcceptInputCommand.new()
 
 
-# Registers all reserved global flags for use.
+## Registers all reserved global flags for use.
 func register_reserved_globals() -> void:
 	for key in RESERVED_GLOBALS:
 		escoria.globals_manager.register_reserved_global( \
@@ -44,14 +50,14 @@ func register_reserved_globals() -> void:
 			RESERVED_GLOBALS[key])
 
 
-# Performs the actions needed in order to change the current scene to the one
-# specified by room_path.
-#
-# #### Parameters
-#
-# - room_path: Node path to the room that is to become the new current room.
-# - enable_automatic_transitions: Whether to play the transition between rooms
-#	automatically or to leave the responsibility to the developer.
+## Performs the actions needed in order to change the current scene to the one
+## specified by room_path.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - room_path: Node path to the room that is to become the new current room.[br]
+## - enable_automatic_transitions: Whether to play the transition between rooms
+##	automatically or to leave the responsibility to the developer.
 func change_scene_to_file(room_path: String, enable_automatic_transitions: bool) -> void:
 	if escoria.main \
 			and escoria.main.current_scene \
@@ -76,9 +82,7 @@ func change_scene_to_file(room_path: String, enable_automatic_transitions: bool)
 	escoria.event_manager.set_changing_scene(true)
 
 	# If FORCE_LAST_SCENE_NULL is true, force ESC_LAST_SCENE to empty
-	if escoria.globals_manager.get_global( \
-		GLOBAL_FORCE_LAST_SCENE_NULL):
-
+	if escoria.globals_manager.get_global(GLOBAL_FORCE_LAST_SCENE_NULL):
 		escoria.globals_manager.set_global(
 			GLOBAL_LAST_SCENE,
 			null,
@@ -155,12 +159,12 @@ func change_scene_to_file(room_path: String, enable_automatic_transitions: bool)
 		)
 
 
-# Sanitize camera limits, add player node and set the global id to the
-# name of this node if it's not set manually
-#
-# #### Parameters
-#
-# - room: The ESCRoom to be initialized for use.
+## Sanitize camera limits, add player node and set the global id to the[br]
+## name of this node if it's not set manually.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - room: The ESCRoom to be initialized for use.
 func init_room(room: ESCRoom) -> void:
 	if not is_instance_valid(room) || room == null:
 		escoria.logger.error(
@@ -226,13 +230,14 @@ func init_room(room: ESCRoom) -> void:
 	_perform_script_events(room)
 
 
-# Performs the ESC script events "setup" and "ready", in this order, if they are
-# present. Also manages automatic transitions.
-#
-# #### Parameters
-#
-# - room: The ESCRoom to be initialized for use.
-# *Returns*
+## Performs the ESC script events "setup" and "ready", in this order, if they[br]
+## are present. Also manages automatic transitions.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - room: The ESCRoom to be initialized for use.[br]
+## *Returns*[br]
+## ESCExecution result (integer)
 func _perform_script_events(room: ESCRoom) -> int:
 	# Used to track whether any yields have been executed before the call to
 	# set_scene_finish.
@@ -348,7 +353,7 @@ func _perform_script_events(room: ESCRoom) -> int:
 		room.remove_child(room.player_camera)
 		room.player_camera.queue_free()
 	var new_player_camera: ESCCamera = escoria.resource_cache.get_resource(
-		escoria.CAMERA_SCENE_PATH
+		CAMERA_SCENE_PATH
 	).instantiate()
 	new_player_camera.register()
 	room.player_camera = new_player_camera

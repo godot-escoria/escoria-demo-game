@@ -1,28 +1,38 @@
-# Class that handles migrations between different game or escoria versions
 extends RefCounted
 class_name ESCMigrationManager
+## Class that handles migrations between different game or escoria versions
 
 
-# Regular expression that matches a simple semver version string
+
+## Regular expression that matches a simple semver version string
 const VERSION_REGEX = "^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
 
 
-# Compiled regex
+## Compiled regex
 var version_regex: RegEx
 
-
+## Constructor of the migration manager.
 func _init() -> void:
 	version_regex = RegEx.new()
 	version_regex.compile(VERSION_REGEX)
 
 
-# Migrates the specified savegame from a specified version to another version
-# based on a directory of migration scripts.
-#
-# The migration manager searches for scripts from after the given version up
-# to the target version in this directory, loads them and applies the version.
-#
-# Each migration will return a modified version of the given savegame
+## Migrates the specified savegame from a specified version to another version
+## based on a directory of migration scripts.
+##
+## The migration manager searches for scripts from after the given version up
+## to the target version in this directory, loads them and applies the version.
+##
+## Each migration will return a modified version of the given savegame.
+##
+## #### Parameters
+## - savegame: 
+## - from: 
+## - to: 
+## - versions_directory: 
+##
+## **Returns**
+## The migrated savegame.
 func migrate(
 	savegame: ESCSaveGame,
 	from: String,
