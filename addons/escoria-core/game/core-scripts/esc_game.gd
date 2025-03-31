@@ -1,44 +1,44 @@
-# A base class for ESC game scenes
-# An extending class can be used in the project settings and is responsible
-# for managing very basic game features and controls
+## Base class for ESC game scenes
+## An extending class can be used in the project settings and is responsible
+## for managing very basic game features and controls
 extends Node2D
 class_name ESCGame
 
 
-# Emitted when the user has confirmed the crash popup
+## Signal emitted when the user has confirmed the crash popup
 signal crash_popup_confirmed
 
-# Signal sent when pause menu has to be displayed
+## Signal emitted when pause menu has to be displayed
 signal request_pause_menu
 
 
-# Editor debug modes
-# NONE - No debugging
-# MOUSE_TOOLTIP_LIMITS - Visualize the tooltip limits
+## Editor debug modes[br]
+## NONE - No debugging[br]
+## MOUSE_TOOLTIP_LIMITS - Visualize the tooltip limits
 enum EDITOR_GAME_DEBUG_DISPLAY {
 	NONE,
 	MOUSE_TOOLTIP_LIMITS
 }
 
 
-# The main menu node
+## Main menu node
 @export var main_menu: NodePath
 
-# The main menu node
+## Pause menu node
 @export var pause_menu: NodePath
 
-# The safe margin around tooltips
+## The safe margin around tooltips
 @export var mouse_tooltip_margin: float = 50.0
 
-# Which (if any) debug mode for the editor is used
+## Debug mode for the editor (None, Mouse Tooltips Limit)
 @export var editor_debug_mode: EDITOR_GAME_DEBUG_DISPLAY = EDITOR_GAME_DEBUG_DISPLAY.NONE:
 	set = _set_editor_debug_mode
 
-# The Control node underneath which all UI must be placed.
-# This should be a Control node and NOT a CanvasLayer (or any other type of) node.
+## The Control node underneath which all UI must be placed.
+## This should be a Control node and NOT a CanvasLayer (or any other type of) node.
 @export var ui_parent_control_node: NodePath
 
-# A reference to the node handling tooltips
+## Reference to the node handling tooltips
 var tooltip_node: Object
 
 # Boolean indicating whether the game scene is ready to accept inputs
@@ -55,9 +55,12 @@ func _enter_tree():
 	initialize_esc_game()
 
 func initialize_esc_game() -> void:
-	escoria.event_manager.event_finished.connect(_on_event_done)
-	escoria.action_manager.action_finished.connect(_on_action_finished)
-	escoria.main.room_ready.connect(_on_room_ready)
+	if not escoria.event_manager.event_finished.is_connected(_on_event_done):
+		escoria.event_manager.event_finished.connect(_on_event_done)
+	if not escoria.action_manager.action_finished.is_connected(_on_action_finished):
+		escoria.action_manager.action_finished.connect(_on_action_finished)
+	if not escoria.main.room_ready.is_connected(_on_room_ready):
+		escoria.main.room_ready.connect(_on_room_ready)
 
 	get_node(main_menu).process_mode = ProcessMode.PROCESS_MODE_ALWAYS
 	get_node(pause_menu).process_mode = ProcessMode.PROCESS_MODE_ALWAYS
