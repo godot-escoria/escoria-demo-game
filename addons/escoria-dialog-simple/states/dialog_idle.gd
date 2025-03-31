@@ -1,4 +1,4 @@
-extends "res://addons/escoria-dialog-simple/patterns/state_machine/state.gd"
+extends State
 
 
 func enter():
