@@ -1,7 +1,8 @@
 @tool
-## The main Escoria script
 extends Node
 class_name Escoria
+## The main Escoria script.
+
 
 ## Signal sent when pause menu has to be displayed
 signal request_pause_menu
@@ -15,14 +16,17 @@ const ESCORIA_CORE_PLUGIN_NAME: String = "escoria-core"
 @onready var main = $main
 
 
+# Called by Save Manager signal "game_is_loading" when a savegame is being loaded. 
 func _on_game_is_loading():
-	escoria.logger.info(self, "GAME IS LOADING")
+	escoria.logger.info(self, "SAVEGAME IS LOADING")
 
 
+# Called by Save Manager signal "game_finished_loading" when a savegame has loaded. 
 func _on_game_finished_loading():
-	escoria.logger.info(self, "GAME FINISHED LOADING")
+	escoria.logger.info(self, "SAVEGAME FINISHED LOADING")
 
 
+# Constructor. Inits all Escoria's managers accessible from `escoria` Godot global.
 func _init():
 	escoria.inventory_manager = ESCInventoryManager.new()
 	escoria.action_manager = ESCActionManager.new()
@@ -34,8 +38,8 @@ func _init():
 	escoria.resource_cache = ESCResourceCache.new()
 	escoria.save_manager = ESCSaveManager.new()
 
-	escoria.save_manager.connect("game_is_loading", Callable(self, "_on_game_is_loading"))
-	escoria.save_manager.connect("game_finished_loading", Callable(self, "_on_game_finished_loading"))
+	escoria.save_manager.game_is_loading.connect(_on_game_is_loading)
+	escoria.save_manager.game_finished_loading.connect(_on_game_finished_loading)
 
 	escoria.inputs_manager = ESCInputsManager.new()
 	escoria.settings_manager = ESCSettingsManager.new()
@@ -54,7 +58,7 @@ func _init():
 		).instantiate()
 
 
-# Load settings
+# Ready method. Loads settings and Escoria's start script (ESC or ASH).
 func _ready():
 	add_child(escoria.resource_cache)
 
@@ -96,7 +100,6 @@ func _ready():
 		)
 
 	escoria.main = main
-
 	_perform_plugins_checks()
 
 
@@ -112,7 +115,7 @@ func _perform_plugins_checks():
 		)
 
 
-# Manage notifications received from OS
+# Manage notifications received from OS.
 #
 # #### Parameters
 # - what: the notification constant received (usually defined in MainLoop)
@@ -124,7 +127,7 @@ func _notification(what: int):
 			get_tree().quit()
 
 
-## Called by Escoria's main_scene as very very first event EVER.
+## Initializer called by Escoria's main_scene as very very first event EVER.
 ## Usually you'll want to show some logos animations before spawning the main
 ## menu in the escoria/main/game_start_script 's `:init` event
 func init():
@@ -191,7 +194,7 @@ func _event_exists_in_script(script: ESCScript, event_name: String) -> bool:
 	if script.events.has(event_name):
 		return true
 
-	if _event_is_required(event_name):
+	if  event_name in escoria.event_manager.REQUIRED_EVENTS:
 		if script.filename:
 			escoria.logger.error(
 				self,
@@ -215,10 +218,6 @@ func _event_exists_in_script(script: ESCScript, event_name: String) -> bool:
 			)
 
 	return false
-
-
-func _event_is_required(event_name: String) -> bool:
-	return event_name in escoria.event_manager.REQUIRED_EVENTS
 
 
 ## Called from escoria autoload to start a new game.
