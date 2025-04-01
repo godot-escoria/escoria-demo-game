@@ -1,3 +1,13 @@
+## [4.0.0-alpha.274](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.274) (2025-04-01)
+
+
+### Bug Fixes
+
+* **savegames:** avoid crashing when loading savegame with items in inventory ([#741](https://github.com/godot-escoria/escoria-demo-game/issues/741)) ([5acd621](https://github.com/godot-escoria/escoria-demo-game/commit/5acd621ab3b3123cb4e12f70a2f13ac2c72aae17))
+* simple-mouse pause menu actually pauses game ([3041d82](https://github.com/godot-escoria/escoria-demo-game/commit/3041d82122009aceb97f263d42fa07949e211c6a))
+
+
+
 ## [4.0.0-alpha.273](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.273) (2025-03-21)
 
 

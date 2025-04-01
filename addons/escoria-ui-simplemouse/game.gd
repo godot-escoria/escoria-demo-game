@@ -408,7 +408,7 @@ func unpause_game():
 
 func pause_game():
 	show_ui()
-	
+
 	if not get_node(pause_menu).visible:
 		get_node(main_menu).reset()
 		get_node(pause_menu).reset()
