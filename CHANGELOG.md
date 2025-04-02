@@ -1,3 +1,12 @@
+## [4.0.0-alpha.275](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.275) (2025-04-02)
+
+
+### Features
+
+* Depency injection proposal ([96c76fe](https://github.com/godot-escoria/escoria-demo-game/commit/96c76fe45d89a06210a19569a6ecc6b770b8012f))
+
+
+
 ## [4.0.0-alpha.274](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.274) (2025-04-01)
 
 
