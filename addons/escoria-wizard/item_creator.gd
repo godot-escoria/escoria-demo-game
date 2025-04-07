@@ -127,8 +127,7 @@ func LoadObjectFileDialog_file_selected(path: String) -> void:
 
 func _on_CreateButton_pressed() -> void:
 	var inventory_path = ProjectSettings.get_setting("escoria/ui/inventory_items_path")
-	var directory_test = DirAccess.new();
-	if not directory_test.dir_exists(inventory_path):
+	if not DirAccess.dir_exists_absolute(inventory_path):
 		get_node(ERROR_WINDOW_NODE).dialog_text = \
 			"Folder %s does not exist. Please create or change the destination" % inventory_path
 		get_node(ERROR_WINDOW_NODE).popup_centered()
@@ -220,7 +219,7 @@ func _on_CreateButton_pressed() -> void:
 		packed_scene.pack(get_tree().edited_scene_root.get_node(item.name))
 
 		# Flag suggestions from https://godotengine.org/qa/50437/how-to-turn-a-node-into-a-packedscene-via-gdscript
-		var err = ResourceSaver.save("%s/%s.tscn" % [inventory_path, get_node(ITEM_NAME_NODE).text], packed_scene, \
+		var err = ResourceSaver.save(packed_scene, "%s/%s.tscn" % [inventory_path, get_node(ITEM_NAME_NODE).text], \
 			ResourceSaver.FLAG_CHANGE_PATH|ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS)
 		if err:
 			get_node(ERROR_WINDOW_NODE).dialog_text = \

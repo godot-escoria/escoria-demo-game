@@ -301,10 +301,9 @@ func _on_CreateButton_pressed() -> void:
 	Objects.set_owner(NewRoom)
 	StartPos.set_owner(NewRoom)
 
-	var dir = DirAccess.new()
-	dir.make_dir_recursive("%s/%s/scripts" % [BaseDir, RoomName])
-	dir.make_dir_recursive("%s/%s/objects" % [BaseDir, RoomName])
-	dir.copy("res://addons/escoria-wizard/room_script_template.esc", "%s/%s/scripts/%s" % \
+	DirAccess.make_dir_recursive_absolute("%s/%s/scripts" % [BaseDir, RoomName])
+	DirAccess.make_dir_recursive_absolute("%s/%s/objects" % [BaseDir, RoomName])
+	DirAccess.copy_absolute("res://addons/escoria-wizard/room_script_template.esc", "%s/%s/scripts/%s" % \
 		[BaseDir, RoomName, get_node(ESC_SCRIPT).text])
 
 	# Export scene
@@ -312,8 +311,8 @@ func _on_CreateButton_pressed() -> void:
 	packed_scene.pack(get_tree().edited_scene_root.get_node(NewRoom.name))
 
 	# Flag suggestions from https://godotengine.org/qa/50437/how-to-turn-a-node-into-a-packedscene-via-gdscript
-	ResourceSaver.save("%s/%s/%s.tscn" % [BaseDir, RoomName, RoomName], \
-		packed_scene, ResourceSaver.FLAG_CHANGE_PATH|ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS)
+	ResourceSaver.save(packed_scene, "%s/%s/%s.tscn" % [BaseDir, RoomName, RoomName], \
+		ResourceSaver.FLAG_CHANGE_PATH|ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS)
 
 	NewRoom.queue_free()
 	get_tree().edited_scene_root.get_node(NewRoom.name).queue_free()
