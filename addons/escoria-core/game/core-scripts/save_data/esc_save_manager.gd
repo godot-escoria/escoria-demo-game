@@ -487,9 +487,12 @@ func _load_savegame_events(savegame_events: Dictionary):
 			and not savegame_events.sched_events.is_empty():
 		escoria.logger.info(self, "Loading scheduled events")
 		for sched_event in savegame_events.sched_events:
-			var script: ESCScript = escoria.esc_compiler.load_esc_file(sched_event.event.source)
-			var event: ESCEvent = script.events[sched_event.event.original_name]
-			_sched_event.run([sched_event["timeout"], sched_event["object"], event])
+			var script: ESCScript = escoria.esc_compiler.load_esc_file(sched_event.event_filename)
+			escoria.event_manager.schedule_event(
+				script.events[sched_event.event_name],
+				sched_event.timeout,
+				sched_event.object
+			)
 		escoria.logger.info(self, "Finished loading scheduled events")
 
 	escoria.logger.info(self, "Finished loading events")
