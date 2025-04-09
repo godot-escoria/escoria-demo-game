@@ -269,7 +269,7 @@ func queue_event(event: ESCGrammarStmts.Event, force: bool = false, as_first = f
 # - timeout: Number of seconds to wait before adding the event to the
 #   front queue
 # - object: Target object
-func schedule_event(event, timeout: float, object: String) -> void:
+func schedule_event(event: ESCGrammarStmts.Event, timeout: float, object: String) -> void:
 	scheduled_events.append(ESCScheduledEvent.new(event, timeout, object))
 
 
@@ -559,7 +559,7 @@ func save_game(p_savegame: ESCSaveGame) -> void:
 	# Scheduled events
 	var sched_events_array: Array = []
 	for sched_event in scheduled_events:
-		sched_events_array.push_back(sched_event.exported())
+		sched_events_array.push_back((sched_event as ESCScheduledEvent).exported())
 	p_savegame.events.sched_events = sched_events_array
 
 #	# Events queue

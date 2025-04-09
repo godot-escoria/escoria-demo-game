@@ -9,11 +9,20 @@
 	say($player, "Ugh!")
 
 	slide($player, $slide_pos_2)
-	sched_event(5, $button_slide, "slide_back")
-
+	block_say
+	say($player, "Scheduling event button_slide->:slide_back in 15!")
+	sched_event(10, $button_slide, "say_ten_sec")
+	sched_event(15, $button_slide, "slide_back")
+	say($player, "Scheduled!")
+	
 	say($player, "Heeeeeeeelp!")
+	end_block_say
+
+:say_ten_sec
+	say($player, "In 5 seconds...")
 
 :slide_back
+	say($player, "Go!")
 	slide_block($player, $slide_location)
 	say($player, "That's better.")
 	accept_input("ALL")

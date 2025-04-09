@@ -14,7 +14,7 @@ var object: String
 
 
 # Create a new scheduled event
-func _init(p_event, p_timeout: float, p_object: String):
+func _init(p_event: ESCGrammarStmts.Event, p_timeout: float, p_object: String):
 	self.event = p_event
 	self.timeout = p_timeout
 	self.object = p_object
@@ -24,7 +24,8 @@ func _init(p_event, p_timeout: float, p_object: String):
 func exported() -> Dictionary:
 	var exported_dict: Dictionary = {}
 	exported_dict.class = "ESCScheduledEvent"
-	exported_dict.event = event.exported()
+	exported_dict.event_name = event.get_name().get_lexeme()
+	exported_dict.event_filename = event.get_name().get_filename()
 	exported_dict.timeout = timeout
 	exported_dict.object = object
 	return exported_dict
@@ -33,5 +34,6 @@ func exported() -> Dictionary:
 # Run the event
 #
 # **Returns** The execution code
+# TODO: not used anymore as event is now ran by the ash interpreter
 func run() -> int:
 	return await event.run()
