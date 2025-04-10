@@ -311,6 +311,8 @@ func queue_background_event(channel_name: String, event: ESCGrammarStmts.Event) 
 #
 # #### Parameters
 # - exceptions: an optional list of events which should be left running or queued
+# - stop_walking: boolean value (default true) determining whether the player 
+# (if any) has to be interrupted walking or not.
 func interrupt(exceptions: PackedStringArray = [], stop_walking = true) -> void:
 	if escoria.main.current_scene != null \
 			and escoria.main.current_scene.player != null \
