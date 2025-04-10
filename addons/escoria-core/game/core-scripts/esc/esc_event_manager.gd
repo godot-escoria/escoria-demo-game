@@ -311,10 +311,11 @@ func queue_background_event(channel_name: String, event: ESCGrammarStmts.Event) 
 #
 # #### Parameters
 # - exceptions: an optional list of events which should be left running or queued
-func interrupt(exceptions: PackedStringArray = []) -> void:
+func interrupt(exceptions: PackedStringArray = [], stop_walking = true) -> void:
 	if escoria.main.current_scene != null \
 			and escoria.main.current_scene.player != null \
-			and escoria.main.current_scene.player.is_moving():
+			and escoria.main.current_scene.player.is_moving() \
+			and stop_walking:
 		escoria.main.current_scene.player.stop_walking_now()
 
 	for channel_name in _running_events.keys():
