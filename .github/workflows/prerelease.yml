@@ -34,7 +34,7 @@ jobs:
           pre_release_branches: "main"
           append_to_pre_release_tag: "alpha"
           default_bump: "release"
-          custom_release_rules: "fix:prerelease,feat:prerelease"
+          custom_release_rules: "fix:prerelease,feat:prerelease,Fix:prerelease,Feat:prerelease"
       - name: "Write changelog"
         if: "steps.calculate_version.outputs.changelog != ''"
         run: |
