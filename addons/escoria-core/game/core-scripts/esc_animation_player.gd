@@ -62,7 +62,7 @@ func get_animations() -> PackedStringArray:
 	if _is_animation_player:
 		return _animation_player.get_animation_list()
 	else:
-		return _animated_sprite.frames.get_animation_names()
+		return _animated_sprite.sprite_frames.get_animation_names()
 
 
 # Whether the animation is playing
@@ -148,8 +148,8 @@ func get_length(name: String) -> float:
 	if _is_animation_player:
 		return _animation_player.get_animation(name).length
 	else:
-		return _animated_sprite.frames.get_frame_count(name) - 1 * \
-				_animated_sprite.frames.get_animation_speed(name)
+		return _animated_sprite.sprite_frames.get_frame_count(name) - 1 * \
+				_animated_sprite.sprite_frames.get_animation_speed(name)
 
 
 # Return true if the ESCAnimationPlayer node is valid, ie. it has a valid player
@@ -169,7 +169,7 @@ func _on_animation_finished(name: String):
 	if _is_animation_player and not _animation_player.get_animation(name).loop_mode != Animation.LOOP_NONE:
 		_animation_player.stop(true) # param here is to keep current state and
 									 # avoid resetting animation position to 0
-	elif not _animated_sprite.frames.get_animation_loop(name):
+	elif not _animated_sprite.sprite_frames.get_animation_loop(name):
 		_animated_sprite.stop()
 	animation_finished.emit(name)
 
