@@ -38,5 +38,3 @@ Commands can be either blocking or non-blocking. This isn't an issue unless you 
 Events are considered to be finished when the last statement has been executed. As such, it is worth being vigilant with the use of blocking and non-blocking commands. For example, if an event consists of a sole `walk` command that has an NPC move through a set of waypoints, the event itself will be considered finished once the `walk` command itself finishes executing. **This does not mean that once the character movement has ceased; rather, when the command that initiates the walk returns.** If you wish for the event to remain active for the duration of the movement, use its blocking equivalent, `walk_block`.
 
 Asynchronous code and state is difficult to manage. As such, we rely on GDScript's underlying facilities to ease that burden, and, as a result, we have chosen to put the responsibility of using blocking and non-blocking commands in the hands of the game developer.
-
-

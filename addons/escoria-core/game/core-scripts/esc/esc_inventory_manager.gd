@@ -1,20 +1,21 @@
-# A manager for inventory objects
+## A manager for inventory objects.
 extends Resource
 class_name ESCInventoryManager
 
 
-# Check if the player has an inventory item
-#
-# #### Parameters
-#
-# - item: Inventory item id
-# **Returns** Whether the player has the inventory
+## Checks whether the player has an inventory item.[br]
+##[br]
+## #### Parameters[br]
+## * item: The inventory item's id.[br]
+##[br]
+## **Returns** whether the player has the specified item in his/her inventory.
 func inventory_has(item: String) -> bool:
 	return escoria.globals_manager.has("i/%s" % item)
 
 
-# Get all inventory items
-# **Returns** The items in the inventory
+## Retrieves all inventory items.[br]
+##[br]
+## **Returns** the items curerntly in the player's inventory.
 func items_in_inventory() -> Array:
 	var items = []
 	var filtered = escoria.globals_manager.filter("i/*")
@@ -24,12 +25,11 @@ func items_in_inventory() -> Array:
 	return items
 
 
-# Remove an item from the inventory
-#
-# #### Parameters
-#
-# - item: Inventory item id
-func remove_item(item: String):
+## Removes an item from the player's inventory.[br]
+##[br]
+## #### Parameters[br]
+## * item: The inventory item's id.
+func remove_item(item: String) -> void:
 	if not inventory_has(item):
 		escoria.logger.error(
 			self,
@@ -40,19 +40,18 @@ func remove_item(item: String):
 		escoria.globals_manager.set_global("i/%s" % item, false)
 
 
-# Add an item to the inventory
-#
-# #### Parameters
-#
-# - item: Inventory item id
-func add_item(item: String):
+## Adds an item to the player's inventory.[br]
+##[br]
+## #### Parameters[br]
+## * item: The inventory item's id.
+func add_item(item: String) -> void:
 	escoria.globals_manager.set_global("i/%s" % item, true)
 
 
-# Save the inventory.
-#
-# #### Parameters
-# - p_savegame: ESCSaveGame resource that holds all data of the save
+## Saves the inventory in the specified savegame.[br]
+##[br]
+## #### Parameters[br]
+## * p_savegame: ESCSaveGame resource that holds all save data.
 func save_game(p_savegame: ESCSaveGame) -> void:
 	p_savegame.inventory = []
 	for item in items_in_inventory():

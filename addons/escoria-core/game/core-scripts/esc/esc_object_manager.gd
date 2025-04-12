@@ -1,13 +1,21 @@
-# A manager for ESC objects
+## A manager for ESC objects.
 extends Resource
 class_name ESCObjectManager
 
 
+## Reserved camera object.
 const CAMERA = "_camera"
+
+## Reserved music player object.
 const MUSIC = "_music"
+
+## Reserved sound player object.
 const SOUND = "_sound"
+
+## Reserved speech player object.
 const SPEECH = "_speech"
 
+## Array of objects that are reserved and automatically created when Escoria starts up.
 const RESERVED_OBJECTS = [
 	MUSIC,
 	SOUND,
@@ -15,51 +23,51 @@ const RESERVED_OBJECTS = [
 ]
 
 
-# The array of registered objects (organized by room, so each entry is a structure
-# representing a room and its registered objects). This also includes one
-# "room" for reserved objects; that is, we use one entry of the array to
-# hold all reserved objects. This entry can be identified by the "is_reserved"
-# property being set to true.
-#
-# "Reserved objects" are those which are named in the RESERVED_OBJECTS const
-# array and include objects that are used internally by Escoria in every room,
-# e.g. a music player, a sound player, a speech player, the main camera.
-#
-# In almost all cases, the reserved objects' entry doesn't need updating once
-# created.
-#
-# Example structure:
-#
-#	[
-#		{
-#			is_reserved: true,	# Indicates this is the "reserved objects" entry
-#			room: "",
-#			room_instance_id: "",
-#			objects:
-#				{
-#					"_camera": camera
-#				},
-#		},
-#		{
-#			is_reserved: false,	# Indicates this an entry for a room's objectss
-#			room_global_id: "<room_global_id>",
-#			room_instance_id: "<room_object_instance_id>",
-#			objects:
-#				{
-#					"obj1": val1,
-#					"obj2": val2
-#				}
-#		}
-#	]
+## The array of registered objects (organized by room, so each entry is a structure
+## representing a room and its registered objects). This also includes one
+## "room" for reserved objects; that is, we use one entry of the array to
+## hold all reserved objects. This entry can be identified by the "is_reserved"
+## property being set to true.[br]
+##[br]
+## "Reserved objects" are those which are named in the RESERVED_OBJECTS const
+## array and include objects that are used internally by Escoria in every room,
+## e.g. a music player, a sound player, a speech player, the main camera.[br]
+##[br]
+## In almost all cases, the reserved objects' entry doesn't need updating once
+## created.[br]
+##[br]
+## Example structure:[br]
+##[br]
+##	[[br]
+##		{[br]
+##			is_reserved: true,	# Indicates this is the "reserved objects" entry[br]
+##			room: "",[br]
+##			room_instance_id: "",[br]
+##			objects:[br]
+##				{[br]
+##					"_camera": camera[br]
+##				},[br]
+##		},[br]
+##		{[br]
+##			is_reserved: false,	# Indicates this an entry for a room's objects[br]
+##			room_global_id: "<room_global_id>",[br]
+##			room_instance_id: "<room_object_instance_id>",[br]
+##			objects:[br]
+##				{[br]
+##					"obj1": val1,[br]
+##					"obj2": val2[br]
+##				}[br]
+##		}[br]
+##	]
 var room_objects: Array = []
 
-# Array containing the encountered terrains so they can be properly saved in savegames
+## Array containing the encountered terrains so they can be properly saved in savegames.
 var room_terrains: Array = []
 
-# We also store the current room's ids for retrieving the right objects.
+## We also store the current room's ids for retrieving the right objects.
 var current_room_key: ESCRoomObjectsKey
 
-# To avoid having to look this up all the time, we hold a reference.
+## To avoid having to look this up all the time, we hold a reference.
 var reserved_objects_container: ESCRoomObjects
 
 
@@ -72,11 +80,10 @@ func _init() -> void:
 	current_room_key = ESCRoomObjectsKey.new()
 
 
-# Updates which object manager room is to be treated as the currently active one.
-#
-# #### Parameters
-#
-# - room: Room to register the object with in the object manager
+## Updates which object manager room is to be treated as the currently active one.[br]
+##[br]
+## #### Parameters[br]
+## * room: Room to register objects with in the object manager.
 func set_current_room(room: ESCRoom) -> void:
 	if room == null:
 		escoria.logger.error(
@@ -89,14 +96,15 @@ func set_current_room(room: ESCRoom) -> void:
 	current_room_key.room_instance_id = room.get_instance_id()
 
 
-# Register the object in the manager
-#
-# #### Parameters
-#
-# - object: Object to register
-# - room: Room to register the object with in the object manager
-# - force: Register the object, even if it has already been registered
-# - auto_unregister: Automatically unregister object on tree_exited
+## Registers the object in the manager.[br]
+##[br]
+## #### Parameters[br]
+## * object: The object to register.[br]
+## * room: (optional) Room to register the object with in the object manager; if not 
+## specified, the object manager will attempt to register the object with the current room
+## if one has been specified.[br]
+## * force: (optional) Register the object, even if it has already been registered (default: `false`).[br]
+## * auto_unregister: (optional) Automatically unregister object on tree_exited (default: `true`).
 func register_object(object: ESCObject, room: ESCRoom = null, force: bool = false, \
 	auto_unregister: bool = true) -> void:
 
@@ -217,12 +225,13 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 		room_objects.push_back(room_container)
 
 
-# Register the terrain in the manager
-#
-# #### Parameters
-#
-# - object: Object contianing the terrain to register
-# - room: Room to register the object with in the object manager
+## Registers the terrain with the manager.[br]
+##[br]
+## #### Parameters[br]
+## * object: The object containing the terrain to register.[br]
+## * room: (optional) Room to register the object with in the object manager; 
+## if not specified, the object manager will attempt to register the terrain with the current room
+## if one has been specified.[br]
 func register_terrain(object: ESCObject, room: ESCRoom = null) -> void:
 	var room_key: ESCRoomObjectsKey = ESCRoomObjectsKey.new()
 
@@ -262,13 +271,15 @@ func register_terrain(object: ESCObject, room: ESCRoom = null) -> void:
 		room_terrains.push_back(room_container)
 
 
-# Check whether an object was registered
-#
-# #### Parameters
-#
-# - global_id: Global ID of object
-# - room: ESCRoom instance the object is registered with.
-# ***Returns*** Whether the object exists in the object registry
+## Checks whether an object has been registered.[br]
+##[br]
+## #### Parameters[br]
+## * global_id: The global ID of the object.[br]
+## * room: (optional) `ESCRoom` instance the object is registered with; if not 
+## specified, the object manager will attempt to use the current room
+## if one has been specified.[br]
+##[br]
+## **Returns** whether the object exists in the object registry.
 func has(global_id: String, room: ESCRoom = null) -> bool:
 	if global_id in RESERVED_OBJECTS:
 		if reserved_objects_container == null:
@@ -290,13 +301,16 @@ func has(global_id: String, room: ESCRoom = null) -> bool:
 
 	return _object_exists_in_room(ESCObject.new(global_id, null), room_key)
 
-# Get the object from the object registry
-#
-# #### Parameters
-#
-# - global_id: The global id of the object to retrieve
-# - room: ESCRoom instance the object is registered with.
-# ***Returns*** The retrieved object, or null if not found
+
+## Retrieves the object from the object registry.[br]
+##[br]
+## #### Parameters[br]
+## * global_id: The global id of the object to retrieve.[br]
+## * room: The `ESCRoom` instance the object is registered with; if not 
+## specified, the object manager will attempt to use the current room
+## if one has been specified.[br]
+##[br]
+## **Returns** The retrieved object, or `null` if not found.
 func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 	if global_id in RESERVED_OBJECTS:
 		if reserved_objects_container.objects.has(global_id):
@@ -351,12 +365,11 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 		return null
 
 
-# Remove an object from the registry
-#
-# #### Parameters
-#
-# - object: The object to unregister
-# - room_key: The room under which the object should be unregistered.
+## Removes an object from the registry.[br]
+##[br]
+## #### Parameters[br]
+## * object: The object to unregister.[br]
+## * room_key: The room under which the object should be unregistered.
 func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 	if not _object_exists_in_room(object, room_key):
 		# Report this as a warning and not an error since this method may be
@@ -393,22 +406,20 @@ func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 		_erase_room(room_key)
 
 
-# Remove an object from the registry by global_id
-#
-# #### Parameters
-#
-# - global_id: The global_id of the object to unregister
-# - room_key: The room under which the object should be unregistered.
+## Removes an object from the registry by its `global_id`.[br]
+##[br]
+## #### Parameters[br]
+## * global_id: The global id` of the object to unregister.[br]
+## * room_key: The room under which the object should be unregistered.
 func unregister_object_by_global_id(global_id: String, room_key: ESCRoomObjectsKey) -> void:
 	unregister_object(ESCObject.new(global_id, null), room_key)
 
 
-# Insert data to save into savegame. For now, we only save the current room's
-# objects.
-#
-# #### Parameters
-#
-# - p_savegame: The savegame resource
+## Inserts data to save into savegame. For now, we only save the current room's
+## objects.[br]
+##[br]
+## #### Parameters[br]
+## * p_savegame: The savegame resource.
 func save_game(p_savegame: ESCSaveGame) -> void:
 	p_savegame.objects = {}
 
@@ -445,8 +456,11 @@ func save_game(p_savegame: ESCSaveGame) -> void:
 							terrain_escobj.node.enabled
 
 
-# Returns the current room's starting location. If more than one exists, the
-# first one encountered is returned.
+## Returns the current room's starting location. If more than one exists, the
+## first one encountered is returned.[br]
+##[br]
+## **Returns* the `ESCLocation` representing the current room's starting location, 
+## or `null` if no `ESCLocation` with `is_start_location` enabled can be found.
 func get_start_location() -> ESCLocation:
 	if _room_exists(current_room_key):
 		for object in _get_room_objects_objects(current_room_key).values():
@@ -463,12 +477,11 @@ func get_start_location() -> ESCLocation:
 	return null
 
 
-# Determines whether 'container' represents the current room the player is in.
-#
-# #### Parameters
-#
-# - container: The entry in the object manager array being checked.
-# **Returns** True iff container represents the the current room the player is in.
+## Determines whether 'container' represents the current room the player is in.[br]
+##[br]
+## #### Parameters[br]
+## * container: The entry in the object manager array being checked.[br]
+## **Returns** `true` iff container represents the the current room the player is in.
 func _is_current_room(container: ESCRoomObjects) -> bool:
 	return _compare_container_to_key(container, current_room_key)
 
