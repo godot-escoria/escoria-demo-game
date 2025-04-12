@@ -1,7 +1,7 @@
 ## Abstract base class representing a "statement" that has been interpreted from 
 ## an ASHES script file and is used to carry out its execution in Escoria.
 ##
-## This class is legacy code related to the ESCScript language that precedes the 
+## NOTE: This class is legacy code related to the ESCScript language that precedes the 
 ## newer ASHES scripting language used by Escoria. Although this class is extended 
 ## to facilitate the execution of actual commands and dialogs, the name may be 
 ## a bit misleading and may eventually be renamed or refactored.
@@ -62,10 +62,8 @@ func is_valid() -> bool:
 	return true
 
 
-# Execute this statement and return its return code
+## Execute this statement and return its return code.
 func run() -> int:
-	# TODO: It's entirely possible that this method is never executed; at some point, we'll need
-	# to trace through this and remove any dead code from this and other classes.
 	if parsed_statements.size() > 0:
 		var interpreter = ESCInterpreterFactory.create_interpreter()
 		var resolver: ESCResolver = ESCResolver.new(interpreter)
@@ -108,7 +106,7 @@ func run() -> int:
 	return final_rc
 
 
-# Interrupt the statement in the middle of its execution.
+## Interrupts the statement in the middle of its execution.
 func interrupt():
 	escoria.logger.info(
 		self,
@@ -121,7 +119,7 @@ func interrupt():
 			statement.interrupt()
 
 
-# Resets an interrupted event
+## Resets all affected statements' interrupts.
 func reset_interrupt():
 	_is_interrupted = false
 	for statement in statements:
