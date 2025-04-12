@@ -1,3 +1,12 @@
+## [4.0.0-alpha.276](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.276) (2025-04-12)
+
+
+### Bug Fixes
+
+* save and load scheduled events properly ([b0ae514](https://github.com/godot-escoria/escoria-demo-game/commit/b0ae5148958e6dfe1b3e920520d1e78401faa073))
+
+
+
 ## [4.0.0-alpha.276](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.276) (2025-04-11)
 
 
