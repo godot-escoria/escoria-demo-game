@@ -1,25 +1,27 @@
-# Manages currently carried out actions
+## Manages actions currently being carried out.
 extends Resource
 class_name ESCActionManager
 
+
 const ESCPlayer = preload("res://addons/escoria-core/game/core-scripts/esc_player.gd")
 
-# The current action verb was changed
+
+## The current action verb was changed.
 signal action_changed
 
-# Emitted, when an action has been completed
+## Emitted when an action has been completed.
 signal action_finished
 
-# Emitted when the action input state has changed
+## Emitted when the action input state has changed.
 signal action_input_state_changed
 
 
-# States of the action input (verb, item, target)
-# (I) -> AWAITING_VERB_OR_ITEM -> AWAITING_ITEM -> COMPLETED -> (E)
-# or
-# (I) -> AWAITING_VERB_OR_ITEM -> AWAITING_ITEM -> AWAITING_TARGET_ITEM -> COMPLETED -> (E)
-# or
-# (I) -> AWAITING_VERB_OR_ITEM -> AWAITING_VERB -> AWAITING_VERB_CONFIRMATION -> COMPLETED -> (E)
+## States of the action input (verb, item, target):[br]
+## (I) -> AWAITING_VERB_OR_ITEM -> AWAITING_ITEM -> COMPLETED -> (E)[br]
+## or[br]
+## (I) -> AWAITING_VERB_OR_ITEM -> AWAITING_ITEM -> AWAITING_TARGET_ITEM -> COMPLETED -> (E)[br]
+## or[br]
+## (I) -> AWAITING_VERB_OR_ITEM -> AWAITING_VERB -> AWAITING_VERB_CONFIRMATION -> COMPLETED -> (E)
 enum ACTION_INPUT_STATE {
 	# Initial state
 	AWAITING_VERB_OR_ITEM,
@@ -35,12 +37,12 @@ enum ACTION_INPUT_STATE {
 	COMPLETED
 }
 
-# Actions understood by the do(...) method
-# * BACKGROUND_CLICK: Object is to move from its current position
-# * ITEM_LEFT_CLICK: Item has been clicked on with LMB.
-# * ITEM_RIGHT_CLICK: Item has been clicked on with RMB.
-# * TRIGGER_IN: Character has moved into a trigger area.
-# * TRIGGER_OUT: Character has moved out of a trigger area.
+## Actions understood by the do(...) method:[br]
+## * BACKGROUND_CLICK: Object is to move from its current position.[br]
+## * ITEM_LEFT_CLICK: Item has been clicked on with LMB.[br]
+## * ITEM_RIGHT_CLICK: Item has been clicked on with RMB.[br]
+## * TRIGGER_IN: Character has moved into a trigger area.[br]
+## * TRIGGER_OUT: Character has moved out of a trigger area.
 enum ACTION {
 	BACKGROUND_CLICK,
 	ITEM_LEFT_CLICK,
@@ -51,38 +53,44 @@ enum ACTION {
 
 
 # Basic required internal actions
+
+## Action (event) triggered when a character has reached a destination.
 const ACTION_ARRIVED = "arrived"
+
+## Action (event) triggered when a scene is being exited.
 const ACTION_EXIT_SCENE = "exit_scene"
+
+## Action (event) triggered when a character is walking.
 const ACTION_WALK = "walk"
 
 
-# Current verb used
+## Current verb used.
 var current_action: String = "": set = set_current_action
 
-# Current tool (ESCItem/ESCInventoryItem) used
+## Current tool (`ESCItem`/`ESCInventoryItem`) used.
 var current_tool: ESCObject
 
-# Current target where the tool is being used on/with (if any)
+## Current target where the tool is being used on/with (if any).
 var current_target: ESCObject
 
-# Current action input state
+## Current action input state.
 var action_state = ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM:
 		set = set_action_input_state
 
 
-# Run a generic action
-#
-# #### Parameters
-#
-# - action: type of the action to run
-# - params: Parameters for the action
-#    - BACKGROUND_CLICK: [moving_obj, target, walk_fast]
-#    - ITEM_LEFT_CLICK: [item, input_event]
-#    - ITEM_RIGHT_CLICK: [item, input_event]
-#    - TRIGGER_IN: [trigger_id, object_id, trigger_in_verb]
-#    - TRIGGER_OUT: [trigger_id, object_id, trigger_out_verb]
-# - can_interrupt: if true, this command will interrupt any ongoing event
-# before it is finished
+## Runs a generic action.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## * action: type of the action to run[br]
+## * params: Parameters for the action[br]
+##   * BACKGROUND_CLICK: [moving_obj, target, walk_fast][br]
+##   * ITEM_LEFT_CLICK: [item, input_event][br]
+##   * ITEM_RIGHT_CLICK: [item, input_event][br]
+##   * TRIGGER_IN: [trigger_id, object_id, trigger_in_verb][br]
+##   * TRIGGER_OUT: [trigger_id, object_id, trigger_out_verb][br]
+## * can_interrupt: if true, this command will interrupt any ongoing event
+## before it is finished
 func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 	if escoria.current_state == escoria.GAME_STATE.DEFAULT:
 		match action:
@@ -207,20 +215,20 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 		pass
 
 
-# Sets the current state of action input.
-#
-# ## Parameters
-# - p_state: the action input state to set
-func set_action_input_state(p_state):
+## Sets the current state of action input.[br]
+##[br]
+## ## Parameters[br]
+## * p_state: the action input state to set
+func set_action_input_state(p_state) -> void:
 	action_state = p_state
 	action_input_state_changed.emit()
 
 
-# Set the current action verb
-#
-# ## Parameters
-# - action: The action verb to set
-func set_current_action(action: String):
+## Sets the current action verb.[br]
+##[br]
+## ## Parameters[br]
+## * action: the action verb to set
+func set_current_action(action: String) -> void:
 	if action != current_action:
 		clear_current_tool()
 
@@ -234,15 +242,15 @@ func set_current_action(action: String):
 	action_changed.emit()
 
 
-# Clear the current action
-func clear_current_action():
+## Clears the current action.
+func clear_current_action() -> void:
 	set_current_action("")
 	set_action_input_state(ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM)
 	action_changed.emit()
 
 
-# Clear the current tool
-func clear_current_tool():
+## Clears the current tool.
+func clear_current_tool() -> void:
 	current_tool = null
 	current_target = null
 	if action_state == ACTION_INPUT_STATE.AWAITING_VERB:
@@ -251,19 +259,19 @@ func clear_current_tool():
 		set_action_input_state(ACTION_INPUT_STATE.AWAITING_ITEM)
 
 
-# Checks if the specified action is valid and returns the associated event;
-# otherwise, we see if there's a "fallback" event and use that if necessary and,
-# if not, we return no event as there's nothing to do.
-#
-# #### Parameters
-#
-# - action: Action to execute (defined in attached ESC file and in
-#   action verbs UI) eg: arrived, use, look, pickup...
-# - target: Target ESC object
-# - combine_with: ESC object to combine with
-#
-# *Returns* the appropriate ESCGrammarStmts.Event to queue/run, or null if none can be found
-# or there's a reason not to run an event.
+## Checks if the specified action is valid and returns the associated event;
+## otherwise, we see if there's a "fallback" event and use that if necessary and,
+## if not, we return no event as there's nothing to do.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## * action: Action to execute (defined in attached ESC file and in
+##   action verbs UI) eg: arrived, use, look, pickup...[br]
+## * target: Target ESC object.[br]
+## * combine_with: ESC object to combine with.[br]
+##[br]
+## **Returns** the appropriate `ESCGrammarStmts.Event` to queue/run, or `null` if none can be found
+## or there's a reason not to run an event.
 func _get_event_to_queue(
 	action: String,
 	target: ESCObject,
@@ -394,17 +402,16 @@ func _get_event_to_queue(
 	return event_to_return
 
 
-# Check to make sure `target` contains the specific `action`. If `target` has an entry for
-# `action` that also requires a target itself (e.g. :use "wrench"), then we return false as
-# combinations are handled elsewhere.
-#
-# #### Parameters
-#
-# - target: `ESCObject` whose events we are to check to see if `action` has a corresponding event
-# - action: the action to check
-#
-# *Returns*
-# True iff `target` has an event corresponding to `action` and that event doesn't itself require a target.
+## Check to make sure `target` contains the specific `action`. If `target` has an entry for
+## `action` that also requires a target itself (e.g. `:use "wrench"`), then we return `false` as
+## combinations are handled elsewhere.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## * target: `ESCObject` whose events we are to check to see if `action` has a corresponding event.[br]
+## * action: The action to check.[br]
+##[br]
+## **Returns** `true` iff `target` has an event corresponding to `action` and that event doesn't itself require a target.
 func _check_target_has_proper_action(target: ESCObject, action: String) -> bool:
 	if target.events.has(action):
 		if target.events[action].get_target():
@@ -456,20 +463,20 @@ func _run_event(event) -> int:
 	return event_returned[0]
 
 
-# Makes an object walk to a destination. This can be either a 2D position or
-# another object.
-#
-# #### Parameters
-#
-# - moving_obj_id: global id of the object that needs to move
-# - destination: Position2D or ESCObject holding the moving object to head to
-# - is_fast: if true, the walk is performed at fast speed (defined in the moving
-# object.
+## Makes an object walk to a destination. This can be either a 2D position or
+## another object.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## * moving_obj_id: global id of the object that needs to move.[br]
+## * destination: `Position2D` or `ESCObject` holding the moving object to head to.[br]
+## * is_fast: if `true`, the walk is performed at fast speed (defined in the moving
+## object.
 func perform_walk(
 	moving_obj: ESCObject,
 	destination,
 	is_fast: bool = false
-):
+) -> void:
 	# Walk to Position2D.
 	if destination is Vector2:
 		var walk_context = ESCWalkContext.new(
@@ -507,18 +514,18 @@ func perform_walk(
 		return
 
 
-# Event handler when an object/item was clicked
-#
-# #### Parameters
-#
-# - obj: Object that was left clicked
-# - event: Input event that was received
-# - default_action: if true, run the inventory default action
+## Event handler called when an object/item is clicked.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## * obj: Object that was left clicked.[br]
+## * event: Input event that was received.[br]
+## * default_action: If `true`, run the inventory default action.
 func perform_inputevent_on_object(
 	obj: ESCObject,
 	event: InputEvent,
 	default_action: bool = false
-):
+) -> void:
 	"""
 	This algorithm:
 	- validates the requested action
@@ -672,13 +679,13 @@ func perform_inputevent_on_object(
 		_run_event(event_to_queue)
 
 
-# Determines whether the object in question can be acted upon.
-#
-# #### Parameters
-#
-# - global_id: the global ID of the item to examine
-#
-# *Returns* True iff the item represented by global_id can be acted upon.
+## Determines whether the object in question can be acted upon.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## * global_id: The global ID of the item to examine.[br]
+##[br]
+## **Returns** `true` iff the item represented by global_id can be acted upon.
 func is_object_actionable(global_id: String) -> bool:
 	var obj: ESCObject = escoria.object_manager.get_object(global_id) as ESCObject
 
