@@ -67,38 +67,6 @@ func exported() -> Dictionary:
 	return exported_dict
 
 
-# Create a new event from an event line
-#func _init(event_string: String):
-	#var event_regex = RegEx.new()
-	#event_regex.compile(REGEX)
-	#print("!!!!!!!!!!!!")
-	#if event_regex.search(event_string):
-		#for result in event_regex.search_all(event_string):
-			#print("------------")
-			#if "name" in result.names:
-				#self.name = ESCUtils.get_re_group(result, "name").strip_edges()
-				#self.original_name = self.name
-			#if "flags" in result.names:
-				#var _flags = ESCUtils.get_re_group(
-						#result,
-						#"flags"
-					#).strip_edges().split(" ")
-				#if "TK" in _flags:
-					#self.flags |= FLAG_TK
-				#if "NO_TT" in _flags:
-					#self.flags |= FLAG_NO_TT
-				#if "NO_UI" in _flags:
-					#self.flags |= FLAG_NO_UI
-				#if "NO_SAVE" in _flags:
-					#self.flags |= FLAG_NO_SAVE
-	#else:
-		#escoria.logger.warn(
-			#self,
-			#"Invalid event detected: %s\nEvent regexp didn't match."
-					#% event_string
-		#)
-
-
 ## Initializes the event with specified arguments.[br]
 ##[br]
 ## #### Parameters ####
