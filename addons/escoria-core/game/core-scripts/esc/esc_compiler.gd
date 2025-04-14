@@ -152,4 +152,4 @@ func _run_script_analysis() -> bool:
 	if Engine.is_editor_hint():
 		return true
 
-	return ProjectSettings.get_setting(ESCProjectSettingsManager.ENABLE_HOVER_STACK_VIEWER)
+	return ProjectSettings.get_setting(ESCProjectSettingsManager.PERFORM_SCRIPT_ANALYSIS_AT_RUNTIME)

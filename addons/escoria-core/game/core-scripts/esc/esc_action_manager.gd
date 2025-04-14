@@ -642,7 +642,7 @@ func perform_inputevent_on_object(
 		# If clicked object not in inventory, player walks towards it
 		if not obj.node is ESCPlayer and \
 			not escoria.inventory_manager.inventory_has(obj.global_id) and \
-			not event_flags & ESCEvent.FLAGS.TK:
+			not _telekinetic_applies_to(event_to_queue):
 				var context = await _walk_towards_object(
 					obj,
 					event.position,
@@ -681,6 +681,22 @@ func perform_inputevent_on_object(
 	# immediately.
 	if not dont_interact and event_to_queue:
 		_run_event(event_to_queue)
+
+
+func _telekinetic_applies_to(event: ESCGrammarStmts.Event) -> bool:
+	if event.get_flags_with_conditions().has("TK"):
+		var tk_flag_condition = event.get_flags_with_conditions().get("TK")
+
+		if tk_flag_condition:
+			var interpreter: ESCInterpreter = ESCInterpreterFactory.create_interpreter()
+
+			var result = interpreter.look_up_global(tk_flag_condition.get_name())
+
+			return false if result == null else bool(result)
+
+		return true
+
+	return false
 
 
 # Determines whether the object in question can be acted upon.

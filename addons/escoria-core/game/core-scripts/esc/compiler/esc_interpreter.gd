@@ -505,6 +505,13 @@ func look_up_variable(name: ESCToken, expr: ESCGrammarExpr):
 		return _environment.get_at(distance, name.get_lexeme())
 
 
+func look_up_global(name: ESCToken):
+	if _globals.get_values().has(name.get_lexeme()):
+		return _globals.get_value(name)
+
+	return null
+
+
 func _evaluate(expr: ESCGrammarExpr):
 	var ret = await expr.accept(self)
 
