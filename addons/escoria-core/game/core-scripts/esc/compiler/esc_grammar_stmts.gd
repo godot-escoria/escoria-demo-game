@@ -59,6 +59,8 @@ class Event extends ESCGrammarStmt:
 		get = get_target
 	var _flags: int:
 		get = get_flags
+	var _flags_with_conditions: Dictionary = {}:
+		get = get_flags_with_conditions
 	var _body: ESCGrammarStmts.Block:
 		get = get_body
 
@@ -92,12 +94,12 @@ class Event extends ESCGrammarStmt:
 	}
 
 
-	func init(name: ESCToken, target: ESCGrammarExprs.Literal, flags: Array, body: ESCGrammarStmts.Block):
+	func init(name: ESCToken, target: ESCGrammarExprs.Literal, flags: Dictionary, body: ESCGrammarStmts.Block):
 		_name = name
 		_target = target
 
-		for flag in flags:
-			match flag.get_lexeme():
+		for flag in flags.keys():
+			match flag:
 				"TK":
 					_flags |= FLAG_TK
 				"NO_TT":
@@ -108,6 +110,7 @@ class Event extends ESCGrammarStmt:
 					_flags |= FLAG_NO_SAVE
 
 		_body = body
+		_flags_with_conditions = flags
 
 
 	func get_name() -> ESCToken:
@@ -130,8 +133,13 @@ class Event extends ESCGrammarStmt:
 		return _flags
 
 
+	func get_flags_with_conditions() -> Dictionary:
+		return _flags_with_conditions
+
+
 	func add_flag(flag: ESCEvent.FLAGS):
 		_flags |= flag
+
 
 	func get_body() -> ESCGrammarStmts.Block:
 		return _body

@@ -82,7 +82,7 @@ func _event_declaration():
 
 		target = expr
 
-	var flags: Array = []
+	var flags: Dictionary = {}
 
 	var has_flags: bool = _match(ESCTokenType.TokenType.PIPE)
 
@@ -94,7 +94,25 @@ func _event_declaration():
 		if flag is ESCParseError:
 			return flag
 
-		flags.append(flag)
+		var flag_condition = null
+
+		if _match(ESCTokenType.TokenType.LESS):
+			if not _check(ESCTokenType.TokenType.IDENTIFIER):
+				return _error(_peek(), "Condition for flag '%s' must be a global variable." % flag.get_lexeme())
+
+			flag_condition = _primary()
+
+			if flag_condition is ESCParseError:
+				return flag_condition
+
+			var close_predicate_token = _consume(
+				ESCTokenType.TokenType.GREATER, 
+				"For flag '%s', only one (global) variable may be used and must be enclosed between '<' and '>'." % flag.get_lexeme())
+
+			if close_predicate_token is ESCParseError:
+				return close_predicate_token
+
+		flags[flag.get_lexeme()] = flag_condition
 
 		has_flags = _match(ESCTokenType.TokenType.PIPE)
 
@@ -549,6 +567,12 @@ func _comparison():
 	if expr is ESCParseError:
 		return expr
 
+	# Flag predicates (e.g. TK<predicate>) should not be treated as comparisons.
+	if _check(ESCTokenType.TokenType.GREATER) \
+		and _check_next([ESCTokenType.TokenType.NEWLINE, ESCTokenType.TokenType.PIPE]):
+
+		return expr
+
 	while _match([
 		ESCTokenType.TokenType.GREATER,
 		ESCTokenType.TokenType.GREATER_EQUAL,
@@ -837,6 +861,30 @@ func _check(tokenTypes) -> bool:
 	for type in tokenTypes:
 		if _peek().get_type() == type:
 			return true
+
+	return false
+
+
+# This turns the parser into an LL(2).
+func _check_next(tokenTypes) -> bool:
+	if not tokenTypes is Array:
+		tokenTypes = [tokenTypes]
+
+	if _at_end():
+		return false
+
+	_current += 1
+
+	if _at_end():
+		_current -= 1
+		return false
+
+	for type in tokenTypes:
+		if _peek().get_type() == type:
+			_current -= 1
+			return true
+
+	_current -= 1
 
 	return false
 
