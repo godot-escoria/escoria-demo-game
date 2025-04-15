@@ -365,13 +365,13 @@ func validate_exported_parameters() -> void:
 	regex.compile(FORBIDDEN_CHARACTERS)
 	var result = regex.search(global_id)
 	if result:
-		escoria.logger.error(
+		ESCSafeLogging.log_error(
 				self,
 				"Forbidden character in global_id %s (path: %s)"
 						% [global_id, get_path()]
 				)
 	if global_id.is_empty():
-		escoria.logger.error(
+		ESCSafeLogging.log_error(
 				self,
 				"global_id of item is empty (node name : %s, path: %s)"
 						% [name, get_path()]
@@ -461,7 +461,7 @@ func _unhandled_input(input_event: InputEvent) -> void:
 
 	if event is InputEventMouseButton and event.is_pressed():
 		if not escoria.current_state == escoria.GAME_STATE.DEFAULT:
-			escoria.logger.info(
+			ESCSafeLogging.log_info(
 				self,
 				"Current game state doesn't accept interactions."
 			)
@@ -542,7 +542,7 @@ func validate_animations(animations_resource: ESCAnimationResource) -> void:
 	if Engine.is_editor_hint():
 		update_configuration_warnings()
 	elif _scene_warnings.size() > 0:
-		escoria.logger.error(
+		ESCSafeLogging.log_error(
 			self,
 			", ".join(_scene_warnings)
 		)
@@ -569,12 +569,12 @@ func get_animation_player() -> Node:
 						child is AnimationPlayer:
 					player_node_path = child.get_path()
 		if player_node_path.is_empty():
-			escoria.logger.warn(
+			ESCSafeLogging.log_warn(
 				self,
 				"Can not find animation_player or animated sprite for %s." % global_id
 			)
 		elif not has_node(player_node_path):
-			escoria.logger.warn(
+			ESCSafeLogging.log_warn(
 				self,
 				"Can not find animation_player node at path %s for %s." % [player_node_path, global_id]
 			)
@@ -616,7 +616,7 @@ func get_interact_position() -> Vector2:
 
 	if interact_position == null and \
 		esclocation_position == null and is_instance_valid(collision):
-		escoria.logger.warn(
+		ESCSafeLogging.log_warn(
 			self,
 			"No ESCLocation found to walk to for object " +
 			"%s. Middle of collision shape will be used." % global_id)
@@ -624,14 +624,14 @@ func get_interact_position() -> Vector2:
 
 	if interact_count > 0:
 		if interact_count > 1:
-			escoria.logger.warn(
+			ESCSafeLogging.log_warn(
 				self,
 				"Multiple ESCInteractionLocations found to walk to for " +
 				"object %s. Last one will be used." % global_id)
 		return interact_position
 
 	if esclocation_count > 1:
-		escoria.logger.warn(
+		ESCSafeLogging.log_warn(
 			self,
 			"Multiple ESClocations found to walk to for object " +
 			"%s. Last one will be used." % global_id)
@@ -687,7 +687,7 @@ func teleport(target: Node) -> void:
 	if is_movable:
 		_movable.teleport(target)
 	else:
-		escoria.logger.warn(
+		ESCSafeLogging.log_warn(
 			self,
 			"Node %s cannot \"teleport\". Its \"is_movable\" parameter is false." %self
 		)
@@ -702,7 +702,7 @@ func teleport_to(target: Vector2) -> void:
 	if is_movable:
 		_movable.teleport_to(target)
 	else:
-		escoria.logger.warn(
+		ESCSafeLogging.log_warn(
 			self,
 			"Node %s cannot \"teleport_to\". Its \"is_movable\" parameter is false." %self
 		)
@@ -718,7 +718,7 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 	if is_movable:
 		_movable.walk_to(pos, p_walk_context)
 	else:
-		escoria.logger.warn(
+		ESCSafeLogging.log_warn(
 			self,
 			"Node %s cannot use \"walk_to\". Its \"is_movable\" parameter is false." %self
 		)
@@ -738,7 +738,7 @@ func stop_walking_now(to_target: bool = false) -> void:
 			where = _movable.walk_destination
 		_movable.walk_stop(where)
 	else:
-		escoria.logger.warn(
+		ESCSafeLogging.log_warn(
 			self,
 			"Node %s cannot use \"stop_walking_now\". Its \"is_movable\" parameter is false." %self
 		)
@@ -773,7 +773,7 @@ func get_sprite() -> Node:
 			if child is AnimatedSprite2D or child is Sprite2D:
 				_sprite_node = child
 	if _sprite_node == null:
-		escoria.logger.error(
+		ESCSafeLogging.log_error(
 			self,
 			"No sprite node found in the scene %s." % get_path()
 		)
@@ -790,7 +790,7 @@ func set_angle(deg: int, wait: float = 0.0):
 	if is_movable:
 		_movable.set_angle(deg, wait)
 	else:
-		escoria.logger.warn(
+		ESCSafeLogging.log_warn(
 			self,
 			"Node %s cannot use \"set_angle\". Its \"is_movable\" parameter is false." % self
 		)
@@ -806,7 +806,7 @@ func set_direction(direction_id: int, wait: float = 0.0):
 	if is_movable:
 		_movable.set_direction(direction_id, wait)
 	else:
-		escoria.logger.warn(
+		ESCSafeLogging.log_warn(
 			self,
 			"Node %s cannot use \"set_direction\". Its \"is_movable\" parameter is false." % self
 		)
@@ -822,7 +822,7 @@ func turn_to(object: Node, wait: float = 0.0):
 	if is_movable:
 		_movable.turn_to(object, wait)
 	else:
-		escoria.logger.warn(
+		ESCSafeLogging.log_warn(
 			self,
 			"Node %s cannot use \"turn_to\". Its \"is_movable\" parameter is false." % self
 		)
@@ -832,28 +832,28 @@ func turn_to(object: Node, wait: float = 0.0):
 func check_talk_possible():
 	if is_movable and (_movable.last_dir < 0 \
 			or _movable.last_dir >= animations.speaks.size()):
-		escoria.logger.warn(
+		ESCSafeLogging.log_warn(
 			self,
 			"Node %s cannot talk. Its \"last_dir\" parameter is invalid: %s." \
 			% [self, _movable.last_dir]
 		)
 		return false
 	if not is_instance_valid(animations):
-		escoria.logger.warn(
+		ESCSafeLogging.log_warn(
 			self,
 			"Node %s cannot talk. Its \"animations\" parameter is empty." \
 			% self
 		)
 		return false
 	if animations.speaks.size() == 0:
-		escoria.logger.warn(
+		ESCSafeLogging.log_warn(
 			self,
 			"Node %s cannot talk. Its \"animations.speaks\" array is empty." \
 			% self
 		)
 		return false
 	if not get_animation_player():
-		escoria.logger.warn(
+		ESCSafeLogging.log_warn(
 			self,
 			"Node %s cannot talk. Its animation player can't be found." \
 			% self
@@ -919,7 +919,7 @@ func update_idle():
 # global position of the player
 func get_camera_node():
 	if has_node(camera_node):
-		escoria.logger.debug(
+		ESCSafeLogging.log_debug(
 			self,
 			"Camera3D node found - directing camera to the camera_node on %s."
 				% global_id

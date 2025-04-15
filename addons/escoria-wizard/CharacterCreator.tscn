@@ -383,6 +383,7 @@ texture_pressed = ExtResource("18")
 texture_hover = ExtResource("18")
 
 [node name="ColorRectSpacer" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_up"]
+visible = false
 modulate = Color(0.235294, 0.341176, 0.290196, 1)
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
@@ -430,6 +431,7 @@ texture_pressed = ExtResource("13")
 texture_hover = ExtResource("13")
 
 [node name="ColorRectSpacer" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_left"]
+visible = false
 modulate = Color(0.235294, 0.341176, 0.290196, 1)
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
@@ -501,6 +503,7 @@ texture_pressed = ExtResource("33")
 texture_hover = ExtResource("33")
 
 [node name="ColorRectSpacer" type="ColorRect" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_down"]
+visible = false
 modulate = Color(0.235294, 0.341176, 0.290196, 1)
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
@@ -1064,7 +1067,9 @@ dialog_text = "Please load a spritesheet to begin."
 
 [node name="export_progress" type="Window" parent="InformationWindows"]
 position = Vector2i(0, 36)
+size = Vector2i(400, 200)
 visible = false
+wrap_controls = true
 exclusive = true
 
 [node name="progress_label" type="Label" parent="InformationWindows/export_progress"]
@@ -1089,6 +1094,7 @@ max_value = 31.0
 rounded = true
 
 [node name="export_complete" type="AcceptDialog" parent="InformationWindows"]
+size = Vector2i(640, 574)
 dialog_text = "The new  ESCPlayer node has now been exported. 
 For your convenience, it has been automatically opened in the Godot editor.
 
