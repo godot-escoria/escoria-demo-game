@@ -180,7 +180,6 @@ func construct_scene_nodes(angles):
 			p_points.push_back($player.position)
 			p_points.push_back(POLYGON_DISTANCE * Vector2.from_angle(angles[i][0]) + $player.position)
 			p_points.push_back(POLYGON_DISTANCE * Vector2.from_angle(angles[i][1]) + $player.position)
-
 			polygon_node.polygon = p_points
 			collision_shape.points = p_points
 			collision.set_shape(collision_shape)

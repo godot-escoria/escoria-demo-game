@@ -185,19 +185,19 @@ func _test_event_flags() -> bool:
 
 	subject = script.events["test"]
 	assert(subject.name == "test")
-	assert(subject.flags & ESCEvent.FLAG_TK != 0)
-	assert(subject.flags & ESCEvent.FLAG_NO_TT == 0)
+	assert(subject.flags & ESCEvent.FLAGS.TK != 0)
+	assert(subject.flags & ESCEvent.FLAGS.NO_TT == 0)
 
 	subject = script.events["test2"]
 	assert(subject.name == "test2")
-	assert(subject.flags & ESCEvent.FLAG_TK != 0)
-	assert(subject.flags & ESCEvent.FLAG_NO_TT != 0)
+	assert(subject.flags & ESCEvent.FLAGS.TK != 0)
+	assert(subject.flags & ESCEvent.FLAGS.NO_TT != 0)
 
 	subject = script.events["test3"]
 	assert(subject.name == "test3")
-	assert(subject.flags & ESCEvent.FLAG_TK != 0)
-	assert(subject.flags & ESCEvent.FLAG_NO_TT != 0)
-	assert(subject.flags & ESCEvent.FLAG_NO_UI != 0)
+	assert(subject.flags & ESCEvent.FLAGS.TK != 0)
+	assert(subject.flags & ESCEvent.FLAGS.NO_TT != 0)
+	assert(subject.flags & ESCEvent.FLAGS.NO_UI != 0)
 
 	return true
 
