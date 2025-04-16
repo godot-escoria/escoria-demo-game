@@ -69,11 +69,6 @@ var current_target: ESCObject
 var action_state = ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM:
 		set = set_action_input_state
 
-# Dictionary of flags to force for a given event of given object.
-# Key is formed by the ESCObject instance.
-# Value is an array of ESCEventFlagForce {"event_name", flag_value}
-var forced_events_flags: Dictionary = {}
-
 # Run a generic action
 #
 # #### Parameters
@@ -625,14 +620,7 @@ func perform_inputevent_on_object(
 		clear_current_action()
 		action_finished.emit()
 		return
-		
-	# Force flags if needed
-	var forced_eventflags = forced_events_flags.get(obj, null)
-	if forced_eventflags != null and not forced_eventflags.is_empty():
-		for event_flag in forced_eventflags:
-			if event_flag.get_event_name() == event_to_queue.get_event_name():
-				event_to_queue.add_flag(event_flag.get_flags())
-
+	
 	var event_flags = event_to_queue.get_flags() if event_to_queue else 0
 
 	if escoria.main.current_scene.player:
@@ -852,25 +840,3 @@ func _is_object_actionable(obj: ESCObject) -> bool:
 		object_is_actionable = false
 
 	return object_is_actionable
-
-
-## Force a given flag for a given event on given object.
-## This method only forces one flag for the event. Call the method again to 
-## force other more flags to the same event.
-#
-# #### Parameters
-# 
-# - object: the ESCObject concerned by the event.
-# - event_name: the event name (use, look...)
-# - flag: the event flag to force
-func force_event_flag(
-	object: ESCObject, 
-	event_name: String, 
-	flag: String
-) -> void:
-	if not forced_events_flags.has(object):
-		var flags = ESCEvent.get_flags_from_list([flag])
-		var eventflagforce = ESCEventFlagForce.new(event_name, flags)
-		if not forced_events_flags.get(object) is Array:
-			forced_events_flags[object] = []
-		forced_events_flags[object].push_back(eventflagforce)
