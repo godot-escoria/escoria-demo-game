@@ -69,7 +69,7 @@ const CONFIG_FILE          = "escoria-wizard.conf"
 
 
 # Test flag - set to true to load test data.
-var test_mode: bool = true
+var test_mode: bool = false
 
 # The currently loaded spritesheet image
 var source_image: Image
