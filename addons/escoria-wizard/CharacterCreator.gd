@@ -1318,7 +1318,9 @@ func export_player(scene_name) -> void:
 #	var largest_sprite = export_generate_animations(new_character, num_directions)
 	export_largest_sprite = Vector2.ONE
 
-	export_generate_animations(new_character, num_directions)
+	# TODO: This call updates export_largest_sprite, and there is likely a better
+	# way to accomplish this.
+	await export_generate_animations(new_character, num_directions)
 
 	# Add Collision shape to the ESCPlayer
 	var rectangle_shape = RectangleShape2D.new()
@@ -1327,7 +1329,7 @@ func export_player(scene_name) -> void:
 	await get_tree().process_frame
 
 	collision_shape.shape = rectangle_shape
-	collision_shape.shape.extents = export_largest_sprite / 2
+	collision_shape.shape.size = export_largest_sprite
 	collision_shape.position.y = -(export_largest_sprite.y / 2)
 
 	new_character.add_child(collision_shape)
