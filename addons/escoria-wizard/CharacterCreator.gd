@@ -69,7 +69,7 @@ const CONFIG_FILE          = "escoria-wizard.conf"
 
 
 # Test flag - set to true to load test data.
-var test_mode: bool = false
+var test_mode: bool = true
 
 # The currently loaded spritesheet image
 var source_image: Image
@@ -1257,11 +1257,12 @@ func export_player(scene_name) -> void:
 		new_character.selectable = true
 	new_character.name = get_node(NAME_NODE).get_node("node_name").text
 
-	if get_node(NAME_NODE).get_node("global_id").text == null:
+	if get_node(NAME_NODE).get_node("global_id").text.is_empty():
 		new_character.global_id = new_character.name
+	else:
+		new_character.global_id = get_node(NAME_NODE).get_node("global_id").text
 
-	new_character.global_id = get_node(NAME_NODE).get_node("global_id").text
-	new_character.tooltip_name = get_node(NAME_NODE).get_node("node_name").text
+	new_character.tooltip_name = new_character.name
 
 	new_character.default_action = "look"
 
@@ -1498,6 +1499,7 @@ func export_generate_animations(character_node, num_directions) -> void:
 	animated_sprite.position.y = -(largest_frame_dimensions.y / 2)	# Place feet at (0,0)
 	animated_sprite.animation = "default"
 	animated_sprite.play()
+
 	character_node.add_child(animated_sprite)
 	# Making the owner "character_node" rather than "get_tree().edited_scene_root" means that
 	# when saving as a packed scene, the child nodes get saved under the parent (as the parent
