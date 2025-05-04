@@ -99,6 +99,7 @@ dialog_simple/stop_talking_animation_on="End of audio"
 debug/enable_hover_stack_viewer=true
 main/escoria_version="4.0-alpha"
 debug/perform_script_analysis_at_runtime=true
+wizard/path_to_rooms="res://game/rooms"
 
 [file_customization]
 
