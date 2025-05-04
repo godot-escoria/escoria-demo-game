@@ -1,40 +1,40 @@
 [gd_scene load_steps=40 format=3 uid="uid://cmd72pi6txw2v"]
 
-[ext_resource type="Texture2D" uid="uid://4e5o0jygjpmv" path="res://addons/escoria-wizard/graphics/darkgreenarrow_down.png" id="1"]
-[ext_resource type="Texture2D" uid="uid://bhtllcrcfgi2l" path="res://addons/escoria-wizard/graphics/greyarrow_r.png" id="2"]
-[ext_resource type="Texture2D" uid="uid://bf8hvhitupl4x" path="res://addons/escoria-wizard/graphics/darkgreenarrow_right.png" id="3"]
-[ext_resource type="Texture2D" uid="uid://c108mcii2pnd2" path="res://addons/escoria-wizard/graphics/greenarrow_right.png" id="4"]
-[ext_resource type="Texture2D" uid="uid://c56jk51hra2ad" path="res://addons/escoria-wizard/graphics/greenarrow_down.png" id="5"]
-[ext_resource type="Texture2D" uid="uid://dd1kynxpr5kp7" path="res://addons/escoria-wizard/graphics/greyarrow_ul.png" id="6"]
-[ext_resource type="Texture2D" uid="uid://db0x28tf68ra4" path="res://addons/escoria-wizard/graphics/greyarrow_dl.png" id="7"]
-[ext_resource type="Texture2D" uid="uid://cta81hch2hfbb" path="res://addons/escoria-wizard/graphics/darkgreyarrow_d.png" id="8"]
-[ext_resource type="Texture2D" uid="uid://bm8l75biydrpy" path="res://addons/escoria-wizard/graphics/no_animation.png" id="9"]
-[ext_resource type="Texture2D" uid="uid://cvbadwfv44b31" path="res://addons/escoria-wizard/graphics/greenarrow_downleft.png" id="10"]
-[ext_resource type="Texture2D" uid="uid://c66yr3xxyocgf" path="res://addons/escoria-wizard/graphics/darkgreenarrow_downleft.png" id="11"]
-[ext_resource type="Texture2D" uid="uid://etvk6ieq08d8" path="res://addons/escoria-wizard/graphics/darkgreenarrow_left.png" id="12"]
-[ext_resource type="Texture2D" uid="uid://r35l3buu5y1c" path="res://addons/escoria-wizard/graphics/greyarrow_l.png" id="13"]
-[ext_resource type="Texture2D" uid="uid://bkhd38cvci0o6" path="res://addons/escoria-wizard/graphics/darkgreyarrow_ur.png" id="14"]
-[ext_resource type="Texture2D" uid="uid://v431ykg6an0r" path="res://addons/escoria-wizard/graphics/darkgreyarrow_ul.png" id="15"]
-[ext_resource type="Texture2D" uid="uid://cbam52s6amdah" path="res://addons/escoria-wizard/graphics/darkgreenarrow_upright.png" id="16"]
-[ext_resource type="Texture2D" uid="uid://cadthv31wt2lr" path="res://addons/escoria-wizard/graphics/greyarrow_ur.png" id="17"]
-[ext_resource type="Texture2D" uid="uid://bu2yu64fio8re" path="res://addons/escoria-wizard/graphics/greyarrow_u.png" id="18"]
-[ext_resource type="Texture2D" uid="uid://cfewua8ben82l" path="res://addons/escoria-wizard/graphics/darkgreyarrow_r.png" id="19"]
-[ext_resource type="Texture2D" uid="uid://bng28oph8rshy" path="res://addons/escoria-wizard/graphics/darkgreyarrow_u.png" id="20"]
-[ext_resource type="Texture2D" uid="uid://dknfjhmw4ulgx" path="res://addons/escoria-wizard/graphics/darkgreyarrow_l.png" id="21"]
-[ext_resource type="Texture2D" uid="uid://cooshd11j6mme" path="res://addons/escoria-wizard/graphics/greyarrow_dr.png" id="22"]
-[ext_resource type="Texture2D" uid="uid://yhgaqrufthbd" path="res://addons/escoria-wizard/graphics/greenarrow_up.png" id="23"]
-[ext_resource type="Texture2D" uid="uid://blgnjkqah3tux" path="res://addons/escoria-wizard/graphics/greenarrow_upright.png" id="24"]
-[ext_resource type="Texture2D" uid="uid://bag4myopmjamd" path="res://addons/escoria-wizard/graphics/darkgreenarrow_downright.png" id="25"]
-[ext_resource type="Texture2D" uid="uid://dkv2avtnxqov1" path="res://addons/escoria-wizard/graphics/greenarrow_left.png" id="26"]
-[ext_resource type="Texture2D" uid="uid://b4chlwkmru1aj" path="res://addons/escoria-wizard/graphics/darkgreenarrow_upleft.png" id="27"]
-[ext_resource type="Texture2D" uid="uid://dfk2rb1g2b4gl" path="res://addons/escoria-wizard/graphics/darkgreenarrow_up.png" id="28"]
-[ext_resource type="Texture2D" uid="uid://bnxd0blo12sdc" path="res://addons/escoria-wizard/graphics/no_spritesheet.png" id="29"]
-[ext_resource type="Texture2D" uid="uid://c7hp4rcgl7v5k" path="res://addons/escoria-wizard/graphics/greenarrow_upleft.png" id="30"]
-[ext_resource type="Texture2D" uid="uid://bxfeqwi1hmjxl" path="res://addons/escoria-wizard/graphics/greenarrow_downright.png" id="31"]
-[ext_resource type="Texture2D" uid="uid://c3ohia3wlf1y7" path="res://addons/escoria-wizard/graphics/icon.png" id="32"]
-[ext_resource type="Texture2D" uid="uid://co12gknvv3u8u" path="res://addons/escoria-wizard/graphics/greyarrow_d.png" id="33"]
-[ext_resource type="Texture2D" uid="uid://cbydni2j81n0l" path="res://addons/escoria-wizard/graphics/darkgreyarrow_dr.png" id="34"]
-[ext_resource type="Texture2D" uid="uid://s7i1hfxl2dnm" path="res://addons/escoria-wizard/graphics/darkgreyarrow_dl.png" id="35"]
+[ext_resource type="Texture2D" uid="uid://bvmhh70ekt6kg" path="res://addons/escoria-wizard/graphics/darkgreenarrow_down.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://trnlbw7phxmu" path="res://addons/escoria-wizard/graphics/greyarrow_r.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://byldowv8jurga" path="res://addons/escoria-wizard/graphics/darkgreenarrow_right.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://cssjxrowx4o4d" path="res://addons/escoria-wizard/graphics/greenarrow_right.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://b57lcbtjt323p" path="res://addons/escoria-wizard/graphics/greenarrow_down.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://kthnuv0ul2vl" path="res://addons/escoria-wizard/graphics/greyarrow_ul.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://bqyafr0bavow4" path="res://addons/escoria-wizard/graphics/greyarrow_dl.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://bghsxc7dmhcfl" path="res://addons/escoria-wizard/graphics/darkgreyarrow_d.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://b7tr6x6ubkam2" path="res://addons/escoria-wizard/graphics/no_animation.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://duuyiir8btchr" path="res://addons/escoria-wizard/graphics/greenarrow_downleft.png" id="10"]
+[ext_resource type="Texture2D" uid="uid://dq5q8mmk8qof2" path="res://addons/escoria-wizard/graphics/darkgreenarrow_downleft.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://cvfj6jmsvx2dc" path="res://addons/escoria-wizard/graphics/darkgreenarrow_left.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://cw1iq5w8e7jut" path="res://addons/escoria-wizard/graphics/greyarrow_l.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://dmksuj3d4xm2r" path="res://addons/escoria-wizard/graphics/darkgreyarrow_ur.png" id="14"]
+[ext_resource type="Texture2D" uid="uid://rxcxkfkesarh" path="res://addons/escoria-wizard/graphics/darkgreyarrow_ul.png" id="15"]
+[ext_resource type="Texture2D" uid="uid://bnro12s7njjv0" path="res://addons/escoria-wizard/graphics/darkgreenarrow_upright.png" id="16"]
+[ext_resource type="Texture2D" uid="uid://bjf4n3n448rak" path="res://addons/escoria-wizard/graphics/greyarrow_ur.png" id="17"]
+[ext_resource type="Texture2D" uid="uid://c2yfth8d3cwqy" path="res://addons/escoria-wizard/graphics/greyarrow_u.png" id="18"]
+[ext_resource type="Texture2D" uid="uid://ckvsgvp6704ss" path="res://addons/escoria-wizard/graphics/darkgreyarrow_r.png" id="19"]
+[ext_resource type="Texture2D" uid="uid://cn7r214st2vlp" path="res://addons/escoria-wizard/graphics/darkgreyarrow_u.png" id="20"]
+[ext_resource type="Texture2D" uid="uid://ruc171bdoukl" path="res://addons/escoria-wizard/graphics/darkgreyarrow_l.png" id="21"]
+[ext_resource type="Texture2D" uid="uid://c1cxiw7vp3mo3" path="res://addons/escoria-wizard/graphics/greyarrow_dr.png" id="22"]
+[ext_resource type="Texture2D" uid="uid://c1ni1pr30kk0t" path="res://addons/escoria-wizard/graphics/greenarrow_up.png" id="23"]
+[ext_resource type="Texture2D" uid="uid://ddj7s5rlqkpep" path="res://addons/escoria-wizard/graphics/greenarrow_upright.png" id="24"]
+[ext_resource type="Texture2D" uid="uid://dw0f3ebq3e7om" path="res://addons/escoria-wizard/graphics/darkgreenarrow_downright.png" id="25"]
+[ext_resource type="Texture2D" uid="uid://dck3k2wchcs7o" path="res://addons/escoria-wizard/graphics/greenarrow_left.png" id="26"]
+[ext_resource type="Texture2D" uid="uid://d1s12l2v0xdh3" path="res://addons/escoria-wizard/graphics/darkgreenarrow_upleft.png" id="27"]
+[ext_resource type="Texture2D" uid="uid://7j3s0t8uxygg" path="res://addons/escoria-wizard/graphics/darkgreenarrow_up.png" id="28"]
+[ext_resource type="Texture2D" uid="uid://c3uyhfc1pejdu" path="res://addons/escoria-wizard/graphics/no_spritesheet.png" id="29"]
+[ext_resource type="Texture2D" uid="uid://dv3341fxi36co" path="res://addons/escoria-wizard/graphics/greenarrow_upleft.png" id="30"]
+[ext_resource type="Texture2D" uid="uid://bg772rhiihpya" path="res://addons/escoria-wizard/graphics/greenarrow_downright.png" id="31"]
+[ext_resource type="Texture2D" uid="uid://cmrcg0wijr8ki" path="res://addons/escoria-wizard/graphics/icon.png" id="32"]
+[ext_resource type="Texture2D" uid="uid://cx0d71n50vnrr" path="res://addons/escoria-wizard/graphics/greyarrow_d.png" id="33"]
+[ext_resource type="Texture2D" uid="uid://8i208uv8vj31" path="res://addons/escoria-wizard/graphics/darkgreyarrow_dr.png" id="34"]
+[ext_resource type="Texture2D" uid="uid://hgoiognpxbm1" path="res://addons/escoria-wizard/graphics/darkgreyarrow_dl.png" id="35"]
 [ext_resource type="Script" uid="uid://ihbrgvupidxn" path="res://addons/escoria-wizard/draw_frame_rects.gd" id="36"]
 [ext_resource type="Script" uid="uid://bwbxhkbjuggxq" path="res://addons/escoria-wizard/CharacterCreator.gd" id="37"]
 [ext_resource type="PackedScene" uid="uid://b1mr4ghmqeyo" path="res://addons/escoria-wizard/help_window.tscn" id="38"]
@@ -985,6 +985,7 @@ layout_mode = 2
 
 [node name="unstored_changes_window" type="Window" parent="InformationWindows"]
 position = Vector2i(0, 36)
+size = Vector2i(775, 300)
 visible = false
 exclusive = true
 
@@ -1023,8 +1024,11 @@ text = "Cancel and keep editing"
 
 [node name="unstored_changes_window_anim_change" type="Window" parent="InformationWindows"]
 position = Vector2i(0, 36)
+size = Vector2i(775, 300)
 visible = false
 exclusive = true
+unresizable = true
+popup_window = true
 
 [node name="Label" type="Label" parent="InformationWindows/unstored_changes_window_anim_change"]
 offset_left = 86.0
@@ -1060,6 +1064,7 @@ offset_bottom = 270.0
 text = "Cancel and keep editing"
 
 [node name="generic_error_window" type="AcceptDialog" parent="InformationWindows"]
+size = Vector2i(280, 100)
 dialog_text = "Please load a spritesheet to begin."
 
 [node name="export_progress" type="Window" parent="InformationWindows"]
@@ -1118,6 +1123,7 @@ position = Vector2i(0, 36)
 visible = false
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="InformationWindows"]
+size = Vector2i(405, 132)
 dialog_text = "WARNING!
 
 If you continue you will lose the current character."
