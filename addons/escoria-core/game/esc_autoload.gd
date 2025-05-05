@@ -126,7 +126,9 @@ var creating_new_game: bool = false
 var temp: int = 0
 
 # The game resolution
-@onready var game_size = get_viewport().size
+@onready var game_size = Vector2(
+	ProjectSettings.get_setting("display/window/size/viewport_width"),
+	ProjectSettings.get_setting("display/window/size/viewport_height"))
 
 # The current state of the game
 @onready var current_state = GAME_STATE.DEFAULT
