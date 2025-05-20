@@ -314,10 +314,10 @@ func queue_background_event(channel_name: String, event: ESCGrammarStmts.Event) 
 # - stop_walking: boolean value (default true) determining whether the player 
 # (if any) has to be interrupted walking or not.
 func interrupt(exceptions: PackedStringArray = [], stop_walking = true) -> void:
-	if escoria.main.current_scene != null \
+	if stop_walking \
+			and escoria.main.current_scene != null \
 			and escoria.main.current_scene.player != null \
-			and escoria.main.current_scene.player.is_moving() \
-			and stop_walking:
+			and escoria.main.current_scene.player.is_moving():
 		escoria.main.current_scene.player.stop_walking_now()
 
 	for channel_name in _running_events.keys():
