@@ -1,3 +1,12 @@
+## [4.0.0-alpha.280](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.280) (2025-05-20)
+
+
+### Features
+
+* adds '' keyword in ASHES in order to reveal the script's associated object or room ([badf863](https://github.com/godot-escoria/escoria-demo-game/commit/badf863e18ea7628a05257073183a3038d1fe68d))
+
+
+
 ## [4.0.0-alpha.279](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.279) (2025-05-20)
 
 
