@@ -106,7 +106,7 @@ func _event_declaration():
 				return flag_condition
 
 			var close_predicate_token = _consume(
-				ESCTokenType.TokenType.GREATER, 
+				ESCTokenType.TokenType.GREATER,
 				"For flag '%s', only one (global) variable may be used and must be enclosed between '<' and '>'." % flag.get_lexeme())
 
 			if close_predicate_token is ESCParseError:

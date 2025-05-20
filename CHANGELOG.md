@@ -1,3 +1,13 @@
+## [4.0.0-alpha.278](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.278) (2025-05-20)
+
+
+### Features
+
+* Add new force_event_flag command ([8be00b9](https://github.com/godot-escoria/escoria-demo-game/commit/8be00b96551119eec3d28cd29f4ff522be0accf3))
+* adds the ability to add a conditional TK flag, though it must only be a single global variable; also fixes static analysis option check ([9334abe](https://github.com/godot-escoria/escoria-demo-game/commit/9334abe030d45bbbc9e8034bdfbfec0d6fc24b71))
+
+
+
 ## [4.0.0-alpha.277](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.277) (2025-04-18)
 
 

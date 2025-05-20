@@ -620,7 +620,7 @@ func perform_inputevent_on_object(
 		clear_current_action()
 		action_finished.emit()
 		return
-	
+
 	var event_flags = event_to_queue.get_flags() if event_to_queue else 0
 
 	if escoria.main.current_scene.player:
