@@ -1,3 +1,12 @@
+## [4.0.0-alpha.279](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.279) (2025-05-20)
+
+
+### Bug Fixes
+
+* click doesn't reset walk animation anymore. ([0ec7bcb](https://github.com/godot-escoria/escoria-demo-game/commit/0ec7bcb85eacef1c0b7e76369b80742f8ffafa49))
+
+
+
 ## [4.0.0-alpha.278](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.278) (2025-05-20)
 
 

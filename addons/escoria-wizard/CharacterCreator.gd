@@ -561,7 +561,7 @@ func preview_update() -> void:
 			texture = ImageTexture.create_from_image(frame_being_copied)
 			# Remove the image filter to make pixel correct graphics
 			#texture.set_flags(2) # Godot 4 no longer allows for the setting of "repetition" (and other) flags
-	
+
 			get_node(PREVIEW_NODE).get_node("anim_preview_sprite").sprite_frames.add_frame(ANIM_IN_PROGRESS, texture, frame_duration, frame_counter)
 			frame_counter += 1
 
