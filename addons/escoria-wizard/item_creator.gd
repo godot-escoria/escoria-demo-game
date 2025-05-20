@@ -1,30 +1,6 @@
 @tool
 extends MarginContainer
 
-
-const ITEM_NAME_NODE      = "VBoxContainer/Content/GridContainer/ItemName"
-const GLOBAL_ID_NODE      = "VBoxContainer/Content/GridContainer/ItemGlobalID"
-const INTERACTIVE_NODE    = "VBoxContainer/Content/GridContainer/StartsInteractiveCheckBox"
-const ACTION_NODE         = "VBoxContainer/Content/GridContainer/DefaultActionOption"
-const PREVIEW_NODE        = "VBoxContainer/Content/GridContainer/Preview/Preview"
-const IMAGE_SIZE_NODE     = "VBoxContainer/Content/GridContainer/ImageSize"
-const IMAGE_PATH_NODE     = "VBoxContainer/Content/GridContainer/ImagePath"
-const LOAD_NODE           = "LoadObjectGraphic/LoadObjectFileDialog"
-const CONFIRM_NODE        = "Windows/ConfirmationDialog"
-const OBJECT_HEADING_NODE = "VBoxContainer/HelperHeading/CenterContainer/ObjectHeading"
-const OBJECT_DESC_NODE    = "VBoxContainer/Description/ObjectDescription"
-const INVENTORY_HEADING_NODE = "VBoxContainer/HelperHeading/CenterContainer/InventoryHeading"
-const INVENTORY_DESC_NODE = "VBoxContainer/Description/InventoryDescription"
-const INVENTORY_PATH_NODE = "VBoxContainer/Content/GridContainer/InventoryPath"
-const INVENTORY_PATH_LABEL_NODE = "VBoxContainer/Content/GridContainer/InventoryPathLabel"
-const INVENTORY_PATH_SPACER_NODE = "VBoxContainer/Content/GridContainer/BlankItem7"
-const CREATE_BUTTON_NODE  = "VBoxContainer/Buttons/CenterContainer/HBoxContainer/CreateButton"
-const ERROR_WINDOW_NODE   = "Windows/ErrorDialog"
-const INVENTORY_PREV_NODE = "VBoxContainer/Content/GridContainer/Preview/InventoryPreview"
-const OBJECT_PREV_NODE    = "VBoxContainer/Content/GridContainer/Preview/ObjectPreview"
-const BACKGROUND_OBJ_NODE = "VBoxContainer/Control/CenterContainer/HBoxContainer/BackgroundObjectCheckBox"
-const CHANGE_PATH_NODE    = "VBoxContainer/Content/GridContainer/ChangePathButton"
-
 var source_image:Image
 var image_stream_texture:CompressedTexture2D
 var image_has_been_loaded:bool
@@ -39,51 +15,51 @@ var preview_size:Vector2
 func _ready() -> void:
 	# Capture the size of the window before we update its contents so we have
 	# the absolute size before it gets scaled contents applied to it
-	preview_size = get_node(PREVIEW_NODE).size
-	inventory_mode = not get_node(BACKGROUND_OBJ_NODE).pressed
+	preview_size = %Preview.size
+	inventory_mode = not %BackgroundObjectCheckBox.pressed
 	item_creator_reset()
 
 
 func item_creator_reset() -> void:
-	get_node(ITEM_NAME_NODE).text = "replace_me"
-	get_node(GLOBAL_ID_NODE).text = ""
-	get_node(IMAGE_PATH_NODE).text = ""
-	get_node(INTERACTIVE_NODE).button_pressed = true
+	%ItemName.text = "replace_me"
+	%ItemGlobalID.text = ""
+	%ImagePath.text = ""
+	%IsInteractiveCheckBox.button_pressed = true
 
-	if get_node(ACTION_NODE).get_item_count() > 0:
-		get_node(ACTION_NODE).clear()
-
+	if %DefaultActionOption.get_item_count() > 0:
+		%DefaultActionOption.clear()
+		# Todo List is never been filled??
 		for option_list in ["look", "pick up", "open", "close", "use", "push", "pull", "talk"]:
-			get_node(ACTION_NODE).add_item(option_list)
+			%DefaultActionOption.add_item(option_list)
 
-	get_node(ACTION_NODE).selected = 0
+	%DefaultActionOption.selected = 0
 	image_size = Vector2.ZERO
 	image_has_been_loaded = false
 	main_menu_requested = false
 	settings_modified = false
-	get_node(PREVIEW_NODE).texture = null
+	%Preview.texture = null
 
 	if inventory_mode:
-		get_node(INVENTORY_PATH_NODE).text = ProjectSettings.get_setting("escoria/ui/inventory_items_path")
-		get_node(CREATE_BUTTON_NODE).text = "Create Inventory"
-		get_node(INVENTORY_PREV_NODE).visible = true
-		get_node(OBJECT_PREV_NODE).visible = false
+		%InventoryPath.text = ProjectSettings.get_setting("escoria/ui/inventory_items_path")
+		%CreateButton.text = "Create Inventory"
+		%InventoryPreview.visible = true
+		%ObjectPreview.visible = false
 
-		for loop in [INVENTORY_PATH_NODE, INVENTORY_PATH_LABEL_NODE, INVENTORY_PATH_SPACER_NODE, \
-			CHANGE_PATH_NODE]:
+		for loop in [%InventoryPath, %InventoryPathLabel, %InventoryPathSpacer, \
+			%ChangePathButton]:
 			get_node(loop).visible = true
 	else:
-		get_node(CREATE_BUTTON_NODE).text = "Create Object"
-		get_node(INVENTORY_PREV_NODE).visible = false
-		get_node(OBJECT_PREV_NODE).visible = true
-		for loop in [INVENTORY_PATH_NODE, INVENTORY_PATH_LABEL_NODE, INVENTORY_PATH_SPACER_NODE, \
-			CHANGE_PATH_NODE]:
+		%CreateButton.text = "Create Object"
+		%InventoryPreview.visible = false
+		%ObjectPreview.visible = true
+		for loop in [%InventoryPath, %InventoryPathLabel, %InventoryPathSpacer, \
+			%ChangePathButton]:
 			get_node(loop).visible = false
 
-	for loop in [OBJECT_HEADING_NODE, OBJECT_DESC_NODE]:
+	for loop in [%ObjectHeading, %ObjectDescription]:
 		get_node(loop).visible = not inventory_mode
 
-	for loop in [INVENTORY_HEADING_NODE, INVENTORY_DESC_NODE, INVENTORY_PATH_NODE]:
+	for loop in [%InventoryHeading, %InventoryDescription, %InventoryPath]:
 		get_node(loop).visible = inventory_mode
 	$Windows/FileDialog.current_dir = ProjectSettings.get_setting("escoria/ui/inventory_items_path")
 
@@ -96,70 +72,70 @@ func resize_image() -> void:
 	preview_scale.y =  preview_size.y / image_size.y
 
 	if preview_scale.y > preview_scale.x:
-		get_node(PREVIEW_NODE).scale = Vector2(preview_scale.x, preview_scale.x)
+		%Preview.scale = Vector2(preview_scale.x, preview_scale.x)
 	else:
-		get_node(PREVIEW_NODE).scale = Vector2(preview_scale.y, preview_scale.y)
+		%Preview.scale = Vector2(preview_scale.y, preview_scale.y)
 
 func background_on_ItemName_text_changed(new_text: String) -> void:
-	get_node(GLOBAL_ID_NODE).text = new_text
+	%ItemGlobalID.text = new_text
 	settings_modified = true
 
 
 func load_button_pressed() -> void:
-	get_node(LOAD_NODE).popup_centered()
+	%LoadObjectFileDialog.popup_centered()
 
 
 func LoadObjectFileDialog_file_selected(path: String) -> void:
 	image_stream_texture = load(path)
 
-	get_node(PREVIEW_NODE).texture = image_stream_texture
+	%Preview.texture = image_stream_texture
 
 	resize_image()
 
-	get_node(IMAGE_SIZE_NODE).text = "(%s, %s)" % [image_size.x, image_size.y]
+	%ImageSize.text = "(%s, %s)" % [image_size.x, image_size.y]
 
-	get_node(IMAGE_PATH_NODE).text = path
+	%ImagePath.text = path
 	image_has_been_loaded = true
 	settings_modified = true
-	get_node(INVENTORY_PREV_NODE).visible = false
-	get_node(OBJECT_PREV_NODE).visible = false
+	%InventoryPreview.visible = false
+	%ObjectPreview.visible = false
 
 
 func _on_CreateButton_pressed() -> void:
 	var inventory_path = ProjectSettings.get_setting("escoria/ui/inventory_items_path")
 	if not DirAccess.dir_exists_absolute(inventory_path):
-		get_node(ERROR_WINDOW_NODE).dialog_text = \
+		%ErrorDialog.dialog_text = \
 			"Folder %s does not exist. Please create or change the destination" % inventory_path
-		get_node(ERROR_WINDOW_NODE).popup_centered()
+		%ErrorDialog.popup_centered()
 		return
 
 	if not image_has_been_loaded:
-		get_node(ERROR_WINDOW_NODE).dialog_text = \
+		%ErrorDialog.dialog_text = \
 			"No image has been loaded."
-		get_node(ERROR_WINDOW_NODE).popup_centered()
+		%ErrorDialog.popup_centered()
 		return
 
-	if get_node(ITEM_NAME_NODE).text == "replace_me":
-		get_node(ERROR_WINDOW_NODE).dialog_text = \
+	if %ItemName.text == "replace_me":
+		%ErrorDialog.dialog_text = \
 			"Please change the object name."
-		get_node(ERROR_WINDOW_NODE).popup_centered()
+		%ErrorDialog.popup_centered()
 		return
 
 	if inventory_mode == false:
 		if not EditorPlugin.new().get_editor_interface().get_selection().get_selected_nodes():
-			get_node(ERROR_WINDOW_NODE).dialog_text = \
+			%ErrorDialog.dialog_text = \
 				"Please select a node in the scene tree\nto attach the object to."
-			get_node(ERROR_WINDOW_NODE).popup_centered()
+			%ErrorDialog.popup_centered()
 			return
 
 	var item = ESCItem.new()
-	item.name = get_node(ITEM_NAME_NODE).text
-	item.global_id = get_node(GLOBAL_ID_NODE).text
-	item.is_interactive = get_node(INTERACTIVE_NODE).pressed
-	item.tooltip_name = get_node(ITEM_NAME_NODE).text
+	item.name = %ItemName.text
+	item.global_id = %ItemGlobalID.text
+	item.is_interactive = %IsInteractiveCheckBox.pressed
+	item.tooltip_name = %ItemName.text
 
-	var selected_index = get_node(ACTION_NODE).selected
-	item.default_action = get_node(ACTION_NODE).get_item_text(selected_index)
+	var selected_index = %DefaultActionOption.selected
+	item.default_action = %DefaultActionOption.get_item_text(selected_index)
 
 	# Make the item by default it's usable straight out of the inventory
 	if inventory_mode == true:
@@ -183,7 +159,7 @@ func _on_CreateButton_pressed() -> void:
 
 	# Add sprite to the background item
 	var item_sprite = Sprite2D.new()
-	item_sprite.texture = get_node(PREVIEW_NODE).texture
+	item_sprite.texture = %Preview.texture
 	item.add_child(item_sprite)
 
 	if not inventory_mode:
@@ -219,29 +195,29 @@ func _on_CreateButton_pressed() -> void:
 		packed_scene.pack(get_tree().edited_scene_root.get_node(item.name))
 
 		# Flag suggestions from https://godotengine.org/qa/50437/how-to-turn-a-node-into-a-packedscene-via-gdscript
-		var err = ResourceSaver.save(packed_scene, "%s/%s.tscn" % [inventory_path, get_node(ITEM_NAME_NODE).text], \
+		var err = ResourceSaver.save(packed_scene, "%s/%s.tscn" % [inventory_path, %ItemName.text], \
 			ResourceSaver.FLAG_CHANGE_PATH|ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS)
 		if err:
-			get_node(ERROR_WINDOW_NODE).dialog_text = \
+			%ErrorDialog.dialog_text = \
 				"Failed to save the item. Please make sure you can\n" + \
 				"write to the destination folder" % inventory_path
-			get_node(ERROR_WINDOW_NODE).popup_centered()
+			%ErrorDialog.popup_centered()
 			return
 		else:
 			item.queue_free()
 			get_tree().edited_scene_root.get_node(item.name).queue_free()
 			get_node("Windows/CreateCompleteDialog").dialog_text = \
-				"Inventory item %s/%s.tscn created." % [inventory_path, get_node(ITEM_NAME_NODE).text]
-			print("Inventory item %s/%s.tscn created." % [inventory_path, get_node(ITEM_NAME_NODE).text])
+				"Inventory item %s/%s.tscn created." % [inventory_path, %ItemName.text]
+			print("Inventory item %s/%s.tscn created." % [inventory_path, %ItemName.text])
 			get_node("Windows/CreateCompleteDialog").popup_centered()
 
 
 func Item_on_ClearButton_pressed() -> void:
 	if settings_modified == true:
 		main_menu_requested = false
-		get_node(CONFIRM_NODE).dialog_text = "WARNING!\n\n" + \
+		%ConfirmationDialog.dialog_text = "WARNING!\n\n" + \
 			"If you continue you will lose the current object."
-		get_node(CONFIRM_NODE).popup_centered()
+		%ConfirmationDialog.popup_centered()
 
 
 func _on_ObjectConfirmationDialog_confirmed() -> void:
@@ -254,9 +230,9 @@ func _on_ObjectConfirmationDialog_confirmed() -> void:
 func Item_on_ExitButton_pressed() -> void:
 	if settings_modified == true:
 		main_menu_requested = true
-		get_node(CONFIRM_NODE).dialog_text = "WARNING!\n\n" + \
+		%ConfirmationDialog.dialog_text = "WARNING!\n\n" + \
 			"If you continue you will lose the current object."
-		get_node(CONFIRM_NODE).popup_centered()
+		%ConfirmationDialog.popup_centered()
 	else:
 		switch_to_main_menu()
 
@@ -315,4 +291,4 @@ func _on_FileDialog_dir_selected(dir: String) -> void:
 		"type": TYPE_STRING
 	}
 	ProjectSettings.add_property_info(property_info)
-	get_node(INVENTORY_PATH_NODE).text = dir
+	%InventoryPath.text = dir
