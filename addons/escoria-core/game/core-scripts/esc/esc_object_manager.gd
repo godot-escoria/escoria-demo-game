@@ -183,7 +183,8 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 
 	if "esc_script" in object.node and not object.node.esc_script.is_empty():
 		var script = escoria.esc_compiler.load_esc_file(
-			object.node.esc_script
+			object.node.esc_script,
+			object.global_id
 		)
 		object.events = script.events
 

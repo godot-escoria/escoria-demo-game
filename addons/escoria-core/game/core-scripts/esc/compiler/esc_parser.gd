@@ -4,6 +4,7 @@ class_name ESCParser
 
 var _tokens: Array
 var _current: int = 0
+var _associated_object_global_id = ""
 
 var _loop_level: int = 0
 var _dialog_level: int = 0
@@ -11,9 +12,10 @@ var _dialog_level: int = 0
 var _compiler
 
 
-func init(compiler, tokens: Array) -> void:
+func init(compiler, tokens: Array, associated_object_global_id: String) -> void:
 	_compiler = compiler
 	_tokens = tokens
+	_associated_object_global_id = associated_object_global_id
 
 
 func parse() -> Array:
@@ -121,7 +123,7 @@ func _event_declaration():
 		body.init(_block())
 
 		var ret = ESCGrammarStmts.Event.new()
-		ret.init(name, target, flags, body)
+		ret.init(name, target, flags, body, _associated_object_global_id)
 
 		return ret
 	else:

@@ -3,6 +3,7 @@ class_name ESCInterpreter
 
 
 const CURRENT_PLAYER_KEYWORD = "CURRENT_PLAYER"
+const CURRENT_OBJECT = "THIS"
 
 
 var _globals: ESCEnvironment
@@ -475,6 +476,13 @@ func _look_up_object(name: ESCToken):
 
 	if global_id.to_upper() == CURRENT_PLAYER_KEYWORD:
 		global_id = escoria.main.current_scene.player.global_id
+	elif global_id.to_upper() == CURRENT_OBJECT:
+		# check if the event is attached to an object; if it isn't, then
+		# assume it's associated to the current scene (room)
+		global_id = _current_event.get_object_global_id()
+
+		if global_id.is_empty():
+			global_id = escoria.main.current_scene.global_id
 
 	return _look_up_object_by_global_id(global_id)
 
