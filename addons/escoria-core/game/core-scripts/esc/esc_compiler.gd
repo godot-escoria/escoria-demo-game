@@ -84,7 +84,7 @@ static func load_globals():
 	return globals
 
 
-func _compiler_shim(source: String, filename: String = ""):
+func _compiler_shim(source: String, filename: String = "", associated_global_id: String = ""):
 	var scanner: ESCScanner = ESCScanner.new()
 	scanner.set_source(source)
 	scanner.set_filename(filename)
@@ -93,7 +93,7 @@ func _compiler_shim(source: String, filename: String = ""):
 	var tokens = scanner.scan_tokens()
 
 	var parser: ESCParser = ESCParser.new()
-	parser.init(self, tokens)
+	parser.init(self, tokens, associated_global_id)
 
 	var parsed_statements = parser.parse()
 
@@ -128,8 +128,11 @@ func _compiler_shim(source: String, filename: String = ""):
 	#	interpreter.interpret(parsed_statements)
 
 
-# Load an ESC file from a file resource
-func load_esc_file(path: String) -> ESCScript:
+# Load an ESC file from a file resource. We also accept an optional global ID of
+# whatever object is associated with the ESC file. Note that we don't need to do
+# the same for a room-attached script since the current room's global_id is always
+# available as an Escoria global.
+func load_esc_file(path: String, associated_global_id: String = "") -> ESCScript:
 	ESCSafeLogging.log_debug(self, "Loading file '%s' for parsing..." % path)
 
 	if not FileAccess.file_exists(path):
@@ -139,7 +142,7 @@ func load_esc_file(path: String) -> ESCScript:
 
 	var file = FileAccess.open(path, FileAccess.READ)
 
-	return _compiler_shim(file.get_as_text(), path)
+	return _compiler_shim(file.get_as_text(), path, associated_global_id)
 
 
 func compile(script: String, path: String = "") -> ESCScript:

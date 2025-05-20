@@ -63,6 +63,8 @@ class Event extends ESCGrammarStmt:
 		get = get_flags_with_conditions
 	var _body: ESCGrammarStmts.Block:
 		get = get_body
+	var _object_global_id: String: # This may be empty, e.g. if the event is attached to a room.
+		get = get_object_global_id
 
 	var _running_command:
 		set = set_running_command,
@@ -94,7 +96,7 @@ class Event extends ESCGrammarStmt:
 	}
 
 
-	func init(name: ESCToken, target: ESCGrammarExprs.Literal, flags: Dictionary, body: ESCGrammarStmts.Block):
+	func init(name: ESCToken, target: ESCGrammarExprs.Literal, flags: Dictionary, body: ESCGrammarStmts.Block, object_global_id: String):
 		_name = name
 		_target = target
 
@@ -111,6 +113,7 @@ class Event extends ESCGrammarStmt:
 
 		_body = body
 		_flags_with_conditions = flags
+		_object_global_id = object_global_id
 
 
 	func get_name() -> ESCToken:
@@ -143,6 +146,10 @@ class Event extends ESCGrammarStmt:
 
 	func get_body() -> ESCGrammarStmts.Block:
 		return _body
+
+
+	func get_object_global_id() -> String:
+		return _object_global_id
 
 
 	func get_num_statements_in_block() -> int:
