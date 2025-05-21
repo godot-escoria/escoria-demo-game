@@ -35,9 +35,11 @@ layout_mode = 2
 [node name="BackgroundObjectCheckBox" type="CheckBox" parent="VBoxContainer/Control/CenterContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Create background object"
 
 [node name="InventoryItemCheckBox" type="CheckBox" parent="VBoxContainer/Control/CenterContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Create inventory item"
 
@@ -115,8 +117,8 @@ text = "Item name:"
 
 [node name="ItemName" type="LineEdit" parent="VBoxContainer/Content/GridContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+size_flags_vertical = 0
 text = "replace_me"
 
 [node name="BlankItem" type="Control" parent="VBoxContainer/Content/GridContainer"]
@@ -155,8 +157,26 @@ vertical_alignment = 1
 
 [node name="DefaultActionOption" type="OptionButton" parent="VBoxContainer/Content/GridContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 31)
 layout_mode = 2
+size_flags_vertical = 0
+selected = 0
+item_count = 8
+popup/item_0/text = "look"
+popup/item_0/id = 0
+popup/item_1/text = "pick up"
+popup/item_1/id = 1
+popup/item_2/text = "open"
+popup/item_2/id = 2
+popup/item_3/text = "close"
+popup/item_3/id = 3
+popup/item_4/text = "use"
+popup/item_4/id = 4
+popup/item_5/text = "push"
+popup/item_5/id = 5
+popup/item_6/text = "pull"
+popup/item_6/id = 6
+popup/item_7/text = "talk"
+popup/item_7/id = 7
 
 [node name="BlankItem4" type="Control" parent="VBoxContainer/Content/GridContainer"]
 layout_mode = 2
@@ -315,6 +335,7 @@ unique_name_in_owner = true
 [node name="CreateCompleteDialog" type="AcceptDialog" parent="Windows"]
 
 [node name="FileDialog" type="FileDialog" parent="Windows"]
+unique_name_in_owner = true
 mode = 2
 position = Vector2i(0, 36)
 

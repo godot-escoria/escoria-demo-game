@@ -10,6 +10,11 @@ var inventory_mode:bool
 var settings_modified:bool
 var preview_size:Vector2
 
+enum ItemType {BACKGROUNDOBJECT, INVENTORY}
+
+const DEFAULT_ACTIONS: Array = ["look", "pick up", "open", "close", "use", "push", "pull", "talk"]
+
+var current_item_type: ItemType = ItemType.BACKGROUNDOBJECT
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -17,51 +22,133 @@ func _ready() -> void:
 	# the absolute size before it gets scaled contents applied to it
 	preview_size = %Preview.size
 	inventory_mode = not %BackgroundObjectCheckBox.pressed
-	item_creator_reset()
+	_reset_ui()
 
-
-func item_creator_reset() -> void:
+# Resets the complete ui, clear all values, set item type mode to object
+func _reset_ui() -> void:
+	# Change visibility of components
+	_setup_ui_to_itemtype(ItemType.BACKGROUNDOBJECT)
+	# Resetting inputs
 	%ItemName.text = "replace_me"
 	%ItemGlobalID.text = ""
 	%ImagePath.text = ""
+	#Resetting other components
 	%IsInteractiveCheckBox.button_pressed = true
-
-	if %DefaultActionOption.get_item_count() > 0:
-		%DefaultActionOption.clear()
-		# Todo List is never been filled??
-		for option_list in ["look", "pick up", "open", "close", "use", "push", "pull", "talk"]:
-			%DefaultActionOption.add_item(option_list)
-
+	%InventoryPath.text = ProjectSettings.get_setting("escoria/ui/inventory_items_path")
+	%FileDialog.current_dir = ProjectSettings.get_setting("escoria/ui/inventory_items_path")
+	#Resetting default actions
+	%DefaultActionOption.clear()
+	for option in DEFAULT_ACTIONS:
+		%DefaultActionOption.add_item(option)
 	%DefaultActionOption.selected = 0
+	#Resetting variables
 	image_size = Vector2.ZERO
 	image_has_been_loaded = false
 	main_menu_requested = false
 	settings_modified = false
-	%Preview.texture = null
+	
 
-	if inventory_mode:
-		%InventoryPath.text = ProjectSettings.get_setting("escoria/ui/inventory_items_path")
-		%CreateButton.text = "Create Inventory"
-		%InventoryPreview.visible = true
-		%ObjectPreview.visible = false
-
-		for loop in [%InventoryPath, %InventoryPathLabel, %InventoryPathSpacer, \
-			%ChangePathButton]:
-			get_node(loop).visible = true
-	else:
-		%CreateButton.text = "Create Object"
-		%InventoryPreview.visible = false
+# Sets the current item type variable and
+# the component visibility based on the choosen itemtype
+func _setup_ui_to_itemtype(new_type: ItemType) -> void:
+	current_item_type = new_type
+	_update_create_button_text()
+	# First make all components invisible
+	%InventoryHeading.visible = false
+	%InventoryDescription.visible = false
+	%InventoryPreview.visible = false
+	%InventoryPath.visible = false
+	%InventoryPathLabel.visible = false
+	%InventoryPathSpacer.visible = false
+	%ChangePathButton.visible = false
+	%InventoryPath.visible = false
+	%ObjectHeading.visible = false
+	%ObjectDescription.visible = false
+	
+	# Set visibility on relevant components
+	if current_item_type == ItemType.BACKGROUNDOBJECT:
+		%ObjectHeading.visible = true
+		%ObjectDescription.visible = true
 		%ObjectPreview.visible = true
-		for loop in [%InventoryPath, %InventoryPathLabel, %InventoryPathSpacer, \
-			%ChangePathButton]:
-			get_node(loop).visible = false
+	else:
+		%InventoryHeading.visible = true
+		%InventoryDescription.visible = true
+		%InventoryPreview.visible = true
+		%InventoryPath.visible = true
+		%InventoryPathLabel.visible = true
+		%InventoryPathSpacer.visible = true
+		%ChangePathButton.visible = true
+		%InventoryPath.visible = true
 
-	for loop in [%ObjectHeading, %ObjectDescription]:
-		get_node(loop).visible = not inventory_mode
+# Updates caption of create button text based on current item type
+func _update_create_button_text() -> void:
+	var new_text : String
+	match current_item_type:
+		ItemType.BACKGROUNDOBJECT:
+			new_text = "Create Object"
+		_:
+			new_text = "Create Inventory"
+	%CreateButton.text = new_text
+	
+func _on_BackgroundObjectCheckBox_toggled(button_pressed: bool) -> void:
+	_toggle_button_pressed(ItemType.BACKGROUNDOBJECT)
 
-	for loop in [%InventoryHeading, %InventoryDescription, %InventoryPath]:
-		get_node(loop).visible = inventory_mode
-	$Windows/FileDialog.current_dir = ProjectSettings.get_setting("escoria/ui/inventory_items_path")
+func _on_InventoryItemCheckBox_toggled(button_pressed: bool) -> void:
+	_toggle_button_pressed(ItemType.INVENTORY)
+	
+func _toggle_button_pressed(clicked_type: ItemType) -> void:
+	# Enable checkbox based on type
+	%BackgroundObjectCheckBox.set_pressed_no_signal(clicked_type == ItemType.BACKGROUNDOBJECT)
+	%InventoryItemCheckBox.set_pressed_no_signal(clicked_type == ItemType.INVENTORY)
+	# If current type is equals to new type, do nothing
+	if current_item_type == clicked_type:
+		return
+	_setup_ui_to_itemtype(clicked_type)
+
+##### OLD FUNCTIONS ################################l
+
+#func item_creator_reset() -> void:
+	#%ItemName.text = "replace_me"
+	#%ItemGlobalID.text = ""
+	#%ImagePath.text = ""
+	#%IsInteractiveCheckBox.button_pressed = true
+#
+	#if %DefaultActionOption.get_item_count() > 0:
+		#%DefaultActionOption.clear()
+		## Todo List is never been filled??
+		#for option_list in ["look", "pick up", "open", "close", "use", "push", "pull", "talk"]:
+			#%DefaultActionOption.add_item(option_list)
+#
+	#%DefaultActionOption.selected = 0
+	#image_size = Vector2.ZERO
+	#image_has_been_loaded = false
+	#main_menu_requested = false
+	#settings_modified = false
+	#%Preview.texture = null
+#
+	#if inventory_mode:
+		#%InventoryPath.text = ProjectSettings.get_setting("escoria/ui/inventory_items_path")
+		#%CreateButton.text = "Create Inventory"
+		#%InventoryPreview.visible = true
+		#%ObjectPreview.visible = false
+#
+		#for loop in [%InventoryPath, %InventoryPathLabel, %InventoryPathSpacer, \
+			#%ChangePathButton]:
+			#get_node(loop).visible = true
+	#else:
+		#%CreateButton.text = "Create Object"
+		#%InventoryPreview.visible = false
+		#%ObjectPreview.visible = true
+		#for loop in [%InventoryPath, %InventoryPathLabel, %InventoryPathSpacer, \
+			#%ChangePathButton]:
+			#get_node(loop).visible = false
+#
+	#for loop in [%ObjectHeading, %ObjectDescription]:
+		#get_node(loop).visible = not inventory_mode
+#
+	#for loop in [%InventoryHeading, %InventoryDescription, %InventoryPath]:
+		#get_node(loop).visible = inventory_mode
+	#%FileDialog.current_dir = ProjectSettings.get_setting("escoria/ui/inventory_items_path")
 
 func resize_image() -> void:
 	# Calculate the scale to make the preview as big as possible in the preview window depending on
@@ -223,8 +310,8 @@ func Item_on_ClearButton_pressed() -> void:
 func _on_ObjectConfirmationDialog_confirmed() -> void:
 	if main_menu_requested == true:
 		switch_to_main_menu()
-	else:
-		item_creator_reset()
+	#else:
+		#item_creator_reset()
 
 
 func Item_on_ExitButton_pressed() -> void:
@@ -255,33 +342,34 @@ func _on_DefaultActionOption_item_selected(_index: int) -> void:
 
 
 func _on_CreateCompleteDialog_confirmed() -> void:
-	item_creator_reset()
+	pass
+	#item_creator_reset()
 
 
-func _on_BackgroundObjectCheckBox_toggled(button_pressed: bool) -> void:
-	if button_pressed == false:
-		$VBoxContainer/Control/CenterContainer/HBoxContainer/InventoryItemCheckBox.set_pressed_no_signal(true)
-		inventory_mode = true
-	else:
-		$VBoxContainer/Control/CenterContainer/HBoxContainer/InventoryItemCheckBox.set_pressed_no_signal(false)
-		inventory_mode = false
+#func _on_BackgroundObjectCheckBox_toggled(button_pressed: bool) -> void:
+	#if button_pressed == false:
+		#$VBoxContainer/Control/CenterContainer/HBoxContainer/InventoryItemCheckBox.set_pressed_no_signal(true)
+		#inventory_mode = true
+	#else:
+		#$VBoxContainer/Control/CenterContainer/HBoxContainer/InventoryItemCheckBox.set_pressed_no_signal(false)
+		#inventory_mode = false
+#
+	#item_creator_reset()
 
-	item_creator_reset()
 
-
-func _on_InventoryItemCheckBox_toggled(button_pressed: bool) -> void:
-	if button_pressed == false:
-		$VBoxContainer/Control/CenterContainer/HBoxContainer/BackgroundObjectCheckBox.set_pressed_no_signal(true)
-		inventory_mode = false
-	else:
-		$VBoxContainer/Control/CenterContainer/HBoxContainer/BackgroundObjectCheckBox.set_pressed_no_signal(false)
-		inventory_mode = true
-
-	item_creator_reset()
+#func _on_InventoryItemCheckBox_toggled(button_pressed: bool) -> void:
+	#if button_pressed == false:
+		#$VBoxContainer/Control/CenterContainer/HBoxContainer/BackgroundObjectCheckBox.set_pressed_no_signal(true)
+		#inventory_mode = false
+	#else:
+		#$VBoxContainer/Control/CenterContainer/HBoxContainer/BackgroundObjectCheckBox.set_pressed_no_signal(false)
+		#inventory_mode = true
+#
+	#item_creator_reset()
 
 
 func _on_ChangePathButton_pressed():
-	$"Windows/FileDialog".popup_centered()
+	%FileDialog.popup_centered()
 
 
 func _on_FileDialog_dir_selected(dir: String) -> void:
