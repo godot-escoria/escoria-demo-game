@@ -234,11 +234,13 @@ texture = ExtResource("3")
 [node name="Preview" type="TextureRect" parent="VBoxContainer/Content/GridContainer/PreviewGroup"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(232, 232)
-layout_mode = 0
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 236.0
-offset_bottom = 236.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 5
 
 [node name="BlankItem5" type="Control" parent="VBoxContainer/Content/GridContainer"]
 layout_mode = 2
@@ -265,7 +267,7 @@ text = "Inventory path:"
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-text = "res://"
+text = "res://game/items/inventory"
 
 [node name="ChangePathButton" type="Button" parent="VBoxContainer/Content/GridContainer"]
 unique_name_in_owner = true
@@ -317,6 +319,9 @@ mouse_filter = 2
 
 [node name="LoadObjectFileDialog" type="FileDialog" parent="LoadObjectGraphic"]
 unique_name_in_owner = true
+title = "Open a File"
+ok_button_text = "Open"
+file_mode = 0
 filters = PackedStringArray("*.png", "*.bmp", "*.jpg", "*.jpeg", "*.webp", "*.tga")
 
 [node name="Windows" type="CenterContainer" parent="."]
@@ -333,6 +338,7 @@ If you continue you will lose the current object."
 unique_name_in_owner = true
 
 [node name="CreateCompleteDialog" type="AcceptDialog" parent="Windows"]
+unique_name_in_owner = true
 
 [node name="FileDialog" type="FileDialog" parent="Windows"]
 unique_name_in_owner = true
@@ -342,9 +348,6 @@ position = Vector2i(0, 36)
 [connection signal="toggled" from="VBoxContainer/Control/CenterContainer/HBoxContainer/BackgroundObjectCheckBox" to="." method="_on_BackgroundObjectCheckBox_toggled"]
 [connection signal="toggled" from="VBoxContainer/Control/CenterContainer/HBoxContainer/InventoryItemCheckBox" to="." method="_on_InventoryItemCheckBox_toggled"]
 [connection signal="text_changed" from="VBoxContainer/Content/GridContainer/ItemName" to="." method="background_on_ItemName_text_changed"]
-[connection signal="text_changed" from="VBoxContainer/Content/GridContainer/ItemGlobalID" to="." method="_on_ItemGlobalID_text_changed"]
-[connection signal="pressed" from="VBoxContainer/Content/GridContainer/IsInteractiveCheckBox" to="." method="_on_StartsInteractiveCheckBox_pressed"]
-[connection signal="item_selected" from="VBoxContainer/Content/GridContainer/DefaultActionOption" to="." method="_on_DefaultActionOption_item_selected"]
 [connection signal="pressed" from="VBoxContainer/Content/GridContainer/ChangeImageButton" to="." method="load_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/Content/GridContainer/ChangePathButton" to="." method="_on_ChangePathButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/Buttons/CenterContainer/HBoxContainer/CreateButton" to="." method="_on_CreateButton_pressed"]
