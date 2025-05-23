@@ -163,18 +163,19 @@ func create_item() -> void:
 		new_pool_array.append("use")
 		item.combine_when_selected_action_is_in = new_pool_array
 		
-		place_new_item_in_scene_tree(item, collision_shape, interact_position, item_sprite) 
-		#get_tree().edited_scene_root.add_child(item)
+		#place_new_item_in_scene_tree(item, collision_shape, interact_position, item_sprite) 
+		get_tree().edited_scene_root.add_child(item)
 		## Make it so all the nodes can be seen in the scene tree
-		#collision_shape.set_owner(item)
-		#interact_position.set_owner(item)
-		#item_sprite.set_owner(item)
+		collision_shape.set_owner(item)
+		interact_position.set_owner(item)
+		item_sprite.set_owner(item)
 #
-		#item.set_owner(get_tree().edited_scene_root)
+		item.set_owner(get_tree().edited_scene_root)
 		# Export scene - create in inventory folder
 		var packed_scene = PackedScene.new()
 
-		packed_scene.pack(get_tree().edited_scene_root.get_node(item.name))
+		#packed_scene.pack(get_tree().edited_scene_root.get_node(item.name))
+		packed_scene.pack(get_node(item.get_path()))
 		
 		var inventory_path = ProjectSettings.get_setting("escoria/ui/inventory_items_path")
 		# Flag suggestions from https://godotengine.org/qa/50437/how-to-turn-a-node-into-a-packedscene-via-gdscript
@@ -188,7 +189,7 @@ func create_item() -> void:
 			return
 		else:
 			item.queue_free()
-			get_tree().edited_scene_root.get_node(item.name).queue_free()
+			get_node(item.get_path()).queue_free()
 			%CreateCompleteDialog.dialog_text = \
 				"Inventory item %s/%s.tscn created." % [inventory_path, %ItemName.text]
 			print("Inventory item %s/%s.tscn created." % [inventory_path, %ItemName.text])
