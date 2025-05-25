@@ -1,59 +1,50 @@
 [gd_scene load_steps=4 format=3 uid="uid://beawklamapteq"]
 
 [ext_resource type="Script" uid="uid://bxj8cgfbk5r8f" path="res://addons/escoria-wizard/item_creator.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://b7ax2phlsg1x6" path="res://addons/escoria-wizard/graphics/inventory_preview.png" id="2"]
-[ext_resource type="Texture2D" uid="uid://bf47xbq6w4hou" path="res://addons/escoria-wizard/graphics/object_preview.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://bksq564f0mdty" path="res://addons/escoria-wizard/graphics/inventory_preview.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://bguqtofgijd0d" path="res://addons/escoria-wizard/graphics/object_preview.png" id="3"]
 
 [node name="ItemCreator" type="MarginContainer"]
-custom_minimum_size = Vector2(500, 500)
-offset_left = 395.0
-offset_top = 50.0
-offset_right = 895.0
-offset_bottom = 850.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -450.0
+offset_right = 1.0
+offset_bottom = 270.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_vertical = 3
 script = ExtResource("1")
 
-[node name="window_background_colour" type="ColorRect" parent="."]
-custom_minimum_size = Vector2(500, 800)
+[node name="BGColor" type="ColorRect" parent="."]
 layout_mode = 2
-color = Color(0.235294, 0.341176, 0.290196, 1)
+color = Color(0.235, 0.341, 0.29, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
 
-[node name="Control" type="CenterContainer" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 60)
+[node name="PanelContainer" type="MarginContainer" parent="ScrollContainer"]
+custom_minimum_size = Vector2(613, 690)
 layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/Control"]
+[node name="MainVBoxContainer" type="VBoxContainer" parent="ScrollContainer/PanelContainer"]
 layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Control/CenterContainer"]
-layout_mode = 2
-
-[node name="BackgroundObjectCheckBox" type="CheckBox" parent="VBoxContainer/Control/CenterContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-button_pressed = true
-text = "Create background object"
-
-[node name="InventoryItemCheckBox" type="CheckBox" parent="VBoxContainer/Control/CenterContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Create inventory item"
-
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+[node name="CenterContainer2" type="CenterContainer" parent="ScrollContainer/PanelContainer/MainVBoxContainer"]
 layout_mode = 2
 
-[node name="HelperHeading" type="MarginContainer" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-
-[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HelperHeading"]
-layout_mode = 2
-
-[node name="ObjectHeading" type="Label" parent="VBoxContainer/HelperHeading/CenterContainer"]
+[node name="ObjectHeading" type="Label" parent="ScrollContainer/PanelContainer/MainVBoxContainer/CenterContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.592157, 0.87451, 0.533333, 1)
@@ -61,7 +52,7 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 text = "Object Creator"
 uppercase = true
 
-[node name="InventoryHeading" type="Label" parent="VBoxContainer/HelperHeading/CenterContainer"]
+[node name="InventoryHeading" type="Label" parent="ScrollContainer/PanelContainer/MainVBoxContainer/CenterContainer2"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -70,92 +61,109 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 text = "Inventory Item Creator"
 uppercase = true
 
-[node name="Description" type="MarginContainer" parent="VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/PanelContainer/MainVBoxContainer"]
 layout_mode = 2
 
-[node name="ObjectDescription" type="Label" parent="VBoxContainer/Description"]
+[node name="Label" type="Label" parent="ScrollContainer/PanelContainer/MainVBoxContainer"]
+layout_mode = 2
+text = "Which type of item do you want to create?"
+
+[node name="ObjectTypeWrapper" type="CenterContainer" parent="ScrollContainer/PanelContainer/MainVBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/PanelContainer/MainVBoxContainer/ObjectTypeWrapper"]
+layout_mode = 2
+
+[node name="BackgroundObjectCheckBox" type="CheckBox" parent="ScrollContainer/PanelContainer/MainVBoxContainer/ObjectTypeWrapper/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "The object creator is used to create background objects
-that the player can interact with, but that will not become
-part of their inventory.
+button_pressed = true
+text = "Create background object"
 
-NOTE: The node will be created as a child of whichever node
-is currently selected in the scene tree.
+[node name="InventoryItemCheckBox" type="CheckBox" parent="ScrollContainer/PanelContainer/MainVBoxContainer/ObjectTypeWrapper/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create inventory item"
+
+[node name="HSeparator3" type="HSeparator" parent="ScrollContainer/PanelContainer/MainVBoxContainer"]
+layout_mode = 2
+
+[node name="Description" type="MarginContainer" parent="ScrollContainer/PanelContainer/MainVBoxContainer"]
+layout_mode = 2
+
+[node name="ObjectDescription" type="Label" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Description"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "The object creator is used to create background objects that the player can interact with, but that will not become part of their inventory.
+
+NOTE: The node will be created as a child of whichever node is currently selected in the scene tree.
 "
-horizontal_alignment = 1
+autowrap_mode = 2
 
-[node name="InventoryDescription" type="Label" parent="VBoxContainer/Description"]
+[node name="InventoryDescription" type="Label" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Description"]
 unique_name_in_owner = true
 visible = false
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-text = "The inventory item creator is used to create objects
-that the player can pick up to add
-to their inventory.
+text = "The inventory item creator is used to create objects that the player can pick up to add to their inventory.
 
-NOTE: The node will be created in the inventory
-folder shown below. All inventory items for your
-game must live in the same folder.
-"
-horizontal_alignment = 1
+NOTE: The node will be created in the inventory folder shown below. All inventory items for your game must live in the same folder."
+autowrap_mode = 2
 
-[node name="Content" type="MarginContainer" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 500)
+[node name="Content" type="MarginContainer" parent="ScrollContainer/PanelContainer/MainVBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 20
 
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer/Content"]
-custom_minimum_size = Vector2(460, 500)
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content"]
 layout_mode = 2
-columns = 3
+theme_override_constants/separation = 15
+alignment = 1
 
-[node name="ItemNameLabel" type="Label" parent="VBoxContainer/Content/GridContainer"]
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+columns = 2
+
+[node name="ItemNameLabel" type="Label" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Item name:"
 
-[node name="ItemName" type="LineEdit" parent="VBoxContainer/Content/GridContainer"]
+[node name="ItemName" type="LineEdit" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/GridContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_vertical = 0
 text = "replace_me"
 
-[node name="BlankItem" type="Control" parent="VBoxContainer/Content/GridContainer"]
-layout_mode = 2
-
-[node name="ItemGlobalIDLabel" type="Label" parent="VBoxContainer/Content/GridContainer"]
+[node name="ItemGlobalIDLabel" type="Label" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/GridContainer"]
 layout_mode = 2
 text = "Global ID:"
 
-[node name="ItemGlobalID" type="LineEdit" parent="VBoxContainer/Content/GridContainer"]
+[node name="ItemGlobalID" type="LineEdit" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="BlankItem2" type="Control" parent="VBoxContainer/Content/GridContainer"]
-layout_mode = 2
-
-[node name="StartsInteractiveLabel" type="Label" parent="VBoxContainer/Content/GridContainer"]
+[node name="StartsInteractiveLabel" type="Label" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(110, 0)
 layout_mode = 2
 text = "Is 'Interactive':"
 
-[node name="IsInteractiveCheckBox" type="CheckBox" parent="VBoxContainer/Content/GridContainer"]
+[node name="IsInteractiveCheckBox" type="CheckBox" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "When the room first loads, can the player interact with this?"
 button_pressed = true
 
-[node name="BlankItem3" type="Control" parent="VBoxContainer/Content/GridContainer"]
+[node name="DefaultActionLabel" type="Label" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/GridContainer"]
 layout_mode = 2
-
-[node name="DefaultActionLabel" type="Label" parent="VBoxContainer/Content/GridContainer"]
-layout_mode = 2
-text = "Default action:
-"
+text = "Default action:"
 vertical_alignment = 1
 
-[node name="DefaultActionOption" type="OptionButton" parent="VBoxContainer/Content/GridContainer"]
+[node name="DefaultActionOption" type="OptionButton" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
@@ -178,32 +186,34 @@ popup/item_6/id = 6
 popup/item_7/text = "talk"
 popup/item_7/id = 7
 
-[node name="BlankItem4" type="Control" parent="VBoxContainer/Content/GridContainer"]
-layout_mode = 2
-
-[node name="ImagePathLabel" type="Label" parent="VBoxContainer/Content/GridContainer"]
-layout_mode = 2
-text = "Item graphic:"
-
-[node name="ImagePath" type="LineEdit" parent="VBoxContainer/Content/GridContainer"]
+[node name="InventoryPathLabel" type="Label" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/GridContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
-editable = false
+text = "Inventory path:"
 
-[node name="ChangeImageButton" type="Button" parent="VBoxContainer/Content/GridContainer"]
+[node name="InventoryPath" type="Label" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/GridContainer"]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
-text = "Change Image"
+text = "res://game/items/inventory"
 
-[node name="PreviewLabel" type="Label" parent="VBoxContainer/Content/GridContainer"]
+[node name="ChangePathButton" type="Button" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/GridContainer"]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
-text = "Preview:"
+text = "Change Path"
 
-[node name="PreviewGroup" type="ColorRect" parent="VBoxContainer/Content/GridContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="PreviewGroup" type="ColorRect" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(240, 240)
 layout_mode = 2
 color = Color(0.121569, 0.196078, 0.0823529, 1)
 
-[node name="BackgroundColour" type="ColorRect" parent="VBoxContainer/Content/GridContainer/PreviewGroup"]
+[node name="BackgroundColour" type="ColorRect" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/VBoxContainer/PreviewGroup"]
 custom_minimum_size = Vector2(232, 232)
 layout_mode = 0
 offset_left = 4.0
@@ -212,7 +222,7 @@ offset_right = 236.0
 offset_bottom = 236.0
 color = Color(0.254902, 0.231373, 0.231373, 1)
 
-[node name="InventoryPreview" type="TextureRect" parent="VBoxContainer/Content/GridContainer/PreviewGroup"]
+[node name="InventoryPreview" type="TextureRect" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/VBoxContainer/PreviewGroup"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 0
@@ -222,7 +232,7 @@ offset_right = 236.0
 offset_bottom = 236.0
 texture = ExtResource("2")
 
-[node name="ObjectPreview" type="TextureRect" parent="VBoxContainer/Content/GridContainer/PreviewGroup"]
+[node name="ObjectPreview" type="TextureRect" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/VBoxContainer/PreviewGroup"]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 4.0
@@ -231,7 +241,7 @@ offset_right = 236.0
 offset_bottom = 236.0
 texture = ExtResource("3")
 
-[node name="Preview" type="TextureRect" parent="VBoxContainer/Content/GridContainer/PreviewGroup"]
+[node name="Preview" type="TextureRect" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/VBoxContainer/PreviewGroup"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(232, 232)
 layout_mode = 1
@@ -242,105 +252,68 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch_mode = 5
 
-[node name="BlankItem5" type="Control" parent="VBoxContainer/Content/GridContainer"]
-layout_mode = 2
-
-[node name="ImageSizeLabel" type="Label" parent="VBoxContainer/Content/GridContainer"]
-layout_mode = 2
-text = "Image size:"
-
-[node name="ImageSize" type="Label" parent="VBoxContainer/Content/GridContainer"]
+[node name="ImageSize" type="Label" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "(0, 0)"
+text = "Image size: (0, 0)"
 
-[node name="BlankItem6" type="Control" parent="VBoxContainer/Content/GridContainer"]
-layout_mode = 2
-
-[node name="InventoryPathLabel" type="Label" parent="VBoxContainer/Content/GridContainer"]
+[node name="ImagePath" type="LineEdit" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
-text = "Inventory path:"
+editable = false
 
-[node name="InventoryPath" type="Label" parent="VBoxContainer/Content/GridContainer"]
-unique_name_in_owner = true
-visible = false
+[node name="ChangeImageButton" type="Button" parent="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-text = "res://game/items/inventory"
+text = "Change Image"
 
-[node name="ChangePathButton" type="Button" parent="VBoxContainer/Content/GridContainer"]
-unique_name_in_owner = true
-visible = false
+[node name="HSeparator2" type="HSeparator" parent="ScrollContainer/PanelContainer/MainVBoxContainer"]
 layout_mode = 2
-text = "Change Path"
+theme_override_constants/separation = 15
 
-[node name="InventoryPathSpacer" type="Control" parent="VBoxContainer/Content/GridContainer"]
-unique_name_in_owner = true
-visible = false
+[node name="CenterContainer" type="CenterContainer" parent="ScrollContainer/PanelContainer/MainVBoxContainer"]
 layout_mode = 2
 
-[node name="Buttons" type="MarginContainer" parent="VBoxContainer"]
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/margin_bottom = 10
-
-[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/Buttons"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/PanelContainer/MainVBoxContainer/CenterContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Buttons/CenterContainer"]
-layout_mode = 2
-
-[node name="CreateButton" type="Button" parent="VBoxContainer/Buttons/CenterContainer/HBoxContainer"]
+[node name="CreateButton" type="Button" parent="ScrollContainer/PanelContainer/MainVBoxContainer/CenterContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Create Object"
 
-[node name="Spacer" type="Control" parent="VBoxContainer/Buttons/CenterContainer/HBoxContainer"]
+[node name="Spacer" type="Control" parent="ScrollContainer/PanelContainer/MainVBoxContainer/CenterContainer/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="ClearButton" type="Button" parent="VBoxContainer/Buttons/CenterContainer/HBoxContainer"]
+[node name="ClearButton" type="Button" parent="ScrollContainer/PanelContainer/MainVBoxContainer/CenterContainer/HBoxContainer"]
 layout_mode = 2
 text = "Clear All"
 
-[node name="Spacer2" type="Control" parent="VBoxContainer/Buttons/CenterContainer/HBoxContainer"]
+[node name="Spacer2" type="Control" parent="ScrollContainer/PanelContainer/MainVBoxContainer/CenterContainer/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
-[node name="ExitButton" type="Button" parent="VBoxContainer/Buttons/CenterContainer/HBoxContainer"]
+[node name="ExitButton" type="Button" parent="ScrollContainer/PanelContainer/MainVBoxContainer/CenterContainer/HBoxContainer"]
 layout_mode = 2
 text = "Main Menu"
 
-[node name="LoadObjectGraphic" type="CenterContainer" parent="."]
-visible = false
-layout_mode = 2
-mouse_filter = 2
-
-[node name="LoadImageFileDialog" type="FileDialog" parent="LoadObjectGraphic"]
-unique_name_in_owner = true
-title = "Open a File"
-ok_button_text = "Open"
-file_mode = 0
-filters = PackedStringArray("*.png", "*.bmp", "*.jpg", "*.jpeg", "*.webp", "*.tga")
-
-[node name="Windows" type="CenterContainer" parent="."]
+[node name="Windows" type="CenterContainer" parent="ScrollContainer/PanelContainer"]
 visible = false
 layout_mode = 2
 
-[node name="ConfirmationDialog" type="ConfirmationDialog" parent="Windows"]
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="ScrollContainer/PanelContainer/Windows"]
 unique_name_in_owner = true
 dialog_text = "WARNING!
 
 If you continue you will lose the current object."
 
-[node name="ErrorDialog" type="AcceptDialog" parent="Windows"]
+[node name="ErrorDialog" type="AcceptDialog" parent="ScrollContainer/PanelContainer/Windows"]
 unique_name_in_owner = true
 
-[node name="CreateCompleteDialog" type="AcceptDialog" parent="Windows"]
+[node name="CreateCompleteDialog" type="AcceptDialog" parent="ScrollContainer/PanelContainer/Windows"]
 unique_name_in_owner = true
 
-[node name="InventoryPathFileDialog" type="FileDialog" parent="Windows"]
+[node name="InventoryPathFileDialog" type="FileDialog" parent="ScrollContainer/PanelContainer/Windows"]
 unique_name_in_owner = true
 mode = 2
 title = "Open a Directory"
@@ -348,15 +321,22 @@ position = Vector2i(0, 36)
 ok_button_text = "Select Current Folder"
 file_mode = 2
 
-[connection signal="toggled" from="VBoxContainer/Control/CenterContainer/HBoxContainer/BackgroundObjectCheckBox" to="." method="_on_BackgroundObjectCheckBox_toggled"]
-[connection signal="toggled" from="VBoxContainer/Control/CenterContainer/HBoxContainer/InventoryItemCheckBox" to="." method="_on_InventoryItemCheckBox_toggled"]
-[connection signal="text_changed" from="VBoxContainer/Content/GridContainer/ItemName" to="." method="background_on_ItemName_text_changed"]
-[connection signal="pressed" from="VBoxContainer/Content/GridContainer/ChangeImageButton" to="." method="load_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/Content/GridContainer/ChangePathButton" to="." method="_on_ChangePathButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/Buttons/CenterContainer/HBoxContainer/CreateButton" to="." method="_on_CreateButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/Buttons/CenterContainer/HBoxContainer/ClearButton" to="." method="Item_on_ClearButton_pressed"]
-[connection signal="pressed" from="VBoxContainer/Buttons/CenterContainer/HBoxContainer/ExitButton" to="." method="Item_on_ExitButton_pressed"]
-[connection signal="file_selected" from="LoadObjectGraphic/LoadImageFileDialog" to="." method="LoadImageFileDialog_file_selected"]
-[connection signal="confirmed" from="Windows/ConfirmationDialog" to="." method="_on_ObjectConfirmationDialog_confirmed"]
-[connection signal="confirmed" from="Windows/CreateCompleteDialog" to="." method="_on_CreateCompleteDialog_confirmed"]
-[connection signal="dir_selected" from="Windows/InventoryPathFileDialog" to="." method="_on_InventoryPathFileDialog_dir_selected"]
+[node name="LoadImageFileDialog" type="FileDialog" parent="ScrollContainer/PanelContainer/Windows"]
+unique_name_in_owner = true
+title = "Open a File"
+ok_button_text = "Open"
+file_mode = 0
+filters = PackedStringArray("*.png", "*.bmp", "*.jpg", "*.jpeg", "*.webp", "*.tga")
+
+[connection signal="toggled" from="ScrollContainer/PanelContainer/MainVBoxContainer/ObjectTypeWrapper/HBoxContainer/BackgroundObjectCheckBox" to="." method="_on_BackgroundObjectCheckBox_toggled"]
+[connection signal="toggled" from="ScrollContainer/PanelContainer/MainVBoxContainer/ObjectTypeWrapper/HBoxContainer/InventoryItemCheckBox" to="." method="_on_InventoryItemCheckBox_toggled"]
+[connection signal="text_changed" from="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/GridContainer/ItemName" to="." method="background_on_ItemName_text_changed"]
+[connection signal="pressed" from="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/GridContainer/ChangePathButton" to="." method="_on_ChangePathButton_pressed"]
+[connection signal="pressed" from="ScrollContainer/PanelContainer/MainVBoxContainer/Content/HBoxContainer/VBoxContainer/ChangeImageButton" to="." method="load_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/PanelContainer/MainVBoxContainer/CenterContainer/HBoxContainer/CreateButton" to="." method="_on_CreateButton_pressed"]
+[connection signal="pressed" from="ScrollContainer/PanelContainer/MainVBoxContainer/CenterContainer/HBoxContainer/ClearButton" to="." method="Item_on_ClearButton_pressed"]
+[connection signal="pressed" from="ScrollContainer/PanelContainer/MainVBoxContainer/CenterContainer/HBoxContainer/ExitButton" to="." method="Item_on_ExitButton_pressed"]
+[connection signal="confirmed" from="ScrollContainer/PanelContainer/Windows/ConfirmationDialog" to="." method="_on_ObjectConfirmationDialog_confirmed"]
+[connection signal="confirmed" from="ScrollContainer/PanelContainer/Windows/CreateCompleteDialog" to="." method="_on_CreateCompleteDialog_confirmed"]
+[connection signal="dir_selected" from="ScrollContainer/PanelContainer/Windows/InventoryPathFileDialog" to="." method="_on_InventoryPathFileDialog_dir_selected"]
+[connection signal="file_selected" from="ScrollContainer/PanelContainer/Windows/LoadImageFileDialog" to="." method="LoadImageFileDialog_file_selected"]
