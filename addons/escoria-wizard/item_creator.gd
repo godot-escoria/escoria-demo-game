@@ -1,5 +1,5 @@
 @tool
-extends MarginContainer
+extends Container
 
 var source_image:Image
 var image_stream_texture:CompressedTexture2D
@@ -56,7 +56,6 @@ func _setup_ui_to_itemtype(new_type: ItemType) -> void:
 	%InventoryPreview.visible = false
 	%InventoryPath.visible = false
 	%InventoryPathLabel.visible = false
-	%InventoryPathSpacer.visible = false
 	%ChangePathButton.visible = false
 	%InventoryPath.visible = false
 	%ObjectHeading.visible = false
@@ -74,7 +73,6 @@ func _setup_ui_to_itemtype(new_type: ItemType) -> void:
 		%InventoryPreview.visible = true
 		%InventoryPath.visible = true
 		%InventoryPathLabel.visible = true
-		%InventoryPathSpacer.visible = true
 		%ChangePathButton.visible = true
 		%InventoryPath.visible = true
 
