@@ -1,3 +1,12 @@
+## [4.0.0-alpha.281](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.281) (2025-05-30)
+
+
+### Bug Fixes
+
+* Escape key was breaking main menu ([e78d522](https://github.com/godot-escoria/escoria-demo-game/commit/e78d5224bf7724e70944326f151c9e5c88e0e87d))
+
+
+
 ## [4.0.0-alpha.280](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.280) (2025-05-20)
 
 

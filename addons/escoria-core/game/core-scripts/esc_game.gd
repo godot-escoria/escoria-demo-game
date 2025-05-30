@@ -58,7 +58,7 @@ func initialize_esc_game() -> void:
 	escoria.event_manager.event_finished.connect(_on_event_done)
 	escoria.action_manager.action_finished.connect(_on_action_finished)
 	escoria.main.room_ready.connect(_on_room_ready)
-	
+
 	get_node(main_menu).process_mode = ProcessMode.PROCESS_MODE_ALWAYS
 	get_node(pause_menu).process_mode = ProcessMode.PROCESS_MODE_ALWAYS
 
