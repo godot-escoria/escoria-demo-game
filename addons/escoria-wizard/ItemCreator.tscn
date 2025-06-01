@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://beawklamapteq"]
+[gd_scene load_steps=5 format=3 uid="uid://beawklamapteq"]
 
 [ext_resource type="Script" uid="uid://bxj8cgfbk5r8f" path="res://addons/escoria-wizard/item_creator.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://bksq564f0mdty" path="res://addons/escoria-wizard/graphics/inventory_preview.png" id="2"]
 [ext_resource type="Texture2D" uid="uid://bguqtofgijd0d" path="res://addons/escoria-wizard/graphics/object_preview.png" id="3"]
+[ext_resource type="Theme" uid="uid://da8rg1in2ibw2" path="res://addons/escoria-wizard/button_theme.tres" id="4_emaif"]
 
 [node name="ItemCreator" type="MarginContainer"]
 anchors_preset = 8
@@ -268,13 +269,14 @@ text = "Change Image"
 
 [node name="HSeparator2" type="HSeparator" parent="ScrollContainer/PanelContainer/MainVBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 15
+theme_override_constants/separation = 30
 
 [node name="CenterContainer" type="CenterContainer" parent="ScrollContainer/PanelContainer/MainVBoxContainer"]
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/PanelContainer/MainVBoxContainer/CenterContainer"]
 layout_mode = 2
+theme = ExtResource("4_emaif")
 
 [node name="CreateButton" type="Button" parent="ScrollContainer/PanelContainer/MainVBoxContainer/CenterContainer/HBoxContainer"]
 unique_name_in_owner = true
