@@ -1,3 +1,6 @@
+## Base interface for all states: it doesn't do anything in itself[br]
+## but forces us to pass the right arguments to the methods below[br]
+## and makes sure every State object had all of these methods.
 extends Node
 class_name State
 ## Base interface for all states.
@@ -6,8 +9,9 @@ class_name State
 ## arguments to the methods below and makes sure every State object had all of 
 ## these methods.
 
-## Signal sent when the state just changed. Parameter is the new state value.
-signal finished(next_state_name)
+## Signal emitted when the state switched to another. Parameter is the next[br]
+## state name.
+signal finished(next_state_name: String)
 
 
 ## Initialize the state. E.g. change the animation
@@ -20,25 +24,28 @@ func exit():
 	return
 
 
-## Manage an input event while this state is active.[br]
-## [br]
+## Handle the input event.[br]
+##[br]
 ## #### Parameters[br]
-## - _event: InputEvent to process
-func handle_input(_event):
+##[br]
+## - _event: the input event to handle
+func handle_input(_event: InputEvent):
 	return
 
 
-## Perform an update while this state is active.[br]
-## [br]
+## Update call for states happening in _process() method.[br]
+##[br]
 ## #### Parameters[br]
-## - _delta: float value obtained from a _process() call
-func update(_delta):
+##[br]
+## - _delta: delta value coming from the _process() method.
+func update(_delta: float):
 	return
 
 
-# Callback called when an animation is finished. 
-# [br]
-# #### Parameters[br]
-# - _anim_name: the animation name that just finished.
-func _on_animation_finished(_anim_name):
+## For states managing animations, method called on animation_finished signal.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - _anim_name: finished animation name.
+func _on_animation_finished(_anim_name: String):
 	return
