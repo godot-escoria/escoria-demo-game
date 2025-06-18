@@ -258,7 +258,7 @@ func _disable_collisions() -> void:
 		if is_instance_valid(item.collision):
 			item.collision.disabled = true
 		if item is Area2D:
-			item.monitoring = false
+			item. = false
 			item.monitorable = false
 
 # ###################################################################
