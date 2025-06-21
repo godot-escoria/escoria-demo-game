@@ -77,6 +77,8 @@ func _ready():
 	var temp_control: Control = Control.new()
 	_tool_default_font = temp_control.get_theme_default_font()
 	temp_control.queue_free()
+	
+	child_entered_tree.connect(_on_child_entered_tree)
 
 	if Engine.is_editor_hint():
 		_connect_location_nodes()
@@ -128,27 +130,34 @@ func _draw():
 			16,
 			camera_limits_colors[i])
 
+## Escoria editor plugin: 
+func _on_child_entered_tree(new_node: Node):
+	if Engine.is_editor_hint() and new_node is ESCLocation:
+			_connect_location_nodes()
 
-# Listen for any signals from ESCLocation indicating that the is_start_location attribute
-# has been set/unset in order to update start location validation.
+## Escoria editor plugin: Listen for any signals from ESCLocation indicating that the is_start_location 
+## attribute has been set/unset in order to update start location validation.
 func _connect_location_nodes() -> void:
+	if not Engine.is_editor_hint():
+		return
 	_connect_location_nodes_in_tree(self)
 
-
-func _connect_location_nodes_in_tree(node: Node):
+## Escoria editor plugin: 
+func _connect_location_nodes_in_tree(node: Node) -> void:
 	for n in node.get_children():
 		if n is ESCLocation:
-			if not n.is_connected("is_start_location_set", Callable(self, "_validate_start_locations")):
-				n.connect("is_start_location_set", Callable(self, "_validate_start_locations"))
+			if not n.is_connected("editor_is_start_location_set",_validate_start_locations):
+				n.connect("editor_is_start_location_set", _validate_start_locations)
 
 		if n.get_child_count() > 0:
 			_connect_location_nodes_in_tree(n)
 
 
-# Validate that we only have one start location for this scene. If we don't, call it out in the
-# scene tree via configuration warnings.
-#
-# We may have to ignore a node if it's being removed/deleted from the scene tree.
+## Validate that we only have one start location for this scene. If we don't, 
+## call it out in the scene tree via configuration warnings.[br]
+## [br]
+## We may have to ignore a node if it's being removed/deleted from the scene 
+## tree.
 func _validate_start_locations(to_ignore: ESCLocation = null):
 	var esc_locations: Array = _find_esc_locations(self)
 	var num_start_locations: int = 0
@@ -163,9 +172,12 @@ func _validate_start_locations(to_ignore: ESCLocation = null):
 		if n == to_ignore:
 			continue
 
-		n.set_multiple_locations_exist(n.is_start_location and num_start_locations > 1)
+		n.set_multiple_start_locations_exist(n.is_start_location and num_start_locations > 1)
 
 
+## Escoria plugin for editor: get the list of ESCLocation nodes in the room.[br]
+##[br]
+## ####
 func _find_esc_locations(node: Node) -> Array:
 	var esc_locations: Array = []
 
