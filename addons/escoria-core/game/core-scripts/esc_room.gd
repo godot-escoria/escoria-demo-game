@@ -1,20 +1,15 @@
 @tool
 @icon("res://addons/escoria-core/design/esc_room.svg")
-## A room in an Escoria based game
+## A room in an Escoria based game.
 extends Node2D
 class_name ESCRoom
 
 
-# Debugging displays for a room
-# NONE: No debug display
-# CAMERA_LIMITS: Display the camera limits
+## Debugging displays for a room.
 enum EditorRoomDebugDisplay {
-	NONE,
-	CAMERA_LIMITS
+	NONE, # No debug display
+	CAMERA_LIMITS # Display the camera limits
 }
-
-const ESC_BACKGROUND_NAME = "escbackground"
-
 
 ## The global id of this room
 @export var global_id: String = ""
@@ -29,26 +24,27 @@ const ESC_BACKGROUND_NAME = "escbackground"
 @export var camera_limits: Array = [Rect2()]: # (Array, Rect2)
 	set = set_camera_limits
 
-## The room's debug display mode.
-## Camera Limits: show a colored frame for each camera limit of the room.
+## The room's debug display mode.[br]
+## Camera Limits: show a colored frame for each camera limit of the room.[br]
 ## None: no debug display
 @export var editor_debug_mode: EditorRoomDebugDisplay = EditorRoomDebugDisplay.NONE:
 	set = set_editor_debug_mode
 
 
-# The player scene instance
+## Container of the player scene instance.
 var player
 
-# The player camera
+## Container of player camera
 var player_camera: ESCCamera
 
-# The game scene instance
+## Container of game scene instance
 var game
 
-# Compiled ESCScript
+## Container of compiled ESCScript
 var compiled_script: ESCScript
 
-# Whether automatic transition are enabled or not
+## Whether automatic transition are enabled or not. This is modified by 
+## the Room Manager.
 var enabled_automatic_transitions = true
 
 # Whether this room was run directly with Play Scene (F6)
@@ -93,7 +89,6 @@ func _ready():
 			move_child(child, 0)
 	if not found_escbackground:
 		var esc_bg = ESCBackground.new()
-		esc_bg.name = ESC_BACKGROUND_NAME
 		if not camera_limits.is_empty():
 			esc_bg.set_size(camera_limits.front().size)
 		add_child(esc_bg)

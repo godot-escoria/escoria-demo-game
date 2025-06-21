@@ -16,7 +16,7 @@ class_name ESCExit
 
 
 ## Path to the target scene to change to
-@export_file("*.tscn", "*.scn") var target_scene = ""
+@export_file("*.tscn", "*.scn") var target_scene: String = ""
 
 ## Sound effect to play when changing the scene
 @export var switch_sound: Resource # (String, FILE, "*.ogg,*.mp3,*.wav")

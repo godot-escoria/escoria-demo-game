@@ -41,14 +41,16 @@ signal mouse_wheel_up
 ## Emitted when the mouse wheel was turned down
 signal mouse_wheel_down
 
+## Emitted when the background is hovered.
 signal hovered_bg
 
-# The ESC script connected to this background
-@export var esc_script = "" # (String, FILE, "*.esc")
+## The ESC/ASH script connected to this background
+@export_file("*.esc", "*.ash") var esc_script: String = ""
 
 
 ## Create the underlying Area2D as an input device
 func _enter_tree():
+	name = "escbackground"
 	var size
 	if get_texture():
 		size = get_texture().get_size()

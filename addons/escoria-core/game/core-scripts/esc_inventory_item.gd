@@ -1,4 +1,4 @@
-## Basic information about an inventory item.
+## Container class containing basic information about an inventory item.
 class_name ESCInventoryItem
 
 

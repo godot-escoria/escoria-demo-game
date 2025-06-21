@@ -1,13 +1,14 @@
-# Node that performs the moving (walk, teleport, terrain scaling...) actions on
-# its parent node.
+## Node that performs the moving (walk, teleport, terrain scaling...) actions on
+## its parent node.
 extends Node
 class_name ESCMovable
 
 
-# Tasks carried out by this walkable node
-# NONE - The node is inactive
-# WALK - The node walks the parent somewhere
-# SLIDE - The node slides the parent somewhere
+## Tasks carried out by this walkable node[br]
+## NONE - The node is inactive[br]
+## WALK - The node walks the parent somewhere[br]
+## SLIDE - The node slides the parent somewhere
+# TODO Currently SLIDE is no different from WALK. Consider removing.
 enum MovableTask {
 	NONE,
 	WALK,
@@ -15,57 +16,53 @@ enum MovableTask {
 }
 
 
-# Character path through the scene as calculated by the Pathfinder
+## Character path through the scene as calculated by the Pathfinder
 var walk_path: Array = []
 
-# Current active walk path entry
+## Current active walk path entry
 var path_ofs: int
 
-# The destination where the character should be moving to
+## The destination where the character should be moving to
 var walk_destination: Vector2
 
-# The walk context currently carried out by this movable node
+## The walk context currently carried out by this movable node
 var walk_context: ESCWalkContext = null
 
-# Whether the character was moved at all
+## Whether the character was moved at all
 var moved: bool
 
-# Player Direction used to reflect the movement to the new position
+## Player Direction used to reflect the movement to the new position
 var last_dir: int
 
-# Last angle calculated
+## Last angle calculated
 var last_angle: float
 
-# The last scaling applied to the parent
+## The last scaling applied to the parent
 var last_scale: Vector2
 
-# Whether the current direction animation is flipped
+## Whether the current direction animation is flipped
 var is_mirrored: bool
 
-
-var _orig_speed: float = 0.0
-
-
-# Shortcut variable that references the node's parent
+## Shortcut variable that references the node's parent
 @onready var parent = get_parent()
 
 
-# Currenly running task
+## Currenly running task
 @onready var task = MovableTask.NONE
 
 
-# Add the signal "arrived" to the parent node, which is emitted when
-# the destination position was reached
+## Ready function. Adds the signal "arrived" to the parent node, which is
+## emitted when the destination position was reached.
 func _ready() -> void:
 	if not parent.has_user_signal("arrived"):
 		parent.add_user_signal("arrived")
 
 
-# Main processing loop
-#
-# #### Parameters
-#
-# - delta: Time that has passed since the last call to this function
+## Main processing loop[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - delta: Time that has passed since the last call to this function
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
@@ -87,14 +84,13 @@ func _process(delta: float) -> void:
 		set_process(false)
 
 
-# Calculates the next position of the object.
-#
-# #### Parameters
-#
-# - delta: the time elapsed from last frame
-#
-# *Returns*
-# The new Vector2 position of the object, or null if stop walking.
+## Calculates the next position of the object.[br]
+##[br]
+## #### Parameters[br]
+##
+## - delta: the time elapsed from last frame[br]
+##[br]
+## *Returns* The new Vector2 position of the object, or null if stop walking.
 func _calculate_movement(delta: float):
 	# Initialize the current pos and previous pos variables
 	var pos: Vector2 = parent.get_position()
@@ -257,10 +253,6 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 func walk_stop(pos: Vector2) -> void:
 	parent.global_position = pos
 	walk_path = []
-
-	if _orig_speed > 0:
-		parent.speed = _orig_speed
-		_orig_speed = 0.0
 
 	task = MovableTask.NONE
 	moved = false
