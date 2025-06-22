@@ -4,8 +4,8 @@
 ## events on the background. More precisely, the TextureRect under ESCBackground
 ## does not receive events itself - if it did, it would also eat all events like
 ## hotspot focusing and such. Instead, we set the TextureRect mouse filter to
-## MOUSE_FILTER_IGNORE, and we use an Area2D node to receive the input events.
-##
+## MOUSE_FILTER_IGNORE, and we use an Area2D node to receive the input events.[br]
+## [br]
 ## If ESCBackground doesn't contain a texture, it is important that its rect_size
 ## is set over the whole scene, because its rect_size is then used to create the
 ## Area2D node under it. If the rect_size is wrongly set, the background may
@@ -118,7 +118,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				right_click_on_bg.emit(p)
 
 
-## Calculate the actual area taken by this background depending on its[br]
+## Calculate the actual area taken by this background depending on its
 ## Texture or set size[br]
 ## **Returns** The correct area size
 func get_full_area_rect2() -> Rect2:
