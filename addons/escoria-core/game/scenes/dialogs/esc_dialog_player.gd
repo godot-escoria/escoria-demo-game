@@ -186,7 +186,7 @@ func _update_dialog_manager(dialog_type: String, current_dialog_manager: ESCDial
 # - dialog_type: The type of dialog that will be managed, e.g. "say" or "choose"
 # - dialog_manager_type: The dialog manager type specific to the dialog manager being requested
 #
-# *Returns* the newly-resolved dialog manager
+# **Returns** the newly-resolved dialog manager
 func _determine_dialog_manager(dialog_type: String, dialog_manager_type: String) -> ESCDialogManager:
 	if dialog_type == DIALOG_TYPE_SAY:
 		_determine_say_dialog_manager(dialog_manager_type)

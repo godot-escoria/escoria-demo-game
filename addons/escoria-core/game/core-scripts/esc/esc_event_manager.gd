@@ -537,7 +537,7 @@ func _on_event_finished(finished_event, finished_statement, return_code: int, ch
 # #### Parameters
 # - channel_name: The name of the channel to check.
 #
-# *Returns* the last ESCEvent queued for the given channel, or null if the
+# **Returns** the last ESCEvent queued for the given channel, or null if the
 # channel's queue is empty.
 func _get_last_event_queued(channel_name: String):
 	if self.events_queue[channel_name].size() > 0:
@@ -552,7 +552,7 @@ func _get_last_event_queued(channel_name: String):
 # - event: The event to check to see if it's already running.
 # - channel_name: The name of the channel to check.
 #
-# *Returns* true iff event is currently running in the specified channel.
+# **Returns** true iff event is currently running in the specified channel.
 func _is_event_running(event: ESCGrammarStmts.Event, channel_name: String) -> bool:
 	var running_event: ESCGrammarStmts.Event = get_running_event(channel_name)
 

@@ -73,7 +73,7 @@ func _exit_tree():
 
 ## Escoria editor plugin: overriden method that returns the list of warnings for
 ## these nodes.
-## *Returns* Array of warning string messages 
+## **Returns** Array of warning string messages 
 func _get_configuration_warnings() -> PackedStringArray:
 	return [MULTIPLE_START_LOCATIONS_WARNING] \
 		if _multiple_start_locations_exist else []

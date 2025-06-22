@@ -192,7 +192,7 @@ func _get_error_info() -> String:
 #
 # - argument: Argument to test
 # - type: Type to check
-# *Returns* Whether the argument is of the given type
+# **Returns** Whether the argument is of the given type
 func _is_type(argument, type: int) -> bool:
 	if typeof(argument) == TYPE_FLOAT:
 		if int(argument) == argument and type == TYPE_INT:
@@ -212,7 +212,7 @@ func _is_type(argument, type: int) -> bool:
 # - array_to_check: Array to check for leading non-null values
 # - max_index: Maximum (inclusive) index to check in array_to_check
 #
-# *Returns* the total number of entries at the start of
+# **Returns** the total number of entries at the start of
 # array_to_check that are not null
 func _count_leading_non_null_values(array_to_check: Array, max_index: int) -> int:
 	if array_to_check == null or max_index < 0:

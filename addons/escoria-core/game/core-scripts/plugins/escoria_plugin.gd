@@ -7,7 +7,7 @@ class_name EscoriaPlugin
 # - plugin: the plugin that registers
 # - game_scene: Path to the game scene extending ESCGame
 #
-# *Returns* a boolean indicating whether the ui could be successfully registered
+# **Returns** a boolean indicating whether the ui could be successfully registered
 static func register_ui(plugin: EditorPlugin, game_scene: String) -> bool:
 	if not plugin.get_editor_interface().is_plugin_enabled(
 		Escoria.ESCORIA_CORE_PLUGIN_NAME
@@ -57,7 +57,7 @@ static func deregister_ui(game_scene: String):
 # - plugin: the plugin that registers
 # - manager_class: Path to the manager class script
 #
-# *Returns* a boolean value indicating whether the dialog manager was registered
+# **Returns** a boolean value indicating whether the dialog manager was registered
 static func register_dialog_manager(plugin: EditorPlugin, manager_class: String) -> bool:
 	if not plugin.get_editor_interface().is_plugin_enabled(
 		Escoria.ESCORIA_CORE_PLUGIN_NAME

@@ -568,7 +568,7 @@ func set_animations(p_animations: ESCAnimationResource) -> void:
 
 
 ## Returns the animation player node
-## *Returns* The actual node acting as animation for the item
+## **Returns** The actual node acting as animation for the item
 func get_animation_player() -> Node:
 	if _animation_player == null:
 		var player_node_path = animation_player_node
@@ -762,13 +762,13 @@ func set_velocity(speed_value: int) -> void:
 
 
 ## Checks whether this item moved[br]
-## *Returns* True if the item has moved, false otherwise
+## **Returns** True if the item has moved, false otherwise
 func has_moved() -> bool:
 	return _movable.moved if is_movable else false
 
 
 ## Checks whether this item mhas a sprite.[br]
-## *Returns* True if the item has a sprite, false otherwise
+## **Returns** True if the item has a sprite, false otherwise
 func has_sprite() -> bool:
 	if _sprite_node != null:
 		return true
@@ -779,7 +779,7 @@ func has_sprite() -> bool:
 		return false
 
 ## Return the sprite node.[br]
-## *Returns* The sprite node (Sprite2D or AnimatedSprite2D)
+## **Returns** The sprite node (Sprite2D or AnimatedSprite2D)
 func get_sprite() -> Node:
 	if _sprite_node == null:
 		for child in self.get_children():
@@ -843,7 +843,7 @@ func turn_to(object: Node, wait: float = 0.0):
 
 ## Check everything is in place to play talk animations.[br]
 ## A warning indicating the problem is printed in console, if necessary.[br]
-## *Returns* True if talk is possible now, false otherwise
+## **Returns** True if talk is possible now, false otherwise
 func check_talk_possible() -> bool:
 	if is_movable and (_movable.last_dir < 0 \
 			or _movable.last_dir >= animations.speaks.size()):
@@ -932,7 +932,7 @@ func update_idle():
 
 ## Return the camera position if a camera_position_node exists or the
 ## global position of the player
-## *Returns* The camera node.
+## **Returns** The camera node.
 func get_camera_node() -> Node:
 	if has_node(camera_node):
 		ESCSafeLogging.log_debug(
@@ -1037,7 +1037,7 @@ func _validate_animations_property_all_not_null(property: Array, property_name: 
 ## Returns the global ID as a key/value pair. If none is specified, use the node
 ## name.[br]
 ## Used to tag messages.
-## *Returns* A global id as string 
+## **Returns** A global id as string 
 func _get_identifier_as_key_value() -> String:
 	if self.global_id:
 		return "global_id: %s" % self.global_id
@@ -1077,18 +1077,18 @@ func _apply_unhover_behavior() -> void:
 				sprite.material = null
 
 ## Whether the item is currently moving.[br]
-## *Returns* True if the player is currently moving, false otherwise
+## **Returns** True if the player is currently moving, false otherwise
 func is_moving() -> bool:
 	return _movable.task != ESCMovable.MovableTask.NONE if is_movable else false
 
 ## Returns the number of defined animation directions for this ESCItem.[br]
-## *Returns* an integer corresponding to the number of directions
+## **Returns** an integer corresponding to the number of directions
 func get_directions_quantity() -> int:
 	return animations.dir_angles.size()
 
 
 ## Returns a Dictionary containing custom data defined for this ESCItem.
-## *Returns* The `custom_data` dictionary ({} by default).
+## **Returns** The `custom_data` dictionary ({} by default).
 func get_custom_data() -> Dictionary:
 	return custom_data
 

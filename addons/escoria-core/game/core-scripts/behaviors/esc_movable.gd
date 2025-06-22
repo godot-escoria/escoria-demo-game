@@ -90,7 +90,7 @@ func _process(delta: float) -> void:
 ##
 ## - delta: the time elapsed from last frame[br]
 ##[br]
-## *Returns* The new Vector2 position of the object, or null if stop walking.
+## **Returns** The new Vector2 position of the object, or null if stop walking.
 func _calculate_movement(delta: float):
 	# Initialize the current pos and previous pos variables
 	var pos: Vector2 = parent.get_position()
@@ -495,7 +495,7 @@ func turn_to(item: Node, wait: float = 0.0) -> void:
 
 
 ## Returns the angle that corresponds to the current direction of the object.[br]
-## *Returns* int value of the current animation's angle range  
+## **Returns** int value of the current animation's angle range  
 func _get_angle() -> int:
 	return parent.animations.dir_angles[last_dir].angle_start
 
@@ -512,7 +512,7 @@ func _get_angle() -> int:
 ## - target_dir: integer corresponding to the target direction as defined in
 ## the attached ESCAnimationResource.directions.[br]
 ##[br]
-## *Returns* Integer: -1 (anti-clockwise), 1 (clockwise) or 0 (no movement needed).
+## **Returns** Integer: -1 (anti-clockwise), 1 (clockwise) or 0 (no movement needed).
 func get_shortest_way_to_dir(current_dir: int, target_dir: int) -> int:
 	if current_dir < 0 or current_dir > parent.animations.dir_angles.size() - 1:
 		escoria.logger.error(

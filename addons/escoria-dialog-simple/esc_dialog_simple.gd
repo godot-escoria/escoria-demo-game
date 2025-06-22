@@ -31,7 +31,7 @@ func _ready() -> void:
 #
 # #### Parameters
 # - type: required type
-# *Returns* Whether the type is supported or not
+# **Returns** Whether the type is supported or not
 func has_type(type: String) -> bool:
 	return true if type in ["floating", "avatar"] else false
 
@@ -41,7 +41,7 @@ func has_type(type: String) -> bool:
 #
 # #### Parameters
 # - type: required chooser type
-# *Returns* Whether the type is supported or not
+# **Returns** Whether the type is supported or not
 func has_chooser_type(type: String) -> bool:
 	return true if type == "simple" else false
 

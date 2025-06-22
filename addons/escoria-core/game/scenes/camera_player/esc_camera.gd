@@ -313,7 +313,7 @@ func get_current_valid_viewport_values_x() -> Array:
 # Returns the inclusive minimum and maximum values for the y-component of the current valid viewport.
 # Mainly used in any logging messages related to same.
 #
-# **Returns* the inclusive minimum and maximum values for the y-component of the current valid viewport.
+# ***Returns** the inclusive minimum and maximum values for the y-component of the current valid viewport.
 func get_current_valid_viewport_values_y() -> Array:
 	var viewport_rect: Rect2 = get_viewport_rect()
 

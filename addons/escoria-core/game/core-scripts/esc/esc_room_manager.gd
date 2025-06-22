@@ -241,7 +241,7 @@ func init_room(room: ESCRoom) -> void:
 ## #### Parameters[br]
 ##[br]
 ## - room: The ESCRoom to be initialized for use.[br]
-## *Returns* An integer value (ESCExecution enum)
+## **Returns** An integer value (ESCExecution enum)
 func _perform_script_events(room: ESCRoom) -> int:
 	# Used to track whether any yields have been executed before the call to
 	# set_scene_finish.
@@ -511,7 +511,7 @@ func _perform_script_events(room: ESCRoom) -> int:
 ## - event_name: the name of the event to run[br]
 ## - room: The ESCRoom to be initialized for use.[br]
 ##[br]
-## *Returns* true if the event was correctly added. Will be false if the event
+## **Returns** true if the event was correctly added. Will be false if the event
 ## does not exist in the script.
 func _run_script_event(event_name: String, room: ESCRoom):
 	if not room.esc_script:

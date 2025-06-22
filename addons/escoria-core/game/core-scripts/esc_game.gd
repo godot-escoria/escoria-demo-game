@@ -445,7 +445,7 @@ func apply_custom_settings(custom_settings: Dictionary):
 
 ## Custom function automatically called when save game is created.[br]
 ##[br]
-## *Returns* A Dictionary containing the custom data to be saved within the
+## **Returns** A Dictionary containing the custom data to be saved within the
 ## game file.
 func get_custom_data() -> Dictionary:
 	return {}

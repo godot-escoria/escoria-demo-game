@@ -426,7 +426,7 @@ func _check_target_has_proper_action(target: ESCObject, action: String) -> bool:
 # - event_name: the event name to search for
 # - event_target: the target for the specified event to check
 #
-# *Returns* true iff events_dict contains an event matching both event_name and
+# **Returns** true iff events_dict contains an event matching both event_name and
 # event_target
 func _has_event_with_target(events_dict: Dictionary, event_name: String, event_target: String):
 	var event = events_dict.get(event_name)
@@ -441,7 +441,7 @@ func _has_event_with_target(events_dict: Dictionary, event_name: String, event_t
 #
 # - event: the event to be run
 #
-# *Returns* the return code of the event once executed
+# **Returns** the return code of the event once executed
 func _run_event(event) -> int:
 	escoria.event_manager.queue_event(event)
 
@@ -699,7 +699,7 @@ func is_object_actionable(global_id: String) -> bool:
 # - obj: the ESCObject to prepare
 # - default_action: if true, the default action set on the item is used
 #
-# *Returns* True if the tool was set in this function
+# **Returns** True if the tool was set in this function
 func _set_tool_and_action(obj: ESCObject, default_action: bool):
 	var tool_just_set: bool = false
 	# Check if current_action and current_tool are already set
@@ -722,7 +722,7 @@ func _set_tool_and_action(obj: ESCObject, default_action: bool):
 # Checks if object requires a combination with another, according to
 # currently selected action verb (or check with default action of the item).
 #
-# *Returns* True if current action on "obj" requires a combination
+# **Returns** True if current action on "obj" requires a combination
 func _check_item_needs_combine() -> bool:
 	return current_action \
 			and current_tool \
@@ -810,7 +810,7 @@ func _walk_towards_object(
 #
 # - obj: the ESCObject to examine
 #
-# *Returns* True iff 'obj' can be acted upon.
+# **Returns** True iff 'obj' can be acted upon.
 func _is_object_actionable(obj: ESCObject) -> bool:
 	var object_is_actionable: bool = true
 

@@ -18,7 +18,7 @@ signal option_chosen(option)
 #
 # #### Parameters
 # - type: required type
-# *Returns* Whether the type is supported or not
+# **Returns** Whether the type is supported or not
 func has_type(type: String) -> bool:
 	return false
 
@@ -28,7 +28,7 @@ func has_type(type: String) -> bool:
 #
 # #### Parameters
 # - type: required chooser type
-# *Returns* Whether the type is supported or not
+# **Returns** Whether the type is supported or not
 func has_chooser_type(type: String) -> bool:
 	return false
 

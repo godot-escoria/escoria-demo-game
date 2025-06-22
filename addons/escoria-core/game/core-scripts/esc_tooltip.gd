@@ -145,7 +145,7 @@ func update_size():
 ##[br]
 ## - position: the position to test[br]
 ## [br]
-## *Returns* The calculated offset
+## **Returns** The calculated offset
 func _offset(position: Vector2) -> Vector2:
 	var center_offset_x = size.x / 2
 	var offset_y = 5
@@ -162,7 +162,7 @@ func _offset(position: Vector2) -> Vector2:
 ##[br]
 ## - position: the position to test[br]
 ##[br]
-## *Returns* The distance to the edge.
+## **Returns** The distance to the edge.
 func tooltip_distance_to_edge_top(position: Vector2):
 	return position.y
 
@@ -173,7 +173,7 @@ func tooltip_distance_to_edge_top(position: Vector2):
 ##[br]
 ## - position: the position to test[br]
 ##[br]
-## *Returns* The distance to the edge.
+## **Returns** The distance to the edge.
 func tooltip_distance_to_edge_bottom(position: Vector2):
 	return escoria.game_size.y - position.y
 
@@ -184,7 +184,7 @@ func tooltip_distance_to_edge_bottom(position: Vector2):
 ##[br]
 ## - position: the position to test
 ##[br]
-## *Returns* The distance to the edge.
+## **Returns** The distance to the edge.
 func tooltip_distance_to_edge_left(position: Vector2):
 	return position.x
 

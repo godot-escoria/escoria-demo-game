@@ -119,7 +119,7 @@ func transition(
 #
 # - name: The name of the transition to test
 #
-# *Returns* the full path to the shader or an empty string, if it can't be found
+# **Returns** the full path to the shader or an empty string, if it can't be found
 func get_transition(name: String) -> String:
 	for directory in ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.TRANSITION_PATHS
@@ -136,7 +136,7 @@ func get_transition(name: String) -> String:
 #
 # - name: The name of the transition to test
 #
-# *Returns* true if a transition exists with given name.
+# **Returns** true if a transition exists with given name.
 func has_transition(name: String) -> bool:
 	return name == TRANSITION_INSTANT or get_transition(name) != ""
 

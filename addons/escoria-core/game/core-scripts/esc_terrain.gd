@@ -312,7 +312,7 @@ func _draw():
 ## - optimize: (default is true) enabled optimisation [br]
 ## - layers: bitmask of all region navigation layers that are allowed to be in 
 ## the path.[br]
-## *Returns* An array of Vector2 positions
+## **Returns** An array of Vector2 positions
 func get_simple_path(
 		from: Vector2,
 		to: Vector2,
