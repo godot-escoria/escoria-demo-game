@@ -60,9 +60,9 @@ func register_reserved_globals() -> void:
 ##[br]
 ## #### Parameters[br]
 ##[br]
-## - room_path: Node path to the room that is to become the new current room.[br]
+## - room_path: Node path to the room that is to become the new current room
 ## - enable_automatic_transitions: Whether to play the transition between rooms
-##	automatically or to leave the responsibility to the developer.
+##   automatically or to leave the responsibility to the developer
 func change_scene_to_file(room_path: String, enable_automatic_transitions: bool) -> void:
 	if escoria.main \
 			and escoria.main.current_scene \
@@ -164,12 +164,12 @@ func change_scene_to_file(room_path: String, enable_automatic_transitions: bool)
 		)
 
 
-## Sanitize camera limits, add player node and set the global id to the
-## name of this node if it's not set manually.[br]
+## Sanitize camera limits, add player node and set the global id to the name of
+## this node if it's not set manually.[br]
 ##[br]
 ## #### Parameters[br]
 ##[br]
-## - room: The ESCRoom to be initialized for use.
+## - room: The ESCRoom to be initialized for use
 func init_room(room: ESCRoom) -> void:
 	if not is_instance_valid(room) || room == null:
 		escoria.logger.error(
@@ -235,12 +235,13 @@ func init_room(room: ESCRoom) -> void:
 	_perform_script_events(room)
 
 
-## Performs the ESC script events "setup" and "ready", in this order, if they are
-## present. Also manages automatic transitions.[br]
+## Performs the ESC script events "setup" and "ready", in this order, if they
+## are present. Also manages automatic transitions.[br]
 ##[br]
 ## #### Parameters[br]
 ##[br]
-## - room: The ESCRoom to be initialized for use.[br]
+## - room: The ESCRoom to be initialized for use[br]
+##[br]
 ## **Returns** An integer value (ESCExecution enum)
 func _perform_script_events(room: ESCRoom) -> int:
 	# Used to track whether any yields have been executed before the call to
@@ -506,10 +507,10 @@ func _perform_script_events(room: ESCRoom) -> int:
 
 ## Runs the script event from the script attached, if any.[br]
 ##[br]
-## #### Parameters[br]
+## #### Parameters[br]
 ##[br]
-## - event_name: the name of the event to run[br]
-## - room: The ESCRoom to be initialized for use.[br]
+## - event_name: The name of the event to run
+## - room: The ESCRoom to be initialized for use[br]
 ##[br]
 ## **Returns** true if the event was correctly added. Will be false if the event
 ## does not exist in the script.

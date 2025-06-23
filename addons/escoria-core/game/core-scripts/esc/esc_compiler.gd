@@ -11,7 +11,7 @@ const COMMAND_DIRECTORIES = "escoria/main/command_directories"
 ## Whether an error has been encountered during the compilation process.
 var had_error: bool = false
 
-
+## Initialize the ESCCompiler and assure command list preference.
 func _init():
 	# Assure command list preference
 	# (we use ProjectSettings instead of ESCProjectSettingsManager
@@ -72,6 +72,15 @@ static func load_globals() -> Dictionary:
 	return globals
 
 
+## Compile the given ESC source code into an ESCScript object.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - source: The ESC source code to compile.[br]
+## - filename: Optional filename for error reporting.[br]
+## - associated_global_id: Optional global id associated with the script.[br]
+##[br]
+## **Returns** An ESCScript object representing the compiled script.
 func _compiler_shim(source: String, filename: String = "", associated_global_id: String = ""):
 	var scanner: ESCScanner = ESCScanner.new()
 	scanner.set_source(source)
@@ -116,10 +125,15 @@ func _compiler_shim(source: String, filename: String = "", associated_global_id:
 	return script
 
 
-# Load an ESC file from a file resource. We also accept an optional global ID of
-# whatever object is associated with the ESC file. Note that we don't need to do
-# the same for a room-attached script since the current room's global_id is always
-# available as an Escoria global.
+## Load an ESC file from a file resource. Optionally provide a global ID for the
+## associated object.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - path: Path to the ESC file.[br]
+## - associated_global_id: Optional global id associated with the script.[br]
+##[br]
+## **Returns** An ESCScript object or null if not found.
 func load_esc_file(path: String, associated_global_id: String = "") -> ESCScript:
 	ESCSafeLogging.log_debug(self, "Loading file '%s' for parsing..." % path)
 
@@ -146,8 +160,10 @@ func compile(script: String, path: String = "") -> ESCScript:
 	return _compiler_shim(script)
 
 
-# *Returns*
-# true iff this is being called in-editor or the appropriate project setting is enabled
+## Returns true if this is being called in-editor or the appropriate project
+## setting is enabled.[br]
+##[br]
+## **Returns** true if script analysis should be run.
 func _run_script_analysis() -> bool:
 	if Engine.is_editor_hint():
 		return true

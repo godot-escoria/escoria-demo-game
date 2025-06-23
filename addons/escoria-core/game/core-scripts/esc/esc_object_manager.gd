@@ -71,6 +71,7 @@ var current_room_key: ESCRoomObjectsKey
 var reserved_objects_container: ESCRoomObjects
 
 
+## Initializes the object manager and sets up the reserved objects container.
 func _init() -> void:
 	reserved_objects_container = ESCRoomObjects.new()
 	reserved_objects_container.is_reserved = true
@@ -486,25 +487,25 @@ func _is_current_room(container: ESCRoomObjects) -> bool:
 	return _compare_container_to_key(container, current_room_key)
 
 
-# Determines whether 'container' represents the room specified.
-#
-# #### Parameters
-#
-# - container: The entry in the object manager array being checked.
-# - room_key: The key representing the desired room in the object manager array.
-# **Returns** True iff container represents the object manager entry specified
-# by room_key.
+## Determines whether a container represents the specified room.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - container: The entry in the object manager array being checked
+## - room_key: The key representing the desired room in the object manager array[br]
+##[br]
+## **Returns** True if the container represents the object manager entry specified by room_key
 func _compare_container_to_key(container: ESCRoomContainer, room_key: ESCRoomObjectsKey) -> bool:
 	return container.room_global_id == room_key.room_global_id
 
 
-# Checks whether an entry in the object manager array corresponds to the passed in
-# room key.
-#
-# #### Parameters
-#
-# - room_key: The key representing the desired room in the object manager array.
-# **Returns** True iff an entry in the object manager array corresponds to room_key.
+## Checks whether an entry in the object manager array corresponds to the given room key.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - room_key: The key representing the desired room in the object manager array[br]
+##[br]
+## **Returns** True if an entry in the object manager array corresponds to room_key
 func _room_exists(room_key: ESCRoomObjectsKey) -> bool:
 	for room_container in room_objects:
 		if _compare_container_to_key(room_container, room_key):
@@ -513,13 +514,14 @@ func _room_exists(room_key: ESCRoomObjectsKey) -> bool:
 	return false
 
 
-# Checks whether the specified object exists in the specified object manager entry.
-#
-# #### Parameters
-#
-# - object: The object to check for existence.
-# - room_key: The key representing the desired room in the object manager array.
-# **Returns** True iff object exists in the object manager entry specified by room_key.
+## Checks whether the specified object exists in the specified object manager entry.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - object: The object to check for existence
+## - room_key: The key representing the desired room in the object manager array[br]
+##[br]
+## **Returns** True if the object exists in the object manager entry specified by room_key
 func _object_exists_in_room(object: ESCObject, room_key: ESCRoomObjectsKey) -> bool:
 	if object == null:
 		escoria.logger.warn(
@@ -537,13 +539,14 @@ func _object_exists_in_room(object: ESCObject, room_key: ESCRoomObjectsKey) -> b
 	return false
 
 
-# Checks whether the specified object's state is "default" in the specified object manager entry.
-#
-# #### Parameters
-#
-# - object: The object to check for existence.
-# - room_key: The key representing the desired room in the object manager array.
-# **Returns** True if object's state is "default" in the object manager entry specified by room_key.
+## Checks whether the specified object's state is "default" in the specified object manager entry.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - object: The object to check for existence
+## - room_key: The key representing the desired room in the object manager array[br]
+##[br]
+## **Returns** True if the object's state is "default" in the object manager entry specified by room_key
 func _object_state_in_room_is_default(object: ESCObject, room_key: ESCRoomObjectsKey) -> bool:
 	if object == null:
 		escoria.logger.warn(
@@ -562,14 +565,13 @@ func _object_state_in_room_is_default(object: ESCObject, room_key: ESCRoomObject
 	return false
 
 
-# Returns the objects currently being managed in the object manager entry specified
-# by the specified room key.
-#
-# #### Parameters
-#
-# - room_key: The key representing the desired room in the object manager array.
-# **Returns** A reference to the dictionary of the entry's objects, or an empty
-# dictionary otherwise.
+## Returns the objects currently being managed in the object manager entry specified by the given room key.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - room_key: The key representing the desired room in the object manager array[br]
+##[br]
+## **Returns** A reference to the dictionary of the entry's objects, or an empty dictionary otherwise
 func _get_room_objects_objects(room_key: ESCRoomObjectsKey) -> Dictionary:
 	for room_container in room_objects:
 		if _compare_container_to_key(room_container, room_key):
@@ -578,6 +580,13 @@ func _get_room_objects_objects(room_key: ESCRoomObjectsKey) -> Dictionary:
 	return {}
 
 
+## Returns the terrain navigation polygons for the specified room key.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - room_key: The key representing the desired room in the object manager array[br]
+##[br]
+## **Returns** A reference to the dictionary of the entry's terrains, or an empty dictionary otherwise
 func _get_room_terrain_navpolys(room_key: ESCRoomObjectsKey) -> Dictionary:
 	for room_container in room_terrains:
 		if _compare_container_to_key(room_container, room_key):
@@ -586,12 +595,11 @@ func _get_room_terrain_navpolys(room_key: ESCRoomObjectsKey) -> Dictionary:
 	return {}
 
 
-# Completely removes the entry in the object manager array specified by the room
-# key.
-#
-# #### Parameters
-#
-# - room_key: The key representing the desired room in the object manager array.
+## Completely removes the entry in the object manager array specified by the room key.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - room_key: The key representing the desired room in the object manager array
 func _erase_room(room_key: ESCRoomObjectsKey) -> void:
 	for room_container in room_objects:
 		if _compare_container_to_key(room_container, room_key):

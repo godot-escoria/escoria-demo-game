@@ -13,14 +13,13 @@ signal global_changed(global, old_value, new_value)
 # The globals registry.
 @export var _globals: Dictionary = {}
 
-
-# Registry of globals that are to be reserved for internal use only.
+## Registry of globals that are to be reserved for internal use only.
 var _reserved_globals: Dictionary = {}
 
 # Use look-ahead/behind to capture the term in braces
 var _globals_regex: RegEx = RegEx.new()
 
-# Constructor
+## Constructor.
 func _init():
 	_globals_regex.compile("(?<=\\{)(.*)(?=\\})")
 
