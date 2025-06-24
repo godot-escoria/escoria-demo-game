@@ -131,7 +131,7 @@ var main
 var creating_new_game: bool = false
 #var temp: int = 0
 
-## Game actual resolution obtained from viewport.
+## The game resolution.
 @onready var game_size = Vector2(
 	ProjectSettings.get_setting("display/window/size/viewport_width"),
 	ProjectSettings.get_setting("display/window/size/viewport_height"))
@@ -139,8 +139,7 @@ var creating_new_game: bool = false
 ## Current state of Escoria (GAME_STATE enum) 
 @onready var current_state = GAME_STATE.DEFAULT
 
-
-# Ready function
+## Ready function. Instantiates the main scene if running a room directly.
 func _ready():
 	# We check if we run the full game or a room scene directly
 	if not get_tree().current_scene is ESCMain:
@@ -177,13 +176,11 @@ func set_game_paused(p_paused: bool):
 	if is_instance_valid(scene_tree):
 		scene_tree.paused = p_paused
 
-
-# Called from main menu's "new game" button
+## Called from main menu's "new game" button.
 func new_game():
 	get_escoria().new_game()
 
-
-# Called from main menu's "quit" button
+## Called from main menu's "quit" button.
 func quit():
 	is_quitting = true
 	get_escoria().quit()

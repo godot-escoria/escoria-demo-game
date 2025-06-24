@@ -23,14 +23,14 @@ var wait_level
 ## Reference to the scene transition node
 @onready var scene_transition: ESCTransitionPlayer
 
-
-# Connect the wait timer event
+## Connect the wait timer event.
 func _ready() -> void:
 	scene_transition = ESCTransitionPlayer.new()
 	$layers/curtain.add_child(scene_transition)
 	$layers/wait_timer.connect("timeout", Callable(self, "_on_wait_finished"))
 
 
+## Called when the node is removed from the scene tree.
 func _exit_tree():
 	$layers/curtain.remove_child(scene_transition)
 	scene_transition.queue_free()
@@ -120,7 +120,7 @@ func clear_previous_scene() -> void:
 	previous_scene = null
 
 
-# Triggered, when the wait has finished
+## Triggered, when the wait has finished.
 func _on_wait_finished() -> void:
 	escoria.esc_level_runner.finished(wait_level)
 
@@ -191,6 +191,11 @@ func set_camera_limits(camera_limit_id: int = 0, scene: Node = current_scene) ->
 	).node.set_limits(limits)
 
 
+## Save the game state to the provided savegame resource.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - p_savegame_res: The savegame resource to write to.
 func save_game(p_savegame_res: Resource) -> void:
 	p_savegame_res.main = {
 		ESCSaveGame.MAIN_LAST_SCENE_GLOBAL_ID_KEY: last_scene_global_id,
@@ -234,14 +239,14 @@ func check_game_scene_methods():
 	assert(current_scene.game.has_method("_on_event_done"))
 
 
-# Determines whether two scenes represent the same room.
-#
-# ### Parameters
-#
-# - scene_1: Scene to be compared.
-# - scene_2: Other scene to be compared.
-#
-# **Returns** true iff the two scenes represent the same room.
+## Determines whether two scenes represent the same room.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - scene_1: Scene to be compared.[br]
+## - scene_2: Other scene to be compared.[br]
+##[br]
+## *Returns* true iff the two scenes represent the same room.
 func _is_same_scene(scene_1: Node, scene_2: Node) -> bool:
 	if scene_1 is ESCRoom and scene_2 is ESCRoom:
 		return scene_1.global_id == scene_2.global_id
@@ -249,8 +254,8 @@ func _is_same_scene(scene_1: Node, scene_2: Node) -> bool:
 	return false
 
 
-# Disable collisions in the previous scene so if we have two scenes in the same
-# game tree, collisions won't result.
+## Disable collisions in the previous scene so if we have two scenes in the same[br]
+## game tree, collisions won't result.
 func _disable_collisions() -> void:
 	var items_to_disable = previous_scene.get_tree().get_nodes_in_group(escoria.GROUP_ITEM_CAN_COLLIDE)
 
@@ -264,18 +269,22 @@ func _disable_collisions() -> void:
 # ###################################################################
 # Facades for current_scene
 
+## Hide the UI of the current scene.
 func hide_ui() -> void:
 	if escoria.main.current_scene != null:
 		escoria.main.current_scene.game.hide_ui()
 
+## Hide the current scene.
 func hide_current_scene() -> void:
 	if escoria.main.current_scene != null:
 		escoria.main.current_scene.hide()
 
+## Show the UI of the current scene.
 func show_ui() -> void:
 	if escoria.main.current_scene != null:
 		escoria.main.current_scene.game.show_ui()
 
+## Show the current scene.
 func show_current_scene() -> void:
 	if escoria.main.current_scene != null:
 		escoria.main.current_scene.show()
