@@ -8,12 +8,12 @@ signal paused
 ## Signal sent when Escoria is resumed from pause
 signal resumed
 
-
-## Current game state
-## * DEFAULT: Common game function
-## * DIALOG: Game is playing a dialog
-## * WAIT: Game is waiting
-## * LOADING: Game is currently loading
+## Current game state.[br]
+## * DEFAULT: Common game function[br]
+## * DIALOG: Game is playing a dialog[br]
+## * WAIT: Game is waiting[br]
+## * LOADING: Game is loading[br]
+## * PAUSED: Game is paused
 enum GAME_STATE {
 	DEFAULT,
 	DIALOG,

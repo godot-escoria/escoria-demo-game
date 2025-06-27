@@ -1,17 +1,17 @@
-## `camera_set_target_block(time: Number, object: String)`
-##
+## `camera_set_target_block time object`[br]
+##[br]
 ## Configures the camera to follow the specified target `object` (ESCItem) as it moves
 ## around the current room. The transition to focus on the `object` will happen
-## over a time period.  Blocks until the command completes.[br]
+## over a time period. Blocks until the command completes.[br]
 ##[br]
 ## The camera will move as close as it can if camera limits have been configured
 ## and the `object` is at coordinates that are not reachable.[br]
 ##[br]
-## **Parameters**[br]
+## #### Parameters[br]
 ##[br]
-## - *time*: Number of seconds the transition should take to move the camera
-##   to follow `object`[br]
-## - *object*: Global ID of the target object[br]
+## - time: Number of seconds the transition should take to move the camera[br]
+##   to follow `object`.[br]
+## - object: Global ID of the target object.[br]
 ##[br]
 ## For more details see: https://docs.escoria-framework.org/camera
 ##
@@ -24,7 +24,9 @@ class_name CameraSetTargetBlockCommand
 var _camera_tween: Tween3
 
 
-## Return the descriptor of the arguments of this command
+## Returns the descriptor of the arguments of this command.[br]
+##[br]
+## *Returns* The argument descriptor for this command.
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
@@ -33,7 +35,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-## Validate whether the given arguments match the command descriptor
+## Validates whether the given arguments match the command descriptor.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - arguments: The arguments to validate.[br]
+##[br]
+## *Returns* True if the arguments are valid, false otherwise.
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false

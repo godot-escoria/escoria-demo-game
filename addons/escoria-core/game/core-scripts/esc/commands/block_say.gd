@@ -38,12 +38,20 @@ func _init() -> void:
 	pass
 
 
-## Return the descriptor of the arguments of this command
+## Returns the descriptor of the arguments of this command.[br]
+##[br]
+## *Returns* The argument descriptor for this command.
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(0)
 
 
-## Validate whether the given arguments match the command descriptor
+## Validates whether the given arguments match the command descriptor.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - arguments: The arguments to validate.[br]
+##[br]
+## *Returns* True if the arguments are valid, false otherwise.
 func validate(arguments: Array):
 	return true
 

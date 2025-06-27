@@ -1,19 +1,21 @@
-## `teleport_pos(object: String, x: Integer, y: Integer)`
-##
+## `teleport_pos object x y`[br]
+##[br]
 ## Instantly moves an object to the specified (absolute) coordinates.[br]
 ##[br]
-## **Parameters**[br]
+## #### Parameters[br]
 ##[br]
-## - *object*: Global ID of the object to move[br]
-## - *x*: X-coordinate of destination position[br]
-## - *y*: Y-coordinate of destination position
-##
+## - object: Global ID of the object to move.[br]
+## - x: X-coordinate of destination position.[br]
+## - y: Y-coordinate of destination position.
+##[br]
 ## @ESC
 extends ESCBaseCommand
 class_name TeleportPosCommand
 
 
-## Return the descriptor of the arguments of this command
+## Returns the descriptor of the arguments of this command.[br]
+##[br]
+## *Returns* The argument descriptor for this command.
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		3,
@@ -22,7 +24,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-## Validate whether the given arguments match the command descriptor
+## Validates whether the given arguments match the command descriptor.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - arguments: The arguments to validate.[br]
+##[br]
+## *Returns* True if the arguments are valid, false otherwise.
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false

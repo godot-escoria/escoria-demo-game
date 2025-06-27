@@ -14,7 +14,9 @@ extends ESCBaseCommand
 class_name RandGlobalCommand
 
 
-## Return the descriptor of the arguments of this command
+## Returns the descriptor of the arguments of this command.[br]
+##[br]
+## *Returns* The argument descriptor for this command.
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
@@ -22,8 +24,20 @@ func configure() -> ESCCommandArgumentDescriptor:
 		[null, 1]
 	)
 
+## Validates whether the given arguments match the command descriptor.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - arguments: The arguments to validate.[br]
+##[br]
+## *Returns* True if the arguments are valid, false otherwise.
+func validate(arguments: Array) -> bool:
+	if not super.validate(arguments):
+		return false
 
-## Run the command
+	return true
+
+# Run the command
 func run(command_params: Array) -> int:
 	randomize()
 	var rnd = randi() % (int(command_params[1]) + 1)
