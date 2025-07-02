@@ -171,7 +171,7 @@ func _validate_start_locations(to_ignore: ESCLocation = null):
 
 
 ## Escoria plugin for editor: get the list of ESCLocation nodes in the room.[br]
-##[br]
+## [br]
 ## ####
 func _find_esc_locations(node: Node) -> Array:
 	var esc_locations: Array = []

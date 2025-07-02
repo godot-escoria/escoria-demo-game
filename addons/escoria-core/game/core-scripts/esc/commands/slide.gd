@@ -21,7 +21,7 @@ var _tweens: Dictionary
 
 
 ## Returns the descriptor of the arguments of this command.[br]
-##[br]
+## [br]
 ## *Returns* The argument descriptor for this command.
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
@@ -32,11 +32,11 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 
 ## Validates whether the given arguments match the command descriptor.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - arguments: The arguments to validate.[br]
-##[br]
+## [br]
 ## *Returns* True if the arguments are valid, false otherwise.
 func validate(arguments: Array):
 	if not super.validate(arguments):
@@ -100,7 +100,13 @@ func _slide_object(
 
 
 
-## Run the command
+## Runs the command.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - command_params: The parameters for the command.[br]
+## [br]
+## *Returns* The execution result code.
 func run(command_params: Array) -> int:
 	_slide_object(
 		escoria.object_manager.get_object(command_params[0]),

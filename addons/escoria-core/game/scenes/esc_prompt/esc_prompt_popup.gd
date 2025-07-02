@@ -25,9 +25,9 @@ func _ready() -> void:
 	escoria.logger.connect("error_message_signal",_on_error_message)
 
 ## Handles input events for command history navigation.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - event: The input event to process.
 func _input(event: InputEvent):
 	if event.is_pressed() and event is InputEventKey:
@@ -46,9 +46,9 @@ func _input(event: InputEvent):
 
 
 ## Runs a command entered in the prompt.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_command_str: Command to execute.
 func _on_command_text_entered(p_command_str : String):
 	if p_command_str.is_empty():
@@ -109,9 +109,9 @@ func _on_esc_prompt_popup_about_to_show():
 	command.call_deferred("grab_focus")
 
 ## Handles error messages and displays them in the past actions display.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - message: The error message to display.
 func _on_error_message(message) -> void:
 	past_actions.text += message + "\n"
@@ -119,9 +119,9 @@ func _on_error_message(message) -> void:
 
 
 ## Adds a command to the history and manages the history size.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_command: The command to add to history.
 func _historize_command(p_command: String) -> void:
 	commands_history_current_id += 1

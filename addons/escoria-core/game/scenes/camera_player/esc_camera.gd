@@ -21,9 +21,9 @@ func _ready():
 	_tween.finished.connect(_target_reached)
 
 ## Update the position if the followed target is moving.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - _delta: Frame delta time
 func _process(_delta):
 	if is_instance_valid(_follow_target) and not _tween.is_running() and _follow_target.has_moved():
@@ -31,9 +31,9 @@ func _process(_delta):
 
 ## Register this camera with the object manager so it can be used before being
 ## made active as part of the current scene tree.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - room: The room with which to register the camera
 func register(room = null):
 	escoria.object_manager.register_object(
@@ -46,15 +46,15 @@ func register(room = null):
 	)
 
 ## Returns the camera's tween instance.[br]
-##[br]
+## [br]
 ## **Returns** The tween owned by this camera
 func get_tween() -> Tween3:
 	return _tween
 
 ## Sets camera limits so it doesn't go out of the scene.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - limits: The limits to set
 func set_limits(limits: ESCCameraLimits):
 	self.limit_left = limits.limit_left
@@ -63,9 +63,9 @@ func set_limits(limits: ESCCameraLimits):
 	self.limit_bottom = limits.limit_bottom
 
 ## Enable or disable drag margins for the camera.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_dm_h_enabled: Enable horizontal drag margin
 ## - p_dm_v_enabled: Enable vertical drag margin
 func set_drag_margin_enabled(p_dm_h_enabled, p_dm_v_enabled):
@@ -73,9 +73,9 @@ func set_drag_margin_enabled(p_dm_h_enabled, p_dm_v_enabled):
 	self.drag_vertical_enabled = p_dm_v_enabled
 
 ## Set the target for the camera to move to.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_target: Object to target
 ## - p_time: Number of seconds for the camera to reach the target
 func set_target(p_target, p_time : float = 0.0):
@@ -120,9 +120,9 @@ func set_target(p_target, p_time : float = 0.0):
 		_tween.play()
 
 ## Set the camera zoom level.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_zoom_level: Zoom level to set
 ## - p_time: Number of seconds for the camera to reach the zoom level
 func set_camera_zoom(p_zoom_level: float, p_time: float):
@@ -169,9 +169,9 @@ func set_camera_zoom(p_zoom_level: float, p_time: float):
 ## Push the camera towards the target in terms of position and zoom level using
 ## a given transition type and time.[br]
 ## See https://docs.godotengine.org/en/stable/classes/class_tween.html#enumerations
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_target: Target to push to
 ## - p_time: Number of seconds for the transition to take
 ## - p_type: Tween transition type
@@ -235,9 +235,9 @@ func push(p_target, p_time: float = 0.0, p_type: int = 0):
 ## Shift the camera by the given vector in a given time and using a specific
 ## Tween transition type.[br]
 ## See https://docs.godotengine.org/en/stable/classes/class_tween.html#enumerations
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_target: Vector to shift the camera by
 ## - p_time: Number of seconds for the transition to take
 ## - p_type: Tween transition type
@@ -279,11 +279,11 @@ func shift(p_target: Vector2, p_time: float, p_type: int):
 ## Checks whether the given point is contained within the viewport's limits.[br]
 ## Note that this is different from the camera's limits when using anchor mode
 ## DRAG_CENTER.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - point: Point to be tested against viewport limits.[br]
-##[br]
+## [br]
 ## **Returns** true iff point is inside the calculated viewport's limits (inclusive)
 func check_point_is_inside_viewport_limits(point: Vector2) -> bool:
 	var viewport_rect: Rect2 = get_viewport_rect()
@@ -300,7 +300,7 @@ func check_point_is_inside_viewport_limits(point: Vector2) -> bool:
 
 ## Returns the inclusive minimum and maximum values for the x-component of the
 ## current valid viewport. Mainly used in any logging messages related to same.[br]
-##[br]
+## [br]
 ## **Returns** The inclusive minimum and maximum values for the x-component of
 ## the current valid viewport.
 func get_current_valid_viewport_values_x() -> Array:
@@ -310,7 +310,7 @@ func get_current_valid_viewport_values_x() -> Array:
 
 ## Returns the inclusive minimum and maximum values for the y-component of the
 ## current valid viewport. Mainly used in any logging messages related to same.[br]
-##[br]
+## [br]
 ## **Returns** The inclusive minimum and maximum values for the y-component of
 ## the current valid viewport.
 func get_current_valid_viewport_values_y() -> Array:
@@ -320,7 +320,7 @@ func get_current_valid_viewport_values_y() -> Array:
 
 ## Returns the camera's current limits as a Rect2. Mainly used in any logging
 ## messages related to same.[br]
-##[br]
+## [br]
 ## **Returns** The camera's current limits as a Rect2.
 func get_camera_limit_rect() -> Rect2:
 	return Rect2(limit_left, limit_top, limit_right - limit_left, limit_bottom - limit_top)
@@ -367,11 +367,11 @@ func _convert_current_global_pos_for_disabled_drag_margin() -> void:
 ## when calculated with drag margins disabled. This is helpful for preventing the
 ## camera from "jumping" when disabling drag margins, e.g. in order to perform
 ## some camera translations/tweening.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - pos: Position to be converted.[br]
-##[br]
+## [br]
 ## **Returns** The position on the screen that would be the equivalent of `pos`
 ## when rendered with drag margins disabled.
 func _convert_pos_for_disabled_drag_margin(pos: Vector2) -> Vector2:
@@ -399,9 +399,9 @@ func _convert_pos_for_disabled_drag_margin(pos: Vector2) -> Vector2:
 	return ret_position
 
 ## Resolve the correct position and zoom of the target object.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_target: The target to resolve
 func _resolve_target_and_zoom(p_target) -> void:
 	_target = Vector2()

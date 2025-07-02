@@ -15,9 +15,9 @@ var limit_top: int = -10000
 var limit_bottom: int = 10000
 
 ## Initializes the camera limits with the given bounding box values.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - left: The left side of the bounding box
 ## - right: The right side of the bounding box
 ## - top: The top side of the bounding box

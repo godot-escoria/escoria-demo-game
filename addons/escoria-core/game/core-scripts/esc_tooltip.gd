@@ -56,9 +56,9 @@ func _ready():
 
 
 ## Set the color of the label[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_color: the color to set the label
 func set_color(p_color: Color):
 	color = p_color
@@ -68,9 +68,9 @@ func set_color(p_color: Color):
 
 ## Enable/disable debug mode of the label. If enabled, the label is displayed
 ## with a white background.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_debug_mode: if true, enable debug mode. False to disable
 func set_debug_mode(p_debug_mode: bool):
 	debug_mode = p_debug_mode
@@ -95,9 +95,9 @@ func set_debug_mode(p_debug_mode: bool):
 
 
 ## Set the first target of the label.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - target: String the target to add to the label[br]
 ## - needs_second_target: if true, the label will prepare for a second target
 func set_target(target: String, needs_second_target: bool = false) -> void:
@@ -108,9 +108,9 @@ func set_target(target: String, needs_second_target: bool = false) -> void:
 
 
 ## Set the second target of the label[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - target2: String the second target to add to the label
 func set_target2(target2: String) -> void:
 	current_target2 = target2
@@ -140,9 +140,9 @@ func update_size():
 
 
 ## Calculate the offset of the label depending on its position.[br]
-##[br]
+## [br]
 ## #### Parameters
-##[br]
+## [br]
 ## - position: the position to test[br]
 ## [br]
 ## **Returns** The calculated offset
@@ -157,43 +157,43 @@ func _offset(position: Vector2) -> Vector2:
 
 
 ## Return the tooltip distance to top edge.[br]
-##[br]
+## [br]
 ## #### Parameters
-##[br]
+## [br]
 ## - position: the position to test[br]
-##[br]
+## [br]
 ## **Returns** The distance to the edge.
 func tooltip_distance_to_edge_top(position: Vector2):
 	return position.y
 
 
 ## Return the tooltip distance to bottom edge.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - position: the position to test[br]
-##[br]
+## [br]
 ## **Returns** The distance to the edge.
 func tooltip_distance_to_edge_bottom(position: Vector2):
 	return escoria.game_size.y - position.y
 
 
 ## Return the tooltip distance to left edge.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - position: the position to test
-##[br]
+## [br]
 ## **Returns** The distance to the edge.
 func tooltip_distance_to_edge_left(position: Vector2):
 	return position.x
 
 
 ## Return the tooltip distance to right edge.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
 ## - position: the position to test[br]
-##[br]
+## [br]
 ## *Return* The distance to the edge.
 func tooltip_distance_to_edge_right(position: Vector2):
 	return escoria.game_size.x - position.x

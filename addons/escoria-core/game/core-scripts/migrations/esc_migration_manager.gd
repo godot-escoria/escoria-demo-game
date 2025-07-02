@@ -19,13 +19,13 @@ func _init() -> void:
 
 ## Migrates the specified savegame from a specified version to another version
 ## based on a directory of migration scripts.[br]
-##[br]
+## [br]
 ## The migration manager searches for scripts from after the given version up
 ## to the target version in this directory, loads them and applies the 
 ## version.[br]
-##[br]
+## [br]
 ## Each migration will return a modified version of the given savegame.
-##[br]
+## [br]
 ## **Returns** The migrated Savegame object
 func migrate(
 	savegame: ESCSaveGame,
@@ -86,7 +86,7 @@ func migrate(
 
 ## Find all fitting version scripts between the given versions in a directory
 ## and all its subdirectories.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
 ## - directory: Directory to search in[br]
 ## - from: Start version to check[br]
@@ -123,7 +123,7 @@ func _find_versions(directory: String, from: String, to: String) -> Array:
 
 
 ## Check, whether the given version is >= from and <= to[br]
-##[br]
+## [br]
 ## #### Parameters[br]
 ## [br]
 ## - version: Version to check[br]
@@ -158,7 +158,7 @@ func _version_between(version: String, from: String, to: String) -> bool:
 
 
 ## Comparator function for version strings.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
 ## [br]
 ## - version_a: First version to compare[br]

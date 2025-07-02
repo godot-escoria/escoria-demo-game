@@ -67,9 +67,9 @@ var action_state = ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM:
 	set = set_action_input_state
 
 ## Run a generic action.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - action: type of the action to run.[br]
 ## - params: Parameters for the action.[br]
 ##    - BACKGROUND_CLICK: [moving_obj, target, walk_fast][br]
@@ -203,9 +203,9 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 
 
 ## Sets the current state of action input.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_state: the action input state to set.
 func set_action_input_state(p_state) -> void:
 	action_state = p_state
@@ -213,9 +213,9 @@ func set_action_input_state(p_state) -> void:
 
 
 ## Set the current action verb.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - action: The action verb to set.
 func set_current_action(action: String) -> void:
 	if action != current_action:
@@ -251,14 +251,14 @@ func clear_current_tool() -> void:
 ## Checks if the specified action is valid and returns the associated event;
 ## otherwise, we see if there's a "fallback" event and use that if necessary
 ## and, if not, we return no event as there's nothing to do.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - action: Action to execute (defined in attached ESC file and in action[br]
 ##   verbs UI) eg: arrived, use, look, pickup...[br]
 ## - target: Target ESC object.[br]
 ## - combine_with: ESC object to combine with.[br]
-##[br]
+## [br]
 ## **Returns** the appropriate ESCGrammarStmts.Event to queue/run, or null if
 ## none can be found or there's a reason not to run an event.
 func _get_event_to_queue(
@@ -387,12 +387,12 @@ func _get_event_to_queue(
 
 
 ## Check to make sure `target` contains the specific `action`. If `target` has an entry for `action` that also requires a target itself (e.g. :use "wrench"), then we return false as combinations are handled elsewhere.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - target: `ESCObject` whose events we are to check to see if `action` has a corresponding event.[br]
 ## - action: the action to check.[br]
-##[br]
+## [br]
 ## **Returns** True iff `target` has an event corresponding to `action` and that event doesn't itself require a target.
 func _check_target_has_proper_action(target: ESCObject, action: String) -> bool:
 	if target.events.has(action):
@@ -405,13 +405,13 @@ func _check_target_has_proper_action(target: ESCObject, action: String) -> bool:
 
 
 ## Determines whether the specified events dictionary contains an event with the specified event name and event target, e.g. :give "filled_out_form".[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - events_dict: dictionary with events to check.[br]
 ## - event_name: the event name to search for.[br]
 ## - event_target: the target for the specified event to check.[br]
-##[br]
+## [br]
 ## **Returns** true iff events_dict contains an event matching both event_name and event_target.
 func _has_event_with_target(events_dict: Dictionary, event_name: String, event_target: String):
 	var event = events_dict.get(event_name)
@@ -421,11 +421,11 @@ func _has_event_with_target(events_dict: Dictionary, event_name: String, event_t
 
 
 ## Runs the specified event.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - event: the event to be run.[br]
-##[br]
+## [br]
 ## **Returns** the return code of the event once executed.
 func _run_event(event) -> int:
 	escoria.event_manager.queue_event(event)
@@ -442,9 +442,9 @@ func _run_event(event) -> int:
 
 
 ## Makes an object walk to a destination. This can be either a 2D position or another object.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - moving_obj_id: global id of the object that needs to move.[br]
 ## - destination: Position2D or ESCObject holding the moving object to head to.[br]
 ## - is_fast: if true, the walk is performed at fast speed (defined in the moving object).
@@ -491,9 +491,9 @@ func perform_walk(
 
 
 ## Event handler when an object/item was clicked.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - obj: Object that was left clicked.[br]
 ## - event: Input event that was received.[br]
 ## - default_action: if true, run the inventory default action.
@@ -662,11 +662,11 @@ func _telekinetic_applies_to(event: ESCGrammarStmts.Event) -> bool:
 
 
 ## Determines whether the object in question can be acted upon.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - global_id: the global ID of the item to examine.[br]
-##[br]
+## [br]
 ## **Returns** True iff the item represented by global_id can be acted upon.
 func is_object_actionable(global_id: String) -> bool:
 	var obj: ESCObject = escoria.object_manager.get_object(global_id) as ESCObject
@@ -675,12 +675,12 @@ func is_object_actionable(global_id: String) -> bool:
 
 
 ## Prepare the "obj" object for current_action: if required, set the object as current tool.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - obj: the ESCObject to prepare.[br]
 ## - default_action: if true, the default action set on the item is used.[br]
-##[br]
+## [br]
 ## **Returns** True if the tool was set in this function.
 func _set_tool_and_action(obj: ESCObject, default_action: bool):
 	var tool_just_set: bool = false
@@ -702,7 +702,7 @@ func _set_tool_and_action(obj: ESCObject, default_action: bool):
 
 
 ## Checks if object requires a combination with another, according to currently selected action verb (or check with default action of the item).[br]
-##[br]
+## [br]
 ## **Returns** True if current action on "obj" requires a combination.
 func _check_item_needs_combine() -> bool:
 	return current_action \
@@ -711,9 +711,9 @@ func _check_item_needs_combine() -> bool:
 
 
 ## Makes the player character walk towards the clicked item. Returns the resulting walk context.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - obj: the object that was clicked.[br]
 ## - clicked_position: the Position2D of the input click.[br]
 ## - walk_fast: if true, the player will walk fast to the object.
@@ -785,11 +785,11 @@ func _walk_towards_object(
 
 
 ## Determines whether the object in question can be acted upon.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - obj: the ESCObject to examine.[br]
-##[br]
+## [br]
 ## **Returns** True iff 'obj' can be acted upon.
 func _is_object_actionable(obj: ESCObject) -> bool:
 	var object_is_actionable: bool = true

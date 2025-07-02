@@ -46,9 +46,9 @@ var _multiple_start_locations_exist: bool = false:
 
 ## Used by "is" keyword to check whether a node's class_name  is the same as 
 ## p_classname.[br]
-##[br]
+## [br]
 ## ## Parameters[br]
-##[br]
+## [br]
 ## p_classname: String class to compare against
 func is_class(p_classname: String) -> bool:
 	return p_classname == "ESCLocation"
@@ -80,9 +80,9 @@ func _get_configuration_warnings() -> PackedStringArray:
 
 ## Escoria editor plugin: Setter for _multiple_start_locations_exist member. 
 ## Updates the warnings displayed in the editor's scene tree.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - value: true whether multiple start locations exist in the room.
 func set_multiple_start_locations_exist(value: bool) -> void:
 	_multiple_start_locations_exist = value
@@ -90,9 +90,9 @@ func set_multiple_start_locations_exist(value: bool) -> void:
 
 ## Escoria editor plugin: Setter for is_start_location member. 
 ## Notifies the ESCRoom of the change.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - value: true whether the ESCLocation node was set as start location.
 func set_is_start_location(value: bool) -> void:
 	is_start_location = value

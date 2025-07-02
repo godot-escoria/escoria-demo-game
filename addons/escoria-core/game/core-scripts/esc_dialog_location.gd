@@ -10,9 +10,9 @@ class_name ESCDialogLocation
 
 
 ## Whether this object's class is the same as given string class name.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_classname: String class to compare against
 func is_class(p_classname: String) -> bool:
 	return p_classname == "ESCDialogLocation"

@@ -13,9 +13,9 @@ var texture_hovered: Texture2D = null
 
 
 ## Constructs the inventory item from an existing ESCItem.
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_item: ESCItem instance to create the inventory item object from
 func _init(p_item: ESCItem) -> void:
 	global_id = p_item.global_id

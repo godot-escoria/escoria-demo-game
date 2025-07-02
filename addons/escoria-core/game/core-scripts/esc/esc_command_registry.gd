@@ -8,11 +8,11 @@ var registry: Dictionary = {}
 
 
 ## Load a command by its name.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - command_name: Name of command to load.[br]
-##[br]
+## [br]
 ## **Returns** The command object.
 func load_command(command_name: String) -> ESCBaseCommand:
 	for command_directory in ESCProjectSettingsManager.get_setting(
@@ -37,11 +37,11 @@ func load_command(command_name: String) -> ESCBaseCommand:
 
 
 ## Retrieve a command from the command registry.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - command_name: The name of the command.[br]
-##[br]
+## [br]
 ## **Returns** The command object.
 func is_command_or_control_pressed(command_name: String) -> ESCBaseCommand:
 	if self.registry.has(command_name):

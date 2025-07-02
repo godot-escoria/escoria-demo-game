@@ -15,23 +15,23 @@ class_name ESCBackground
 
 
 ## The background was double clicked[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - position: The position where the player clicked
 signal double_left_click_on_bg(position)
 
 ## The background was left clicked[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - position: The position where the player clicked
 signal left_click_on_bg(position)
 
 ## The background was right clicked[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - position: The position where the player clicked
 signal right_click_on_bg(position)
 
@@ -86,9 +86,9 @@ func _ready():
 
 
 ## Manage inputs reaching the Area2D and emit the events to the input manager[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - event: Event received
 func _unhandled_input(event: InputEvent) -> void:
 	var is_default_state = escoria.current_state == escoria.GAME_STATE.DEFAULT

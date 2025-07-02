@@ -25,9 +25,9 @@ func _ready():
 	escoria.globals_manager.global_changed.connect(_on_escoria_global_changed)
 
 ## Add item to Inventory UI using its id set in its scene.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - item_id: The id of the item to add
 func add_new_item_by_id(item_id: String) -> void:
 	if item_id.begins_with("i/"):
@@ -90,9 +90,9 @@ func add_new_item_by_id(item_id: String) -> void:
 		escoria.inputs_manager.register_inventory_item(inventory_item_button)
 
 ## Remove item from Inventory UI using its id set in its scene.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - item_id: The id of the item to remove
 func remove_item_by_id(item_id: String) -> void:
 	if items_ids_in_inventory.has(item_id):
@@ -136,9 +136,9 @@ func remove_item_by_id(item_id: String) -> void:
 		items_ids_in_inventory.erase(item_id)
 
 ## React to changes to inventory globals adding items or removing them.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - global: The global variable name[br]
 ## - old_value: The old value of the global[br]
 ## - new_value: The new value of the global

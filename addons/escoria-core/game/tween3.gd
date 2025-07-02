@@ -4,9 +4,9 @@ extends RefCounted
 class_name Tween3
 
 ## Interpolates a property on an object using a tween.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - tween: The Tween instance to use.[br]
 ## - object: The object whose property will be tweened.[br]
 ## - property: The property to tween.[br]
@@ -16,7 +16,7 @@ class_name Tween3
 ## - trans_type: The transition type (default 0).[br]
 ## - ease_type: The ease type (default 2).[br]
 ## - delay: The delay before starting the tween (default 0).[br]
-##[br]
+## [br]
 ## *Returns* True if the interpolation was set up successfully.
 static func tween_interpolate_property(
 				tween: Tween,
@@ -57,9 +57,9 @@ func _on_finished():
 	finished.emit()
 
 ## Constructor.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - tween_parent: The parent node for the tween.
 func _init(tween_parent: Node):
 	_tween_parent = tween_parent
@@ -83,9 +83,9 @@ func reset():
 	_create_tween()
 
 ## Adds a method tween to the tween sequence.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - method: The method to tween.[br]
 ## - from: The initial value.[br]
 ## - to: The final value.[br]
@@ -95,9 +95,9 @@ func tween_method(method: Callable, from: Variant, to: Variant, duration: float)
 	_tween.tween_method(method, from, to, duration)
 
 ## Interpolates a property on an object using the managed tween.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - object: The object whose property will be tweened.[br]
 ## - property: The property to tween.[br]
 ## - initial_val: The initial value of the property.[br]
@@ -106,7 +106,7 @@ func tween_method(method: Callable, from: Variant, to: Variant, duration: float)
 ## - trans_type: The transition type (default 0).[br]
 ## - ease_type: The ease type (default 2).[br]
 ## - delay: The delay before starting the tween (default 0).[br]
-##[br]
+## [br]
 ## *Returns* True if the interpolation was set up successfully.
 func interpolate_property(
 				object: Object, property: NodePath,
@@ -135,25 +135,25 @@ func stop():
 	_tween.stop()
 
 ## Returns true if the tween is running.[br]
-##[br]
+## [br]
 ## *Returns* True if the tween is running.
 func is_running():
 	return _tween.is_running()
 
 ## Returns true if the tween is valid.[br]
-##[br]
+## [br]
 ## *Returns* True if the tween is valid.
 func is_valid():
 	return _tween.is_valid()
 
 ## Gets the total elapsed time of the tween.[br]
-##[br]
+## [br]
 ## *Returns* The total elapsed time in seconds.
 func get_total_elapsed_time():
 	return _tween.get_total_elapsed_time()
 
 ## Gets the duration of the tween.[br]
-##[br]
+## [br]
 ## *Returns* The duration of the tween in seconds.
 func get_duration():
 	return _duration

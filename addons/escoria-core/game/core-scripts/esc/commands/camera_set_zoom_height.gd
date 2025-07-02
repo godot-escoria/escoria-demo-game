@@ -1,13 +1,13 @@
 ## `camera_set_zoom_height pixels [time]`[br]
-##[br]
+## [br]
 ## Zooms the camera in/out so it occupies the given height in pixels.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - pixels: Target height in pixels.[br]
 ## - time: Number of seconds the transition should take, with a value of 0
 ##   meaning the zoom should happen instantly (default: 0).[br]
-##[br]
+## [br]
 ## For more details see: https://docs.escoria-framework.org/camera
 ##
 ## @ESC
@@ -16,7 +16,7 @@ class_name CameraSetZoomHeightCommand
 
 
 ## Returns the descriptor of the arguments of this command.[br]
-##[br]
+## [br]
 ## *Returns* The argument descriptor for this command.
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
@@ -27,11 +27,11 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 
 ## Validates whether the given arguments match the command descriptor.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - arguments: The arguments to validate.[br]
-##[br]
+## [br]
 ## *Returns* True if the arguments are valid, false otherwise.
 func validate(arguments: Array):
 	if not super.validate(arguments):
@@ -44,7 +44,13 @@ func validate(arguments: Array):
 	return true
 
 
-## Run the command
+## Runs the command.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - command_params: The parameters for the command.[br]
+## [br]
+## *Returns* The execution result code.
 func run(command_params: Array) -> int:
 	(escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera)\
 		.set_camera_zoom(

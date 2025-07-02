@@ -108,9 +108,9 @@ const WINDOW_MODE = DISPLAY + "/" + WINDOW + "/" + SIZE + "/" + "mode"
 const FULLSCREEN = DISPLAY + "/" + WINDOW + "/" + SIZE + "/" + "fullscreen"
 
 ## Register a new project setting if it hasn't been defined already.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - name: Name of the project setting[br]
 ## - default_value: Default value[br]
 ## - info: Property info for the setting
@@ -133,9 +133,9 @@ static func register_setting(name: String, default_value, info: Dictionary) -> v
 
 
 ## Removes the specified project setting.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - name: Name of the project setting
 static func remove_setting(name: String) -> void:
 	if not ProjectSettings.has_setting(name):
@@ -148,11 +148,11 @@ static func remove_setting(name: String) -> void:
 
 
 ## Retrieves the specified project setting.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - key: Project setting name.[br]
-##[br]
+## [br]
 ## *Returns* The value of the project setting located with key
 static func get_setting(key: String):
 	if not ProjectSettings.has_setting(key):
@@ -162,9 +162,9 @@ static func get_setting(key: String):
 
 
 ## Sets the specified project setting to the provided value.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - key: Project setting name.[br]
 ## - value: Project setting value
 static func set_setting(key: String, value) -> void:
@@ -172,11 +172,11 @@ static func set_setting(key: String, value) -> void:
 
 
 ## Simple wrapper for consistency's sake.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - key: Project setting name.[br]
-##[br]
+## [br]
 ## *Returns* True iff the project setting exists
 static func has_setting(key: String) -> bool:
 	return ProjectSettings.has_setting(key)

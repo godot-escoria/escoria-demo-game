@@ -16,7 +16,13 @@ extends SlideCommand
 class_name SlideBlockCommand
 
 
-## Run the command
+## Runs the command.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - command_params: The parameters for the command.[br]
+## [br]
+## *Returns* The execution result code.
 func run(command_params: Array) -> int:
 	var tween = _slide_object(
 		escoria.object_manager.get_object(command_params[0]),

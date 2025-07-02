@@ -13,9 +13,9 @@ var state: String = "default"
 @onready var stream: AudioStreamPlayer = $AudioStreamPlayer
 
 ## Sets the state of this player.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_state: New state to use.[br]
 ## - from_seconds: Sets the starting playback position.[br]
 ## - p_force: Override the existing state even if the stream is still playing.
@@ -59,7 +59,7 @@ func _on_sound_finished():
 
 
 ## Returns the playback position of the audio stream in seconds.[br]
-##[br]
+## [br]
 ## *Returns* The playback position in seconds.
 func get_playback_position() -> float:
 	return $AudioStreamPlayer.get_playback_position()

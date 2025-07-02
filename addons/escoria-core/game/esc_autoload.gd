@@ -160,10 +160,10 @@ func get_escoria():
 	else:
 		return get_node("main_scene").escoria_node
 
-
-## Pauses or unpause the game[br]
-##[br]
+## Pauses or unpauses the game.[br]
+## [br]
 ## #### Parameters[br]
+## [br]
 ## - p_paused: if true, pauses the game. If false, unpauses the game.
 func set_game_paused(p_paused: bool):
 	if p_paused:

@@ -74,9 +74,9 @@ func apply_settings() -> void:
 
 
 ## Save the settings resource to project settings.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - settings: ESCSaveSettings resource to save.
 func save_settings_resource_to_project_settings(settings: ESCSaveSettings):
 	ESCProjectSettingsManager.set_setting(
@@ -130,7 +130,7 @@ func load_settings():
 
 
 ## Load the game settings from the settings file.[br]
-##[br]
+## [br]
 ## **Returns** An ESCSaveSettings resource.
 func get_settings() -> ESCSaveSettings:
 	var settings: ESCSaveSettings = ESCSaveSettings.new()
@@ -168,9 +168,9 @@ func get_settings() -> ESCSaveSettings:
 
 
 ## Load the game settings from a dictionary.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - settings_dict: Dictionary containing the settings to load.
 func load_settings_from_dict(settings_dict: Dictionary):
 	var settings: ESCSaveSettings = ESCSaveSettings.new()
@@ -188,7 +188,7 @@ func load_settings_from_dict(settings_dict: Dictionary):
 
 
 ## Get the game settings as a dictionary.[br]
-##[br]
+## [br]
 ## **Returns** A dictionary containing the settings.
 func get_settings_dict() -> Dictionary:
 	var settings: ESCSaveSettings = get_settings()

@@ -1,6 +1,5 @@
-## Abstract base class for every ESC command.
-##
-## Extending classes have to override the configure and run function
+## A base class for every ESC command. Extending classes have to override the
+## configure and run function.
 extends Resource
 class_name ESCBaseCommand
 
@@ -29,6 +28,8 @@ func configure() -> ESCCommandArgumentDescriptor:
 ## the child class.[br]
 ## #### Parameters ####[br]
 ## - *arguments*: an array containing the arguments to be passed to the command
+## [br]
+## *Returns* True if the arguments are valid, false otherwise.
 func validate(arguments: Array) -> bool:
 	var argument_descriptor = self.configure()
 
@@ -50,7 +51,9 @@ func run(command_params: Array) -> int:
 	return 0
 
 
-## Returns the name of the command based on the script's filename.
+## Returns the name of the command based on the script's filename.[br]
+## [br]
+## *Returns* The command name as a string.
 func get_command_name() -> String:
 	var path := get_script().get_path() as String
 
@@ -65,11 +68,12 @@ func interrupt():
 	)
 
 
-## Sends an error to the Escoria logger.[br]
-##[br]
-## #### Parameters ####[br]
-## - *command*: the command object causing the error; must extend `ESCBaseCommand`.[br]
-## - *message*: the message the logger should print to describe the error
+## Raises an error with the given command and message.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - command: The command instance raising the error.[br]
+## - message: The error message to display.
 func raise_error(command, message: String) -> void:
 	escoria.logger.error(
 		command,
@@ -77,15 +81,19 @@ func raise_error(command, message: String) -> void:
 	)
 
 
-## Raises an error specific to no object being found with `global_id` as its identifier.
-## `command` is the actual command implementation generating the error.[br]
-##[br]
-## #### Parameters ####[br]
-## - *command*: the command object causing the error; must extend `ESCBaseCommand`.[br]
-## - *global_id*: the `global_id` that could not be found
+## Raises an error specific to no object being found with `global_id` as its[br]
+## identifier. `command` is the actual command implementation generating the error.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - command: The command instance raising the error.[br]
+## - global_id: The global id that was not found.
 func raise_invalid_object_error(command, global_id: String) -> void:
 	raise_error(command, "Invalid object. Object with global id %s not found." % global_id)
 
 
+## Returns a string with the file and line number for error reporting.[br]
+## [br]
+## *Returns* The error info string.
 func _get_error_info() -> String:
 	return "(File: \"%s\", line %s.)" % [filename, line_number]

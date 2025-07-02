@@ -39,14 +39,14 @@ func _ready() -> void:
 	_tween = Tween3.new(self)
 
 ## Play a transition animation[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - transition_name: Name of the transition to play (if empty string, uses[br]
 ##   the default transition).[br]
 ## - mode: Mode to transition (in/out).[br]
 ## - duration: The duration the transition should take.[br]
-##[br]
+## [br]
 ## Returns the transition id.
 func transition(
 	transition_name: String = "",
@@ -110,11 +110,11 @@ func transition(
 
 
 ## Returns the full path for a transition shader based on its name[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - name: The name of the transition to test.[br]
-##[br]
+## [br]
 ## Returns the full path to the shader or an empty string if it can't be found.
 func get_transition(name: String) -> String:
 	for directory in ESCProjectSettingsManager.get_setting(
@@ -127,11 +127,11 @@ func get_transition(name: String) -> String:
 
 ## Returns true whether the transition scene has a transition corresponding[br]
 ## to name provided.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - name: The name of the transition to test.[br]
-##[br]
+## [br]
 ## Returns true if a transition exists with given name.
 func has_transition(name: String) -> bool:
 	return name == TRANSITION_INSTANT or get_transition(name) != ""

@@ -9,9 +9,9 @@ var res
 var permanent: bool
 
 ## Constructor for ESCResourceDescriptor. Sets the resource and permanence flag.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - res_in: The resource to describe.[br]
 ## - permanent_in: Whether the resource is permanent.
 func _init(res_in, permanent_in: bool) -> void:

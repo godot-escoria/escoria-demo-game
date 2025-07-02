@@ -25,27 +25,27 @@ func exit():
 
 
 ## Handle the input event.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - _event: the input event to handle
 func handle_input(_event: InputEvent):
 	return
 
 
 ## Update call for states happening in _process() method.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - _delta: delta value coming from the _process() method.
 func update(_delta: float):
 	return
 
 
 ## For states managing animations, method called on animation_finished signal.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - _anim_name: finished animation name.
 func _on_animation_finished(_anim_name: String):
 	return

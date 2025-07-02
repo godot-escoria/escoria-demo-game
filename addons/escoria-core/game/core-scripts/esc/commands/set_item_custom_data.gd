@@ -13,7 +13,7 @@ class_name SetItemCustomDataCommand
 
 
 ## Returns the descriptor of the arguments of this command.[br]
-##[br]
+## [br]
 ## *Returns* The argument descriptor for this command.
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
@@ -23,7 +23,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-## Run the command
+## Runs the command.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - command_params: The parameters for the command.[br]
+## [br]
+## *Returns* The execution result code.
 func run(command_params: Array) -> int:
 	var global_id: String = command_params[0]
 	if escoria.object_manager.has(global_id):

@@ -104,7 +104,7 @@ func _ready():
 
 ## Returns all NavigationPolygonInstances defined as children of ESCTerrain
 ## in an Array.[br] 
-##[br] 
+## [br] 
 ## **Returns** A list of NavigationPolygons nodes
 func get_children_navpolys() -> Array:
 	var navpolys: Array = []
@@ -119,9 +119,9 @@ func get_children_navpolys() -> Array:
 # TODO: change this "simple" console log for an editor warning
 # by overriding Node._get_configuration_warning() after we get rid of
 # deprecated Navigation2D.
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - node: if this method is triggered by child_entered_tree or
 ## child_exited_tree signals, parameter is the added node.
 func _check_multiple_enabled_navpolys(node: Node = null, is_exiting: bool = false) -> void:
@@ -156,9 +156,9 @@ func _check_multiple_enabled_navpolys(node: Node = null, is_exiting: bool = fals
 
 
 ## Return the Color of the lightmap pixel for the specified position.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - pos: Position to calculate lightmap for.[br]
 ## **Returns** The color of the given point
 func get_light(pos: Vector2) -> Color:
@@ -168,9 +168,9 @@ func get_light(pos: Vector2) -> Color:
 
 
 ## Calculate the scale inside the scale range for a given scale factor.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - factor: The factor for the scaling according to the scale map[br]
 ## **Returns** The scaling
 func get_scale_range(factor: float) -> Vector2:
@@ -179,9 +179,9 @@ func get_scale_range(factor: float) -> Vector2:
 
 
 ## Get the terrain scale factor for a given position[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - pos: The position to calculate for[br]
 ## **Returns** The scale factor for the given position
 func get_terrain(pos: Vector2) -> float:
@@ -191,9 +191,9 @@ func get_terrain(pos: Vector2) -> float:
 
 
 ## Small helper to get the color of an image at a position[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - image: image to search the position in[br]
 ## - pos: The position to calculate for
 func _get_color(image: Image, pos: Vector2) -> Color:
@@ -201,9 +201,9 @@ func _get_color(image: Image, pos: Vector2) -> Color:
 
 
 ## Set the bitmap scaling[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_scale: Scale to set
 func _set_bm_scale(p_scale: Vector2):
 	bitmaps_scale = p_scale
@@ -213,7 +213,7 @@ func _set_bm_scale(p_scale: Vector2):
 ## Set the lightmap texture[br]
 ##
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_lightmap: Lightmap texture to set
 func _set_lightmap(p_lightmap: Texture2D):
 	var need_init = (lightmap != p_lightmap) or (lightmap and not _lightmap_data)
@@ -230,9 +230,9 @@ func _set_lightmap(p_lightmap: Texture2D):
 
 
 ## Set the scales texture[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_scales: Scale texture to set
 func _set_scales(p_scales: Texture2D):
 	scales = p_scales
@@ -240,9 +240,9 @@ func _set_scales(p_scales: Texture2D):
 
 
 ## Set the debug mode[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_mode: Debug mode to set
 func _set_editor_debug_mode(p_mode: int):
 	editor_debug_mode = p_mode
@@ -304,9 +304,9 @@ func _draw():
 
 ## Calculate a path from a given point to another. The path consists in a list 
 ## of points.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - from: Origin point[br]
 ## - to: Destination point[br]
 ## - optimize: (default is true) enabled optimisation [br]

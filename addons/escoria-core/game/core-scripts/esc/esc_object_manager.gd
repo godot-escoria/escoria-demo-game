@@ -82,7 +82,7 @@ func _init() -> void:
 
 
 ## Updates which object manager room is to be treated as the currently active one.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
 ## * room: Room to register objects with in the object manager.
 func set_current_room(room: ESCRoom) -> void:
@@ -98,7 +98,7 @@ func set_current_room(room: ESCRoom) -> void:
 
 
 ## Registers the object in the manager.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
 ## * object: The object to register.[br]
 ## * room: (optional) Room to register the object with in the object manager; if not 
@@ -226,8 +226,8 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 		room_objects.push_back(room_container)
 
 
-## Registers the terrain with the manager.[br]
-##[br]
+## Registers a terrain object in the manager.[br]
+## [br]
 ## #### Parameters[br]
 ## * object: The object containing the terrain to register.[br]
 ## * room: (optional) Room to register the object with in the object manager; 
@@ -272,8 +272,8 @@ func register_terrain(object: ESCObject, room: ESCRoom = null) -> void:
 		room_terrains.push_back(room_container)
 
 
-## Checks whether an object has been registered.[br]
-##[br]
+## Checks whether an object is registered.[br]
+## [br]
 ## #### Parameters[br]
 ## * global_id: The global ID of the object.[br]
 ## * room: (optional) `ESCRoom` instance the object is registered with; if not 
@@ -303,8 +303,8 @@ func has(global_id: String, room: ESCRoom = null) -> bool:
 	return _object_exists_in_room(ESCObject.new(global_id, null), room_key)
 
 
-## Retrieves the object from the object registry.[br]
-##[br]
+## Retrieves an object from the object registry.[br]
+## [br]
 ## #### Parameters[br]
 ## * global_id: The global id of the object to retrieve.[br]
 ## * room: The `ESCRoom` instance the object is registered with; if not 
@@ -367,7 +367,7 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 
 
 ## Removes an object from the registry.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
 ## * object: The object to unregister.[br]
 ## * room_key: The room under which the object should be unregistered.
@@ -407,8 +407,8 @@ func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 		_erase_room(room_key)
 
 
-## Removes an object from the registry by its `global_id`.[br]
-##[br]
+## Removes an object from the registry by global_id.[br]
+## [br]
 ## #### Parameters[br]
 ## * global_id: The global id` of the object to unregister.[br]
 ## * room_key: The room under which the object should be unregistered.
@@ -416,9 +416,8 @@ func unregister_object_by_global_id(global_id: String, room_key: ESCRoomObjectsK
 	unregister_object(ESCObject.new(global_id, null), room_key)
 
 
-## Inserts data to save into savegame. For now, we only save the current room's
-## objects.[br]
-##[br]
+## Inserts data to save into the savegame. Only the current room's objects are saved.[br]
+## [br]
 ## #### Parameters[br]
 ## * p_savegame: The savegame resource.
 func save_game(p_savegame: ESCSaveGame) -> void:
@@ -488,23 +487,23 @@ func _is_current_room(container: ESCRoomObjects) -> bool:
 
 
 ## Determines whether a container represents the specified room.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - container: The entry in the object manager array being checked
 ## - room_key: The key representing the desired room in the object manager array[br]
-##[br]
+## [br]
 ## **Returns** True if the container represents the object manager entry specified by room_key
 func _compare_container_to_key(container: ESCRoomContainer, room_key: ESCRoomObjectsKey) -> bool:
 	return container.room_global_id == room_key.room_global_id
 
 
 ## Checks whether an entry in the object manager array corresponds to the given room key.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - room_key: The key representing the desired room in the object manager array[br]
-##[br]
+## [br]
 ## **Returns** True if an entry in the object manager array corresponds to room_key
 func _room_exists(room_key: ESCRoomObjectsKey) -> bool:
 	for room_container in room_objects:
@@ -515,12 +514,12 @@ func _room_exists(room_key: ESCRoomObjectsKey) -> bool:
 
 
 ## Checks whether the specified object exists in the specified object manager entry.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - object: The object to check for existence
 ## - room_key: The key representing the desired room in the object manager array[br]
-##[br]
+## [br]
 ## **Returns** True if the object exists in the object manager entry specified by room_key
 func _object_exists_in_room(object: ESCObject, room_key: ESCRoomObjectsKey) -> bool:
 	if object == null:
@@ -540,12 +539,12 @@ func _object_exists_in_room(object: ESCObject, room_key: ESCRoomObjectsKey) -> b
 
 
 ## Checks whether the specified object's state is "default" in the specified object manager entry.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - object: The object to check for existence
 ## - room_key: The key representing the desired room in the object manager array[br]
-##[br]
+## [br]
 ## **Returns** True if the object's state is "default" in the object manager entry specified by room_key
 func _object_state_in_room_is_default(object: ESCObject, room_key: ESCRoomObjectsKey) -> bool:
 	if object == null:
@@ -566,11 +565,11 @@ func _object_state_in_room_is_default(object: ESCObject, room_key: ESCRoomObject
 
 
 ## Returns the objects currently being managed in the object manager entry specified by the given room key.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - room_key: The key representing the desired room in the object manager array[br]
-##[br]
+## [br]
 ## **Returns** A reference to the dictionary of the entry's objects, or an empty dictionary otherwise
 func _get_room_objects_objects(room_key: ESCRoomObjectsKey) -> Dictionary:
 	for room_container in room_objects:
@@ -581,11 +580,11 @@ func _get_room_objects_objects(room_key: ESCRoomObjectsKey) -> Dictionary:
 
 
 ## Returns the terrain navigation polygons for the specified room key.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - room_key: The key representing the desired room in the object manager array[br]
-##[br]
+## [br]
 ## **Returns** A reference to the dictionary of the entry's terrains, or an empty dictionary otherwise
 func _get_room_terrain_navpolys(room_key: ESCRoomObjectsKey) -> Dictionary:
 	for room_container in room_terrains:
@@ -596,9 +595,9 @@ func _get_room_terrain_navpolys(room_key: ESCRoomObjectsKey) -> Dictionary:
 
 
 ## Completely removes the entry in the object manager array specified by the room key.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - room_key: The key representing the desired room in the object manager array
 func _erase_room(room_key: ESCRoomObjectsKey) -> void:
 	for room_container in room_objects:

@@ -20,7 +20,7 @@ class_name CameraSetZoomCommand
 
 
 ## Returns the descriptor of the arguments of this command.[br]
-##[br]
+## [br]
 ## *Returns* The argument descriptor for this command.
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
@@ -30,7 +30,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-## Run the command
+## Runs the command.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - command_params: The parameters for the command.[br]
+## [br]
+## *Returns* The execution result code.
 func run(command_params: Array) -> int:
 	(escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera)\
 		.set_camera_zoom(

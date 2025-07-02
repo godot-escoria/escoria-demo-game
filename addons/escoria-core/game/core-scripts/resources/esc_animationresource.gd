@@ -27,47 +27,47 @@ class_name ESCAnimationResource
 @export var speaks: Array = []: set = set_speaks
 
 ## Sets the dir_angles property.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_dir_angles: Array of direction angle resources to set.
 func set_dir_angles(p_dir_angles: Array) -> void:
 	dir_angles = p_dir_angles
 	emit_changed()
 
 ## Sets the directions property.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_set_directions: Array of direction resources to set.
 func set_directions(p_set_directions: Array) -> void:
 	directions = p_set_directions
 	emit_changed()
 
 ## Sets the idles property.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_set_idles: Array of idle resources to set.
 func set_idles(p_set_idles: Array) -> void:
 	idles = p_set_idles
 	emit_changed()
 
 ## Sets the speaks property.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_set_speaks: Array of speak resources to set.
 func set_speaks(p_set_speaks: Array) -> void:
 	speaks = p_set_speaks
 	emit_changed()
 
 ## Returns the direction id from an animation name.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_animation_name: The animation name.[br]
-##[br]
+## [br]
 ## **Returns** The int value representing the direction id of the animation, or
 ## -1 if not found.
 func get_direction_id_from_animation_name(p_animation_name: String) -> int:

@@ -114,9 +114,9 @@ func clear_tooltip():
 
 
 ## Sets up and performs default walking action.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - destination: Destination to walk to[br]
 ## - params: Parameters for the action[br]
 ## - can_interrupt: if true, this command will interrupt any ongoing event
@@ -164,9 +164,9 @@ func hovered_bg() -> void:
 
 ## Called when the player left clicks on the background.[br]
 ## (Needs to be overridden, if supported)[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - position: clicked position 
 func left_click_on_bg(position: Vector2) -> void:
 	if escoria.main.current_scene.player:
@@ -184,9 +184,9 @@ func left_click_on_bg(position: Vector2) -> void:
 
 ## Called when the player right clicks on the background.[br]
 ## (Needs to be overridden, if supported)[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - position: clicked position 
 func right_click_on_bg(position: Vector2) -> void:
 	if escoria.main.current_scene.player:
@@ -204,9 +204,9 @@ func right_click_on_bg(position: Vector2) -> void:
 
 ## Called when the player double clicks on the background.[br]
 ## (Needs to be overridden, if supported)[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - position: clicked position 
 func left_double_click_on_bg(position: Vector2) -> void:
 	if escoria.main.current_scene.player:
@@ -224,9 +224,9 @@ func left_double_click_on_bg(position: Vector2) -> void:
 
 ## Called when an element in the scene was focused.[br]
 ## (Needs to be overridden, if supported)[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - element_id: Global id of the focused element
 func element_focused(element_id: String) -> void:
 	pass
@@ -240,9 +240,9 @@ func element_unfocused() -> void:
 
 ## Called when an item was left clicked.[br]
 ## (Needs to be overridden, if supported)[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - item_global_id: Global id of the item that was clicked[br]
 ## - event: The received input event
 func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
@@ -255,9 +255,9 @@ func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
 
 ## Called when an item was right clicked.[br]
 ## (Needs to be overridden, if supported)[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - item_global_id: Global id of the item that was clicked[br]
 ## - event: The received input event
 func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
@@ -270,9 +270,9 @@ func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
 
 ## Called when an item was double clicked[br]
 ## (Needs to be overridden, if supported)[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - item_global_id: Global id of the item that was clicked[br]
 ## - event: The received input event
 func left_double_click_on_item(
@@ -288,9 +288,9 @@ func left_double_click_on_item(
 
 ## Called when an inventory item was left clicked[br]
 ## (Needs to be overridden, if supported)[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - inventory_item_global_id: Global id of the inventory item was clicked[br]
 ## - event: The received input event
 func left_click_on_inventory_item(
@@ -302,9 +302,9 @@ func left_click_on_inventory_item(
 
 ## Called when an inventory item was right clicked.[br]
 ## (Needs to be overridden, if supported)[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - inventory_item_global_id: Global id of the inventory item was clicked[br]
 ## - event: The received input event
 func right_click_on_inventory_item(
@@ -316,9 +316,9 @@ func right_click_on_inventory_item(
 
 ## Called when an inventory item was double clicked.[br]
 ## (Needs to be overridden, if supported)[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - inventory_item_global_id: Global id of the inventory item was clicked[br]
 ## - event: The received input event
 func left_double_click_on_inventory_item(
@@ -330,9 +330,9 @@ func left_double_click_on_inventory_item(
 
 ## Called when an inventory item was focused.[br]
 ## (Needs to be overridden, if supported)[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - inventory_item_global_id: Global id of the inventory item that was focused
 func inventory_item_focused(inventory_item_global_id: String) -> void:
 	pass
@@ -358,9 +358,9 @@ func close_inventory():
 
 ## Called when the mousewheel was used.[br]
 ## (Needs to be overridden, if supported)[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - direction: The direction in which the mouse wheel was rotated
 func mousewheel_action(direction: int):
 	pass
@@ -379,9 +379,9 @@ func show_ui():
 
 
 ## Set the Editor debug mode.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - p_editor_debug_mode: EDITOR_GAME_DEBUG_DISPLAY enum (int) value
 ## corresponding to the desired editor debug mode
 func _set_editor_debug_mode(p_editor_debug_mode: int) -> void:
@@ -393,9 +393,9 @@ func _set_editor_debug_mode(p_editor_debug_mode: int) -> void:
 ## UI elements to their default/empty state. This function can be called before
 ## _on_action_finished() if the player input started an event.[br]
 ## (Needs to be overridden, if supported)[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - _return_code: return code of the event (type ESCExecution)[br]
 ## - _event_name: name of the event that was just done (can be unused)
 func _on_event_done(_return_code: int, _event_name: String) -> void:
@@ -435,16 +435,16 @@ func hide_main_menu():
 
 ## Custom function that is meant to apply custom settings.[br] 
 ## Called right after Escoria settings file was loaded.
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - custom_settings: dictionary containing the custom settings.
 func apply_custom_settings(custom_settings: Dictionary):
 	pass
 
 
 ## Custom function automatically called when save game is created.[br]
-##[br]
+## [br]
 ## **Returns** A Dictionary containing the custom data to be saved within the
 ## game file.
 func get_custom_data() -> Dictionary:
@@ -452,9 +452,9 @@ func get_custom_data() -> Dictionary:
 
 
 ## Shows the crash popup when a crash occurs.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - files: Array of strings containing the paths to the files generated on crash
 func show_crash_popup(files: Array = []) -> void:
 	var crash_popup = AcceptDialog.new()
@@ -505,9 +505,9 @@ func _on_room_ready():
 ## Input function to manage specific input keys.[br]
 ## Note that if any child of this class wishes to override _input, the overriding
 ## method MUST call its parent's version (i.e. this method).
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - event: input event to manage
 func _input(event: InputEvent):
 	if escoria.inputs_manager.input_mode == escoria.inputs_manager.INPUT_NONE:

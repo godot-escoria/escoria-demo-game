@@ -92,11 +92,10 @@ func _physics_process(delta: float):
 	current_state.update(delta)
 
 
-# Lets the state machine's current state perform an action on animation_finished 
-# signal.
-##[br]
+## Have current state to manage animation_finished signal.[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - _anim_name: finished animation name.
 func _on_animation_finished(anim_name: String):
 	if not _active:
@@ -108,7 +107,7 @@ func _on_animation_finished(anim_name: String):
 # the state to be set is obtained in states_map dictionary.
 ##[br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - state_name: new state's name.
 func _change_state(state_name: String):
 	if not _active:

@@ -73,13 +73,13 @@ static func load_globals() -> Dictionary:
 
 
 ## Compile the given ESC source code into an ESCScript object.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - source: The ESC source code to compile.[br]
 ## - filename: Optional filename for error reporting.[br]
 ## - associated_global_id: Optional global id associated with the script.[br]
-##[br]
+## [br]
 ## **Returns** An ESCScript object representing the compiled script.
 func _compiler_shim(source: String, filename: String = "", associated_global_id: String = ""):
 	var scanner: ESCScanner = ESCScanner.new()
@@ -127,12 +127,12 @@ func _compiler_shim(source: String, filename: String = "", associated_global_id:
 
 ## Load an ESC file from a file resource. Optionally provide a global ID for the
 ## associated object.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - path: Path to the ESC file.[br]
 ## - associated_global_id: Optional global id associated with the script.[br]
-##[br]
+## [br]
 ## **Returns** An ESCScript object or null if not found.
 func load_esc_file(path: String, associated_global_id: String = "") -> ESCScript:
 	ESCSafeLogging.log_debug(self, "Loading file '%s' for parsing..." % path)
@@ -162,7 +162,7 @@ func compile(script: String, path: String = "") -> ESCScript:
 
 ## Returns true if this is being called in-editor or the appropriate project
 ## setting is enabled.[br]
-##[br]
+## [br]
 ## **Returns** true if script analysis should be run.
 func _run_script_analysis() -> bool:
 	if Engine.is_editor_hint():

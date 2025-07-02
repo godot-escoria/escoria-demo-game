@@ -18,7 +18,7 @@ class_name TransitionCommand
 
 
 ## Returns the descriptor of the arguments of this command.[br]
-##[br]
+## [br]
 ## *Returns* The argument descriptor for this command.
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
@@ -29,11 +29,11 @@ func configure() -> ESCCommandArgumentDescriptor:
 
 
 ## Validates whether the given arguments match the command descriptor.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - arguments: The arguments to validate.[br]
-##[br]
+## [br]
 ## *Returns* True if the arguments are valid, false otherwise.
 func validate(arguments: Array):
 	if not super.validate(arguments):
@@ -55,7 +55,13 @@ func validate(arguments: Array):
 	return true
 
 
-## Run the command
+## Runs the command.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - command_params: The parameters for the command.[br]
+## [br]
+## *Returns* The execution result code.
 func run(command_params: Array) -> int:
 	var transition_id = escoria.main.scene_transition.transition(
 		command_params[0],

@@ -25,9 +25,9 @@ var _current_animation: String = ""
 
 
 ## Create a new animation player.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - node: The actual player node.
 func _init(node: Node):
 	_player_node = node
@@ -48,7 +48,7 @@ func _ready() -> void:
 
 
 ## Return the currently playing animation.[br]
-##[br]
+## [br]
 ## **Returns** The currently playing animation name.
 func get_animation() -> String:
 	if _is_animation_player:
@@ -58,7 +58,7 @@ func get_animation() -> String:
 
 
 ## Returns a list of all animation names.[br]
-##[br]
+## [br]
 ## **Returns** A list of all animation names.
 func get_animations() -> PackedStringArray:
 	if _is_animation_player:
@@ -68,7 +68,7 @@ func get_animations() -> PackedStringArray:
 
 
 ## Whether the animation is playing.[br]
-##[br]
+## [br]
 ## **Returns** Whether the animation is playing.
 func is_playing() -> bool:
 	return _player_node.is_playing()
@@ -80,9 +80,9 @@ func stop():
 
 
 ## Play the animation.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - name: The animation name to play.[br]
 ## - backwards: Play backwards.
 func play(name: String, backwards: bool = false):
@@ -106,20 +106,20 @@ func play(name: String, backwards: bool = false):
 
 
 ## Play the given animation backwards.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - name: Animation to play.
 func play_backwards(name: String):
 	self.play(name, true)
 
 
 ## Check if the given animation exists.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - name: Name of the animation to check.[br]
-##[br]
+## [br]
 ## **Returns** Whether the animation player has the animation.
 func has_animation(name: String) -> bool:
 	if _is_animation_player:
@@ -129,9 +129,9 @@ func has_animation(name: String) -> bool:
 
 
 ## Play an animation and directly skip to the end.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - name: Name of the animation to play.
 func seek_end(name: String):
 	if _is_animation_player:
@@ -143,11 +143,11 @@ func seek_end(name: String):
 
 
 ## Get the length of the specified animation.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - name: Name of the animation.[br]
-##[br]
+## [br]
 ## **Returns** The length of the animation in seconds.
 func get_length(name: String) -> float:
 	if _is_animation_player:
@@ -159,16 +159,16 @@ func get_length(name: String) -> float:
 
 ## Return true if the ESCAnimationPlayer node is valid, ie. it has a valid
 ## player node.[br]
-##[br]
+## [br]
 ## **Returns** True if the ESCAnimationPlayer has a valid player node, else false.
 func is_valid() -> bool:
 	return _player_node != null and _player_node is Node
 
 
 ## Transport the animation_finished signal.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - name: Name of the animation played.
 func _on_animation_finished(name: String):
 	if _is_animation_player and not _animation_player.get_animation(name).loop_mode != Animation.LOOP_NONE:

@@ -114,9 +114,9 @@ func _perform_plugins_checks():
 
 
 ## Manage notifications received from OS.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - what: The notification constant received (usually defined in MainLoop).
 func _notification(what: int):
 	match what:
@@ -137,9 +137,9 @@ func init():
 
 
 ## Input function to manage specific input keys.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - event: The input event to manage.
 func _input(event: InputEvent):
 	if InputMap.has_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT) \
@@ -152,14 +152,14 @@ func _input(event: InputEvent):
 
 
 ## Runs the event "event_name" from the "script" ESC script.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - script: ESC script containing the event to run. The script must have been[br]
 ##   loaded.[br]
 ## - event_name: Name of the event to run[br]
 ## - from_statement_id: Statement id to start from (default 0)[br]
-##[br]
+## [br]
 ## *Returns* Nothing. Waits for the event to finish before returning.
 func run_event_from_script(script: ESCScript, event_name: String, from_statement_id: int = 0):
 	if script == null:
@@ -186,12 +186,12 @@ func run_event_from_script(script: ESCScript, event_name: String, from_statement
 
 
 ## Checks for the existence of both mandatory and optional events within a specified script.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - script: The script in which to check for the existence of the given event.[br]
 ## - event_name: The name of the event to check for inside the given script.[br]
-##[br]
+## [br]
 ## *Returns* True iff event_name exists within script. Method will terminate execution of the program[br]
 ## if the specified event is required and doesn't exist.
 func _event_exists_in_script(script: ESCScript, event_name: String) -> bool:
@@ -254,7 +254,7 @@ func _handle_direct_scene_run() -> void:
 ## from the _input() function. To do so, the current_scene must be set, the game[br]
 ## scene must be set, and the game scene must've been notified that the room[br]
 ## is ready.[br]
-##[br]
+## [br]
 ## *Returns* true if game scene is ready for inputs
 func is_ready_for_inputs() -> bool:
 	return main.current_scene and main.current_scene.game \

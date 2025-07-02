@@ -3,9 +3,9 @@ extends Control
 class_name ESCDialogOptionsChooser
 
 ## Emitted when an option is chosen.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - option: The dialog option that was chosen.
 signal option_chosen(option)
 
@@ -13,9 +13,9 @@ signal option_chosen(option)
 var dialog: ESCDialog
 
 ## Sets the dialog used for the chooser.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - new_dialog: Dialog to set.
 func set_dialog(new_dialog: ESCDialog) -> void:
 	self.dialog = new_dialog

@@ -3,9 +3,9 @@ extends Node
 class_name ESCDialogPlayer
 
 ## Emitted when an answer is chosen.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - option: The dialog option that was chosen.
 signal option_chosen(option)
 
@@ -51,9 +51,9 @@ func disable_preserve_dialog_box() -> void:
 	_say_dialog_manager.disable_preserve_dialog_box()
 
 ## Makes a character say some text.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - character: Character that is talking.[br]
 ## - type: UI to use for the dialog.[br]
 ## - text: Text to say.[br]
@@ -75,9 +75,9 @@ func say(character: String, type: String, text: String, key: String) -> void:
 
 
 ## Displays a list of choices.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - dialog: The dialog to start.[br]
 ## - type: The dialog chooser type to use (default: "simple").
 func start_dialog_choices(dialog: ESCDialog, type: String = "simple"):
@@ -96,9 +96,9 @@ func interrupt() -> void:
 
 ## Loads the first dialog manager that supports the specified "say" type;
 ## otherwise, the engine throws an error and stops.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - type: The type the dialog manager should support, e.g. "floating".
 func _determine_say_dialog_manager(type: String) -> void:
 	var dialog_manager: ESCDialogManager = null
@@ -124,9 +124,9 @@ func _determine_say_dialog_manager(type: String) -> void:
 
 ## Loads the first dialog manager that supports the specified "choose" type;
 ## otherwise, the engine throws an error and stops.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - type: The type the dialog manager should support, e.g. "simple".
 func _determine_choose_dialog_manager(type: String) -> void:
 	var dialog_manager: ESCDialogManager = null
@@ -151,9 +151,9 @@ func _determine_choose_dialog_manager(type: String) -> void:
 
 
 ## If necessary, updates the dialog manager for the specified dialog type.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - dialog_type: The type of dialog that will be managed, e.g. "say" or "choose".[br]
 ## - current_dialog_manager: The dialog manager currently being used (if any) for the specified[br]
 ##   dialog type.[br]
@@ -172,12 +172,12 @@ func _update_dialog_manager(dialog_type: String, current_dialog_manager: ESCDial
 
 
 ## Sets the requested dialog manager type for the specified dialog function.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - dialog_type: The type of dialog that will be managed, e.g. "say" or "choose".[br]
 ## - dialog_manager_type: The dialog manager type specific to the dialog manager being requested.[br]
-##[br]
+## [br]
 ## Returns the newly-resolved dialog manager.
 func _determine_dialog_manager(dialog_type: String, dialog_manager_type: String) -> ESCDialogManager:
 	if dialog_type == DIALOG_TYPE_SAY:

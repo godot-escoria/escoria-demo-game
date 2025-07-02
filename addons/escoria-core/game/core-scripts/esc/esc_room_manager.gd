@@ -57,9 +57,9 @@ func register_reserved_globals() -> void:
 
 ## Performs the actions needed in order to change the current scene to the one
 ## specified by room_path.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - room_path: Node path to the room that is to become the new current room
 ## - enable_automatic_transitions: Whether to play the transition between rooms
 ##   automatically or to leave the responsibility to the developer
@@ -166,9 +166,9 @@ func change_scene_to_file(room_path: String, enable_automatic_transitions: bool)
 
 ## Sanitize camera limits, add player node and set the global id to the name of
 ## this node if it's not set manually.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - room: The ESCRoom to be initialized for use
 func init_room(room: ESCRoom) -> void:
 	if not is_instance_valid(room) || room == null:
@@ -237,11 +237,11 @@ func init_room(room: ESCRoom) -> void:
 
 ## Performs the ESC script events "setup" and "ready", in this order, if they
 ## are present. Also manages automatic transitions.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - room: The ESCRoom to be initialized for use[br]
-##[br]
+## [br]
 ## **Returns** An integer value (ESCExecution enum)
 func _perform_script_events(room: ESCRoom) -> int:
 	# Used to track whether any yields have been executed before the call to
@@ -506,12 +506,12 @@ func _perform_script_events(room: ESCRoom) -> int:
 
 
 ## Runs the script event from the script attached, if any.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
+## [br]
 ## - event_name: The name of the event to run
 ## - room: The ESCRoom to be initialized for use[br]
-##[br]
+## [br]
 ## **Returns** true if the event was correctly added. Will be false if the event
 ## does not exist in the script.
 func _run_script_event(event_name: String, room: ESCRoom):
