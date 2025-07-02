@@ -15,14 +15,13 @@
 extends ESCStatement
 class_name ESCEvent
 
-
-# Regex identifying an ESC event
+## Regex identifying an ESC event.
 const REGEX = \
 	'^:(?<name>[^|]+)( \\|\\s*(?<flags>( ' + \
 	'(TK|NO_TT|NO_UI|NO_SAVE)' + \
 	')+))?$'
 
-# Prefix to identify this as an ESC event.
+## Prefix to identify this as an ESC event.
 const PREFIX = ":"
 
 
@@ -54,9 +53,10 @@ var original_name: String
 ## Flags set for this event.
 var flags: int = 0
 
-
 ## Returns a Dictionary containing statements data for serialization, typically 
 ## used as part of the savegame process.
+## [br]
+## *Returns* A dictionary representing the event.
 func exported() -> Dictionary:
 	var exported_dict: Dictionary = super.exported()
 	exported_dict.class = "ESCEvent"
@@ -77,7 +77,13 @@ func init(event_name: String, event_flags: Array) -> void:
 	name = event_name
 	flags = get_flags_from_list(event_flags)
 
-
+## Converts a list of event flag strings to a bitmask.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - event_flags: Array of flag strings.[br]
+## [br]
+## *Returns* The bitmask of flags as an int.
 static func get_flags_from_list(event_flags: Array[String]) -> int:
 	var computed_flags: int = 0
 	for flag in event_flags:
@@ -92,8 +98,9 @@ static func get_flags_from_list(event_flags: Array[String]) -> int:
 				computed_flags |= FLAGS.NO_SAVE
 	return computed_flags
 
-
-## Executes this statement and returns a return code.
+## Executes this statement and returns its return code.[br]
+## [br]
+## *Returns* The execution result code.
 func run() -> int:
 	reset_interrupt()
 	escoria.logger.debug(
@@ -104,7 +111,8 @@ func run() -> int:
 		bypass_conditions = true
 	return await super()
 
-
-## Returns the event's name.
+## Gets the event name.[br]
+## [br]
+## *Returns* The event name as a string.
 func get_event_name() -> String:
 	return name

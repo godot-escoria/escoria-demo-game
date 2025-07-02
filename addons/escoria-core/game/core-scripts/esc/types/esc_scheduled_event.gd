@@ -12,8 +12,13 @@ var timeout: float
 ## The target object.
 var object: String
 
-
-# Create a new scheduled event
+## Creates a new scheduled event.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - p_event: The event to schedule.[br]
+## - p_timeout: The number of seconds until the event is run.[br]
+## - p_object: The target object.
 func _init(p_event: ESCGrammarStmts.Event, p_timeout: float, p_object: String):
 	self.event = p_event
 	self.timeout = p_timeout

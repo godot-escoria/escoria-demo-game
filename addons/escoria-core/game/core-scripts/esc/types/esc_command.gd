@@ -110,13 +110,17 @@ func interrupt():
 	if command.has_method("interrupt"):
 		command.interrupt()
 
-
-# Override of built-in _to_string function to display the statement.
+## Override of built-in _to_string function to display the statement.[br]
+## [br]
+## *Returns* A string representation of the command.
 func _to_string() -> String:
 	return "Command %s with parameters: %s" % [name, str(parameters)]
 
-
-# Adds additional info to the command object, i.e. for debugging.
+## Adds additional info to the command object, i.e. for debugging.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - command_object: The command object to decorate.
 func _decorate_for_debugging(command_object) -> void:
 	command_object.filename = parser_token.get_filename()
 	command_object.line_number = parser_token.get_line()

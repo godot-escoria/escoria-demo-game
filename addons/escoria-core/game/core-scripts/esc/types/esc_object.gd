@@ -27,7 +27,12 @@ var events: Dictionary = {}
 ## The node representing the object in the scene.
 var node: Node
 
-
+## Initializes the ESCObject with a global id and node.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - p_global_id: The global id of the object.[br]
+## - p_node: The node in the scene.
 func _init(p_global_id: String, p_node: Node):
 	global_id = p_global_id
 	node = p_node
@@ -95,9 +100,9 @@ func is_active() -> bool:
 	return active
 
 
-# Get the interactive value from the node
-#
-# **Returns** Whether the node is interactive or not
+## Gets the interactive value from the node.[br]
+## [br]
+## *Returns* Whether the node is interactive or not.
 func _get_interactive() -> bool:
 	if is_instance_valid(self.node) and "is_interactive" in self.node:
 		return self.node.is_interactive
@@ -105,10 +110,11 @@ func _get_interactive() -> bool:
 		return true
 
 
-# Set the interactive value in the node
-#
-# #### Parameters
-# - value: Whether the object is interactive or not
+## Sets the interactive value in the node.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - value: Whether the object is interactive or not.
 func _set_interactive(value: bool):
 	if "is_interactive" in self.node:
 		self.node.is_interactive = value

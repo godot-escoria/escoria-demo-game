@@ -57,12 +57,16 @@ func exported() -> Dictionary:
 
 
 
-## Returns `true` iff the statement is valid.
+## Returns whether the statement should be run based on its conditions.[br]
+## [br]
+## *Returns* True if the statement is valid.
 func is_valid() -> bool:
 	return true
 
 
-## Execute this statement and return its return code.
+## Executes this statement and returns its return code.[br]
+## [br]
+## *Returns* The return code of the statement.
 func run() -> int:
 	if parsed_statements.size() > 0:
 		var interpreter = ESCInterpreterFactory.create_interpreter()
@@ -111,7 +115,7 @@ func interrupt():
 	escoria.logger.info(
 		self,
 		"Interrupting event %s (%s)."
-				% [self.name if "name" in self else "group", str(self)]
+			% [self.name if "name" in self else "group", str(self)]
 	)
 	_is_interrupted = true
 	for statement in statements:
