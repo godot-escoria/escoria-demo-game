@@ -1,9 +1,9 @@
-## `repeat()`
-##
+## `repeat`[br]
+## [br]
 ## Makes the current script loop back to the start. Currently the only way to
 ## exit the loop is via the `stop` command which will stop the script
-## completely.
-##
+## completely.[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name RepeatCommand

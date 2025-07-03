@@ -1,14 +1,14 @@
-## `set_globals(pattern: String, value: String|Integer|Boolean)`
-##
+## `set_globals pattern value`[br]
+## [br]
 ## Changes the value of multiple globals using a wildcard pattern, where `*`
 ## matches zero or more arbitrary characters and `?` matches any single
 ## character except a period (".").[br]
-##[br]
-## **Parameters**[br]
-##[br]
+## [br]
+## #### Parameters[br]
+## [br]
 ## - *pattern*: Pattern to use to match the names of the globals to change[br]
-## - *value*: Value to set (can be of type string, boolean, integer or float)
-##
+## - *value*: Value to set (can be of type string, boolean, integer or float)[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name SetGlobalsCommand

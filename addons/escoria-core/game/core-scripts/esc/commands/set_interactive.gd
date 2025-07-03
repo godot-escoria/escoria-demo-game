@@ -1,12 +1,12 @@
-## `set_interactive(object: String, interactive: Boolean)`
-##
+## `set_interactive object interactive`[br]
+## [br]
 ## Sets whether an object is interactive.[br]
-##[br]
-## **Parameters**[br]
-##[br]
+## [br]
+## #### Parameters[br]
+## [br]
 ## - *object*: Global ID of the object to change[br]
-## - *interactive*: Whether the object should be interactive
-##
+## - *interactive*: Whether the object should be interactive[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name SetInteractiveCommand

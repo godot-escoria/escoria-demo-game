@@ -1,25 +1,24 @@
-## `walk_to_pos(object: String, x: Integer, y: Integer[, walk_fast: Boolean])`
-##
+## `walk_to_pos object x y [walk_fast]`[br]
+## [br]
 ## Moves the specified `ESCPlayer` or movable `ESCItem` to the absolute
-## coordinates provided while playing the `object`'s walking animation.
+## coordinates provided while playing the `object`'s walking animation.[br]
 ## This command is non-blocking.[br]
-##[br]
 ## This command will use the normal walk speed by default.[br]
-##[br]
-## **Parameters**[br]
-##[br]
+## [br]
+## #### Parameters[br]
+## [br]
 ## - *object*: Global ID of the object to move[br]
 ## - *x*: X-coordinate of target position[br]
 ## - *y*: Y-coordinate of target position[br]
 ## - *walk_fast*: Whether to walk fast (`true`) or normal speed (`false`).
-##   (default: false)
-##
+##   (default: false)[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name WalkToPosCommand
 
 
-# Walking object
+## Walking object
 var walking_object_node: ESCItem
 
 

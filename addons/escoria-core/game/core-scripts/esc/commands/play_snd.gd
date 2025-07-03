@@ -1,20 +1,20 @@
-## `play_snd(file: String[, player: String[, start_position_seconds: Number]])`
-##
+## `play_snd file [player] [start_position_seconds]`[br]
+## [br]
 ## Plays the specified sound without blocking the currently running event.[br]
-##[br]
-## **Parameters**[br]
-##[br]
+## [br]
+## #### Parameters[br]
+## [br]
 ## - *file*: Sound file to play[br]
 ## - *player*: Sound player to use. Can either be `_sound`, which is used to play non-
 ##   looping sound effects; `_music`, which plays looping music; or `_speech`, which
-##   plays non-looping voice files (default: `_sound`)
-##
+##   plays non-looping voice files (default: `_sound`)[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name PlaySndCommand
 
 
-# The specified sound player
+## The specified sound player
 var _snd_player: String
 
 

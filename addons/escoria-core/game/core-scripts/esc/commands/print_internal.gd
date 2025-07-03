@@ -1,14 +1,14 @@
-## `print(string: String)`
-##
 ## INTERNAL USE ONLY[br]
-##[br]
+## [br]
+## `print string`[br]
+## [br]
 ## Prints a message to the Godot debug window.[br]
 ## Use this for debugging game state.[br]
-##[br]
-## **Parameters**[br]
-##[br]
-## - *string*: The string to log
-##
+## [br]
+## #### Parameters[br]
+## [br]
+## - *string*: The string to log[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name PrintCommand

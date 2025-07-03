@@ -1,18 +1,19 @@
-## `inventory_add(item: String)`
-##
+## `inventory_add item`[br]
+## [br]
 ## Adds an item to the inventory. If the player is picking up an object, you may
 ## want to use this command in conjunction with the `set_active` command so that
 ## the object 'disappears' from the scene as it's added to the inventory.[br]
-##[br]
-## **Parameters**[br]
-##[br]
-## - *item*: Global ID of the `ESCItem` to add to the inventory
-##
+## [br]
+## #### Parameters[br]
+## [br]
+## - *item*: Global ID of the `ESCItem` to add to the inventory[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name InventoryAddCommand
 
 
+## List of illegal strings that cannot be used in item names.
 const ILLEGAL_STRINGS = ["/"]
 
 

@@ -1,29 +1,28 @@
-## `walk_block(object: String, target: String[, walk_fast: Boolean])`
-##
+## `walk_block object target [walk_fast]`[br]
+## [br]
 ## Moves the specified `ESCPlayer` or movable `ESCItem` to the `target`
 ## ESCItem's location while playing `object`'s walking animation. This command
 ## is blocking.[br]
-##[br]
 ## This command will use the normal walk speed by default.
 ## If the `target` ESCItem has a child ESCLocation node, the walk destination
 ## will be the position of the ESCLocation.[br]
-##[br]
-## **Parameters**[br]
-##[br]
+## [br]
+## #### Parameters[br]
+## [br]
 ## - *object*: Global ID of the object to move[br]
 ## - *target*: Global ID of the target object[br]
 ## - *walk_fast*: Whether to walk fast (`true`) or normal speed (`false`).
 ##   (default: false)[br]
-##
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name WalkBlockCommand
 
 
-# Walking object
+## Walking object
 var walking_object_node: ESCItem
 
-# Target object
+## Target object
 var target_object_node: ESCObject
 
 

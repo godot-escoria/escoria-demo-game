@@ -11,7 +11,7 @@
 ## - *camlimits_id*: Index of the camera limit defined in the `camera limits`
 ##   list of the current `ESCRoom`[br]
 ## [br]
-## For more details see: https://docs.escoria-framework.org/camera[br]
+## For more details see: https://docs.escoria-framework.org/camera [br]
 ## [br]
 ## @ESC
 extends ESCCameraBaseCommand

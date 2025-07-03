@@ -4,8 +4,8 @@
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - name: Name of the global to be changed.[br]
-## - value: Value to be subtracted (default: 1).
+## - *name*: Name of the global to be changed.[br]
+## - *value*: Value to be subtracted (default: 1).[br]
 ## [br]
 ## @ESC
 extends ESCBaseCommand

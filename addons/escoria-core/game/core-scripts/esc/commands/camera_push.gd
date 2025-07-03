@@ -6,7 +6,7 @@
 ## [br]
 ## Make sure the target is reachable if camera limits have been configured.[br]
 ## [br]
-## **Parameters**[br]
+## #### Parameters[br]
 ## [br]
 ## - *target*: Global ID of the `ESCItem` to push the camera to. `ESCItem`s have
 ##   a "camera_node" property that can be set to point to a node (usually an
@@ -22,7 +22,7 @@
 ## [br]
 ## See https://docs.godotengine.org/en/stable/classes/class_tween.html?highlight=tween##enumerations[br]
 ## [br]
-## For more details see: https://docs.escoria-framework.org/camera[br]
+## For more details see: https://docs.escoria-framework.org/camera [br]
 ## [br]
 ## @ESC
 extends ESCCameraBaseCommand

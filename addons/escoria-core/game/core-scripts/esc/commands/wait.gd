@@ -1,16 +1,16 @@
-## `wait(seconds: Number)`
-##
+## `wait seconds`[br]
+## [br]
 ## Blocks execution of the current event.[br]
-##[br]
-## **Parameters**[br]
-##[br]
-## - *seconds*: Number of seconds to block
-##
+## [br]
+## #### Parameters[br]
+## [br]
+## - *seconds*: Number of seconds to block[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name WaitCommand
 
-# Timer to wait for
+## Timer to wait for
 var timer: Timer
 
 

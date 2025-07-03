@@ -7,9 +7,9 @@
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - object: Global ID of the object with the animation[br]
-## - name: Name of the animation to play[br]
-## - reverse: Plays the animation in reverse when true[br]
+## - *object*: Global ID of the object with the animation[br]
+## - *name*: Name of the animation to play[br]
+## - *reverse*: Plays the animation in reverse when true[br]
 ## [br]
 ## @ESC
 extends ESCBaseCommand

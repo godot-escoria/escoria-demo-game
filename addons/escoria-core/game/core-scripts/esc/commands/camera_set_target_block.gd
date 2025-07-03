@@ -9,9 +9,9 @@
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - time: Number of seconds the transition should take to move the camera[br]
+## - *time*: Number of seconds the transition should take to move the camera[br]
 ##   to follow `object`.[br]
-## - object: Global ID of the target object.[br]
+## - *object*: Global ID of the target object.[br]
 ## [br]
 ## For more details see: https://docs.escoria-framework.org/camera
 ##

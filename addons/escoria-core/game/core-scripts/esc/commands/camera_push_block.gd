@@ -8,21 +8,21 @@
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - target: Global ID of the `ESCItem` to push the camera to. `ESCItem`s have
+## - *target*: Global ID of the `ESCItem` to push the camera to. `ESCItem`s have
 ##   a "camera_node" property that can be set to point to a node (usually an
 ##   `ESCLocation` node). If the "camera_node" property is empty, `camera_push_block`
 ##   will point the camera at the `ESCItem`s location. If however, the `ESCItem`
 ##   has its "camera_node" property set, the command will instead point the
 ##   camera at the node referenced by the `ESCItem`s "camera_node" property.[br]
-## - time: Number of seconds the transition should take (default: 1).[br]
-## - type: Transition type to use (default: QUAD).[br]
+## - *time*: Number of seconds the transition should take (default: 1).[br]
+## - *type*: Transition type to use (default: QUAD).[br]
 ## [br]
 ## Supported transitions include the names of the values used in the "TransitionType"
 ## enum of the "Tween" type (without the "TRANS_" prefix).[br]
 ## [br]
 ## See https://docs.godotengine.org/en/stable/classes/class_tween.html?highlight=tween#enumerations[br]
 ## [br]
-## For more details see: https://docs.escoria-framework.org/camera[br]
+## For more details see: https://docs.escoria-framework.org/camera [br]
 ## [br]
 ## @ESC
 extends ESCCameraBaseCommand

@@ -4,12 +4,12 @@
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - pixels: Target height in pixels.[br]
-## - time: Number of seconds the transition should take, with a value of 0
+## - *pixels*: Target height in pixels.[br]
+## - *time*: Number of seconds the transition should take, with a value of 0
 ##   meaning the zoom should happen instantly (default: 0).[br]
 ## [br]
-## For more details see: https://docs.escoria-framework.org/camera
-##
+## For more details see: https://docs.escoria-framework.org/camera [br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name CameraSetZoomHeightCommand

@@ -1,12 +1,12 @@
-## `inc_global(name: String, value: Integer)`
-##
+## `inc_global name value`[br]
+## [br]
 ## Adds the given value to the specified global.[br]
-##[br]
-## **Parameters**[br]
-##[br]
+## [br]
+## #### Parameters[br]
+## [br]
 ## - *name*: Name of the global to be changed[br]
 ## - *value*: Value to be added (default: 1)[br]
-##
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name IncGlobalCommand

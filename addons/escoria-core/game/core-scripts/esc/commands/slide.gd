@@ -1,22 +1,22 @@
-## `slide(object: String, target: String[, speed: Integer])`
-##
+## `slide object target [speed]`[br]
+## [br]
 ## Moves `object` towards the position of `target`. This command is
 ## non-blocking.[br]
-##[br]
+## [br]
 ## - *object*: Global ID of the object to move[br]
 ## - *target*: Global ID of the target object[br]
 ## - *speed*: The speed at which to slide in pixels per second (will default to
 ##   the speed configured on the `object`)[br]
-##[br]
+## [br]
 ## **Warning** This command does not respect the room's navigation polygons, so
-## `object` can be moved even when outside walkable areas.
-##
+## `object` can be moved even when outside walkable areas.[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name SlideCommand
 
 
-# A hash of tweens currently active for animated items
+## A hash of tweens currently active for animated items
 var _tweens: Dictionary
 
 
@@ -57,16 +57,16 @@ func validate(arguments: Array):
 	return true
 
 
-# Slide the object by generating a tween
-#
-# ######## Parameters
-#
-# - *source*: The item to slide
-# - *destination*: The destination item to slide to
-# - *speed*: The speed at which to slide in pixels per second (will default to
-#   the speed configured on the `object`)
-#
-# **Returns** The generated (and started) tween
+## Slide the object by generating a tween[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - *source*: The item to slide[br]
+## - *destination*: The destination item to slide to[br]
+## - *speed*: The speed at which to slide in pixels per second (will default to
+##   the speed configured on the `object`)[br]
+## [br]
+## *Returns* The generated (and started) tween
 func _slide_object(
 	source: ESCObject,
 	destination: ESCObject,
@@ -121,7 +121,12 @@ func interrupt():
 	for tween in _tweens:
 		tween.stop_all()
 
-
+## Function called when a tween completes.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - tween: The tween that completed.[br]
+## - _key: The key of the tween in the `_tweens` dictionary (not used here).
 func _on_tween_completed(tween: Tween, _key: NodePath):
 	if tween:
 		tween.queue_free()

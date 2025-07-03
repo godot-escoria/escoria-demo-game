@@ -1,22 +1,22 @@
-## `camera_set_zoom_height_block(pixels: Integer[, time: Number])`
-##
+## `camera_set_zoom_height_block pixels [time]`[br]
+## [br]
 ## Zooms the camera in/out so it occupies the given height in pixels.
 ## Blocks until the command completes.[br]
-##[br]
-## **Parameters**[br]
-##[br]
+## [br]
+## #### Parameters[br]
+## [br]
 ## - *pixels*: Target height in pixels (integer values only)[br]
 ## - *time*: Number of seconds the transition should take, with a value of `0`
 ##   meaning the zoom should happen instantly (default: `0`)[br]
-##[br]
-## For more details see: https://docs.escoria-framework.org/camera
-##
+## [br]
+## For more details see: https://docs.escoria-framework.org/camera [br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name CameraSetZoomHeightBlockCommand
 
 
-# Tween for blocking
+## Tween for blocking
 var _camera_tween: Tween3
 
 

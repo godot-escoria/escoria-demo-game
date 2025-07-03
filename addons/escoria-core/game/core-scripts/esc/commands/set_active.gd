@@ -1,12 +1,13 @@
-## `set_active(object: String, active: Boolean)`
-##
-## Changes the "active" state of the object. Inactive objects are invisible in the room.[br]
-##[br]
-## **Parameters**[br]
-##[br]
+## `set_active object active`[br]
+## [br]
+## Changes the "active" state of the object.[br]
+## Inactive objects are invisible in the room.[br]
+## [br]
+## #### Parameters[br]
+## [br]
 ## - *object* Global ID of the object[br]
-## - *active* Whether `object` should be active. `active` can be `true` or `false`.
-##
+## - *active* Whether `object` should be active. `active` can be `true` or `false`.[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name SetActiveCommand

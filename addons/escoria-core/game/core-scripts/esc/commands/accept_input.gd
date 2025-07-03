@@ -6,7 +6,7 @@
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - type: Type of inputs to accept (ALL).[br]
+## - *type*: Type of inputs to accept (ALL).[br]
 ##   `ALL`: Accept all types of user input.[br]
 ##   `SKIP`: Accept skipping dialogues but nothing else.[br]
 ##   `NONE`: Deny all inputs (including opening menus).[br]

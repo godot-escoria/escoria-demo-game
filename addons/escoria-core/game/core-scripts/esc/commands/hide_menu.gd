@@ -1,12 +1,12 @@
-## `hide_menu(menu_type: String)`
-##
+## `hide_menu menu_type`[br]
+## [br]
 ## Hides either the main menu or the pause menu. Transitions from the menu using
 ## the default transition type (set in the Escoria project settings).[br]
-##[br]
-## **Parameters**[br]
-##[br]
-## - *menu_type*: Which menu to hide. Can be either `main` or `pause` (default: `main`)
-##
+## [br]
+## #### Parameters[br]
+## [br]
+## - *menu_type*: Which menu to hide. Can be either `main` or `pause` (default: `main`)[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name HideMenuCommand

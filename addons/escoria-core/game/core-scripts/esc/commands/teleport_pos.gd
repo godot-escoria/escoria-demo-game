@@ -4,9 +4,9 @@
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - object: Global ID of the object to move.[br]
-## - x: X-coordinate of destination position.[br]
-## - y: Y-coordinate of destination position.
+## - *object*: Global ID of the object to move.[br]
+## - *x*: X-coordinate of destination position.[br]
+## - *y*: Y-coordinate of destination position.
 ## [br]
 ## @ESC
 extends ESCBaseCommand
