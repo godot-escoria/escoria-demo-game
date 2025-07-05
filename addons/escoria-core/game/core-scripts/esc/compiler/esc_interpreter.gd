@@ -563,16 +563,6 @@ func _look_up_object_by_global_id(global_id: String):
 
 	return null
 
-
-func look_up_variable(name: ESCToken, expr: ESCGrammarExpr):
-	var distance: int = _locals[expr] if _locals.has(expr) else -1
-
-	if distance == -1:
-		return _globals.get_value(name)
-	else:
-		return _environment.get_at(distance, name.get_lexeme())
-
-
 func look_up_global(name: ESCToken):
 	if _globals.get_values().has(name.get_lexeme()):
 		return _globals.get_value(name)
