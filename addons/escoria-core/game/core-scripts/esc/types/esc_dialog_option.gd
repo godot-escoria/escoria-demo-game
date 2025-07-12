@@ -1,64 +1,26 @@
-# An option of an ESC dialog
+## A single option used as part of a dialog.
+##
+## `ESCDialog` makes use of these when assembling an actual dialog in Escoria.
 extends ESCStatement
 class_name ESCDialogOption
 
 
-# Regex that matches dialog option lines
-const REGEX = \
-	'^[^-]*- (?<trans_key>[^:]+)?:?"' +\
-	'(?<option>[^"]+)"( \\[(?<conditions>[^\\]]+)\\])?$'
-
-
-# Option displayed in the HUD
+## Option text displayed in the HUD.
 var option: String:
 	get = get_translated_option
 
-# Maps back to the parsed source option.
+## Maps back to the parsed source option.
 var source_option
 
-# Conditions to show this dialog
-var conditions: Array = []
-
+## Whether this option is valid.
 var _is_valid: bool:
 	set = set_is_valid,
 	get = is_valid
 
-# Create a dialog option from an ESC string
-#
-# #### Parameter
-# - option_string: ESC string for the dialog option
-func load_string(option_string: String):
-	var option_regex = RegEx.new()
-	option_regex.compile(REGEX)
 
-	if option_regex.search(option_string):
-		for result in option_regex.search_all(option_string):
-			if "option" in result.names:
-				var _trans_key = ""
-				if "trans_key" in result.names:
-					_trans_key = "%s:" % \
-							ESCUtils.get_re_group(result, "trans_key")
-				self.option = "%s%s" % [
-					_trans_key,
-					ESCUtils.get_re_group(result, "option")
-				]
-			if "conditions" in result.names:
-				for condition_text in ESCUtils.get_re_group(
-							result,
-							"conditions"
-						).split(","):
-					self.conditions.append(
-						ESCCondition.new(condition_text.strip_edges())
-					)
-	else:
-		escoria.logger.error(
-			self,
-			"Invalid dialog option detected: %s." % option_string +
-				"Dialog option regexp didn't match"
-		)
-
-
-func get_translated_option():
+## Returns the translated version of the option, if one exists; otherwise, the 
+## default text is returned.
+func get_translated_option() -> String:
 	# Check if text has a key
 	if ":" in option:
 		var splitted_text = option.split(":")
@@ -74,14 +36,14 @@ func get_translated_option():
 	return option
 
 
-# Check, if conditions match
+## Checks if conditions match for this dialog option.[br]
+## [br]
+## *Returns* True if all conditions are met, false otherwise.
 func is_valid() -> bool:
-#	for condition in self.conditions:
-#		if not (condition as ESCCondition).run():
-#			return false
-#	return true
 	return _is_valid
 
 
+## Sets whether the option is valid, although this value isn't currently used 
+## as part of any useful checks.
 func set_is_valid(value: bool) -> void:
 	_is_valid = value

@@ -1,13 +1,15 @@
+## Base class for Escoria plugins.
 class_name EscoriaPlugin
 
-# Register a user interface. This should be called in a deferred way
-# from the addon's _enter_tree.
-#
-# #### Parameters
-# - plugin: the plugin that registers
-# - game_scene: Path to the game scene extending ESCGame
-#
-# *Returns* a boolean indicating whether the ui could be successfully registered
+## Register a user interface. This should be called in a deferred way
+## from the addon's _enter_tree.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - plugin: the plugin that registers[br]
+## - game_scene: Path to the game scene extending ESCGame[br]
+## [br]
+## **Returns** a boolean indicating whether the ui could be successfully registered.
 static func register_ui(plugin: EditorPlugin, game_scene: String) -> bool:
 	if not plugin.get_editor_interface().is_plugin_enabled(
 		Escoria.ESCORIA_CORE_PLUGIN_NAME
@@ -33,10 +35,11 @@ static func register_ui(plugin: EditorPlugin, game_scene: String) -> bool:
 	)
 	return true
 
-# Deregister a user interface
-#
-# #### Parameters
-# - game_scene: Path to the game scene extending ESCGame
+## Deregister a user interface.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - game_scene: Path to the game scene extending ESCGame
 static func deregister_ui(game_scene: String):
 	# If the currently configured game scene is not the one we're disabling, exit now.
 	if ESCProjectSettingsManager.get_setting(
@@ -50,14 +53,15 @@ static func deregister_ui(game_scene: String):
 	)
 
 
-# Register a dialog manager addon. This should be called in a deferred way
-# from the addon's _enter_tree.
-#
-# #### Parameters
-# - plugin: the plugin that registers
-# - manager_class: Path to the manager class script
-#
-# *Returns* a boolean value indicating whether the dialog manager was registered
+## Register a dialog manager addon. This should be called in a deferred way
+## from the addon's _enter_tree.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - plugin: the plugin that registers[br]
+## - manager_class: Path to the manager class script[br]
+## [br]
+## **Returns** a boolean value indicating whether the dialog manager was registered.
 static func register_dialog_manager(plugin: EditorPlugin, manager_class: String) -> bool:
 	if not plugin.get_editor_interface().is_plugin_enabled(
 		Escoria.ESCORIA_CORE_PLUGIN_NAME
@@ -81,10 +85,12 @@ static func register_dialog_manager(plugin: EditorPlugin, manager_class: String)
 
 	return true
 
-# Deregister a dialog manager addon
-#
-# #### Parameters
-# - manager_class: Path to the manager class script
+
+## Deregister a dialog manager addon.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - manager_class: Path to the manager class script
 static func deregister_dialog_manager(manager_class: String):
 	var dialog_managers: Array = ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.DIALOG_MANAGERS

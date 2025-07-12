@@ -1,6 +1,11 @@
+## Defines all possible token types for ASHES.
+##
+## Note that this way of representing enums is a holdover from Godot 3.x, and 
+## should be updated to the Godot 4 paradigm at some point.
 class_name ESCTokenType
 
 
+## An exhaustive list of all token types recognized by ASHES.
 enum TokenType {
 	INDENT, DEDENT, NEWLINE,
 
@@ -22,5 +27,6 @@ enum TokenType {
 }
 
 
+## Translates a given token type into its name.
 static func get_token_type_name(type: int) -> String:
 	return TokenType.keys()[type]

@@ -1,3 +1,4 @@
+## Factory class for producing an ASHES interpreter.
 extends RefCounted
 class_name ESCInterpreterFactory
 
@@ -5,6 +6,7 @@ class_name ESCInterpreterFactory
 static var _interpreter: ESCInterpreter = null
 
 
+## Produces an interpreter as a singleton.
 static func create_interpreter() -> ESCInterpreter:
 	if not _interpreter:
 		_interpreter = load("res://addons/escoria-core/game/core-scripts/esc/compiler/esc_interpreter.gd").new(ESCCompiler.load_commands(), ESCCompiler.load_globals())

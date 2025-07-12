@@ -1,73 +1,63 @@
-# Escoria dialog player
+## Escoria dialog player
 extends Node
 class_name ESCDialogPlayer
 
-
-# Emitted when an answer as chosem
-#
-# ##### Parameters
-#
-# - option: The dialog option that was chosen
+## Emitted when an answer is chosen.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - option: The dialog option that was chosen.
 signal option_chosen(option)
 
-# Emitted when a say command finished
+## Emitted when a say command finished.
 signal say_finished
 
-
-# Used when specifying dialog types in various methods
+## Used when specifying dialog types in various methods.
 const DIALOG_TYPE_SAY = "say"
 
+## Used when specifying dialog types in various methods.
 const DIALOG_TYPE_CHOOSE = "choose"
 
-
-# Reference to the currently playing "say" dialog manager
+## Reference to the currently playing "say" dialog manager.
 var _say_dialog_manager: ESCDialogManager = null
 
-# Reference to the currently playing "choose" dialog manager
+## Reference to the currently playing "choose" dialog manager.
 var _choose_dialog_manager: ESCDialogManager = null
 
-# Whether to use the "dialog box preservation" feature
+## Whether to use the "dialog box preservation" feature.
 var _block_say_enabled: bool = false
 
-
-# Register the dialog player and load the dialog resources
+## Registers the dialog player and loads the dialog resources.
 func _ready():
 	if Engine.is_editor_hint():
 		return
 
 	escoria.dialog_player = self
 
-
-# Instructs the dialog manager to preserve the next dialog box used by a `say`
-# command until a call to `disable_preserve_dialog_box` is made.
-#
-# This method should be idempotent, i.e. if called after the first time and
-# prior to `disable_preserve_dialog_box` being called, the result should be the
-# same.
+## Instructs the dialog manager to preserve the next dialog box used by a `say`
+## command until a call to `disable_preserve_dialog_box` is made. This method
+## should be idempotent, i.e. if called after the first time and prior to
+## `disable_preserve_dialog_box` being called, the result should be the same.
 func enable_preserve_dialog_box() -> void:
 	_block_say_enabled = true
 
-
-# Instructs the dialog manager to no longer preserve the currently-preserved
-# dialog box or to not preserve the next dialog box used by a `say` command
-# (this is the default state).
-#
-# This method should be idempotent, i.e. if called after the first time and
-# prior to `enable_preserve_dialog_box` being called, the result should be the
-# same.
+## Instructs the dialog manager to no longer preserve the currently-preserved
+## dialog box or to not preserve the next dialog box used by a `say` command
+## (this is the default state). This method should be idempotent, i.e. if called
+## after the first time and prior to `enable_preserve_dialog_box` being called,
+## the result should be the same.
 func disable_preserve_dialog_box() -> void:
 	_block_say_enabled = false
 	_say_dialog_manager.disable_preserve_dialog_box()
 
-
-# Make a character say some text
-#
-# #### Parameters
-#
-# - character: Character that is talking
-# - type: UI to use for the dialog
-# - text: Text to say
-# - key: Translation key
+## Makes a character say some text.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - character: Character that is talking.[br]
+## - type: UI to use for the dialog.[br]
+## - text: Text to say.[br]
+## - key: Translation key.
 func say(character: String, type: String, text: String, key: String) -> void:
 	if type == "":
 		type = ESCProjectSettingsManager.get_setting(
@@ -84,12 +74,12 @@ func say(character: String, type: String, text: String, key: String) -> void:
 	_say_dialog_manager.say(self, character, text, type, key)
 
 
-# Display a list of choices
-#
-# #### Parameters
-#
-# - dialog: The dialog to start
-# - type: The dialog chooser type to use (default: "simple")
+## Displays a list of choices.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - dialog: The dialog to start.[br]
+## - type: The dialog chooser type to use (default: "simple").
 func start_dialog_choices(dialog: ESCDialog, type: String = "simple"):
 	# We only need to remove the dialog manager from the scene tree if the dialog manager type
 	# has changed since the last use of this method.
@@ -98,17 +88,18 @@ func start_dialog_choices(dialog: ESCDialog, type: String = "simple"):
 	_choose_dialog_manager.choose(self, dialog, type)
 
 
-# Interrupt the currently running dialog
+## Interrupts the currently running dialog.
 func interrupt() -> void:
 	if is_instance_valid(_say_dialog_manager):
 		_say_dialog_manager.interrupt()
 
 
-# Loads the first dialog manager that supports the specified "say" type; otherwise,
-# the engine throws an error and stops.
-#
-# #### Parameters
-# - type: The type the dialog manager should support, e.g. "floating"
+## Loads the first dialog manager that supports the specified "say" type;
+## otherwise, the engine throws an error and stops.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - type: The type the dialog manager should support, e.g. "floating".
 func _determine_say_dialog_manager(type: String) -> void:
 	var dialog_manager: ESCDialogManager = null
 
@@ -131,11 +122,12 @@ func _determine_say_dialog_manager(type: String) -> void:
 	_say_dialog_manager = dialog_manager
 
 
-# Loads the first dialog manager that supports the specified "choose" type; otherwise,
-# the engine throws an error and stops.
-#
-# #### Parameters
-# - type: The type the dialog manager should support, e.g. "simple"
+## Loads the first dialog manager that supports the specified "choose" type;
+## otherwise, the engine throws an error and stops.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - type: The type the dialog manager should support, e.g. "simple".
 func _determine_choose_dialog_manager(type: String) -> void:
 	var dialog_manager: ESCDialogManager = null
 
@@ -158,14 +150,14 @@ func _determine_choose_dialog_manager(type: String) -> void:
 	_choose_dialog_manager = dialog_manager
 
 
-# If necessary, updates the dialog manager for the specified dialog type.
-#
-# #### Parameters
-#
-# - dialog_type: The type of dialog that will be managed, e.g. "say" or "choose"
-# - current_dialog_manager: The dialog manager currently being used (if any) for the specified
-#   dialog type
-# - dialog_manager_type: The dialog manager type specific to the dialog manager being requested
+## If necessary, updates the dialog manager for the specified dialog type.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - dialog_type: The type of dialog that will be managed, e.g. "say" or "choose".[br]
+## - current_dialog_manager: The dialog manager currently being used (if any) for the specified[br]
+##   dialog type.[br]
+## - dialog_manager_type: The dialog manager type specific to the dialog manager being requested.
 func _update_dialog_manager(dialog_type: String, current_dialog_manager: ESCDialogManager, \
 	dialog_manager_type: String) -> void:
 
@@ -179,14 +171,14 @@ func _update_dialog_manager(dialog_type: String, current_dialog_manager: ESCDial
 		add_child(_determine_dialog_manager(dialog_type, dialog_manager_type))
 
 
-# Sets the requested dialog manager type for the specified dialog function.
-#
-# #### Parameters
-#
-# - dialog_type: The type of dialog that will be managed, e.g. "say" or "choose"
-# - dialog_manager_type: The dialog manager type specific to the dialog manager being requested
-#
-# *Returns* the newly-resolved dialog manager
+## Sets the requested dialog manager type for the specified dialog function.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - dialog_type: The type of dialog that will be managed, e.g. "say" or "choose".[br]
+## - dialog_manager_type: The dialog manager type specific to the dialog manager being requested.[br]
+## [br]
+## Returns the newly-resolved dialog manager.
 func _determine_dialog_manager(dialog_type: String, dialog_manager_type: String) -> ESCDialogManager:
 	if dialog_type == DIALOG_TYPE_SAY:
 		_determine_say_dialog_manager(dialog_manager_type)
