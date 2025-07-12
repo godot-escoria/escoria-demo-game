@@ -6,7 +6,7 @@ class_name ESCMigration
 ## named like the version they migrate the savegame to. (e.g. 1.0.0.gd, 1.0.1.gd)
 
 ## The savegame object to migrate
-var _savegame: ESCSaveGame
+var _savegame: ESCSaveGame:
 	get = get_savegame
 
 

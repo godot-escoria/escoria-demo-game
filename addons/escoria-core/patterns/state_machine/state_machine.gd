@@ -16,11 +16,7 @@ signal state_changed(current_state)
 ## command is called.
 var START_STATE: Node
 
-## You must set a starting node from the inspector or on[br]
-## the node that inherits from this state machine interface[br]
-## If you don't the game will crash (on purpose, so you won't[br]
-## forget to initialize the state machine)
-@export var START_STATE: NodePath
+## List of states
 var states_map = {}
 
 ## Stack of states
@@ -31,7 +27,6 @@ var current_state = null
 
 ## Name of the current state
 var current_state_name = ""
-var _active : bool = false: set = set_active
 
 ## Whether the state machine is currently enabled or not.
 var _active = false: 
