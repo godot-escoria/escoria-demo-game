@@ -226,6 +226,7 @@ func _event_is_required(event_name: String) -> bool:
 
 # Called from escoria autoload to start a new game.
 func new_game():
+	escoria.event_manager.interrupt() # interrupt first because we're going to reset the interpreter
 	escoria.game_scene.escoria_show_ui()
 	escoria.globals_manager.clear()
 	escoria.interpreter_factory.reset_interpreter()
@@ -236,7 +237,6 @@ func new_game():
 			true,
 			true
 		)
-	escoria.event_manager.interrupt()
 	run_event_from_script(escoria.start_script, escoria.event_manager.EVENT_NEW_GAME)
 
 # Function called to quit the game.

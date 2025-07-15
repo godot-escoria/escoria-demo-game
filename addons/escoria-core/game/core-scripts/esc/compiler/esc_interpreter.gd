@@ -58,7 +58,8 @@ func cleanup() -> void:
 
 	_locals.clear()
 
-	_current_event = null
+	if not Engine.is_editor_hint():
+		escoria.globals_manager.global_changed.disconnect(_on_global_changed)
 
 
 func get_global_values() -> Dictionary:
