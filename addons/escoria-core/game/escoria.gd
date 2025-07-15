@@ -228,6 +228,7 @@ func _event_is_required(event_name: String) -> bool:
 func new_game():
 	escoria.game_scene.escoria_show_ui()
 	escoria.globals_manager.clear()
+	escoria.interpreter_factory.reset_interpreter()
 	escoria.main.clear_previous_scene()
 	escoria.creating_new_game = true
 	escoria.globals_manager.set_global(

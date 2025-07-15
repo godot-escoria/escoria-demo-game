@@ -12,6 +12,14 @@ func init(enclosing) -> void:
 	_enclosing = enclosing
 
 
+func cleanup() -> void:
+	if is_instance_valid(_enclosing):
+		_enclosing.cleanup()
+		_enclosing = null
+
+	_values.clear()
+
+
 func is_valid_key(name: ESCToken):
 	if _values.has(name.get_lexeme()):
 		return true
