@@ -1,3 +1,13 @@
+## [4.0.0-alpha.282](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.282) (2025-07-19)
+
+
+### Bug Fixes
+
+* moves the event interrupt on a new game forward prior to resetting interpreter; disconnects global_changed signal from previous interpreter, although we should still keep an eye on this ([ef3fb0a](https://github.com/godot-escoria/escoria-demo-game/commit/ef3fb0a062c75cf5ce0c7c707119a7349f04dcc1))
+* resets the interpreter on each 'new game' so that globals and locals alike are properly reset and don't stick around ([ca40fd4](https://github.com/godot-escoria/escoria-demo-game/commit/ca40fd4447a2ef1fe194cbdd112d3486b701671d))
+
+
+
 ## [4.0.0-alpha.281](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.281) (2025-05-30)
 
 
