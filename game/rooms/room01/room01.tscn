@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://71iyvfo7gkvu"]
+[gd_scene load_steps=17 format=3 uid="uid://71iyvfo7gkvu"]
 
 [ext_resource type="Script" uid="uid://5pbcieq7gpdo" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
 [ext_resource type="FontFile" path="res://game/fonts/caslonantique.tres" id="3"]
@@ -17,7 +17,16 @@ vertices = PackedVector2Array(125, 357, 1170, 355, 1277, 417, 1279, 550, -1, 548
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(125, 357, 1170, 355, 1277, 417, 1279, 550, -1, 548, 0, 449)])
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ejvr0"]
+size = Vector2(104, 73)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ogbs0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6ckmc"]
+size = Vector2(207, 54)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_woamt"]
+size = Vector2(191, 54)
 
 [node name="room1" type="Node2D"]
 script = ExtResource("6")
@@ -83,6 +92,10 @@ default_action = "walk"
 combine_when_selected_action_is_in = PackedStringArray()
 is_exit = true
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/r_door"]
+position = Vector2(-5, 158.5)
+shape = SubResource("RectangleShape2D_ejvr0")
+
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
 position = Vector2(-1227, -231)
 polygon = PackedVector2Array(1173, 63, 1278, 106, 1278, 420, 1172, 356)
@@ -110,8 +123,11 @@ material = SubResource("ShaderMaterial_ogbs0")
 position = Vector2(470, 140)
 texture = ExtResource("10")
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/artwork1"]
+position = Vector2(468, 383)
+shape = SubResource("RectangleShape2D_6ckmc")
+
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/artwork1"]
-visible = false
 position = Vector2(-84, 11.1)
 polygon = PackedVector2Array(487, 62, 627, 62, 627, 198, 487, 199)
 
@@ -144,6 +160,10 @@ inventory_texture_hovered = ExtResource("9")
 [node name="Art12" type="Sprite2D" parent="Hotspots/artwork2"]
 position = Vector2(830, 140)
 texture = ExtResource("9")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/artwork2"]
+position = Vector2(824, 380)
+shape = SubResource("RectangleShape2D_woamt")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/artwork2"]
 position = Vector2(273, 11)

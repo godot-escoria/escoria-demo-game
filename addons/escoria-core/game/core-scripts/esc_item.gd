@@ -724,6 +724,24 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 		)
 
 
+func walk_direction(vector: Vector2) -> void:
+	if is_movable:
+		_movable.walk_direction(vector)
+	else:
+		ESCSafeLogging.log_warn(
+			self,
+			"Node %s cannot use \"walk_direction\". Its \"is_movable\" parameter is false." %self
+		)
+	
+func stop_walking():
+	if is_movable:
+		_movable.stop_walking()
+	else:
+		ESCSafeLogging.log_warn(
+			self,
+			"Node %s cannot use \"stop_walking\". Its \"is_movable\" parameter is false." %self
+		)
+
 # Stop the movable node immediately and remain where it is at this moment,
 # or teleport it directly at destination position if 'to_target' is true.
 #
