@@ -251,4 +251,3 @@ We can also see that if "Is it an old game?" is chosen, it will open up another 
 If we do end up selecting, "Not really.", the dialog will use the `break` keyword to move up two levels of dialog, i.e. the top-most level. Similarly, if "I know enough about Loom." is selected, it will move up one level of dialog, which happens to be the top-most level.
 
 If "I don't want to talk at all anymore." is chosen, `done` will conclude the entire dialog.
-

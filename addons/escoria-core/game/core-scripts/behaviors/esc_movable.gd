@@ -11,7 +11,8 @@ class_name ESCMovable
 enum MovableTask {
 	NONE,
 	WALK,
-	SLIDE
+	SLIDE,
+	WALK_DIRECT
 }
 
 
@@ -44,6 +45,9 @@ var is_mirrored: bool
 
 
 var _orig_speed: float = 0.0
+
+
+var move_vector: Vector2
 
 
 # Shortcut variable that references the node's parent
@@ -82,6 +86,22 @@ func _process(delta: float) -> void:
 			_perform_walk_orientation(angle)
 
 		update_terrain()
+	elif task == MovableTask.WALK_DIRECT:
+		var old_pos = parent.get_position()
+		
+		var a: float = pow(sin(last_angle), 2)
+		var movement_speed: float = parent.speed * delta * last_scale.x * (a * last_scale.x + 1 - a) * \
+			parent.terrain.player_speed_multiplier
+		var new_pos: Vector2 = old_pos + move_vector.normalized() * movement_speed * parent.v_speed_damp
+		
+		# Get the angle of the object to face the position to reach.
+		var angle: float = (old_pos.angle_to_point(new_pos))
+		_perform_walk_orientation(angle)
+		
+		if parent.terrain.is_point_inside_walkable_area(new_pos):
+			parent.set_position(new_pos)
+		update_terrain()
+			
 	else:
 		moved = false
 		set_process(false)
@@ -248,6 +268,20 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 	task = MovableTask.WALK
 	set_process(true)
 
+func walk_direction(vector: Vector2) -> void:
+	if not parent.terrain or vector == Vector2.ZERO:
+		walk_stop(parent.get_global_position())
+		task = MovableTask.NONE
+		return
+		
+	task = MovableTask.WALK_DIRECT
+	move_vector = vector
+	set_process(true)
+
+func stop_walking():
+	task = MovableTask.NONE
+	walk_stop(parent.get_global_position())
+	set_process(false)
 
 # We have finished walking. Set the idle pose and complete
 #
