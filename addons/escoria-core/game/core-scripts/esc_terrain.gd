@@ -309,3 +309,15 @@ func get_simple_path(
 		to,
 		optimize,
 		layers)
+
+## Returns whether the given 2D point is inside the navigation area defined in 
+## the terrain.[br]
+## [br]
+## #### Parameters[br]
+## - point: the Vector2 point to check[br]
+## [br]
+## *Returns* True if the point is inside the terrain area, false otherwise.
+func is_point_inside_walkable_area(point: Vector2) -> bool:
+	return Geometry2D.is_point_in_polygon(
+		point,
+		$NavigationRegion2D.navigation_polygon.get_vertices())

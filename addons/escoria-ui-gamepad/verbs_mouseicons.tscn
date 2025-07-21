@@ -1,0 +1,88 @@
+[gd_scene load_steps=9 format=3 uid="uid://edjupfhll0g3"]
+
+[ext_resource type="Script" uid="uid://d2mlyj6637kqo" path="res://addons/escoria-ui-simplemouse/verbs_mouseicons.gd" id="1_ls08n"]
+[ext_resource type="Texture2D" uid="uid://dy1v07dsq0gv6" path="res://addons/escoria-ui-simplemouse/cursors/new/target_a.png" id="2_ex8b4"]
+[ext_resource type="Texture2D" uid="uid://kntfqvpgma13" path="res://addons/escoria-ui-simplemouse/cursors/new/look_b.png" id="3_od8jg"]
+[ext_resource type="Texture2D" uid="uid://2tj2uhyd8un1" path="res://addons/escoria-ui-simplemouse/cursors/new/hand_open.png" id="4_x2fa6"]
+[ext_resource type="Texture2D" uid="uid://c6dy0a2st8l6k" path="res://addons/escoria-ui-simplemouse/cursors/new/tool_wrench.png" id="5_23yrw"]
+[ext_resource type="Texture2D" uid="uid://dsvbjwnblrs51" path="res://addons/escoria-ui-simplemouse/cursors/new/message_dots_round.png" id="6_fjurw"]
+[ext_resource type="Texture2D" uid="uid://bmah30wxobv25" path="res://addons/escoria-ui-simplemouse/cursors/new/arrow_w.png" id="7_720f2"]
+[ext_resource type="Texture2D" uid="uid://bm7mm8uhe2dey" path="res://addons/escoria-ui-simplemouse/cursors/new/arrow_e.png" id="8_aisnv"]
+
+[node name="verbs_menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ls08n")
+
+[node name="actions" type="HBoxContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -6.0
+offset_top = -1.0
+offset_right = -6.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="walk" type="TextureRect" parent="actions"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture = ExtResource("2_ex8b4")
+
+[node name="look" type="TextureRect" parent="actions"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture = ExtResource("3_od8jg")
+
+[node name="pickup" type="TextureRect" parent="actions"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture = ExtResource("4_x2fa6")
+
+[node name="use" type="TextureRect" parent="actions"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture = ExtResource("5_23yrw")
+
+[node name="talk" type="TextureRect" parent="actions"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture = ExtResource("6_fjurw")
+
+[node name="exit_left" type="TextureRect" parent="actions"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture = ExtResource("7_720f2")
+
+[node name="exit_right" type="TextureRect" parent="actions"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+texture = ExtResource("8_aisnv")
+
+[node name="mouse_position" type="Control" parent="."]
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="tool" type="TextureRect" parent="mouse_position"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = -16.0
+offset_right = 88.0
+offset_bottom = 24.0
+mouse_filter = 2
