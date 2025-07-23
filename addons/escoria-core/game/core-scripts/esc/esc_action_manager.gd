@@ -558,9 +558,10 @@ func perform_inputevent_on_object(
 	var need_combine = _check_item_needs_combine()
 
 	# If the current tool was not set, this is our first item, make it the tool
-	if not current_tool or (current_tool and not need_combine):
+	if (not escoria.inventory_manager.inventory_has(obj.global_id) and not current_tool) \
+			or (current_tool and not need_combine):
 		current_tool = obj
-	# Else, if we have a tool and combination required, this is our second item,
+	# Else, if we have a tool and combination required, this is our second item,
 	# make it the target.
 	elif need_combine and not tool_just_set:
 		current_target = obj
@@ -608,10 +609,15 @@ func perform_inputevent_on_object(
 					# We need to wait for that target
 					return
 				else:
-					event_to_queue = _get_event_to_queue(
-						current_action,
-						obj
-					)
+					if need_combine:
+						set_action_input_state(
+							ACTION_INPUT_STATE.AWAITING_TARGET_ITEM
+						)
+					else:
+						event_to_queue = _get_event_to_queue(
+							current_action,
+							obj
+						)
 
 	# Get out of here if there's a specified action but an event couldn't be found.
 	# Note that `event_to_queue` may still be null, but we do need to start the
@@ -713,7 +719,7 @@ func _set_tool_and_action(obj: ESCObject, default_action: bool):
 	var tool_just_set: bool = false
 	# Check if current_action and current_tool are already set
 	if current_action and current_tool:
-		if not current_action in escoria.action_manager\
+		if not current_action in escoria.action_manager \
 				.current_tool.node.combine_when_selected_action_is_in:
 			current_tool = obj
 			tool_just_set = true
