@@ -1,3 +1,12 @@
+## [4.0.0-alpha.283](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.283) (2025-07-23)
+
+
+### Bug Fixes
+
+* Explicitly require combined items to be in inventory ([3fa4e4f](https://github.com/godot-escoria/escoria-demo-game/commit/3fa4e4f7a6001e0bc967acf3d93510ed8f1a355d))
+
+
+
 ## [4.0.0-alpha.282](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.282) (2025-07-19)
 
 

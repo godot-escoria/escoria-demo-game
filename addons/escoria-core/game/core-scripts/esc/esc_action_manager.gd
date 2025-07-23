@@ -602,7 +602,7 @@ func perform_inputevent_on_object(
 			set_action_input_state(ACTION_INPUT_STATE.AWAITING_TARGET_ITEM)
 			return
 		# If clicked object needs a combination and doesn't require to be in inventory,
-		# then we need to wait for the target. 
+		# then we need to wait for the target.
 		elif need_combine:
 			set_action_input_state(ACTION_INPUT_STATE.AWAITING_TARGET_ITEM)
 		# If clicked object doesn't need a combination, then we simply run the action.
