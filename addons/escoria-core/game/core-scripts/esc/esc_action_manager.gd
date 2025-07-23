@@ -557,7 +557,8 @@ func perform_inputevent_on_object(
 	var tool_just_set = _set_tool_and_action(obj, default_action)
 	var need_combine = _check_item_needs_combine()
 
-	# If the current tool was not set, this is our first item, make it the tool
+	# If the clicked item is not in the inventory and the current tool was not set,
+	# then this is our first item, make it the tool.
 	if (not escoria.inventory_manager.inventory_has(obj.global_id) and not current_tool) \
 			or (current_tool and not need_combine):
 		current_tool = obj
@@ -572,52 +573,41 @@ func perform_inputevent_on_object(
 	elif action_state == ACTION_INPUT_STATE.AWAITING_ITEM and \
 			not need_combine:
 		set_action_input_state(ACTION_INPUT_STATE.COMPLETED)
-	elif action_state == ACTION_INPUT_STATE.AWAITING_ITEM and need_combine and not tool_just_set:
+	elif action_state == ACTION_INPUT_STATE.AWAITING_ITEM and \
+			need_combine and not tool_just_set:
 		set_action_input_state(ACTION_INPUT_STATE.AWAITING_TARGET_ITEM)
 
 	var event_to_queue: ESCGrammarStmts.Event = null
 
-	# Manage exits
+
+	# Manage exits first, actions last
+	# If the clicked object is an exit and current action is "walk"/unset, we need to run the exit scene action.
 	if obj.node.is_exit and current_action in ["", ACTION_WALK]:
 		event_to_queue = _get_event_to_queue(ACTION_EXIT_SCENE, obj)
-	else:
-		# Manage movements towards object before activating it
-		if current_action in ["", ACTION_WALK] and \
-				not escoria.inventory_manager.inventory_has(obj.global_id):
-			event_to_queue = _get_event_to_queue(ACTION_ARRIVED, obj)
-		# Manage action on object
-		elif not current_action in ["", ACTION_WALK]:
-			if need_combine and current_target:
-				event_to_queue = _get_event_to_queue(
-					current_action,
-					current_tool,
-					current_target
-				)
-			else:
-				# Check if object must be in inventory to be used and update
-				# action state if necessary
-				if obj.node.use_from_inventory_only and \
-					escoria.inventory_manager.inventory_has(obj.global_id) and \
-					need_combine:
-
-					# We're missing a target here for our tool to be used on
-					current_tool = obj
-					set_action_input_state(
-						ACTION_INPUT_STATE.AWAITING_TARGET_ITEM
-					)
-
-					# We need to wait for that target
-					return
-				else:
-					if need_combine:
-						set_action_input_state(
-							ACTION_INPUT_STATE.AWAITING_TARGET_ITEM
-						)
-					else:
-						event_to_queue = _get_event_to_queue(
-							current_action,
-							obj
-						)
+	# If the clicked object is not an exit, we check if the current action is "walk"/unset
+	# If so, and if the object is not in the inventory, we need to run the arrived action.
+	elif current_action in ["", ACTION_WALK] and not escoria.inventory_manager.inventory_has(obj.global_id):
+		event_to_queue = _get_event_to_queue(ACTION_ARRIVED, obj)
+	# If the current action is set and different from "walk"/unset, we need to check for combinations.
+	elif not current_action in ["", ACTION_WALK]:
+		# If clicked object needs a combination, and current target is set, then perform the combination.
+		if need_combine and current_target:
+			event_to_queue = _get_event_to_queue(current_action, current_tool, current_target)
+		# If clicked object needs a combination but can only be used from inventory, then we need to wait
+		# for the target.
+		elif obj.node.use_from_inventory_only \
+				and escoria.inventory_manager.inventory_has(obj.global_id) \
+				and need_combine:
+			current_tool = obj
+			set_action_input_state(ACTION_INPUT_STATE.AWAITING_TARGET_ITEM)
+			return
+		# If clicked object needs a combination and doesn't require to be in inventory,
+		# then we need to wait for the target. 
+		elif need_combine:
+			set_action_input_state(ACTION_INPUT_STATE.AWAITING_TARGET_ITEM)
+		# If clicked object doesn't need a combination, then we simply run the action.
+		else:
+			event_to_queue = _get_event_to_queue(current_action, obj)
 
 	# Get out of here if there's a specified action but an event couldn't be found.
 	# Note that `event_to_queue` may still be null, but we do need to start the
