@@ -182,15 +182,15 @@ shape = SubResource("2")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/pipe"]
 libraries = {
-"": SubResource("AnimationLibrary_ck3xl")
+&"": SubResource("AnimationLibrary_ck3xl")
 }
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="Hotspots/pipe"]
 position = Vector2(593, 244)
 emitting = false
-process_material = SubResource("5")
 texture = ExtResource("9")
 lifetime = 1.5
+process_material = SubResource("5")
 
 [node name="ESCLocation" type="Marker2D" parent="Hotspots/pipe"]
 position = Vector2(618, 393)
