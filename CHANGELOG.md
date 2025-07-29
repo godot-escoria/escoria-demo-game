@@ -1,3 +1,12 @@
+## [4.0.0-alpha.284](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.284) (2025-07-29)
+
+
+### Bug Fixes
+
+* on room ready, reset the verb menu ([07f736b](https://github.com/godot-escoria/escoria-demo-game/commit/07f736b6ff668696fe8df2fc11ea461451164bc9))
+
+
+
 ## [4.0.0-alpha.283](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.283) (2025-07-23)
 
 

@@ -80,7 +80,7 @@ func _ready():
 
 func _enter_tree():
 	initialize_esc_game()
-	
+
 	var room_selector_parent = $ui/HBoxContainer/VBoxContainer
 
 	if ESCProjectSettingsManager.get_setting(ESCProjectSettingsManager.ENABLE_ROOM_SELECTOR) \
