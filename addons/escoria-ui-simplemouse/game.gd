@@ -76,11 +76,11 @@ var targeted_node: Node
 func _ready():
 	hide_ui()
 	$ui/tooltip.connect("tooltip_size_updated", Callable(self, "update_tooltip_following_mouse_position"))
-
+	escoria.main.room_ready.connect(_on_room_ready)
 
 func _enter_tree():
 	initialize_esc_game()
-
+	
 	var room_selector_parent = $ui/HBoxContainer/VBoxContainer
 
 	if ESCProjectSettingsManager.get_setting(ESCProjectSettingsManager.ENABLE_ROOM_SELECTOR) \
@@ -481,6 +481,6 @@ func _on_event_done(_return_code: int, _event_name: String):
 		$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
 
 
-
-func _on_MenuButton_pressed() -> void:
-	pause_game()
+func _on_room_ready():
+	$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
+	$mouse_layer/verbs_menu.action_manually_changed = false
