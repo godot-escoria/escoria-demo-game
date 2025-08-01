@@ -272,6 +272,7 @@ func visit_global_stmt(stmt: ESCGrammarStmts.Global):
 	# Only define the global if we haven't already done so; otherwise, just
 	# ignore it
 	if not _globals.get_values().has(stmt.get_name().get_lexeme()):
+		escoria.globals_manager.set_global(stmt.get_name().get_lexeme(), value)
 		_globals.define(stmt.get_name().get_lexeme(), value)
 
 	return null
