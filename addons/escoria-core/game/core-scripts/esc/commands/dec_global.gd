@@ -16,7 +16,7 @@ class_name DecGlobalCommand
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
-		[TYPE_STRING, TYPE_INT],
+		[TYPE_STRING, TYPE_FLOAT],
 		[null, 1]
 	)
 
@@ -26,8 +26,8 @@ func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
 
-	if not escoria.globals_manager.get_global(arguments[0]) is int:
-		raise_error(self, "Invalid global. Global %s isn't an integer value." % arguments[0])
+	if not escoria.globals_manager.get_global(arguments[0]) is float:
+		raise_error(self, "Invalid global. Global %s isn't a float value." % arguments[0])
 		return false
 
 	return true
