@@ -661,9 +661,6 @@ func perform_inputevent_on_object(
 
 
 func _telekinetic_applies_to(event: ESCGrammarStmts.Event) -> bool:
-	if event == null:
-		return false
-
 	if event.get_flags_with_conditions().has("TK"):
 		var tk_flag_condition = event.get_flags_with_conditions().get("TK")
 
