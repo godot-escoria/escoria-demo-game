@@ -280,20 +280,19 @@ func _get_event_to_queue(
 	if target.node is ESCItem \
 			and action in target.node.combine_when_selected_action_is_in:
 
-		# Check if object must be in inventory to be used
-		if target.node.use_from_inventory_only:
-			if escoria.inventory_manager.inventory_has(target.global_id):
-				# Player has item in inventory, we check the element to use on
-				if combine_with:
-					var do_combine = true
-					if combine_with.node is ESCItem \
-							and combine_with.node.use_from_inventory_only\
-							and not escoria.inventory_manager.inventory_has(
-								combine_with.global_id
-							):
-						do_combine = false
+		# Check if object is in inventory or is not required to be in inventory to be used
+		if escoria.inventory_manager.inventory_has(target.global_id) or not target.node.use_from_inventory_only:
+			# We check the element to use on
+			if combine_with:
+				var do_combine = true
+				if combine_with.node is ESCItem \
+						and combine_with.node.use_from_inventory_only\
+						and not escoria.inventory_manager.inventory_has(
+							combine_with.global_id
+						):
+					do_combine = false
 
-					if do_combine:
+				if do_combine:
 #						var target_event = "%s %s" % [
 #							action,
 #							combine_with.global_id
@@ -303,71 +302,71 @@ func _get_event_to_queue(
 #							target.global_id
 #						]
 
-						if _has_event_with_target(target.events, action, combine_with.global_id):
-						#if target.events.has(target_event):
-							#event_to_return = target.events[target_event]
-							event_to_return = target.events[action]
-						#elif combine_with.events.has(combine_with_event)\
-						elif _has_event_with_target(combine_with.events, action, target.global_id)\
-								and not combine_with.node.combine_is_one_way:
+					if _has_event_with_target(target.events, action, combine_with.global_id):
+					#if target.events.has(target_event):
+						#event_to_return = target.events[target_event]
+						event_to_return = target.events[action]
+					#elif combine_with.events.has(combine_with_event)\
+					elif _has_event_with_target(combine_with.events, action, target.global_id)\
+							and not combine_with.node.combine_is_one_way:
 
-							#event_to_return = combine_with.events[combine_with_event]
-							event_to_return = combine_with.events[action]
-						else:
-							# Check to see if there isn't a "fallback" action to
-							# run before we declare this a failure.
-							if escoria.action_default_script \
-								and escoria.action_default_script.events.has(action):
-
-								event_to_return = escoria.action_default_script.events[action]
-							else:
-								var errors = [
-									"Attempted to execute action '%s' between item %s and item %s" % [
-										action,
-										target.global_id,
-										combine_with.global_id
-									],
-									"Check that action ':%s %s' exists in the script of item '%s'" % [
-										action,
-										target.global_id,
-										combine_with.global_id
-									]
-								]
-
-								if combine_with.node.combine_is_one_way:
-									errors.append(
-										("Reason: %s's item interaction " + \
-										"is one-way.") % combine_with.global_id
-									)
-
-								escoria.logger.warn(
-									self,
-									"Invalid action: " + str(errors)
-								)
+						#event_to_return = combine_with.events[combine_with_event]
+						event_to_return = combine_with.events[action]
 					else:
-						escoria.logger.warn(
-							self,
-							"Invalid action on item: " +
-								(
-									"Trying to combine object %s with %s, "+
-									"but %s is not in inventory."
-								) % [
+						# Check to see if there isn't a "fallback" action to
+						# run before we declare this a failure.
+						if escoria.action_default_script \
+							and escoria.action_default_script.events.has(action):
+
+							event_to_return = escoria.action_default_script.events[action]
+						else:
+							var errors = [
+								"Attempted to execute action '%s' between item %s and item %s" % [
+									action,
 									target.global_id,
-									combine_with.global_id,
+									combine_with.global_id
+								],
+								"Check that action ':%s %s' exists in the script of item '%s'" % [
+									action,
+									target.global_id,
 									combine_with.global_id
 								]
-						)
-			else:
-				escoria.logger.warn(
-					self,
-					"Invalid action on item: " +
-					"Trying to run action '%s' on object %s, " %
-					[
-						action,
-						target.node.global_id
-					]
-					+ "but item must be in inventory."
-				)
+							]
+
+							if combine_with.node.combine_is_one_way:
+								errors.append(
+									("Reason: %s's item interaction " + \
+									"is one-way.") % combine_with.global_id
+								)
+
+							escoria.logger.warn(
+								self,
+								"Invalid action: " + str(errors)
+							)
+				else:
+					escoria.logger.warn(
+						self,
+						"Invalid action on item: " +
+							(
+								"Trying to combine object %s with %s, "+
+								"but %s is not in inventory."
+							) % [
+								target.global_id,
+								combine_with.global_id,
+								combine_with.global_id
+							]
+					)
+		else:
+			escoria.logger.warn(
+				self,
+				"Invalid action on item: " +
+				"Trying to run action '%s' on object %s, " %
+				[
+					action,
+					target.node.global_id
+				]
+				+ "but item must be in inventory."
+			)
 	else:
 		if _check_target_has_proper_action(target, action):
 #			##SAVEGAME
