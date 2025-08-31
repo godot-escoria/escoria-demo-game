@@ -592,18 +592,12 @@ func perform_inputevent_on_object(
 		# If clicked object needs a combination, and current target is set, then perform the combination.
 		if need_combine and current_target:
 			event_to_queue = _get_event_to_queue(current_action, current_tool, current_target)
-		# If clicked object needs a combination but can only be used from inventory, then we need to wait
-		# for the target.
-		elif obj.node.use_from_inventory_only \
-				and escoria.inventory_manager.inventory_has(obj.global_id) \
-				and need_combine:
-			current_tool = obj
-			set_action_input_state(ACTION_INPUT_STATE.AWAITING_TARGET_ITEM)
-			return
-		# If clicked object needs a combination and doesn't require to be in inventory,
-		# then we need to wait for the target.
+		# If clicked object needs a combination then we need to wait for the target.
 		elif need_combine:
 			set_action_input_state(ACTION_INPUT_STATE.AWAITING_TARGET_ITEM)
+			# If object is in inventory make it current tool.
+			if escoria.inventory_manager.inventory_has(obj.global_id):
+				current_tool = obj
 		# If clicked object doesn't need a combination, then we simply run the action.
 		else:
 			event_to_queue = _get_event_to_queue(current_action, obj)
@@ -667,6 +661,9 @@ func perform_inputevent_on_object(
 
 
 func _telekinetic_applies_to(event: ESCGrammarStmts.Event) -> bool:
+	if event == null:
+		return false
+
 	if event.get_flags_with_conditions().has("TK"):
 		var tk_flag_condition = event.get_flags_with_conditions().get("TK")
 
