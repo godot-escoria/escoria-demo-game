@@ -20,7 +20,7 @@ combine_when_selected_action_is_in = PackedStringArray("use")
 hover_enabled = true
 hover_shader = ExtResource("2_r6a7q")
 default_action_inventory = "use"
-use_from_inventory_only = true
+use_from_inventory_only = false
 inventory_texture = ExtResource("1")
 inventory_texture_hovered = ExtResource("3_qlcni")
 
