@@ -1,3 +1,12 @@
+## [4.0.0-alpha.287](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.287) (2025-09-01)
+
+
+### Bug Fixes
+
+* registers global variable with Escoria's internal globals manager during global declaration ([7fdf8f2](https://github.com/godot-escoria/escoria-demo-game/commit/7fdf8f2c210b1d0a6dafdb4a6b2151e5580a2242))
+
+
+
 ## [4.0.0-alpha.286](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.286) (2025-09-01)
 
 
