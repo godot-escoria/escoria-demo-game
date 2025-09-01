@@ -1,3 +1,13 @@
+## [4.0.0-alpha.286](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.286) (2025-09-01)
+
+
+### Bug Fixes
+
+* account for int and float in type check ([0d9df92](https://github.com/godot-escoria/escoria-demo-game/commit/0d9df92a3466be926e332e9e119b303ef43dc8dc))
+* type check in inc_global and dec_global ([a4be545](https://github.com/godot-escoria/escoria-demo-game/commit/a4be545296d85670887f60ca0c70160093873055))
+
+
+
 ## [4.0.0-alpha.285](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.285) (2025-09-01)
 
 
