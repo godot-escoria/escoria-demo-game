@@ -1,3 +1,14 @@
+## [4.0.0-alpha.285](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.285) (2025-09-01)
+
+
+### Bug Fixes
+
+* **action manager:** check if item to use is in inventory only if use_from_inventory_only is true ([0de1409](https://github.com/godot-escoria/escoria-demo-game/commit/0de14097d6d3c229c5752c972f88a957314eff1d))
+* **action manager:** more fixes ([15e9e65](https://github.com/godot-escoria/escoria-demo-game/commit/15e9e65ecfb433de705fb3f4483424c70d480921))
+* **action manager:** undo unneeded change ([5310709](https://github.com/godot-escoria/escoria-demo-game/commit/5310709268ea6be3eb6dee0af5479c1a8eee808b))
+
+
+
 ## [4.0.0-alpha.284](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.284) (2025-07-29)
 
 
