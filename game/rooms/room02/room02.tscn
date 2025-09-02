@@ -357,7 +357,7 @@ combine_when_selected_action_is_in = PackedStringArray()
 [node name="AnimationPlayer" type="AnimationPlayer" parent="bridge"]
 root_node = NodePath("../..")
 libraries = {
-"": SubResource("AnimationLibrary_8318n")
+&"": SubResource("AnimationLibrary_8318n")
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="bridge"]

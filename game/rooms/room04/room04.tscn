@@ -104,9 +104,9 @@ process_mode = 1
 script = ExtResource("5")
 global_id = "l_exit"
 esc_script = "res://game/rooms/room04/esc/left_exit.esc"
-is_exit = true
+tooltip_name = "Exit"
 combine_when_selected_action_is_in = PackedStringArray()
-animations = null
+is_exit = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
 polygon = PackedVector2Array(22, 633, 21, 328, 143, 276, 143, 565)
@@ -120,9 +120,9 @@ process_mode = 1
 script = ExtResource("5")
 global_id = "r_exit"
 esc_script = "res://game/rooms/room04/esc/right_exit.esc"
-is_exit = true
+tooltip_name = "Exit"
 combine_when_selected_action_is_in = PackedStringArray()
-animations = null
+is_exit = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
 polygon = PackedVector2Array(2266, 480, 2266, 189, 2385, 242, 2387, 544)

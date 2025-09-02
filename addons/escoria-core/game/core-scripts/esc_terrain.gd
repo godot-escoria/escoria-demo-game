@@ -113,6 +113,11 @@ func get_children_navpolys() -> Array:
 			navpolys.push_back(n)
 	return navpolys
 
+func get_first_enabled_child_navpoly() -> NavigationRegion2D:
+	for n in get_children():
+		if n is NavigationRegion2D and n.enabled:
+			return n
+	return null
 
 # Checks whether multiple navigation polygons are enabled.
 # Shows a warning in the terminal if this happens.
@@ -320,4 +325,4 @@ func get_simple_path(
 func is_point_inside_walkable_area(point: Vector2) -> bool:
 	return Geometry2D.is_point_in_polygon(
 		point,
-		$NavigationRegion2D.navigation_polygon.get_vertices())
+		get_first_enabled_child_navpoly().navigation_polygon.get_vertices())

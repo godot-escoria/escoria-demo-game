@@ -1,19 +1,20 @@
-[gd_scene load_steps=10 format=3 uid="uid://dfsv7ewevwwuj"]
+[gd_scene load_steps=10 format=3 uid="uid://cgo7vi6r1odq7"]
 
 [ext_resource type="Script" uid="uid://dm86hb4tygv18" path="res://addons/escoria-ui-gamepad/game.gd" id="1_ops8s"]
 [ext_resource type="PackedScene" uid="uid://dmw5gicuenj53" path="res://addons/escoria-core/game/scenes/camera_player/camera.tscn" id="2_0yr76"]
 [ext_resource type="Script" uid="uid://dfl7khtlretr7" path="res://addons/escoria-core/game/scenes/dialogs/esc_dialog_player.gd" id="4_8s863"]
 [ext_resource type="PackedScene" uid="uid://cu6s566nkueqs" path="res://addons/escoria-ui-gamepad/tooltip/target_tooltip.tscn" id="5_ops8s"]
 [ext_resource type="PackedScene" uid="uid://gfgn88e8sf8i" path="res://addons/escoria-ui-gamepad/inventory/inventory_ui.tscn" id="6_ops8s"]
-[ext_resource type="Theme" uid="uid://b4rg4k1l7oys0" path="res://addons/escoria-ui-gamepad/theme.tres" id="8_4etgk"]
+[ext_resource type="Theme" uid="uid://nk421xi6peen" path="res://addons/escoria-ui-gamepad/theme.tres" id="8_4etgk"]
 [ext_resource type="PackedScene" uid="uid://gfjgmbcafyyt" path="res://addons/escoria-core/ui_library/menus/pause_menu/pause_menu.tscn" id="8_hy4ee"]
+[ext_resource type="PackedScene" uid="uid://demkbaxa84upr" path="res://addons/escoria-ui-gamepad/verbs_mouseicons.tscn" id="9_ops8s"]
 [ext_resource type="PackedScene" uid="uid://u8an5av5fuxx" path="res://addons/escoria-core/ui_library/menus/main_menu/main_menu.tscn" id="9_xkouh"]
-[ext_resource type="PackedScene" uid="uid://0qms6fx5siad" path="res://addons/escoria-ui-simplemouse/verbs_mouseicons.tscn" id="10_owldp"]
 
 [node name="game" type="Node2D"]
 script = ExtResource("1_ops8s")
 main_menu = NodePath("ui/main_menu")
 pause_menu = NodePath("ui/pause_menu")
+mouse_disabled = true
 editor_debug_mode = 1
 
 [node name="camera" parent="." instance=ExtResource("2_0yr76")]
@@ -65,18 +66,10 @@ visible = false
 [node name="mouse_layer" type="CanvasLayer" parent="."]
 layer = 2
 
-[node name="verbs_menu" parent="mouse_layer" instance=ExtResource("10_owldp")]
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="verbs_menu" parent="mouse_layer" instance=ExtResource("9_ops8s")]
 offset_left = 156.0
 offset_top = 810.0
 offset_right = 156.0
-offset_bottom = 900.0
-grow_horizontal = 1
-grow_vertical = 1
-size_flags_horizontal = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 3.0
+offset_bottom = 810.0
 
 [connection signal="pressed" from="ui/HBoxContainer/VBoxContainer/MenuButton" to="." method="_on_MenuButton_pressed"]

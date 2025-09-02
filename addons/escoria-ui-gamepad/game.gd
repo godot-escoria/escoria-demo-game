@@ -75,12 +75,13 @@ var targeted_node: Node
 
 func _ready():
 	hide_ui()
-	$ui/tooltip.connect("tooltip_size_updated", Callable(self, "update_tooltip_following_mouse_position"))
+	$ui/tooltip.tooltip_size_updated.connect(update_tooltip_following_mouse_position)
 
 
 func _enter_tree():
+	super._enter_tree()
 	initialize_esc_game()
-
+	
 	var room_selector_parent = $ui/HBoxContainer/VBoxContainer
 
 	if ESCProjectSettingsManager.get_setting(ESCProjectSettingsManager.ENABLE_ROOM_SELECTOR) \
@@ -113,10 +114,7 @@ func _exit_tree():
 func _input(event: InputEvent) -> void:
 	super._input(event)
 	if escoria.get_escoria().is_ready_for_inputs():
-		if event is InputEventMouseMotion:
-			_current_mouse_pos = get_global_mouse_position()
-			update_tooltip_following_mouse_position()
-		elif not event is InputEventMouseButton:
+		if not event is InputEventMouseButton and not event is InputEventMouseMotion:
 			# `velocity` will be a Vector2 between `Vector2(-1.0, -1.0)` and `Vector2(1.0, 1.0)`.
 			# This handles deadzone in a correct way for most use cases.
 			# The resulting deadzone will have a circular shape as it generally should.
@@ -127,17 +125,6 @@ func _input(event: InputEvent) -> void:
 			else:
 				escoria.object_manager.get_object("player").node.walk_direction(velocity)
 			
-		#if event is InputEventKey:
-			#if event.is_action("esc_left"):
-				#key_left()
-			#if event.is_action("esc_right"):
-				#key_right()
-			#if event.is_action("esc_up"):
-				#key_up()
-			#if event.is_action("esc_down"):
-				#key_down()
-			#if event.is_released():
-				#escoria.object_manager.get_object("player").node.stop_walking()
 
 # https://github.com/godotengine/godot-demo-projects/blob/3.4-585455e/misc/joypads/joypads.gd
 # was informative in wiring up the gamepad properly.
@@ -205,7 +192,7 @@ func _process_input(event: InputEvent, is_default_state: bool) -> bool:
 			escoria.inputs_manager._on_left_click_on_bg(get_global_mouse_position())
 			return true
 		elif event.is_action_pressed(ESC_UI_CHANGE_VERB_ACTION):
-			mousewheel_action(1)
+			$mouse_layer/verbs_menu.iterate_actions_cursor(1)
 			return true
 	return false
 
@@ -225,19 +212,21 @@ func left_click_on_bg(position: Vector2) -> void:
 	close_inventory()
 
 func right_click_on_bg(position: Vector2) -> void:
-	left_double_click_on_bg(position)
+	#left_double_click_on_bg(position)
+	pass
 
 func left_double_click_on_bg(position: Vector2) -> void:
-	if escoria.main.current_scene.player:
-		escoria.action_manager.do(
-			escoria.action_manager.ACTION.BACKGROUND_CLICK,
-			[escoria.main.current_scene.player.global_id, position, true],
-			true
-		)
-		$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
-		$mouse_layer/verbs_menu.clear_tool_texture()
-		$mouse_layer/verbs_menu.action_manually_changed = false
-	close_inventory()
+	#if escoria.main.current_scene.player:
+		#escoria.action_manager.do(
+			#escoria.action_manager.ACTION.BACKGROUND_CLICK,
+			#[escoria.main.current_scene.player.global_id, position, true],
+			#true
+		#)
+		#$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
+		#$mouse_layer/verbs_menu.clear_tool_texture()
+		#$mouse_layer/verbs_menu.action_manually_changed = false
+	#close_inventory()
+	pass
 
 ## ITEM/HOTSPOT FOCUS ##
 
@@ -279,81 +268,86 @@ func element_unfocused() -> void:
 
 ## ITEMS ##
 func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
-	var target_obj = escoria.object_manager.get_object(item_global_id).node
-
-	# current_action will be empty if an event completes between when you stop
-	# moving the mouse and when you click.
-	if escoria.action_manager.current_action == "":
-		if target_obj is ESCItem:
-				$mouse_layer/verbs_menu.set_by_name(
-					target_obj.default_action
-				)
-
-	escoria.action_manager.do(
-		escoria.action_manager.ACTION.ITEM_LEFT_CLICK,
-		[item_global_id, event],
-		true
-	)
-
-	$mouse_layer/verbs_menu.clear_tool_texture()
-	close_inventory()
+	#var target_obj = escoria.object_manager.get_object(item_global_id).node
+#
+	## current_action will be empty if an event completes between when you stop
+	## moving the mouse and when you click.
+	#if escoria.action_manager.current_action == "":
+		#if target_obj is ESCItem:
+				#$mouse_layer/verbs_menu.set_by_name(
+					#target_obj.default_action
+				#)
+#
+	#escoria.action_manager.do(
+		#escoria.action_manager.ACTION.ITEM_LEFT_CLICK,
+		#[item_global_id, event],
+		#true
+	#)
+#
+	#$mouse_layer/verbs_menu.clear_tool_texture()
+	#close_inventory()
+	pass
 
 
 func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
-	element_focused(item_global_id)
-	var object = escoria.object_manager.get_object(item_global_id)
-	if object != null:
-		$mouse_layer/verbs_menu.set_by_name("look")
-	escoria.action_manager.do(
-		escoria.action_manager.ACTION.ITEM_RIGHT_CLICK,
-		[item_global_id, event],
-		true
-	)
+	#element_focused(item_global_id)
+	#var object = escoria.object_manager.get_object(item_global_id)
+	#if object != null:
+		#$mouse_layer/verbs_menu.set_by_name("look")
+	#escoria.action_manager.do(
+		#escoria.action_manager.ACTION.ITEM_RIGHT_CLICK,
+		#[item_global_id, event],
+		#true
+	#)
+	pass
 
 func left_double_click_on_item(item_global_id: String, event: InputEvent) -> void:
-	escoria.action_manager.do(
-		escoria.action_manager.ACTION.ITEM_LEFT_CLICK,
-		[item_global_id, event],
-		true
-	)
+	#escoria.action_manager.do(
+		#escoria.action_manager.ACTION.ITEM_LEFT_CLICK,
+		#[item_global_id, event],
+		#true
+	#)
+	pass
 
 
 ## INVENTORY ##
 func left_click_on_inventory_item(inventory_item_global_id: String, event: InputEvent) -> void:
-	escoria.action_manager.do(
-		escoria.action_manager.ACTION.ITEM_LEFT_CLICK,
-		[inventory_item_global_id, event]
-	)
-
-	if escoria.action_manager.current_action == VERB_USE:
-		var object = escoria.object_manager.get_object(
-			inventory_item_global_id
-		)
-		var item = object.node
-		if item.has_method("get_sprite") and item.get_sprite().texture:
-			$mouse_layer/verbs_menu.set_tool_texture(
-				item.get_sprite().texture
-			)
-		elif item.inventory_item.texture_normal:
-			$mouse_layer/verbs_menu.set_tool_texture(
-				item.inventory_item.texture_normal
-			)
-		escoria.action_manager.current_tool = object
-
-		if escoria.action_manager.current_target != null:
-			$mouse_layer/verbs_menu.clear_tool_texture()
-			$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
+	#escoria.action_manager.do(
+		#escoria.action_manager.ACTION.ITEM_LEFT_CLICK,
+		#[inventory_item_global_id, event]
+	#)
+#
+	#if escoria.action_manager.current_action == VERB_USE:
+		#var object = escoria.object_manager.get_object(
+			#inventory_item_global_id
+		#)
+		#var item = object.node
+		#if item.has_method("get_sprite") and item.get_sprite().texture:
+			#$mouse_layer/verbs_menu.set_tool_texture(
+				#item.get_sprite().texture
+			#)
+		#elif item.inventory_item.texture_normal:
+			#$mouse_layer/verbs_menu.set_tool_texture(
+				#item.inventory_item.texture_normal
+			#)
+		#escoria.action_manager.current_tool = object
+#
+		#if escoria.action_manager.current_target != null:
+			#$mouse_layer/verbs_menu.clear_tool_texture()
+			#$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
+	pass
 
 func right_click_on_inventory_item(inventory_item_global_id: String, event: InputEvent) -> void:
-	element_focused(inventory_item_global_id)
-	var object = escoria.object_manager.get_object(inventory_item_global_id)
-	if object != null:
-		escoria.action_manager.set_current_action("look")
-	escoria.action_manager.do(
-		escoria.action_manager.ACTION.ITEM_RIGHT_CLICK,
-		[inventory_item_global_id, event],
-		true
-	)
+	#element_focused(inventory_item_global_id)
+	#var object = escoria.object_manager.get_object(inventory_item_global_id)
+	#if object != null:
+		#escoria.action_manager.set_current_action("look")
+	#escoria.action_manager.do(
+		#escoria.action_manager.ACTION.ITEM_RIGHT_CLICK,
+		#[inventory_item_global_id, event],
+		#true
+	#)
+	pass
 
 
 func left_double_click_on_inventory_item(inventory_item_global_id: String, event: InputEvent) -> void:
@@ -361,23 +355,25 @@ func left_double_click_on_inventory_item(inventory_item_global_id: String, event
 
 
 func inventory_item_focused(inventory_item_global_id: String) -> void:
-	if not $mouse_layer/verbs_menu.action_manually_changed:
-		var item_node: ESCItem = escoria.object_manager.get_object(
-				inventory_item_global_id
-			).node
-		$ui/tooltip.set_target(item_node.tooltip_name)
-		$mouse_layer/verbs_menu.set_by_name(item_node.default_action_inventory)
+	#if not $mouse_layer/verbs_menu.action_manually_changed:
+		#var item_node: ESCItem = escoria.object_manager.get_object(
+				#inventory_item_global_id
+			#).node
+		#$ui/tooltip.set_target(item_node.tooltip_name)
+		#$mouse_layer/verbs_menu.set_by_name(item_node.default_action_inventory)
+	pass
 
 
 func inventory_item_unfocused() -> void:
-	$ui/tooltip.clear()
-	if escoria.action_manager.current_action == VERB_WALK:
-		$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
-		if $mouse_layer/verbs_menu.action_manually_changed:
-			$mouse_layer/verbs_menu.action_manually_changed = false
-	elif not $mouse_layer/verbs_menu.action_manually_changed \
-			and escoria.action_manager.current_tool == null:
-		$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
+	#$ui/tooltip.clear()
+	#if escoria.action_manager.current_action == VERB_WALK:
+		#$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
+		#if $mouse_layer/verbs_menu.action_manually_changed:
+			#$mouse_layer/verbs_menu.action_manually_changed = false
+	#elif not $mouse_layer/verbs_menu.action_manually_changed \
+			#and escoria.action_manager.current_tool == null:
+		#$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
+	pass
 
 
 func open_inventory():
@@ -460,7 +456,7 @@ func apply_custom_settings(custom_settings: Dictionary):
 
 func get_custom_data() -> Dictionary:
 	return {
-		"ui_type": "simplemouse"
+		"ui_type": "gamepad"
 	}
 
 
@@ -499,8 +495,3 @@ func _on_event_done(_return_code: int, _event_name: String):
 		escoria.action_manager.clear_current_action()
 		$ui/tooltip.set_target("")
 		$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
-
-
-
-func _on_MenuButton_pressed() -> void:
-	pause_game()

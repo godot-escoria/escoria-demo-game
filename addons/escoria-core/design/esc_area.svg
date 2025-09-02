@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="16px"
+   height="16px"
+   viewBox="0 0 16 16"
+   version="1.1"
+   id="svg14"
+   sodipodi:docname="esc_area.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview16"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     showguides="true"
+     inkscape:snap-global="false"
+     inkscape:zoom="32"
+     inkscape:cx="1.9375"
+     inkscape:cy="4.3125"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="esc_terrain" />
+  <title
+     id="title2">esc_terrain</title>
+  <defs
+     id="defs9">
+    <inkscape:path-effect
+       effect="fill_between_many"
+       id="path-effect7950"
+       is_visible="true"
+       lpeversion="1"
+       linkedpaths=""
+       method="bsplinespiro"
+       join="true"
+       close="true"
+       autoreverse="true"
+       applied="false" />
+    <inkscape:path-effect
+       effect="dashed_stroke"
+       id="path-effect3740"
+       is_visible="true"
+       lpeversion="1"
+       numberdashes="7"
+       holefactor="-0.35"
+       splitsegments="true"
+       halfextreme="false"
+       unifysegment="true"
+       message="Ajoutez du remplissage avec l'effet &lt;b&gt;« Remplir dans les nuées »&lt;/b&gt;." />
+    <linearGradient
+       x1="3.3705411"
+       y1="9.4358727"
+       x2="11.624052"
+       y2="12.872564"
+       id="linearGradient-1"
+       gradientTransform="matrix(1.3349794,0,0,0.93220544,-0.45937214,-1.1526665)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#D4FF2A"
+         offset="0%"
+         id="stop4" />
+      <stop
+         stop-color="#81D135"
+         offset="100%"
+         id="stop6" />
+    </linearGradient>
+  </defs>
+  <g
+     id="esc_terrain"
+     stroke="none"
+     stroke-width="1"
+     fill="none"
+     fill-rule="evenodd">
+    <path
+       d="M 15.520623,2.9813308 V 13.398304 H 0.60283259 V 2.9813308 c 8.08003701,0 12.17557241,0 14.91779041,0 z"
+       id="Rectangle-Copy"
+       fill="url(#linearGradient-1)"
+       fill-rule="nonzero"
+       inkscape:label="back"
+       sodipodi:nodetypes="ccccc"
+       style="fill:url(#linearGradient-1);stroke-width:1.11556" />
+    <path
+       id="rect3370"
+       style="fill:#1b2f0d;fill-opacity:1;stroke:#1b2f0d;stroke-width:0.456734;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:3;stroke-dasharray:1.3702, 0.456734;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+       inkscape:label="rect3370"
+       d="m 14.566829,12.212191 v 0.447006 h -0.445052 m -0.950967,0 h -0.445052 m -0.950966,0 H 11.32974 m -0.950967,0 -0.4450519,0 m -0.9509663,0 H 8.5377026 m -0.9509664,0 H 7.141684 m -0.9509663,0 H 5.7456655 m -0.9509664,0 H 4.3496469 m -0.9509663,0 H 2.9536284 m -0.9509664,0 H 1.5576098 v -0.447006 m 0,-0.968513 0,-0.447006 m 0,-0.9685137 0,-0.4470061 m 0,-0.9685132 V 7.9656328 m 0,-0.9685132 V 6.5501135 m 0,-0.9685132 0,-0.4470062 m 0,-0.9685132 V 3.7190748 H 2.002662 m 0.9509664,0 0.4450522,0 m 0.9509663,0 h 0.4450522 m 0.9509664,0 h 0.4450522 m 0.9509663,0 h 0.4450522 m 0.9509664,0 h 0.4450522 m 0.9509663,0 h 0.4450519 m 0.950967,0 0.445052,0 m 0.950966,0 h 0.445052 m 0.950967,0 h 0.445052 v 0.4470061 m 0,0.9685132 0,0.4470062 m 0,0.9685132 v 0.4470061 m 0,0.9685132 V 8.412639 m 0,0.9685132 0,0.4470061 m 0,0.9685137 0,0.447006 m 0,0.968513 v 0.447006"
+       inkscape:path-effect="#path-effect3740;#path-effect7950"
+       inkscape:original-d="M 14.566829,12.659197 H 1.5576098 V 3.7190748 H 14.566829 c 0,2.9800405 0,5.9600804 0,8.9401222 z"
+       sodipodi:nodetypes="ccccc" />
+  </g>
+</svg>

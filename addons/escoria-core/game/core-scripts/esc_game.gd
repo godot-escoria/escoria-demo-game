@@ -30,6 +30,9 @@ enum EDITOR_GAME_DEBUG_DISPLAY {
 # The safe margin around tooltips
 @export var mouse_tooltip_margin: float = 50.0
 
+## If true, mouse events are disabled on all Escoria items
+@export var mouse_disabled: bool = false
+
 # Which (if any) debug mode for the editor is used
 @export var editor_debug_mode: EDITOR_GAME_DEBUG_DISPLAY = EDITOR_GAME_DEBUG_DISPLAY.NONE:
 	set = _set_editor_debug_mode
@@ -53,6 +56,9 @@ var hover_stack_displayer
 # Function called when ESCGame enters the scene tree.
 func _enter_tree():
 	initialize_esc_game()
+	if mouse_disabled:
+		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+
 
 func initialize_esc_game() -> void:
 	escoria.event_manager.event_finished.connect(_on_event_done)

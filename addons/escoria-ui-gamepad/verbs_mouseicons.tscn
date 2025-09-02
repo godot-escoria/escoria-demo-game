@@ -1,6 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://edjupfhll0g3"]
+[gd_scene load_steps=9 format=3 uid="uid://demkbaxa84upr"]
 
-[ext_resource type="Script" uid="uid://d2mlyj6637kqo" path="res://addons/escoria-ui-simplemouse/verbs_mouseicons.gd" id="1_ls08n"]
+[ext_resource type="Script" path="res://addons/escoria-ui-gamepad/verbs_mouseicons.gd" id="1_ls08n"]
 [ext_resource type="Texture2D" uid="uid://dy1v07dsq0gv6" path="res://addons/escoria-ui-simplemouse/cursors/new/target_a.png" id="2_ex8b4"]
 [ext_resource type="Texture2D" uid="uid://kntfqvpgma13" path="res://addons/escoria-ui-simplemouse/cursors/new/look_b.png" id="3_od8jg"]
 [ext_resource type="Texture2D" uid="uid://2tj2uhyd8un1" path="res://addons/escoria-ui-simplemouse/cursors/new/hand_open.png" id="4_x2fa6"]

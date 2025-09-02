@@ -63,6 +63,8 @@ signal mouse_right_clicked_item(global_id)
 # - walk_context: The walk context of the command
 signal arrived(walk_context)
 
+signal player_entered_interaction_area
+signal player_exited_interaction_area
 
 ## The global ID of this item
 @export var global_id: String
@@ -254,6 +256,8 @@ func _ready():
 		input_event.connect(_on_input_event)
 	if not mouse_exited.is_connected(_on_mouse_exited):
 		mouse_exited.connect(_on_mouse_exited)
+	
+	_connect_player_detection_area_nodes()
 
 	# Register and connect all elements to Escoria backoffice.
 	if not Engine.is_editor_hint():
@@ -407,7 +411,7 @@ class HoverStackSorter:
 # - event: the input event
 # - _shape_idx is the child index of the clicked Shape2D.
 func _on_input_event(_viewport: Object, event: InputEvent, _shape_idx: int):
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion and not escoria.game_scene.mouse_disabled:
 		var physics2d_dss: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
 		var params := PhysicsPointQueryParameters2D.new()
 		params.position = get_global_mouse_position()
@@ -1084,3 +1088,20 @@ func get_custom_data() -> Dictionary:
 
 func set_custom_data(data: Dictionary) -> void:
 	custom_data = data if (data != null) else {}
+
+
+func _connect_player_detection_area_nodes() -> void:
+	for n in get_children():
+		if n is ESCPlayerDetectionArea:
+			if not n.player_entered.is_connected(_on_player_entered_detection_area):
+				n.player_entered.connect(_on_player_entered_detection_area)
+			if not n.player_exited.is_connected(_on_player_exited_detection_area):
+				n.player_exited.connect(_on_player_exited_detection_area)
+
+func _on_player_entered_detection_area():
+		_apply_hover_behavior()
+		escoria.game_scene.element_focused(global_id)
+
+func _on_player_exited_detection_area():
+		_apply_unhover_behavior()
+		escoria.game_scene.element_unfocused()

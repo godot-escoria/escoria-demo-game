@@ -8,6 +8,7 @@ class_name ESCMovable
 # NONE - The node is inactive
 # WALK - The node walks the parent somewhere
 # SLIDE - The node slides the parent somewhere
+# WALK_DIRECT - The node is directly controlled by the player using gamepad or keys
 enum MovableTask {
 	NONE,
 	WALK,
@@ -303,7 +304,8 @@ func walk_stop(pos: Vector2) -> void:
 	# If we're heading to an object and reached its interaction position,
 	# orient towards the defined interaction direction set on the object
 	# (if any), can be ESCItem or ESCLocation
-	if walk_context.target_object and \
+	if walk_context and \
+			walk_context.target_object and \
 			walk_context.target_object.node.player_orients_on_arrival:
 
 		var orientation = _get_dir_deg(walk_context.target_object.node.interaction_angle - 90,
@@ -330,23 +332,24 @@ func walk_stop(pos: Vector2) -> void:
 
 	update_terrain()
 
-	if walk_context.target_object:
-		escoria.logger.debug(
-			self,
-			"%s arrived at %s." % [
-				parent.global_id,
-				walk_context.target_object.global_id
-			]
-		)
-	else:
-		escoria.logger.debug(
-			self,
-			"%s arrived at %s." % [
-				parent.global_id,
-				walk_context.target_position
-			]
-		)
-	parent.arrived.emit(walk_context)
+	if walk_context:
+		if walk_context.target_object:
+			escoria.logger.debug(
+				self,
+				"%s arrived at %s." % [
+					parent.global_id,
+					walk_context.target_object.global_id
+				]
+			)
+		else:
+			escoria.logger.debug(
+				self,
+				"%s arrived at %s." % [
+					parent.global_id,
+					walk_context.target_position
+				]
+			)
+		parent.arrived.emit(walk_context)
 
 
 # Update the sprite scale and lighting
