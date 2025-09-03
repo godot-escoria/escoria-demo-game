@@ -125,6 +125,12 @@ class Event extends ESCGrammarStmt:
 
 
 	func get_target_name() -> String:
+		if _target == null:
+			escoria.logger.warn_message(
+				"esc_grammar_stmts.gd",
+				"Error getting target name, target is null."
+			)
+			return ""
 		return _target.get_value()
 
 
