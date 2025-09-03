@@ -1,29 +1,25 @@
 [gd_scene load_steps=19 format=3 uid="uid://b1mr4ghmqeyo"]
 
-[ext_resource type="Texture2D" uid="uid://bk42g7swptckx" path="res://addons/escoria-wizard/graphics/help/left3.png" id="1"]
-[ext_resource type="Texture2D" uid="uid://fhwjj4mcqyp4" path="res://addons/escoria-wizard/graphics/help/left4.png" id="2"]
-[ext_resource type="Texture2D" uid="uid://dx2k6obns2lx3" path="res://addons/escoria-wizard/graphics/help/left5.png" id="3"]
-[ext_resource type="Texture2D" uid="uid://chbetjsjyrmru" path="res://addons/escoria-wizard/graphics/help/middle3.png" id="4"]
-[ext_resource type="Texture2D" uid="uid://brbr5j744smij" path="res://addons/escoria-wizard/graphics/help/right4.png" id="5"]
-[ext_resource type="Texture2D" uid="uid://c3q71qajm62nc" path="res://addons/escoria-wizard/graphics/help/middleall.png" id="6"]
-[ext_resource type="Texture2D" uid="uid://cjtmb5ixclpa4" path="res://addons/escoria-wizard/graphics/help/middle2.png" id="7"]
-[ext_resource type="Texture2D" uid="uid://l4hk2jsss4ws" path="res://addons/escoria-wizard/graphics/help/left2.png" id="8"]
-[ext_resource type="Texture2D" uid="uid://c6rmxfpjue4u2" path="res://addons/escoria-wizard/graphics/help/rightall.png" id="9"]
-[ext_resource type="Texture2D" uid="uid://bmnty6hjnn14x" path="res://addons/escoria-wizard/graphics/help/right5.png" id="10"]
-[ext_resource type="Texture2D" uid="uid://sa36pne4uc5n" path="res://addons/escoria-wizard/graphics/help/right2.png" id="11"]
-[ext_resource type="Texture2D" uid="uid://f8qkphr8kabf" path="res://addons/escoria-wizard/graphics/help/right3.png" id="12"]
-[ext_resource type="Texture2D" uid="uid://b14qtmdrlmnxd" path="res://addons/escoria-wizard/graphics/help/leftall.png" id="13"]
-[ext_resource type="Texture2D" uid="uid://csceo5toi5hcr" path="res://addons/escoria-wizard/graphics/help/help_background.png" id="14"]
-[ext_resource type="Texture2D" uid="uid://c1c2xkxrfxsrb" path="res://addons/escoria-wizard/graphics/help/left1.png" id="15"]
-[ext_resource type="Texture2D" uid="uid://dw1eanwchdhp3" path="res://addons/escoria-wizard/graphics/help/middle1.png" id="16"]
-[ext_resource type="Texture2D" uid="uid://g5u5gkw15akq" path="res://addons/escoria-wizard/graphics/help/right1.png" id="17"]
+[ext_resource type="Texture2D" uid="uid://cwcpgpol7rsy3" path="res://addons/escoria-wizard/graphics/help/left3.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://c2je46nm3myer" path="res://addons/escoria-wizard/graphics/help/left4.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://b22tpg7go03h3" path="res://addons/escoria-wizard/graphics/help/left5.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://cnn5s8yo5o7k3" path="res://addons/escoria-wizard/graphics/help/middle3.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://25m5reo66c0j" path="res://addons/escoria-wizard/graphics/help/right4.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://b4bksi1cyftii" path="res://addons/escoria-wizard/graphics/help/middleall.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://o8iyddkcksk2" path="res://addons/escoria-wizard/graphics/help/middle2.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://wmuc3djfhrkl" path="res://addons/escoria-wizard/graphics/help/left2.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://mtv6n8gydrk" path="res://addons/escoria-wizard/graphics/help/rightall.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://djqcdi16bwtj0" path="res://addons/escoria-wizard/graphics/help/right5.png" id="10"]
+[ext_resource type="Texture2D" uid="uid://t5qsqywb4k14" path="res://addons/escoria-wizard/graphics/help/right2.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://7xs3y7f65wgr" path="res://addons/escoria-wizard/graphics/help/right3.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://e8xb7mcifx7d" path="res://addons/escoria-wizard/graphics/help/leftall.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://duonunl0qli8g" path="res://addons/escoria-wizard/graphics/help/help_background.png" id="14"]
+[ext_resource type="Texture2D" uid="uid://bcefyvrgk7v26" path="res://addons/escoria-wizard/graphics/help/left1.png" id="15"]
+[ext_resource type="Texture2D" uid="uid://b1dojyktesnp3" path="res://addons/escoria-wizard/graphics/help/middle1.png" id="16"]
+[ext_resource type="Texture2D" uid="uid://dw3aw81agyx7p" path="res://addons/escoria-wizard/graphics/help/right1.png" id="17"]
 [ext_resource type="Script" uid="uid://de8nuechh5y3b" path="res://addons/escoria-wizard/help_window.gd" id="18"]
 
 [node name="help_window" type="Window"]
-offset_left = 100.0
-offset_top = 100.0
-offset_right = 1012.0
-offset_bottom = 742.0
 exclusive = true
 script = ExtResource("18")
 
@@ -34,44 +30,37 @@ offset_right = 908.0
 offset_bottom = 638.0
 
 [node name="Background" type="TextureRect" parent="VBoxContainer"]
-offset_right = 904.0
-offset_bottom = 610.0
+layout_mode = 2
 texture = ExtResource("14")
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer"]
-offset_top = 614.0
-offset_right = 904.0
-offset_bottom = 634.0
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/CenterContainer"]
-offset_left = 322.0
-offset_right = 581.0
-offset_bottom = 20.0
+layout_mode = 2
 
 [node name="prev_button" type="Button" parent="VBoxContainer/CenterContainer/HBoxContainer"]
-offset_right = 118.0
-offset_bottom = 20.0
+layout_mode = 2
 text = "<- Previous Page"
 
 [node name="Control" type="Control" parent="VBoxContainer/CenterContainer/HBoxContainer"]
-offset_left = 122.0
-offset_right = 162.0
-offset_bottom = 20.0
 custom_minimum_size = Vector2(40, 20)
+layout_mode = 2
 
 [node name="next_button" type="Button" parent="VBoxContainer/CenterContainer/HBoxContainer"]
-offset_left = 166.0
-offset_right = 259.0
-offset_bottom = 20.0
+layout_mode = 2
 text = "Next Page ->"
 
 [node name="masks" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="leftall" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
 modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 309.0
@@ -81,6 +70,7 @@ texture = ExtResource("13")
 [node name="middleall" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
 modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 0
 offset_left = 324.0
 offset_top = 8.0
 offset_right = 663.0
@@ -90,6 +80,7 @@ texture = ExtResource("6")
 [node name="rightall" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
 modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 0
 offset_left = 678.0
 offset_top = 8.0
 offset_right = 904.0
@@ -99,6 +90,7 @@ texture = ExtResource("9")
 [node name="page1" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
 modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 0
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 305.0
@@ -107,6 +99,7 @@ offset_bottom = 606.0
 [node name="page2" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
 modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 309.0
@@ -116,6 +109,7 @@ texture = ExtResource("15")
 [node name="page3" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
 modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 0
 offset_left = 678.0
 offset_top = 8.0
 offset_right = 904.0
@@ -125,6 +119,7 @@ texture = ExtResource("17")
 [node name="page4" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
 modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 309.0
@@ -134,6 +129,7 @@ texture = ExtResource("8")
 [node name="page5" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
 modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 309.0
@@ -143,6 +139,7 @@ texture = ExtResource("1")
 [node name="page6" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
 modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 309.0
@@ -152,6 +149,7 @@ texture = ExtResource("2")
 [node name="page7" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
 modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 309.0
@@ -161,6 +159,7 @@ texture = ExtResource("3")
 [node name="page8" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
 modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 0
 offset_left = 324.0
 offset_top = 8.0
 offset_right = 663.0
@@ -170,6 +169,7 @@ texture = ExtResource("16")
 [node name="page9" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
 modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 0
 offset_left = 324.0
 offset_top = 8.0
 offset_right = 663.0
@@ -179,6 +179,7 @@ texture = ExtResource("7")
 [node name="page10" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
 modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 0
 offset_left = 324.0
 offset_top = 8.0
 offset_right = 663.0
@@ -188,6 +189,7 @@ texture = ExtResource("4")
 [node name="page11" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
 modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 0
 offset_left = 678.0
 offset_top = 8.0
 offset_right = 904.0
@@ -197,6 +199,7 @@ texture = ExtResource("11")
 [node name="page12" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
 modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 0
 offset_left = 678.0
 offset_top = 8.0
 offset_right = 904.0
@@ -206,6 +209,7 @@ texture = ExtResource("12")
 [node name="page13" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
 modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 0
 offset_left = 678.0
 offset_top = 8.0
 offset_right = 904.0
@@ -215,6 +219,7 @@ texture = ExtResource("5")
 [node name="page14" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
 modulate = Color(1, 1, 1, 0.882353)
+layout_mode = 0
 offset_left = 678.0
 offset_top = 8.0
 offset_right = 904.0
@@ -224,17 +229,21 @@ texture = ExtResource("10")
 [node name="page15" type="TextureRect" parent="masks" groups=["masks"]]
 visible = false
 modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 0
 offset_left = 678.0
 offset_top = 8.0
 offset_right = 979.0
 offset_bottom = 610.0
 
 [node name="text" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="page1" type="Label" parent="text" groups=["pagetext"]]
 visible = false
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -264,6 +273,7 @@ Click the \"Next Page\" button below to progress to the next help page."
 
 [node name="page2" type="Label" parent="text" groups=["pagetext"]]
 visible = false
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -284,6 +294,7 @@ to keep them the same but there's no requirement to.
 
 [node name="page3" type="Label" parent="text" groups=["pagetext"]]
 visible = false
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -306,6 +317,7 @@ inbetween.
 
 [node name="page4" type="Label" parent="text" groups=["pagetext"]]
 visible = false
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -321,6 +333,7 @@ time while creating the character."
 
 [node name="page5" type="Label" parent="text" groups=["pagetext"]]
 visible = false
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -335,6 +348,7 @@ animations."
 
 [node name="page6" type="Label" parent="text" groups=["pagetext"]]
 visible = false
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -361,6 +375,7 @@ button to quickly create the left hand animation."
 
 [node name="page7" type="Label" parent="text" groups=["pagetext"]]
 visible = false
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -375,6 +390,7 @@ of the animation will be shown in this box."
 
 [node name="page8" type="Label" parent="text" groups=["pagetext"]]
 visible = false
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -391,6 +407,7 @@ what is included in the animation."
 
 [node name="page9" type="Label" parent="text" groups=["pagetext"]]
 visible = false
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -409,6 +426,7 @@ level."
 
 [node name="page10" type="Label" parent="text" groups=["pagetext"]]
 visible = false
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -423,6 +441,7 @@ spritesheet."
 
 [node name="page11" type="Label" parent="text" groups=["pagetext"]]
 visible = false
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -446,6 +465,7 @@ can have a different speed value if desired."
 
 [node name="page12" type="Label" parent="text" groups=["pagetext"]]
 visible = false
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -461,6 +481,7 @@ frame settings above."
 
 [node name="page13" type="Label" parent="text" groups=["pagetext"]]
 visible = false
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -481,6 +502,7 @@ no change to save."
 
 [node name="page14" type="Label" parent="text" groups=["pagetext"]]
 visible = false
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -504,6 +526,7 @@ animations."
 
 [node name="page15" type="Label" parent="text" groups=["pagetext"]]
 visible = false
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

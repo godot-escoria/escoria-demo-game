@@ -1,40 +1,40 @@
 [gd_scene load_steps=40 format=3 uid="uid://cmd72pi6txw2v"]
 
-[ext_resource type="Texture2D" uid="uid://bagegjuvoukx3" path="res://addons/escoria-wizard/graphics/darkgreenarrow_down.png" id="1"]
-[ext_resource type="Texture2D" uid="uid://bg2hkdpp8768u" path="res://addons/escoria-wizard/graphics/greyarrow_r.png" id="2"]
-[ext_resource type="Texture2D" uid="uid://bt0q0w7vy0c20" path="res://addons/escoria-wizard/graphics/darkgreenarrow_right.png" id="3"]
-[ext_resource type="Texture2D" uid="uid://bshko3n3mthlr" path="res://addons/escoria-wizard/graphics/greenarrow_right.png" id="4"]
-[ext_resource type="Texture2D" uid="uid://038bi4t24rcq" path="res://addons/escoria-wizard/graphics/greenarrow_down.png" id="5"]
-[ext_resource type="Texture2D" uid="uid://b2qrcccymsuaj" path="res://addons/escoria-wizard/graphics/greyarrow_ul.png" id="6"]
-[ext_resource type="Texture2D" uid="uid://b2ido6tekqvfl" path="res://addons/escoria-wizard/graphics/greyarrow_dl.png" id="7"]
-[ext_resource type="Texture2D" uid="uid://coq1oycu7rk5b" path="res://addons/escoria-wizard/graphics/darkgreyarrow_d.png" id="8"]
-[ext_resource type="Texture2D" uid="uid://bd0ctubwohfrm" path="res://addons/escoria-wizard/graphics/no_animation.png" id="9"]
-[ext_resource type="Texture2D" uid="uid://dgrhcfiaggit2" path="res://addons/escoria-wizard/graphics/greenarrow_downleft.png" id="10"]
-[ext_resource type="Texture2D" uid="uid://cbik6kv3l0o2n" path="res://addons/escoria-wizard/graphics/darkgreenarrow_downleft.png" id="11"]
-[ext_resource type="Texture2D" uid="uid://b68dn2vincpc" path="res://addons/escoria-wizard/graphics/darkgreenarrow_left.png" id="12"]
-[ext_resource type="Texture2D" uid="uid://cpnf256m1jvt4" path="res://addons/escoria-wizard/graphics/greyarrow_l.png" id="13"]
-[ext_resource type="Texture2D" uid="uid://8qqtjw5ostmp" path="res://addons/escoria-wizard/graphics/darkgreyarrow_ur.png" id="14"]
-[ext_resource type="Texture2D" uid="uid://bgvhmjent27hs" path="res://addons/escoria-wizard/graphics/darkgreyarrow_ul.png" id="15"]
-[ext_resource type="Texture2D" uid="uid://c85v7ydhav0t8" path="res://addons/escoria-wizard/graphics/darkgreenarrow_upright.png" id="16"]
-[ext_resource type="Texture2D" uid="uid://xsm7nbjng1w8" path="res://addons/escoria-wizard/graphics/greyarrow_ur.png" id="17"]
-[ext_resource type="Texture2D" uid="uid://g5gxlfok35" path="res://addons/escoria-wizard/graphics/greyarrow_u.png" id="18"]
-[ext_resource type="Texture2D" uid="uid://dulxl063ocim2" path="res://addons/escoria-wizard/graphics/darkgreyarrow_r.png" id="19"]
-[ext_resource type="Texture2D" uid="uid://bsi8xmaqyejac" path="res://addons/escoria-wizard/graphics/darkgreyarrow_u.png" id="20"]
-[ext_resource type="Texture2D" uid="uid://doevjjypvojnc" path="res://addons/escoria-wizard/graphics/darkgreyarrow_l.png" id="21"]
-[ext_resource type="Texture2D" uid="uid://cwox0cgwqvf71" path="res://addons/escoria-wizard/graphics/greyarrow_dr.png" id="22"]
-[ext_resource type="Texture2D" uid="uid://dxuweidwlycui" path="res://addons/escoria-wizard/graphics/greenarrow_up.png" id="23"]
-[ext_resource type="Texture2D" uid="uid://4m6v6iuwota5" path="res://addons/escoria-wizard/graphics/greenarrow_upright.png" id="24"]
-[ext_resource type="Texture2D" uid="uid://cc8acjflw46al" path="res://addons/escoria-wizard/graphics/darkgreenarrow_downright.png" id="25"]
-[ext_resource type="Texture2D" uid="uid://cst635ixdm64e" path="res://addons/escoria-wizard/graphics/greenarrow_left.png" id="26"]
-[ext_resource type="Texture2D" uid="uid://csgbgh2noft5x" path="res://addons/escoria-wizard/graphics/darkgreenarrow_upleft.png" id="27"]
-[ext_resource type="Texture2D" uid="uid://butvr7hj3vjud" path="res://addons/escoria-wizard/graphics/darkgreenarrow_up.png" id="28"]
-[ext_resource type="Texture2D" uid="uid://cjgaruc4wdn7g" path="res://addons/escoria-wizard/graphics/no_spritesheet.png" id="29"]
-[ext_resource type="Texture2D" uid="uid://mvdc20gi7vwo" path="res://addons/escoria-wizard/graphics/greenarrow_upleft.png" id="30"]
-[ext_resource type="Texture2D" uid="uid://bkvtat84gs38m" path="res://addons/escoria-wizard/graphics/greenarrow_downright.png" id="31"]
-[ext_resource type="Texture2D" uid="uid://deu85by432qw3" path="res://addons/escoria-wizard/graphics/icon.png" id="32"]
-[ext_resource type="Texture2D" uid="uid://b4jeke7kcgc4c" path="res://addons/escoria-wizard/graphics/greyarrow_d.png" id="33"]
-[ext_resource type="Texture2D" uid="uid://dct5s5mrwa5jb" path="res://addons/escoria-wizard/graphics/darkgreyarrow_dr.png" id="34"]
-[ext_resource type="Texture2D" uid="uid://sj5vpeaeqxpu" path="res://addons/escoria-wizard/graphics/darkgreyarrow_dl.png" id="35"]
+[ext_resource type="Texture2D" uid="uid://4e5o0jygjpmv" path="res://addons/escoria-wizard/graphics/darkgreenarrow_down.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://bhtllcrcfgi2l" path="res://addons/escoria-wizard/graphics/greyarrow_r.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://bf8hvhitupl4x" path="res://addons/escoria-wizard/graphics/darkgreenarrow_right.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://c108mcii2pnd2" path="res://addons/escoria-wizard/graphics/greenarrow_right.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://c56jk51hra2ad" path="res://addons/escoria-wizard/graphics/greenarrow_down.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://dd1kynxpr5kp7" path="res://addons/escoria-wizard/graphics/greyarrow_ul.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://db0x28tf68ra4" path="res://addons/escoria-wizard/graphics/greyarrow_dl.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://cta81hch2hfbb" path="res://addons/escoria-wizard/graphics/darkgreyarrow_d.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://bm8l75biydrpy" path="res://addons/escoria-wizard/graphics/no_animation.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://cvbadwfv44b31" path="res://addons/escoria-wizard/graphics/greenarrow_downleft.png" id="10"]
+[ext_resource type="Texture2D" uid="uid://c66yr3xxyocgf" path="res://addons/escoria-wizard/graphics/darkgreenarrow_downleft.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://etvk6ieq08d8" path="res://addons/escoria-wizard/graphics/darkgreenarrow_left.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://r35l3buu5y1c" path="res://addons/escoria-wizard/graphics/greyarrow_l.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://bkhd38cvci0o6" path="res://addons/escoria-wizard/graphics/darkgreyarrow_ur.png" id="14"]
+[ext_resource type="Texture2D" uid="uid://v431ykg6an0r" path="res://addons/escoria-wizard/graphics/darkgreyarrow_ul.png" id="15"]
+[ext_resource type="Texture2D" uid="uid://cbam52s6amdah" path="res://addons/escoria-wizard/graphics/darkgreenarrow_upright.png" id="16"]
+[ext_resource type="Texture2D" uid="uid://cadthv31wt2lr" path="res://addons/escoria-wizard/graphics/greyarrow_ur.png" id="17"]
+[ext_resource type="Texture2D" uid="uid://bu2yu64fio8re" path="res://addons/escoria-wizard/graphics/greyarrow_u.png" id="18"]
+[ext_resource type="Texture2D" uid="uid://cfewua8ben82l" path="res://addons/escoria-wizard/graphics/darkgreyarrow_r.png" id="19"]
+[ext_resource type="Texture2D" uid="uid://bng28oph8rshy" path="res://addons/escoria-wizard/graphics/darkgreyarrow_u.png" id="20"]
+[ext_resource type="Texture2D" uid="uid://dknfjhmw4ulgx" path="res://addons/escoria-wizard/graphics/darkgreyarrow_l.png" id="21"]
+[ext_resource type="Texture2D" uid="uid://cooshd11j6mme" path="res://addons/escoria-wizard/graphics/greyarrow_dr.png" id="22"]
+[ext_resource type="Texture2D" uid="uid://yhgaqrufthbd" path="res://addons/escoria-wizard/graphics/greenarrow_up.png" id="23"]
+[ext_resource type="Texture2D" uid="uid://blgnjkqah3tux" path="res://addons/escoria-wizard/graphics/greenarrow_upright.png" id="24"]
+[ext_resource type="Texture2D" uid="uid://bag4myopmjamd" path="res://addons/escoria-wizard/graphics/darkgreenarrow_downright.png" id="25"]
+[ext_resource type="Texture2D" uid="uid://dkv2avtnxqov1" path="res://addons/escoria-wizard/graphics/greenarrow_left.png" id="26"]
+[ext_resource type="Texture2D" uid="uid://b4chlwkmru1aj" path="res://addons/escoria-wizard/graphics/darkgreenarrow_upleft.png" id="27"]
+[ext_resource type="Texture2D" uid="uid://dfk2rb1g2b4gl" path="res://addons/escoria-wizard/graphics/darkgreenarrow_up.png" id="28"]
+[ext_resource type="Texture2D" uid="uid://bnxd0blo12sdc" path="res://addons/escoria-wizard/graphics/no_spritesheet.png" id="29"]
+[ext_resource type="Texture2D" uid="uid://c7hp4rcgl7v5k" path="res://addons/escoria-wizard/graphics/greenarrow_upleft.png" id="30"]
+[ext_resource type="Texture2D" uid="uid://bxfeqwi1hmjxl" path="res://addons/escoria-wizard/graphics/greenarrow_downright.png" id="31"]
+[ext_resource type="Texture2D" uid="uid://c3ohia3wlf1y7" path="res://addons/escoria-wizard/graphics/icon.png" id="32"]
+[ext_resource type="Texture2D" uid="uid://co12gknvv3u8u" path="res://addons/escoria-wizard/graphics/greyarrow_d.png" id="33"]
+[ext_resource type="Texture2D" uid="uid://cbydni2j81n0l" path="res://addons/escoria-wizard/graphics/darkgreyarrow_dr.png" id="34"]
+[ext_resource type="Texture2D" uid="uid://s7i1hfxl2dnm" path="res://addons/escoria-wizard/graphics/darkgreyarrow_dl.png" id="35"]
 [ext_resource type="Script" uid="uid://ihbrgvupidxn" path="res://addons/escoria-wizard/draw_frame_rects.gd" id="36"]
 [ext_resource type="Script" uid="uid://bwbxhkbjuggxq" path="res://addons/escoria-wizard/CharacterCreator.gd" id="37"]
 [ext_resource type="PackedScene" uid="uid://b1mr4ghmqeyo" path="res://addons/escoria-wizard/help_window.tscn" id="38"]
@@ -374,10 +374,10 @@ texture_pressed = ExtResource("23")
 texture_hover = ExtResource("23")
 
 [node name="unset_dir_up" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_up" groups=["direction_buttons"]]
-visible = false
 layout_mode = 2
 tooltip_text = "Up animation (unconfigured)"
 toggle_mode = true
+button_pressed = true
 texture_normal = ExtResource("20")
 texture_pressed = ExtResource("18")
 texture_hover = ExtResource("18")
@@ -422,7 +422,6 @@ texture_pressed = ExtResource("26")
 texture_hover = ExtResource("26")
 
 [node name="unset_dir_left" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_left" groups=["direction_buttons"]]
-visible = false
 layout_mode = 2
 tooltip_text = "Left animation (unconfigured)"
 toggle_mode = true
@@ -452,7 +451,6 @@ texture_pressed = ExtResource("4")
 texture_hover = ExtResource("4")
 
 [node name="unset_dir_right" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_right" groups=["direction_buttons"]]
-visible = false
 layout_mode = 2
 tooltip_text = "Right animation (unconfigured)"
 toggle_mode = true
@@ -494,7 +492,6 @@ texture_pressed = ExtResource("5")
 texture_hover = ExtResource("5")
 
 [node name="unset_dir_down" type="TextureButton" parent="VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/HBoxContainer2/HBoxContainer/MarginContainer2/GridContainer/Container_down" groups=["direction_buttons"]]
-visible = false
 layout_mode = 2
 tooltip_text = "Down animation (unconfigured)"
 toggle_mode = true
