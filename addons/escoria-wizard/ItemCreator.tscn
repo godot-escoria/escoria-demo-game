@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://beawklamapteq"]
 
 [ext_resource type="Script" uid="uid://bxj8cgfbk5r8f" path="res://addons/escoria-wizard/item_creator.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://dwguhae003bhw" path="res://addons/escoria-wizard/graphics/inventory_preview.png" id="2"]
-[ext_resource type="Texture2D" uid="uid://dkds464p4h2vg" path="res://addons/escoria-wizard/graphics/object_preview.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://b7ax2phlsg1x6" path="res://addons/escoria-wizard/graphics/inventory_preview.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://bf47xbq6w4hou" path="res://addons/escoria-wizard/graphics/object_preview.png" id="3"]
 
 [node name="ItemCreator" type="MarginContainer"]
 custom_minimum_size = Vector2(500, 500)

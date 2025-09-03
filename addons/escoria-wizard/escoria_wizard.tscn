@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=3 uid="uid://ccuroi47r5yrl"]
 
-[ext_resource type="Texture2D" uid="uid://cb3x5ecq50pfh" path="res://addons/escoria-wizard/graphics/background.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://crv5q2cm67trm" path="res://addons/escoria-wizard/graphics/background.png" id="1"]
 [ext_resource type="PackedScene" uid="uid://cmd72pi6txw2v" path="res://addons/escoria-wizard/CharacterCreator.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://beawklamapteq" path="res://addons/escoria-wizard/ItemCreator.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://b72fr6t0ed4s0" path="res://addons/escoria-wizard/RoomCreator.tscn" id="4"]
 [ext_resource type="Script" uid="uid://c21ngbfgf3gcp" path="res://addons/escoria-wizard/escoria_wizard.gd" id="38"]
-[ext_resource type="Texture2D" uid="uid://d27uq4nrcdxaq" path="res://addons/escoria-wizard/graphics/character.png" id="40"]
-[ext_resource type="Texture2D" uid="uid://bucl6ro6m2545" path="res://addons/escoria-wizard/graphics/room.png" id="42"]
-[ext_resource type="Texture2D" uid="uid://br7utauvgi0w6" path="res://addons/escoria-wizard/graphics/inventory.png" id="44"]
+[ext_resource type="Texture2D" uid="uid://5oseq417h0ch" path="res://addons/escoria-wizard/graphics/character.png" id="40"]
+[ext_resource type="Texture2D" uid="uid://6va32hw42yv" path="res://addons/escoria-wizard/graphics/room.png" id="42"]
+[ext_resource type="Texture2D" uid="uid://cglfsrifcc8is" path="res://addons/escoria-wizard/graphics/inventory.png" id="44"]
 
 [node name="root" type="MarginContainer"]
 anchors_preset = 15

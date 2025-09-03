@@ -52,5 +52,3 @@ func show_page() -> void:
 		12:	$masks/rightall.visible = false
 		13:	$masks/rightall.visible = false
 		14:	$masks/rightall.visible = false
-
-
