@@ -422,11 +422,9 @@ func _check_target_has_proper_action(target: ESCObject, action: String) -> bool:
 # event_target
 func _has_event_with_target(events_dict: Dictionary, event_name: String, event_target: String):
 	var event = events_dict.get(event_name)
-
-	if event:
-		return event.get_target_name() == event_target
-
-	return false
+	if event == null:
+		return false
+	return true
 
 
 # Runs the specified event.
