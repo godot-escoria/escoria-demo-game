@@ -293,25 +293,21 @@ func _get_event_to_queue(
 					do_combine = false
 
 				if do_combine:
-#						var target_event = "%s %s" % [
-#							action,
-#							combine_with.global_id
-#						]
-#						var combine_with_event = "%s %s" % [
-#							action,
-#							target.global_id
-#						]
+					var action_name = action
+					if combine_with.global_id:
+						action_name += " " + combine_with.global_id
+					
+					var combine_name = action
+					if combine_with.global_id:
+						combine_name += " " + target.global_id
 
-					if _has_event_with_target(target.events, action, combine_with.global_id):
-					#if target.events.has(target_event):
-						#event_to_return = target.events[target_event]
-						event_to_return = target.events[action]
-					#elif combine_with.events.has(combine_with_event)\
-					elif _has_event_with_target(combine_with.events, action, target.global_id)\
+					if _has_event_with_target(target.events, action_name, combine_with.global_id):
+						event_to_return = target.events[action_name]
+
+					elif _has_event_with_target(combine_with.events, combine_name, target.global_id)\
 							and not combine_with.node.combine_is_one_way:
 
-						#event_to_return = combine_with.events[combine_with_event]
-						event_to_return = combine_with.events[action]
+						event_to_return = combine_with.events[combine_name]
 					else:
 						# Check to see if there isn't a "fallback" action to
 						# run before we declare this a failure.
