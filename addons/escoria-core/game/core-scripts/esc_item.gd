@@ -990,10 +990,7 @@ func _get_inventory_texture() -> Texture2D:
 
 func _get_inventory_texture_hovered() -> Texture2D:
 	if inventory_texture_hovered == null:
-		for c in get_children():
-			if c is TextureRect or c is Sprite2D:
-				return c.texture
-		return null
+		return _get_inventory_texture()
 	else:
 		return inventory_texture_hovered
 
