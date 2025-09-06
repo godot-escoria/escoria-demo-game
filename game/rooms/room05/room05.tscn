@@ -174,7 +174,7 @@ global_id = "r5_pipe"
 esc_script = "res://game/rooms/room05/esc/pipe.esc"
 tooltip_name = "pipe"
 default_action = "look"
-combine_when_selected_action_is_in = PackedStringArray()
+combine_when_selected_action_is_in = PackedStringArray("use")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/pipe"]
 position = Vector2(618, 243)

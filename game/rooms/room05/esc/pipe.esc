@@ -18,3 +18,13 @@
 	say("player", "The leak's now fixed.")
 	r5_dialog_advance = 2
 	accept_input("ALL")
+
+:use "r5_pen"
+	if r5_dialog_advance == 2:
+		say("player", "I already fixed the water leak.")
+		stop
+
+	accept_input("SKIP")
+	say("player", "I don't see how I can fix the pipe with a pen.")
+	accept_input("ALL")
+	
