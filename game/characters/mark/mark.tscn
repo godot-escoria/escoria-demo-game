@@ -712,6 +712,7 @@ is_movable = true
 default_action = "look"
 combine_when_selected_action_is_in = PackedStringArray()
 animations = ExtResource("2_gm8ki")
+debug_next_position = 1
 animations = ExtResource("2_gm8ki")
 
 [node name="sprite" type="AnimatedSprite2D" parent="."]

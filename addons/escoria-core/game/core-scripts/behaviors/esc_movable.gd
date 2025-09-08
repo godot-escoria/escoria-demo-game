@@ -99,8 +99,11 @@ func _process(delta: float) -> void:
 		var angle: float = (old_pos.angle_to_point(new_pos))
 		_perform_walk_orientation(angle)
 		
-		if parent.terrain.is_point_inside_walkable_area(new_pos):
-			parent.set_position(new_pos)
+		parent._debug_draw_next_position = new_pos
+		parent.queue_redraw()
+		walk_path = parent.terrain.get_simple_path(old_pos, new_pos, true)
+		if walk_path.size() >= 1:
+			parent.set_position(walk_path[1])
 		update_terrain()
 			
 	else:
@@ -269,14 +272,14 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 	task = MovableTask.WALK
 	set_process(true)
 
-func walk_direction(vector: Vector2) -> void:
-	if not parent.terrain or vector == Vector2.ZERO:
+func walk_direction(direction_vector: Vector2) -> void:
+	if not parent.terrain or direction_vector == Vector2.ZERO:
 		walk_stop(parent.get_global_position())
 		task = MovableTask.NONE
 		return
 		
 	task = MovableTask.WALK_DIRECT
-	move_vector = vector
+	move_vector = direction_vector
 	set_process(true)
 
 func stop_walking():

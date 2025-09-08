@@ -234,7 +234,7 @@ func element_focused(element_id: String) -> void:
 
 # Called when no element is focused anymore
 # (Needs to be overridden, if supported)
-func element_unfocused() -> void:
+func element_unfocused(element_id: String) -> void:
 	pass
 
 
