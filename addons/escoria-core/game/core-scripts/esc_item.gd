@@ -209,6 +209,15 @@ var _previous_texture: Texture2D = null
 @export var custom_data: Dictionary = {}
 
 @export_group("","")
+@export_group("Debug")
+
+## Display debug position
+@export_enum("None","Next position") var debug_next_position: int
+
+## Next position of the item, to be displayed on debug mode
+var _debug_draw_next_position: Vector2:
+	set = _set_debug_draw_next_position
+@export_group("","")
 
 # Reference to the animation node (null if none was found)
 var animation_sprite = null
@@ -234,6 +243,8 @@ var _force_registration: bool = false
 
 # Warnings for scene.
 var _scene_warnings: PackedStringArray = []
+
+
 
 # Add the movable node, connect signals, detect child nodes
 # and register this item
@@ -357,6 +368,16 @@ func _ready():
 		if (not is_exit or dont_apply_terrain_scaling) and is_movable:
 			_movable.last_scale = scale
 			_movable.update_terrain()
+
+
+func _draw():
+	# Manage debug modes
+	match debug_next_position:
+		0: # None
+			return
+		1: # Next position
+			draw_line(Vector2.ZERO, _debug_draw_next_position, Color.GREEN)
+
 
 
 func connect_trigger_events():
@@ -727,10 +748,13 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 			"Node %s cannot use \"walk_to\". Its \"is_movable\" parameter is false." %self
 		)
 
-
-func walk_direction(vector: Vector2) -> void:
+## Perform walking towards the direction given by the given `direction_vector`
+## vector.[br]
+## #### Parameters[br]
+## - direction_vector: unit vector giving the direction of the desired movement
+func walk_direction(direction_vector: Vector2) -> void:
 	if is_movable:
-		_movable.walk_direction(vector)
+		_movable.walk_direction(direction_vector)
 	else:
 		ESCSafeLogging.log_warn(
 			self,
@@ -1104,4 +1128,7 @@ func _on_player_entered_detection_area():
 
 func _on_player_exited_detection_area():
 		_apply_unhover_behavior()
-		escoria.game_scene.element_unfocused()
+		escoria.game_scene.element_unfocused(global_id)
+
+func _set_debug_draw_next_position(next_global_position: Vector2):
+	_debug_draw_next_position = next_global_position - global_position

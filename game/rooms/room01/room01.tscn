@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://dshelmw7y44qg" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="5"]
 [ext_resource type="Script" uid="uid://c7fcpp72w3dnj" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
 [ext_resource type="Script" uid="uid://beh3ds4eapldu" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="7"]
-[ext_resource type="Script" uid="uid://beh4p6nqd102w" path="res://addons/escoria-core/game/core-scripts/esc_player_detection_area.gd" id="7_woamt"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_player_detection_area.gd" id="7_woamt"]
 [ext_resource type="Texture2D" uid="uid://b40bc1luk2je" path="res://game/rooms/room01/room1background.png" id="8"]
 [ext_resource type="Texture2D" uid="uid://cxxsnnrekdl0q" path="res://game/rooms/room01/art1_hovered.png" id="8_a1vxf"]
 [ext_resource type="Texture2D" uid="uid://b65oxp02mfp4u" path="res://game/rooms/room01/art2.png" id="9"]
@@ -96,7 +96,6 @@ polygon = PackedVector2Array(1173, 63, 1278, 106, 1278, 420, 1172, 356)
 
 [node name="player_interaction_area" type="Area2D" parent="Hotspots/r_door"]
 script = ExtResource("7_woamt")
-metadata/_custom_type_script = "uid://beh4p6nqd102w"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door/player_interaction_area"]
 polygon = PackedVector2Array(-29, 114, -74, 131, -17, 177, 37, 200, 51, 174, 22, 126)
@@ -130,7 +129,6 @@ polygon = PackedVector2Array(487, 62, 627, 62, 627, 198, 487, 199)
 
 [node name="player_interaction_area" type="Area2D" parent="Hotspots/artwork1"]
 script = ExtResource("7_woamt")
-metadata/_custom_type_script = "uid://beh4p6nqd102w"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/artwork1/player_interaction_area"]
 position = Vector2(514.75, 381.5)
@@ -173,7 +171,6 @@ polygon = PackedVector2Array(487, 62, 627, 62, 627, 198, 487, 199)
 
 [node name="player_interaction_area" type="Area2D" parent="Hotspots/artwork2"]
 script = ExtResource("7_woamt")
-metadata/_custom_type_script = "uid://beh4p6nqd102w"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/artwork2/player_interaction_area"]
 position = Vector2(828.5, 382)
