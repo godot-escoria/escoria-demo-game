@@ -6,7 +6,7 @@ class_name ESCTerrain
 
 
 # Logger class
-const Logger = preload("res://addons/escoria-core/tools/logging/esc_logger.gd")
+const EscLogger = preload("res://addons/escoria-core/tools/logging/esc_logger.gd")
 
 
 # Visualize scales or the lightmap for debugging purposes
@@ -88,7 +88,7 @@ var _lightmap_data
 var _texture_in_update = false
 
 # Logger instance
-@onready var logger = Logger.ESCLoggerFile.new()
+@onready var logger = EscLogger.ESCLoggerFile.new()
 
 # Set a reference to the active navigation polygon, register to Escoria
 # and update the texture
