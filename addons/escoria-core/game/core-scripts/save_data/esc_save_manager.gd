@@ -406,11 +406,11 @@ func _load_object(object_id: String, object_dictionary: Dictionary, room_id: Str
 			_set_active_if_exists.run([object_id, object_dictionary["active"]])
 
 		# Interactive
-		if object_dictionary.has("interactive") && _set_interactive.validate([object_id, object_dictionary["interactive"]]):
+		if object_dictionary.has("interactive") and _set_interactive.validate([object_id, object_dictionary["interactive"]]):
 			_set_interactive.run([object_id, object_dictionary["interactive"]])
 
 		# State
-		if object_dictionary.has("state") && _set_state.validate([object_id, object_dictionary["state"], true]):
+		if object_dictionary.has("state") and _set_state.validate([object_id, object_dictionary["state"], true]):
 			_set_state.run([object_id, object_dictionary["state"], true])
 
 		# Position
