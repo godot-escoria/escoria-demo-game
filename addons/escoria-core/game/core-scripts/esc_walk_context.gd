@@ -1,22 +1,22 @@
-# The walk context describes the target of a walk command and if that command
-# should be executed fast
+## The walk context describes the target of a walk command and if that command
+## should be executed fast.
 extends RefCounted
 class_name ESCWalkContext
 
 
-# Target object that the walk command tries to reach
+## Target object that the walk command tries to reach.
 var target_object: ESCObject = null
 
-# The target position
+## The target position
 var target_position: Vector2 = Vector2()
 
-# Whether to move fast
+## Whether to move fast
 var fast: bool
 
-# Whether an interaction should NOT happen after walk reaches destination
+## Whether an interaction should NOT happen after walk reaches destination
 var dont_interact_on_arrival: bool
 
-
+## Constructor method.
 func _init(
 	p_target_object: ESCObject,
 	p_target_position: Vector2,

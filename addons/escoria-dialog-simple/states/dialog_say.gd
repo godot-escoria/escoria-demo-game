@@ -1,4 +1,4 @@
-extends "res://addons/escoria-dialog-simple/patterns/state_machine/state.gd"
+extends State
 
 
 # Reference to the currently playing dialog manager
@@ -133,7 +133,7 @@ func update(_delta):
 # - key: Text key provided
 # - start: Starting folder to search for voices
 #
-# *Returns* The path to the matching voice file
+# **Returns** The path to the matching voice file
 func _get_voice_file(key: String, start: String = "") -> String:
 	if start == "":
 		start = ESCProjectSettingsManager.get_setting(

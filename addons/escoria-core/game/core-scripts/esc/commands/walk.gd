@@ -1,32 +1,34 @@
-# `walk object target [walk_fast]`
-#
-# Moves the specified `ESCPlayer` or movable `ESCItem` to the `target`
-# ESCItem's location while playing `object`'s walking animation. This command
-# is non-blocking.
-# This command will use the normal walk speed by default.
-# If the `target` ESCItem has a child ESCLocation node, the walk destination
-# will be the position of the ESCLocation.
-#
-# **Parameters**
-#
-# - *object*: Global ID of the object to move
-# - *target*: Global ID of the target object
-# - *walk_fast*: Whether to walk fast (`true`) or normal speed (`false`)
-#   (default: false)
-#
-# @ESC
+## `walk object target [walk_fast]`[br]
+## [br]
+## Moves the specified `ESCPlayer` or movable `ESCItem` to the `target`
+## ESCItem's location while playing `object`'s walking animation. This command
+## is non-blocking.[br]
+## This command will use the normal walk speed by default.[br]
+## If the `target` ESCItem has a child ESCLocation node, the walk destination
+## will be the position of the ESCLocation.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - *object*: Global ID of the object to move[br]
+## - *target*: Global ID of the target object[br]
+## - *walk_fast*: Whether to walk fast (`true`) or normal speed (`false`)
+##   (default: false)[br]
+## [br]
+## @ESC
 extends ESCBaseCommand
 class_name WalkCommand
 
 
-# Walking object
+## Walking object
 var walking_object_node: ESCItem
 
-# Target object
+## Target object
 var target_object_node: ESCObject
 
 
-# Return the descriptor of the arguments of this command
+## Returns the descriptor of the arguments of this command.[br]
+## [br]
+## *Returns* The argument descriptor for this command.
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
@@ -35,7 +37,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-# Validate whether the given arguments match the command descriptor
+## Validates whether the given arguments match the command descriptor.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - arguments: The arguments to validate.[br]
+## [br]
+## *Returns* True if the arguments are valid, false otherwise.
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -60,7 +68,13 @@ func validate(arguments: Array):
 	return true
 
 
-# Run the command
+## Runs the command.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## - command_params: The parameters for the command.[br]
+## [br]
+## *Returns* The execution result code.
 func run(command_params: Array) -> int:
 	escoria.action_manager.do(
 		escoria.action_manager.ACTION.BACKGROUND_CLICK,
@@ -69,7 +83,7 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-# Function called when the command is interrupted.
+## Function called when the command is interrupted.
 func interrupt():
 	if walking_object_node != null:
 		walking_object_node.stop_walking_now()
