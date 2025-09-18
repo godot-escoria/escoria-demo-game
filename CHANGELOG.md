@@ -1,3 +1,12 @@
+## [4.0.0-alpha.289](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.289) (2025-09-18)
+
+
+### Bug Fixes
+
+* **uid:** fix uids in several files to avoid warnings ([bc0f18a](https://github.com/godot-escoria/escoria-demo-game/commit/bc0f18ad2f90ed11a91ae2e646b1a5f6305fa460))
+
+
+
 ## [4.0.0-alpha.288](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.288) (2025-09-18)
 
 

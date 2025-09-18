@@ -296,7 +296,7 @@ func _get_event_to_queue(
 					var action_name = action
 					if combine_with.global_id:
 						action_name += " " + combine_with.global_id
-					
+				
 					var combine_name = action
 					if combine_with.global_id:
 						combine_name += " " + target.global_id
