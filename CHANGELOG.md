@@ -1,3 +1,12 @@
+## [4.0.0-alpha.288](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.288) (2025-09-18)
+
+
+### Bug Fixes
+
+* **Logger:** Godot 4.5 introduced new native Logger class which clashed with Escoria Logger class ([f944055](https://github.com/godot-escoria/escoria-demo-game/commit/f944055ebd503ba7b29e27559c0f9d3463c95767))
+
+
+
 ## [4.0.0-alpha.287](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.287) (2025-09-01)
 
 
