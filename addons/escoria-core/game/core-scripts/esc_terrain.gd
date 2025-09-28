@@ -82,7 +82,8 @@ var current_active_navigation_instance: NavigationRegion2D = null
 var _texture = null
 
 # The image from the lightmap texture
-var _lightmap_data
+var _lightmap_image:Image
+var _scales_image:Image
 
 # Prohibits multiple calls to update_texture
 var _texture_in_update = false
@@ -162,9 +163,9 @@ func _check_multiple_enabled_navpolys(node: Node = null, is_exiting: bool = fals
 # - pos: Position to calculate lightmap for
 # **Returns** The color of the given point
 func get_light(pos: Vector2) -> Color:
-	if lightmap == null or lightmap.get_image().is_empty():
+	if lightmap == null or _lightmap_image.is_empty():
 		return Color(1, 1, 1, 1)
-	return _get_color(lightmap.get_image(), pos) * lightmap_modulate
+	return _get_color(_lightmap_image, pos) * lightmap_modulate
 
 
 # Calculate the scale inside the scale range for a given scale factor
@@ -185,9 +186,9 @@ func get_scale_range(factor: float) -> Vector2:
 # - pos: The position to calculate for
 # **Returns** The scale factor for the given position
 func get_terrain(pos: Vector2) -> float:
-	if scales == null || scales.get_image().is_empty():
+	if scales == null || _scales_image.is_empty():
 		return 1.0
-	return _get_color(scales.get_image(), pos).v
+	return _get_color(_scales_image, pos).v
 
 
 # Small helper to get the color of an image at a position
@@ -211,15 +212,14 @@ func _set_bm_scale(p_scale: Vector2):
 #
 # - p_lightmap: Lightmap texture to set
 func _set_lightmap(p_lightmap: Texture2D):
-	var need_init = (lightmap != p_lightmap) or (lightmap and not _lightmap_data)
+	var need_init = (lightmap != p_lightmap) or (lightmap and not _lightmap_image)
 
 	lightmap = p_lightmap
 
-	# It's bad enough a new copy is created when reading a pixel, we don't
-	# also need to get the data for every read to make yet another copy
+	# Cache the lightmap image
 	if need_init:
-		if _lightmap_data == null:
-			_lightmap_data = lightmap.get_image().get_data()
+		if _lightmap_image == null:
+			_lightmap_image = lightmap.get_image()
 
 	_update_texture()
 
@@ -230,7 +230,15 @@ func _set_lightmap(p_lightmap: Texture2D):
 #
 # - p_scales: Scale texture to set
 func _set_scales(p_scales: Texture2D):
+	var need_init = (scales != p_scales) or (scales and not _scales_image)
+
 	scales = p_scales
+
+	# Cache the scales image
+	if need_init:
+		if _scales_image == null:
+			_scales_image = scales.get_image()
+
 	_update_texture()
 
 
