@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://nk421xi6peen"]
+
+[ext_resource type="FontFile" path="res://addons/escoria-ui-gamepad/fonts/caslonantique.tres" id="1_kgomi"]
+
+[resource]
+default_font = ExtResource("1_kgomi")

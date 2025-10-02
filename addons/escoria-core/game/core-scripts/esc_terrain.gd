@@ -113,6 +113,11 @@ func get_children_navpolys() -> Array:
 			navpolys.push_back(n)
 	return navpolys
 
+func get_first_enabled_child_navpoly() -> NavigationRegion2D:
+	for n in get_children():
+		if n is NavigationRegion2D and n.enabled:
+			return n
+	return null
 
 # Checks whether multiple navigation polygons are enabled.
 # Shows a warning in the terminal if this happens.

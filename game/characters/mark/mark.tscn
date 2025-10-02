@@ -1,4 +1,4 @@
-[gd_scene load_steps=86 format=3 uid="uid://chf3qovs1q8kr"]
+[gd_scene load_steps=87 format=3 uid="uid://chf3qovs1q8kr"]
 
 [ext_resource type="Script" uid="uid://btrr8e33hu0i4" path="res://addons/escoria-core/game/core-scripts/esc_player.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://cjudg7x7pyi78" path="res://game/characters/mark/png/mark_talk_down.png" id="2"]
@@ -701,15 +701,18 @@ animations = [{
 radius = 38.2347
 height = 217.78
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6q68o"]
+
 [node name="mark" type="Area2D"]
 process_mode = 1
 script = ExtResource("1")
 global_id = "player"
 esc_script = "res://game/characters/mark/mark.esc"
+is_movable = true
 default_action = "look"
 combine_when_selected_action_is_in = PackedStringArray()
-is_movable = true
 animations = ExtResource("2_gm8ki")
+debug_next_position = 1
 animations = ExtResource("2_gm8ki")
 
 [node name="sprite" type="AnimatedSprite2D" parent="."]
@@ -721,6 +724,10 @@ animation = &"idle_down"
 [node name="collision" type="CollisionShape2D" parent="."]
 position = Vector2(0.455139, -138.362)
 shape = SubResource("32")
+disabled = true
+
+[node name="collision_feet" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_6q68o")
 
 [node name="debug" type="Label" parent="."]
 offset_right = 40.0
@@ -729,5 +736,3 @@ offset_bottom = 14.0
 [node name="dialog_position" type="Marker2D" parent="."]
 position = Vector2(0, -320)
 script = ExtResource("10")
-player_orients_on_arrival = null
-interaction_angle = false

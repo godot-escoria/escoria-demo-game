@@ -8,10 +8,12 @@ class_name ESCMovable
 # NONE - The node is inactive
 # WALK - The node walks the parent somewhere
 # SLIDE - The node slides the parent somewhere
+# WALK_DIRECT - The node is directly controlled by the player using gamepad or keys
 enum MovableTask {
 	NONE,
 	WALK,
-	SLIDE
+	SLIDE,
+	WALK_DIRECT
 }
 
 
@@ -44,6 +46,9 @@ var is_mirrored: bool
 
 
 var _orig_speed: float = 0.0
+
+
+var move_vector: Vector2
 
 
 # Shortcut variable that references the node's parent
@@ -82,6 +87,25 @@ func _process(delta: float) -> void:
 			_perform_walk_orientation(angle)
 
 		update_terrain()
+	elif task == MovableTask.WALK_DIRECT:
+		var old_pos = parent.get_position()
+		
+		var a: float = pow(sin(last_angle), 2)
+		var movement_speed: float = parent.speed * delta * last_scale.x * (a * last_scale.x + 1 - a) * \
+			parent.terrain.player_speed_multiplier
+		var new_pos: Vector2 = old_pos + move_vector.normalized() * movement_speed * parent.v_speed_damp
+		
+		# Get the angle of the object to face the position to reach.
+		var angle: float = (old_pos.angle_to_point(new_pos))
+		_perform_walk_orientation(angle)
+		
+		parent._debug_draw_next_position = new_pos
+		parent.queue_redraw()
+		walk_path = parent.terrain.get_simple_path(old_pos, new_pos, true)
+		if walk_path.size() >= 1:
+			parent.set_position(walk_path[1])
+		update_terrain()
+			
 	else:
 		moved = false
 		set_process(false)
@@ -248,6 +272,20 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 	task = MovableTask.WALK
 	set_process(true)
 
+func walk_direction(direction_vector: Vector2) -> void:
+	if not parent.terrain or direction_vector == Vector2.ZERO:
+		walk_stop(parent.get_global_position())
+		task = MovableTask.NONE
+		return
+		
+	task = MovableTask.WALK_DIRECT
+	move_vector = direction_vector
+	set_process(true)
+
+func stop_walking():
+	task = MovableTask.NONE
+	walk_stop(parent.get_global_position())
+	set_process(false)
 
 # We have finished walking. Set the idle pose and complete
 #
@@ -269,7 +307,8 @@ func walk_stop(pos: Vector2) -> void:
 	# If we're heading to an object and reached its interaction position,
 	# orient towards the defined interaction direction set on the object
 	# (if any), can be ESCItem or ESCLocation
-	if walk_context.target_object and \
+	if walk_context and \
+			walk_context.target_object and \
 			walk_context.target_object.node.player_orients_on_arrival:
 
 		var orientation = _get_dir_deg(walk_context.target_object.node.interaction_angle - 90,
@@ -296,23 +335,24 @@ func walk_stop(pos: Vector2) -> void:
 
 	update_terrain()
 
-	if walk_context.target_object:
-		escoria.logger.debug(
-			self,
-			"%s arrived at %s." % [
-				parent.global_id,
-				walk_context.target_object.global_id
-			]
-		)
-	else:
-		escoria.logger.debug(
-			self,
-			"%s arrived at %s." % [
-				parent.global_id,
-				walk_context.target_position
-			]
-		)
-	parent.arrived.emit(walk_context)
+	if walk_context:
+		if walk_context.target_object:
+			escoria.logger.debug(
+				self,
+				"%s arrived at %s." % [
+					parent.global_id,
+					walk_context.target_object.global_id
+				]
+			)
+		else:
+			escoria.logger.debug(
+				self,
+				"%s arrived at %s." % [
+					parent.global_id,
+					walk_context.target_position
+				]
+			)
+		parent.arrived.emit(walk_context)
 
 
 # Update the sprite scale and lighting

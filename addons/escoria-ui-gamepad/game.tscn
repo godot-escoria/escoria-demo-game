@@ -1,0 +1,75 @@
+[gd_scene load_steps=10 format=3 uid="uid://cgo7vi6r1odq7"]
+
+[ext_resource type="Script" uid="uid://dm86hb4tygv18" path="res://addons/escoria-ui-gamepad/game.gd" id="1_ops8s"]
+[ext_resource type="PackedScene" uid="uid://dmw5gicuenj53" path="res://addons/escoria-core/game/scenes/camera_player/camera.tscn" id="2_0yr76"]
+[ext_resource type="Script" uid="uid://dfl7khtlretr7" path="res://addons/escoria-core/game/scenes/dialogs/esc_dialog_player.gd" id="4_8s863"]
+[ext_resource type="PackedScene" uid="uid://cu6s566nkueqs" path="res://addons/escoria-ui-gamepad/tooltip/target_tooltip.tscn" id="5_ops8s"]
+[ext_resource type="PackedScene" uid="uid://gfgn88e8sf8i" path="res://addons/escoria-ui-gamepad/inventory/inventory_ui.tscn" id="6_ops8s"]
+[ext_resource type="Theme" uid="uid://nk421xi6peen" path="res://addons/escoria-ui-gamepad/theme.tres" id="8_4etgk"]
+[ext_resource type="PackedScene" uid="uid://gfjgmbcafyyt" path="res://addons/escoria-core/ui_library/menus/pause_menu/pause_menu.tscn" id="8_hy4ee"]
+[ext_resource type="PackedScene" uid="uid://demkbaxa84upr" path="res://addons/escoria-ui-gamepad/verbs_mouseicons.tscn" id="9_ops8s"]
+[ext_resource type="PackedScene" uid="uid://u8an5av5fuxx" path="res://addons/escoria-core/ui_library/menus/main_menu/main_menu.tscn" id="9_xkouh"]
+
+[node name="game" type="Node2D"]
+script = ExtResource("1_ops8s")
+main_menu = NodePath("ui/main_menu")
+pause_menu = NodePath("ui/pause_menu")
+mouse_disabled = true
+editor_debug_mode = 1
+
+[node name="camera" parent="." instance=ExtResource("2_0yr76")]
+
+[node name="dialog_layer" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="ESCDialogsPlayer" type="Control" parent="dialog_layer"]
+layout_mode = 3
+anchors_preset = 0
+theme = ExtResource("8_4etgk")
+script = ExtResource("4_8s863")
+
+[node name="ui" type="CanvasLayer" parent="."]
+
+[node name="tooltip" parent="ui" instance=ExtResource("5_ops8s")]
+
+[node name="inventory_ui" parent="ui" instance=ExtResource("6_ops8s")]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ui"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 11.0
+offset_top = 621.0
+offset_right = -442.0
+offset_bottom = -107.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MenuButton" type="Button" parent="ui/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Menu"
+
+[node name="pause_menu" parent="ui" instance=ExtResource("8_hy4ee")]
+visible = false
+theme = ExtResource("8_4etgk")
+
+[node name="main_menu" parent="ui" instance=ExtResource("9_xkouh")]
+visible = false
+
+[node name="mouse_layer" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="verbs_menu" parent="mouse_layer" instance=ExtResource("9_ops8s")]
+offset_left = 156.0
+offset_top = 810.0
+offset_right = 156.0
+offset_bottom = 810.0
+
+[connection signal="pressed" from="ui/HBoxContainer/VBoxContainer/MenuButton" to="." method="_on_MenuButton_pressed"]

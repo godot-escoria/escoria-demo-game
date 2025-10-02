@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bxq2nu4whwsq0"]
+[gd_scene load_steps=21 format=3 uid="uid://bxq2nu4whwsq0"]
 
 [ext_resource type="Script" uid="uid://5pbcieq7gpdo" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://36ogrtwqmj0h" path="res://game/items/inventory/r5_empty_sheet.tscn" id="2"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://cwg2l8cs056p" path="res://game/items/inventory/r5_wrench.tscn" id="8"]
 [ext_resource type="Texture2D" uid="uid://carbm85e2un02" path="res://game/rooms/room05/water_droplet.png" id="9"]
 [ext_resource type="Script" uid="uid://beh3ds4eapldu" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="11"]
+[ext_resource type="Script" uid="uid://chu4bvqgwxuts" path="res://addons/escoria-core/game/core-scripts/esc_interaction_location.gd" id="12_orld8"]
 [ext_resource type="Texture2D" uid="uid://doyoo3rvuhtbe" path="res://game/rooms/room05/room5background.png" id="13"]
 
 [sub_resource type="NavigationPolygon" id="1"]
@@ -58,6 +59,11 @@ _data = {
 
 [sub_resource type="ParticleProcessMaterial" id="5"]
 gravity = Vector3(0, 98, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bp4e4"]
+size = Vector2(20, 90)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_orld8"]
 
 [node name="room5" type="Node2D"]
 script = ExtResource("6")
@@ -203,6 +209,60 @@ position = Vector2(1005, 450)
 
 [node name="pen" parent="Hotspots" instance=ExtResource("5")]
 position = Vector2(897, 451)
+
+[node name="plug_cable" type="Area2D" parent="Hotspots"]
+process_mode = 1
+script = ExtResource("7")
+global_id = "r5_plug_cable"
+esc_script = "res://game/rooms/room05/esc/plug_cable.esc"
+tooltip_name = "Plug cable"
+default_action = "use"
+combine_when_selected_action_is_in = PackedStringArray("use")
+default_action_inventory = "use"
+metadata/_custom_type_script = "uid://dshelmw7y44qg"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/plug_cable"]
+position = Vector2(745, 276)
+shape = SubResource("RectangleShape2D_bp4e4")
+
+[node name="Polygon2D" type="Polygon2D" parent="Hotspots/plug_cable"]
+position = Vector2(1, -3)
+polygon = PackedVector2Array(744, 240, 744, 315, 742, 317, 742, 319, 743, 319, 743, 322, 744, 322, 744, 319, 745, 319, 745, 322, 746, 322, 746, 319, 747, 319, 747, 317, 745, 315, 745, 240)
+
+[node name="ESCInteractionLocation" type="Marker2D" parent="Hotspots/plug_cable"]
+position = Vector2(750, 375)
+script = ExtResource("12_orld8")
+metadata/_custom_type_script = "uid://chu4bvqgwxuts"
+
+[node name="wall_plug" type="Area2D" parent="Hotspots"]
+process_mode = 1
+script = ExtResource("7")
+global_id = "r5_wall_plug"
+esc_script = "res://game/rooms/room05/esc/wall_plug.esc"
+tooltip_name = "Wall plug"
+combine_when_selected_action_is_in = PackedStringArray()
+metadata/_custom_type_script = "uid://dshelmw7y44qg"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hotspots/wall_plug"]
+position = Vector2(843, 249)
+shape = SubResource("RectangleShape2D_orld8")
+
+[node name="Polygon2D" type="Polygon2D" parent="Hotspots/wall_plug"]
+polygon = PackedVector2Array(843, 243, 839, 244, 837, 246, 836, 250, 838, 254, 841, 256, 844, 256, 847, 255, 849, 253, 850, 250, 849, 246, 847, 244)
+
+[node name="Polygon2D" type="Polygon2D" parent="Hotspots/wall_plug/Polygon2D"]
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(840, 247, 841, 247, 841, 251, 840, 251)
+
+[node name="Polygon2D2" type="Polygon2D" parent="Hotspots/wall_plug/Polygon2D"]
+position = Vector2(5, 0)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(840, 247, 841, 247, 841, 251, 840, 251)
+
+[node name="ESCInteractionLocation" type="Marker2D" parent="Hotspots/wall_plug"]
+position = Vector2(834, 379)
+script = ExtResource("12_orld8")
+metadata/_custom_type_script = "uid://chu4bvqgwxuts"
 
 [node name="player_start" type="Marker2D" parent="."]
 position = Vector2(75, 450)

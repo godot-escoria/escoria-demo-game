@@ -63,6 +63,8 @@ signal mouse_right_clicked_item(global_id)
 # - walk_context: The walk context of the command
 signal arrived(walk_context)
 
+signal player_entered_interaction_area
+signal player_exited_interaction_area
 
 ## The global ID of this item
 @export var global_id: String
@@ -207,6 +209,15 @@ var _previous_texture: Texture2D = null
 @export var custom_data: Dictionary = {}
 
 @export_group("","")
+@export_group("Debug")
+
+## Display debug position
+@export_enum("None","Next position") var debug_next_position: int
+
+## Next position of the item, to be displayed on debug mode
+var _debug_draw_next_position: Vector2:
+	set = _set_debug_draw_next_position
+@export_group("","")
 
 # Reference to the animation node (null if none was found)
 var animation_sprite = null
@@ -233,6 +244,8 @@ var _force_registration: bool = false
 # Warnings for scene.
 var _scene_warnings: PackedStringArray = []
 
+
+
 # Add the movable node, connect signals, detect child nodes
 # and register this item
 func _ready():
@@ -254,6 +267,8 @@ func _ready():
 		input_event.connect(_on_input_event)
 	if not mouse_exited.is_connected(_on_mouse_exited):
 		mouse_exited.connect(_on_mouse_exited)
+	
+	_connect_player_detection_area_nodes()
 
 	# Register and connect all elements to Escoria backoffice.
 	if not Engine.is_editor_hint():
@@ -355,6 +370,16 @@ func _ready():
 			_movable.update_terrain()
 
 
+func _draw():
+	# Manage debug modes
+	match debug_next_position:
+		0: # None
+			return
+		1: # Next position
+			draw_line(Vector2.ZERO, _debug_draw_next_position, Color.GREEN)
+
+
+
 func connect_trigger_events():
 	assert(is_trigger)
 	monitoring = true
@@ -407,7 +432,7 @@ class HoverStackSorter:
 # - event: the input event
 # - _shape_idx is the child index of the clicked Shape2D.
 func _on_input_event(_viewport: Object, event: InputEvent, _shape_idx: int):
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion and not escoria.game_scene.mouse_disabled:
 		var physics2d_dss: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
 		var params := PhysicsPointQueryParameters2D.new()
 		params.position = get_global_mouse_position()
@@ -723,6 +748,27 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 			"Node %s cannot use \"walk_to\". Its \"is_movable\" parameter is false." %self
 		)
 
+## Perform walking towards the direction given by the given `direction_vector`
+## vector.[br]
+## #### Parameters[br]
+## - direction_vector: unit vector giving the direction of the desired movement
+func walk_direction(direction_vector: Vector2) -> void:
+	if is_movable:
+		_movable.walk_direction(direction_vector)
+	else:
+		ESCSafeLogging.log_warn(
+			self,
+			"Node %s cannot use \"walk_direction\". Its \"is_movable\" parameter is false." %self
+		)
+	
+func stop_walking():
+	if is_movable:
+		_movable.stop_walking()
+	else:
+		ESCSafeLogging.log_warn(
+			self,
+			"Node %s cannot use \"stop_walking\". Its \"is_movable\" parameter is false." %self
+		)
 
 # Stop the movable node immediately and remain where it is at this moment,
 # or teleport it directly at destination position if 'to_target' is true.
@@ -1066,3 +1112,23 @@ func get_custom_data() -> Dictionary:
 
 func set_custom_data(data: Dictionary) -> void:
 	custom_data = data if (data != null) else {}
+
+
+func _connect_player_detection_area_nodes() -> void:
+	for n in get_children():
+		if n is ESCPlayerDetectionArea:
+			if not n.player_entered.is_connected(_on_player_entered_detection_area):
+				n.player_entered.connect(_on_player_entered_detection_area)
+			if not n.player_exited.is_connected(_on_player_exited_detection_area):
+				n.player_exited.connect(_on_player_exited_detection_area)
+
+func _on_player_entered_detection_area():
+		_apply_hover_behavior()
+		escoria.game_scene.element_focused(global_id)
+
+func _on_player_exited_detection_area():
+		_apply_unhover_behavior()
+		escoria.game_scene.element_unfocused(global_id)
+
+func _set_debug_draw_next_position(next_global_position: Vector2):
+	_debug_draw_next_position = next_global_position - global_position

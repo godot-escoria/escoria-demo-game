@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://cu6s566nkueqs"]
+
+[ext_resource type="Script" uid="uid://b38oofs08ey1a" path="res://addons/escoria-ui-gamepad/tooltip/tooltip_target.gd" id="1_w1tmy"]
+
+[node name="tooltip" type="RichTextLabel"]
+theme_override_font_sizes/normal_font_size = 21
+bbcode_enabled = true
+text = "[center][color=#ffffff][/color][/center]"
+scroll_active = false
+script = ExtResource("1_w1tmy")
+color = Color(1, 1, 1, 1)
+offset_from_cursor = Vector2(0, 0)
