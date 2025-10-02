@@ -39,7 +39,7 @@ search_in_file_extensions=PackedStringArray("gd", "shader", "esc")
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/escoria-core/plugin.cfg", "res://addons/escoria-dialog-simple/plugin.cfg", "res://addons/escoria-ui-simplemouse/plugin.cfg")
+enabled=PackedStringArray("res://addons/escoria-core/plugin.cfg", "res://addons/escoria-dialog-simple/plugin.cfg", "res://addons/escoria-ui-simplemouse/plugin.cfg", "res://addons/escoria-wizard/plugin.cfg")
 
 [escoria]
 
@@ -94,6 +94,7 @@ dialog_simple/stop_talking_animation_on="End of audio"
 debug/enable_hover_stack_viewer=true
 main/escoria_version="4.0-alpha"
 debug/perform_script_analysis_at_runtime=true
+wizard/path_to_rooms="res://rooms"
 
 [file_customization]
 
