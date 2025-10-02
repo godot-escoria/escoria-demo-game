@@ -62,6 +62,9 @@ func initialize_esc_game() -> void:
 	if not escoria.main.room_ready.is_connected(_on_room_ready):
 		escoria.main.room_ready.connect(_on_room_ready)
 
+	get_node(main_menu).process_mode = ProcessMode.PROCESS_MODE_ALWAYS
+	get_node(pause_menu).process_mode = ProcessMode.PROCESS_MODE_ALWAYS
+
 	# Debug display for hover stack
 	if ProjectSettings.get_setting(ESCProjectSettingsManager.ENABLE_HOVER_STACK_VIEWER) and \
 		get_node_or_null("hover_stack_layer") == null:
@@ -83,7 +86,6 @@ func _exit_tree():
 func _ready():
 	escoria.settings_manager.apply_settings()
 	crash_popup_confirmed.connect(escoria.quit)
-
 
 # Handle debugging visualizations
 func _draw():

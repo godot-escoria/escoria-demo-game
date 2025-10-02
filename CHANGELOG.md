@@ -1,3 +1,54 @@
+## [4.0.0-alpha.281](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.281) (2025-05-30)
+
+
+### Bug Fixes
+
+* Escape key was breaking main menu ([e78d522](https://github.com/godot-escoria/escoria-demo-game/commit/e78d5224bf7724e70944326f151c9e5c88e0e87d))
+
+
+
+## [4.0.0-alpha.280](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.280) (2025-05-20)
+
+
+### Features
+
+* adds '' keyword in ASHES in order to reveal the script's associated object or room ([badf863](https://github.com/godot-escoria/escoria-demo-game/commit/badf863e18ea7628a05257073183a3038d1fe68d))
+
+
+
+## [4.0.0-alpha.279](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.279) (2025-05-20)
+
+
+### Bug Fixes
+
+* click doesn't reset walk animation anymore. ([0ec7bcb](https://github.com/godot-escoria/escoria-demo-game/commit/0ec7bcb85eacef1c0b7e76369b80742f8ffafa49))
+
+
+
+## [4.0.0-alpha.278](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.278) (2025-05-20)
+
+
+### Features
+
+* Add new force_event_flag command ([8be00b9](https://github.com/godot-escoria/escoria-demo-game/commit/8be00b96551119eec3d28cd29f4ff522be0accf3))
+* adds the ability to add a conditional TK flag, though it must only be a single global variable; also fixes static analysis option check ([9334abe](https://github.com/godot-escoria/escoria-demo-game/commit/9334abe030d45bbbc9e8034bdfbfec0d6fc24b71))
+
+
+
+## [4.0.0-alpha.277](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.277) (2025-04-18)
+
+
+### Bug Fixes
+
+* corrects issues with exporting character scenes from wizard; misc. Godot 4 fixes; changes ESCItem logging to use ESCSafeLogging ([44a8a8e](https://github.com/godot-escoria/escoria-demo-game/commit/44a8a8ec39d3b1649727a457f87e729723360575))
+* migrates more Godot 3-specific methods and paradigms into Godot 4 ones; these inculde updates to how AnimatedSprite2D is used, and their SpriteFrames; also includes updates to misc. functions/methods that were missed ([aac356f](https://github.com/godot-escoria/escoria-demo-game/commit/aac356f54467fa9c424e25d3adccfa9c2455c7d3))
+* properly adds name/global_id based; also fixes bug w/ global_id being overwritten; still have issue w/ collision shape being 1px ([18140e1](https://github.com/godot-escoria/escoria-demo-game/commit/18140e1a3735e353f5dc7dd091c3320ffeaad8e1))
+* takes the wizard out of 'test mode' ([9ca5694](https://github.com/godot-escoria/escoria-demo-game/commit/9ca569439152b9fa1495bd84c3e6c584e8733076))
+* updates code to use Godot 4 constructs (other than just 1:1 syntactical updates); biggest difference is how Godot 4 handles Windows as they are no longer controls; cleaned up some UI elements; this will need a good bit of testing ([aa718b4](https://github.com/godot-escoria/escoria-demo-game/commit/aa718b4d2a493f8f7814122797caba0e31d7ef09))
+* updates collision shape creation to use Godot 4 convention; also updates to 'await' an export method in order to avoid an ordering issue ([713bf8d](https://github.com/godot-escoria/escoria-demo-game/commit/713bf8d8dfbae5b72fc2e8b44aad4734b031e195))
+
+
+
 ## [4.0.0-alpha.276](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.276) (2025-04-12)
 
 

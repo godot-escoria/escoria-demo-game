@@ -146,10 +146,10 @@ func character_creator_reset() -> void:
 	animation_type_selected = "walk"
 
 	# For unknown reasons the above doesn't cause the trigger to fire so manual steps required
-	if get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").pressed:
+	if get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").button_pressed:
 		get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").button_pressed = false
 
-	if get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").pressed:
+	if get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").button_pressed:
 		get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").button_pressed = false
 
 	get_node(NO_SPRITESHEET_NODE).visible = true
@@ -184,7 +184,7 @@ func character_creator_reset() -> void:
 
 	# Make sure help window doesn't swallow mouse input
 	$InformationWindows.visible = false
-	autostore = $VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/autosave/HBoxContainer/AutoStoreCheckBox.pressed
+	autostore = $VBoxContainer/HBoxContainer/configuration/VBoxContainer/animation/autosave/HBoxContainer/AutoStoreCheckBox.button_pressed
 	connect_selector_signals()
 
 
@@ -220,7 +220,7 @@ func reset_frame_outlines() -> void:
 	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").start_cell = 0
 	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").end_cell = 0
 	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").cell_size = Vector2(1,1)
-	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").update()
+	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").queue_redraw()
 
 
 func calc_sprite_size() -> void:
@@ -347,7 +347,7 @@ func create_empty_animations() -> void:
 
 	sframes.add_animation(ANIM_IN_PROGRESS)
 
-	get_node(PREVIEW_NODE).get_node("anim_preview_sprite").frames = sframes
+	get_node(PREVIEW_NODE).get_node("anim_preview_sprite").sprite_frames = sframes
 
 
 # Loads a spritesheet and calculates the size of each sprite frame if loading a spritesheet
@@ -360,9 +360,8 @@ func load_spritesheet(file_to_load, read_settings_from_metadata: bool = false, m
 
 	assert(not errorval, "Error loading file %s" % str(file_to_load))
 
-	var texture = ImageTexture.new()
-	texture.create_from_image(source_image)
-	texture.set_flags(2)
+	var texture = ImageTexture.create_from_image(source_image)
+	#texture.set_flags(2) # Godot 4 no longer allows for direct setting of "repetition" or other flags in textures
 
 	get_node(SCROLL_CTRL_NODE).get_node("spritesheet_sprite").texture = texture
 
@@ -424,7 +423,7 @@ func draw_frame_outlines() -> void:
 	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").start_cell = get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value
 	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").end_cell = get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value
 	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").cell_size = frame_size
-	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").update()
+	get_node(SCROLL_CTRL_NODE).get_node("frame_rectangles").queue_redraw()
 
 
 # When given a frame number, this calculates the pixel coordinates that frame in the spritesheet
@@ -450,7 +449,7 @@ func store_animation(animation_to_store: String) -> void:
 		METADATA_SPRITESHEET_FIRST_FRAME: get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value,
 		METADATA_SPRITESHEET_LAST_FRAME: get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value,
 		METADATA_SPEED: get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_scroll_bar").value,
-		METADATA_IS_MIRROR: get_node(MIRROR_NODE).pressed
+		METADATA_IS_MIRROR: get_node(MIRROR_NODE).button_pressed
 	}
 
 	var metadata_array_offset: int = get_metadata_array_offset()
@@ -542,30 +541,30 @@ func preview_update() -> void:
 		var current_anim_type = return_current_animation_type()
 		var anim_name = "%s_%s" % [current_anim_type, direction_selected]
 		var offset = get_metadata_array_offset()
-		var generate_mirror = get_node(MIRROR_NODE).pressed
+		var generate_mirror = get_node(MIRROR_NODE).button_pressed
 
 		var texture
 		var rect_location
-		var frame_being_copied = Image.new()
 		var frame_counter: int = 0
+		var frame_duration: float = 1.0
+		var frame_being_copied: Image = Image.create_empty(frame_size.x, frame_size.y, false, source_image.get_format())
 
-		get_node(PREVIEW_NODE).get_node("anim_preview_sprite").frames.clear(ANIM_IN_PROGRESS)
-
-		frame_being_copied.create(frame_size.x, frame_size.y, false, source_image.get_format())
+		get_node(PREVIEW_NODE).get_node("anim_preview_sprite").sprite_frames.clear(ANIM_IN_PROGRESS)
 
 		for loop in range(get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value - get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value + 1):
-			texture = ImageTexture.new()
 			rect_location = calc_frame_coords(get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value + loop)
 			frame_being_copied.blit_rect(source_image, Rect2(rect_location, Vector2(frame_size.x, frame_size.y)), Vector2(0, 0))
 
 			if generate_mirror:
 				frame_being_copied.flip_x()
 
-			texture.create_from_image(frame_being_copied)
+			texture = ImageTexture.create_from_image(frame_being_copied)
 			# Remove the image filter to make pixel correct graphics
-			texture.set_flags(2)
-			get_node(PREVIEW_NODE).get_node("anim_preview_sprite").frames.add_frame(ANIM_IN_PROGRESS, texture, frame_counter)
+			#texture.set_flags(2) # Godot 4 no longer allows for the setting of "repetition" (and other) flags
+
+			get_node(PREVIEW_NODE).get_node("anim_preview_sprite").sprite_frames.add_frame(ANIM_IN_PROGRESS, texture, frame_duration, frame_counter)
 			frame_counter += 1
+
 		preview_show()
 
 		# Calculate the scale to make the preview as big as possible in the preview window depending on
@@ -620,7 +619,7 @@ func check_if_controls_have_changed():
 func has_spritesheet_been_loaded() -> bool:
 	if source_image == null:
 		get_node(GENERIC_ERROR_NODE).dialog_text = "Please load a spritesheet to begin."
-		get_node(GENERIC_ERROR_NODE).popup()
+		get_node(GENERIC_ERROR_NODE).popup_centered()
 		return false
 	return true
 
@@ -669,7 +668,7 @@ func animation_on_dir_upleft_pressed() -> void:
 func animation_on_mirror_checkbox_toggled(button_pressed: bool) -> void:
 	if not has_spritesheet_been_loaded():
 		get_node(GENERIC_ERROR_NODE).dialog_text = "No animation has been configured."
-		get_node(GENERIC_ERROR_NODE).popup()
+		get_node(GENERIC_ERROR_NODE).popup_centered()
 		get_node(MIRROR_NODE).button_pressed = false
 		return
 
@@ -681,14 +680,14 @@ func animation_on_mirror_checkbox_toggled(button_pressed: bool) -> void:
 		if anim_metadata[metadata_array_offset][METADATA_IS_MIRROR]:
 			get_node(GENERIC_ERROR_NODE).dialog_text = \
 				"You can't mirror a direction that is already mirrored."
-			get_node(GENERIC_ERROR_NODE).popup()
+			get_node(GENERIC_ERROR_NODE).popup_centered()
 			get_node(MIRROR_NODE).set_pressed_no_signal(false)
 			return
 
 		if anim_metadata[metadata_array_offset][METADATA_SPRITESHEET_FIRST_FRAME] == 0:
 			get_node(GENERIC_ERROR_NODE).dialog_text = \
 				"You can't mirror an animation that hasn't been set up."
-			get_node(GENERIC_ERROR_NODE).popup()
+			get_node(GENERIC_ERROR_NODE).popup_centered()
 			get_node(MIRROR_NODE).set_pressed_no_signal(false)
 			return
 
@@ -707,7 +706,7 @@ func controls_on_anim_speed_scroll_bar_value_changed(value: float) -> void:
 	if anim_metadata[get_metadata_array_offset()][METADATA_IS_MIRROR] and not currently_changing_direction:
 		get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_scroll_bar").value = current_animation_speed
 		get_node(GENERIC_ERROR_NODE).dialog_text = "You cannot change a mirrored animation."
-		get_node(GENERIC_ERROR_NODE).popup()
+		get_node(GENERIC_ERROR_NODE).popup_centered()
 		return
 
 	current_animation_speed = int(value)
@@ -715,7 +714,7 @@ func controls_on_anim_speed_scroll_bar_value_changed(value: float) -> void:
 	check_if_controls_have_changed()
 
 	get_node(ANIM_CONTROLS_NODE).get_node("anim_speed_label").text = "%s: %s FPS" % [ANIMATION_SPEED_LABEL, value]
-	get_node(PREVIEW_NODE).get_node("anim_preview_sprite").frames.set_animation_speed(ANIM_IN_PROGRESS, value)
+	get_node(PREVIEW_NODE).get_node("anim_preview_sprite").sprite_frames.set_animation_speed(ANIM_IN_PROGRESS, value)
 
 	preview_update()
 
@@ -732,7 +731,7 @@ func controls_on_start_frame_value_changed(value: float) -> void:
 	if anim_metadata[get_metadata_array_offset()][METADATA_IS_MIRROR] and not currently_changing_direction:
 		get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value = spritesheet_settings[2]
 		get_node(GENERIC_ERROR_NODE).dialog_text = "You cannot change a mirrored animation."
-		get_node(GENERIC_ERROR_NODE).popup()
+		get_node(GENERIC_ERROR_NODE).popup_centered()
 		return
 	spritesheet_settings[2] = get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value
 	if get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value > 0:
@@ -754,7 +753,7 @@ func controls_on_end_frame_value_changed(value: float) -> void:
 	if anim_metadata[get_metadata_array_offset()][METADATA_IS_MIRROR] and not currently_changing_direction:
 		get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value = spritesheet_settings[3]
 		get_node(GENERIC_ERROR_NODE).dialog_text = "You cannot change a mirrored animation."
-		get_node(GENERIC_ERROR_NODE).popup()
+		get_node(GENERIC_ERROR_NODE).popup_centered()
 		return
 
 	spritesheet_settings[3] = get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value
@@ -782,7 +781,7 @@ func controls_on_h_frames_spin_box_value_changed(value: float) -> void:
 	if anim_metadata[get_metadata_array_offset()][METADATA_IS_MIRROR] and not currently_changing_direction:
 		get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value = spritesheet_settings[0]
 		get_node(GENERIC_ERROR_NODE).dialog_text = "You cannot change a mirrored animation."
-		get_node(GENERIC_ERROR_NODE).popup()
+		get_node(GENERIC_ERROR_NODE).popup_centered()
 		return
 
 	spritesheet_settings[0] = get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value
@@ -807,7 +806,7 @@ func controls_on_v_frames_spin_box_value_changed(value: float) -> void:
 	if anim_metadata[get_metadata_array_offset()][METADATA_IS_MIRROR] and not currently_changing_direction:
 		get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").value = spritesheet_settings[1]
 		get_node(GENERIC_ERROR_NODE).dialog_text = "You cannot change a mirrored animation."
-		get_node(GENERIC_ERROR_NODE).popup()
+		get_node(GENERIC_ERROR_NODE).popup_centered()
 		return
 
 	spritesheet_settings[1] = get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").value
@@ -839,19 +838,18 @@ func spritesheet_on_export_button_pressed() -> void:
 
 	var scene_name = "%s/%s.scn" % [get_node(CHARACTER_PATH_NODE).text, get_node(NAME_NODE).get_node("node_name").text]
 
-	var dest_file = File.new()
-	if dest_file.file_exists(scene_name):
+	if FileAccess.file_exists(scene_name):
 		get_node(GENERIC_ERROR_NODE).dialog_text = \
 			"Scene file '%s' already exists.\nPlease change Global_ID or path,\nor delete scene before continuing.\n" \
 			% scene_name
-		get_node(GENERIC_ERROR_NODE).popup()
+		get_node(GENERIC_ERROR_NODE).popup_centered()
 		return
 
-	if get_node(DIR_COUNT_NODE).get_node("four_directions").pressed:
+	if get_node(DIR_COUNT_NODE).get_node("four_directions").button_pressed:
 		dirnames = DIR_LIST_4
-	elif get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed:
+	elif get_node(DIR_COUNT_NODE).get_node("eight_directions").button_pressed:
 		dirnames = DIR_LIST_8
-	elif get_node(DIR_COUNT_NODE).get_node("two_directions").pressed:
+	elif get_node(DIR_COUNT_NODE).get_node("two_directions").button_pressed:
 		dirnames = DIR_LIST_2
 	else:
 		dirnames = DIR_LIST_1
@@ -888,7 +886,7 @@ func spritesheet_on_export_button_pressed() -> void:
 			get_node(GENERIC_ERROR_NODE).dialog_text += \
 				"%s idle animations not configured." % missing_idle_animations
 
-		get_node(GENERIC_ERROR_NODE).popup()
+		get_node(GENERIC_ERROR_NODE).popup_centered()
 
 		return
 
@@ -915,7 +913,7 @@ func spritesheet_on_zoom_scrollbar_value_changed(value: float) -> void:
 
 # Show the file manager when the load spritesheet button is pressed
 func spritesheet_on_load_spritesheet_button_pressed() -> void:
-	get_node(FILE_DIALOG_NODE).popup()
+	get_node(FILE_DIALOG_NODE).popup_centered()
 
 
 # Reset zoom settings when the reset button is pushed. Also called when a new
@@ -939,7 +937,7 @@ func nodename_on_node_name_text_changed(new_text: String) -> void:
 # If 8 directions was already selected, don't let it be unselected.
 # If 4 directions was selected, unselect it.
 func directions_on_eight_directions_pressed() -> void:
-	if not get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed:
+	if not get_node(DIR_COUNT_NODE).get_node("eight_directions").button_pressed:
 		# Don't let them untick all boxes
 		get_node(DIR_COUNT_NODE).get_node("eight_directions").button_pressed = true
 
@@ -951,7 +949,7 @@ func directions_on_eight_directions_pressed() -> void:
 # If 4 directions was already selected, don't let it be unselected.
 # If previously selected direction is now invalid, change it to a valid one.
 func directions_on_four_directions_pressed() -> void:
-	if not get_node(DIR_COUNT_NODE).get_node("four_directions").pressed:
+	if not get_node(DIR_COUNT_NODE).get_node("four_directions").button_pressed:
 		# Don't let them untick all boxes
 		get_node(DIR_COUNT_NODE).get_node("four_directions").button_pressed = true
 	else:
@@ -967,7 +965,7 @@ func directions_on_four_directions_pressed() -> void:
 # If 2 directions was already selected, don't let it be unselected.
 # If previously selected direction is now invalid, change it to a valid one.
 func directions_on_two_directions_pressed() -> void:
-	if not get_node(DIR_COUNT_NODE).get_node("two_directions").pressed:
+	if not get_node(DIR_COUNT_NODE).get_node("two_directions").button_pressed:
 		# Don't let them untick all boxes
 		get_node(DIR_COUNT_NODE).get_node("two_directions").button_pressed = true
 	else:
@@ -983,7 +981,7 @@ func directions_on_two_directions_pressed() -> void:
 # If 1 direction was already selected, don't let it be unselected.
 # If previously selected direction is now invalid, change it to a valid one.
 func directions_on_one_direction_pressed() -> void:
-	if not get_node(DIR_COUNT_NODE).get_node("one_direction").pressed:
+	if not get_node(DIR_COUNT_NODE).get_node("one_direction").button_pressed:
 		# Don't let them untick all boxes
 		get_node(DIR_COUNT_NODE).get_node("one_direction").button_pressed = true
 	else:
@@ -999,11 +997,11 @@ func directions_on_one_direction_pressed() -> void:
 func return_current_animation_type() -> String:
 	var animation_type: String = ""
 
-	if get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").pressed:
+	if get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").button_pressed:
 		animation_type = TYPE_WALK
-	elif get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").pressed:
+	elif get_node(ANIM_TYPE_NODE).get_node("talk_checkbox").button_pressed:
 		animation_type = TYPE_TALK
-	elif get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").pressed:
+	elif get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").button_pressed:
 		animation_type = TYPE_IDLE
 
 	assert(not animation_type.is_empty(), "No animation type selected.")
@@ -1020,7 +1018,7 @@ func check_activate_direction(direction) -> void:
 	if get_node(STORE_ANIM_NODE).visible:
 		get_node(ARROWS_NODE).get_node("Container_%s" % direction).get_node("set_dir_%s" % direction).button_pressed = false
 		get_node(ARROWS_NODE).get_node("Container_%s" % direction).get_node("unset_dir_%s" % direction).button_pressed = false
-		$InformationWindows/unstored_changes_window.popup()
+		$InformationWindows/unstored_changes_window.popup_centered()
 	else:
 		activate_direction(direction)
 
@@ -1081,8 +1079,8 @@ func activate_direction(direction) -> void:
 		preview_update()
 
 		# Restart animation otherwise it will first complete all the frames before changing to the new animation
-		get_node(PREVIEW_NODE).get_node("anim_preview_sprite").playing = false
-		get_node(PREVIEW_NODE).get_node("anim_preview_sprite").playing = true
+		get_node(PREVIEW_NODE).get_node("anim_preview_sprite").stop()
+		get_node(PREVIEW_NODE).get_node("anim_preview_sprite").play()
 	currently_changing_direction = false
 
 # Store the metadata for the animation changes for the current direction
@@ -1129,18 +1127,18 @@ func reset_arrow_colours() -> void:
 	get_node(ARROWS_NODE).get_node("Container_left").get_node("ColorRectSpacer").visible = false
 	get_node(ARROWS_NODE).get_node("Container_down").get_node("ColorRectSpacer").visible = false
 	var dir_list=DIR_LIST_8
-	if get_node(DIR_COUNT_NODE).get_node("four_directions").pressed:
+	if get_node(DIR_COUNT_NODE).get_node("four_directions").button_pressed:
 		dir_list=DIR_LIST_4
 		if not direction_selected in DIR_LIST_4:
 			direction_selected = DIR_UP
 #		get_node(ARROWS_NODE).get_node("Container_up").get_node("ColorRectSpacer").visible = true
-	if get_node(DIR_COUNT_NODE).get_node("two_directions").pressed:
+	if get_node(DIR_COUNT_NODE).get_node("two_directions").button_pressed:
 		dir_list=DIR_LIST_2
 		if not direction_selected in DIR_LIST_2:
 			direction_selected = DIR_RIGHT
 		get_node(ARROWS_NODE).get_node("Container_up").get_node("ColorRectSpacer").visible = true
 		get_node(ARROWS_NODE).get_node("Container_down").get_node("ColorRectSpacer").visible = true
-	if get_node(DIR_COUNT_NODE).get_node("one_direction").pressed:
+	if get_node(DIR_COUNT_NODE).get_node("one_direction").button_pressed:
 		dir_list=DIR_LIST_1
 		if not direction_selected in DIR_LIST_1:
 			direction_selected = DIR_DOWN
@@ -1235,16 +1233,16 @@ func export_player(scene_name) -> void:
 	var plugin_reference = get_node("..").plugin_reference
 
 	disconnect_selector_signals()
-	get_node(EXPORT_PROGRESS_NODE).popup()
+	get_node(EXPORT_PROGRESS_NODE).popup_centered()
 	get_node(EXPORT_PROGRESS_NODE).get_node("progress_bar").value = 0
 	get_node(EXPORT_PROGRESS_NODE).get_node("progress_bar").visible = true
 	get_node(EXPORT_PROGRESS_NODE).get_node("progress_label").visible = true
 
-	if get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed:
+	if get_node(DIR_COUNT_NODE).get_node("eight_directions").button_pressed:
 		num_directions = 8
-	if get_node(DIR_COUNT_NODE).get_node("four_directions").pressed:
+	if get_node(DIR_COUNT_NODE).get_node("four_directions").button_pressed:
 		num_directions = 4
-	if get_node(DIR_COUNT_NODE).get_node("two_directions").pressed:
+	if get_node(DIR_COUNT_NODE).get_node("two_directions").button_pressed:
 		num_directions = 2
 	else:
 		num_directions = 1
@@ -1252,18 +1250,19 @@ func export_player(scene_name) -> void:
 	var new_character
 	# NPCs can't be ESCPlayers or the player won't walk up to them when
 	# you interact with them
-	if get_node(CHAR_TYPE_NODE).get_node("npc").pressed:
+	if get_node(CHAR_TYPE_NODE).get_node("npc").button_pressed:
 		new_character = ESCItem.new()
 	else:
 		new_character = ESCPlayer.new()
 		new_character.selectable = true
 	new_character.name = get_node(NAME_NODE).get_node("node_name").text
 
-	if get_node(NAME_NODE).get_node("global_id").text == null:
+	if get_node(NAME_NODE).get_node("global_id").text.is_empty():
 		new_character.global_id = new_character.name
+	else:
+		new_character.global_id = get_node(NAME_NODE).get_node("global_id").text
 
-	new_character.global_id = get_node(NAME_NODE).get_node("global_id").text
-	new_character.tooltip_name = get_node(NAME_NODE).get_node("node_name").text
+	new_character.tooltip_name = new_character.name
 
 	new_character.default_action = "look"
 
@@ -1276,17 +1275,17 @@ func export_player(scene_name) -> void:
 	animations_resource.idles = []
 	animations_resource.speaks = []
 
-	if get_node(DIR_COUNT_NODE).get_node("four_directions").pressed:
+	if get_node(DIR_COUNT_NODE).get_node("four_directions").button_pressed:
 		num_directions = 4
 		start_angle_array = [315, 45, 135, 225]
 		angle_size = 90
 		dirnames = DIR_LIST_4
-	elif get_node(DIR_COUNT_NODE).get_node("eight_directions").pressed:
+	elif get_node(DIR_COUNT_NODE).get_node("eight_directions").button_pressed:
 		num_directions = 8
 		start_angle_array = [337, 22, 67, 112, 157, 202, 247, 292]
 		angle_size = 45
 		dirnames = DIR_LIST_8
-	elif get_node(DIR_COUNT_NODE).get_node("two_directions").pressed:
+	elif get_node(DIR_COUNT_NODE).get_node("two_directions").button_pressed:
 		num_directions = 2
 		start_angle_array = [0, 180]
 		angle_size = 180
@@ -1318,24 +1317,24 @@ func export_player(scene_name) -> void:
 
 #	var largest_sprite = export_generate_animations(new_character, num_directions)
 	export_largest_sprite = Vector2.ONE
-	# Need to yield on the child function so this function doesn't continue
-	# when the child yields
-	var export_state = export_generate_animations(new_character, num_directions)
-	if export_state is GDScriptFunctionState:
-		export_state = await export_state.completed
+
+	# TODO: This call updates export_largest_sprite, and there is likely a better
+	# way to accomplish this.
+	await export_generate_animations(new_character, num_directions)
+
 	# Add Collision shape to the ESCPlayer
 	var rectangle_shape = RectangleShape2D.new()
 	var collision_shape = CollisionShape2D.new()
 	progress_bar_update("Creating collision shape")
-	await get_tree().idle_frame
+	await get_tree().process_frame
 
 	collision_shape.shape = rectangle_shape
-	collision_shape.shape.extents = export_largest_sprite / 2
+	collision_shape.shape.size = export_largest_sprite
 	collision_shape.position.y = -(export_largest_sprite.y / 2)
 
 	new_character.add_child(collision_shape)
 	progress_bar_update("Setting up dialog position")
-	await get_tree().idle_frame
+	await get_tree().process_frame
 
 	# Add Dialog Position to the ESCPlayer
 	var dialog_position = ESCDialogLocation.new()
@@ -1343,7 +1342,7 @@ func export_player(scene_name) -> void:
 	dialog_position.position.y = -(export_largest_sprite.y * 1.2)
 	new_character.add_child(dialog_position)
 
-	if get_node(CHAR_TYPE_NODE).get_node("npc").pressed:
+	if get_node(CHAR_TYPE_NODE).get_node("npc").button_pressed:
 	# Add Interaction Position to an NPC
 		var interaction_position = ESCLocation.new()
 		interaction_position.name = "interact_position"
@@ -1352,11 +1351,11 @@ func export_player(scene_name) -> void:
 		interaction_position.set_owner(new_character)
 
 	progress_bar_update("Configuring animations")
-	await get_tree().idle_frame
+	await get_tree().process_frame
 	# Make it so all the nodes can be seen in the scene tree
 	new_character.animations = animations_resource
 	progress_bar_update("Adding child to scene tree")
-	await get_tree().idle_frame
+	await get_tree().process_frame
 	get_tree().edited_scene_root.add_child(new_character)
 	new_character.set_owner(get_tree().edited_scene_root)
 
@@ -1371,23 +1370,28 @@ func export_player(scene_name) -> void:
 	var packed_scene = PackedScene.new()
 
 	progress_bar_update("Packing scene - this might take up to 30 seconds")
-	await get_tree().idle_frame
-	packed_scene.pack(get_tree().edited_scene_root.get_node(new_character.name))
+	await get_tree().process_frame
+	packed_scene.pack(get_tree().edited_scene_root.get_node(NodePath(new_character.name)))
 
 	progress_bar_update("Resource saving - this might take up to 30 seconds")
-	await get_tree().idle_frame
+	await get_tree().process_frame
 	# Flag suggestions from https://godotengine.org/qa/50437/how-to-turn-a-node-into-a-packedscene-via-gdscript
-	ResourceSaver.save(scene_name, packed_scene, ResourceSaver.FLAG_CHANGE_PATH|ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS|ResourceSaver.FLAG_COMPRESS)
+
+	# Make sure the path exists
+	if not DirAccess.dir_exists_absolute(scene_name.get_base_dir()):
+		DirAccess.make_dir_recursive_absolute(scene_name.get_base_dir())
+
+	ResourceSaver.save(packed_scene, scene_name, ResourceSaver.FLAG_CHANGE_PATH|ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS|ResourceSaver.FLAG_COMPRESS)
 
 	progress_bar_update("Releasing resources - this might take up to 30 seconds")
-	await get_tree().idle_frame
+	await get_tree().process_frame
 	new_character.queue_free()
 
-	get_tree().edited_scene_root.get_node(new_character.name).queue_free()
+	get_tree().edited_scene_root.get_node(NodePath(new_character.name)).queue_free()
 	plugin_reference.open_scene(scene_name)
 	plugin_reference._make_visible(false)
 	get_node(EXPORT_PROGRESS_NODE).hide()
-	get_node(EXPORT_COMPLETE_NODE).popup()
+	get_node(EXPORT_COMPLETE_NODE).popup_centered()
 
 	connect_selector_signals()
 
@@ -1412,7 +1416,6 @@ func export_generate_animations(character_node, num_directions) -> void:
 	var sprite_frames = SpriteFrames.new()
 	var default_anim_length = 0
 	var default_anim_speed = 1
-	var texture
 	var frame_counter: int = 0
 
 	match num_directions:
@@ -1427,7 +1430,7 @@ func export_generate_animations(character_node, num_directions) -> void:
 			# UI continues to update while the export is running
 			var current_ticks = Time.get_ticks_msec()
 			if current_ticks - display_refresh_timer > 30:
-				await get_tree().idle_frame
+				await get_tree().process_frame
 
 				display_refresh_timer = current_ticks
 
@@ -1443,7 +1446,6 @@ func export_generate_animations(character_node, num_directions) -> void:
 				continue
 
 			var rect_location
-			var frame_being_copied = Image.new()
 			sprite_frames.add_animation(anim_name)
 
 			if metadata[METADATA_SPRITESHEET_SOURCE_FILE] != loaded_spritesheet:
@@ -1456,47 +1458,50 @@ func export_generate_animations(character_node, num_directions) -> void:
 
 				if (frame_size.y / 2) > largest_frame_dimensions.y:
 					largest_frame_dimensions.y = frame_size.y
-			frame_being_copied.create(frame_size.x, frame_size.y, false, source_image.get_format())
 
 			if animtype == TYPE_IDLE and anim_dir == "down":
 				default_anim_length = metadata[METADATA_SPRITESHEET_LAST_FRAME] - metadata[METADATA_SPRITESHEET_FIRST_FRAME]  + 1
 				default_anim_speed = metadata[METADATA_SPEED]
 
+			var frame_duration: float = 1.0
+			var frame_being_copied: Image = Image.create_empty(frame_size.x, frame_size.y, false, source_image.get_format())
+
 			for loop in range(metadata[METADATA_SPRITESHEET_LAST_FRAME] - metadata[METADATA_SPRITESHEET_FIRST_FRAME]  + 1):
-				texture = ImageTexture.new()
 				rect_location = calc_frame_coords(metadata[METADATA_SPRITESHEET_FIRST_FRAME] + loop)
 				frame_being_copied.blit_rect(source_image, Rect2(rect_location, Vector2(frame_size.x, frame_size.y)), Vector2(0, 0))
-				texture.create_from_image(frame_being_copied)
+				var texture: ImageTexture = ImageTexture.create_from_image(frame_being_copied)
 
 				# Remove "filter" flag so it's pixel perfect
-				texture.set_flags(2)
-				sprite_frames.add_frame (anim_name, texture, frame_counter )
+				#texture.set_flags(2)
+				sprite_frames.add_frame(anim_name, texture, frame_duration, frame_counter)
 				sprite_frames.set_animation_speed(anim_name, metadata[METADATA_SPEED])
 				frame_counter += 1
 
 	# Generate default animation. This is used by the object manager to set the
 	# state when the object is registered. If there's no current state, the
 	# default animation will be used.
+	var frame_duration: float = 1.0
+
 	for loop in range(default_anim_length):
-		texture = ImageTexture.new()
-		texture = sprite_frames.get_frame("idle_down", loop)
+		var texture: ImageTexture = sprite_frames.get_frame_texture("idle_down", loop)
 
 		# Remove "filter" flag so it's pixel perfect
-		texture.set_flags(2)
-		sprite_frames.add_frame ("default", texture, loop )
+		#texture.set_flags(2)
+		sprite_frames.add_frame("default", texture, frame_duration, loop)
 		sprite_frames.set_animation_speed("default", default_anim_speed)
 
 	var animated_sprite = AnimatedSprite2D.new()
 
 	progress_bar_update("Adding sprite frames to node")
-	animated_sprite.frames = sprite_frames
+	animated_sprite.sprite_frames = sprite_frames
 	if num_directions == 2:
 		animated_sprite.animation = "%s_%s" % [TYPE_IDLE, DIR_RIGHT]
 	else:
 		animated_sprite.animation = "%s_%s" % [TYPE_IDLE, DIR_DOWN]
 	animated_sprite.position.y = -(largest_frame_dimensions.y / 2)	# Place feet at (0,0)
 	animated_sprite.animation = "default"
-	animated_sprite.playing = true
+	animated_sprite.play()
+
 	character_node.add_child(animated_sprite)
 	# Making the owner "character_node" rather than "get_tree().edited_scene_root" means that
 	# when saving as a packed scene, the child nodes get saved under the parent (as the parent
@@ -1509,14 +1514,14 @@ func export_generate_animations(character_node, num_directions) -> void:
 
 # Open the help window
 func spritesheet_on_help_button_pressed() -> void:
-	$InformationWindows/help_window.popup()
+	$InformationWindows/help_window.popup_centered()
 	$InformationWindows/help_window.show_page()
 
 
 func spritesheet_on_reset_button_pressed() -> void:
 	$InformationWindows/ConfirmationDialog.dialog_text = "WARNING!\n\n" + \
 		"If you continue you will lose the current character."
-	$InformationWindows/ConfirmationDialog.popup()
+	$InformationWindows/ConfirmationDialog.popup_centered()
 
 
 func spritesheet_on_reset_confirmed() -> void:
@@ -1533,16 +1538,17 @@ func spritesheet_on_MainMenuConfirmation_confirmed() -> void:
 
 
 func spritesheet_on_main_menu_button_up() -> void:
-	$InformationWindows/MainMenuConfirmation.popup()
+	$InformationWindows/MainMenuConfirmation.popup_centered()
 
 
 func load_settings() -> void:
 	var file_path = "res://"
-	var file = File.new()
-	if file.file_exists(CONFIG_FILE):
-		file.open(CONFIG_FILE, File.READ)
+
+	if FileAccess.file_exists(CONFIG_FILE):
+		var file: FileAccess = FileAccess.open(CONFIG_FILE, FileAccess.READ)
 		file_path = file.get_pascal_string()
 		file.close()
+
 	get_node(CHARACTER_PATH_NODE).text = file_path
 
 
@@ -1573,32 +1579,32 @@ func _on_character_path_change_button_pressed() -> void:
 
 func _on_CharacterPathFileDialog_dir_selected(dir: String) -> void:
 	get_node(CHARACTER_PATH_NODE).text = dir
-	var file = File.new()
-	file.open(CONFIG_FILE, File.WRITE)
+	var file: FileAccess = FileAccess.open(CONFIG_FILE, FileAccess.WRITE)
 	file.store_pascal_string(dir)
 	file.close()
 
 
 # Mouse clicks inside the spritesheet
 func _on_control_gui_input(event: InputEvent) -> void:
-	var ClickedTile:Vector2
+	var clicked_tile: Vector2
+
 	if event.is_pressed():
-		var NumHorizFrames = get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value
-		var NumVertFrames = get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").value
+		var num_horiz_frames = get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value
+		var num_vert_frames = get_node(ANIM_CONTROLS_NODE).get_node("v_frames_spin_box").value
 
-		ClickedTile.x = int(event.position.x / (frame_size.x * zoom_value))
-		if ClickedTile.x >= NumHorizFrames:
+		clicked_tile.x = int(event.position.x / (frame_size.x * zoom_value))
+		if clicked_tile.x >= num_horiz_frames:
 			return
-		ClickedTile.y = int(event.position.y / (frame_size.y * zoom_value))
-		if ClickedTile.y >= NumVertFrames:
+		clicked_tile.y = int(event.position.y / (frame_size.y * zoom_value))
+		if clicked_tile.y >= num_vert_frames:
 			return
 
-		var AbsoluteFrame = ((ClickedTile.y * NumHorizFrames) + ClickedTile.x) + 1
+		var absolute_frame = ((clicked_tile.y * num_horiz_frames) + clicked_tile.x) + 1
 
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value = AbsoluteFrame
+			get_node(ANIM_CONTROLS_NODE).get_node("start_frame").value = absolute_frame
 		if event.button_index == MOUSE_BUTTON_RIGHT:
-			get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value = AbsoluteFrame
+			get_node(ANIM_CONTROLS_NODE).get_node("end_frame").value = absolute_frame
 
 
 # If the user tries to change animation type without commiting first, a window will appear to
@@ -1667,7 +1673,7 @@ func animation_on_walk_checkbox_pressed() -> void:
 		if animation_type_selected == "idle":
 			get_node(ANIM_TYPE_NODE).get_node("idle_checkbox").button_pressed = true
 		animation_type_requested="walk"
-		get_node(UNSTORED_ANIMTYPE_CHANGE_NODE).popup()
+		get_node(UNSTORED_ANIMTYPE_CHANGE_NODE).popup_centered()
 	else:
 		change_animation_type("walk")
 
@@ -1688,7 +1694,7 @@ func animation_on_talk_checkbox_pressed() -> void:
 		if animation_type_selected == "walk":
 			get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").button_pressed = true
 		animation_type_requested="talk"
-		get_node(UNSTORED_ANIMTYPE_CHANGE_NODE).popup()
+		get_node(UNSTORED_ANIMTYPE_CHANGE_NODE).popup_centered()
 	else:
 		change_animation_type("talk")
 
@@ -1709,7 +1715,7 @@ func animation_on_idle_checkbox_pressed() -> void:
 		if animation_type_selected == "walk":
 			get_node(ANIM_TYPE_NODE).get_node("walk_checkbox").button_pressed = true
 		animation_type_requested="idle"
-		get_node(UNSTORED_ANIMTYPE_CHANGE_NODE).popup()
+		get_node(UNSTORED_ANIMTYPE_CHANGE_NODE).popup_centered()
 	else:
 		change_animation_type("idle")
 

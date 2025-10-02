@@ -18,7 +18,8 @@ enum GAME_STATE {
 	DEFAULT,
 	DIALOG,
 	WAIT,
-	LOADING
+	LOADING,
+	PAUSED
 }
 
 
@@ -127,7 +128,9 @@ var creating_new_game: bool = false
 #var temp: int = 0
 
 ## Game actual resolution obtained from viewport.
-@onready var game_size = get_viewport().size
+@onready var game_size = Vector2(
+	ProjectSettings.get_setting("display/window/size/viewport_width"),
+	ProjectSettings.get_setting("display/window/size/viewport_height"))
 
 ## Current state of Escoria (GAME_STATE enum) 
 @onready var current_state = GAME_STATE.DEFAULT

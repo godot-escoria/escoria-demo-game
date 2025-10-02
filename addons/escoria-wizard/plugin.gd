@@ -7,7 +7,7 @@ const helper_ui = preload("res://addons/escoria-wizard/escoria_wizard.tscn")
 var helper_instance
 
 func _enter_tree() -> void:
-	helper_instance = helper_ui.instance()
+	helper_instance = helper_ui.instantiate()
 	helper_instance.plugin_reference = self
 	# Add the panel to the main viewport
 	get_editor_interface().get_editor_main_screen().add_child(helper_instance)

@@ -161,13 +161,13 @@ func _process(delta: float) -> void:
 				)
 
 			var event_flags = _running_events[channel_name].get_flags()
-			if event_flags & ESCEvent.FLAG_NO_TT:
+			if event_flags & ESCEvent.FLAGS.NO_TT:
 				escoria.main.current_scene.game.tooltip_node.hide()
 
-			if event_flags & ESCEvent.FLAG_NO_UI:
+			if event_flags & ESCEvent.FLAGS.NO_UI:
 				escoria.main.current_scene.game.hide_ui()
 
-			if event_flags & ESCEvent.FLAG_NO_SAVE:
+			if event_flags & ESCEvent.FLAGS.NO_SAVE:
 				escoria.save_manager.save_enabled = false
 
 			#var rc = _running_events[channel_name].run()
@@ -336,9 +336,12 @@ func queue_background_event(channel_name: String, event: ESCGrammarStmts.Event) 
 ## Interrupts the events currently running and any that are pending.[br]
 ##[br]
 ## #### Parameters[br]
-## * exceptions: An optional list of events which should be left running or queued.
-func interrupt(exceptions: PackedStringArray = []) -> void:
-	if escoria.main.current_scene != null \
+## * exceptions: An optional list of events which should be left running or queued.[br]
+## * stop_walking: boolean value (default true) determining whether the player
+## (if any) has to be interrupted walking or not.
+func interrupt(exceptions: PackedStringArray = [], stop_walking = true) -> void:
+	if stop_walking \
+			and escoria.main.current_scene != null \
 			and escoria.main.current_scene.player != null \
 			and escoria.main.current_scene.player.is_moving():
 		escoria.main.current_scene.player.stop_walking_now()
@@ -491,13 +494,13 @@ func _on_event_finished(finished_event, finished_statement, return_code: int, ch
 	)
 
 	var event_flags = event.get_flags()
-	if event_flags & ESCEvent.FLAG_NO_TT:
+	if event_flags & ESCEvent.FLAGS.NO_TT:
 		escoria.main.current_scene.game.tooltip_node.show()
 
-	if event_flags & ESCEvent.FLAG_NO_UI:
+	if event_flags & ESCEvent.FLAGS.NO_UI:
 		escoria.main.current_scene.game.show_ui()
 
-	if event_flags & ESCEvent.FLAG_NO_SAVE:
+	if event_flags & ESCEvent.FLAGS.NO_SAVE:
 		escoria.save_manager.save_enabled = true
 
 	# If the return code was RC_CANCEL due to an event finishing with "stop" command for example

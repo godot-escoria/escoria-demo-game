@@ -1,4 +1,6 @@
 :look
+	set_active("r1_wall_item1", true)
+
 	if dialog_popup_advance == 0:
 		say($player, "I don't know what that stuff is.", "ROOM1_look_wall_item_1", "avatar")
 		dialog_popup_advance = 1

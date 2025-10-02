@@ -1,11 +1,20 @@
-:look
+:look | TK<enable_tk>
+	global enable_tk = false
 	if dialog_advance == 0:
 		say($player, "I don't know what that stuff is.", "ROOM1_look_wall_item_1")
 		dialog_advance = dialog_advance + 1
 		print("dialog_advance is: " + dialog_advance)
+		enable_tk = true
 	elif dialog_advance == 1:
 		say($player, "I REALLY don't know what that stuff is.", "ROOM1_look_wall_item_2")
 		dialog_advance = dialog_advance + 1
+		enable_tk = false
 	elif dialog_advance == 2:
 		say($player, "No, SERIOUSLY, I have no idea what that is!", "ROOM1_look_wall_item_3")
 		say($player, "Please stop asking me that!", "ROOM1_look_wall_item_4")
+
+
+:pickup
+	say($player, "I'm not picking this up. I don't even want to SEE that object anymore!")
+	set_active($this, false)
+	say($player, "Ta-da. Let's look at the other one so this one reappears.")

@@ -10,6 +10,7 @@ class_name ESCParser
 
 var _tokens: Array
 var _current: int = 0
+var _associated_object_global_id = ""
 
 var _loop_level: int = 0
 var _dialog_level: int = 0
@@ -21,10 +22,12 @@ var _compiler
 ##[br]
 ## #### Parameters ####[br]
 ## - *compiler*: a reference to the ASHES compiler; used primarily for error tracking[br]
-## - *tokens*: an array of tokens produced by the ASHES scanner
-func init(compiler, tokens: Array) -> void:
+## - *tokens*: an array of tokens produced by the ASHES scanner[br]
+## - *associated_global_id*: string containing the global ID of the associated object/room to be passed on to events
+func init(compiler, tokens: Array, associated_object_global_id: String) -> void:
 	_compiler = compiler
 	_tokens = tokens
+	_associated_object_global_id = associated_object_global_id
 
 
 ## Entry point for the parser. Begins parsing the tokens passed in to the `init` method.[br]
@@ -96,7 +99,7 @@ func _event_declaration():
 
 		target = expr
 
-	var flags: Array = []
+	var flags: Dictionary = {}
 
 	var has_flags: bool = _match(ESCTokenType.TokenType.PIPE)
 
@@ -108,7 +111,25 @@ func _event_declaration():
 		if flag is ESCParseError:
 			return flag
 
-		flags.append(flag)
+		var flag_condition = null
+
+		if _match(ESCTokenType.TokenType.LESS):
+			if not _check(ESCTokenType.TokenType.IDENTIFIER):
+				return _error(_peek(), "Condition for flag '%s' must be a global variable." % flag.get_lexeme())
+
+			flag_condition = _primary()
+
+			if flag_condition is ESCParseError:
+				return flag_condition
+
+			var close_predicate_token = _consume(
+				ESCTokenType.TokenType.GREATER,
+				"For flag '%s', only one (global) variable may be used and must be enclosed between '<' and '>'." % flag.get_lexeme())
+
+			if close_predicate_token is ESCParseError:
+				return close_predicate_token
+
+		flags[flag.get_lexeme()] = flag_condition
 
 		has_flags = _match(ESCTokenType.TokenType.PIPE)
 
@@ -117,7 +138,7 @@ func _event_declaration():
 		body.init(_block())
 
 		var ret = ESCGrammarStmts.Event.new()
-		ret.init(name, target, flags, body)
+		ret.init(name, target, flags, body, _associated_object_global_id)
 
 		return ret
 	else:
@@ -563,6 +584,12 @@ func _comparison():
 	if expr is ESCParseError:
 		return expr
 
+	# Flag predicates (e.g. TK<predicate>) should not be treated as comparisons.
+	if _check(ESCTokenType.TokenType.GREATER) \
+		and _check_next([ESCTokenType.TokenType.NEWLINE, ESCTokenType.TokenType.PIPE]):
+
+		return expr
+
 	while _match([
 		ESCTokenType.TokenType.GREATER,
 		ESCTokenType.TokenType.GREATER_EQUAL,
@@ -851,6 +878,30 @@ func _check(tokenTypes) -> bool:
 	for type in tokenTypes:
 		if _peek().get_type() == type:
 			return true
+
+	return false
+
+
+# This turns the parser into an LL(2).
+func _check_next(tokenTypes) -> bool:
+	if not tokenTypes is Array:
+		tokenTypes = [tokenTypes]
+
+	if _at_end():
+		return false
+
+	_current += 1
+
+	if _at_end():
+		_current -= 1
+		return false
+
+	for type in tokenTypes:
+		if _peek().get_type() == type:
+			_current -= 1
+			return true
+
+	_current -= 1
 
 	return false
 

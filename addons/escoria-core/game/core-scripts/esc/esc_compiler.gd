@@ -72,7 +72,7 @@ static func load_globals() -> Dictionary:
 	return globals
 
 
-func _compiler_shim(source: String, filename: String = ""):
+func _compiler_shim(source: String, filename: String = "", associated_global_id: String = ""):
 	var scanner: ESCScanner = ESCScanner.new()
 	scanner.set_source(source)
 	scanner.set_filename(filename)
@@ -81,7 +81,7 @@ func _compiler_shim(source: String, filename: String = ""):
 	var tokens = scanner.scan_tokens()
 
 	var parser: ESCParser = ESCParser.new()
-	parser.init(self, tokens)
+	parser.init(self, tokens, associated_global_id)
 
 	var parsed_statements = parser.parse()
 
@@ -116,11 +116,19 @@ func _compiler_shim(source: String, filename: String = ""):
 	#	interpreter.interpret(parsed_statements)
 
 
-## Load an ESC (ASHES) file from a file resource.[br]
+## Load an ESC file from a file resource. We also accept an optional global ID of
+## whatever object is associated with the ESC file. Note that we don't need to do
+## the same for a room-attached script since the current room's global_id is always
+## available as an Escoria global.
+##[br]
+## #### Parameters ####[br]
+##[br]
+## - *path*: the path of the script file to load[br]
+## - *associated_global_id*: global ID of the object/room associated with the script file, if any (may be empty)[br]
 ##[br]
 ## **Returns** a valid `ESCScript` containing the parsed statements found in 
 ## `path`.
-func load_esc_file(path: String) -> ESCScript:
+func load_esc_file(path: String, associated_global_id: String = "") -> ESCScript:
 	ESCSafeLogging.log_debug(self, "Loading file '%s' for parsing..." % path)
 
 	if not FileAccess.file_exists(path):
@@ -130,7 +138,7 @@ func load_esc_file(path: String) -> ESCScript:
 
 	var file = FileAccess.open(path, FileAccess.READ)
 
-	return _compiler_shim(file.get_as_text(), path)
+	return _compiler_shim(file.get_as_text(), path, associated_global_id)
 
 
 ## Compiles the passed-in script.[br]
@@ -152,4 +160,4 @@ func _run_script_analysis() -> bool:
 	if Engine.is_editor_hint():
 		return true
 
-	return ProjectSettings.get_setting(ESCProjectSettingsManager.ENABLE_HOVER_STACK_VIEWER)
+	return ProjectSettings.get_setting(ESCProjectSettingsManager.PERFORM_SCRIPT_ANALYSIS_AT_RUNTIME)

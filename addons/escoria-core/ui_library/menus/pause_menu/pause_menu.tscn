@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bwplh73qf2twk" path="res://addons/escoria-core/design/escoria-logo-small.png" id="3"]
 [ext_resource type="PackedScene" uid="uid://cj440t8pub603" path="res://addons/escoria-core/ui_library/menus/load_save/save/save_game.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://j3wkbyhedkpr" path="res://addons/escoria-core/ui_library/menus/load_save/load/load_game.tscn" id="5"]
-[ext_resource type="Theme" path="res://addons/escoria-core/ui_library/theme.tres" id="6"]
+[ext_resource type="Theme" uid="uid://b081yyinnj03t" path="res://addons/escoria-core/ui_library/theme.tres" id="6"]
 
 [node name="pause_menu" type="Control"]
 layout_mode = 3

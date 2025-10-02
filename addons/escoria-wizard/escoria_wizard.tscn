@@ -1,15 +1,16 @@
 [gd_scene load_steps=9 format=3 uid="uid://ccuroi47r5yrl"]
 
-[ext_resource type="Texture2D" uid="uid://coos0bjvqy5j" path="res://addons/escoria-wizard/graphics/background.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://cb3x5ecq50pfh" path="res://addons/escoria-wizard/graphics/background.png" id="1"]
 [ext_resource type="PackedScene" uid="uid://cmd72pi6txw2v" path="res://addons/escoria-wizard/CharacterCreator.tscn" id="2"]
-[ext_resource type="PackedScene" path="res://addons/escoria-wizard/ItemCreator.tscn" id="3"]
-[ext_resource type="PackedScene" path="res://addons/escoria-wizard/RoomCreator.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://beawklamapteq" path="res://addons/escoria-wizard/ItemCreator.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://b72fr6t0ed4s0" path="res://addons/escoria-wizard/RoomCreator.tscn" id="4"]
 [ext_resource type="Script" uid="uid://c21ngbfgf3gcp" path="res://addons/escoria-wizard/escoria_wizard.gd" id="38"]
-[ext_resource type="Texture2D" uid="uid://c1qq4slruywni" path="res://addons/escoria-wizard/graphics/character.png" id="40"]
-[ext_resource type="Texture2D" uid="uid://cbj0wnbbcxeun" path="res://addons/escoria-wizard/graphics/room.png" id="42"]
-[ext_resource type="Texture2D" uid="uid://crhq30uncikl1" path="res://addons/escoria-wizard/graphics/inventory.png" id="44"]
+[ext_resource type="Texture2D" uid="uid://d27uq4nrcdxaq" path="res://addons/escoria-wizard/graphics/character.png" id="40"]
+[ext_resource type="Texture2D" uid="uid://bucl6ro6m2545" path="res://addons/escoria-wizard/graphics/room.png" id="42"]
+[ext_resource type="Texture2D" uid="uid://br7utauvgi0w6" path="res://addons/escoria-wizard/graphics/inventory.png" id="44"]
 
 [node name="root" type="MarginContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = 10.0
@@ -18,63 +19,45 @@ size_flags_vertical = 3
 script = ExtResource("38")
 
 [node name="background" type="TextureRect" parent="."]
-offset_right = 1290.0
-offset_bottom = 900.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("1")
-expand = true
-stretch_mode = 2
+expand_mode = 1
+stretch_mode = 1
 
 [node name="Menu" type="MarginContainer" parent="."]
-offset_right = 1290.0
-offset_bottom = 900.0
+layout_mode = 2
 
 [node name="CenterContainer" type="CenterContainer" parent="Menu"]
-offset_right = 1290.0
-offset_bottom = 900.0
+layout_mode = 2
 
 [node name="GridContainer" type="GridContainer" parent="Menu/CenterContainer"]
-offset_left = 549.0
-offset_top = 325.0
-offset_right = 740.0
-offset_bottom = 575.0
+layout_mode = 2
 theme_override_constants/v_separation = 20
 
 [node name="NewRoom" type="Button" parent="Menu/CenterContainer/GridContainer"]
-offset_right = 191.0
-offset_bottom = 70.0
+layout_mode = 2
 text = "Room Creator"
 icon = ExtResource("42")
 
 [node name="CharacterCreator" type="Button" parent="Menu/CenterContainer/GridContainer"]
-offset_top = 90.0
-offset_right = 191.0
-offset_bottom = 160.0
+layout_mode = 2
 theme_override_constants/h_separation = 5
 text = "Character Creator"
 icon = ExtResource("40")
 
 [node name="InventoryItem" type="Button" parent="Menu/CenterContainer/GridContainer"]
-offset_top = 180.0
-offset_right = 191.0
-offset_bottom = 250.0
+layout_mode = 2
 theme_override_constants/h_separation = 5
 text = "Item Creator"
 icon = ExtResource("44")
 
 [node name="InformationWindows" type="Control" parent="Menu"]
 visible = false
-offset_right = 1290.0
-offset_bottom = 900.0
+layout_mode = 2
 
 [node name="generic_error_window" type="AcceptDialog" parent="Menu/InformationWindows"]
-offset_left = 519.0
-offset_top = 234.0
-offset_right = 846.0
-offset_bottom = 394.0
-input_pass_on_modal_close_click = false
-exclusive = true
 dialog_text = "Warning!
 
 Exporting your character will fail when
@@ -85,16 +68,15 @@ Please open this as a plugin."
 
 [node name="RoomCreator" parent="." instance=ExtResource("4")]
 visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_right = 1290.0
-offset_bottom = 900.0
+layout_mode = 2
 
 [node name="CharacterCreator" parent="." instance=ExtResource("2")]
 visible = false
+layout_mode = 2
 
 [node name="ItemCreator" parent="." instance=ExtResource("3")]
 visible = false
+layout_mode = 2
 
 [connection signal="pressed" from="Menu/CenterContainer/GridContainer/NewRoom" to="." method="NewRoom_pressed"]
 [connection signal="pressed" from="Menu/CenterContainer/GridContainer/CharacterCreator" to="." method="CharacterCreator_pressed"]

@@ -39,6 +39,6 @@ func _draw() -> void:
 			var corner1 = Vector2(frame_column * cell_size.x, frame_row * cell_size.y)
 			var corner2 = Vector2(corner1.x + cell_size.x, corner1.y + cell_size.y)
 			draw_line(Vector2(corner1.x * zoom_factor, corner1.y * zoom_factor), Vector2(corner2.x * zoom_factor, corner1.y * zoom_factor), highlight_colour, 2.0)
-			draw_line(Vector2(corner1.x * zoom_factor, corner1.y * zoom_factor), Vector2(corner1.x * zoom_factor, corner2.y * zoom_factor), highlight_colour, false)
+			draw_line(Vector2(corner1.x * zoom_factor, corner1.y * zoom_factor), Vector2(corner1.x * zoom_factor, corner2.y * zoom_factor), highlight_colour, 2.0)
 			draw_line(Vector2(corner1.x * zoom_factor, corner2.y * zoom_factor), Vector2(corner2.x * zoom_factor, corner2.y * zoom_factor), highlight_colour, 2.0)
 			draw_line(Vector2(corner2.x * zoom_factor, corner1.y * zoom_factor), Vector2(corner2.x * zoom_factor, corner2.y * zoom_factor), highlight_colour, 2.0)

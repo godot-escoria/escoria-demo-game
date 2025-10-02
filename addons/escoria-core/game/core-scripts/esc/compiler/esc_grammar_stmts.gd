@@ -76,8 +76,12 @@ class Event extends ESCGrammarStmt:
 		get = get_target
 	var _flags: int:
 		get = get_flags
+	var _flags_with_conditions: Dictionary = {}:
+		get = get_flags_with_conditions
 	var _body: ESCGrammarStmts.Block:
 		get = get_body
+	var _object_global_id: String: # This may be empty, e.g. if the event is attached to a room.
+		get = get_object_global_id
 
 	var _running_command:
 		set = set_running_command,
@@ -116,13 +120,14 @@ class Event extends ESCGrammarStmt:
 	## - *name*: `ESCToken` representing the name of the event.[br]
 	## - *target*: a literal representing the global ID of an object the event is meant to act on; can be null.[br]
 	## - *flags*: an array containing event flags to be applied; can be null/empty.[br]
-	## - *body*: the body of the event; this is the script block that will be executed when the event is run.
-	func init(name: ESCToken, target: ESCGrammarExprs.Literal, flags: Array, body: ESCGrammarStmts.Block):
+	## - *body*: the body of the event; this is the script block that will be executed when the event is run.[br]
+	## - *object_global_id: the object/room the event is attached to, if any (may be empty)
+	func init(name: ESCToken, target: ESCGrammarExprs.Literal, flags: Dictionary, body: ESCGrammarStmts.Block, object_global_id: String):
 		_name = name
 		_target = target
 
-		for flag in flags:
-			match flag.get_lexeme():
+		for flag in flags.keys():
+			match flag:
 				"TK":
 					_flags |= FLAG_TK
 				"NO_TT":
@@ -133,6 +138,8 @@ class Event extends ESCGrammarStmt:
 					_flags |= FLAG_NO_SAVE
 
 		_body = body
+		_flags_with_conditions = flags
+		_object_global_id = object_global_id
 
 
 	## Returns the event's name (as an `ESCToken`).
@@ -161,10 +168,22 @@ class Event extends ESCGrammarStmt:
 		return _flags
 
 
+	func get_flags_with_conditions() -> Dictionary:
+		return _flags_with_conditions
+
+
+	func add_flag(flag: ESCEvent.FLAGS):
+		_flags |= flag
+
+
 	## Returns the body of the event. This is the script block that will be executed
 	## when the event is run.
 	func get_body() -> ESCGrammarStmts.Block:
 		return _body
+
+
+	func get_object_global_id() -> String:
+		return _object_global_id
 
 
 	## Returns the number of top-level statements in the body. Generally only useful for internal 
