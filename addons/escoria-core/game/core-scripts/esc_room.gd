@@ -192,7 +192,14 @@ func _find_esc_locations(node: Node) -> Array:
 #
 # - p_camera_limits: An array of Rect2Ds as camera limits
 func set_camera_limits(p_camera_limits: Array) -> void:
-	camera_limits = p_camera_limits
+	var fixed_camera_limits: Array = []
+	var viewport_height = ProjectSettings.get_setting("display/window/size/viewport_height")
+	for cam_limit in p_camera_limits:
+		if cam_limit.size.y < viewport_height:
+			cam_limit.size.y = viewport_height
+		fixed_camera_limits.append(cam_limit)
+	camera_limits = fixed_camera_limits
+	 
 	queue_redraw()
 
 
