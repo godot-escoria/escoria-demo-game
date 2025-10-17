@@ -49,11 +49,10 @@ func clear() -> void:
 
 
 ## Registers a global as being reserved and initializes it.[br]
-## [br]
+##[br]
 ## #### Parameters[br]
-## [br]
-## - key: The key of the global to register.[br]
-## - value: The initial value (optional).
+## * key: The key of the global to register.[br]
+## * value: The key's initial value (optional).[br]
 func register_reserved_global(key: String, value = null) -> void:
 	if key in _reserved_globals:
 		escoria.logger.error(
@@ -73,10 +72,8 @@ func register_reserved_global(key: String, value = null) -> void:
 ## Retrieves the current value of a global.[br]
 ##[br]
 ## #### Parameters[br]
-## [br]
-## - key: The key of the global to return the value.[br]
-## [br]
-## **Returns** The value of the global.
+## * key: The key of the global to return the value.#
+## **Returns** the value of the global, or `null` if the key isn't registered.
 func get_global(key: String):
 	if _globals.has(key):
 		return _globals[key]
@@ -90,10 +87,9 @@ func get_global(key: String):
 ## for the pattern format.[br]
 ##[br]
 ## #### Parameters[br]
-## [br]
-## - pattern: The pattern that the keys have to match.[br]
-## [br]
-## **Returns** A dictionary of matching keys and their values.
+## * pattern: The pattern that the keys have to match.[br]
+##[br]
+## **Returns** a `Dictionary` of matching keys and their values.
 func filter(pattern: String) -> Dictionary:
 	var ret = {}
 	for global_key in _globals.keys():

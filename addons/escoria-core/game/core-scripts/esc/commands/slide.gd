@@ -1,16 +1,16 @@
-## `slide object target [speed]`[br]
-## [br]
+## `slide(object: String, target: String[, speed: Integer])`
+##
 ## Moves `object` towards the position of `target`. This command is
 ## non-blocking.[br]
-## [br]
+##[br]
 ## - *object*: Global ID of the object to move[br]
 ## - *target*: Global ID of the target object[br]
 ## - *speed*: The speed at which to slide in pixels per second (will default to
 ##   the speed configured on the `object`)[br]
-## [br]
+##[br]
 ## **Warning** This command does not respect the room's navigation polygons, so
-## `object` can be moved even when outside walkable areas.[br]
-## [br]
+## `object` can be moved even when outside walkable areas.
+##
 ## @ESC
 extends ESCBaseCommand
 class_name SlideCommand
@@ -20,9 +20,7 @@ class_name SlideCommand
 var _tweens: Dictionary
 
 
-## Returns the descriptor of the arguments of this command.[br]
-## [br]
-## *Returns* The argument descriptor for this command.
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
@@ -31,13 +29,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-## Validates whether the given arguments match the command descriptor.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - arguments: The arguments to validate.[br]
-## [br]
-## *Returns* True if the arguments are valid, false otherwise.
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -57,16 +49,16 @@ func validate(arguments: Array):
 	return true
 
 
-## Slide the object by generating a tween[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - *source*: The item to slide[br]
-## - *destination*: The destination item to slide to[br]
-## - *speed*: The speed at which to slide in pixels per second (will default to
-##   the speed configured on the `object`)[br]
-## [br]
-## *Returns* The generated (and started) tween
+# Slide the object by generating a tween
+#
+# ######## Parameters
+#
+# - *source*: The item to slide
+# - *destination*: The destination item to slide to
+# - *speed*: The speed at which to slide in pixels per second (will default to
+#   the speed configured on the `object`)
+#
+# **Returns** The generated (and started) tween
 func _slide_object(
 	source: ESCObject,
 	destination: ESCObject,
@@ -100,13 +92,7 @@ func _slide_object(
 
 
 
-## Runs the command.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - command_params: The parameters for the command.[br]
-## [br]
-## *Returns* The execution result code.
+## Run the command
 func run(command_params: Array) -> int:
 	_slide_object(
 		escoria.object_manager.get_object(command_params[0]),

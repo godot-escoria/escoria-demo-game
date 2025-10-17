@@ -1,34 +1,32 @@
-## `camera_shift x y [time] [type]`[br]
-## [br]
+## `camera_shift(x: Number, y: Number[, time: Number[, type: String]])`
+##
 ## Shifts the camera by the given horizontal and vertical amounts relative to the
 ## current location.[br]
-## [br]
-## #### Parameters[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
 ## - *x*: Shift by x pixels along the x-axis[br]
 ## - *y*: Shift by y pixels along the y-axis[br]
 ## - *time*: Number of seconds the transition should take, with a value of `0`
 ##   meaning the zoom should happen instantly (default: `1`)[br]
 ## - *type*: Transition type to use (default: `QUAD`)[br]
-## [br]
+##[br]
 ## Supported transitions include the names of the values used
 ## in the "TransitionType" enum of the "Tween" type (without the "TRANS_" prefix):[br]
-## [br]
-## https://docs.godotengine.org/en/stable/classes/class_tween.html?highlight=tween#enumerations [br]
-## [br]
-## For more details see: https://docs.escoria-framework.org/camera [br]
-## [br]
+##[br]
+## https://docs.godotengine.org/en/stable/classes/class_tween.html?highlight=tween#enumerations[br]
+##[br]
+## For more details see: https://docs.escoria-framework.org/camera
+##
 ## @ESC
 extends ESCCameraBaseCommand
 class_name CameraShiftCommand
 
-## The list of supported transitions as per the link mentioned above.
+## The list of supported transitions as per the link mentioned above
 const SUPPORTED_TRANSITIONS = ["LINEAR","SINE","QUINT","QUART","QUAD" ,"EXPO","ELASTIC","CUBIC",
 	"CIRC","BOUNCE","BACK"]
 
-## Returns the descriptor of the arguments of this command.[br]
-## [br]
-## *Returns* The argument descriptor for this command.
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
@@ -42,13 +40,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-## Runs the command.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - command_params: The parameters for the command.[br]
-## [br]
-## *Returns* The execution result code.
+## Run the command
 func run(command_params: Array) -> int:
 	(escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera)\
 		.shift(
@@ -62,13 +54,7 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-## Validates whether the given arguments match the command descriptor.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - arguments: The arguments to validate.[br]
-## [br]
-## *Returns* True if the arguments are valid, false otherwise.
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false

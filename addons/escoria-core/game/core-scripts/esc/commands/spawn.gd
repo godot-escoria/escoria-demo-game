@@ -1,23 +1,21 @@
-## `spawn identifier path [is_active] [position_target]`[br]
-## [br]
+## `spawn(identifier: String, path: String[, is_active: Boolean[, position_target: String]])`
+##
 ## Programmatically adds a new item to the scene.[br]
-## [br]
-## #### Parameters[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
 ## - *identifier*: Global ID to use for the new object[br]
 ## - *path*: Path to the scene file of the object[br]
 ## - *is_active*: Whether the new object should be set to active (default: `true`)[br]
 ## - *position_target*: Global ID of another object that will be used to
-##   position the new object (when omitted, the new object's position is not specified)[br]
-## [br]
+##   position the new object (when omitted, the new object's position is not specified)
+##
 ## @ESC
 extends ESCBaseCommand
 class_name SpawnCommand
 
 
-## Returns the descriptor of the arguments of this command.[br]
-## [br]
-## *Returns* The argument descriptor for this command.
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
@@ -26,13 +24,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-## Validates whether the given arguments match the command descriptor.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - arguments: The arguments to validate.[br]
-## [br]
-## *Returns* True if the arguments are valid, false otherwise.
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -56,13 +48,7 @@ func validate(arguments: Array):
 	return true
 
 
-## Runs the command.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - command_params: The parameters for the command.[br]
-## [br]
-## *Returns* The execution result code.
+## Run the command
 func run(command_params: Array) -> int:
 	var res_scene = escoria.resource_cache.get_resource(command_params[1])
 

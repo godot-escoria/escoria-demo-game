@@ -125,10 +125,18 @@ func _compiler_shim(source: String, filename: String = "", associated_global_id:
 	return script
 
 
-# Load an ESC file from a file resource. We also accept an optional global ID of
-# whatever object is associated with the ESC file. Note that we don't need to do
-# the same for a room-attached script since the current room's global_id is always
-# available as an Escoria global.
+## Load an ESC file from a file resource. We also accept an optional global ID of
+## whatever object is associated with the ESC file. Note that we don't need to do
+## the same for a room-attached script since the current room's global_id is always
+## available as an Escoria global.
+##[br]
+## #### Parameters ####[br]
+##[br]
+## - *path*: the path of the script file to load[br]
+## - *associated_global_id*: global ID of the object/room associated with the script file, if any (may be empty)[br]
+##[br]
+## **Returns** a valid `ESCScript` containing the parsed statements found in 
+## `path`.
 func load_esc_file(path: String, associated_global_id: String = "") -> ESCScript:
 	ESCSafeLogging.log_debug(self, "Loading file '%s' for parsing..." % path)
 

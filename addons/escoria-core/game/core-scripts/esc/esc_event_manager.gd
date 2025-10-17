@@ -203,19 +203,17 @@ func _process(delta: float) -> void:
 			self.events_queue[CHANNEL_FRONT].append(event.event)
 
 
-## Queue a new event based on input from an ESC command, most likely
-## "queue_event".[br]
-## [br]
-## #### Parameters
-## [br]
-## - script_object: Compiled script object, i.e. the one with the event to queue.[br]
-## - event: Name of the event to queue.[br]
-## - channel: Channel to run the event on (default: `_front`).[br]
-## - block: Whether to wait for the queue to finish. This is only possible, if
+## Queues a new event based on input from an ASHES command, most likely `queue_event`.[br]
+##[br]
+## #### Parameters[br]
+## * script_object: Compiled script object, i.e. the one with the event to queue.[br]
+## * event: Name of the event to queue.[br]
+## * channel: Channel to run the event on (default: `_front`).[br]
+## * block: Whether to wait for the queue to finish. This is only possible, if
 ##   the queued event is not to be run on the same event as this command
 ##   (default: `false`).[br]
-## [br]
-## **Returns** indicator of success/status.
+##[br]
+## **Returns** indicator of success/status (from the `ESCExecution` enum).
 func queue_event_from_esc(script_object: ESCScript, event: String,
 	channel: String, block: bool) -> int:
 
@@ -244,13 +242,13 @@ func queue_event_from_esc(script_object: ESCScript, event: String,
 	return ESCExecution.RC_OK
 
 
-## Queue a new event to run in the foreground.[br]
-## [br]
-## #### Parameters
-## [br]
-## - event: Event to run.[br]
-## - force: Whether to force the event to be queued.[br]
-## - as_first: force the event to be the first in queue.
+## Queues a new event to run in the foreground.[br]
+##[br]
+## #### Parameters[br]
+## * event: The event to run.[br]
+## * force: (optional) Events won't normally queue during scene changes. This 
+## parameter overrides that beahviour.[br]
+## * as_first: (optional) Put the event at the head of the queue.[br]
 func queue_event(event: ESCGrammarStmts.Event, force: bool = false, as_first = false) -> void:
 	if _changing_scene and not force:
 		escoria.logger.info(
@@ -291,23 +289,22 @@ func queue_event(event: ESCGrammarStmts.Event, force: bool = false, as_first = f
 		self.events_queue[CHANNEL_FRONT].append(event)
 
 
-## Schedule an event to run after a timeout.[br]
-## [br]
-## #### Parameters
-## [br]
-## - event: Event to run.[br]
-## - timeout: Number of seconds to wait before adding the event to the front queue.[br]
-## - object: Target object.
+## Schedules an event to run after a timeout.[br]
+##[br]
+## #### Parameters[br]
+## * event: The event to run.[br]
+## * timeout: Number of seconds to wait before adding the event to the
+## front queue.[br]
+## * object: The target object.
 func schedule_event(event: ESCGrammarStmts.Event, timeout: float, object: String) -> void:
 	scheduled_events.append(ESCScheduledEvent.new(event, timeout, object))
 
 
-## Queue the run of an event in a background channel.[br]
-## [br]
-## #### Parameters
-## [br]
-## - channel_name: Name of the channel to use.[br]
-## - event: Event to run.
+## Queues an event to run in a background channel.[br]
+##[br]
+## #### Parameters[br]
+## * channel_name: The name of the channel to use.[br]
+## * event: The event to run; must be of type `ESCGrammarEvents.Event`.
 func queue_background_event(channel_name: String, event: ESCGrammarStmts.Event) -> void:
 	if not channel_name in events_queue:
 		events_queue[channel_name] = []
@@ -337,12 +334,12 @@ func queue_background_event(channel_name: String, event: ESCGrammarStmts.Event) 
 	events_queue[channel_name].append(event)
 
 
-## Interrupt the events currently running and any that are pending.[br]
+## Interrupts the events currently running and any that are pending.[br]
 ##[br]
 ## #### Parameters[br]
-## * exceptions: An optional list of events which should be left running or queued.
-# - stop_walking: boolean value (default true) determining whether the player
-# (if any) has to be interrupted walking or not.
+## * exceptions: An optional list of events which should be left running or queued.[br]
+## * stop_walking: boolean value (default true) determining whether the player
+## (if any) has to be interrupted walking or not.
 func interrupt(exceptions: PackedStringArray = [], stop_walking = true) -> void:
 	if stop_walking \
 			and escoria.main.current_scene != null \
@@ -388,11 +385,10 @@ func interrupt(exceptions: PackedStringArray = [], stop_walking = true) -> void:
 				events_queue[channel_name].clear()
 
 
-## Interrupt all commands running in a channel.[br]
-## [br]
-## #### Parameters
-## [br]
-## - channel_name: The name of the channel to interrupt.
+## Interrupts any events in the specified channel.[br]
+##[br]
+## #### Parameters[br]
+## * channel_name: The name of the channel containing the events to be interrupted.
 func interrupt_channel(channel_name: String) -> void:
 	for command in _running_commands.get(channel_name, []):
 		command.interrupt()
@@ -404,24 +400,23 @@ func clear_event_queue() -> void:
 		events_queue[channel_name].clear()
 
 
-## Check whether a channel is free to run more events.[br]
-## [br]
-## #### Parameters
-## [br]
-## - name: Name of the channel to test.[br]
-## [br]
-## **Returns** Whether the channel can currently accept a new event.
+## Checks whether a channel is free to run more events.[br]
+##[br]
+## #### Parameters[br]
+## * name: The name of the channel to test.[br]
+##[br]
+## **Returns** whether the channel can currently accept a new event.
 func is_channel_free(name: String) -> bool:
 	return _channels_state[name] if name in _channels_state else true
 
 
-## Get the currently running event in a channel.[br]
-## [br]
-## #### Parameters
-## [br]
-## - name: Name of the channel.[br]
-## [br]
-## **Returns** The currently running event or null.
+## Gets the currently running event in a channel.[br]
+##[br]
+## #### Parameters[br]
+## - name: The ame of the channel.[br]
+##[br]
+## **Returns** the currently running event of type `ESCGrammarStmts.Event`, or 
+## `null` if there is none.
 func get_running_event(name: String) -> ESCGrammarStmts.Event:
 	return _running_events[name] if name in _running_events else null
 
@@ -429,7 +424,7 @@ func get_running_event(name: String) -> ESCGrammarStmts.Event:
 ## Setter for _changing_scene.[br]
 ##[br]
 ## #### Parameters[br]
-## - p_is_changing_scene: boolean value to set _changing_scene to.
+## - value: `boolean` value to set `_changing_scene` to.
 func set_changing_scene(p_is_changing_scene: bool) -> void:
 	escoria.logger.trace(
 		self,
@@ -588,9 +583,8 @@ func _generate_statement_error_warning(statement: ESCStatement, event_name: Stri
 
 
 ## Save the running event in the savegame, if any.[br]
-## [br]
-## #### Parameters
-## - p_savegame: ESCSaveGame resource that holds all data of the save.
+## #### Parameters[br]
+## * p_savegame: `ESCSaveGame` resource that holds all save data.
 func save_game(p_savegame: ESCSaveGame) -> void:
 	# Scheduled events
 	var sched_events_array: Array = []

@@ -1,26 +1,24 @@
-## `camera_set_limits camlimits_id`[br]
-## [br]
+## `camera_set_limits(camlimits_id: Integer)`
+##
 ## Limits the current camera's movement to a limit defined in the `ESCRoom`'s
 ## definition. A limit is defined as an upper-left (x, y) coordinate, a width
 ## and a height that the camera must stay within. Multiple limits can be
 ## defined for a room, allowing for new areas to be seen once they have
 ## been 'unlocked'.[br]
-## [br]
-## #### Parameters[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
 ## - *camlimits_id*: Index of the camera limit defined in the `camera limits`
 ##   list of the current `ESCRoom`[br]
-## [br]
-## For more details see: https://docs.escoria-framework.org/camera [br]
-## [br]
+##[br]
+## For more details see: https://docs.escoria-framework.org/camera
+##
 ## @ESC
 extends ESCCameraBaseCommand
 class_name CameraSetLimitsCommand
 
 
-## Returns the descriptor of the arguments of this command.[br]
-## [br]
-## *Returns* The argument descriptor for this command.
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
@@ -29,13 +27,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-## Validates whether the given arguments match the command descriptor.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - arguments: The arguments to validate.[br]
-## [br]
-## *Returns* True if the arguments are valid, false otherwise.
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -52,13 +44,7 @@ func validate(arguments: Array):
 	return true
 
 
-## Runs the command.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - command_params: The parameters for the command.[br]
-## [br]
-## *Returns* The execution result code.
+## Run the command
 func run(command_params: Array) -> int:
 	var camera: ESCCamera = escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera
 	camera.clamp_to_viewport_limits()

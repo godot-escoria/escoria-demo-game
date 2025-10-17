@@ -1,17 +1,15 @@
-## `stop`[br]
-## [br]
+## `stop()`
+##
 ## Stops the current event's execution. Note that this will stop the current
 ## script entirely - if you're within a conditional block, the code after the
-## conditional block will not be executed.[br]
-## [br]
+## conditional block will not be executed.
+##
 ## @ESC
 extends ESCBaseCommand
 class_name StopCommand
 
 
-## Returns the descriptor of the arguments of this command.[br]
-## [br]
-## *Returns* The argument descriptor for this command.
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		0,
@@ -20,13 +18,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-## Runs the command.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - command_params: The parameters for the command.[br]
-## [br]
-## *Returns* The execution result code.
+## Run the command
 func run(command_params: Array) -> int:
 	return ESCExecution.RC_CANCEL
 

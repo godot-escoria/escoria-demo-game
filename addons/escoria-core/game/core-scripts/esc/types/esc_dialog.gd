@@ -15,9 +15,8 @@ var timeout_option: int = 0
 ## A list of `ESCDialogOption`s.
 var options: Array
 
-## Checks if dialog is valid.[br]
-## [br]
-## *Returns* True if the dialog is valid, false otherwise.
+
+## Returns true iff the dialog and its settings are valid.
 func is_valid() -> bool:
 	if self.avatar != "-" and not ResourceLoader.exists(self.avatar):
 		escoria.logger.error(

@@ -1,20 +1,18 @@
-## `hide_menu menu_type`[br]
-## [br]
+## `hide_menu(menu_type: String)`
+##
 ## Hides either the main menu or the pause menu. Transitions from the menu using
 ## the default transition type (set in the Escoria project settings).[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - *menu_type*: Which menu to hide. Can be either `main` or `pause` (default: `main`)[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *menu_type*: Which menu to hide. Can be either `main` or `pause` (default: `main`)
+##
 ## @ESC
 extends ESCBaseCommand
 class_name HideMenuCommand
 
 
-## Returns the descriptor of the arguments of this command.[br]
-## [br]
-## *Returns* The argument descriptor for this command.
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		0,
@@ -23,13 +21,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-## Validates whether the given arguments match the command descriptor.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - arguments: The arguments to validate.[br]
-## [br]
-## *Returns* True if the arguments are valid, false otherwise.
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -40,13 +32,7 @@ func validate(arguments: Array):
 	return true
 
 
-## Runs the command.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - command_params: The parameters for the command.[br]
-## [br]
-## *Returns* The execution result code.
+## Run the command
 func run(command_params: Array) -> int:
 	var transition_id: int
 

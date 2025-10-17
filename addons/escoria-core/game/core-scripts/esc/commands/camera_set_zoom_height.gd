@@ -1,23 +1,21 @@
-## `camera_set_zoom_height pixels [time]`[br]
-## [br]
+## `camera_set_zoom_height(pixels: Integer[, time: Number])`
+##
 ## Zooms the camera in/out so it occupies the given height in pixels.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - *pixels*: Target height in pixels.[br]
-## - *time*: Number of seconds the transition should take, with a value of 0
-##   meaning the zoom should happen instantly (default: 0).[br]
-## [br]
-## For more details see: https://docs.escoria-framework.org/camera [br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *pixels*: Target height in pixels[br]
+## - *time*: Number of seconds the transition should take, with a value of `0`
+##   meaning the zoom should happen instantly (default: `0`)[br]
+##[br]
+## For more details see: https://docs.escoria-framework.org/camera
+##
 ## @ESC
 extends ESCBaseCommand
 class_name CameraSetZoomHeightCommand
 
 
-## Returns the descriptor of the arguments of this command.[br]
-## [br]
-## *Returns* The argument descriptor for this command.
+## Return the descriptor of the arguments of this command
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
@@ -26,13 +24,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-## Validates whether the given arguments match the command descriptor.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - arguments: The arguments to validate.[br]
-## [br]
-## *Returns* True if the arguments are valid, false otherwise.
+## Validate whether the given arguments match the command descriptor
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -44,13 +36,7 @@ func validate(arguments: Array):
 	return true
 
 
-## Runs the command.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - command_params: The parameters for the command.[br]
-## [br]
-## *Returns* The execution result code.
+## Run the command
 func run(command_params: Array) -> int:
 	(escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera)\
 		.set_camera_zoom(

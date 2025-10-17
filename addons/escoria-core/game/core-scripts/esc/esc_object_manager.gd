@@ -82,7 +82,7 @@ func _init() -> void:
 
 
 ## Updates which object manager room is to be treated as the currently active one.[br]
-## [br]
+##[br]
 ## #### Parameters[br]
 ## * room: Room to register objects with in the object manager.
 func set_current_room(room: ESCRoom) -> void:
@@ -98,7 +98,7 @@ func set_current_room(room: ESCRoom) -> void:
 
 
 ## Registers the object in the manager.[br]
-## [br]
+##[br]
 ## #### Parameters[br]
 ## * object: The object to register.[br]
 ## * room: (optional) Room to register the object with in the object manager; if not 
@@ -226,8 +226,8 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 		room_objects.push_back(room_container)
 
 
-## Registers a terrain object in the manager.[br]
-## [br]
+## Registers the terrain with the manager.[br]
+##[br]
 ## #### Parameters[br]
 ## * object: The object containing the terrain to register.[br]
 ## * room: (optional) Room to register the object with in the object manager; 
@@ -272,8 +272,8 @@ func register_terrain(object: ESCObject, room: ESCRoom = null) -> void:
 		room_terrains.push_back(room_container)
 
 
-## Checks whether an object is registered.[br]
-## [br]
+## Checks whether an object has been registered.[br]
+##[br]
 ## #### Parameters[br]
 ## * global_id: The global ID of the object.[br]
 ## * room: (optional) `ESCRoom` instance the object is registered with; if not 
@@ -303,8 +303,8 @@ func has(global_id: String, room: ESCRoom = null) -> bool:
 	return _object_exists_in_room(ESCObject.new(global_id, null), room_key)
 
 
-## Retrieves an object from the object registry.[br]
-## [br]
+## Retrieves the object from the object registry.[br]
+##[br]
 ## #### Parameters[br]
 ## * global_id: The global id of the object to retrieve.[br]
 ## * room: The `ESCRoom` instance the object is registered with; if not 
@@ -367,7 +367,7 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 
 
 ## Removes an object from the registry.[br]
-## [br]
+##[br]
 ## #### Parameters[br]
 ## * object: The object to unregister.[br]
 ## * room_key: The room under which the object should be unregistered.
@@ -407,8 +407,8 @@ func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 		_erase_room(room_key)
 
 
-## Removes an object from the registry by global_id.[br]
-## [br]
+## Removes an object from the registry by its `global_id`.[br]
+##[br]
 ## #### Parameters[br]
 ## * global_id: The global id` of the object to unregister.[br]
 ## * room_key: The room under which the object should be unregistered.
@@ -416,8 +416,9 @@ func unregister_object_by_global_id(global_id: String, room_key: ESCRoomObjectsK
 	unregister_object(ESCObject.new(global_id, null), room_key)
 
 
-## Inserts data to save into the savegame. Only the current room's objects are saved.[br]
-## [br]
+## Inserts data to save into savegame. For now, we only save the current room's
+## objects.[br]
+##[br]
 ## #### Parameters[br]
 ## * p_savegame: The savegame resource.
 func save_game(p_savegame: ESCSaveGame) -> void:

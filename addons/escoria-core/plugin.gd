@@ -1,5 +1,5 @@
 @tool
-## Plugin script to initialize Escoria.
+## Plugin script to initialize Escoria
 extends EditorPlugin
 
 ## Comma separator const used to build enabled extensions.
@@ -7,18 +7,17 @@ const COMMA_SEPARATOR = ","
 
 ## ESC files extension.
 const ESC_SCRIPT_EXTENSION = "esc"
-
-## ASH files extension.
 const ASH_SCRIPT_EXTENSION = "ash"
-
-## Ashes analyzer menu entry.
 const ASHES_ANALYZER_MENU_ITEM = "Analyze ASHES Scripts"
 
-## Warning popup displayed on escoria-core enabling.
+
+## The warning popup displayed on escoria-core enabling.
 var popup_info: AcceptDialog
 
-## ASHES scripts analyzer.
+## ASHES scripts analyzer. Needed to allow calling the analyzer from 
+## Project>Tools menu.
 var _compiler_analyzer: ESCAshesAnalyzer = ESCAshesAnalyzer.new()
+
 
 ## Virtual function called when plugin is enabled.
 func _enable_plugin():
@@ -59,6 +58,7 @@ func _enable_plugin():
 ## Callback for warning popup displayed on escoria-core plugin enabling.
 func _on_warning_popup_confirmed():
 	popup_info.queue_free()
+
 
 ## Virtual function called when plugin is disabled.
 func _disable_plugin():

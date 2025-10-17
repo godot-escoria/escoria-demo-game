@@ -12,7 +12,6 @@ var option: String:
 ## Maps back to the parsed source option.
 var source_option
 
-## Whether this option is valid.
 var _is_valid: bool:
 	set = set_is_valid,
 	get = is_valid
@@ -36,9 +35,7 @@ func get_translated_option() -> String:
 	return option
 
 
-## Checks if conditions match for this dialog option.[br]
-## [br]
-## *Returns* True if all conditions are met, false otherwise.
+## Check if conditions match. Currently, this method should always return `true`.
 func is_valid() -> bool:
 	return _is_valid
 

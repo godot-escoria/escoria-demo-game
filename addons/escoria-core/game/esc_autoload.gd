@@ -35,10 +35,6 @@ const BUS_MUSIC = "Music"
 ## Speech audio bus
 const BUS_SPEECH = "Speech"
 
-# Path to camera scene
-const CAMERA_SCENE_PATH = "res://addons/escoria-core/game/scenes/camera_player/camera.tscn"
-
-
 # Logger class
 const EscLogger = preload("res://addons/escoria-core/tools/logging/esc_logger.gd")
 
@@ -131,7 +127,7 @@ var main
 var creating_new_game: bool = false
 #var temp: int = 0
 
-## The game resolution.
+## Game actual resolution obtained from viewport.
 @onready var game_size = Vector2(
 	ProjectSettings.get_setting("display/window/size/viewport_width"),
 	ProjectSettings.get_setting("display/window/size/viewport_height"))
@@ -160,10 +156,10 @@ func get_escoria():
 	else:
 		return get_node("main_scene").escoria_node
 
-## Pauses or unpauses the game.[br]
-## [br]
+
+## Pauses or unpause the game[br]
+##[br]
 ## #### Parameters[br]
-## [br]
 ## - p_paused: if true, pauses the game. If false, unpauses the game.
 func set_game_paused(p_paused: bool):
 	if p_paused:

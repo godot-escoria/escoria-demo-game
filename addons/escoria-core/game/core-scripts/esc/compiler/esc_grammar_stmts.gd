@@ -120,7 +120,8 @@ class Event extends ESCGrammarStmt:
 	## - *name*: `ESCToken` representing the name of the event.[br]
 	## - *target*: a literal representing the global ID of an object the event is meant to act on; can be null.[br]
 	## - *flags*: an array containing event flags to be applied; can be null/empty.[br]
-	## - *body*: the body of the event; this is the script block that will be executed when the event is run.
+	## - *body*: the body of the event; this is the script block that will be executed when the event is run.[br]
+	## - *object_global_id: the object/room the event is attached to, if any (may be empty)
 	func init(name: ESCToken, target: ESCGrammarExprs.Literal, flags: Dictionary, body: ESCGrammarStmts.Block, object_global_id: String):
 		_name = name
 		_target = target
