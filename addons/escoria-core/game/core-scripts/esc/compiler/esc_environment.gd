@@ -17,6 +17,14 @@ func init(enclosing) -> void:
 	_enclosing = enclosing
 
 
+func cleanup() -> void:
+	if is_instance_valid(_enclosing):
+		_enclosing.cleanup()
+		_enclosing = null
+
+	_values.clear()
+
+
 ## Determines whether the specified key (i.e. the script variable's name) is valid 
 ## either within this scope or an enclosing scope.[br]
 ##[br]

@@ -32,6 +32,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 func validate(arguments: Array) -> bool:
 	if not super.validate(arguments):
 		return false
+	return true
 
 ## Run the command
 func run(command_params: Array) -> int:

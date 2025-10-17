@@ -49,6 +49,21 @@ func _init(callables: Array, globals: Dictionary):
 		escoria.globals_manager.global_changed.connect(_on_global_changed)
 
 
+func cleanup() -> void:
+	if is_instance_valid(_globals):
+		_globals.cleanup()
+		_globals = null
+
+	if is_instance_valid(_environment):
+		_environment.cleanup()
+		_environment = null
+
+	_locals.clear()
+
+	if not Engine.is_editor_hint():
+		escoria.globals_manager.global_changed.disconnect(_on_global_changed)
+
+
 ## Returns the dictionary containing any and all global variables. 
 func get_global_values() -> Dictionary:
 	return _globals.get_values()
