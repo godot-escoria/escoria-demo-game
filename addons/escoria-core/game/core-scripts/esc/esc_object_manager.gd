@@ -15,11 +15,15 @@ const SOUND = "_sound"
 ## Reserved speech player object.
 const SPEECH = "_speech"
 
+## Reserved speech player object.
+const AMBIENT = "_ambient"
+
 ## Array of objects that are reserved and automatically created when Escoria starts up.
 const RESERVED_OBJECTS = [
 	MUSIC,
 	SOUND,
 	SPEECH,
+	AMBIENT,
 ]
 
 
@@ -436,7 +440,7 @@ func save_game(p_savegame: ESCSaveGame) -> void:
 
 		p_savegame.objects[room_obj.room_global_id] = room_objects_dict
 
-	# Add in reserved objects (music, speech, sound), too.
+	# Add in reserved objects (music, speech, sound, ambient), too.
 	var reserved_objects: Dictionary = reserved_objects_container.objects
 	for obj_global_id in reserved_objects:
 		if not reserved_objects[obj_global_id] is ESCObject:

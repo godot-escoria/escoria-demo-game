@@ -11,6 +11,7 @@ GENERAL_VOLUME,General,Général,Allgemein,General
 MUSIC_VOLUME,Music,Musique,Musik,Música
 SOUND_VOLUME,Sound effects,Effets sonores,Soundeffekte,Efectos de sonido
 SPEECH_VOLUME,Speech,Voix,Sprachausgabe,Voz
+AMBIENT_VOLUME,Ambient,Ambiance,Atmosphäre,Ambiente
 FULLSCREEN,Fullscreen,Plein écran,Vollbild,Pantalla completa
 CANCEL,Cancel,Annuler,Abbrechen,Cancelar
 OK,OK,Ok,Ok,Ok

@@ -4,6 +4,7 @@
 ## [br]
 ## By default there are 3 audio buses set up by Escoria : `_sound`, which is
 ## used to play non-looping sound effects; `_music`, which plays looping music;
+## `_ambient`, which plays looping ambient sound
 ## and `_speech`, which plays non-looping voice files (default: `_music`).[br]
 ## [br]
 ## Each simultaneous sound (e.g. multiple game sound effects) will require its

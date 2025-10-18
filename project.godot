@@ -74,6 +74,7 @@ sound/sfx_volume=1
 sound/speech_volume=1
 sound/speech_folder="res://game/speech"
 sound/speech_extension="ogg"
+sound/ambient_volume=1
 platform/skip_cache=false
 platform/skip_cache.mobile=true
 sound/speech_enabled=1

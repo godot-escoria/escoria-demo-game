@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bhcfnds3yy2yv"]
 
-[ext_resource type="Texture2D" uid="uid://gwy5bljr0ik1" path="res://addons/escoria-core/ui_library/menus/options/flags/de.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://r6b3dp6ipv5k" path="res://addons/escoria-core/ui_library/menus/options/flags/de.png" id="1"]
 [ext_resource type="Script" uid="uid://btyrwps5h2qn7" path="res://addons/escoria-core/ui_library/menus/options/options.gd" id="4"]
 
 [node name="options" type="Control"]
@@ -98,6 +98,16 @@ step = 0.001
 
 [node name="label6" type="Label" parent="VBoxContainer/MarginContainer/options"]
 layout_mode = 2
+text = "AMBIENT_VOLUME"
+
+[node name="ambient_volume" type="HSlider" parent="VBoxContainer/MarginContainer/options"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.001
+
+[node name="label7" type="Label" parent="VBoxContainer/MarginContainer/options"]
+layout_mode = 2
 text = "FULLSCREEN"
 
 [node name="fullscreen" type="CheckBox" parent="VBoxContainer/MarginContainer/options"]
@@ -120,6 +130,7 @@ text = "APPLY"
 [connection signal="value_changed" from="VBoxContainer/MarginContainer/options/sound_volume" to="." method="_on_sound_volume_changed"]
 [connection signal="value_changed" from="VBoxContainer/MarginContainer/options/music_volume" to="." method="_on_music_volume_changed"]
 [connection signal="value_changed" from="VBoxContainer/MarginContainer/options/speech_volume" to="." method="_on_speech_volume_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/MarginContainer/options/ambient_volume" to="." method="_on_ambient_volume_value_changed"]
 [connection signal="toggled" from="VBoxContainer/MarginContainer/options/fullscreen" to="." method="_on_fullscreen_toggled"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/apply" to="." method="_on_apply_pressed"]

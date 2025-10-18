@@ -144,7 +144,7 @@ func get_save_data() -> Dictionary:
 		if self.node.has_method("get_custom_data"):
 			save_data["custom_data"] = self.node.get_custom_data()
 
-	if self.global_id in ["_music", "_sound"] and self.node.get("state"):
+	if self.global_id in ["_music", "_sound", "_ambient"] and self.node.get("state"):
 		save_data["state"] = self.node.get("state")
 		save_data["playback_position"] = self.node.get_playback_position()
 

@@ -6,7 +6,7 @@
 ## [br]
 ## - *file*: Sound file to play[br]
 ## - *player*: Sound player to use. Can either be `_sound`, which is used to play non-
-##   looping sound effects; `_music`, which plays looping music; or `_speech`, which
+##   looping sound effects; `_music`, which plays looping music;`_ambient`, which plays looping ambient sounds or `_speech`, which
 ##   plays non-looping voice files (default: `_sound`)[br]
 ## [br]
 ## @ESC
