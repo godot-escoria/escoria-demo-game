@@ -1,14 +1,14 @@
-## `rand_global name max_value`[br]
-## [br]
+## `rand_global(name: String, max_value: Integer)`
+##
 ## Sets the given global to a random integer between 0 and `max_value`
 ## (inclusive). e.g. Setting `max_value` to 2 could result in '0', '1' or '2'
 ## being returned.[br]
-## [br]
-## #### Parameters[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
 ## - *name*: Name of the global to set[br]
-## - *max_value*: Maximum possible integer value (inclusive) (default: 1)[br]
-## [br]
+## - *max_value*: Maximum possible integer value (inclusive) (default: 1)
+##
 ## @ESC
 extends ESCBaseCommand
 class_name RandGlobalCommand

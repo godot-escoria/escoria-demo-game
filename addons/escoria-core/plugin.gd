@@ -1,5 +1,5 @@
 @tool
-## Plugin script to initialize Escoria.
+## Plugin script to initialize Escoria
 extends EditorPlugin
 
 ## Comma separator const used to build enabled extensions.
@@ -7,18 +7,17 @@ const COMMA_SEPARATOR = ","
 
 ## ESC files extension.
 const ESC_SCRIPT_EXTENSION = "esc"
-
-## ASH files extension.
 const ASH_SCRIPT_EXTENSION = "ash"
-
-## Ashes analyzer menu entry.
 const ASHES_ANALYZER_MENU_ITEM = "Analyze ASHES Scripts"
 
-## Warning popup displayed on escoria-core enabling.
+
+## The warning popup displayed on escoria-core enabling.
 var popup_info: AcceptDialog
 
-## ASHES scripts analyzer.
+## ASHES scripts analyzer. Needed to allow calling the analyzer from 
+## Project>Tools menu.
 var _compiler_analyzer: ESCAshesAnalyzer = ESCAshesAnalyzer.new()
+
 
 ## Virtual function called when plugin is enabled.
 func _enable_plugin():
@@ -60,6 +59,7 @@ func _enable_plugin():
 func _on_warning_popup_confirmed():
 	popup_info.queue_free()
 
+
 ## Virtual function called when plugin is disabled.
 func _disable_plugin():
 	remove_autoload_singleton("escoria")
@@ -76,7 +76,8 @@ func _enter_tree():
 func _exit_tree():
 	remove_tool_menu_item(ASHES_ANALYZER_MENU_ITEM)
 
-## Prepare the settings in the Escoria UI category.
+
+## Prepare the settings in the Escoria UI category
 func _set_escoria_ui_settings():
 	register_setting(
 		ESCProjectSettingsManager.DEFAULT_DIALOG_TYPE,
@@ -148,7 +149,8 @@ func _set_escoria_ui_settings():
 		}
 	)
 
-## Prepare the settings in the Escoria main category.
+
+## Prepare the settings in the Escoria main category
 func _set_escoria_main_settings():
 	register_setting(
 		ESCProjectSettingsManager.GAME_VERSION,
@@ -249,7 +251,8 @@ func _set_escoria_main_settings():
 		}
 	)
 
-## Prepare the settings in the Escoria debug category.
+
+## Prepare the settings in the Escoria debug category
 func _set_escoria_debug_settings():
 	register_setting(
 		ESCProjectSettingsManager.TERMINATE_ON_WARNINGS,
@@ -337,7 +340,8 @@ func _set_escoria_debug_settings():
 		}
 	)
 
-## Prepare the settings in the Escoria sound settings.
+
+## Prepare the settings in the Escoria sound settings
 func _set_escoria_sound_settings():
 	register_setting(
 		ESCProjectSettingsManager.MASTER_VOLUME,
@@ -404,6 +408,7 @@ func _set_escoria_sound_settings():
 		}
 	)
 
+
 ## Prepare the settings in the Escoria platform category and may need special
 ## setting per build.
 func _set_escoria_platform_settings():
@@ -446,7 +451,8 @@ static func register_setting(name: String, default: Variant, info: Dictionary) -
 		info.name = name
 		ProjectSettings.add_property_info(info)
 
-## Sets the Godot Editor settings to display ESC and ASH files in the filesystem.
+
+## Sets the Godot Editor settings to display ESC files in the filesystem.
 func _set_filesystem_show_esc_files():
 	print("setting esc and ash files display")
 	var settings = EditorInterface.get_editor_settings()
@@ -470,6 +476,7 @@ func _set_filesystem_show_esc_files():
 			"docks/filesystem/textfile_extensions",
 			COMMA_SEPARATOR.join(displayed_extensions)
 			)
+
 
 ## Sets the Godot Editor settings to hide ESC and ASH files in the filesystem.
 func _set_filesystem_hide_esc_files():

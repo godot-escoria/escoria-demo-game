@@ -1,16 +1,17 @@
-## `anim_block object name [reverse]`[br]
-## [br]
+## `anim_block(object: String, name: String[, reverse: Boolean])`
+##
 ## Executes the animation specified in "name" on "object" while blocking other
 ## events from starting.[br]
+##[br]
 ## The next command in the event will be executed when the animation is
 ## finished playing.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - *object*: Global ID of the object with the animation[br]
-## - *name*: Name of the animation to play[br]
-## - *reverse*: Plays the animation in reverse when true[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
+## * *object*: Global ID of the object with the animation[br]
+## * *name*: Name of the animation to play[br]
+## * *reverse*: Plays the animation in reverse when true
+##
 ## @ESC
 extends ESCBaseCommand
 class_name AnimBlockCommand

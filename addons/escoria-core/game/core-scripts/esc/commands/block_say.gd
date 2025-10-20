@@ -1,38 +1,39 @@
-## `block_say`[br]
-## [br] 
+## `block_say()`
+##
 ## `say` commands called subsequent to using the `block_say` command will reuse the
 ## dialog box type of the previous `say` command if both dialog box types between the two `say`
 ## commands match.[br]
-## [br]
+##[br]
 ## Different dialog box types can be used across multiple `say` commands, with the latest one
 ## used being preserved for reuse by the next `say` command should the dialog box type specified by
 ## both `say` commands match.[br]
-## [br]
+##[br]
 ## This reuse will continue until a call to `end_block_say` is made.[br]
-## [br]
+##[br]
 ## Using `block_say` more than once prior to calling `end_block_say` is idempotent and has the
 ## following behaviour:[br]
-## [br]
+##[br]
 ## - If no `say` command has yet been encountered since the first use of `block_say`,
 ##   the result of using this command will be as described above.[br]
 ## - If a `say` command has been encountered since the previous use of `block_say`,
 ##   the dialog box used with that `say` command will continue to be reused for subsequent
 ##   `say` commands should the dialog box type requested match. Note that the dialog box used with
 ##   the next `say` command may be different than the one currently being reused.[br]
-## [br]
+##[br]
 ## Example:[br]
 ## `block say`[br]
 ## `say player "Picture's looking good."`[br]
 ## `say player "And so am I."`[br]
 ## `end_block_say`[br]
-## [br]
-## This example will reuse the same dialog box type since they are the same between both `say` calls.[br]
-## [br]
+##[br]
+## This example will reuse the same dialog box type since they are the same between both `say` calls.
+##
 ## @ESC
 extends ESCBaseCommand
 class_name BlockSayCommand
 
-## Constructor.
+
+## Constructor
 func _init() -> void:
 	pass
 

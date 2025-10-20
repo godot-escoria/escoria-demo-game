@@ -1,15 +1,15 @@
-## `set_direction object direction_id [wait]`[br]
-## [br]
+## `set_direction(object: String, direction_id: Integer[, wait: Number])`
+##
 ## Turns a movable `ESCItem` or `ESCPlayer` to face a given target direction id
 ## (between 0 and 3 for a 4-directional character, or between 0 and 7 for an
 ## 8-directional character).[br]
-## [br]
+##[br]
 ## 4-directional :[br]
 ## 0 : UP / NORTH[br]
 ## 1 : RIGHT / EAST[br]
 ## 2 : DOWN / SOUTH[br]
 ## 3 : LEFT / WEST[br]
-## [br]
+##[br]
 ## 8-directional :[br]
 ## 0 : UP / NORTH[br]
 ## 1 : UP-RIGHT / NORTH-EAST[br]
@@ -19,15 +19,15 @@
 ## 5 : DOWN-LEFT / SOUTH-WEST[br]
 ## 6 : LEFT / WEST[br]
 ## 7 : TOP-LEFT / NORTH-WEST[br]
-## [br]
-## #### Parameters[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
 ## - *object*: Global ID of the object to turn[br]
 ## - *target_direction_id*: id of the direction as defined in the player animations[br]
 ## - *wait*: Number of seconds to wait while playing each animation occurring
 ##   between the current direction of `object` and the target direction. A value of
-##   `0` will complete the turn immediately (default: `0`)[br]
-## [br]
+##   `0` will complete the turn immediately (default: `0`)
+##
 ## @ESC
 extends ESCBaseCommand
 class_name SetDirectionCommand

@@ -35,11 +35,11 @@ func _exit_tree():
 	$layers/curtain.remove_child(scene_transition)
 	scene_transition.queue_free()
 
-## Set current scene.[br]
-## [br]
+## Sets the current scene[br]
+##[br]
 ## #### Parameters[br]
-## [br]
-## - p_scene: Scene to set.
+##[br]
+## - p_scene: Scene to set
 func set_scene(p_scene: Node) -> void:
 	if !p_scene:
 		escoria.logger.error(
@@ -78,9 +78,9 @@ func set_scene(p_scene: Node) -> void:
 
 ## Only called by the room manager in the case where it hasn't executed a
 ## coroutine prior to calling set_scene_finish().[br]
-## [br]
-## #### Parameters[br]
-## [br]
+##[br]
+## ### Parameters[br]
+##[br]
 ## - p_scene: The scene currently being initialized by set_scene.
 func finish_current_scene_init(p_scene: Node) -> void:
 	if is_ancestor_of(p_scene):
@@ -125,8 +125,8 @@ func _on_wait_finished() -> void:
 	escoria.esc_level_runner.finished(wait_level)
 
 
-## Set the camera limits.[br]
-## [br]
+## Set the camera limits[br]
+##[br]
 ## #### Parameters[br]
 ##[br]
 ## * camera_limits_id: The id of the room's camera limits to set[br]

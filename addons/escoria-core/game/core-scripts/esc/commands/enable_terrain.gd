@@ -1,15 +1,16 @@
-## `enable_terrain node_name`[br]
-## [br]
+## `enable_terrain(node_name: String)`
+##
 ## Enables the `ESCTerrain`'s `NavigationPolygonInstance` specified by the given
 ## node name. It will also disable the previously-activated
 ## `NavigationPolygonInstance`.[br]
+## [br]
 ## Use this to change where the player can walk, allowing them to walk into the
 ## next room once a door has been opened, for example.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - *node_name*: Name of the `NavigationPolygonInstance` node to activate[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *node_name*: Name of the `NavigationPolygonInstance` node to activate
+##
 ## @ESC
 extends ESCBaseCommand
 class_name EnableTerrainCommand

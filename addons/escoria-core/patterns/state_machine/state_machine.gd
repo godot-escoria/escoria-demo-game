@@ -1,7 +1,3 @@
-## Base interface for a generic state machine[br]
-## It handles initializing, setting the machine active or not[br]
-## delegating _physics_process, _input calls to the State nodes,[br]
-## and changing the current/active state.
 extends Node
 class_name StateMachine
 ## Base interface for a generic state machine
@@ -32,11 +28,12 @@ var current_state_name = ""
 var _active = false: 
 	set = set_active
 
-## Initialize the state machine with given state.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - start_state: Start state for the state machine
+
+## Initialize the state machine with the start_state parameter.
+##
+## #### Parameters
+##
+## - start_state: State value to use as starting state for the state machine.
 func initialize(start_state: State):
 	if START_STATE == null:
 		escoria.logger.error(
@@ -54,11 +51,11 @@ func initialize(start_state: State):
 	current_state.enter()
 
 
-## Enable or disable the state machine.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - value: if true, enables the state machine; false disables it.
+## Enable or disable the state machine.
+##
+## #### Parameters
+##
+## - value: if true, enables the state machine. If false, disables it.
 func set_active(value: bool):
 	_active = value
 	set_physics_process(value)
@@ -69,29 +66,30 @@ func set_active(value: bool):
 
 
 # Manage an input event by the state machine's current state.
-## [br]
-## #### Parameters[br]
-## [br]
-## - event: the input event to manage.
+#
+# #### Parameters
+#
+# - event: InputEvent to manage.
 func _input(event: InputEvent):
 	current_state.handle_input(event)
 
 
 # Lets the state machine's current state perform an update during 
 # _physics_process() phase.
-## [br]
-## #### Parameters[br]
-## [br]
-## - delta: delta value from _process() method
+#
+# #### Parameters
+#
+# - delta: float value corresponding to the elapsed time since last frame update.
 func _physics_process(delta: float):
 	current_state.update(delta)
 
 
-## Have current state to manage animation_finished signal.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - _anim_name: finished animation name.
+# Lets the state machine's current state perform an action on animation_finished 
+# signal.
+#
+# #### Parameters
+#
+# - anim_name: name of the animation that finished.
 func _on_animation_finished(anim_name: String):
 	if not _active:
 		return
@@ -100,10 +98,10 @@ func _on_animation_finished(anim_name: String):
 
 # Change the current state of the state machine using its name. The value of 
 # the state to be set is obtained in states_map dictionary.
-##[br]
-## #### Parameters[br]
-## [br]
-## - state_name: new state's name.
+#
+# #### Parameters
+#
+# - state_name: name of the state to set.
 func _change_state(state_name: String):
 	if not _active:
 		return
@@ -128,15 +126,3 @@ func _change_state(state_name: String):
 	current_state.enter()
 
 	current_state_name = state_name
-
-
-## Returns current state's name. If current state doesn't have its name in
-## states_map dictionary, null value is returned.
-## *Returns*[br]
-## The current state's name.
-func get_current_state_name():
-	for key in states_map.keys():
-		if states_map[key] == current_state:
-			return key
-
-	return null

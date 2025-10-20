@@ -1,14 +1,12 @@
-## INTERNAL USE ONLY[br]
-## [br]
-## `set_item_custom_data item custom_data`[br]
-## [br]
+## *** FOR INTERNAL USE ONLY *** `set_item_custom_data(item: String, custom_data: Dictionary)`
+##
 ## Sets the "custom_data" of the item if it currently exists in the object manager.[br]
-## [br]
-## #### Parameters[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
 ## - *item* Global ID of the item[br]
-## - *custom_data* Dictionary with custom data. If null empty dictionary will be assigned.[br]
-## [br]
+## - *custom_data* Dictionary with custom data. If null empty dictionary will be assigned.
+##
 ## @ESC
 extends ESCBaseCommand
 class_name SetItemCustomDataCommand

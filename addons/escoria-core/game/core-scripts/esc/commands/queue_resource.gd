@@ -1,13 +1,13 @@
-## `queue_resource path [front_of_queue]`[br]
-## [br]
+## `queue_resource(path: String[, front_of_queue: Boolean])`
+##
 ## Queues the loading of the given resource into the resource cache.[br]
-## [br]
-## #### Parameters[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
 ## - *path*: Path of the resource to cache[br]
 ## - *front_of_queue*: Whether to put the resource at the front of the
-##   queue in order to load it as soon as possible (default: `false`)[br]
-## [br]
+##   queue in order to load it as soon as possible (default: `false`)
+##
 ## @ESC
 extends ESCBaseCommand
 class_name QueueResourceCommand

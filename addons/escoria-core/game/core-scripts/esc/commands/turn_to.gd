@@ -1,13 +1,13 @@
-## `turn_to object object_to_face [wait]`[br]
-## [br]
+## `turn_to(object: String, object_to_face: String[, wait: Number])`
+##
 ## Turns `object` to face another object.[br]
-## [br]
+##[br]
 ## Unlike movement commands, `turn_to` will not automatically reference an
-## `ESCLocation` that is a child of an `ESCItem.`[br]
+## `ESCLocation` that is a child of an `ESCItem.`
 ## To turn towards an `ESCLocation` that is a child of an `ESCItem`, give the
 ## `ESCLocation` a `Global ID` and use this value as the `object_to_face`
 ## parameter.[br]
-## [br]
+##[br]
 ## While turning, the number of directions the item faces will depend on
 ## the number of `directions` defined for the object. A 16 direction character
 ## for example will display 8 directions of animation while turning to face an
@@ -17,14 +17,14 @@
 ## would take 8 seconds to rotate 180 degrees with a 1 second `wait` time,
 ## whereas a 4 direction character would only take 2 seconds to make the same
 ## rotation.[br]
-## [br]
-## #### Parameters[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
 ## - *object*: Global ID of the object to be turned[br]
 ## - *object_to_face*: Global ID of the object to turn towards[br]
 ## - *wait*: Length of time to wait in seconds for each intermediate angle.
-##   If set to 0, the turnaround is immediate (default: `0`)[br]
-## [br]
+##   If set to 0, the turnaround is immediate (default: `0`)
+##
 ## @ESC
 extends ESCBaseCommand
 class_name TurnToCommand

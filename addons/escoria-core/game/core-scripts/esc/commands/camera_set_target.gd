@@ -1,18 +1,18 @@
-## `camera_set_target time object`[br]
-## [br]
+## `camera_set_target(time: Number, object: String)`
+##
 ## Configures the camera to follow the specified target `object` as it moves
 ## around the current room. The transition to focus on the `object` will happen
 ## over a time period.[br]
-## [br]
-## #### Parameters[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
 ## - *time*: Number of seconds the transition should take to move the camera
 ##   to follow `object`[br]
 ## - *object*: Global ID of the target object[br]
-## [br]
-## For more details see: https://docs.escoria-framework.org/camera [br]
-## [br]
-##@ESC
+##[br]
+## For more details see: https://docs.escoria-framework.org/camera
+##
+## @ESC
 extends ESCCameraBaseCommand
 class_name CameraSetTargetCommand
 
@@ -62,7 +62,7 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-###Function called when the command is interrupted.
+## Function called when the command is interrupted.
 func interrupt():
 	escoria.logger.debug(
 		self,

@@ -3,19 +3,18 @@ extends Resource
 class_name ESCInventoryManager
 
 
-## Check if the player has an inventory item.[br]
-## [br]
+## Checks whether the player has an inventory item.[br]
+##[br]
 ## #### Parameters[br]
-## [br]
-## - item: Inventory item id.[br]
-## [br]
-## **Returns** Whether the player has the inventory.
+## * item: The inventory item's id.[br]
+##[br]
+## **Returns** whether the player has the specified item in his/her inventory.
 func inventory_has(item: String) -> bool:
 	return escoria.globals_manager.has("i/%s" % item)
 
 
-## Get all inventory items.[br]
-## [br]
+## Retrieves all inventory items.[br]
+##[br]
 ## **Returns** the items curerntly in the player's inventory.
 func items_in_inventory() -> Array:
 	var items = []
@@ -25,11 +24,11 @@ func items_in_inventory() -> Array:
 			items.append(glob.rsplit("i/", false)[0])
 	return items
 
-## Remove an item from the inventory.[br]
-## [br]
+
+## Removes an item from the player's inventory.[br]
+##[br]
 ## #### Parameters[br]
-## [br]
-## - item: Inventory item id.
+## * item: The inventory item's id.
 func remove_item(item: String) -> void:
 	if not inventory_has(item):
 		escoria.logger.error(
@@ -41,20 +40,18 @@ func remove_item(item: String) -> void:
 		escoria.globals_manager.set_global("i/%s" % item, false)
 
 
-## Add an item to the inventory.[br]
-## [br]
+## Adds an item to the player's inventory.[br]
+##[br]
 ## #### Parameters[br]
-## [br]
-## - item: Inventory item id.
+## * item: The inventory item's id.
 func add_item(item: String) -> void:
 	escoria.globals_manager.set_global("i/%s" % item, true)
 
 
-## Save the inventory.[br]
-## [br]
+## Saves the inventory in the specified savegame.[br]
+##[br]
 ## #### Parameters[br]
-## [br]
-## - p_savegame: ESCSaveGame resource that holds all data of the save.
+## * p_savegame: ESCSaveGame resource that holds all save data.
 func save_game(p_savegame: ESCSaveGame) -> void:
 	p_savegame.inventory = []
 	for item in items_in_inventory():

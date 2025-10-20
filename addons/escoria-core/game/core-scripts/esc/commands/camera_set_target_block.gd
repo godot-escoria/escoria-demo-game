@@ -1,18 +1,18 @@
-## `camera_set_target_block time object`[br]
-## [br]
+## `camera_set_target_block(time: Number, object: String)`
+##
 ## Configures the camera to follow the specified target `object` (ESCItem) as it moves
 ## around the current room. The transition to focus on the `object` will happen
-## over a time period. Blocks until the command completes.[br]
-## [br]
+## over a time period.  Blocks until the command completes.[br]
+##[br]
 ## The camera will move as close as it can if camera limits have been configured
 ## and the `object` is at coordinates that are not reachable.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - *time*: Number of seconds the transition should take to move the camera[br]
-##   to follow `object`.[br]
-## - *object*: Global ID of the target object.[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *time*: Number of seconds the transition should take to move the camera
+##   to follow `object`[br]
+## - *object*: Global ID of the target object[br]
+##[br]
 ## For more details see: https://docs.escoria-framework.org/camera
 ##
 ## @ESC

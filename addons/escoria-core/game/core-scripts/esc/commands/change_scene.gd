@@ -1,16 +1,16 @@
-## `change_scene path [enable_automatic_transition] [run_events]`[br]
-## [br]
+## `change_scene(path: String[, enable_automatic_transition: Boolean[, run_events: Boolean]])`
+##
 ## Switches the game from the current scene to another scene. Use this to move
 ## the player to a new room when they walk through an unlocked door, for
 ## example.[br]
-## [br]
-## ##### Parameters[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
 ## - *path*: Path of the new scene[br]
 ## - *enable_automatic_transition*: Automatically transition to the new scene
 ##   (default: `true`)[br]
-## - *run_events*: Run the standard ESC events of the new scene (default: `true`)[br]
-## [br]
+## - *run_events*: Run the standard ESC events of the new scene (default: `true`)
+##
 ## @ESC
 extends ESCBaseCommand
 class_name ChangeSceneCommand

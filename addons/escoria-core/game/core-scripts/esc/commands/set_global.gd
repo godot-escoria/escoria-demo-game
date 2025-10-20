@@ -1,16 +1,16 @@
-## `set_global name value [force=false]`[br]
-## [br]
+## `set_global(name: String, value: String|Integer|Boolean[, force: Boolean=false])`
+##
 ## Changes the value of a global.[br]
-## [br]
-## #### Parameters[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
 ## - *name*: Name of the global[br]
 ## - *value*: Value to set the global to (can be of type string, boolean, integer
 ##   or float)[br]
 ## - *force*: if false, setting a global whose name is reserved will
 ##   trigger an error. Defaults to false. Reserved globals are: ESC_LAST_SCENE,
-##   FORCE_LAST_SCENE_NULL, ANIMATION_RESOURCES, ESC_CURRENT_SCENE[br]
-## [br]
+##   FORCE_LAST_SCENE_NULL, ANIMATION_RESOURCES, ESC_CURRENT_SCENE
+##
 ## @ESC
 extends ESCBaseCommand
 class_name SetGlobalCommand

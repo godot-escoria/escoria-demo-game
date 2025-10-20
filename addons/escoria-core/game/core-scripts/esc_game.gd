@@ -1,6 +1,6 @@
-## A base class for ESC game scenes.[br]
+## Base class for ESC game scenes
 ## An extending class can be used in the project settings and is responsible
-## for managing very basic game features and controls.
+## for managing very basic game features and controls
 extends Node2D
 class_name ESCGame
 
@@ -21,20 +21,20 @@ enum EDITOR_GAME_DEBUG_DISPLAY {
 }
 
 
-## Reference to main menu node
+## Main menu node
 @export var main_menu: NodePath
 
-## Reference to pause menu node
+## Pause menu node
 @export var pause_menu: NodePath
 
-## Safe margin around tooltips
+## The safe margin around tooltips
 @export var mouse_tooltip_margin: float = 50.0
 
 ## Debug mode for the editor (None, Mouse Tooltips Limit)
 @export var editor_debug_mode: EDITOR_GAME_DEBUG_DISPLAY = EDITOR_GAME_DEBUG_DISPLAY.NONE:
 	set = _set_editor_debug_mode
 
-## The Control node underneath which all UI must be placed.[br]
+## The Control node underneath which all UI must be placed.
 ## This should be a Control node and NOT a CanvasLayer (or any other type of) node.
 @export var ui_parent_control_node: NodePath
 

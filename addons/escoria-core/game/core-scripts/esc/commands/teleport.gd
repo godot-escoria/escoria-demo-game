@@ -1,13 +1,13 @@
-## `teleport object target`[br]
-## [br]
+## `teleport(object: String, target: String)`
+##
 ## Instantly moves an object to a new position.[br]
-## [br]
-## #### Parameters[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
 ## - *object*: Global ID of the object to move[br]
 ## - *target*: Global ID of the object to use as the destination coordinates
-##   for `object`[br]
-## [br]
+##   for `object`
+##
 ## @ESC
 extends ESCBaseCommand
 class_name TeleportCommand

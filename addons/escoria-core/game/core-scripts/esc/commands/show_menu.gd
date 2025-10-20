@@ -1,12 +1,12 @@
-## `show_menu menu_type`[br]
-## [br]
+## `show_menu(menu_type: String)`
+##
 ## Shows either the main menu or the pause menu. Transitions to the menu using
 ## the default transition type (set in the Escoria project settings).[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - menu_type: Which menu to show. Can be either `main` or `pause` (default: `main`).
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *menu_type*: Which menu to show. Can be either `main` or `pause` (default: `main`)
+##
 ## @ESC
 extends ESCBaseCommand
 class_name ShowMenuCommand

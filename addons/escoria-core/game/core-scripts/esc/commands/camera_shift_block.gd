@@ -1,26 +1,26 @@
-## `camera_shift_block x y [time] [type]`[br]
-## [br]
+## `camera_shift_block(x: Number, y: Number[, time: Number[, type: String]])`
+##
 ## Shifts the camera by the given horizontal and vertical amounts relative to the
 ## current location. Blocks until the command completes.[br]
-## [br]
-## Make sure the destination coordinates are reachable if camera limits have
-## been configured.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - *x*: Shift by x pixels along the x-axis.[br]
-## - *y*: Shift by y pixels along the y-axis.[br]
-## - *time*: Number of seconds the transition should take, with a value of 0
-##   meaning the zoom should happen instantly (default: 1).[br]
-## - *type*: Transition type to use (default: QUAD).[br]
-## [br]
-## Supported transitions include the names of the values used in the "TransitionType"
-## enum of the "Tween" type (without the "TRANS_" prefix).[br]
-## [br]
+##[br]
+## Make sure the destination coordinates are reachable if
+## camera limits have been configured.[br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *x*: Shift by x pixels along the x-axis[br]
+## - *y*: Shift by y pixels along the y-axis[br]
+## - *time*: Number of seconds the transition should take, with a value of `0`
+##   meaning the zoom should happen instantly (default: `1`)[br]
+## - *type*: Transition type to use (default: `QUAD`)[br]
+##[br]
+## Supported transitions include the names of the values used
+## in the "TransitionType" enum of the "Tween" type (without the "TRANS_" prefix).[br]
+##[br]
 ## See https://docs.godotengine.org/en/stable/classes/class_tween.html?highlight=tween#enumerations[br]
-## [br]
-## For more details see: https://docs.escoria-framework.org/camera [br]
-## [br]
+##[br]
+## For more details see: https://docs.escoria-framework.org/camera
+##
 ## @ESC
 extends ESCCameraBaseCommand
 class_name CameraShiftBlockCommand

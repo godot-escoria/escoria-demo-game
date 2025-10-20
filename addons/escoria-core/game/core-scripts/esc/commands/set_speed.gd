@@ -1,12 +1,12 @@
-## `set_speed object speed`[br]
-## [br]
-## Sets the speed of a `ESCPlayer` or movable `ESCItem`.
-## [br]
-## #### Parameters[br]
-## [br]
+## `set_speed(object: String, speed: Integer)`
+##
+## Sets the speed of a `ESCPlayer` or movable `ESCItem`.[br]
+##[br]
+## **Parameters**[br]
+##[br]
 ## - *object*: Global ID of the `ESCPlayer` or movable `ESCItem`[br]
-## - *speed*: Speed value for `object` in pixels per second.[br]
-## [br]
+## - *speed*: Speed value for `object` in pixels per second.
+##
 ## @ESC
 extends ESCBaseCommand
 class_name SetSpeedCommand

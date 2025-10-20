@@ -8,12 +8,12 @@ signal paused
 ## Signal sent when Escoria is resumed from pause
 signal resumed
 
-## Current game state.[br]
-## * DEFAULT: Common game function[br]
-## * DIALOG: Game is playing a dialog[br]
-## * WAIT: Game is waiting[br]
-## * LOADING: Game is loading[br]
-## * PAUSED: Game is paused
+
+## Current game state
+## * DEFAULT: Common game function
+## * DIALOG: Game is playing a dialog
+## * WAIT: Game is waiting
+## * LOADING: Game is currently loading
 enum GAME_STATE {
 	DEFAULT,
 	DIALOG,
@@ -131,7 +131,7 @@ var main
 var creating_new_game: bool = false
 #var temp: int = 0
 
-## The game resolution.
+## Game actual resolution obtained from viewport.
 @onready var game_size = Vector2(
 	ProjectSettings.get_setting("display/window/size/viewport_width"),
 	ProjectSettings.get_setting("display/window/size/viewport_height"))
@@ -160,10 +160,10 @@ func get_escoria():
 	else:
 		return get_node("main_scene").escoria_node
 
-## Pauses or unpauses the game.[br]
-## [br]
+
+## Pauses or unpause the game[br]
+##[br]
 ## #### Parameters[br]
-## [br]
 ## - p_paused: if true, pauses the game. If false, unpauses the game.
 func set_game_paused(p_paused: bool):
 	if p_paused:

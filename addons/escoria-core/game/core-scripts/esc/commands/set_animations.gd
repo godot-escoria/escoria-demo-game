@@ -1,12 +1,12 @@
-## `set_animations object animations`[br]
-## [br]
+## `set_animations(object: String, animations: String)`
+##
 ## Sets the animation resource for the given `ESCPlayer` or movable `ESCItem`.[br]
-## [br]
-## #### Parameters[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
 ## - *object*: Global ID of the object whose animation resource is to be updated[br]
-## - *animations*: The path of the animation resource to use[br]
-## [br]
+## - *animations*: The path of the animation resource to use
+##
 ## @ESC
 extends ESCBaseCommand
 class_name SetAnimationsCommand

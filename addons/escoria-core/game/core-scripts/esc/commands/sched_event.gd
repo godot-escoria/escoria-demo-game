@@ -1,17 +1,17 @@
-## `sched_event time object event`[br]
-## [br]
+## `sched_event(time: Number, object: String, event: String)`
+##
 ## Schedules an event to run at a later time.[br]
-## [br]
+##[br]
 ## If another event is already running when the scheduled
 ## event is supposed to start, execution of the scheduled event
 ## begins when the already-running event ends.[br]
-## [br]
-## #### Parameters[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
 ## - *time*: Time in seconds until the scheduled event starts[br]
 ## - *object*: Global ID of the ESCItem that holds the ESC script[br]
-## - *event*: Name of the event to schedule[br]
-## [br]
+## - *event*: Name of the event to schedule
+##
 ## @ESC
 extends ESCBaseCommand
 class_name SchedEventCommand

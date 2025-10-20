@@ -1,13 +1,13 @@
-## `inventory_remove item`[br]
-## [br]
+## `inventory_remove(item: String)`
+##
 ## Removes an item from the inventory. You may wish to use this command in
 ## conjuction with the `set_active` command to show an item in the scene,
 ## simulating placing the item somewhere, for example.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - *item*: Global ID of the `ESCItem` to remove from the inventory[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *item*: Global ID of the `ESCItem` to remove from the inventory
+##
 ## @ESC
 extends ESCBaseCommand
 class_name InventoryRemoveCommand

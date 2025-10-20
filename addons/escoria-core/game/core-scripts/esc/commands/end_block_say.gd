@@ -1,18 +1,18 @@
-## `end_block_say`[br]
-## [br]
+## `end_block_say()`
+##
 ## `say` commands used subsequent to using the `end_block_say` command will no longer
 ## reuse the dialog box type used by the previous `say` command(s) encountered.[br]
-## [br]
+##[br]
 ## Using `end_block_say` more than once is safe and idempotent.[br]
-## [br]
+##[br]
 ## Example:[br]
 ## `block say`[br]
 ## `say player "Picture's looking good."`[br]
 ## `say player "And so am I."`[br]
 ## `end_block_say`[br]
-## [br]
-## This example will reuse the same dialog box type since they are the same between both `say` calls.[br]
-## [br]
+##[br]
+## This example will reuse the same dialog box type since they are the same between both `say` calls.
+##
 ## @ESC
 extends ESCBaseCommand
 class_name EndBlockSayCommand

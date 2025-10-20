@@ -1,28 +1,28 @@
-## `accept_input [type]`[br]
-## [br]
-## Sets how much input the game is to accept. This allows for cut scenes in which
-## dialogue can be skipped (if [type] is set to SKIP), and ones where it can't
-## (if [type] is set to NONE).[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - *type*: Type of inputs to accept (ALL).[br]
-##   `ALL`: Accept all types of user input.[br]
-##   `SKIP`: Accept skipping dialogues but nothing else.[br]
-##   `NONE`: Deny all inputs (including opening menus).[br]
-## [br]
+## `accept_input([type: String])`
+##
+## Sets how much input the game is to accept. This allows for cut scenes
+## in which dialogue can be skipped (if [type] is set to SKIP), and ones where
+## it can't (if [type] is set to NONE).[br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *type*: Type of inputs to accept (ALL)[br]
+##   `ALL`: Accept all types of user input[br]
+##   `SKIP`: Accept skipping dialogues but nothing else[br]
+##   `NONE`: Deny all inputs (including opening menus)[br]
+##[br]
 ## **Warning**: `SKIP` and `NONE` also disable autosaves.[br]
-## [br]
+##[br]
 ## **Warning**: The type of user input accepted will persist even after the
 ## current event has ended. Remember to reset the input type at the end of
-## cut-scenes![br]
-## [br]
+## cut-scenes!
+##
 ## @ESC
 extends ESCBaseCommand
 class_name AcceptInputCommand
 
 
-## The list of supported input types.
+## The list of supported input types
 const SUPPORTED_INPUT_TYPES = ["ALL", "NONE", "SKIP"]
 
 ## Returns the descriptor of the arguments of this command.[br]

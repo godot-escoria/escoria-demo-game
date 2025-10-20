@@ -1,13 +1,13 @@
-## `teleport_pos object x y`[br]
-## [br]
+## `teleport_pos(object: String, x: Integer, y: Integer)`
+##
 ## Instantly moves an object to the specified (absolute) coordinates.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - *object*: Global ID of the object to move.[br]
-## - *x*: X-coordinate of destination position.[br]
-## - *y*: Y-coordinate of destination position.
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *object*: Global ID of the object to move[br]
+## - *x*: X-coordinate of destination position[br]
+## - *y*: Y-coordinate of destination position
+##
 ## @ESC
 extends ESCBaseCommand
 class_name TeleportPosCommand

@@ -57,16 +57,12 @@ func exported() -> Dictionary:
 
 
 
-## Returns whether the statement should be run based on its conditions.[br]
-## [br]
-## *Returns* True if the statement is valid.
+## Returns `true` iff the statement is valid.
 func is_valid() -> bool:
 	return true
 
 
-## Executes this statement and returns its return code.[br]
-## [br]
-## *Returns* The return code of the statement.
+## Execute this statement and return its return code.
 func run() -> int:
 	if parsed_statements.size() > 0:
 		var interpreter = ESCInterpreterFactory.create_interpreter()

@@ -1,18 +1,11 @@
-## `save_game slot_id savegame_description`[br]
-## [br]
+## `save_game(slot_id: Integer, savegame_description: String)`
+##
 ## Saves the game in the [slot_id] slot, and sets the [savegame_description] in
 ## the savegame name/title.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - *slot_id*: The slot to save the game in. This is an integer value
-##   starting from 1. If the slot is already occupied, it will be overwritten.[br]
-## - *savegame_description*: The description of the savegame. This is a string
-##   value that will be used to name the savegame file.[br]
-## [br]
+##[br]
 ## Example:[br]
-## `save_game 1 "description of game saved"`[br]
-## [br]
+## `save_game 1 "description of game saved`
+##
 ## @ESC
 extends ESCBaseCommand
 class_name SaveGameCommand

@@ -1,19 +1,19 @@
-## `camera_set_pos_block time x y`[br]
-## [br]
+## `camera_set_pos_block(time: Number, x: Integer, y: Integer)`
+##
 ## Moves the camera to the given absolute position over a time period. Blocks
 ## until the command completes.[br]
-## [br]
+##[br]
 ## Make sure the coordinates are reachable if camera limits have been configured.[br]
-## [br]
-## #### Parameters[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
 ## - *time*: Number of seconds the transition should take[br]
 ## - *x*: Target X coordinate[br]
 ## - "y*: Target Y coordinate[br]
-## [br]
-## For more details see: https://docs.escoria-framework.org/camera [br]
-## [br]
-# @ESC
+##[br]
+## For more details see: https://docs.escoria-framework.org/camera
+##
+## @ESC
 extends ESCCameraBaseCommand
 class_name CameraSetPosBlockCommand
 

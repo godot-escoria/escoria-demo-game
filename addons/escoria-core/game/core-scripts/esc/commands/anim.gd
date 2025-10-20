@@ -1,15 +1,15 @@
-## `anim object name [reverse]`[br]
-## [br]
-## Executes the animation specified in "name" on "object" without blocking. The
-## next command in the event will be executed immediately after the animation is
-## started.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - *object*: Global ID of the object with the animation.[br]
-## - *name*: Name of the animation to play.[br]
-## - *reverse*: Plays the animation in reverse when true.[br]
-## [br]
+## `anim(object: String, name: String[, reverse: Boolean])`
+##
+## Executes the animation specified in "name" on "object" without blocking.
+## The next command in the event will be executed immediately after the
+## animation is started.[br]
+##[br]
+## **Parameters**[br]
+##[br]
+## * *object*: Global ID of the object with the animation[br]
+## * *name*: Name of the animation to play[br]
+## * *reverse*: Plays the animation in reverse when true
+##
 ## @ESC
 extends ESCBaseCommand
 class_name AnimCommand

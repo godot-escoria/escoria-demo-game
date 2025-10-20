@@ -1,12 +1,12 @@
-## `dec_global name value`[br]
-## [br]
-## Subtracts the given value from the specified global.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - *name*: Name of the global to be changed.[br]
-## - *value*: Value to be subtracted (default: 1).[br]
-## [br]
+## `dec_global(name: String, value: Integer)`
+##
+## Subtract the given value from the specified global.[br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *name*: Name of the global to be changed[br]
+## - *value*: Value to be subtracted (default: 1)
+##
 ## @ESC
 extends ESCBaseCommand
 class_name DecGlobalCommand

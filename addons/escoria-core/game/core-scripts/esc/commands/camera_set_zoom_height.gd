@@ -1,15 +1,15 @@
-## `camera_set_zoom_height pixels [time]`[br]
-## [br]
+## `camera_set_zoom_height(pixels: Integer[, time: Number])`
+##
 ## Zooms the camera in/out so it occupies the given height in pixels.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - *pixels*: Target height in pixels.[br]
-## - *time*: Number of seconds the transition should take, with a value of 0
-##   meaning the zoom should happen instantly (default: 0).[br]
-## [br]
-## For more details see: https://docs.escoria-framework.org/camera [br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
+## - *pixels*: Target height in pixels[br]
+## - *time*: Number of seconds the transition should take, with a value of `0`
+##   meaning the zoom should happen instantly (default: `0`)[br]
+##[br]
+## For more details see: https://docs.escoria-framework.org/camera
+##
 ## @ESC
 extends ESCBaseCommand
 class_name CameraSetZoomHeightCommand

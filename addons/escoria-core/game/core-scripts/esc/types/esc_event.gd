@@ -53,10 +53,9 @@ var original_name: String
 ## Flags set for this event.
 var flags: int = 0
 
+
 ## Returns a Dictionary containing statements data for serialization, typically 
 ## used as part of the savegame process.
-## [br]
-## *Returns* A dictionary representing the event.
 func exported() -> Dictionary:
 	var exported_dict: Dictionary = super.exported()
 	exported_dict.class = "ESCEvent"
@@ -98,9 +97,8 @@ static func get_flags_from_list(event_flags: Array[String]) -> int:
 				computed_flags |= FLAGS.NO_SAVE
 	return computed_flags
 
-## Executes this statement and returns its return code.[br]
-## [br]
-## *Returns* The execution result code.
+
+## Executes this statement and returns a return code.
 func run() -> int:
 	reset_interrupt()
 	escoria.logger.debug(
@@ -111,8 +109,7 @@ func run() -> int:
 		bypass_conditions = true
 	return await super()
 
-## Gets the event name.[br]
-## [br]
-## *Returns* The event name as a string.
+
+## Returns the event's name.
 func get_event_name() -> String:
 	return name

@@ -1,16 +1,16 @@
-## `slide object target [speed]`[br]
-## [br]
+## `slide(object: String, target: String[, speed: Integer])`
+##
 ## Moves `object` towards the position of `target`. This command is
 ## non-blocking.[br]
-## [br]
+##[br]
 ## - *object*: Global ID of the object to move[br]
 ## - *target*: Global ID of the target object[br]
 ## - *speed*: The speed at which to slide in pixels per second (will default to
 ##   the speed configured on the `object`)[br]
-## [br]
+##[br]
 ## **Warning** This command does not respect the room's navigation polygons, so
-## `object` can be moved even when outside walkable areas.[br]
-## [br]
+## `object` can be moved even when outside walkable areas.
+##
 ## @ESC
 extends ESCBaseCommand
 class_name SlideCommand

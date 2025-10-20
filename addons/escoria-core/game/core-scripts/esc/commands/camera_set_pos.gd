@@ -1,15 +1,15 @@
-## `camera_set_pos(time: Number, x: Integer, y: Integer)`[br]
-## [br]
+## `camera_set_pos(time: Number, x: Integer, y: Integer)`
+##
 ## Moves the camera to the given absolute position over a time period.[br]
-## [br]
-## #### Parameters[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
 ## - *time*: Number of seconds the transition should take[br]
 ## - *x*: Target X coordinate[br]
 ## - "y*: Target Y coordinate[br]
-## [br]
-## For more details see: https://docs.escoria-framework.org/camera [br]
-## [br]
+##[br]
+## For more details see: https://docs.escoria-framework.org/camera
+##
 ## @ESC
 extends ESCCameraBaseCommand
 class_name CameraSetPosCommand

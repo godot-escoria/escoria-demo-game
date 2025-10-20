@@ -1,16 +1,18 @@
 @tool
-## The escoria main script.[br]
 extends Node
 class_name Escoria
 ## The main Escoria script.
 
-## Signal sent when pause menu has to be displayed.
+
+## Signal sent when pause menu has to be displayed
 signal request_pause_menu
 
-## Name of the Escoria core plugin.
+
+## Name of the Escoria core plugin
 const ESCORIA_CORE_PLUGIN_NAME: String = "escoria-core"
 
-## The main scene.
+
+## The main scene
 @onready var main = $main
 
 
@@ -56,7 +58,7 @@ func _init():
 		).instantiate()
 
 
-## Load settings and initialize the game scene.
+# Ready method. Loads settings and Escoria's start script (ESC or ASH).
 func _ready():
 	add_child(escoria.resource_cache)
 
@@ -113,11 +115,10 @@ func _perform_plugins_checks():
 		)
 
 
-## Manage notifications received from OS.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - what: The notification constant received (usually defined in MainLoop).
+# Manage notifications received from OS.
+#
+# #### Parameters
+# - what: the notification constant received (usually defined in MainLoop)
 func _notification(what: int):
 	match what:
 		NOTIFICATION_WM_CLOSE_REQUEST, NOTIFICATION_WM_GO_BACK_REQUEST:
@@ -126,9 +127,9 @@ func _notification(what: int):
 			get_tree().quit()
 
 
-## Called by Escoria's main_scene as very very first event EVER.[br]
-## Usually you'll want to show some logos animations before spawning the main[br]
-## menu in the escoria/main/game_start_script's :init event.
+## Initializer called by Escoria's main_scene as very very first event EVER.
+## Usually you'll want to show some logos animations before spawning the main
+## menu in the escoria/main/game_start_script 's `:init` event
 func init():
 	# Don't show the UI until we're ready in order to avoid a sometimes-noticeable
 	# blink. The UI will be "shown" later via a visibility update to the first room.
@@ -239,22 +240,24 @@ func new_game():
 		)
 	run_event_from_script(escoria.start_script, escoria.event_manager.EVENT_NEW_GAME)
 
+
 ## Function called to quit the game.
 func quit():
 	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 
-## Handle anything necessary if the game started a scene directly.
+
+# Handle anything necessary if the game started a scene directly.
 func _handle_direct_scene_run() -> void:
 	var current_scene: Node = get_tree().get_current_scene()
 	if escoria.is_direct_room_run and current_scene is ESCRoom:
 		escoria.object_manager.set_current_room(current_scene)
 
 
-## Used by game.gd to determine whether the game scene is ready to take inputs[br]
-## from the _input() function. To do so, the current_scene must be set, the game[br]
-## scene must be set, and the game scene must've been notified that the room[br]
+## Used by game.gd to determine whether the game scene is ready to take inputs
+## from the _input() function. To do so, the current_scene must be set, the game
+## scene must be set, and the game scene must've been notified that the room
 ## is ready.[br]
-## [br]
+##[br]
 ## *Returns* true if game scene is ready for inputs
 func is_ready_for_inputs() -> bool:
 	return main.current_scene and main.current_scene.game \
