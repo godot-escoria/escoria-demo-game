@@ -38,7 +38,7 @@ class_name ESCSaveSettings
 @export var speech_volume: float = ProjectSettings.get_setting(
 	"escoria/sound/speech_volume")
 	
-## Speech volume only.
+## Ambient volume only.
 @export var ambient_volume: float = ProjectSettings.get_setting(
 	"escoria/sound/ambient_volume")
 
