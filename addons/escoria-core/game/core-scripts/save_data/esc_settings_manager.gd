@@ -117,7 +117,7 @@ func save_settings_resource_to_project_settings(settings: ESCSaveSettings):
 	)
 	ESCProjectSettingsManager.set_setting(
 		ESCProjectSettingsManager.AMBIENT_VOLUME,
-		settings.speech_volume
+		settings.ambient_volume
 	)
 	ESCProjectSettingsManager.set_setting(
 		ESCProjectSettingsManager.FULLSCREEN,
