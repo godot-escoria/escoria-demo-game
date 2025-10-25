@@ -15,7 +15,7 @@ const SOUND = "_sound"
 ## Reserved speech player object.
 const SPEECH = "_speech"
 
-## Reserved speech player object.
+## Reserved ambient player object.
 const AMBIENT = "_ambient"
 
 ## Array of objects that are reserved and automatically created when Escoria starts up.
