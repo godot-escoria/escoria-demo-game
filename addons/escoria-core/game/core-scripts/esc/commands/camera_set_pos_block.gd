@@ -9,7 +9,7 @@
 ##[br]
 ## - *time*: Number of seconds the transition should take[br]
 ## - *x*: Target X coordinate[br]
-## - "y*: Target Y coordinate[br]
+## - *y*: Target Y coordinate[br]
 ##[br]
 ## For more details see: https://docs.escoria-framework.org/camera
 ##

@@ -247,7 +247,7 @@ func queue_event_from_esc(script_object: ESCScript, event: String,
 ## #### Parameters[br]
 ## * event: The event to run.[br]
 ## * force: (optional) Events won't normally queue during scene changes. This 
-## parameter overrides that beahviour.[br]
+## parameter overrides that behaviour.[br]
 ## * as_first: (optional) Put the event at the head of the queue.[br]
 func queue_event(event: ESCGrammarStmts.Event, force: bool = false, as_first = false) -> void:
 	if _changing_scene and not force:
@@ -413,7 +413,7 @@ func is_channel_free(name: String) -> bool:
 ## Gets the currently running event in a channel.[br]
 ##[br]
 ## #### Parameters[br]
-## - name: The ame of the channel.[br]
+## - name: The name of the channel.[br]
 ##[br]
 ## **Returns** the currently running event of type `ESCGrammarStmts.Event`, or 
 ## `null` if there is none.

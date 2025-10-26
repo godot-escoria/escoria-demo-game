@@ -1,4 +1,4 @@
-## `say(player: String, text: String[, type: String])`
+## `say(player: String, text: String[, key: String[, type: String]])`
 ##
 ## Displays the specified string as dialog spoken by the player. This command
 ## blocks further event execution until the dialog has finished being 'said'
@@ -10,9 +10,9 @@
 ## **Parameters**[br]
 ##[br]
 ## - *player*: Global ID of the `ESCPlayer` or `ESCItem` object that is active.
-##	You can specify `current_player` in order to refer to the currently active
-##	player, e.g. in cases where multiple players are playable such as in games
-##	like Maniac Mansion or Day of the Tentacle.[br]
+## You can specify `current_player` in order to refer to the currently active
+## player, e.g. in cases where multiple players are playable such as in games
+## like Maniac Mansion or Day of the Tentacle.[br]
 ## - *text*: Text to display.[br]
 ## - *key*: Translation key (default: nil)[br]
 ## - *type*: Dialog type to use. One of `floating` or `avatar`.

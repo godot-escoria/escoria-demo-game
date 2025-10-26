@@ -1,4 +1,4 @@
-## `inc_global(name: String, value: Integer)`
+## `inc_global(name: String, value: Float)`
 ##
 ## Adds the given value to the specified global.[br]
 ##[br]

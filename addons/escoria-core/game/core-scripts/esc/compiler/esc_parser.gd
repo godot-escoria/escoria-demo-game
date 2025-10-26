@@ -23,7 +23,7 @@ var _compiler
 ## #### Parameters ####[br]
 ## - *compiler*: a reference to the ASHES compiler; used primarily for error tracking[br]
 ## - *tokens*: an array of tokens produced by the ASHES scanner[br]
-## - *associated_global_id*: string containing the global ID of the associated object/room to be passed on to events
+## - *associated_object_global_id*: string containing the global ID of the associated object/room to be passed on to events
 func init(compiler, tokens: Array, associated_object_global_id: String) -> void:
 	_compiler = compiler
 	_tokens = tokens

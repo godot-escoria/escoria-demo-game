@@ -4,7 +4,7 @@
 ## the savegame name/title.[br]
 ##[br]
 ## Example:[br]
-## `save_game 1 "description of game saved`
+## `save_game 1 "description of save game"`
 ##
 ## @ESC
 extends ESCBaseCommand

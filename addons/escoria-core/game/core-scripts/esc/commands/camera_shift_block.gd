@@ -11,7 +11,7 @@
 ## - *x*: Shift by x pixels along the x-axis[br]
 ## - *y*: Shift by y pixels along the y-axis[br]
 ## - *time*: Number of seconds the transition should take, with a value of `0`
-##   meaning the zoom should happen instantly (default: `1`)[br]
+##   meaning the transition should happen instantly (default: `1`)[br]
 ## - *type*: Transition type to use (default: `QUAD`)[br]
 ##[br]
 ## Supported transitions include the names of the values used

@@ -18,19 +18,19 @@ func _init() -> void:
 
 
 ## Migrates the specified savegame from a specified version to another version
-## based on a directory of migration scripts.
-##
-## The migration manager searches for scripts from after the given version up
-## to the target version in this directory, loads them and applies the version.
-##
-## Each migration will return a modified version of the given savegame.
-##
-## #### Parameters
-## - savegame: 
-## - from: 
-## - to: 
-## - versions_directory: 
-##
+## based on a directory of migration scripts.[br]
+##[br]
+## The migration manager searches for scripts from after the given version up[br]
+## to the target version in this directory, loads them and applies the version.[br]
+##[br]
+## Each migration will return a modified version of the given savegame.[br]
+##[br]
+## #### Parameters[br]
+## - savegame: The `ESCSaveGame` object to migrate.[br]
+## - from: The source version string (e.g., "1.0.0").[br]
+## - to: The target version string (e.g., "1.1.0").[br]
+## - versions_directory: Directory path containing version migration scripts.[br]
+##[br]
 ## **Returns**
 ## The migrated savegame.
 func migrate(

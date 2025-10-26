@@ -7,7 +7,9 @@
 ## - *file*: Sound file to play[br]
 ## - *player*: Sound player to use. Can either be `_sound`, which is used to play non-
 ##   looping sound effects; `_music`, which plays looping music; or `_speech`, which
-##   plays non-looping voice files (default: `_sound`)
+##   plays non-looping voice files (default: `_sound`)[br]
+## - *start_position_seconds*: The position in seconds from which to start playing the 
+##   sound file (default: `0.0`)
 ##
 ## @ESC
 extends ESCBaseCommand

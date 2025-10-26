@@ -376,12 +376,12 @@ func _on_mouse_exited_item(item: ESCItem) -> void:
 		escoria.main.current_scene.game.element_focused(hotspot_focused)
 
 
-## Function called when the item is set interactive, to re-trigger an input on
+## Function called when the item is set to non-interactive, to re-trigger an input on
 ## underlying item.[br]
 ##[br]
 ## #### Parameters[br]
 ##[br]
-## - item: The ESCCItem that was set non-interactive
+## - item: The `ESCItem` that was set non-interactive
 func on_item_non_interactive(item: ESCItem) -> void:
 	var object: ESCObject = escoria.object_manager.get_object(item.global_id)
 	if object and not object.interactive:
