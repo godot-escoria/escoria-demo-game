@@ -105,13 +105,14 @@ func interrupt():
 	)
 
 
-# Gets the appropriate target position from the `ESCItem`, as used by the camera.
-#
-# ######## Parameters
-#
-# - target_global_id: The `global_id` of the `ESCItem` to check.
-#
-# **Returns** the item's position based on its camera node.
+## Gets the appropriate target position from the `ESCItem`, as used by the camera.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - target_global_id: The `global_id` of the `ESCItem` to check.[br]
+##[br]
+## **Returns** the item's position based on its camera node.
+func _get_target_pos(target_global_id: String) -> Vector2:
 func _get_target_pos(target_global_id: String) -> Vector2:
 	var target = escoria.object_manager.get_object(target_global_id).node as ESCItem
 	return target.get_camera_node().global_position
