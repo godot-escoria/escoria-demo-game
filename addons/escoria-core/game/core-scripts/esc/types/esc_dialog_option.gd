@@ -36,7 +36,8 @@ func get_translated_option() -> String:
 	return option
 
 
-## Check if conditions match. Currently, this method should always return `true`.
+## Returns whether this dialog option is valid. Note: this value isn't currently 
+## used as part of any meaningful validation checks.
 func is_valid() -> bool:
 	return _is_valid
 
