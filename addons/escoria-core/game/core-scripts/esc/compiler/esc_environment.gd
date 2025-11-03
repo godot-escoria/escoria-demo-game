@@ -117,13 +117,13 @@ func define(name: String, value) -> void:
 	_values[name] = value
 
 
-## Fetches the enclosing scope (environment) of the environment that is `distance` levels above this one, if it exists. levels above this one.[br]
+## Fetches the scope (environment) that is `distance` levels up the enclosing scope chain.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
 ## | Name | Type | Description | Required? |[br]
 ## |:-----|:-----|:------------|:----------|[br]
-## |distance|`int`|the number of levels above this one from which to fetch the associated environment; e.g. `distance == 2` is the enclosing scope's own enclosing scope; `distance == 0` is this scope's enclosing scope, etc.|yes|[br]
+## |distance|`int`|The number of levels up the scope chain to traverse. `distance == 0` returns this scope (self); `distance == 1` returns the immediate enclosing scope; `distance == 2` returns the enclosing scope's enclosing scope, etc.|yes|[br]
 ## [br]
 ## #### Returns[br]
 ## [br]
@@ -141,6 +141,19 @@ func ancestor(distance: int):
 ## [br]
 ## #### Parameters[br]
 ## [br]
+## Assigns the specified value to the script variable (if it exists) that is at most `distance` levels above this one.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |distance|`int`|the number of scope levels to traverse; e.g. `distance == 0` is this scope, `distance == 1` is the enclosing scope, `distance == 2` is the enclosing scope's enclosing scope, etc.|yes|[br]
+## |name|`ESCToken`|Token describing the variable name to modify at the requested scope depth.|yes|[br]
+## |value|`Variant`|the value to assign to the script variable|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing. (`void`)
 ## | Name | Type | Description | Required? |[br]
 ## |:-----|:-----|:------------|:----------|[br]
 ## |distance|`int`|the number of levels above this one from which to fetch the associated environment; e.g. `distance == 2` is the enclosing scope's own enclosing scope; `distance == 0` is this scope's enclosing scope, etc.|yes|[br]
@@ -159,13 +172,13 @@ func get_at(distance: int, name: String):
 ## [br]
 ## | Name | Type | Description | Required? |[br]
 ## |:-----|:-----|:------------|:----------|[br]
-## |distance|`int`|the number of levels above this one from which to fetch the associated environment; e.g. `distance == 2` is the enclosing scope's own enclosing scope; `distance == 0` is this scope's enclosing scope, etc.|yes|[br]
+## |distance|`int`|the number of scope levels to traverse; e.g. `distance == 0` is this scope, `distance == 1` is the enclosing scope, `distance == 2` is the enclosing scope's enclosing scope, etc.|yes|[br]
 ## |name|`ESCToken`|Token describing the variable name to modify at the requested scope depth.|yes|[br]
 ## |value|`Variant`|the value to assign to the script variable|yes|[br]
 ## [br]
 ## #### Returns[br]
 ## [br]
-## Returns nothing. (`void`)]
+## Returns nothing. (`void`)
 func assign_at(distance: int, name: ESCToken, value):
 	ancestor(distance).get_values()[name.get_lexeme()] = value
 
