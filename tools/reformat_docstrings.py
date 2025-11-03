@@ -802,7 +802,9 @@ def reformat_command_docstring(
             param_buffer["desc"] = append_extra_text(param_buffer.get("desc", ""), stripped)
             continue
         if in_param_section:
-            extra_lines.append(strip_trailing_br(stripped))
+            extra_entry = strip_trailing_br(stripped)
+            if extra_entry and extra_entry.strip().lower() != "none.":
+                extra_lines.append(extra_entry)
             continue
         desc_lines.append(strip_trailing_br(stripped))
 

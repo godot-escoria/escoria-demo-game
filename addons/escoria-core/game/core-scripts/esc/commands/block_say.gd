@@ -5,7 +5,7 @@
 ## #### Parameters[br]
 ## [br]
 ## None.
-##
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name BlockSayCommand

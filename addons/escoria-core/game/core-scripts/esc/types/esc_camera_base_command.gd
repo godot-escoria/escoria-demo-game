@@ -6,19 +6,6 @@
 ## [br]
 ## None.
 ## [br]
-## None.[br]
-## None.[br]
-## None.[br]
-## None.[br]
-## None.[br]
-## None.[br]
-## None.[br]
-## None.[br]
-## None.[br]
-## None.[br]
-## None.[br]
-## None.[br]
-## None.[br]
 extends ESCBaseCommand
 class_name ESCCameraBaseCommand
 
