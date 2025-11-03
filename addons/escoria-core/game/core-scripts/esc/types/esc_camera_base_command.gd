@@ -10,7 +10,7 @@ extends ESCBaseCommand
 class_name ESCCameraBaseCommand
 
 
-## Generaters a log entry when attempting to move the camera to an invalid position.[br]
+## Generates a log entry when attempting to move the camera to an invalid position.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
