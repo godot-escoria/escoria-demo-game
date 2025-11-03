@@ -11,3 +11,6 @@ bin
 # Disable accidental changes to the default bus layout. If a change to this
 # file is required, use git add --force 
 addons/escoria-core/default_bus_layout.tres
+
+# Auto-generated as part of documentation process
+docs/
