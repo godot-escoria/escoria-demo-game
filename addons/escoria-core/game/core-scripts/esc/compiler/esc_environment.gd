@@ -141,22 +141,9 @@ func ancestor(distance: int):
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## Assigns the specified value to the script variable (if it exists) that is at most `distance` levels above this one.[br]
-## [br]
-## #### Parameters[br]
-## [br]
 ## | Name | Type | Description | Required? |[br]
 ## |:-----|:-----|:------------|:----------|[br]
-## |distance|`int`|the number of scope levels to traverse; e.g. `distance == 0` is this scope, `distance == 1` is the enclosing scope, `distance == 2` is the enclosing scope's enclosing scope, etc.|yes|[br]
-## |name|`ESCToken`|Token describing the variable name to modify at the requested scope depth.|yes|[br]
-## |value|`Variant`|the value to assign to the script variable|yes|[br]
-## [br]
-## #### Returns[br]
-## [br]
-## Returns nothing. (`void`)
-## | Name | Type | Description | Required? |[br]
-## |:-----|:-----|:------------|:----------|[br]
-## |distance|`int`|the number of levels above this one from which to fetch the associated environment; e.g. `distance == 2` is the enclosing scope's own enclosing scope; `distance == 0` is this scope's enclosing scope, etc.|yes|[br]
+## |distance|`int`|The number of scope levels to traverse; e.g. `distance == 0` is this scope, `distance == 1` is the enclosing scope, `distance == 2` is the enclosing scope's enclosing scope, etc.|yes|[br]
 ## |name|`String`|Variable name to resolve at the requested scope depth.|yes|[br]
 ## [br]
 ## #### Returns[br]
@@ -192,7 +179,7 @@ func _to_string():
 	return result
 
 
-## The closing scope (environment) for this scope.[br]
+## The enclosing scope (environment) for this scope.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
