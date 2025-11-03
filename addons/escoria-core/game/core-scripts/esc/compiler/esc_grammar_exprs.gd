@@ -167,7 +167,7 @@ class Binary extends ESCGrammarExpr:
 	## [br]
 	## #### Returns[br]
 	## [br]
-	## Returns nothing.
+  ## Returns the result of visiting this binary expression. (`Variant`)
 	func accept(visitor):
 		return visitor.visit_binary_expr(self)
 
@@ -234,7 +234,7 @@ class Unary extends ESCGrammarExpr:
 	## [br]
 	## #### Returns[br]
 	## [br]
-	## Returns nothing.
+  ## Returns the result of visiting this unary expression. (`Variant`)
 	func accept(visitor):
 		return visitor.visit_unary_expr(self)
 
@@ -374,7 +374,7 @@ class Call extends ESCGrammarExpr:
 	## [br]
 	## #### Returns[br]
 	## [br]
-	## Returns nothing.
+  ## Returns the result of visiting this call expression. (`Variant`)
 	func accept(visitor):
 		return await visitor.visit_call_expr(self)
 
@@ -423,7 +423,7 @@ class Literal extends ESCGrammarExpr:
 	## [br]
 	## #### Returns[br]
 	## [br]
-	## Returns nothing.
+  ## Returns the result of visiting this literal expression. (`Variant`)
 	func accept(visitor):
 		return await visitor.visit_literal_expr(self)
 
@@ -457,7 +457,7 @@ class Variable extends ESCGrammarExpr:
 	## [br]
 	## #### Returns[br]
 	## [br]
-	## Returns nothing.
+  ## Returns the result of visiting this variable expression. (`Variant`)
 	func accept(visitor):
 		return await visitor.visit_variable_expr(self)
 
@@ -537,7 +537,7 @@ class Assign extends ESCGrammarExpr:
 	## [br]
 	## #### Returns[br]
 	## [br]
-	## Returns nothing.
+  ## Returns the result of visiting this assignment expression. (`Variant`)
 	func accept(visitor):
 		return await visitor.visit_assign_expr(self)
 
@@ -587,7 +587,7 @@ class Grouping extends ESCGrammarExpr:
 	## [br]
 	## #### Returns[br]
 	## [br]
-	## Returns nothing.
+  ## Returns the result of visiting this grouping expression. (`Variant`)
 	func accept(visitor):
 		return await visitor.visit_grouping_expr(self)
 
@@ -636,7 +636,7 @@ class InInventory extends ESCGrammarExpr:
 	## [br]
 	## #### Returns[br]
 	## [br]
-	## Returns nothing.
+  ## Returns the result of visiting this inventory check expression. (`Variant`)
 	func accept(visitor):
 		return await visitor.visit_in_inventory_expr(self)
 
@@ -719,6 +719,6 @@ class Is extends ESCGrammarExpr:
 	## [br]
 	## #### Returns[br]
 	## [br]
-	## Returns nothing.
+  ## Returns the result of visiting this state check expression. (`Variant`)
 	func accept(visitor):
 		return await visitor.visit_is_expr(self)

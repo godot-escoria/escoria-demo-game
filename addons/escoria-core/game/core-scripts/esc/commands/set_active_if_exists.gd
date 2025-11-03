@@ -7,7 +7,7 @@
 ## | Name | Type | Description | Required? |[br]
 ## |:-----|:-----|:------------|:----------|[br]
 ## |object|`String`|Global ID of the object whose active state should change if it is registered.|yes|[br]
-## |active|`Boolean`|Whether the object should be marked as active (`true`) or inactive (`false`). object* Global ID of the object active* Whether `object` should be active. `active` can be `true` or `false`.|yes|[br]
+## |active|`Boolean`|Whether the object should be marked as active (`true`) or inactive (`false`).|yes|[br]
 ## [br]
 ## @ESC
 extends ESCBaseCommand

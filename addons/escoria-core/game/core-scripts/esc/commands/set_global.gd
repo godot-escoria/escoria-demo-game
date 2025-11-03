@@ -7,7 +7,7 @@
 ## | Name | Type | Description | Required? |[br]
 ## |:-----|:-----|:------------|:----------|[br]
 ## |name|`String`|Name of the global variable to set.|yes|[br]
-## |value|`String` or `Integer` or `Boolean`|Value to set the global to (can be of type string, boolean, integer or float)|yes|[br]
+## |value|`String` or `Integer` or `Boolean`|Value to set the global to (can be of type string, boolean, integer.)|yes|[br]
 ## |force|`Boolean`|if false, setting a global whose name is reserved will trigger an error. Defaults to false. Reserved globals are: ESC_LAST_SCENE, FORCE_LAST_SCENE_NULL, ANIMATION_RESOURCES, ESC_CURRENT_SCENE|no|[br]
 ## [br]
 ## @ESC

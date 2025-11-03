@@ -107,7 +107,7 @@ func _process(delta: float) -> void:
 ## [br]
 ## #### Returns[br]
 ## [br]
-## Returns nothing.
+## Returns the new position as `Vector2`, or `null` if the movement calculation cannot proceed.
 func _calculate_movement(delta: float):
 	# Initialize the current pos and previous pos variables
 	var pos: Vector2 = parent.get_position()

@@ -111,11 +111,11 @@ func register_reserved_global(key: String, value = null) -> void:
 ## [br]
 ## | Name | Type | Description | Required? |[br]
 ## |:-----|:-----|:------------|:----------|[br]
-## |key|`String`|The key of the global to return the value.#|yes|[br]
+## |key|`String`|The key of the global to return the value.|yes|[br]
 ## [br]
 ## #### Returns[br]
 ## [br]
-## Returns nothing.
+## Returns a `Variant` value representing the global's value, or `null` if not found. (`Variant`)
 func get_global(key: String):
 	if _globals.has(key):
 		return _globals[key]
@@ -182,7 +182,7 @@ func set_global(key: String, value, ignore_reserved: bool = false) -> void:
 ## [br]
 ## Returns nothing.
 func set_global_wildcard(pattern: String, value) -> void:
-	for global_key in _globals.keys:
+	for global_key in _globals.keys():
 		if global_key.match(pattern):
 			self.set_global(global_key, value)
 

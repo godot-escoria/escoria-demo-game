@@ -151,12 +151,12 @@ func interrupt():
 ## [br]
 ## | Name | Type | Description | Required? |[br]
 ## |:-----|:-----|:------------|:----------|[br]
-## |tween|`Tween`|The tween that completed.|yes|[br]
+## |tween|`Tween3`|The tween that completed.|yes|[br]
 ## |_key|`NodePath`|The key of the tween in the `_tweens` dictionary (not used here).|yes|[br]
 ## [br]
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func _on_tween_completed(tween: Tween, _key: NodePath):
+func _on_tween_completed(tween: Tween3, _key: NodePath):
 	if tween:
 		tween.queue_free()

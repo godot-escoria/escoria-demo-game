@@ -7,7 +7,7 @@
 ## | Name | Type | Description | Required? |[br]
 ## |:-----|:-----|:------------|:----------|[br]
 ## |item|`String`|Global ID of the item whose `custom_data` should be updated.|yes|[br]
-## |custom_data|`Dictionary`|Dictionary assigned to the item's `custom_data` property (an empty dictionary is used when `null`). item* Global ID of the item custom_data* Dictionary with custom data. If null empty dictionary will be assigned.|yes|[br]
+## |custom_data|`Dictionary`|Dictionary assigned to the item's `custom_data` property (an empty dictionary is used when `null`).|yes|[br]
 ## [br]
 ## @ESC
 extends ESCBaseCommand

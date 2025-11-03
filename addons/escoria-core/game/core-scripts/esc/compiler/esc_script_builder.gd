@@ -19,7 +19,7 @@ var _indent_level: int = 0
 ## [br]
 ## #### Returns[br]
 ## [br]
-## Returns the script as it currently exists. No building is actually performed and therefore no error checking of any kind is performed. (`Variant`)
+## Returns the script as it currently exists. No building is actually performed and therefore no error checking of any kind is performed. (`String`)
 func build():
 	return _script
 
@@ -56,7 +56,7 @@ func add_event(name: String, flags: Array):
 ## [br]
 ## #### Returns[br]
 ## [br]
-## Returns nothing.
+## Returns `self` for method chaining. (`ESCScriptBuilder`)
 func begin_block():
 	_indent_level += 1
 
@@ -71,7 +71,7 @@ func begin_block():
 ## [br]
 ## #### Returns[br]
 ## [br]
-## Returns nothing.
+## Returns `self` for method chaining. (`ESCScriptBuilder`)
 func end_block():
 	_indent_level -= 1
 

@@ -45,7 +45,7 @@ func cleanup() -> void:
 ## [br]
 ## #### Returns[br]
 ## [br]
-## Returns nothing.
+## Returns `true` if the variable exists in this scope or an enclosing scope, otherwise `false`. (`bool`)
 func is_valid_key(name: ESCToken):
 	if _values.has(name.get_lexeme()):
 		return true
@@ -66,7 +66,7 @@ func is_valid_key(name: ESCToken):
 ## [br]
 ## #### Returns[br]
 ## [br]
-## Returns nothing.
+## Returns the value associated with the variable name, or produces an error if undefined. (`Variant`)
 func get_value(name: ESCToken):
 	if _values.has(name.get_lexeme()):
 		return _values.get(name.get_lexeme())
@@ -77,7 +77,7 @@ func get_value(name: ESCToken):
 	return _error(name, "Undefined variable '%s'." % name.get_lexeme())
 
 
-## Assigns a value to the specified key (i.e. the scipt variable) from this scope or an enclosing one.[br]
+## Assigns a value to the specified key (i.e. the script variable) from this scope or an enclosing one.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
@@ -88,7 +88,7 @@ func get_value(name: ESCToken):
 ## [br]
 ## #### Returns[br]
 ## [br]
-## Returns nothing.
+## Returns nothing on success, or produces an error if the variable is undefined in all scopes.
 func assign(name: ESCToken, value):
 	if _values.has(name.get_lexeme()):
 		_values[name.get_lexeme()] = value
@@ -127,7 +127,7 @@ func define(name: String, value) -> void:
 ## [br]
 ## #### Returns[br]
 ## [br]
-## Returns nothing.
+## Returns the environment (scope) at the specified distance up the enclosing scope chain. (`ESCEnvironment`)
 func ancestor(distance: int):
 	var env = self
 
@@ -148,7 +148,7 @@ func ancestor(distance: int):
 ## [br]
 ## #### Returns[br]
 ## [br]
-## Returns nothing.
+## Returns the value of the variable at the specified scope distance. (`Variant`)
 func get_at(distance: int, name: String):
 	return ancestor(distance).get_values().get(name)
 
@@ -165,7 +165,7 @@ func get_at(distance: int, name: String):
 ## [br]
 ## #### Returns[br]
 ## [br]
-## Returns nothing.
+## Returns the result of visiting this logical expression. (`Variant`)
 func assign_at(distance: int, name: ESCToken, value):
 	ancestor(distance).get_values()[name.get_lexeme()] = value
 
@@ -187,7 +187,7 @@ func _to_string():
 ## [br]
 ## #### Returns[br]
 ## [br]
-## Returns the closing scope (environment) for this scope. (`Variant`)
+## Returns the enclosing scope (environment) for this scope. (`Variant`)
 func get_enclosing():
 	return _enclosing
 

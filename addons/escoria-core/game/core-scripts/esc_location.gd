@@ -9,13 +9,13 @@ extends Marker2D
 class_name ESCLocation
 
 
-## Escoria Plugin signal emitted to the ESCRoom when a start location is set in the ESCLocation node in order to check whether multiple start locations are set.[br]
+## Escoria Plugin signal emitted to the `ESCRoom` when a start location is set in the `ESCLocation` node in order to check whether multiple start locations are set.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
 ## | Name | Type | Description | Required? |[br]
 ## |:-----|:-----|:------------|:----------|[br]
-## |node_to_ignore|`Variant`|`ESCLocation` that should be ignored while validating start locations.|yes|[br]
+## |node_to_ignore|`ESCLocation`| `ESCLocation` that should be ignored while validating start locations. Defaults to `null`.|no|[br]
 ## [br]
 signal editor_is_start_location_set(node_to_ignore: ESCLocation)
 

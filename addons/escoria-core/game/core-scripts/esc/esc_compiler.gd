@@ -102,7 +102,7 @@ static func load_globals() -> Dictionary:
 ## [br]
 ## #### Returns[br]
 ## [br]
-## Returns nothing.
+## Returns an `ESCScript` object representing the compiled script.
 func _compiler_shim(source: String, filename: String = "", associated_global_id: String = ""):
 	var scanner: ESCScanner = ESCScanner.new()
 	scanner.set_source(source)
@@ -147,7 +147,7 @@ func _compiler_shim(source: String, filename: String = "", associated_global_id:
 	return script
 
 
-## Load an ESC file from a file resource. We also accept an optional global ID of whatever object is associated with the ESC file. Note that we don't need to do the same for a room-attached script since the current room's global_id is always available as an Escoria global. `path`.[br]
+## Load an ESC file from a file resource. We also accept an optional global ID of whatever object is associated with the ESC file. Note that we don't need to do the same for a room-attached script since the current room's global_id is always available as an Escoria global.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]

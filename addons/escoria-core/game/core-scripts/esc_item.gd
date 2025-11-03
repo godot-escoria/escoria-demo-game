@@ -26,7 +26,6 @@ const FORBIDDEN_CHARACTERS: String = "['\"]"
 ## | Name | Type | Description | Required? |[br]
 ## |:-----|:-----|:------------|:----------|[br]
 ## |item|`Variant`|Item that emitted the signal.|yes|[br]
-## |items|`Variant`|The inventory item node|yes|[br]
 ## [br]
 signal mouse_entered_item(item)
 
@@ -37,11 +36,10 @@ signal mouse_entered_item(item)
 ## | Name | Type | Description | Required? |[br]
 ## |:-----|:-----|:------------|:----------|[br]
 ## |item|`Variant`|Item that emitted the signal.|yes|[br]
-## |items|`Variant`|The inventory item node|yes|[br]
 ## [br]
 signal mouse_exited_item(item)
 
-## Emitted when the item was left cliced[br]
+## Emitted when the item was left clicked[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
@@ -51,7 +49,7 @@ signal mouse_exited_item(item)
 ## [br]
 signal mouse_left_clicked_item(global_id)
 
-## Emitted when the item was double cliced[br]
+## Emitted when the item was double clicked[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
@@ -61,7 +59,7 @@ signal mouse_left_clicked_item(global_id)
 ## [br]
 signal mouse_double_left_clicked_item(global_id)
 
-## Emitted when the item was right cliced[br]
+## Emitted when the item was right clicked[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
@@ -921,7 +919,7 @@ func has_moved() -> bool:
 	return _movable.moved if is_movable else false
 
 
-## Checks whether this item mhas a sprite.[br]
+## Checks whether this item has a sprite.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
