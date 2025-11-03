@@ -35,9 +35,15 @@ const SUPPORTED_TRANSITIONS = ["LINEAR","SINE","QUINT","QUART","QUAD" ,"EXPO","E
 var _camera_tween: Tween3
 
 
-## Returns the descriptor of the arguments of this command.[br]
+## The descriptor of the arguments of this command.[br]
 ## [br]
-## *Returns* The argument descriptor for this command.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the descriptor of the arguments of this command. The argument descriptor for this command. (`ESCCommandArgumentDescriptor`)
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
@@ -55,9 +61,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - command_params: The parameters for the command.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |command_params|`Array`|The parameters for the command.|yes|[br]
 ## [br]
-## *Returns* The execution result code.
+## #### Returns[br]
+## [br]
+## Returns the execution result code. (`int`)
 func run(command_params: Array) -> int:
 	(escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera)\
 		.shift(
@@ -82,9 +92,13 @@ func run(command_params: Array) -> int:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - arguments: The arguments to validate.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |arguments|`Array`|The arguments to validate.|yes|[br]
 ## [br]
-## *Returns* True if the arguments are valid, false otherwise.
+## #### Returns[br]
+## [br]
+## Returns True if the arguments are valid, false otherwise. (`bool`)
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -114,7 +128,15 @@ func validate(arguments: Array):
 	return true
 
 
-## Function called when the command is interrupted.
+## Function called when the command is interrupted.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func interrupt():
 	escoria.logger.debug(
 		self,

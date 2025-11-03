@@ -51,8 +51,15 @@ var is_mirrored: bool
 @onready var task = MovableTask.NONE
 
 
-## Ready function. Adds the signal "arrived" to the parent node, which is
-## emitted when the destination position was reached.
+## Ready function. Adds the signal "arrived" to the parent node, which is emitted when the destination position was reached.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _ready() -> void:
 	if not parent.has_user_signal("arrived"):
 		parent.add_user_signal("arrived")
@@ -62,7 +69,13 @@ func _ready() -> void:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - delta: Time that has passed since the last call to this function
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |delta|`float`|Time that has passed since the last call to this function|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
@@ -87,10 +100,14 @@ func _process(delta: float) -> void:
 ## Calculates the next position of the object.[br]
 ## [br]
 ## #### Parameters[br]
-##
-## - delta: the time elapsed from last frame[br]
 ## [br]
-## **Returns** The new Vector2 position of the object, or null if stop walking.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |delta|`float`|the time elapsed from last frame|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _calculate_movement(delta: float):
 	# Initialize the current pos and previous pos variables
 	var pos: Vector2 = parent.get_position()
@@ -135,12 +152,17 @@ func _calculate_movement(delta: float):
 	parent.set_position(pos)
 	return pos
 
-## Calculates the orientation of the object while walking, to play the right
-## animation according to this orientation.[br]
+## Calculates the orientation of the object while walking, to play the right animation according to this orientation.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - angle: the angle X axis and object's facing direction.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |angle|`float`|the angle X axis and object's facing direction.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _perform_walk_orientation(angle: float):
 	last_angle = angle
 	last_dir = _get_dir_deg(ESCUtils.get_deg_from_rad(angle),
@@ -172,7 +194,13 @@ func _perform_walk_orientation(angle: float):
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - target: ESCLocation or ESCItem to teleport to
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |target|`Node`|ESCLocation or ESCItem to teleport to|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func teleport(target: Node) -> void:
 	if target.has_method("get_interact_position"):
 		parent.global_position = target.get_interact_position()
@@ -199,7 +227,13 @@ func teleport(target: Node) -> void:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - target: Vector2 target position to teleport to
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |target|`Vector2`|Vector2 target position to teleport to|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func teleport_to(target: Vector2) -> void:
 	escoria.logger.info(
 		self,
@@ -213,8 +247,14 @@ func teleport_to(target: Vector2) -> void:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - pos: Position to walk to[br]
-## - p_walk_context: Walk context to use
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |pos|`Vector2`|Position to walk to|yes|[br]
+## |p_walk_context|`ESCWalkContext`|Walk context to use|no|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 	if not parent.terrain:
 		walk_stop(parent.get_global_position())
@@ -249,7 +289,13 @@ func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - pos: Final target position
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |pos|`Vector2`|Final target position|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func walk_stop(pos: Vector2) -> void:
 	parent.global_position = pos
 	walk_path = []
@@ -311,7 +357,13 @@ func walk_stop(pos: Vector2) -> void:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - on_event_finished_name: Used if this function is called from an ESC event
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |on_event_finished_name|`Variant`|Used if this function is called from an ESC event|no|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func update_terrain(on_event_finished_name = null) -> void:
 	if !parent.terrain or parent.terrain == null \
 			or !is_instance_valid(parent.terrain):
@@ -363,8 +415,14 @@ func update_terrain(on_event_finished_name = null) -> void:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - deg: Degrees[br]
-## - animations: Player animations script
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |deg|`int`|Degrees|yes|[br]
+## |animations|`ESCAnimationResource`|Player animations script|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `int` value. (`int`)
 func _get_dir_deg(deg: int, animations: ESCAnimationResource) -> int:
 	# We turn the angle by -90° because angle_to_point gives the angle
 	# against X axis, not Y
@@ -391,15 +449,18 @@ func _get_dir_deg(deg: int, animations: ESCAnimationResource) -> int:
 	return dir
 
 
-## Returns true if given angle is inside the interval given by a starting_angle
-## and the size.[br]
+## True if given angle is inside the interval given by a starting_angle and the size.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - angle: Angle to test[br]
-## - direction_angle: ESCDirectionAngle resource, containing the starting angle,
-##  and the size of interval eg: angle_start=90, angle_size=40 corresponds to 
-##  angle between 90° and 130°
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |angle|`float`|Angle to test|yes|[br]
+## |direction_angle|`ESCDirectionAngle`|ESCDirectionAngle resource, containing the starting angle, and the size of interval eg: angle_start=90, angle_size=40 corresponds to angle between 90° and 130°|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns true if given angle is inside the interval given by a starting_angle and the size. (`bool`)
 func _is_angle_in_interval(
 		angle: float,
 		direction_angle: ESCDirectionAngle
@@ -413,12 +474,18 @@ func _is_angle_in_interval(
 	return (start_angle <= angle and angle <= end_angle)
 
 
-## Sets character's angle and plays according animation.[br]
+## Sets the character's facing angle and plays the corresponding idle animation.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - deg int angle to set the character[br]
-## - wait float Wait this amount of seconds until continuing with turning around
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |deg|`int`|Absolute angle in degrees (0-360) the character should face.|yes|[br]
+## |wait|`float`|Optional delay in seconds before the script continues after turning.|no|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func set_angle(deg: int, wait: float = 0.0) -> void:
 	if deg < 0 or deg > 360:
 		escoria.logger.error(
@@ -430,13 +497,18 @@ func set_angle(deg: int, wait: float = 0.0) -> void:
 	set_direction(target_dir, wait)
 
 
-## Sets character's direction (instead of angle, see set_angle()
-## and plays according animation.[br]
+## Sets character's direction (instead of angle, see set_angle() and plays according animation.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - target_dir: int direction to set the character[br]
-## - wait: float Wait this amount of seconds until continuing with turning around
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |target_dir|`int`|int direction to set the character|yes|[br]
+## |wait|`float`|float Wait this amount of seconds until continuing with turning around|no|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func set_direction(target_dir: int, wait: float = 0.0) -> void:
 	if target_dir < 0 or target_dir >= parent.animations.dir_angles.size():
 		escoria.logger.warn(
@@ -477,12 +549,18 @@ func set_direction(target_dir: int, wait: float = 0.0) -> void:
 	update_terrain()
 
 
-## Turns the character to face another item or character.[br]
+## Rotates the character so it faces the supplied node and plays the matching animation.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - item_id id of the object to face.[br]
-## - float Wait this amount of seconds until continuing with turning around
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |item|`Node`|Target node whose position the character should face.|yes|[br]
+## |wait|`float`|Optional delay in seconds before the script continues after turning.|no|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func turn_to(item: Node, wait: float = 0.0) -> void:
 	set_angle(
 		wrapi(
@@ -494,25 +572,31 @@ func turn_to(item: Node, wait: float = 0.0) -> void:
 	)
 
 
-## Returns the angle that corresponds to the current direction of the object.[br]
-## **Returns** int value of the current animation's angle range  
+## The angle that corresponds to the current direction of the object.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the angle that corresponds to the current direction of the object. (`int`)
 func _get_angle() -> int:
 	return parent.animations.dir_angles[last_dir].angle_start
 
 
-## Return the shortest way to turn from a direction to another. Returned way is
-## either:[br]
-## -1 (shortest way is to turn anti-clockwise)[br]
-## 0 (already at the right direction)[br]
-## 1 (clockwise).[br]
+## Return the shortest way to turn from a direction to another. Returned way is either: -1 (shortest way is to turn anti-clockwise) 0 (already at the right direction) 1 (clockwise).[br]
 ## [br]
 ## #### Parameters[br]
-## - current_dir: integer corresponding to the starting direction as defined in
-## the attached ESCAnimationResource.directions.[br]
-## - target_dir: integer corresponding to the target direction as defined in
-## the attached ESCAnimationResource.directions.[br]
 ## [br]
-## **Returns** Integer: -1 (anti-clockwise), 1 (clockwise) or 0 (no movement needed).
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |current_dir|`int`|integer corresponding to the starting direction as defined in the attached ESCAnimationResource.directions.|yes|[br]
+## |target_dir|`int`|integer corresponding to the target direction as defined in the attached ESCAnimationResource.directions.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `int` value. (`int`)
 func get_shortest_way_to_dir(current_dir: int, target_dir: int) -> int:
 	if current_dir < 0 or current_dir > parent.animations.dir_angles.size() - 1:
 		escoria.logger.error(

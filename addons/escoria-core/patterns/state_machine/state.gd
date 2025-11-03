@@ -6,16 +6,39 @@ class_name State
 ## arguments to the methods below and makes sure every State object had all of 
 ## these methods.
 
-## Signal sent when the state just changed. Parameter is the new state value.
+## Signal sent when the state just changed. Parameter is the new state value.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |next_state_name|`Variant`|Name of the state that should become active after this state finishes.|yes|[br]
+## [br]
 signal finished(next_state_name)
 
 
-## Initialize the state. E.g. change the animation
+## Initialize the state. E.g. change the animation[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func enter():
 	return
 
 
-## Clean up the state. Reinitialize values like a timer.
+## Clean up the state. Reinitialize values like a timer.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func exit():
 	return
 
@@ -23,7 +46,14 @@ func exit():
 ## Manage an input event while this state is active.[br]
 ## [br]
 ## #### Parameters[br]
-## - _event: InputEvent to process
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |_event|`InputEvent`|InputEvent to process|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func handle_input(_event: InputEvent):
 	return
 
@@ -31,7 +61,14 @@ func handle_input(_event: InputEvent):
 ## Perform an update while this state is active.[br]
 ## [br]
 ## #### Parameters[br]
-## - _delta: float value obtained from a _process() call
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |_delta|`float`|float value obtained from a _process() call|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func update(_delta: float):
 	return
 

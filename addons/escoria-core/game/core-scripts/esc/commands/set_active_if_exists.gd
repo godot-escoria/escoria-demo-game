@@ -1,24 +1,28 @@
 ## *** FOR INTERNAL USE ONLY *** `set_active_if_exists(object: String, active: Boolean)`
 ##
-## Changes the "active" state of the object in the current room if it currently
-## exists in the object manager. If it doesn't, then, unlike set_active, we don't
-## fail and we just carry on.[br]
-##[br]
-## Inactive objects are invisible in the room.[br]
-##[br]
-## **Parameters**[br]
-##[br]
-## - *object* Global ID of the object[br]
-## - *active* Whether `object` should be active. `active` can be `true` or `false`.
-##
+## Changes the "active" state of the object in the current room if it currently exists in the object manager. If it doesn't, then, unlike set_active, we don't fail and we just carry on. Inactive objects are invisible in the room.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |object|`String`|Global ID of the object whose active state should change if it is registered.|yes|[br]
+## |active|`Boolean`|Whether the object should be marked as active (`true`) or inactive (`false`). object* Global ID of the object active* Whether `object` should be active. `active` can be `true` or `false`.|yes|[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name SetActiveIfExistsCommand
 
 
-## Returns the descriptor of the arguments of this command.[br]
+## The descriptor of the arguments of this command.[br]
 ## [br]
-## *Returns* The argument descriptor for this command.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the descriptor of the arguments of this command. The argument descriptor for this command. (`ESCCommandArgumentDescriptor`)
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
@@ -31,9 +35,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - command_params: The parameters for the command.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |command_params|`Array`|The parameters for the command.|yes|[br]
 ## [br]
-## *Returns* The execution result code.
+## #### Returns[br]
+## [br]
+## Returns the execution result code. (`int`)
 func run(command_params: Array) -> int:
 	if escoria.object_manager.has(command_params[0]):
 		escoria.object_manager.get_object(command_params[0]).active = \
@@ -41,7 +49,15 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-## Function called when the command is interrupted.
+## Function called when the command is interrupted.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func interrupt():
 	# Do nothing
 	pass

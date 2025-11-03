@@ -108,12 +108,18 @@ const FULLSCREEN = DISPLAY + "/" + WINDOW + "/" + SIZE + "/" + "fullscreen"
 
 
 ## Register a new project setting if it hasn't been defined already[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
-## - name: Name of the project setting[br]
-## - default_value: Default value[br]
-## - info: Property info for the setting
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |name|`String`|Fully qualified Project Settings key to register.|yes|[br]
+## |default_value|`Variant`|Default value|yes|[br]
+## |info|`Dictionary`|Property info for the setting|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 static func register_setting(name: String, default_value, info: Dictionary) -> void:
 	if default_value == null:
 		push_error("Default_value cannot be null. Use remove_setting function to remove settings.")
@@ -133,10 +139,16 @@ static func register_setting(name: String, default_value, info: Dictionary) -> v
 
 
 ## Removes the specified project setting.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
-## - name: Name of the project setting
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |name|`String`|Fully qualified Project Settings key to remove.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 static func remove_setting(name: String) -> void:
 	if not ProjectSettings.has_setting(name):
 		push_error("Cannot remove project setting %s - it does not exist." % name)
@@ -148,12 +160,16 @@ static func remove_setting(name: String) -> void:
 
 
 ## Retrieves the specified project setting.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
-## - key: Project setting name.[br]
-##[br]
-## *Returns* the value of the project setting located with key.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |key|`String`|Project setting name.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the value of the project setting located with key. (`Variant`)
 static func get_setting(key: String):
 	if not ProjectSettings.has_setting(key):
 		push_error("Parameter %s is not set!" % key)
@@ -162,21 +178,31 @@ static func get_setting(key: String):
 
 
 ## Sets the specified project setting to the provided value.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
-## - key: Project setting name.[br]
-## - value: Project setting value.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |key|`String`|Project setting name.|yes|[br]
+## |value|`Variant`|Project setting value.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 static func set_setting(key: String, value) -> void:
 	ProjectSettings.set_setting(key, value)
 
 
 ## Simple wrapper for consistency's sake.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
-## - key: Project setting name.[br]
-##[br]
-## *Returns* true iff the project setting exists.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |key|`String`|Project setting name.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns true iff the project setting exists. (`bool`)
 static func has_setting(key: String) -> bool:
 	return ProjectSettings.has_setting(key)

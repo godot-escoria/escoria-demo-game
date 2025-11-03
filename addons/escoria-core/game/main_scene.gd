@@ -8,7 +8,15 @@ class_name ESCMain
 var escoria_node: Escoria
 
 
-## Instanciate Escoria scene
+## Instanciate Escoria scene[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _ready():
 	escoria.logger.info(self, "Escoria starts...")
 

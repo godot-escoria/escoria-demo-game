@@ -1,16 +1,14 @@
 ## `camera_set_zoom_height_block(pixels: Integer[, time: Number])`
 ##
-## Zooms the camera in/out so it occupies the given height in pixels.
-## Blocks until the command completes.[br]
-##[br]
-## **Parameters**[br]
-##[br]
-## - *pixels*: Target height in pixels (integer values only)[br]
-## - *time*: Number of seconds the transition should take, with a value of `0`
-##   meaning the zoom should happen instantly (default: `0`)[br]
-##[br]
-## For more details see: https://docs.escoria-framework.org/camera
-##
+## Zooms the camera in/out so it occupies the given height in pixels. Blocks until the command completes.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |pixels|`Integer`|Target height in pixels (integer values only)|yes|[br]
+## |time|`Number`|Number of seconds the transition should take, with a value of `0` meaning the zoom should happen instantly (default: `0`) For more details see: https://docs.escoria-framework.org/camera|no|[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name CameraSetZoomHeightBlockCommand
@@ -20,9 +18,15 @@ class_name CameraSetZoomHeightBlockCommand
 var _camera_tween: Tween3
 
 
-## Returns the descriptor of the arguments of this command.[br]
+## The descriptor of the arguments of this command.[br]
 ## [br]
-## *Returns* The argument descriptor for this command.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the descriptor of the arguments of this command. The argument descriptor for this command. (`ESCCommandArgumentDescriptor`)
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
@@ -35,9 +39,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - arguments: The arguments to validate.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |arguments|`Array`|The arguments to validate.|yes|[br]
 ## [br]
-## *Returns* True if the arguments are valid, false otherwise.
+## #### Returns[br]
+## [br]
+## Returns True if the arguments are valid, false otherwise. (`bool`)
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -56,9 +64,13 @@ func validate(arguments: Array):
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - command_params: The parameters for the command.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |command_params|`Array`|The parameters for the command.|yes|[br]
 ## [br]
-## *Returns* The execution result code.
+## #### Returns[br]
+## [br]
+## Returns the execution result code. (`int`)
 func run(command_params: Array) -> int:
 	(escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera)\
 		.set_camera_zoom(
@@ -75,7 +87,15 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-## Function called when the command is interrupted.
+## Function called when the command is interrupted.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func interrupt():
 	escoria.logger.debug(
 		self,

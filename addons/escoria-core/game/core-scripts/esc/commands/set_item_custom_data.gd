@@ -1,20 +1,28 @@
 ## *** FOR INTERNAL USE ONLY *** `set_item_custom_data(item: String, custom_data: Dictionary)`
 ##
 ## Sets the "custom_data" of the item if it currently exists in the object manager.[br]
-##[br]
-## **Parameters**[br]
-##[br]
-## - *item* Global ID of the item[br]
-## - *custom_data* Dictionary with custom data. If null empty dictionary will be assigned.
-##
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |item|`String`|Global ID of the item whose `custom_data` should be updated.|yes|[br]
+## |custom_data|`Dictionary`|Dictionary assigned to the item's `custom_data` property (an empty dictionary is used when `null`). item* Global ID of the item custom_data* Dictionary with custom data. If null empty dictionary will be assigned.|yes|[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name SetItemCustomDataCommand
 
 
-## Returns the descriptor of the arguments of this command.[br]
+## The descriptor of the arguments of this command.[br]
 ## [br]
-## *Returns* The argument descriptor for this command.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the descriptor of the arguments of this command. The argument descriptor for this command. (`ESCCommandArgumentDescriptor`)
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
@@ -27,9 +35,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - command_params: The parameters for the command.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |command_params|`Array`|The parameters for the command.|yes|[br]
 ## [br]
-## *Returns* The execution result code.
+## #### Returns[br]
+## [br]
+## Returns the execution result code. (`int`)
 func run(command_params: Array) -> int:
 	var global_id: String = command_params[0]
 	if escoria.object_manager.has(global_id):
@@ -39,7 +51,15 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-## Function called when the command is interrupted.
+## Function called when the command is interrupted.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func interrupt():
 	# Do nothing
 	pass

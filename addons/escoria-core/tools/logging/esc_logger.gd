@@ -1,9 +1,21 @@
 ## Base class of all logger types.
 class ESCLoggerBase:
-	## Signal sent when Escoria requires performing an emergency savegame.
+	## Signal sent when Escoria requires performing an emergency savegame.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
 	signal perform_emergency_savegame
 
-	## Signal sent when an error or warning happened.
+	## Signal sent when an error or warning happened.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |message|`Variant`|Error or warning message emitted through the logger.|yes|[br]
+	## [br]
 	signal error_message_signal(message)
 
 	## Log filename format
@@ -22,24 +34,34 @@ class ESCLoggerBase:
 	func _init():
 		_log_level = ESCLogLevel.determine_escoria_log_level()
 
-	## Formats a message depending on context, message and letter, then returns it.[br]
+	## Formats a message depending on context, message and letter, then returns it. The formatted string[br]
 	## [br]
-	## #### PARAMETERS[br]
+	## #### Parameters[br]
 	## [br]
-	## - context: usually, the escoria file that sent the message.[br]
-	## - msg: logged message.[br]
-	## - letter: letter to add to the formatted log (I for Info, W for Warning...)[br]
-	## *Returns*[br]
-	## The formatted string
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |context|`String`|usually, the escoria file that sent the message.|yes|[br]
+	## |msg|`String`|logged message.|yes|[br]
+	## |letter|`String`|letter to add to the formatted log (I for Info, W for Warning...)|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns a `String` value. (`String`)
 	func formatted_message(context: String, msg: String, letter: String) -> String:
 		return "ESC ({0}) {1} {2}: {3}".format([_formatted_date(), letter, context, msg])
 
 	## Trace log[br]
 	## [br]
-	## #### PARAMETERS[br]
+	## #### Parameters[br]
 	## [br]
-	## - owner: caller object (usually, `self`)[br]
-	## - msg: logged message.
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |owner|`Object`|caller object (usually, `self`)|yes|[br]
+	## |msg|`String`|logged message.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func trace(owner: Object, msg: String):
 		var context: String = owner.get_script().resource_path.get_file()
 		_trace_message(context, msg)
@@ -55,10 +77,16 @@ class ESCLoggerBase:
 
 	## Debug log[br]
 	## [br]
-	## #### PARAMETERS[br]
+	## #### Parameters[br]
 	## [br]
-	## - owner: caller object (usually, `self`)[br]
-	## - msg: logged message.
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |owner|`Object`|caller object (usually, `self`)|yes|[br]
+	## |msg|`String`|logged message.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func debug(owner: Object, msg: String):
 		var context: String = owner.get_script().resource_path.get_file()
 		_debug_message(context, msg)
@@ -74,10 +102,16 @@ class ESCLoggerBase:
 
 	## Info log[br]
 	## [br]
-	## #### PARAMETERS[br]
+	## #### Parameters[br]
 	## [br]
-	## - owner: caller object (usually, `self`)[br]
-	## - msg: logged message.
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |owner|`Object`|caller object (usually, `self`)|yes|[br]
+	## |msg|`String`|logged message.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func info(owner: Object, msg: String):
 		var context: String = owner.get_script().resource_path.get_file()
 		_info_message(context, msg)
@@ -93,10 +127,16 @@ class ESCLoggerBase:
 
 	## Warning log[br]
 	## [br]
-	## #### PARAMETERS[br]
+	## #### Parameters[br]
 	## [br]
-	## - owner: caller object (usually, `self`)[br]
-	## - msg: logged message.
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |owner|`Object`|caller object (usually, `self`)|yes|[br]
+	## |msg|`String`|logged message.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func warn(owner: Object, msg: String):
 		var context: String = owner.get_script().resource_path.get_file()
 		_warn_message(context, msg)
@@ -121,10 +161,16 @@ class ESCLoggerBase:
 
 	## Error log[br]
 	## [br]
-	## #### PARAMETERS[br]
+	## #### Parameters[br]
 	## [br]
-	## - owner: caller object (usually, `self`)[br]
-	## - msg: logged message.
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |owner|`Object`|caller object (usually, `self`)|yes|[br]
+	## |msg|`String`|logged message.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func error(owner: Object, msg: String):
 		var context = owner.get_script().resource_path.get_file()
 		_error_message(context, msg)
@@ -184,10 +230,16 @@ class ESCLoggerFile extends ESCLoggerBase:
 
 	## Trace log[br]
 	## [br]
-	## #### PARAMETERS[br]
+	## #### Parameters[br]
 	## [br]
-	## - owner: caller object (usually, `self`)[br]
-	## - msg: logged message.
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |owner|`Object`|caller object (usually, `self`)|yes|[br]
+	## |msg|`String`|logged message.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func trace(owner: Object, msg: String):
 		if _log_level >= ESCLogLevel.LOG_TRACE:
 			_log_to_file(owner, msg, "T")
@@ -206,10 +258,16 @@ class ESCLoggerFile extends ESCLoggerBase:
 
 	## Debug log[br]
 	## [br]
-	## #### PARAMETERS[br]
+	## #### Parameters[br]
 	## [br]
-	## - owner: caller object (usually, `self`)[br]
-	## - msg: logged message.
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |owner|`Object`|caller object (usually, `self`)|yes|[br]
+	## |msg|`String`|logged message.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func debug(owner: Object, msg: String):
 		if _log_level >= ESCLogLevel.LOG_DEBUG:
 			_log_to_file(owner, msg, "D")
@@ -228,10 +286,16 @@ class ESCLoggerFile extends ESCLoggerBase:
 
 	## Info log[br]
 	## [br]
-	## #### PARAMETERS[br]
+	## #### Parameters[br]
 	## [br]
-	## - owner: caller object (usually, `self`)[br]
-	## - msg: logged message.
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |owner|`Object`|caller object (usually, `self`)|yes|[br]
+	## |msg|`String`|logged message.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func info(owner: Object, msg: String):
 		if _log_level >= ESCLogLevel.LOG_INFO:
 			_log_to_file(owner, msg, "I")
@@ -250,10 +314,16 @@ class ESCLoggerFile extends ESCLoggerBase:
 
 	## Warning log[br]
 	## [br]
-	## #### PARAMETERS[br]
+	## #### Parameters[br]
 	## [br]
-	## - owner: caller object (usually, `self`)[br]
-	## - msg: logged message.
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |owner|`Object`|caller object (usually, `self`)|yes|[br]
+	## |msg|`String`|logged message.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func warn(owner: Object, msg: String):
 		if _log_level >= ESCLogLevel.LOG_WARNING:
 			_log_to_file(owner, msg, "W")
@@ -284,10 +354,16 @@ class ESCLoggerFile extends ESCLoggerBase:
 
 	## Error log[br]
 	## [br]
-	## #### PARAMETERS[br]
+	## #### Parameters[br]
 	## [br]
-	## - owner: caller object (usually, `self`)[br]
-	## - msg: logged message.
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |owner|`Object`|caller object (usually, `self`)|yes|[br]
+	## |msg|`String`|logged message.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func error(owner: Object, msg: String):
 		if _log_level >= ESCLogLevel.LOG_ERROR:
 			_log_to_file(owner, msg, "E")
@@ -317,7 +393,15 @@ class ESCLoggerFile extends ESCLoggerBase:
 			super._error_message(context, msg)
 
 
-	## Close the log file cleanly
+	## Close the log file cleanly[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func close_logs():
 		print("Closing logs peacefully.")
 		_log_line_to_file("Closing logs peacefully.")
@@ -363,10 +447,16 @@ class ESCLoggerVerbose extends ESCLoggerBase:
 	
 	## Debug log[br]
 	## [br]
-	## #### PARAMETERS[br]
+	## #### Parameters[br]
 	## [br]
-	## - owner: caller object (usually, `self`)[br]
-	## - msg: logged message.
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |owner|`Object`|caller object (usually, `self`)|yes|[br]
+	## |msg|`String`|logged message.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func debug(owner: Object, msg: String):
 		var context = owner.get_script().resource_path.get_file()
 		print(context, ": ", msg)

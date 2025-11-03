@@ -12,7 +12,13 @@ var room_instance_id: int = -1
 
 
 ## Checks whether this key is valid and represents an actual room.[br]
-##[br]
-## **Returns** true iff the key has a valid `global_id` and room instance ID.
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `bool` value. (`bool`)
 func is_valid() -> bool:
 	return not room_global_id.is_empty() and room_instance_id > -1

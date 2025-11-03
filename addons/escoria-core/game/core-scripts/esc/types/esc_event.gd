@@ -54,8 +54,15 @@ var original_name: String
 var flags: int = 0
 
 
-## Returns a Dictionary containing statements data for serialization, typically 
-## used as part of the savegame process.
+## A Dictionary containing statements data for serialization, typically used as part of the savegame process.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a Dictionary containing statements data for serialization, typically used as part of the savegame process. (`Dictionary`)
 func exported() -> Dictionary:
 	var exported_dict: Dictionary = super.exported()
 	exported_dict.class = "ESCEvent"
@@ -67,11 +74,17 @@ func exported() -> Dictionary:
 
 
 ## Initializes the event with specified arguments.[br]
-##[br]
-## #### Parameters ####
-## *event_name*: the name of the event[br]
-## *event_flags*: an array containing zero or more event flags as described in 
-## the enum contained in this class.
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |event_name|`String`|the name of the event|yes|[br]
+## |event_flags|`Array`|an array containing zero or more event flags as described in the enum contained in this class.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func init(event_name: String, event_flags: Array) -> void:
 	name = event_name
 	flags = get_flags_from_list(event_flags)
@@ -80,9 +93,13 @@ func init(event_name: String, event_flags: Array) -> void:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - event_flags: Array of flag strings.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |event_flags|`Array[String]`|Array of flag strings.|yes|[br]
 ## [br]
-## *Returns* The bitmask of flags as an int.
+## #### Returns[br]
+## [br]
+## Returns the bitmask of flags as an int. (`int`)
 static func get_flags_from_list(event_flags: Array[String]) -> int:
 	var computed_flags: int = 0
 	for flag in event_flags:
@@ -98,7 +115,15 @@ static func get_flags_from_list(event_flags: Array[String]) -> int:
 	return computed_flags
 
 
-## Executes this statement and returns a return code.
+## Executes this statement and returns a return code.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `int` value. (`int`)
 func run() -> int:
 	reset_interrupt()
 	escoria.logger.debug(
@@ -110,6 +135,14 @@ func run() -> int:
 	return await super()
 
 
-## Returns the event's name.
+## The event's name.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the event's name. (`String`)
 func get_event_name() -> String:
 	return name

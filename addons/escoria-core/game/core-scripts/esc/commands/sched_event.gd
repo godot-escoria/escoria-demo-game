@@ -1,25 +1,29 @@
 ## `sched_event(time: Number, object: String, event: String)`
 ##
-## Schedules an event to run at a later time.[br]
-##[br]
-## If another event is already running when the scheduled
-## event is supposed to start, execution of the scheduled event
-## begins when the already-running event ends.[br]
-##[br]
-## **Parameters**[br]
-##[br]
-## - *time*: Time in seconds until the scheduled event starts[br]
-## - *object*: Global ID of the ESCItem that holds the ESC script[br]
-## - *event*: Name of the event to schedule
-##
+## Schedules an event to run at a later time. If another event is already running when the scheduled event is supposed to start, execution of the scheduled event begins when the already-running event ends.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |time|`Number`|Time in seconds until the scheduled event starts|yes|[br]
+## |object|`String`|Global ID of the ESCItem that holds the ESC script|yes|[br]
+## |event|`String`|Name of the event to schedule|yes|[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name SchedEventCommand
 
 
-## Returns the descriptor of the arguments of this command.[br]
+## The descriptor of the arguments of this command.[br]
 ## [br]
-## *Returns* The argument descriptor for this command.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the descriptor of the arguments of this command. The argument descriptor for this command. (`ESCCommandArgumentDescriptor`)
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		3,
@@ -32,9 +36,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - arguments: The arguments to validate.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |arguments|`Array`|The arguments to validate.|yes|[br]
 ## [br]
-## *Returns* True if the arguments are valid, false otherwise.
+## #### Returns[br]
+## [br]
+## Returns True if the arguments are valid, false otherwise. (`bool`)
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -63,12 +71,17 @@ func validate(arguments: Array):
 	return true
 
 
-## Returns whether global_id represents the current room the player is in.
+## Whether global_id represents the current room the player is in.[br]
 ## [br]
 ## #### Parameters[br]
-## - global_id: The global ID to check.[br]
 ## [br]
-## *Returns* True if global_id represents the current room, false otherwise.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |global_id|`String`|The global ID to check.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns whether global_id represents the current room the player is in. True if global_id represents the current room, false otherwise. (`bool`)
 func _is_current_room(global_id: String) -> bool:
 	return escoria.main.current_scene.global_id == global_id
 
@@ -77,9 +90,13 @@ func _is_current_room(global_id: String) -> bool:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - command_params: The parameters for the command.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |command_params|`Array`|The parameters for the command.|yes|[br]
 ## [br]
-## *Returns* The execution result code.
+## #### Returns[br]
+## [br]
+## Returns the execution result code. (`int`)
 func run(command_params: Array) -> int:
 	var node = _get_scripted_node(command_params[1])
 
@@ -93,22 +110,31 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-## Function called when the command is interrupted.
+## Function called when the command is interrupted.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func interrupt():
 	# Do nothing
 	pass
 
 
-## Fetches the object node or current room containing the desired ESC script.[br]
-## [br]
-## PRE: If global_id represents a room, then `escoria.main.current_scene` must be valid.[br]
+## Fetches the object node or current room containing the desired ESC script. PRE: If global_id represents a room, then `escoria.main.current_scene` must be valid.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - global_id: ID of the object or room with the desired ESC script.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |global_id|`String`|ID of the object or room with the desired ESC script.|yes|[br]
 ## [br]
-## *Returns* The object node corresponding to global_id, or the current room if global_id is 
-## invalid or does not refer to an object registered with the object manager.
+## #### Returns[br]
+## [br]
+## Returns the object node corresponding to global_id, or the current room if global_id is invalid or does not refer to an object registered with the object manager. (`Variant`)
 func _get_scripted_node(global_id: String):
 	var node = null
 

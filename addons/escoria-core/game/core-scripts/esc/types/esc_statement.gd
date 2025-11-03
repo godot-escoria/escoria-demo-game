@@ -9,10 +9,28 @@ extends RefCounted
 class_name ESCStatement
 
 
-## Emitted when the event has finished running.
+## Emitted when the event has finished running.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |event|`Variant`|`ESCStatement` representing the event whose execution completed.|yes|[br]
+## |statement|`Variant`|`ESCStatement` that was running when the signal fired.|yes|[br]
+## |return_code|`Variant`|Execution result code produced by the statement.|yes|[br]
+## [br]
 signal finished(event: ESCStatement, statement: ESCStatement, return_code: int)
 
-## Emitted if the event has been interrupted
+## Emitted if the event has been interrupted[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |event|`Variant`|`ESCStatement` representing the event whose execution was interrupted.|yes|[br]
+## |statement|`Variant`|`ESCStatement` that was executing when the interruption occurred.|yes|[br]
+## |return_code|`Variant`|Execution result code describing the interruption outcome.|yes|[br]
+## [br]
 signal interrupted(event: ESCStatement, statement: ESCStatement, return_code: int)
 
 
@@ -41,7 +59,15 @@ var parsed_statements = []
 var _is_interrupted: bool = false
 
 
-## Returns a `Dictionary` containing relevant data for serialization.
+## A `Dictionary` containing relevant data for serialization.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `Dictionary` containing relevant data for serialization. (`Dictionary`)
 func exported() -> Dictionary:
 	var export_dict: Dictionary = {}
 	export_dict.class = "ESCStatement"
@@ -57,12 +83,28 @@ func exported() -> Dictionary:
 
 
 
-## Returns `true` iff the statement is valid.
+## `true` iff the statement is valid.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns `true` iff the statement is valid. (`bool`)
 func is_valid() -> bool:
 	return true
 
 
-## Execute this statement and return its return code.
+## Execute this statement and return its return code.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `int` value. (`int`)
 func run() -> int:
 	if parsed_statements.size() > 0:
 		var interpreter = ESCInterpreterFactory.create_interpreter()
@@ -106,7 +148,15 @@ func run() -> int:
 	return final_rc
 
 
-## Interrupts the statement in the middle of its execution.
+## Interrupts the statement in the middle of its execution.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func interrupt():
 	escoria.logger.info(
 		self,
@@ -119,7 +169,15 @@ func interrupt():
 			statement.interrupt()
 
 
-## Resets all affected statements' interrupts.
+## Resets all affected statements' interrupts.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func reset_interrupt():
 	_is_interrupted = false
 	for statement in statements:

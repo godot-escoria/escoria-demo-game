@@ -30,7 +30,13 @@ class_name ESCAnimationResource
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - p_dir_angles: Array of direction angle resources to set.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |p_dir_angles|`Array`|Array of direction angle resources to set.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func set_dir_angles(p_dir_angles: Array) -> void:
 	dir_angles = p_dir_angles
 	emit_changed()
@@ -39,7 +45,13 @@ func set_dir_angles(p_dir_angles: Array) -> void:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - p_set_directions: Array of direction resources to set.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |p_set_directions|`Array`|Array of direction resources to set.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func set_directions(p_set_directions: Array) -> void:
 	directions = p_set_directions
 	emit_changed()
@@ -48,7 +60,13 @@ func set_directions(p_set_directions: Array) -> void:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - p_set_idles: Array of idle resources to set.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |p_set_idles|`Array`|Array of idle resources to set.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func set_idles(p_set_idles: Array) -> void:
 	idles = p_set_idles
 	emit_changed()
@@ -57,19 +75,28 @@ func set_idles(p_set_idles: Array) -> void:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - p_set_speaks: Array of speak resources to set.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |p_set_speaks|`Array`|Array of speak resources to set.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func set_speaks(p_set_speaks: Array) -> void:
 	speaks = p_set_speaks
 	emit_changed()
 
-## Returns the direction id from an animation name.[br]
+## The direction id from an animation name. 1 if not found.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - p_animation_name: The animation name.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |p_animation_name|`String`|The animation name.|yes|[br]
 ## [br]
-## **Returns** The int value representing the direction id of the animation, or
-## -1 if not found.
+## #### Returns[br]
+## [br]
+## Returns the direction id from an animation name. 1 if not found. (`int`)
 func get_direction_id_from_animation_name(p_animation_name: String) -> int:
 	var founds_array = []
 

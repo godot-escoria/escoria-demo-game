@@ -16,9 +16,15 @@ var state: String = "default"
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - p_state: New state to use.[br]
-## - from_seconds: Sets the starting playback position.[br]
-## - p_force: Override the existing state even if the stream is still playing.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |p_state|`String`|New state to use.|yes|[br]
+## |from_seconds|`float`|Sets the starting playback position.|no|[br]
+## |p_force|`bool`|Override the existing state even if the stream is still playing.|no|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func set_state(p_state: String, from_seconds: float = 0.0, p_force: bool = false) -> void:
 	# If already playing this stream, keep playing, unless p_force
 	if p_state == state and not p_force and stream.is_playing():
@@ -44,7 +50,15 @@ func set_state(p_state: String, from_seconds: float = 0.0, p_force: bool = false
 		stream.play(from_seconds)
 
 
-## Registers this music player to the object registry.
+## Registers this music player to the object registry.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _ready():
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	escoria.object_manager.register_object(
@@ -54,8 +68,14 @@ func _ready():
 	)
 
 
-## Returns the playback position of the audio stream in seconds.[br]
+## The playback position of the audio stream in seconds.[br]
 ## [br]
-## *Returns* the playback position as a float value.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the playback position of the audio stream in seconds. the playback position as a float value. (`float`)
 func get_playback_position() -> float:
 	return $AudioStreamPlayer.get_playback_position()

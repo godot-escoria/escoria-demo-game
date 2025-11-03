@@ -7,16 +7,48 @@ extends Node
 class_name ESCEventManager
 
 
-## Emitted when the event has begun execution.
+## Emitted when the event has begun execution.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |event_name|`Variant`|Name of the event whose execution has started.|yes|[br]
+## [br]
 signal event_started(event_name)
 
-## Emitted when an event is started in a channel of the background queue.
+## Emitted when an event is started in a channel of the background queue.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |channel_name|`Variant`|Name of the background channel where the event runs.|yes|[br]
+## |event_name|`Variant`|Name of the event that began on the background channel.|yes|[br]
+## [br]
 signal background_event_started(channel_name, event_name)
 
-## Emitted when the event has finished running.
+## Emitted when the event has finished running.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |return_code|`Variant`|Execution result returned by the event.|yes|[br]
+## |event_name|`Variant`|Name of the event that just finished.|yes|[br]
+## [br]
 signal event_finished(return_code, event_name)
 
-## Emitted when a background event has finished.
+## Emitted when a background event has finished.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |return_code|`Variant`|Execution result returned by the background event.|yes|[br]
+## |event_name|`Variant`|Name of the background event that finished.|yes|[br]
+## |channel_name|`Variant`|Background channel where the event finished.|yes|[br]
+## [br]
 signal background_event_finished(return_code, event_name, channel_name)
 
 
@@ -97,12 +129,28 @@ var _changing_scene: bool = false: set = set_changing_scene
 var _change_scene: ChangeSceneCommand
 
 
-## Constructor.
+## Constructor.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _init():
 	_change_scene = ChangeSceneCommand.new()
 
 
-## Make sure to stop when pausing the game.
+## Make sure to stop when pausing the game.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _ready():
 	name = "event_manager"
 	self.process_mode = Node.PROCESS_MODE_PAUSABLE
@@ -112,7 +160,13 @@ func _ready():
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - delta: Time passed since the last process call.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |delta|`float`|Time passed since the last process call.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _process(delta: float) -> void:
 	var channel_yielding: bool
 
@@ -204,16 +258,19 @@ func _process(delta: float) -> void:
 
 
 ## Queues a new event based on input from an ASHES command, most likely `queue_event`.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-## * script_object: Compiled script object, i.e. the one with the event to queue.[br]
-## * event: Name of the event to queue.[br]
-## * channel: Channel to run the event on (default: `_front`).[br]
-## * block: Whether to wait for the queue to finish. This is only possible, if
-##   the queued event is not to be run on the same event as this command
-##   (default: `false`).[br]
-##[br]
-## **Returns** indicator of success/status (from the `ESCExecution` enum).
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |script_object|`ESCScript`|Compiled script object, i.e. the one with the event to queue.|yes|[br]
+## |event|`String`|Name of the event to queue.|yes|[br]
+## |channel|`String`|Channel to run the event on (default: `_front`).|yes|[br]
+## |block|`bool`|Whether to wait for the queue to finish. This is only possible, if the queued event is not to be run on the same event as this command (default: `false`).|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `int` value. (`int`)
 func queue_event_from_esc(script_object: ESCScript, event: String,
 	channel: String, block: bool) -> int:
 
@@ -243,12 +300,18 @@ func queue_event_from_esc(script_object: ESCScript, event: String,
 
 
 ## Queues a new event to run in the foreground.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-## * event: The event to run.[br]
-## * force: (optional) Events won't normally queue during scene changes. This 
-## parameter overrides that behaviour.[br]
-## * as_first: (optional) Put the event at the head of the queue.[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |event|`ESCGrammarStmts.Event`|The event to run.|yes|[br]
+## |force|`bool`|(optional) Events won't normally queue during scene changes. This parameter overrides that behaviour.|no|[br]
+## |as_first|`Variant`|(optional) Put the event at the head of the queue.|no|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func queue_event(event: ESCGrammarStmts.Event, force: bool = false, as_first = false) -> void:
 	if _changing_scene and not force:
 		escoria.logger.info(
@@ -290,21 +353,34 @@ func queue_event(event: ESCGrammarStmts.Event, force: bool = false, as_first = f
 
 
 ## Schedules an event to run after a timeout.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-## * event: The event to run.[br]
-## * timeout: Number of seconds to wait before adding the event to the
-## front queue.[br]
-## * object: The target object.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |event|`ESCGrammarStmts.Event`|The event to run.|yes|[br]
+## |timeout|`float`|Number of seconds to wait before adding the event to the front queue.|yes|[br]
+## |object|`String`|The target object.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func schedule_event(event: ESCGrammarStmts.Event, timeout: float, object: String) -> void:
 	scheduled_events.append(ESCScheduledEvent.new(event, timeout, object))
 
 
 ## Queues an event to run in a background channel.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-## * channel_name: The name of the channel to use.[br]
-## * event: The event to run; must be of type `ESCGrammarEvents.Event`.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |channel_name|`String`|The name of the channel to use.|yes|[br]
+## |event|`ESCGrammarStmts.Event`|The event to run; must be of type `ESCGrammarEvents.Event`.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func queue_background_event(channel_name: String, event: ESCGrammarStmts.Event) -> void:
 	if not channel_name in events_queue:
 		events_queue[channel_name] = []
@@ -335,11 +411,17 @@ func queue_background_event(channel_name: String, event: ESCGrammarStmts.Event) 
 
 
 ## Interrupts the events currently running and any that are pending.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-## * exceptions: An optional list of events which should be left running or queued.[br]
-## * stop_walking: boolean value (default true) determining whether the player
-## (if any) has to be interrupted walking or not.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |exceptions|`PackedStringArray`|An optional list of events which should be left running or queued.|no|[br]
+## |stop_walking|`Variant`|boolean value (default true) determining whether the player (if any) has to be interrupted walking or not.|no|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func interrupt(exceptions: PackedStringArray = [], stop_walking = true) -> void:
 	if stop_walking \
 			and escoria.main.current_scene != null \
@@ -386,45 +468,76 @@ func interrupt(exceptions: PackedStringArray = [], stop_walking = true) -> void:
 
 
 ## Interrupts any events in the specified channel.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-## * channel_name: The name of the channel containing the events to be interrupted.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |channel_name|`String`|The name of the channel containing the events to be interrupted.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func interrupt_channel(channel_name: String) -> void:
 	for command in _running_commands.get(channel_name, []):
 		command.interrupt()
 
 
-## Clears the event queues.
+## Clears the event queues.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func clear_event_queue() -> void:
 	for channel_name in events_queue.keys():
 		events_queue[channel_name].clear()
 
 
 ## Checks whether a channel is free to run more events.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-## * name: The name of the channel to test.[br]
-##[br]
-## **Returns** whether the channel can currently accept a new event.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |name|`String`|Name of the channel to inspect.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `bool` value. (`bool`)
 func is_channel_free(name: String) -> bool:
 	return _channels_state[name] if name in _channels_state else true
 
 
-## Gets the currently running event in a channel.[br]
-##[br]
+## Gets the currently running event in a channel. `null` if there is none.[br]
+## [br]
 ## #### Parameters[br]
-## - name: The name of the channel.[br]
-##[br]
-## **Returns** the currently running event of type `ESCGrammarStmts.Event`, or 
-## `null` if there is none.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |name|`String`|Name of the channel whose running event should be returned.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `ESCGrammarStmts.Event` value. (`ESCGrammarStmts.Event`)
 func get_running_event(name: String) -> ESCGrammarStmts.Event:
 	return _running_events[name] if name in _running_events else null
 
 
 ## Setter for _changing_scene.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-## - value: `boolean` value to set `_changing_scene` to.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |p_is_changing_scene|`bool`|New value indicating whether a scene transition is currently running.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func set_changing_scene(p_is_changing_scene: bool) -> void:
 	escoria.logger.trace(
 		self,
@@ -451,9 +564,16 @@ func set_changing_scene(p_is_changing_scene: bool) -> void:
 # creating a problem.
 
 ## Adds a currently-running command to the current channel.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-## * command: The `ESCCommand` to be added to the current channel.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |command|`ESCCommand`|The `ESCCommand` to be added to the current channel.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func add_running_command(command: ESCCommand) -> void:
 	if _running_commands.get(_current_channel, []) == []:
 		_running_commands[_current_channel] = [command]
@@ -462,9 +582,16 @@ func add_running_command(command: ESCCommand) -> void:
 
 
 ## Removes the specified command from the current channel.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-## * command: The `ESCCommand` to be removed from the current channel.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |command|`ESCCommand`|The `ESCCommand` to be removed from the current channel.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func running_command_finished(command: ESCCommand) -> void:
 	if command in _running_commands[_current_channel]:
 		_running_commands[_current_channel].erase(command)
@@ -472,12 +599,18 @@ func running_command_finished(command: ESCCommand) -> void:
 
 ## The event finished running.[br]
 ## [br]
-## #### Parameters
+## #### Parameters[br]
 ## [br]
-## - finished_event: statement object representing the event that finished.[br]
-## - finished_statement: statement object representing the "deepest" statement (most likely a command) that just completed; this is useful for interrupted or failed statements especially.[br]
-## - return_code: Return code of the finished event.[br]
-## - channel_name: Name of the channel that the event came from.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |finished_event|`Variant`|statement object representing the event that finished.|yes|[br]
+## |finished_statement|`Variant`|statement object representing the "deepest" statement (most likely a command) that just completed; this is useful for interrupted or failed statements especially.|yes|[br]
+## |return_code|`int`|Return code of the finished event.|yes|[br]
+## |channel_name|`String`|Name of the channel that the event came from.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _on_event_finished(finished_event, finished_statement, return_code: int, channel_name: String) -> void:
 	var event = _running_events[channel_name]
 	if not event:
@@ -533,11 +666,15 @@ func _on_event_finished(finished_event, finished_statement, return_code: int, ch
 
 ## Gets the event at the tail of the specified channel's event queue, if one exists.[br]
 ## [br]
-## #### Parameters
+## #### Parameters[br]
 ## [br]
-## - channel_name: The name of the channel to check.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |channel_name|`String`|The name of the channel to check.|yes|[br]
 ## [br]
-## **Returns** the last ESCEvent queued for the given channel, or null if the channel's queue is empty.
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _get_last_event_queued(channel_name: String):
 	if self.events_queue[channel_name].size() > 0:
 		return self.events_queue[channel_name].back()
@@ -547,12 +684,16 @@ func _get_last_event_queued(channel_name: String):
 
 ## Checks to see if the specified event is already running in the given channel.[br]
 ## [br]
-## #### Parameters
+## #### Parameters[br]
 ## [br]
-## - event: The event to check to see if it's already running.[br]
-## - channel_name: The name of the channel to check.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |event|`ESCGrammarStmts.Event`|The event to check to see if it's already running.|yes|[br]
+## |channel_name|`String`|The name of the channel to check.|yes|[br]
 ## [br]
-## **Returns** true iff event is currently running in the specified channel.
+## #### Returns[br]
+## [br]
+## Returns a `bool` value. (`bool`)
 func _is_event_running(event: ESCGrammarStmts.Event, channel_name: String) -> bool:
 	var running_event: ESCGrammarStmts.Event = get_running_event(channel_name)
 
@@ -561,10 +702,16 @@ func _is_event_running(event: ESCGrammarStmts.Event, channel_name: String) -> bo
 
 ## Generates a logger warning concerning an errored-out statement.[br]
 ## [br]
-## #### Parameters
+## #### Parameters[br]
 ## [br]
-## - statement: The statement that returned an error.[br]
-## - event_name: The name of the event in which the error occurred.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |statement|`ESCStatement`|The statement that returned an error.|yes|[br]
+## |event_name|`String`|The name of the event in which the error occurred.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _generate_statement_error_warning(statement: ESCStatement, event_name: String) -> void:
 	var warning_string: String = "Statement '%s' returned an error in event '%s'" \
 		% [statement.get_name(), event_name]
@@ -583,8 +730,16 @@ func _generate_statement_error_warning(statement: ESCStatement, event_name: Stri
 
 
 ## Save the running event in the savegame, if any.[br]
+## [br]
 ## #### Parameters[br]
-## * p_savegame: `ESCSaveGame` resource that holds all save data.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |p_savegame|`ESCSaveGame`|`ESCSaveGame` resource that holds all save data.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func save_game(p_savegame: ESCSaveGame) -> void:
 	# Scheduled events
 	var sched_events_array: Array = []

@@ -1,20 +1,16 @@
 ## `walk_to_pos_block(object: String, x: Integer, y: Integer[, walk_fast: Boolean])`
 ##
-## Moves the specified `ESCPlayer` or movable `ESCItem` to the absolute
-## coordinates provided while playing the `object`'s walking animation.[br]
-##[br]
-## This command is blocking.[br]
-##[br]
-## This command will use the normal walk speed by default.[br]
-##[br]
-## **Parameters**[br]
-##[br]
-## - *object*: Global ID of the object to move[br]
-## - *x*: X-coordinate of target position[br]
-## - *y*: Y-coordinate of target position[br]
-## - *walk_fast*: Whether to walk fast (`true`) or normal speed (`false`).
-##   (default: false)
-##
+## Moves the specified `ESCPlayer` or movable `ESCItem` to the absolute coordinates provided while playing the `object`'s walking animation. This command is blocking. This command will use the normal walk speed by default.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |object|`String`|Global ID of the object to move|yes|[br]
+## |x|`Integer`|X-coordinate of target position|yes|[br]
+## |y|`Integer`|Y-coordinate of target position|yes|[br]
+## |walk_fast|`Boolean`|Whether to walk fast (`true`) or normal speed (`false`). (default: false)|no|[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name WalkToPosBlockCommand
@@ -24,9 +20,15 @@ class_name WalkToPosBlockCommand
 var walking_object_node: ESCItem
 
 
-## Returns the descriptor of the arguments of this command.[br]
+## The descriptor of the arguments of this command.[br]
 ## [br]
-## *Returns* The argument descriptor for this command.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the descriptor of the arguments of this command. The argument descriptor for this command. (`ESCCommandArgumentDescriptor`)
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		3,
@@ -39,9 +41,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - arguments: The arguments to validate.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |arguments|`Array`|The arguments to validate.|yes|[br]
 ## [br]
-## *Returns* True if the arguments are valid, false otherwise.
+## #### Returns[br]
+## [br]
+## Returns True if the arguments are valid, false otherwise. (`bool`)
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -63,9 +69,13 @@ func validate(arguments: Array):
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - command_params: The parameters for the command.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |command_params|`Array`|The parameters for the command.|yes|[br]
 ## [br]
-## *Returns* The execution result code.
+## #### Returns[br]
+## [br]
+## Returns the execution result code. (`int`)
 func run(command_params: Array) -> int:
 	escoria.action_manager.do(escoria.action_manager.ACTION.BACKGROUND_CLICK, [
 		command_params[0],
@@ -75,7 +85,15 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-## Function called when the command is interrupted.
+## Function called when the command is interrupted.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func interrupt():
 	if walking_object_node != null and not walking_object_node is ESCPlayer:
 		walking_object_node.stop_walking_now()

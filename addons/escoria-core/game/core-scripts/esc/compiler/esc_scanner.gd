@@ -68,8 +68,17 @@ func _init():
 	_indent_level_stack.push_front(0)
 
 
-## Sets the ASHES source as a string. This is the source that will be scanned 
-## and turned into tokens.
+## Sets the ASHES source as a string. This is the source that will be scanned and turned into tokens.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |source|`String`|Raw ASHES source text to tokenize.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func set_source(source: String) -> void:
 	# If we don't have a newline terminator, then we add one to be safe.
 	if not source.ends_with("\n"):
@@ -78,20 +87,43 @@ func set_source(source: String) -> void:
 	_source = source
 
 
-## Sets the path of the file containing the source to be scanned.
+## Sets the path of the file containing the source to be scanned.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |filename|`String`|Path associated with the source (used for error reporting).|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func set_filename(filename: String) -> void:
 	_filename = filename
 
 
-## Returns the path of the file containing the source to be scanned.
+## The path of the file containing the source to be scanned.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the path of the file containing the source to be scanned. (`String`)
 func get_filename() -> String:
 	return _filename
 
 
-## Entry point for the scanner. Begins scanning the source and returns an array 
-## of tokens corresponding to the source.[br]
-##[br]
-## `set_source` must be called prior to calling this method.
+## Entry point for the scanner. Begins scanning the source and returns an array of tokens corresponding to the source. `set_source` must be called prior to calling this method.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `Array` value. (`Array`)
 func scan_tokens() -> Array:
 	while not _at_end():
 		_start = _current

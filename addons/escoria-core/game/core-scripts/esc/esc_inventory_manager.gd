@@ -4,18 +4,29 @@ class_name ESCInventoryManager
 
 
 ## Checks whether the player has an inventory item.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-## * item: The inventory item's id.[br]
-##[br]
-## **Returns** whether the player has the specified item in his/her inventory.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |item|`String`|The inventory item's id.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `bool` value. (`bool`)
 func inventory_has(item: String) -> bool:
 	return escoria.globals_manager.has("i/%s" % item)
 
 
 ## Retrieves all inventory items.[br]
-##[br]
-## **Returns** the items curerntly in the player's inventory.
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `Array` value. (`Array`)
 func items_in_inventory() -> Array:
 	var items = []
 	var filtered = escoria.globals_manager.filter("i/*")
@@ -26,9 +37,16 @@ func items_in_inventory() -> Array:
 
 
 ## Removes an item from the player's inventory.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-## * item: The inventory item's id.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |item|`String`|The inventory item's id.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func remove_item(item: String) -> void:
 	if not inventory_has(item):
 		escoria.logger.error(
@@ -41,17 +59,31 @@ func remove_item(item: String) -> void:
 
 
 ## Adds an item to the player's inventory.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-## * item: The inventory item's id.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |item|`String`|The inventory item's id.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func add_item(item: String) -> void:
 	escoria.globals_manager.set_global("i/%s" % item, true)
 
 
 ## Saves the inventory in the specified savegame.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-## * p_savegame: ESCSaveGame resource that holds all save data.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |p_savegame|`ESCSaveGame`|ESCSaveGame resource that holds all save data.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func save_game(p_savegame: ESCSaveGame) -> void:
 	p_savegame.inventory = []
 	for item in items_in_inventory():

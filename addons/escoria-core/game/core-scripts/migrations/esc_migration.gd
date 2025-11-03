@@ -8,21 +8,42 @@ var _savegame: ESCSaveGame:
 	get = get_savegame
 
 
-## Set the savegame
-##
-## #### Parameters
-## - savegame: Savegame to modify
+## Set the savegame[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |savegame|`ESCSaveGame`|Savegame to modify|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func set_savegame(savegame: ESCSaveGame):
 	_savegame = savegame
 
 
-## Get the savegame.
-## **Returns** the savegame
+## Get the savegame.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `ESCSaveGame` value. (`ESCSaveGame`)
 func get_savegame() -> ESCSaveGame:
 	return _savegame
 
 
-## Override this function in the version script with
-## the things that need to be applied to the savegame
+## Override this function in the version script with the things that need to be applied to the savegame[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func migrate():
 	pass

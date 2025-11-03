@@ -64,29 +64,57 @@ func cleanup() -> void:
 		escoria.globals_manager.global_changed.disconnect(_on_global_changed)
 
 
-## Returns the dictionary containing any and all global variables. 
+## The dictionary containing any and all global variables.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the dictionary containing any and all global variables. (`Dictionary`)
 func get_global_values() -> Dictionary:
 	return _globals.get_values()
 
 
-## Resets the interpreter, specifically any locally-scoped variables.
+## Resets the interpreter, specifically any locally-scoped variables.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func reset() -> void:
 	_locals = {}
 
 
-## Issues an interrupt to the currently-running event, if there is one.
+## Issues an interrupt to the currently-running event, if there is one.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func interrupt() -> void:
 	if _current_event and _current_event.get_running_command():
 		_current_event.interrupt()
 
 
-## The main entry point for the interpreter. Takes one or more statements and 
-## begins to interpret them. These usually represent the statements at the top level 
-## of the script being processed.[br]
-##[br]
-## #### Parameters ####[br]
-## - *statements*: a single `ESCGrammarStmt`-derived statement or an array of them, 
-## representing the statements to be interpreted 
+## The main entry point for the interpreter. Takes one or more statements and begins to interpret them. These usually represent the statements at the top level of the script being processed.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |statements|`Variant`|a single `ESCGrammarStmt`-derived statement or an array of them, representing the statements to be interpreted|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func interpret(statements):
 	if not statements is Array:
 		statements = [statements]
@@ -105,7 +133,17 @@ func interpret(statements):
 
 # Visitor implementations
 
-## Executes code relevant to interpreting a statement block.
+## Executes code relevant to interpreting a statement block.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |stmt|`ESCGrammarStmts.Block`|Statement node to interpret.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_block_stmt(stmt: ESCGrammarStmts.Block):
 	var env: ESCEnvironment = ESCEnvironment.new()
 	env.init(_environment)
@@ -113,11 +151,17 @@ func visit_block_stmt(stmt: ESCGrammarStmts.Block):
 	return await _execute_block(stmt.get_statements(), env)
 
 
-## Executes code relevant to interpreting an event in ASHES, e.g. `:look`. 
-## Emits the statement's `finished` signal upon completion, containing the return code.[br]
-##[br]
-## #### Parameters ####[br]
-## - *stmt*: the `ESCGrammarStmt` representing the ASHES event
+## Executes code relevant to interpreting an event in ASHES, e.g. `:look`. Emits the statement's `finished` signal upon completion, containing the return code.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |stmt|`ESCGrammarStmts.Event`|the `ESCGrammarStmt` representing the ASHES event|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_event_stmt(stmt: ESCGrammarStmts.Event):
 	_current_event = stmt
 
@@ -160,15 +204,32 @@ func visit_event_stmt(stmt: ESCGrammarStmts.Event):
 	#return event
 
 
-## Executes code relevant to interpreting an expression contained in a statement.
+## Executes code relevant to interpreting an expression contained in a statement.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |stmt|`ESCGrammarStmts.ESCExpression`|Statement node to interpret.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_expression_stmt(stmt: ESCGrammarStmts.ESCExpression):
 	return await _evaluate(stmt.get_expression())
 
 
 ## Executes code relevant to interpreting a function/method call.[br]
-##[br]
-## #### Parameters ####[br]
-## - *expr*: the expression representing the function/method call to make
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |expr|`ESCGrammarExprs.Call`|the expression representing the function/method call to make|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_call_expr(expr: ESCGrammarExprs.Call):
 	var callee = await _evaluate(expr.get_callee())
 
@@ -240,7 +301,17 @@ func _print(value):
 	print(value[0])
 
 
-## Executes code relevant to interpreting an `if` statement.
+## Executes code relevant to interpreting an `if` statement.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |stmt|`ESCGrammarStmts.If`|Statement node to interpret.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_if_stmt(stmt: ESCGrammarStmts.If):
 	if _is_truthy(await _evaluate(stmt.get_condition())):
 		return await _execute(stmt.get_then_branch())
@@ -255,7 +326,17 @@ func visit_if_stmt(stmt: ESCGrammarStmts.If):
 	return null
 
 
-## Executes code relevant to interpreting a `while` loop.
+## Executes code relevant to interpreting a `while` loop.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |stmt|`ESCGrammarStmts.While`|Statement node to interpret.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_while_stmt(stmt: ESCGrammarStmts.While):
 	while _is_truthy(await _evaluate(stmt.get_condition())):
 		var ret = await _execute(stmt.get_body())
@@ -266,19 +347,47 @@ func visit_while_stmt(stmt: ESCGrammarStmts.While):
 	return null
 
 
-## Executes code relevant to interpreting a `pass` statement.
+## Executes code relevant to interpreting a `pass` statement.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |stmt|`ESCGrammarStmts.Pass`|Statement node to interpret.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_pass_stmt(stmt: ESCGrammarStmts.Pass):
 	pass
 
 
-## Executes code relevant to interpreting a `stop` statement. Relevant only to 
-## dialogs.
+## Executes code relevant to interpreting a `stop` statement. Relevant only to dialogs.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |stmt|`ESCGrammarStmts.Stop`|Statement node to interpret.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_stop_stmt(stmt: ESCGrammarStmts.Stop):
 	return stmt
 
 
-## Executes code relevant to interpreting a variable declaration and possible 
-## initialization.
+## Executes code relevant to interpreting a variable declaration and possible initialization.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |stmt|`ESCGrammarStmts.Var`|Statement node to interpret.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_var_stmt(stmt: ESCGrammarStmts.Var):
 	var value = null
 
@@ -289,8 +398,17 @@ func visit_var_stmt(stmt: ESCGrammarStmts.Var):
 	return null
 
 
-## Executes code relevant to interpreting a global variable declaration and possible 
-## initialization.
+## Executes code relevant to interpreting a global variable declaration and possible initialization.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |stmt|`ESCGrammarStmts.Global`|Statement node to interpret.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_global_stmt(stmt: ESCGrammarStmts.Global):
 	var value = null
 
@@ -306,7 +424,17 @@ func visit_global_stmt(stmt: ESCGrammarStmts.Global):
 	return null
 
 
-## Executes code relevant to interpreting a block of dialog.
+## Executes code relevant to interpreting a block of dialog.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |stmt|`ESCGrammarStmts.Dialog`|Statement node to interpret.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 	var dialog: ESCDialog = ESCDialog.new()
 	var rc = ESCExecution.RC_OK
@@ -359,26 +487,62 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 	return rc
 
 
-## Executes code relevant to interpreting a dialog option, although this is more of
-## a placeholder to keep the processing of the syntax tree going since dialog options 
-## are handled by the overall dialog block.
+## Executes code relevant to interpreting a dialog option, although this is more of a placeholder to keep the processing of the syntax tree going since dialog options are handled by the overall dialog block.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |stmt|`ESCGrammarStmts.DialogOption`|Statement node to interpret.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_dialog_option_stmt(stmt: ESCGrammarStmts.DialogOption):
 	pass
 
 
-## Executes code relevant to interpreting a `break` statement.
+## Executes code relevant to interpreting a `break` statement.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |stmt|`ESCGrammarStmts.Break`|Statement node to interpret.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_break_stmt(stmt: ESCGrammarStmts.Break):
 	return stmt
 
 
-## Executes code relevant to interpreting a `done` statement. Only relevant when 
-## processing dialogs.
+## Executes code relevant to interpreting a `done` statement. Only relevant when processing dialogs.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |stmt|`ESCGrammarStmts.Done`|Statement node to interpret.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_done_stmt(stmt: ESCGrammarStmts.Done):
 	return stmt
 
 
-## Executes code relevant to interpreting an expression that assigns a value to 
-## a variable. Enforces traditional scoping rules.
+## Executes code relevant to interpreting an expression that assigns a value to a variable. Enforces traditional scoping rules.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |expr|`ESCGrammarExprs.Assign`|Expression node to evaluate.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_assign_expr(expr: ESCGrammarExprs.Assign):
 	var value = await _evaluate(expr.get_value())
 
@@ -393,8 +557,17 @@ func visit_assign_expr(expr: ESCGrammarExprs.Assign):
 	return value
 
 
-## Executes code relevant to interpreting an `in` statement when checking whether 
-## an item in Escoria is in the player's inventory.
+## Executes code relevant to interpreting an `in` statement when checking whether an item in Escoria is in the player's inventory.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |expr|`ESCGrammarExprs.InInventory`|Expression node to evaluate.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_in_inventory_expr(expr: ESCGrammarExprs.InInventory):
 	var arg = await _evaluate(expr.get_identifier())
 
@@ -404,8 +577,17 @@ func visit_in_inventory_expr(expr: ESCGrammarExprs.InInventory):
 	return escoria.inventory_manager.inventory_has(arg)
 
 
-## Executes code relevant to interpreting an `is` statement when checking whether 
-## an item in Escoria has a particular state and/or is active.
+## Executes code relevant to interpreting an `is` statement when checking whether an item in Escoria has a particular state and/or is active.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |expr|`ESCGrammarExprs.Is`|Expression node to evaluate.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_is_expr(expr: ESCGrammarExprs.Is):
 	var arg = await _evaluate(expr.get_identifier())
 
@@ -419,7 +601,17 @@ func visit_is_expr(expr: ESCGrammarExprs.Is):
 	return arg.is_active()
 
 
-## Executes code relevant to interpreting binary expressions, e.g. `==`, `!=`, etc.
+## Executes code relevant to interpreting binary expressions, e.g. `==`, `!=`, etc.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |expr|`ESCGrammarExprs.Binary`|Expression node to evaluate.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_binary_expr(expr: ESCGrammarExprs.Binary):
 	var left_part = await _evaluate(expr.get_left())
 	var right_part = await _evaluate(expr.get_right())
@@ -469,7 +661,17 @@ func visit_binary_expr(expr: ESCGrammarExprs.Binary):
 	return null
 
 
-## Executes code relevant to interpreting unary expressions, e.g. `!`, `-`.
+## Executes code relevant to interpreting unary expressions, e.g. `!`, `-`.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |expr|`ESCGrammarExprs.Unary`|Expression node to evaluate.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_unary_expr(expr: ESCGrammarExprs.Unary):
 	var right_part = await _evaluate(expr.get_right())
 
@@ -483,9 +685,17 @@ func visit_unary_expr(expr: ESCGrammarExprs.Unary):
 	return null
 
 
-## Executes code relevant to interpreting variable expressions. Worth noting is 
-## that variables prefixed with a `$` are treated as global IDs, e.g. `$npc_character` 
-## is interperted as the global ID `npc_character`.
+## Executes code relevant to interpreting variable expressions. Worth noting is that variables prefixed with a `$` are treated as global IDs, e.g. `$npc_character` is interperted as the global ID `npc_character`.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |expr|`ESCGrammarExprs.Variable`|Expression node to evaluate.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_variable_expr(expr: ESCGrammarExprs.Variable):
 	if expr.get_name().get_lexeme().begins_with("$"):
 		return _look_up_object(expr.get_name())
@@ -496,13 +706,32 @@ func visit_variable_expr(expr: ESCGrammarExprs.Variable):
 	return look_up_variable(expr.get_name(), expr)
 
 
-## Executes code relevant to interpreting literal expressions, e.g. `"some string", 
-## `1234`, etc.
+## Executes code relevant to interpreting literal expressions, e.g. `"some string", `1234`, etc.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |expr|`ESCGrammarExprs.Literal`|Expression node to evaluate.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_literal_expr(expr: ESCGrammarExprs.Literal):
 	return expr.get_value()
 
 
-## Executes code relevant to interpreting logical expressions, e.g. `AND`, `OR`, etc.
+## Executes code relevant to interpreting logical expressions, e.g. `AND`, `OR`, etc.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |expr|`ESCGrammarExprs.Logical`|Expression node to evaluate.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_logical_expr(expr: ESCGrammarExprs.Logical):
 	var left = await _evaluate(expr.get_left())
 
@@ -516,27 +745,49 @@ func visit_logical_expr(expr: ESCGrammarExprs.Logical):
 	return await _evaluate(expr.get_right())
 
 
-## Executes code relevant to interpreting grouped expressions, e.g. those surrounded 
-## by parentheses.
+## Executes code relevant to interpreting grouped expressions, e.g. those surrounded by parentheses.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |expr|`ESCGrammarExprs.Grouping`|Expression node to evaluate.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func visit_grouping_expr(expr: ESCGrammarExprs.Grouping):
 	return await _evaluate(expr.get_expression())
 
 
 ## Performs resolution of the specified expression by specifying its scope depth.[br]
-##[br]
-## #### Parameters ####[br]
-## - *expr*: the expression requiring access to locally scoped variables[br]
-## - *depth*: the scope depth of the local variables to be used by the expression
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |expr|`ESCGrammarExpr`|the expression requiring access to locally scoped variables|yes|[br]
+## |depth|`int`|the scope depth of the local variables to be used by the expression|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func resolve(expr: ESCGrammarExpr, depth: int):
 	_locals[expr] = depth
 
 
-## Fetches the value of the variable specified by `name` provided it exists within 
-## the applicable scope for the expression `expr`.[br]
-##[br]
-## #### Parameters ####[br]
-## - *name*: the name of the variable to look up; the name is an `ESCToken`[br]
-## - *expr*: the expression containing the variable identified by `name`
+## Fetches the value of the variable specified by `name` provided it exists within the applicable scope for the expression `expr`.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |name|`ESCToken`|Token representing the variable name to resolve.|yes|[br]
+## |expr|`ESCGrammarExpr`|the expression containing the variable identified by `name`|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the value stored for the resolved variable. (`Variant`)
 func look_up_variable(name: ESCToken, expr: ESCGrammarExpr):
 	var distance: int = _locals[expr] if _locals.has(expr) else -1
 

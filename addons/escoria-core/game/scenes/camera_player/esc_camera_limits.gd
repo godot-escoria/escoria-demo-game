@@ -18,10 +18,16 @@ var limit_bottom: int = 10000
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - left: The left side of the bounding box
-## - right: The right side of the bounding box
-## - top: The top side of the bounding box
-## - bottom: The bottom side of the bounding box
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |left|`int`|The left side of the bounding box|yes|[br]
+## |right|`int`|The right side of the bounding box|yes|[br]
+## |top|`int`|The top side of the bounding box|yes|[br]
+## |bottom|`int`|The bottom side of the bounding box|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _init(
 	left: int,
 	right: int,

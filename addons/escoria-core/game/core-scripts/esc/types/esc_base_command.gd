@@ -12,8 +12,15 @@ var filename: String = ""
 var line_number: int = 0
 
 
-## Returns a descriptor (contained in `ESCCommandArgumentDescriptor`) of the 
-## arguments of this command.
+## A descriptor (contained in `ESCCommandArgumentDescriptor`) of the arguments of this command.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a descriptor (contained in `ESCCommandArgumentDescriptor`) of the arguments of this command. (`ESCCommandArgumentDescriptor`)
 func configure() -> ESCCommandArgumentDescriptor:
 	escoria.logger.error(
 		self,
@@ -22,13 +29,17 @@ func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new()
 
 
-## Validates whether the given arguments match the command descriptor, returning 
-## `true` iff the command's descriptor can successfully validate the arguments.[br]
-##[br]
-## Should be overridden for each command's own needs, with this method called from 
-## the child class.[br]
-## #### Parameters ####[br]
-## - *arguments*: an array containing the arguments to be passed to the command
+## Validates whether the given arguments match the command descriptor, returning `true` iff the command's descriptor can successfully validate the arguments. Should be overridden for each command's own needs, with this method called from the child class.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |arguments|`Array`|an array containing the arguments to be passed to the command|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `bool` value. (`bool`)
 func validate(arguments: Array) -> bool:
 	var argument_descriptor = self.configure()
 
@@ -39,25 +50,46 @@ func validate(arguments: Array) -> bool:
 
 
 ## Runs the command.[br]
-##[br]
-## #### Parameters ####[br]
-## - *command_params: an array containing the arguments[br]
-##[br]
-## **Returns** an `int` representing a return code, likely from the `ESCExecution` enum.
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |command_params|`Array`|an array containing the arguments|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `int` value. (`int`)
 func run(command_params: Array) -> int:
 	raise_error(self, "Command %s did not override run. Please implement a run() function." % get_command_name())
 
 	return 0
 
 
-## Returns the name of the command based on the script's filename.
+## The name of the command based on the script's filename.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the name of the command based on the script's filename. (`String`)
 func get_command_name() -> String:
 	var path := get_script().get_path() as String
 
 	return path.get_basename().get_file()
 
 
-## Method to be called when the command is interrupted.
+## Method to be called when the command is interrupted.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func interrupt():
 	escoria.logger.debug(
 		self,
@@ -66,10 +98,17 @@ func interrupt():
 
 
 ## Sends an error to the Escoria logger.[br]
-##[br]
-## #### Parameters ####[br]
-## - *command*: the command object causing the error; must extend `ESCBaseCommand`.[br]
-## - *message*: the message the logger should print to describe the error
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |command|`Variant`|the command object causing the error; must extend `ESCBaseCommand`.|yes|[br]
+## |message|`String`|the message the logger should print to describe the error|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func raise_error(command, message: String) -> void:
 	escoria.logger.error(
 		command,
@@ -77,18 +116,30 @@ func raise_error(command, message: String) -> void:
 	)
 
 
-## Raises an error specific to no object being found with `global_id` as its identifier.
-## `command` is the actual command implementation generating the error.[br]
-##[br]
-## #### Parameters ####[br]
-## - *command*: the command object causing the error; must extend `ESCBaseCommand`.[br]
-## - *global_id*: the `global_id` that could not be found
+## Raises an error specific to no object being found with `global_id` as its identifier. `command` is the actual command implementation generating the error.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |command|`Variant`|the command object causing the error; must extend `ESCBaseCommand`.|yes|[br]
+## |global_id|`String`|the `global_id` that could not be found|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func raise_invalid_object_error(command, global_id: String) -> void:
 	raise_error(command, "Invalid object. Object with global id %s not found." % global_id)
 
 
-## Returns a string with the file and line number for error reporting.[br]
+## A string with the file and line number for error reporting.[br]
 ## [br]
-## *Returns* The error info string.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a string with the file and line number for error reporting. The error info string. (`String`)
 func _get_error_info() -> String:
 	return "(File: \"%s\", line %s.)" % [filename, line_number]

@@ -1,31 +1,30 @@
 ## `queue_event(object: String, event: String[, channel: String[, block: Boolean]])`
 ##
-## Queue an event to run.[br]
-##[br]
-## If you queue multiple events on a channel and none of them are blocking
-## events, all events will effectively run at the same time. As the events are
-## placed on the channel's queue, if one event contains a blocking command, the
-## next event on that channel's queue won't be processed until the blocking
-## command finishes.[br]
-##[br]
-## **Parameters**[br]
-##[br]
-## - object: Object that holds the ESC script with the event[br]
-## - event: Name of the event to queue[br]
-## - channel: Channel to run the event on (default: `_front`). Using a
-##   previously unused channel name will create a new channel.[br]
-## - block: Whether to wait for the queue to finish. This is only possible, if
-##   the queued event is not to be run on the same event as this command
-##   (default: `false`)
-##
+## Queue an event to run. If you queue multiple events on a channel and none of them are blocking events, all events will effectively run at the same time. As the events are placed on the channel's queue, if one event contains a blocking command, the next event on that channel's queue won't be processed until the blocking command finishes.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |object|`String`|Object that holds the ESC script with the event|yes|[br]
+## |event|`String`|Name of the event to queue|yes|[br]
+## |channel|`String`|Channel to run the event on (default: `_front`). Using a previously unused channel name will create a new channel.|no|[br]
+## |block|`Boolean`|Whether to wait for the queue to finish. This is only possible, if the queued event is not to be run on the same event as this command (default: `false`)|no|[br]
+## [br]
 ## @ESC
 extends ESCBaseCommand
 class_name QueueEventCommand
 
 
-## Returns the descriptor of the arguments of this command.[br]
+## The descriptor of the arguments of this command.[br]
 ## [br]
-## *Returns* The argument descriptor for this command.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the descriptor of the arguments of this command. The argument descriptor for this command. (`ESCCommandArgumentDescriptor`)
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
@@ -38,9 +37,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - arguments: The arguments to validate.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |arguments|`Array`|The arguments to validate.|yes|[br]
 ## [br]
-## *Returns* True if the arguments are valid, false otherwise.
+## #### Returns[br]
+## [br]
+## Returns True if the arguments are valid, false otherwise. (`bool`)
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -77,12 +80,17 @@ func validate(arguments: Array):
 	return true
 
 
-## Returns whether global_id represents the current room the player is in.[br]
+## Whether global_id represents the current room the player is in.[br]
 ## [br]
 ## #### Parameters[br]
-## - global_id: The global ID to check.[br]
 ## [br]
-## *Returns* True if global_id represents the current room, false otherwise.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |global_id|`String`|The global ID to check.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns whether global_id represents the current room the player is in. True if global_id represents the current room, false otherwise. (`bool`)
 func _is_current_room(global_id: String) -> bool:
 	return escoria.main.current_scene.global_id == global_id
 
@@ -91,9 +99,13 @@ func _is_current_room(global_id: String) -> bool:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - command_params: The parameters for the command.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |arguments|`Array`|Command parameters `[global_id, event_name, channel, block]` passed to the execution.|yes|[br]
 ## [br]
-## *Returns* The execution result code.
+## #### Returns[br]
+## [br]
+## Returns the execution result code. (`int`)
 func run(arguments: Array) -> int:
 	var node = _get_scripted_node(arguments[0])
 
@@ -107,7 +119,15 @@ func run(arguments: Array) -> int:
 	)
 
 
-## Function called when the command is interrupted.
+## Function called when the command is interrupted.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func interrupt():
 	# Do nothing
 	pass

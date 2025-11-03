@@ -8,8 +8,15 @@ class_name ESCInventory
 ## A registry of inventory ESCInventoryItem nodes.
 var items_ids_in_inventory: Dictionary = {}
 
-## Fill the items the player has from the start, do sanity checks and listen
-## when a global has changed.
+## Fill the items the player has from the start, do sanity checks and listen when a global has changed.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _ready():
 	if inventory_ui_container == null or inventory_ui_container.is_empty():
 		escoria.logger.error(
@@ -28,7 +35,13 @@ func _ready():
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - item_id: The id of the item to add
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |item_id|`String`|The id of the item to add|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func add_new_item_by_id(item_id: String) -> void:
 	if item_id.begins_with("i/"):
 		item_id = item_id.rsplit("i/", false)[0]
@@ -93,7 +106,13 @@ func add_new_item_by_id(item_id: String) -> void:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - item_id: The id of the item to remove
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |item_id|`String`|The id of the item to remove|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func remove_item_by_id(item_id: String) -> void:
 	if items_ids_in_inventory.has(item_id):
 		var item_inventory = items_ids_in_inventory[item_id]
@@ -139,9 +158,15 @@ func remove_item_by_id(item_id: String) -> void:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - global: The global variable name[br]
-## - old_value: The old value of the global[br]
-## - new_value: The new value of the global
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |global|`String`|The global variable name|yes|[br]
+## |old_value|`Variant`|The old value of the global|yes|[br]
+## |new_value|`Variant`|The new value of the global|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _on_escoria_global_changed(global: String, old_value, new_value) -> void:
 	if !global.begins_with("i/"):
 		return
@@ -157,7 +182,15 @@ func _on_escoria_global_changed(global: String, old_value, new_value) -> void:
 			"Global must contain only one item name (received: %s)." % global
 		)
 
-## Clear the inventory UI of all its items.
+## Clear the inventory UI of all its items.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func clear() -> void:
 	var items_in_inventory_keys: Array = items_ids_in_inventory.keys()
 	for item_id in items_in_inventory_keys:

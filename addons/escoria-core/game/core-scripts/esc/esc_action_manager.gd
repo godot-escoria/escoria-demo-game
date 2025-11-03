@@ -7,13 +7,28 @@ class_name ESCActionManager
 const ESCPlayer = preload("res://addons/escoria-core/game/core-scripts/esc_player.gd")
 
 
-## The current action verb was changed.
+## The current action verb was changed.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
 signal action_changed
 
-## Emitted when an action has been completed.
+## Emitted when an action has been completed.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
 signal action_finished
 
-## Emitted when the action input state has changed.
+## Emitted when the action input state has changed.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
 signal action_input_state_changed
 
 
@@ -74,18 +89,18 @@ var action_state = ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM:
 
 
 ## Runs a generic action.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
-## * action: type of the action to run[br]
-## * params: Parameters for the action[br]
-##   * BACKGROUND_CLICK: [moving_obj, target, walk_fast][br]
-##   * ITEM_LEFT_CLICK: [item, input_event][br]
-##   * ITEM_RIGHT_CLICK: [item, input_event][br]
-##   * TRIGGER_IN: [trigger_id, object_id, trigger_in_verb][br]
-##   * TRIGGER_OUT: [trigger_id, object_id, trigger_out_verb][br]
-## * can_interrupt: if true, this command will interrupt any ongoing event
-## before it is finished
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |action|`int`|type of the action to run|yes|[br]
+## |params|`Array`|Parameters for the action|no|[br]
+## |can_interrupt|`bool`|if true, this command will interrupt any ongoing event before it is finished BACKGROUND_CLICK [moving_obj, target, walk_fast] ITEM_LEFT_CLICK [item, input_event] ITEM_RIGHT_CLICK [item, input_event] TRIGGER_IN [trigger_id, object_id, trigger_in_verb] TRIGGER_OUT [trigger_id, object_id, trigger_out_verb]|no|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 	if escoria.current_state == escoria.GAME_STATE.DEFAULT:
 		match action:
@@ -210,19 +225,33 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 		pass
 
 
-## Sets the current state of action input.[br]
-##[br]
-## ## Parameters[br]
-## * p_state: the action input state to set
+## Sets the current state of action input. ## Parameters[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |p_state|`Variant`|the action input state to set|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func set_action_input_state(p_state) -> void:
 	action_state = p_state
 	action_input_state_changed.emit()
 
 
-## Sets the current action verb.[br]
-##[br]
-## ## Parameters[br]
-## * action: the action verb to set
+## Sets the current action verb. ## Parameters[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |action|`String`|the action verb to set|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func set_current_action(action: String) -> void:
 	if action != current_action:
 		clear_current_tool()
@@ -237,14 +266,30 @@ func set_current_action(action: String) -> void:
 	action_changed.emit()
 
 
-## Clears the current action.
+## Clears the current action.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func clear_current_action() -> void:
 	set_current_action("")
 	set_action_input_state(ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM)
 	action_changed.emit()
 
 
-## Clears the current tool.
+## Clears the current tool.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func clear_current_tool() -> void:
 	current_tool = null
 	current_target = null
@@ -254,19 +299,19 @@ func clear_current_tool() -> void:
 		set_action_input_state(ACTION_INPUT_STATE.AWAITING_ITEM)
 
 
-## Checks if the specified action is valid and returns the associated event;
-## otherwise, we see if there's a "fallback" event and use that if necessary and,
-## if not, we return no event as there's nothing to do.[br]
-##[br]
+## Checks if the specified action is valid and returns the associated event; otherwise, we see if there's a "fallback" event and use that if necessary and, if not, we return no event as there's nothing to do. or there's a reason not to run an event.[br]
+## [br]
 ## #### Parameters[br]
-##[br]
-## * action: Action to execute (defined in attached ESC file and in
-##   action verbs UI) eg: arrived, use, look, pickup...[br]
-## * target: Target ESC object.[br]
-## * combine_with: ESC object to combine with.[br]
-##[br]
-## **Returns** the appropriate `ESCGrammarStmts.Event` to queue/run, or `null` if none can be found
-## or there's a reason not to run an event.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |action|`String`|Action to execute (defined in attached ESC file and in action verbs UI) eg: arrived, use, look, pickup...|yes|[br]
+## |target|`ESCObject`|Target ESC object.|yes|[br]
+## |combine_with|`ESCObject`|ESC object to combine with.|no|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `ESCGrammarStmts.Event` value. (`ESCGrammarStmts.Event`)
 func _get_event_to_queue(
 	action: String,
 	target: ESCObject,
@@ -392,16 +437,18 @@ func _get_event_to_queue(
 	return event_to_return
 
 
-## Check to make sure `target` contains the specific `action`. If `target` has an entry for
-## `action` that also requires a target itself (e.g. `:use "wrench"`), then we return `false` as
-## combinations are handled elsewhere.[br]
-##[br]
+## Check to make sure `target` contains the specific `action`. If `target` has an entry for `action` that also requires a target itself (e.g. `:use "wrench"`), then we return `false` as combinations are handled elsewhere.[br]
+## [br]
 ## #### Parameters[br]
-##[br]
-## * target: `ESCObject` whose events we are to check to see if `action` has a corresponding event.[br]
-## * action: The action to check.[br]
-##[br]
-## **Returns** `true` iff `target` has an event corresponding to `action` and that event doesn't itself require a target.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |target|`ESCObject`|`ESCObject` whose events we are to check to see if `action` has a corresponding event.|yes|[br]
+## |action|`String`|The action to check.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `bool` value. (`bool`)
 func _check_target_has_proper_action(target: ESCObject, action: String) -> bool:
 	if target.events.has(action):
 		if target.events[action].get_target():
@@ -416,11 +463,15 @@ func _check_target_has_proper_action(target: ESCObject, action: String) -> bool:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - events_dict: dictionary with events to check.[br]
-## - event_name: the event name to search for.[br]
-## - event_target: the target for the specified event to check.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |events_dict|`Dictionary`|dictionary with events to check.|yes|[br]
+## |event_name|`String`|the event name to search for.|yes|[br]
+## |event_target|`String`|the target for the specified event to check.|yes|[br]
 ## [br]
-## **Returns** true iff events_dict contains an event matching both event_name and event_target.
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _has_event_with_target(events_dict: Dictionary, event_name: String, event_target: String):
 	var event = events_dict.get(event_name)
 	if event == null:
@@ -432,9 +483,13 @@ func _has_event_with_target(events_dict: Dictionary, event_name: String, event_t
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - event: the event to be run.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |event|`Variant`|the event to be run.|yes|[br]
 ## [br]
-## **Returns** the return code of the event once executed.
+## #### Returns[br]
+## [br]
+## Returns a `int` value. (`int`)
 func _run_event(event) -> int:
 	escoria.event_manager.queue_event(event)
 
@@ -449,15 +504,19 @@ func _run_event(event) -> int:
 	return event_returned[0]
 
 
-## Makes an object walk to a destination. This can be either a 2D position or
-## another object.[br]
-##[br]
+## Makes an object walk to a destination. This can be either a 2D position or another object.[br]
+## [br]
 ## #### Parameters[br]
-##[br]
-## * moving_obj_id: global id of the object that needs to move.[br]
-## * destination: `Position2D` or `ESCObject` holding the moving object to head to.[br]
-## * is_fast: if `true`, the walk is performed at fast speed (defined in the moving
-## object.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |moving_obj|`ESCObject`|Escoria object that should move toward the destination.|yes|[br]
+## |destination|`Variant`|Either a `Vector2` position or an `ESCObject` whose location is targeted.|yes|[br]
+## |is_fast|`bool`|Whether to use the object's fast movement speed when walking.|no|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func perform_walk(
 	moving_obj: ESCObject,
 	destination,
@@ -501,12 +560,18 @@ func perform_walk(
 
 
 ## Event handler called when an object/item is clicked.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
-## * obj: Object that was left clicked.[br]
-## * event: Input event that was received.[br]
-## * default_action: If `true`, run the inventory default action.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |obj|`ESCObject`|Object that was left clicked.|yes|[br]
+## |event|`InputEvent`|Input event that was received.|yes|[br]
+## |default_action|`bool`|If `true`, run the inventory default action.|no|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func perform_inputevent_on_object(
 	obj: ESCObject,
 	event: InputEvent,
@@ -672,12 +737,16 @@ func _telekinetic_applies_to(event: ESCGrammarStmts.Event) -> bool:
 
 
 ## Determines whether the object in question can be acted upon.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
-## * global_id: The global ID of the item to examine.[br]
-##[br]
-## **Returns** `true` iff the item represented by global_id can be acted upon.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |global_id|`String`|The global ID of the item to examine.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `bool` value. (`bool`)
 func is_object_actionable(global_id: String) -> bool:
 	var obj: ESCObject = escoria.object_manager.get_object(global_id) as ESCObject
 
@@ -688,10 +757,14 @@ func is_object_actionable(global_id: String) -> bool:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - obj: the ESCObject to prepare.[br]
-## - default_action: if true, the default action set on the item is used.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |obj|`ESCObject`|the ESCObject to prepare.|yes|[br]
+## |default_action|`bool`|if true, the default action set on the item is used.|yes|[br]
 ## [br]
-## **Returns** True if the tool was set in this function.
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _set_tool_and_action(obj: ESCObject, default_action: bool):
 	var tool_just_set: bool = false
 	# Check if current_action and current_tool are already set
@@ -713,7 +786,13 @@ func _set_tool_and_action(obj: ESCObject, default_action: bool):
 
 ## Checks if object requires a combination with another, according to currently selected action verb (or check with default action of the item).[br]
 ## [br]
-## **Returns** True if current action on "obj" requires a combination.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `bool` value. (`bool`)
 func _check_item_needs_combine() -> bool:
 	return current_action \
 			and current_tool \
@@ -724,9 +803,15 @@ func _check_item_needs_combine() -> bool:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - obj: the object that was clicked.[br]
-## - clicked_position: the Position2D of the input click.[br]
-## - walk_fast: if true, the player will walk fast to the object.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |obj|`ESCObject`|the object that was clicked.|yes|[br]
+## |clicked_position|`Vector2`|the Position2D of the input click.|yes|[br]
+## |walk_fast|`bool`|if true, the player will walk fast to the object.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `ESCWalkContext` value. (`ESCWalkContext`)
 func _walk_towards_object(
 	obj: ESCObject,
 	clicked_position: Vector2,
@@ -798,9 +883,13 @@ func _walk_towards_object(
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - obj: the ESCObject to examine.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |obj|`ESCObject`|the ESCObject to examine.|yes|[br]
 ## [br]
-## **Returns** True iff 'obj' can be acted upon.
+## #### Returns[br]
+## [br]
+## Returns a `bool` value. (`bool`)
 func _is_object_actionable(obj: ESCObject) -> bool:
 	var object_is_actionable: bool = true
 

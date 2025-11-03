@@ -15,29 +15,75 @@ class Logical extends ESCGrammarExpr:
 		get = get_right
 
 
-	## Initialization method. Must be called after instantiation.
+	## Initialization method. Must be called after instantiation.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |left|`ESCGrammarExpr`|Left-hand operand expression.|yes|[br]
+	## |operator|`ESCToken`|Token representing the operator applied to the operands.|yes|[br]
+	## |right|`ESCGrammarExpr`|Right-hand operand expression.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func init(left: ESCGrammarExpr, operator: ESCToken, right: ESCGrammarExpr):
 		_left = left
 		_operator = operator
 		_right = right
 
 
-	## Returns the LHS of the logical expression.
+	## The LHS of the logical expression.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the LHS of the logical expression. (`ESCGrammarExpr`)
 	func get_left() -> ESCGrammarExpr:
 		return _left
 
 
-	## Returns the RHS of the logical expression.
+	## The RHS of the logical expression.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the RHS of the logical expression. (`ESCGrammarExpr`)
 	func get_right() -> ESCGrammarExpr:
 		return _right
 
 
-	## Returns the operator (predicate) of the logical expression.
+	## The operator (predicate) of the logical expression.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the operator (predicate) of the logical expression. (`ESCToken`)
 	func get_operator() -> ESCToken:
 		return _operator
 
 
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this expression.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return visitor.visit_logical_expr(self)
 
@@ -53,29 +99,75 @@ class Binary extends ESCGrammarExpr:
 		get = get_right
 
 
-	## Initialization method. Must be called after instantiation.
+	## Initialization method. Must be called after instantiation.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |left|`ESCGrammarExpr`|Left-hand operand expression.|yes|[br]
+	## |operator|`ESCToken`|Token representing the operator applied to the operands.|yes|[br]
+	## |right|`ESCGrammarExpr`|Right-hand operand expression.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func init(left: ESCGrammarExpr, operator: ESCToken, right: ESCGrammarExpr):
 		_left = left
 		_operator = operator
 		_right = right
 
 
-	## Returns the LHS of the binary expression.
+	## The LHS of the binary expression.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the LHS of the binary expression. (`ESCGrammarExpr`)
 	func get_left() -> ESCGrammarExpr:
 		return _left
 
 
-	## Returns the RHS of the binary expression.
+	## The RHS of the binary expression.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the RHS of the binary expression. (`ESCGrammarExpr`)
 	func get_right() -> ESCGrammarExpr:
 		return _right
 
 
-	## Returns the operator the binary expression.
+	## The operator the binary expression.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the operator the binary expression. (`ESCToken`)
 	func get_operator() -> ESCToken:
 		return _operator
 
 
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this expression.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return visitor.visit_binary_expr(self)
 
@@ -89,23 +181,60 @@ class Unary extends ESCGrammarExpr:
 		get = get_right
 
 
-	## Initialization method. Must be called after instantiation.
+	## Initialization method. Must be called after instantiation.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |operator|`ESCToken`|Token representing the operator applied to the operands.|yes|[br]
+	## |right|`ESCGrammarExpr`|Right-hand operand expression.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func init(operator: ESCToken, right: ESCGrammarExpr):
 		_operator = operator
 		_right = right
 
 
-	## Returns the sole operand of the unary expression.
+	## The sole operand of the unary expression.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the sole operand of the unary expression. (`ESCGrammarExpr`)
 	func get_right() -> ESCGrammarExpr:
 		return _right
 
 
-	## Returns the operator the unary expression.
+	## The operator the unary expression.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the operator the unary expression. (`ESCToken`)
 	func get_operator() -> ESCToken:
 		return _operator
 
 
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this expression.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return visitor.visit_unary_expr(self)
 
@@ -178,33 +307,74 @@ class Call extends ESCGrammarExpr:
 
 
 	## Initialization method. Must be called after instantiation.[br]
-	##[br]
-	## #### Parameters ####[br]
-	## - *callee*: the expression representing the function to be called[br]
-	## - *paren*: token containing debug information for feedback purposes[br]
-	## - *arguments*: array containing arguments to be passed to the callee
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |callee|`ESCGrammarExpr`|the expression representing the function to be called|yes|[br]
+	## |paren|`ESCToken`|token containing debug information for feedback purposes|yes|[br]
+	## |arguments|`Array`|array containing arguments to be passed to the callee|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func init(callee: ESCGrammarExpr, paren: ESCToken, arguments: Array):
 		_callee = callee
 		_paren = paren
 		_arguments = arguments
 
 
-	## Returns the callee expression.
+	## The callee expression.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the callee expression. (`ESCGrammarExpr`)
 	func get_callee() -> ESCGrammarExpr:
 		return _callee
 
 
-	## Returns the arguments array.
+	## The arguments array.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the arguments array. (`Array`)
 	func get_arguments() -> Array:
 		return _arguments
 
 
-	## Returns the paren (debug) token.
+	## The paren (debug) token.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the paren (debug) token. (`ESCToken`)
 	func get_paren_token() -> ESCToken:
 		return _paren
 
 
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this expression.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return await visitor.visit_call_expr(self)
 
@@ -216,19 +386,44 @@ class Literal extends ESCGrammarExpr:
 
 
 	## Initialization method. Must be called after instantiation.[br]
-	##[br]
-	## #### Parameters ####[br]
-	## - *value*: the value of the literal
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |value|`Variant`|the value of the literal|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func init(value):
 		_value = value
 
 
-	## Returns the literal's value.
+	## The literal's value.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the literal's value. (`Variant`)
 	func get_value():
 		return _value
 
 
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this expression.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return await visitor.visit_literal_expr(self)
 
@@ -238,19 +433,44 @@ class Variable extends ESCGrammarExpr:
 	var _name: ESCToken
 
 	## Initialization method. Must be called after instantiation.[br]
-	##[br]
-	## #### Parameters ####[br]
-	## - *name*: `ESCToken` representing the name of the variable
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |name|`ESCToken`|Token representing the variable's name.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func init(name: ESCToken):
 		_name = name
 
 
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this expression.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return await visitor.visit_variable_expr(self)
 
 
-	## Returns the variable's name (as an `ESCToken`).
+	## The variable's name (as an `ESCToken`).[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the variable's name (as an `ESCToken`). (`ESCToken`)
 	func get_name() -> ESCToken:
 		return _name
 
@@ -265,26 +485,59 @@ class Assign extends ESCGrammarExpr:
 
 
 	## Initialization method. Must be called after instantiation.[br]
-	##[br]
-	## #### Parameters ####[br]
-	## - *name*: `ESCToken` representing the name of the variable[br]
-	## - *value*: the value to assign to the variable; must be an expression itself
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |name|`ESCToken`|Token representing the variable's name to assign.|yes|[br]
+	## |value|`ESCGrammarExpr`|the value to assign to the variable; must be an expression itself|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func init(name: ESCToken, value: ESCGrammarExpr):
 		_name = name
 		_value = value
 
 
-	## Returns the variables name (as an `ESCToken`).
+	## The variables name (as an `ESCToken`).[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the variables name (as an `ESCToken`). (`ESCToken`)
 	func get_name() -> ESCToken:
 		return _name
 
 
-	## Returns the value (as an expression) to be assigned to the variable.
+	## The value (as an expression) to be assigned to the variable.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the value (as an expression) to be assigned to the variable. (`ESCGrammarExpr`)
 	func get_value() -> ESCGrammarExpr:
 		return _value
 
 
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this expression.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return await visitor.visit_assign_expr(self)
 
@@ -297,19 +550,44 @@ class Grouping extends ESCGrammarExpr:
 
 
 	## Initialization method. Must be called after instantiation.[br]
-	##[br]
-	## #### Parameters ####[br]
-	## - *expression*: the expression contained inside the parentheses[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |expression|`ESCGrammarExpr`|the expression contained inside the parentheses|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func init(expression: ESCGrammarExpr):
 		_expression = expression
 
 
-	## Returns the grouped expression.
+	## The grouped expression.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the grouped expression. (`ESCGrammarExpr`)
 	func get_expression() -> ESCGrammarExpr:
 		return _expression
 
 
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this expression.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return await visitor.visit_grouping_expr(self)
 
@@ -320,17 +598,45 @@ class InInventory extends ESCGrammarExpr:
 	var _identifer: ESCGrammarExpr
 
 
-	## Initialization method. Must be called after instantiation.
+	## Initialization method. Must be called after instantiation.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |identifier|`ESCGrammarExpr`|Expression that resolves to the identifier being modified.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func init(identifier: ESCGrammarExpr):
 		_identifer = identifier
 
 
-	## Returns the identifier to be checked against the user's inventory.
+	## The identifier to be checked against the user's inventory.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the identifier to be checked against the user's inventory. (`ESCGrammarExpr`)
 	func get_identifier() -> ESCGrammarExpr:
 		return _identifer
 
 
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this expression.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return await visitor.visit_in_inventory_expr(self)
 
@@ -346,32 +652,73 @@ class Is extends ESCGrammarExpr:
 
 
 	## Initialization method. Must be called after instantiation.[br]
-	## #### Parameters ####[br]
-	## - *identifier*: the expression representing the identifier of the object to examine[br]
-	## - *state*: the expression to evaluate that is used when checking the state of the object 
-	## represented by `identifier`[br]
-	## - *descriptor*: not currently used
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |identifier|`ESCGrammarExpr`|the expression representing the identifier of the object to examine|yes|[br]
+	## |state|`ESCGrammarExpr`|the expression to evaluate that is used when checking the state of the object represented by `identifier`|yes|[br]
+	## |descriptor|`ESCToken`|not currently used|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func init(identifier: ESCGrammarExpr, state: ESCGrammarExpr, descriptor: ESCToken):
 		_identifer = identifier
 		_state = state
 		_descriptor = descriptor
 
 
-	## Returns the identifier expression of the object to be examined.
+	## The identifier expression of the object to be examined.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the identifier expression of the object to be examined. (`ESCGrammarExpr`)
 	func get_identifier() -> ESCGrammarExpr:
 		return _identifer
 
 
-	## Returns the state expression to be checked against the object corresponding to `identifier`
+	## The state expression to be checked against the object corresponding to `identifier`[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the state expression to be checked against the object corresponding to `identifier`. (`ESCGrammarExpr`)
 	func get_state() -> ESCGrammarExpr:
 		return _state
 
 
-	## Not currently used.
+	## Not currently used.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns a `ESCToken` value. (`ESCToken`)
 	func get_descriptor() -> ESCToken:
 		return _descriptor
 
 
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this expression.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return await visitor.visit_is_expr(self)

@@ -19,11 +19,18 @@ var _compiler
 
 
 ## Initialization method. Must be called after instantiation.[br]
-##[br]
-## #### Parameters ####[br]
-## - *compiler*: a reference to the ASHES compiler; used primarily for error tracking[br]
-## - *tokens*: an array of tokens produced by the ASHES scanner[br]
-## - *associated_object_global_id*: string containing the global ID of the associated object/room to be passed on to events
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |compiler|`Variant`|a reference to the ASHES compiler; used primarily for error tracking|yes|[br]
+## |tokens|`Array`|an array of tokens produced by the ASHES scanner|yes|[br]
+## |associated_object_global_id|`String`|string containing the global ID of the associated object/room to be passed on to events|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func init(compiler, tokens: Array, associated_object_global_id: String) -> void:
 	_compiler = compiler
 	_tokens = tokens
@@ -31,8 +38,14 @@ func init(compiler, tokens: Array, associated_object_global_id: String) -> void:
 
 
 ## Entry point for the parser. Begins parsing the tokens passed in to the `init` method.[br]
-##[br]
-## Returns an array of statements for the interpreter to execute.
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns an array of statements for the interpreter to execute. (`Array`)
 func parse() -> Array:
 	_loop_level = 0
 	_dialog_level = 0

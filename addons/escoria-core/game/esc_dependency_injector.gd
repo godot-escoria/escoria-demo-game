@@ -16,9 +16,13 @@ class_name ESCDependencyInjector
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - p_item: The ESCItem to wrap in an ESCInventoryItem
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |p_item|`ESCItem`|The ESCItem to wrap in an ESCInventoryItem|yes|[br]
 ## [br]
-## **Returns** A new ESCInventoryItem instance wrapping the given ESCItem
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func esc_inventory_item(p_item: ESCItem):
 	return ESCInventoryItem.new(p_item)
 

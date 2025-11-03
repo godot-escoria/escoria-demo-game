@@ -5,7 +5,14 @@ class_name StateMachine
 ## delegating _physics_process, _input calls to the State nodes,
 ## and changing the current/active state.
 
-## Signal emitted when the state has changed. Parameter is the new current state.
+## Signal emitted when the state has changed. Parameter is the new current state.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |current_state|`Variant`|Instance of the state that became active.|yes|[br]
+## [br]
 signal state_changed(current_state)
 
 ## Starting state. This node has to be set *before* the initialize(START_STATE)
@@ -29,11 +36,17 @@ var _active = false:
 	set = set_active
 
 
-## Initialize the state machine with the start_state parameter.
-##
-## #### Parameters
-##
-## - start_state: State value to use as starting state for the state machine.
+## Initialize the state machine with the start_state parameter.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |start_state|`State`|State value to use as starting state for the state machine.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func initialize(start_state: State):
 	if START_STATE == null:
 		escoria.logger.error(
@@ -51,11 +64,17 @@ func initialize(start_state: State):
 	current_state.enter()
 
 
-## Enable or disable the state machine.
-##
-## #### Parameters
-##
-## - value: if true, enables the state machine. If false, disables it.
+## Enable or disable the state machine.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |value|`bool`|if true, enables the state machine. If false, disables it.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func set_active(value: bool):
 	_active = value
 	set_physics_process(value)
