@@ -422,7 +422,7 @@ func update_terrain(on_event_finished_name = null) -> void:
 ## [br]
 ## #### Returns[br]
 ## [br]
-## Returns a `int` value. (`int`)
+## Returns the direction index. (`int`)
 func _get_dir_deg(deg: int, animations: ESCAnimationResource) -> int:
 	# We turn the angle by -90° because angle_to_point gives the angle
 	# against X axis, not Y

@@ -550,7 +550,7 @@ func _unhandled_input(input_event: InputEvent) -> void:
 ## [br]
 ## #### Returns[br]
 ## [br]
-## Returns nothing.
+## Returns a `String` value containing configuration warnings joined by newlines. (`String`)
 func _get_configuration_warnings():
 	validate_animations(animations)
 	return "\n".join(_scene_warnings)

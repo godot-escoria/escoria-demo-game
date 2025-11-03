@@ -165,7 +165,7 @@ func get_at(distance: int, name: String):
 ## [br]
 ## #### Returns[br]
 ## [br]
-## Returns the result of visiting this logical expression. (`Variant`)
+## Returns nothing. (`void`)]
 func assign_at(distance: int, name: ESCToken, value):
 	ancestor(distance).get_values()[name.get_lexeme()] = value
 

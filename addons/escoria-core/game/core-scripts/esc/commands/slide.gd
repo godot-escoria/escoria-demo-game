@@ -1,6 +1,8 @@
 ## `slide(object: String, target: String[, speed: Integer])`
 ##
-## Moves `object` towards the position of `target`. This command is non-blocking. - *object*: Global ID of the object to move - *target*: Global ID of the target object - *speed*: The speed at which to slide in pixels per second (will default to the speed configured on the `object`) **Warning** This command does not respect the room's navigation polygons, so `object` can be moved even when outside walkable areas.[br]
+## Moves `object` towards the position of `target`. This command is non-blocking.[br]
+##[br]
+## **Warning** This command does not respect the room's navigation polygons, so `object` can be moved even when outside walkable areas![br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
@@ -142,7 +144,7 @@ func run(command_params: Array) -> int:
 ## [br]
 ## Returns nothing.
 func interrupt():
-	for tween in _tweens:
+	for tween in _tweens.values():
 		tween.stop_all()
 
 ## Function called when a tween completes.[br]

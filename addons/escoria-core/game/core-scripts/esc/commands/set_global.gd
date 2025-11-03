@@ -26,7 +26,7 @@ const ILLEGAL_STRINGS = ["/"]
 ## [br]
 ## #### Returns[br]
 ## [br]
-## Returns the descriptor of the arguments of this command. The argument descriptor for this command. (`ESCCommandArgumentDescriptor`)
+## Returns the descriptor of the arguments of this command. (`ESCCommandArgumentDescriptor`)
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
