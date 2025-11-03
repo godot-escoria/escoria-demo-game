@@ -1,13 +1,14 @@
-#!/usr/bin/env zsh
+#!/bin/bash
 set -euo pipefail
 
 # ---- usage & args -----------------------------------------------------------
-if [[ $# -ne 1 ]]; then
-  echo "Usage: $0 <escoria_docs_path>"
+if [[ $# -ne 2 ]]; then
+  echo "Usage: $0 <escoria_docs_path> <godot_binary>"
   exit 1
 fi
 
 escoria_docs="$1"
+godot_bin="$2"
 
 # Normalize to absolute path for safety
 if [[ ! "$escoria_docs" = /* ]]; then
@@ -15,9 +16,6 @@ if [[ ! "$escoria_docs" = /* ]]; then
 fi
 
 # ---- step 1: run Godot doctool from current directory -----------------------
-# Path contains a space; quote it rather than escaping.
-godot_bin="/Applications/Godot 4.3.app/Contents/MacOS/Godot"
-
 if [[ ! -x "$godot_bin" ]]; then
   echo "Error: Godot binary not found at: $godot_bin"
   exit 1
@@ -76,4 +74,3 @@ fi
 echo "Serving _build at http://localhost:8000 ..."
 echo "(Press Ctrl+C to stop)"
 python3 -m http.server --directory _build
-
