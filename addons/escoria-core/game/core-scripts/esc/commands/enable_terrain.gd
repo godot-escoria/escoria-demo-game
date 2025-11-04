@@ -9,6 +9,7 @@
 ## |node_name|`String`|Name of the `NavigationPolygonInstance` node to activate|yes|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name EnableTerrainCommand
 

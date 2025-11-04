@@ -2,6 +2,7 @@
 ##
 ## The ASHES global state is basically simply a dictionary of keys with
 ## values. Values can be bool, integer or strings.
+## @MANAGER
 extends Resource
 class_name ESCGlobalsManager
 

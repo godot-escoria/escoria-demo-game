@@ -10,6 +10,7 @@
 ## |savegame_description|`String`|Text shown to players when listing this save slot.|yes|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name SaveGameCommand
 

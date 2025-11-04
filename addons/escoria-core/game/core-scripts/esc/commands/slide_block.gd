@@ -12,6 +12,7 @@
 ## `object` can be moved even when outside walkable areas.
 ##
 ## @ESC
+## @COMMAND
 extends SlideCommand
 class_name SlideBlockCommand
 

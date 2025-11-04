@@ -1,4 +1,5 @@
 ## A manager for inventory objects.
+## @MANAGER
 extends Resource
 class_name ESCInventoryManager
 

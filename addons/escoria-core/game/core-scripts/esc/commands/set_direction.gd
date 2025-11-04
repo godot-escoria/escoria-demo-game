@@ -11,6 +11,7 @@
 ## |wait|`Number`|Seconds to spend on each intermediate step when rotating toward the target direction (0 means immediate).|no|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name SetDirectionCommand
 

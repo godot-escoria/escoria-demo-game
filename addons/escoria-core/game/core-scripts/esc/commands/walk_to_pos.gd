@@ -12,6 +12,7 @@
 ## |walk_fast|`Boolean`|Whether to walk fast (`true`) or normal speed (`false`). (default: false)|no|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name WalkToPosCommand
 

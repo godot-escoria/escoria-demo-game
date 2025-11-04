@@ -11,6 +11,7 @@
 ## |y|`Integer`|Y-coordinate of destination position|yes|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name TeleportPosCommand
 

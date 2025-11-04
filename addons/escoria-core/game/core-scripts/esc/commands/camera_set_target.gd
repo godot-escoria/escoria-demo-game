@@ -12,6 +12,7 @@
 ## For more details see: https://docs.escoria-framework.org/camera[br]
 ##
 ## @ESC
+## @COMMAND
 extends ESCCameraBaseCommand
 class_name CameraSetTargetCommand
 

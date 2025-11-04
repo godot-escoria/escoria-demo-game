@@ -1,6 +1,7 @@
 ## Escoria inputs manager
 ##
 ## Catches, handles and distributes input events for the game.
+## @MANAGER
 extends Resource
 class_name ESCInputsManager
 

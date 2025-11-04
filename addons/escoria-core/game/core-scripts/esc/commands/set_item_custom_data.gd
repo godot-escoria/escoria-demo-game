@@ -10,6 +10,7 @@
 ## |custom_data|`Dictionary`|Dictionary assigned to the item's `custom_data` property (an empty dictionary is used when `null`).|yes|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name SetItemCustomDataCommand
 

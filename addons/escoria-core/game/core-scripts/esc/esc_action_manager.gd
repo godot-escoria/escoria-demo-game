@@ -1,4 +1,5 @@
 ## Manages actions currently being carried out.
+## @MANAGER
 extends Resource
 class_name ESCActionManager
 

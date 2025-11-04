@@ -10,6 +10,7 @@
 ## |animations|`String`|The path of the animation resource to use|yes|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name SetAnimationsCommand
 

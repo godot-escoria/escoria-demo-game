@@ -11,6 +11,7 @@
 ## |event|`String`|Name of the event to schedule|yes|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name SchedEventCommand
 

@@ -1,7 +1,7 @@
+## Class that handles migrations between different game or escoria versions
+## @MANAGER
 extends RefCounted
 class_name ESCMigrationManager
-## Class that handles migrations between different game or escoria versions
-
 
 
 ## Regular expression that matches a simple semver version string

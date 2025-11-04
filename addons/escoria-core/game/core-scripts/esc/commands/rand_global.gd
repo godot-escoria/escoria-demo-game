@@ -10,6 +10,7 @@
 ## |max_value|`Integer`|Maximum possible integer value (inclusive) (default: 1)|yes|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name RandGlobalCommand
 

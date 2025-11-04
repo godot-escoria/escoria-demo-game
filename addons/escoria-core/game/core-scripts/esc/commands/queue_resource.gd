@@ -10,6 +10,7 @@
 ## |front_of_queue|`Boolean`|Whether to put the resource at the front of the queue in order to load it as soon as possible (default: `false`)|no|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name QueueResourceCommand
 

@@ -1,4 +1,5 @@
 ## A manager for rooms in a game.
+## @MANAGER
 extends Resource
 class_name ESCRoomManager
 ## The room manager scene.

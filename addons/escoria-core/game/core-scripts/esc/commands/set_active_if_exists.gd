@@ -10,6 +10,7 @@
 ## |active|`Boolean`|Whether the object should be marked as active (`true`) or inactive (`false`).|yes|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name SetActiveIfExistsCommand
 

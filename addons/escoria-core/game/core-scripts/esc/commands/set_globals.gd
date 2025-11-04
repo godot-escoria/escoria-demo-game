@@ -10,6 +10,7 @@
 ## |value|`String` or `Integer` or `Boolean`|Value to set (can be of type string, boolean, integer or float)|yes|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name SetGlobalsCommand
 

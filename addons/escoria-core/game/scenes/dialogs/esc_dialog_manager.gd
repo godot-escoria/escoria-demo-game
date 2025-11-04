@@ -1,4 +1,5 @@
 ## A base class for dialog plugins to work with Escoria
+## @MANAGER
 extends Control
 class_name ESCDialogManager
 

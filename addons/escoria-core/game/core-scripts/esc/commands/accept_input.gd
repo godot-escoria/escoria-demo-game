@@ -9,6 +9,7 @@
 ## |type|`String`|Type of inputs to accept (ALL) `ALL`: Accept all types of user input `SKIP`: Accept skipping dialogues but nothing else `NONE`: Deny all inputs (including opening menus) Warning The type of user input accepted will persist even after the current event has ended. Remember to reset the input type at the end of cut-scenes!|no|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name AcceptInputCommand
 

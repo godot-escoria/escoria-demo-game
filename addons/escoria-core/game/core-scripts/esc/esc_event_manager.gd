@@ -3,6 +3,7 @@
 ## There are different "channels" an event can run on. The usual events happen in 
 ## the foreground channel _front, but additional event queues can be added as required.
 ## Additionally, events can be scheduled to be queued in the future.
+## @MANAGER
 extends Node
 class_name ESCEventManager
 

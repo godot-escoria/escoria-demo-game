@@ -11,6 +11,7 @@
 ## |delay|`Number`|Delay in seconds before starting the transition (default: `1.0`)|no|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name TransitionCommand
 

@@ -11,6 +11,7 @@
 ## |run_events|`Boolean`|Run the standard ESC events of the new scene (default: `true`)|no|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name ChangeSceneCommand
 

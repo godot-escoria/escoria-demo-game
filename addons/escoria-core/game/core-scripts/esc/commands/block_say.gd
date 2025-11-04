@@ -7,6 +7,7 @@
 ## None.
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name BlockSayCommand
 

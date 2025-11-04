@@ -10,6 +10,7 @@
 ## |target|`String`|Global ID of the object to use as the destination coordinates for `object`|yes|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name TeleportCommand
 

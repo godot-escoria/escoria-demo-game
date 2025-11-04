@@ -11,6 +11,7 @@
 ## |reverse|`Boolean`|Plays the animation in reverse when true|no|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name AnimBlockCommand
 

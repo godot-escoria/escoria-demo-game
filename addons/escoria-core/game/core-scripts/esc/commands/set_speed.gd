@@ -10,6 +10,7 @@
 ## |speed|`Integer`|Speed value for `object` in pixels per second.|yes|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name SetSpeedCommand
 

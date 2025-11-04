@@ -10,6 +10,7 @@
 ## |value|`Float`|Value to be added (default: 1)|no|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name IncGlobalCommand
 

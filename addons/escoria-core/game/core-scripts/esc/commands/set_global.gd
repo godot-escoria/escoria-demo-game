@@ -11,6 +11,7 @@
 ## |force|`Boolean`|if false, setting a global whose name is reserved will trigger an error. Defaults to false. Reserved globals are: ESC_LAST_SCENE, FORCE_LAST_SCENE_NULL, ANIMATION_RESOURCES, ESC_CURRENT_SCENE|no|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name SetGlobalCommand
 

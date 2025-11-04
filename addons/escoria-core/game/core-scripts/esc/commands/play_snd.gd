@@ -11,6 +11,7 @@
 ## |start_position_seconds|`Number`|The position in seconds from which to start playing the sound file (default: `0.0`)|no|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name PlaySndCommand
 

@@ -1,4 +1,5 @@
 ## Registers and allows access to Escoria-specific project settings.
+## @MANAGER
 extends Resource
 class_name ESCProjectSettingsManager
 

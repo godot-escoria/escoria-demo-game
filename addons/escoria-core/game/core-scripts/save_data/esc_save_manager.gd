@@ -1,4 +1,5 @@
 ## Saves and loads savegame and settings files.
+## @MANAGER
 class_name ESCSaveManager
 
 ## Emitted when the game is starting to load a savegame.[br]

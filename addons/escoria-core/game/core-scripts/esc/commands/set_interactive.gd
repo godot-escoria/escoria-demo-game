@@ -10,6 +10,7 @@
 ## |interactive|`Boolean`|Whether the object should be interactive|yes|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name SetInteractiveCommand
 

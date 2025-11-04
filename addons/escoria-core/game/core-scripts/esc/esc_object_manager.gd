@@ -1,4 +1,5 @@
 ## A manager for ESC objects.
+## @MANAGER
 extends Resource
 class_name ESCObjectManager
 

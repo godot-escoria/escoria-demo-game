@@ -9,6 +9,7 @@
 ## |string|`String`|The string to log|yes|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name PrintCommand
 

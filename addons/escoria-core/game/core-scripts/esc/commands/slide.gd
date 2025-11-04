@@ -13,6 +13,7 @@
 ## |speed|`Integer`|Optional slide speed in pixels per second (defaults to the object's configured speed when negative).|no|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name SlideCommand
 

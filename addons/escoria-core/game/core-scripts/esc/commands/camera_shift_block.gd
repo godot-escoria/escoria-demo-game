@@ -22,6 +22,7 @@
 ## For more details see: https://docs.escoria-framework.org/camera
 ##
 ## @ESC
+## @COMMAND
 extends ESCCameraBaseCommand
 class_name CameraShiftBlockCommand
 

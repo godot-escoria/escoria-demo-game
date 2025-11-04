@@ -9,6 +9,7 @@
 ## |audio_bus|`String`|Bus to stop ("_sound", "_music", "_speech", or a custom audio bus you have created.)|no|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name StopSndCommand
 

@@ -11,6 +11,7 @@
 ## |wait|`Number`|Number of seconds to wait for while playing each animation occurring between the current angle of `object` and the target angle. A value of `0` will complete the turn immediately (default: `0`)|no|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name SetAngleCommand
 

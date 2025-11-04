@@ -1,4 +1,5 @@
 ## Escoria settings manager.
+## @MANAGER
 class_name ESCSettingsManager
 
 ## Template for settings filename.

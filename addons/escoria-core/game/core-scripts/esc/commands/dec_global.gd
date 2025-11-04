@@ -10,6 +10,7 @@
 ## |value|`Float`|Value to be subtracted (default: 1)|yes|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name DecGlobalCommand
 

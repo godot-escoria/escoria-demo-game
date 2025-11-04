@@ -12,6 +12,7 @@
 ## |block|`Boolean`|Whether to wait for the queue to finish. This is only possible, if the queued event is not to be run on the same event as this command (default: `false`)|no|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name QueueEventCommand
 
