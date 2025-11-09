@@ -1,24 +1,22 @@
 ## A manager for rooms in a game.
+## @MANAGER
 extends Resource
 class_name ESCRoomManager
 ## The room manager scene.
 ## Manages room loading and keeps in memory 
 
 
-
 ## Reserved global containing the global_id of previous room. Cannot be overriden.
 const GLOBAL_LAST_SCENE = "ESC_LAST_SCENE"
 
-## Reserved global containing the global_id of the current room
-const GLOBAL_CURRENT_SCENE = "ESC_CURRENT_SCENE"
-
-## Reserved global set to true if ESC_LAST_SCENE is not considered for automatic
-## transitions
+## Reserved global name determining whether ESC_LAST_SCENE is considered for automatic transitions.
 const GLOBAL_FORCE_LAST_SCENE_NULL = "FORCE_LAST_SCENE_NULL"
 
 ## Reserved global name containing the animations
 const GLOBAL_ANIMATION_RESOURCES = "ANIMATION_RESOURCES"
 
+## Reserved global name containing the global_id of the current room
+const GLOBAL_CURRENT_SCENE = "ESC_CURRENT_SCENE"
 
 ## Path to escoria-core camera scene
 const CAMERA_SCENE_PATH = "res://addons/escoria-core/game/scenes/camera_player/camera.tscn"
@@ -43,14 +41,30 @@ var _wait: WaitCommand
 var _accept_input: AcceptInputCommand
 
 
-## Room manager constructor.
+## Constructor[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _init() -> void:
 	_transition = TransitionCommand.new()
 	_wait = WaitCommand.new()
 	_accept_input = AcceptInputCommand.new()
 
 
-## Registers all reserved global flags for use.
+## Registers all reserved global flags for use.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func register_reserved_globals() -> void:
 	for key in RESERVED_GLOBALS:
 		escoria.globals_manager.register_reserved_global( \
@@ -58,14 +72,18 @@ func register_reserved_globals() -> void:
 			RESERVED_GLOBALS[key])
 
 
-## Performs the actions needed in order to change the current scene to the one
-## specified by room_path.[br]
+## Performs the actions needed in order to change the current scene to the one specified by room_path.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - room_path: Node path to the room that is to become the new current room
-## - enable_automatic_transitions: Whether to play the transition between rooms
-##   automatically or to leave the responsibility to the developer
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |room_path|`String`|Node path to the room that is to become the new current room.|yes|[br]
+## |enable_automatic_transitions|`bool`|Whether to play the transition between rooms automatically or to leave the responsibility to the developer.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func change_scene_to_file(room_path: String, enable_automatic_transitions: bool) -> void:
 	if escoria.main \
 			and escoria.main.current_scene \
@@ -167,12 +185,17 @@ func change_scene_to_file(room_path: String, enable_automatic_transitions: bool)
 		)
 
 
-## Sanitize camera limits, add player node and set the global id to the name of
-## this node if it's not set manually.[br]
+## Sanitize camera limits, add player node and set the global id to the name of this node if it's not set manually.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - room: The ESCRoom to be initialized for use
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |room|`ESCRoom`|The ESCRoom to be initialized for use.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func init_room(room: ESCRoom) -> void:
 	if not is_instance_valid(room) || room == null:
 		escoria.logger.error(
@@ -238,14 +261,17 @@ func init_room(room: ESCRoom) -> void:
 	_perform_script_events(room)
 
 
-## Performs the ESC script events "setup" and "ready", in this order, if they[br]
-## are present. Also manages automatic transitions.[br]
+## Performs the ASHES script events `:setup` and `:ready`, in that order, if they are present. Also manages automatic transitions.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - room: The ESCRoom to be initialized for use[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |room|`ESCRoom`|The ESCRoom to be initialized for use.|yes|[br]
 ## [br]
-## **Returns** An integer value (ESCExecution enum)
+## #### Returns[br]
+## [br]
+## Returns a `int` value. (`int`)
 func _perform_script_events(room: ESCRoom) -> int:
 	# Used to track whether any yields have been executed before the call to
 	# set_scene_finish.
@@ -508,15 +534,18 @@ func _perform_script_events(room: ESCRoom) -> int:
 	return ESCExecution.RC_OK
 
 
-## Runs the script event from the script attached, if any.[br]
+## Runs the script event from the script attached, if any. does not exist in the script.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - event_name: The name of the event to run
-## - room: The ESCRoom to be initialized for use[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |event_name|`String`|The name of the event to run|yes|[br]
+## |room|`ESCRoom`|The ESCRoom to be initialized for use|yes|[br]
 ## [br]
-## **Returns** true if the event was correctly added. Will be false if the event
-## does not exist in the script.
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _run_script_event(event_name: String, room: ESCRoom):
 	if not room.esc_script:
 		return false

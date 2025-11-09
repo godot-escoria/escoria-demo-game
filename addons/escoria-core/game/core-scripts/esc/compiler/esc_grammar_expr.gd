@@ -7,6 +7,16 @@ extends RefCounted
 class_name ESCGrammarExpr
 
 
-## Method that invokes another method in the visitor against this, the implementing class.
+## Method that invokes another method in the visitor against this, the implementing class.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |visitor|`Variant`|Visitor instance that exposes a method for handling this expression.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func accept(visitor):
 	pass

@@ -6,7 +6,15 @@ class_name ESCInterpreterFactory
 static var _interpreter: ESCInterpreter = null
 
 
-## Produces an interpreter as a singleton.
+## Produces an interpreter as a singleton.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `ESCInterpreter` value. (`ESCInterpreter`)
 static func create_interpreter() -> ESCInterpreter:
 	if not _interpreter:
 		_interpreter = load("res://addons/escoria-core/game/core-scripts/esc/compiler/esc_interpreter.gd").new(ESCCompiler.load_commands(), ESCCompiler.load_globals())

@@ -1,10 +1,21 @@
 ## Saves and loads savegame and settings files.
+## @MANAGER
 class_name ESCSaveManager
 
-## Emitted when the game is starting to load a savegame.
+## Emitted when the game is starting to load a savegame.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
 signal game_is_loading
 
-## Emitted when the game has finished loading a savegame.
+## Emitted when the game has finished loading a savegame.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
 signal game_finished_loading
 
 ## Template for settings filename.
@@ -51,7 +62,15 @@ var _stop_snd: StopSndCommand
 var _play_snd: PlaySndCommand
 var _sched_event: SchedEventCommand
 
-## Constructor of ESCSaveManager object.
+## Constructor of ESCSaveManager object.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _init():
 	# We leave the calls to ProjectSettings as-is since this constructor can be
 	# called from escoria.gd's own.
@@ -79,7 +98,13 @@ func _init():
 
 ## Return a list of savegames metadata (id, date, name and game version).[br]
 ## [br]
-## **Returns** a dictionary of savegame metadata indexed by slot number.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `Dictionary` value. (`Dictionary`)
 func get_saves_list() -> Dictionary:
 	var regex = RegEx.new()
 	regex.compile("save_(?<slotnumber>[0-9]{3})\\.tres")
@@ -127,24 +152,33 @@ func get_saves_list() -> Dictionary:
 
 	return saves
 
-## Returns true whether the savegame identified by id does exist.[br]
+## True whether the savegame identified by id does exist.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - id: Integer suffix of the savegame file.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |id|`int`|Integer suffix of the savegame file.|yes|[br]
 ## [br]
-## **Returns** true if the savegame file exists, false otherwise.
+## #### Returns[br]
+## [br]
+## Returns true whether the savegame identified by id does exist. (`bool`)
 func save_game_exists(id: int) -> bool:
 	var save_file_path: String = save_folder.path_join(SAVE_NAME_TEMPLATE % id)
 	return FileAccess.file_exists(save_file_path)
 
-## Save the current state of the game in a file suffixed with the id value.[br]
-## This id can help with slots development for the game developer.[br]
+## Save the current state of the game in a file suffixed with the id value. This id can help with slots development for the game developer.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - id: Integer suffix of the savegame file.[br]
-## - p_savename: Name of the savegame.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |id|`int`|Integer suffix of the savegame file.|yes|[br]
+## |p_savename|`String`|Name of the savegame.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func save_game(id: int, p_savename: String):
 	if not save_enabled:
 		escoria.logger.debug(
@@ -168,7 +202,13 @@ func save_game(id: int, p_savename: String):
 
 ## Performs an emergency savegame in case of crash.[br]
 ## [br]
-## **Returns** error code from ResourceSaver.save.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `int` value. (`int`)
 func save_game_crash() -> int:
 	var datetime = Time.get_datetime_dict_from_system()
 	var datetime_string = "%02d/%02d/%02d %02d:%02d" % [
@@ -206,9 +246,13 @@ func save_game_crash() -> int:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - p_savename: Name of the savegame.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |p_savename|`String`|Name of the savegame.|yes|[br]
 ## [br]
-## **Returns** a new ESCSaveGame resource with the current game state.
+## #### Returns[br]
+## [br]
+## Returns a `ESCSaveGame` value. (`ESCSaveGame`)
 func _do_save_game(p_savename: String) -> ESCSaveGame:
 	var save_game = ESCSaveGame.new()
 
@@ -237,7 +281,13 @@ func _do_save_game(p_savename: String) -> ESCSaveGame:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - id: Integer suffix of the savegame file.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |id|`int`|Integer suffix of the savegame file.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func load_game(id: int):
 	var save_file_path: String = save_folder.path_join(SAVE_NAME_TEMPLATE % id)
 	if not FileAccess.file_exists(save_file_path):
@@ -365,7 +415,13 @@ func load_game(id: int):
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - savegame_objects: Dictionary containing saved objects.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |savegame_objects|`Dictionary`|Dictionary containing saved objects.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _load_savegame_objects(savegame_objects: Dictionary):
 	for object_id in savegame_objects:
 		var saved_object_data = savegame_objects[object_id]
@@ -383,8 +439,14 @@ func _load_savegame_objects(savegame_objects: Dictionary):
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - room_id: Id of the room.[br]
-## - objects_dictionary: Dictionary containing the objects data.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |room_id|`String`|Id of the room.|yes|[br]
+## |objects_dictionary|`Dictionary`|Dictionary containing the objects data.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _load_room_objects(room_id: String, objects_dictionary: Dictionary):
 	escoria.logger.info(self, "Loading room '%s'" % room_id)
 
@@ -397,9 +459,15 @@ func _load_room_objects(room_id: String, objects_dictionary: Dictionary):
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - object_id: Id of the object.[br]
-## - object_dictionary: Dictionary containing the object's data.[br]
-## - room_id: Id of the room.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |object_id|`String`|Id of the object.|yes|[br]
+## |object_dictionary|`Dictionary`|Dictionary containing the object's data.|yes|[br]
+## |room_id|`String`|Id of the room.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _load_object(object_id: String, object_dictionary: Dictionary, room_id: String):
 	escoria.logger.info(self, "Loading object '%s'" % object_id)
 
@@ -442,7 +510,13 @@ func _load_object(object_id: String, object_dictionary: Dictionary, room_id: Str
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - savegame_globals: Dictionary containing saved globals.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |savegame_globals|`Dictionary`|Dictionary containing saved globals.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _load_savegame_globals(savegame_globals: Dictionary):
 	escoria.logger.info(self, "Loading globals")
 
@@ -455,7 +529,13 @@ func _load_savegame_globals(savegame_globals: Dictionary):
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - savegame_inventory: Array containing saved inventory items.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |savegame_inventory|`Array`|Array containing saved inventory items.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _load_savegame_inventory(savegame_inventory: Array):
 	escoria.logger.info(self, "Loading inventory")
 
@@ -468,7 +548,13 @@ func _load_savegame_inventory(savegame_inventory: Array):
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - savegame_terrain_navpolys: Dictionary containing saved terrain navpolys.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |savegame_terrain_navpolys|`Dictionary`|Dictionary containing saved terrain navpolys.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _load_savegame_terrain_navpolys(savegame_terrain_navpolys: Dictionary):
 	escoria.logger.info(self, "Loading terrain")
 
@@ -484,7 +570,13 @@ func _load_savegame_terrain_navpolys(savegame_terrain_navpolys: Dictionary):
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - savegame_events: Dictionary containing saved events.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |savegame_events|`Dictionary`|Dictionary containing saved events.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _load_savegame_events(savegame_events: Dictionary):
 	escoria.logger.info(self, "Loading events")
 
@@ -510,7 +602,13 @@ func _load_savegame_events(savegame_events: Dictionary):
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - dir: Path to the directory to check or create.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |dir|`String`|Path to the directory to check or create.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _ensure_directory_exists(dir: String) -> void:
 	if not DirAccess.dir_exists_absolute(save_folder):
 		var return_code = DirAccess.make_dir_absolute(save_folder)

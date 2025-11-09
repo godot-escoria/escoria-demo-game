@@ -23,14 +23,21 @@ var _filename: String:
 
 
 ## Initialization method. Must be called after instantiation.[br]
-##[br]
-## #### Parameters ####[br]
-## - *tokenType*: a value from `ESCTokenType.TokenType`[br]
-## - *lexeme*: text corresponding to the scanned token[br]
-## - *literal*: if the token represents a literal value, this is that value; can be null[br]
-## - *source*: the source code (script) containing the token, if available[br]
-## - *line*: the line in the source containing the token, if available[br]
-## - *filename*: the path of the file containing the token, if available
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |tokenType|`int`|a value from `ESCTokenType.TokenType`|yes|[br]
+## |lexeme|`String`|text corresponding to the scanned token|yes|[br]
+## |literal|`Variant`|if the token represents a literal value, this is that value; can be null|yes|[br]
+## |source|`String`|the source code (script) containing the token, if available|yes|[br]
+## |line|`int`|the line in the source containing the token, if available|yes|[br]
+## |filename|`String`|the path of the file containing the token, if available|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func init(tokenType: int, lexeme: String, literal, source: String, line: int, filename: String) -> void:
 	_tokenType = tokenType
 	_lexeme = lexeme
@@ -40,37 +47,95 @@ func init(tokenType: int, lexeme: String, literal, source: String, line: int, fi
 	_filename = filename
 
 
-## Sets the source of the token. This is typically the entire script file as a string.
+## Sets the source of the token. This is typically the entire script file as a string.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |value|`String`|Full script source used to resolve this token.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func set_source(value: String) -> void:
 	_source = value
 
 
-## Returns the source of the token.
+## The source of the token.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the source of the token. (`String`)
 func get_source() -> String:
 	return _source
 
 
-## Returns the type of token this is; will be a value from `ESCTokenType.TokenType`.
+## The type of token this is; will be a value from `ESCTokenType.TokenType`.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the type of token this is; will be a value from `ESCTokenType.TokenType`. (`int`)
 func get_type() -> int:
 	return _tokenType
 
 
-## Returns the literal value of the token, if it exists.
+## The literal value of the token, if it exists.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the literal value of the token, if it exists. (`Variant`)
 func get_literal():
 	return _literal
 
 
-## Returns the lexeme of the token; this is typically the text corresponding to the token.
+## The lexeme of the token; this is typically the text corresponding to the token.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the lexeme of the token; this is typically the text corresponding to the token. (`String`)
 func get_lexeme() -> String:
 	return _lexeme
 
 
-## Returns the line number of the token.
+## The line number of the token.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the line number of the token. (`int`)
 func get_line() -> int:
 	return _line
 
 
-## Returns the path of the file containing the token.
+## The path of the file containing the token.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the path of the file containing the token. (`String`)
 func get_filename() -> String:
 	return _filename
 

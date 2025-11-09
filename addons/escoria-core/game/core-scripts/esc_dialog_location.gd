@@ -13,6 +13,12 @@ class_name ESCDialogLocation
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - p_classname: String class to compare against
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |p_classname|`String`|String class to compare against|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `bool` value. (`bool`)
 func is_class(p_classname: String) -> bool:
 	return p_classname == "ESCDialogLocation"

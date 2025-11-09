@@ -7,6 +7,16 @@ extends RefCounted
 class_name ESCGrammarStmt
 
 
-## Method that invokes another method in the visitor against this, the implementing class.
+## Method that invokes another method in the visitor against this, the implementing class.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |visitor|`Variant`|Visitor instance invoked to process this statement.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func accept(visitor):
 	pass

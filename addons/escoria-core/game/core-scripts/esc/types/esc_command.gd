@@ -16,7 +16,15 @@ var parameters: Array = []
 var parser_token: ESCToken = null
 
 
-## Returns a `Dictionary` containing the data needed when saving a game.
+## A `Dictionary` containing the data needed when saving a game.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `Dictionary` containing the data needed when saving a game. (`Dictionary`)
 func exported() -> Dictionary:
 	var export_dict: Dictionary = super.exported()
 	export_dict.class = "ESCCommand"
@@ -26,7 +34,15 @@ func exported() -> Dictionary:
 	return export_dict
 
 
-## Returns `true` iff the command is able to be run.
+## `true` iff the command is able to be run.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns `true` iff the command is able to be run. (`bool`)
 func is_valid() -> bool:
 	if not _command_exists():
 		escoria.logger.error(
@@ -57,11 +73,16 @@ func _command_exists() -> bool:
 
 
 ## Runs the command contained by this `ESCCommand`.[br]
-##[br]
-## #### Parameters ####[br]
-## - *command_params: an array containing the arguments[br]
-##[br]
-## **Returns** an `int` representing a return code, likely from the `ESCExecution` enum.
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |command_params|`Variant`|an array containing the arguments|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `int` value. (`int`)
 func run() -> int:
 	var command_object = escoria.command_registry.load_command(self.name)
 
@@ -96,14 +117,15 @@ func run() -> int:
 			return ESCExecution.RC_ERROR
 
 
-## This function interrupts the command.[br]
-##[br]
-## If it was not started, it will not run.[br]
-##[br]
-## If it had already started, the execution will be considered as finished
-## immediately and finish.[br]
-##[br]
-## If it had already finished, nothing will happen.
+## This function interrupts the command. If it was not started, it will not run. If it had already started, the execution will be considered as finished immediately and finish. If it had already finished, nothing will happen.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func interrupt():
 	_is_interrupted = true
 	var command = escoria.command_registry.is_command_or_control_pressed(self.name)
@@ -112,7 +134,13 @@ func interrupt():
 
 ## Override of built-in _to_string function to display the statement.[br]
 ## [br]
-## *Returns* A string representation of the command.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a string representation of the command. (`String`)
 func _to_string() -> String:
 	return "Command %s with parameters: %s" % [name, str(parameters)]
 
@@ -120,7 +148,13 @@ func _to_string() -> String:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - command_object: The command object to decorate.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |command_object|`Variant`|The command object to decorate.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _decorate_for_debugging(command_object) -> void:
 	command_object.filename = parser_token.get_filename()
 	command_object.line_number = parser_token.get_line()

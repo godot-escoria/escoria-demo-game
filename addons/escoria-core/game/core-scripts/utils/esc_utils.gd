@@ -6,9 +6,13 @@ class_name ESCUtils
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - rad_angle: Angle in radians.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |rad_angle|`float`|Angle in radians.|yes|[br]
 ## [br]
-## **Returns** Degrees.
+## #### Returns[br]
+## [br]
+## Returns nothing.
 static func get_deg_from_rad(rad_angle: float):
 	var deg = rad_to_deg(rad_angle)
 	if deg >= 360.0:
@@ -21,10 +25,14 @@ static func get_deg_from_rad(rad_angle: float):
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - re_match: The RegExMatch object.[br]
-## - group: The name of the group.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |re_match|`RegExMatch`|The RegExMatch object.|yes|[br]
+## |group|`String`|The name of the group.|yes|[br]
 ## [br]
-## **Returns** The value of the named regex group in the match.
+## #### Returns[br]
+## [br]
+## Returns a `String` value. (`String`)
 static func get_re_group(re_match: RegExMatch, group: String) -> String:
 	if group in re_match.names:
 		return re_match.strings[re_match.names[group]]
@@ -35,10 +43,14 @@ static func get_re_group(re_match: RegExMatch, group: String) -> String:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - value: The original value.[br]
-## - type_hint: The type it should be.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |value|`String`|The original value.|yes|[br]
+## |type_hint|`Variant`|The type it should be.|no|[br]
 ## [br]
-## **Returns** The typed value according to the type inference.
+## #### Returns[br]
+## [br]
+## Returns nothing.
 static func get_typed_value(value: String, type_hint = []):
 	var regex_bool = RegEx.new()
 	regex_bool.compile("^true|false$")
@@ -60,14 +72,17 @@ static func get_typed_value(value: String, type_hint = []):
 	else:
 		return str(value)
 
-## Sanitize use of whitespaces in a string. Removes double whitespaces and
-## converts tabs into space.[br]
+## Sanitize use of whitespaces in a string. Removes double whitespaces and converts tabs into space.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - value: String to work on.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |value|`String`|String to work on.|yes|[br]
 ## [br]
-## **Returns** the string with sanitized whitespaces.
+## #### Returns[br]
+## [br]
+## Returns a `String` value. (`String`)
 static func sanitize_whitespace(value: String) -> String:
 	var tab_regex = RegEx.new()
 	tab_regex.compile("\\t")

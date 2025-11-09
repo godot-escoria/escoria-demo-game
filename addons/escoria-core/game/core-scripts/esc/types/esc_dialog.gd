@@ -15,9 +15,16 @@ var timeout_option: int = 0
 ## A list of `ESCDialogOption`s.
 var options: Array
 
-## Checks if dialog is valid.[br]
+
+## True iff the dialog and its settings are valid.[br]
 ## [br]
-## *Returns* True if the dialog is valid, false otherwise.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns true iff the dialog and its settings are valid. (`bool`)
 func is_valid() -> bool:
 	if self.avatar != "-" and not ResourceLoader.exists(self.avatar):
 		escoria.logger.error(
@@ -36,13 +43,15 @@ func is_valid() -> bool:
 	return true
 
 
-## Run this dialog.[br]
-##[br]
-## TODO: Although this method overrides its parent version, the return type here 
-## does NOT match the parent's signature. Consider either changing the parent's 
-## return type to be a `Variant`, or doing something to ensure greater consistency.[br]
-##[br]
-## *Returns* the `ESCDialogOption` chosen by the player.
+## Run this dialog. TODO: Although this method overrides its parent version, the return type here does NOT match the parent's signature. Consider either changing the parent's return type to be a `Variant`, or doing something to ensure greater consistency.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the `ESCDialogOption` chosen by the player. (`Variant`)
 func run():
 	escoria.logger.debug(
 		self,

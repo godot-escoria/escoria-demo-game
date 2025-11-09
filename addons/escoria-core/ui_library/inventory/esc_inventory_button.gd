@@ -7,31 +7,48 @@ class_name ESCInventoryButton
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - item_id: Global ID of the clicked item
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |item_id|`Variant`|Global ID of the clicked item|yes|[br]
+## [br]
 signal mouse_left_inventory_item(item_id)
 
 ## Signal emitted when the item was right clicked.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - item_id: Global ID of the clicked item
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |item_id|`Variant`|Global ID of the clicked item|yes|[br]
+## [br]
 signal mouse_right_inventory_item(item_id)
 
 ## Signal emitted when the item was double clicked.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - item_id: Global ID of the clicked item
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |item_id|`Variant`|Global ID of the clicked item|yes|[br]
+## [br]
 signal mouse_double_left_inventory_item(item_id)
 
 ## Signal emitted when the item was focused.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - item_id: Global ID of the clicked item
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |item_id|`Variant`|Global ID of the clicked item|yes|[br]
+## [br]
 signal inventory_item_focused(item_id)
 
-## Signal emitted when the item is not focused anymore.
+## Signal emitted when the item is not focused anymore.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
 signal inventory_item_unfocused()
 
 ## Global ID of the ESCItem that uses this ESCInventoryItem.
@@ -43,7 +60,13 @@ var global_id: String = ""
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - p_item: The ESCInventoryItem to represent.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |p_item|`ESCInventoryItem`|The ESCInventoryItem to represent.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _init(p_item: ESCInventoryItem) -> void:
 	global_id = p_item.global_id
 	texture_normal = p_item.texture_normal
@@ -56,7 +79,13 @@ func _init(p_item: ESCInventoryItem) -> void:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - _delta: The frame time delta (unused).
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |_delta|`float`|The frame time delta (unused).|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _process(_delta: float) -> void:
 	size = ProjectSettings.get_setting("escoria/ui/inventory_item_size")
 	custom_minimum_size = ProjectSettings.get_setting(
@@ -64,7 +93,15 @@ func _process(_delta: float) -> void:
 	)
 
 
-## Connects input handlers for the inventory button.
+## Connects input handlers for the inventory button.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _ready():
 	gui_input.connect(_on_inventory_item_gui_input)
 	mouse_entered.connect(_on_inventory_item_mouse_enter)
@@ -76,7 +113,13 @@ func _ready():
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - event: The event received.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |event|`InputEvent`|The event received.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _on_inventory_item_gui_input(event: InputEvent):
 	if event is InputEventMouseButton and event.is_pressed():
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
@@ -110,10 +153,26 @@ func _on_inventory_item_gui_input(event: InputEvent):
 				)
 
 
-## Handles mouse entering the item and sends the respective signal.
+## Handles mouse entering the item and sends the respective signal.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _on_inventory_item_mouse_enter():
 	inventory_item_focused.emit(global_id)
 
-## Handles mouse leaving the item and sends the respective signal.
+## Handles mouse leaving the item and sends the respective signal.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _on_inventory_item_mouse_exit():
 	inventory_item_unfocused.emit()

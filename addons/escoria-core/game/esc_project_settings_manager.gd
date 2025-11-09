@@ -1,5 +1,5 @@
 ## Registers and allows access to Escoria-specific project settings.
-## Registers and allows access to Escoria-specific project settings.[br]
+## @MANAGER
 extends Resource
 class_name ESCProjectSettingsManager
 
@@ -55,7 +55,7 @@ const _DEBUG_ROOT = "debug"
 const CRASH_MESSAGE = _ESCORIA_SETTINGS_ROOT + "/" + _DEBUG_ROOT + "/" + "crash_message"
 ## Path to the development language setting.
 const DEVELOPMENT_LANG = _ESCORIA_SETTINGS_ROOT + "/" + _DEBUG_ROOT + "/" + "development_lang"
-## If enabled, displays the room selection box for quick room change.
+## If enabled, displays the room selection box for quick room change
 const ENABLE_ROOM_SELECTOR = _ESCORIA_SETTINGS_ROOT + "/" + _DEBUG_ROOT + "/" + "enable_room_selector"
 ## Path to the log file path setting.
 const LOG_FILE_PATH = _ESCORIA_SETTINGS_ROOT + "/" + _DEBUG_ROOT + "/" + "log_file_path"
@@ -67,9 +67,9 @@ const ROOM_SELECTOR_ROOM_DIR = _ESCORIA_SETTINGS_ROOT + "/" + _DEBUG_ROOT + "/" 
 const TERMINATE_ON_ERRORS = _ESCORIA_SETTINGS_ROOT + "/" + _DEBUG_ROOT + "/" + "terminate_on_errors"
 ## Path to the terminate on warnings setting.
 const TERMINATE_ON_WARNINGS = _ESCORIA_SETTINGS_ROOT + "/" + _DEBUG_ROOT + "/" + "terminate_on_warnings"
-## If enabled, displays the hover stack on screen.
+## If enabled, displays the hover stack on screen
 const ENABLE_HOVER_STACK_VIEWER = _ESCORIA_SETTINGS_ROOT + "/" + _DEBUG_ROOT + "/" + "enable_hover_stack_viewer"
-## If enabled, performs script analysis at runtime.
+## If enabled, performs analysis of scripts while the game is running. Used to help find potential issues at runtime.
 const PERFORM_SCRIPT_ANALYSIS_AT_RUNTIME = _ESCORIA_SETTINGS_ROOT + "/" + _DEBUG_ROOT + "/" + "perform_script_analysis_at_runtime"
 
 ## Sound-related Escoria project settings root.
@@ -107,13 +107,20 @@ const WINDOW_MODE = DISPLAY + "/" + WINDOW + "/" + SIZE + "/" + "mode"
 ## Path to the fullscreen setting.
 const FULLSCREEN = DISPLAY + "/" + WINDOW + "/" + SIZE + "/" + "fullscreen"
 
-## Register a new project setting if it hasn't been defined already.[br]
+
+## Register a new project setting if it hasn't been defined already[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - name: Name of the project setting[br]
-## - default_value: Default value[br]
-## - info: Property info for the setting
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |name|`String`|Fully qualified Project Settings key to register.|yes|[br]
+## |default_value|`Variant`|Default value|yes|[br]
+## |info|`Dictionary`|Property info for the setting|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 static func register_setting(name: String, default_value, info: Dictionary) -> void:
 	if default_value == null:
 		push_error("Default_value cannot be null. Use remove_setting function to remove settings.")
@@ -136,7 +143,13 @@ static func register_setting(name: String, default_value, info: Dictionary) -> v
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - name: Name of the project setting
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |name|`String`|Fully qualified Project Settings key to remove.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 static func remove_setting(name: String) -> void:
 	if not ProjectSettings.has_setting(name):
 		push_error("Cannot remove project setting %s - it does not exist." % name)
@@ -151,9 +164,13 @@ static func remove_setting(name: String) -> void:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - key: Project setting name.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |key|`String`|Project setting name.|yes|[br]
 ## [br]
-## *Returns* The value of the project setting located with key
+## #### Returns[br]
+## [br]
+## Returns the value of the project setting located with key. (`Variant`)
 static func get_setting(key: String):
 	if not ProjectSettings.has_setting(key):
 		push_error("Parameter %s is not set!" % key)
@@ -165,8 +182,14 @@ static func get_setting(key: String):
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - key: Project setting name.[br]
-## - value: Project setting value
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |key|`String`|Project setting name.|yes|[br]
+## |value|`Variant`|Project setting value.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 static func set_setting(key: String, value) -> void:
 	ProjectSettings.set_setting(key, value)
 
@@ -175,8 +198,12 @@ static func set_setting(key: String, value) -> void:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - key: Project setting name.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |key|`String`|Project setting name.|yes|[br]
 ## [br]
-## *Returns* True iff the project setting exists
+## #### Returns[br]
+## [br]
+## Returns true iff the project setting exists. (`bool`)
 static func has_setting(key: String) -> bool:
 	return ProjectSettings.has_setting(key)

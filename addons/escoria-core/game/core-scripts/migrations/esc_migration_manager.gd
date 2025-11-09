@@ -1,7 +1,7 @@
 ## Class that handles migrations between different game or escoria versions
+## @MANAGER
 extends RefCounted
 class_name ESCMigrationManager
-## Class that handles migrations between different game or escoria versions
 
 
 ## Regular expression that matches a simple semver version string
@@ -11,22 +11,34 @@ const VERSION_REGEX = "^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
 ## Compiled regex
 var version_regex: RegEx
 
-## Constructor of the migration manager.
+## Constructor of the migration manager.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _init() -> void:
 	version_regex = RegEx.new()
 	version_regex.compile(VERSION_REGEX)
 
 
-## Migrates the specified savegame from a specified version to another version
-## based on a directory of migration scripts.[br]
+## Migrates the specified savegame from a specified version to another version based on a directory of migration scripts. The migration manager searches for scripts from after the given version up to the target version in this directory, loads them and applies the version. Each migration will return a modified version of the given savegame. The migrated savegame.[br]
 ## [br]
-## The migration manager searches for scripts from after the given version up
-## to the target version in this directory, loads them and applies the 
-## version.[br]
+## #### Parameters[br]
 ## [br]
-## Each migration will return a modified version of the given savegame.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |savegame|`ESCSaveGame`|The `ESCSaveGame` object to migrate.|yes|[br]
+## |from|`String`|The source version string (e.g., "1.0.0").|yes|[br]
+## |to|`String`|The target version string (e.g., "1.1.0").|yes|[br]
+## |versions_directory|`String`|Directory path containing version migration scripts.|yes|[br]
 ## [br]
-## **Returns** The migrated Savegame object
+## #### Returns[br]
+## [br]
+## Returns a `ESCSaveGame` value. (`ESCSaveGame`)
 func migrate(
 	savegame: ESCSaveGame,
 	from: String,
@@ -84,14 +96,19 @@ func migrate(
 	return savegame
 
 
-## Find all fitting version scripts between the given versions in a directory
-## and all its subdirectories.[br]
+## Find all fitting version scripts between the given versions in a directory and all its subdirectories.[br]
 ## [br]
 ## #### Parameters[br]
-## - directory: Directory to search in[br]
-## - from: Start version to check[br]
-## - to: End version to check[br]
-## **Returns** A list of version scripts
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |directory|`String`|Directory to search in|yes|[br]
+## |from|`String`|Start version to check|yes|[br]
+## |to|`String`|End version to check|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `Array` value. (`Array`)
 func _find_versions(directory: String, from: String, to: String) -> Array:
 	escoria.logger.trace(
 		self,
@@ -126,10 +143,15 @@ func _find_versions(directory: String, from: String, to: String) -> Array:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - version: Version to check[br]
-## - from: Start version[br]
-## - to: End version[br]
-## **Returns** Whether the version matches
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |version|`String`|Version to check|yes|[br]
+## |from|`String`|Start version|yes|[br]
+## |to|`String`|End version|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `bool` value. (`bool`)
 func _version_between(version: String, from: String, to: String) -> bool:
 	var version_info = version_regex.search(version)
 	var from_info = version_regex.search(from)
@@ -161,10 +183,14 @@ func _version_between(version: String, from: String, to: String) -> bool:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - version_a: First version to compare[br]
-## - version_b: Second version to compare[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |version_a|`String`|First version to compare|yes|[br]
+## |version_b|`String`|Second version to compare|yes|[br]
 ## [br]
-## **Returns** true when version_b should be sorted after version_a
+## #### Returns[br]
+## [br]
+## Returns a `bool` value. (`bool`)
 func _compare_version(version_a: String, version_b: String) -> bool:
 	var a_info = version_regex.search(version_a.get_file().get_basename())
 	var b_info = version_regex.search(version_b.get_file().get_basename())

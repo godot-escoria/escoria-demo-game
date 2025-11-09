@@ -46,11 +46,17 @@ var line_number: int = 0
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - p_min_args: Minimum number of required arguments.[br]
-## - p_types: Array of argument types.[br]
-## - p_defaults: Array of default values for arguments.[br]
-## - p_strip_quotes: Array indicating whether to strip quotes.[br]
-## - p_has_varargs: Whether the final argument is a series of varargs.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |p_min_args|`int`|Minimum number of required arguments.|no|[br]
+## |p_types|`Array`|Array of argument types.|no|[br]
+## |p_defaults|`Array`|Array of default values for arguments.|no|[br]
+## |p_strip_quotes|`Array`|Array indicating whether to strip quotes.|no|[br]
+## |p_has_varargs|`bool`|Whether the final argument is a series of varargs.|no|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _init(
 	p_min_args: int = 0,
 	p_types: Array = [],
@@ -67,13 +73,16 @@ func _init(
 
 
 ## Combines the default argument values with the given arguments.[br]
-##[br]
-## #### Parameters ####[br]
-## - *arguments*: an array of arguments to pass in to the command, with the array's 
-## order corresponding to the order of the arguments the command expects.[br]
-##[br]
-## If the number of arguments passed in is fewer than the maximum number of arguments 
-## the command can handle, default values are used for those arguments not passed in.
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |arguments|`Array`|an array of arguments to pass in to the command, with the array's order corresponding to the order of the arguments the command expects. If the number of arguments passed in is fewer than the maximum number of arguments the command can handle, default values are used for those arguments not passed in.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `Array` value. (`Array`)
 func prepare_arguments(arguments: Array) -> Array:
 	var complete_arguments = defaults
 	var varargs = []
@@ -116,12 +125,17 @@ func prepare_arguments(arguments: Array) -> Array:
 
 
 ## Validates whether the given arguments match the command descriptor.[br]
-##[br]
-## #### Parameters ####[br]
-## *command*: the name of the command; used for logging purposes.[br]
-## *arguments*: the arguments to be passed to the command[br]
-##[br]
-## **Returns** true iff the arguments properly match the command descriptor
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |command|`String`|the name of the command; used for logging purposes.|yes|[br]
+## |arguments|`Array`|the arguments to be passed to the command|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `bool` value. (`bool`)
 func validate(command: String, arguments: Array) -> bool:
 	var required_args_count: int = _count_leading_non_null_values(arguments, min_args)
 
@@ -189,9 +203,15 @@ func validate(command: String, arguments: Array) -> bool:
 	return true
 
 
-## Returns a string with the file and line number for error reporting.[br]
+## A string with the file and line number for error reporting.[br]
 ## [br]
-## *Returns* The error info string.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a string with the file and line number for error reporting. The error info string. (`String`)
 func _get_error_info() -> String:
 	return "(File: \"%s\", line %s.)" % [filename, line_number]
 
@@ -200,10 +220,14 @@ func _get_error_info() -> String:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - argument: Argument to test.[br]
-## - type: Type to check.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |argument|`Variant`|Argument to test.|yes|[br]
+## |type|`int`|Type to check.|yes|[br]
 ## [br]
-## *Returns* Whether the argument is of the given type.
+## #### Returns[br]
+## [br]
+## Returns Whether the argument is of the given type. (`bool`)
 func _is_type(argument, type: int) -> bool:
 	if typeof(argument) == TYPE_FLOAT:
 		if int(argument) == argument and type == TYPE_INT:
@@ -215,16 +239,18 @@ func _is_type(argument, type: int) -> bool:
 	return typeof(argument) == type
 
 
-## Counts the number of non-null values that exist at the beginning of the array[br]
-## up to a specified index.[br]
+## Counts the number of non-null values that exist at the beginning of the array up to a specified index.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - array_to_check: Array to check for leading non-null values.[br]
-## - max_index: Maximum (inclusive) index to check in array_to_check.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |array_to_check|`Array`|Array to check for leading non-null values.|yes|[br]
+## |max_index|`int`|Maximum (inclusive) index to check in array_to_check.|yes|[br]
 ## [br]
-## *Returns* The total number of entries at the start of array_to_check that are
-## not null.
+## #### Returns[br]
+## [br]
+## Returns the total number of entries at the start of array_to_check that are not null. (`int`)
 func _count_leading_non_null_values(array_to_check: Array, max_index: int) -> int:
 	if array_to_check == null or max_index < 0:
 		return 0

@@ -31,12 +31,28 @@ var _play_snd: PlaySndCommand
 var _change_scene: ChangeSceneCommand
 
 
-## Called on entering scene tree. Force is_exit to true.
+## Called on entering scene tree. Force is_exit to true.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _enter_tree():
 	is_exit = true
 
 
-## Called when node is ready.
+## Called when node is ready.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _ready():
 	super._ready()
 	_play_snd = PlaySndCommand.new()
@@ -45,7 +61,15 @@ func _ready():
 	call_deferred("_register_event")
 
 
-## Registers the exit_scene event based on the properties
+## Registers the exit_scene event based on the properties[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _register_event():
 	if escoria.object_manager.has(self.global_id) and\
 			not escoria.event_manager.EVENT_EXIT_SCENE in escoria.object_manager.get_object(
