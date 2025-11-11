@@ -1,17 +1,19 @@
-## `slide object target [speed]`[br]
+## `slide(object: String, target: String[, speed: Integer])`
+##
+## Moves `object` towards the position of `target`. This command is non-blocking.[br]
+##[br]
+## **Warning** This command does not respect the room's navigation polygons, so `object` can be moved even when outside walkable areas![br]
 ## [br]
-## Moves `object` towards the position of `target`. This command is
-## non-blocking.[br]
+## #### Parameters[br]
 ## [br]
-## - *object*: Global ID of the object to move[br]
-## - *target*: Global ID of the target object[br]
-## - *speed*: The speed at which to slide in pixels per second (will default to
-##   the speed configured on the `object`)[br]
-## [br]
-## **Warning** This command does not respect the room's navigation polygons, so
-## `object` can be moved even when outside walkable areas.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |object|`String`|Global ID of the object that should slide.|yes|[br]
+## |target|`String`|Global ID of the object whose position is used as the destination.|yes|[br]
+## |speed|`Integer`|Optional slide speed in pixels per second (defaults to the object's configured speed when negative).|no|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name SlideCommand
 
@@ -20,9 +22,15 @@ class_name SlideCommand
 var _tweens: Dictionary
 
 
-## Returns the descriptor of the arguments of this command.[br]
+## The descriptor of the arguments of this command.[br]
 ## [br]
-## *Returns* The argument descriptor for this command.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the descriptor of the arguments of this command. The argument descriptor for this command. (`ESCCommandArgumentDescriptor`)
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
@@ -35,9 +43,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - arguments: The arguments to validate.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |arguments|`Array`|The arguments to validate.|yes|[br]
 ## [br]
-## *Returns* True if the arguments are valid, false otherwise.
+## #### Returns[br]
+## [br]
+## Returns True if the arguments are valid, false otherwise. (`bool`)
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -61,12 +73,15 @@ func validate(arguments: Array):
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - *source*: The item to slide[br]
-## - *destination*: The destination item to slide to[br]
-## - *speed*: The speed at which to slide in pixels per second (will default to
-##   the speed configured on the `object`)[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |source|`ESCObject`|The item to slide|yes|[br]
+## |destination|`ESCObject`|The destination item to slide to|yes|[br]
+## |speed|`int`|The speed at which to slide in pixels per second (will default to the speed configured on the `object`)|no|[br]
 ## [br]
-## *Returns* The generated (and started) tween
+## #### Returns[br]
+## [br]
+## Returns the generated (and started) tween. (`Tween3`)
 func _slide_object(
 	source: ESCObject,
 	destination: ESCObject,
@@ -104,9 +119,13 @@ func _slide_object(
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - command_params: The parameters for the command.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |command_params|`Array`|The parameters for the command.|yes|[br]
 ## [br]
-## *Returns* The execution result code.
+## #### Returns[br]
+## [br]
+## Returns the execution result code. (`int`)
 func run(command_params: Array) -> int:
 	_slide_object(
 		escoria.object_manager.get_object(command_params[0]),
@@ -116,17 +135,31 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-## Function called when the command is interrupted.
+## Function called when the command is interrupted.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func interrupt():
-	for tween in _tweens:
+	for tween in _tweens.values():
 		tween.stop_all()
 
 ## Function called when a tween completes.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - tween: The tween that completed.[br]
-## - _key: The key of the tween in the `_tweens` dictionary (not used here).
-func _on_tween_completed(tween: Tween, _key: NodePath):
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |tween|`Tween3`|The tween that completed.|yes|[br]
+## |_key|`NodePath`|The key of the tween in the `_tweens` dictionary (not used here).|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
+func _on_tween_completed(tween: Tween3, _key: NodePath):
 	if tween:
 		tween.queue_free()

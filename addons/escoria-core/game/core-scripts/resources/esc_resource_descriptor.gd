@@ -12,8 +12,14 @@ var permanent: bool
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - res_in: The resource to describe.[br]
-## - permanent_in: Whether the resource is permanent.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |res_in|`Variant`|The resource to describe.|yes|[br]
+## |permanent_in|`bool`|Whether the resource is permanent.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _init(res_in, permanent_in: bool) -> void:
 	res = res_in
 	permanent = permanent_in

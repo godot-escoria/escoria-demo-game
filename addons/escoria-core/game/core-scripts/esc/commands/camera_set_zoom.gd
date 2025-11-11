@@ -1,27 +1,34 @@
-## `camera_set_zoom(magnitude: Number[, time: Number])`[br]
-## [br]
+## `camera_set_zoom(magnitude: Number[, time: Number])`
+##
 ## Zooms the camera in/out to the desired `magnitude`. Values larger than '1' zoom
 ## the camera out while smaller values zoom in. These values are relative to the
 ## default zoom value of '1', not the current value. As such, while using a value
 ## of '0.5' would double the size of the graphics, running the same command again
 ## would result in no change. The zoom will happen over the given time period.[br]
-## [br]
-## #### Parameters[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
 ## - *magnitude*: Magnitude of zoom[br]
 ## - *time*: Number of seconds the transition should take, with a value of `0`
 ##   meaning the zoom should happen instantly (default: `0`)[br]
-## [br]
-## For more details see: https://docs.escoria-framework.org/camera [br]
-## [br]
+##[br]
+## For more details see: https://docs.escoria-framework.org/camera
+##
 ## @ESC
+## @COMMAND
 extends ESCCameraBaseCommand
 class_name CameraSetZoomCommand
 
 
-## Returns the descriptor of the arguments of this command.[br]
+## The descriptor of the arguments of this command.[br]
 ## [br]
-## *Returns* The argument descriptor for this command.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the descriptor of the arguments of this command. The argument descriptor for this command. (`ESCCommandArgumentDescriptor`)
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
@@ -34,9 +41,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - command_params: The parameters for the command.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |command_params|`Array`|The parameters for the command.|yes|[br]
 ## [br]
-## *Returns* The execution result code.
+## #### Returns[br]
+## [br]
+## Returns the execution result code. (`int`)
 func run(command_params: Array) -> int:
 	(escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera)\
 		.set_camera_zoom(
@@ -46,7 +57,15 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-## Function called when the command is interrupted.
+## Function called when the command is interrupted.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func interrupt():
 	escoria.logger.debug(
 		self,

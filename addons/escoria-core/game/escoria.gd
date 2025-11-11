@@ -1,16 +1,23 @@
 @tool
-## The escoria main script.[br]
 extends Node
 class_name Escoria
 ## The main Escoria script.
 
-## Signal sent when pause menu has to be displayed.
+
+## Signal sent when pause menu has to be displayed[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
 signal request_pause_menu
 
-## Name of the Escoria core plugin.
+
+## Name of the Escoria core plugin
 const ESCORIA_CORE_PLUGIN_NAME: String = "escoria-core"
 
-## The main scene.
+
+## The main scene
 @onready var main = $main
 
 
@@ -56,7 +63,7 @@ func _init():
 		).instantiate()
 
 
-## Load settings and initialize the game scene.
+# Ready method. Loads settings and Escoria's start script (ESC or ASH).
 func _ready():
 	add_child(escoria.resource_cache)
 
@@ -101,8 +108,15 @@ func _ready():
 	_perform_plugins_checks()
 
 
-## Verifies that the game is configured with required plugin(s).[br]
-## If a required plugin is missing (or disabled) we stop immediately.
+## Verifies that the game is configured with required plugin(s). If a required plugin is missing (or disabled) we stop immediately.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _perform_plugins_checks():
 	if ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.DIALOG_MANAGERS
@@ -113,11 +127,10 @@ func _perform_plugins_checks():
 		)
 
 
-## Manage notifications received from OS.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## - what: The notification constant received (usually defined in MainLoop).
+# Manage notifications received from OS.
+#
+# #### Parameters
+# - what: the notification constant received (usually defined in MainLoop)
 func _notification(what: int):
 	match what:
 		NOTIFICATION_WM_CLOSE_REQUEST, NOTIFICATION_WM_GO_BACK_REQUEST:
@@ -126,9 +139,15 @@ func _notification(what: int):
 			get_tree().quit()
 
 
-## Called by Escoria's main_scene as very very first event EVER.[br]
-## Usually you'll want to show some logos animations before spawning the main[br]
-## menu in the escoria/main/game_start_script's :init event.
+## Initializer called by Escoria's main_scene as very very first event EVER. Usually you'll want to show some logos animations before spawning the main menu in the escoria/main/game_start_script 's `:init` event[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func init():
 	# Don't show the UI until we're ready in order to avoid a sometimes-noticeable
 	# blink. The UI will be "shown" later via a visibility update to the first room.
@@ -140,7 +159,13 @@ func init():
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - event: The input event to manage.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |event|`InputEvent`|The input event to manage.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _input(event: InputEvent):
 	if InputMap.has_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT) \
 			and event.is_action_pressed(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT):
@@ -155,12 +180,15 @@ func _input(event: InputEvent):
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - script: ESC script containing the event to run. The script must have been[br]
-##   loaded.[br]
-## - event_name: Name of the event to run[br]
-## - from_statement_id: Statement id to start from (default 0)[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |script|`ESCScript`|ESC script containing the event to run. The script must have been loaded.|yes|[br]
+## |event_name|`String`|Name of the event to run|yes|[br]
+## |from_statement_id|`int`|Statement id to start from (default 0)|no|[br]
 ## [br]
-## *Returns* Nothing. Waits for the event to finish before returning.
+## #### Returns[br]
+## [br]
+## Returns Nothing. Waits for the event to finish before returning. (`Variant`)
 func run_event_from_script(script: ESCScript, event_name: String, from_statement_id: int = 0):
 	if script == null:
 		escoria.logger.error(
@@ -189,11 +217,14 @@ func run_event_from_script(script: ESCScript, event_name: String, from_statement
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - script: The script in which to check for the existence of the given event.[br]
-## - event_name: The name of the event to check for inside the given script.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |script|`ESCScript`|The script in which to check for the existence of the given event.|yes|[br]
+## |event_name|`String`|The name of the event to check for inside the given script.|yes|[br]
 ## [br]
-## *Returns* True iff event_name exists within script. Method will terminate execution of the program[br]
-## if the specified event is required and doesn't exist.
+## #### Returns[br]
+## [br]
+## Returns True iff event_name exists within script. Method will terminate execution of the program if the specified event is required and doesn't exist. (`bool`)
 func _event_exists_in_script(script: ESCScript, event_name: String) -> bool:
 	if script.events.has(event_name):
 		return true
@@ -224,7 +255,15 @@ func _event_exists_in_script(script: ESCScript, event_name: String) -> bool:
 	return false
 
 
-## Called from escoria autoload to start a new game.
+## Called from escoria autoload to start a new game.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func new_game():
 	escoria.event_manager.interrupt() # interrupt first because we're going to reset the interpreter
 	escoria.game_scene.escoria_show_ui()
@@ -239,23 +278,36 @@ func new_game():
 		)
 	run_event_from_script(escoria.start_script, escoria.event_manager.EVENT_NEW_GAME)
 
-## Function called to quit the game.
+
+## Function called to quit the game.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func quit():
 	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 
-## Handle anything necessary if the game started a scene directly.
+
+# Handle anything necessary if the game started a scene directly.
 func _handle_direct_scene_run() -> void:
 	var current_scene: Node = get_tree().get_current_scene()
 	if escoria.is_direct_room_run and current_scene is ESCRoom:
 		escoria.object_manager.set_current_room(current_scene)
 
 
-## Used by game.gd to determine whether the game scene is ready to take inputs[br]
-## from the _input() function. To do so, the current_scene must be set, the game[br]
-## scene must be set, and the game scene must've been notified that the room[br]
-## is ready.[br]
+## Used by game.gd to determine whether the game scene is ready to take inputs from the _input() function. To do so, the current_scene must be set, the game scene must be set, and the game scene must've been notified that the room is ready.[br]
 ## [br]
-## *Returns* true if game scene is ready for inputs
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns true if game scene is ready for inputs. (`bool`)
 func is_ready_for_inputs() -> bool:
 	return main.current_scene and main.current_scene.game \
 			and main.current_scene.game.room_ready_for_inputs

@@ -4,7 +4,14 @@ extends Node
 class_name ESCAnimationPlayer
 
 
-## Signal emitted when the animation finished playing.
+## Signal emitted when the animation finished playing.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |name|`Variant`|Name of the animation that completed playback.|yes|[br]
+## [br]
 signal animation_finished(name)
 
 
@@ -28,7 +35,13 @@ var _current_animation: String = ""
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - node: The actual player node.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |node|`Node`|The actual player node.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _init(node: Node):
 	_player_node = node
 	if node is AnimationPlayer:
@@ -39,7 +52,15 @@ func _init(node: Node):
 	node.add_child(self)
 
 
-## Ready function. Connects animation signals.
+## Ready function. Connects animation signals.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _ready() -> void:
 	if _is_animation_player:
 		_player_node.animation_finished.connect(_on_animation_finished)
@@ -49,7 +70,13 @@ func _ready() -> void:
 
 ## Return the currently playing animation.[br]
 ## [br]
-## **Returns** The currently playing animation name.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `String` value. (`String`)
 func get_animation() -> String:
 	if _is_animation_player:
 		return _animation_player.assigned_animation
@@ -57,9 +84,15 @@ func get_animation() -> String:
 		return _animated_sprite.animation
 
 
-## Returns a list of all animation names.[br]
+## A list of all animation names.[br]
 ## [br]
-## **Returns** A list of all animation names.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a list of all animation names. (`PackedStringArray`)
 func get_animations() -> PackedStringArray:
 	if _is_animation_player:
 		return _animation_player.get_animation_list()
@@ -69,12 +102,26 @@ func get_animations() -> PackedStringArray:
 
 ## Whether the animation is playing.[br]
 ## [br]
-## **Returns** Whether the animation is playing.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `bool` value. (`bool`)
 func is_playing() -> bool:
 	return _player_node.is_playing()
 
 
-## Stop the animation.
+## Stop the animation.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func stop():
 	_player_node.stop()
 
@@ -83,8 +130,14 @@ func stop():
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - name: The animation name to play.[br]
-## - backwards: Play backwards.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |name|`String`|Animation name to play.|yes|[br]
+## |backwards|`bool`|Play backwards.|no|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func play(name: String, backwards: bool = false):
 	if _is_animation_player and _animation_player.current_animation != "":
 		_animation_player.seek(0)
@@ -109,7 +162,13 @@ func play(name: String, backwards: bool = false):
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - name: Animation to play.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |name|`String`|Animation name to play in reverse.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func play_backwards(name: String):
 	self.play(name, true)
 
@@ -118,9 +177,13 @@ func play_backwards(name: String):
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - name: Name of the animation to check.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |name|`String`|Animation name to test for availability.|yes|[br]
 ## [br]
-## **Returns** Whether the animation player has the animation.
+## #### Returns[br]
+## [br]
+## Returns a `bool` value. (`bool`)
 func has_animation(name: String) -> bool:
 	if _is_animation_player:
 		return _animation_player.has_animation(name)
@@ -132,7 +195,13 @@ func has_animation(name: String) -> bool:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - name: Name of the animation to play.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |name|`String`|Animation name to jump to the last frame of.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func seek_end(name: String):
 	if _is_animation_player:
 		_animation_player.current_animation = name
@@ -146,9 +215,13 @@ func seek_end(name: String):
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - name: Name of the animation.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |name|`String`|Animation name whose duration should be returned.|yes|[br]
 ## [br]
-## **Returns** The length of the animation in seconds.
+## #### Returns[br]
+## [br]
+## Returns a `float` value. (`float`)
 func get_length(name: String) -> float:
 	if _is_animation_player:
 		return _animation_player.get_animation(name).length
@@ -157,10 +230,15 @@ func get_length(name: String) -> float:
 				_animated_sprite.sprite_frames.get_animation_speed(name)
 
 
-## Return true if the ESCAnimationPlayer node is valid, ie. it has a valid
-## player node.[br]
+## Return true if the ESCAnimationPlayer node is valid, ie. it has a valid player node.[br]
 ## [br]
-## **Returns** True if the ESCAnimationPlayer has a valid player node, else false.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `bool` value. (`bool`)
 func is_valid() -> bool:
 	return _player_node != null and _player_node is Node
 
@@ -169,7 +247,13 @@ func is_valid() -> bool:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - name: Name of the animation played.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |name|`String`|Name of the animation that triggered the callback.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _on_animation_finished(name: String):
 	if _is_animation_player and not _animation_player.get_animation(name).loop_mode != Animation.LOOP_NONE:
 		_animation_player.stop(true) # param here is to keep current state and
@@ -179,6 +263,14 @@ func _on_animation_finished(name: String):
 	animation_finished.emit(name)
 
 
-## Special signal handler for animated sprites.
+## Special signal handler for animated sprites.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _on_animation_finished_animated_sprite():
 	_on_animation_finished(_current_animation)

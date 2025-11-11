@@ -9,8 +9,14 @@ extends Marker2D
 class_name ESCLocation
 
 
-## Escoria Plugin signal emitted to the ESCRoom when a start location is set in
-## the ESCLocation node in order to check whether multiple start locations are set.
+## Escoria Plugin signal emitted to the `ESCRoom` when a start location is set in the `ESCLocation` node in order to check whether multiple start locations are set.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |node_to_ignore|`ESCLocation`| `ESCLocation` that should be ignored while validating start locations. Defaults to `null`.|no|[br]
+## [br]
 signal editor_is_start_location_set(node_to_ignore: ESCLocation)
 
 ## Warning message: multiple start locations set in the room..
@@ -44,17 +50,30 @@ var _multiple_start_locations_exist: bool = false:
 	set = set_multiple_start_locations_exist
 
 
-## Used by "is" keyword to check whether a node's class_name  is the same as 
-## p_classname.[br]
+## Used by "is" keyword to check whether a node's class_name  is the same as p_classname. ## Parameters p_classname: String class to compare against[br]
 ## [br]
-## ## Parameters[br]
+## #### Parameters[br]
 ## [br]
-## p_classname: String class to compare against
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |p_classname|`String`|Class name to compare against this location.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `bool` value. (`bool`)
 func is_class(p_classname: String) -> bool:
 	return p_classname == "ESCLocation"
 
 
-## Ready function. Registers the ESCLocation to Object Manager.
+## Ready function. Registers the ESCLocation to Object Manager.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _ready():
 	if not Engine.is_editor_hint():
 		if not self.global_id.is_empty():
@@ -65,35 +84,58 @@ func _ready():
 				)
 			)
 
-## Escoria editor plugin: on tree exit (ie. this node was removed), notify 
-## ESCRoom to update the list of start locations.
+## Escoria editor plugin: on tree exit (ie. this node was removed), notify ESCRoom to update the list of start locations.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _exit_tree():
 	if Engine.is_editor_hint() and is_start_location:
 			editor_is_start_location_set.emit(self)
 
-## Escoria editor plugin: overriden method that returns the list of warnings for
-## these nodes.
-## **Returns** Array of warning string messages 
+## Escoria editor plugin: overriden method that returns the list of warnings for these nodes.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `PackedStringArray` value. (`PackedStringArray`)
 func _get_configuration_warnings() -> PackedStringArray:
 	return [MULTIPLE_START_LOCATIONS_WARNING] \
 		if _multiple_start_locations_exist else []
 
-## Escoria editor plugin: Setter for _multiple_start_locations_exist member. 
-## Updates the warnings displayed in the editor's scene tree.[br]
+## Escoria editor plugin: Setter for _multiple_start_locations_exist member. Updates the warnings displayed in the editor's scene tree.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - value: true whether multiple start locations exist in the room.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |value|`bool`|true whether multiple start locations exist in the room.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func set_multiple_start_locations_exist(value: bool) -> void:
 	_multiple_start_locations_exist = value
 	update_configuration_warnings()
 
-## Escoria editor plugin: Setter for is_start_location member. 
-## Notifies the ESCRoom of the change.[br]
+## Escoria editor plugin: Setter for is_start_location member. Notifies the ESCRoom of the change.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - value: true whether the ESCLocation node was set as start location.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |value|`bool`|true whether the ESCLocation node was set as start location.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func set_is_start_location(value: bool) -> void:
 	is_start_location = value
 	if Engine.is_editor_hint() and is_instance_valid(get_owner()):

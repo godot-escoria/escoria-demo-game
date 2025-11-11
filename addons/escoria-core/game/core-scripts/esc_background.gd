@@ -18,37 +18,69 @@ class_name ESCBackground
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - position: The position where the player clicked
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |position|`Variant`|The position where the player clicked|yes|[br]
+## [br]
 signal double_left_click_on_bg(position)
 
 ## The background was left clicked[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - position: The position where the player clicked
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |position|`Variant`|The position where the player clicked|yes|[br]
+## [br]
 signal left_click_on_bg(position)
 
 ## The background was right clicked[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - position: The position where the player clicked
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |position|`Variant`|The position where the player clicked|yes|[br]
+## [br]
 signal right_click_on_bg(position)
 
-## Emitted when the mouse wheel was turned up
+## Emitted when the mouse wheel was turned up[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
 signal mouse_wheel_up
 
-## Emitted when the mouse wheel was turned down
+## Emitted when the mouse wheel was turned down[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
 signal mouse_wheel_down
 
-## Emitted when the background is hovered.
+## Emitted when the background is hovered.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
 signal hovered_bg
 
 ## The ESC/ASH script connected to this background
 @export_file("*.esc", "*.ash") var esc_script: String = ""
 
 
-## Create the underlying Area2D as an input device
+## Create the underlying Area2D as an input device[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _enter_tree():
 	name = "escbackground"
 	var size
@@ -73,7 +105,15 @@ func _enter_tree():
 
 	add_child(area)
 
-## Disable mouse filter events and connect our own events to the ESC input manager
+## Disable mouse filter events and connect our own events to the ESC input manager[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _ready():
 	mouse_filter = MOUSE_FILTER_IGNORE
 
@@ -89,7 +129,13 @@ func _ready():
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - event: Event received
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |event|`InputEvent`|Event received|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _unhandled_input(event: InputEvent) -> void:
 	var is_default_state = escoria.current_state == escoria.GAME_STATE.DEFAULT
 	if escoria.inputs_manager.try_custom_input_handler(event, is_default_state):
@@ -118,9 +164,15 @@ func _unhandled_input(event: InputEvent) -> void:
 				right_click_on_bg.emit(p)
 
 
-## Calculate the actual area taken by this background depending on its
-## Texture or set size[br]
-## **Returns** The correct area size
+## Calculate the actual area taken by this background depending on its Texture or set size[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `Rect2` value. (`Rect2`)
 func get_full_area_rect2() -> Rect2:
 	var area_rect2: Rect2 = Rect2()
 	var pos = get_global_position()

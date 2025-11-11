@@ -27,6 +27,16 @@ enum TokenType {
 }
 
 
-## Translates a given token type into its name.
+## Translates a given token type into its name.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |type|`int`|TokenType enumeration value to translate to its name.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `String` value. (`String`)
 static func get_token_type_name(type: int) -> String:
 	return TokenType.keys()[type]

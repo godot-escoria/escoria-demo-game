@@ -9,13 +9,29 @@ class_name ESCPlayer
 ## This allows the user to perform actions or use items on the player character.
 @export var selectable: bool = false
 
-## Constructor method.
+## Constructor method.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _init():
 	# A player is always movable
 	is_movable = true
 	_force_registration = true
 
 
-## Ready method. 
+## Ready method.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _ready():
 	super()

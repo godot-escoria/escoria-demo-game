@@ -31,26 +31,44 @@ var node: Node
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - p_global_id: The global id of the object.[br]
-## - p_node: The node in the scene.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |p_global_id|`String`|The global id of the object.|yes|[br]
+## |p_node|`Node`|The node in the scene.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _init(p_global_id: String, p_node: Node):
 	global_id = p_global_id
 	node = p_node
 
 
 ## Gets the current state.[br]
-##[br]
-## **Returns** the current state.
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `String` value. (`String`)
 func get_state() -> String:
 	return state
 
 
 ## Set the state and start a possible animation.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
-## *p_state*: The state in which this object should placed.[br]
-## *immediate*: If true, skips any animation directly to its end.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |p_state|`String`|The state in which this object should placed.|yes|[br]
+## |immediate|`bool`|If true, skips any animation directly to its end.|no|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func set_state(p_state: String, immediate: bool = false):
 	state = p_state
 
@@ -84,25 +102,43 @@ func set_state(p_state: String, immediate: bool = false):
 
 
 ## Sets the active value, thus hiding or showing the object.[br]
-##[br]
+## [br]
 ## #### Parameters[br]
-##[br]
-## *value*: A boolean determining whether the object should become active or inactive.
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |value|`bool`|A boolean determining whether the object should become active or inactive.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _set_active(value: bool):
 	active = value
 	self.node.visible = value
 
 
-## Returns whether the object is active.[br]
-##[br]
-## **Returns** true iff the object is active.
+## Whether the object is active.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns whether the object is active. (`bool`)
 func is_active() -> bool:
 	return active
 
 
 ## Gets the interactive value from the node.[br]
 ## [br]
-## *Returns* Whether the node is interactive or not.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns Whether the node is interactive or not. (`bool`)
 func _get_interactive() -> bool:
 	if is_instance_valid(self.node) and "is_interactive" in self.node:
 		return self.node.is_interactive
@@ -114,7 +150,13 @@ func _get_interactive() -> bool:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - value: Whether the object is interactive or not.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |value|`bool`|Whether the object is interactive or not.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _set_interactive(value: bool):
 	if "is_interactive" in self.node:
 		self.node.is_interactive = value
@@ -124,8 +166,14 @@ func _set_interactive(value: bool):
 
 
 ## Return the data of the object to be inserted in a savegame file.[br]
-##[br]
-## **Returns** a dictionary containing the data to be saved for this object.
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `Dictionary` value. (`Dictionary`)
 func get_save_data() -> Dictionary:
 	var save_data: Dictionary = {}
 

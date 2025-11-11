@@ -1,25 +1,31 @@
-## `camera_set_target time object`[br]
-## [br]
-## Configures the camera to follow the specified target `object` as it moves
-## around the current room. The transition to focus on the `object` will happen
-## over a time period.[br]
+## `camera_set_target(time: Number, object: String)`
+##
+## Configures the camera to follow the supplied Escoria object, easing into the new target over the requested duration.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - *time*: Number of seconds the transition should take to move the camera
-##   to follow `object`[br]
-## - *object*: Global ID of the target object[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |time|`Number`|Duration in seconds for the camera to transition to the target.|yes|[br]
+## |object|`String`|Global ID of the object the camera should follow.|yes|[br]
 ## [br]
-## For more details see: https://docs.escoria-framework.org/camera [br]
-## [br]
-##@ESC
+## For more details see: https://docs.escoria-framework.org/camera[br]
+##
+## @ESC
+## @COMMAND
 extends ESCCameraBaseCommand
 class_name CameraSetTargetCommand
 
 
-###Returns the descriptor of the arguments of this command.[br]
-###[br]
-###*Returns* The argument descriptor for this command.
+## Provides the argument descriptor that defines the command signature.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the descriptor used to validate command arguments. (`ESCCommandArgumentDescriptor`)
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		2,
@@ -28,13 +34,17 @@ func configure() -> ESCCommandArgumentDescriptor:
 	)
 
 
-###Validates whether the given arguments match the command descriptor.[br]
-###[br]
-########Parameters[br]
-###[br]
-###- arguments: The arguments to validate.[br]
-###[br]
-###*Returns* True if the arguments are valid, false otherwise.
+## Validates the command arguments and ensures the target object exists.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |arguments|`Array`|Command arguments to check against the descriptor.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns `true` when the arguments are valid; otherwise `false`. (`bool`)
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -46,13 +56,17 @@ func validate(arguments: Array):
 	return true
 
 
-###Runs the command.[br]
-###[br]
-########Parameters[br]
-###[br]
-###- command_params: The parameters for the command.[br]
-###[br]
-###*Returns* The execution result code.
+## Applies the camera target using the provided arguments.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |command_params|`Array`|Execution parameters `[time, object_id]` for the command.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the command execution result code. (`int`)
 func run(command_params: Array) -> int:
 	(escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera)\
 		.set_target(
@@ -62,7 +76,15 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-###Function called when the command is interrupted.
+## Function called when the command is interrupted.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func interrupt():
 	escoria.logger.debug(
 		self,

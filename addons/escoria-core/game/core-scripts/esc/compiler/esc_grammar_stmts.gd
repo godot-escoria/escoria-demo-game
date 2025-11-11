@@ -11,23 +11,60 @@ class Var extends ESCGrammarStmt:
 		get = get_initializer
 
 
-	## Initialization method. Must be called after instantiation.
+	## Initialization method. Must be called after instantiation.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |name|`ESCToken`|Token representing the variable's name.|yes|[br]
+	## |initializer|`ESCGrammarExpr`|Expression used to compute the initial value.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func init(name: ESCToken, initializer: ESCGrammarExpr):
 		_name = name
 		_initializer = initializer
 
 
-	## Returns the variable's name (as an `ESCToken`).
+	## The variable's name (as an `ESCToken`).[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the variable's name (as an `ESCToken`). (`ESCToken`)
 	func get_name() -> ESCToken:
 		return _name
 
 
-	## Returns the initalizer expression.
+	## The initalizer expression.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the initalizer expression. (`ESCGrammarExpr`)
 	func get_initializer() -> ESCGrammarExpr:
 		return _initializer
 
 
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this statement.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return await visitor.visit_var_stmt(self)
 
@@ -40,23 +77,60 @@ class Global extends ESCGrammarStmt:
 		get = get_initializer
 
 
-	## Initialization method. Must be called after instantiation.
+	## Initialization method. Must be called after instantiation.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |name|`ESCToken`|Token representing the variable's name.|yes|[br]
+	## |initializer|`ESCGrammarExpr`|Expression used to compute the initial value.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func init(name: ESCToken, initializer: ESCGrammarExpr):
 		_name = name
 		_initializer = initializer
 
 
-	## Returns the global variable's name (as an `ESCToken`).
+	## The global variable's name (as an `ESCToken`).[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the global variable's name (as an `ESCToken`). (`ESCToken`)
 	func get_name() -> ESCToken:
 		return _name
 
 
-	## Returns the initalizer expression.
+	## The initalizer expression.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the initalizer expression. (`ESCGrammarExpr`)
 	func get_initializer() -> ESCGrammarExpr:
 		return _initializer
 
 
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this statement.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return await visitor.visit_global_stmt(self)
 
@@ -64,10 +138,20 @@ class Global extends ESCGrammarStmt:
 ## Represents an Escoria event, e.g. `:look`. An event can also be given a "target" 
 ## to act on, e.g. `:use "wrench"`.
 class Event extends ESCGrammarStmt:
-	## Signal fired when the event has finished.
+	## Signal fired when the event has finished.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
 	signal finished
 
-	## Signal fired if the event has been interrupted.
+	## Signal fired if the event has been interrupted.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
 	signal interrupted
 
 	var _name: ESCToken:
@@ -115,12 +199,20 @@ class Event extends ESCGrammarStmt:
 
 
 	## Initialization method. Must be called after instantiation.[br]
-	##[br]
-	## #### Parameters ####[br]
-	## - *name*: `ESCToken` representing the name of the event.[br]
-	## - *target*: a literal representing the global ID of an object the event is meant to act on; can be null.[br]
-	## - *flags*: an array containing event flags to be applied; can be null/empty.[br]
-	## - *body*: the body of the event; this is the script block that will be executed when the event is run.
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |name|`ESCToken`|Token representing the event name.|yes|[br]
+	## |target|`ESCGrammarExprs.Literal`|a literal representing the global ID of an object the event is meant to act on; can be null.|yes|[br]
+	## |flags|`Dictionary`|an array containing event flags to be applied; can be null/empty.|yes|[br]
+	## |body|`ESCGrammarStmts.Block`|the body of the event; this is the script block that will be executed when the event is run.|yes|[br]
+	## |object_global_id|`String`|the object/room the event is attached to, if any (may be empty)|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func init(name: ESCToken, target: ESCGrammarExprs.Literal, flags: Dictionary, body: ESCGrammarStmts.Block, object_global_id: String):
 		_name = name
 		_target = target
@@ -141,28 +233,67 @@ class Event extends ESCGrammarStmt:
 		_object_global_id = object_global_id
 
 
-	## Returns the event's name (as an `ESCToken`).
+	## The event's name (as an `ESCToken`).[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the event's name (as an `ESCToken`). (`ESCToken`)
 	func get_name() -> ESCToken:
 		return _name
 
 
-	## Returns the target as a literal.
+	## The target as a literal.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the target as a literal. (`ESCGrammarExprs.Literal`)
 	func get_target() -> ESCGrammarExprs.Literal:
 		return _target
 
 
-	## Returns a string containing the name of the target, if it exists.
+	## A string containing the name of the target, if it exists.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns a string containing the name of the target, if it exists. (`String`)
 	func get_target_name() -> String:
 		return _target.get_value() if _target != null else ""
 
 
-	## Returns the name of the event as a string.
+	## The name of the event as a string.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the name of the event as a string. (`String`)
 	func get_event_name() -> String:
 		return _name.get_lexeme()
 
 
-	## Returns the flags set for this event. Note that this is an integer that 
-	## serves as a collection of mutually exclusive bits.
+	## The flags set for this event. Note that this is an integer that serves as a collection of mutually exclusive bits.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the flags set for this event. Note that this is an integer that serves as a collection of mutually exclusive bits. (`int`)
 	func get_flags() -> int:
 		return _flags
 
@@ -175,8 +306,15 @@ class Event extends ESCGrammarStmt:
 		_flags |= flag
 
 
-	## Returns the body of the event. This is the script block that will be executed
-	## when the event is run.
+	## The body of the event. This is the script block that will be executed when the event is run.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the body of the event. This is the script block that will be executed when the event is run. (`ESCGrammarStmts.Block`)
 	func get_body() -> ESCGrammarStmts.Block:
 		return _body
 
@@ -185,28 +323,69 @@ class Event extends ESCGrammarStmt:
 		return _object_global_id
 
 
-	## Returns the number of top-level statements in the body. Generally only useful for internal 
-	## purposes.
+	## The number of top-level statements in the body. Generally only useful for internal purposes.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the number of top-level statements in the body. Generally only useful for internal purposes. (`int`)
 	func get_num_statements_in_block() -> int:
 		return _body.get_statements().size()
 
 
-	## Returns the command currently being executed in this event.
+	## The command currently being executed in this event.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the command currently being executed in this event. (`Variant`)
 	func get_running_command():
 		return _running_command
 
 
-	## Sets the command that is currently being executed in this event.
+	## Sets the command that is currently being executed in this event.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |cmd|`Variant`|Command currently being executed for this event.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func set_running_command(cmd) -> void:
 		_running_command = cmd
 
 
-	## Clears the currently-running command.
+	## Clears the currently-running command.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func clear_running_command() -> void:
 		_running_command = null
 
 
-	## Forces the event to be interrupted.
+	## Forces the event to be interrupted.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func interrupt() -> void:
 		_is_interrupted = true
 
@@ -214,22 +393,58 @@ class Event extends ESCGrammarStmt:
 			_running_command.interrupt()
 
 
-	## Returns true iff the event has been interrupted.
+	## True iff the event has been interrupted.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns true iff the event has been interrupted. (`bool`)
 	func is_interrupted() -> bool:
 		return _is_interrupted
 
 
-	## Resets the "is interrupted" flag.
+	## Resets the "is interrupted" flag.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func reset_interrupt() -> void:
 		_is_interrupted = false
 
 
-	## Emits the `finished` signal along with the indicated return code (`rc`).
+	## Emits the `finished` signal along with the indicated return code (`rc`).[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |rc|`int`|Return code emitted when the statement signals completion.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func emit_finished(rc: int):
 		emit_signal("finished", self, null, rc)
 
 
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this statement.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return await visitor.visit_event_stmt(self)
 
@@ -240,17 +455,45 @@ class Block extends ESCGrammarStmt:
 		get = get_statements
 
 
-	## Initialization method. Must be called after instantiation.
+	## Initialization method. Must be called after instantiation.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |statements|`Array`|Statements contained within the block body.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func init(statements: Array):
 		_statements = statements
 
 
-	## Returns the statements contained in this block as an array.
+	## The statements contained in this block as an array.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the statements contained in this block as an array. (`Array`)
 	func get_statements() -> Array:
 		return _statements
 
 
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this statement.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return await visitor.visit_block_stmt(self)
 
@@ -261,17 +504,45 @@ class ESCExpression extends ESCGrammarStmt:
 		get = get_expression
 
 
-	## Initialization method. Must be called after instantiation.
+	## Initialization method. Must be called after instantiation.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |expression|`ESCGrammarExpr`|Expression evaluated by the statement.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func init(expression: ESCGrammarExpr):
 		_expression = expression
 
 
-	## Returns the expression this `ESCExpression` represents.
+	## The expression this `ESCExpression` represents.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the expression this `ESCExpression` represents. (`ESCGrammarExpr`)
 	func get_expression() -> ESCGrammarExpr:
 		return _expression
 
 
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this statement.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return await visitor.visit_expression_stmt(self)
 
@@ -300,13 +571,19 @@ class If extends ESCGrammarStmt:
 
 
 	## Initialization method. Must be called after instantiation.[br]
-	##[br]
-	## #### Parameters ####[br]
-	## - *condition*: the expression to be evaluated and tested for the `if` block.[br]
-	## - *then_branch*: the block of statements to be executed should `condition` evaluate to `true`.[br]
-	## - *elif_branches*: an array containing any desired `elif` branches, with each element corresponding 
-	## to its own `if` statement.[br]
-	## - *else_branch*: the block of staetments to be executed should `condition` evaluate to `false`.
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |condition|`ESCGrammarExpr`|the expression to be evaluated and tested for the `if` block.|yes|[br]
+	## |then_branch|`ESCGrammarStmts.Block`|the block of statements to be executed should `condition` evaluate to `true`.|yes|[br]
+	## |elif_branches|`Array`|an array containing any desired `elif` branches, with each element corresponding to its own `if` statement.|yes|[br]
+	## |else_branch|`ESCGrammarStmts.Block`|the block of staetments to be executed should `condition` evaluate to `false`.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func init(condition: ESCGrammarExpr, then_branch: ESCGrammarStmts.Block, elif_branches: Array, else_branch: ESCGrammarStmts.Block):
 		_condition = condition
 		_then_branch = then_branch
@@ -314,27 +591,69 @@ class If extends ESCGrammarStmt:
 		_else_branch = else_branch
 
 
-	## Returns the expression/predicate to be evaluated for the `if` block.
+	## The expression/predicate to be evaluated for the `if` block.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the expression/predicate to be evaluated for the `if` block. (`ESCGrammarExpr`)
 	func get_condition() -> ESCGrammarExpr:
 		return _condition
 
 
-	## Returns the block of statements to be executed should `condition` evaluate to `true`.
+	## The block of statements to be executed should `condition` evaluate to `true`.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the block of statements to be executed should `condition` evaluate to `true`. (`ESCGrammarStmts.Block`)
 	func get_then_branch() -> ESCGrammarStmts.Block:
 		return _then_branch
 
 
-	## Returns the array of `elif` branches to include as part of this `if` statement.
+	## The array of `elif` branches to include as part of this `if` statement.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the array of `elif` branches to include as part of this `if` statement. (`Array`)
 	func get_elif_branches() -> Array:
 		return _elif_branches
 
 
-	## Returns the block of statements to be executed should `condition` evaluate to `false`.
+	## The block of statements to be executed should `condition` evaluate to `false`.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the block of statements to be executed should `condition` evaluate to `false`. (`ESCGrammarStmts.Block`)
 	func get_else_branch() -> ESCGrammarStmts.Block:
 		return _else_branch
 
 
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this statement.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return await visitor.visit_if_stmt(self)
 
@@ -352,40 +671,93 @@ class While extends ESCGrammarStmt:
 
 
 	## Initialization method. Must be called after instantiation.[br]
-	##[br]
-	## #### Parameters ####[br]
-	## - *condition*: the expression to be evaluated and tested in order for the `while` loop to be entered/continue executing.[br]
-	## - *body*: the block of statements to be executed should `condition` evaluate to `true`.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |condition|`ESCGrammarExpr`|the expression to be evaluated and tested in order for the `while` loop to be entered/continue executing.|yes|[br]
+	## |body|`ESCGrammarStmt`|the block of statements to be executed should `condition` evaluate to `true`.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func init(condition: ESCGrammarExpr, body: ESCGrammarStmt):
 		_condition = condition
 		_body = body
 
 
-	## Returns the expression/predicate to be evaluated for the `while` block.
+	## The expression/predicate to be evaluated for the `while` block.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the expression/predicate to be evaluated for the `while` block. (`ESCGrammarExpr`)
 	func get_condition() -> ESCGrammarExpr:
 		return _condition
 
 
-	## Returns the block of statements to be executed should `condition` evaluate to `true`.
+	## The block of statements to be executed should `condition` evaluate to `true`.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the block of statements to be executed should `condition` evaluate to `true`. (`ESCGrammarStmt`)
 	func get_body() -> ESCGrammarStmt:
 		return _body
 
 
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this statement.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return await visitor.visit_while_stmt(self)
 
 
 ## Represents the equivalent of the GDScript `pass` statement and behaves exactly the same way.
 class Pass extends ESCGrammarStmt:
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this statement.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return await visitor.visit_pass_stmt(self)
 
 
 ## Represents a `stop` statement. Will stop the rest of the event from executing.
 class Stop extends ESCGrammarStmt:
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this statement.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return await visitor.visit_stop_stmt(self)
 
@@ -421,36 +793,74 @@ class DialogOption extends ESCGrammarStmt:
 
 
 	## Initialization method. Must be called after instantiation.[br]
-	##[br]
-	## #### Parameters ####[br]
-	## - *option*: the expression whose results will be displayed on screen as an 
-	## option to be selected alongside any other options at the current level[br]
-	## - *condition*: an optional condition to be evaluated that is used to determine whether 
-	## the option should be displayed at all[br]
-	## - *body*: the block of statements to be executed should this dialog option be selected
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |option|`ESCGrammarExpr`|the expression whose results will be displayed on screen as an option to be selected alongside any other options at the current level|yes|[br]
+	## |condition|`ESCGrammarExpr`|an optional condition to be evaluated that is used to determine whether the option should be displayed at all|yes|[br]
+	## |body|`ESCGrammarStmt`|the block of statements to be executed should this dialog option be selected|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func init(option: ESCGrammarExpr, condition: ESCGrammarExpr, body: ESCGrammarStmt):
 		_option = option
 		_condition = condition
 		_body = body
 
 
-	## Returns the option expression.
+	## The option expression.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the option expression. (`ESCGrammarExpr`)
 	func get_option() -> ESCGrammarExpr:
 		return _option
 
 
-	## Returns the condition for this option, if one exists.
+	## The condition for this option, if one exists.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the condition for this option, if one exists. (`ESCGrammarExpr`)
 	func get_condition() -> ESCGrammarExpr:
 		return _condition
 
 
-	## Returns the statements of the option to be executed should the option be
-	## selected.
+	## The statements of the option to be executed should the option be selected.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the statements of the option to be executed should the option be selected. (`ESCGrammarStmt`)
 	func get_body() -> ESCGrammarStmt:
 		return _body
 
 
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this statement.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return await visitor.visit_dialog_option_stmt(self)
 
@@ -480,29 +890,59 @@ class Dialog extends ESCGrammarStmt:
 
 
 	## Initialization method. Must be called after instantiation.[br]
-	##[br]
-	## #### Parameters ####[br]
-	## - *args*: the arguments pertaining to this dialog; the array is typically ordered:[br]
-	## 		- Path to avatar to be used for this dialog,[br]
-	##		- Timeout (in seconds) until the default option is automatically selected,[br]
-	##		- Timeout option to be selected once the timeout is reached.[br]
-	## - *options*: the dialog options available to this dialog
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |args|`Array`|the arguments pertaining to this dialog; the array is typically ordered: Path to avatar to be used for this dialog, Timeout (in seconds) until the default option is automatically selected, Timeout option to be selected once the timeout is reached.|yes|[br]
+	## |options|`Array`|the dialog options available to this dialog|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func init(args: Array, options: Array):
 		_options = options
 		_args = args
 
 
-	## Returns the options available to this dialog.
+	## The options available to this dialog.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the options available to this dialog. (`Array`)
 	func get_options() -> Array:
 		return _options
 
 
-	## Returns the arguments for this dialog as described in the `init` method.
+	## The arguments for this dialog as described in the `init` method.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the arguments for this dialog as described in the `init` method. (`Array`)
 	func get_args() -> Array:
 		return _args
 
 
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this statement.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return await visitor.visit_dialog_stmt(self)
 
@@ -517,21 +957,44 @@ class Break extends ESCGrammarStmt:
 
 
 	## Initialization method. Must be called after instantiation.[br]
-	##[br]
-	## #### Parameters ####[br]
-	## - *levels*: an expression whose result will be used to determine how many 
-	## levels of nested dialogs to break out from; not applicable for loops.
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |levels|`ESCGrammarExpr`|an expression whose result will be used to determine how many levels of nested dialogs to break out from; not applicable for loops.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func init(levels: ESCGrammarExpr):
 		_levels = levels
 
 
-	## Returns the expression whose result represents the number of nested dialog 
-	## levels to break out from.
+	## The expression whose result represents the number of nested dialog levels to break out from.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the expression whose result represents the number of nested dialog levels to break out from. (`ESCGrammarExpr`)
 	func get_levels() -> ESCGrammarExpr:
 		return _levels
 
 
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this statement.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return await visitor.visit_break_stmt(self)
 
@@ -539,6 +1002,16 @@ class Break extends ESCGrammarStmt:
 ## Represents a `done` staetment. Used to end and break out of the top-level of 
 ## the current dialog, regardless of the current nested depth.
 class Done extends ESCGrammarStmt:
-	## Method to invoke visitor-specific code.
+	## Method to invoke visitor-specific code.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## | Name | Type | Description | Required? |[br]
+	## |:-----|:-----|:------------|:----------|[br]
+	## |visitor|`Variant`|Visitor instance invoked to process this statement.|yes|[br]
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns nothing.
 	func accept(visitor):
 		return await visitor.visit_done_stmt(self)

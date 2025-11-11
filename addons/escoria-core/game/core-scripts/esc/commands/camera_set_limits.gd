@@ -1,26 +1,33 @@
-## `camera_set_limits camlimits_id`[br]
-## [br]
+## `camera_set_limits(camlimits_id: Integer)`
+##
 ## Limits the current camera's movement to a limit defined in the `ESCRoom`'s
 ## definition. A limit is defined as an upper-left (x, y) coordinate, a width
 ## and a height that the camera must stay within. Multiple limits can be
 ## defined for a room, allowing for new areas to be seen once they have
 ## been 'unlocked'.[br]
-## [br]
-## #### Parameters[br]
-## [br]
+##[br]
+## **Parameters**[br]
+##[br]
 ## - *camlimits_id*: Index of the camera limit defined in the `camera limits`
 ##   list of the current `ESCRoom`[br]
-## [br]
-## For more details see: https://docs.escoria-framework.org/camera [br]
-## [br]
+##[br]
+## For more details see: https://docs.escoria-framework.org/camera
+##
 ## @ESC
+## @COMMAND
 extends ESCCameraBaseCommand
 class_name CameraSetLimitsCommand
 
 
-## Returns the descriptor of the arguments of this command.[br]
+## The descriptor of the arguments of this command.[br]
 ## [br]
-## *Returns* The argument descriptor for this command.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the descriptor of the arguments of this command. The argument descriptor for this command. (`ESCCommandArgumentDescriptor`)
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
@@ -33,9 +40,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - arguments: The arguments to validate.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |arguments|`Array`|The arguments to validate.|yes|[br]
 ## [br]
-## *Returns* True if the arguments are valid, false otherwise.
+## #### Returns[br]
+## [br]
+## Returns True if the arguments are valid, false otherwise. (`bool`)
 func validate(arguments: Array):
 	if not super.validate(arguments):
 		return false
@@ -56,9 +67,13 @@ func validate(arguments: Array):
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - command_params: The parameters for the command.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |command_params|`Array`|The parameters for the command.|yes|[br]
 ## [br]
-## *Returns* The execution result code.
+## #### Returns[br]
+## [br]
+## Returns the execution result code. (`int`)
 func run(command_params: Array) -> int:
 	var camera: ESCCamera = escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera
 	camera.clamp_to_viewport_limits()
@@ -67,7 +82,15 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-## Function called when the command is interrupted.
+## Function called when the command is interrupted.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func interrupt():
 	escoria.logger.debug(
 		self,

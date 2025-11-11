@@ -20,8 +20,15 @@ const LEVEL_MAP: Dictionary = {
 	"TRACE": LOG_TRACE,
 }
 
-## Static function to determine the int log level value defined in Project Settings
-## (Escoria>Debug>Log Level)
+## Static function to determine the int log level value defined in Project Settings (Escoria>Debug>Log Level)[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `int` value. (`int`)
 static func determine_escoria_log_level() -> int:
 	return LEVEL_MAP[ESCProjectSettingsManager.get_setting(
 			ESCProjectSettingsManager.LOG_LEVEL

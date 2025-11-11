@@ -1,24 +1,30 @@
-## `change_scene path [enable_automatic_transition] [run_events]`[br]
+## `change_scene(path: String[, enable_automatic_transition: Boolean[, run_events: Boolean]])`
+##
+## Switches the game from the current scene to another scene. Use this to move the player to a new room when they walk through an unlocked door, for example.[br]
 ## [br]
-## Switches the game from the current scene to another scene. Use this to move
-## the player to a new room when they walk through an unlocked door, for
-## example.[br]
+## #### Parameters[br]
 ## [br]
-## ##### Parameters[br]
-## [br]
-## - *path*: Path of the new scene[br]
-## - *enable_automatic_transition*: Automatically transition to the new scene
-##   (default: `true`)[br]
-## - *run_events*: Run the standard ESC events of the new scene (default: `true`)[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |path|`String`|Path of the new scene|yes|[br]
+## |enable_automatic_transition|`Boolean`|Automatically transition to the new scene (default: `true`)|no|[br]
+## |run_events|`Boolean`|Run the standard ESC events of the new scene (default: `true`)|no|[br]
 ## [br]
 ## @ESC
+## @COMMAND
 extends ESCBaseCommand
 class_name ChangeSceneCommand
 
 
-## Returns the descriptor of the arguments of this command.[br]
+## The descriptor of the arguments of this command.[br]
 ## [br]
-## *Returns* The argument descriptor for this command.
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the descriptor of the arguments of this command. The argument descriptor for this command. (`ESCCommandArgumentDescriptor`)
 func configure() -> ESCCommandArgumentDescriptor:
 	return ESCCommandArgumentDescriptor.new(
 		1,
@@ -31,9 +37,13 @@ func configure() -> ESCCommandArgumentDescriptor:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - arguments: The arguments to validate.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |arguments|`Array`|The arguments to validate.|yes|[br]
 ## [br]
-## *Returns* True if the arguments are valid, false otherwise.
+## #### Returns[br]
+## [br]
+## Returns True if the arguments are valid, false otherwise. (`bool`)
 func validate(arguments: Array) -> bool:
 	if not super.validate(arguments):
 		return false
@@ -60,9 +70,13 @@ func validate(arguments: Array) -> bool:
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - command_params: The parameters for the command.[br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |command_params|`Array`|The parameters for the command.|yes|[br]
 ## [br]
-## *Returns* The execution result code.
+## #### Returns[br]
+## [br]
+## Returns the execution result code. (`int`)
 func run(command_params: Array) -> int:
 	escoria.logger.info(
 		self,
@@ -79,7 +93,15 @@ func run(command_params: Array) -> int:
 	return ESCExecution.RC_OK
 
 
-## Function called when the command is interrupted.
+## Function called when the command is interrupted.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func interrupt():
 	escoria.logger.debug(
 		self,

@@ -2,18 +2,28 @@ extends Node
 ## This is Escoria's singleton script.
 ## It holds accessors to some utils, such as Escoria's logger.
 
-## Signal sent when Escoria is paused
+## Signal sent when Escoria is paused[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
 signal paused
 
-## Signal sent when Escoria is resumed from pause
+## Signal sent when Escoria is resumed from pause[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
 signal resumed
 
-## Current game state.[br]
-## * DEFAULT: Common game function[br]
-## * DIALOG: Game is playing a dialog[br]
-## * WAIT: Game is waiting[br]
-## * LOADING: Game is loading[br]
-## * PAUSED: Game is paused
+
+## Current game state
+## * DEFAULT: Common game function
+## * DIALOG: Game is playing a dialog
+## * WAIT: Game is waiting
+## * LOADING: Game is currently loading
 enum GAME_STATE {
 	DEFAULT,
 	DIALOG,
@@ -134,7 +144,7 @@ var main
 var creating_new_game: bool = false
 #var temp: int = 0
 
-## The game resolution.
+## Game actual resolution obtained from viewport.
 @onready var game_size = Vector2(
 	ProjectSettings.get_setting("display/window/size/viewport_width"),
 	ProjectSettings.get_setting("display/window/size/viewport_height"))
@@ -142,7 +152,15 @@ var creating_new_game: bool = false
 ## Current state of Escoria (GAME_STATE enum) 
 @onready var current_state = GAME_STATE.DEFAULT
 
-## Ready function. Instantiates the main scene if running a room directly.
+## Ready function. Instantiates the main scene if running a room directly.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func _ready():
 	# We check if we run the full game or a room scene directly
 	if not get_tree().current_scene is ESCMain:
@@ -153,9 +171,15 @@ func _ready():
 		add_child(main_scene)
 
 
-## Get the Escoria node. That node gives access to the Escoria scene that's[br]
-## instanced by the main_scene (if full game is run) or by this autoload if[br]
-## room is run directly.
+## Get the Escoria node. That node gives access to the Escoria scene that's instanced by the main_scene (if full game is run) or by this autoload if room is run directly.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func get_escoria():
 	# We check if we run the full game or a room scene directly
 	if get_tree().current_scene is ESCMain:
@@ -163,11 +187,18 @@ func get_escoria():
 	else:
 		return get_node("main_scene").escoria_node
 
-## Pauses or unpauses the game.[br]
+
+## Pauses or unpause the game[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
-## - p_paused: if true, pauses the game. If false, unpauses the game.
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |p_paused|`bool`|if true, pauses the game. If false, unpauses the game.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func set_game_paused(p_paused: bool):
 	if p_paused:
 		paused.emit()
@@ -179,11 +210,27 @@ func set_game_paused(p_paused: bool):
 	if is_instance_valid(scene_tree):
 		scene_tree.paused = p_paused
 
-## Called from main menu's "new game" button.
+## Called from main menu's "new game" button.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func new_game():
 	get_escoria().new_game()
 
-## Called from main menu's "quit" button.
+## Called from main menu's "quit" button.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func quit():
 	is_quitting = true
 	get_escoria().quit()
