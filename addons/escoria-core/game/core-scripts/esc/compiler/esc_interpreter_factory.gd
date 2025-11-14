@@ -7,7 +7,7 @@ const ESC_INTERPRETER_SCRIPT := preload(
 )
 
 
-static var _interpreter: ESCInterpreter = null
+var _interpreter: ESCInterpreter = null
 
 
 ## Produces an interpreter as a singleton.[br]
@@ -77,7 +77,7 @@ static func create_runtime_interpreter(channel_name: String = "") -> ESCInterpre
 	return interpreter
 
 
-static func reset_interpreter() -> void:
+func reset_interpreter() -> void:
 	if is_instance_valid(_interpreter):
 		_interpreter.cleanup()
 		_interpreter = null

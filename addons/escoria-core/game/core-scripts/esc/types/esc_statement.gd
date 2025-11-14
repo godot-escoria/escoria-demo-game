@@ -107,7 +107,7 @@ func is_valid() -> bool:
 ## Returns a `int` value. (`int`)
 func run() -> int:
 	if parsed_statements.size() > 0:
-		var interpreter = ESCInterpreterFactory.create_interpreter()
+		var interpreter = escoria.interpreter_factory.create_interpreter()
 		var resolver: ESCResolver = ESCResolver.new(interpreter)
 		resolver.resolve(parsed_statements)
 

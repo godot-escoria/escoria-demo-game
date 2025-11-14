@@ -223,6 +223,8 @@ func _process(delta: float) -> void:
 			#var rc = _running_events[channel_name].run()
 			#escoria.interpreter.reset()
 			#var resolver: ESCResolver = ESCResolver.new(escoria.interpreter)
+			var interpreter: ESCInterpreter = escoria.interpreter_factory.create_interpreter()
+			var resolver: ESCResolver = ESCResolver.new(interpreter)
 			var event = _running_events[channel_name]
 
 			call_deferred("_run_event_on_channel", channel_name, event)
