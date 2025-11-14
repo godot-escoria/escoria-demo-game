@@ -7,6 +7,11 @@ extends RefCounted
 class_name ESCScanner
 
 
+## In ASHES, an identifier starting with `$` is interpreted as a lookup in
+## `ESCObjectManager.get_object()` with the value after the `$`.
+const GLOBAL_ID_PREFIX: String = "$"
+
+
 var _tokens: Array = []
 
 var _keywords: Dictionary
@@ -263,8 +268,17 @@ func _is_alphanumeric(c: String) -> bool:
 
 
 func _identifier() -> void:
-	while _is_alphanumeric(_peek()):
-		_advance()
+	# Identifiers starting with '$' are used as shorthand for global IDs and
+	# are allowed to contain hyphens (e.g., `$closet-door`). Other identifiers
+	# still treat '-' as the subtraction operator.
+	var allow_hyphen_in_identifier: bool = _source[_start] == GLOBAL_ID_PREFIX
+
+	while true:
+		var current_char = _peek()
+		if _is_alphanumeric(current_char) or (allow_hyphen_in_identifier and current_char == '-'):
+			_advance()
+		else:
+			break
 
 	var text: String = _source.substr(_start, _current - _start)
 	var type = _keywords.get(text)
