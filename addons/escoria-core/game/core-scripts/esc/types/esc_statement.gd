@@ -1,9 +1,9 @@
-## Abstract base class representing a "statement" that has been interpreted from 
+## Abstract base class representing a "statement" that has been interpreted from
 ## an ASHES script file and is used to carry out its execution in Escoria.
 ##
-## NOTE: This class is legacy code related to the ESCScript language that precedes the 
-## newer ASHES scripting language used by Escoria. Although this class is extended 
-## to facilitate the execution of actual commands and dialogs, the name may be 
+## NOTE: This class is legacy code related to the ESCScript language that precedes the
+## newer ASHES scripting language used by Escoria. Although this class is extended
+## to facilitate the execution of actual commands and dialogs, the name may be
 ## a bit misleading and may eventually be renamed or refactored.
 extends RefCounted
 class_name ESCStatement

@@ -146,7 +146,7 @@ var creating_new_game: bool = false
 	ProjectSettings.get_setting("display/window/size/viewport_width"),
 	ProjectSettings.get_setting("display/window/size/viewport_height"))
 
-## Current state of Escoria (GAME_STATE enum) 
+## Current state of Escoria (GAME_STATE enum)
 @onready var current_state = GAME_STATE.DEFAULT
 
 ## Ready function. Instantiates the main scene if running a room directly.[br]

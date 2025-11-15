@@ -1,4 +1,4 @@
-## Convenience class to help build scripts in code for use with the ASHES compiler 
+## Convenience class to help build scripts in code for use with the ASHES compiler
 ## toolchain. Loosely follows the Builder pattern.
 extends RefCounted
 class_name ESCScriptBuilder

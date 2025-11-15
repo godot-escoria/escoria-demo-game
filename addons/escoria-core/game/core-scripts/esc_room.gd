@@ -43,7 +43,7 @@ var game
 ## Container of compiled ESCScript
 var compiled_script: ESCScript
 
-## Whether automatic transition are enabled or not. This is modified by 
+## Whether automatic transition are enabled or not. This is modified by
 ## the Room Manager.
 var enabled_automatic_transitions = true
 
@@ -73,7 +73,7 @@ func _ready():
 	var temp_control: Control = Control.new()
 	_tool_default_font = temp_control.get_theme_default_font()
 	temp_control.queue_free()
-	
+
 	child_entered_tree.connect(_on_child_entered_tree)
 
 	if Engine.is_editor_hint():

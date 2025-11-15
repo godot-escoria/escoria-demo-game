@@ -3,7 +3,7 @@
 extends Resource
 class_name ESCRoomManager
 ## The room manager scene.
-## Manages room loading and keeps in memory 
+## Manages room loading and keeps in memory
 
 
 ## Reserved global containing the global_id of previous room. Cannot be overriden.

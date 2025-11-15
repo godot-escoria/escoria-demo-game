@@ -29,7 +29,7 @@ const MULTIPLE_START_LOCATIONS_WARNING = \
 
 ## If enabled, this `ESCLocation` is considered as a player start location
 ## for this room.
-@export var is_start_location: bool = false: 
+@export var is_start_location: bool = false:
 	set = set_is_start_location
 
 
@@ -46,7 +46,7 @@ const MULTIPLE_START_LOCATIONS_WARNING = \
 @export_group("","")
 
 ## Escoria plugin variable to check the existence of multiple start locations.
-var _multiple_start_locations_exist: bool = false: 
+var _multiple_start_locations_exist: bool = false:
 	set = set_multiple_start_locations_exist
 
 

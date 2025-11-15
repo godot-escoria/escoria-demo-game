@@ -1,3 +1,12 @@
+## [4.0.0-alpha.290](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.290) (2025-11-15)
+
+
+### Bug Fixes
+
+* forces the Godot IDE to show the applicable resource type to use immediately instead of needing to wade through a ton of Godot classes ([#789](https://github.com/godot-escoria/escoria-demo-game/issues/789)) ([c4784ed](https://github.com/godot-escoria/escoria-demo-game/commit/c4784ed20ceaa122dc6c5369ed9f4d24ab527ecc))
+
+
+
 ## [4.0.0-alpha.289](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.289) (2025-09-18)
 
 

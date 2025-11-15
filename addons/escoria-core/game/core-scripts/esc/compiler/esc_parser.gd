@@ -1,8 +1,8 @@
-## Class that handles parsing of scanned tokens in order to generate a list of 
+## Class that handles parsing of scanned tokens in order to generate a list of
 ## statements for the interpreter to execute.
 ##
-## Note that the vast majority of this class consists of (effectively) private methods 
-## in order to facilitate encapsulation, but if you're interested in how the parser 
+## Note that the vast majority of this class consists of (effectively) private methods
+## in order to facilitate encapsulation, but if you're interested in how the parser
 ## is implemented, [check out the class in GitHub](https://github.com/godot-escoria/escoria-demo-game/blob/main/addons/escoria-core/game/core-scripts/esc/compiler/esc_interpreter.gd)
 extends RefCounted
 class_name ESCParser

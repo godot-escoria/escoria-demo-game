@@ -2,12 +2,12 @@ class_name ESCLogLevel
 ## Log levels for ESCLogger.
 
 ## Valid log levels by order of granularity (E, W, I, D, T)
-enum { 
-	LOG_ERROR, 
-	LOG_WARNING, 
-	LOG_INFO, 
-	LOG_DEBUG, 
-	LOG_TRACE 
+enum {
+	LOG_ERROR,
+	LOG_WARNING,
+	LOG_INFO,
+	LOG_DEBUG,
+	LOG_TRACE
 }
 
 

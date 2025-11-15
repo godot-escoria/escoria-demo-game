@@ -32,7 +32,7 @@ var current_state = null
 var current_state_name = ""
 
 ## Whether the state machine is currently enabled or not.
-var _active = false: 
+var _active = false:
 	set = set_active
 
 
@@ -50,10 +50,10 @@ var _active = false:
 func initialize(start_state: State):
 	if START_STATE == null:
 		escoria.logger.error(
-			self, 
-			"Starting state is required to be initialized with a defined state, 
-			but it is null. Escoria cannot determine which of the defined states 
-			(in states_map dictionary) is supposed to be the starting one. 
+			self,
+			"Starting state is required to be initialized with a defined state,
+			but it is null. Escoria cannot determine which of the defined states
+			(in states_map dictionary) is supposed to be the starting one.
 			Please assign a state to START_STATE in your implementation of the StateMachine class.")
 	for child in get_children():
 		child.connect("finished", Callable(self, "_change_state"))
@@ -93,7 +93,7 @@ func _input(event: InputEvent):
 	current_state.handle_input(event)
 
 
-# Lets the state machine's current state perform an update during 
+# Lets the state machine's current state perform an update during
 # _physics_process() phase.
 #
 # #### Parameters
@@ -103,7 +103,7 @@ func _physics_process(delta: float):
 	current_state.update(delta)
 
 
-# Lets the state machine's current state perform an action on animation_finished 
+# Lets the state machine's current state perform an action on animation_finished
 # signal.
 #
 # #### Parameters
@@ -115,7 +115,7 @@ func _on_animation_finished(anim_name: String):
 	current_state._on_animation_finished(anim_name)
 
 
-# Change the current state of the state machine using its name. The value of 
+# Change the current state of the state machine using its name. The value of
 # the state to be set is obtained in states_map dictionary.
 #
 # #### Parameters

@@ -24,7 +24,7 @@ class ESCLoggerBase:
 	# Configured log level
 	var _log_level: int
 
-	## If true, assert() functions will not be called, thus the program won't 
+	## If true, assert() functions will not be called, thus the program won't
 	## exit or error. Resets to false after an assert() call was ignored once.
 	## Useful for console calls.
 	var dont_assert: bool = false
@@ -413,7 +413,7 @@ class ESCLoggerFile extends ESCLoggerBase:
 		if owner != null:
 			context = owner.get_script().resource_path.get_file()
 			_log_to_file_message(context, msg, letter)
-	
+
 	# Log the log message and context as string to file
 	func _log_to_file_message(context: String, msg: String, letter: String):
 		if log_file.is_open():
@@ -423,7 +423,7 @@ class ESCLoggerFile extends ESCLoggerBase:
 	func _log_line_to_file(msg: String):
 		if log_file.is_open():
 			log_file.store_string(msg + "\n")
-	
+
 	# Log the stack trace to file
 	func _log_stack_trace_to_file():
 		var frame_number = 0
@@ -444,7 +444,7 @@ class ESCLoggerVerbose extends ESCLoggerBase:
 	# Constructor
 	func _init():
 		pass
-	
+
 	## Debug log[br]
 	## [br]
 	## #### Parameters[br]

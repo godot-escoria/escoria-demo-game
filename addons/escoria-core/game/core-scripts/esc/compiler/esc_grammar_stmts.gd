@@ -1,4 +1,4 @@
-## Implements all statements in the scripting language's grammar. These classes 
+## Implements all statements in the scripting language's grammar. These classes
 ## represent language constructs as part of a script's syntax tree.
 class_name ESCGrammarStmts
 
@@ -135,7 +135,7 @@ class Global extends ESCGrammarStmt:
 		return await visitor.visit_global_stmt(self)
 
 
-## Represents an Escoria event, e.g. `:look`. An event can also be given a "target" 
+## Represents an Escoria event, e.g. `:look`. An event can also be given a "target"
 ## to act on, e.g. `:use "wrench"`.
 class Event extends ESCGrammarStmt:
 	## Signal fired when the event has finished.[br]
@@ -770,11 +770,11 @@ class Stop extends ESCGrammarStmt:
 ##```[br]
 ##[br]
 ## ...where:[br]
-## - The result of `<expression>` is displayed in a dialog choice UI. The player 
+## - The result of `<expression>` is displayed in a dialog choice UI. The player
 ## will be able to select the displayed text as a dialog option.[br]
-## - `[condition]` is optional and, if specified, is used to determine 
+## - `[condition]` is optional and, if specified, is used to determine
 ## whether the dialog option is displayed.[br]
-## - `<block>` is a block of statements to be executed and must be indented like 
+## - `<block>` is a block of statements to be executed and must be indented like
 ## a typical block.[br]
 ##[br]
 ## E.g.[br]
@@ -865,10 +865,10 @@ class DialogOption extends ESCGrammarStmt:
 		return await visitor.visit_dialog_option_stmt(self)
 
 
-## Represents a dialog between characters. Can be nested. Begin each block of dialog 
+## Represents a dialog between characters. Can be nested. Begin each block of dialog
 ## with `?!`. Can take up to three optional arguments (detailed in the `init` method).[br]
 ##[br]
-## (A block of dialog follows the same rules as a block of script statements, including 
+## (A block of dialog follows the same rules as a block of script statements, including
 ## the need to use appropriate indentation.)[br]
 ##[br]
 ## E.g.[br]
@@ -947,9 +947,9 @@ class Dialog extends ESCGrammarStmt:
 		return await visitor.visit_dialog_stmt(self)
 
 
-## Represents a `break` statement. Can be used to break out of a loop or a dialog. 
-## If used to break out of a nested dialog, an optional argument can be given that 
-## specifies how many levels of nested dialogs to break out of, including out of 
+## Represents a `break` statement. Can be used to break out of a loop or a dialog.
+## If used to break out of a nested dialog, an optional argument can be given that
+## specifies how many levels of nested dialogs to break out of, including out of
 ## all nested dialogs.
 class Break extends ESCGrammarStmt:
 	var _levels: ESCGrammarExpr:
@@ -999,7 +999,7 @@ class Break extends ESCGrammarStmt:
 		return await visitor.visit_break_stmt(self)
 
 
-## Represents a `done` staetment. Used to end and break out of the top-level of 
+## Represents a `done` staetment. Used to end and break out of the top-level of
 ## the current dialog, regardless of the current nested depth.
 class Done extends ESCGrammarStmt:
 	## Method to invoke visitor-specific code.[br]

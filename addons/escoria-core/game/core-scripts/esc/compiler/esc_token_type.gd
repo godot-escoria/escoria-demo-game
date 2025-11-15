@@ -1,6 +1,6 @@
 ## Defines all possible token types for ASHES.
 ##
-## Note that this way of representing enums is a holdover from Godot 3.x, and 
+## Note that this way of representing enums is a holdover from Godot 3.x, and
 ## should be updated to the Godot 4 paradigm at some point.
 class_name ESCTokenType
 

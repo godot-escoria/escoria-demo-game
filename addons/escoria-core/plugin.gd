@@ -14,7 +14,7 @@ const ASHES_ANALYZER_MENU_ITEM = "Analyze ASHES Scripts"
 ## The warning popup displayed on escoria-core enabling.
 var popup_info: AcceptDialog
 
-## ASHES scripts analyzer. Needed to allow calling the analyzer from 
+## ASHES scripts analyzer. Needed to allow calling the analyzer from
 ## Project>Tools menu.
 var _compiler_analyzer: ESCAshesAnalyzer = ESCAshesAnalyzer.new()
 

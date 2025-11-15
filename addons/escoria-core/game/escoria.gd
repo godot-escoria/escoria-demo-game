@@ -21,12 +21,12 @@ const ESCORIA_CORE_PLUGIN_NAME: String = "escoria-core"
 @onready var main = $main
 
 
-# Called by Save Manager signal "game_is_loading" when a savegame is being loaded. 
+# Called by Save Manager signal "game_is_loading" when a savegame is being loaded.
 func _on_game_is_loading():
 	escoria.logger.info(self, "SAVEGAME IS LOADING")
 
 
-# Called by Save Manager signal "game_finished_loading" when a savegame has loaded. 
+# Called by Save Manager signal "game_finished_loading" when a savegame has loaded.
 func _on_game_finished_loading():
 	escoria.logger.info(self, "SAVEGAME FINISHED LOADING")
 

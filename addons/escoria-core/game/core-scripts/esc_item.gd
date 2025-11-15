@@ -223,7 +223,7 @@ var _previous_texture: Texture2D = null
 @export var custom_data: Dictionary = {}:
 		get = get_custom_data,
 		set = set_custom_data
-		
+	
 
 @export_group("","")
 
@@ -442,7 +442,7 @@ func _on_mouse_exited():
 	escoria.inputs_manager.unset_hovered_node(self)
 	_apply_unhover_behavior()
 
-## Special helper class used to sort stacked items by z-index. 
+## Special helper class used to sort stacked items by z-index.
 class HoverStackSorter:
 	static func sort_ascending_z_index(a, b):
 		if a.z_index < b.z_index:

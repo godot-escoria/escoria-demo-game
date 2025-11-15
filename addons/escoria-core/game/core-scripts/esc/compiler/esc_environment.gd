@@ -1,6 +1,6 @@
 ## Class to track variables and their associated scopes within a script.
 ##
-## Scoping is implemented using this class, including traditional scoping rules. 
+## Scoping is implemented using this class, including traditional scoping rules.
 ## Scope binding and resolution are handled in this class.
 extends Object
 class_name ESCEnvironment

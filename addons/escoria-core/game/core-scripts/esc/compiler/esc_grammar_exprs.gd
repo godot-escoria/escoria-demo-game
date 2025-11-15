@@ -1,11 +1,11 @@
-## Implements all expressions in the scripting language's grammar. These classes 
+## Implements all expressions in the scripting language's grammar. These classes
 ## represent language constructs as part of a script's syntax tree.
 class_name ESCGrammarExprs
 
 
-## Represents a logical expression. The left-hand side (LHS) is evaluated against  
-## the right-hand side (RHS) using a predicate with a determination of truth 
-## being returned. Both sides must themselves evaluate to a boolean. 
+## Represents a logical expression. The left-hand side (LHS) is evaluated against 
+## the right-hand side (RHS) using a predicate with a determination of truth
+## being returned. Both sides must themselves evaluate to a boolean.
 ## Examples include AND, OR.
 class Logical extends ESCGrammarExpr:
 	var _left: ESCGrammarExpr:
@@ -88,8 +88,8 @@ class Logical extends ESCGrammarExpr:
 		return visitor.visit_logical_expr(self)
 
 
-## Represents a binary expression; that is, an expression that requires two operands  
-## (a left-hand side, LHS, and a right-hand side, RHS) and an operator that takes 
+## Represents a binary expression; that is, an expression that requires two operands 
+## (a left-hand side, LHS, and a right-hand side, RHS) and an operator that takes
 ## both operands as input. Examples include addition, subtraction.
 class Binary extends ESCGrammarExpr:
 	var _left: ESCGrammarExpr:
@@ -475,7 +475,7 @@ class Variable extends ESCGrammarExpr:
 		return _name
 
 
-## Represents an assignment expression. For example, assigning a value to a 
+## Represents an assignment expression. For example, assigning a value to a
 ## variable.
 class Assign extends ESCGrammarExpr:
 	var _name: ESCToken:
@@ -542,7 +542,7 @@ class Assign extends ESCGrammarExpr:
 		return await visitor.visit_assign_expr(self)
 
 
-## Represents an expression surrounded by parentheses, imparting a higher precedence. 
+## Represents an expression surrounded by parentheses, imparting a higher precedence.
 ## For example, `(1 + 1) * 2`.
 class Grouping extends ESCGrammarExpr:
 	var _expression: ESCGrammarExpr:
@@ -592,7 +592,7 @@ class Grouping extends ESCGrammarExpr:
 		return await visitor.visit_grouping_expr(self)
 
 
-## Represents the "in" operator used to check whether the specified identifier 
+## Represents the "in" operator used to check whether the specified identifier
 ## currently exists in the user's inventory.
 class InInventory extends ESCGrammarExpr:
 	var _identifer: ESCGrammarExpr
@@ -641,9 +641,9 @@ class InInventory extends ESCGrammarExpr:
 		return await visitor.visit_in_inventory_expr(self)
 
 
-## Represents the "is" operator; used to check whether the object corresponding 
-## to the given identifier is 'active' or in an otherwise-specified state. If the 
-## identifier is a string literal, the corresponding object must be in the user's 
+## Represents the "is" operator; used to check whether the object corresponding
+## to the given identifier is 'active' or in an otherwise-specified state. If the
+## identifier is a string literal, the corresponding object must be in the user's
 ## inventory.
 class Is extends ESCGrammarExpr:
 	var _identifer: ESCGrammarExpr

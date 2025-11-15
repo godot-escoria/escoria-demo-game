@@ -1,9 +1,9 @@
 extends Node
 class_name State
 ## Base interface for all states.
-## 
-## This class doesn't do anything in itself but forces us to pass the right 
-## arguments to the methods below and makes sure every State object had all of 
+##
+## This class doesn't do anything in itself but forces us to pass the right
+## arguments to the methods below and makes sure every State object had all of
 ## these methods.
 
 ## Signal sent when the state just changed. Parameter is the new state value.[br]
@@ -73,7 +73,7 @@ func update(_delta: float):
 	return
 
 
-# Callback called when an animation is finished. 
+# Callback called when an animation is finished.
 # [br]
 # #### Parameters[br]
 # - _anim_name: the animation name that just finished.

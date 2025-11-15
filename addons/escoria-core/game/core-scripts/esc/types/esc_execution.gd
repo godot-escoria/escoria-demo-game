@@ -11,11 +11,11 @@ class_name ESCExecution
 ## * RC_REPEAT: Repeat the current scope from the beginning[br]
 ## * RC_INTERRUPTED: Event was interrupted[br]
 ## * RC_WONT_QUEUE: Event won't or can't be queued
-enum { 
-	RC_OK, 
-	RC_CANCEL, 
-	RC_ERROR, 
-	RC_REPEAT, 
-	RC_INTERRUPTED, 
+enum {
+	RC_OK,
+	RC_CANCEL,
+	RC_ERROR,
+	RC_REPEAT,
+	RC_INTERRUPTED,
 	RC_WONT_QUEUE
 }

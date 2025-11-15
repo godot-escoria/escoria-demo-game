@@ -1,7 +1,7 @@
 ## ASHES language scanner.
 ##
-## This is the first link in the ASHES compiler toolchain, and takes in ASHES 
-## script as text in order to provide a list of tokens to be handled by the 
+## This is the first link in the ASHES compiler toolchain, and takes in ASHES
+## script as text in order to provide a list of tokens to be handled by the
 ## ASHES parser.
 extends RefCounted
 class_name ESCScanner
