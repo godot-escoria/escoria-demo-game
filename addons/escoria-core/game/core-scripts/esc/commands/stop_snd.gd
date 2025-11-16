@@ -6,7 +6,7 @@
 ## [br]
 ## | Name | Type | Description | Required? |[br]
 ## |:-----|:-----|:------------|:----------|[br]
-## |audio_bus|`String`|Bus to stop ("_sound", "_music", "_speech", or a custom audio bus you have created.)|no|[br]
+## |audio_bus|`String`|Bus to stop ("_sound", "_music", "_speech", "_ambient", or a custom audio bus you have created.)|no|[br]
 ## [br]
 ## @ESC
 ## @COMMAND
