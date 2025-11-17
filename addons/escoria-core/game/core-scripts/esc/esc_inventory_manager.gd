@@ -16,7 +16,9 @@ class_name ESCInventoryManager
 ## [br]
 ## Returns a `bool` value. (`bool`)
 func inventory_has(item: String) -> bool:
-	return escoria.globals_manager.has("i/%s" % item)
+	if not escoria.globals_manager.has("i/%s" % item):
+		return false
+	return escoria.globals_manager.get_global("i/%s" % item)
 
 
 ## Retrieves all inventory items.[br]
