@@ -3,7 +3,7 @@
 class_name ESCGrammarExprs
 
 
-## Represents a logical expression. The left-hand side (LHS) is evaluated against 
+## Represents a logical expression. The left-hand side (LHS) is evaluated against
 ## the right-hand side (RHS) using a predicate with a determination of truth
 ## being returned. Both sides must themselves evaluate to a boolean.
 ## Examples include AND, OR.
@@ -88,7 +88,7 @@ class Logical extends ESCGrammarExpr:
 		return visitor.visit_logical_expr(self)
 
 
-## Represents a binary expression; that is, an expression that requires two operands 
+## Represents a binary expression; that is, an expression that requires two operands
 ## (a left-hand side, LHS, and a right-hand side, RHS) and an operator that takes
 ## both operands as input. Examples include addition, subtraction.
 class Binary extends ESCGrammarExpr:

@@ -223,7 +223,7 @@ var _previous_texture: Texture2D = null
 @export var custom_data: Dictionary = {}:
 		get = get_custom_data,
 		set = set_custom_data
-	
+
 
 @export_group("","")
 

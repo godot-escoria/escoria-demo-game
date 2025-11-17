@@ -1,3 +1,12 @@
+## [4.0.0-alpha.291](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.291) (2025-11-17)
+
+
+### Features
+
+* adds an ambient sound bus, volume settings, options & room4 example for same ([#777](https://github.com/godot-escoria/escoria-demo-game/issues/777)) ([0ea44d7](https://github.com/godot-escoria/escoria-demo-game/commit/0ea44d7fb5a007b715b133e78582b1302ebb6bac))
+
+
+
 ## [4.0.0-alpha.290](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.290) (2025-11-15)
 
 
