@@ -77,6 +77,14 @@ func apply_settings() -> void:
 				)
 			)
 		)
+		AudioServer.set_bus_volume_db(
+			AudioServer.get_bus_index(escoria.BUS_AMBIENT),
+			linear_to_db(
+				ESCProjectSettingsManager.get_setting(
+					ESCProjectSettingsManager.AMBIENT_VOLUME
+				)
+			)
+		)
 
 		var mode = Window.MODE_EXCLUSIVE_FULLSCREEN if ESCProjectSettingsManager.get_setting(ESCProjectSettingsManager.FULLSCREEN) else Window.MODE_WINDOWED
 		DisplayServer.window_set_mode(mode)
@@ -129,6 +137,10 @@ func save_settings_resource_to_project_settings(settings: ESCSaveSettings):
 	ESCProjectSettingsManager.set_setting(
 		ESCProjectSettingsManager.SPEECH_VOLUME,
 		settings.speech_volume
+	)
+	ESCProjectSettingsManager.set_setting(
+		ESCProjectSettingsManager.AMBIENT_VOLUME,
+		settings.ambient_volume
 	)
 	ESCProjectSettingsManager.set_setting(
 		ESCProjectSettingsManager.FULLSCREEN,
@@ -195,6 +207,9 @@ func get_settings() -> ESCSaveSettings:
 	)
 	settings.speech_volume = ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.SPEECH_VOLUME
+	)
+	settings.ambient_volume = ESCProjectSettingsManager.get_setting(
+		ESCProjectSettingsManager.AMBIENT_VOLUME
 	)
 	settings.fullscreen = ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.WINDOW_MODE

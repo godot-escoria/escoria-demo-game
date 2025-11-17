@@ -40,7 +40,10 @@ This is the demo game that acts as a testing ground for future Escoria developme
 * “Mystical Ocean Puzzle Game” (Licence CC-BY 4.0)
   by Eric Matyas
   www.soundimage.org
-  
+* "Ambient bird sounds"
+  License: CC0
+  [https://freesound.org/people/Garuda1982/sounds/691629/](https://freesound.org/people/Garuda1982/sounds/691629/)
+
 ## Cursors
 
 * Pointers part 4 by "yd"

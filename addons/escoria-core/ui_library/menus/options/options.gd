@@ -61,6 +61,7 @@ func initialize_options(p_settings):
 	_options.get_node("sound_volume").value = p_settings["sfx_volume"]
 	_options.get_node("music_volume").value = p_settings["music_volume"]
 	_options.get_node("speech_volume").value = p_settings["speech_volume"]
+	_options.get_node("ambient_volume").value = p_settings["ambient_volume"]
 	_options.get_node("fullscreen").set_pressed_no_signal(p_settings["fullscreen"])
 
 
@@ -137,6 +138,21 @@ func _on_speech_volume_value_changed(value: float) -> void:
 			) != value:
 		ESCProjectSettingsManager.set_setting(
 			ESCProjectSettingsManager.SPEECH_VOLUME,
+			value
+		)
+		escoria.settings_manager.apply_settings()
+		changed = true
+
+# Ambient volume was changed
+#
+# #### Parameters
+# - value: The new volume level
+func _on_ambient_volume_value_changed(value: float) -> void:
+	if ESCProjectSettingsManager.get_setting(
+				ESCProjectSettingsManager.AMBIENT_VOLUME
+			) != value:
+		ESCProjectSettingsManager.set_setting(
+			ESCProjectSettingsManager.AMBIENT_VOLUME,
 			value
 		)
 		escoria.settings_manager.apply_settings()

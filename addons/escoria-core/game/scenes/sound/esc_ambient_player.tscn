@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://wsdpiju6bxqd"]
+
+[ext_resource type="Script" uid="uid://b6kjfij1s1lpb" path="res://addons/escoria-core/game/scenes/sound/esc_ambient_player.gd" id="1_ih1im"]
+
+[node name="bg_ambient" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1680.0
+offset_bottom = -1050.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_ih1im")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Ambient"

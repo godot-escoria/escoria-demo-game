@@ -45,6 +45,9 @@ const BUS_MUSIC = "Music"
 ## Speech audio bus
 const BUS_SPEECH = "Speech"
 
+## Ambient sound audio bus
+const BUS_AMBIENT = "Ambient"
+
 # Path to camera scene
 const CAMERA_SCENE_PATH = "res://addons/escoria-core/game/scenes/camera_player/camera.tscn"
 

@@ -2,7 +2,7 @@
 extends Control
 class_name ESCSpeechPlayer
 
-## Global id of the background music player.
+## Global id of the speech player.
 @export var global_id: String = "_speech"
 
 ## Reference to the audio player.

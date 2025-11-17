@@ -2,7 +2,7 @@
 extends Control
 class_name ESCSoundPlayer
 
-## Global id of the background sound player.
+## Global id of the sfx sound player.
 @export var global_id: String = "_sound"
 
 ## The state of the sound player. "default" or "off" disable sound. Any other

@@ -89,6 +89,8 @@ const SPEECH_EXTENSION = _ESCORIA_SETTINGS_ROOT + "/" + _SOUND_ROOT + "/" + "spe
 const SPEECH_FOLDER = _ESCORIA_SETTINGS_ROOT + "/" + _SOUND_ROOT + "/" + "speech_folder"
 ## Path to the speech volume setting.
 const SPEECH_VOLUME = _ESCORIA_SETTINGS_ROOT + "/" + _SOUND_ROOT + "/" + "speech_volume"
+## Path to the ambient volume setting.
+const AMBIENT_VOLUME = _ESCORIA_SETTINGS_ROOT + "/" + _SOUND_ROOT + "/" + "ambient_volume"
 
 ## Platform-related Escoria project settings root.
 const _PLATFORM_ROOT = "platform"

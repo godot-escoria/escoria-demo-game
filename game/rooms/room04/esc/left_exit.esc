@@ -1,4 +1,5 @@
 :exit_scene
+	stop_snd(_ambient)
 	change_scene("res://game/rooms/room03/room03.tscn")
 
 :look

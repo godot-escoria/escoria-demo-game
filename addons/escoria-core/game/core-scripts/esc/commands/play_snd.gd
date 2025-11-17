@@ -7,7 +7,7 @@
 ## | Name | Type | Description | Required? |[br]
 ## |:-----|:-----|:------------|:----------|[br]
 ## |file|`String`|Sound file to play|yes|[br]
-## |player|`String`|Sound player to use. Can either be `_sound`, which is used to play non- looping sound effects; `_music`, which plays looping music; or `_speech`, which plays non-looping voice files (default: `_sound`)|no|[br]
+## |player|`String`|Sound player to use. Can either be `_sound`, which is used to play non- looping sound effects; `_music`, which plays looping music; `_ambient`, which plays looping ambient sounds; or `_speech`, which plays non-looping voice files (default: `_sound`)|no|[br]
 ## |start_position_seconds|`Number`|The position in seconds from which to start playing the sound file (default: `0.0`)|no|[br]
 ## [br]
 ## @ESC

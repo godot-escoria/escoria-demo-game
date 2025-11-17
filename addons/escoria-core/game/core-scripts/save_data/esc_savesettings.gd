@@ -37,6 +37,10 @@ class_name ESCSaveSettings
 ## Speech volume only.
 @export var speech_volume: float = ProjectSettings.get_setting(
 	"escoria/sound/speech_volume")
+	
+## Ambient volume only.
+@export var ambient_volume: float = ProjectSettings.get_setting(
+	"escoria/sound/ambient_volume")
 
 ## True if game has to be fullscreen.
 @export var fullscreen: bool = ProjectSettings.get_setting(
