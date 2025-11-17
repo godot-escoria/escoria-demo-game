@@ -6,7 +6,7 @@ extends Resource
 class_name ESCInputsManager
 
 ## Emitted when input mode changes.
-signal input_mode_changed(new_mode)
+signal input_mode_changed(new_mode: int)
 
 
 ## Valid input flags[br]
