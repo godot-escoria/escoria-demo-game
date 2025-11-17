@@ -241,7 +241,7 @@ func set_camera_limits(p_camera_limits: Array) -> void:
 			fixed_camera_limit.size.y = viewport_height
 		fixed_camera_limits.append(fixed_camera_limit)
 	camera_limits = fixed_camera_limits
-	 
+	
 	queue_redraw()
 
 

@@ -1,3 +1,12 @@
+## [4.0.0-alpha.292](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.292) (2025-11-17)
+
+
+### Bug Fixes
+
+* Camera limits heights need to be >= viewport height ([#772](https://github.com/godot-escoria/escoria-demo-game/issues/772)) ([c6cdf81](https://github.com/godot-escoria/escoria-demo-game/commit/c6cdf81b01857cbc70f4915af3ae2ff0c5ec8e38))
+
+
+
 ## [4.0.0-alpha.291](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.291) (2025-11-17)
 
 
