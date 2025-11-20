@@ -1,3 +1,12 @@
+## [4.0.0-alpha.293](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.293) (2025-11-20)
+
+
+### Bug Fixes
+
+* support - in identifiers starting with $ in ASHES ([e578e59](https://github.com/godot-escoria/escoria-demo-game/commit/e578e59e340f88d06fe95549ee914d2bd1b90cb9))
+
+
+
 ## [4.0.0-alpha.292](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.292) (2025-11-17)
 
 
