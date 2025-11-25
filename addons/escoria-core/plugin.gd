@@ -446,6 +446,16 @@ func _set_escoria_sound_settings():
 	)
 
 	register_setting(
+		ESCProjectSettingsManager.AMBIENT_VOLUME,
+		1,
+		{
+			"type": TYPE_FLOAT,
+			"hint": PROPERTY_HINT_RANGE,
+			"hint_string": "0,1"
+		}
+	)
+
+	register_setting(
 		ESCProjectSettingsManager.SPEECH_VOLUME,
 		1,
 		{
