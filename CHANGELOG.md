@@ -1,3 +1,12 @@
+## [4.0.0-alpha.294](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.294) (2025-11-25)
+
+
+### Bug Fixes
+
+* adds 'ambient volume' setting into Escoria settings ([#1175](https://github.com/godot-escoria/escoria-demo-game/issues/1175)) ([87c24b8](https://github.com/godot-escoria/escoria-demo-game/commit/87c24b8654de7b6425d27c4f728551a790fdc94f))
+
+
+
 ## [4.0.0-alpha.293](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.293) (2025-11-20)
 
 
