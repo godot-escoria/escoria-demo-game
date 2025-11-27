@@ -110,7 +110,10 @@ func _event_declaration():
 		if expr is ESCParseError:
 			return expr
 
-		target = expr
+		if expr is ESCGrammarExprs.Variable:
+			target = _literal_from_identifier(expr)
+		else:
+			target = expr
 
 	var flags: Dictionary = {}
 
@@ -156,6 +159,18 @@ func _event_declaration():
 		return ret
 	else:
 		return _error(_peek(), "Expected block after event declaration for '%s'. Code blocks require tab(s) at the start of a line." % name.get_lexeme())
+
+
+func _literal_from_identifier(expr: ESCGrammarExprs.Variable) -> ESCGrammarExprs.Literal:
+	var lexeme = expr.get_name().get_lexeme()
+
+	if lexeme.begins_with(ESCScanner.GLOBAL_ID_PREFIX):
+		lexeme = lexeme.substr(1)
+
+	var literal = ESCGrammarExprs.Literal.new()
+	literal.init(lexeme)
+
+	return literal
 
 
 func _expression():
