@@ -1,3 +1,12 @@
+## [4.0.0-alpha.295](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.295) (2025-12-09)
+
+
+### Bug Fixes
+
+* allows for 3569JNRXZghiklmsynotation for objects specified as an argument for a customer even, e.g. :use ([25150a8](https://github.com/godot-escoria/escoria-demo-game/commit/25150a8dbe84d79789f90789998bc7d89fde60ed))
+
+
+
 ## [4.0.0-alpha.294](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.294) (2025-11-25)
 
 
