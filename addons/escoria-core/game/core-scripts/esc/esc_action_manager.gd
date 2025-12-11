@@ -726,7 +726,7 @@ func _telekinetic_applies_to(event: ESCGrammarStmts.Event) -> bool:
 		var tk_flag_condition = event.get_flags_with_conditions().get("TK")
 
 		if tk_flag_condition:
-			var interpreter: ESCInterpreter = ESCInterpreterFactory.create_interpreter()
+			var interpreter: ESCInterpreter = escoria.interpreter_factory.create_interpreter()
 
 			var result = interpreter.look_up_global(tk_flag_condition.get_name())
 
