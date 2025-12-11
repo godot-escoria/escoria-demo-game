@@ -74,11 +74,14 @@ func detector_in():
 	if not inventory_visible:
 		inventory_scene.get_node("MarginContainer/ScrollContainer/container").item_focused = false
 		show_inventory()
+	$panel/detector_out.show()
 
 
 func detector_out():
 	if inventory_visible:
 		hide_inventory()
+	$panel/detector_out.hide()
+
 
 
 func _on_detector_out_gui_input(event):
