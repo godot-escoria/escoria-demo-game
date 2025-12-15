@@ -1,3 +1,12 @@
+## [4.0.0-alpha.296](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.296) (2025-12-15)
+
+
+### Bug Fixes
+
+* combination bug didn't work + tooltip min height ([#1177](https://github.com/godot-escoria/escoria-demo-game/issues/1177)) ([f20750b](https://github.com/godot-escoria/escoria-demo-game/commit/f20750bfda12d8f75080fb85cd8266e6cc33e890))
+
+
+
 ## [4.0.0-alpha.295](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.295) (2025-12-09)
 
 
