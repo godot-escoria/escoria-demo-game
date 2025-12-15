@@ -34,7 +34,7 @@ var current_action: String
 var current_target: String
 
 ## Preposition: on, with...
-var current_prep: String = "with"
+var current_prep: String = "with "
 
 ## Target 2 item/hotspot
 var current_target2: String
