@@ -11,10 +11,10 @@ func update_tooltip_text():
 
 	if waiting_for_target2 and current_target2.is_empty():
 		current_prep = prepositions.get(current_action, current_prep)
-		text += "\t" + current_prep
+		text += "\t" + current_prep + " \t"
 
 	if !current_target2.is_empty():
-		text += "\t" + current_prep + "\t" + current_target2
+		text += "\t" + current_prep + " \t" + current_target2
 
 	text += "[/color]"
 	text += "[/center]"
