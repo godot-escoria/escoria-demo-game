@@ -11,7 +11,7 @@
 ## |func_name|`String`|Name of the function to be called|yes|[br]
 ## |params...|`Variant`|Optional arguments passed to the target function (arrays and objects are not supported). Additional positional parameters can be listed after the required ones, e.g. `custom("the_object", "the_node", "the_function", arg1, arg2)`.|no|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name CustomCommand

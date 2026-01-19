@@ -9,7 +9,7 @@
 ## |object|`String`|Global ID of the object whose animation resource is to be updated|yes|[br]
 ## |animations|`String`|The path of the animation resource to use|yes|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name SetAnimationsCommand

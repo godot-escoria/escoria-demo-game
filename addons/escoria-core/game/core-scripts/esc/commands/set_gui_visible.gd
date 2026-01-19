@@ -8,7 +8,7 @@
 ## |:-----|:-----|:------------|:----------|[br]
 ## |visible|`Boolean`|Whether the GUI should be visible (`true` or `false`)|yes|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name SetGuiVisibleCommand

@@ -9,7 +9,7 @@
 ## |slot_id|`Integer`|Numeric slot index to store the save data in.|yes|[br]
 ## |savegame_description|`String`|Text shown to players when listing this save slot.|yes|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name SaveGameCommand

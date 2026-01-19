@@ -10,7 +10,7 @@
 ## |target_degrees|`Number`|Number of degrees by which `object` is to be turned|yes|[br]
 ## |wait|`Number`|Number of seconds to wait for while playing each animation occurring between the current angle of `object` and the target angle. A value of `0` will complete the turn immediately (default: `0`)|no|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name SetAngleCommand

@@ -8,7 +8,7 @@
 ## |:-----|:-----|:------------|:----------|[br]
 ## |item|`String`|Global ID of the `ESCItem` to remove from the inventory|yes|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name InventoryRemoveCommand

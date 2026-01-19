@@ -11,7 +11,7 @@
 ## **Warning** This command does not respect the room's navigation polygons, so
 ## `object` can be moved even when outside walkable areas.
 ##
-## @ESC
+## @ASHES
 ## @COMMAND
 extends SlideCommand
 class_name SlideBlockCommand

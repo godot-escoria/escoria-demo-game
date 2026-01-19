@@ -10,7 +10,7 @@
 ## |target|`String`|Global ID of the target object|yes|[br]
 ## |walk_fast|`Boolean`|Whether to walk fast (`true`) or normal speed (`false`). (default: false)|no|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name WalkBlockCommand

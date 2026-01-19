@@ -8,7 +8,7 @@
 ## |:-----|:-----|:------------|:----------|[br]
 ## |seconds|`Number`|Number of seconds to block|yes|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name WaitCommand

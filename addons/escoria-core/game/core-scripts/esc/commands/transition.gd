@@ -10,7 +10,7 @@
 ## |mode|`String`|Set to `in` to transition into or `out` to transition out of the room|yes|[br]
 ## |delay|`Number`|Delay in seconds before starting the transition (default: `1.0`)|no|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name TransitionCommand

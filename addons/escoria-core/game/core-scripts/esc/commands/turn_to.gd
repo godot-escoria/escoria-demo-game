@@ -10,7 +10,7 @@
 ## |object_to_face|`String`|Global ID of the object to turn towards|yes|[br]
 ## |wait|`Number`|Length of time to wait in seconds for each intermediate angle. If set to 0, the turnaround is immediate (default: `0`)|no|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name TurnToCommand

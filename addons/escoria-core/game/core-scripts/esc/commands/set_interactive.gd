@@ -9,7 +9,7 @@
 ## |object|`String`|Global ID of the object to change|yes|[br]
 ## |interactive|`Boolean`|Whether the object should be interactive|yes|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name SetInteractiveCommand

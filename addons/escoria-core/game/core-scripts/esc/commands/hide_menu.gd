@@ -8,7 +8,7 @@
 ## |:-----|:-----|:------------|:----------|[br]
 ## |menu_type|`String`|Which menu to hide. Can be either `main` or `pause` (default: `main`)|yes|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name HideMenuCommand

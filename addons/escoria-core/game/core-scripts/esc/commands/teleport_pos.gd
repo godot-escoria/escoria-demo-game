@@ -10,7 +10,7 @@
 ## |x|`Integer`|X-coordinate of destination position|yes|[br]
 ## |y|`Integer`|Y-coordinate of destination position|yes|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name TeleportPosCommand

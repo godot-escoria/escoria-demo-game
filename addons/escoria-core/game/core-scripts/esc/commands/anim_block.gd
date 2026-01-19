@@ -10,7 +10,7 @@
 ## |name|`String`|Name of the animation to play before continuing.|yes|[br]
 ## |reverse|`Boolean`|Plays the animation in reverse when true|no|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name AnimBlockCommand

@@ -11,7 +11,7 @@
 ## |is_active|`Boolean`|Whether the new object should be set to active (default: `true`)|no|[br]
 ## |position_target|`String`|Global ID of another object that will be used to position the new object (when omitted, the new object's position is not specified)|no|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name SpawnCommand
