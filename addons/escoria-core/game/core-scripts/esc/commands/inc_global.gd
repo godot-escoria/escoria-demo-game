@@ -9,7 +9,7 @@
 ## |name|`String`|Name of the global variable to increment.|yes|[br]
 ## |value|`Float`|Value to be added (default: 1)|no|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name IncGlobalCommand

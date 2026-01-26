@@ -10,7 +10,7 @@
 ## |state|`String`|Name of the state to be set|yes|[br]
 ## |immediate|`Boolean`|If an animation for the state exists, specifies whether it is to skip to the last frame. Can be `true` or `false`.|no|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name SetStateCommand

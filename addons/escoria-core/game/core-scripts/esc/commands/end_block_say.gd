@@ -6,7 +6,7 @@
 ## [br]
 ## None.
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name EndBlockSayCommand

@@ -9,7 +9,7 @@
 ## |name|`String`|Name of the global variable that will receive the random value.|yes|[br]
 ## |max_value|`Integer`|Maximum possible integer value (inclusive) (default: 1)|yes|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name RandGlobalCommand

@@ -18,7 +18,7 @@
 ##[br]
 ## For more details see: https://docs.escoria-framework.org/camera
 ##
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCCameraBaseCommand
 class_name CameraShiftCommand

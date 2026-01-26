@@ -9,7 +9,7 @@
 ## |object|`String`|Global ID of the `ESCPlayer` or movable `ESCItem`|yes|[br]
 ## |speed|`Integer`|Speed value for `object` in pixels per second.|yes|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name SetSpeedCommand

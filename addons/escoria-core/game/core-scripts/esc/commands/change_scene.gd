@@ -10,7 +10,7 @@
 ## |enable_automatic_transition|`Boolean`|Automatically transition to the new scene (default: `true`)|no|[br]
 ## |run_events|`Boolean`|Run the standard ESC events of the new scene (default: `true`)|no|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name ChangeSceneCommand

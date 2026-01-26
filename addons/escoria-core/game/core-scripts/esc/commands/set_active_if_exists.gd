@@ -9,7 +9,7 @@
 ## |object|`String`|Global ID of the object whose active state should change if it is registered.|yes|[br]
 ## |active|`Boolean`|Whether the object should be marked as active (`true`) or inactive (`false`).|yes|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name SetActiveIfExistsCommand

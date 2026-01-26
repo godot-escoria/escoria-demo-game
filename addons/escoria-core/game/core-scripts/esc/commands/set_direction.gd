@@ -10,7 +10,7 @@
 ## |direction_id|`Integer`|Target direction index from the animation resource.|yes|[br]
 ## |wait|`Number`|Seconds to spend on each intermediate step when rotating toward the target direction (0 means immediate).|no|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name SetDirectionCommand

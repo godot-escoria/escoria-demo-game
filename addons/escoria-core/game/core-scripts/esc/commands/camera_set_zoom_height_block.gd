@@ -9,7 +9,7 @@
 ## |pixels|`Integer`|Target height in pixels (integer values only)|yes|[br]
 ## |time|`Number`|Number of seconds the transition should take, with a value of `0` meaning the zoom should happen instantly (default: `0`) For more details see: https://docs.escoria-framework.org/camera|no|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name CameraSetZoomHeightBlockCommand

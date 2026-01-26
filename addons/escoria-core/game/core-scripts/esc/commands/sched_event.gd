@@ -10,7 +10,7 @@
 ## |object|`String`|Global ID of the ESCItem that holds the ESC script|yes|[br]
 ## |event|`String`|Name of the event to schedule|yes|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name SchedEventCommand

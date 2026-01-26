@@ -11,7 +11,7 @@
 ## |y|`Integer`|Y-coordinate of target position|yes|[br]
 ## |walk_fast|`Boolean`|Whether to walk fast (`true`) or normal speed (`false`). (default: false)|no|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name WalkToPosCommand

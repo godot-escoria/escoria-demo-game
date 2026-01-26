@@ -9,7 +9,7 @@
 ## |name|`String`|Name of the global variable to decrement.|yes|[br]
 ## |value|`Float`|Value to be subtracted (default: 1)|yes|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name DecGlobalCommand

@@ -9,7 +9,7 @@
 ## |object|`String`|Global ID of the object whose active state should change.|yes|[br]
 ## |active|`Boolean`|Whether the object should be marked as active (`true`) or inactive (`false`). object* Global ID of the object active* Whether `object` should be active. `active` can be `true` or `false`.|yes|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name SetActiveCommand

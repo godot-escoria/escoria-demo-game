@@ -9,7 +9,7 @@
 ## |pattern|`String`|Pattern to use to match the names of the globals to change|yes|[br]
 ## |value|`String` or `Integer` or `Boolean`|Value to set (can be of type string, boolean, integer or float)|yes|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name SetGlobalsCommand

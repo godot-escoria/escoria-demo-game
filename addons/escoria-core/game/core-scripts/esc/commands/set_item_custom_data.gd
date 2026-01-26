@@ -9,7 +9,7 @@
 ## |item|`String`|Global ID of the item whose `custom_data` should be updated.|yes|[br]
 ## |custom_data|`Dictionary`|Dictionary assigned to the item's `custom_data` property (an empty dictionary is used when `null`).|yes|[br]
 ## [br]
-## @ESC
+## @ASHES
 ## @COMMAND
 extends ESCBaseCommand
 class_name SetItemCustomDataCommand
