@@ -98,6 +98,12 @@ func _toggle_button_pressed(clicked_type: ItemType) -> void:
 # Loads the selected image texture and displays it in the preview
 func LoadImageFileDialog_file_selected(path: String) -> void:
 	image_stream_texture = load(path)
+	if image_stream_texture == null:
+		%ErrorDialog.dialog_text = \
+			"Fail to load image: %s " % path
+		%ErrorDialog.popup_centered()
+		return
+		
 	image_size = image_stream_texture.get_size()
 	%Preview.texture = image_stream_texture
 
@@ -270,8 +276,9 @@ func _on_CreateButton_pressed() -> void:
 			"No image has been loaded."
 		%ErrorDialog.popup_centered()
 		return
-
-	if %ItemName.text == "replace_me":
+	
+	var item_name = %ItemName.text.strip_edges()
+	if item_name.is_empty() or item_name == "replace_me":
 		%ErrorDialog.dialog_text = \
 			"Please change the object name."
 		%ErrorDialog.popup_centered()
