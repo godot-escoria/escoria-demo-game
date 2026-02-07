@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dmw5gicuenj53" path="res://addons/escoria-core/game/scenes/camera_player/camera.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://u8an5av5fuxx" path="res://addons/escoria-core/ui_library/menus/main_menu/main_menu.tscn" id="7"]
 [ext_resource type="PackedScene" uid="uid://gfjgmbcafyyt" path="res://addons/escoria-core/ui_library/menus/pause_menu/pause_menu.tscn" id="9"]
-[ext_resource type="Theme" path="res://addons/escoria-ui-keyboard-9verbs/theme.tres" id="10"]
+[ext_resource type="Theme" uid="uid://bcxggcvu105e5" path="res://addons/escoria-ui-keyboard-9verbs/theme.tres" id="10"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
 bg_color = Color(0.6, 0.6, 0.6, 0.5)
@@ -21,11 +21,12 @@ ui_parent_control_node = NodePath("ui/Control")
 
 [node name="dialog_layer" type="CanvasLayer" parent="."]
 
-[node name="ESCDialogsPlayer" type="Control" parent="dialog_layer"]
+[node name="ESCDialogPlayer" type="Control" parent="dialog_layer"]
 layout_mode = 3
 anchors_preset = 0
 theme = ExtResource("10")
 script = ExtResource("4")
+metadata/_custom_type_script = "uid://dfl7khtlretr7"
 
 [node name="ui" type="CanvasLayer" parent="."]
 
