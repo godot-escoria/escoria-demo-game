@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://b3hru28v8y36i" path="res://addons/escoria-ui-simplemouse/tooltip/target_tooltip.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://u8an5av5fuxx" path="res://addons/escoria-core/ui_library/menus/main_menu/main_menu.tscn" id="7"]
 [ext_resource type="PackedScene" uid="uid://gfjgmbcafyyt" path="res://addons/escoria-core/ui_library/menus/pause_menu/pause_menu.tscn" id="8"]
-[ext_resource type="FontFile" uid="uid://7k2bd75ju4j7" path="res://addons/escoria-ui-simplemouse/fonts/caslonantique.tres" id="8_c4xbd"]
+[ext_resource type="FontFile" path="res://addons/escoria-ui-simplemouse/fonts/caslonantique.tres" id="8_c4xbd"]
 [ext_resource type="Theme" uid="uid://cujvdn6gu1j74" path="res://addons/escoria-ui-simplemouse/theme.tres" id="9"]
 
 [node name="game" type="Node2D"]
@@ -22,11 +22,12 @@ editor_debug_mode = 1
 [node name="dialog_layer" type="CanvasLayer" parent="."]
 layer = 3
 
-[node name="ESCDialogsPlayer" type="Control" parent="dialog_layer"]
+[node name="ESCDialogPlayer" type="Control" parent="dialog_layer"]
 layout_mode = 3
 anchors_preset = 0
 theme = ExtResource("9")
 script = ExtResource("2")
+metadata/_custom_type_script = "uid://dfl7khtlretr7"
 
 [node name="ui" type="CanvasLayer" parent="."]
 

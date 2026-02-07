@@ -1,5 +1,5 @@
 ## Escoria dialog player
-extends Node
+extends Control
 class_name ESCDialogPlayer
 
 ## Emitted when an answer is chosen.[br]
@@ -19,6 +19,7 @@ signal option_chosen(option)
 ## None.
 ## [br]
 signal say_finished
+
 
 ## Used when specifying dialog types in various methods.
 const DIALOG_TYPE_SAY = "say"
