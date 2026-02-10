@@ -63,20 +63,20 @@ const GROUP_ITEM_CAN_COLLIDE = "item_can_collide"
 const GROUP_ITEM_TRIGGERS = "item_triggers"
 
 
-# Logger instance
-var logger = EscLogger.ESCLoggerFile.new()
+## Logger instance
+var logger : EscLogger.ESCLoggerFile
 
 ## ESC Compiler instance
-var esc_compiler = ESCCompiler.new()
+var esc_compiler : ESCCompiler
 
 ## ESC Object Manager instance
-var object_manager = ESCObjectManager.new()
+var object_manager : ESCObjectManager
 
 ## ESC Room Manager instance
-var room_manager = ESCRoomManager.new()
+var room_manager : ESCRoomManager
 
 ## ESC Dependency Injector
-var di = ESCDependencyInjector.new()
+var di : ESCDependencyInjector
 
 ## Inventory manager instance
 var inventory_manager: ESCInventoryManager
@@ -152,6 +152,33 @@ var creating_new_game: bool = false
 ## Current state of Escoria (GAME_STATE enum)
 @onready var current_state = GAME_STATE.DEFAULT
 
+## Init escoria components function.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
+func _init_escoria_components():
+	logger = EscLogger.ESCLoggerFile.new()
+	esc_compiler = ESCCompiler.new()
+	object_manager = ESCObjectManager.new()
+	room_manager = ESCRoomManager.new()
+	di = ESCDependencyInjector.new()
+	inventory_manager = ESCInventoryManager.new()
+	action_manager = ESCActionManager.new()
+	event_manager = ESCEventManager.new()
+	globals_manager = ESCGlobalsManager.new()
+	object_manager = ESCObjectManager.new()
+	command_registry = ESCCommandRegistry.new()
+	resource_cache = ESCResourceCache.new()
+	save_manager = ESCSaveManager.new()
+	inputs_manager = ESCInputsManager.new()
+	settings_manager = ESCSettingsManager.new()
+	interpreter_factory = preload("res://addons/escoria-core/game/core-scripts/esc/compiler/esc_interpreter_factory.gd").new()
+
 ## Ready function. Instantiates the main scene if running a room directly.[br]
 ## [br]
 ## #### Parameters[br]
@@ -162,6 +189,7 @@ var creating_new_game: bool = false
 ## [br]
 ## Returns nothing.
 func _ready():
+	_init_escoria_components()
 	# We check if we run the full game or a room scene directly
 	if not get_tree().current_scene is ESCMain:
 		# Running a room scene. We need to instantiate the main scene ourselves

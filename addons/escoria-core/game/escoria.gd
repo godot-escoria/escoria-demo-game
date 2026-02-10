@@ -31,24 +31,9 @@ func _on_game_finished_loading():
 	escoria.logger.info(self, "SAVEGAME FINISHED LOADING")
 
 
-# Constructor. Inits all Escoria's managers accessible from `escoria` Godot global.
+# Constructor. Adds the event manager as child and instantiates the game scene
 func _init():
-	escoria.inventory_manager = ESCInventoryManager.new()
-	escoria.action_manager = ESCActionManager.new()
-	escoria.event_manager = ESCEventManager.new()
-	escoria.globals_manager = ESCGlobalsManager.new()
 	add_child(escoria.event_manager)
-	escoria.object_manager = ESCObjectManager.new()
-	escoria.command_registry = ESCCommandRegistry.new()
-	escoria.resource_cache = ESCResourceCache.new()
-	escoria.save_manager = ESCSaveManager.new()
-
-	escoria.save_manager.game_is_loading.connect(_on_game_is_loading)
-	escoria.save_manager.game_finished_loading.connect(_on_game_finished_loading)
-
-	escoria.inputs_manager = ESCInputsManager.new()
-	escoria.settings_manager = ESCSettingsManager.new()
-	escoria.interpreter_factory = preload("res://addons/escoria-core/game/core-scripts/esc/compiler/esc_interpreter_factory.gd").new()
 
 	if ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.GAME_SCENE
