@@ -34,6 +34,9 @@ func _on_game_finished_loading():
 # Constructor. Adds the event manager as child and instantiates the game scene
 func _init():
 	add_child(escoria.event_manager)
+	
+	escoria.save_manager.game_is_loading.connect(_on_game_is_loading)
+	escoria.save_manager.game_finished_loading.connect(_on_game_finished_loading)
 
 	if ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.GAME_SCENE
