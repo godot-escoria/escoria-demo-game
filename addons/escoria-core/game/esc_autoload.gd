@@ -162,6 +162,9 @@ var creating_new_game: bool = false
 ## [br]
 ## Returns nothing.
 func _ready():
+	init_main_scene()
+
+func init_main_scene() -> void:
 	# We check if we run the full game or a room scene directly
 	if not get_tree().current_scene is ESCMain:
 		# Running a room scene. We need to instantiate the main scene ourselves

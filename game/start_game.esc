@@ -1,6 +1,10 @@
 :init
 # Play Escoria logo cutscene
 	change_scene("res://game/rooms/intro/intro_room.tscn", false)
+	
+# To run a non-Escoria room when starting a new game, comment the previous
+# line and uncomment this one.
+	#change_scene_godot("res://game/rooms/no_escoria/no_escoria.tscn")
 
 # When control is passed back after the logo, start the music
 	play_snd("res://game/sfx/Game-Menu_Looping.mp3", _music)
@@ -48,4 +52,3 @@
 
 # 14/ 
 #change_scene res://game/rooms/room14/room14.tscn
-
