@@ -171,7 +171,6 @@ func _init_escoria_components():
 	action_manager = ESCActionManager.new()
 	event_manager = ESCEventManager.new()
 	globals_manager = ESCGlobalsManager.new()
-	object_manager = ESCObjectManager.new()
 	command_registry = ESCCommandRegistry.new()
 	resource_cache = ESCResourceCache.new()
 	save_manager = ESCSaveManager.new()
