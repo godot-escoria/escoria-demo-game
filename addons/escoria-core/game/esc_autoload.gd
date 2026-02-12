@@ -164,6 +164,15 @@ var creating_new_game: bool = false
 func _ready():
 	init_main_scene()
 
+## Initializes the Escoria main scene as child of the Escoria autoloaded scene.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
 func init_main_scene() -> void:
 	# We check if we run the full game or a room scene directly
 	if not get_tree().current_scene is ESCMain:
