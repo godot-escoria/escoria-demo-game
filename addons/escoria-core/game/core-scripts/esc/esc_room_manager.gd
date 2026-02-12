@@ -85,65 +85,17 @@ func register_reserved_globals() -> void:
 ## [br]
 ## Returns nothing.
 func change_scene_to_file(room_path: String, enable_automatic_transitions: bool) -> void:
-	if escoria.main \
-			and escoria.main.current_scene \
-			and escoria.main.current_scene.scene_file_path == room_path:
-		escoria.logger.info(
-			self,
-			"Attempting to change scene to same scene as the current scene. Aborting."
-		)
-		if not Engine.is_editor_hint() \
-				and (escoria.save_manager.is_loading_game or escoria.creating_new_game):
-			escoria.main.current_scene.enabled_automatic_transitions = false
-			escoria.room_manager.init_room(escoria.main.current_scene)
-		return
-
-	# We're changing scenes, so users shouldn't be able to do stuff during.
-	escoria.inputs_manager.input_mode = escoria.inputs_manager.INPUT_NONE
-
-	# Clear the event queue to remove other events (there could be duplicate
-	# events in there so we avoid running these multiple times). Also sets a
-	# flag indicating a changing scene and interrupts any other currently-running
-	# events.
-	escoria.event_manager.set_changing_scene(true)
-
-	# If FORCE_LAST_SCENE_NULL is true, force ESC_LAST_SCENE to empty
-	if escoria.globals_manager.get_global(GLOBAL_FORCE_LAST_SCENE_NULL):
-		escoria.globals_manager.set_global(
-			GLOBAL_LAST_SCENE,
-			null,
-			true
-		)
-	elif escoria.main.current_scene:
-		# If FORCE_LAST_SCENE_NULL is false, set ESC_LAST_SCENE = current roomid
-		escoria.globals_manager.set_global(
-			GLOBAL_LAST_SCENE,
-			escoria.main.current_scene.global_id,
-			true
-		)
-
-	if escoria.dialog_player:
-		escoria.dialog_player.interrupt()
-
-	escoria.inputs_manager.hover_stack.clear()
-
-	# Check if game scene was loaded
-	if not escoria.game_scene:
-		escoria.logger.error(
-			self,
-			"Failed loading game scene %s." % \
-				ESCProjectSettingsManager.get_setting(
-					ESCProjectSettingsManager.GAME_SCENE
-				)
-		)
-
-	if escoria.main.current_scene \
-			and escoria.game_scene.get_parent() == escoria.main.current_scene:
-		escoria.main.current_scene.remove_child(escoria.game_scene)
-
+	_check_and_prepare_managers_for_room(room_path)
+	
 	# Load room scene
 	var res_room = escoria.resource_cache.get_resource(room_path)
-
+	if res_room == null:
+		escoria.logger.error(
+			self,
+			"Failed loading scene resource %s." % room_path
+		)
+		return
+ 
 	var room_scene = res_room.instantiate()
 	if room_scene:
 		if enable_automatic_transitions \
@@ -197,6 +149,25 @@ func change_scene_to_file(room_path: String, enable_automatic_transitions: bool)
 ## [br]
 ## Returns nothing.
 func change_scene_to_godot_file(room_path: String) -> void:
+	_check_and_prepare_managers_for_room(room_path)
+	
+	# Load room scene
+	var res_room = escoria.resource_cache.get_resource(room_path)
+	var room_scene = res_room.instantiate()
+	escoria.add_child(room_scene)
+
+## Perform some checks and prepare Escoria managers for new room instanciation.
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |room_path|`String`|Node path to the scene to change to|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
+func _check_and_prepare_managers_for_room(room_path: String) -> void:
 	if escoria.main \
 			and escoria.main.current_scene \
 			and escoria.main.current_scene.scene_file_path == room_path:
@@ -252,11 +223,6 @@ func change_scene_to_godot_file(room_path: String) -> void:
 	if escoria.main.current_scene \
 			and escoria.game_scene.get_parent() == escoria.main.current_scene:
 		escoria.main.current_scene.remove_child(escoria.game_scene)
-
-	# Load room scene
-	var res_room = escoria.resource_cache.get_resource(room_path)
-	var room_scene = res_room.instantiate()
-	escoria.add_child(room_scene)
 
 
 ## Sanitize camera limits, add player node and set the global id to the name of this node if it's not set manually.[br]
