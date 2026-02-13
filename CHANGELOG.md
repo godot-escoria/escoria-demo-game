@@ -1,3 +1,12 @@
+## [4.0.0-alpha.306](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.306) (2026-02-13)
+
+
+### Bug Fixes
+
+* try using MacOS runner ([e0fb79e](https://github.com/godot-escoria/escoria-demo-game/commit/e0fb79ec4e52c8ebea683c99495f3039aa01d4c0))
+
+
+
 ## [4.0.0-alpha.305](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.305) (2026-02-13)
 
 
