@@ -1,3 +1,12 @@
+## [4.0.0-alpha.301](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.301) (2026-02-13)
+
+
+### Bug Fixes
+
+* add authentication token for push ([bb84c18](https://github.com/godot-escoria/escoria-demo-game/commit/bb84c18b1b45154aa7324b211d5dda5a50c8d8c7))
+
+
+
 ## [4.0.0-alpha.300](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.300) (2026-02-13)
 
 
