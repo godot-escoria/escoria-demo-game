@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://71iyvfo7gkvu"]
+[gd_scene format=3 uid="uid://71iyvfo7gkvu"]
 
 [ext_resource type="Script" uid="uid://5pbcieq7gpdo" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
 [ext_resource type="FontFile" path="res://game/fonts/caslonantique.tres" id="3"]
@@ -19,19 +19,19 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(125, 357, 1170, 355, 12
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ogbs0"]
 
-[node name="room1" type="Node2D"]
+[node name="room1" type="Node2D" unique_id=1597103685]
 script = ExtResource("6")
 global_id = "room1"
 esc_script = "res://game/rooms/room01/esc/room01.esc"
 player_scene = ExtResource("4")
-camera_limits = [Rect2(0, 0, 1280, 550)]
+camera_limits = [Rect2(0, 0, 1280, 900)]
 editor_debug_mode = 1
 
-[node name="Room1Background" type="Sprite2D" parent="."]
+[node name="Room1Background" type="Sprite2D" parent="." unique_id=1824918577]
 texture = ExtResource("8")
 centered = false
 
-[node name="advice2" type="Label" parent="Room1Background"]
+[node name="advice2" type="Label" parent="Room1Background" unique_id=106061740]
 anchors_preset = -1
 anchor_right = 0.023274
 anchor_bottom = 0.018018
@@ -43,7 +43,7 @@ theme_override_fonts/font = ExtResource("3")
 text = "Move : left click
 Fast move : double left click"
 
-[node name="room_label" type="Label" parent="Room1Background"]
+[node name="room_label" type="Label" parent="Room1Background" unique_id=1415849287]
 offset_left = 7.0
 offset_top = 3.0
 offset_right = 89.0
@@ -51,7 +51,7 @@ offset_bottom = 24.0
 theme_override_fonts/font = ExtResource("3")
 text = "ROOM 1"
 
-[node name="advice" type="Label" parent="Room1Background"]
+[node name="advice" type="Label" parent="Room1Background" unique_id=245948152]
 anchors_preset = -1
 anchor_right = 0.023274
 anchor_bottom = 0.018018
@@ -64,15 +64,15 @@ text = "Don't click immediately!
 Player will walk around the room, 
 but you can interrupt him if you want."
 
-[node name="walkable_area" type="Node2D" parent="."]
+[node name="walkable_area" type="Node2D" parent="." unique_id=963971746]
 script = ExtResource("1")
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="walkable_area"]
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="walkable_area" unique_id=575685173]
 navigation_polygon = SubResource("1")
 
-[node name="Hotspots" type="Node2D" parent="."]
+[node name="Hotspots" type="Node2D" parent="." unique_id=848470713]
 
-[node name="r_door" type="Area2D" parent="Hotspots"]
+[node name="r_door" type="Area2D" parent="Hotspots" unique_id=1977249081]
 process_mode = 1
 position = Vector2(1229, 234)
 script = ExtResource("5")
@@ -83,15 +83,15 @@ default_action = "walk"
 combine_when_selected_action_is_in = PackedStringArray()
 is_exit = true
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door" unique_id=1513147104]
 position = Vector2(-1227, -231)
 polygon = PackedVector2Array(1173, 63, 1278, 106, 1278, 420, 1172, 356)
 
-[node name="ESCLocation" type="Marker2D" parent="Hotspots/r_door"]
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/r_door" unique_id=1268826123]
 position = Vector2(-21, 159)
 script = ExtResource("7")
 
-[node name="artwork1" type="Area2D" parent="Hotspots"]
+[node name="artwork1" type="Area2D" parent="Hotspots" unique_id=607031480]
 process_mode = 1
 script = ExtResource("5")
 global_id = "r1_wall_item1"
@@ -105,21 +105,21 @@ hover_shader = ExtResource("9_at68y")
 inventory_texture = ExtResource("10")
 inventory_texture_hovered = ExtResource("10")
 
-[node name="Art1" type="Sprite2D" parent="Hotspots/artwork1"]
+[node name="Art1" type="Sprite2D" parent="Hotspots/artwork1" unique_id=1671927585]
 material = SubResource("ShaderMaterial_ogbs0")
 position = Vector2(470, 140)
 texture = ExtResource("10")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/artwork1"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/artwork1" unique_id=837936279]
 visible = false
 position = Vector2(-84, 11.1)
 polygon = PackedVector2Array(487, 62, 627, 62, 627, 198, 487, 199)
 
-[node name="ESCLocation" type="Marker2D" parent="Hotspots/artwork1"]
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/artwork1" unique_id=1284972131]
 position = Vector2(476, 385)
 script = ExtResource("7")
 
-[node name="Label" type="Label" parent="Hotspots/artwork1"]
+[node name="Label" type="Label" parent="Hotspots/artwork1" unique_id=200748218]
 offset_left = 375.422
 offset_top = 268.594
 offset_right = 657.422
@@ -128,7 +128,7 @@ theme_override_fonts/font = ExtResource("3")
 text = "If you look at this object, the character's
 speech will appear above his head"
 
-[node name="artwork2" type="Area2D" parent="Hotspots"]
+[node name="artwork2" type="Area2D" parent="Hotspots" unique_id=83945209]
 process_mode = 1
 script = ExtResource("5")
 global_id = "r1_wall_item2"
@@ -141,19 +141,19 @@ hover_modulate = Color(0.419813, 0.419813, 0.419813, 1)
 inventory_texture = ExtResource("9")
 inventory_texture_hovered = ExtResource("9")
 
-[node name="Art12" type="Sprite2D" parent="Hotspots/artwork2"]
+[node name="Art12" type="Sprite2D" parent="Hotspots/artwork2" unique_id=326821591]
 position = Vector2(830, 140)
 texture = ExtResource("9")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/artwork2"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/artwork2" unique_id=1553337751]
 position = Vector2(273, 11)
 polygon = PackedVector2Array(487, 62, 627, 62, 627, 198, 487, 199)
 
-[node name="ESCLocation" type="Marker2D" parent="Hotspots/artwork2"]
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/artwork2" unique_id=807011592]
 position = Vector2(829, 379)
 script = ExtResource("7")
 
-[node name="Label2" type="Label" parent="Hotspots/artwork2"]
+[node name="Label2" type="Label" parent="Hotspots/artwork2" unique_id=1735053024]
 offset_left = 734.0
 offset_top = 269.0
 offset_right = 1020.0
@@ -162,7 +162,7 @@ theme_override_fonts/font = ExtResource("3")
 text = "If you look at this object, the character
 will talk via a popup"
 
-[node name="trigger_talk" type="Area2D" parent="Hotspots"]
+[node name="trigger_talk" type="Area2D" parent="Hotspots" unique_id=1152180860]
 process_mode = 1
 script = ExtResource("5")
 global_id = "trigger_talk"
@@ -171,27 +171,27 @@ combine_when_selected_action_is_in = PackedStringArray()
 is_trigger = true
 player_orients_on_arrival = false
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/trigger_talk"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/trigger_talk" unique_id=983596219]
 polygon = PackedVector2Array(1027, 352, 1187, 502, 1249.67, 445.131, 1123, 351)
 
-[node name="player_start" type="Marker2D" parent="."]
+[node name="player_start" type="Marker2D" parent="." unique_id=279677896]
 position = Vector2(172.471, 434.487)
 script = ExtResource("7")
 global_id = "r1_start"
 is_start_location = true
 
-[node name="orients_down_on_arrival" type="Marker2D" parent="."]
+[node name="orients_down_on_arrival" type="Marker2D" parent="." unique_id=2066605546]
 position = Vector2(400.129, 432.969)
 script = ExtResource("7")
 global_id = "r1_destination_point"
 
-[node name="set_angle_by_esc" type="Marker2D" parent="."]
+[node name="set_angle_by_esc" type="Marker2D" parent="." unique_id=131722386]
 position = Vector2(934.11, 502.959)
 script = ExtResource("7")
 global_id = "r1_destination_point2"
 player_orients_on_arrival = false
 
-[node name="turn_to_r_door_by_esc" type="Marker2D" parent="."]
+[node name="turn_to_r_door_by_esc" type="Marker2D" parent="." unique_id=1616199782]
 position = Vector2(660.468, 381.489)
 script = ExtResource("7")
 global_id = "r1_destination_point3"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bunr8esv8b1w7"]
+[gd_scene format=3 uid="uid://bunr8esv8b1w7"]
 
 [ext_resource type="Texture2D" uid="uid://b60usq11m50gt" path="res://game/rooms/intro/escoria-logo-comet-anim.png" id="1"]
 [ext_resource type="Texture2D" uid="uid://buwluvpj002oo" path="res://game/rooms/intro/intro_background_space.png" id="2"]
@@ -248,20 +248,20 @@ _data = {
 &"intro": SubResource("9")
 }
 
-[node name="ESCRoom" type="Node2D"]
+[node name="intro" type="Node2D" unique_id=450799246]
 script = ExtResource("5")
 global_id = "intro_cutscene"
 esc_script = "res://game/rooms/intro/esc/intro.esc"
 camera_limits = [Rect2(0, 0, 1920, 1080)]
 
-[node name="ReferenceRect" type="ReferenceRect" parent="."]
+[node name="ReferenceRect" type="ReferenceRect" parent="." unique_id=510207329]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="black_background" type="ColorRect" parent="ReferenceRect"]
+[node name="black_background" type="ColorRect" parent="ReferenceRect" unique_id=1121669082]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -270,11 +270,11 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="initial_background" type="Sprite2D" parent="."]
+[node name="initial_background" type="Sprite2D" parent="." unique_id=1501414033]
 position = Vector2(640, 450)
 texture = ExtResource("2")
 
-[node name="animated_asteroid" type="AnimatedSprite2D" parent="."]
+[node name="animated_asteroid" type="AnimatedSprite2D" parent="." unique_id=565629110]
 visible = false
 position = Vector2(608.222, 432.811)
 scale = Vector2(0.93, 0.93)
@@ -282,25 +282,22 @@ sprite_frames = SubResource("7")
 autoplay = "default"
 frame = 5
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=489905011]
 modulate = Color(1, 1, 1, 0)
 position = Vector2(0, 6)
 polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 900, 0, 900)
 
-[node name="asteroid" type="Sprite2D" parent="."]
+[node name="asteroid" type="Sprite2D" parent="." unique_id=799140875]
 visible = false
 position = Vector2(620, 450)
 texture = ExtResource("3")
 
-[node name="ESCItem" type="Area2D" parent="."]
+[node name="ESCItem" type="Area2D" parent="." unique_id=1115140368]
 process_mode = 1
 script = ExtResource("7")
 global_id = "intro_animation_player"
 combine_when_selected_action_is_in = PackedStringArray()
-animations = null
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="ESCItem"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ESCItem" unique_id=448702868]
 root_node = NodePath("../..")
-libraries = {
-"": SubResource("AnimationLibrary_teoqk")
-}
+libraries/ = SubResource("AnimationLibrary_teoqk")
