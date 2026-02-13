@@ -1,3 +1,12 @@
+## [4.0.0-alpha.299](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.299) (2026-02-13)
+
+
+### Bug Fixes
+
+* update non-existing Godot action with newer one ([6263d27](https://github.com/godot-escoria/escoria-demo-game/commit/6263d277d7ac2193df35778359dd3b7a6a2aa82f))
+
+
+
 ## [4.0.0-alpha.298](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.298) (2026-02-13)
 
 
