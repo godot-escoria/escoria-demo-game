@@ -44,7 +44,7 @@ jobs:
             - name: "Update ASHES reference"
               run: |
                 apt update && apt install -y python3 python3-pip
-                pip3 install m2r2
+                pip3 install setuptools m2r2 lxml
                 cd docs
                 python3 extractashes.py
                 git status
