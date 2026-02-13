@@ -1,0 +1,58 @@
+[gd_scene load_steps=3 format=3 uid="uid://smjrdkeqxs0j"]
+
+[ext_resource type="Script" uid="uid://bp5enxkdjaln5" path="res://game/rooms/room17/r_17_laptop_type.gd" id="1_2cup8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_28jc2"]
+
+[node name="r17_laptop_type" type="Control"]
+z_index = 4096
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 648.0
+offset_top = 140.0
+offset_right = 648.0
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2cup8")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 347.0
+offset_bottom = 231.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_28jc2")
+
+[node name="LineEdit" type="TextEdit" parent="Panel"]
+layout_mode = 2
+offset_left = 11.0
+offset_top = 11.0
+offset_right = 336.0
+offset_bottom = 177.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -38.0
+offset_right = 50.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 10
+
+[node name="ok_button" type="Button" parent="Panel/HBoxContainer"]
+layout_mode = 2
+text = "Ok"
+
+[node name="cancel_button" type="Button" parent="Panel/HBoxContainer"]
+layout_mode = 2
+text = "Cancel"
+
+[connection signal="pressed" from="Panel/HBoxContainer/ok_button" to="." method="_on_ok_button_pressed"]
+[connection signal="pressed" from="Panel/HBoxContainer/cancel_button" to="." method="_on_cancel_button_pressed"]
