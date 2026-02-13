@@ -51,6 +51,7 @@ jobs:
             - name: "Commit"
               uses: EndBug/add-and-commit@v7.2.1
               with:
+                token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
                 add: '["api", "scripting/z_ashes_reference.rst"]'
                 message: 'docs: automatic update of API docs'
                 push: true
