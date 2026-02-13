@@ -445,7 +445,7 @@ func get_custom_data() -> Dictionary:
 
 # Update the tooltip
 func update_tooltip_following_mouse_position():
-	_current_mouse_pos = get_global_mouse_position()
+	_current_mouse_pos = get_viewport().get_mouse_position()
 	var corrected_position = _current_mouse_pos \
 		+ Vector2(32, -tooltip_node.size.y/2)
 
