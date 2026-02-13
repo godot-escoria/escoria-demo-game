@@ -13,7 +13,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: "Checkout main repo"
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
               with:
                 token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
                 repository: godot-escoria/escoria-demo-game
