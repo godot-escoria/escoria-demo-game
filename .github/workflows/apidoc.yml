@@ -20,7 +20,7 @@ jobs:
                 ref: "main"
                 path: game
             - name: "Setup Godot for doctool"
-              uses: {Link: fire/godot-setup@v1 https://github.com/marketplace/actions/godot-setup}
+              uses: fire/godot-setup@v1
               with:
                 version: 4.5.1
             - name: "Build API docs"
