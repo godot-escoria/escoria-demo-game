@@ -1,3 +1,18 @@
+## [4.0.0-alpha.297](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.297) (2026-02-13)
+
+
+### Features
+
+* update API docgen to use Godot 4 facility as well as new Escoria docs functionality ([6604100](https://github.com/godot-escoria/escoria-demo-game/commit/66041009ddd899540d58c9e393394a0c786d5d8c))
+
+
+### Bug Fixes
+
+* AI lies ([75ddef8](https://github.com/godot-escoria/escoria-demo-game/commit/75ddef86d19c749fba5340062f8d8c97ae5a979d))
+* update to latest checkout action version ([8d8a750](https://github.com/godot-escoria/escoria-demo-game/commit/8d8a7503e8ff121687015f822a5e0295a803b3d4))
+
+
+
 ## [4.0.0-alpha.296](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.296) (2025-12-15)
 
 
