@@ -13,7 +13,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: "Checkout main repo"
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
               with:
                 token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
                 repository: godot-escoria/escoria-demo-game
@@ -29,7 +29,7 @@ jobs:
                 cd game
                 godot --doctool ./docs --gdscript-docs res://addons/escoria-core/ --headless --quit --quiet || exit 0
             - name: "Checkout docs repo"
-              uses: actions/checkout@v2
+              uses: actions/checkout@v6
               with:
                 token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
                 repository: godot-escoria/escoria-docs
@@ -49,9 +49,8 @@ jobs:
                 python3 extractashes.py
                 git status
             - name: "Commit"
-              uses: EndBug/add-and-commit@v7.2.1
+              uses: EndBug/add-and-commit@v9.1.4
               with:
-                token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
                 add: '["api", "scripting/z_ashes_reference.rst"]'
                 message: 'docs: automatic update of API docs'
                 push: true
