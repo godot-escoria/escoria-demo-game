@@ -1,3 +1,12 @@
+## [4.0.0-alpha.300](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.300) (2026-02-13)
+
+
+### Bug Fixes
+
+* add missing requirements ([8a37649](https://github.com/godot-escoria/escoria-demo-game/commit/8a37649b0546b2b5ac37c126863e86f1164699b9))
+
+
+
 ## [4.0.0-alpha.299](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.299) (2026-02-13)
 
 
