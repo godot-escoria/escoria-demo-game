@@ -9,17 +9,24 @@ concurrency: api-${{ github.ref }}
 
 jobs:
     apidoc:
-        if: ${{ false }} # <- This make sure the workflow is skipped without any alert
         name: Update API docs
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout
+            - name: "Checkout main repo"
               uses: actions/checkout@v2
               with:
                 token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
                 repository: godot-escoria/escoria-demo-game
                 ref: "main"
                 path: game
+            - name: "Setup Godot for doctool"
+              uses: {Link: fire/godot-setup@v1 https://github.com/marketplace/actions/godot-setup}
+              with:
+                version: 4.5.1
+            - name: "Build API docs"
+              run: |
+                cd game
+                godot --doctool ./docs --gdscript-docs res://addons/escoria-core/ --headless --quit --quiet
             - name: "Checkout docs repo"
               uses: actions/checkout@v2
               with:
@@ -28,28 +35,23 @@ jobs:
                 ref: "devel"
                 fetch-depth: 0
                 path: docs
-            - name: Remove existing docs
+            - name: "Remove previous API docs"
               run: |
                 mv docs/api/index.rst .
                 rm -rf docs/api/*
                 mv index.rst docs/api
-            - name: "Update docs"
-              uses: docker://gdquest/gdscript-docs-maker:1
-              with:
-                entrypoint: "bash"
-                args: "-c \"BASEDIR=$(pwd) && cd /app && ./generate_reference $BASEDIR/game -o $BASEDIR/docs/api -d addons/escoria-core\""
-            - name: "Update ESC reference"
+            - name: "Update ASHES reference"
               run: |
                 apt update && apt install -y python3 python3-pip
                 pip3 install m2r2
                 cd docs
-                python3 extractesc.py
+                python3 extractashes.py
                 git status
             - name: "Commit"
               uses: EndBug/add-and-commit@v7.2.1
               with:
-                add: '["api", "scripting/z_esc_reference.rst"]'
-                message: 'docs: Automatic update of API docs'
+                add: '["api", "scripting/z_ashes_reference.rst"]'
+                message: 'docs: automatic update of API docs'
                 push: true
                 cwd: "docs"
                 branch: "devel"
