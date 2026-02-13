@@ -1,3 +1,12 @@
+## [4.0.0-alpha.308](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.308) (2026-02-13)
+
+
+### Bug Fixes
+
+* fix typo ([115b02c](https://github.com/godot-escoria/escoria-demo-game/commit/115b02cf8eaa00170fe803cf6094c01f20f05811))
+
+
+
 ## [4.0.0-alpha.307](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.307) (2026-02-13)
 
 
