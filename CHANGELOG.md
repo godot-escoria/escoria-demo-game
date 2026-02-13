@@ -1,3 +1,12 @@
+## [4.0.0-alpha.307](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.307) (2026-02-13)
+
+
+### Bug Fixes
+
+* need to copy files, despite Godot binary showing lots of errors; might still be working ([47a242c](https://github.com/godot-escoria/escoria-demo-game/commit/47a242c98c0db388e1d2d1bbd09ff3572bca513d))
+
+
+
 ## [4.0.0-alpha.306](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.306) (2026-02-13)
 
 
