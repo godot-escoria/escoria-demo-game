@@ -10,7 +10,7 @@ concurrency: api-${{ github.ref }}
 jobs:
     apidoc:
         name: Update API docs
-        runs-on: macos-latest
+        runs-on: ubuntu-latest
         steps:
             - name: "Checkout main repo"
               uses: actions/checkout@v6
@@ -29,6 +29,8 @@ jobs:
                 cd game
                 ls -al
                 godot --doctool ./docs --gdscript-docs res://addons/escoria-core/ --headless --quit --quiet
+                ls -al api-docs
+                cd ../
             - name: "Checkout docs repo"
               uses: actions/checkout@v6
               with:
@@ -47,6 +49,9 @@ jobs:
                 apt update && apt install -y python3 python3-pip
                 pip3 install setuptools m2r2 lxml
                 cd docs
+                rm -rf docsource
+                mkdir -p docsource
+                cp -R ../game/docs/. docsource/
                 python3 extractashes.py
                 git status
             - name: "Commit"
