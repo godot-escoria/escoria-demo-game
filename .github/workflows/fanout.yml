@@ -9,6 +9,7 @@ concurrency: fanout-${{ github.ref }}
 
 jobs:
   fanout:
+    if: ${{ false }}
     strategy:
       matrix:
         parts:
