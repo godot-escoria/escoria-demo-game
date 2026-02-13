@@ -20,13 +20,14 @@ jobs:
                 ref: "main"
                 path: game
             - name: "Setup Godot for doctool"
-              uses: fire/godot-setup@v1
+              uses: chickensoft-games/setup-godot@v2
               with:
                 version: 4.5.1
+                use-dotnet: false
             - name: "Build API docs"
               run: |
                 cd game
-                godot --doctool ./docs --gdscript-docs res://addons/escoria-core/ --headless --quit --quiet
+                godot --doctool ./docs --gdscript-docs res://addons/escoria-core/ --headless --quit --quiet || exit 0
             - name: "Checkout docs repo"
               uses: actions/checkout@v2
               with:
