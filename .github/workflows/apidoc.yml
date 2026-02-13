@@ -28,7 +28,7 @@ jobs:
               run: |
                 cd game
                 ls *.project
-                godot --doctool ./docs --gdscript-docs res://addons/escoria-core/ --headless --quit --quiet || exit 0
+                godot --doctool ./docs --gdscript-docs res://addons/escoria-core/ --headless --quit --quiet
             - name: "Checkout docs repo"
               uses: actions/checkout@v6
               with:
