@@ -22,11 +22,12 @@ jobs:
             - name: "Setup Godot for doctool"
               uses: chickensoft-games/setup-godot@v2
               with:
-                version: 4.5.1
+                version: 4.4.1
                 use-dotnet: false
             - name: "Build API docs"
               run: |
                 cd game
+                ls *.project
                 godot --doctool ./docs --gdscript-docs res://addons/escoria-core/ --headless --quit --quiet || exit 0
             - name: "Checkout docs repo"
               uses: actions/checkout@v6
