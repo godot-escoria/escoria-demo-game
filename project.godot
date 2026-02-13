@@ -8,13 +8,17 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Escoria"
 run/main_scene="res://addons/escoria-core/game/main_scene.tscn"
-config/features=PackedStringArray("4.4")
+config/features=PackedStringArray("4.6")
 boot_splash/bg_color=Color(0.960784, 0.384314, 0, 1)
-boot_splash/fullsize=false
+boot_splash/stretch_mode=0
 boot_splash/use_filter=false
 boot_splash/image="res://addons/escoria-core/design/escoria-logo-small.png"
 config/icon="res://icon.png"
@@ -29,7 +33,7 @@ escoria="*res://addons/escoria-core/game/esc_autoload.gd"
 
 [display]
 
-window/size/viewport_width=1300
+window/size/viewport_width=1280
 window/size/viewport_height=900
 window/stretch/mode="canvas_items"
 
@@ -39,7 +43,7 @@ search_in_file_extensions=PackedStringArray("gd", "shader", "esc")
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/escoria-core/plugin.cfg", "res://addons/escoria-dialog-simple/plugin.cfg", "res://addons/escoria-ui-simplemouse/plugin.cfg")
+enabled=PackedStringArray("res://addons/escoria-core/plugin.cfg", "res://addons/escoria-dialog-simple/plugin.cfg", "res://addons/escoria-ui-simplemouse/plugin.cfg", "res://addons/gdUnit4/plugin.cfg")
 
 [escoria]
 
@@ -101,6 +105,10 @@ debug/perform_script_analysis_at_runtime=true
 folder_colors={
 "res://game/rooms/": "teal"
 }
+
+[gdunit4]
+
+settings/test/test_lookup_folder="testing"
 
 [input]
 
