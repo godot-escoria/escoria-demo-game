@@ -1,3 +1,12 @@
+## [4.0.0-alpha.298](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.298) (2026-02-13)
+
+
+### Bug Fixes
+
+* remove already connected signal ([#1182](https://github.com/godot-escoria/escoria-demo-game/issues/1182)) ([f3019e4](https://github.com/godot-escoria/escoria-demo-game/commit/f3019e46c0e2d0c8d444771323e7c4fdff00a915))
+
+
+
 ## [4.0.0-alpha.297](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.297) (2026-02-13)
 
 
