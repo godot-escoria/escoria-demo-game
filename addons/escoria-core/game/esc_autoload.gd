@@ -64,19 +64,19 @@ const GROUP_ITEM_TRIGGERS = "item_triggers"
 
 
 # Logger instance
-var logger = EscLogger.ESCLoggerFile.new()
+var logger := EscLogger.ESCLoggerFile.new()
 
 ## ESC Compiler instance
-var esc_compiler = ESCCompiler.new()
+var esc_compiler: ESCCompiler = ESCCompiler.new()
 
 ## ESC Object Manager instance
-var object_manager = ESCObjectManager.new()
+var object_manager: ESCObjectManager
 
 ## ESC Room Manager instance
-var room_manager = ESCRoomManager.new()
+var room_manager: ESCRoomManager = ESCRoomManager.new()
 
 ## ESC Dependency Injector
-var di = ESCDependencyInjector.new()
+var di: ESCDependencyInjector = ESCDependencyInjector.new()
 
 ## Inventory manager instance
 var inventory_manager: ESCInventoryManager

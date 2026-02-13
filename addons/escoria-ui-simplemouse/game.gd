@@ -76,7 +76,6 @@ var targeted_node: Node
 func _ready():
 	hide_ui()
 	$ui/tooltip.connect("tooltip_size_updated", Callable(self, "update_tooltip_following_mouse_position"))
-	escoria.main.room_ready.connect(_on_room_ready)
 
 func _enter_tree():
 	initialize_esc_game()
