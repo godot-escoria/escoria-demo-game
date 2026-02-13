@@ -1,3 +1,12 @@
+## [4.0.0-alpha.305](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.305) (2026-02-13)
+
+
+### Bug Fixes
+
+* use verison recognized by action ([d34fcad](https://github.com/godot-escoria/escoria-demo-game/commit/d34fcad6b8fae740adb055a51cc2b5ee08baa908))
+
+
+
 ## [4.0.0-alpha.304](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.304) (2026-02-13)
 
 
