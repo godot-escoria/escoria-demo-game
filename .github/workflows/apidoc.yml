@@ -27,7 +27,7 @@ jobs:
             - name: "Build API docs"
               run: |
                 cd game
-                ls *.project
+                ls -al
                 godot --doctool ./docs --gdscript-docs res://addons/escoria-core/ --headless --quit --quiet
             - name: "Checkout docs repo"
               uses: actions/checkout@v6
