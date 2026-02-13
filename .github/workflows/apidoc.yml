@@ -10,7 +10,7 @@ concurrency: api-${{ github.ref }}
 jobs:
     apidoc:
         name: Update API docs
-        runs-on: ubuntu-latest
+        runs-on: macos-latest
         steps:
             - name: "Checkout main repo"
               uses: actions/checkout@v6
@@ -22,7 +22,7 @@ jobs:
             - name: "Setup Godot for doctool"
               uses: chickensoft-games/setup-godot@v2
               with:
-                version: 4.3.0
+                version: 4.5.1
                 use-dotnet: false
             - name: "Build API docs"
               run: |
