@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bv66iymp6v3mv"]
+
+[ext_resource type="Script" uid="uid://bhlf2vcb8gme7" path="res://game/rooms/no_escoria/player.gd" id="1_pqe6t"]
+[ext_resource type="Texture2D" uid="uid://bex7crp3v5020" path="res://icon.png" id="1_xxogh"]
+
+[node name="NoEscoria" type="Node2D" unique_id=1279639823]
+
+[node name="player" type="Area2D" parent="." unique_id=1039845384]
+position = Vector2(549, 289)
+script = ExtResource("1_pqe6t")
+
+[node name="Sprite2D" type="Sprite2D" parent="player" unique_id=309330691]
+texture = ExtResource("1_xxogh")

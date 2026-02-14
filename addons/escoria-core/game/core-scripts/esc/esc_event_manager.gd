@@ -126,8 +126,9 @@ var _yielding: Dictionary = {}
 ## Whether we're currently changing the scene.
 var _changing_scene: bool = false: set = set_changing_scene
 
-## ESC "change_scene" command.
+## ESC "change_scene" commands.
 var _change_scene: ChangeSceneCommand
+var _change_scene_godot: ChangeSceneGodotCommand
 
 
 ## Constructor.[br]
@@ -141,6 +142,7 @@ var _change_scene: ChangeSceneCommand
 ## Returns nothing.
 func _init():
 	_change_scene = ChangeSceneCommand.new()
+	_change_scene_godot = ChangeSceneGodotCommand.new()
 
 
 ## Make sure to stop when pausing the game.[br]
@@ -556,7 +558,8 @@ func set_changing_scene(p_is_changing_scene: bool) -> void:
 			EVENT_NEW_GAME,
 			EVENT_LOAD,
 			EVENT_RESUME,
-			_change_scene.get_command_name()
+			_change_scene.get_command_name(),
+			_change_scene_godot.get_command_name()
 		])
 
 
