@@ -1,3 +1,12 @@
+## [4.0.0-alpha.312](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.312) (2026-02-15)
+
+
+### Bug Fixes
+
+* prevent recursive deletion of 'root' API directory ([eca5f7f](https://github.com/godot-escoria/escoria-demo-game/commit/eca5f7f742caca5f2dd4a6699832ddab2a734a76))
+
+
+
 ## [4.0.0-alpha.311](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.311) (2026-02-15)
 
 
