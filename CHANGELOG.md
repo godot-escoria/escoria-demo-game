@@ -1,3 +1,12 @@
+## [4.0.0-alpha.310](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.310) (2026-02-15)
+
+
+### Bug Fixes
+
+* preserve remainder of API indices ([65ba6d5](https://github.com/godot-escoria/escoria-demo-game/commit/65ba6d5eed57d6ac83d46feaa2eb7d19e2822ee7))
+
+
+
 ## [4.0.0-alpha.309](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.309) (2026-02-15)
 
 
