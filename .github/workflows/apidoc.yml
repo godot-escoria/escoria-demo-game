@@ -54,6 +54,18 @@ jobs:
                 mv docs/api/index.rst .
                 rm -rf docs/api/*
                 mv index.rst docs/api
+
+                mv docs/api/commands/index.rst .
+                rm -rf docs/api/commands/*
+                mv index.rst docs/commands/api
+
+                mv docs/api/managers/index.rst .
+                rm -rf docs/api/managers/*
+                mv index.rst docs/api/managers
+
+                mv docs/api/supporting_classes/index.rst .
+                rm -rf docs/api/supporting_classes/*
+                mv index.rst docs/api/supporting_classes
             - name: "Update ASHES reference"
               run: |
                 apt update && apt install -y python3 python3-pip
