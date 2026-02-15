@@ -1,3 +1,12 @@
+## [4.0.0-alpha.313](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.313) (2026-02-15)
+
+
+### Bug Fixes
+
+* only delete files, but do it without producing any errors when scanning over subdirectories ([9ff0561](https://github.com/godot-escoria/escoria-demo-game/commit/9ff0561f7a54438512999ab8a8ad0500a64543f4))
+
+
+
 ## [4.0.0-alpha.312](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.312) (2026-02-15)
 
 
