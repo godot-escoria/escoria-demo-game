@@ -27,8 +27,18 @@ jobs:
             - name: "Build API docs"
               run: |
                 cd game
-                ls -al
+                godot --version
+                
+                # Warm up project caches (generates .godot/, class cache, etc.)
+                godot --headless --editor --path . --quit
+                
+                # Sanity check that the cache now exists
+                ls -al .godot || true
+                test -f .godot/global_script_class_cache.cfg && head -n 20 .godot/global_script_class_cache.cfg || true
+
+                # Generate the docs
                 godot --doctool ./docs --gdscript-docs res://addons/escoria-core/ --headless --quit --quiet
+                
                 ls -al docs
                 cd ../
             - name: "Checkout docs repo"
