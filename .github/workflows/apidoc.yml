@@ -52,7 +52,7 @@ jobs:
             - name: "Remove previous API docs"
               run: |
                 mv docs/api/index.rst .
-                rm -rf docs/api/*
+                rm -f docs/api/*
                 mv index.rst docs/api
 
                 mv docs/api/commands/index.rst .
