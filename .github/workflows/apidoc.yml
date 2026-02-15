@@ -57,7 +57,7 @@ jobs:
 
                 mv docs/api/commands/index.rst .
                 rm -rf docs/api/commands/*
-                mv index.rst docs/commands/api
+                mv index.rst docs/api/commands
 
                 mv docs/api/managers/index.rst .
                 rm -rf docs/api/managers/*
