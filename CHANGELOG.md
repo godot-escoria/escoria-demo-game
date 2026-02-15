@@ -1,3 +1,12 @@
+## [4.0.0-alpha.309](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.309) (2026-02-15)
+
+
+### Bug Fixes
+
+* warm up project caches for doctool to use ([5e5f58b](https://github.com/godot-escoria/escoria-demo-game/commit/5e5f58bd6a5ad6a953babc0974e7b3fb2fdd6024))
+
+
+
 ## [4.0.0-alpha.308](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.308) (2026-02-13)
 
 
