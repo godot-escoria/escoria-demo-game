@@ -1,3 +1,12 @@
+## [4.0.0-alpha.316](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.316) (2026-02-16)
+
+
+### Bug Fixes
+
+* Check inventory variable value ([0151092](https://github.com/godot-escoria/escoria-demo-game/commit/0151092575181237127ca6ec37544d2cf0563aed))
+
+
+
 ## [4.0.0-alpha.315](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.315) (2026-02-16)
 
 
