@@ -1,3 +1,12 @@
+## [4.0.0-alpha.315](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.315) (2026-02-16)
+
+
+### Bug Fixes
+
+* Simplemouse - Tooltip position updates correctly on wide rooms ([78a870b](https://github.com/godot-escoria/escoria-demo-game/commit/78a870b0c9c4521580ff7fb3b4833830c58ca074))
+
+
+
 ## [4.0.0-alpha.314](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.314) (2026-02-16)
 
 

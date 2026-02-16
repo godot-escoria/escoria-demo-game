@@ -23,7 +23,7 @@ func _process(delta):
 
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed
-	
+
 	position += velocity * delta
 	position = position.clamp(Vector2.ZERO, screen_size)
 
