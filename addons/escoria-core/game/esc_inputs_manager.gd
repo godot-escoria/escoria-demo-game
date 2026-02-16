@@ -5,6 +5,9 @@
 extends Resource
 class_name ESCInputsManager
 
+## Emitted when input mode changes.
+signal input_mode_changed(new_mode: int)
+
 
 ## Valid input flags[br]
 ## * INPUT_ALL: All input is allowed[br]
@@ -27,7 +30,12 @@ const ESC_UI_PRIMARY_ACTION = "esc_ui_primary_action"
 
 
 ## The current input mode
-var input_mode = INPUT_ALL
+var input_mode = INPUT_ALL:
+	get:
+		return input_mode
+	set(new_mode):
+		input_mode = new_mode
+		input_mode_changed.emit(new_mode)
 
 ## A LIFO stack of hovered items
 var hover_stack: HoverStack
