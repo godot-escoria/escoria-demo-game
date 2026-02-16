@@ -8,7 +8,7 @@ const next_scene_path: String = "res://game/rooms/room01/room01.tscn"
 
 func _ready():
 	screen_size = get_viewport_rect().size
-	
+
 
 func _process(delta):
 	var velocity = Vector2.ZERO # The player's movement vector.
@@ -23,10 +23,10 @@ func _process(delta):
 
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed
-		
+	
 	position += velocity * delta
 	position = position.clamp(Vector2.ZERO, screen_size)
-	
+
 	if position.x > 800:
 		_change_scene.run([next_scene_path, false])
 		queue_free()

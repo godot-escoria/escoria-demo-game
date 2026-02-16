@@ -86,7 +86,7 @@ func register_reserved_globals() -> void:
 ## Returns nothing.
 func change_scene_to_file(room_path: String, enable_automatic_transitions: bool) -> void:
 	_check_and_prepare_managers_for_room(room_path)
-	
+
 	# Load room scene
 	var res_room = escoria.resource_cache.get_resource(room_path)
 	if res_room == null:
@@ -95,7 +95,7 @@ func change_scene_to_file(room_path: String, enable_automatic_transitions: bool)
 			"Failed loading scene resource %s." % room_path
 		)
 		return
- 
+
 	var room_scene = res_room.instantiate()
 	if room_scene:
 		if enable_automatic_transitions \
@@ -150,7 +150,7 @@ func change_scene_to_file(room_path: String, enable_automatic_transitions: bool)
 ## Returns nothing.
 func change_scene_to_godot_file(room_path: String) -> void:
 	_check_and_prepare_managers_for_room(room_path)
-	
+
 	# Load room scene
 	var res_room = escoria.resource_cache.get_resource(room_path)
 	var room_scene = res_room.instantiate()

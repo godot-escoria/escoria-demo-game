@@ -1,3 +1,12 @@
+## [4.0.0-alpha.314](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.314) (2026-02-16)
+
+
+### Features
+
+* new change_scene_godot() cmd to load a non-Escoria scene + demo ([7ed58eb](https://github.com/godot-escoria/escoria-demo-game/commit/7ed58eb23770a05fb77996d6cf37106ed58accf9))
+
+
+
 ## [4.0.0-alpha.313](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.313) (2026-02-15)
 
 
