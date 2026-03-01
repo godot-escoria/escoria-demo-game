@@ -1,3 +1,10 @@
+## [4.0.0-alpha.319](https://github.com/godot-escoria/escoria-demo-game/compare/v4.0.0-alpha.318...v4.0.0-alpha.319) (2026-03-01)
+
+
+### Bug Fixes
+
+* need to patch release body as it still suffers from the tag compare link issue ([34a3702](https://github.com/godot-escoria/escoria-demo-game/commit/34a3702092abca30c4560aa8b11e52f585ac37c9))
+
 ## [4.0.0-alpha.316](https://github.com/godot-escoria/escoria-demo-game/compare/v4.0.0-alpha.315...v4.0.0-alpha.316) (2026-02-16)
 
 
