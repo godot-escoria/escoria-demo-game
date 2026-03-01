@@ -27,14 +27,19 @@ jobs:
           exit 0
       - name: Calculate version
         id: calculate_version
-        uses: mathieudutour/github-tag-action@v5.6
+        uses: mathieudutour/github-tag-action@v6.2
         with:
           github_token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
           dry_run: true
           pre_release_branches: "main"
           append_to_pre_release_tag: "alpha"
           default_bump: "release"
+          fetch_all_tags: true
           custom_release_rules: "fix:prerelease,feat:prerelease,Fix:prerelease,Feat:prerelease"
+      - name: Debug tag outputs
+        run: |
+          echo "previous_tag=${{ steps.calculate_version.outputs.previous_tag }}"
+          echo "new_tag=${{ steps.calculate_version.outputs.new_tag }}"
       - name: "Write changelog"
         if: "steps.calculate_version.outputs.changelog != ''"
         run: |
@@ -61,10 +66,11 @@ jobs:
           token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
       - name: Create version
         id: create_version
-        uses: mathieudutour/github-tag-action@v5.6
+        uses: mathieudutour/github-tag-action@v6.2
         with:
           github_token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
           dry_run: true
+          fetch_all_tags: true
           pre_release_branches: "main"
           append_to_pre_release_tag: "alpha"
           default_bump: "release"
