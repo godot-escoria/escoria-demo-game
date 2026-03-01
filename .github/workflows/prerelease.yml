@@ -82,6 +82,16 @@ jobs:
           append_to_pre_release_tag: "alpha"
           default_bump: "release"
           custom_release_rules: "fix:prerelease,feat:prerelease,Fix:prerelease,Feat:prerelease"
+      - name: Patch release changelog compare link
+        id: patch_release_body
+        run: |
+          BODY="$(printf '%s' "${{ steps.create_version.outputs.changelog }}" \
+            | sed -E "s#https://github\.com/${{ github.repository }}/compare/[^.]+\.{3}${{ steps.create_version.outputs.new_tag }}#https://github.com/${{ github.repository }}/compare/${{ steps.create_version.outputs.previous_tag }}...${{ steps.create_version.outputs.new_tag }}#g")"
+
+          # write to output (newer Actions output style)
+          echo "body<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$BODY" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
       - name: Create a GitHub release
         uses: actions/create-release@v1
         env:
@@ -89,4 +99,4 @@ jobs:
         with:
           tag_name: ${{ steps.create_version.outputs.new_tag }}
           release_name: ${{ steps.create_version.outputs.new_tag }}
-          body: ${{ steps.create_version.outputs.changelog }}
+          body: ${{ steps.patch_release_body.outputs.changelog }}
