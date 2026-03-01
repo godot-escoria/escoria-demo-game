@@ -1,3 +1,10 @@
+## [4.0.0-alpha.318](https://github.com/godot-escoria/escoria-demo-game/compare/v4.0.0-alpha.317...v4.0.0-alpha.318) (2026-03-01)
+
+
+### Bug Fixes
+
+* workaround issue of tagging action not properly handling our tagging scheme for some reason for previous tag ([a010ba6](https://github.com/godot-escoria/escoria-demo-game/commit/a010ba60bbcd3e791c015718fc50cfee43130dbe))
+
 ## [4.0.0-alpha.316](https://github.com/godot-escoria/escoria-demo-game/compare/v4.0.0-alpha.315...v4.0.0-alpha.316) (2026-02-16)
 
 
