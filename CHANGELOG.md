@@ -1,3 +1,15 @@
+## [4.0.0-alpha.317](https://github.com/godot-escoria/escoria-demo-game/compare/v0.0.0...v4.0.0-alpha.317) (2026-03-01)
+
+
+### Bug Fixes
+
+* add the check for any non-PR pushes, however infrequent ([0d6f298](https://github.com/godot-escoria/escoria-demo-game/commit/0d6f29810c2dd69888a1b2eced60d467f75ecbd1))
+* correct preexisting comparison links ([fb93a26](https://github.com/godot-escoria/escoria-demo-game/commit/fb93a26e048be691a8e24f559cab39cff2d52a01))
+* debug to test prerelease without involving main branch rules ([4058783](https://github.com/godot-escoria/escoria-demo-game/commit/40587830e6d3eab2660d05f2aa0fcadda999e8ca))
+* grab all tags to see if it fixes the comparison issue; also update Action version ([621206a](https://github.com/godot-escoria/escoria-demo-game/commit/621206af1bce7e91c6f89bd5c9469b754b5b4a41))
+
+
+
 ## [4.0.0-alpha.316](https://github.com/godot-escoria/escoria-demo-game/compare/v4.0.0-alpha.315...v4.0.0-alpha.316) (2026-02-16)
 
 
