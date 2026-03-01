@@ -45,11 +45,17 @@ jobs:
         if: "steps.calculate_version.outputs.changelog != ''"
         run: |
           CHANGELOG=""
-          if [ -e CHANGELOG.md ]
-          then
-              CHANGELOG=$(cat CHANGELOG.md)
+          if [ -e CHANGELOG.md ]; then
+            CHANGELOG=$(cat CHANGELOG.md)
           fi
-          echo -e "${{steps.calculate_version.outputs.changelog}}\n\n${CHANGELOG}" > CHANGELOG.md
+
+          # Patch the compare link in the generated header:
+          # from: .../compare/v0.0.0...<new_tag>
+          # to:   .../compare/<previous_tag>...<new_tag>
+          FIXED_CHANGELOG="$(printf '%s' "${{ steps.calculate_version.outputs.changelog }}" \
+            | sed "s#https://github.com/${{ github.repository }}/compare/v0.0.0\.\.\.${{ steps.calculate_version.outputs.new_tag }}#https://github.com/${{ github.repository }}/compare/${{ steps.calculate_version.outputs.previous_tag }}...${{ steps.calculate_version.outputs.new_tag }}#g")"
+
+          printf "%s\n\n%s" "$FIXED_CHANGELOG" "$CHANGELOG" > CHANGELOG.md
       - name: "Commit"
         if: "steps.calculate_version.outputs.changelog != ''"
         uses: EndBug/add-and-commit@v7.2.1
