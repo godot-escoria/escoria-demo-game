@@ -123,7 +123,7 @@ jobs:
           token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
           branch: ${{ steps.version.outputs.branch }}
           delete-branch: true
-          commit-message: "chore(release): v${{ steps.version.outputs.version }} [skip ci]"
+          commit-message: "chore(release): v${{ steps.version.outputs.version }}"
           title: "chore(release): prepare v${{ steps.version.outputs.version }}"
           body-path: PR_BODY.md
           add-paths: |
