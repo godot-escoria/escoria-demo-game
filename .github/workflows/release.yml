@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       dry_run:
-        description: "Preview only (no tag, no GitHub release, no CHANGELOG commit)"
+        description: "Preview only"
         required: true
         default: true
         type: boolean
@@ -23,21 +23,23 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: 20
 
-      - name: Install semantic-release and plugins
+      - name: Install semantic-release
         run: |
           npm install --no-save \
             semantic-release \
+            @semantic-release/commit-analyzer \
+            @semantic-release/release-notes-generator \
             @semantic-release/changelog \
             @semantic-release/git \
             @semantic-release/github \
             conventional-changelog-conventionalcommits
 
-      - name: Configure Git identity
+      - name: Configure git identity
         run: |
           git config user.name "escoria-gh-actions"
           git config user.email "escoria-gh-actions@users.noreply.github.com"
