@@ -1,0 +1,82 @@
+name: Publish Release
+
+on:
+  pull_request_target:
+    types: [closed]
+
+permissions:
+  contents: write
+
+jobs:
+  publish-release:
+    if: >
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.base.ref == 'main' &&
+      startsWith(github.event.pull_request.title, 'chore(release): prepare v')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout merged main commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+
+      - name: Fetch tags
+        run: git fetch --force --tags origin
+
+      - name: Extract version from PR title
+        id: version
+        run: |
+          set -euo pipefail
+          TITLE='${{ github.event.pull_request.title }}'
+          VERSION="${TITLE#chore(release): prepare v}"
+          TAG="v$VERSION"
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Fail if tag already exists
+        run: |
+          set -euo pipefail
+          if git rev-parse "${{ steps.version.outputs.tag }}" >/dev/null 2>&1; then
+            echo "Tag ${{ steps.version.outputs.tag }} already exists"
+            exit 1
+          fi
+
+      - name: Extract release notes from top of CHANGELOG.md
+        run: |
+          set -euo pipefail
+          awk '
+            BEGIN { started=0 }
+            /^## / {
+              if (started) exit
+              started=1
+            }
+            started { print }
+          ' CHANGELOG.md > RELEASE_NOTES.md
+
+      - name: Create tag
+        run: |
+          set -euo pipefail
+          git tag "${{ steps.version.outputs.tag }}" "${{ github.event.pull_request.merge_commit_sha }}"
+          git push origin "${{ steps.version.outputs.tag }}"
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [[ "${{ steps.version.outputs.version }}" == *"-beta."* ]]; then
+            gh release create "${{ steps.version.outputs.tag }}" \
+              --target "${{ github.event.pull_request.merge_commit_sha }}" \
+              --title "${{ steps.version.outputs.tag }}" \
+              --notes-file RELEASE_NOTES.md \
+              --prerelease
+          else
+            gh release create "${{ steps.version.outputs.tag }}" \
+              --target "${{ github.event.pull_request.merge_commit_sha }}" \
+              --title "${{ steps.version.outputs.tag }}" \
+              --notes-file RELEASE_NOTES.md
+          fi

@@ -1,0 +1,132 @@
+name: Prepare Release PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: "Release type"
+        required: true
+        default: "beta"
+        type: choice
+        options:
+          - beta
+          - stable
+      version_override:
+        description: "Optional explicit version, e.g. 4.0.0-beta.1 or 4.0.0"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  prepare-release-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
+          ref: main
+
+      - name: Fetch tags
+        run: git fetch --force --tags origin
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install release tooling
+        run: |
+          npm install --no-save \
+            release-it \
+            @release-it/conventional-changelog \
+            conventional-changelog-conventionalcommits
+
+      - name: Configure git identity
+        run: |
+          git config user.name "escoria-gh-actions"
+          git config user.email "escoria-gh-actions@users.noreply.github.com"
+
+      - name: Compute target version
+        id: version
+        run: |
+          set -euo pipefail
+
+          if [ -n "${{ inputs.version_override }}" ]; then
+            VERSION="${{ inputs.version_override }}"
+          else
+            CMD=(npx release-it --release-version --ci --no-npm)
+            if [ "${{ inputs.release_type }}" = "beta" ]; then
+              CMD+=(--preRelease=beta)
+            fi
+            VERSION="$("${CMD[@]}")"
+          fi
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+          echo "branch=release/v$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Generate CHANGELOG entry
+        run: |
+          set -euo pipefail
+
+          CMD=(npx release-it --ci --no-npm \
+            --no-git.commit \
+            --no-git.tag \
+            --no-git.push \
+            --no-github.release \
+            "${{ steps.version.outputs.version }}")
+
+          if [ "${{ inputs.release_type }}" = "beta" ]; then
+            CMD+=(--preRelease=beta)
+          fi
+
+          printf 'Running:'
+          printf ' %q' "${CMD[@]}"
+          printf '\n'
+
+          "${CMD[@]}"
+
+      - name: Extract top CHANGELOG entry for PR body
+        run: |
+          set -euo pipefail
+          awk '
+            BEGIN { started=0; first=1 }
+            /^## / {
+              if (started) exit
+              started=1
+            }
+            started { print }
+          ' CHANGELOG.md > RELEASE_NOTES.md
+
+          {
+            echo "Prepare release PR for \`${{ steps.version.outputs.tag }}\`."
+            echo
+            echo "Once merged, the publish workflow will create the tag and GitHub Release automatically."
+            echo
+            cat RELEASE_NOTES.md
+          } > PR_BODY.md
+
+      - name: Create release PR
+        id: cpr
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.ESCORIA_DEPLOYMENT_TOKEN }}
+          branch: ${{ steps.version.outputs.branch }}
+          delete-branch: true
+          commit-message: chore(release): v${{ steps.version.outputs.version }} [skip ci]
+          title: chore(release): prepare v${{ steps.version.outputs.version }}
+          body-path: PR_BODY.md
+          add-paths: |
+            CHANGELOG.md
+
+      - name: Show PR result
+        run: |
+          echo "PR number: ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "PR url:    ${{ steps.cpr.outputs.pull-request-url }}"
