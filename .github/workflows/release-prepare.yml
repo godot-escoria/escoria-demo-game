@@ -53,17 +53,6 @@ jobs:
           git config user.name "escoria-gh-actions"
           git config user.email "escoria-gh-actions@users.noreply.github.com"
 
-      - name: Ensure tag does not already exist
-        run: |
-          if git rev-parse "v${{ steps.version.outputs.version }}" >/dev/null 2>&1; then
-            echo "Tag already exists locally, deleting..."
-            git tag -d "v${{ steps.version.outputs.version }}"
-          fi
-
-          if git ls-remote --tags origin | grep -q "refs/tags/v${{ steps.version.outputs.version }}"; then
-            echo "Tag already exists on origin, deleting..."
-            git push --delete origin "v${{ steps.version.outputs.version }}"
-          fi
       - name: Compute target version
         id: version
         env:

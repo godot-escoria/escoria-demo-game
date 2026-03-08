@@ -40,8 +40,21 @@ jobs:
       - name: Fail if tag already exists
         run: |
           set -euo pipefail
-          if git rev-parse "${{ steps.version.outputs.tag }}" >/dev/null 2>&1; then
-            echo "Tag ${{ steps.version.outputs.tag }} already exists"
+
+          TAG="${{ steps.version.outputs.tag }}"
+
+          if [ -z "$TAG" ]; then
+            echo "Tag output is empty"
+            exit 1
+          fi
+
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Local tag already exists: $TAG"
+            exit 1
+          fi
+
+          if git ls-remote --tags origin "refs/tags/$TAG" | grep -q "$TAG"; then
+            echo "Remote tag already exists: $TAG"
             exit 1
           fi
 
