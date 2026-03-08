@@ -1,3 +1,25 @@
+# Changelog
+
+## [4.0.0-beta.1](https://github.com/godot-escoria/escoria-demo-game/compare/v4.0.0-alpha.316...v4.0.0-beta.1) (2026-03-08)
+
+### Bug Fixes
+
+* add the check for any non-PR pushes, however infrequent ([0d6f298](https://github.com/godot-escoria/escoria-demo-game/commit/0d6f29810c2dd69888a1b2eced60d467f75ecbd1))
+* **ci:** add missing quotation marks ([e0dd0a6](https://github.com/godot-escoria/escoria-demo-game/commit/e0dd0a60da0b603ff456795d905f1d9467f06637))
+* **ci:** correct misplaced idempotency guard and tighten the one in the publish flow ([4b3bcfa](https://github.com/godot-escoria/escoria-demo-game/commit/4b3bcfa89aa5bc83256aefd0af38321a23d4f888))
+* **ci:** move rc file to repo root ([b6173cf](https://github.com/godot-escoria/escoria-demo-game/commit/b6173cfdf6bf894fe129d61f9ba697910ea4e069))
+* correct preexisting comparison links ([fb93a26](https://github.com/godot-escoria/escoria-demo-game/commit/fb93a26e048be691a8e24f559cab39cff2d52a01))
+* debug to test prerelease without involving main branch rules ([60f5d51](https://github.com/godot-escoria/escoria-demo-game/commit/60f5d5159098e82b43fd2813b0d8d1ac16ec765e))
+* grab all tags to see if it fixes the comparison issue; also update Action version ([621206a](https://github.com/godot-escoria/escoria-demo-game/commit/621206af1bce7e91c6f89bd5c9469b754b5b4a41))
+* need to patch release body as it still suffers from the tag compare link issue ([d746b72](https://github.com/godot-escoria/escoria-demo-game/commit/d746b72540f162f321e0fa53505908db05237eeb))
+* workaround issue of tagging action not properly handling our tagging scheme for some reason for previous tag ([8d15d45](https://github.com/godot-escoria/escoria-demo-game/commit/8d15d4530082a0f2de5183b695bacd6e3d9659cf))
+
+### CI
+
+* correct quotation marks; add CI env var; add idempotent protection for tags ([f585a25](https://github.com/godot-escoria/escoria-demo-game/commit/f585a25c2bdafcceb1e41284f849cb0f09bbf09d))
+* **release:** add release-it based manual release workflow ([f39ccf3](https://github.com/godot-escoria/escoria-demo-game/commit/f39ccf3c2f2b1f74dcc2f330c04f398511e49d11))
+* **release:** move to PR-based releases ([69525ee](https://github.com/godot-escoria/escoria-demo-game/commit/69525ee15d0edf9e88d444dcc3ac4990dc09adfc))
+
 ## [4.0.0-alpha.316](https://github.com/godot-escoria/escoria-demo-game/compare/v4.0.0-alpha.315...v4.0.0-alpha.316) (2026-02-16)
 
 
