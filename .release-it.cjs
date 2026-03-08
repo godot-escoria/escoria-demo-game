@@ -3,7 +3,7 @@ module.exports = {
     requireBranch: "main",
     requireCleanWorkingDir: true,
     commit: true,
-    commitMessage: "chore(release): v${version} [skip ci]",
+    commitMessage: "chore(release): v${version}",
     tag: true,
     tagName: "v${version}",
     push: true
