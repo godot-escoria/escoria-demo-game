@@ -53,8 +53,21 @@ jobs:
           git config user.name "escoria-gh-actions"
           git config user.email "escoria-gh-actions@users.noreply.github.com"
 
+      - name: Ensure tag does not already exist
+        run: |
+          if git rev-parse "v${{ steps.version.outputs.version }}" >/dev/null 2>&1; then
+            echo "Tag already exists locally, deleting..."
+            git tag -d "v${{ steps.version.outputs.version }}"
+          fi
+
+          if git ls-remote --tags origin | grep -q "refs/tags/v${{ steps.version.outputs.version }}"; then
+            echo "Tag already exists on origin, deleting..."
+            git push --delete origin "v${{ steps.version.outputs.version }}"
+          fi
       - name: Compute target version
         id: version
+        env:
+          CI: true
         run: |
           set -euo pipefail
 
@@ -71,8 +84,9 @@ jobs:
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
           echo "branch=release/v$VERSION" >> "$GITHUB_OUTPUT"
-
       - name: Generate CHANGELOG entry
+        env:
+          CI: true
         run: |
           set -euo pipefail
 
@@ -121,7 +135,7 @@ jobs:
           branch: ${{ steps.version.outputs.branch }}
           delete-branch: true
           commit-message: "chore(release): v${{ steps.version.outputs.version }} [skip ci]"
-          title: chore(release): prepare v${{ steps.version.outputs.version }}
+          title: "chore(release): prepare v${{ steps.version.outputs.version }}"
           body-path: PR_BODY.md
           add-paths: |
             CHANGELOG.md
