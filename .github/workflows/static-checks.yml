@@ -23,6 +23,7 @@ jobs:
         with:
           files: |
             **/*.gd
+            !addons/gdUnit4/**
 
       - name: 'Install GDScript Toolkit'
         if: steps.changed-gd-files.outputs.any_changed == 'true'
