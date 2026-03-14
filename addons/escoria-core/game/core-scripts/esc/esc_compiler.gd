@@ -123,7 +123,7 @@ func _compiler_shim(source: String, filename: String = "", associated_global_id:
 
 	# Some static analysis
 	if not had_error and _run_script_analysis():
-		var resolver: ESCResolver = ESCResolver.new(ESCInterpreterFactory.create_interpreter())
+		var resolver: ESCResolver = ESCResolver.new(escoria.interpreter_factory.create_interpreter())
 		resolver.resolve(parsed_statements)
 
 		if not filename.is_empty():
