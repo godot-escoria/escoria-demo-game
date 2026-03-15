@@ -210,6 +210,36 @@ func test_var_declaration_missing_newline_returns_parse_error() -> void:
 	assert_str(statements[1].get_event_name()).is_equal("second")
 
 
+func test_while_error_does_not_leak_loop_level_into_later_event() -> void:
+	# This fixture forces `_while_statement()` to fail after incrementing
+	# `_loop_level`. The later `break` in `:second` is top-level within that
+	# event body and must still be rejected. If the loop counter leaks across the
+	# error path, the parser will incorrectly accept it as a valid `Break`.
+	var source := _load_fixture("while_error_then_top_level_break.esc")
+	var compiler := ESCCompiler.new()
+	var scanner := ESCScanner.new()
+	scanner.set_source(source)
+	scanner.set_filename(_fixture_path("while_error_then_top_level_break.esc"))
+
+	var tokens: Array = scanner.scan_tokens()
+	var parser := ESCParser.new()
+	parser.init(compiler, tokens, "")
+
+	var statements := parser.parse()
+
+	assert_bool(compiler.had_error).is_true()
+	assert_int(statements.size()).is_greater_equal(3)
+	assert_object(statements[0]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[0].get_event_name()).is_equal("test")
+	assert_object(statements[1]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[1].get_event_name()).is_equal("second")
+	assert_object(statements[2]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[2].get_event_name()).is_equal("third")
+
+	var second_body: Array = statements[1].get_body().get_statements()
+	assert_int(second_body.size()).is_equal(0)
+
+
 func _load_fixture(name: String) -> String:
 	return FileAccess.get_file_as_string(_fixture_path(name))
 
