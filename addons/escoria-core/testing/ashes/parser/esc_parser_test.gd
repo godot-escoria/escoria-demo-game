@@ -183,6 +183,33 @@ func test_var_grouping_missing_right_paren_returns_parse_error() -> void:
 	assert_str(statements[1].get_event_name()).is_equal("second")
 
 
+func test_var_declaration_missing_newline_returns_parse_error() -> void:
+	# This fixture continues a variable declaration onto the same line with a
+	# second statement. The parser should not silently accept the declaration
+	# when the required trailing newline is missing, and recovery should still
+	# preserve the following event.
+	var source := _load_fixture("var_missing_newline.esc")
+	var compiler := ESCCompiler.new()
+	var scanner := ESCScanner.new()
+	scanner.set_source(source)
+	scanner.set_filename(_fixture_path("var_missing_newline.esc"))
+
+	var tokens: Array = scanner.scan_tokens()
+	var parser := ESCParser.new()
+	parser.init(compiler, tokens, "")
+
+	var statements := parser.parse()
+
+	assert_bool(compiler.had_error).is_true()
+	assert_int(statements.size()).is_greater_equal(2)
+	assert_object(statements[0]).is_not_null()
+	assert_object(statements[0]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[0].get_event_name()).is_equal("test")
+	assert_object(statements[1]).is_not_null()
+	assert_object(statements[1]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[1].get_event_name()).is_equal("second")
+
+
 func _load_fixture(name: String) -> String:
 	return FileAccess.get_file_as_string(_fixture_path(name))
 
