@@ -1,0 +1,5 @@
+:test
+	var x = 1 print("bad")
+
+:second
+	print("ok")
