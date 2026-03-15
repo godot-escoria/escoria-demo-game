@@ -10,11 +10,11 @@ func test_done_statement_does_not_consume_tokens_on_partial_match() -> void:
 	# This fixture is intentionally valid up to the dialog option body:
 	# `done` is in a dialog context, but `done x` is invalid because the parser
 	# only accepts `done` followed immediately by a newline.
-	var source := ":test\n\t?!\n\t\t- \"Option\"\n\t\t\tdone x\n\t\t\tprint(\"after\")\n"
+	var source := _load_fixture("done_partial_match.esc")
 	var compiler := ESCCompiler.new()
 	var scanner := ESCScanner.new()
 	scanner.set_source(source)
-	scanner.set_filename("res://tests/done_partial_match.esc")
+	scanner.set_filename(_fixture_path("done_partial_match.esc"))
 
 	var tokens: Array = scanner.scan_tokens()
 	var parser := ESCParser.new()
@@ -48,6 +48,91 @@ func test_done_statement_does_not_consume_tokens_on_partial_match() -> void:
 	# token stream after the failed `done` parse attempt. This protects against
 	# accidental over-consumption beyond the failing statement.
 	assert_int(_find_token_index_after(tokens, parser._current, ESCTokenType.TokenType.IDENTIFIER, "print")).is_equal(print_index)
+
+
+func test_parser_synchronizes_after_invalid_done_and_keeps_following_event() -> void:
+	# This fixture places an invalid `done` at the start of an event body and
+	# then follows it with a valid statement and a second event. The purpose is
+	# to verify parser recovery at ASHES statement and event boundaries.
+	var source := _load_fixture("synchronize_after_invalid_done.esc")
+	var compiler := ESCCompiler.new()
+	var scanner := ESCScanner.new()
+	scanner.set_source(source)
+	scanner.set_filename(_fixture_path("synchronize_after_invalid_done.esc"))
+
+	var tokens: Array = scanner.scan_tokens()
+	var parser := ESCParser.new()
+	parser.init(compiler, tokens, "")
+
+	var statements := parser.parse()
+
+	# The parser should report an error for `done x`, but it should still recover
+	# well enough to continue parsing later declarations. In particular, the
+	# following event `:second` must survive recovery.
+	assert_bool(compiler.had_error).is_true()
+	assert_int(statements.size()).is_greater_equal(2)
+	assert_object(statements[0]).is_not_null()
+	assert_object(statements[1]).is_not_null()
+	assert_object(statements[1]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[1].get_event_name()).is_equal("second")
+
+
+func test_parser_synchronizes_after_invalid_if_and_keeps_following_event() -> void:
+	# This fixture uses a malformed `if` statement inside an event body. The
+	# missing colon forces a real statement parse error after the parser has
+	# already committed to the `if` branch. Recovery must still preserve the
+	# following top-level event declaration.
+	var source := _load_fixture("synchronize_after_invalid_if.esc")
+	var compiler := ESCCompiler.new()
+	var scanner := ESCScanner.new()
+	scanner.set_source(source)
+	scanner.set_filename(_fixture_path("synchronize_after_invalid_if.esc"))
+
+	var tokens: Array = scanner.scan_tokens()
+	var parser := ESCParser.new()
+	parser.init(compiler, tokens, "")
+
+	var statements := parser.parse()
+
+	assert_bool(compiler.had_error).is_true()
+	assert_int(statements.size()).is_greater_equal(2)
+	assert_object(statements[0]).is_not_null()
+	assert_object(statements[1]).is_not_null()
+	assert_object(statements[1]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[1].get_event_name()).is_equal("second")
+
+
+func test_dialog_option_missing_right_square_returns_parse_error() -> void:
+	# This fixture omits the closing `]` from a dialog option predicate. The
+	# parser should report a parse error here rather than silently building a
+	# malformed dialog option node and continuing as if the condition was valid.
+	# Recovery should still preserve the following top-level event declaration.
+	var source := _load_fixture("dialog_option_missing_right_square.esc")
+	var compiler := ESCCompiler.new()
+	var scanner := ESCScanner.new()
+	scanner.set_source(source)
+	scanner.set_filename(_fixture_path("dialog_option_missing_right_square.esc"))
+
+	var tokens: Array = scanner.scan_tokens()
+	var parser := ESCParser.new()
+	parser.init(compiler, tokens, "")
+
+	var statements := parser.parse()
+
+	assert_bool(compiler.had_error).is_true()
+	assert_int(statements.size()).is_greater_equal(2)
+	assert_object(statements[0]).is_null()
+	assert_object(statements[1]).is_not_null()
+	assert_object(statements[1]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[1].get_event_name()).is_equal("second")
+
+
+func _load_fixture(name: String) -> String:
+	return FileAccess.get_file_as_string(_fixture_path(name))
+
+
+func _fixture_path(name: String) -> String:
+	return "res://addons/escoria-core/testing/ashes/parser/fixtures/%s" % name
 
 
 func _find_token_index(tokens: Array, token_type: int, lexeme: String = "") -> int:

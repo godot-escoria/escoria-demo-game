@@ -1,0 +1,9 @@
+:test
+	?!
+		- "Option" [some_flag < 3
+			print("after")
+		- "Second option"
+			print("ok")
+
+:second
+	print("after_dialog")

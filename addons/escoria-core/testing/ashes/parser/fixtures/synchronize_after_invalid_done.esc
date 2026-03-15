@@ -1,0 +1,6 @@
+:test
+	done x
+	print("after")
+
+:second
+	print("ok")
