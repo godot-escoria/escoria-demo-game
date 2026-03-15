@@ -880,8 +880,11 @@ func _match_in_order(tokenTypes) -> bool:
 	if not tokenTypes is Array:
 		tokenTypes = [tokenTypes]
 
+	var start := _current
+
 	for type in tokenTypes:
 		if not _check(type):
+			_current = start
 			return false
 
 		_advance()
