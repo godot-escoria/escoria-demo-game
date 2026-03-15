@@ -448,6 +448,9 @@ func _dialog_option_statement():
 
 		consume = _consume(ESCTokenType.TokenType.RIGHT_SQUARE, "Expect ']' after dialog option condition")
 
+		if consume is ESCParseError:
+			return consume
+
 	consume = _consume_new_block_start("dialog option")
 
 	var block_stmts = _block()
