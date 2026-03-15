@@ -52,12 +52,20 @@ func parse() -> Array:
 	var statements: Array = []
 
 	while not _at_end():
-		statements.append(_declaration())
+		var declaration = _declaration()
+		if declaration != null:
+			statements.append(declaration)
 
 	return statements
 
 
 func _declaration() -> ESCGrammarStmt:
+	while _match(ESCTokenType.TokenType.NEWLINE):
+		pass
+
+	if _at_end():
+		return null
+
 	var retStmt
 
 	if _match(ESCTokenType.TokenType.COLON):
@@ -515,7 +523,8 @@ func _block():
 		if decl is ESCParseError:
 			return decl
 
-		statements.append(decl)
+		if decl != null:
+			statements.append(decl)
 
 	_consume(ESCTokenType.TokenType.DEDENT, "Expected DEDENT after block.")
 	return statements
@@ -968,13 +977,21 @@ func _synchronize() -> void:
 	_advance()
 
 	while not _at_end():
-		if _previous().get_type() == ESCTokenType.TokenType.NEWLINE:
+		if _previous().get_type() == ESCTokenType.TokenType.NEWLINE \
+			or _previous().get_type() == ESCTokenType.TokenType.DEDENT:
 			return
 
 		match _peek().get_type():
+			ESCTokenType.TokenType.COLON,\
+			ESCTokenType.TokenType.GLOBAL,\
 			ESCTokenType.TokenType.VAR,\
 			ESCTokenType.TokenType.IF,\
 			ESCTokenType.TokenType.WHILE,\
+			ESCTokenType.TokenType.PASS,\
+			ESCTokenType.TokenType.STOP,\
+			ESCTokenType.TokenType.QUESTION_BANG,\
+			ESCTokenType.TokenType.BREAK,\
+			ESCTokenType.TokenType.DONE,\
 			ESCTokenType.TokenType.RETURN:
 				return
 

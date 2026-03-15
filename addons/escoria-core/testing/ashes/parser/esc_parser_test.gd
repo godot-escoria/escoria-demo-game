@@ -121,7 +121,9 @@ func test_dialog_option_missing_right_square_returns_parse_error() -> void:
 
 	assert_bool(compiler.had_error).is_true()
 	assert_int(statements.size()).is_greater_equal(2)
-	assert_object(statements[0]).is_null()
+	assert_object(statements[0]).is_not_null()
+	assert_object(statements[0]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[0].get_event_name()).is_equal("test")
 	assert_object(statements[1]).is_not_null()
 	assert_object(statements[1]).is_instanceof(ESCGrammarStmts.Event)
 	assert_str(statements[1].get_event_name()).is_equal("second")
