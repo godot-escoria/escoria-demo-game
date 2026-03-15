@@ -14,3 +14,6 @@ addons/escoria-core/default_bus_layout.tres
 
 # Auto-generated as part of documentation process
 docs/
+
+# Auto-generated gdUnit4 reports
+reports/
