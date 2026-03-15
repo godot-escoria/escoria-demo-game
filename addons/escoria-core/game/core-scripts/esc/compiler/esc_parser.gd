@@ -789,6 +789,9 @@ func _finish_call(callee: ESCGrammarExpr):
 
 	var paren = _consume(ESCTokenType.TokenType.RIGHT_PAREN, "Expect ')' after arguments.")
 
+	if paren is ESCParseError:
+		return paren
+
 	#if paren.get_type() != ESCTokenType.TokenType.NEWLINE:
 	#	return _error(ESCTokenType.TokenType.NEWLINE, "Expect NEWLINE after arguments.")
 
