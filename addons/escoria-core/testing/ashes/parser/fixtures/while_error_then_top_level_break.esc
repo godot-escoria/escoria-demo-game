@@ -1,0 +1,9 @@
+:test
+	while true
+		print("broken")
+
+:second
+	break
+
+:third
+	print("ok")

@@ -322,21 +322,25 @@ func _while_statement():
 	var condition = _expression()
 
 	if condition is ESCParseError:
+		_loop_level -= 1
 		return condition
 
 	var colon_token = _consume(ESCTokenType.TokenType.COLON, "Expect ':' after condition.")
 
 	if colon_token is ESCParseError:
+		_loop_level -= 1
 		return colon_token
 
 	var consume = _consume_new_block_start("start of while loop")
 
 	if consume:
+		_loop_level -= 1
 		return consume
 
 	var block = _block()
 
 	if block is ESCParseError:
+		_loop_level -= 1
 		return block
 
 	var body = ESCGrammarStmts.Block.new()
@@ -380,6 +384,7 @@ func _dialog_statement():
 			var arg = _expression()
 
 			if arg is ESCParseError:
+				_dialog_level -= 1
 				return arg
 
 			args.append(arg)
@@ -390,14 +395,17 @@ func _dialog_statement():
 		var consume = _consume(ESCTokenType.TokenType.RIGHT_PAREN, "Expect ')' after start dialog arguments.")
 
 		if consume is ESCParseError:
+			_dialog_level -= 1
 			return consume
 
 	if args.size() > 3:
+		_dialog_level -= 1
 		return _error(_peek(), "Start dialog cannot have more than 3 arguments.")
 
 	var consume = _consume_new_block_start("dialog start")
 
 	if consume is ESCParseError:
+		_dialog_level -= 1
 		return consume
 
 	var options: Array = []
@@ -406,6 +414,7 @@ func _dialog_statement():
 		var dialog_option = _dialog_option_statement()
 
 		if dialog_option is ESCParseError:
+			_dialog_level -= 1
 			return dialog_option
 
 		options.append(dialog_option)
