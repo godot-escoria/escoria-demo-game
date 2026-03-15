@@ -1,0 +1,5 @@
+:test
+	var x = (1 + 2
+
+:second
+	print("ok")
