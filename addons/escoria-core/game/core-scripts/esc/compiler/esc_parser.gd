@@ -60,7 +60,7 @@ func parse() -> Array:
 
 
 func _declaration() -> ESCGrammarStmt:
-	while _match(ESCTokenType.TokenType.NEWLINE):
+	while _match(ESCTokenType.TokenType.NEWLINE) or _match(ESCTokenType.TokenType.DEDENT):
 		pass
 
 	if _at_end():
