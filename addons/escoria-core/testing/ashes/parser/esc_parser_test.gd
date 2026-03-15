@@ -156,6 +156,33 @@ func test_grouping_missing_right_paren_returns_parse_error() -> void:
 	assert_str(statements[1].get_event_name()).is_equal("second")
 
 
+func test_var_grouping_missing_right_paren_returns_parse_error() -> void:
+	# This fixture omits the closing `)` from a grouped expression in a variable
+	# initializer. Unlike the call-expression regression above, this path goes
+	# straight through `_primary()`, so the parser must reject the malformed
+	# grouping instead of silently constructing a `Grouping` node.
+	var source := _load_fixture("var_grouping_missing_right_paren.esc")
+	var compiler := ESCCompiler.new()
+	var scanner := ESCScanner.new()
+	scanner.set_source(source)
+	scanner.set_filename(_fixture_path("var_grouping_missing_right_paren.esc"))
+
+	var tokens: Array = scanner.scan_tokens()
+	var parser := ESCParser.new()
+	parser.init(compiler, tokens, "")
+
+	var statements := parser.parse()
+
+	assert_bool(compiler.had_error).is_true()
+	assert_int(statements.size()).is_greater_equal(2)
+	assert_object(statements[0]).is_not_null()
+	assert_object(statements[0]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[0].get_event_name()).is_equal("test")
+	assert_object(statements[1]).is_not_null()
+	assert_object(statements[1]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[1].get_event_name()).is_equal("second")
+
+
 func _load_fixture(name: String) -> String:
 	return FileAccess.get_file_as_string(_fixture_path(name))
 
