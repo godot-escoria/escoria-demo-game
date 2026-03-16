@@ -270,6 +270,34 @@ func test_dialog_error_does_not_leak_dialog_level_into_later_event() -> void:
 	assert_int(second_body.size()).is_equal(0)
 
 
+func test_happy_path_full_language_fixture_parses_without_errors() -> void:
+	# This smoke fixture exercises a broad cross-section of ASHES syntax on the
+	# parser happy path: event flags, targets, globals, locals, branching,
+	# looping, built-ins, dialog, nested dialog, conditional dialog options,
+	# `break`, `done`, `in inventory`, `is active`, and `is "state"`.
+	var source := _load_fixture("happy_path_full_language.esc")
+	var compiler := ESCCompiler.new()
+	var scanner := ESCScanner.new()
+	scanner.set_source(source)
+	scanner.set_filename(_fixture_path("happy_path_full_language.esc"))
+
+	var tokens: Array = scanner.scan_tokens()
+	var parser := ESCParser.new()
+	parser.init(compiler, tokens, "")
+
+	var statements := parser.parse()
+
+	assert_bool(compiler.had_error).is_false()
+	assert_int(statements.size()).is_equal(2)
+	assert_object(statements[0]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[0].get_event_name()).is_equal("setup")
+	assert_int(statements[0].get_num_statements_in_block()).is_equal(6)
+	assert_object(statements[1]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[1].get_event_name()).is_equal("look")
+	assert_str(statements[1].get_target_name()).is_equal("worker")
+	assert_int(statements[1].get_num_statements_in_block()).is_equal(3)
+
+
 func _load_fixture(name: String) -> String:
 	return FileAccess.get_file_as_string(_fixture_path(name))
 
