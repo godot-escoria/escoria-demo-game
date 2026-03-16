@@ -232,6 +232,20 @@ func test_break_one_exits_nested_dialog_and_continues_outer_flow() -> void:
 	assert_str(String(globals["result"])).is_equal("after_nested-done")
 
 
+func test_done_exits_entire_nested_dialog_tree() -> void:
+	# `done` should conclude the entire dialog from any nesting depth. After the
+	# nested choice issues `done`, the outer option body must not continue and
+	# the outer dialog must not be shown again. Execution should resume only
+	# after the dialog statement, so the final value should reflect the initial
+	# value plus the post-dialog append.
+	var globals := await _interpret_fixture(
+		"done_exits_entire_nested_dialog.esc",
+		[0, 0]
+	)
+	assert_bool(globals.has("result")).is_true()
+	assert_str(String(globals["result"])).is_equal("start-done")
+
+
 func test_immediate_command_preserves_statement_ordering() -> void:
 	# A synchronous command should complete before the next statement runs. The
 	# trailing assignment observes the command's mutation and appends to it.
