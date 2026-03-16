@@ -1,0 +1,8 @@
+:test
+	global result = "start"
+	global was_interrupted = false
+	global count = 0
+	while count < 3:
+		test_interruptible_set_global("result", "cmd", "was_interrupted", 0.2)
+		count = count + 1
+	result = result + "-after"

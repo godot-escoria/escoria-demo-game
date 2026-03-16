@@ -393,6 +393,47 @@ func test_interrupting_delayed_command_in_dialog_stops_event_progress() -> void:
 	dialog_player.queue_free()
 
 
+func test_interrupting_delayed_command_stops_multi_iteration_loop() -> void:
+	# Interrupting a delayed command in the first loop iteration should stop the
+	# loop itself, not just the current statement. The counter must therefore
+	# stay at zero and the post-loop append must never run.
+	var source := _load_fixture("delayed_command_interrupt_in_multi_loop.esc")
+	var compiler := ESCCompiler.new()
+	var scanner := ESCScanner.new()
+	scanner.set_source(source)
+	scanner.set_filename(_fixture_path("delayed_command_interrupt_in_multi_loop.esc"))
+
+	var tokens: Array = scanner.scan_tokens()
+	var parser := ESCParser.new()
+	parser.init(compiler, tokens, "")
+
+	var statements := parser.parse()
+	assert_bool(compiler.had_error).is_false()
+	assert_int(statements.size()).is_equal(1)
+
+	var interpreter := ESCInterpreter.new(ESCCompiler.load_commands(), {})
+	var resolver := ESCResolver.new(interpreter)
+	resolver.resolve(statements)
+
+	assert_object(statements[0]).is_instanceof(ESCGrammarStmts.Event)
+	var event_stmt: ESCGrammarStmts.Event = statements[0]
+	interpreter.call_deferred("interpret", statements)
+	await escoria.get_tree().create_timer(0.05).timeout
+	interpreter.interrupt()
+	await event_stmt.finished
+
+	var globals := interpreter.get_global_values()
+	assert_bool(globals.has("result")).is_true()
+	assert_str(String(globals["result"])).is_equal("start")
+	assert_bool(globals.has("was_interrupted")).is_true()
+	assert_bool(bool(globals["was_interrupted"])).is_true()
+	assert_bool(globals.has("count")).is_true()
+	assert_float(float(globals["count"])).is_equal(0.0)
+	assert_bool(event_stmt.is_interrupted()).is_true()
+
+	interpreter.cleanup()
+
+
 func test_immediate_command_preserves_statement_ordering() -> void:
 	# A synchronous command should complete before the next statement runs. The
 	# trailing assignment observes the command's mutation and appends to it.
