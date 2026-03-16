@@ -442,6 +442,18 @@ func test_invalid_command_does_not_continue_event() -> void:
 	assert_str(String(outcome.globals["result"])).is_equal("start")
 
 
+func test_dialog_option_scope_shadowing_restores_outer_local() -> void:
+	# A dialog option body introduces nested block scope. Assignments inside the
+	# option should see the inner shadowing variable, while execution after the
+	# dialog must still resolve the original outer local.
+	var outcome := await _interpret_fixture(
+		"dialog_scope_shadowing.esc",
+		[0]
+	)
+	assert_bool(outcome.globals.has("result")).is_true()
+	assert_str(String(outcome.globals["result"])).is_equal("inner:outer")
+
+
 func test_immediate_command_preserves_statement_ordering() -> void:
 	# A synchronous command should complete before the next statement runs. The
 	# trailing assignment observes the command's mutation and appends to it.
