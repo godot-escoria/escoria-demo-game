@@ -300,6 +300,17 @@ func test_delayed_command_in_dialog_option_preserves_ordering() -> void:
 	assert_str(String(outcome.globals["result"])).is_equal("cmd-after")
 
 
+func test_delayed_command_in_loop_preserves_ordering() -> void:
+	# A blocking command inside a loop body must finish before the loop can
+	# continue to the next statement. The later append therefore proves the
+	# delayed command completed before the event resumed after the loop.
+	var outcome := await _interpret_fixture("delayed_command_in_loop.esc")
+	assert_bool(outcome.globals.has("result")).is_true()
+	assert_str(String(outcome.globals["result"])).is_equal("cmd-after")
+	assert_bool(outcome.globals.has("count")).is_true()
+	assert_float(float(outcome.globals["count"])).is_equal(1.0)
+
+
 func test_immediate_command_preserves_statement_ordering() -> void:
 	# A synchronous command should complete before the next statement runs. The
 	# trailing assignment observes the command's mutation and appends to it.
