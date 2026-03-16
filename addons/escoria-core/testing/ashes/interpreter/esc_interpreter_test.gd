@@ -287,6 +287,19 @@ func test_stop_in_dialog_option_prevents_later_event_statements() -> void:
 	assert_float(float(outcome.globals["result"])).is_equal(0.0)
 
 
+func test_delayed_command_in_dialog_option_preserves_ordering() -> void:
+	# A blocking command inside a dialog option must complete before the option
+	# body resumes and before execution continues after the dialog. If it does
+	# not block correctly, the final append would observe `unset` instead of the
+	# command-written value.
+	var outcome := await _interpret_fixture(
+		"delayed_command_in_dialog_option.esc",
+		[0]
+	)
+	assert_bool(outcome.globals.has("result")).is_true()
+	assert_str(String(outcome.globals["result"])).is_equal("cmd-after")
+
+
 func test_immediate_command_preserves_statement_ordering() -> void:
 	# A synchronous command should complete before the next statement runs. The
 	# trailing assignment observes the command's mutation and appends to it.
