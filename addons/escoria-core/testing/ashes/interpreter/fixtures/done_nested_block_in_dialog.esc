@@ -1,0 +1,7 @@
+:test
+	global result = 0
+	?!
+		- "Outer"
+			if true:
+				done
+	result = 1
