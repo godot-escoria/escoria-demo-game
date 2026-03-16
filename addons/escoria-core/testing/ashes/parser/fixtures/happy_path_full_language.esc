@@ -1,0 +1,41 @@
+:setup | NO_UI | NO_SAVE
+	global has_met_worker = false
+	global ask_count = 0
+	var local_count = 0
+	var target_name = $worker
+
+	if !has_met_worker and ESC_LAST_SCENE == "room1":
+		print("first visit")
+	elif $worker is active:
+		print("worker active")
+	else:
+		print("fallback")
+
+	while local_count < 3:
+		local_count = local_count + 1
+		if local_count == 2:
+			break
+
+:look "worker"
+	if $badge in inventory:
+		print("has badge")
+	elif $worker is "busy":
+		print("busy")
+	else:
+		print("idle")
+
+	?!
+		- "Who are you?" [!has_met_worker]
+			print("ask name")
+			has_met_worker = true
+		- "Tell me more." [ask_count < 2]
+			ask_count = ask_count + 1
+			?!
+				- "Enough."
+					break 1
+				- "I am done."
+					done
+		- "Bye."
+			break
+
+	print("after dialog")
