@@ -914,6 +914,12 @@ func _execute_block(statements: Array, env: ESCEnvironment):
 	for stmt in statements:
 		ret = await _execute(stmt)
 
+		# If the running event was interrupted while this statement was active,
+		# stop the block immediately so later statements do not continue running.
+		if _current_event and _current_event.is_interrupted():
+			_environment = previous_env
+			return ESCExecution.RC_INTERRUPTED
+
 		if ret is ESCGrammarStmts.Break \
 			or ret is ESCGrammarStmts.Done \
 			or ret is ESCGrammarStmts.Stop:
