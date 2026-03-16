@@ -623,18 +623,28 @@ func visit_binary_expr(expr: ESCGrammarExprs.Binary):
 			return not _is_equal(left_part, right_part)
 		ESCTokenType.TokenType.GREATER:
 			var check = _check_are_numbers(left_part, expr.get_operator(), right_part)
+			if not check:
+				return null
 			return left_part > right_part
 		ESCTokenType.TokenType.GREATER_EQUAL:
 			var check = _check_are_numbers(left_part, expr.get_operator(), right_part)
+			if not check:
+				return null
 			return left_part >= right_part
 		ESCTokenType.TokenType.LESS:
 			var check = _check_are_numbers(left_part, expr.get_operator(), right_part)
+			if not check:
+				return null
 			return left_part < right_part
 		ESCTokenType.TokenType.LESS_EQUAL:
 			var check = _check_are_numbers(left_part, expr.get_operator(), right_part)
+			if not check:
+				return null
 			return left_part <= right_part
 		ESCTokenType.TokenType.MINUS:
 			var check = _check_are_numbers(left_part, expr.get_operator(), right_part)
+			if not check:
+				return null
 			return left_part - right_part
 		ESCTokenType.TokenType.PLUS:
 			var check = _check_are_numbers(left_part, expr.get_operator(), right_part, false)
@@ -653,9 +663,13 @@ func visit_binary_expr(expr: ESCGrammarExprs.Binary):
 			)
 		ESCTokenType.TokenType.SLASH:
 			var check = _check_are_numbers(left_part, expr.get_operator(), right_part)
+			if not check:
+				return null
 			return left_part / right_part
 		ESCTokenType.TokenType.STAR:
 			var check = _check_are_numbers(left_part, expr.get_operator(), right_part)
+			if not check:
+				return null
 			return left_part * right_part
 
 	return null
@@ -680,6 +694,8 @@ func visit_unary_expr(expr: ESCGrammarExprs.Unary):
 			return not _is_truthy(right_part)
 		ESCTokenType.TokenType.MINUS:
 			var check = _check_is_number(right_part, expr.get_operator())
+			if not check:
+				return null
 			return -right_part
 
 	return null
@@ -863,7 +879,7 @@ func _execute_block(statements: Array, env: ESCEnvironment):
 		if ret is ESCGrammarStmts.Break \
 			or ret is ESCGrammarStmts.Done \
 			or ret is ESCGrammarStmts.Stop:
-
+			_environment = previous_env
 			return ret
 
 		# TODO: Proper error handling per statement?
