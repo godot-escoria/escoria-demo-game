@@ -1,0 +1,8 @@
+:test
+	global result = 0
+	var x = 1
+	while true:
+		if true:
+			var x = 2
+			break
+	result = x
