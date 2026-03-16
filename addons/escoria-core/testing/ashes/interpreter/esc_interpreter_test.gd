@@ -434,6 +434,14 @@ func test_interrupting_delayed_command_stops_multi_iteration_loop() -> void:
 	interpreter.cleanup()
 
 
+func test_invalid_command_does_not_continue_event() -> void:
+	# A missing command should fail the current event cleanly instead of letting
+	# later statements continue as if the command had succeeded.
+	var outcome := await _interpret_fixture("invalid_command_does_not_continue.esc")
+	assert_bool(outcome.globals.has("result")).is_true()
+	assert_str(String(outcome.globals["result"])).is_equal("start")
+
+
 func test_immediate_command_preserves_statement_ordering() -> void:
 	# A synchronous command should complete before the next statement runs. The
 	# trailing assignment observes the command's mutation and appends to it.

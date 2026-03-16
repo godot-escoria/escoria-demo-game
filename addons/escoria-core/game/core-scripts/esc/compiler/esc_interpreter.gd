@@ -254,6 +254,7 @@ func visit_call_expr(expr: ESCGrammarExprs.Call):
 				self,
 				"Can only call valid commands."
 			)
+			return ESCExecution.RC_ERROR
 		else:
 			return _handle_builtin_function(callee, args)
 
@@ -368,10 +369,16 @@ func visit_pass_stmt(stmt: ESCGrammarStmts.Pass):
 
 
 func _is_terminal_control_flow(ret) -> bool:
-	return ret is ESCGrammarStmts.Stop \
+	if ret is ESCGrammarStmts.Stop \
 		or ret is ESCGrammarStmts.Done \
-		or ret is ESCBreakCounter \
-		or ret == ESCExecution.RC_INTERRUPTED
+		or ret is ESCBreakCounter:
+		return true
+
+	if typeof(ret) == TYPE_INT:
+		return ret == ESCExecution.RC_ERROR \
+			or ret == ESCExecution.RC_INTERRUPTED
+
+	return false
 
 
 ## Executes code relevant to interpreting a `stop` statement. Relevant only to dialogs.[br]
@@ -944,13 +951,11 @@ func _execute_block(statements: Array, env: ESCEnvironment):
 			_environment = previous_env
 			return ESCExecution.RC_INTERRUPTED
 
-		if ret is ESCGrammarStmts.Break \
-			or ret is ESCGrammarStmts.Done \
-			or ret is ESCGrammarStmts.Stop:
+		if ret is ESCGrammarStmts.Break:
 			_environment = previous_env
 			return ret
 
-		if ret is ESCBreakCounter:
+		if _is_terminal_control_flow(ret):
 			_environment = previous_env
 			return ret
 
