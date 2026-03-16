@@ -462,7 +462,14 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 		if dialog.options.size() == 0:
 			break
 
-		if dialog.is_valid() and not _current_event.is_interrupted():
+		# If the event was interrupted while a nested command or dialog body was
+		# active, stop the dialog frame immediately instead of looping and
+		# presenting options again.
+		if _current_event and _current_event.is_interrupted():
+			_dialog_depth -= 1
+			return ESCExecution.RC_INTERRUPTED
+
+		if dialog.is_valid():
 			var chosen_option = await dialog.run()
 
 			if chosen_option:
@@ -471,6 +478,13 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 					self,
 					"Chosen dialog option (%s) was completed." % chosen_option
 				)
+
+				# An interruption can happen while the chosen option body is still
+				# running, so check again after it returns before processing normal
+				# dialog control flow like `break`, `done`, or `stop`.
+				if _current_event and _current_event.is_interrupted():
+					_dialog_depth -= 1
+					return ESCExecution.RC_INTERRUPTED
 
 				if execute_ret is ESCGrammarStmts.Break:
 					var levels_left := 0
