@@ -479,7 +479,7 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 
 					return break_tracker
 				elif execute_ret is ESCGrammarStmts.Done:
-					return execute_ret
+					break
 				elif execute_ret is ESCBreakCounter:
 					if execute_ret.get_levels_left() > 0:
 						execute_ret.dec_levels_left()

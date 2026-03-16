@@ -1,0 +1,5 @@
+:test
+	global result = 0
+	if true:
+		stop
+	result = 1
