@@ -986,6 +986,9 @@ func _error(token: ESCToken, message: String) -> ESCParseError:
 
 
 func _synchronize() -> void:
+	if _check(ESCTokenType.TokenType.DEDENT):
+		return
+
 	_advance()
 
 	while not _at_end():

@@ -240,6 +240,36 @@ func test_while_error_does_not_leak_loop_level_into_later_event() -> void:
 	assert_int(second_body.size()).is_equal(0)
 
 
+func test_dialog_error_does_not_leak_dialog_level_into_later_event() -> void:
+	# This fixture forces `_dialog_statement()` to fail after incrementing
+	# `_dialog_level`. The later `done` in `:second` is top-level within that
+	# event body and must still be rejected. If the dialog counter leaks across
+	# the error path, the parser will incorrectly accept it as a valid `Done`.
+	var source := _load_fixture("dialog_error_then_top_level_done.esc")
+	var compiler := ESCCompiler.new()
+	var scanner := ESCScanner.new()
+	scanner.set_source(source)
+	scanner.set_filename(_fixture_path("dialog_error_then_top_level_done.esc"))
+
+	var tokens: Array = scanner.scan_tokens()
+	var parser := ESCParser.new()
+	parser.init(compiler, tokens, "")
+
+	var statements := parser.parse()
+
+	assert_bool(compiler.had_error).is_true()
+	assert_int(statements.size()).is_greater_equal(3)
+	assert_object(statements[0]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[0].get_event_name()).is_equal("test")
+	assert_object(statements[1]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[1].get_event_name()).is_equal("second")
+	assert_object(statements[2]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[2].get_event_name()).is_equal("third")
+
+	var second_body: Array = statements[1].get_body().get_statements()
+	assert_int(second_body.size()).is_equal(0)
+
+
 func _load_fixture(name: String) -> String:
 	return FileAccess.get_file_as_string(_fixture_path(name))
 
