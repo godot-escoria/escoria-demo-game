@@ -1,0 +1,14 @@
+:test
+	global result = "start"
+	?!
+		- "Outer"
+			?!
+				- "Middle"
+					?!
+						- "Break out"
+							break 2
+					result = "after_inner"
+			result = "after_middle"
+		- "Exit outer"
+			break
+	result = result + "-done"

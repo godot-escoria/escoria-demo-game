@@ -1,0 +1,6 @@
+:test
+	global result = 0
+	?!
+		- "Stop"
+			stop
+	result = 1
