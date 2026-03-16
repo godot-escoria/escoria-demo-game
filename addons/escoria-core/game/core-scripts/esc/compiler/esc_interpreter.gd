@@ -346,6 +346,9 @@ func visit_while_stmt(stmt: ESCGrammarStmts.While):
 		if ret is ESCGrammarStmts.Break:
 			break
 
+		if _is_terminal_control_flow(ret):
+			return ret
+
 	return null
 
 
@@ -362,6 +365,13 @@ func visit_while_stmt(stmt: ESCGrammarStmts.While):
 ## Returns nothing.
 func visit_pass_stmt(stmt: ESCGrammarStmts.Pass):
 	pass
+
+
+func _is_terminal_control_flow(ret) -> bool:
+	return ret is ESCGrammarStmts.Stop \
+		or ret is ESCGrammarStmts.Done \
+		or ret is ESCBreakCounter \
+		or ret == ESCExecution.RC_INTERRUPTED
 
 
 ## Executes code relevant to interpreting a `stop` statement. Relevant only to dialogs.[br]
