@@ -26,6 +26,7 @@ var _locals: Dictionary = {}
 # Still, this should be tested extensively, and, if at all possible, with multiple
 # concurrent events running.
 var _current_event: ESCGrammarStmts.Event
+var _dialog_depth: int = 0
 
 # While most of the time we only run a single event at a time, it is possible for
 # multiple events to
@@ -440,6 +441,8 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 	var dialog: ESCDialog = ESCDialog.new()
 	var rc = ESCExecution.RC_OK
 
+	_dialog_depth += 1
+
 	while true:
 		dialog.options = []
 
@@ -477,14 +480,22 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 					else:
 						break_tracker.set_levels_left(0)
 
+					_dialog_depth -= 1
 					return break_tracker
 				elif execute_ret is ESCGrammarStmts.Done:
-					break
+					_dialog_depth -= 1
+
+					if _dialog_depth == 0:
+						return rc
+
+					return execute_ret
 				elif execute_ret is ESCBreakCounter:
 					if execute_ret.get_levels_left() > 0:
 						execute_ret.dec_levels_left()
+						_dialog_depth -= 1
 						return execute_ret
 
+	_dialog_depth -= 1
 	return rc
 
 

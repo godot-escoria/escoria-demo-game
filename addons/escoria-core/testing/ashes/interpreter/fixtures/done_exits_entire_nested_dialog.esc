@@ -1,0 +1,11 @@
+:test
+	global result = "start"
+	?!
+		- "Outer"
+			?!
+				- "Done"
+					done
+			result = "after_nested"
+		- "Exit outer"
+			break
+	result = result + "-done"
