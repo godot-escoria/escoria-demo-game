@@ -282,11 +282,12 @@ func _handle_builtin_function(fn_name: String, args: Array) -> int:
 
 	match fn_name:
 		'print':
-			if args.size() > 1:
+			if args.size() != 1:
 				escoria.logger.error(
 					self,
-					"'print' only takes one argument"
+					"'print' expects exactly one argument"
 				)
+				return rc
 
 			_print(args)
 			rc = ESCExecution.RC_OK

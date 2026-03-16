@@ -88,6 +88,33 @@ func test_invalid_numeric_comparison_does_not_succeed_silently() -> void:
 	interpreter.cleanup()
 
 
+func test_print_with_zero_arguments_does_not_native_crash() -> void:
+	# This fixture calls the builtin `print()` with zero arguments. The current
+	# implementation only rejects calls with more than one argument, so this
+	# test captures the actual runtime behavior before we decide on a fix.
+	var source := _load_fixture("print_zero_args.esc")
+	var compiler := ESCCompiler.new()
+	var scanner := ESCScanner.new()
+	scanner.set_source(source)
+	scanner.set_filename(_fixture_path("print_zero_args.esc"))
+
+	var tokens: Array = scanner.scan_tokens()
+	var parser := ESCParser.new()
+	parser.init(compiler, tokens, "")
+
+	var statements := parser.parse()
+	assert_bool(compiler.had_error).is_false()
+	assert_int(statements.size()).is_equal(1)
+
+	var interpreter := ESCInterpreter.new([], {})
+	var resolver := ESCResolver.new(interpreter)
+	resolver.resolve(statements)
+
+	await interpreter.interpret(statements)
+
+	interpreter.cleanup()
+
+
 func _load_fixture(name: String) -> String:
 	return FileAccess.get_file_as_string(_fixture_path(name))
 
