@@ -1,0 +1,10 @@
+:test
+	?!(1,
+		- "Option"
+			print("broken")
+
+:second
+	done
+
+:third
+	print("ok")
