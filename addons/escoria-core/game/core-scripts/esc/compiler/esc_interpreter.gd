@@ -473,12 +473,21 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 				)
 
 				if execute_ret is ESCGrammarStmts.Break:
-					var break_tracker: ESCBreakCounter = ESCBreakCounter.new()
-
+					var levels_left := 0
 					if execute_ret.get_levels():
-						break_tracker.set_levels_left(await _evaluate(execute_ret.get_levels()) - 1)
+						levels_left = await _evaluate(execute_ret.get_levels()) - 1
+
+					# A top-level dialog consumes `break` by concluding the current dialog.
+					if _dialog_depth == 1:
+						break
+
+					# Nested dialogs propagate explicit break state upward so parent
+					# dialog frames can decide whether to keep unwinding or resume.
+					var break_tracker: ESCBreakCounter = ESCBreakCounter.new()
+					if levels_left > 0:
+						break_tracker.set_levels_left(levels_left)
 					else:
-						break_tracker.set_levels_left(0)
+						break_tracker.mark_resume_parent_dialog()
 
 					_dialog_depth -= 1
 					return break_tracker
@@ -489,11 +498,28 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 						return rc
 
 					return execute_ret
+				elif execute_ret is ESCGrammarStmts.Stop:
+					# `stop` aborts the entire event, so dialog frames must pass it through.
+					_dialog_depth -= 1
+					return execute_ret
 				elif execute_ret is ESCBreakCounter:
-					if execute_ret.get_levels_left() > 0:
-						execute_ret.dec_levels_left()
+					if execute_ret.has_levels_left():
+						# Once the unwind reaches the top-most dialog, the remaining
+						# levels are consumed by concluding that dialog entirely.
+						if _dialog_depth == 1:
+							break
+
+						execute_ret.advance_up_one_level()
 						_dialog_depth -= 1
 						return execute_ret
+
+					if execute_ret.should_resume_parent_dialog():
+						# The requested dialog levels have been exited, so this frame
+						# resumes presenting its own options instead of concluding.
+						execute_ret.consume_parent_resume()
+						continue
+
+					break
 
 	_dialog_depth -= 1
 	return rc
@@ -891,6 +917,10 @@ func _execute_block(statements: Array, env: ESCEnvironment):
 		if ret is ESCGrammarStmts.Break \
 			or ret is ESCGrammarStmts.Done \
 			or ret is ESCGrammarStmts.Stop:
+			_environment = previous_env
+			return ret
+
+		if ret is ESCBreakCounter:
 			_environment = previous_env
 			return ret
 
