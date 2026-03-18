@@ -1,0 +1,9 @@
+:front_event
+	global channel_front_result = "start"
+	test_interruptible_set_global("channel_front_result", "front-cmd", "channel_front_was_interrupted", 0.2)
+	channel_front_result = channel_front_result + "-after"
+
+:background_event
+	global channel_background_result = "start"
+	test_interruptible_set_global("channel_background_result", "bg-cmd", "channel_background_was_interrupted", 0.2)
+	channel_background_result = channel_background_result + "-after"

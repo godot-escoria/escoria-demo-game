@@ -35,6 +35,7 @@ var _event_stack: Array = []
 var _builtin_functions: Array = [
 	"print"
 ]
+var _channel_name: String = ""
 
 
 func _init(callables: Array, globals: Dictionary):
@@ -76,6 +77,34 @@ func cleanup() -> void:
 ## Returns the dictionary containing any and all global variables. (`Dictionary`)
 func get_global_values() -> Dictionary:
 	return _globals.get_values()
+
+
+## Sets the event-manager channel this interpreter is executing on.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |channel_name|`String`|Name of the channel associated with this interpreter run.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
+func set_channel_name(channel_name: String) -> void:
+	_channel_name = channel_name
+
+
+## Gets the event-manager channel this interpreter is executing on.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the channel name associated with this interpreter run. (`String`)
+func get_channel_name() -> String:
+	return _channel_name
 
 
 ## Resets the interpreter, specifically any locally-scoped variables.[br]
@@ -262,6 +291,7 @@ func visit_call_expr(expr: ESCGrammarExprs.Call):
 	command.parameters = args
 	command.name = callee.get_command_name()
 	command.parser_token = expr.get_paren_token()
+	command.channel_name = _channel_name
 
 	var rc = ESCExecution.RC_OK
 

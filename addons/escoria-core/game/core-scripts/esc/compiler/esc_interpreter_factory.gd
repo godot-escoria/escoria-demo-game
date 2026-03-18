@@ -15,13 +15,13 @@ static var _interpreter: ESCInterpreter = null
 ## #### Returns[br]
 ## [br]
 ## Returns a `ESCInterpreter` value. (`ESCInterpreter`)
-static func create_interpreter() -> ESCInterpreter:
+static func create_interpreter(channel_name: String = "") -> ESCInterpreter:
 	if not _interpreter:
 		_interpreter = load("res://addons/escoria-core/game/core-scripts/esc/compiler/esc_interpreter.gd").new(ESCCompiler.load_commands(), ESCCompiler.load_globals())
-		return _interpreter
+	else:
+		_interpreter = load("res://addons/escoria-core/game/core-scripts/esc/compiler/esc_interpreter.gd").new([], _interpreter.get_global_values())
 
-	_interpreter = load("res://addons/escoria-core/game/core-scripts/esc/compiler/esc_interpreter.gd").new([], _interpreter.get_global_values())
-
+	_interpreter.set_channel_name(channel_name)
 	return _interpreter
 
 
