@@ -555,6 +555,41 @@ func test_concurrent_channels_complete_without_interrupting_each_other() -> void
 	escoria.event_manager.background_event_finished.disconnect(on_background_finished)
 
 
+func test_interrupting_channel_clears_queued_successor_events() -> void:
+	# Interrupting a channel should stop the currently running event and purge
+	# later queued events on that same channel before they ever start running.
+	var events := _load_fixture_events("channel_interrupt_clears_queue.esc")
+	assert_bool(events.has("first")).is_true()
+	assert_bool(events.has("second")).is_true()
+	escoria.globals_manager.set_global("bg_queue_result", "start")
+	escoria.globals_manager.set_global("bg_queue_interrupted", false)
+
+	var background_finishes: Array = []
+	var on_background_finished := func(return_code, event_name, finished_channel_name) -> void:
+		if finished_channel_name == "bg_test":
+			background_finishes.append([return_code, event_name, finished_channel_name])
+
+	escoria.event_manager.background_event_finished.connect(on_background_finished)
+
+	escoria.event_manager.queue_background_event("bg_test", events["first"])
+	escoria.event_manager.queue_background_event("bg_test", events["second"])
+
+	await escoria.get_tree().create_timer(0.05).timeout
+	escoria.event_manager.interrupt_channel("bg_test")
+
+	while background_finishes.is_empty():
+		await escoria.get_tree().process_frame
+
+	assert_int(background_finishes.size()).is_equal(1)
+	assert_int(int(background_finishes[0][0])).is_equal(ESCExecution.RC_INTERRUPTED)
+	assert_str(String(background_finishes[0][1])).is_equal("first")
+	assert_str(String(background_finishes[0][2])).is_equal("bg_test")
+	assert_str(String(escoria.globals_manager.get_global("bg_queue_result"))).is_equal("first")
+	assert_bool(escoria.globals_manager.get_global("bg_queue_interrupted") == true).is_true()
+
+	escoria.event_manager.background_event_finished.disconnect(on_background_finished)
+
+
 func test_immediate_command_preserves_statement_ordering() -> void:
 	# A synchronous command should complete before the next statement runs. The
 	# trailing assignment observes the command's mutation and appends to it.
