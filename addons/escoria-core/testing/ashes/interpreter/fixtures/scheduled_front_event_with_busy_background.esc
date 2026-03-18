@@ -1,0 +1,12 @@
+:front_running
+	global scheduled_front_result = "start"
+	test_interruptible_set_global("scheduled_front_result", "front-running", "scheduled_front_interrupted", 0.2)
+	scheduled_front_result = scheduled_front_result + "-after"
+
+:scheduled_front
+	scheduled_front_result = scheduled_front_result + "-scheduled"
+
+:background_running
+	global scheduled_background_result = "start"
+	test_interruptible_set_global("scheduled_background_result", "background-running", "scheduled_background_interrupted", 0.2)
+	scheduled_background_result = scheduled_background_result + "-after"
