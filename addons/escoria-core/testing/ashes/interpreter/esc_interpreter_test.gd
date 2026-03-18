@@ -697,6 +697,32 @@ func test_global_interrupt_stops_running_channels_and_clears_queues() -> void:
 	escoria.event_manager.background_event_finished.disconnect(on_background_finished)
 
 
+func test_queue_event_block_waits_for_correct_background_event_under_concurrency() -> void:
+	# Blocking queue_event waits must ignore unrelated background completions,
+	# including earlier events on the same channel, and return only when the
+	# specifically requested background event finishes.
+	var script_object := _compile_fixture_script("queue_event_block_waits_for_correct_background_event.esc")
+	assert_bool(script_object.events.has("background_first")).is_true()
+	assert_bool(script_object.events.has("background_target")).is_true()
+	assert_bool(script_object.events.has("front_event")).is_true()
+	escoria.globals_manager.set_global("block_wait_result", "start")
+	escoria.globals_manager.set_global("block_wait_front_result", "start")
+
+	escoria.event_manager.queue_background_event("bg_test", script_object.events["background_first"])
+	escoria.event_manager.queue_event(script_object.events["front_event"])
+
+	var block_rc: int = await escoria.event_manager.queue_event_from_esc(
+		script_object,
+		"background_target",
+		"bg_test",
+		true
+	)
+
+	assert_int(block_rc).is_equal(ESCExecution.RC_OK)
+	assert_str(String(escoria.globals_manager.get_global("block_wait_result"))).is_equal("first-target")
+	assert_str(String(escoria.globals_manager.get_global("block_wait_front_result"))).is_equal("front")
+
+
 func test_immediate_command_preserves_statement_ordering() -> void:
 	# A synchronous command should complete before the next statement runs. The
 	# trailing assignment observes the command's mutation and appends to it.
@@ -773,30 +799,16 @@ func _load_fixture(name: String) -> String:
 
 
 func _load_fixture_events(name: String) -> Dictionary:
+	var script_object := _compile_fixture_script(name)
+	return script_object.events
+
+
+func _compile_fixture_script(name: String) -> ESCScript:
 	var source := _load_fixture(name)
 	var compiler := ESCCompiler.new()
-	var scanner := ESCScanner.new()
-	scanner.set_source(source)
-	scanner.set_filename(_fixture_path(name))
-
-	var tokens: Array = scanner.scan_tokens()
-	var parser := ESCParser.new()
-	parser.init(compiler, tokens, "")
-
-	var statements := parser.parse()
+	var script_object := compiler.compile(source, _fixture_path(name))
 	assert_bool(compiler.had_error).is_false()
-
-	var interpreter := ESCInterpreter.new(ESCCompiler.load_commands(), {})
-	var resolver := ESCResolver.new(interpreter)
-	resolver.resolve(statements)
-	interpreter.cleanup()
-
-	var events := {}
-	for stmt in statements:
-		if stmt is ESCGrammarStmts.Event:
-			events[stmt.get_event_name()] = stmt
-
-	return events
+	return script_object
 
 
 func _fixture_path(name: String) -> String:
