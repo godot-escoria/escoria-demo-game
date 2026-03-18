@@ -17,3 +17,6 @@ docs/
 
 # Auto-generated gdUnit4 reports
 reports/
+
+# Auto-generated gdUnit4 runner discovery state
+addons/gdUnit4/GdUnitRunner.cfg
