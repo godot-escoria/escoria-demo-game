@@ -283,7 +283,7 @@ func queue_event_from_esc(script_object: ESCScript, event: String,
 			return rc[0]
 		else:
 			var rc = await self.background_event_finished
-			while rc[1] != event and rc[2] != channel:
+			while rc[1] != event or rc[2] != channel:
 				rc = await self.background_event_finished
 			return rc[0]
 
