@@ -53,6 +53,9 @@ func before() -> void:
 	# they disable terminate-on-error and install a test-only command directory.
 	# The dialog player is also replaced on demand by a deterministic test
 	# double so dialog execution can run headlessly.
+	ESCInterpreterFactory.reset_interpreter()
+	escoria.event_manager.interrupt([], false)
+	escoria.event_manager.clear_event_queue()
 	_terminate_on_errors_before = ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.TERMINATE_ON_ERRORS
 	)
@@ -80,6 +83,9 @@ func before() -> void:
 func after() -> void:
 	# Restore shared Escoria settings and globals so each test starts from the
 	# same baseline and does not leak command registry or dialog-player state.
+	ESCInterpreterFactory.reset_interpreter()
+	escoria.event_manager.interrupt([], false)
+	escoria.event_manager.clear_event_queue()
 	ESCProjectSettingsManager.set_setting(
 		ESCProjectSettingsManager.TERMINATE_ON_ERRORS,
 		_terminate_on_errors_before
@@ -454,6 +460,101 @@ func test_dialog_option_scope_shadowing_restores_outer_local() -> void:
 	assert_str(String(outcome.globals["result"])).is_equal("inner:outer")
 
 
+func test_interrupting_background_channel_does_not_interrupt_front_channel() -> void:
+	# Background-channel interruption should only affect commands running on
+	# that channel. The front event must still complete normally while the
+	# background event should finish as interrupted once its in-flight command
+	# observes the interrupt.
+	var events := _load_fixture_events("channel_interrupt_isolation.esc")
+	assert_bool(events.has("front_event")).is_true()
+	assert_bool(events.has("background_event")).is_true()
+	escoria.globals_manager.set_global("channel_front_result", "start")
+	escoria.globals_manager.set_global("channel_background_result", "start")
+	escoria.globals_manager.set_global("channel_front_was_interrupted", false)
+	escoria.globals_manager.set_global("channel_background_was_interrupted", false)
+
+	var signal_results := {
+		"front": null,
+		"background": null,
+	}
+	var on_front_finished := func(return_code, event_name) -> void:
+		if event_name == "front_event":
+			signal_results["front"] = [return_code, event_name]
+	var on_background_finished := func(return_code, event_name, finished_channel_name) -> void:
+		if event_name == "background_event" and finished_channel_name == "bg_test":
+			signal_results["background"] = [return_code, event_name, finished_channel_name]
+
+	escoria.event_manager.event_finished.connect(on_front_finished)
+	escoria.event_manager.background_event_finished.connect(on_background_finished)
+
+	escoria.event_manager.queue_event(events["front_event"])
+	escoria.event_manager.queue_background_event("bg_test", events["background_event"])
+
+	await escoria.get_tree().create_timer(0.05).timeout
+	escoria.event_manager.interrupt_channel("bg_test")
+
+	while signal_results["front"] == null or signal_results["background"] == null:
+		await escoria.get_tree().process_frame
+
+	var front_finished = signal_results["front"]
+	var background_finished = signal_results["background"]
+
+	assert_int(int(front_finished[0])).is_equal(ESCExecution.RC_OK)
+	assert_int(int(background_finished[0])).is_equal(ESCExecution.RC_INTERRUPTED)
+	assert_str(String(escoria.globals_manager.get_global("channel_front_result"))).is_equal("front-cmd-after")
+	assert_bool(escoria.globals_manager.get_global("channel_front_was_interrupted") == true).is_false()
+	assert_str(String(escoria.globals_manager.get_global("channel_background_result"))).is_equal("start")
+	assert_bool(escoria.globals_manager.get_global("channel_background_was_interrupted") == true).is_true()
+
+	escoria.event_manager.event_finished.disconnect(on_front_finished)
+	escoria.event_manager.background_event_finished.disconnect(on_background_finished)
+
+
+func test_concurrent_channels_complete_without_interrupting_each_other() -> void:
+	# Two events on different channels should be able to run at the same time
+	# and still complete normally when no interrupt is issued.
+	var events := _load_fixture_events("channel_interrupt_isolation.esc")
+	assert_bool(events.has("front_event")).is_true()
+	assert_bool(events.has("background_event")).is_true()
+	escoria.globals_manager.set_global("channel_front_result", "start")
+	escoria.globals_manager.set_global("channel_background_result", "start")
+	escoria.globals_manager.set_global("channel_front_was_interrupted", false)
+	escoria.globals_manager.set_global("channel_background_was_interrupted", false)
+
+	var signal_results := {
+		"front": null,
+		"background": null,
+	}
+	var on_front_finished := func(return_code, event_name) -> void:
+		if event_name == "front_event":
+			signal_results["front"] = [return_code, event_name]
+	var on_background_finished := func(return_code, event_name, finished_channel_name) -> void:
+		if event_name == "background_event" and finished_channel_name == "bg_test":
+			signal_results["background"] = [return_code, event_name, finished_channel_name]
+
+	escoria.event_manager.event_finished.connect(on_front_finished)
+	escoria.event_manager.background_event_finished.connect(on_background_finished)
+
+	escoria.event_manager.queue_event(events["front_event"])
+	escoria.event_manager.queue_background_event("bg_test", events["background_event"])
+
+	while signal_results["front"] == null or signal_results["background"] == null:
+		await escoria.get_tree().process_frame
+
+	var front_finished = signal_results["front"]
+	var background_finished = signal_results["background"]
+
+	assert_int(int(front_finished[0])).is_equal(ESCExecution.RC_OK)
+	assert_int(int(background_finished[0])).is_equal(ESCExecution.RC_OK)
+	assert_str(String(escoria.globals_manager.get_global("channel_front_result"))).is_equal("front-cmd-after")
+	assert_bool(escoria.globals_manager.get_global("channel_front_was_interrupted") == true).is_false()
+	assert_str(String(escoria.globals_manager.get_global("channel_background_result"))).is_equal("bg-cmd-after")
+	assert_bool(escoria.globals_manager.get_global("channel_background_was_interrupted") == true).is_false()
+
+	escoria.event_manager.event_finished.disconnect(on_front_finished)
+	escoria.event_manager.background_event_finished.disconnect(on_background_finished)
+
+
 func test_immediate_command_preserves_statement_ordering() -> void:
 	# A synchronous command should complete before the next statement runs. The
 	# trailing assignment observes the command's mutation and appends to it.
@@ -527,6 +628,33 @@ func _interpret_fixture(name: String, dialog_choices: Array = []) -> Dictionary:
 
 func _load_fixture(name: String) -> String:
 	return FileAccess.get_file_as_string(_fixture_path(name))
+
+
+func _load_fixture_events(name: String) -> Dictionary:
+	var source := _load_fixture(name)
+	var compiler := ESCCompiler.new()
+	var scanner := ESCScanner.new()
+	scanner.set_source(source)
+	scanner.set_filename(_fixture_path(name))
+
+	var tokens: Array = scanner.scan_tokens()
+	var parser := ESCParser.new()
+	parser.init(compiler, tokens, "")
+
+	var statements := parser.parse()
+	assert_bool(compiler.had_error).is_false()
+
+	var interpreter := ESCInterpreter.new(ESCCompiler.load_commands(), {})
+	var resolver := ESCResolver.new(interpreter)
+	resolver.resolve(statements)
+	interpreter.cleanup()
+
+	var events := {}
+	for stmt in statements:
+		if stmt is ESCGrammarStmts.Event:
+			events[stmt.get_event_name()] = stmt
+
+	return events
 
 
 func _fixture_path(name: String) -> String:
