@@ -1,0 +1,15 @@
+:front_running
+	global global_interrupt_front_result = "start"
+	test_interruptible_set_global("global_interrupt_front_result", "front-cmd", "global_interrupt_front_was_interrupted", 0.2)
+	global_interrupt_front_result = global_interrupt_front_result + "-after"
+
+:front_queued
+	global_interrupt_front_result = "front-queued"
+
+:background_running
+	global global_interrupt_background_result = "start"
+	test_interruptible_set_global("global_interrupt_background_result", "bg-cmd", "global_interrupt_background_was_interrupted", 0.2)
+	global_interrupt_background_result = global_interrupt_background_result + "-after"
+
+:background_queued
+	global_interrupt_background_result = "bg-queued"
