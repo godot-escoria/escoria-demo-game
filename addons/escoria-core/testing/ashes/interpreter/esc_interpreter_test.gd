@@ -603,14 +603,16 @@ func test_concurrent_channels_do_not_block_other_channel_queues() -> void:
 	escoria.globals_manager.set_global("isolated_front_interrupted", false)
 	escoria.globals_manager.set_global("isolated_background_interrupted", false)
 
-	var front_finished = null
-	var background_finishes: Array = []
+	var signal_results := {
+		"front": null,
+		"background_finishes": [],
+	}
 	var on_front_finished := func(return_code, event_name) -> void:
 		if event_name == "front_event":
-			front_finished = [return_code, event_name]
+			signal_results["front"] = [return_code, event_name]
 	var on_background_finished := func(return_code, event_name, finished_channel_name) -> void:
 		if finished_channel_name == "bg_test":
-			background_finishes.append([return_code, event_name, finished_channel_name])
+			signal_results["background_finishes"].append([return_code, event_name, finished_channel_name])
 
 	escoria.event_manager.event_finished.connect(on_front_finished)
 	escoria.event_manager.background_event_finished.connect(on_background_finished)
@@ -619,8 +621,11 @@ func test_concurrent_channels_do_not_block_other_channel_queues() -> void:
 	escoria.event_manager.queue_background_event("bg_test", events["background_first"])
 	escoria.event_manager.queue_background_event("bg_test", events["background_second"])
 
-	while front_finished == null or background_finishes.size() < 2:
+	while signal_results["front"] == null or signal_results["background_finishes"].size() < 2:
 		await escoria.get_tree().process_frame
+
+	var front_finished = signal_results["front"]
+	var background_finishes: Array = signal_results["background_finishes"]
 
 	assert_int(int(front_finished[0])).is_equal(ESCExecution.RC_OK)
 	assert_int(int(background_finishes[0][0])).is_equal(ESCExecution.RC_OK)
