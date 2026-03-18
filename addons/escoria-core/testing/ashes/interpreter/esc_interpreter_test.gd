@@ -590,6 +590,52 @@ func test_interrupting_channel_clears_queued_successor_events() -> void:
 	escoria.event_manager.background_event_finished.disconnect(on_background_finished)
 
 
+func test_concurrent_channels_do_not_block_other_channel_queues() -> void:
+	# Each channel should serialize only its own queue. A front-channel event
+	# must complete independently while a background channel works through two
+	# queued events in order.
+	var events := _load_fixture_events("channel_queue_progress_isolated.esc")
+	assert_bool(events.has("front_event")).is_true()
+	assert_bool(events.has("background_first")).is_true()
+	assert_bool(events.has("background_second")).is_true()
+	escoria.globals_manager.set_global("isolated_front_result", "start")
+	escoria.globals_manager.set_global("isolated_background_result", "start")
+	escoria.globals_manager.set_global("isolated_front_interrupted", false)
+	escoria.globals_manager.set_global("isolated_background_interrupted", false)
+
+	var front_finished = null
+	var background_finishes: Array = []
+	var on_front_finished := func(return_code, event_name) -> void:
+		if event_name == "front_event":
+			front_finished = [return_code, event_name]
+	var on_background_finished := func(return_code, event_name, finished_channel_name) -> void:
+		if finished_channel_name == "bg_test":
+			background_finishes.append([return_code, event_name, finished_channel_name])
+
+	escoria.event_manager.event_finished.connect(on_front_finished)
+	escoria.event_manager.background_event_finished.connect(on_background_finished)
+
+	escoria.event_manager.queue_event(events["front_event"])
+	escoria.event_manager.queue_background_event("bg_test", events["background_first"])
+	escoria.event_manager.queue_background_event("bg_test", events["background_second"])
+
+	while front_finished == null or background_finishes.size() < 2:
+		await escoria.get_tree().process_frame
+
+	assert_int(int(front_finished[0])).is_equal(ESCExecution.RC_OK)
+	assert_int(int(background_finishes[0][0])).is_equal(ESCExecution.RC_OK)
+	assert_str(String(background_finishes[0][1])).is_equal("background_first")
+	assert_int(int(background_finishes[1][0])).is_equal(ESCExecution.RC_OK)
+	assert_str(String(background_finishes[1][1])).is_equal("background_second")
+	assert_str(String(escoria.globals_manager.get_global("isolated_front_result"))).is_equal("front-cmd-after")
+	assert_bool(escoria.globals_manager.get_global("isolated_front_interrupted") == true).is_false()
+	assert_str(String(escoria.globals_manager.get_global("isolated_background_result"))).is_equal("first-cmd-after-first-second")
+	assert_bool(escoria.globals_manager.get_global("isolated_background_interrupted") == true).is_false()
+
+	escoria.event_manager.event_finished.disconnect(on_front_finished)
+	escoria.event_manager.background_event_finished.disconnect(on_background_finished)
+
+
 func test_immediate_command_preserves_statement_ordering() -> void:
 	# A synchronous command should complete before the next statement runs. The
 	# trailing assignment observes the command's mutation and appends to it.
