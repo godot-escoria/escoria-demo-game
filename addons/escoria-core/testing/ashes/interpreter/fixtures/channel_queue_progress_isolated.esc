@@ -1,0 +1,12 @@
+:front_event
+	global isolated_front_result = "start"
+	test_interruptible_set_global("isolated_front_result", "front-cmd", "isolated_front_interrupted", 0.2)
+	isolated_front_result = isolated_front_result + "-after"
+
+:background_first
+	global isolated_background_result = "start"
+	test_interruptible_set_global("isolated_background_result", "first-cmd", "isolated_background_interrupted", 0.2)
+	isolated_background_result = isolated_background_result + "-after-first"
+
+:background_second
+	isolated_background_result = isolated_background_result + "-second"
