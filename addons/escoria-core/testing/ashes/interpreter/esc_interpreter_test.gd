@@ -723,6 +723,63 @@ func test_queue_event_block_waits_for_correct_background_event_under_concurrency
 	assert_str(String(escoria.globals_manager.get_global("block_wait_front_result"))).is_equal("front")
 
 
+func test_global_interrupt_preserves_exception_events() -> void:
+	# `interrupt(exceptions=...)` should leave only the named running and queued
+	# events alive. Here the front running event and one queued background event
+	# are excepted, while the other front/background events must be cleared.
+	var events := _load_fixture_events("global_interrupt_preserves_exceptions.esc")
+	assert_bool(events.has("front_keep")).is_true()
+	assert_bool(events.has("front_drop")).is_true()
+	assert_bool(events.has("background_drop")).is_true()
+	assert_bool(events.has("background_keep")).is_true()
+	escoria.globals_manager.set_global("interrupt_except_front_result", "start")
+	escoria.globals_manager.set_global("interrupt_except_front_interrupted", false)
+	escoria.globals_manager.set_global("interrupt_except_background_result", "start")
+	escoria.globals_manager.set_global("interrupt_except_background_interrupted", false)
+	escoria.globals_manager.set_global("interrupt_except_background_keep_result", "start")
+
+	var signal_results := {
+		"front_finishes": [],
+		"background_finishes": [],
+	}
+	var on_front_finished := func(return_code, event_name) -> void:
+		signal_results["front_finishes"].append([return_code, event_name])
+	var on_background_finished := func(return_code, event_name, finished_channel_name) -> void:
+		if finished_channel_name == "bg_test":
+			signal_results["background_finishes"].append([return_code, event_name, finished_channel_name])
+
+	escoria.event_manager.event_finished.connect(on_front_finished)
+	escoria.event_manager.background_event_finished.connect(on_background_finished)
+
+	escoria.event_manager.queue_event(events["front_keep"])
+	escoria.event_manager.queue_event(events["front_drop"])
+	escoria.event_manager.queue_background_event("bg_test", events["background_drop"])
+	escoria.event_manager.queue_background_event("bg_test", events["background_keep"])
+
+	await escoria.get_tree().create_timer(0.05).timeout
+	escoria.event_manager.interrupt(PackedStringArray(["front_keep", "background_keep"]))
+
+	while signal_results["front_finishes"].is_empty() or signal_results["background_finishes"].size() < 2:
+		await escoria.get_tree().process_frame
+
+	assert_int(signal_results["front_finishes"].size()).is_equal(1)
+	assert_int(int(signal_results["front_finishes"][0][0])).is_equal(ESCExecution.RC_OK)
+	assert_str(String(signal_results["front_finishes"][0][1])).is_equal("front_keep")
+	assert_int(signal_results["background_finishes"].size()).is_equal(2)
+	assert_int(int(signal_results["background_finishes"][0][0])).is_equal(ESCExecution.RC_INTERRUPTED)
+	assert_str(String(signal_results["background_finishes"][0][1])).is_equal("background_drop")
+	assert_int(int(signal_results["background_finishes"][1][0])).is_equal(ESCExecution.RC_OK)
+	assert_str(String(signal_results["background_finishes"][1][1])).is_equal("background_keep")
+	assert_str(String(escoria.globals_manager.get_global("interrupt_except_front_result"))).is_equal("front-cmd-after")
+	assert_bool(escoria.globals_manager.get_global("interrupt_except_front_interrupted") == true).is_false()
+	assert_str(String(escoria.globals_manager.get_global("interrupt_except_background_result"))).is_equal("start")
+	assert_bool(escoria.globals_manager.get_global("interrupt_except_background_interrupted") == true).is_true()
+	assert_str(String(escoria.globals_manager.get_global("interrupt_except_background_keep_result"))).is_equal("bg-keep-after")
+
+	escoria.event_manager.event_finished.disconnect(on_front_finished)
+	escoria.event_manager.background_event_finished.disconnect(on_background_finished)
+
+
 func test_immediate_command_preserves_statement_ordering() -> void:
 	# A synchronous command should complete before the next statement runs. The
 	# trailing assignment observes the command's mutation and appends to it.

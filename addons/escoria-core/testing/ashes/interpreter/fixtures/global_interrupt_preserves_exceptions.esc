@@ -1,0 +1,17 @@
+:front_keep
+	global interrupt_except_front_result = "start"
+	test_interruptible_set_global("interrupt_except_front_result", "front-cmd", "interrupt_except_front_interrupted", 0.2)
+	interrupt_except_front_result = interrupt_except_front_result + "-after"
+
+:front_drop
+	interrupt_except_front_result = "front-drop"
+
+:background_drop
+	global interrupt_except_background_result = "start"
+	test_interruptible_set_global("interrupt_except_background_result", "bg-drop", "interrupt_except_background_interrupted", 0.2)
+	interrupt_except_background_result = interrupt_except_background_result + "-after"
+
+:background_keep
+	global interrupt_except_background_keep_result = "start"
+	test_delayed_set_global("interrupt_except_background_keep_result", "bg-keep", 0.01)
+	interrupt_except_background_keep_result = interrupt_except_background_keep_result + "-after"
