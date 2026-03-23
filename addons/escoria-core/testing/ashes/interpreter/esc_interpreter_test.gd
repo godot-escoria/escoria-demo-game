@@ -830,6 +830,45 @@ func test_scheduled_front_event_runs_after_current_front_event_while_background_
 	escoria.event_manager.background_event_finished.disconnect(on_background_finished)
 
 
+func test_global_interrupt_preserves_scheduled_events_before_dispatch() -> void:
+	# Global interrupt should stop the currently running event, but it should
+	# not clear scheduled events that have not yet been promoted into the front
+	# queue. The scheduled front event should therefore still dispatch and
+	# complete normally after the interrupted event finishes.
+	var events := _load_fixture_events("scheduled_event_interrupted_before_dispatch.esc")
+	assert_bool(events.has("front_running")).is_true()
+	assert_bool(events.has("scheduled_front")).is_true()
+	escoria.globals_manager.set_global("scheduled_interrupt_result", "start")
+	escoria.globals_manager.set_global("scheduled_interrupt_was_interrupted", false)
+
+	var front_finishes: Array = []
+	var on_front_finished := func(return_code, event_name) -> void:
+		front_finishes.append([return_code, event_name])
+
+	escoria.event_manager.event_finished.connect(on_front_finished)
+
+	escoria.event_manager.queue_event(events["front_running"])
+	escoria.event_manager.schedule_event(events["scheduled_front"], 0.2, "")
+
+	await escoria.get_tree().create_timer(0.05).timeout
+	escoria.event_manager.interrupt()
+
+	while front_finishes.is_empty():
+		await escoria.get_tree().process_frame
+
+	await escoria.get_tree().create_timer(0.25).timeout
+
+	assert_int(front_finishes.size()).is_equal(2)
+	assert_int(int(front_finishes[0][0])).is_equal(ESCExecution.RC_INTERRUPTED)
+	assert_str(String(front_finishes[0][1])).is_equal("front_running")
+	assert_int(int(front_finishes[1][0])).is_equal(ESCExecution.RC_OK)
+	assert_str(String(front_finishes[1][1])).is_equal("scheduled_front")
+	assert_str(String(escoria.globals_manager.get_global("scheduled_interrupt_result"))).is_equal("start-scheduled")
+	assert_bool(escoria.globals_manager.get_global("scheduled_interrupt_was_interrupted") == true).is_true()
+
+	escoria.event_manager.event_finished.disconnect(on_front_finished)
+
+
 func test_immediate_command_preserves_statement_ordering() -> void:
 	# A synchronous command should complete before the next statement runs. The
 	# trailing assignment observes the command's mutation and appends to it.
