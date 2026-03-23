@@ -723,6 +723,32 @@ func test_queue_event_block_waits_for_correct_background_event_under_concurrency
 	assert_str(String(escoria.globals_manager.get_global("block_wait_front_result"))).is_equal("front")
 
 
+func test_queue_event_block_waits_for_correct_front_event_under_concurrency() -> void:
+	# Blocking front queue_event waits must ignore both background completions
+	# and earlier foreground events, returning only when the specifically
+	# requested front event finishes.
+	var script_object := _compile_fixture_script("queue_event_block_waits_for_correct_front_event.esc")
+	assert_bool(script_object.events.has("front_first")).is_true()
+	assert_bool(script_object.events.has("front_target")).is_true()
+	assert_bool(script_object.events.has("background_event")).is_true()
+	escoria.globals_manager.set_global("front_block_wait_result", "start")
+	escoria.globals_manager.set_global("front_block_wait_background_result", "start")
+
+	escoria.event_manager.queue_event(script_object.events["front_first"])
+	escoria.event_manager.queue_background_event("bg_test", script_object.events["background_event"])
+
+	var block_rc: int = await escoria.event_manager.queue_event_from_esc(
+		script_object,
+		"front_target",
+		"_front",
+		true
+	)
+
+	assert_int(block_rc).is_equal(ESCExecution.RC_OK)
+	assert_str(String(escoria.globals_manager.get_global("front_block_wait_result"))).is_equal("first-target")
+	assert_str(String(escoria.globals_manager.get_global("front_block_wait_background_result"))).is_equal("background")
+
+
 func test_global_interrupt_preserves_exception_events() -> void:
 	# `interrupt(exceptions=...)` should leave only the named running and queued
 	# events alive. Here the front running event and one queued background event

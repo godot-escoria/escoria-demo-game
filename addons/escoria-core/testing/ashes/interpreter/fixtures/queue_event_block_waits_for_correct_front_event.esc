@@ -1,0 +1,10 @@
+:front_first
+	global front_block_wait_result = "start"
+	test_delayed_set_global("front_block_wait_result", "first", 0.05)
+
+:front_target
+	test_delayed_set_global("front_block_wait_result", "first-target", 0.2)
+
+:background_event
+	global front_block_wait_background_result = "start"
+	test_delayed_set_global("front_block_wait_background_result", "background", 0.01)
