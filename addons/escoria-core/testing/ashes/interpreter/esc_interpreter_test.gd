@@ -869,6 +869,35 @@ func test_global_interrupt_preserves_scheduled_events_before_dispatch() -> void:
 	escoria.event_manager.event_finished.disconnect(on_front_finished)
 
 
+func test_clear_event_queue_preserves_scheduled_events() -> void:
+	# Clearing the event queue should only remove events that are already queued
+	# for execution. Scheduled events live in a separate list until `_process()`
+	# promotes them into the front queue, so they should still dispatch after
+	# `clear_event_queue()` is called.
+	var events := _load_fixture_events("scheduled_event_interrupted_before_dispatch.esc")
+	assert_bool(events.has("scheduled_front")).is_true()
+	escoria.globals_manager.set_global("scheduled_interrupt_result", "start")
+
+	var front_finishes: Array = []
+	var on_front_finished := func(return_code, event_name) -> void:
+		front_finishes.append([return_code, event_name])
+
+	escoria.event_manager.event_finished.connect(on_front_finished)
+
+	escoria.event_manager.schedule_event(events["scheduled_front"], 0.05, "")
+	escoria.event_manager.clear_event_queue()
+
+	while front_finishes.is_empty():
+		await escoria.get_tree().process_frame
+
+	assert_int(front_finishes.size()).is_equal(1)
+	assert_int(int(front_finishes[0][0])).is_equal(ESCExecution.RC_OK)
+	assert_str(String(front_finishes[0][1])).is_equal("scheduled_front")
+	assert_str(String(escoria.globals_manager.get_global("scheduled_interrupt_result"))).is_equal("start-scheduled")
+
+	escoria.event_manager.event_finished.disconnect(on_front_finished)
+
+
 func test_immediate_command_preserves_statement_ordering() -> void:
 	# A synchronous command should complete before the next statement runs. The
 	# trailing assignment observes the command's mutation and appends to it.
