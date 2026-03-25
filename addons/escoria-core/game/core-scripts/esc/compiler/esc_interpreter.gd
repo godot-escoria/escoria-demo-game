@@ -526,6 +526,14 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 					"Chosen dialog option (%s) was completed." % chosen_option
 				)
 
+				# Dialog frames must propagate terminal runtime errors the same
+				# way normal blocks do. Otherwise an invalid command or similar
+				# failure inside an option body is treated like normal completion
+				# and the dialog loop re-displays the same options indefinitely.
+				if typeof(execute_ret) == TYPE_INT and execute_ret == ESCExecution.RC_ERROR:
+					_dialog_depth -= 1
+					return ESCExecution.RC_ERROR
+
 				# An interruption can happen while the chosen option body is still
 				# running, so check again after it returns before processing normal
 				# dialog control flow like `break`, `done`, or `stop`.
