@@ -448,6 +448,27 @@ func test_invalid_command_does_not_continue_event() -> void:
 	assert_str(String(outcome.globals["result"])).is_equal("start")
 
 
+func test_invalid_command_in_dialog_does_not_continue_event() -> void:
+	# A missing command inside a dialog option should still terminate the event
+	# cleanly. The assignment after the dialog must not run.
+	var outcome := await _interpret_fixture(
+		"invalid_command_in_dialog_stops_event.esc",
+		[0]
+	)
+	assert_bool(outcome.globals.has("result")).is_true()
+	assert_str(String(outcome.globals["result"])).is_equal("start")
+
+
+func test_invalid_command_in_loop_does_not_continue_event() -> void:
+	# A missing command inside a loop body should escape the loop as a terminal
+	# runtime error instead of allowing later loop or post-loop statements to run.
+	var outcome := await _interpret_fixture("invalid_command_in_loop_stops_event.esc")
+	assert_bool(outcome.globals.has("result")).is_true()
+	assert_str(String(outcome.globals["result"])).is_equal("start")
+	assert_bool(outcome.globals.has("count")).is_true()
+	assert_float(float(outcome.globals["count"])).is_equal(0.0)
+
+
 func test_dialog_option_scope_shadowing_restores_outer_local() -> void:
 	# A dialog option body introduces nested block scope. Assignments inside the
 	# option should see the inner shadowing variable, while execution after the
