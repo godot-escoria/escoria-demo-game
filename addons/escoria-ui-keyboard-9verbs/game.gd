@@ -170,7 +170,7 @@ func element_focused(element_id: String) -> void:
 		ESCActionManager.ActionInputState.AWAITING_VERB_OR_ITEM, \
 		ESCActionManager.ActionInputState.AWAITING_ITEM:
 			tooltip.set_target(target_obj.tooltip_name)
-
+			verbs_menu.set_by_name(target_obj.default_action)
 		ESCActionManager.ActionInputState.AWAITING_TARGET_ITEM:
 			tooltip.set_target2(target_obj.tooltip_name)
 
@@ -227,7 +227,16 @@ func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
 
 
 func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
-	escoria.action_manager.set_current_action(verbs_menu.selected_action)
+	var action_verb: String = verbs_menu.selected_action
+	if action_verb.is_empty(): 
+		action_verb = escoria.object_manager.get_object(item_global_id).node.default_action
+	if action_verb.is_empty():
+		escoria.logger.warn(
+			self,
+			"Right click event: No default action verb defined for item %s. Aborting." % [item_global_id]
+		)
+		return
+	escoria.action_manager.set_current_action(action_verb)
 	escoria.action_manager.do(
 		escoria.action_manager.ACTION.ITEM_RIGHT_CLICK,
 		[item_global_id, event],
