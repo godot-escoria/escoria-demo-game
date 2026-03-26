@@ -242,7 +242,7 @@ func set_action_input_state(p_state) -> void:
 	action_input_state_changed.emit()
 
 
-## Sets the current action verb. ## Parameters[br]
+## Sets the current action verb.
 ## [br]
 ## #### Parameters[br]
 ## [br]
