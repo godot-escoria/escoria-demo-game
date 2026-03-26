@@ -5,7 +5,7 @@ This script is out of Escoria's scope. It controls the UI reaction to an
 UI event (eg right click) to change the cursor accordingly.
 """
 
-var selected_action
+var selected_action: String
 
 func _ready():
 	for but in get_children():
