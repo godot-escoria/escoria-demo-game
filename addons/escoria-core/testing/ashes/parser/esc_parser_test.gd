@@ -372,6 +372,30 @@ func test_blank_lines_in_nested_blocks_do_not_break_later_events() -> void:
 	assert_str(statements[1].get_event_name()).is_equal("second")
 
 
+func test_blank_lines_before_dedent_do_not_hide_block_termination() -> void:
+	# Blank lines immediately before a block-closing dedent should not be eaten
+	# in a way that hides the dedent from `_block()`. The outer statement after
+	# the nested block, plus the later top-level event, must still parse.
+	var source := _load_fixture("blank_lines_before_dedent.esc")
+	var compiler := ESCCompiler.new()
+	var scanner := ESCScanner.new()
+	scanner.set_source(source)
+	scanner.set_filename(_fixture_path("blank_lines_before_dedent.esc"))
+
+	var tokens: Array = scanner.scan_tokens()
+	var parser := ESCParser.new()
+	parser.init(compiler, tokens, "")
+	var statements := parser.parse()
+
+	assert_bool(compiler.had_error).is_false()
+	assert_int(statements.size()).is_equal(2)
+	assert_object(statements[0]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[0].get_event_name()).is_equal("test")
+	assert_object(statements[1]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[1].get_event_name()).is_equal("second")
+	assert_int(statements[0].get_num_statements_in_block()).is_equal(2)
+
+
 func _load_fixture(name: String) -> String:
 	return FileAccess.get_file_as_string(_fixture_path(name))
 
