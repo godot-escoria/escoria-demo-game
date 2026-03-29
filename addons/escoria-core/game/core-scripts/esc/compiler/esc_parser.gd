@@ -842,7 +842,13 @@ func _primary():
 		if expr is ESCParseError:
 			return expr
 
-		_consume(ESCTokenType.TokenType.RIGHT_PAREN, "Expect ')' after expression.")
+		var paren = _consume(
+			ESCTokenType.TokenType.RIGHT_PAREN,
+			"Expect ')' after expression."
+		)
+
+		if paren is ESCParseError:
+			return paren
 
 		var ret = ESCGrammarExprs.Grouping.new()
 		ret.init(expr)
