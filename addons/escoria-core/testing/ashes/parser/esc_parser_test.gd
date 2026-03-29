@@ -298,6 +298,80 @@ func test_happy_path_full_language_fixture_parses_without_errors() -> void:
 	assert_int(statements[1].get_num_statements_in_block()).is_equal(3)
 
 
+func test_keyword_prefixed_names_scan_as_identifiers() -> void:
+	# ASHES keywords should only match on exact identifier text. Names that
+	# merely start with keyword text must still scan as ordinary identifiers.
+	var source := _load_fixture("identifier_keyword_prefixes.esc")
+	var compiler := ESCCompiler.new()
+	var scanner := ESCScanner.new()
+	scanner.set_source(source)
+	scanner.set_filename(_fixture_path("identifier_keyword_prefixes.esc"))
+
+	var tokens: Array = scanner.scan_tokens()
+	var parser := ESCParser.new()
+	parser.init(compiler, tokens, "")
+	var statements := parser.parse()
+
+	assert_bool(compiler.had_error).is_false()
+	assert_int(_find_token_index(tokens, ESCTokenType.TokenType.IDENTIFIER, "breakfast")).is_greater_equal(0)
+	assert_int(_find_token_index(tokens, ESCTokenType.TokenType.IDENTIFIER, "donee")).is_greater_equal(0)
+	assert_int(_find_token_index(tokens, ESCTokenType.TokenType.IDENTIFIER, "elseify")).is_greater_equal(0)
+	assert_int(_find_token_index(tokens, ESCTokenType.TokenType.IDENTIFIER, "notable")).is_greater_equal(0)
+	assert_int(_find_token_index(tokens, ESCTokenType.TokenType.BREAK, "break")).is_equal(-1)
+	assert_int(_find_token_index(tokens, ESCTokenType.TokenType.DONE, "done")).is_equal(-1)
+	assert_int(_find_token_index(tokens, ESCTokenType.TokenType.ELSE, "else")).is_equal(-1)
+	assert_int(_find_token_index(tokens, ESCTokenType.TokenType.NOT, "not")).is_equal(-1)
+	assert_int(statements.size()).is_equal(1)
+	assert_object(statements[0]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[0].get_event_name()).is_equal("test")
+
+
+func test_hyphenated_global_identifier_scans_as_single_identifier() -> void:
+	# `$`-prefixed global-ID shorthand may contain hyphens, but ordinary `-`
+	# characters must still scan as subtraction operators outside that prefix.
+	var source := _load_fixture("hyphenated_global_identifier.esc")
+	var compiler := ESCCompiler.new()
+	var scanner := ESCScanner.new()
+	scanner.set_source(source)
+	scanner.set_filename(_fixture_path("hyphenated_global_identifier.esc"))
+
+	var tokens: Array = scanner.scan_tokens()
+	var parser := ESCParser.new()
+	parser.init(compiler, tokens, "")
+	var statements := parser.parse()
+
+	assert_bool(compiler.had_error).is_false()
+	assert_int(_find_token_index(tokens, ESCTokenType.TokenType.IDENTIFIER, "$closet-door")).is_greater_equal(0)
+	assert_int(_find_token_index(tokens, ESCTokenType.TokenType.MINUS, "-")).is_greater_equal(0)
+	assert_int(_find_token_index(tokens, ESCTokenType.TokenType.NUMBER, "1")).is_greater_equal(0)
+	assert_int(statements.size()).is_equal(1)
+	assert_object(statements[0]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[0].get_event_name()).is_equal("test")
+
+
+func test_blank_lines_in_nested_blocks_do_not_break_later_events() -> void:
+	# Blank lines inside nested blocks should not corrupt INDENT/DEDENT handling.
+	# The parser must still recover the later top-level event after the nested
+	# block ends.
+	var source := _load_fixture("blank_lines_in_nested_blocks.esc")
+	var compiler := ESCCompiler.new()
+	var scanner := ESCScanner.new()
+	scanner.set_source(source)
+	scanner.set_filename(_fixture_path("blank_lines_in_nested_blocks.esc"))
+
+	var tokens: Array = scanner.scan_tokens()
+	var parser := ESCParser.new()
+	parser.init(compiler, tokens, "")
+	var statements := parser.parse()
+
+	assert_bool(compiler.had_error).is_false()
+	assert_int(statements.size()).is_equal(2)
+	assert_object(statements[0]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[0].get_event_name()).is_equal("test")
+	assert_object(statements[1]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[1].get_event_name()).is_equal("second")
+
+
 func _load_fixture(name: String) -> String:
 	return FileAccess.get_file_as_string(_fixture_path(name))
 

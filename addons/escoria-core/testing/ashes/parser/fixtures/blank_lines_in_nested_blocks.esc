@@ -1,0 +1,11 @@
+:test
+	if true:
+		var value = 1
+
+		if true:
+			print(value)
+
+		print("done")
+
+:second
+	print("ok")
