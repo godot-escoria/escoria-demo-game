@@ -1,0 +1,2 @@
+disable:
+  - max-line-length
