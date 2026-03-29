@@ -552,16 +552,16 @@ func _assignment():
 		if value is ESCParseError:
 			return value
 
-			if expr is ESCGrammarExprs.Variable:
-				var name = expr.get_name()
-				var ret = ESCGrammarExprs.Assign.new()
-				ret.init(name, value)
-				return ret
+		if expr is ESCGrammarExprs.Variable:
+			var name = expr.get_name()
+			var ret = ESCGrammarExprs.Assign.new()
+			ret.init(name, value)
+			return ret
 
-			if expr is ESCGrammarExprs.Get:
-				var ret = ESCGrammarExprs.Set.new()
-				ret.init(expr.get_object(), expr.get_name(), value)
-				return ret
+		if expr is ESCGrammarExprs.Get:
+			var ret = ESCGrammarExprs.Set.new()
+			ret.init(expr.get_object(), expr.get_name(), value)
+			return ret
 
 		return _error(equals, "Invalid assignment type.")
 
