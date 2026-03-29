@@ -1,0 +1,7 @@
+:first
+	global bg_queue_result = "first"
+	test_interruptible_set_global("bg_queue_result", "running", "bg_queue_interrupted", 0.2)
+	bg_queue_result = bg_queue_result + "-after"
+
+:second
+	bg_queue_result = "second"

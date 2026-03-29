@@ -1,0 +1,6 @@
+:test
+	global result = "start"
+	?!
+		- "Break it"
+			missing_command()
+	result = result + "-after"

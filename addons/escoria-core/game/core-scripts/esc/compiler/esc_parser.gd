@@ -4,8 +4,8 @@
 ## Note that the vast majority of this class consists of (effectively) private methods
 ## in order to facilitate encapsulation, but if you're interested in how the parser
 ## is implemented, [check out the class in GitHub](https://github.com/godot-escoria/escoria-demo-game/blob/main/addons/escoria-core/game/core-scripts/esc/compiler/esc_interpreter.gd)
-extends RefCounted
 class_name ESCParser
+extends RefCounted
 
 
 var _tokens: Array
@@ -52,48 +52,56 @@ func parse() -> Array:
 	var statements: Array = []
 
 	while not _at_end():
-		statements.append(_declaration())
+		var declaration = _declaration()
+		if declaration != null:
+			statements.append(declaration)
 
 	return statements
 
 
 func _declaration() -> ESCGrammarStmt:
-	var retStmt
+	while _match(ESCTokenType.TokenType.NEWLINE) or _match(ESCTokenType.TokenType.DEDENT):
+		pass
+
+	if _at_end():
+		return null
+
+	var ret_stmt
 
 	if _match(ESCTokenType.TokenType.COLON):
-		retStmt = _event_declaration()
+		ret_stmt = _event_declaration()
 
-		if retStmt is ESCParseError:
+		if ret_stmt is ESCParseError:
 			_synchronize()
 			return null
-		else:
-			return retStmt
+
+		return ret_stmt
 
 	if _match(ESCTokenType.TokenType.VAR):
-		retStmt = _var_declaration()
+		ret_stmt = _var_declaration()
 
-		if retStmt is ESCParseError:
+		if ret_stmt is ESCParseError:
 			_synchronize()
 			return null
-		else:
-			return retStmt
+
+		return ret_stmt
 
 	if _match(ESCTokenType.TokenType.GLOBAL):
-		retStmt = _global_declaration()
+		ret_stmt = _global_declaration()
 
-		if retStmt is ESCParseError:
+		if ret_stmt is ESCParseError:
 			_synchronize()
 			return null
-		else:
-			return retStmt
 
-	retStmt = _statement()
+		return ret_stmt
 
-	if retStmt is ESCParseError:
+	ret_stmt = _statement()
+
+	if ret_stmt is ESCParseError:
 		_synchronize()
 		return null
 
-	return retStmt
+	return ret_stmt
 
 
 func _event_declaration():
@@ -157,8 +165,8 @@ func _event_declaration():
 		ret.init(name, target, flags, body, _associated_object_global_id)
 
 		return ret
-	else:
-		return _error(_peek(), "Expected block after event declaration for '%s'. Code blocks require tab(s) at the start of a line." % name.get_lexeme())
+
+	return _error(_peek(), "Expected block after event declaration for '%s'. Code blocks require tab(s) at the start of a line." % name.get_lexeme())
 
 
 func _literal_from_identifier(expr: ESCGrammarExprs.Variable) -> ESCGrammarExprs.Literal:
@@ -314,21 +322,25 @@ func _while_statement():
 	var condition = _expression()
 
 	if condition is ESCParseError:
+		_loop_level -= 1
 		return condition
 
 	var colon_token = _consume(ESCTokenType.TokenType.COLON, "Expect ':' after condition.")
 
 	if colon_token is ESCParseError:
+		_loop_level -= 1
 		return colon_token
 
 	var consume = _consume_new_block_start("start of while loop")
 
 	if consume:
+		_loop_level -= 1
 		return consume
 
 	var block = _block()
 
 	if block is ESCParseError:
+		_loop_level -= 1
 		return block
 
 	var body = ESCGrammarStmts.Block.new()
@@ -372,6 +384,7 @@ func _dialog_statement():
 			var arg = _expression()
 
 			if arg is ESCParseError:
+				_dialog_level -= 1
 				return arg
 
 			args.append(arg)
@@ -382,14 +395,17 @@ func _dialog_statement():
 		var consume = _consume(ESCTokenType.TokenType.RIGHT_PAREN, "Expect ')' after start dialog arguments.")
 
 		if consume is ESCParseError:
+			_dialog_level -= 1
 			return consume
 
 	if args.size() > 3:
+		_dialog_level -= 1
 		return _error(_peek(), "Start dialog cannot have more than 3 arguments.")
 
 	var consume = _consume_new_block_start("dialog start")
 
 	if consume is ESCParseError:
+		_dialog_level -= 1
 		return consume
 
 	var options: Array = []
@@ -398,6 +414,7 @@ func _dialog_statement():
 		var dialog_option = _dialog_option_statement()
 
 		if dialog_option is ESCParseError:
+			_dialog_level -= 1
 			return dialog_option
 
 		options.append(dialog_option)
@@ -447,6 +464,9 @@ func _dialog_option_statement():
 			return condition
 
 		consume = _consume(ESCTokenType.TokenType.RIGHT_SQUARE, "Expect ']' after dialog option condition")
+
+		if consume is ESCParseError:
+			return consume
 
 	consume = _consume_new_block_start("dialog option")
 
@@ -512,7 +532,8 @@ func _block():
 		if decl is ESCParseError:
 			return decl
 
-		statements.append(decl)
+		if decl != null:
+			statements.append(decl)
 
 	_consume(ESCTokenType.TokenType.DEDENT, "Expected DEDENT after block.")
 	return statements
@@ -536,7 +557,8 @@ func _assignment():
 			var ret = ESCGrammarExprs.Assign.new()
 			ret.init(name, value)
 			return ret
-		elif expr is ESCGrammarExprs.Get:
+
+		if expr is ESCGrammarExprs.Get:
 			var ret = ESCGrammarExprs.Set.new()
 			ret.init(expr.get_object(), expr.get_name(), value)
 			return ret
@@ -723,15 +745,15 @@ func _is_checking():
 			var ret = ESCGrammarExprs.Is.new()
 			ret.init(expr, null, _previous())
 			return ret
-		else:
-			var state_expr = _expression()
 
-			if state_expr is ESCParseError:
-				return state_expr
+		var state_expr = _expression()
 
-			var ret = ESCGrammarExprs.Is.new()
-			ret.init(expr, state_expr, null)
-			return ret
+		if state_expr is ESCParseError:
+			return state_expr
+
+		var ret = ESCGrammarExprs.Is.new()
+		ret.init(expr, state_expr, null)
+		return ret
 
 	return expr
 
@@ -777,6 +799,9 @@ func _finish_call(callee: ESCGrammarExpr):
 
 	var paren = _consume(ESCTokenType.TokenType.RIGHT_PAREN, "Expect ')' after arguments.")
 
+	if paren is ESCParseError:
+		return paren
+
 	#if paren.get_type() != ESCTokenType.TokenType.NEWLINE:
 	#	return _error(ESCTokenType.TokenType.NEWLINE, "Expect NEWLINE after arguments.")
 
@@ -817,7 +842,13 @@ func _primary():
 		if expr is ESCParseError:
 			return expr
 
-		_consume(ESCTokenType.TokenType.RIGHT_PAREN, "Expect ')' after expression.")
+		var paren = _consume(
+			ESCTokenType.TokenType.RIGHT_PAREN,
+			"Expect ')' after expression."
+		)
+
+		if paren is ESCParseError:
+			return paren
 
 		var ret = ESCGrammarExprs.Grouping.new()
 		ret.init(expr)
@@ -826,13 +857,18 @@ func _primary():
 	return _error(_peek(), "Expect expression.")
 
 
-func _var_declaration() -> ESCGrammarStmt:
+func _var_declaration():
 	var name = _consume(ESCTokenType.TokenType.IDENTIFIER, "Expect variable name.")
 
 	var initializer: ESCGrammarExpr = null
 
 	if _match(ESCTokenType.TokenType.EQUAL):
-		initializer = _expression()
+		var initializer_expr = _expression()
+
+		if initializer_expr is ESCParseError:
+			return initializer_expr
+
+		initializer = initializer_expr
 
 	_consume(ESCTokenType.TokenType.NEWLINE, "Expect newline after variable declaration.")
 
@@ -864,11 +900,11 @@ func _peek() -> ESCToken:
 	return _tokens[_current]
 
 
-func _match(tokenTypes) -> bool:
-	if not tokenTypes is Array:
-		tokenTypes = [tokenTypes]
+func _match(token_types) -> bool:
+	if not token_types is Array:
+		token_types = [token_types]
 
-	for type in tokenTypes:
+	for type in token_types:
 		if _check(type):
 			_advance()
 			return true
@@ -876,12 +912,15 @@ func _match(tokenTypes) -> bool:
 	return false
 
 
-func _match_in_order(tokenTypes) -> bool:
-	if not tokenTypes is Array:
-		tokenTypes = [tokenTypes]
+func _match_in_order(token_types) -> bool:
+	if not token_types is Array:
+		token_types = [token_types]
 
-	for type in tokenTypes:
+	var start := _current
+
+	for type in token_types:
 		if not _check(type):
+			_current = start
 			return false
 
 		_advance()
@@ -889,21 +928,21 @@ func _match_in_order(tokenTypes) -> bool:
 	return true
 
 
-func _consume(tokenType, message: String):
-	if _check(tokenType):
+func _consume(token_type, message: String):
+	if _check(token_type):
 		return _advance()
 
 	return _error(_peek(), message)
 
 
-func _check(tokenTypes) -> bool:
-	if not tokenTypes is Array:
-		tokenTypes = [tokenTypes]
+func _check(token_types) -> bool:
+	if not token_types is Array:
+		token_types = [token_types]
 
 	if _at_end():
 		return false
 
-	for type in tokenTypes:
+	for type in token_types:
 		if _peek().get_type() == type:
 			return true
 
@@ -911,9 +950,9 @@ func _check(tokenTypes) -> bool:
 
 
 # This turns the parser into an LL(2).
-func _check_next(tokenTypes) -> bool:
-	if not tokenTypes is Array:
-		tokenTypes = [tokenTypes]
+func _check_next(token_types) -> bool:
+	if not token_types is Array:
+		token_types = [token_types]
 
 	if _at_end():
 		return false
@@ -924,7 +963,7 @@ func _check_next(tokenTypes) -> bool:
 		_current -= 1
 		return false
 
-	for type in tokenTypes:
+	for type in token_types:
 		if _peek().get_type() == type:
 			_current -= 1
 			return true
@@ -959,16 +998,27 @@ func _error(token: ESCToken, message: String) -> ESCParseError:
 
 
 func _synchronize() -> void:
+	if _check(ESCTokenType.TokenType.DEDENT):
+		return
+
 	_advance()
 
 	while not _at_end():
-		if _previous().get_type() == ESCTokenType.TokenType.NEWLINE:
+		if _previous().get_type() == ESCTokenType.TokenType.NEWLINE \
+			or _previous().get_type() == ESCTokenType.TokenType.DEDENT:
 			return
 
 		match _peek().get_type():
+			ESCTokenType.TokenType.COLON,\
+			ESCTokenType.TokenType.GLOBAL,\
 			ESCTokenType.TokenType.VAR,\
 			ESCTokenType.TokenType.IF,\
 			ESCTokenType.TokenType.WHILE,\
+			ESCTokenType.TokenType.PASS,\
+			ESCTokenType.TokenType.STOP,\
+			ESCTokenType.TokenType.QUESTION_BANG,\
+			ESCTokenType.TokenType.BREAK,\
+			ESCTokenType.TokenType.DONE,\
 			ESCTokenType.TokenType.RETURN:
 				return
 

@@ -1,0 +1,7 @@
+:test
+	if some_flag
+		print("broken")
+	print("after")
+
+:second
+	print("ok")

@@ -1,0 +1,4 @@
+:test
+	global result = "start"
+	missing_test_command()
+	result = result + "-after"

@@ -1,0 +1,7 @@
+:test
+	global result = "start"
+	global count = 0
+	while count < 1:
+		test_delayed_set_global("result", "cmd", 0.01)
+		count = count + 1
+	result = result + "-after"

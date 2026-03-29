@@ -1,0 +1,3 @@
+:repeat_event
+	test_delayed_set_global("background_duplicate_last", "tick", 0.05)
+	inc_global("background_duplicate_count")

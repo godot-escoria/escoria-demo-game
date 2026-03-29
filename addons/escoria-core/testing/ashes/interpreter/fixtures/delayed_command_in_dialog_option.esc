@@ -1,0 +1,7 @@
+:test
+	global result = "unset"
+	?!
+		- "Run delayed"
+			test_delayed_set_global("result", "cmd", 0.01)
+			break
+	result = result + "-after"

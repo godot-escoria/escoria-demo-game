@@ -1,0 +1,7 @@
+:test
+	global result = "start"
+	global count = 0
+	while count < 1:
+		missing_command()
+		count = count + 1
+	result = result + "-after"

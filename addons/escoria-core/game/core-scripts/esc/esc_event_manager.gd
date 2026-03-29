@@ -4,8 +4,8 @@
 ## the foreground channel _front, but additional event queues can be added as required.
 ## Additionally, events can be scheduled to be queued in the future.
 ## @MANAGER
-extends Node
 class_name ESCEventManager
+extends Node
 
 
 ## Emitted when the event has begun execution.[br]
@@ -114,14 +114,8 @@ var _running_events: Dictionary = {}
 ## Those commands that are currently running per channel.
 var _running_commands: Dictionary = {}
 
-## Channel currently being processed.
-var _current_channel: String = ""
-
 ## Whether an event can be played on a specific channel.
 var _channels_state: Dictionary = {}
-
-## Whether we're currently waiting for an async event to complete, per channel.
-var _yielding: Dictionary = {}
 
 ## Whether we're currently changing the scene.
 var _changing_scene: bool = false: set = set_changing_scene
@@ -171,15 +165,10 @@ func _ready():
 ## [br]
 ## Returns nothing.
 func _process(delta: float) -> void:
-	var channel_yielding: bool
-
 	for channel_name in events_queue.keys():
-		channel_yielding = _yielding.get(channel_name, false)
-
-		if events_queue[channel_name].size() == 0 or channel_yielding:
+		if events_queue[channel_name].size() == 0:
 			continue
 		if is_channel_free(channel_name):
-			_current_channel = channel_name
 			_channels_state[channel_name] = false
 			_running_events[channel_name] = \
 				events_queue[channel_name].pop_front()
@@ -231,33 +220,32 @@ func _process(delta: float) -> void:
 			#var rc = _running_events[channel_name].run()
 			#escoria.interpreter.reset()
 			#var resolver: ESCResolver = ESCResolver.new(escoria.interpreter)
-			var interpreter: ESCInterpreter = ESCInterpreterFactory.create_interpreter()
-			var resolver: ESCResolver = ESCResolver.new(interpreter)
 			var event = _running_events[channel_name]
 
-			escoria.logger.trace(
-				self,
-				"Processing event '%s' from script '%s'." \
-					% [
-						event.get_name().get_lexeme(),
-						event.get_name().get_filename() if event.get_name().get_filename() else "<internal>"
-					]
-			)
-
-			resolver.resolve(event)
-
-			var rc = await interpreter.interpret(event)
-
-			#if rc is GDScriptFunctionState:
-				#_yielding[channel_name] = true
-				#rc = await (rc, "completed")
-				#_yielding[channel_name] = false
+			call_deferred("_run_event_on_channel", channel_name, event)
 
 	for event in self.scheduled_events:
 		(event as ESCScheduledEvent).timeout -= delta
 		if (event as ESCScheduledEvent).timeout <= 0:
 			self.scheduled_events.erase(event)
 			self.events_queue[CHANNEL_FRONT].append(event.event)
+
+
+func _run_event_on_channel(channel_name: String, event: ESCGrammarStmts.Event) -> void:
+	var interpreter: ESCInterpreter = ESCInterpreterFactory.create_interpreter(channel_name)
+	var resolver: ESCResolver = ESCResolver.new(interpreter)
+
+	escoria.logger.trace(
+		self,
+		"Processing event '%s' from script '%s'." \
+			% [
+				event.get_name().get_lexeme(),
+				event.get_name().get_filename() if event.get_name().get_filename() else "<internal>"
+			]
+	)
+
+	resolver.resolve(event)
+	await interpreter.interpret(event)
 
 
 ## Queues a new event based on input from an ASHES command, most likely `queue_event`.[br]
@@ -287,17 +275,18 @@ func queue_event_from_esc(script_object: ESCScript, event: String,
 			channel,
 			script_object.events[event]
 		)
+
 	if block:
 		if channel == CHANNEL_FRONT:
 			var rc = await self.event_finished
 			while rc[1] != event:
 				rc = await self.event_finished
 			return rc[0]
-		else:
-			var rc = await self.background_event_finished
-			while rc[1] != event and rc[2] != channel:
-				rc = await self.background_event_finished
-			return rc[0]
+
+		var rc = await self.background_event_finished
+		while rc[1] != event or rc[2] != channel:
+			rc = await self.background_event_finished
+		return rc[0]
 
 	return ESCExecution.RC_OK
 
@@ -335,12 +324,13 @@ func queue_event(event: ESCGrammarStmts.Event, force: bool = false, as_first = f
 
 		escoria.logger.debug(self, message % [event.get_event_name(), CHANNEL_FRONT])
 		return
-	elif _is_event_running(event, CHANNEL_FRONT):
+
+	if _is_event_running(event, CHANNEL_FRONT):
 		# Don't queue the same event if it's already running.
 		escoria.logger.debug(
 			self,
 			"Event %s already running in channel '%s'. Won't be queued."
-				% [event.get_event_name(), CHANNEL_FRONT]
+					% [event.get_event_name(), CHANNEL_FRONT]
 		)
 
 		return
@@ -388,27 +378,10 @@ func queue_background_event(channel_name: String, event: ESCGrammarStmts.Event) 
 	if not channel_name in events_queue:
 		events_queue[channel_name] = []
 
-	# Don't queue the same event more than once in a row.
-	var last_event = _get_last_event_queued(channel_name)
-
-	# Check the queue first to see if appending the event will result in
-	# consecutive occurrences of the event. If not, be sure to check if the same
-	# event is currently running.
-	if last_event != null and last_event.get_event_name() == event.get_event_name():
-		var message = "Event '%s' is already the most-recently queued event in channel '%s'." + \
-			" Won't be queued again."
-
-		escoria.logger.debug(self, message % [event.get_event_name(), channel_name])
-		return
-	elif _is_event_running(event, CHANNEL_FRONT):
-		# Don't queue the same event if it's already running.
-		escoria.logger.debug(
-			self,
-			"Event %s already running in channel '%s'. Won't be queued."
-				% [event.get_event_name(), channel_name]
-		)
-
-		return
+	# Background channels are fed by explicit ASHES commands, so repeated queue
+	# requests are intentional. This includes back-to-back enqueues of the same
+	# event name and enqueuing the same event again while an earlier run is
+	# already active on the channel.
 
 	events_queue[channel_name].append(event)
 
@@ -482,8 +455,23 @@ func interrupt(exceptions: PackedStringArray = [], stop_walking = true) -> void:
 ## [br]
 ## Returns nothing.
 func interrupt_channel(channel_name: String) -> void:
-	for command in _running_commands.get(channel_name, []):
-		command.interrupt()
+	var running_event: ESCGrammarStmts.Event = _running_events.get(channel_name, null)
+
+	# Interrupt the channel's running event directly so any in-flight command is
+	# reached even if command bookkeeping has not yet been updated for this frame.
+	if running_event != null:
+		escoria.logger.debug(
+			self,
+			"Interrupting running event %s in channel %s..."
+				% [running_event.get_event_name(), channel_name]
+		)
+		running_event.interrupt()
+		_channels_state[channel_name] = true
+
+	# Clear any queued follow-up events on the same channel so the interrupt has
+	# the same effect as the broader interrupt path, but scoped to one channel.
+	if events_queue.has(channel_name):
+		events_queue[channel_name].clear()
 
 
 ## Clears the event queues.[br]
@@ -563,10 +551,6 @@ func set_changing_scene(p_is_changing_scene: bool) -> void:
 		])
 
 
-# This probably won't work since _current_channel could have changed after
-# a yielding command resumes. Also the event itself isn't logged, just the command,
-# creating a problem.
-
 ## Adds a currently-running command to the current channel.[br]
 ## [br]
 ## #### Parameters[br]
@@ -579,10 +563,13 @@ func set_changing_scene(p_is_changing_scene: bool) -> void:
 ## [br]
 ## Returns nothing.
 func add_running_command(command: ESCCommand) -> void:
-	if _running_commands.get(_current_channel, []) == []:
-		_running_commands[_current_channel] = [command]
+	if command.channel_name.is_empty():
+		return
+
+	if _running_commands.get(command.channel_name, []) == []:
+		_running_commands[command.channel_name] = [command]
 	else:
-		_running_commands[_current_channel].append(command)
+		_running_commands[command.channel_name].append(command)
 
 
 ## Removes the specified command from the current channel.[br]
@@ -597,8 +584,11 @@ func add_running_command(command: ESCCommand) -> void:
 ## [br]
 ## Returns nothing.
 func running_command_finished(command: ESCCommand) -> void:
-	if command in _running_commands[_current_channel]:
-		_running_commands[_current_channel].erase(command)
+	if command.channel_name.is_empty():
+		return
+
+	if command in _running_commands.get(command.channel_name, []):
+		_running_commands[command.channel_name].erase(command)
 
 
 ## The event finished running.[br]

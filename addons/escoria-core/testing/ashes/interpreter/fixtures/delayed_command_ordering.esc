@@ -1,0 +1,4 @@
+:test
+	global result = "unset"
+	test_delayed_set_global("result", "cmd", 0.01)
+	result = result + "-after"

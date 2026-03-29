@@ -14,3 +14,12 @@ addons/escoria-core/default_bus_layout.tres
 
 # Auto-generated as part of documentation process
 docs/
+
+# Auto-generated gdUnit4 reports
+reports/
+
+# Auto-generated gdUnit4 runner discovery state
+addons/gdUnit4/GdUnitRunner.cfg
+
+# Local tooling, caches, and virtual environments
+.local/

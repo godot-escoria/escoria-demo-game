@@ -1,0 +1,9 @@
+:test
+	global result = "start"
+	var x = "outer"
+	?!
+		- "Use inner"
+			var x = "inner"
+			result = x
+			break
+	result = result + ":" + x

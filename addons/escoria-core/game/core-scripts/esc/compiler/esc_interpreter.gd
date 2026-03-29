@@ -1,6 +1,6 @@
 ## The actual interpreter that processes a parsed ASHES script.
-extends RefCounted
 class_name ESCInterpreter
+extends RefCounted
 
 
 ## Used to represent the current player character in scripts.
@@ -26,6 +26,7 @@ var _locals: Dictionary = {}
 # Still, this should be tested extensively, and, if at all possible, with multiple
 # concurrent events running.
 var _current_event: ESCGrammarStmts.Event
+var _dialog_depth: int = 0
 
 # While most of the time we only run a single event at a time, it is possible for
 # multiple events to
@@ -34,6 +35,7 @@ var _event_stack: Array = []
 var _builtin_functions: Array = [
 	"print"
 ]
+var _channel_name: String = ""
 
 
 func _init(callables: Array, globals: Dictionary):
@@ -75,6 +77,34 @@ func cleanup() -> void:
 ## Returns the dictionary containing any and all global variables. (`Dictionary`)
 func get_global_values() -> Dictionary:
 	return _globals.get_values()
+
+
+## Sets the event-manager channel this interpreter is executing on.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |channel_name|`String`|Name of the channel associated with this interpreter run.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
+func set_channel_name(channel_name: String) -> void:
+	_channel_name = channel_name
+
+
+## Gets the event-manager channel this interpreter is executing on.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the channel name associated with this interpreter run. (`String`)
+func get_channel_name() -> String:
+	return _channel_name
 
 
 ## Resets the interpreter, specifically any locally-scoped variables.[br]
@@ -253,13 +283,15 @@ func visit_call_expr(expr: ESCGrammarExprs.Call):
 				self,
 				"Can only call valid commands."
 			)
-		else:
-			return _handle_builtin_function(callee, args)
+			return ESCExecution.RC_ERROR
+
+		return _handle_builtin_function(callee, args)
 
 	var command = ESCCommand.new()
 	command.parameters = args
 	command.name = callee.get_command_name()
 	command.parser_token = expr.get_paren_token()
+	command.channel_name = _channel_name
 
 	var rc = ESCExecution.RC_OK
 
@@ -282,11 +314,12 @@ func _handle_builtin_function(fn_name: String, args: Array) -> int:
 
 	match fn_name:
 		'print':
-			if args.size() > 1:
+			if args.size() != 1:
 				escoria.logger.error(
 					self,
-					"'print' only takes one argument"
+					"'print' expects exactly one argument"
 				)
+				return rc
 
 			_print(args)
 			rc = ESCExecution.RC_OK
@@ -315,13 +348,13 @@ func _print(value):
 func visit_if_stmt(stmt: ESCGrammarStmts.If):
 	if _is_truthy(await _evaluate(stmt.get_condition())):
 		return await _execute(stmt.get_then_branch())
-	else:
-		for branch in stmt.get_elif_branches():
-			if _is_truthy(await _evaluate(branch.get_condition())):
-				return await _execute(branch)
 
-		if stmt.get_else_branch():
-			return await _execute(stmt.get_else_branch())
+	for branch in stmt.get_elif_branches():
+		if _is_truthy(await _evaluate(branch.get_condition())):
+			return await _execute(branch)
+
+	if stmt.get_else_branch():
+		return await _execute(stmt.get_else_branch())
 
 	return null
 
@@ -344,6 +377,9 @@ func visit_while_stmt(stmt: ESCGrammarStmts.While):
 		if ret is ESCGrammarStmts.Break:
 			break
 
+		if _is_terminal_control_flow(ret):
+			return ret
+
 	return null
 
 
@@ -358,8 +394,21 @@ func visit_while_stmt(stmt: ESCGrammarStmts.While):
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func visit_pass_stmt(stmt: ESCGrammarStmts.Pass):
+func visit_pass_stmt(_stmt: ESCGrammarStmts.Pass):
 	pass
+
+
+func _is_terminal_control_flow(ret) -> bool:
+	if ret is ESCGrammarStmts.Stop \
+		or ret is ESCGrammarStmts.Done \
+		or ret is ESCBreakCounter:
+		return true
+
+	if typeof(ret) == TYPE_INT:
+		return ret == ESCExecution.RC_ERROR \
+			or ret == ESCExecution.RC_INTERRUPTED
+
+	return false
 
 
 ## Executes code relevant to interpreting a `stop` statement. Relevant only to dialogs.[br]
@@ -439,6 +488,8 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 	var dialog: ESCDialog = ESCDialog.new()
 	var rc = ESCExecution.RC_OK
 
+	_dialog_depth += 1
+
 	while true:
 		dialog.options = []
 
@@ -458,7 +509,14 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 		if dialog.options.size() == 0:
 			break
 
-		if dialog.is_valid() and not _current_event.is_interrupted():
+		# If the event was interrupted while a nested command or dialog body was
+		# active, stop the dialog frame immediately instead of looping and
+		# presenting options again.
+		if _current_event and _current_event.is_interrupted():
+			_dialog_depth -= 1
+			return ESCExecution.RC_INTERRUPTED
+
+		if dialog.is_valid():
 			var chosen_option = await dialog.run()
 
 			if chosen_option:
@@ -468,22 +526,73 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 					"Chosen dialog option (%s) was completed." % chosen_option
 				)
 
+				# Dialog frames must propagate terminal runtime errors the same
+				# way normal blocks do. Otherwise an invalid command or similar
+				# failure inside an option body is treated like normal completion
+				# and the dialog loop re-displays the same options indefinitely.
+				if typeof(execute_ret) == TYPE_INT and execute_ret == ESCExecution.RC_ERROR:
+					_dialog_depth -= 1
+					return ESCExecution.RC_ERROR
+
+				# An interruption can happen while the chosen option body is still
+				# running, so check again after it returns before processing normal
+				# dialog control flow like `break`, `done`, or `stop`.
+				if _current_event and _current_event.is_interrupted():
+					_dialog_depth -= 1
+					return ESCExecution.RC_INTERRUPTED
+
 				if execute_ret is ESCGrammarStmts.Break:
-					var break_tracker: ESCBreakCounter = ESCBreakCounter.new()
-
+					var levels_left := 0
 					if execute_ret.get_levels():
-						break_tracker.set_levels_left(await _evaluate(execute_ret.get_levels()) - 1)
-					else:
-						break_tracker.set_levels_left(0)
+						levels_left = await _evaluate(execute_ret.get_levels()) - 1
 
+					# A top-level dialog consumes `break` by concluding the current dialog.
+					if _dialog_depth == 1:
+						break
+
+					# Nested dialogs propagate explicit break state upward so parent
+					# dialog frames can decide whether to keep unwinding or resume.
+					var break_tracker: ESCBreakCounter = ESCBreakCounter.new()
+					if levels_left > 0:
+						break_tracker.set_levels_left(levels_left)
+					else:
+						break_tracker.mark_resume_parent_dialog()
+
+					_dialog_depth -= 1
 					return break_tracker
-				elif execute_ret is ESCGrammarStmts.Done:
+				if execute_ret is ESCGrammarStmts.Done:
+					_dialog_depth -= 1
+
+					if _dialog_depth == 0:
+						return rc
+
 					return execute_ret
-				elif execute_ret is ESCBreakCounter:
-					if execute_ret.get_levels_left() > 0:
-						execute_ret.dec_levels_left()
+
+				if execute_ret is ESCGrammarStmts.Stop:
+					# `stop` aborts the entire event, so dialog frames must pass it through.
+					_dialog_depth -= 1
+					return execute_ret
+
+				if execute_ret is ESCBreakCounter:
+					if execute_ret.has_levels_left():
+						# Once the unwind reaches the top-most dialog, the remaining
+						# levels are consumed by concluding that dialog entirely.
+						if _dialog_depth == 1:
+							break
+
+						execute_ret.advance_up_one_level()
+						_dialog_depth -= 1
 						return execute_ret
 
+					if execute_ret.should_resume_parent_dialog():
+						# The requested dialog levels have been exited, so this frame
+						# resumes presenting its own options instead of concluding.
+						execute_ret.consume_parent_resume()
+						continue
+
+					break
+
+	_dialog_depth -= 1
 	return rc
 
 
@@ -498,7 +607,7 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func visit_dialog_option_stmt(stmt: ESCGrammarStmts.DialogOption):
+func visit_dialog_option_stmt(_stmt: ESCGrammarStmts.DialogOption):
 	pass
 
 
@@ -623,18 +732,28 @@ func visit_binary_expr(expr: ESCGrammarExprs.Binary):
 			return not _is_equal(left_part, right_part)
 		ESCTokenType.TokenType.GREATER:
 			var check = _check_are_numbers(left_part, expr.get_operator(), right_part)
+			if not check:
+				return null
 			return left_part > right_part
 		ESCTokenType.TokenType.GREATER_EQUAL:
 			var check = _check_are_numbers(left_part, expr.get_operator(), right_part)
+			if not check:
+				return null
 			return left_part >= right_part
 		ESCTokenType.TokenType.LESS:
 			var check = _check_are_numbers(left_part, expr.get_operator(), right_part)
+			if not check:
+				return null
 			return left_part < right_part
 		ESCTokenType.TokenType.LESS_EQUAL:
 			var check = _check_are_numbers(left_part, expr.get_operator(), right_part)
+			if not check:
+				return null
 			return left_part <= right_part
 		ESCTokenType.TokenType.MINUS:
 			var check = _check_are_numbers(left_part, expr.get_operator(), right_part)
+			if not check:
+				return null
 			return left_part - right_part
 		ESCTokenType.TokenType.PLUS:
 			var check = _check_are_numbers(left_part, expr.get_operator(), right_part, false)
@@ -653,9 +772,13 @@ func visit_binary_expr(expr: ESCGrammarExprs.Binary):
 			)
 		ESCTokenType.TokenType.SLASH:
 			var check = _check_are_numbers(left_part, expr.get_operator(), right_part)
+			if not check:
+				return null
 			return left_part / right_part
 		ESCTokenType.TokenType.STAR:
 			var check = _check_are_numbers(left_part, expr.get_operator(), right_part)
+			if not check:
+				return null
 			return left_part * right_part
 
 	return null
@@ -680,6 +803,8 @@ func visit_unary_expr(expr: ESCGrammarExprs.Unary):
 			return not _is_truthy(right_part)
 		ESCTokenType.TokenType.MINUS:
 			var check = _check_is_number(right_part, expr.get_operator())
+			if not check:
+				return null
 			return -right_part
 
 	return null
@@ -793,8 +918,8 @@ func look_up_variable(name: ESCToken, expr: ESCGrammarExpr):
 
 	if distance == -1:
 		return _globals.get_value(name)
-	else:
-		return _environment.get_at(distance, name.get_lexeme())
+
+	return _environment.get_at(distance, name.get_lexeme())
 
 
 # Private methods
@@ -860,10 +985,18 @@ func _execute_block(statements: Array, env: ESCEnvironment):
 	for stmt in statements:
 		ret = await _execute(stmt)
 
-		if ret is ESCGrammarStmts.Break \
-			or ret is ESCGrammarStmts.Done \
-			or ret is ESCGrammarStmts.Stop:
+		# If the running event was interrupted while this statement was active,
+		# stop the block immediately so later statements do not continue running.
+		if _current_event and _current_event.is_interrupted():
+			_environment = previous_env
+			return ESCExecution.RC_INTERRUPTED
 
+		if ret is ESCGrammarStmts.Break:
+			_environment = previous_env
+			return ret
+
+		if _is_terminal_control_flow(ret):
+			_environment = previous_env
 			return ret
 
 		# TODO: Proper error handling per statement?
@@ -925,7 +1058,7 @@ func _check_at_least_one_string(value_1, value_2):
 	return typeof(value_1) == TYPE_STRING || typeof(value_2) == TYPE_STRING
 
 
-func _on_global_changed(key: String, old_value, new_value) -> void:
+func _on_global_changed(key: String, _old_value, new_value) -> void:
 	# Shoehorn this in as an adapter
 	var token: ESCToken = ESCToken.new()
 	token.init(ESCTokenType.TokenType.IDENTIFIER, key, null, "", -1, "")
