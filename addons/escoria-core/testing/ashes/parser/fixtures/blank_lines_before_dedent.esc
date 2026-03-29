@@ -1,0 +1,9 @@
+:test
+	if true:
+		print("inside")
+
+
+	print("after")
+
+:second
+	print("ok")
