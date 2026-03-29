@@ -1,6 +1,6 @@
 ## Used by the intpreter to track dialog `break` propagation state.
-extends Object
 class_name ESCBreakCounter
+extends Object
 
 
 var _levels_left: int = 0:

@@ -1,5 +1,5 @@
-extends ESCBaseCommand
 class_name TestInterruptibleSetGlobalCommand
+extends ESCBaseCommand
 
 
 var _interrupted := false

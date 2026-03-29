@@ -4,8 +4,8 @@
 ## Note that the vast majority of this class consists of (effectively) private methods
 ## in order to facilitate encapsulation, but if you're interested in how the parser
 ## is implemented, [check out the class in GitHub](https://github.com/godot-escoria/escoria-demo-game/blob/main/addons/escoria-core/game/core-scripts/esc/compiler/esc_interpreter.gd)
-extends RefCounted
 class_name ESCParser
+extends RefCounted
 
 
 var _tokens: Array
@@ -66,42 +66,42 @@ func _declaration() -> ESCGrammarStmt:
 	if _at_end():
 		return null
 
-	var retStmt
+	var ret_stmt
 
 	if _match(ESCTokenType.TokenType.COLON):
-		retStmt = _event_declaration()
+		ret_stmt = _event_declaration()
 
-		if retStmt is ESCParseError:
+		if ret_stmt is ESCParseError:
 			_synchronize()
 			return null
-		else:
-			return retStmt
+
+		return ret_stmt
 
 	if _match(ESCTokenType.TokenType.VAR):
-		retStmt = _var_declaration()
+		ret_stmt = _var_declaration()
 
-		if retStmt is ESCParseError:
+		if ret_stmt is ESCParseError:
 			_synchronize()
 			return null
-		else:
-			return retStmt
+
+		return ret_stmt
 
 	if _match(ESCTokenType.TokenType.GLOBAL):
-		retStmt = _global_declaration()
+		ret_stmt = _global_declaration()
 
-		if retStmt is ESCParseError:
+		if ret_stmt is ESCParseError:
 			_synchronize()
 			return null
-		else:
-			return retStmt
 
-	retStmt = _statement()
+		return ret_stmt
 
-	if retStmt is ESCParseError:
+	ret_stmt = _statement()
+
+	if ret_stmt is ESCParseError:
 		_synchronize()
 		return null
 
-	return retStmt
+	return ret_stmt
 
 
 func _event_declaration():
@@ -165,8 +165,8 @@ func _event_declaration():
 		ret.init(name, target, flags, body, _associated_object_global_id)
 
 		return ret
-	else:
-		return _error(_peek(), "Expected block after event declaration for '%s'. Code blocks require tab(s) at the start of a line." % name.get_lexeme())
+
+	return _error(_peek(), "Expected block after event declaration for '%s'. Code blocks require tab(s) at the start of a line." % name.get_lexeme())
 
 
 func _literal_from_identifier(expr: ESCGrammarExprs.Variable) -> ESCGrammarExprs.Literal:
@@ -552,15 +552,16 @@ func _assignment():
 		if value is ESCParseError:
 			return value
 
-		if expr is ESCGrammarExprs.Variable:
-			var name = expr.get_name()
-			var ret = ESCGrammarExprs.Assign.new()
-			ret.init(name, value)
-			return ret
-		elif expr is ESCGrammarExprs.Get:
-			var ret = ESCGrammarExprs.Set.new()
-			ret.init(expr.get_object(), expr.get_name(), value)
-			return ret
+			if expr is ESCGrammarExprs.Variable:
+				var name = expr.get_name()
+				var ret = ESCGrammarExprs.Assign.new()
+				ret.init(name, value)
+				return ret
+
+			if expr is ESCGrammarExprs.Get:
+				var ret = ESCGrammarExprs.Set.new()
+				ret.init(expr.get_object(), expr.get_name(), value)
+				return ret
 
 		return _error(equals, "Invalid assignment type.")
 
@@ -744,15 +745,15 @@ func _is_checking():
 			var ret = ESCGrammarExprs.Is.new()
 			ret.init(expr, null, _previous())
 			return ret
-		else:
-			var state_expr = _expression()
 
-			if state_expr is ESCParseError:
-				return state_expr
+		var state_expr = _expression()
 
-			var ret = ESCGrammarExprs.Is.new()
-			ret.init(expr, state_expr, null)
-			return ret
+		if state_expr is ESCParseError:
+			return state_expr
+
+		var ret = ESCGrammarExprs.Is.new()
+		ret.init(expr, state_expr, null)
+		return ret
 
 	return expr
 
@@ -888,11 +889,11 @@ func _peek() -> ESCToken:
 	return _tokens[_current]
 
 
-func _match(tokenTypes) -> bool:
-	if not tokenTypes is Array:
-		tokenTypes = [tokenTypes]
+func _match(token_types) -> bool:
+	if not token_types is Array:
+		token_types = [token_types]
 
-	for type in tokenTypes:
+	for type in token_types:
 		if _check(type):
 			_advance()
 			return true
@@ -900,13 +901,13 @@ func _match(tokenTypes) -> bool:
 	return false
 
 
-func _match_in_order(tokenTypes) -> bool:
-	if not tokenTypes is Array:
-		tokenTypes = [tokenTypes]
+func _match_in_order(token_types) -> bool:
+	if not token_types is Array:
+		token_types = [token_types]
 
 	var start := _current
 
-	for type in tokenTypes:
+	for type in token_types:
 		if not _check(type):
 			_current = start
 			return false
@@ -916,21 +917,21 @@ func _match_in_order(tokenTypes) -> bool:
 	return true
 
 
-func _consume(tokenType, message: String):
-	if _check(tokenType):
+func _consume(token_type, message: String):
+	if _check(token_type):
 		return _advance()
 
 	return _error(_peek(), message)
 
 
-func _check(tokenTypes) -> bool:
-	if not tokenTypes is Array:
-		tokenTypes = [tokenTypes]
+func _check(token_types) -> bool:
+	if not token_types is Array:
+		token_types = [token_types]
 
 	if _at_end():
 		return false
 
-	for type in tokenTypes:
+	for type in token_types:
 		if _peek().get_type() == type:
 			return true
 
@@ -938,9 +939,9 @@ func _check(tokenTypes) -> bool:
 
 
 # This turns the parser into an LL(2).
-func _check_next(tokenTypes) -> bool:
-	if not tokenTypes is Array:
-		tokenTypes = [tokenTypes]
+func _check_next(token_types) -> bool:
+	if not token_types is Array:
+		token_types = [token_types]
 
 	if _at_end():
 		return false
@@ -951,7 +952,7 @@ func _check_next(tokenTypes) -> bool:
 		_current -= 1
 		return false
 
-	for type in tokenTypes:
+	for type in token_types:
 		if _peek().get_type() == type:
 			_current -= 1
 			return true
