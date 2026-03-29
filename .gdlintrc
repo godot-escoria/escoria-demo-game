@@ -1,2 +1,5 @@
 disable:
   - max-line-length
+  - max-public-methods
+  - max-returns
+  - max-file-lines
