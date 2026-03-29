@@ -857,13 +857,18 @@ func _primary():
 	return _error(_peek(), "Expect expression.")
 
 
-func _var_declaration() -> ESCGrammarStmt:
+func _var_declaration():
 	var name = _consume(ESCTokenType.TokenType.IDENTIFIER, "Expect variable name.")
 
 	var initializer: ESCGrammarExpr = null
 
 	if _match(ESCTokenType.TokenType.EQUAL):
-		initializer = _expression()
+		var initializer_expr = _expression()
+
+		if initializer_expr is ESCParseError:
+			return initializer_expr
+
+		initializer = initializer_expr
 
 	_consume(ESCTokenType.TokenType.NEWLINE, "Expect newline after variable declaration.")
 
