@@ -1,0 +1,5 @@
+:test
+	global value = 1 print("oops")
+
+:second
+	print("ok")
