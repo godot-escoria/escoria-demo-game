@@ -870,22 +870,39 @@ func _var_declaration():
 
 		initializer = initializer_expr
 
-	_consume(ESCTokenType.TokenType.NEWLINE, "Expect newline after variable declaration.")
+	var newline = _consume(
+		ESCTokenType.TokenType.NEWLINE,
+		"Expect newline after variable declaration."
+	)
+
+	if newline is ESCParseError:
+		return newline
 
 	var ret = ESCGrammarStmts.Var.new()
 	ret.init(name, initializer)
 	return ret
 
 
-func _global_declaration() -> ESCGrammarStmt:
+func _global_declaration():
 	var name = _consume(ESCTokenType.TokenType.IDENTIFIER, "Expect global variable name.")
 
 	var initializer: ESCGrammarExpr = null
 
 	if _match(ESCTokenType.TokenType.EQUAL):
-		initializer = _expression()
+		var initializer_expr = _expression()
 
-	_consume(ESCTokenType.TokenType.NEWLINE, "Expect newline after global variable declaration.")
+		if initializer_expr is ESCParseError:
+			return initializer_expr
+
+		initializer = initializer_expr
+
+	var newline = _consume(
+		ESCTokenType.TokenType.NEWLINE,
+		"Expect newline after global variable declaration."
+	)
+
+	if newline is ESCParseError:
+		return newline
 
 	var ret = ESCGrammarStmts.Global.new()
 	ret.init(name, initializer)
