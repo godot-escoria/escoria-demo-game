@@ -376,27 +376,10 @@ func queue_background_event(channel_name: String, event: ESCGrammarStmts.Event) 
 	if not channel_name in events_queue:
 		events_queue[channel_name] = []
 
-	# Don't queue the same event more than once in a row.
-	var last_event = _get_last_event_queued(channel_name)
-
-	# Check the queue first to see if appending the event will result in
-	# consecutive occurrences of the event. If not, be sure to check if the same
-	# event is currently running.
-	if last_event != null and last_event.get_event_name() == event.get_event_name():
-		var message = "Event '%s' is already the most-recently queued event in channel '%s'." + \
-			" Won't be queued again."
-
-		escoria.logger.debug(self, message % [event.get_event_name(), channel_name])
-		return
-	elif _is_event_running(event, CHANNEL_FRONT):
-		# Don't queue the same event if it's already running.
-		escoria.logger.debug(
-			self,
-			"Event %s already running in channel '%s'. Won't be queued."
-				% [event.get_event_name(), channel_name]
-		)
-
-		return
+	# Background channels are fed by explicit ASHES commands, so repeated queue
+	# requests are intentional. This includes back-to-back enqueues of the same
+	# event name and enqueuing the same event again while an earlier run is
+	# already active on the channel.
 
 	events_queue[channel_name].append(event)
 

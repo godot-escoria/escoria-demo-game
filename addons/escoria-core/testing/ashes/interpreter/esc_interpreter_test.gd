@@ -770,6 +770,75 @@ func test_queue_event_block_waits_for_correct_front_event_under_concurrency() ->
 	assert_str(String(escoria.globals_manager.get_global("front_block_wait_background_result"))).is_equal("background")
 
 
+func test_queue_background_event_allows_consecutive_duplicate_queue_entries() -> void:
+	# Queueing the same background event twice in a row should be allowed on a
+	# background channel. In practice these queues are populated via ASHES
+	# commands, so the second request should remain queued behind the first run.
+	var events := _load_fixture_events("background_duplicate_suppression.esc")
+	assert_bool(events.has("repeat_event")).is_true()
+	escoria.globals_manager.set_global("background_duplicate_count", 0)
+	escoria.globals_manager.set_global("background_duplicate_last", "start")
+
+	var background_finishes: Array = []
+	var on_background_finished := func(return_code, event_name, finished_channel_name) -> void:
+		if finished_channel_name == "bg_test":
+			background_finishes.append([return_code, event_name, finished_channel_name])
+
+	escoria.event_manager.background_event_finished.connect(on_background_finished)
+
+	escoria.event_manager.queue_background_event("bg_test", events["repeat_event"])
+	escoria.event_manager.queue_background_event("bg_test", events["repeat_event"])
+
+	while background_finishes.size() < 2:
+		await escoria.get_tree().process_frame
+
+	assert_int(background_finishes.size()).is_equal(2)
+	assert_int(int(background_finishes[0][0])).is_equal(ESCExecution.RC_OK)
+	assert_str(String(background_finishes[0][1])).is_equal("repeat_event")
+	assert_str(String(background_finishes[0][2])).is_equal("bg_test")
+	assert_int(int(background_finishes[1][0])).is_equal(ESCExecution.RC_OK)
+	assert_str(String(background_finishes[1][1])).is_equal("repeat_event")
+	assert_str(String(background_finishes[1][2])).is_equal("bg_test")
+	assert_int(int(escoria.globals_manager.get_global("background_duplicate_count"))).is_equal(2)
+	assert_str(String(escoria.globals_manager.get_global("background_duplicate_last"))).is_equal("tick")
+
+	escoria.event_manager.background_event_finished.disconnect(on_background_finished)
+
+
+func test_queue_background_event_allows_same_event_after_current_run_starts() -> void:
+	# Once the first background event is already running, queueing the same event
+	# again on that channel should queue a second run behind it instead of being
+	# suppressed as a duplicate.
+	var events := _load_fixture_events("background_duplicate_suppression.esc")
+	assert_bool(events.has("repeat_event")).is_true()
+	escoria.globals_manager.set_global("background_duplicate_count", 0)
+	escoria.globals_manager.set_global("background_duplicate_last", "start")
+
+	var background_finishes: Array = []
+	var on_background_finished := func(return_code, event_name, finished_channel_name) -> void:
+		if finished_channel_name == "bg_test":
+			background_finishes.append([return_code, event_name, finished_channel_name])
+
+	escoria.event_manager.background_event_finished.connect(on_background_finished)
+
+	escoria.event_manager.queue_background_event("bg_test", events["repeat_event"])
+	await escoria.get_tree().create_timer(0.01).timeout
+	escoria.event_manager.queue_background_event("bg_test", events["repeat_event"])
+
+	while background_finishes.size() < 2:
+		await escoria.get_tree().process_frame
+
+	assert_int(background_finishes.size()).is_equal(2)
+	assert_int(int(background_finishes[0][0])).is_equal(ESCExecution.RC_OK)
+	assert_str(String(background_finishes[0][1])).is_equal("repeat_event")
+	assert_int(int(background_finishes[1][0])).is_equal(ESCExecution.RC_OK)
+	assert_str(String(background_finishes[1][1])).is_equal("repeat_event")
+	assert_int(int(escoria.globals_manager.get_global("background_duplicate_count"))).is_equal(2)
+	assert_str(String(escoria.globals_manager.get_global("background_duplicate_last"))).is_equal("tick")
+
+	escoria.event_manager.background_event_finished.disconnect(on_background_finished)
+
+
 func test_global_interrupt_preserves_exception_events() -> void:
 	# `interrupt(exceptions=...)` should leave only the named running and queued
 	# events alive. Here the front running event and one queued background event
