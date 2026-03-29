@@ -1,0 +1,6 @@
+:test
+	var breakfast = 1
+	var donee = 2
+	var elseify = 3
+	var notable = 4
+	print(breakfast + donee + elseify + notable)
