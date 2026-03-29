@@ -19,7 +19,7 @@ class DialogPlayerDouble extends ESCDialogPlayer:
 		_choice_indexes = choice_indexes.duplicate()
 
 
-	func start_dialog_choices(dialog: ESCDialog, type: String = "simple"):
+	func start_dialog_choices(dialog: ESCDialog, _type: String = "simple"):
 		# Mirror the real dialog player closely enough for interpreter tests:
 		# only valid options are choosable, and scripted indexes deterministically
 		# drive nested dialog flows without needing UI interaction.

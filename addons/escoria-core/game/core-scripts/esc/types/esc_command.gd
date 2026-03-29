@@ -1,8 +1,8 @@
 ## Used to properly setup and execute commands, i.e. those that extend `ESCBaseCommand`.
 ##
 ## Despite its name, `ESCCommand` is more of a container and orchestrator than an actual command.
-extends ESCStatement
 class_name ESCCommand
+extends ESCStatement
 
 
 ## The name of this command.
@@ -97,33 +97,33 @@ func run() -> int:
 	if command_object == null:
 		_running_command_impl = null
 		return ESCExecution.RC_ERROR
-	else:
-		var argument_descriptor = command_object.configure()
 
-		_decorate_for_debugging(argument_descriptor)
+	var argument_descriptor = command_object.configure()
 
-		var prepared_arguments = argument_descriptor.prepare_arguments(
-			self.parameters
+	_decorate_for_debugging(argument_descriptor)
+
+	var prepared_arguments = argument_descriptor.prepare_arguments(
+		self.parameters
+	)
+
+	if command_object.validate(prepared_arguments):
+		escoria.logger.debug(
+			self,
+			"Running command %s with parameters %s."
+					% [self.name, prepared_arguments]
 		)
+		escoria.event_manager.add_running_command(self)
+		var rc = await command_object.run(prepared_arguments)
+		escoria.event_manager.running_command_finished(self)
+		_running_command_impl = null
+		escoria.logger.debug(
+			self,
+			"[%s] Return code: %d." % [self.name, rc]
+		)
+		return rc
 
-		if command_object.validate(prepared_arguments):
-			escoria.logger.debug(
-				self,
-				"Running command %s with parameters %s."
-						% [self.name, prepared_arguments]
-			)
-			escoria.event_manager.add_running_command(self)
-			var rc = await command_object.run(prepared_arguments)
-			escoria.event_manager.running_command_finished(self)
-			_running_command_impl = null
-			escoria.logger.debug(
-				self,
-				"[%s] Return code: %d." % [self.name, rc]
-			)
-			return rc
-		else:
-			_running_command_impl = null
-			return ESCExecution.RC_ERROR
+	_running_command_impl = null
+	return ESCExecution.RC_ERROR
 
 
 ## This function interrupts the command. If it was not started, it will not run. If it had already started, the execution will be considered as finished immediately and finish. If it had already finished, nothing will happen.[br]

@@ -1,6 +1,6 @@
 ## The actual interpreter that processes a parsed ASHES script.
-extends RefCounted
 class_name ESCInterpreter
+extends RefCounted
 
 
 ## Used to represent the current player character in scripts.
@@ -284,8 +284,8 @@ func visit_call_expr(expr: ESCGrammarExprs.Call):
 				"Can only call valid commands."
 			)
 			return ESCExecution.RC_ERROR
-		else:
-			return _handle_builtin_function(callee, args)
+
+		return _handle_builtin_function(callee, args)
 
 	var command = ESCCommand.new()
 	command.parameters = args
@@ -348,13 +348,13 @@ func _print(value):
 func visit_if_stmt(stmt: ESCGrammarStmts.If):
 	if _is_truthy(await _evaluate(stmt.get_condition())):
 		return await _execute(stmt.get_then_branch())
-	else:
-		for branch in stmt.get_elif_branches():
-			if _is_truthy(await _evaluate(branch.get_condition())):
-				return await _execute(branch)
 
-		if stmt.get_else_branch():
-			return await _execute(stmt.get_else_branch())
+	for branch in stmt.get_elif_branches():
+		if _is_truthy(await _evaluate(branch.get_condition())):
+			return await _execute(branch)
+
+	if stmt.get_else_branch():
+		return await _execute(stmt.get_else_branch())
 
 	return null
 
@@ -394,7 +394,7 @@ func visit_while_stmt(stmt: ESCGrammarStmts.While):
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func visit_pass_stmt(stmt: ESCGrammarStmts.Pass):
+func visit_pass_stmt(_stmt: ESCGrammarStmts.Pass):
 	pass
 
 
@@ -560,18 +560,20 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 
 					_dialog_depth -= 1
 					return break_tracker
-				elif execute_ret is ESCGrammarStmts.Done:
+				if execute_ret is ESCGrammarStmts.Done:
 					_dialog_depth -= 1
 
 					if _dialog_depth == 0:
 						return rc
 
 					return execute_ret
-				elif execute_ret is ESCGrammarStmts.Stop:
+
+				if execute_ret is ESCGrammarStmts.Stop:
 					# `stop` aborts the entire event, so dialog frames must pass it through.
 					_dialog_depth -= 1
 					return execute_ret
-				elif execute_ret is ESCBreakCounter:
+
+				if execute_ret is ESCBreakCounter:
 					if execute_ret.has_levels_left():
 						# Once the unwind reaches the top-most dialog, the remaining
 						# levels are consumed by concluding that dialog entirely.
@@ -605,7 +607,7 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func visit_dialog_option_stmt(stmt: ESCGrammarStmts.DialogOption):
+func visit_dialog_option_stmt(_stmt: ESCGrammarStmts.DialogOption):
 	pass
 
 
@@ -916,8 +918,8 @@ func look_up_variable(name: ESCToken, expr: ESCGrammarExpr):
 
 	if distance == -1:
 		return _globals.get_value(name)
-	else:
-		return _environment.get_at(distance, name.get_lexeme())
+
+	return _environment.get_at(distance, name.get_lexeme())
 
 
 # Private methods
@@ -1056,7 +1058,7 @@ func _check_at_least_one_string(value_1, value_2):
 	return typeof(value_1) == TYPE_STRING || typeof(value_2) == TYPE_STRING
 
 
-func _on_global_changed(key: String, old_value, new_value) -> void:
+func _on_global_changed(key: String, _old_value, new_value) -> void:
 	# Shoehorn this in as an adapter
 	var token: ESCToken = ESCToken.new()
 	token.init(ESCTokenType.TokenType.IDENTIFIER, key, null, "", -1, "")

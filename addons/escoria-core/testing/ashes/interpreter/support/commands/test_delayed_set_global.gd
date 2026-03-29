@@ -1,5 +1,5 @@
-extends ESCBaseCommand
 class_name TestDelayedSetGlobalCommand
+extends ESCBaseCommand
 
 
 func configure() -> ESCCommandArgumentDescriptor:

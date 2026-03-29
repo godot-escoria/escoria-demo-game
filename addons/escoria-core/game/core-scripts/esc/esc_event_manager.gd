@@ -4,8 +4,8 @@
 ## the foreground channel _front, but additional event queues can be added as required.
 ## Additionally, events can be scheduled to be queued in the future.
 ## @MANAGER
-extends Node
 class_name ESCEventManager
+extends Node
 
 
 ## Emitted when the event has begun execution.[br]
@@ -275,17 +275,18 @@ func queue_event_from_esc(script_object: ESCScript, event: String,
 			channel,
 			script_object.events[event]
 		)
+
 	if block:
 		if channel == CHANNEL_FRONT:
 			var rc = await self.event_finished
 			while rc[1] != event:
 				rc = await self.event_finished
 			return rc[0]
-		else:
-			var rc = await self.background_event_finished
-			while rc[1] != event or rc[2] != channel:
-				rc = await self.background_event_finished
-			return rc[0]
+
+		var rc = await self.background_event_finished
+		while rc[1] != event or rc[2] != channel:
+			rc = await self.background_event_finished
+		return rc[0]
 
 	return ESCExecution.RC_OK
 
@@ -323,12 +324,13 @@ func queue_event(event: ESCGrammarStmts.Event, force: bool = false, as_first = f
 
 		escoria.logger.debug(self, message % [event.get_event_name(), CHANNEL_FRONT])
 		return
-	elif _is_event_running(event, CHANNEL_FRONT):
+
+	if _is_event_running(event, CHANNEL_FRONT):
 		# Don't queue the same event if it's already running.
 		escoria.logger.debug(
 			self,
 			"Event %s already running in channel '%s'. Won't be queued."
-				% [event.get_event_name(), CHANNEL_FRONT]
+					% [event.get_event_name(), CHANNEL_FRONT]
 		)
 
 		return
