@@ -20,3 +20,6 @@ reports/
 
 # Auto-generated gdUnit4 runner discovery state
 addons/gdUnit4/GdUnitRunner.cfg
+
+# Local tooling, caches, and virtual environments
+.local/
