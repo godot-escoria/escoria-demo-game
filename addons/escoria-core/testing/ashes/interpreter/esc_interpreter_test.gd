@@ -267,6 +267,23 @@ func test_done_exits_entire_nested_dialog_tree() -> void:
 	assert_str(String(globals["result"])).is_equal("start-done")
 
 
+func test_dialog_followup_runs_after_all_options_are_exhausted() -> void:
+	# When each option invalidates itself, the dialog should conclude once no
+	# valid options remain. Execution must then continue with the statement after
+	# the dialog block.
+	var outcome := await _interpret_fixture(
+		"dialog_exhausted_options_runs_followup.esc",
+		[0, 0]
+	)
+	var globals: Dictionary = outcome.globals
+	assert_bool(globals.has("result")).is_true()
+	assert_str(String(globals["result"])).is_equal("start-say1-say2-finished")
+	assert_bool(bool(globals["option1_is_valid"])).is_false()
+	assert_bool(bool(globals["option2_is_valid"])).is_false()
+	assert_int(int(outcome.dialog_choices_consumed)).is_equal(2)
+	assert_int(int(outcome.remaining_dialog_choices)).is_equal(0)
+
+
 func test_break_two_exits_two_dialog_levels() -> void:
 	# `break 2` from the innermost dialog should move back up two dialog levels
 	# to the outermost dialog in this fixture shape. As with `break 1`, the test

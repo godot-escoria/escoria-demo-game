@@ -1,0 +1,14 @@
+:talk
+	global result = "start"
+	global option1_is_valid = true
+	global option2_is_valid = true
+
+	?!
+		- "option1" [option1_is_valid]
+			result = result + "-say1"
+			option1_is_valid = false
+		- "option2" [option2_is_valid]
+			result = result + "-say2"
+			option2_is_valid = false
+
+	result = result + "-finished"
