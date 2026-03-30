@@ -1,0 +1,7 @@
+:front_waits_for_new_global
+	global concurrent_visibility_result = "start"
+	test_delayed_set_global("concurrent_visibility_progress", "waiting", 0.2)
+	concurrent_visibility_result = shared_runtime_global
+
+:background_declares_new_global
+	global shared_runtime_global = "from-background"
