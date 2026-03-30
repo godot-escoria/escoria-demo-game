@@ -1,0 +1,11 @@
+:first
+	global interpreter_runtime_result = "first"
+
+:second
+	interpreter_runtime_result = interpreter_runtime_result + "-second"
+
+:background_seed
+	global interpreter_runtime_background_result = "first"
+
+:background_after
+	interpreter_runtime_background_result = interpreter_runtime_background_result + "-background"

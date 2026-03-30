@@ -787,6 +787,78 @@ func test_queue_event_block_waits_for_correct_front_event_under_concurrency() ->
 	assert_str(String(escoria.globals_manager.get_global("front_block_wait_background_result"))).is_equal("background")
 
 
+func test_sequential_front_events_preserve_globals_between_runtime_interpreters() -> void:
+	# Each event-manager run currently observes globals written by earlier runs.
+	# The ownership refactor must preserve that user-visible behavior even though
+	# the underlying interpreter instances will stop sharing a singleton slot.
+	var events := _load_fixture_events("interpreter_runtime_state_persists_between_events.esc")
+	assert_bool(events.has("first")).is_true()
+	assert_bool(events.has("second")).is_true()
+
+	var front_finishes: Array = []
+	var on_front_finished := func(return_code, event_name) -> void:
+		front_finishes.append([return_code, event_name])
+
+	escoria.event_manager.event_finished.connect(on_front_finished)
+
+	escoria.event_manager.queue_event(events["first"])
+	while front_finishes.size() < 1:
+		await escoria.get_tree().process_frame
+
+	escoria.event_manager.queue_event(events["second"])
+	while front_finishes.size() < 2:
+		await escoria.get_tree().process_frame
+
+	assert_int(front_finishes.size()).is_equal(2)
+	assert_int(int(front_finishes[0][0])).is_equal(ESCExecution.RC_OK)
+	assert_str(String(front_finishes[0][1])).is_equal("first")
+	assert_int(int(front_finishes[1][0])).is_equal(ESCExecution.RC_OK)
+	assert_str(String(front_finishes[1][1])).is_equal("second")
+	assert_str(String(escoria.globals_manager.get_global("interpreter_runtime_result"))).is_equal("first-second")
+
+	escoria.event_manager.event_finished.disconnect(on_front_finished)
+
+
+func test_background_event_sees_globals_written_by_previous_front_event() -> void:
+	# Front and background channels each create their own runtime interpreter.
+	# A background event queued after a front event must still observe globals
+	# written by that earlier front-channel execution.
+	var events := _load_fixture_events("interpreter_runtime_state_persists_between_events.esc")
+	assert_bool(events.has("background_seed")).is_true()
+	assert_bool(events.has("background_after")).is_true()
+
+	var front_finishes: Array = []
+	var background_finishes: Array = []
+	var on_front_finished := func(return_code, event_name) -> void:
+		front_finishes.append([return_code, event_name])
+	var on_background_finished := func(return_code, event_name, finished_channel_name) -> void:
+		if finished_channel_name == "bg_test":
+			background_finishes.append([return_code, event_name, finished_channel_name])
+
+	escoria.event_manager.event_finished.connect(on_front_finished)
+	escoria.event_manager.background_event_finished.connect(on_background_finished)
+
+	escoria.event_manager.queue_event(events["background_seed"])
+	while front_finishes.size() < 1:
+		await escoria.get_tree().process_frame
+
+	escoria.event_manager.queue_background_event("bg_test", events["background_after"])
+	while background_finishes.size() < 1:
+		await escoria.get_tree().process_frame
+
+	assert_int(front_finishes.size()).is_equal(1)
+	assert_int(int(front_finishes[0][0])).is_equal(ESCExecution.RC_OK)
+	assert_str(String(front_finishes[0][1])).is_equal("background_seed")
+	assert_int(background_finishes.size()).is_equal(1)
+	assert_int(int(background_finishes[0][0])).is_equal(ESCExecution.RC_OK)
+	assert_str(String(background_finishes[0][1])).is_equal("background_after")
+	assert_str(String(background_finishes[0][2])).is_equal("bg_test")
+	assert_str(String(escoria.globals_manager.get_global("interpreter_runtime_background_result"))).is_equal("first-background")
+
+	escoria.event_manager.event_finished.disconnect(on_front_finished)
+	escoria.event_manager.background_event_finished.disconnect(on_background_finished)
+
+
 func test_queue_background_event_allows_consecutive_duplicate_queue_entries() -> void:
 	# Queueing the same background event twice in a row should be allowed on a
 	# background channel. In practice these queues are populated via ASHES
