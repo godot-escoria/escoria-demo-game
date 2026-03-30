@@ -1,0 +1,7 @@
+:test
+	?!
+		- "Option"
+	print("after")
+
+:second
+	print("ok")

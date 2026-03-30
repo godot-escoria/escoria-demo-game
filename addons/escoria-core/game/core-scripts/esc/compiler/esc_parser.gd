@@ -470,6 +470,9 @@ func _dialog_option_statement():
 
 	consume = _consume_new_block_start("dialog option")
 
+	if consume is ESCParseError:
+		return consume
+
 	var block_stmts = _block()
 
 	if block_stmts is ESCParseError:
