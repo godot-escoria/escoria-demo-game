@@ -504,7 +504,11 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 			else:
 				option.set_is_valid(true)
 
-			dialog.options.append(option)
+			# Dialog execution should stop once no valid options remain. Keep only
+			# currently valid options in the presented list so an exhausted dialog
+			# concludes instead of re-running forever with unselectable entries.
+			if option.is_valid():
+				dialog.options.append(option)
 
 		if dialog.options.size() == 0:
 			break
