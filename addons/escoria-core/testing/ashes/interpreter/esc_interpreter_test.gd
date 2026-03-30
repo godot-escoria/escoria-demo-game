@@ -858,6 +858,42 @@ func test_background_event_sees_globals_written_by_previous_front_event() -> voi
 	escoria.event_manager.background_event_finished.disconnect(on_background_finished)
 
 
+func test_running_interpreter_sees_new_global_defined_by_other_channel() -> void:
+	# A runtime interpreter that is already running must observe globals declared
+	# by a concurrent channel after it has started. Otherwise overlapping events
+	# can regress from shared-global behavior to "Undefined variable" failures.
+	var events := _load_fixture_events("concurrent_new_global_visibility.esc")
+	assert_bool(events.has("front_waits_for_new_global")).is_true()
+	assert_bool(events.has("background_declares_new_global")).is_true()
+
+	var front_finishes: Array = []
+	var background_finishes: Array = []
+	var on_front_finished := func(return_code, event_name) -> void:
+		front_finishes.append([return_code, event_name])
+	var on_background_finished := func(return_code, event_name, finished_channel_name) -> void:
+		if finished_channel_name == "bg_test":
+			background_finishes.append([return_code, event_name, finished_channel_name])
+
+	escoria.event_manager.event_finished.connect(on_front_finished)
+	escoria.event_manager.background_event_finished.connect(on_background_finished)
+
+	escoria.event_manager.queue_event(events["front_waits_for_new_global"])
+	await escoria.get_tree().create_timer(0.05).timeout
+	escoria.event_manager.queue_background_event("bg_test", events["background_declares_new_global"])
+
+	while front_finishes.is_empty() or background_finishes.is_empty():
+		await escoria.get_tree().process_frame
+
+	assert_int(int(front_finishes[0][0])).is_equal(ESCExecution.RC_OK)
+	assert_str(str(front_finishes[0][1])).is_equal("front_waits_for_new_global")
+	assert_int(int(background_finishes[0][0])).is_equal(ESCExecution.RC_OK)
+	assert_str(str(background_finishes[0][1])).is_equal("background_declares_new_global")
+	assert_str(str(escoria.globals_manager.get_global("concurrent_visibility_result"))).is_equal("from-background")
+
+	escoria.event_manager.event_finished.disconnect(on_front_finished)
+	escoria.event_manager.background_event_finished.disconnect(on_background_finished)
+
+
 func test_queue_background_event_allows_consecutive_duplicate_queue_entries() -> void:
 	# Queueing the same background event twice in a row should be allowed on a
 	# background channel. In practice these queues are populated via ASHES
