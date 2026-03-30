@@ -251,6 +251,11 @@ func _run_event_on_channel(channel_name: String, event: ESCGrammarStmts.Event) -
 	resolver.resolve(event)
 	await interpreter.interpret(event)
 
+	# Runtime interpreters are owned per channel run. Clean up the local
+	# instance once interpretation has concluded without touching any newer
+	# interpreter another concurrent channel run may have registered.
+	interpreter.cleanup()
+
 	if _runtime_interpreters.get(channel_name) == interpreter:
 		_runtime_interpreters.erase(channel_name)
 
