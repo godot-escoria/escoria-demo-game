@@ -38,8 +38,9 @@ var _builtin_functions: Array = [
 var _channel_name: String = ""
 
 
-func _init(callables: Array, globals: Dictionary):
+func _init(callables: Array, globals: Dictionary, channel_name: String = ""):
 	_globals = ESCEnvironment.new()
+	_channel_name = channel_name
 
 	for callable in callables:
 		_globals.define(callable.get_command_name(), callable)
@@ -77,21 +78,6 @@ func cleanup() -> void:
 ## Returns the dictionary containing any and all global variables. (`Dictionary`)
 func get_global_values() -> Dictionary:
 	return _globals.get_values()
-
-
-## Sets the event-manager channel this interpreter is executing on.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## | Name | Type | Description | Required? |[br]
-## |:-----|:-----|:------------|:----------|[br]
-## |channel_name|`String`|Name of the channel associated with this interpreter run.|yes|[br]
-## [br]
-## #### Returns[br]
-## [br]
-## Returns nothing.
-func set_channel_name(channel_name: String) -> void:
-	_channel_name = channel_name
 
 
 ## Gets the event-manager channel this interpreter is executing on.[br]
