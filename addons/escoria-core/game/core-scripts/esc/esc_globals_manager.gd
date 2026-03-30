@@ -123,6 +123,19 @@ func get_global(key: String):
 	return null
 
 
+## Returns a snapshot copy of all currently stored globals.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns a `Dictionary` containing the current global state. (`Dictionary`)
+func get_globals() -> Dictionary:
+	return _globals.duplicate(true)
+
+
 ## Filters the globals and return all matching keys and their values as a dictionary. Check out [the Godot docs](https://docs.godotengine.org/en/stable/classes/class_string.html#class-string-method-match) for the pattern format.[br]
 ## [br]
 ## #### Parameters[br]

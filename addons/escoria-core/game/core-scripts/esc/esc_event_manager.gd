@@ -111,6 +111,9 @@ var events_queue: Dictionary = {
 ## Currently running event in background channels.
 var _running_events: Dictionary = {}
 
+## Runtime interpreters currently owned by the event manager, keyed by channel.
+var _runtime_interpreters: Dictionary = {}
+
 ## Those commands that are currently running per channel.
 var _running_commands: Dictionary = {}
 
@@ -232,7 +235,8 @@ func _process(delta: float) -> void:
 
 
 func _run_event_on_channel(channel_name: String, event: ESCGrammarStmts.Event) -> void:
-	var interpreter: ESCInterpreter = ESCInterpreterFactory.create_interpreter(channel_name)
+	var interpreter: ESCInterpreter = ESCInterpreterFactory.create_runtime_interpreter(channel_name)
+	_runtime_interpreters[channel_name] = interpreter
 	var resolver: ESCResolver = ESCResolver.new(interpreter)
 
 	escoria.logger.trace(
@@ -246,6 +250,9 @@ func _run_event_on_channel(channel_name: String, event: ESCGrammarStmts.Event) -
 
 	resolver.resolve(event)
 	await interpreter.interpret(event)
+
+	if _runtime_interpreters.get(channel_name) == interpreter:
+		_runtime_interpreters.erase(channel_name)
 
 
 ## Queues a new event based on input from an ASHES command, most likely `queue_event`.[br]
