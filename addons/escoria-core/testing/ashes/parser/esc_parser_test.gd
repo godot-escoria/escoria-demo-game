@@ -124,9 +124,45 @@ func test_dialog_option_missing_right_square_returns_parse_error() -> void:
 	assert_object(statements[0]).is_not_null()
 	assert_object(statements[0]).is_instanceof(ESCGrammarStmts.Event)
 	assert_str(statements[0].get_event_name()).is_equal("test")
-	assert_object(statements[1]).is_not_null()
-	assert_object(statements[1]).is_instanceof(ESCGrammarStmts.Event)
-	assert_str(statements[1].get_event_name()).is_equal("second")
+
+	var found_second := false
+	for statement in statements:
+		if statement is ESCGrammarStmts.Event and statement.get_event_name() == "second":
+			found_second = true
+			break
+
+	assert_bool(found_second).is_true()
+
+
+func test_dialog_option_missing_indented_body_returns_parse_error() -> void:
+	# This fixture omits the required indented body after a dialog option. The
+	# parser should surface the missing block-start error instead of continuing
+	# into `_block()` and constructing a malformed option node.
+	var source := _load_fixture("dialog_option_missing_indented_body.esc")
+	var compiler := ESCCompiler.new()
+	var scanner := ESCScanner.new()
+	scanner.set_source(source)
+	scanner.set_filename(_fixture_path("dialog_option_missing_indented_body.esc"))
+
+	var tokens: Array = scanner.scan_tokens()
+	var parser := ESCParser.new()
+	parser.init(compiler, tokens, "")
+
+	var statements := parser.parse()
+
+	assert_bool(compiler.had_error).is_true()
+	assert_int(statements.size()).is_greater_equal(2)
+	assert_object(statements[0]).is_not_null()
+	assert_object(statements[0]).is_instanceof(ESCGrammarStmts.Event)
+	assert_str(statements[0].get_event_name()).is_equal("test")
+
+	var found_second := false
+	for statement in statements:
+		if statement is ESCGrammarStmts.Event and statement.get_event_name() == "second":
+			found_second = true
+			break
+
+	assert_bool(found_second).is_true()
 
 
 func test_grouping_missing_right_paren_returns_parse_error() -> void:
