@@ -64,9 +64,14 @@ static func create_utility_interpreter(channel_name: String = "") -> ESCInterpre
 ## [br]
 ## Returns a newly-created `ESCInterpreter` instance for runtime usage. (`ESCInterpreter`)
 static func create_runtime_interpreter(channel_name: String = "") -> ESCInterpreter:
+	var runtime_globals := ESCCompiler.load_globals()
+
+	if not Engine.is_editor_hint() and escoria and escoria.globals_manager:
+		runtime_globals.merge(escoria.globals_manager.get_globals(), true)
+
 	var interpreter := ESC_INTERPRETER_SCRIPT.new(
 		ESCCompiler.load_commands(),
-		ESCCompiler.load_globals(),
+		runtime_globals,
 		channel_name
 	)
 	return interpreter

@@ -599,7 +599,6 @@ func test_interrupting_channel_clears_queued_successor_events() -> void:
 	var events := _load_fixture_events("channel_interrupt_clears_queue.esc")
 	assert_bool(events.has("first")).is_true()
 	assert_bool(events.has("second")).is_true()
-	escoria.globals_manager.set_global("bg_queue_result", "start")
 	escoria.globals_manager.set_global("bg_queue_interrupted", false)
 
 	var background_finishes: Array = []
