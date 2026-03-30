@@ -1055,5 +1055,5 @@ func _on_global_changed(key: String, _old_value, new_value) -> void:
 
 	if _globals.get_values().has(key):
 		_globals.assign(token, new_value)
-	elif escoria.save_manager.is_loading_game:
+	else:
 		_globals.define(key, new_value)
