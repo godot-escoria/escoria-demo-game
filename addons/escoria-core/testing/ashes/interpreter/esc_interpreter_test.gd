@@ -1207,6 +1207,58 @@ func test_delayed_command_preserves_statement_ordering() -> void:
 	assert_str(String(globals["result"])).is_equal("cmd-after")
 
 
+func test_set_animations_updates_persisted_player_resource_on_repeat_calls() -> void:
+	# Room changes restore player animations from the reserved
+	# `ANIMATION_RESOURCES` global. Repeated `set_animations()` calls must update
+	# the stored path each time, otherwise the next room load re-applies a stale
+	# costume even if the live player was changed back already.
+	var previous_animations = escoria.globals_manager.get_global(
+		escoria.room_manager.GLOBAL_ANIMATION_RESOURCES
+	)
+	var room := ESCRoom.new()
+	room.global_id = "test_room_issue_1226"
+	escoria.object_manager.set_current_room(room)
+
+	var player := load("res://game/characters/mark/mark.tscn").instantiate() as ESCPlayer
+	player.global_id = "player"
+	escoria.object_manager.register_object(
+		ESCObject.new(player.global_id, player),
+		room,
+		true,
+		false
+	)
+	escoria.globals_manager.set_global(
+		escoria.room_manager.GLOBAL_ANIMATION_RESOURCES,
+		{},
+		true
+	)
+
+	var command := SetAnimationsCommand.new()
+	var jester_animations := "res://game/characters/mark/mark_animations_jester.tres"
+	var default_animations := "res://game/characters/mark/mark_animations.tres"
+
+	assert_int(command.run([player.global_id, jester_animations])).is_equal(ESCExecution.RC_OK)
+	assert_int(command.run([player.global_id, default_animations])).is_equal(ESCExecution.RC_OK)
+
+	var animations: Dictionary = escoria.globals_manager.get_global(
+		escoria.room_manager.GLOBAL_ANIMATION_RESOURCES
+	)
+	assert_bool(animations.has(player.global_id)).is_true()
+	assert_str(String(animations[player.global_id])).is_equal(default_animations)
+
+	var room_key := ESCRoomObjectsKey.new()
+	room_key.room_global_id = room.global_id
+	room_key.room_instance_id = room.get_instance_id()
+	escoria.object_manager.unregister_object_by_global_id(player.global_id, room_key)
+	escoria.globals_manager.set_global(
+		escoria.room_manager.GLOBAL_ANIMATION_RESOURCES,
+		previous_animations if previous_animations != null else {},
+		true
+	)
+	player.free()
+	room.free()
+
+
 func _interpret_fixture(name: String, dialog_choices: Array = []) -> Dictionary:
 	# Shared interpreter harness for fixture-based tests. This intentionally
 	# runs the full scan -> parse -> resolve -> interpret pipeline so the tests

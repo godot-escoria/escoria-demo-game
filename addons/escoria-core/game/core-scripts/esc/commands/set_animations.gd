@@ -89,7 +89,7 @@ func run(command_params: Array) -> int:
 	)
 	if animations.is_empty():
 		animations = {}
-		animations[command_params[0]] = command_params[1]
+	animations[command_params[0]] = command_params[1]
 	escoria.globals_manager.set_global(
 		escoria.room_manager.GLOBAL_ANIMATION_RESOURCES,
 		animations,
