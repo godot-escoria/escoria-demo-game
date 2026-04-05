@@ -172,6 +172,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 				var trigger_id = params[0]
 				var object_id = params[1]
 				var trigger_in_verb = params[2]
+				var trigger_object := escoria.object_manager.get_object(trigger_id)
 				escoria.logger.info(
 					self,
 					"trigger_in on trigger %s activated by %s." % [
@@ -179,9 +180,17 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 						object_id
 					]
 				)
-				if trigger_in_verb in escoria.object_manager.get_object(trigger_id).events:
+
+				if not _is_object_actionable(trigger_object):
+					escoria.logger.info(
+						self,
+						"Trigger %s is not actionable. Skipping trigger_in." % trigger_id
+					)
+					return
+
+				if trigger_in_verb in trigger_object.events:
 					escoria.event_manager.queue_event(
-						escoria.object_manager.get_object(trigger_id).events[
+						trigger_object.events[
 							trigger_in_verb
 						]
 					)
@@ -195,6 +204,7 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 				var trigger_id = params[0]
 				var object_id = params[1]
 				var trigger_out_verb = params[2]
+				var trigger_object := escoria.object_manager.get_object(trigger_id)
 				escoria.logger.info(
 					self,
 					"trigger_out on trigger %s activated by %s." % [
@@ -202,9 +212,17 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 						object_id
 					]
 				)
-				if trigger_out_verb in escoria.object_manager.get_object(trigger_id).events:
+
+				if not _is_object_actionable(trigger_object):
+					escoria.logger.info(
+						self,
+						"Trigger %s is not actionable. Skipping trigger_out." % trigger_id
+					)
+					return
+
+				if trigger_out_verb in trigger_object.events:
 					escoria.event_manager.queue_event(
-						escoria.object_manager.get_object(trigger_id).events[
+						trigger_object.events[
 							trigger_out_verb
 						]
 					)
