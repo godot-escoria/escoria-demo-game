@@ -2,8 +2,8 @@
 ##
 ## Catches, handles and distributes input events for the game.
 ## @MANAGER
-extends Resource
 class_name ESCInputsManager
+extends Resource
 
 
 ## Valid input flags[br]
@@ -77,7 +77,7 @@ func _init():
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func _on_event_finished(return_code: int, event_name: String):
+func _on_event_finished(_return_code: int, _event_name: String):
 	if _hovered_element == null:
 		hotspot_focused = ""
 
@@ -162,8 +162,8 @@ func register_custom_input_handler(callback) -> void:
 func try_custom_input_handler(event: InputEvent, is_default_state: bool) -> bool:
 	if custom_input_handler:
 		return custom_input_handler.call(event, is_default_state)
-	else:
-		return false
+
+	return false
 
 ## Callback called by hover stack content change.[br]
 ## [br]
@@ -210,8 +210,7 @@ func set_hovered_node(item: ESCItem) -> bool:
 		_hovered_element.mouse_entered()
 		return true
 	# Else, the tested item is currently on top of hover stack, then do nothing
-	else:
-		return false
+	return false
 
 
 ## Unsets the hovered node.[br]
@@ -506,10 +505,10 @@ func on_item_non_interactive(item: ESCItem) -> void:
 
 		if hover_stack.is_empty():
 			return
-		else:
-			var new_item = hover_stack.get_top_item()
-			escoria.action_manager.set_action_input_state(ESCActionManager.ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM)
-			new_item.mouse_entered()
+
+		var new_item = hover_stack.get_top_item()
+		escoria.action_manager.set_action_input_state(ESCActionManager.ActionInputState.AWAITING_VERB_OR_ITEM)
+		new_item.mouse_entered()
 
 
 # An Escoria item was clicked with the LMB
