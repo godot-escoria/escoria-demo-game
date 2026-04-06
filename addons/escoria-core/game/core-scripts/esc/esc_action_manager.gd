@@ -1,11 +1,7 @@
 ## Manages actions currently being carried out.
 ## @MANAGER
-extends Resource
 class_name ESCActionManager
-
-
-## ESCPlayer resource
-const ESCPlayer = preload("res://addons/escoria-core/game/core-scripts/esc_player.gd")
+extends Resource
 
 
 ## The current action verb was changed.[br]
@@ -39,7 +35,7 @@ signal action_input_state_changed
 ## (I) -> AWAITING_VERB_OR_ITEM -> AWAITING_ITEM -> AWAITING_TARGET_ITEM -> COMPLETED -> (E)[br]
 ## or[br]
 ## (I) -> AWAITING_VERB_OR_ITEM -> AWAITING_VERB -> AWAITING_VERB_CONFIRMATION -> COMPLETED -> (E)
-enum ACTION_INPUT_STATE {
+enum ActionInputState {
 	AWAITING_VERB_OR_ITEM, ## Initial state
 	AWAITING_ITEM,        ## After initial state, verb is defined
 	AWAITING_TARGET_ITEM, ## Item defined requires combine, waiting for target
@@ -65,6 +61,9 @@ enum ACTION {
 
 # Basic required internal actions
 
+## ESCPlayer resource
+const ESCPlayer = preload("res://addons/escoria-core/game/core-scripts/esc_player.gd")
+
 ## Action (event) triggered when a character has reached a destination.
 const ACTION_ARRIVED = "arrived"
 
@@ -85,7 +84,7 @@ var current_tool: ESCObject
 var current_target: ESCObject
 
 ## Current action input state.
-var action_state = ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM:
+var action_state = ActionInputState.AWAITING_VERB_OR_ITEM:
 	set = set_action_input_state
 
 
@@ -277,10 +276,10 @@ func set_current_action(action: String) -> void:
 
 	current_action = action
 
-	if action_state == ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM:
-		set_action_input_state(ACTION_INPUT_STATE.AWAITING_ITEM)
-	elif action_state == ACTION_INPUT_STATE.AWAITING_VERB:
-		set_action_input_state(ACTION_INPUT_STATE.AWAITING_VERB_CONFIRMATION)
+	if action_state == ActionInputState.AWAITING_VERB_OR_ITEM:
+		set_action_input_state(ActionInputState.AWAITING_ITEM)
+	elif action_state == ActionInputState.AWAITING_VERB:
+		set_action_input_state(ActionInputState.AWAITING_VERB_CONFIRMATION)
 
 	action_changed.emit()
 
@@ -296,7 +295,7 @@ func set_current_action(action: String) -> void:
 ## Returns nothing.
 func clear_current_action() -> void:
 	set_current_action("")
-	set_action_input_state(ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM)
+	set_action_input_state(ActionInputState.AWAITING_VERB_OR_ITEM)
 	action_changed.emit()
 
 
@@ -312,10 +311,10 @@ func clear_current_action() -> void:
 func clear_current_tool() -> void:
 	current_tool = null
 	current_target = null
-	if action_state == ACTION_INPUT_STATE.AWAITING_VERB:
-		set_action_input_state(ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM)
-	elif action_state == ACTION_INPUT_STATE.AWAITING_TARGET_ITEM:
-		set_action_input_state(ACTION_INPUT_STATE.AWAITING_ITEM)
+	if action_state == ActionInputState.AWAITING_VERB:
+		set_action_input_state(ActionInputState.AWAITING_VERB_OR_ITEM)
+	elif action_state == ActionInputState.AWAITING_TARGET_ITEM:
+		set_action_input_state(ActionInputState.AWAITING_ITEM)
 
 
 ## Checks if the specified action is valid and returns the associated event; otherwise, we see if there's a "fallback" event and use that if necessary and, if not, we return no event as there's nothing to do. or there's a reason not to run an event.[br]
@@ -491,7 +490,7 @@ func _check_target_has_proper_action(target: ESCObject, action: String) -> bool:
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func _has_event_with_target(events_dict: Dictionary, event_name: String, event_target: String):
+func _has_event_with_target(events_dict: Dictionary, event_name: String, _event_target: String):
 	var event = events_dict.get(event_name)
 	if event == null:
 		return false
@@ -596,29 +595,8 @@ func perform_inputevent_on_object(
 	event: InputEvent,
 	default_action: bool = false
 ) -> void:
-	"""
-	This algorithm:
-	- validates the requested action
-	- grabs the corresponding event for the action, if available
-	- makes the player move to the clicked object location, if needed
-	(if it is located in the room for example) and wait for reaching.
-	- when reached, performs an action depending on current defined action
-		* no current action defined: do nothing else
-		* current action defined:
-			* item requires no combination: perform the current action
-			  on the item
-			* item requires combination: check the status of the combination
-			  A combination requires 3 elements to fulfill:
-				1/ a verb action
-				2/ a first "tool" (item to use)
-				3/ a second "tool" (item to use ON)
-			  Whatever the user inputs to fulfill the combination (this is
-			  determined by gamedev in his game.gd script)
-				- combination not fulfilled: no not perform until fulfilled
-				- combination fulfilled: perform the combination.
-		* else do nothing, except if default_action is requested.
-		  In this case, perform the default_action on the item.
-	"""
+	# This algorithm validates the requested action, moves the player if needed,
+	# and resolves the current action state against the clicked object.
 
 	escoria.logger.info(
 		self,
@@ -646,14 +624,14 @@ func perform_inputevent_on_object(
 		current_target = obj
 
 	# Update the action input state
-	if action_state == ACTION_INPUT_STATE.AWAITING_TARGET_ITEM and current_target:
-		set_action_input_state(ACTION_INPUT_STATE.COMPLETED)
-	elif action_state == ACTION_INPUT_STATE.AWAITING_ITEM and \
+	if action_state == ActionInputState.AWAITING_TARGET_ITEM and current_target:
+		set_action_input_state(ActionInputState.COMPLETED)
+	elif action_state == ActionInputState.AWAITING_ITEM and \
 			not need_combine:
-		set_action_input_state(ACTION_INPUT_STATE.COMPLETED)
-	elif action_state == ACTION_INPUT_STATE.AWAITING_ITEM and \
+		set_action_input_state(ActionInputState.COMPLETED)
+	elif action_state == ActionInputState.AWAITING_ITEM and \
 			need_combine and not tool_just_set:
-		set_action_input_state(ACTION_INPUT_STATE.AWAITING_TARGET_ITEM)
+		set_action_input_state(ActionInputState.AWAITING_TARGET_ITEM)
 
 	var event_to_queue: ESCGrammarStmts.Event = null
 
@@ -673,7 +651,7 @@ func perform_inputevent_on_object(
 			event_to_queue = _get_event_to_queue(current_action, current_tool, current_target)
 		# If clicked object needs a combination then we need to wait for the target.
 		elif need_combine:
-			set_action_input_state(ACTION_INPUT_STATE.AWAITING_TARGET_ITEM)
+			set_action_input_state(ActionInputState.AWAITING_TARGET_ITEM)
 			# If object is in inventory make it current tool.
 			if escoria.inventory_manager.inventory_has(obj.global_id):
 				current_tool = obj
