@@ -397,8 +397,6 @@ func _get_event_to_queue(
 								self,
 								"Invalid action: " + str(errors)
 							)
-
-						event_to_return = combine_with.events[combine_name]
 				else:
 					escoria.logger.warn(
 						self,
