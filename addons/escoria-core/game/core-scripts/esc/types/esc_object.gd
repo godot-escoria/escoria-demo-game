@@ -21,8 +21,8 @@ var interactive: bool = true: get = _get_interactive, set = _set_interactive
 var state: String = STATE_DEFAULT:
 	get = get_state
 
-## The events registered with the object.
-var events: Dictionary = {}
+## The events registered with the object
+var events: ESCEventsContainer = ESCEventsContainer.new()
 
 ## The node representing the object in the scene.
 var node: Node
@@ -200,3 +200,30 @@ func get_save_data() -> Dictionary:
 		save_data["target"] = self.node.get("_follow_target").global_id
 
 	return save_data
+
+
+## Determines whether the specified events list contains an event with the[br]
+## specified event name and event target, e.g. `:give "filled_out_form"`[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - event_name: the event name to search for[br]
+## - event_target: the target for the specified event to check; may be null[br]
+##[br]
+## *Returns* true iff events contains an event matching both event_name and event_target
+func has_event_with_target(event_name: String, event_target) -> bool:
+	return events.has_event_with_target(event_name, event_target)
+
+
+## Returns the event matching the specified event name and target, e.g. `:give "filled_out_form"`[br]
+## if it exists; returns null otherwise.[br]
+##[br]
+## #### Parameters[br]
+##[br]
+## - event_name: the event name to search for[br]
+## - event_target: the target for the specified event to check; may be null[br]
+##[br]
+## *Returns* the event in `events` iff `events` contains an event matching both `event_name` and `event_target`;[br]
+## returns null otherwise.
+func get_event_with_target(event_name: String, event_target):
+	return events.get_event_with_target(event_name, event_target)

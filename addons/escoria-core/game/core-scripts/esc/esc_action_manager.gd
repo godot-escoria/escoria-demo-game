@@ -360,28 +360,19 @@ func _get_event_to_queue(
 					do_combine = false
 
 				if do_combine:
-					var action_name = action
-					if combine_with.global_id:
-						action_name += " " + combine_with.global_id
-
-					var combine_name = action
-					if combine_with.global_id:
-						combine_name += " " + target.global_id
-
-					if _has_event_with_target(target.events, action_name, combine_with.global_id):
-						event_to_return = target.events[action_name]
-
-					elif _has_event_with_target(combine_with.events, combine_name, target.global_id)\
+					if target.has_event_with_target(action, combine_with.global_id):
+						event_to_return = target.get_event_with_target(action, combine_with.global_id)
+					elif combine_with.has_event_with_target(action, target.global_id)\
 							and not combine_with.node.combine_is_one_way:
 
-						event_to_return = combine_with.events[combine_name]
+						event_to_return = combine_with.get_event_with_target(action, target.global_id)
 					else:
 						# Check to see if there isn't a "fallback" action to
 						# run before we declare this a failure.
 						if escoria.action_default_script \
 							and escoria.action_default_script.events.has(action):
 
-							event_to_return = escoria.action_default_script.events[action]
+							event_to_return = escoria.action_default_script.get_event_with_target(action)
 						else:
 							var errors = [
 								"Attempted to execute action '%s' between item %s and item %s" % [
@@ -406,6 +397,8 @@ func _get_event_to_queue(
 								self,
 								"Invalid action: " + str(errors)
 							)
+
+						event_to_return = combine_with.events[combine_name]
 				else:
 					escoria.logger.warn(
 						self,
@@ -431,12 +424,9 @@ func _get_event_to_queue(
 				+ "but item must be in inventory."
 			)
 	else:
-		if _check_target_has_proper_action(target, action):
-#			##SAVEGAME
-#			if target.events[action].is_completed:
-#				target.events[action].is_completed = false
-#				target.events[action].from_statement_id = 0
-			event_to_return = target.events[action]
+		if target.has_event_with_target(action):
+			# We only deal with the action here as long as it doesn't have a target associated with it.
+			event_to_return = target.get_event_with_target(action)
 		elif escoria.action_default_script \
 			and escoria.action_default_script.events.has(action):
 
@@ -704,7 +694,7 @@ func perform_inputevent_on_object(
 					+ "Any requested action for %s will not fire." % obj.global_id
 			)
 			if escoria.event_manager.EVENT_CANT_REACH in obj.events:
-				escoria.event_manager.queue_event(obj.events[escoria.event_manager.EVENT_CANT_REACH])
+				escoria.event_manager.queue_event(obj.get_event_with_target(escoria.event_manager.EVENT_CANT_REACH))
 			else:
 				escoria.logger.info(
 					self,
