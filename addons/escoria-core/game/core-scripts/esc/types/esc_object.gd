@@ -211,7 +211,7 @@ func get_save_data() -> Dictionary:
 ## - event_target: the target for the specified event to check; may be null[br]
 ##[br]
 ## *Returns* true iff events contains an event matching both event_name and event_target
-func has_event_with_target(event_name: String, event_target) -> bool:
+func has_event_with_target(event_name: String, event_target = null) -> bool:
 	return events.has_event_with_target(event_name, event_target)
 
 
@@ -225,5 +225,5 @@ func has_event_with_target(event_name: String, event_target) -> bool:
 ##[br]
 ## *Returns* the event in `events` iff `events` contains an event matching both `event_name` and `event_target`;[br]
 ## returns null otherwise.
-func get_event_with_target(event_name: String, event_target):
+func get_event_with_target(event_name: String, event_target = null):
 	return events.get_event_with_target(event_name, event_target)
