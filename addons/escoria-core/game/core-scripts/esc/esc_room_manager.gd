@@ -593,7 +593,7 @@ func _run_script_event(event_name: String, room: ESCRoom):
 		room.compiled_script = \
 			escoria.esc_compiler.load_esc_file(room.esc_script)
 
-	if room.compiled_script.events.has(event_name):
+	if room.compiled_script.has_event_with_target(event_name, null):
 		escoria.logger.debug(
 			self,
 			"Queuing room script event %s " % event_name +
