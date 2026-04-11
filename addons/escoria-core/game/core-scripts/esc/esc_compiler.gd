@@ -1,6 +1,6 @@
 ## Compiler for the ASHES language.
-extends Resource
 class_name ESCCompiler
+extends Resource
 
 
 ## This must match `ESCProjectSettingsManager.COMMAND_DIRECTORIES`.
@@ -181,7 +181,7 @@ func load_esc_file(path: String, associated_global_id: String = "") -> ESCScript
 ## #### Returns[br]
 ## [br]
 ## Returns a `ESCScript` value. (`ESCScript`)
-func compile(script: String, path: String = "") -> ESCScript:
+func compile(script: String, _path: String = "") -> ESCScript:
 	return _compiler_shim(script)
 
 

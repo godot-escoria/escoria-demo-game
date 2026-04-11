@@ -1,7 +1,7 @@
 ## A manager for rooms in a game.
 ## @MANAGER
-extends Resource
 class_name ESCRoomManager
+extends Resource
 ## The room manager scene.
 ## Manages room loading and keeps in memory
 
@@ -603,5 +603,5 @@ func _run_script_event(event_name: String, room: ESCRoom):
 		)
 		escoria.event_manager.queue_event(event, true)
 		return true
-	else:
-		return false
+
+	return false

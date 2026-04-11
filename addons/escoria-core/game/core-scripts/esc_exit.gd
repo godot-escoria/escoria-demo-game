@@ -11,8 +11,8 @@
 ## [br]
 ## The game character will automatically walk to an ``ESCLocation`` created as a
 ## child of an ``ESCExit`` node.
-extends ESCItem
 class_name ESCExit
+extends ESCItem
 
 
 ## Path to the target scene to change to

@@ -59,6 +59,10 @@ enum ACTION {
 }
 
 
+## ESCPlayer resource
+const ESCPlayer = preload("res://addons/escoria-core/game/core-scripts/esc_player.gd")
+
+
 # Basic required internal actions
 
 ## ESCPlayer resource
@@ -506,7 +510,6 @@ func perform_walk(
 	destination,
 	is_fast: bool = false
 ) -> void:
-	# Walk to Position2D.
 	if destination is Vector2:
 		var walk_context = ESCWalkContext.new(
 			null,
@@ -561,8 +564,9 @@ func perform_inputevent_on_object(
 	event: InputEvent,
 	default_action: bool = false
 ) -> void:
-	# This algorithm validates the requested action, moves the player if needed,
-	# and resolves the current action state against the clicked object.
+	# This validates the requested action, resolves the corresponding event,
+	# moves the player when needed, and only performs combination actions
+	# after verb + source item + target item have all been selected.
 
 	escoria.logger.info(
 		self,

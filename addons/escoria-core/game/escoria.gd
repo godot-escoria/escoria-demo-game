@@ -1,6 +1,6 @@
 @tool
-extends Node
 class_name Escoria
+extends Node
 ## The main Escoria script.
 
 
@@ -173,7 +173,6 @@ func _input(event: InputEvent):
 
 	if event.is_action_pressed("ui_cancel"):
 		request_pause_menu.emit()
-	pass
 
 
 ## Runs the event "event_name" from the "script" ESC script.[br]
@@ -189,7 +188,7 @@ func _input(event: InputEvent):
 ## #### Returns[br]
 ## [br]
 ## Returns Nothing. Waits for the event to finish before returning. (`Variant`)
-func run_event_from_script(script: ESCScript, event_name: String, from_statement_id: int = 0):
+func run_event_from_script(script: ESCScript, event_name: String, _from_statement_id: int = 0):
 	if script == null:
 		escoria.logger.error(
 			self,
