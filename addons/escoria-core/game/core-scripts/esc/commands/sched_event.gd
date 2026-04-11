@@ -63,7 +63,7 @@ func validate(arguments: Array):
 
 	var esc_script = escoria.esc_compiler.load_esc_file(node.esc_script)
 
-	if not esc_script.events.has_event_with_target(arguments[2]):
+	if not esc_script.has_event_with_target(arguments[2]):
 		raise_error(
 			self,
 			"Event with name '%s' not found." % arguments[2]
@@ -104,7 +104,7 @@ func run(command_params: Array) -> int:
 	var esc_script = escoria.esc_compiler.load_esc_file(node.esc_script)
 
 	escoria.event_manager.schedule_event(
-		esc_script.events.get_event_with_target(command_params[2]), # ESCGrammarStmts.Event
+		esc_script.get_event_with_target(command_params[2]), # ESCGrammarStmts.Event
 		command_params[0], # timeout float
 		command_params[1] # object string
 	)

@@ -1,7 +1,10 @@
 ## Represents an object that is able to be handled by Escoria.
-extends RefCounted
 class_name ESCObject
+extends RefCounted
 
+const ESC_EVENTS_CONTAINER_SCRIPT := preload(
+	"res://addons/escoria-core/game/core-scripts/esc/types/esc_events_container.gd"
+)
 
 ## Default object state.
 const STATE_DEFAULT: String = "default"
@@ -22,7 +25,7 @@ var state: String = STATE_DEFAULT:
 	get = get_state
 
 ## The events registered with the object
-var events: ESCEventsContainer = ESCEventsContainer.new()
+var events = ESC_EVENTS_CONTAINER_SCRIPT.new()
 
 ## The node representing the object in the scene.
 var node: Node
@@ -142,8 +145,8 @@ func is_active() -> bool:
 func _get_interactive() -> bool:
 	if is_instance_valid(self.node) and "is_interactive" in self.node:
 		return self.node.is_interactive
-	else:
-		return true
+
+	return true
 
 
 ## Sets the interactive value in the node.[br]

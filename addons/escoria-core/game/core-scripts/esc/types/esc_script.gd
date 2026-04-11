@@ -1,10 +1,13 @@
 ## Represents a compiled ASHES script.
-extends Resource
 class_name ESCScript
+extends Resource
 
+const ESC_EVENTS_CONTAINER_SCRIPT := preload(
+	"res://addons/escoria-core/game/core-scripts/esc/types/esc_events_container.gd"
+)
 
 ## The events registered with the script.
-var events: ESCEventsContainer = ESCEventsContainer.new()
+var events = ESC_EVENTS_CONTAINER_SCRIPT.new()
 
 
 ##############
