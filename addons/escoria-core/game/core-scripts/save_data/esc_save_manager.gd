@@ -590,7 +590,7 @@ func _load_savegame_events(savegame_events: Dictionary):
 					sched_event.object
 				)
 			escoria.event_manager.schedule_event(
-				script.events[sched_event.event_name],
+				script.events.get_event_with_target(sched_event.event_name),
 				sched_event.timeout,
 				sched_event.object
 			)

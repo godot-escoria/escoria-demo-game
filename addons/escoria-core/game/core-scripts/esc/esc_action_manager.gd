@@ -467,26 +467,6 @@ func _check_target_has_proper_action(target_object: ESCObject, action: String) -
 	return false
 
 
-## Determines whether the specified events dictionary contains an event with the specified event name and event target, e.g. :give "filled_out_form".[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## | Name | Type | Description | Required? |[br]
-## |:-----|:-----|:------------|:----------|[br]
-## |events_dict|`Dictionary`|dictionary with events to check.|yes|[br]
-## |event_name|`String`|the event name to search for.|yes|[br]
-## |event_target|`String`|the target for the specified event to check.|yes|[br]
-## [br]
-## #### Returns[br]
-## [br]
-## Returns nothing.
-func _has_event_with_target(events_dict: Dictionary, event_name: String, _event_target: String):
-	var event = events_dict.get(event_name)
-	if event == null:
-		return false
-	return true
-
-
 ## Runs the specified event.[br]
 ## [br]
 ## #### Parameters[br]
