@@ -1,0 +1,8 @@
+:look
+	say("player", "It's a leaking pipe.")
+
+:use "r5_wrench"
+	say("player", "The leak's now fixed.")
+
+:use "r5_pen"
+	say("player", "I don't see how I can fix the pipe with a pen.")
