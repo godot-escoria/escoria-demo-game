@@ -504,6 +504,28 @@ func test_invalid_command_in_loop_does_not_continue_event() -> void:
 	assert_float(float(outcome.globals["count"])).is_equal(0.0)
 
 
+func test_script_preserves_multi_target_use_events_without_creating_untargeted_use() -> void:
+	# Room05-style scripts can define the same action multiple times with
+	# different targets. Both targeted events must survive compilation, while an
+	# untargeted lookup for the same action must not accidentally match either.
+	var script_object := _compile_fixture_script("multi_target_use_events.esc")
+
+	assert_bool(script_object.has_event_with_target("use", "r5_wrench")).is_true()
+	assert_bool(script_object.has_event_with_target("use", "r5_pen")).is_true()
+	assert_bool(script_object.has_event_with_target("use")).is_false()
+
+	var wrench_event = script_object.get_event_with_target("use", "r5_wrench")
+	var pen_event = script_object.get_event_with_target("use", "r5_pen")
+
+	assert_object(wrench_event).is_not_null()
+	assert_object(pen_event).is_not_null()
+	assert_object(wrench_event).is_not_same(pen_event)
+	assert_str(wrench_event.get_target_name()).is_equal("r5_wrench")
+	assert_str(pen_event.get_target_name()).is_equal("r5_pen")
+	assert_int(wrench_event.get_num_statements_in_block()).is_equal(1)
+	assert_int(pen_event.get_num_statements_in_block()).is_equal(1)
+
+
 func test_dialog_option_scope_shadowing_restores_outer_local() -> void:
 	# A dialog option body introduces nested block scope. Assignments inside the
 	# option should see the inner shadowing variable, while execution after the
