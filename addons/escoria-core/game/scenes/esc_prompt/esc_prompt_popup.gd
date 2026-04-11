@@ -1,14 +1,8 @@
 ## A debug window which can run esc commands
 extends Window
 
-## Reference to the past actions display
-@onready var past_actions = $VBoxContainer/past_actions
-
-## Reference to the command input
-@onready var command = $VBoxContainer/command
-
-## ESC commands kept around for references to their command names.
-var _print: PrintCommand
+## The maximum number of commands to keep in history
+const COMMANDS_HISTORY_LENGTH: int = 20
 
 ## History of typed commands
 var commands_history: PackedStringArray
@@ -16,8 +10,14 @@ var commands_history: PackedStringArray
 ## The current index in the command history
 var commands_history_current_id: int
 
-## The maximum number of commands to keep in history
-const COMMANDS_HISTORY_LENGTH: int = 20
+## ESC commands kept around for references to their command names.
+var _print: PrintCommand
+
+## Reference to the past actions display
+@onready var past_actions = $VBoxContainer/past_actions
+
+## Reference to the command input
+@onready var command = $VBoxContainer/command
 
 ## Called when the node is added to the scene tree for the first time.[br]
 ## [br]

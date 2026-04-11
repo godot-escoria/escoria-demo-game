@@ -468,7 +468,7 @@ func _load_room_objects(room_id: String, objects_dictionary: Dictionary):
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func _load_object(object_id: String, object_dictionary: Dictionary, room_id: String):
+func _load_object(object_id: String, object_dictionary: Dictionary, _room_id: String):
 	escoria.logger.info(self, "Loading object '%s'" % object_id)
 
 	if object_id == ESCObjectManager.CAMERA:
@@ -609,7 +609,7 @@ func _load_savegame_events(savegame_events: Dictionary):
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func _ensure_directory_exists(dir: String) -> void:
+func _ensure_directory_exists(_dir: String) -> void:
 	if not DirAccess.dir_exists_absolute(save_folder):
 		var return_code = DirAccess.make_dir_absolute(save_folder)
 
