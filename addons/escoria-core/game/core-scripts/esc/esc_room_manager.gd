@@ -341,7 +341,7 @@ func _perform_script_events(room: ESCRoom) -> int:
 			get_class())
 
 		escoria.event_manager.queue_event(
-			script_transition_out_compiled.events[escoria.event_manager.EVENT_TRANSITION_OUT],
+			script_transition_out_compiled.get_event_with_target(escoria.event_manager.EVENT_TRANSITION_OUT),
 			true
 		)
 

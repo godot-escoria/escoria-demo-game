@@ -200,7 +200,7 @@ func run_event_from_script(script: ESCScript, event_name: String, from_statement
 	if not _event_exists_in_script(script, event_name):
 		return
 
-	escoria.event_manager.queue_event(script.events[event_name])
+	escoria.event_manager.queue_event(script.events.get_event_with_target(event_name))
 	var rc = await escoria.event_manager.event_finished
 	while rc[1] != event_name:
 		rc = await escoria.event_manager.event_finished

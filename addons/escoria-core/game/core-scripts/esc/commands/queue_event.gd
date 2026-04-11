@@ -64,7 +64,7 @@ func validate(arguments: Array):
 
 	var esc_script = escoria.esc_compiler.load_esc_file(node.esc_script)
 
-	if not arguments[1] in esc_script.events:
+	if not esc_script.events.has_event_with_target(arguments[1]):
 		raise_error(
 			self,
 			"Event with name '%s' not found." % arguments[1]
