@@ -46,8 +46,6 @@ func get_event_with_target(event_name: String, event_target = null):
 			if event_target:
 				if event.get_target_name() == event_target:
 					return event
-
-				return null
 			else:
 				return event
 
