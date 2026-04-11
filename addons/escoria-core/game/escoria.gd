@@ -200,7 +200,7 @@ func run_event_from_script(script: ESCScript, event_name: String, from_statement
 	if not _event_exists_in_script(script, event_name):
 		return
 
-	escoria.event_manager.queue_event(script.events.get_event_with_target(event_name))
+	escoria.event_manager.queue_event(script.get_event_with_target(event_name))
 	var rc = await escoria.event_manager.event_finished
 	while rc[1] != event_name:
 		rc = await escoria.event_manager.event_finished
@@ -227,7 +227,7 @@ func run_event_from_script(script: ESCScript, event_name: String, from_statement
 ## [br]
 ## Returns True iff event_name exists within script. Method will terminate execution of the program if the specified event is required and doesn't exist. (`bool`)
 func _event_exists_in_script(script: ESCScript, event_name: String) -> bool:
-	if script.events.has_event_with_target(event_name):
+	if script.has_event_with_target(event_name):
 		return true
 
 	if  event_name in escoria.event_manager.REQUIRED_EVENTS:

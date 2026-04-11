@@ -111,7 +111,7 @@ func _on_command_text_entered(p_command_str : String):
 
 	if script:
 		escoria.logger.dont_assert = true
-		escoria.event_manager.queue_event(script.events.get_event_with_target(escoria.event_manager.EVENT_PRINT))
+		escoria.event_manager.queue_event(script.get_event_with_target(escoria.event_manager.EVENT_PRINT))
 		var ret = await escoria.event_manager.event_finished
 		while ret[1] != _print.get_command_name():
 			ret = await escoria.event_manager.event_finished

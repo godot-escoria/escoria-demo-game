@@ -521,9 +521,9 @@ func test_interrupting_background_channel_does_not_interrupt_front_channel() -> 
 	# that channel. The front event must still complete normally while the
 	# background event should finish as interrupted once its in-flight command
 	# observes the interrupt.
-	var events := _load_fixture_events("channel_interrupt_isolation.esc")
-	assert_bool(events.has("front_event")).is_true()
-	assert_bool(events.has("background_event")).is_true()
+	var events = _load_fixture_events("channel_interrupt_isolation.esc")
+	assert_bool(events.has_event_with_target("front_event")).is_true()
+	assert_bool(events.has_event_with_target("background_event")).is_true()
 	escoria.globals_manager.set_global("channel_front_result", "start")
 	escoria.globals_manager.set_global("channel_background_result", "start")
 	escoria.globals_manager.set_global("channel_front_was_interrupted", false)
@@ -543,8 +543,11 @@ func test_interrupting_background_channel_does_not_interrupt_front_channel() -> 
 	escoria.event_manager.event_finished.connect(on_front_finished)
 	escoria.event_manager.background_event_finished.connect(on_background_finished)
 
-	escoria.event_manager.queue_event(events["front_event"])
-	escoria.event_manager.queue_background_event("bg_test", events["background_event"])
+	escoria.event_manager.queue_event(events.get_event_with_target("front_event"))
+	escoria.event_manager.queue_background_event(
+		"bg_test",
+		events.get_event_with_target("background_event")
+	)
 
 	await escoria.get_tree().create_timer(0.05).timeout
 	escoria.event_manager.interrupt_channel("bg_test")
@@ -569,9 +572,9 @@ func test_interrupting_background_channel_does_not_interrupt_front_channel() -> 
 func test_concurrent_channels_complete_without_interrupting_each_other() -> void:
 	# Two events on different channels should be able to run at the same time
 	# and still complete normally when no interrupt is issued.
-	var events := _load_fixture_events("channel_interrupt_isolation.esc")
-	assert_bool(events.has("front_event")).is_true()
-	assert_bool(events.has("background_event")).is_true()
+	var events = _load_fixture_events("channel_interrupt_isolation.esc")
+	assert_bool(events.has_event_with_target("front_event")).is_true()
+	assert_bool(events.has_event_with_target("background_event")).is_true()
 	escoria.globals_manager.set_global("channel_front_result", "start")
 	escoria.globals_manager.set_global("channel_background_result", "start")
 	escoria.globals_manager.set_global("channel_front_was_interrupted", false)
@@ -591,8 +594,11 @@ func test_concurrent_channels_complete_without_interrupting_each_other() -> void
 	escoria.event_manager.event_finished.connect(on_front_finished)
 	escoria.event_manager.background_event_finished.connect(on_background_finished)
 
-	escoria.event_manager.queue_event(events["front_event"])
-	escoria.event_manager.queue_background_event("bg_test", events["background_event"])
+	escoria.event_manager.queue_event(events.get_event_with_target("front_event"))
+	escoria.event_manager.queue_background_event(
+		"bg_test",
+		events.get_event_with_target("background_event")
+	)
 
 	while signal_results["front"] == null or signal_results["background"] == null:
 		await escoria.get_tree().process_frame
@@ -614,9 +620,9 @@ func test_concurrent_channels_complete_without_interrupting_each_other() -> void
 func test_interrupting_channel_clears_queued_successor_events() -> void:
 	# Interrupting a channel should stop the currently running event and purge
 	# later queued events on that same channel before they ever start running.
-	var events := _load_fixture_events("channel_interrupt_clears_queue.esc")
-	assert_bool(events.has("first")).is_true()
-	assert_bool(events.has("second")).is_true()
+	var events = _load_fixture_events("channel_interrupt_clears_queue.esc")
+	assert_bool(events.has_event_with_target("first")).is_true()
+	assert_bool(events.has_event_with_target("second")).is_true()
 	escoria.globals_manager.set_global("bg_queue_interrupted", false)
 
 	var background_finishes: Array = []
@@ -626,8 +632,8 @@ func test_interrupting_channel_clears_queued_successor_events() -> void:
 
 	escoria.event_manager.background_event_finished.connect(on_background_finished)
 
-	escoria.event_manager.queue_background_event("bg_test", events["first"])
-	escoria.event_manager.queue_background_event("bg_test", events["second"])
+	escoria.event_manager.queue_background_event("bg_test", events.get_event_with_target("first"))
+	escoria.event_manager.queue_background_event("bg_test", events.get_event_with_target("second"))
 
 	await escoria.get_tree().create_timer(0.05).timeout
 	escoria.event_manager.interrupt_channel("bg_test")
@@ -649,10 +655,10 @@ func test_concurrent_channels_do_not_block_other_channel_queues() -> void:
 	# Each channel should serialize only its own queue. A front-channel event
 	# must complete independently while a background channel works through two
 	# queued events in order.
-	var events := _load_fixture_events("channel_queue_progress_isolated.esc")
-	assert_bool(events.has("front_event")).is_true()
-	assert_bool(events.has("background_first")).is_true()
-	assert_bool(events.has("background_second")).is_true()
+	var events = _load_fixture_events("channel_queue_progress_isolated.esc")
+	assert_bool(events.has_event_with_target("front_event")).is_true()
+	assert_bool(events.has_event_with_target("background_first")).is_true()
+	assert_bool(events.has_event_with_target("background_second")).is_true()
 	escoria.globals_manager.set_global("isolated_front_result", "start")
 	escoria.globals_manager.set_global("isolated_background_result", "start")
 	escoria.globals_manager.set_global("isolated_front_interrupted", false)
@@ -672,9 +678,9 @@ func test_concurrent_channels_do_not_block_other_channel_queues() -> void:
 	escoria.event_manager.event_finished.connect(on_front_finished)
 	escoria.event_manager.background_event_finished.connect(on_background_finished)
 
-	escoria.event_manager.queue_event(events["front_event"])
-	escoria.event_manager.queue_background_event("bg_test", events["background_first"])
-	escoria.event_manager.queue_background_event("bg_test", events["background_second"])
+	escoria.event_manager.queue_event(events.get_event_with_target("front_event"))
+	escoria.event_manager.queue_background_event("bg_test", events.get_event_with_target("background_first"))
+	escoria.event_manager.queue_background_event("bg_test", events.get_event_with_target("background_second"))
 
 	while signal_results["front"] == null or signal_results["background_finishes"].size() < 2:
 		await escoria.get_tree().process_frame
@@ -700,11 +706,11 @@ func test_global_interrupt_stops_running_channels_and_clears_queues() -> void:
 	# A global interrupt should stop every currently running channel and purge
 	# any queued successor events before they start. This fixture queues one
 	# running and one queued event on both `_front` and `bg_test`.
-	var events := _load_fixture_events("global_interrupt_clears_all_channels.esc")
-	assert_bool(events.has("front_running")).is_true()
-	assert_bool(events.has("front_queued")).is_true()
-	assert_bool(events.has("background_running")).is_true()
-	assert_bool(events.has("background_queued")).is_true()
+	var events = _load_fixture_events("global_interrupt_clears_all_channels.esc")
+	assert_bool(events.has_event_with_target("front_running")).is_true()
+	assert_bool(events.has_event_with_target("front_queued")).is_true()
+	assert_bool(events.has_event_with_target("background_running")).is_true()
+	assert_bool(events.has_event_with_target("background_queued")).is_true()
 	escoria.globals_manager.set_global("global_interrupt_front_result", "start")
 	escoria.globals_manager.set_global("global_interrupt_background_result", "start")
 	escoria.globals_manager.set_global("global_interrupt_front_was_interrupted", false)
@@ -723,10 +729,10 @@ func test_global_interrupt_stops_running_channels_and_clears_queues() -> void:
 	escoria.event_manager.event_finished.connect(on_front_finished)
 	escoria.event_manager.background_event_finished.connect(on_background_finished)
 
-	escoria.event_manager.queue_event(events["front_running"])
-	escoria.event_manager.queue_event(events["front_queued"])
-	escoria.event_manager.queue_background_event("bg_test", events["background_running"])
-	escoria.event_manager.queue_background_event("bg_test", events["background_queued"])
+	escoria.event_manager.queue_event(events.get_event_with_target("front_running"))
+	escoria.event_manager.queue_event(events.get_event_with_target("front_queued"))
+	escoria.event_manager.queue_background_event("bg_test", events.get_event_with_target("background_running"))
+	escoria.event_manager.queue_background_event("bg_test", events.get_event_with_target("background_queued"))
 
 	await escoria.get_tree().create_timer(0.05).timeout
 	escoria.event_manager.interrupt()
@@ -757,14 +763,17 @@ func test_queue_event_block_waits_for_correct_background_event_under_concurrency
 	# including earlier events on the same channel, and return only when the
 	# specifically requested background event finishes.
 	var script_object := _compile_fixture_script("queue_event_block_waits_for_correct_background_event.esc")
-	assert_bool(script_object.events.has("background_first")).is_true()
-	assert_bool(script_object.events.has("background_target")).is_true()
-	assert_bool(script_object.events.has("front_event")).is_true()
+	assert_bool(script_object.has_event_with_target("background_first")).is_true()
+	assert_bool(script_object.has_event_with_target("background_target")).is_true()
+	assert_bool(script_object.has_event_with_target("front_event")).is_true()
 	escoria.globals_manager.set_global("block_wait_result", "start")
 	escoria.globals_manager.set_global("block_wait_front_result", "start")
 
-	escoria.event_manager.queue_background_event("bg_test", script_object.events["background_first"])
-	escoria.event_manager.queue_event(script_object.events["front_event"])
+	escoria.event_manager.queue_background_event(
+		"bg_test",
+		script_object.get_event_with_target("background_first")
+	)
+	escoria.event_manager.queue_event(script_object.get_event_with_target("front_event"))
 
 	var block_rc: int = await escoria.event_manager.queue_event_from_esc(
 		script_object,
@@ -783,14 +792,17 @@ func test_queue_event_block_waits_for_correct_front_event_under_concurrency() ->
 	# and earlier foreground events, returning only when the specifically
 	# requested front event finishes.
 	var script_object := _compile_fixture_script("queue_event_block_waits_for_correct_front_event.esc")
-	assert_bool(script_object.events.has("front_first")).is_true()
-	assert_bool(script_object.events.has("front_target")).is_true()
-	assert_bool(script_object.events.has("background_event")).is_true()
+	assert_bool(script_object.has_event_with_target("front_first")).is_true()
+	assert_bool(script_object.has_event_with_target("front_target")).is_true()
+	assert_bool(script_object.has_event_with_target("background_event")).is_true()
 	escoria.globals_manager.set_global("front_block_wait_result", "start")
 	escoria.globals_manager.set_global("front_block_wait_background_result", "start")
 
-	escoria.event_manager.queue_event(script_object.events["front_first"])
-	escoria.event_manager.queue_background_event("bg_test", script_object.events["background_event"])
+	escoria.event_manager.queue_event(script_object.get_event_with_target("front_first"))
+	escoria.event_manager.queue_background_event(
+		"bg_test",
+		script_object.get_event_with_target("background_event")
+	)
 
 	var block_rc: int = await escoria.event_manager.queue_event_from_esc(
 		script_object,
@@ -808,9 +820,9 @@ func test_sequential_front_events_preserve_globals_between_runtime_interpreters(
 	# Each event-manager run currently observes globals written by earlier runs.
 	# The ownership refactor must preserve that user-visible behavior even though
 	# the underlying interpreter instances will stop sharing a singleton slot.
-	var events := _load_fixture_events("interpreter_runtime_state_persists_between_events.esc")
-	assert_bool(events.has("first")).is_true()
-	assert_bool(events.has("second")).is_true()
+	var events = _load_fixture_events("interpreter_runtime_state_persists_between_events.esc")
+	assert_bool(events.has_event_with_target("first")).is_true()
+	assert_bool(events.has_event_with_target("second")).is_true()
 
 	var front_finishes: Array = []
 	var on_front_finished := func(return_code, event_name) -> void:
@@ -818,11 +830,11 @@ func test_sequential_front_events_preserve_globals_between_runtime_interpreters(
 
 	escoria.event_manager.event_finished.connect(on_front_finished)
 
-	escoria.event_manager.queue_event(events["first"])
+	escoria.event_manager.queue_event(events.get_event_with_target("first"))
 	while front_finishes.size() < 1:
 		await escoria.get_tree().process_frame
 
-	escoria.event_manager.queue_event(events["second"])
+	escoria.event_manager.queue_event(events.get_event_with_target("second"))
 	while front_finishes.size() < 2:
 		await escoria.get_tree().process_frame
 
@@ -840,9 +852,9 @@ func test_background_event_sees_globals_written_by_previous_front_event() -> voi
 	# Front and background channels each create their own runtime interpreter.
 	# A background event queued after a front event must still observe globals
 	# written by that earlier front-channel execution.
-	var events := _load_fixture_events("interpreter_runtime_state_persists_between_events.esc")
-	assert_bool(events.has("background_seed")).is_true()
-	assert_bool(events.has("background_after")).is_true()
+	var events = _load_fixture_events("interpreter_runtime_state_persists_between_events.esc")
+	assert_bool(events.has_event_with_target("background_seed")).is_true()
+	assert_bool(events.has_event_with_target("background_after")).is_true()
 
 	var front_finishes: Array = []
 	var background_finishes: Array = []
@@ -855,11 +867,11 @@ func test_background_event_sees_globals_written_by_previous_front_event() -> voi
 	escoria.event_manager.event_finished.connect(on_front_finished)
 	escoria.event_manager.background_event_finished.connect(on_background_finished)
 
-	escoria.event_manager.queue_event(events["background_seed"])
+	escoria.event_manager.queue_event(events.get_event_with_target("background_seed"))
 	while front_finishes.size() < 1:
 		await escoria.get_tree().process_frame
 
-	escoria.event_manager.queue_background_event("bg_test", events["background_after"])
+	escoria.event_manager.queue_background_event("bg_test", events.get_event_with_target("background_after"))
 	while background_finishes.size() < 1:
 		await escoria.get_tree().process_frame
 
@@ -880,9 +892,9 @@ func test_running_interpreter_sees_new_global_defined_by_other_channel() -> void
 	# A runtime interpreter that is already running must observe globals declared
 	# by a concurrent channel after it has started. Otherwise overlapping events
 	# can regress from shared-global behavior to "Undefined variable" failures.
-	var events := _load_fixture_events("concurrent_new_global_visibility.esc")
-	assert_bool(events.has("front_waits_for_new_global")).is_true()
-	assert_bool(events.has("background_declares_new_global")).is_true()
+	var events = _load_fixture_events("concurrent_new_global_visibility.esc")
+	assert_bool(events.has_event_with_target("front_waits_for_new_global")).is_true()
+	assert_bool(events.has_event_with_target("background_declares_new_global")).is_true()
 
 	var front_finishes: Array = []
 	var background_finishes: Array = []
@@ -895,9 +907,9 @@ func test_running_interpreter_sees_new_global_defined_by_other_channel() -> void
 	escoria.event_manager.event_finished.connect(on_front_finished)
 	escoria.event_manager.background_event_finished.connect(on_background_finished)
 
-	escoria.event_manager.queue_event(events["front_waits_for_new_global"])
+	escoria.event_manager.queue_event(events.get_event_with_target("front_waits_for_new_global"))
 	await escoria.get_tree().create_timer(0.05).timeout
-	escoria.event_manager.queue_background_event("bg_test", events["background_declares_new_global"])
+	escoria.event_manager.queue_background_event("bg_test", events.get_event_with_target("background_declares_new_global"))
 
 	while front_finishes.is_empty() or background_finishes.is_empty():
 		await escoria.get_tree().process_frame
@@ -916,8 +928,8 @@ func test_queue_background_event_allows_consecutive_duplicate_queue_entries() ->
 	# Queueing the same background event twice in a row should be allowed on a
 	# background channel. In practice these queues are populated via ASHES
 	# commands, so the second request should remain queued behind the first run.
-	var events := _load_fixture_events("background_duplicate_suppression.esc")
-	assert_bool(events.has("repeat_event")).is_true()
+	var events = _load_fixture_events("background_duplicate_suppression.esc")
+	assert_bool(events.has_event_with_target("repeat_event")).is_true()
 	escoria.globals_manager.set_global("background_duplicate_count", 0)
 	escoria.globals_manager.set_global("background_duplicate_last", "start")
 
@@ -928,8 +940,8 @@ func test_queue_background_event_allows_consecutive_duplicate_queue_entries() ->
 
 	escoria.event_manager.background_event_finished.connect(on_background_finished)
 
-	escoria.event_manager.queue_background_event("bg_test", events["repeat_event"])
-	escoria.event_manager.queue_background_event("bg_test", events["repeat_event"])
+	escoria.event_manager.queue_background_event("bg_test", events.get_event_with_target("repeat_event"))
+	escoria.event_manager.queue_background_event("bg_test", events.get_event_with_target("repeat_event"))
 
 	while background_finishes.size() < 2:
 		await escoria.get_tree().process_frame
@@ -951,8 +963,8 @@ func test_queue_background_event_allows_same_event_after_current_run_starts() ->
 	# Once the first background event is already running, queueing the same event
 	# again on that channel should queue a second run behind it instead of being
 	# suppressed as a duplicate.
-	var events := _load_fixture_events("background_duplicate_suppression.esc")
-	assert_bool(events.has("repeat_event")).is_true()
+	var events = _load_fixture_events("background_duplicate_suppression.esc")
+	assert_bool(events.has_event_with_target("repeat_event")).is_true()
 	escoria.globals_manager.set_global("background_duplicate_count", 0)
 	escoria.globals_manager.set_global("background_duplicate_last", "start")
 
@@ -963,9 +975,9 @@ func test_queue_background_event_allows_same_event_after_current_run_starts() ->
 
 	escoria.event_manager.background_event_finished.connect(on_background_finished)
 
-	escoria.event_manager.queue_background_event("bg_test", events["repeat_event"])
+	escoria.event_manager.queue_background_event("bg_test", events.get_event_with_target("repeat_event"))
 	await escoria.get_tree().create_timer(0.01).timeout
-	escoria.event_manager.queue_background_event("bg_test", events["repeat_event"])
+	escoria.event_manager.queue_background_event("bg_test", events.get_event_with_target("repeat_event"))
 
 	while background_finishes.size() < 2:
 		await escoria.get_tree().process_frame
@@ -985,11 +997,11 @@ func test_global_interrupt_preserves_exception_events() -> void:
 	# `interrupt(exceptions=...)` should leave only the named running and queued
 	# events alive. Here the front running event and one queued background event
 	# are excepted, while the other front/background events must be cleared.
-	var events := _load_fixture_events("global_interrupt_preserves_exceptions.esc")
-	assert_bool(events.has("front_keep")).is_true()
-	assert_bool(events.has("front_drop")).is_true()
-	assert_bool(events.has("background_drop")).is_true()
-	assert_bool(events.has("background_keep")).is_true()
+	var events = _load_fixture_events("global_interrupt_preserves_exceptions.esc")
+	assert_bool(events.has_event_with_target("front_keep")).is_true()
+	assert_bool(events.has_event_with_target("front_drop")).is_true()
+	assert_bool(events.has_event_with_target("background_drop")).is_true()
+	assert_bool(events.has_event_with_target("background_keep")).is_true()
 	escoria.globals_manager.set_global("interrupt_except_front_result", "start")
 	escoria.globals_manager.set_global("interrupt_except_front_interrupted", false)
 	escoria.globals_manager.set_global("interrupt_except_background_result", "start")
@@ -1009,10 +1021,10 @@ func test_global_interrupt_preserves_exception_events() -> void:
 	escoria.event_manager.event_finished.connect(on_front_finished)
 	escoria.event_manager.background_event_finished.connect(on_background_finished)
 
-	escoria.event_manager.queue_event(events["front_keep"])
-	escoria.event_manager.queue_event(events["front_drop"])
-	escoria.event_manager.queue_background_event("bg_test", events["background_drop"])
-	escoria.event_manager.queue_background_event("bg_test", events["background_keep"])
+	escoria.event_manager.queue_event(events.get_event_with_target("front_keep"))
+	escoria.event_manager.queue_event(events.get_event_with_target("front_drop"))
+	escoria.event_manager.queue_background_event("bg_test", events.get_event_with_target("background_drop"))
+	escoria.event_manager.queue_background_event("bg_test", events.get_event_with_target("background_keep"))
 
 	await escoria.get_tree().create_timer(0.05).timeout
 	escoria.event_manager.interrupt(PackedStringArray(["front_keep", "background_keep"]))
@@ -1042,10 +1054,10 @@ func test_scheduled_front_event_runs_after_current_front_event_while_background_
 	# Scheduled events always feed the `_front` queue. They should still dispatch
 	# while a background channel is busy, but must wait for the current front
 	# event to finish before the scheduled front event runs.
-	var events := _load_fixture_events("scheduled_front_event_with_busy_background.esc")
-	assert_bool(events.has("front_running")).is_true()
-	assert_bool(events.has("scheduled_front")).is_true()
-	assert_bool(events.has("background_running")).is_true()
+	var events = _load_fixture_events("scheduled_front_event_with_busy_background.esc")
+	assert_bool(events.has_event_with_target("front_running")).is_true()
+	assert_bool(events.has_event_with_target("scheduled_front")).is_true()
+	assert_bool(events.has_event_with_target("background_running")).is_true()
 	escoria.globals_manager.set_global("scheduled_front_result", "start")
 	escoria.globals_manager.set_global("scheduled_front_interrupted", false)
 	escoria.globals_manager.set_global("scheduled_background_result", "start")
@@ -1064,9 +1076,9 @@ func test_scheduled_front_event_runs_after_current_front_event_while_background_
 	escoria.event_manager.event_finished.connect(on_front_finished)
 	escoria.event_manager.background_event_finished.connect(on_background_finished)
 
-	escoria.event_manager.queue_event(events["front_running"])
-	escoria.event_manager.queue_background_event("bg_test", events["background_running"])
-	escoria.event_manager.schedule_event(events["scheduled_front"], 0.05, "")
+	escoria.event_manager.queue_event(events.get_event_with_target("front_running"))
+	escoria.event_manager.queue_background_event("bg_test", events.get_event_with_target("background_running"))
+	escoria.event_manager.schedule_event(events.get_event_with_target("scheduled_front"), 0.05, "")
 
 	while signal_results["front_finishes"].size() < 2 or signal_results["background_finishes"].is_empty():
 		await escoria.get_tree().process_frame
@@ -1093,9 +1105,9 @@ func test_global_interrupt_preserves_scheduled_events_before_dispatch() -> void:
 	# not clear scheduled events that have not yet been promoted into the front
 	# queue. The scheduled front event should therefore still dispatch and
 	# complete normally after the interrupted event finishes.
-	var events := _load_fixture_events("scheduled_event_interrupted_before_dispatch.esc")
-	assert_bool(events.has("front_running")).is_true()
-	assert_bool(events.has("scheduled_front")).is_true()
+	var events = _load_fixture_events("scheduled_event_interrupted_before_dispatch.esc")
+	assert_bool(events.has_event_with_target("front_running")).is_true()
+	assert_bool(events.has_event_with_target("scheduled_front")).is_true()
 	escoria.globals_manager.set_global("scheduled_interrupt_result", "start")
 	escoria.globals_manager.set_global("scheduled_interrupt_was_interrupted", false)
 
@@ -1105,8 +1117,8 @@ func test_global_interrupt_preserves_scheduled_events_before_dispatch() -> void:
 
 	escoria.event_manager.event_finished.connect(on_front_finished)
 
-	escoria.event_manager.queue_event(events["front_running"])
-	escoria.event_manager.schedule_event(events["scheduled_front"], 0.2, "")
+	escoria.event_manager.queue_event(events.get_event_with_target("front_running"))
+	escoria.event_manager.schedule_event(events.get_event_with_target("scheduled_front"), 0.2, "")
 
 	await escoria.get_tree().create_timer(0.05).timeout
 	escoria.event_manager.interrupt()
@@ -1132,8 +1144,8 @@ func test_clear_event_queue_preserves_scheduled_events() -> void:
 	# for execution. Scheduled events live in a separate list until `_process()`
 	# promotes them into the front queue, so they should still dispatch after
 	# `clear_event_queue()` is called.
-	var events := _load_fixture_events("scheduled_event_interrupted_before_dispatch.esc")
-	assert_bool(events.has("scheduled_front")).is_true()
+	var events = _load_fixture_events("scheduled_event_interrupted_before_dispatch.esc")
+	assert_bool(events.has_event_with_target("scheduled_front")).is_true()
 	escoria.globals_manager.set_global("scheduled_interrupt_result", "start")
 
 	var front_finishes: Array = []
@@ -1142,7 +1154,7 @@ func test_clear_event_queue_preserves_scheduled_events() -> void:
 
 	escoria.event_manager.event_finished.connect(on_front_finished)
 
-	escoria.event_manager.schedule_event(events["scheduled_front"], 0.05, "")
+	escoria.event_manager.schedule_event(events.get_event_with_target("scheduled_front"), 0.05, "")
 	escoria.event_manager.clear_event_queue()
 
 	while front_finishes.is_empty():
@@ -1161,9 +1173,9 @@ func test_interrupt_channel_does_not_affect_still_scheduled_front_events() -> vo
 	# background channel while it is still waiting in `scheduled_events`. Once it
 	# is later promoted into `_front`, it should run like any other front-queue
 	# event.
-	var events := _load_fixture_events("scheduled_front_event_with_busy_background.esc")
-	assert_bool(events.has("scheduled_front")).is_true()
-	assert_bool(events.has("background_running")).is_true()
+	var events = _load_fixture_events("scheduled_front_event_with_busy_background.esc")
+	assert_bool(events.has_event_with_target("scheduled_front")).is_true()
+	assert_bool(events.has_event_with_target("background_running")).is_true()
 	escoria.globals_manager.set_global("scheduled_front_result", "start")
 	escoria.globals_manager.set_global("scheduled_front_interrupted", false)
 	escoria.globals_manager.set_global("scheduled_background_result", "start")
@@ -1182,8 +1194,8 @@ func test_interrupt_channel_does_not_affect_still_scheduled_front_events() -> vo
 	escoria.event_manager.event_finished.connect(on_front_finished)
 	escoria.event_manager.background_event_finished.connect(on_background_finished)
 
-	escoria.event_manager.queue_background_event("bg_test", events["background_running"])
-	escoria.event_manager.schedule_event(events["scheduled_front"], 0.2, "")
+	escoria.event_manager.queue_background_event("bg_test", events.get_event_with_target("background_running"))
+	escoria.event_manager.schedule_event(events.get_event_with_target("scheduled_front"), 0.2, "")
 
 	await escoria.get_tree().create_timer(0.05).timeout
 	escoria.event_manager.interrupt_channel("bg_test")
@@ -1527,7 +1539,7 @@ func _load_fixture(name: String) -> String:
 	return FileAccess.get_file_as_string(_fixture_path(name))
 
 
-func _load_fixture_events(name: String) -> Dictionary:
+func _load_fixture_events(name: String):
 	var script_object := _compile_fixture_script(name)
 	return script_object.events
 

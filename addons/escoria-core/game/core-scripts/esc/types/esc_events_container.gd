@@ -1,7 +1,7 @@
 ## Container for storing events in Escoria, providing a consistent way to provide
 ## visibility and access to events.
-extends RefCounted
 class_name ESCEventsContainer
+extends RefCounted
 
 
 ## The list of events being tracked.

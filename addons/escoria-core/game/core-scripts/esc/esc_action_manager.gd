@@ -187,11 +187,9 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 					)
 					return
 
-				if trigger_in_verb in trigger_object.events:
+				if trigger_object.has_event_with_target(trigger_in_verb):
 					escoria.event_manager.queue_event(
-						trigger_object.events[
-							trigger_in_verb
-						]
+						trigger_object.get_event_with_target(trigger_in_verb)
 					)
 				else:
 					escoria.logger.info(
@@ -219,11 +217,9 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 					)
 					return
 
-				if trigger_out_verb in trigger_object.events:
+				if trigger_object.has_event_with_target(trigger_out_verb):
 					escoria.event_manager.queue_event(
-						trigger_object.events[
-							trigger_out_verb
-						]
+						trigger_object.get_event_with_target(trigger_out_verb)
 					)
 				else:
 					escoria.logger.info(
@@ -370,7 +366,7 @@ func _get_event_to_queue(
 						# Check to see if there isn't a "fallback" action to
 						# run before we declare this a failure.
 						if escoria.action_default_script \
-							and escoria.action_default_script.events.has_event_with_target(action):
+							and escoria.action_default_script.has_event_with_target(action):
 
 							event_to_return = escoria.action_default_script.get_event_with_target(action)
 						else:
@@ -426,10 +422,10 @@ func _get_event_to_queue(
 			# We only deal with the action here as long as it doesn't have a target associated with it.
 			event_to_return = target.get_event_with_target(action)
 		elif escoria.action_default_script \
-			and escoria.action_default_script.events.has_event_with_target(action):
+			and escoria.action_default_script.has_event_with_target(action):
 
 			# If there's a "fallback" action to run, return it
-			event_to_return = escoria.action_default_script.events[action]
+			event_to_return = escoria.action_default_script.get_event_with_target(action)
 		else:
 			escoria.logger.warn(
 				self,
@@ -458,8 +454,8 @@ func _get_event_to_queue(
 ## [br]
 ## Returns a `bool` value. (`bool`)
 func _check_target_has_proper_action(target_object: ESCObject, action: String) -> bool:
-	if target_object.events.has_event_with_target(action):
-		if target_object.events.get_event_with_target(action).get_target():
+	if target_object.has_event_with_target(action):
+		if target_object.get_event_with_target(action).get_target():
 			return false
 
 		return true
@@ -673,7 +669,7 @@ func perform_inputevent_on_object(
 				"Player could not reach destination coordinates %s. "  % str(destination_position) \
 					+ "Any requested action for %s will not fire." % obj.global_id
 			)
-			if escoria.event_manager.EVENT_CANT_REACH in obj.events:
+			if obj.has_event_with_target(escoria.event_manager.EVENT_CANT_REACH):
 				escoria.event_manager.queue_event(obj.get_event_with_target(escoria.event_manager.EVENT_CANT_REACH))
 			else:
 				escoria.logger.info(

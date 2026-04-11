@@ -74,7 +74,7 @@ func _register_event():
 	if escoria.object_manager.has(self.global_id) and\
 			not escoria.object_manager.get_object(
 				self.global_id
-			).events.has_event_with_target(escoria.event_manager.EVENT_EXIT_SCENE):
+			).has_event_with_target(escoria.event_manager.EVENT_EXIT_SCENE):
 
 		var exit_scene_script_builder: ESCScriptBuilder = ESCScriptBuilder.new()
 
@@ -94,7 +94,7 @@ func _register_event():
 
 		var exit_scene_event = \
 			escoria.esc_compiler.compile(exit_scene_script_builder.build(), get_class()) \
-				.events.get_event_with_target(escoria.event_manager.EVENT_EXIT_SCENE)
+				.get_event_with_target(escoria.event_manager.EVENT_EXIT_SCENE)
 
 		escoria.object_manager.get_object(self.global_id) \
 			.events.add(exit_scene_event)

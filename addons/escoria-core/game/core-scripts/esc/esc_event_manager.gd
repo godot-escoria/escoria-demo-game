@@ -281,11 +281,11 @@ func queue_event_from_esc(script_object: ESCScript, event: String,
 		return ESCExecution.RC_WONT_QUEUE
 
 	if channel == CHANNEL_FRONT:
-		queue_event(script_object.events.get_event_with_target(event))
+		queue_event(script_object.get_event_with_target(event))
 	else:
 		queue_background_event(
 			channel,
-			script_object.events.get_event_with_target(event)
+			script_object.get_event_with_target(event)
 		)
 
 	if block:
