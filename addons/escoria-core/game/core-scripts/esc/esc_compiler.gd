@@ -140,10 +140,7 @@ func _compiler_shim(source: String, filename: String = "", associated_global_id:
 
 	if not had_error:
 		for ps in parsed_statements:
-			var event_name = ps.get_event_name()
-			if ps.get_target() != null:
-				event_name += " " + ps.get_target_name()
-			script.events[event_name] = ps
+			script.events.add(ps)
 	return script
 
 

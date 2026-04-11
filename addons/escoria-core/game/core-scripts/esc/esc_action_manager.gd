@@ -370,7 +370,7 @@ func _get_event_to_queue(
 						# Check to see if there isn't a "fallback" action to
 						# run before we declare this a failure.
 						if escoria.action_default_script \
-							and escoria.action_default_script.events.has(action):
+							and escoria.action_default_script.events.has_event_with_target(action):
 
 							event_to_return = escoria.action_default_script.get_event_with_target(action)
 						else:
@@ -426,7 +426,7 @@ func _get_event_to_queue(
 			# We only deal with the action here as long as it doesn't have a target associated with it.
 			event_to_return = target.get_event_with_target(action)
 		elif escoria.action_default_script \
-			and escoria.action_default_script.events.has(action):
+			and escoria.action_default_script.events.has_event_with_target(action):
 
 			# If there's a "fallback" action to run, return it
 			event_to_return = escoria.action_default_script.events[action]
@@ -443,21 +443,23 @@ func _get_event_to_queue(
 	return event_to_return
 
 
-## Check to make sure `target` contains the specific `action`. If `target` has an entry for `action` that also requires a target itself (e.g. `:use "wrench"`), then we return `false` as combinations are handled elsewhere.[br]
+## Check to make sure `target_object` contains the specific `action`. If `target_object` has an entry for `action` that also requires a target itself (e.g. `:use "wrench"`), then we return `false` as combinations are handled elsewhere.[br]
+## [br]
+## (The "target" in `target_object` is of a different meaning than the optional "target" in an event.)
 ## [br]
 ## #### Parameters[br]
 ## [br]
 ## | Name | Type | Description | Required? |[br]
 ## |:-----|:-----|:------------|:----------|[br]
-## |target|`ESCObject`|`ESCObject` whose events we are to check to see if `action` has a corresponding event.|yes|[br]
+## |target_object|`ESCObject`|`ESCObject` whose events we are to check to see if `action` has a corresponding event.|yes|[br]
 ## |action|`String`|The action to check.|yes|[br]
 ## [br]
 ## #### Returns[br]
 ## [br]
 ## Returns a `bool` value. (`bool`)
-func _check_target_has_proper_action(target: ESCObject, action: String) -> bool:
-	if target.events.has(action):
-		if target.events[action].get_target():
+func _check_target_has_proper_action(target_object: ESCObject, action: String) -> bool:
+	if target_object.events.has_event_with_target(action):
+		if target_object.events.get_event_with_target(action).get_target():
 			return false
 
 		return true

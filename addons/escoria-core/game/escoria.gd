@@ -214,6 +214,7 @@ func run_event_from_script(script: ESCScript, event_name: String, from_statement
 
 
 ## Checks for the existence of both mandatory and optional events within a specified script.[br]
+## We ignore any target for the event, at least for now.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
@@ -226,7 +227,7 @@ func run_event_from_script(script: ESCScript, event_name: String, from_statement
 ## [br]
 ## Returns True iff event_name exists within script. Method will terminate execution of the program if the specified event is required and doesn't exist. (`bool`)
 func _event_exists_in_script(script: ESCScript, event_name: String) -> bool:
-	if script.events.has(event_name):
+	if script.events.has_event_with_target(event_name):
 		return true
 
 	if  event_name in escoria.event_manager.REQUIRED_EVENTS:

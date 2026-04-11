@@ -530,7 +530,7 @@ func _perform_script_events(room: ESCRoom) -> int:
 	var script_transition_in = escoria.esc_compiler.compile(transition_in_script.build())
 
 	escoria.event_manager.queue_event(
-		script_transition_in.events[escoria.event_manager.EVENT_TRANSITION_IN]
+		script_transition_in.events.get_event_with_target(escoria.event_manager.EVENT_TRANSITION_IN)
 	)
 
 	if not escoria.current_state == escoria.GAME_STATE.LOADING:
@@ -593,14 +593,15 @@ func _run_script_event(event_name: String, room: ESCRoom):
 		room.compiled_script = \
 			escoria.esc_compiler.load_esc_file(room.esc_script)
 
-	if room.compiled_script.has_event_with_target(event_name, null):
+	if room.compiled_script.has_event_with_target(event_name):
+		var event = room.compiled_script.events.get_event_with_target(event_name)
 		escoria.logger.debug(
 			self,
 			"Queuing room script event %s " % event_name +
 			"composed of %s statements."
-					% room.compiled_script.events[event_name].get_num_statements_in_block()
+					% event.get_num_statements_in_block()
 		)
-		escoria.event_manager.queue_event(room.compiled_script.events[event_name], true)
+		escoria.event_manager.queue_event(event, true)
 		return true
 	else:
 		return false
