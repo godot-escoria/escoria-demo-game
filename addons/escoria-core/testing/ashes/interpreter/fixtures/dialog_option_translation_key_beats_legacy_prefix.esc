@@ -1,0 +1,4 @@
+:talk
+	?!
+		- OUTER_KEY:"INNER_KEY:Fallback text"
+			break

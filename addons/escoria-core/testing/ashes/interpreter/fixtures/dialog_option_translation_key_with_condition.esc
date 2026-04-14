@@ -1,0 +1,7 @@
+:talk
+	global show_first = true
+	?!
+		- CONDITIONAL_KEY:"Conditional option" [show_first]
+			break
+		- HIDDEN_KEY:"Hidden option" [false]
+			break
