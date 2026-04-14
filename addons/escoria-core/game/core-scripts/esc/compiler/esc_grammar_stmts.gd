@@ -784,6 +784,8 @@ class Stop extends ESCGrammarStmt:
 ##	say("worker", "Because I work here.")[br]
 ##```
 class DialogOption extends ESCGrammarStmt:
+	var _translation_key: String:
+		get = get_translation_key
 	var _option: ESCGrammarExpr:
 		get = get_option
 	var _condition: ESCGrammarExpr:
@@ -798,6 +800,7 @@ class DialogOption extends ESCGrammarStmt:
 	## [br]
 	## | Name | Type | Description | Required? |[br]
 	## |:-----|:-----|:------------|:----------|[br]
+	## |translation_key|`String`|an optional translation key for the option text|yes|[br]
 	## |option|`ESCGrammarExpr`|the expression whose results will be displayed on screen as an option to be selected alongside any other options at the current level|yes|[br]
 	## |condition|`ESCGrammarExpr`|an optional condition to be evaluated that is used to determine whether the option should be displayed at all|yes|[br]
 	## |body|`ESCGrammarStmt`|the block of statements to be executed should this dialog option be selected|yes|[br]
@@ -805,10 +808,24 @@ class DialogOption extends ESCGrammarStmt:
 	## #### Returns[br]
 	## [br]
 	## Returns nothing.
-	func init(option: ESCGrammarExpr, condition: ESCGrammarExpr, body: ESCGrammarStmt):
+	func init(translation_key: String, option: ESCGrammarExpr, condition: ESCGrammarExpr, body: ESCGrammarStmt):
+		_translation_key = translation_key
 		_option = option
 		_condition = condition
 		_body = body
+
+
+	## The translation key for this option, if one exists.[br]
+	## [br]
+	## #### Parameters[br]
+	## [br]
+	## None.
+	## [br]
+	## #### Returns[br]
+	## [br]
+	## Returns the translation key for this option, if one exists. (`String`)
+	func get_translation_key() -> String:
+		return _translation_key
 
 
 	## The option expression.[br]

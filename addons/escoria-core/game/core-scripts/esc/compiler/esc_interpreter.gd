@@ -537,8 +537,8 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 
 		for dialog_option in stmt.get_options():
 			var option: ESCDialogOption = ESCDialogOption.new()
-			# TODO: Translation keys
 			option.source_option = dialog_option
+			option.translation_key = dialog_option.get_translation_key()
 			option.option = await _evaluate(dialog_option.get_option())
 
 			if dialog_option.get_condition():

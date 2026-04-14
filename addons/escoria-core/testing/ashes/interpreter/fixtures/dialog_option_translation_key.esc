@@ -1,0 +1,6 @@
+:talk
+	?!
+		- UNCLE_SVEN:"Uncle Sven sends regards."
+			break
+		- "Fallback"
+			break

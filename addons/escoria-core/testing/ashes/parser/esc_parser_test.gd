@@ -239,6 +239,33 @@ func test_dialog_start_arguments_with_parens_parse_and_are_preserved() -> void:
 	assert_float(args[2].get_value()).is_equal(2.0)
 
 
+func test_dialog_option_translation_key_is_parsed_explicitly() -> void:
+	var source := _load_fixture("dialog_option_translation_key.esc")
+	var compiler := ESCCompiler.new()
+	var scanner := ESCScanner.new()
+	scanner.set_source(source)
+	scanner.set_filename(_fixture_path("dialog_option_translation_key.esc"))
+
+	var tokens: Array = scanner.scan_tokens()
+	var parser := ESCParser.new()
+	parser.init(compiler, tokens, "")
+
+	var statements := parser.parse()
+
+	assert_bool(compiler.had_error).is_false()
+	assert_int(statements.size()).is_equal(1)
+	assert_object(statements[0]).is_instanceof(ESCGrammarStmts.Event)
+
+	var talk_event := statements[0] as ESCGrammarStmts.Event
+	var talk_block := talk_event.get_body() as ESCGrammarStmts.Block
+	var dialog := talk_block.get_statements()[0] as ESCGrammarStmts.Dialog
+	var first_option := dialog.get_options()[0] as ESCGrammarStmts.DialogOption
+	var second_option := dialog.get_options()[1] as ESCGrammarStmts.DialogOption
+
+	assert_str(first_option.get_translation_key()).is_equal("UNCLE_SVEN")
+	assert_str(second_option.get_translation_key()).is_equal("")
+
+
 func test_grouping_missing_right_paren_returns_parse_error() -> void:
 	# This fixture omits the closing `)` from a grouped expression inside a
 	# function call. The parser must not silently accept the grouping and build

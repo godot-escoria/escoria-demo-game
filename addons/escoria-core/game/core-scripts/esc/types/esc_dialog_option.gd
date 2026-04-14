@@ -9,6 +9,9 @@ class_name ESCDialogOption
 var option: String:
 	get = get_translated_option
 
+## Explicit translation key for the option text.
+var translation_key: String = ""
+
 ## Maps back to the parsed source option.
 var source_option
 
@@ -28,6 +31,12 @@ var _is_valid: bool:
 ## [br]
 ## Returns the translated version of the option, if one exists; otherwise, the default text is returned. (`String`)
 func get_translated_option() -> String:
+	if not translation_key.is_empty():
+		var translated_text = tr(translation_key)
+
+		if translation_key != translated_text:
+			return translated_text
+
 	# Check if text has a key
 	if ":" in option:
 		var splitted_text = option.split(":")
