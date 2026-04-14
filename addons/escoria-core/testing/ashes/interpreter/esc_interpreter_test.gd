@@ -431,9 +431,7 @@ func test_interrupting_delayed_command_in_dialog_stops_event_progress() -> void:
 	assert_bool(bool(globals["was_interrupted"])).is_true()
 	assert_bool(event_stmt.is_interrupted()).is_true()
 
-	interpreter.cleanup()
-	escoria.set("dialog_player", null)
-	dialog_player.queue_free()
+	_cleanup_dialog_test(interpreter, dialog_player)
 
 
 func test_interrupting_delayed_command_stops_multi_iteration_loop() -> void:
@@ -1318,11 +1316,7 @@ func _interpret_fixture(name: String, dialog_choices: Array = []) -> Dictionary:
 		dialog_choices_consumed = dialog_player.get_choices_consumed()
 		remaining_dialog_choices = dialog_player.get_remaining_choices()
 
-	interpreter.cleanup()
-
-	if dialog_player:
-		escoria.set("dialog_player", null)
-		dialog_player.queue_free()
+	_cleanup_dialog_test(interpreter, dialog_player)
 
 	return {
 		"globals": globals,
@@ -1353,11 +1347,7 @@ func test_dialog_start_args_are_passed_to_runtime_dialog() -> void:
 	assert_int(started_dialogs[0]["timeout_option"]).is_equal(2)
 	assert_int(started_dialogs[0]["options_size"]).is_equal(2)
 
-	interpreter.cleanup()
-
-	if dialog_player:
-		escoria.set("dialog_player", null)
-		dialog_player.queue_free()
+	_cleanup_dialog_test(interpreter, dialog_player)
 
 
 func test_dialog_start_invalid_avatar_type_returns_error() -> void:
@@ -1376,11 +1366,7 @@ func test_dialog_start_invalid_avatar_type_returns_error() -> void:
 	assert_int(dialog_player.get_choices_consumed()).is_equal(0)
 	assert_int(dialog_player.get_dialogs_started().size()).is_equal(0)
 
-	interpreter.cleanup()
-
-	if dialog_player:
-		escoria.set("dialog_player", null)
-		dialog_player.queue_free()
+	_cleanup_dialog_test(interpreter, dialog_player)
 
 
 func test_dialog_start_invalid_timeout_type_returns_error() -> void:
@@ -1399,11 +1385,7 @@ func test_dialog_start_invalid_timeout_type_returns_error() -> void:
 	assert_int(dialog_player.get_choices_consumed()).is_equal(0)
 	assert_int(dialog_player.get_dialogs_started().size()).is_equal(0)
 
-	interpreter.cleanup()
-
-	if dialog_player:
-		escoria.set("dialog_player", null)
-		dialog_player.queue_free()
+	_cleanup_dialog_test(interpreter, dialog_player)
 
 
 func test_dialog_option_translation_key_is_passed_to_runtime_dialog() -> void:
@@ -1425,11 +1407,7 @@ func test_dialog_option_translation_key_is_passed_to_runtime_dialog() -> void:
 	assert_int(started_dialogs.size()).is_equal(1)
 	assert_array(started_dialogs[0]["option_keys"]).contains_exactly(["UNCLE_SVEN", ""])
 
-	interpreter.cleanup()
-
-	if dialog_player:
-		escoria.set("dialog_player", null)
-		dialog_player.queue_free()
+	_cleanup_dialog_test(interpreter, dialog_player)
 
 
 func test_dialog_start_invalid_timeout_option_type_returns_error() -> void:
@@ -1448,11 +1426,7 @@ func test_dialog_start_invalid_timeout_option_type_returns_error() -> void:
 	assert_int(dialog_player.get_choices_consumed()).is_equal(0)
 	assert_int(dialog_player.get_dialogs_started().size()).is_equal(0)
 
-	interpreter.cleanup()
-
-	if dialog_player:
-		escoria.set("dialog_player", null)
-		dialog_player.queue_free()
+	_cleanup_dialog_test(interpreter, dialog_player)
 
 
 func test_dialog_start_invalid_timeout_option_negative_returns_error() -> void:
@@ -1471,11 +1445,7 @@ func test_dialog_start_invalid_timeout_option_negative_returns_error() -> void:
 	assert_int(dialog_player.get_choices_consumed()).is_equal(0)
 	assert_int(dialog_player.get_dialogs_started().size()).is_equal(0)
 
-	interpreter.cleanup()
-
-	if dialog_player:
-		escoria.set("dialog_player", null)
-		dialog_player.queue_free()
+	_cleanup_dialog_test(interpreter, dialog_player)
 
 
 func test_dialog_option_translation_key_beats_legacy_prefix_fallback() -> void:
@@ -1497,11 +1467,7 @@ func test_dialog_option_translation_key_beats_legacy_prefix_fallback() -> void:
 	assert_array(started_dialogs[0]["option_keys"]).contains_exactly(["OUTER_KEY"])
 	assert_array(started_dialogs[0]["option_texts"]).contains_exactly(["INNER_KEY:Fallback text"])
 
-	interpreter.cleanup()
-
-	if dialog_player:
-		escoria.set("dialog_player", null)
-		dialog_player.queue_free()
+	_cleanup_dialog_test(interpreter, dialog_player)
 
 
 func test_dialog_option_translation_key_with_condition_survives_runtime_filtering() -> void:
@@ -1524,11 +1490,7 @@ func test_dialog_option_translation_key_with_condition_survives_runtime_filterin
 	assert_array(started_dialogs[0]["option_keys"]).contains_exactly(["CONDITIONAL_KEY"])
 	assert_array(started_dialogs[0]["option_texts"]).contains_exactly(["Conditional option"])
 
-	interpreter.cleanup()
-
-	if dialog_player:
-		escoria.set("dialog_player", null)
-		dialog_player.queue_free()
+	_cleanup_dialog_test(interpreter, dialog_player)
 
 
 func test_dialog_option_translation_key_with_expression_preserves_key_and_value() -> void:
@@ -1550,6 +1512,10 @@ func test_dialog_option_translation_key_with_expression_preserves_key_and_value(
 	assert_array(started_dialogs[0]["option_keys"]).contains_exactly(["DYNAMIC_KEY"])
 	assert_array(started_dialogs[0]["option_texts"]).contains_exactly(["Dynamic option"])
 
+	_cleanup_dialog_test(interpreter, dialog_player)
+
+
+func _cleanup_dialog_test(interpreter: ESCInterpreter, dialog_player: DialogPlayerDouble) -> void:
 	interpreter.cleanup()
 
 	if dialog_player:
