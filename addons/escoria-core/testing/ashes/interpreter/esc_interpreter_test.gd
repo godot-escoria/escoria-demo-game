@@ -13,6 +13,7 @@ var _dialog_player_before
 class DialogPlayerDouble extends ESCDialogPlayer:
 	var _choice_indexes: Array = []
 	var _choices_consumed: int = 0
+	var _dialogs_started: Array = []
 
 
 	func _init(choice_indexes: Array = []):
@@ -20,6 +21,13 @@ class DialogPlayerDouble extends ESCDialogPlayer:
 
 
 	func start_dialog_choices(dialog: ESCDialog, _type: String = "simple"):
+		_dialogs_started.append({
+			"avatar": dialog.avatar,
+			"timeout": dialog.timeout,
+			"timeout_option": dialog.timeout_option,
+			"options_size": dialog.options.size()
+		})
+
 		# Mirror the real dialog player closely enough for interpreter tests:
 		# only valid options are choosable, and scripted indexes deterministically
 		# drive nested dialog flows without needing UI interaction.
@@ -46,6 +54,10 @@ class DialogPlayerDouble extends ESCDialogPlayer:
 
 	func get_remaining_choices() -> int:
 		return _choice_indexes.size()
+
+
+	func get_dialogs_started() -> Array:
+		return _dialogs_started.duplicate(true)
 
 
 func before() -> void:
@@ -1309,6 +1321,81 @@ func _interpret_fixture(name: String, dialog_choices: Array = []) -> Dictionary:
 		"dialog_choices_consumed": dialog_choices_consumed,
 		"remaining_dialog_choices": remaining_dialog_choices,
 	}
+
+
+func test_dialog_start_args_are_passed_to_runtime_dialog() -> void:
+	var script_object := _compile_fixture_script("dialog_start_args_reach_runtime.esc")
+	var dialog_player := DialogPlayerDouble.new([1])
+	escoria.set("dialog_player", dialog_player)
+	var interpreter := ESCInterpreter.new(ESCCompiler.load_commands(), {})
+	var resolver := ESCResolver.new(interpreter)
+	var event: ESCGrammarStmts.Event = script_object.events["talk"]
+
+	assert_object(event).is_not_null()
+
+	resolver.resolve(event)
+
+	await interpreter.interpret(event)
+	assert_int(dialog_player.get_choices_consumed()).is_equal(1)
+
+	var started_dialogs := dialog_player.get_dialogs_started()
+	assert_int(started_dialogs.size()).is_equal(1)
+	assert_str(started_dialogs[0]["avatar"]).is_equal("res://game/dialog_avatars/player.tres")
+	assert_int(started_dialogs[0]["timeout"]).is_equal(5)
+	assert_int(started_dialogs[0]["timeout_option"]).is_equal(2)
+	assert_int(started_dialogs[0]["options_size"]).is_equal(2)
+
+	interpreter.cleanup()
+
+	if dialog_player:
+		escoria.set("dialog_player", null)
+		dialog_player.queue_free()
+
+
+func test_dialog_start_invalid_avatar_type_returns_error() -> void:
+	var script_object := _compile_fixture_script("dialog_start_invalid_avatar_type.esc")
+	var dialog_player := DialogPlayerDouble.new([])
+	escoria.set("dialog_player", dialog_player)
+	var interpreter := ESCInterpreter.new(ESCCompiler.load_commands(), {})
+	var resolver := ESCResolver.new(interpreter)
+	var event: ESCGrammarStmts.Event = script_object.events["talk"]
+
+	assert_object(event).is_not_null()
+
+	resolver.resolve(event)
+
+	await interpreter.interpret(event)
+	assert_int(dialog_player.get_choices_consumed()).is_equal(0)
+	assert_int(dialog_player.get_dialogs_started().size()).is_equal(0)
+
+	interpreter.cleanup()
+
+	if dialog_player:
+		escoria.set("dialog_player", null)
+		dialog_player.queue_free()
+
+
+func test_dialog_start_invalid_timeout_type_returns_error() -> void:
+	var script_object := _compile_fixture_script("dialog_start_invalid_timeout_type.esc")
+	var dialog_player := DialogPlayerDouble.new([])
+	escoria.set("dialog_player", dialog_player)
+	var interpreter := ESCInterpreter.new(ESCCompiler.load_commands(), {})
+	var resolver := ESCResolver.new(interpreter)
+	var event: ESCGrammarStmts.Event = script_object.events["talk"]
+
+	assert_object(event).is_not_null()
+
+	resolver.resolve(event)
+
+	await interpreter.interpret(event)
+	assert_int(dialog_player.get_choices_consumed()).is_equal(0)
+	assert_int(dialog_player.get_dialogs_started().size()).is_equal(0)
+
+	interpreter.cleanup()
+
+	if dialog_player:
+		escoria.set("dialog_player", null)
+		dialog_player.queue_free()
 
 
 func _load_fixture(name: String) -> String:

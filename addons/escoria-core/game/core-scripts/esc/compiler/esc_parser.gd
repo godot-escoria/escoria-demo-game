@@ -397,6 +397,21 @@ func _dialog_statement():
 		if consume is ESCParseError:
 			_dialog_level -= 1
 			return consume
+	elif not _check(ESCTokenType.TokenType.NEWLINE):
+		while true:
+			var arg = _expression()
+
+			if arg is ESCParseError:
+				_dialog_level -= 1
+				return arg
+
+			args.append(arg)
+
+			if _check(ESCTokenType.TokenType.NEWLINE):
+				break
+
+			if _match(ESCTokenType.TokenType.COMMA):
+				continue
 
 	if args.size() > 3:
 		_dialog_level -= 1

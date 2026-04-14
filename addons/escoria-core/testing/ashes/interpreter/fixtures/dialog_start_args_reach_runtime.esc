@@ -1,0 +1,6 @@
+:talk
+	?! "res://game/dialog_avatars/player.tres" 5 2
+		- "First option"
+			pass
+		- "Second option"
+			break
