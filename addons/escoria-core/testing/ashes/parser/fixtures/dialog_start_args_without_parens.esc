@@ -1,0 +1,9 @@
+:talk
+	?! "res://game/dialog_avatars/player.tres" 5 2
+		- "First option"
+			say($player, "First option")
+		- "Second option"
+			say($player, "Second option")
+
+:second
+	print("ok")

@@ -165,6 +165,80 @@ func test_dialog_option_missing_indented_body_returns_parse_error() -> void:
 	assert_bool(found_second).is_true()
 
 
+func test_dialog_start_arguments_without_parens_parse_and_are_preserved() -> void:
+	# The public docs show dialog-start arguments in space-separated form:
+	# `?! "res://avatar" 5 2`. This regression locks that syntax down so the
+	# parser preserves those arguments instead of requiring the older `?!(...)`
+	# form.
+	var source := _load_fixture("dialog_start_args_without_parens.esc")
+	var compiler := ESCCompiler.new()
+	var scanner := ESCScanner.new()
+	scanner.set_source(source)
+	scanner.set_filename(_fixture_path("dialog_start_args_without_parens.esc"))
+
+	var tokens: Array = scanner.scan_tokens()
+	var parser := ESCParser.new()
+	parser.init(compiler, tokens, "")
+
+	var statements := parser.parse()
+
+	assert_bool(compiler.had_error).is_false()
+	assert_int(statements.size()).is_equal(2)
+	assert_object(statements[0]).is_instanceof(ESCGrammarStmts.Event)
+	assert_object(statements[1]).is_instanceof(ESCGrammarStmts.Event)
+
+	var talk_event := statements[0] as ESCGrammarStmts.Event
+	var talk_block := talk_event.get_body() as ESCGrammarStmts.Block
+	assert_int(talk_block.get_statements().size()).is_equal(1)
+	assert_object(talk_block.get_statements()[0]).is_instanceof(ESCGrammarStmts.Dialog)
+
+	var dialog := talk_block.get_statements()[0] as ESCGrammarStmts.Dialog
+	var args := dialog.get_args()
+	assert_int(args.size()).is_equal(3)
+	assert_object(args[0]).is_instanceof(ESCGrammarExprs.Literal)
+	assert_str(args[0].get_value()).is_equal("res://game/dialog_avatars/player.tres")
+	assert_object(args[1]).is_instanceof(ESCGrammarExprs.Literal)
+	assert_float(args[1].get_value()).is_equal(5.0)
+	assert_object(args[2]).is_instanceof(ESCGrammarExprs.Literal)
+	assert_float(args[2].get_value()).is_equal(2.0)
+
+
+func test_dialog_start_arguments_with_parens_parse_and_are_preserved() -> void:
+	# Preserve the older parenthesized positional form as well, so both
+	# positional dialog-start syntaxes remain supported.
+	var source := _load_fixture("dialog_start_args_with_parens.esc")
+	var compiler := ESCCompiler.new()
+	var scanner := ESCScanner.new()
+	scanner.set_source(source)
+	scanner.set_filename(_fixture_path("dialog_start_args_with_parens.esc"))
+
+	var tokens: Array = scanner.scan_tokens()
+	var parser := ESCParser.new()
+	parser.init(compiler, tokens, "")
+
+	var statements := parser.parse()
+
+	assert_bool(compiler.had_error).is_false()
+	assert_int(statements.size()).is_equal(2)
+	assert_object(statements[0]).is_instanceof(ESCGrammarStmts.Event)
+	assert_object(statements[1]).is_instanceof(ESCGrammarStmts.Event)
+
+	var talk_event := statements[0] as ESCGrammarStmts.Event
+	var talk_block := talk_event.get_body() as ESCGrammarStmts.Block
+	assert_int(talk_block.get_statements().size()).is_equal(1)
+	assert_object(talk_block.get_statements()[0]).is_instanceof(ESCGrammarStmts.Dialog)
+
+	var dialog := talk_block.get_statements()[0] as ESCGrammarStmts.Dialog
+	var args := dialog.get_args()
+	assert_int(args.size()).is_equal(3)
+	assert_object(args[0]).is_instanceof(ESCGrammarExprs.Literal)
+	assert_str(args[0].get_value()).is_equal("res://game/dialog_avatars/player.tres")
+	assert_object(args[1]).is_instanceof(ESCGrammarExprs.Literal)
+	assert_float(args[1].get_value()).is_equal(5.0)
+	assert_object(args[2]).is_instanceof(ESCGrammarExprs.Literal)
+	assert_float(args[2].get_value()).is_equal(2.0)
+
+
 func test_grouping_missing_right_paren_returns_parse_error() -> void:
 	# This fixture omits the closing `)` from a grouped expression inside a
 	# function call. The parser must not silently accept the grouping and build

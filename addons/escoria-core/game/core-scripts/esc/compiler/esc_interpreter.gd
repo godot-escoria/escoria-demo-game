@@ -473,8 +473,64 @@ func visit_global_stmt(stmt: ESCGrammarStmts.Global):
 func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 	var dialog: ESCDialog = ESCDialog.new()
 	var rc = ESCExecution.RC_OK
+	var dialog_args := stmt.get_args()
 
 	_dialog_depth += 1
+
+	if dialog_args.size() > 0:
+		var avatar = await _evaluate(dialog_args[0])
+
+		if avatar != null and not avatar is String and not avatar is StringName:
+			escoria.logger.error(
+				self,
+				"Dialog avatar must evaluate to a String."
+			)
+			_dialog_depth -= 1
+			return ESCExecution.RC_ERROR
+
+		dialog.avatar = str(avatar)
+
+	if dialog_args.size() > 1:
+		var timeout = await _evaluate(dialog_args[1])
+
+		if not timeout is int and not timeout is float:
+			escoria.logger.error(
+				self,
+				"Dialog timeout must evaluate to a number."
+			)
+			_dialog_depth -= 1
+			return ESCExecution.RC_ERROR
+
+		if timeout < 0:
+			escoria.logger.error(
+				self,
+				"Dialog timeout must be greater than or equal to 0."
+			)
+			_dialog_depth -= 1
+			return ESCExecution.RC_ERROR
+
+		dialog.timeout = int(timeout)
+
+	if dialog_args.size() > 2:
+		var timeout_option = await _evaluate(dialog_args[2])
+
+		if not timeout_option is int and not timeout_option is float:
+			escoria.logger.error(
+				self,
+				"Dialog timeout option must evaluate to a number."
+			)
+			_dialog_depth -= 1
+			return ESCExecution.RC_ERROR
+
+		if timeout_option < 0:
+			escoria.logger.error(
+				self,
+				"Dialog timeout option must be greater than or equal to 0."
+			)
+			_dialog_depth -= 1
+			return ESCExecution.RC_ERROR
+
+		dialog.timeout_option = int(timeout_option)
 
 	while true:
 		dialog.options = []
