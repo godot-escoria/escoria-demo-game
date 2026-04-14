@@ -1,8 +1,8 @@
 ## A single option used as part of a dialog.
 ##
 ## `ESCDialog` makes use of these when assembling an actual dialog in Escoria.
-extends ESCStatement
 class_name ESCDialogOption
+extends ESCStatement
 
 
 ## Option text displayed in the HUD.
