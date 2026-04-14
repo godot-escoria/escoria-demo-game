@@ -154,6 +154,27 @@ class Event extends ESCGrammarStmt:
 	## [br]
 	signal interrupted
 
+	## Valid event flags[br]
+	##[br]
+	## * TK: stands for "telekinetic". It means the player won't walk over to
+	##   the item to say the line.[br]
+	## * NO_TT: stands for "No tooltip". It hides the tooltip for the duration of
+	##   the event. Probably not very useful, because events having multiple
+	##   say commands in them are automatically hidden.[br]
+	## * NO_UI: stands for "No User Inteface". It hides the UI for the duration of
+	##   the event. Useful when you want something to look like a cut scene but not
+	##   disable input for skipping dialog.[br]
+	## * NO_SAVE: disables saving. Use this in cut scenes and anywhere a
+	##   badly-timed autosave would leave your game in a messed-up state.
+	enum {
+		FLAG_TK = 1,
+		FLAG_NO_TT = 2,
+		FLAG_NO_UI = 4,
+		FLAG_NO_SAVE = 8
+	}
+
+	var source: String = "" # TODO: Make proper use of this
+
 	var _name: ESCToken:
 		get = get_name
 	var _target: ESCGrammarExprs.Literal:
@@ -174,28 +195,6 @@ class Event extends ESCGrammarStmt:
 	# Indicates whether this event was interrupted.
 	var _is_interrupted: bool = false:
 		get = is_interrupted
-
-	var source: String = "" # TODO: Make proper use of this
-
-
-	## Valid event flags[br]
-	##[br]
-	## * TK: stands for "telekinetic". It means the player won't walk over to
-	##   the item to say the line.[br]
-	## * NO_TT: stands for "No tooltip". It hides the tooltip for the duration of
-	##   the event. Probably not very useful, because events having multiple
-	##   say commands in them are automatically hidden.[br]
-	## * NO_UI: stands for "No User Inteface". It hides the UI for the duration of
-	##   the event. Useful when you want something to look like a cut scene but not
-	##   disable input for skipping dialog.[br]
-	## * NO_SAVE: disables saving. Use this in cut scenes and anywhere a
-	##   badly-timed autosave would leave your game in a messed-up state.
-	enum {
-		FLAG_TK = 1,
-		FLAG_NO_TT = 2,
-		FLAG_NO_UI = 4,
-		FLAG_NO_SAVE = 8
-	}
 
 
 	## Initialization method. Must be called after instantiation.[br]
