@@ -37,6 +37,8 @@ func get_translated_option() -> String:
 		if translation_key != translated_text:
 			return translated_text
 
+		return option
+
 	# Check if text has a key
 	if ":" in option:
 		var splitted_text = option.split(":")

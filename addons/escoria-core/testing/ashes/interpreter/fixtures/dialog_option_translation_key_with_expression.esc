@@ -1,0 +1,5 @@
+:talk
+	var option_text = "Dynamic option"
+	?!
+		- DYNAMIC_KEY:option_text
+			break
