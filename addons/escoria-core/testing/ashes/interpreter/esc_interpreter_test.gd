@@ -21,11 +21,16 @@ class DialogPlayerDouble extends ESCDialogPlayer:
 
 
 	func start_dialog_choices(dialog: ESCDialog, _type: String = "simple"):
+		var option_keys: Array = []
+		for option in dialog.options:
+			option_keys.append(option.translation_key)
+
 		_dialogs_started.append({
 			"avatar": dialog.avatar,
 			"timeout": dialog.timeout,
 			"timeout_option": dialog.timeout_option,
-			"options_size": dialog.options.size()
+			"options_size": dialog.options.size(),
+			"option_keys": option_keys
 		})
 
 		# Mirror the real dialog player closely enough for interpreter tests:
@@ -1390,6 +1395,32 @@ func test_dialog_start_invalid_timeout_type_returns_error() -> void:
 	await interpreter.interpret(event)
 	assert_int(dialog_player.get_choices_consumed()).is_equal(0)
 	assert_int(dialog_player.get_dialogs_started().size()).is_equal(0)
+
+	interpreter.cleanup()
+
+	if dialog_player:
+		escoria.set("dialog_player", null)
+		dialog_player.queue_free()
+
+
+func test_dialog_option_translation_key_is_passed_to_runtime_dialog() -> void:
+	var script_object := _compile_fixture_script("dialog_option_translation_key.esc")
+	var dialog_player := DialogPlayerDouble.new([0])
+	escoria.set("dialog_player", dialog_player)
+	var interpreter := ESCInterpreter.new(ESCCompiler.load_commands(), {})
+	var resolver := ESCResolver.new(interpreter)
+	var event: ESCGrammarStmts.Event = script_object.events["talk"]
+
+	assert_object(event).is_not_null()
+
+	resolver.resolve(event)
+
+	await interpreter.interpret(event)
+	assert_int(dialog_player.get_choices_consumed()).is_equal(1)
+
+	var started_dialogs := dialog_player.get_dialogs_started()
+	assert_int(started_dialogs.size()).is_equal(1)
+	assert_array(started_dialogs[0]["option_keys"]).contains_exactly(["UNCLE_SVEN", ""])
 
 	interpreter.cleanup()
 

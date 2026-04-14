@@ -465,6 +465,14 @@ func _dialog_option_statement():
 	if consume is ESCParseError:
 		return consume
 
+	var translation_key := ""
+
+	if _match_in_order([
+		ESCTokenType.TokenType.IDENTIFIER,
+		ESCTokenType.TokenType.COLON
+	]):
+		translation_key = _tokens[_current - 2].get_lexeme()
+
 	var expr = _expression()
 
 	if expr is ESCParseError:
@@ -497,7 +505,7 @@ func _dialog_option_statement():
 	block.init(block_stmts)
 
 	var option: ESCGrammarStmts.DialogOption = ESCGrammarStmts.DialogOption.new()
-	option.init(expr, condition, block)
+	option.init(translation_key, expr, condition, block)
 	return option
 
 
