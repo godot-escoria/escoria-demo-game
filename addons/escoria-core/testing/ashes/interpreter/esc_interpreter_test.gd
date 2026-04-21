@@ -1365,7 +1365,7 @@ func test_dialog_start_args_are_passed_to_runtime_dialog() -> void:
 	escoria.set("dialog_player", dialog_player)
 	var interpreter := ESCInterpreter.new(ESCCompiler.load_commands(), {})
 	var resolver := ESCResolver.new(interpreter)
-	var event: ESCGrammarStmts.Event = script_object.events["talk"]
+	var event: ESCGrammarStmts.Event = script_object.get_event_with_target("talk")
 
 	assert_object(event).is_not_null()
 
@@ -1390,7 +1390,7 @@ func test_dialog_start_invalid_avatar_type_returns_error() -> void:
 	escoria.set("dialog_player", dialog_player)
 	var interpreter := ESCInterpreter.new(ESCCompiler.load_commands(), {})
 	var resolver := ESCResolver.new(interpreter)
-	var event: ESCGrammarStmts.Event = script_object.events["talk"]
+	var event: ESCGrammarStmts.Event = script_object.get_event_with_target("talk")
 
 	assert_object(event).is_not_null()
 
@@ -1409,7 +1409,7 @@ func test_dialog_start_invalid_timeout_type_returns_error() -> void:
 	escoria.set("dialog_player", dialog_player)
 	var interpreter := ESCInterpreter.new(ESCCompiler.load_commands(), {})
 	var resolver := ESCResolver.new(interpreter)
-	var event: ESCGrammarStmts.Event = script_object.events["talk"]
+	var event: ESCGrammarStmts.Event = script_object.get_event_with_target("talk")
 
 	assert_object(event).is_not_null()
 
@@ -1428,7 +1428,7 @@ func test_dialog_option_translation_key_is_passed_to_runtime_dialog() -> void:
 	escoria.set("dialog_player", dialog_player)
 	var interpreter := ESCInterpreter.new(ESCCompiler.load_commands(), {})
 	var resolver := ESCResolver.new(interpreter)
-	var event: ESCGrammarStmts.Event = script_object.events["talk"]
+	var event: ESCGrammarStmts.Event = script_object.get_event_with_target("talk")
 
 	assert_object(event).is_not_null()
 
@@ -1450,7 +1450,7 @@ func test_dialog_start_invalid_timeout_option_type_returns_error() -> void:
 	escoria.set("dialog_player", dialog_player)
 	var interpreter := ESCInterpreter.new(ESCCompiler.load_commands(), {})
 	var resolver := ESCResolver.new(interpreter)
-	var event: ESCGrammarStmts.Event = script_object.events["talk"]
+	var event: ESCGrammarStmts.Event = script_object.get_event_with_target("talk")
 
 	assert_object(event).is_not_null()
 
@@ -1469,7 +1469,7 @@ func test_dialog_start_invalid_timeout_option_negative_returns_error() -> void:
 	escoria.set("dialog_player", dialog_player)
 	var interpreter := ESCInterpreter.new(ESCCompiler.load_commands(), {})
 	var resolver := ESCResolver.new(interpreter)
-	var event: ESCGrammarStmts.Event = script_object.events["talk"]
+	var event: ESCGrammarStmts.Event = script_object.get_event_with_target("talk")
 
 	assert_object(event).is_not_null()
 
@@ -1488,7 +1488,7 @@ func test_dialog_option_translation_key_beats_legacy_prefix_fallback() -> void:
 	escoria.set("dialog_player", dialog_player)
 	var interpreter := ESCInterpreter.new(ESCCompiler.load_commands(), {})
 	var resolver := ESCResolver.new(interpreter)
-	var event: ESCGrammarStmts.Event = script_object.events["talk"]
+	var event: ESCGrammarStmts.Event = script_object.get_event_with_target("talk")
 
 	assert_object(event).is_not_null()
 
@@ -1510,7 +1510,7 @@ func test_dialog_option_translation_key_with_condition_survives_runtime_filterin
 	escoria.set("dialog_player", dialog_player)
 	var interpreter := ESCInterpreter.new(ESCCompiler.load_commands(), {})
 	var resolver := ESCResolver.new(interpreter)
-	var event: ESCGrammarStmts.Event = script_object.events["talk"]
+	var event: ESCGrammarStmts.Event = script_object.get_event_with_target("talk")
 
 	assert_object(event).is_not_null()
 
@@ -1533,7 +1533,7 @@ func test_dialog_option_translation_key_with_expression_preserves_key_and_value(
 	escoria.set("dialog_player", dialog_player)
 	var interpreter := ESCInterpreter.new(ESCCompiler.load_commands(), {})
 	var resolver := ESCResolver.new(interpreter)
-	var event: ESCGrammarStmts.Event = script_object.events["talk"]
+	var event: ESCGrammarStmts.Event = script_object.get_event_with_target("talk")
 
 	assert_object(event).is_not_null()
 
@@ -1555,6 +1555,16 @@ func _cleanup_dialog_test(interpreter: ESCInterpreter, dialog_player: DialogPlay
 	if dialog_player:
 		escoria.set("dialog_player", null)
 		dialog_player.queue_free()
+
+
+func test_compiler_rejects_exact_duplicate_event_targets() -> void:
+	var source := _load_fixture("duplicate_exact_target_event_overwrites.esc")
+	var compiler := ESCCompiler.new()
+	var script_object := compiler.compile(source)
+
+	assert_bool(compiler.had_error).is_true()
+	assert_int(script_object.events.events.size()).is_equal(1)
+	assert_object(script_object.get_event_with_target("use", "wrench")).is_not_null()
 
 
 func _load_fixture(name: String) -> String:

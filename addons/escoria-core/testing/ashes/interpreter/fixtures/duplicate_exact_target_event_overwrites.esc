@@ -1,0 +1,5 @@
+:use "wrench"
+	test_set_global("result", "first")
+
+:use "wrench"
+	test_set_global("result", "second")

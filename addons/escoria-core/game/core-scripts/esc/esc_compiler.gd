@@ -140,6 +140,20 @@ func _compiler_shim(source: String, filename: String = "", associated_global_id:
 
 	if not had_error:
 		for ps in parsed_statements:
+			if script.has_event_with_target(
+				ps.get_event_name(),
+				ps.get_target_name()
+			):
+				ESCSafeLogging.log_error(
+					self,
+					"Duplicate event '%s' with target '%s'." % [
+						ps.get_event_name(),
+						ps.get_target_name()
+					]
+				)
+				had_error = true
+				continue
+
 			script.events.add(ps)
 	return script
 
