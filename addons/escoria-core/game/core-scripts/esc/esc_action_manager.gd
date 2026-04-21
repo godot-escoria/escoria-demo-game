@@ -187,9 +187,9 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 					)
 					return
 
-				if trigger_object.has_event_with_target(trigger_in_verb):
+				if trigger_object.has_event_with_target(trigger_in_verb, object_id):
 					escoria.event_manager.queue_event(
-						trigger_object.get_event_with_target(trigger_in_verb)
+						trigger_object.get_event_with_target(trigger_in_verb, object_id)
 					)
 				else:
 					escoria.logger.info(
@@ -217,9 +217,9 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 					)
 					return
 
-				if trigger_object.has_event_with_target(trigger_out_verb):
+				if trigger_object.has_event_with_target(trigger_out_verb, object_id):
 					escoria.event_manager.queue_event(
-						trigger_object.get_event_with_target(trigger_out_verb)
+						trigger_object.get_event_with_target(trigger_out_verb, object_id)
 					)
 				else:
 					escoria.logger.info(

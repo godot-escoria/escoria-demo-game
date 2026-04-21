@@ -1,0 +1,11 @@
+:trigger_in "player"
+	test_set_global("trigger_in_result", "player-in")
+
+:trigger_in
+	test_set_global("trigger_in_result", "fallback-in")
+
+:trigger_out "player"
+	test_set_global("trigger_out_result", "player-out")
+
+:trigger_out
+	test_set_global("trigger_out_result", "fallback-out")
