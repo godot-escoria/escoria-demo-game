@@ -59,10 +59,6 @@ enum ACTION {
 }
 
 
-## ESCPlayer resource
-const ESCPlayer = preload("res://addons/escoria-core/game/core-scripts/esc_player.gd")
-
-
 # Basic required internal actions
 
 ## ESCPlayer resource
