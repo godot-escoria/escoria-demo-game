@@ -209,6 +209,7 @@ func set_hovered_node(item: ESCItem) -> bool:
 		_hovered_element = item
 		_hovered_element.mouse_entered()
 		return true
+
 	# Else, the tested item is currently on top of hover stack, then do nothing
 	return false
 
