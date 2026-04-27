@@ -1311,6 +1311,38 @@ func test_set_animations_updates_persisted_player_resource_on_repeat_calls() -> 
 	room.free()
 
 
+func test_set_speed_rejects_negative_values_but_accepts_zero() -> void:
+	var room := ESCRoom.new()
+	room.global_id = "test_room_set_speed_contract"
+	escoria.object_manager.set_current_room(room)
+
+	var player := load("res://game/characters/mark/mark.tscn").instantiate() as ESCPlayer
+	player.global_id = "player"
+	escoria.object_manager.register_object(
+		ESCObject.new(player.global_id, player),
+		room,
+		true,
+		false
+	)
+
+	var command := SetSpeedCommand.new()
+	var initial_speed := player.speed
+
+	assert_bool(command.validate([player.global_id, -1])).is_false()
+	assert_int(player.speed).is_equal(initial_speed)
+
+	assert_bool(command.validate([player.global_id, 0])).is_true()
+	assert_int(command.run([player.global_id, 0])).is_equal(ESCExecution.RC_OK)
+	assert_int(player.speed).is_equal(0)
+
+	var room_key := ESCRoomObjectsKey.new()
+	room_key.room_global_id = room.global_id
+	room_key.room_instance_id = room.get_instance_id()
+	escoria.object_manager.unregister_object_by_global_id(player.global_id, room_key)
+	player.free()
+	room.free()
+
+
 func test_trigger_actions_select_targeted_events_for_activating_object() -> void:
 	var script_object := _compile_fixture_script("trigger_targeted_events_use_object_id.esc")
 	var room := ESCRoom.new()
