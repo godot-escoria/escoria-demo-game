@@ -381,14 +381,6 @@ func _perform_script_events(room: ESCRoom) -> int:
 		if not is_instance_valid(room.player):
 			room.player = room.player_scene.instantiate()
 			room.add_child(room.player)
-			escoria.object_manager.register_object(
-				ESCObject.new(
-					room.player.global_id,
-					room.player
-				),
-				room,
-				true
-			)
 
 		if escoria.globals_manager.has(
 			escoria.room_manager.GLOBAL_ANIMATION_RESOURCES
