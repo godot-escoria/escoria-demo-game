@@ -5,6 +5,8 @@ extends GdUnitTestSuite
 @warning_ignore("unused_parameter")
 @warning_ignore("return_value_discarded")
 
+const MARK_SCENE := preload("res://game/characters/mark/mark.tscn")
+
 var _terminate_on_errors_before: bool
 var _command_directories_before: PackedStringArray
 var _dialog_player_before
@@ -1271,7 +1273,7 @@ func test_set_animations_updates_persisted_player_resource_on_repeat_calls() -> 
 	room.global_id = "test_room_issue_1226"
 	escoria.object_manager.set_current_room(room)
 
-	var player := load("res://game/characters/mark/mark.tscn").instantiate() as ESCPlayer
+	var player := MARK_SCENE.instantiate() as ESCPlayer
 	player.global_id = "player"
 	escoria.object_manager.register_object(
 		ESCObject.new(player.global_id, player),
@@ -1316,7 +1318,7 @@ func test_set_speed_rejects_negative_values_but_accepts_zero() -> void:
 	room.global_id = "test_room_set_speed_contract"
 	escoria.object_manager.set_current_room(room)
 
-	var player := load("res://game/characters/mark/mark.tscn").instantiate() as ESCPlayer
+	var player := MARK_SCENE.instantiate() as ESCPlayer
 	player.global_id = "player"
 	escoria.object_manager.register_object(
 		ESCObject.new(player.global_id, player),
