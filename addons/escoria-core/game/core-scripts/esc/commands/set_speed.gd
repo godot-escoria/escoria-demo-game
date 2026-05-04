@@ -11,8 +11,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name SetSpeedCommand
+extends ESCBaseCommand
 
 
 ## The descriptor of the arguments of this command.[br]
@@ -48,6 +48,13 @@ func validate(arguments: Array):
 
 	if not escoria.object_manager.has(arguments[0]):
 		raise_invalid_object_error(self, arguments[0])
+		return false
+
+	if arguments[1] < 0:
+		raise_error(
+			self,
+			"Invalid speed. Speed cannot be negative (%d)." % arguments[1]
+		)
 		return false
 	return true
 
