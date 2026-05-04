@@ -1,5 +1,11 @@
 # Changelog
 
+## [4.0.0-beta.2](https://github.com/godot-escoria/escoria-demo-game/compare/v4.0.0-beta.1...v4.0.0-beta.2) (2026-03-14)
+
+### CI
+
+* omit GDUnit4 addon (when merged in) ([77487a1](https://github.com/godot-escoria/escoria-demo-game/commit/77487a1fee094d5191ab1b79ac0efde9b9998741))
+
 ## [4.0.0-beta.1](https://github.com/godot-escoria/escoria-demo-game/compare/v4.0.0-alpha.316...v4.0.0-beta.1) (2026-03-08)
 
 ### Bug Fixes
