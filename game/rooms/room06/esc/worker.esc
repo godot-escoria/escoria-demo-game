@@ -12,6 +12,7 @@
 		turn_to("worker", "player")
 		say("worker", "If you talk to me again")
 		say("worker", "I will not say this opening sentence.")
+		say("worker", "Also, if you take too long, the game will decide which question to ask me!")
 		talked_once = true
 
 	# Reset flag so the Loom conversation will be available every time 
@@ -23,7 +24,7 @@
 
 	loom_conversation_done = false
 	turn_to("worker", "player")
-	?!
+	?! "res://game/dialog_avatars/player_dialog_options_avatar.tscn" 5 1
 		- "What is your name?"
 			say("current_player", "Who are you?")
 
@@ -42,7 +43,7 @@
 		- "Can I ask you about Loom?" [!loom_conversation_done]
 			say("current_player", "What do you know about Loom?")
 			say("worker", "What do you want to know about Loom?")
-			?!
+			?! "res://game/dialog_avatars/player_dialog_options_avatar.tscn"
 				- "Could it be created in Escoria?" #[!loom_conversation_done]
 					say("player",	"Could Loom be created in Escoria?")
 					say("worker",	"Yes!")
