@@ -12,6 +12,9 @@ var timeout: int = 0
 ## The dialog option to select when timeout is reached.
 var timeout_option: int = 0
 
+## Total number of options authored in this dialog, including currently hidden options.
+var authored_options_count: int = 0
+
 ## A list of `ESCDialogOption`s.
 var options: Array
 
@@ -32,7 +35,11 @@ func is_valid() -> bool:
 			"Avatar scene not found: %s." % self.avatar
 		)
 		return false
-	if self.timeout_option > self.options.size() \
+	var option_count := self.authored_options_count
+	if option_count == 0:
+		option_count = self.options.size()
+
+	if self.timeout_option > option_count \
 			or self.timeout_option < 0:
 		escoria.logger.error(
 			self,
@@ -41,6 +48,33 @@ func is_valid() -> bool:
 		return false
 
 	return true
+
+
+## Returns the currently visible option configured as the timeout default, if any.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the currently visible timeout option as an `ESCDialogOption`, or `null` if the configured option is not visible.
+func get_timeout_option() -> ESCDialogOption:
+	var has_source_option_indexes := false
+
+	for option in self.options:
+		if option.source_option_index > 0:
+			has_source_option_indexes = true
+
+		if option.source_option_index == self.timeout_option:
+			return option
+
+	if not has_source_option_indexes \
+			and self.timeout_option > 0 \
+			and self.timeout_option <= self.options.size():
+		return self.options[self.timeout_option - 1]
+
+	return null
 
 
 ## Run this dialog. TODO: Although this method overrides its parent version, the return type here does NOT match the parent's signature. Consider either changing the parent's return type to be a `Variant`, or doing something to ensure greater consistency.[br]
