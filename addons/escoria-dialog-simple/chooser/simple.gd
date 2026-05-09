@@ -17,7 +17,7 @@ func _ready() -> void:
 
 
 # Process the timeout display
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if $MarginContainer.visible and self.dialog and self.dialog.timeout > 0:
 		$TimerProgress.value = (
 			self.dialog.timeout - $Timer.time_left
@@ -26,28 +26,28 @@ func _process(delta: float) -> void:
 
 # Show the chooser
 func show_chooser():
-	var _vbox = $MarginContainer/ScrollContainer/VBoxContainer
-	for option_node in _vbox.get_children():
-		_vbox.remove_child(option_node)
+	var vbox = $MarginContainer/ScrollContainer/VBoxContainer
+	for option_node in vbox.get_children():
+		vbox.remove_child(option_node)
 
 	_remove_avatar()
 
 	for option in self.dialog.options:
 		if option.is_valid():
-			var _option_node = Button.new()
-			_option_node.text = (option as ESCDialogOption).option
-			_option_node.flat = true
-			_option_node.add_theme_color_override("font_color", color_normal)
-			_option_node.add_theme_color_override("font_color_hover", color_hover)
-			_vbox.add_child(_option_node)
+			var option_node = Button.new()
+			option_node.text = (option as ESCDialogOption).option
+			option_node.flat = true
+			option_node.add_theme_color_override("font_color", color_normal)
+			option_node.add_theme_color_override("font_color_hover", color_hover)
+			vbox.add_child(option_node)
 
-			_option_node.pressed.connect(_on_answer_selected.bind(option))
+			option_node.pressed.connect(_on_answer_selected.bind(option))
 
 	# If we've no options left, signify as much and start the timer with a
 	# very short interval so the appropriate signal can be fired. Note that
 	# we have to fire the signal AFTER this method returns as the caller
 	# is almost certainly yielding after this method returns.
-	if _vbox.get_child_count() == 0:
+	if vbox.get_child_count() == 0:
 		_no_more_options = true
 		$Timer.start(0.05)
 		return
