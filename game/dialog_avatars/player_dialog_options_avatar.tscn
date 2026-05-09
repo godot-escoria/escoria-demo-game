@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://c1l1ws72tw5dp"]
+
+[ext_resource type="Texture2D" uid="uid://biv4ritcbiojc" path="res://game/dialog_avatars/player.tres" id="1_6q4k4"]
+
+[node name="PlayerDialogOptionsAvatar" type="Node2D" unique_id=1986428703]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1637938423]
+position = Vector2(418, 35.999992)
+scale = Vector2(4.5434785, 3.7962964)
+texture = ExtResource("1_6q4k4")
