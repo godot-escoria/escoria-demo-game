@@ -1,0 +1,10 @@
+:talk
+	global show_first = false
+
+	?! "-" 5 3
+		- "First option" [show_first]
+			break
+		- "Second option"
+			break
+		- "Third option"
+			break

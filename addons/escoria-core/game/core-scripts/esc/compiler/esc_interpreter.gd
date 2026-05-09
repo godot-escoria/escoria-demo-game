@@ -474,8 +474,10 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 	var dialog: ESCDialog = ESCDialog.new()
 	var rc = ESCExecution.RC_OK
 	var dialog_args := stmt.get_args()
+	var dialog_options := stmt.get_options()
 
 	_dialog_depth += 1
+	dialog.authored_options_count = dialog_options.size()
 
 	if dialog_args.size() > 0:
 		var avatar = await _evaluate(dialog_args[0])
@@ -535,9 +537,11 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 	while true:
 		dialog.options = []
 
-		for dialog_option in stmt.get_options():
+		for index in range(dialog_options.size()):
+			var dialog_option = dialog_options[index]
 			var option: ESCDialogOption = ESCDialogOption.new()
 			option.source_option = dialog_option
+			option.source_option_index = index + 1
 			option.translation_key = dialog_option.get_translation_key()
 			option.option = await _evaluate(dialog_option.get_option())
 
