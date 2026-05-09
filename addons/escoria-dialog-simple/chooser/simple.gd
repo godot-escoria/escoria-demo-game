@@ -59,8 +59,10 @@ func show_chooser():
 
 	$MarginContainer.show()
 
-	if self.dialog.timeout > 0:
+	if self.dialog.timeout > 0 and self.dialog.get_timeout_option():
 		$Timer.start(self.dialog.timeout)
+	else:
+		$TimerProgress.value = 0
 
 
 # Hide the chooser
@@ -88,7 +90,7 @@ func _on_answer_selected(option: ESCDialogOption):
 
 # The timeout came and a option was selected
 func _on_Timer_timeout() -> void:
-	var option_chosen = null if _no_more_options else self.dialog.options[self.dialog.timeout_option - 1]
+	var option_chosen = null if _no_more_options else self.dialog.get_timeout_option()
 	_no_more_options = false
 	_option_chosen(option_chosen)
 
