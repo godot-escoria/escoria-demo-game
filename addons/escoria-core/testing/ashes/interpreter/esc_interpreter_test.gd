@@ -6,6 +6,7 @@ extends GdUnitTestSuite
 @warning_ignore("return_value_discarded")
 
 const MARK_SCENE := preload("res://game/characters/mark/mark.tscn")
+const SIMPLE_CHOOSER_SCENE := preload("res://addons/escoria-dialog-simple/chooser/simple.tscn")
 
 var _terminate_on_errors_before: bool
 var _command_directories_before: PackedStringArray
@@ -1635,7 +1636,7 @@ func test_simple_chooser_does_not_start_timer_when_timeout_default_is_hidden() -
 		_make_dialog_option("Visible option", 2),
 	]
 
-	var chooser = preload("res://addons/escoria-dialog-simple/chooser/simple.tscn").instantiate()
+	var chooser = SIMPLE_CHOOSER_SCENE.instantiate()
 	add_child(chooser)
 	chooser.set_dialog(dialog)
 	chooser.show_chooser()
@@ -1656,7 +1657,7 @@ func test_simple_chooser_starts_timer_when_timeout_default_is_visible() -> void:
 		_make_dialog_option("Second option", 2),
 	]
 
-	var chooser = preload("res://addons/escoria-dialog-simple/chooser/simple.tscn").instantiate()
+	var chooser = SIMPLE_CHOOSER_SCENE.instantiate()
 	add_child(chooser)
 	chooser.set_dialog(dialog)
 	chooser.show_chooser()
