@@ -561,7 +561,7 @@ func perform_inputevent_on_object(
 	default_action: bool = false
 ) -> void:
 	# This validates the requested action, resolves the corresponding event,
-		# moves the player when needed, and only performs targeted item actions
+	# moves the player when needed, and only performs targeted item actions
 	# after verb + source item + target item have all been selected.
 
 	escoria.logger.info(
