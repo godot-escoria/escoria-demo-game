@@ -574,7 +574,7 @@ func perform_inputevent_on_object(
 	var dont_interact = false
 
 	# We need to have the new action input state BEFORE initiating the player
-		# move so we determine now if the object clicked requires a target object
+	# move so we determine now if the object clicked requires a target object
 	# depending on the used action verb.
 	var tool_just_set = _set_tool_and_action(obj, default_action)
 	var requires_target_object = _check_item_requires_target_object()
