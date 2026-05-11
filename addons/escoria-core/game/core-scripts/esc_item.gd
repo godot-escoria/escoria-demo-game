@@ -79,6 +79,22 @@ signal mouse_right_clicked_item(global_id)
 ## [br]
 signal arrived(walk_context)
 
+## Emitted when the item started talking.
+## [br]
+signal started_talking
+
+## Emitted when the item stopped talking.
+## [br]
+signal stopped_talking
+
+## Emitted when the item started walking.
+## [br]
+signal started_walking
+
+## Emitted when the item stopped walking.
+## [br]
+signal stopped_walking
+
 
 ## The global ID of this item
 @export var global_id: String
@@ -859,6 +875,7 @@ func teleport_to(target: Vector2) -> void:
 ## Returns nothing.
 func walk_to(pos: Vector2, p_walk_context: ESCWalkContext = null) -> void:
 	if is_movable:
+		started_walking.emit()
 		_movable.walk_to(pos, p_walk_context)
 	else:
 		ESCSafeLogging.log_warn(
@@ -883,6 +900,7 @@ func stop_walking_now(to_target: bool = false) -> void:
 		var where: Vector2 = position
 		if to_target:
 			where = _movable.walk_destination
+		stopped_walking.emit()
 		_movable.walk_stop(where)
 	else:
 		ESCSafeLogging.log_warn(
@@ -1093,6 +1111,7 @@ func start_talking():
 	animation_player.play(
 		animations.speaks[animation_direction].animation
 	)
+	started_talking.emit(animation_direction)
 
 
 ## Stop playing the talking animation[br]
@@ -1128,6 +1147,7 @@ func stop_talking():
 		animation_player.play(
 			animations.idles[0].animation
 		)
+	stopped_talking.emit()
 
 
 ## Replay the last idle animation[br]
