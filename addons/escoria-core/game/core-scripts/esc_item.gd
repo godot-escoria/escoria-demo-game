@@ -260,8 +260,10 @@ var _movable: ESCMovable = null
 ## The identified animation player
 var _animation_player: ESCAnimationPlayer = null
 
+## Original sprite color modulation restored when hover ends.
 var _previous_color_modulate: Color
 
+## Original sprite texture restored when hover ends.
 var _previous_texture: Texture2D = null
 
 ## Whether to force regsitration with the object manager. Defaults to false.
