@@ -1,17 +1,6 @@
 extends ESCGame
 
 
-const VERB_CLOSE = "close"
-const VERB_GIVE = "give"
-const VERB_LOOK = "look"
-const VERB_OPEN = "open"
-const VERB_PICKUP = "pickup"
-const VERB_PULL = "pull"
-const VERB_PUSH = "push"
-const VERB_TALK = "talk"
-const VERB_USE = "use"
-
-
 """
 Implement methods to react to inputs.
 
@@ -49,6 +38,17 @@ Implement methods to react to inputs.
 - _on_event_done(event_name: String)
 """
 
+const VERB_CLOSE = "close"
+const VERB_GIVE = "give"
+const VERB_LOOK = "look"
+const VERB_OPEN = "open"
+const VERB_PICKUP = "pickup"
+const VERB_PULL = "pull"
+const VERB_PUSH = "push"
+const VERB_TALK = "talk"
+const VERB_USE = "use"
+
+const INPUT_MAP = preload("res://addons/escoria-ui-keyboard-9verbs/input_map.gd")
 
 @onready var verbs_menu = $ui/Control/panel_down/VBoxContainer/HBoxContainer\
 		/VerbsMargin/verbs_menu
@@ -58,7 +58,6 @@ Implement methods to react to inputs.
 		/MainMargin/VBoxContainer/room_select
 @onready var inventory_ui = $ui/Control/panel_down/VBoxContainer/HBoxContainer\
 		/InventoryMargin/inventory_ui
-const input_map = preload("res://addons/escoria-ui-keyboard-9verbs/input_map.gd")
 
 func _enter_tree():
 	var room_selector_parent = $ui/Control/panel_down/VBoxContainer\
@@ -75,46 +74,45 @@ func _enter_tree():
 
 	var input_handler = Callable(self, "_process_input")
 	escoria.inputs_manager.register_custom_input_handler(input_handler)
-	input_map.add_actions_to_input_map()
+	INPUT_MAP.add_actions_to_input_map()
 
 
 func _exit_tree():
 	escoria.inputs_manager.register_custom_input_handler(null)
-	input_map.erase_actions_from_input_map()
+	INPUT_MAP.erase_actions_from_input_map()
 
 
 func _process_input(event: InputEvent, is_default_state: bool) -> bool:
 	if not is_default_state:
 		return false
-	elif event.is_action_pressed(input_map.ACTION_SET_VERB_OPEN):
+	if event.is_action_pressed(INPUT_MAP.ACTION_SET_VERB_OPEN):
 		verbs_menu.on_action_selected(VERB_OPEN)
 		return true
-	elif event.is_action_pressed(input_map.ACTION_SET_VERB_PICKUP):
+	if event.is_action_pressed(INPUT_MAP.ACTION_SET_VERB_PICKUP):
 		verbs_menu.on_action_selected(VERB_PICKUP)
 		return true
-	elif event.is_action_pressed(input_map.ACTION_SET_VERB_PUSH):
+	if event.is_action_pressed(INPUT_MAP.ACTION_SET_VERB_PUSH):
 		verbs_menu.on_action_selected(VERB_PUSH)
 		return true
-	elif event.is_action_pressed(input_map.ACTION_SET_VERB_CLOSE):
+	if event.is_action_pressed(INPUT_MAP.ACTION_SET_VERB_CLOSE):
 		verbs_menu.on_action_selected(VERB_CLOSE)
 		return true
-	elif event.is_action_pressed(input_map.ACTION_SET_VERB_LOOK):
+	if event.is_action_pressed(INPUT_MAP.ACTION_SET_VERB_LOOK):
 		verbs_menu.on_action_selected(VERB_LOOK)
 		return true
-	elif event.is_action_pressed(input_map.ACTION_SET_VERB_PULL):
+	if event.is_action_pressed(INPUT_MAP.ACTION_SET_VERB_PULL):
 		verbs_menu.on_action_selected(VERB_PULL)
 		return true
-	elif event.is_action_pressed(input_map.ACTION_SET_VERB_GIVE):
+	if event.is_action_pressed(INPUT_MAP.ACTION_SET_VERB_GIVE):
 		verbs_menu.on_action_selected(VERB_GIVE)
 		return true
-	elif event.is_action_pressed(input_map.ACTION_SET_VERB_USE):
+	if event.is_action_pressed(INPUT_MAP.ACTION_SET_VERB_USE):
 		verbs_menu.on_action_selected(VERB_USE)
 		return true
-	elif event.is_action_pressed(input_map.ACTION_SET_VERB_TALK):
+	if event.is_action_pressed(INPUT_MAP.ACTION_SET_VERB_TALK):
 		verbs_menu.on_action_selected(VERB_TALK)
 		return true
-	else:
-		return false
+	return false
 
 
 ## BACKGROUND ##
