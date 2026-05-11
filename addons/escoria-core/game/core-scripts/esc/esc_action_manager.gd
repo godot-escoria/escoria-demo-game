@@ -610,7 +610,7 @@ func perform_inputevent_on_object(
 	# If so, and if the object is not in the inventory, we need to run the arrived action.
 	elif current_action in ["", ACTION_WALK] and not escoria.inventory_manager.inventory_has(obj.global_id):
 		event_to_queue = _get_event_to_queue(ACTION_ARRIVED, obj)
-		# If the current action is set and different from "walk"/unset, check for targeted actions.
+	# If the current action is set and different from "walk"/unset, check for targeted actions.
 	elif not current_action in ["", ACTION_WALK]:
 		# If the selected tool requires a target and a target is set, run the targeted action.
 		if requires_target_object and current_target:
