@@ -584,7 +584,7 @@ func perform_inputevent_on_object(
 	if (not escoria.inventory_manager.inventory_has(obj.global_id) and not current_tool) \
 			or (current_tool and not requires_target_object):
 		current_tool = obj
-		# Else, if we have a tool and a target is required, this is our second item,
+	# Else, if we have a tool and a target is required, this is our second item,
 	# make it the target.
 	elif requires_target_object and not tool_just_set:
 		current_target = obj
