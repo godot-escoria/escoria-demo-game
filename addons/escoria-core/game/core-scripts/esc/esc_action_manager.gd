@@ -38,7 +38,7 @@ signal action_input_state_changed
 enum ActionInputState {
 	AWAITING_VERB_OR_ITEM, ## Initial state
 	AWAITING_ITEM,        ## After initial state, verb is defined
-		AWAITING_TARGET_ITEM, ## Item defined requires a target object
+	AWAITING_TARGET_ITEM, ## Item defined requires a target object
 	AWAITING_VERB,        ## After initial state, item is defined
 	AWAITING_VERB_CONFIRMATION, ## Item was defined first, next verb, need verb confirmation
 	COMPLETED             ## Final state
