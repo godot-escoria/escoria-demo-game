@@ -265,7 +265,7 @@ esc_script = "res://game/rooms/room6/esc/worker.esc"
 is_movable = true
 tooltip_name = "Worker"
 default_action = "look"
-combine_when_selected_action_is_in = []
+actions_requiring_target_object = []
 dialog_color = Color(0.501961, 0.882353, 1, 1)
 animations = ExtResource("2")
 

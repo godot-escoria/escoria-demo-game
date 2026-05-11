@@ -84,7 +84,7 @@ z_index = 300
 position = Vector2(478, 377)
 esc_script = "res://game/rooms/room06/esc/worker.esc"
 interaction_angle = 90
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 dialog_color = Color(0.14902, 0.388235, 0.462745, 1)
 
 [node name="Marker2D" type="Marker2D" parent="Hotspots/worker"]

@@ -53,7 +53,7 @@ global_id = "r10_l_exit"
 esc_script = "res://game/rooms/room10/esc/left_exit.esc"
 tooltip_name = "Left exit"
 default_action = "walk"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 is_exit = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
@@ -72,7 +72,7 @@ global_id = "r10_btn_stop_bg_music"
 esc_script = "res://game/rooms/room10/esc/button_stop_bg_music.esc"
 tooltip_name = "stop music"
 default_action = "use"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 
 [node name="ESCLocation" type="Marker2D" parent="Hotspots/button_stop_bg_music"]
 position = Vector2(541, 446)
@@ -103,7 +103,7 @@ global_id = "r10_btn_play_bg_music"
 esc_script = "res://game/rooms/room10/esc/button_play_bg_music.esc"
 tooltip_name = "play music"
 default_action = "use"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 
 [node name="ESCLocation" type="Marker2D" parent="Hotspots/button_play_bg_music"]
 position = Vector2(667, 451)
@@ -135,7 +135,7 @@ global_id = "test_accept_input"
 esc_script = "res://game/rooms/room10/esc/button_accept_input_test.esc"
 tooltip_name = "accept input"
 default_action = "use"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 
 [node name="ESCLocation" type="Marker2D" parent="Hotspots/button_accept_input"]
 position = Vector2(770, 448)
@@ -166,7 +166,7 @@ global_id = "button_slide"
 esc_script = "res://game/rooms/room10/esc/button_slide.esc"
 tooltip_name = "test slide"
 default_action = "use"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 
 [node name="slide_location" type="Marker2D" parent="Hotspots/button_slide"]
 position = Vector2(899, 448)
@@ -197,7 +197,7 @@ global_id = "button_turn_to"
 esc_script = "res://game/rooms/room10/esc/button_turn_to.esc"
 tooltip_name = "Test turn_to"
 default_action = "use"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 
 [node name="ESCLocation" type="Marker2D" parent="Hotspots/button_turn_to"]
 position = Vector2(1101, 442)
@@ -227,7 +227,7 @@ global_id = "r10_btn_play_snd"
 esc_script = "res://game/rooms/room10/esc/button_play_snd.esc"
 tooltip_name = "play sound"
 default_action = "use"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 
 [node name="ESCLocation" type="Marker2D" parent="Hotspots/button_play_sound"]
 position = Vector2(988, 446)

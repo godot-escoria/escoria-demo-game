@@ -130,7 +130,7 @@ script = ExtResource("3")
 global_id = "l_exit"
 esc_script = "res://game/rooms/room20/esc/left_exit.esc"
 is_exit = true
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
@@ -146,7 +146,7 @@ script = ExtResource("3")
 global_id = "r_exit"
 esc_script = "res://game/rooms/room20/esc/right_exit.esc"
 is_exit = true
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r_door"]

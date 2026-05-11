@@ -1,3 +1,6 @@
+# gdlint:disable=function-name
+# gdlint:disable=no-else-return
+# TODO: Fix this file's legacy lint violations and remove the gdlint disables above.
 @tool
 extends MarginContainer
 
@@ -161,11 +164,11 @@ func _on_CreateButton_pressed() -> void:
 	var selected_index = get_node(ACTION_NODE).selected
 	item.default_action = get_node(ACTION_NODE).get_item_text(selected_index)
 
-	# Make the item by default it's usable straight out of the inventory
+	# Make the item use a second target object by default when used from inventory.
 	if inventory_mode == true:
-		var new_pool_array: PackedStringArray = item.combine_when_selected_action_is_in
+		var new_pool_array: PackedStringArray = item.actions_requiring_target_object
 		new_pool_array.append("use")
-		item.combine_when_selected_action_is_in = new_pool_array
+		item.actions_requiring_target_object = new_pool_array
 
 	# Add Dialog Position to the background item
 	var interact_position = ESCLocation.new()

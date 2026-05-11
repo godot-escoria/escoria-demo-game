@@ -88,7 +88,7 @@ global_id = "bottom_item"
 esc_script = "res://game/rooms/room18/esc/bottom_item.esc"
 tooltip_name = "Bottom item"
 default_action = "use"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 animations = null
 
 [node name="Polygon2D" type="Polygon2D" parent="items/bottom_item"]
@@ -106,7 +106,7 @@ global_id = "middle_item"
 esc_script = "res://game/rooms/room18/esc/middle_item.esc"
 tooltip_name = "Middle item"
 default_action = "use"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 animations = null
 
 [node name="Polygon2D" type="Polygon2D" parent="items/middle_item"]
@@ -129,7 +129,7 @@ global_id = "upper_item"
 esc_script = "res://game/rooms/room18/esc/upper_item.esc"
 tooltip_name = "Upper item"
 default_action = "use"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 animations = null
 
 [node name="Polygon2D" type="Polygon2D" parent="items/upper_item"]
