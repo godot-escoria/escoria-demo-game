@@ -746,7 +746,7 @@ process_mode = 1
 script = ExtResource("7")
 global_id = "r7_lift"
 is_interactive = false
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 inventory_texture = ExtResource("12")
 animations = null
 
@@ -854,7 +854,7 @@ global_id = "r7_l_exit"
 esc_script = "res://game/rooms/room07/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Exit"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_exit"]
@@ -872,7 +872,7 @@ global_id = "r7_lower_stairs"
 esc_script = "res://game/rooms/room07/esc/lower_stairs.esc"
 tooltip_name = "stairs"
 default_action = "use"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/lower_stairs"]
@@ -891,7 +891,7 @@ global_id = "r7_upper_stairs"
 esc_script = "res://game/rooms/room07/esc/upper_stairs.esc"
 tooltip_name = "Stairs"
 default_action = "use"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/upper_stairs"]
@@ -909,7 +909,7 @@ global_id = "r7_button_push"
 esc_script = "res://game/rooms/room07/esc/button_push.esc"
 tooltip_name = "button"
 default_action = "use"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_camera_push"]
@@ -930,7 +930,7 @@ global_id = "r7_button_shift"
 esc_script = "res://game/rooms/room07/esc/button_shift.esc"
 tooltip_name = "button"
 default_action = "use"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_camera_shift"]
@@ -951,7 +951,7 @@ global_id = "r7_button_zoom"
 esc_script = "res://game/rooms/room07/esc/button_zoom.esc"
 tooltip_name = "button"
 default_action = "use"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_camera_zoom"]
@@ -972,7 +972,7 @@ global_id = "r7_button_set_pos"
 esc_script = "res://game/rooms/room07/esc/button_set_pos.esc"
 tooltip_name = "button"
 default_action = "use"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_camera_set_pos"]
@@ -993,7 +993,7 @@ esc_script = "res://game/rooms/room07/esc/alarm_cone_floor_1.esc"
 is_trigger = true
 is_interactive = false
 player_orients_on_arrival = false
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 inventory_texture = ExtResource("10")
 animations = null
 
@@ -1022,7 +1022,7 @@ esc_script = "res://game/rooms/room07/esc/alarm_cone_floor_2.esc"
 is_trigger = true
 is_interactive = false
 player_orients_on_arrival = false
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 inventory_texture = ExtResource("10")
 animations = null
 
@@ -1056,7 +1056,7 @@ global_id = "r7_lift_button_floor_1"
 esc_script = "res://game/rooms/room07/esc/lift_button_floor_1.esc"
 tooltip_name = "Lift Button"
 default_action = "use"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="lift_button_floor_1"]
@@ -1073,7 +1073,7 @@ global_id = "r7_lift_button_floor_2"
 esc_script = "res://game/rooms/room07/esc/lift_button_floor_2.esc"
 tooltip_name = "Lift Button"
 default_action = "use"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 camera_node = NodePath("ESCLocation")
 animations = null
 
@@ -1091,7 +1091,7 @@ global_id = "r7_lift_door_floor_1"
 esc_script = "res://game/rooms/room07/esc/lift_door_floor_1.esc"
 tooltip_name = "lift"
 default_action = "use"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 camera_node = NodePath("camera_node")
 animations = null
 
@@ -1113,7 +1113,7 @@ global_id = "r7_lift_door_floor_2"
 esc_script = "res://game/rooms/room07/esc/lift_door_floor_2.esc"
 tooltip_name = "lift"
 default_action = "use"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 camera_node = NodePath("camera_node")
 animations = null
 

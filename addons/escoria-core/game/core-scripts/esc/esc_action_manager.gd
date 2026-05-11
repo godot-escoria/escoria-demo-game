@@ -38,7 +38,7 @@ signal action_input_state_changed
 enum ActionInputState {
 	AWAITING_VERB_OR_ITEM, ## Initial state
 	AWAITING_ITEM,        ## After initial state, verb is defined
-	AWAITING_TARGET_ITEM, ## Item defined requires combine, waiting for target
+		AWAITING_TARGET_ITEM, ## Item defined requires a target object
 	AWAITING_VERB,        ## After initial state, item is defined
 	AWAITING_VERB_CONFIRMATION, ## Item was defined first, next verb, need verb confirmation
 	COMPLETED             ## Final state
@@ -339,9 +339,9 @@ func _get_event_to_queue(
 
 	var event_to_return = null
 
-	# If we're using an action which item requires to combine
+	# If the action makes this item wait for a second target object.
 	if target.node is ESCItem \
-			and action in target.node.combine_when_selected_action_is_in:
+			and action in target.node.actions_requiring_target_object:
 
 		# Check if object is in inventory or is not required to be in inventory to be used
 		if escoria.inventory_manager.inventory_has(target.global_id) or not target.node.use_from_inventory_only:
@@ -439,7 +439,7 @@ func _get_event_to_queue(
 	return event_to_return
 
 
-## Check to make sure `target_object` contains the specific `action`. If `target_object` has an entry for `action` that also requires a target itself (e.g. `:use "wrench"`), then we return `false` as combinations are handled elsewhere.[br]
+## Check to make sure `target_object` contains the specific `action`. If `target_object` has an entry for `action` that also requires a target itself (e.g. `:use "wrench"`), then we return `false` as targeted item actions are handled elsewhere.[br]
 ## [br]
 ## (The "target" in `target_object` is of a different meaning than the optional "target" in an event.)
 ## [br]
@@ -561,7 +561,7 @@ func perform_inputevent_on_object(
 	default_action: bool = false
 ) -> void:
 	# This validates the requested action, resolves the corresponding event,
-	# moves the player when needed, and only performs combination actions
+		# moves the player when needed, and only performs targeted item actions
 	# after verb + source item + target item have all been selected.
 
 	escoria.logger.info(
@@ -574,29 +574,29 @@ func perform_inputevent_on_object(
 	var dont_interact = false
 
 	# We need to have the new action input state BEFORE initiating the player
-	# move so we determine now if the object clicked will require a combination
+		# move so we determine now if the object clicked requires a target object
 	# depending on the used action verb.
 	var tool_just_set = _set_tool_and_action(obj, default_action)
-	var need_combine = _check_item_needs_combine()
+	var requires_target_object = _check_item_requires_target_object()
 
 	# If the clicked item is not in the inventory and the current tool was not set,
 	# then this is our first item, make it the tool.
 	if (not escoria.inventory_manager.inventory_has(obj.global_id) and not current_tool) \
-			or (current_tool and not need_combine):
+			or (current_tool and not requires_target_object):
 		current_tool = obj
-	# Else, if we have a tool and combination required, this is our second item,
+		# Else, if we have a tool and a target is required, this is our second item,
 	# make it the target.
-	elif need_combine and not tool_just_set:
+	elif requires_target_object and not tool_just_set:
 		current_target = obj
 
 	# Update the action input state
 	if action_state == ActionInputState.AWAITING_TARGET_ITEM and current_target:
 		set_action_input_state(ActionInputState.COMPLETED)
 	elif action_state == ActionInputState.AWAITING_ITEM and \
-			not need_combine:
+			not requires_target_object:
 		set_action_input_state(ActionInputState.COMPLETED)
 	elif action_state == ActionInputState.AWAITING_ITEM and \
-			need_combine and not tool_just_set:
+			requires_target_object and not tool_just_set:
 		set_action_input_state(ActionInputState.AWAITING_TARGET_ITEM)
 
 	var event_to_queue: ESCGrammarStmts.Event = null
@@ -610,19 +610,19 @@ func perform_inputevent_on_object(
 	# If so, and if the object is not in the inventory, we need to run the arrived action.
 	elif current_action in ["", ACTION_WALK] and not escoria.inventory_manager.inventory_has(obj.global_id):
 		event_to_queue = _get_event_to_queue(ACTION_ARRIVED, obj)
-	# If the current action is set and different from "walk"/unset, we need to check for combinations.
+		# If the current action is set and different from "walk"/unset, check for targeted actions.
 	elif not current_action in ["", ACTION_WALK]:
-		# If clicked object needs a combination, and current target is set, then perform the combination.
-		if need_combine and current_target:
+		# If the selected tool requires a target and a target is set, run the targeted action.
+		if requires_target_object and current_target:
 			event_to_queue = _get_event_to_queue(current_action, current_tool, current_target)
-		# If clicked object needs a combination then we need to wait for the target.
-		elif need_combine:
+		# If the selected tool requires a target, wait for the player to choose one.
+		elif requires_target_object:
 			set_action_input_state(ActionInputState.AWAITING_TARGET_ITEM)
 			# If object is in inventory make it current tool.
 			if escoria.inventory_manager.inventory_has(obj.global_id):
 				current_tool = obj
 			return
-		# If clicked object doesn't need a combination, then we simply run the action.
+			# If clicked object doesn't need a target, then we simply run the action.
 		else:
 			event_to_queue = _get_event_to_queue(current_action, obj)
 
@@ -736,7 +736,7 @@ func _set_tool_and_action(obj: ESCObject, default_action: bool):
 	# Check if current_action and current_tool are already set
 	if current_action and current_tool:
 		if not current_action in escoria.action_manager \
-				.current_tool.node.combine_when_selected_action_is_in:
+				.current_tool.node.actions_requiring_target_object:
 			current_tool = obj
 			tool_just_set = true
 	elif default_action:
@@ -744,13 +744,13 @@ func _set_tool_and_action(obj: ESCObject, default_action: bool):
 			current_action = obj.node.default_action_inventory
 		else:
 			current_action = obj.node.default_action
-	elif current_action in obj.node.combine_when_selected_action_is_in:
+	elif current_action in obj.node.actions_requiring_target_object:
 		current_tool = obj
 		tool_just_set = true
 	return tool_just_set
 
 
-## Checks if object requires a combination with another, according to currently selected action verb (or check with default action of the item).[br]
+## Checks if the current tool requires a target object for the selected action verb.[br]
 ## [br]
 ## #### Parameters[br]
 ## [br]
@@ -759,10 +759,10 @@ func _set_tool_and_action(obj: ESCObject, default_action: bool):
 ## #### Returns[br]
 ## [br]
 ## Returns a `bool` value. (`bool`)
-func _check_item_needs_combine() -> bool:
+func _check_item_requires_target_object() -> bool:
 	return current_action \
 			and current_tool \
-			and current_action in current_tool.node.combine_when_selected_action_is_in
+			and current_action in current_tool.node.actions_requiring_target_object
 
 
 ## Makes the player character walk towards the clicked item. Returns the resulting walk context.[br]

@@ -57,7 +57,7 @@ esc_script = "res://game/rooms/room14/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Left exit"
 default_action = "walk"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
@@ -71,7 +71,7 @@ global_id = "r12_l_exit"
 [node name="r_door" parent="Hotspots" instance=ExtResource("8")]
 global_id = "r14_r_exit"
 esc_script = "res://game/rooms/room14/esc/right_exit.esc"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 
 [node name="ESCLocation" type="Marker2D" parent="Hotspots/r_door"]
 position = Vector2(1231.78, 360.624)
@@ -86,7 +86,7 @@ is_start_location = true
 [node name="show_main_menu" parent="." instance=ExtResource("9")]
 global_id = "button_main_menu"
 esc_script = "res://game/rooms/room14/esc/button_main_menu.esc"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 
 [node name="ESCLocation" type="Marker2D" parent="show_main_menu"]
 position = Vector2(343.887, 381.305)
@@ -105,7 +105,7 @@ horizontal_alignment = 1
 position = Vector2(233.415, 0)
 global_id = "button_pause_menu"
 esc_script = "res://game/rooms/room14/esc/button_pause_menu.esc"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 
 [node name="ESCLocation" type="Marker2D" parent="show_pause_menu"]
 position = Vector2(343.887, 381.305)
@@ -122,13 +122,13 @@ horizontal_alignment = 1
 [node name="worker" parent="." instance=ExtResource("10")]
 position = Vector2(204.268, 376.233)
 esc_script = "res://game/rooms/room14/esc/worker.esc"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 
 [node name="worker2" parent="." instance=ExtResource("10")]
 position = Vector2(726, 390)
 global_id = "worker2"
 esc_script = "res://game/rooms/room14/esc/worker2.esc"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 
 [node name="worker_target" type="Marker2D" parent="."]
 position = Vector2(917.51, 475.808)

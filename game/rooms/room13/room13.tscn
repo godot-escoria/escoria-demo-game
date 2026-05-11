@@ -57,7 +57,7 @@ esc_script = "res://game/rooms/room13/esc/left_exit.esc"
 is_exit = true
 tooltip_name = "Left exit"
 default_action = "use"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 animations = null
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_door"]
@@ -75,7 +75,7 @@ global_id = "r13_hint"
 esc_script = "res://game/rooms/room13/esc/hint.esc"
 tooltip_name = "A hint"
 default_action = "look"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 animations = null
 
 [node name="Label" type="Label" parent="Hotspots/Hint"]
@@ -109,18 +109,18 @@ position = Vector2(-172.899, -45.2554)
 global_id = "play_wav"
 esc_script = "res://game/rooms/room13/esc/play_wav.esc"
 tooltip_name = "Play WAV"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 
 [node name="play_wav_loop" parent="Hotspots" instance=ExtResource("8")]
 position = Vector2(-173.479, 43.5148)
 global_id = "play_wav_loop"
 esc_script = "res://game/rooms/room13/esc/play_wav_loop.esc"
 tooltip_name = "Play WAV Loop"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()
 
 [node name="stop_loop" parent="Hotspots" instance=ExtResource("8")]
 position = Vector2(-173.479, 132.865)
 global_id = "stop_loop"
 esc_script = "res://game/rooms/room13/esc/stop_loop.esc"
 tooltip_name = "Stop Looping"
-combine_when_selected_action_is_in = PackedStringArray()
+actions_requiring_target_object = PackedStringArray()

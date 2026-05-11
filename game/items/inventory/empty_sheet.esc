@@ -1,4 +1,4 @@
-# You can only combine the pen and paperif you add "use" as a "Combine when Selected Action in" action
+# You can only combine the pen and paper if you add "use" as an action requiring a target object
 # to both the pen and empty_sheet ESCitems.
 :look
 	say("player", "It's an application form for a job as an adventurer.")

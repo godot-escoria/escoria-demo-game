@@ -11,12 +11,8 @@
 ## chooses to "use" the exit - for example, saying a goodbye, or running a
 ## cutscene. Place a ``change_scene`` command inside this event to move the
 ## character to the next room.
-extends Area2D
 class_name ESCItem
-
-
-## List of forbidden characters in global_ids
-const FORBIDDEN_CHARACTERS: String = "['\"]"
+extends Area2D
 
 
 ## Emitted when the mouse has entered this item[br]
@@ -96,6 +92,10 @@ signal started_walking
 signal stopped_walking
 
 
+## List of forbidden characters in global_ids
+const FORBIDDEN_CHARACTERS: String = "['\"]"
+
+
 ## The global ID of this item
 @export var global_id: String
 
@@ -124,10 +124,10 @@ signal stopped_walking
 ## Default action to use if object is not in the inventory.
 @export var default_action: String
 
-## If action used by player is in this list, the game will wait for a second
-## click on another item to combine objects together (typically
-## `USE <X> WITH <Y>`, `GIVE <X> TO <Y>`)
-@export var combine_when_selected_action_is_in: PackedStringArray = []
+## Actions in this list make the item act as a source object and wait for a
+## second clicked target object before running the action, typically
+## `USE <X> WITH <Y>` or `GIVE <X> TO <Y>`.
+@export var actions_requiring_target_object: PackedStringArray = []
 
 ## If enabled, the ASHES script may have an :exit_scene event to manage scene changes.
 ## For simple exits that do not require scripted actions, the ESCExit node may be
@@ -162,11 +162,9 @@ signal stopped_walking
 
 ## If hover is enabled, applies this color modulation on the ESCItem sprite.
 @export var hover_modulate: Color = Color.WHITE
-var _previous_color_modulate: Color
 
 ## If hover is enabled, replaces this ESCItem sprite texture by this one.
 @export var hover_texture: Texture2D = null
-var _previous_texture: Texture2D = null
 
 ## If hover is enabled, applies this shader to the ESCItem sprite.
 @export var hover_shader: ShaderMaterial = null
@@ -261,6 +259,10 @@ var _movable: ESCMovable = null
 
 ## The identified animation player
 var _animation_player: ESCAnimationPlayer = null
+
+var _previous_color_modulate: Color
+
+var _previous_texture: Texture2D = null
 
 ## Whether to force regsitration with the object manager. Defaults to false.
 var _force_registration: bool = false
@@ -949,11 +951,11 @@ func has_moved() -> bool:
 func has_sprite() -> bool:
 	if _sprite_node != null:
 		return true
-	else: # confirm
-		for child in self.get_children():
-			if child is AnimatedSprite2D or child is Sprite2D:
-				return true
-		return false
+
+	for child in self.get_children():
+		if child is AnimatedSprite2D or child is Sprite2D:
+			return true
+	return false
 
 ## Return the sprite node.[br]
 ## [br]
@@ -1213,7 +1215,7 @@ func _detect_children() -> void:
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func _update_terrain(rc: int, event_name: String) -> void:
+func _update_terrain(_rc: int, event_name: String) -> void:
 	if is_movable:
 		_movable.update_terrain(event_name)
 
@@ -1281,15 +1283,15 @@ func _get_inventory_texture() -> Texture2D:
 			if c is TextureRect or c is Sprite2D:
 				return c.texture
 		return null
-	else:
-		return inventory_texture
+
+	return inventory_texture
 
 
 func _get_inventory_texture_hovered() -> Texture2D:
 	if inventory_texture_hovered == null:
 		return _get_inventory_texture()
-	else:
-		return inventory_texture_hovered
+
+	return inventory_texture_hovered
 
 ## Checks whether the given ESCAnimationResource property array has all non-null entries, and adds to the scene's warnings if not[br]
 ## [br]
@@ -1327,8 +1329,8 @@ func _validate_animations_property_all_not_null(property: Array, property_name: 
 func _get_identifier_as_key_value() -> String:
 	if self.global_id:
 		return "global_id: %s" % self.global_id
-	else:
-		return "node: %s" % get_name()
+
+	return "node: %s" % get_name()
 
 ## Applies hover behavior on this ESCItem: if hover is enabled, applies the defined hover color modulate and/or hover texture and/or hover shader on the Sprite2D node, if any.[br]
 ## [br]
