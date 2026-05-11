@@ -166,14 +166,14 @@ func element_focused(element_id: String) -> void:
 		# (ie verb+item(+target)) because the action is now being executed
 		# and the tooltip is already set because the item was focused
 		# (see element_focused() and inventory_item_focused())
-		ESCActionManager.ACTION_INPUT_STATE.COMPLETED:
+		ESCActionManager.ActionInputState.COMPLETED:
 			return
 
-		ESCActionManager.ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM, \
-		ESCActionManager.ACTION_INPUT_STATE.AWAITING_ITEM:
+		ESCActionManager.ActionInputState.AWAITING_VERB_OR_ITEM, \
+		ESCActionManager.ActionInputState.AWAITING_ITEM:
 			tooltip.set_target(target_obj.tooltip_name)
 
-		ESCActionManager.ACTION_INPUT_STATE.AWAITING_TARGET_ITEM:
+		ESCActionManager.ActionInputState.AWAITING_TARGET_ITEM:
 			tooltip.set_target2(target_obj.tooltip_name)
 
 
@@ -183,15 +183,15 @@ func element_unfocused() -> void:
 		# (ie verb+item(+target)) because the action is now being executed
 		# and the tooltip is already set because the item was focused
 		# (see element_focused() and inventory_item_focused())
-		ESCActionManager.ACTION_INPUT_STATE.COMPLETED:
+		ESCActionManager.ActionInputState.COMPLETED:
 			return
 
-		ESCActionManager.ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM, \
-		ESCActionManager.ACTION_INPUT_STATE.AWAITING_ITEM:
+		ESCActionManager.ActionInputState.AWAITING_VERB_OR_ITEM, \
+		ESCActionManager.ActionInputState.AWAITING_ITEM:
 			tooltip.set_target("")
 			verbs_menu.unselect_actions()
 
-		ESCActionManager.ACTION_INPUT_STATE.AWAITING_TARGET_ITEM:
+		ESCActionManager.ActionInputState.AWAITING_TARGET_ITEM:
 			tooltip.set_target2("")
 
 
@@ -213,17 +213,17 @@ func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
 		# (ie verb+item(+target)) because the action is now being executed
 		# and the tooltip is already set because the item was focused
 		# (see element_focused() and inventory_item_focused())
-		ESCActionManager.ACTION_INPUT_STATE.COMPLETED:
+		ESCActionManager.ActionInputState.COMPLETED:
 			return
 
 		# Just clicked on the item
-		ESCActionManager.ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM, \
-		ESCActionManager.ACTION_INPUT_STATE.AWAITING_ITEM:
+		ESCActionManager.ActionInputState.AWAITING_VERB_OR_ITEM, \
+		ESCActionManager.ActionInputState.AWAITING_ITEM:
 			tooltip.set_target(target_obj.tooltip_name)
 
 		# Clicked on item and now we're awaiting a target item
 		# This means we clicked the tool and we now need a target
-		ESCActionManager.ACTION_INPUT_STATE.AWAITING_TARGET_ITEM:
+		ESCActionManager.ActionInputState.AWAITING_TARGET_ITEM:
 			tooltip.set_target(target_obj.tooltip_name, true)
 
 
@@ -261,17 +261,17 @@ func left_click_on_inventory_item(inventory_item_global_id: String, event: Input
 		# (ie verb+item(+target)) because the action is now being executed
 		# and the tooltip is already set because the item was focused
 		# (see element_focused() and inventory_item_focused())
-		ESCActionManager.ACTION_INPUT_STATE.COMPLETED:
+		ESCActionManager.ActionInputState.COMPLETED:
 			return
 
 		# Just clicked on the inventory item: do nothing special
-		ESCActionManager.ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM, \
-		ESCActionManager.ACTION_INPUT_STATE.AWAITING_ITEM:
+		ESCActionManager.ActionInputState.AWAITING_VERB_OR_ITEM, \
+		ESCActionManager.ActionInputState.AWAITING_ITEM:
 			return
 
 		# Clicked on inventory item and now we're awaiting a target item
 		# This means we clicked the tool and we now need a target
-		ESCActionManager.ACTION_INPUT_STATE.AWAITING_TARGET_ITEM:
+		ESCActionManager.ActionInputState.AWAITING_TARGET_ITEM:
 			tooltip.set_target(target_obj.tooltip_name, true)
 
 
@@ -297,35 +297,35 @@ func inventory_item_focused(inventory_item_global_id: String) -> void:
 		# (ie verb+item(+target)) because the action is now being executed
 		# and the tooltip is already set because the item was focused
 		# (see element_focused() and inventory_item_focused())
-		ESCActionManager.ACTION_INPUT_STATE.COMPLETED:
+		ESCActionManager.ActionInputState.COMPLETED:
 			return
 
-		ESCActionManager.ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM, \
-		ESCActionManager.ACTION_INPUT_STATE.AWAITING_ITEM:
+		ESCActionManager.ActionInputState.AWAITING_VERB_OR_ITEM, \
+		ESCActionManager.ActionInputState.AWAITING_ITEM:
 			tooltip.set_target(target_obj.tooltip_name)
 
 			# Hovering an ESCItem highlights its default action
 			if escoria.action_manager.current_action != VERB_USE and target_obj is ESCItem:
 				verbs_menu.set_by_name(target_obj.default_action)
 
-		ESCActionManager.ACTION_INPUT_STATE.AWAITING_TARGET_ITEM:
+		ESCActionManager.ActionInputState.AWAITING_TARGET_ITEM:
 			tooltip.set_target2(target_obj.tooltip_name)
 
 
 func inventory_item_unfocused() -> void:
 
 	match escoria.action_manager.action_state:
-		ESCActionManager.ACTION_INPUT_STATE.COMPLETED:
+		ESCActionManager.ActionInputState.COMPLETED:
 			# Don't change the tooltip if an action input is completed
 			# (ie verb+item(+target)) because the action is now being executed
 			return
 
-		ESCActionManager.ACTION_INPUT_STATE.AWAITING_VERB_OR_ITEM, \
-		ESCActionManager.ACTION_INPUT_STATE.AWAITING_ITEM:
+		ESCActionManager.ActionInputState.AWAITING_VERB_OR_ITEM, \
+		ESCActionManager.ActionInputState.AWAITING_ITEM:
 			tooltip.set_target("")
 			verbs_menu.unselect_actions()
 
-		ESCActionManager.ACTION_INPUT_STATE.AWAITING_TARGET_ITEM:
+		ESCActionManager.ActionInputState.AWAITING_TARGET_ITEM:
 			tooltip.set_target2("")
 
 
