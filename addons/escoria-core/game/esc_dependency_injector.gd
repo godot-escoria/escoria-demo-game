@@ -25,5 +25,3 @@ class_name ESCDependencyInjector
 ## Returns nothing.
 func esc_inventory_item(p_item: ESCItem):
 	return ESCInventoryItem.new(p_item)
-
-# TODO Add methods for relevant classes.
