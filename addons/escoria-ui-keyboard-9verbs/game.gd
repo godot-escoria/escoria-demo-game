@@ -227,8 +227,10 @@ func left_click_on_item(item_global_id: String, event: InputEvent) -> void:
 
 
 func right_click_on_item(item_global_id: String, event: InputEvent) -> void:
-	var action_verb: String = verbs_menu.selected_action
-	if action_verb.is_empty(): 
+	var action_verb: String = escoria.action_manager.current_action
+	if action_verb.is_empty():
+		action_verb = verbs_menu.selected_action
+	if action_verb.is_empty():
 		action_verb = escoria.object_manager.get_object(item_global_id).node.default_action
 	if action_verb.is_empty():
 		escoria.logger.warn(
