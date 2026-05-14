@@ -175,16 +175,10 @@ func say(character: String, line: String) :
 	var time_show_full_text = _text_time_per_character / 1000 * len(_current_line)
 
 	tween.reset()
-	if time_show_full_text == 0.0:
-		# show the dialog line immediately and wait a little for player to have a chance to read
-		text_node.visible_ratio = 1.0
-		#await get_tree().create_timer(_calculate_time_to_disappear()).timeout
-		_on_dialog_line_typed("","")
-	else:
-		tween.interpolate_property(text_node, "visible_ratio",
+	tween.interpolate_property(text_node, "visible_ratio",
 			0.0, 1.0, time_show_full_text,
 			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-		tween.play()
+	tween.play()
 	set_process(true)
 
 
@@ -194,16 +188,10 @@ func speedup():
 		_is_speeding_up = true
 		var time_show_full_text = _fast_text_time_per_character / 1000 * len(_current_line)
 
-		if time_show_full_text == 0.0:
-			# show the dialog line immediately and wait a little for player to have a chance to read
-			text_node.visible_ratio = 1.0
-			#await get_tree().create_timer(_calculate_time_to_disappear()).timeout
-			_on_dialog_line_typed("","")
-		else:
-			tween.interpolate_property(text_node, "visible_ratio",
-				text_node.visible_ratio, 1.0, time_show_full_text,
-				Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-			tween.play()
+		tween.interpolate_property(text_node, "visible_ratio",
+			text_node.visible_ratio, 1.0, time_show_full_text,
+			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		tween.play()
 
 
 # Called by the dialog player when user wants to finish dialogue immediately.
