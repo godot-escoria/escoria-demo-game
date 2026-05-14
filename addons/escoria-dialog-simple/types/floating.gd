@@ -22,7 +22,6 @@ var _reading_speed_in_wpm: int
 # Used to extract words from lines of text.
 var _word_regex: RegEx = RegEx.new()
 
-
 # Current character speaking, to keep track of reference for animation purposes
 var _current_character
 
@@ -31,6 +30,8 @@ var _is_speeding_up: bool = false
 
 # The current line of text being displayed.
 var _current_line: String
+
+var dialog_location_node = null
 
 
 # Tween node for text animation
@@ -42,7 +43,6 @@ var _current_line: String
 # Whether the dialog manager is paused
 @onready var is_paused: bool = true
 
-var dialog_location_node = null
 
 # Enable bbcode and catch the signal when a tween completed
 func _ready():
@@ -108,7 +108,7 @@ func _ready():
 	_current_line = ""
 
 
-func _process(delta):
+func _process(_delta: float):
 	if _current_character.is_inside_tree() and \
 			is_instance_valid(dialog_location_node):
 		# Position the RichTextLabel on the character's dialog position, if any.
@@ -175,12 +175,13 @@ func say(character: String, line: String) :
 	text_node.visible_ratio = 0.0
 	var time_show_full_text = _text_time_per_character / 1000 * len(_current_line)
 
+	tween.reset()
 	if time_show_full_text == 0.0:
+		# show the dialog line immediately and wait a little for player to have a chance to read
 		text_node.visible_ratio = 1.0
-		await get_tree().create_timer(0.08 * len(_current_line)).timeout
+		await get_tree().create_timer(0.05 * len(_current_line)).timeout
 		_on_dialog_line_typed("","")
 	else:
-		tween.reset()
 		tween.interpolate_property(text_node, "visible_ratio",
 			0.0, 1.0, time_show_full_text,
 			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
@@ -195,11 +196,11 @@ func speedup():
 		var time_show_full_text = _fast_text_time_per_character / 1000 * len(_current_line)
 
 		if time_show_full_text == 0.0:
+			# show the dialog line immediately and wait a little for player to have a chance to read
 			text_node.visible_ratio = 1.0
-			await get_tree().create_timer(0.08 * len(_current_line)).timeout
+			await get_tree().create_timer(0.05 * len(_current_line)).timeout
 			_on_dialog_line_typed("","")
 		else:
-			tween.reset()
 			tween.interpolate_property(text_node, "visible_ratio",
 				text_node.visible_ratio, 1.0, time_show_full_text,
 				Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
@@ -222,7 +223,7 @@ func voice_audio_finished():
 
 # The dialog line was printed, start the waiting time and then finish
 # the dialog
-func _on_dialog_line_typed(object, key):
+func _on_dialog_line_typed(_object, _key):
 	_stop_character_talking()
 	text_node.visible_characters = -1
 
