@@ -8,6 +8,7 @@ signal say_finished
 # Signal emitted when text has just become fully visible
 signal say_visible
 
+var dialog_location_node = null
 
 # The text speed per character for normal display
 var _text_time_per_character: float
@@ -30,8 +31,6 @@ var _is_speeding_up: bool = false
 
 # The current line of text being displayed.
 var _current_line: String
-
-var dialog_location_node = null
 
 
 # Tween node for text animation
@@ -179,7 +178,7 @@ func say(character: String, line: String) :
 	if time_show_full_text == 0.0:
 		# show the dialog line immediately and wait a little for player to have a chance to read
 		text_node.visible_ratio = 1.0
-		await get_tree().create_timer(0.05 * len(_current_line)).timeout
+		#await get_tree().create_timer(_calculate_time_to_disappear()).timeout
 		_on_dialog_line_typed("","")
 	else:
 		tween.interpolate_property(text_node, "visible_ratio",
@@ -198,7 +197,7 @@ func speedup():
 		if time_show_full_text == 0.0:
 			# show the dialog line immediately and wait a little for player to have a chance to read
 			text_node.visible_ratio = 1.0
-			await get_tree().create_timer(0.05 * len(_current_line)).timeout
+			#await get_tree().create_timer(_calculate_time_to_disappear()).timeout
 			_on_dialog_line_typed("","")
 		else:
 			tween.interpolate_property(text_node, "visible_ratio",
@@ -235,7 +234,7 @@ func _on_dialog_line_typed(_object, _key):
 
 
 func _calculate_time_to_disappear() -> float:
-	return (_get_number_of_words() / _reading_speed_in_wpm as float) * 60.0
+	return (_get_number_of_words() / float(_reading_speed_in_wpm)) * 60.0
 
 
 func _get_number_of_words() -> int:
