@@ -1371,8 +1371,10 @@ func test_trigger_actions_select_targeted_events_for_activating_object() -> void
 		[trigger_object.global_id, "player", "trigger_in"]
 	)
 
-	while finished_events.size() < 1:
-		await escoria.get_tree().process_frame
+	if not await _wait_for_finished_events(finished_events, 1, "targeted trigger_in"):
+		escoria.event_manager.event_finished.disconnect(on_front_finished)
+		_cleanup_registered_object(trigger_object, trigger_node, room)
+		return
 
 	assert_str(String(escoria.globals_manager.get_global("trigger_in_result"))).is_equal(
 		"player-in"
@@ -1384,8 +1386,10 @@ func test_trigger_actions_select_targeted_events_for_activating_object() -> void
 		[trigger_object.global_id, "player", "trigger_out"]
 	)
 
-	while finished_events.size() < 2:
-		await escoria.get_tree().process_frame
+	if not await _wait_for_finished_events(finished_events, 2, "targeted trigger_out"):
+		escoria.event_manager.event_finished.disconnect(on_front_finished)
+		_cleanup_registered_object(trigger_object, trigger_node, room)
+		return
 
 	assert_str(String(escoria.globals_manager.get_global("trigger_out_result"))).is_equal(
 		"player-out"
@@ -1394,12 +1398,93 @@ func test_trigger_actions_select_targeted_events_for_activating_object() -> void
 
 	escoria.event_manager.event_finished.disconnect(on_front_finished)
 
+	_cleanup_registered_object(trigger_object, trigger_node, room)
+
+
+func test_trigger_actions_fall_back_to_targetless_events() -> void:
+	var script_object := _compile_fixture_script("trigger_targeted_events_use_object_id.esc")
+	var room := ESCRoom.new()
+	room.global_id = "test_trigger_targetless_events_room"
+	escoria.object_manager.set_current_room(room)
+
+	var trigger_node := Node2D.new()
+	var trigger_object := ESCObject.new("trigger_under_test", trigger_node)
+	trigger_object.events = script_object.events
+	escoria.object_manager.register_object(trigger_object, room, true, false)
+
+	escoria.globals_manager.set_global("trigger_in_result", "unset", true)
+	escoria.globals_manager.set_global("trigger_out_result", "unset", true)
+
+	var finished_events: Array = []
+	var on_front_finished := func(return_code, event_name) -> void:
+		if return_code == ESCExecution.RC_OK:
+			finished_events.append(event_name)
+
+	escoria.event_manager.event_finished.connect(on_front_finished)
+
+	escoria.action_manager.do(
+		escoria.action_manager.ACTION.TRIGGER_IN,
+		[trigger_object.global_id, "unexpected_actor", "trigger_in"]
+	)
+
+	if not await _wait_for_finished_events(finished_events, 1, "targetless trigger_in fallback"):
+		escoria.event_manager.event_finished.disconnect(on_front_finished)
+		_cleanup_registered_object(trigger_object, trigger_node, room)
+		return
+
+	assert_str(String(escoria.globals_manager.get_global("trigger_in_result"))).is_equal(
+		"fallback-in"
+	)
+	assert_str(String(finished_events[0])).is_equal("trigger_in")
+
+	escoria.action_manager.do(
+		escoria.action_manager.ACTION.TRIGGER_OUT,
+		[trigger_object.global_id, "unexpected_actor", "trigger_out"]
+	)
+
+	if not await _wait_for_finished_events(finished_events, 2, "targetless trigger_out fallback"):
+		escoria.event_manager.event_finished.disconnect(on_front_finished)
+		_cleanup_registered_object(trigger_object, trigger_node, room)
+		return
+
+	assert_str(String(escoria.globals_manager.get_global("trigger_out_result"))).is_equal(
+		"fallback-out"
+	)
+	assert_str(String(finished_events[1])).is_equal("trigger_out")
+
+	escoria.event_manager.event_finished.disconnect(on_front_finished)
+
+	_cleanup_registered_object(trigger_object, trigger_node, room)
+
+
+func _cleanup_registered_object(trigger_object: ESCObject, trigger_node: Node, room: ESCRoom) -> void:
 	var room_key := ESCRoomObjectsKey.new()
 	room_key.room_global_id = room.global_id
 	room_key.room_instance_id = room.get_instance_id()
 	escoria.object_manager.unregister_object_by_global_id(trigger_object.global_id, room_key)
 	trigger_node.free()
 	room.free()
+
+
+func _wait_for_finished_events(
+	finished_events: Array,
+	expected_size: int,
+	context: String
+) -> bool:
+	for _frame in range(120):
+		if finished_events.size() >= expected_size:
+			return true
+
+		await escoria.get_tree().process_frame
+
+	fail(
+		"Timed out waiting for %s; expected %d finished event(s), got %d." % [
+			context,
+			expected_size,
+			finished_events.size()
+		]
+	)
+	return false
 
 
 func _interpret_fixture(name: String, dialog_choices: Array = []) -> Dictionary:

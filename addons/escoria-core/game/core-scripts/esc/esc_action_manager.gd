@@ -187,10 +187,9 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 					)
 					return
 
-				if trigger_object.has_event_with_target(trigger_in_verb, object_id):
-					escoria.event_manager.queue_event(
-						trigger_object.get_event_with_target(trigger_in_verb, object_id)
-					)
+				var trigger_in_event = _get_trigger_event(trigger_object, trigger_in_verb, object_id)
+				if trigger_in_event:
+					escoria.event_manager.queue_event(trigger_in_event)
 				else:
 					escoria.logger.info(
 						self,
@@ -217,10 +216,13 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 					)
 					return
 
-				if trigger_object.has_event_with_target(trigger_out_verb, object_id):
-					escoria.event_manager.queue_event(
-						trigger_object.get_event_with_target(trigger_out_verb, object_id)
-					)
+				var trigger_out_event = _get_trigger_event(
+					trigger_object,
+					trigger_out_verb,
+					object_id
+				)
+				if trigger_out_event:
+					escoria.event_manager.queue_event(trigger_out_event)
 				else:
 					escoria.logger.info(
 						self,
@@ -237,6 +239,13 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 		pass
 	elif escoria.current_state == escoria.GAME_STATE.LOADING:
 		pass
+
+
+func _get_trigger_event(trigger_object: ESCObject, trigger_verb: String, object_id: String):
+	if trigger_object.has_event_with_target(trigger_verb, object_id):
+		return trigger_object.get_event_with_target(trigger_verb, object_id)
+
+	return trigger_object.get_event_with_target(trigger_verb)
 
 
 ## Sets the current state of action input. ## Parameters[br]
