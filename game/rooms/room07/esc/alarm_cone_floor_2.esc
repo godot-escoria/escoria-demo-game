@@ -1,5 +1,5 @@
-:trigger_in
+:trigger_in "player"
 	pass
 
-:trigger_out
+:trigger_out "player"
 	set_state($r7_alarm_cone_floor_2, "camera_triggered")
