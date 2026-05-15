@@ -267,7 +267,9 @@ func _event_exists_in_script(script: ESCScript, event_name: String) -> bool:
 func new_game():
 	escoria.event_manager.interrupt() # interrupt first because we're going to reset the interpreter
 	escoria.game_scene.escoria_show_ui()
+	_reset_new_game_runtime_state()
 	escoria.globals_manager.clear()
+	escoria.object_manager.reset_game_state()
 	escoria.interpreter_factory.reset_interpreter()
 	escoria.main.clear_previous_scene()
 	escoria.creating_new_game = true
@@ -277,6 +279,20 @@ func new_game():
 			true
 		)
 	run_event_from_script(escoria.start_script, escoria.event_manager.EVENT_NEW_GAME)
+
+
+func _reset_new_game_runtime_state() -> void:
+	escoria.action_manager.clear_current_action()
+	escoria.action_manager.clear_current_tool()
+	escoria.inputs_manager.hover_stack.clear()
+	escoria.inputs_manager.hotspot_focused = ""
+	escoria.inputs_manager.input_mode = escoria.inputs_manager.INPUT_ALL
+
+	if escoria.game_scene and escoria.game_scene.is_inside_tree():
+		escoria.game_scene.clear_tooltip()
+		escoria.game_scene.close_inventory()
+		escoria.game_scene.hide_main_menu()
+		escoria.game_scene.unpause_game()
 
 
 ## Function called to quit the game.[br]
