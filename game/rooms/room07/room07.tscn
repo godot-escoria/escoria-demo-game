@@ -1,16 +1,16 @@
-[gd_scene load_steps=29 format=3 uid="uid://dmooj3417oxux"]
+[gd_scene format=3 uid="uid://dmooj3417oxux"]
 
 [ext_resource type="Script" uid="uid://5pbcieq7gpdo" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://chf3qovs1q8kr" path="res://game/characters/mark/mark.tscn" id="4"]
 [ext_resource type="Script" uid="uid://c7fcpp72w3dnj" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
 [ext_resource type="Script" uid="uid://dshelmw7y44qg" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
 [ext_resource type="Script" uid="uid://beh3ds4eapldu" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="8"]
-[ext_resource type="Texture2D" uid="uid://db1ga57tukwla" path="res://game/rooms/room07/room7background.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://d008vfcf8h7o8" path="res://game/rooms/room07/room7background.png" id="9"]
 [ext_resource type="Script" uid="uid://btt4cprco53ec" path="res://addons/escoria-core/game/core-scripts/esc_exit.gd" id="9_l5rvy"]
-[ext_resource type="Texture2D" uid="uid://bqyrej8140qim" path="res://game/rooms/room07/alarm_cone.png" id="10"]
-[ext_resource type="AudioStream" uid="uid://cjjp3ukvmevd4" path="res://game/sfx/sounds/doorOpen_2.ogg" id="10_pi6m2"]
-[ext_resource type="Texture2D" uid="uid://cv407pveqsosv" path="res://game/rooms/room07/elevator_edge.png" id="11"]
-[ext_resource type="Texture2D" uid="uid://sbinfk1wd8jb" path="res://game/rooms/room07/elevator_door.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://cvb15vc3px211" path="res://game/rooms/room07/alarm_cone.png" id="10"]
+[ext_resource type="AudioStream" uid="uid://b2l4nmr05u172" path="res://game/sfx/sounds/doorOpen_2.ogg" id="10_pi6m2"]
+[ext_resource type="Texture2D" uid="uid://cbhdy3cwxqc7s" path="res://game/rooms/room07/elevator_edge.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://oj2hln3pp6fe" path="res://game/rooms/room07/elevator_door.png" id="12"]
 [ext_resource type="Texture2D" uid="uid://cll6rbfhvxvhc" path="res://game/characters/mark/png/mark.png" id="13"]
 
 [sub_resource type="Animation" id="1"]
@@ -729,7 +729,7 @@ _data = {
 &"camera_triggered": SubResource("13")
 }
 
-[node name="room7" type="Node2D"]
+[node name="room7" type="Node2D" unique_id=1107588046]
 script = ExtResource("6")
 global_id = "room7"
 esc_script = "res://game/rooms/room07/esc/room07.esc"
@@ -737,78 +737,76 @@ player_scene = ExtResource("4")
 camera_limits = [Rect2(0, 0, 2260, 2000), Rect2(0, 0, 1300, 2000)]
 editor_debug_mode = 1
 
-[node name="lift_shaft" type="Polygon2D" parent="."]
+[node name="lift_shaft" type="Polygon2D" parent="." unique_id=1001109674]
 color = Color(0, 0, 0, 1)
 polygon = PackedVector2Array(1377, 61, 1562, 61, 1568, 1127, 1370, 1127)
 
-[node name="lift" type="Area2D" parent="."]
+[node name="lift" type="Area2D" parent="." unique_id=1104822527]
 process_mode = 1
 script = ExtResource("7")
 global_id = "r7_lift"
-is_interactive = false
 actions_requiring_target_object = PackedStringArray()
+is_interactive = false
 inventory_texture = ExtResource("12")
-animations = null
+inventory_texture_hovered = ExtResource("12")
 
-[node name="lift" type="Node2D" parent="lift"]
+[node name="lift" type="Node2D" parent="lift" unique_id=1454073596]
 position = Vector2(1391, 812)
 
-[node name="elevator_body" type="Sprite2D" parent="lift/lift"]
+[node name="elevator_body" type="Sprite2D" parent="lift/lift" unique_id=1191716031]
 position = Vector2(79, 149)
 texture = ExtResource("11")
 
-[node name="player_in_lift_sprite" type="Sprite2D" parent="lift/lift"]
+[node name="player_in_lift_sprite" type="Sprite2D" parent="lift/lift" unique_id=2095685518]
 visible = false
 position = Vector2(82, 148)
 scale = Vector2(4, 4)
 texture = ExtResource("13")
 hframes = 21
 
-[node name="lift_door_r" type="Sprite2D" parent="lift/lift"]
+[node name="lift_door_r" type="Sprite2D" parent="lift/lift" unique_id=132114238]
 position = Vector2(119, 148.5)
 texture = ExtResource("12")
 
-[node name="lift_door_l" type="Sprite2D" parent="lift/lift"]
+[node name="lift_door_l" type="Sprite2D" parent="lift/lift" unique_id=1010482012]
 position = Vector2(39, 148.5)
 rotation = -3.14159
 scale = Vector2(1, -1)
 texture = ExtResource("12")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="lift"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="lift" unique_id=996026629]
 root_node = NodePath("../lift")
-libraries = {
-"": SubResource("AnimationLibrary_5ysog")
-}
+libraries/ = SubResource("AnimationLibrary_5ysog")
 
-[node name="door_1_floor_2" type="Sprite2D" parent="lift"]
+[node name="door_1_floor_2" type="Sprite2D" parent="lift" unique_id=938153753]
 position = Vector2(1510, 251)
 texture = ExtResource("12")
 
-[node name="door_2_floor_2" type="Sprite2D" parent="lift"]
+[node name="door_2_floor_2" type="Sprite2D" parent="lift" unique_id=591106002]
 position = Vector2(1431, 251)
 scale = Vector2(-1, 1)
 texture = ExtResource("12")
 
-[node name="door_1_floor_1" type="Sprite2D" parent="lift"]
+[node name="door_1_floor_1" type="Sprite2D" parent="lift" unique_id=477103414]
 position = Vector2(1510, 960)
 texture = ExtResource("12")
 
-[node name="door_2_floor_1" type="Sprite2D" parent="lift"]
+[node name="door_2_floor_1" type="Sprite2D" parent="lift" unique_id=2093138083]
 position = Vector2(1430, 960)
 scale = Vector2(-1, 1)
 texture = ExtResource("12")
 
-[node name="Room7Background" type="Sprite2D" parent="."]
+[node name="Room7Background" type="Sprite2D" parent="." unique_id=35281148]
 texture = ExtResource("9")
 centered = false
 
-[node name="room_label" type="Label" parent="Room7Background"]
+[node name="room_label" type="Label" parent="Room7Background" unique_id=1755235638]
 text = "ROOM 7 upper floor"
 
-[node name="room_label2" type="Label" parent="Room7Background"]
+[node name="room_label2" type="Label" parent="Room7Background" unique_id=412306584]
 text = "ROOM 7 lower floor"
 
-[node name="room_label3" type="Label" parent="Room7Background"]
+[node name="room_label3" type="Label" parent="Room7Background" unique_id=546960609]
 text = "camera_push : This will point the camera at a specific location.
 camera_shift : Moves the camera by an amount of pixels in x and y relative to the current location
 camera_zoom : Adjust the zoom level relative to the initial camera zoom
@@ -818,53 +816,52 @@ camera_set_target : This tells the camera to follow a specific item or player as
                                       The buttons for all the above will do a camera_set_target at the end to make
 									                                      sure the player is visible for playing the level."
 
-[node name="walkable_area" type="Node2D" parent="."]
+[node name="walkable_area" type="Node2D" parent="." unique_id=2110767900]
 script = ExtResource("1")
 
-[node name="lower_platform" type="NavigationRegion2D" parent="walkable_area"]
+[node name="lower_platform" type="NavigationRegion2D" parent="walkable_area" unique_id=1789887020]
 position = Vector2(7.73163, 1138.48)
 navigation_polygon = SubResource("6")
 
-[node name="upper_platform" type="NavigationRegion2D" parent="walkable_area"]
+[node name="upper_platform" type="NavigationRegion2D" parent="walkable_area" unique_id=1401761236]
 position = Vector2(0, 1403.26)
 navigation_polygon = SubResource("7")
 enabled = false
 
-[node name="Hotspots" type="Node2D" parent="."]
+[node name="Hotspots" type="Node2D" parent="." unique_id=337094464]
 
-[node name="r7_r_exit" type="Area2D" parent="Hotspots"]
+[node name="r7_r_exit" type="Area2D" parent="Hotspots" unique_id=353323748]
 script = ExtResource("9_l5rvy")
 target_scene = "res://game/rooms/room08/room08.tscn"
 switch_sound = ExtResource("10_pi6m2")
 global_id = "r7_r_exit"
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r7_r_exit"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r7_r_exit" unique_id=442212524]
 position = Vector2(0, 1409.59)
 polygon = PackedVector2Array(2150, -303.59, 2150, -601.59, 2258, -554.59, 2253, -241.59)
 
-[node name="Position2D" type="Marker2D" parent="Hotspots/r7_r_exit"]
+[node name="Position2D" type="Marker2D" parent="Hotspots/r7_r_exit" unique_id=1980564096]
 position = Vector2(2209, 1137)
 script = ExtResource("8")
 
-[node name="l_exit" type="Area2D" parent="Hotspots"]
+[node name="l_exit" type="Area2D" parent="Hotspots" unique_id=336709158]
 process_mode = 1
 position = Vector2(0, 1409.59)
 script = ExtResource("7")
 global_id = "r7_l_exit"
 esc_script = "res://game/rooms/room07/esc/left_exit.esc"
-is_exit = true
 tooltip_name = "Exit"
 actions_requiring_target_object = PackedStringArray()
-animations = null
+is_exit = true
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_exit"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/l_exit" unique_id=2094181721]
 polygon = PackedVector2Array(9, -245.59, 5, -555.59, 107, -597.59, 111, -309.59)
 
-[node name="Position2D" type="Marker2D" parent="Hotspots/l_exit"]
+[node name="Position2D" type="Marker2D" parent="Hotspots/l_exit" unique_id=649494263]
 position = Vector2(51, -279.59)
 script = ExtResource("8")
 
-[node name="lower_stairs" type="Area2D" parent="Hotspots"]
+[node name="lower_stairs" type="Area2D" parent="Hotspots" unique_id=1314306539]
 process_mode = 1
 position = Vector2(1906, 1096)
 script = ExtResource("7")
@@ -873,17 +870,16 @@ esc_script = "res://game/rooms/room07/esc/lower_stairs.esc"
 tooltip_name = "stairs"
 default_action = "use"
 actions_requiring_target_object = PackedStringArray()
-animations = null
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/lower_stairs"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/lower_stairs" unique_id=647203221]
 position = Vector2(-1908, 314)
 polygon = PackedVector2Array(1819, -309.59, 1820, -598, 2000, -598, 2000, -311)
 
-[node name="Position2D" type="Marker2D" parent="Hotspots/lower_stairs"]
+[node name="Position2D" type="Marker2D" parent="Hotspots/lower_stairs" unique_id=1913129403]
 position = Vector2(1, 0)
 script = ExtResource("8")
 
-[node name="upper_stairs" type="Area2D" parent="Hotspots"]
+[node name="upper_stairs" type="Area2D" parent="Hotspots" unique_id=1334482338]
 process_mode = 1
 position = Vector2(1908, 390)
 script = ExtResource("7")
@@ -892,17 +888,16 @@ esc_script = "res://game/rooms/room07/esc/upper_stairs.esc"
 tooltip_name = "Stairs"
 default_action = "use"
 actions_requiring_target_object = PackedStringArray()
-animations = null
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/upper_stairs"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/upper_stairs" unique_id=1407085932]
 position = Vector2(-1896, 1022)
 polygon = PackedVector2Array(1805.28, -1020.59, 1806.28, -1304.59, 1982.28, -1304.59, 1983.28, -1019.59)
 
-[node name="Position2D" type="Marker2D" parent="Hotspots/upper_stairs"]
+[node name="Position2D" type="Marker2D" parent="Hotspots/upper_stairs" unique_id=1912955686]
 position = Vector2(-5.00012, -2)
 script = ExtResource("8")
 
-[node name="button_camera_push" type="Area2D" parent="Hotspots"]
+[node name="button_camera_push" type="Area2D" parent="Hotspots" unique_id=404217648]
 process_mode = 1
 script = ExtResource("7")
 global_id = "r7_button_push"
@@ -910,19 +905,18 @@ esc_script = "res://game/rooms/room07/esc/button_push.esc"
 tooltip_name = "button"
 default_action = "use"
 actions_requiring_target_object = PackedStringArray()
-animations = null
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_camera_push"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_camera_push" unique_id=1166841439]
 polygon = PackedVector2Array(299, 954, 335, 954, 335, 992, 299, 992)
 
-[node name="Label" type="Label" parent="Hotspots/button_camera_push"]
+[node name="Label" type="Label" parent="Hotspots/button_camera_push" unique_id=52042585]
 text = "Camera_push"
 
-[node name="ESCLocation" type="Marker2D" parent="Hotspots/button_camera_push"]
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/button_camera_push" unique_id=1819748226]
 position = Vector2(314, 1108)
 script = ExtResource("8")
 
-[node name="button_camera_shift" type="Area2D" parent="Hotspots"]
+[node name="button_camera_shift" type="Area2D" parent="Hotspots" unique_id=1693348291]
 process_mode = 1
 position = Vector2(125, 0)
 script = ExtResource("7")
@@ -931,19 +925,18 @@ esc_script = "res://game/rooms/room07/esc/button_shift.esc"
 tooltip_name = "button"
 default_action = "use"
 actions_requiring_target_object = PackedStringArray()
-animations = null
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_camera_shift"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_camera_shift" unique_id=1250552462]
 polygon = PackedVector2Array(299, 954, 335, 954, 335, 992, 299, 992)
 
-[node name="Label" type="Label" parent="Hotspots/button_camera_shift"]
+[node name="Label" type="Label" parent="Hotspots/button_camera_shift" unique_id=1941804019]
 text = "Camera_shift"
 
-[node name="ESCLocation" type="Marker2D" parent="Hotspots/button_camera_shift"]
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/button_camera_shift" unique_id=1999430820]
 position = Vector2(311, 1108)
 script = ExtResource("8")
 
-[node name="button_camera_zoom" type="Area2D" parent="Hotspots"]
+[node name="button_camera_zoom" type="Area2D" parent="Hotspots" unique_id=1303372942]
 process_mode = 1
 position = Vector2(250, 0)
 script = ExtResource("7")
@@ -952,19 +945,18 @@ esc_script = "res://game/rooms/room07/esc/button_zoom.esc"
 tooltip_name = "button"
 default_action = "use"
 actions_requiring_target_object = PackedStringArray()
-animations = null
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_camera_zoom"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_camera_zoom" unique_id=511469916]
 polygon = PackedVector2Array(299, 954, 335, 954, 335, 992, 299, 992)
 
-[node name="Label" type="Label" parent="Hotspots/button_camera_zoom"]
+[node name="Label" type="Label" parent="Hotspots/button_camera_zoom" unique_id=1819664871]
 text = "Camera_zoom"
 
-[node name="ESCLocation" type="Marker2D" parent="Hotspots/button_camera_zoom"]
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/button_camera_zoom" unique_id=266631712]
 position = Vector2(316, 1108)
 script = ExtResource("8")
 
-[node name="button_camera_set_pos" type="Area2D" parent="Hotspots"]
+[node name="button_camera_set_pos" type="Area2D" parent="Hotspots" unique_id=89265068]
 process_mode = 1
 position = Vector2(375, 0)
 script = ExtResource("7")
@@ -973,83 +965,76 @@ esc_script = "res://game/rooms/room07/esc/button_set_pos.esc"
 tooltip_name = "button"
 default_action = "use"
 actions_requiring_target_object = PackedStringArray()
-animations = null
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_camera_set_pos"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/button_camera_set_pos" unique_id=1678888433]
 polygon = PackedVector2Array(299, 954, 335, 954, 335, 992, 299, 992)
 
-[node name="Label" type="Label" parent="Hotspots/button_camera_set_pos"]
+[node name="Label" type="Label" parent="Hotspots/button_camera_set_pos" unique_id=419615422]
 text = "Camera_set_pos"
 
-[node name="ESCLocation" type="Marker2D" parent="Hotspots/button_camera_set_pos"]
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/button_camera_set_pos" unique_id=591977653]
 position = Vector2(315, 1108)
 script = ExtResource("8")
 
-[node name="alarm_cone_floor1" type="Area2D" parent="Hotspots"]
+[node name="alarm_cone_floor1" type="Area2D" parent="Hotspots" unique_id=163533473]
 process_mode = 1
 script = ExtResource("7")
 global_id = "r7_alarm_cone_floor_1"
 esc_script = "res://game/rooms/room07/esc/alarm_cone_floor_1.esc"
-is_trigger = true
-is_interactive = false
-player_orients_on_arrival = false
 actions_requiring_target_object = PackedStringArray()
+is_trigger = true
+player_orients_on_arrival = false
 inventory_texture = ExtResource("10")
-animations = null
+inventory_texture_hovered = ExtResource("10")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/alarm_cone_floor1"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/alarm_cone_floor1" unique_id=689304292]
 position = Vector2(406, 0)
 polygon = PackedVector2Array(598, 1100, 776, 1101, 833, 1300, 541, 1300)
 
-[node name="AlarmCone" type="Sprite2D" parent="Hotspots/alarm_cone_floor1"]
+[node name="AlarmCone" type="Sprite2D" parent="Hotspots/alarm_cone_floor1" unique_id=61598106]
 position = Vector2(1093, 1055)
 texture = ExtResource("10")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/alarm_cone_floor1"]
-libraries = {
-"": SubResource("AnimationLibrary_4os3p")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/alarm_cone_floor1" unique_id=865645191]
+libraries/ = SubResource("AnimationLibrary_4os3p")
 
-[node name="Label" type="Label" parent="Hotspots/alarm_cone_floor1"]
+[node name="Label" type="Label" parent="Hotspots/alarm_cone_floor1" unique_id=469463552]
 text = "This trigger activates when
  player walks in AND out"
 
-[node name="alarm_cone_floor2" type="Area2D" parent="Hotspots"]
+[node name="alarm_cone_floor2" type="Area2D" parent="Hotspots" unique_id=819066366]
 process_mode = 1
 script = ExtResource("7")
 global_id = "r7_alarm_cone_floor_2"
 esc_script = "res://game/rooms/room07/esc/alarm_cone_floor_2.esc"
-is_trigger = true
-is_interactive = false
-player_orients_on_arrival = false
 actions_requiring_target_object = PackedStringArray()
+is_trigger = true
+player_orients_on_arrival = false
 inventory_texture = ExtResource("10")
-animations = null
+inventory_texture_hovered = ExtResource("10")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/alarm_cone_floor2"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/alarm_cone_floor2" unique_id=261988659]
 position = Vector2(428, -694)
 polygon = PackedVector2Array(577, 1085, 753, 1085, 811, 1285, 519, 1286)
 
-[node name="AlarmCone" type="Sprite2D" parent="Hotspots/alarm_cone_floor2"]
+[node name="AlarmCone" type="Sprite2D" parent="Hotspots/alarm_cone_floor2" unique_id=1691867872]
 position = Vector2(1093, 346)
 texture = ExtResource("10")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/alarm_cone_floor2"]
-libraries = {
-"": SubResource("AnimationLibrary_o2bpp")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/alarm_cone_floor2" unique_id=442891928]
+libraries/ = SubResource("AnimationLibrary_o2bpp")
 
-[node name="Label" type="Label" parent="Hotspots/alarm_cone_floor2"]
+[node name="Label" type="Label" parent="Hotspots/alarm_cone_floor2" unique_id=523011073]
 text = "This trigger activates when
  player walks out only"
 
-[node name="player_start" type="Marker2D" parent="."]
+[node name="player_start" type="Marker2D" parent="." unique_id=737654531]
 position = Vector2(128, 1162)
 script = ExtResource("8")
 global_id = "r7_player_start"
 is_start_location = true
 
-[node name="lift_button_floor_1" type="Area2D" parent="."]
+[node name="lift_button_floor_1" type="Area2D" parent="." unique_id=779571082]
 process_mode = 1
 script = ExtResource("7")
 global_id = "r7_lift_button_floor_1"
@@ -1057,73 +1042,69 @@ esc_script = "res://game/rooms/room07/esc/lift_button_floor_1.esc"
 tooltip_name = "Lift Button"
 default_action = "use"
 actions_requiring_target_object = PackedStringArray()
-animations = null
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="lift_button_floor_1"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="lift_button_floor_1" unique_id=1839143959]
 polygon = PackedVector2Array(1311, 954, 1347, 954, 1347, 992, 1311, 992)
 
-[node name="ESCLocation" type="Marker2D" parent="lift_button_floor_1"]
+[node name="ESCLocation" type="Marker2D" parent="lift_button_floor_1" unique_id=1619934159]
 position = Vector2(1329, 1119)
 script = ExtResource("8")
 
-[node name="lift_button_floor_2" type="Area2D" parent="."]
+[node name="lift_button_floor_2" type="Area2D" parent="." unique_id=432776732]
 process_mode = 1
 script = ExtResource("7")
 global_id = "r7_lift_button_floor_2"
 esc_script = "res://game/rooms/room07/esc/lift_button_floor_2.esc"
+camera_node = NodePath("ESCLocation")
 tooltip_name = "Lift Button"
 default_action = "use"
 actions_requiring_target_object = PackedStringArray()
-camera_node = NodePath("ESCLocation")
-animations = null
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="lift_button_floor_2"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="lift_button_floor_2" unique_id=938132652]
 polygon = PackedVector2Array(1311, 245, 1347, 245, 1347, 283, 1311, 283)
 
-[node name="ESCLocation" type="Marker2D" parent="lift_button_floor_2"]
+[node name="ESCLocation" type="Marker2D" parent="lift_button_floor_2" unique_id=480239793]
 position = Vector2(1331, 450)
 script = ExtResource("8")
 
-[node name="lift_door_floor_1" type="Area2D" parent="."]
+[node name="lift_door_floor_1" type="Area2D" parent="." unique_id=874667744]
 process_mode = 1
 script = ExtResource("7")
 global_id = "r7_lift_door_floor_1"
 esc_script = "res://game/rooms/room07/esc/lift_door_floor_1.esc"
+camera_node = NodePath("camera_node")
 tooltip_name = "lift"
 default_action = "use"
 actions_requiring_target_object = PackedStringArray()
-camera_node = NodePath("camera_node")
-animations = null
 
-[node name="ESCLocation" type="Marker2D" parent="lift_door_floor_1"]
+[node name="ESCLocation" type="Marker2D" parent="lift_door_floor_1" unique_id=1475544537]
 position = Vector2(1470, 1100)
 script = ExtResource("8")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="lift_door_floor_1"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="lift_door_floor_1" unique_id=135224395]
 polygon = PackedVector2Array(1391, 815, 1551, 812, 1551, 1098, 1394, 1101)
 
-[node name="camera_node" type="Marker2D" parent="lift_door_floor_1"]
+[node name="camera_node" type="Marker2D" parent="lift_door_floor_1" unique_id=1949506604]
 position = Vector2(1466, 1109)
 script = ExtResource("8")
 
-[node name="lift_door_floor_2" type="Area2D" parent="."]
+[node name="lift_door_floor_2" type="Area2D" parent="." unique_id=375693141]
 process_mode = 1
 script = ExtResource("7")
 global_id = "r7_lift_door_floor_2"
 esc_script = "res://game/rooms/room07/esc/lift_door_floor_2.esc"
+camera_node = NodePath("camera_node")
 tooltip_name = "lift"
 default_action = "use"
 actions_requiring_target_object = PackedStringArray()
-camera_node = NodePath("camera_node")
-animations = null
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="lift_door_floor_2"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="lift_door_floor_2" unique_id=23771390]
 polygon = PackedVector2Array(1389, 100, 1551, 103, 1551, 390, 1392, 390)
 
-[node name="camera_node" type="Marker2D" parent="lift_door_floor_2"]
+[node name="camera_node" type="Marker2D" parent="lift_door_floor_2" unique_id=1024631212]
 position = Vector2(1472, 480)
 script = ExtResource("8")
 
-[node name="ESCLocation" type="Marker2D" parent="lift_door_floor_2"]
+[node name="ESCLocation" type="Marker2D" parent="lift_door_floor_2" unique_id=1766654316]
 position = Vector2(1472, 398)
 script = ExtResource("8")
