@@ -836,7 +836,8 @@ func spritesheet_on_export_button_pressed() -> void:
 	var anim_name: String = ""
 	var dirnames = []
 
-	var scene_name = "%s/%s.scn" % [get_node(CHARACTER_PATH_NODE).text, get_node(NAME_NODE).get_node("node_name").text]
+	# Fix: use .tscn (text) instead of .scn (binary) for Godot 4 compatibility
+	var scene_name = "%s/%s.tscn" % [get_node(CHARACTER_PATH_NODE).text, get_node(NAME_NODE).get_node("node_name").text]
 
 	if FileAccess.file_exists(scene_name):
 		get_node(GENERIC_ERROR_NODE).dialog_text = \
@@ -1268,12 +1269,11 @@ func export_player(scene_name) -> void:
 
 	var animations_resource = ESCAnimationResource.new()
 
-	# This is necessary to avoid a Godot bug when appending to one array
-	# appends to all arrays in the same class (possibly for resources only).
-	animations_resource.dir_angles = []
-	animations_resource.directions = []
-	animations_resource.idles = []
-	animations_resource.speaks = []
+	# Fix: use .clear() instead of = [] to preserve Godot 4 typed arrays
+	animations_resource.dir_angles.clear()
+	animations_resource.directions.clear()
+	animations_resource.idles.clear()
+	animations_resource.speaks.clear()
 
 	if get_node(DIR_COUNT_NODE).get_node("four_directions").button_pressed:
 		num_directions = 4
@@ -1381,7 +1381,8 @@ func export_player(scene_name) -> void:
 	if not DirAccess.dir_exists_absolute(scene_name.get_base_dir()):
 		DirAccess.make_dir_recursive_absolute(scene_name.get_base_dir())
 
-	ResourceSaver.save(packed_scene, scene_name, ResourceSaver.FLAG_CHANGE_PATH|ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS|ResourceSaver.FLAG_COMPRESS)
+	# Fix: removed FLAG_COMPRESS to save as text .tscn instead of binary .scn
+	ResourceSaver.save(packed_scene, scene_name, ResourceSaver.FLAG_CHANGE_PATH|ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS)
 
 	progress_bar_update("Releasing resources - this might take up to 30 seconds")
 	await get_tree().process_frame
@@ -1417,6 +1418,9 @@ func export_generate_animations(character_node, num_directions) -> void:
 	var default_anim_length = 0
 	var default_anim_speed = 1
 	var frame_counter: int = 0
+
+	# Fix: cache loaded Texture2D resources for AtlasTexture references
+	var spritesheet_textures: Dictionary = {}
 
 	match num_directions:
 		1: direction_names = DIR_LIST_1
@@ -1463,17 +1467,25 @@ func export_generate_animations(character_node, num_directions) -> void:
 				default_anim_length = metadata[METADATA_SPRITESHEET_LAST_FRAME] - metadata[METADATA_SPRITESHEET_FIRST_FRAME]  + 1
 				default_anim_speed = metadata[METADATA_SPEED]
 
+			# Fix: load the spritesheet as a Texture2D for AtlasTexture references.
+			# This avoids embedding pixel data in the scene file.
+			var sheet_path: String = metadata[METADATA_SPRITESHEET_SOURCE_FILE]
+			if not spritesheet_textures.has(sheet_path):
+				spritesheet_textures[sheet_path] = load(sheet_path)
+			var sheet_texture: Texture2D = spritesheet_textures[sheet_path]
+
 			var frame_duration: float = 1.0
-			var frame_being_copied: Image = Image.create_empty(frame_size.x, frame_size.y, false, source_image.get_format())
 
 			for loop in range(metadata[METADATA_SPRITESHEET_LAST_FRAME] - metadata[METADATA_SPRITESHEET_FIRST_FRAME]  + 1):
 				rect_location = calc_frame_coords(metadata[METADATA_SPRITESHEET_FIRST_FRAME] + loop)
-				frame_being_copied.blit_rect(source_image, Rect2(rect_location, Vector2(frame_size.x, frame_size.y)), Vector2(0, 0))
-				var texture: ImageTexture = ImageTexture.create_from_image(frame_being_copied)
 
-				# Remove "filter" flag so it's pixel perfect
-				#texture.set_flags(2)
-				sprite_frames.add_frame(anim_name, texture, frame_duration, frame_counter)
+				# Fix: use AtlasTexture referencing the .png instead of
+				# ImageTexture with embedded pixel data.
+				var atlas_tex = AtlasTexture.new()
+				atlas_tex.atlas = sheet_texture
+				atlas_tex.region = Rect2(rect_location, Vector2(frame_size.x, frame_size.y))
+
+				sprite_frames.add_frame(anim_name, atlas_tex, frame_duration, frame_counter)
 				sprite_frames.set_animation_speed(anim_name, metadata[METADATA_SPEED])
 				frame_counter += 1
 
@@ -1483,10 +1495,8 @@ func export_generate_animations(character_node, num_directions) -> void:
 	var frame_duration: float = 1.0
 
 	for loop in range(default_anim_length):
-		var texture: ImageTexture = sprite_frames.get_frame_texture("idle_down", loop)
+		var texture = sprite_frames.get_frame_texture("idle_down", loop)
 
-		# Remove "filter" flag so it's pixel perfect
-		#texture.set_flags(2)
 		sprite_frames.add_frame("default", texture, frame_duration, loop)
 		sprite_frames.set_animation_speed("default", default_anim_speed)
 
