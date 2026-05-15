@@ -6,6 +6,7 @@ extends GdUnitTestSuite
 @warning_ignore("return_value_discarded")
 
 const MARK_SCENE := preload("res://game/characters/mark/mark.tscn")
+const SIMPLE_CHOOSER_SCENE := preload("res://addons/escoria-dialog-simple/chooser/simple.tscn")
 
 var _terminate_on_errors_before: bool
 var _command_directories_before: PackedStringArray
@@ -25,17 +26,24 @@ class DialogPlayerDouble extends ESCDialogPlayer:
 	func start_dialog_choices(dialog: ESCDialog, _type: String = "simple"):
 		var option_keys: Array = []
 		var option_texts: Array = []
+		var option_source_indexes: Array = []
 		for option in dialog.options:
 			option_keys.append(option.translation_key)
 			option_texts.append(option.option)
+			option_source_indexes.append(option.source_option_index)
+
+		var timeout_option := dialog.get_timeout_option()
 
 		_dialogs_started.append({
 			"avatar": dialog.avatar,
 			"timeout": dialog.timeout,
 			"timeout_option": dialog.timeout_option,
+			"authored_options_count": dialog.authored_options_count,
+			"visible_timeout_option": timeout_option.option if timeout_option else null,
 			"options_size": dialog.options.size(),
 			"option_keys": option_keys,
-			"option_texts": option_texts
+			"option_texts": option_texts,
+			"option_source_indexes": option_source_indexes
 		})
 
 		# Mirror the real dialog player closely enough for interpreter tests:
@@ -1470,9 +1478,108 @@ func test_dialog_start_args_are_passed_to_runtime_dialog() -> void:
 	assert_str(started_dialogs[0]["avatar"]).is_equal("res://game/dialog_avatars/player.tres")
 	assert_int(started_dialogs[0]["timeout"]).is_equal(5)
 	assert_int(started_dialogs[0]["timeout_option"]).is_equal(2)
+	assert_int(started_dialogs[0]["authored_options_count"]).is_equal(2)
 	assert_int(started_dialogs[0]["options_size"]).is_equal(2)
+	assert_str(started_dialogs[0]["visible_timeout_option"]).is_equal("Second option")
+	assert_array(started_dialogs[0]["option_source_indexes"]).contains_exactly([1, 2])
 
 	_cleanup_dialog_test(interpreter, dialog_player)
+
+
+func test_dialog_timeout_option_uses_authored_index_after_filtering() -> void:
+	var script_object := _compile_fixture_script("dialog_timeout_visible_authored_default_after_filtering.esc")
+	var dialog_player := DialogPlayerDouble.new([1])
+	escoria.set("dialog_player", dialog_player)
+	var interpreter := ESCInterpreter.new(ESCCompiler.load_commands(), {})
+	var resolver := ESCResolver.new(interpreter)
+	var event: ESCGrammarStmts.Event = script_object.get_event_with_target("talk")
+
+	assert_object(event).is_not_null()
+
+	resolver.resolve(event)
+
+	await interpreter.interpret(event)
+	assert_int(dialog_player.get_choices_consumed()).is_equal(1)
+
+	var started_dialogs := dialog_player.get_dialogs_started()
+	assert_int(started_dialogs.size()).is_equal(1)
+	assert_int(started_dialogs[0]["timeout"]).is_equal(5)
+	assert_int(started_dialogs[0]["timeout_option"]).is_equal(3)
+	assert_int(started_dialogs[0]["authored_options_count"]).is_equal(3)
+	assert_int(started_dialogs[0]["options_size"]).is_equal(2)
+	assert_array(started_dialogs[0]["option_source_indexes"]).contains_exactly([2, 3])
+	assert_array(started_dialogs[0]["option_texts"]).contains_exactly(["Second option", "Third option"])
+	assert_str(started_dialogs[0]["visible_timeout_option"]).is_equal("Third option")
+
+	_cleanup_dialog_test(interpreter, dialog_player)
+
+
+func test_dialog_timeout_option_hidden_after_filtering_is_not_available() -> void:
+	var script_object := _compile_fixture_script("dialog_timeout_hidden_authored_default_after_filtering.esc")
+	var dialog_player := DialogPlayerDouble.new([0])
+	escoria.set("dialog_player", dialog_player)
+	var interpreter := ESCInterpreter.new(ESCCompiler.load_commands(), {})
+	var resolver := ESCResolver.new(interpreter)
+	var event: ESCGrammarStmts.Event = script_object.get_event_with_target("talk")
+
+	assert_object(event).is_not_null()
+
+	resolver.resolve(event)
+
+	await interpreter.interpret(event)
+	assert_int(dialog_player.get_choices_consumed()).is_equal(1)
+
+	var started_dialogs := dialog_player.get_dialogs_started()
+	assert_int(started_dialogs.size()).is_equal(1)
+	assert_int(started_dialogs[0]["timeout"]).is_equal(5)
+	assert_int(started_dialogs[0]["timeout_option"]).is_equal(1)
+	assert_int(started_dialogs[0]["authored_options_count"]).is_equal(3)
+	assert_int(started_dialogs[0]["options_size"]).is_equal(2)
+	assert_array(started_dialogs[0]["option_source_indexes"]).contains_exactly([2, 3])
+	assert_array(started_dialogs[0]["option_texts"]).contains_exactly(["Second option", "Third option"])
+	assert_object(started_dialogs[0]["visible_timeout_option"]).is_null()
+
+	_cleanup_dialog_test(interpreter, dialog_player)
+
+
+func test_simple_chooser_does_not_start_timer_when_timeout_default_is_hidden() -> void:
+	var dialog := ESCDialog.new()
+	dialog.timeout = 5
+	dialog.timeout_option = 1
+	dialog.authored_options_count = 2
+	dialog.options = [
+		_make_dialog_option("Visible option", 2),
+	]
+
+	var chooser = SIMPLE_CHOOSER_SCENE.instantiate()
+	add_child(chooser)
+	chooser.set_dialog(dialog)
+	chooser.show_chooser()
+
+	assert_bool(chooser.get_node("Timer").is_stopped()).is_true()
+	assert_float(chooser.get_node("TimerProgress").value).is_equal(0.0)
+
+	chooser.queue_free()
+
+
+func test_simple_chooser_starts_timer_when_timeout_default_is_visible() -> void:
+	var dialog := ESCDialog.new()
+	dialog.timeout = 5
+	dialog.timeout_option = 2
+	dialog.authored_options_count = 2
+	dialog.options = [
+		_make_dialog_option("First option", 1),
+		_make_dialog_option("Second option", 2),
+	]
+
+	var chooser = SIMPLE_CHOOSER_SCENE.instantiate()
+	add_child(chooser)
+	chooser.set_dialog(dialog)
+	chooser.show_chooser()
+
+	assert_bool(chooser.get_node("Timer").is_stopped()).is_false()
+
+	chooser.queue_free()
 
 
 func test_dialog_start_invalid_avatar_type_returns_error() -> void:
@@ -1677,3 +1784,11 @@ func _compile_fixture_script(name: String) -> ESCScript:
 
 func _fixture_path(name: String) -> String:
 	return "res://addons/escoria-core/testing/ashes/interpreter/fixtures/%s" % name
+
+
+func _make_dialog_option(text: String, source_option_index: int) -> ESCDialogOption:
+	var option := ESCDialogOption.new()
+	option.option = text
+	option.source_option_index = source_option_index
+	option.set_is_valid(true)
+	return option

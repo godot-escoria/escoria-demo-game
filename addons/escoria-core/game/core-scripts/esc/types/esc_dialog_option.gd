@@ -15,6 +15,9 @@ var translation_key: String = ""
 ## Maps back to the parsed source option.
 var source_option
 
+## One-based index of this option in its authored dialog block.
+var source_option_index: int = -1
+
 ## Whether this option is valid.
 var _is_valid: bool:
 	set = set_is_valid,
