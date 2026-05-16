@@ -1,7 +1,7 @@
 ## A manager for ESC objects.
 ## @MANAGER
-extends Resource
 class_name ESCObjectManager
+extends Resource
 
 
 ## Reserved camera object.
@@ -91,6 +91,23 @@ func _init() -> void:
 	reserved_objects_container.objects = {}
 	room_objects.push_back(reserved_objects_container)
 
+	current_room_key = ESCRoomObjectsKey.new()
+
+
+## Clears all room-specific object and terrain state while preserving reserved
+## objects managed by Escoria itself.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
+func reset_game_state() -> void:
+	room_objects.clear()
+	room_objects.push_back(reserved_objects_container)
+	room_terrains.clear()
 	current_room_key = ESCRoomObjectsKey.new()
 
 
@@ -193,7 +210,7 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 		return
 	# Object exists in room, set it to is last state (if different from
 	# "default")
-	elif object.node is ESCItem and _object_exists_in_room(object, room_key):
+	if object.node is ESCItem and _object_exists_in_room(object, room_key):
 		# Object is already known, set its state to last known state
 		object.set_state(get_object(object.global_id).state)
 
@@ -352,13 +369,13 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 	if global_id in RESERVED_OBJECTS:
 		if reserved_objects_container.objects.has(global_id):
 			return reserved_objects_container.objects[global_id]
-		else:
-			escoria.logger.warn(
-				self,
-				"Reserved object with global id %s not found in object manager!"
-					% global_id
-			)
-			return null
+
+		escoria.logger.warn(
+			self,
+			"Reserved object with global id %s not found in object manager!"
+				% global_id
+		)
+		return null
 
 	var room_key: ESCRoomObjectsKey
 
@@ -382,24 +399,24 @@ func get_object(global_id: String, room: ESCRoom = null) -> ESCObject:
 
 	if objects.has(global_id):
 		return objects[global_id]
-	else:
-		escoria.logger.warn(
-			self,
-			"Object with global id %s in room instance (%s, %s) not found. This can be safely ignored if a room was being searched for."
-			% [global_id, room_key.room_global_id, room_key.room_instance_id]
-		)
-		if escoria.inventory_manager.inventory_has(global_id):
-			# item is in the inventory and may be registered to a different room
-			for single_room in room_objects:
-				# these are arrays of the objects still registered for each room
-				if single_room.objects.has(global_id):
-					escoria.logger.info(
-						self,
-						"Object with global id %s found in room instance (%s, %s) through the inventory."
-						% [global_id, room_key.room_global_id, room_key.room_instance_id]
-					)
-					return single_room.objects[global_id]
-		return null
+
+	escoria.logger.warn(
+		self,
+		"Object with global id %s in room instance (%s, %s) not found. This can be safely ignored if a room was being searched for."
+		% [global_id, room_key.room_global_id, room_key.room_instance_id]
+	)
+	if escoria.inventory_manager.inventory_has(global_id):
+		# item is in the inventory and may be registered to a different room
+		for single_room in room_objects:
+			# these are arrays of the objects still registered for each room
+			if single_room.objects.has(global_id):
+				escoria.logger.info(
+					self,
+					"Object with global id %s found in room instance (%s, %s) through the inventory."
+					% [global_id, room_key.room_global_id, room_key.room_instance_id]
+				)
+				return single_room.objects[global_id]
+	return null
 
 
 ## Removes an object from the registry.[br]
