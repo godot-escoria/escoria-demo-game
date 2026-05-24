@@ -2,6 +2,14 @@ extends Node
 ## This is Escoria's singleton script.
 ## It holds accessors to some utils, such as Escoria's logger.
 
+## Signal sent when Escoria starts a new game[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+signal new_game_started
+
 ## Signal sent when Escoria is paused[br]
 ## [br]
 ## #### Parameters[br]
@@ -232,6 +240,7 @@ func set_game_paused(p_paused: bool):
 ## Returns nothing.
 func new_game():
 	get_escoria().new_game()
+	new_game_started.emit()
 
 ## Called from main menu's "quit" button.[br]
 ## [br]
