@@ -158,7 +158,7 @@ func _on_CreateButton_pressed() -> void:
 	var item = ESCItem.new()
 	item.name = get_node(ITEM_NAME_NODE).text
 	item.global_id = get_node(GLOBAL_ID_NODE).text
-	item.is_interactive = get_node(INTERACTIVE_NODE).pressed
+	item.is_interactive = get_node(INTERACTIVE_NODE).button_pressed
 	item.tooltip_name = get_node(ITEM_NAME_NODE).text
 
 	var selected_index = get_node(ACTION_NODE).selected
