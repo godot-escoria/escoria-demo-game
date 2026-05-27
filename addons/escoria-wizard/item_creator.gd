@@ -125,8 +125,9 @@ func LoadObjectFileDialog_file_selected(path: String) -> void:
 
 	resize_image()
 
+	resize_image()
+	
 	get_node(PREVIEW_NODE).texture = image_stream_texture
-
 
 
 	get_node(IMAGE_SIZE_NODE).text = "(%s, %s)" % [image_size.x, image_size.y]
