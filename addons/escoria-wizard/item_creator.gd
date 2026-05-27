@@ -42,8 +42,12 @@ var preview_size:Vector2
 func _ready() -> void:
 	# Capture the size of the window before we update its contents so we have
 	# the absolute size before it gets scaled contents applied to it
-	preview_size = get_node(PREVIEW_NODE).size
+	preview_size = get_node(PREVIEW_NODE).get_size()
 	inventory_mode = not get_node(BACKGROUND_OBJ_NODE).pressed
+	
+	for option_list in ["look", "pick up", "open", "close", "use", "push", "pull", "talk"]:
+		get_node(ACTION_NODE).add_item(option_list)
+		
 	item_creator_reset()
 
 
@@ -52,14 +56,8 @@ func item_creator_reset() -> void:
 	get_node(GLOBAL_ID_NODE).text = ""
 	get_node(IMAGE_PATH_NODE).text = ""
 	get_node(INTERACTIVE_NODE).button_pressed = true
-
-	if get_node(ACTION_NODE).get_item_count() > 0:
-		get_node(ACTION_NODE).clear()
-
-		for option_list in ["look", "pick up", "open", "close", "use", "push", "pull", "talk"]:
-			get_node(ACTION_NODE).add_item(option_list)
-
 	get_node(ACTION_NODE).selected = 0
+
 	image_size = Vector2.ZERO
 	image_has_been_loaded = false
 	main_menu_requested = false
@@ -95,9 +93,13 @@ func resize_image() -> void:
 	# the height to width ratio of the frame
 	image_size = image_stream_texture.get_size()
 	var preview_scale = Vector2.ONE
-	preview_scale.x =  preview_size.x / image_size.x
-	preview_scale.y =  preview_size.y / image_size.y
-
+	
+	var x_scale_ratio = preview_size.x / image_size.x 
+	preview_scale.x = x_scale_ratio if x_scale_ratio < 1 else 1
+	
+	var y_scale_ratio = preview_size.y / image_size.y
+	preview_scale.y = y_scale_ratio if y_scale_ratio < 1 else 1
+	
 	if preview_scale.y > preview_scale.x:
 		get_node(PREVIEW_NODE).scale = Vector2(preview_scale.x, preview_scale.x)
 	else:
@@ -115,9 +117,11 @@ func load_button_pressed() -> void:
 func LoadObjectFileDialog_file_selected(path: String) -> void:
 	image_stream_texture = load(path)
 
+	resize_image()
+	
 	get_node(PREVIEW_NODE).texture = image_stream_texture
 
-	resize_image()
+	
 
 	get_node(IMAGE_SIZE_NODE).text = "(%s, %s)" % [image_size.x, image_size.y]
 
