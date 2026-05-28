@@ -97,13 +97,13 @@ func resize_image() -> void:
 	# the height to width ratio of the frame
 	image_size = image_stream_texture.get_size()
 	var preview_scale = Vector2.ONE
-	
-	var x_scale_ratio = preview_size.x / image_size.x 
+
+	var x_scale_ratio = preview_size.x / image_size.x
 	preview_scale.x = x_scale_ratio if x_scale_ratio < 1 else 1
-	
+
 	var y_scale_ratio = preview_size.y / image_size.y
 	preview_scale.y = y_scale_ratio if y_scale_ratio < 1 else 1
-	
+
 	if preview_scale.y > preview_scale.x:
 		get_node(PREVIEW_NODE).scale = Vector2(preview_scale.x, preview_scale.x)
 	else:
