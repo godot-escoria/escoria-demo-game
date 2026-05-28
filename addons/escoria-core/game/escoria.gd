@@ -195,7 +195,7 @@ func run_event_from_script(script: ESCScript, event_name: String, _from_statemen
 			"Requested event %s on unloaded script %s." % [event_name, script] +
 			"Please load the ESC script using esc_compiler.load_esc_file()."
 		)
-		return ESCExecution.RC_WONT_QUEUE		
+		return ESCExecution.RC_WONT_QUEUE
 
 	if not _event_exists_in_script(script, event_name):
 		return ESCExecution.RC_WONT_QUEUE
@@ -210,7 +210,7 @@ func run_event_from_script(script: ESCScript, event_name: String, _from_statemen
 			self,
 			"Start event of the start script returned unsuccessful: %d." % rc[0]
 		)
-		
+
 	return rc[0]
 
 
@@ -280,7 +280,7 @@ func new_game():
 			true,
 			true
 		)
-	
+
 	var rc = await run_event_from_script(escoria.start_script, escoria.event_manager.EVENT_NEW_GAME)
 	if rc == ESCExecution.RC_OK:
 		escoria.new_game_started.emit()
