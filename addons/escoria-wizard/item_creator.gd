@@ -39,16 +39,20 @@ var preview_size:Vector2
 
 
 # Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	# Capture the size of the window before we update its contents so we have
 	# the absolute size before it gets scaled contents applied to it
 	preview_size = get_node(PREVIEW_NODE).get_size()
 	inventory_mode = not get_node(BACKGROUND_OBJ_NODE).pressed
-	
-	for option_list in ["look", "pick up", "open", "close", "use", "push", "pull", "talk"]:
-		get_node(ACTION_NODE).add_item(option_list)
-		
+
+	var action_option: OptionButton = get_node(ACTION_NODE)
+	action_option.clear()
+	for option_list in ["", "look", "pick up", "open", "close", "use", "push", "pull", "talk"]:
+		action_option.add_item(option_list)
+
 	item_creator_reset()
+
 
 
 func item_creator_reset() -> void:
@@ -115,13 +119,18 @@ func load_button_pressed() -> void:
 
 
 func LoadObjectFileDialog_file_selected(path: String) -> void:
-	image_stream_texture = load(path)
+	var loaded_texture := load(path) as CompressedTexture2D
+	if loaded_texture == null:
+		get_node(ERROR_WINDOW_NODE).dialog_text = "Failed to load image: %s" % path
+		get_node(ERROR_WINDOW_NODE).popup_centered()
+		return
+	image_stream_texture = loaded_texture
 
 	resize_image()
-	
+
 	get_node(PREVIEW_NODE).texture = image_stream_texture
 
-	
+
 
 	get_node(IMAGE_SIZE_NODE).text = "(%s, %s)" % [image_size.x, image_size.y]
 
