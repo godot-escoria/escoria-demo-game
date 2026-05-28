@@ -240,7 +240,6 @@ func set_game_paused(p_paused: bool):
 ## Returns nothing.
 func new_game():
 	get_escoria().new_game()
-	new_game_started.emit()
 
 ## Called from main menu's "quit" button.[br]
 ## [br]
