@@ -43,7 +43,7 @@ var hotspot_focused: String = ""
 ## #### Parameters[br]
 ##[br]
 ## - event: The event to process[br]
-## - is_default_state: Whether the current state is escoria.GAME_STATE.DEFAULT[br]
+## - is_default_state: Whether the current state is escoria.GameState.DEFAULT[br]
 ##[br]
 ## **Returns** Whether the function processed the event.
 var custom_input_handler = null
@@ -138,7 +138,7 @@ func register_background(background: ESCBackground):
 ## [br]
 ## | Name | Type | Description | Required? |[br]
 ## |:-----|:-----|:------------|:----------|[br]
-## |callback|`Variant`|Function reference satisfying the above contract event The event to process is_default_state Whether the current state is escoria.GAME_STATE.DEFAULT returns whether the function processed the event `callback` is responsible for calling `get_tree().set_input_as_handled()`, if appropriate.|yes|[br]
+## |callback|`Variant`|Function reference satisfying the above contract event The event to process is_default_state Whether the current state is escoria.GameState.DEFAULT returns whether the function processed the event `callback` is responsible for calling `get_tree().set_input_as_handled()`, if appropriate.|yes|[br]
 ## [br]
 ## #### Returns[br]
 ## [br]
@@ -154,7 +154,7 @@ func register_custom_input_handler(callback) -> void:
 ## | Name | Type | Description | Required? |[br]
 ## |:-----|:-----|:------------|:----------|[br]
 ## |event|`InputEvent`|The event to process|yes|[br]
-## |is_default_state|`bool`|Whether the current state is escoria.GAME_STATE.DEFAULT|yes|[br]
+## |is_default_state|`bool`|Whether the current state is escoria.GameState.DEFAULT|yes|[br]
 ## [br]
 ## #### Returns[br]
 ## [br]

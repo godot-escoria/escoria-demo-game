@@ -525,7 +525,7 @@ func _perform_script_events(room: ESCRoom) -> int:
 		script_transition_in.get_event_with_target(escoria.event_manager.EVENT_TRANSITION_IN)
 	)
 
-	if not escoria.current_state == escoria.GAME_STATE.LOADING:
+	if not escoria.current_state == escoria.GameState.LOADING:
 		var ready_event_added: bool = false
 		# Run the ready event, if there is one.
 		ready_event_added = _run_script_event(escoria.event_manager.EVENT_READY, room)

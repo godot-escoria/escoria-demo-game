@@ -58,7 +58,7 @@ func run():
 		"Starting dialog."
 	)
 
-	escoria.current_state = escoria.GAME_STATE.DIALOG
+	escoria.current_state = escoria.GameState.DIALOG
 
 	if !escoria.dialog_player:
 		escoria.dialog_player = escoria.main.current_scene.get_node(
@@ -75,6 +75,6 @@ func run():
 	# If this is the case and the current level of dialog has a parent, it means
 	# it is still yielding and so will be shown again.
 
-	escoria.current_state = escoria.GAME_STATE.DEFAULT
+	escoria.current_state = escoria.GameState.DEFAULT
 
 	return option

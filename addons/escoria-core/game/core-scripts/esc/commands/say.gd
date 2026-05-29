@@ -103,14 +103,14 @@ func validate(arguments: Array):
 func run(command_params: Array) -> int:
 	var dict: Dictionary
 
-	escoria.current_state = escoria.GAME_STATE.DIALOG
+	escoria.current_state = escoria.GameState.DIALOG
 
 	if !escoria.dialog_player:
 		raise_error(
 			self,
 			"No dialog player was registered and the 'say' command was encountered."
 		)
-		escoria.current_state = escoria.GAME_STATE.DEFAULT
+		escoria.current_state = escoria.GameState.DEFAULT
 		return ESCExecution.RC_ERROR
 
 	if not escoria.main.current_scene.player:
@@ -119,7 +119,7 @@ func run(command_params: Array) -> int:
 			"[%s]: No player item in the current scene was registered and the say command was encountered."
 					% get_command_name()
 		)
-		escoria.current_state = escoria.GAME_STATE.DEFAULT
+		escoria.current_state = escoria.GameState.DEFAULT
 		return ESCExecution.RC_CANCEL
 
 	# Replace the names of any globals in "{ }" with their value
@@ -136,7 +136,7 @@ func run(command_params: Array) -> int:
 		command_params[2]
 	)
 	await escoria.dialog_player.say_finished
-	escoria.current_state = escoria.GAME_STATE.DEFAULT
+	escoria.current_state = escoria.GameState.DEFAULT
 	return ESCExecution.RC_OK
 
 

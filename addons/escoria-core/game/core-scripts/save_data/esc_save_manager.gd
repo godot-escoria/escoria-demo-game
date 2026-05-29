@@ -318,7 +318,7 @@ func load_game(id: int):
 		"Loading savegame %s" % str(id)
 	)
 	is_loading_game = true
-	escoria.current_state = escoria.GAME_STATE.LOADING
+	escoria.current_state = escoria.GameState.LOADING
 
 	var save_game: ESCSaveGame = ResourceLoader.load(save_file_path)
 
@@ -405,7 +405,7 @@ func load_game(id: int):
 	escoria.action_manager.clear_current_tool()
 	escoria.inputs_manager.input_mode = escoria.inputs_manager.INPUT_ALL
 	is_loading_game = false
-	escoria.current_state = escoria.GAME_STATE.DEFAULT
+	escoria.current_state = escoria.GameState.DEFAULT
 
 	emit_signal("game_finished_loading")
 
