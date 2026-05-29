@@ -152,6 +152,8 @@ func _on_gamepad_disconnected():
 func _on_joy_connection_changed(device: int, connected: bool) -> void:
 	if device != JOY_DEVICE:
 		return
+
+	_is_gamepad_connected = connected
 	if connected:
 		_on_gamepad_connected()
 		return
