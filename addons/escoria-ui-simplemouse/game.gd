@@ -1,10 +1,5 @@
 extends ESCGame
 
-
-const VERB_USE = "use"
-const VERB_WALK = "walk"
-
-
 """
 Implement methods to react to inputs.
 
@@ -42,6 +37,16 @@ Implement methods to react to inputs.
 - _on_event_done(event_name: String)
 """
 
+
+
+
+const VERB_USE = "use"
+const VERB_WALK = "walk"
+
+
+
+
+
 # Value to use for `device` argument to various `Input.get_joy` methods.
 const JOY_DEVICE = 0
 
@@ -64,14 +69,13 @@ const CHANGE_VERB_BUTTON = JOY_BUTTON_Y
 # Input action for use by InputMap
 const ESC_UI_CHANGE_VERB_ACTION = "esc_change_verb"
 
+var targeted_node: Node
+
 # true when a gamepad is connected.
 var _is_gamepad_connected = false
 
 # Tracks the mouse's current position onscreen.
 var _current_mouse_pos: Vector2 = Vector2.ZERO
-
-var targeted_node: Node
-
 
 func _ready():
 	hide_ui()
@@ -148,10 +152,11 @@ func _on_gamepad_disconnected():
 func _on_joy_connection_changed(device: int, connected: bool) -> void:
 	if device != JOY_DEVICE:
 		return
-	elif connected:
+	if connected:
 		_on_gamepad_connected()
-	else:
-		_on_gamepad_disconnected()
+		return
+
+	_on_gamepad_disconnected()
 
 
 func _process(_delta) -> void:
@@ -176,16 +181,18 @@ func _process_input(event: InputEvent, is_default_state: bool) -> bool:
 		# ESCBackground is not guaranteed to be set, as we may be on
 		# the "New Game" screen.
 		return false
-	elif _is_gamepad_connected and event is InputEventJoypadButton:
+
+	if _is_gamepad_connected and event is InputEventJoypadButton:
 		escoria.logger.trace(self, "InputEventJoypadButton: %s" % [event.as_text()])
 		if event.is_action_pressed(escoria.inputs_manager.ESC_UI_PRIMARY_ACTION):
 			# Admittedly, this breaks abstraction barriers and is completely
 			# inappropriate, but it's what works right now.
 			escoria.inputs_manager._on_left_click_on_bg(get_global_mouse_position())
 			return true
-		elif event.is_action_pressed(ESC_UI_CHANGE_VERB_ACTION):
-			mousewheel_action(1)
-			return true
+
+	if event.is_action_pressed(ESC_UI_CHANGE_VERB_ACTION):
+		mousewheel_action(1)
+		return true
 	return false
 
 
@@ -335,7 +342,7 @@ func right_click_on_inventory_item(inventory_item_global_id: String, event: Inpu
 	)
 
 
-func left_double_click_on_inventory_item(inventory_item_global_id: String, event: InputEvent) -> void:
+func left_double_click_on_inventory_item(_inventory_item_global_id: String, _event: InputEvent) -> void:
 	pass
 
 
