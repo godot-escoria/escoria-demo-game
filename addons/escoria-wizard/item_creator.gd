@@ -98,8 +98,8 @@ func resize_image() -> void:
 	image_size = image_stream_texture.get_size()
 
 	var preview_scale = Vector2.ONE
-	preview_scale.x = CLAMP(preview_size.x / image_size.x, 0, 1)
-	preview_scale.y = CLAMP(preview_size.y / image_size.y, 0, 1);
+	preview_scale.x = clampi(preview_size.x / image_size.x, 0, 1)
+	preview_scale.y = clampi(preview_size.y / image_size.y, 0, 1)
 
 	if preview_scale.y > preview_scale.x:
 		get_node(PREVIEW_NODE).scale = Vector2(preview_scale.x, preview_scale.x)
