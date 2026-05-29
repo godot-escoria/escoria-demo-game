@@ -196,8 +196,7 @@ func get_escoria():
 	# We check if we run the full game or a room scene directly
 	if get_tree().current_scene is ESCMain:
 		return get_node("/root/main_scene").escoria_node
-	else:
-		return get_node("main_scene").escoria_node
+	return get_node("main_scene").escoria_node
 
 
 ## Pauses or unpause the game[br]

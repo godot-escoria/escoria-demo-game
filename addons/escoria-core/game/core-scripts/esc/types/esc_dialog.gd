@@ -1,6 +1,6 @@
 ## Represents a dialog in Escoria.
-extends ESCStatement
 class_name ESCDialog
+extends ESCStatement
 
 
 ## Avatar used in the dialog, if any.

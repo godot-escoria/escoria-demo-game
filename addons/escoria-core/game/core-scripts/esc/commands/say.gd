@@ -13,8 +13,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name SayCommand
+extends ESCBaseCommand
 
 ## The keyword used to refer to the current player
 const CURRENT_PLAYER_KEYWORD = "CURRENT_PLAYER"

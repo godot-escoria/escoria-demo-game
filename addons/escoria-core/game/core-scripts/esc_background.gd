@@ -10,8 +10,8 @@
 ## is set over the whole scene, because its rect_size is then used to create the
 ## Area2D node under it. If the rect_size is wrongly set, the background may
 ## receive no input.
-extends TextureRect
 class_name ESCBackground
+extends TextureRect
 
 
 ## The background was double clicked[br]
