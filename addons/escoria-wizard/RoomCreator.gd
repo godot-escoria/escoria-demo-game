@@ -31,16 +31,16 @@ var settings_modified: bool
 
 
 func _ready() -> void:
-	$"InformationWindows/PlayerSceneFileDialog".get_cancel_button().connect("pressed", Callable(self, "PlayerSceneCancelled"))
-	$"InformationWindows/BackgroundImageFileDialog".get_cancel_button().connect("pressed", Callable(self, "BackgroundFileCancelled"))
+	$"InformationWindows/PlayerSceneFileDialog".get_cancel_button().connect("pressed", Callable(self, "player_scene_cancelled"))
+	$"InformationWindows/BackgroundImageFileDialog".get_cancel_button().connect("pressed", Callable(self, "background_file_cancelled"))
 
 
-func PlayerSceneCancelled() -> void:
+func player_scene_cancelled() -> void:
 	if get_node(PLAYER_SCENE).text == PLAYER_SELECT_TEXT:
 		get_node(USE_EMPTY_PLAYER_BUTTON).button_pressed = true
 
 
-func BackgroundFileCancelled() -> void:
+func background_file_cancelled() -> void:
 	if get_node(BACKGROUND_IMAGE).text == BACKGROUND_SELECT_TEXT:
 		get_node(USE_EMPTY_BACKGROUND).button_pressed = true
 
@@ -73,7 +73,7 @@ func _on_RoomName_text_changed(new_text: String) -> void:
 	settings_modified = true
 
 
-func _on_GlobalID_text_changed(new_text: String) -> void:
+func _on_GlobalID_text_changed(_new_text: String) -> void:
 	settings_modified = true
 
 
@@ -167,13 +167,11 @@ func set_preview_scale() -> void:
 	# Calculate the scale to make the preview as big as possible in the preview window depending on
 	# the height to width ratio of the frame
 	var preview_size = get_node(ROOM_BACKGROUND).get_size()
-#	get_node(BACKGROUND_PREVIEW).rect_scale = Vector2.ONE
 	var image_size = get_node(BACKGROUND_PREVIEW).texture.get_size()
 
-	preview_scale.x =  preview_size.x / image_size.x
-	preview_scale.y =  preview_size.y / image_size.y
+	preview_scale.x =  clampf(preview_size.x/ image_size.x, 0, 1)
+	preview_scale.y =  clampf(preview_size.y/ image_size.y, 0, 1)
 
-#	print("scale = "+str(preview_scale)+", preview size = "+str(preview_size)+", image_size = "+str(image_size))
 	if preview_scale.y > preview_scale.x:
 		get_node(BACKGROUND_PREVIEW).scale = Vector2(preview_scale.x, preview_scale.x)
 	else:
@@ -218,17 +216,17 @@ func _on_RoomFolderDialog_dir_selected(dir: String) -> void:
 
 
 func _on_CreateButton_pressed() -> void:
-	var RoomName = get_node(ROOM_NAME).text
+	var room_name = get_node(ROOM_NAME).text
 
-	if RoomName.length() < 1:
+	if room_name.length() < 1:
 		$"InformationWindows/GenericErrorDialog".dialog_text = "Error!\n\nRoom name must be specified."
 		$"InformationWindows/GenericErrorDialog".popup_centered()
 		return
 
-	var ScriptName = get_node(ESC_SCRIPT).text
+	var script_name = get_node(ESC_SCRIPT).text
 
 	if get_node(USE_EMPTY_ROOM_SCRIPT).button_pressed == false:
-		if ScriptName.length() < 5 or ! ScriptName.substr(ScriptName.length() - 4) == ".esc":
+		if script_name.length() < 5 or ! script_name.substr(script_name.length() - 4) == ".esc":
 			$"InformationWindows/GenericErrorDialog".dialog_text = "Error!\n\n" \
 			+ "Room ESC script must be a filename ending in '.esc'"
 			$"InformationWindows/GenericErrorDialog".popup_centered()
@@ -240,82 +238,79 @@ func _on_CreateButton_pressed() -> void:
 			$"InformationWindows/GenericErrorDialog".popup_centered()
 			return
 
-	var BaseDir = ProjectSettings.get_setting(ROOM_PATH_SETTING)
-	var ImageSize = Vector2(1,1)
-	var NewRoom = ESCRoom.new()
+	var base_dir = ProjectSettings.get_setting(ROOM_PATH_SETTING)
+	var new_room = ESCRoom.new()
 
-	NewRoom.name = RoomName
-	NewRoom.global_id = get_node(GLOBAL_ID).text
+	new_room.name = room_name
+	new_room.global_id = get_node(GLOBAL_ID).text
 
 	if ! get_node(ESC_SCRIPT).text == SCRIPT_SELECT_TEXT and ! get_node(ESC_SCRIPT).text == SCRIPT_BLANK_TEXT:
-		NewRoom.esc_script = "%s/%s/scripts/%s" % [BaseDir, RoomName, get_node(ESC_SCRIPT).text]
+		new_room.esc_script = "%s/%s/scripts/%s" % [base_dir, room_name, get_node(ESC_SCRIPT).text]
 
 	if ! get_node(PLAYER_SCENE).text == PLAYER_SELECT_TEXT and ! get_node(PLAYER_SCENE).text == PLAYER_BLANK_TEXT:
 		var player_scene = load(get_node(PLAYER_SCENE).text)
-		NewRoom.player_scene = player_scene
+		new_room.player_scene = player_scene
 
-	var Background = ESCBackground.new()
-	Background.name = "Background"
+	var background = ESCBackground.new()
+	background.name = "Background"
 
-	var BackgroundSize = Vector2.ONE
+	var background_size = Vector2.ONE
 
 	if ! get_node(BACKGROUND_IMAGE).text == BACKGROUND_SELECT_TEXT and ! get_node(BACKGROUND_IMAGE).text == BACKGROUND_BLANK_TEXT:
-		Background.texture = get_node(BACKGROUND_PREVIEW).texture
-		BackgroundSize = Background.texture.get_size()
+		background.texture = get_node(BACKGROUND_PREVIEW).texture
+		background_size = background.texture.get_size()
 	else:
 		# Set TextureRect to have the same size as the Viewport so that the room
 		# works even if no texture is set in the TextureRect
-		BackgroundSize = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width"), \
+		background_size = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width"), \
 							ProjectSettings.get_setting("display/window/size/viewport_height"))
-		Background.size = BackgroundSize
+		background.size = background_size
 
-	NewRoom.add_child(Background)
+	new_room.add_child(background)
+	background.set_owner(new_room)
 
-	var NewTerrain = ESCTerrain.new()
-	NewTerrain.name = "WalkableArea"
-	var NewNavigationPolygonInstance = NavigationRegion2D.new()
+	var new_terrain = ESCTerrain.new()
+	new_terrain.name = "WalkableArea"
+	var new_navigation_polygon_instance = NavigationRegion2D.new()
+	var new_navigation_polygon = NavigationPolygon.new()
+	new_navigation_polygon_instance.navigation_polygon = new_navigation_polygon
+	new_terrain.add_child(new_navigation_polygon_instance)
+	new_navigation_polygon_instance.set_owner(new_terrain)
+	new_room.add_child(new_terrain)
 
-	var NewNavigationPolygon = NavigationPolygon.new()
-	NewNavigationPolygonInstance.navigation_polygon = NewNavigationPolygon
 
-	NewRoom.add_child(NewTerrain)
+	new_terrain.set_owner(new_room)
 
-	NewTerrain.add_child(NewNavigationPolygonInstance)
+	var objects = Node2D.new()
+	objects.name = "RoomObjects"
+	new_room.add_child(objects)
+	objects.set_owner(new_room)
 
-	var Objects = Node2D.new()
-	Objects.name = "RoomObjects"
-	NewRoom.add_child(Objects)
+	var start_pos = ESCLocation.new()
+	start_pos.name = "StartPos"
+	start_pos.is_start_location = true
+	start_pos.global_id = "%s_start_pos" % room_name
+	start_pos.position = Vector2(int(background_size.x / 2), int(background_size.y / 2))
+	new_room.add_child(start_pos)
+	start_pos.set_owner(new_room)
 
-	var StartPos = ESCLocation.new()
-	StartPos.name = "StartPos"
-	StartPos.is_start_location = true
-	StartPos.global_id = "%s_start_pos" % RoomName
-	StartPos.position = Vector2(int(BackgroundSize.x / 2), int(BackgroundSize.y / 2))
-	NewRoom.add_child(StartPos)
-
-	get_tree().edited_scene_root.add_child(NewRoom)
-	NewRoom.set_owner(get_tree().edited_scene_root)
-	NewNavigationPolygonInstance.set_owner(NewRoom)
-	NewTerrain.set_owner(NewRoom)
-	Background.set_owner(NewRoom)
-	Objects.set_owner(NewRoom)
-	StartPos.set_owner(NewRoom)
-
-	DirAccess.make_dir_recursive_absolute("%s/%s/scripts" % [BaseDir, RoomName])
-	DirAccess.make_dir_recursive_absolute("%s/%s/objects" % [BaseDir, RoomName])
+	DirAccess.make_dir_recursive_absolute("%s/%s/scripts" % [base_dir, room_name])
+	DirAccess.make_dir_recursive_absolute("%s/%s/objects" % [base_dir, room_name])
 	DirAccess.copy_absolute("res://addons/escoria-wizard/room_script_template.esc", "%s/%s/scripts/%s" % \
-		[BaseDir, RoomName, get_node(ESC_SCRIPT).text])
+		[base_dir, room_name, get_node(ESC_SCRIPT).text])
 
 	# Export scene
 	var packed_scene = PackedScene.new()
-	packed_scene.pack(get_tree().edited_scene_root.get_node(NewRoom.name))
+	packed_scene.pack(new_room)
 
 	# Flag suggestions from https://godotengine.org/qa/50437/how-to-turn-a-node-into-a-packedscene-via-gdscript
-	ResourceSaver.save(packed_scene, "%s/%s/%s.tscn" % [BaseDir, RoomName, RoomName], \
+	var error = ResourceSaver.save(packed_scene, "%s/%s/%s.tscn" % [base_dir, room_name, room_name], \
 		ResourceSaver.FLAG_CHANGE_PATH|ResourceSaver.FLAG_REPLACE_SUBRESOURCE_PATHS)
+	if error != OK:
+		push_error("An error occurred while saving the scene to disk.")
 
-	NewRoom.queue_free()
-	get_tree().edited_scene_root.get_node(NewRoom.name).queue_free()
+	new_room.queue_free()
+
 	# Scan the filesystem so that the new folders show up in the file browser.
 	# Without this you might not see the objects/scripts folders in the filetree.
 	var ep = EditorPlugin.new()
