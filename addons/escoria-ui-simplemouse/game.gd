@@ -387,14 +387,14 @@ func show_ui():
 
 func hide_main_menu():
 	show_ui()
-	escoria.current_state = escoria.GAME_STATE.DEFAULT
+	escoria.current_state = escoria.GameState.DEFAULT
 	if get_node(main_menu).visible:
 		get_node(main_menu).hide()
 
 func show_main_menu():
-	if escoria.current_state == escoria.GAME_STATE.PAUSED:
+	if escoria.current_state == escoria.GameState.PAUSED:
 		return
-	escoria.current_state = escoria.GAME_STATE.PAUSED
+	escoria.current_state = escoria.GameState.PAUSED
 	hide_ui()
 	if not get_node(main_menu).visible:
 		get_node(main_menu).reset()
@@ -402,7 +402,7 @@ func show_main_menu():
 
 func unpause_game():
 	show_ui()
-	escoria.current_state = escoria.GAME_STATE.DEFAULT
+	escoria.current_state = escoria.GameState.DEFAULT
 	if get_node(pause_menu).visible:
 		get_node(pause_menu).hide()
 		escoria.object_manager.get_object(ESCObjectManager.SPEECH).node.resume()
@@ -411,10 +411,10 @@ func unpause_game():
 		escoria.set_game_paused(false)
 
 func pause_game():
-	if escoria.current_state == escoria.GAME_STATE.PAUSED:
+	if escoria.current_state == escoria.GameState.PAUSED:
 		return
 	show_ui()
-	escoria.current_state = escoria.GAME_STATE.PAUSED
+	escoria.current_state = escoria.GameState.PAUSED
 	if not get_node(pause_menu).visible:
 		get_node(main_menu).reset()
 		get_node(pause_menu).reset()

@@ -102,7 +102,7 @@ var action_state = ActionInputState.AWAITING_VERB_OR_ITEM:
 ## [br]
 ## Returns nothing.
 func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
-	if escoria.current_state == escoria.GAME_STATE.DEFAULT:
+	if escoria.current_state == escoria.GameState.DEFAULT:
 		match action:
 			ACTION.BACKGROUND_CLICK:
 				if can_interrupt:
@@ -235,9 +235,9 @@ func do(action: int, params: Array = [], can_interrupt: bool = false) -> void:
 					self,
 					"Action received: '%s' with params %s." % [action, params]
 				)
-	elif escoria.current_state == escoria.GAME_STATE.WAIT:
+	elif escoria.current_state == escoria.GameState.WAIT:
 		pass
-	elif escoria.current_state == escoria.GAME_STATE.LOADING:
+	elif escoria.current_state == escoria.GameState.LOADING:
 		pass
 
 

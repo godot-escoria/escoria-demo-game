@@ -137,7 +137,7 @@ func _ready():
 ## [br]
 ## Returns nothing.
 func _unhandled_input(event: InputEvent) -> void:
-	var is_default_state = escoria.current_state == escoria.GAME_STATE.DEFAULT
+	var is_default_state = escoria.current_state == escoria.GameState.DEFAULT
 	if escoria.inputs_manager.try_custom_input_handler(event, is_default_state):
 		return
 	if not is_default_state:

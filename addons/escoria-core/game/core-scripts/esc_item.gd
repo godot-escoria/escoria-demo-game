@@ -543,7 +543,7 @@ func _unhandled_input(input_event: InputEvent) -> void:
 		event.position = get_global_mouse_position()
 
 	if event is InputEventMouseButton and event.is_pressed():
-		if not escoria.current_state == escoria.GAME_STATE.DEFAULT:
+		if not escoria.current_state == escoria.GameState.DEFAULT:
 			ESCSafeLogging.log_info(
 				self,
 				"Current game state doesn't accept interactions."

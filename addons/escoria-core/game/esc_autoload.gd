@@ -24,7 +24,7 @@ signal resumed
 ## * DIALOG: Game is playing a dialog
 ## * WAIT: Game is waiting
 ## * LOADING: Game is currently loading
-enum GAME_STATE {
+enum GameState {
 	DEFAULT,
 	DIALOG,
 	WAIT,
@@ -149,8 +149,8 @@ var creating_new_game: bool = false
 	ProjectSettings.get_setting("display/window/size/viewport_width"),
 	ProjectSettings.get_setting("display/window/size/viewport_height"))
 
-## Current state of Escoria (GAME_STATE enum)
-@onready var current_state = GAME_STATE.DEFAULT
+## Current state of Escoria (GameState enum)
+@onready var current_state = GameState.DEFAULT
 
 ## Ready function. Instantiates the main scene if running a room directly.[br]
 ## [br]
