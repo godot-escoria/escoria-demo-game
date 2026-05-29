@@ -297,7 +297,4 @@ func save_settings():
 
 ## Returns a custom setting by key or an optional default value. Returns null if not found and no default value is defined.
 func get_custom_setting(key: String, default_value = null):
-	if custom_settings.has(key):
-		return custom_settings.get(key)
-
-	return default_value
+	return custom_settings.get(key, default_value)
