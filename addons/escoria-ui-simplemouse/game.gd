@@ -498,4 +498,4 @@ func _on_input_mode_changed(new_mode):
 		== ESCActionManager.ActionInputState.AWAITING_TARGET_ITEM
 	):
 		return
-	$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
+	$mouse_layer/verbs_menu.set_by_name(escoria.action_manager.current_action)
