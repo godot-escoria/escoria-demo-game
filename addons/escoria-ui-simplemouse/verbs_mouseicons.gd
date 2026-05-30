@@ -13,7 +13,7 @@ func _ready():
 		set_by_name("walk")
 		set_process(false)
 
-func _process(delta):
+func _process(_delta):
 	$mouse_position.global_position = get_global_mouse_position()
 
 

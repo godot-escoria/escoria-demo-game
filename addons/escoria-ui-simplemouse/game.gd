@@ -70,10 +70,6 @@ var _is_gamepad_connected = false
 # Tracks the mouse's current position onscreen.
 var _current_mouse_pos: Vector2 = Vector2.ZERO
 
-# Cursor resources
-var _cursor_target = load("res://addons/escoria-ui-simplemouse/cursors/new/target_a.png")
-var _cursor_wait = load("res://addons/escoria-ui-simplemouse/cursors/new/wait_b.png")
-
 
 func _ready():
 	hide_ui()
@@ -495,11 +491,11 @@ func _on_room_ready():
 
 func _on_input_mode_changed(new_mode):
 	if new_mode == ESCInputsManager.INPUT_NONE:
-		Input.set_custom_mouse_cursor(_cursor_wait, Input.CURSOR_ARROW)
+		$mouse_layer/verbs_menu.set_by_name("wait")
 		return
 	if (
 		escoria.action_manager.action_state
 		== ESCActionManager.ActionInputState.AWAITING_TARGET_ITEM
 	):
 		return
-	Input.set_custom_mouse_cursor(_cursor_target, Input.CURSOR_ARROW)
+	$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
