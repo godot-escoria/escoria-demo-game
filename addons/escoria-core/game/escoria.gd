@@ -187,7 +187,7 @@ func _input(event: InputEvent):
 ## [br]
 ## #### Returns[br]
 ## [br]
-## Returns Nothing. Waits for the event to finish before returning. (`Variant`)
+## Returns ESCExecution. Waits for the event to finish before returning. (`Variant`)
 func run_event_from_script(script: ESCScript, event_name: String, _from_statement_id: int = 0):
 	if script == null:
 		escoria.logger.error(
@@ -195,9 +195,10 @@ func run_event_from_script(script: ESCScript, event_name: String, _from_statemen
 			"Requested event %s on unloaded script %s." % [event_name, script] +
 			"Please load the ESC script using esc_compiler.load_esc_file()."
 		)
+		return ESCExecution.RC_WONT_QUEUE
 
 	if not _event_exists_in_script(script, event_name):
-		return
+		return ESCExecution.RC_WONT_QUEUE
 
 	escoria.event_manager.queue_event(script.get_event_with_target(event_name))
 	var rc = await escoria.event_manager.event_finished
@@ -209,7 +210,8 @@ func run_event_from_script(script: ESCScript, event_name: String, _from_statemen
 			self,
 			"Start event of the start script returned unsuccessful: %d." % rc[0]
 		)
-		return
+
+	return rc[0]
 
 
 ## Checks for the existence of both mandatory and optional events within a specified script.[br]
@@ -278,7 +280,10 @@ func new_game():
 			true,
 			true
 		)
-	run_event_from_script(escoria.start_script, escoria.event_manager.EVENT_NEW_GAME)
+
+	var rc = await run_event_from_script(escoria.start_script, escoria.event_manager.EVENT_NEW_GAME)
+	if rc == ESCExecution.RC_OK:
+		escoria.new_game_started.emit()
 
 
 func _reset_new_game_runtime_state() -> void:

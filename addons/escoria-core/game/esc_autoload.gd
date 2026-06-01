@@ -2,6 +2,14 @@ extends Node
 ## This is Escoria's singleton script.
 ## It holds accessors to some utils, such as Escoria's logger.
 
+## Signal sent when Escoria starts a new game[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+signal new_game_started
+
 ## Signal sent when Escoria is paused[br]
 ## [br]
 ## #### Parameters[br]
