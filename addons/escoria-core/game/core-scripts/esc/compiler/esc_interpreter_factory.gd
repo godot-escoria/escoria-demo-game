@@ -19,7 +19,7 @@ var _interpreter: ESCInterpreter = null
 ## #### Returns[br]
 ## [br]
 ## Returns a `ESCInterpreter` value. (`ESCInterpreter`)
-static func create_interpreter(channel_name: String = "") -> ESCInterpreter:
+func create_interpreter(channel_name: String = "") -> ESCInterpreter:
 	return create_utility_interpreter(channel_name)
 
 
@@ -35,7 +35,7 @@ static func create_interpreter(channel_name: String = "") -> ESCInterpreter:
 ## #### Returns[br]
 ## [br]
 ## Returns a cached-or-reseeded `ESCInterpreter` instance for utility usage. (`ESCInterpreter`)
-static func create_utility_interpreter(channel_name: String = "") -> ESCInterpreter:
+func create_utility_interpreter(channel_name: String = "") -> ESCInterpreter:
 	if not _interpreter:
 		_interpreter = ESC_INTERPRETER_SCRIPT.new(
 			ESCCompiler.load_commands(),
@@ -63,7 +63,7 @@ static func create_utility_interpreter(channel_name: String = "") -> ESCInterpre
 ## #### Returns[br]
 ## [br]
 ## Returns a newly-created `ESCInterpreter` instance for runtime usage. (`ESCInterpreter`)
-static func create_runtime_interpreter(channel_name: String = "") -> ESCInterpreter:
+func create_runtime_interpreter(channel_name: String = "") -> ESCInterpreter:
 	var runtime_globals := ESCCompiler.load_globals()
 
 	if not Engine.is_editor_hint() and escoria and escoria.globals_manager:
@@ -75,7 +75,6 @@ static func create_runtime_interpreter(channel_name: String = "") -> ESCInterpre
 		channel_name
 	)
 	return interpreter
-
 
 func reset_interpreter() -> void:
 	if is_instance_valid(_interpreter):
