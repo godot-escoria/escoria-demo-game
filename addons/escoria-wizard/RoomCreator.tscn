@@ -259,7 +259,7 @@ Please supply a name for the room."
 dialog_text = "The room has been created."
 
 [node name="RoomFolderDialog" type="FileDialog" parent="InformationWindows" unique_id=1336376019]
-mode = 2
+file_mode = 2
 
 [connection signal="text_changed" from="MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer/RoomName" to="." method="_on_RoomName_text_changed"]
 [connection signal="text_changed" from="MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer/GlobalID" to="." method="_on_GlobalID_text_changed"]
