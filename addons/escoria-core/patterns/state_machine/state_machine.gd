@@ -1,5 +1,5 @@
-extends Node
 class_name StateMachine
+extends Node
 ## Base interface for a generic state machine
 ## It handles initializing, setting the machine active or not
 ## delegating _physics_process, _input calls to the State nodes,
@@ -15,9 +15,9 @@ class_name StateMachine
 ## [br]
 signal state_changed(current_state)
 
-## Starting state. This node has to be set *before* the initialize(START_STATE)
+## Starting state. This node has to be set *before* the initialize(start_state)
 ## command is called.
-var START_STATE: Node
+var start_state: Node
 
 ## List of states
 var states_map = {}
@@ -48,13 +48,13 @@ var _active = false:
 ## [br]
 ## Returns nothing.
 func initialize(start_state: State):
-	if START_STATE == null:
+	if start_state == null:
 		escoria.logger.error(
 			self,
-			"Starting state is required to be initialized with a defined state,
-			but it is null. Escoria cannot determine which of the defined states
-			(in states_map dictionary) is supposed to be the starting one.
-			Please assign a state to START_STATE in your implementation of the StateMachine class.")
+			"Starting state is required to be initialized with a defined state," + \
+			"but it is null. Escoria cannot determine which of the defined states" + \
+			"(in states_map dictionary) is supposed to be the starting one." + \
+			"Please assign a state to start_state in your implementation of the StateMachine class.")
 	for child in get_children():
 		child.connect("finished", Callable(self, "_change_state"))
 
