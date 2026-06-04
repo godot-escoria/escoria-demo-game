@@ -1,6 +1,6 @@
 @tool
-extends Node
 class_name ESCAshesAnalyzer
+extends Node
 
 
 # TODO: Update this when we move from the .esc extension for Escoria scripts to .ash

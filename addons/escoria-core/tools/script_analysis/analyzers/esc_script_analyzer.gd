@@ -1,5 +1,5 @@
-extends RefCounted
 class_name ESCScriptAnalyzer
+extends RefCounted
 
 
 const CURRENT_PLAYER_KEYWORD = "CURRENT_PLAYER"
@@ -18,7 +18,7 @@ var _builtin_functions: Array = [
 
 
 # This must be implemented in child class.
-func analyze(statements: Array) -> void:
+func analyze(_statements: Array) -> void:
 	pass
 
 
@@ -75,8 +75,7 @@ func visit_call_expr(expr: ESCGrammarExprs.Call):
 	if not callee is ESCBaseCommand:
 		if not callee in _builtin_functions:
 			return 0
-		else:
-			return _handle_builtin_function(callee, args)
+		return _handle_builtin_function(callee, args)
 
 	return ESCExecution.RC_OK
 
@@ -115,7 +114,7 @@ func visit_while_stmt(stmt: ESCGrammarStmts.While):
 	return null
 
 
-func visit_pass_stmt(stmt: ESCGrammarStmts.Pass):
+func visit_pass_stmt(_stmt: ESCGrammarStmts.Pass):
 	pass
 
 
@@ -147,11 +146,11 @@ func visit_global_stmt(stmt: ESCGrammarStmts.Global):
 	return null
 
 
-func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
+func visit_dialog_stmt(_stmt: ESCGrammarStmts.Dialog):
 	return null
 
 
-func visit_dialog_option_stmt(stmt: ESCGrammarStmts.DialogOption):
+func visit_dialog_option_stmt(_stmt: ESCGrammarStmts.DialogOption):
 	pass
 
 
@@ -295,7 +294,7 @@ func _look_up_object(name: ESCToken):
 
 # We have no way of knowing what the value will actually be since this is called during static
 # analysis. As such, we'll just return null.
-func _look_up_object_by_global_id(global_id: String):
+func _look_up_object_by_global_id(_global_id: String):
 	return null
 
 
@@ -305,8 +304,7 @@ func look_up_variable(name: ESCToken, expr: ESCGrammarExpr):
 
 	if distance == -1:
 		return _globals.get_value(name)
-	else:
-		return _environment.get_at(distance, name.get_lexeme())
+	return _environment.get_at(distance, name.get_lexeme())
 
 
 func _evaluate(expr: ESCGrammarExpr):

@@ -21,14 +21,13 @@ class ESCLoggerBase:
 	## Log filename format
 	const LOG_FILE_FORMAT: String = "log_%s_%s.log"
 
-	# Configured log level
-	var _log_level: int
-
 	## If true, assert() functions will not be called, thus the program won't
 	## exit or error. Resets to false after an assert() call was ignored once.
 	## Useful for console calls.
 	var dont_assert: bool = false
 
+	# Configured log level
+	var _log_level: int
 
 	# Constructor
 	func _init():
