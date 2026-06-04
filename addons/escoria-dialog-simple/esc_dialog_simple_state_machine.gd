@@ -10,8 +10,8 @@ func _init():
 	# dialogs state machine. Since Escoria can't guess which state is the default one
 	# it has to be assigned here. If it happens to be null on initialize() call,
 	# an error is triggered.
-	START_STATE = states_map[current_state_name]
-	initialize(START_STATE)
+	start_state = states_map[current_state_name]
+	initialize(start_state)
 
 
 # Creates the states for this state machine.

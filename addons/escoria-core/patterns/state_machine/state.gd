@@ -1,5 +1,5 @@
-extends Node
 class_name State
+extends Node
 ## Base interface for all states.
 ##
 ## This class doesn't do anything in itself but forces us to pass the right
