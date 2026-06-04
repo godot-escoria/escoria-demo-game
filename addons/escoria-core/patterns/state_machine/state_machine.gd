@@ -55,6 +55,7 @@ func initialize(start_state: State):
 			"but it is null. Escoria cannot determine which of the defined states" + \
 			"(in states_map dictionary) is supposed to be the starting one." + \
 			"Please assign a state to start_state in your implementation of the StateMachine class.")
+		return
 	for child in get_children():
 		child.connect("finished", Callable(self, "_change_state"))
 
