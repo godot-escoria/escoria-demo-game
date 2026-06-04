@@ -1,17 +1,20 @@
 extends Control
 
-@onready var screen_width = get_tree().get_root().get_viewport().size.x
-@onready var screen_height = get_tree().get_root().get_viewport().size.y
-var global_distance_to_clamp = 40: get = get_global_dist_clamp, set = set_global_dist_clamp
-
 signal mouse_moved(position)
 signal text_selected(text)
 
-@export var path_to_richtextlabel: NodePath
-const ONE_LINE_HEIGHT = 16
-@export var max_width: int = 200
 const MIN_HEIGHT = 30
 const MAX_HEIGHT = 500
+const ONE_LINE_HEIGHT = 16
+
+@export var path_to_richtextlabel: NodePath
+@export var max_width: int = 200
+
+var global_distance_to_clamp = 40: get = get_global_dist_clamp, set = set_global_dist_clamp
+
+@onready var screen_width = get_tree().get_root().get_viewport().size.x
+@onready var screen_height = get_tree().get_root().get_viewport().size.y
+
 
 func _ready():
 	assert(!path_to_richtextlabel.is_empty())

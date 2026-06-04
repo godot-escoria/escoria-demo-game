@@ -8,11 +8,7 @@ extends Node2D
 # Clicking under his feet is angle 180.
 # etc.
 
-var number_of_directions: int
-var angle_horizontal_axes: float
-var angle_vertical_axes: float
-var angle_diagonal_axes: float
-const POLYGON_DISTANCE = 400
+
 
 enum Directions {
 	NORTH, 		# 0
@@ -25,7 +21,9 @@ enum Directions {
 	NORTHWEST 	# 7
 }
 
-const starting_angles = [
+const POLYGON_DISTANCE = 400
+
+const STARTING_ANGLES = [
 	0,			# 0 NORTH
 	PI/4,		# 1 NORTHEAST
 	PI/2,		# 2 EAST
@@ -35,6 +33,12 @@ const starting_angles = [
 	3*PI/2,		# 6 WEST
 	7*PI/4,		# 7 NORTHWEST
 ]
+
+var number_of_directions: int
+var angle_horizontal_axes: float
+var angle_vertical_axes: float
+var angle_diagonal_axes: float
+
 
 var colors = [
 	Color("red"),		# 0 NORTH
@@ -153,7 +157,7 @@ func calculate_areas(nb_directions: int = 8):
 		# Then minus angle_area/2 to align on direction
 		start_angle = PI/2 + angle_area / 2
 
-		var angle_start = starting_angles[i] - start_angle
+		var angle_start = STARTING_ANGLES[i] - start_angle
 		var angle_end = angle_start + angle_area
 		angles.push_back([angle_start, angle_end])
 
@@ -217,7 +221,7 @@ func _on_angle_diag_text_changed(new_text: String):
 	calculate_areas()
 
 
-func _on_area_click(viewport: Object, event: InputEvent, shape_idx: int, area_name: String):
+func _on_area_click(_viewport: Object, event: InputEvent, _shape_idx: int, _area_name: String):
 	if event is InputEventMouseButton and event.is_pressed():
 		pass
 
