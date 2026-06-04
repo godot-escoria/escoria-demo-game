@@ -32,6 +32,7 @@ func refresh_savegames():
 	var slots = $VBoxContainer/ScrollContainer/slots
 	for slot in slots.get_children():
 		slots.remove_child(slot)
+		slot.queue_free()
 
 	var saves_list = escoria.save_manager.get_saves_list()
 
