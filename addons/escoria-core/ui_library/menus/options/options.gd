@@ -24,24 +24,24 @@ var _loaded_languages: Array = []
 
 # Initialize the flags
 func _ready() -> void:
-	var _flags_container: HBoxContainer = \
+	var flags_container: HBoxContainer = \
 			$VBoxContainer/MarginContainer/options/flags
-	for child in _flags_container.get_children():
-		_flags_container.remove_child(child)
+	for child in flags_container.get_children():
+		flags_container.remove_child(child)
 		child.queue_free()
 
 	_loaded_languages = []
 
-	for lang in TranslationServer.get_loaded_locales():
-		if not lang in _loaded_languages:
-			_loaded_languages.append(lang)
-			var _lang = TextureRect.new()
-			_lang.texture = load(
+	for language in TranslationServer.get_loaded_locales():
+		if not language in _loaded_languages:
+			_loaded_languages.append(language)
+			var language_item = TextureRect.new()
+			language_item.texture = load(
 				"res://addons/escoria-core/ui_library" + \
-				"/menus/options/flags/%s.png" % lang
+				"/menus/options/flags/%s.png" % language
 			)
-			_flags_container.add_child(_lang)
-			_lang.connect("gui_input", Callable(self, "_on_language_input").bind(lang))
+			flags_container.add_child(language_item)
+			language_item.connect("gui_input", Callable(self, "_on_language_input").bind(language))
 
 
 # Show the options
@@ -56,13 +56,13 @@ func show():
 # #### Parameters
 # - p_settings: The settings to use
 func initialize_options(p_settings):
-	var _options = $VBoxContainer/MarginContainer/options
-	_options.get_node("general_volume").value = p_settings["master_volume"]
-	_options.get_node("sound_volume").value = p_settings["sfx_volume"]
-	_options.get_node("music_volume").value = p_settings["music_volume"]
-	_options.get_node("speech_volume").value = p_settings["speech_volume"]
-	_options.get_node("ambient_volume").value = p_settings["ambient_volume"]
-	_options.get_node("fullscreen").set_pressed_no_signal(p_settings["fullscreen"])
+	var options = $VBoxContainer/MarginContainer/options
+	options.get_node("general_volume").value = p_settings["master_volume"]
+	options.get_node("sound_volume").value = p_settings["sfx_volume"]
+	options.get_node("music_volume").value = p_settings["music_volume"]
+	options.get_node("speech_volume").value = p_settings["speech_volume"]
+	options.get_node("ambient_volume").value = p_settings["ambient_volume"]
+	options.get_node("fullscreen").set_pressed_no_signal(p_settings["fullscreen"])
 
 
 # The language was changed
