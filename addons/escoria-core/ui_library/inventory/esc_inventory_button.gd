@@ -1,7 +1,7 @@
 ## The inventory representation of an ESC item if pickable (only used by
 ## the inventory components)
-extends TextureButton
 class_name ESCInventoryButton
+extends TextureButton
 
 ## Signal emitted when the item was left clicked.[br]
 ## [br]

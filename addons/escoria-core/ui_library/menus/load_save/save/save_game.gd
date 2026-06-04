@@ -29,9 +29,9 @@ func _on_slot_pressed(p_slot_n: int):
 
 # Create the slots from the list of savegames
 func refresh_savegames():
-	var _slots = $VBoxContainer/ScrollContainer/slots
-	for slot in _slots.get_children():
-		_slots.remove_child(slot)
+	var slots = $VBoxContainer/ScrollContainer/slots
+	for slot in slots.get_children():
+		slots.remove_child(slot)
 
 	var saves_list = escoria.save_manager.get_saves_list()
 
@@ -44,8 +44,8 @@ func refresh_savegames():
 		datetime["minute"],
 	]
 	var new_slot = slot_ui_scene.instantiate()
-	_slots.add_child(new_slot)
-	_slots.move_child(new_slot, 0)
+	slots.add_child(new_slot)
+	slots.move_child(new_slot, 0)
 	new_slot.set_slot_name_date(tr("New save"), datetime_string)
 	new_slot.connect("pressed", Callable(self, "_on_slot_pressed").bind(saves_list.size()+1))
 
@@ -56,7 +56,7 @@ func refresh_savegames():
 
 	for save in saves_array:
 		new_slot = slot_ui_scene.instantiate()
-		_slots.add_child(new_slot)
+		slots.add_child(new_slot)
 
 		datetime_string = "%02d/%02d/%02d %02d:%02d" % [
 			save.date["day"],

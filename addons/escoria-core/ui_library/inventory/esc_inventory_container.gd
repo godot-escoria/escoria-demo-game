@@ -1,7 +1,7 @@
 
 ## Inventory container handler that acts as a base for UIs inventory containers.
-extends Control
 class_name ESCInventoryContainer
+extends Control
 
 ## Whether any item in the container is currently focused.[br]
 var item_focused: bool = false
@@ -85,7 +85,7 @@ func get_inventory_button(inventory_item: ESCInventoryItem) -> ESCInventoryButto
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func _on_inventory_item_focused(item_id):
+func _on_inventory_item_focused(_item_id):
 	item_focused = true
 
 
