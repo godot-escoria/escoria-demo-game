@@ -1,5 +1,5 @@
-extends ESCScriptAnalyzer
 class_name ESCExitSceneScriptAnalyzer
+extends ESCScriptAnalyzer
 
 
 const EXIT_SCENE_EVENT_NAME = "exit_scene"
@@ -18,9 +18,9 @@ const BULLET_CHARACTER = "- "
 
 
 # These are vars because they have to be, but should be treated as consts
-var TRANSITION_COMMAND_NAME = TransitionCommand.new().get_command_name()
-var CHANGE_SCENE_COMMAND_NAME = ChangeSceneCommand.new().get_command_name()
-var ACCEPT_INPUT_COMMAND_NAME = AcceptInputCommand.new().get_command_name()
+var transition_command_name = TransitionCommand.new().get_command_name()
+var change_scene_command_name = ChangeSceneCommand.new().get_command_name()
+var accept_input_command_name = AcceptInputCommand.new().get_command_name()
 
 var _has_change_scene_command: bool = false
 
@@ -96,7 +96,7 @@ func visit_call_expr(expr: ESCGrammarExprs.Call):
 
 	_has_commands_after_change_scene_command = _has_change_scene_command_in_scope()
 
-	if command_name == CHANGE_SCENE_COMMAND_NAME:
+	if command_name == change_scene_command_name:
 		_has_change_scene_command = true
 
 		_change_scene_token = expr.get_paren_token()
@@ -109,9 +109,9 @@ func visit_call_expr(expr: ESCGrammarExprs.Call):
 
 			if is_auto_transition != null and not is_auto_transition:
 				_check_for_missing_accept_input_disable()
-	elif command_name == TRANSITION_COMMAND_NAME:
+	elif command_name == transition_command_name:
 		_check_for_missing_accept_input_disable()
-	elif command_name == ACCEPT_INPUT_COMMAND_NAME:
+	elif command_name == accept_input_command_name:
 		var first_arg = args[0] as String
 
 		if first_arg != null and first_arg.to_lower() in ACCEPT_INPUT_DISABLE_ARGS:

@@ -1,5 +1,5 @@
-extends RefCounted
 class_name ESCStaticAnalyzers
+extends RefCounted
 
 
 var _analyzers = [
