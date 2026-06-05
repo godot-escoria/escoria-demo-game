@@ -105,12 +105,18 @@ func _init(tween_parent: Node):
 func _create_tween():
 	var tree = _tween_parent.get_tree()
 	if tree == null:
-		push_error("Tween3: Parent node is not in the scene tree. Cannot create tween.")
+		escoria.logger.error(
+			self,
+			"Tween3: Parent node is not in the scene tree. Cannot create tween."
+		)
 		return
 
 	_tween = tree.create_tween()
 	if _tween == null:
-		push_error("Tween3: Failed to create tween.")
+		escoria.logger.error(
+			self,
+			"Tween3: Failed to create tween."
+		)
 		return
 
 	_tween.pause()  # prevent autoplay
