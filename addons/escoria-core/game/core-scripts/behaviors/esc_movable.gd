@@ -1,7 +1,7 @@
 ## Node that performs the moving (walk, teleport, terrain scaling...) actions on
 ## its parent node.
-extends Node
 class_name ESCMovable
+extends Node
 
 
 ## Tasks carried out by this walkable node[br]
@@ -623,5 +623,4 @@ func get_shortest_way_to_dir(current_dir: int, target_dir: int) -> int:
 	if internal and current_dir < target_dir or \
 			(not internal and current_dir > target_dir):
 		return 1
-	else:
-		return -1
+	return -1

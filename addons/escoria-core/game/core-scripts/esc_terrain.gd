@@ -1,12 +1,8 @@
 @tool
 @icon("res://addons/escoria-core/design/esc_terrain.svg")
 ## A walkable Terrain for Escoria rooms.
-extends Node2D
 class_name ESCTerrain
-
-
-## Logger class reference
-const EscLogger = preload("res://addons/escoria-core/tools/logging/esc_logger.gd")
+extends Node2D
 
 
 ## Visualize scales or lightmap for debugging purposes if the editor
@@ -16,6 +12,9 @@ enum DebugMode {
 	LIGHTMAP,
 }
 
+
+## Logger class reference
+const EscLogger = preload("res://addons/escoria-core/tools/logging/esc_logger.gd")
 
 
 @export_group("Scales")
@@ -169,9 +168,8 @@ func _check_multiple_enabled_navpolys(node: Node = null, is_exiting: bool = fals
 						"at the same time."
 					)
 				return
-			else:
-				navigation_enabled_found = true
-				current_active_navigation_instance = n
+			navigation_enabled_found = true
+			current_active_navigation_instance = n
 
 
 ## Return the Color of the lightmap pixel for the specified position.[br]

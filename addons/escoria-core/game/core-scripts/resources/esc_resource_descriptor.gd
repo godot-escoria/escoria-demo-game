@@ -1,6 +1,6 @@
 ## Describes a resource for use in the resource cache.
-extends Resource
 class_name ESCResourceDescriptor
+extends Resource
 
 ## The resource being described.
 var res

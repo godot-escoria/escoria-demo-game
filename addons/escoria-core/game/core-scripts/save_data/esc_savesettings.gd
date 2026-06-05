@@ -1,8 +1,8 @@
 ## Resource holding game settings. Note that we call directly to ProjectSettings
 ## for instance variable initialization since this class is instantiated from
 ## escoria.gd.
-extends Resource
 class_name ESCSaveSettings
+extends Resource
 
 ## Version of ESCORIA Framework.
 @export var escoria_version: String

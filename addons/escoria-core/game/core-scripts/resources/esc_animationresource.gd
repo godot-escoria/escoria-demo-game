@@ -1,8 +1,8 @@
 @tool
 ## Resource containing all defined animations and angles for character
 ## movement.[br]
-extends Resource
 class_name ESCAnimationResource
+extends Resource
 
 ## Array containing the different angles available for animations.[br]
 ## Each angle is defined by an array [start_angle, angle_size].

@@ -1,6 +1,6 @@
 ## Manages the inventory on the GUI connected to the inventory_ui_container variable.
-extends Control
 class_name ESCInventory
+extends Control
 
 ## The actual container node to add items as children of. Should be a Container.
 @export var inventory_ui_container: NodePath
@@ -167,7 +167,7 @@ func remove_item_by_id(item_id: String) -> void:
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func _on_escoria_global_changed(global: String, old_value, new_value) -> void:
+func _on_escoria_global_changed(global: String, _old_value, new_value) -> void:
 	if !global.begins_with("i/"):
 		return
 	var item = global.rsplit("i/", false)

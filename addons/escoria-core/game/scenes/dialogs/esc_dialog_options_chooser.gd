@@ -1,6 +1,6 @@
 ## Base class for all dialog options implementations
-extends Control
 class_name ESCDialogOptionsChooser
+extends Control
 
 ## Emitted when an option is chosen.[br]
 ## [br]

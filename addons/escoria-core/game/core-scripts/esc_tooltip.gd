@@ -1,7 +1,7 @@
 @tool
 ## Dynamically controlled tooltip
-extends RichTextLabel
 class_name ESCTooltip
+extends RichTextLabel
 
 
 ## Maximum width of the label
@@ -162,7 +162,6 @@ func update_tooltip_text():
 	"""
 	Overriden method. Should not be called directly.
 	"""
-	pass
 
 
 ## Update the tooltip size according to the text.[br]

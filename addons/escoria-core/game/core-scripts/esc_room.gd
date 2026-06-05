@@ -1,8 +1,8 @@
 @tool
 @icon("res://addons/escoria-core/design/esc_room.svg")
 ## A room in an Escoria based game.
-extends Node2D
 class_name ESCRoom
+extends Node2D
 
 
 ## Debugging displays for a room.

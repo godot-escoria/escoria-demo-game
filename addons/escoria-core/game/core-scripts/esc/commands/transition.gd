@@ -12,8 +12,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name TransitionCommand
+extends ESCBaseCommand
 
 
 ## The descriptor of the arguments of this command.[br]
@@ -78,8 +78,8 @@ func validate(arguments: Array):
 func run(command_params: Array) -> int:
 	var transition_id = escoria.main.scene_transition.transition(
 		command_params[0],
-		ESCTransitionPlayer.TRANSITION_MODE.OUT if command_params[1] == "out" \
-				else ESCTransitionPlayer.TRANSITION_MODE.IN,
+		ESCTransitionPlayer.TransitionMode.OUT if command_params[1] == "out" \
+				else ESCTransitionPlayer.TransitionMode.IN,
 		command_params[2]
 	)
 

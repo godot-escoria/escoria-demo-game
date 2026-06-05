@@ -1,6 +1,6 @@
 ## A transition player for scene changes
-extends ColorRect
 class_name ESCTransitionPlayer
+extends ColorRect
 
 ## Emitted when the transition was played[br]
 ## [br]
@@ -13,7 +13,7 @@ class_name ESCTransitionPlayer
 signal transition_done(transition_id)
 
 ## The valid transition modes
-enum TRANSITION_MODE {
+enum TransitionMode {
 	IN,
 	OUT
 }
@@ -68,7 +68,7 @@ func _ready() -> void:
 ## Returns the transition id. (`int`)
 func transition(
 	transition_name: String = "",
-	mode: int = TRANSITION_MODE.IN,
+	mode: int = TransitionMode.IN,
 	duration: float = 1.0
 ) -> int:
 
@@ -105,7 +105,7 @@ func transition(
 	var start = 0.0
 	var end = 1.0
 
-	if mode == TRANSITION_MODE.OUT:
+	if mode == TransitionMode.OUT:
 		start = 1.0
 		end = 0.0
 

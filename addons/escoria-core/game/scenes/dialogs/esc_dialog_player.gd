@@ -1,6 +1,6 @@
 ## Escoria dialog player
-extends Control
 class_name ESCDialogPlayer
+extends Control
 
 ## Emitted when an answer is chosen.[br]
 ## [br]
@@ -158,9 +158,9 @@ func _determine_say_dialog_manager(type: String) -> void:
 		ESCProjectSettingsManager.DIALOG_MANAGERS
 	):
 		if ResourceLoader.exists(_manager_class):
-			var _manager: ESCDialogManager = load(_manager_class).new()
-			if _manager.has_type(type):
-				dialog_manager = _manager
+			var manager: ESCDialogManager = load(_manager_class).new()
+			if manager.has_type(type):
+				dialog_manager = manager
 			else:
 				dialog_manager = null
 
@@ -191,9 +191,9 @@ func _determine_choose_dialog_manager(type: String) -> void:
 		ESCProjectSettingsManager.DIALOG_MANAGERS
 	):
 		if ResourceLoader.exists(_manager_class):
-			var _manager: ESCDialogManager = load(_manager_class).new()
-			if _manager.has_chooser_type(type):
-				dialog_manager = _manager
+			var manager: ESCDialogManager = load(_manager_class).new()
+			if manager.has_chooser_type(type):
+				dialog_manager = manager
 			else:
 				dialog_manager = null
 
@@ -248,7 +248,8 @@ func _determine_dialog_manager(dialog_type: String, dialog_manager_type: String)
 	if dialog_type == DIALOG_TYPE_SAY:
 		_determine_say_dialog_manager(dialog_manager_type)
 		return _say_dialog_manager
-	elif dialog_type == DIALOG_TYPE_CHOOSE:
+
+	if dialog_type == DIALOG_TYPE_CHOOSE:
 		_determine_choose_dialog_manager(dialog_manager_type)
 		return _choose_dialog_manager
 

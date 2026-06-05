@@ -1,7 +1,7 @@
 ## An abstraction class to expose the same animation methods for both
 ## AnimatedSprite and AnimationPlayer.
-extends Node
 class_name ESCAnimationPlayer
+extends Node
 
 
 ## Signal emitted when the animation finished playing.[br]
@@ -80,8 +80,7 @@ func _ready() -> void:
 func get_animation() -> String:
 	if _is_animation_player:
 		return _animation_player.assigned_animation
-	else:
-		return _animated_sprite.animation
+	return _animated_sprite.animation
 
 
 ## A list of all animation names.[br]
@@ -96,8 +95,7 @@ func get_animation() -> String:
 func get_animations() -> PackedStringArray:
 	if _is_animation_player:
 		return _animation_player.get_animation_list()
-	else:
-		return _animated_sprite.sprite_frames.get_animation_names()
+	return _animated_sprite.sprite_frames.get_animation_names()
 
 
 ## Whether the animation is playing.[br]
@@ -187,8 +185,7 @@ func play_backwards(name: String):
 func has_animation(name: String) -> bool:
 	if _is_animation_player:
 		return _animation_player.has_animation(name)
-	else:
-		return _animated_sprite.sprite_frames.has_animation(name)
+	return _animated_sprite.sprite_frames.has_animation(name)
 
 
 ## Play an animation and directly skip to the end.[br]
@@ -225,9 +222,9 @@ func seek_end(name: String):
 func get_length(name: String) -> float:
 	if _is_animation_player:
 		return _animation_player.get_animation(name).length
-	else:
-		return _animated_sprite.sprite_frames.get_frame_count(name) - 1 * \
-				_animated_sprite.sprite_frames.get_animation_speed(name)
+
+	return _animated_sprite.sprite_frames.get_frame_count(name) - 1 * \
+		_animated_sprite.sprite_frames.get_animation_speed(name)
 
 
 ## Return true if the ESCAnimationPlayer node is valid, ie. it has a valid player node.[br]
@@ -257,7 +254,7 @@ func is_valid() -> bool:
 func _on_animation_finished(name: String):
 	if _is_animation_player and not _animation_player.get_animation(name).loop_mode != Animation.LOOP_NONE:
 		_animation_player.stop(true) # param here is to keep current state and
-									 # avoid resetting animation position to 0
+									# avoid resetting animation position to 0
 	elif not _animated_sprite.sprite_frames.get_animation_loop(name):
 		_animated_sprite.stop()
 	animation_finished.emit(name)

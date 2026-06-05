@@ -1,6 +1,6 @@
 ## Speech player
-extends Control
 class_name ESCSpeechPlayer
+extends Control
 
 ## Global id of the speech player.
 @export var global_id: String = "_speech"
@@ -21,7 +21,7 @@ class_name ESCSpeechPlayer
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func set_state(p_state: String, from_seconds: float = 0.0, p_force: bool = false) -> void:
+func set_state(p_state: String, from_seconds: float = 0.0, _p_force: bool = false) -> void:
 	# If speech is disabled, return
 	if not ESCProjectSettingsManager.get_setting(
 		ESCProjectSettingsManager.SPEECH_ENABLED

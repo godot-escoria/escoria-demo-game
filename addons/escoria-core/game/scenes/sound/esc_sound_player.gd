@@ -1,6 +1,6 @@
 ## Background sound player
-extends Control
 class_name ESCSoundPlayer
+extends Control
 
 ## Global id of the sfx sound player.
 @export var global_id: String = "_sound"

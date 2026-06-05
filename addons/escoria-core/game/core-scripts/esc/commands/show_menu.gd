@@ -10,8 +10,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name ShowMenuCommand
+extends ESCBaseCommand
 
 
 ## The descriptor of the arguments of this command.[br]
@@ -73,7 +73,7 @@ func run(command_params: Array) -> int:
 	# Transition out from current scene
 	var transition_id = escoria.main.scene_transition.transition(
 		"",
-		ESCTransitionPlayer.TRANSITION_MODE.OUT
+		ESCTransitionPlayer.TransitionMode.OUT
 	)
 
 	if transition_id != ESCTransitionPlayer.TRANSITION_ID_INSTANT:

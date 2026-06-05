@@ -5,8 +5,8 @@
 ## automatically use an `ESCLocation` that is a child of the destination node.
 ## Commands like `turn_to`--which are not movement-based--will ignore child
 ## `ESCLocation`s and refer to the parent node.
-extends Marker2D
 class_name ESCLocation
+extends Marker2D
 
 
 ## Escoria Plugin signal emitted to the `ESCRoom` when a start location is set in the `ESCLocation` node in order to check whether multiple start locations are set.[br]

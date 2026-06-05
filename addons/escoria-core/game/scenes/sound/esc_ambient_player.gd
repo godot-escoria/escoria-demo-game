@@ -1,6 +1,6 @@
 ## Background ambient sound player
-extends Control
 class_name ESCAmbientPlayer
+extends Control
 
 ## Global id of the background ambient sound player.
 @export var global_id: String = "_ambient"

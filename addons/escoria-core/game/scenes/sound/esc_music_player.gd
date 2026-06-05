@@ -1,6 +1,6 @@
 ## Background music player
-extends Control
 class_name ESCMusicPlayer
+extends Control
 
 ## Global id of the background music player.
 @export var global_id: String = "_music"

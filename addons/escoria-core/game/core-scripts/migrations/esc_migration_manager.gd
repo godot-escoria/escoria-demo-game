@@ -1,7 +1,7 @@
 ## Class that handles migrations between different game or escoria versions
 ## @MANAGER
-extends RefCounted
 class_name ESCMigrationManager
+extends RefCounted
 
 
 ## Regular expression that matches a simple semver version string
@@ -160,18 +160,22 @@ func _version_between(version: String, from: String, to: String) -> bool:
 	if from_info.get_string("major") < version_info.get_string("major") and \
 			version_info.get_string("major") < to_info.get_string("major"):
 		return true
-	elif from_info.get_string("major") == version_info.get_string("major") and \
+
+	if from_info.get_string("major") == version_info.get_string("major") and \
 			from_info.get_string("minor") < version_info.get_string("minor"):
 		return true
-	elif from_info.get_string("major") == version_info.get_string("major") and \
+
+	if from_info.get_string("major") == version_info.get_string("major") and \
 			from_info.get_string("minor") == \
 				version_info.get_string("minor") and \
 			from_info.get_string("patch") < version_info.get_string("patch"):
 		return true
-	elif to_info.get_string("major") == version_info.get_string("major") and \
+
+	if to_info.get_string("major") == version_info.get_string("major") and \
 			to_info.get_string("minor") > version_info.get_string("minor"):
 		return true
-	elif to_info.get_string("major") == version_info.get_string("major") and \
+
+	if to_info.get_string("major") == version_info.get_string("major") and \
 			to_info.get_string("minor") == version_info.get_string("minor") and\
 			to_info.get_string("patch") > version_info.get_string("patch"):
 		return true
@@ -197,10 +201,12 @@ func _compare_version(version_a: String, version_b: String) -> bool:
 
 	if a_info.get_string("major") < b_info.get_string("major"):
 		return true
-	elif a_info.get_string("major") == b_info.get_string("major") and \
+
+	if a_info.get_string("major") == b_info.get_string("major") and \
 			a_info.get_string("minor") < b_info.get_string("minor"):
 		return true
-	elif a_info.get_string("major") == b_info.get_string("major") and \
+
+	if a_info.get_string("major") == b_info.get_string("major") and \
 			a_info.get_string("minor") == b_info.get_string("minor") and \
 			a_info.get_string("patch") < b_info.get_string("patch"):
 		return true
