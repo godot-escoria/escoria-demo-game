@@ -1,6 +1,6 @@
 ## A set of common utilities.
-extends RefCounted
 class_name ESCUtils
+extends RefCounted
 
 ## Convert radians to degrees.[br]
 ## [br]
@@ -36,8 +36,7 @@ static func get_deg_from_rad(rad_angle: float):
 static func get_re_group(re_match: RegExMatch, group: String) -> String:
 	if group in re_match.names:
 		return re_match.strings[re_match.names[group]]
-	else:
-		return ""
+	return ""
 
 ## Return a string value in the correct inferred type.[br]
 ## [br]
@@ -61,16 +60,19 @@ static func get_typed_value(value: String, type_hint = []):
 
 	if regex_float.search(value):
 		return float(value)
-	elif regex_int.search(value):
+
+	if regex_int.search(value):
 		return int(value)
-	elif regex_bool.search(value.to_lower()):
+
+	if regex_bool.search(value.to_lower()):
 		return true if value.to_lower() == "true" else false
-	elif (typeof(type_hint) != TYPE_ARRAY and type_hint == TYPE_ARRAY) or \
+
+	if (typeof(type_hint) != TYPE_ARRAY and type_hint == TYPE_ARRAY) or \
 			(typeof(type_hint) == TYPE_ARRAY and TYPE_ARRAY in type_hint) \
 			and "," in value:
 		return value.split(",")
-	else:
-		return str(value)
+
+	return str(value)
 
 ## Sanitize use of whitespaces in a string. Removes double whitespaces and converts tabs into space.[br]
 ## [br]

@@ -5,8 +5,8 @@
 ## automatically use an `ESCLocation` that is a child of the destination node.
 ## Commands like `turn_to`--which are not movement-based--will ignore child
 ## `ESCLocation`s and refer to the parent node.
-extends ESCLocation
 class_name ESCDialogLocation
+extends ESCLocation
 
 
 ## Whether this object's class is the same as given string class name.[br]

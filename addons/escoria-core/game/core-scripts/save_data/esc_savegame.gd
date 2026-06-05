@@ -1,6 +1,6 @@
 ## Resource used for holding savegames data.
-extends Resource
 class_name ESCSaveGame
+extends Resource
 
 ## Access key for the main data last_scene_global_id.
 const MAIN_LAST_SCENE_GLOBAL_ID_KEY = "last_scene_global_id"

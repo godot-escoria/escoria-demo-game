@@ -1,7 +1,7 @@
 @tool
 ## Class defining an animation to use for an angle.
-extends Resource
 class_name ESCAnimationName
+extends Resource
 
 ## Name of the animation
 @export var animation: String

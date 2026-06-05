@@ -1,6 +1,6 @@
 ## Camera handling for Escoria scenes.
-extends Camera2D
 class_name ESCCamera
+extends Camera2D
 
 ## Reference to the tween node for animating camera movements.
 var _tween: Tween3:

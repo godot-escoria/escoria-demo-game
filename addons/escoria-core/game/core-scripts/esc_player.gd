@@ -1,8 +1,8 @@
 @tool
 @icon("res://addons/escoria-core/design/esc_player.svg")
 ## An Escoria playable character.
-extends ESCItem
 class_name ESCPlayer
+extends ESCItem
 
 
 ## Whether the player can be hovered over and actions performed on like an item.

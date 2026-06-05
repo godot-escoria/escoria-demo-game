@@ -1,7 +1,7 @@
 ## A base class for dialog plugins to work with Escoria
 ## @MANAGER
-extends Control
 class_name ESCDialogManager
+extends Control
 
 ## Emitted when the say function has completed showing the text[br]
 ## [br]
@@ -40,7 +40,7 @@ signal option_chosen(option)
 ## #### Returns[br]
 ## [br]
 ## Returns whether the type is supported or not. (`bool`)
-func has_type(type: String) -> bool:
+func has_type(_type: String) -> bool:
 	return false
 
 ## Checks whether a specific chooser type is supported by the dialog plugin.[br]
@@ -54,7 +54,7 @@ func has_type(type: String) -> bool:
 ## #### Returns[br]
 ## [br]
 ## Returns whether the type is supported or not. (`bool`)
-func has_chooser_type(type: String) -> bool:
+func has_chooser_type(_type: String) -> bool:
 	return false
 
 ## Outputs a text said by the item specified by the global id and emits `say_finished` after finishing displaying the text.[br]
@@ -72,7 +72,7 @@ func has_chooser_type(type: String) -> bool:
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func say(dialog_player: Node, global_id: String, text: String, type: String, key: String):
+func say(_dialog_player: Node, _global_id: String, _text: String, _type: String, _key: String):
 	pass
 
 ## Instructs the dialog manager to preserve the next dialog box used by a `say` command until a call to `disable_preserve_dialog_box` is made. This method should be idempotent, i.e. if called after the first time and prior to `disable_preserve_dialog_box` being called, the result should be the same.[br]
@@ -112,7 +112,7 @@ func disable_preserve_dialog_box() -> void:
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func choose(dialog_player: Node, dialog: ESCDialog, type: String):
+func choose(_dialog_player: Node, _dialog: ESCDialog, _type: String):
 	pass
 
 ## Triggers running the dialogue faster.[br]

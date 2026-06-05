@@ -1,8 +1,8 @@
 ## Base class for ESC game scenes
 ## An extending class can be used in the project settings and is responsible
 ## for managing very basic game features and controls
-extends Node2D
 class_name ESCGame
+extends Node2D
 
 
 ## Signal emitted when the user has confirmed the crash popup[br]
@@ -25,7 +25,7 @@ signal request_pause_menu
 ## Editor debug modes[br]
 ## NONE - No debugging[br]
 ## MOUSE_TOOLTIP_LIMITS - Visualize the tooltip limits
-enum EDITOR_GAME_DEBUG_DISPLAY {
+enum EditorGameDebugDisplay {
 	NONE, # No debugging
 	MOUSE_TOOLTIP_LIMITS # Visualize the tooltip limits
 }
@@ -41,7 +41,7 @@ enum EDITOR_GAME_DEBUG_DISPLAY {
 @export var mouse_tooltip_margin: float = 50.0
 
 ## Debug mode for the editor (None, Mouse Tooltips Limit)
-@export var editor_debug_mode: EDITOR_GAME_DEBUG_DISPLAY = EDITOR_GAME_DEBUG_DISPLAY.NONE:
+@export var editor_debug_mode: EditorGameDebugDisplay = EditorGameDebugDisplay.NONE:
 	set = _set_editor_debug_mode
 
 ## The Control node underneath which all UI must be placed.
@@ -143,10 +143,10 @@ func _ready():
 func _draw():
 	if not Engine.is_editor_hint():
 		return
-	if editor_debug_mode == EDITOR_GAME_DEBUG_DISPLAY.NONE:
+	if editor_debug_mode == EditorGameDebugDisplay.NONE:
 		return
 
-	if editor_debug_mode == EDITOR_GAME_DEBUG_DISPLAY.MOUSE_TOOLTIP_LIMITS:
+	if editor_debug_mode == EditorGameDebugDisplay.MOUSE_TOOLTIP_LIMITS:
 		var mouse_limits: Rect2 = get_viewport_rect().grow(
 			-mouse_tooltip_margin
 		)
@@ -319,7 +319,7 @@ func left_double_click_on_bg(position: Vector2) -> void:
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func element_focused(element_id: String) -> void:
+func element_focused(_element_id: String) -> void:
 	pass
 
 
@@ -412,8 +412,8 @@ func left_double_click_on_item(
 ## [br]
 ## Returns nothing.
 func left_click_on_inventory_item(
-	inventory_item_global_id: String,
-	event: InputEvent
+	_inventory_item_global_id: String,
+	_event: InputEvent
 ) -> void:
 	pass
 
@@ -431,8 +431,8 @@ func left_click_on_inventory_item(
 ## [br]
 ## Returns nothing.
 func right_click_on_inventory_item(
-	inventory_item_global_id: String,
-	event: InputEvent
+	_inventory_item_global_id: String,
+	_event: InputEvent
 ) -> void:
 	pass
 
@@ -450,8 +450,8 @@ func right_click_on_inventory_item(
 ## [br]
 ## Returns nothing.
 func left_double_click_on_inventory_item(
-	inventory_item_global_id: String,
-	event: InputEvent
+	_inventory_item_global_id: String,
+	_event: InputEvent
 ) -> void:
 	pass
 
@@ -467,7 +467,7 @@ func left_double_click_on_inventory_item(
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func inventory_item_focused(inventory_item_global_id: String) -> void:
+func inventory_item_focused(_inventory_item_global_id: String) -> void:
 	pass
 
 
@@ -521,7 +521,7 @@ func close_inventory():
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func mousewheel_action(direction: int):
+func mousewheel_action(_direction: int):
 	pass
 
 
@@ -557,7 +557,7 @@ func show_ui():
 ## [br]
 ## | Name | Type | Description | Required? |[br]
 ## |:-----|:-----|:------------|:----------|[br]
-## |p_editor_debug_mode|`int`|EDITOR_GAME_DEBUG_DISPLAY enum (int) value corresponding to the desired editor debug mode|yes|[br]
+## |p_editor_debug_mode|`int`|EditorGameDebugDisplay enum (int) value corresponding to the desired editor debug mode|yes|[br]
 ## [br]
 ## #### Returns[br]
 ## [br]
@@ -659,7 +659,7 @@ func hide_main_menu():
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func apply_custom_settings(custom_settings: Dictionary):
+func apply_custom_settings(_custom_settings: Dictionary):
 	pass
 
 

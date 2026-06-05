@@ -1,7 +1,27 @@
 ## In Godot 4, tweens cannot be resumed. But if you re-create them,[br]
 ## the bindings are lost. So this class wraps a tween and offers a reset function.
-extends RefCounted
 class_name Tween3
+extends RefCounted
+
+
+## Emitted when the tween finishes.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+signal finished()
+
+
+## The parent node for the tween.
+var _tween_parent: Node
+
+## The Tween instance being managed.
+var _tween: Tween
+
+## The duration of the tween.
+var _duration: float
+
 
 ## Interpolates a property on an object using a tween.[br]
 ## [br]
@@ -43,23 +63,6 @@ static func tween_interpolate_property(
 
 	return true
 
-
-## The parent node for the tween.
-var _tween_parent: Node
-
-## The Tween instance being managed.
-var _tween: Tween
-
-## The duration of the tween.
-var _duration: float
-
-## Emitted when the tween finishes.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## None.
-## [br]
-signal finished()
 
 ## Called when the tween finishes.[br]
 ## [br]

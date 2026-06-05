@@ -1,6 +1,6 @@
 ## Describes a bounding box that limits the camera movement in the scene.
-extends RefCounted
 class_name ESCCameraLimits
+extends RefCounted
 
 ## The left side of the bounding box.
 var limit_left: int = -10000

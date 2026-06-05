@@ -1,6 +1,6 @@
 ## A cache for resources
-extends Node
 class_name ESCResourceCache
+extends Node
 
 
 signal resource_loading_progress(path, progress)
@@ -23,7 +23,7 @@ func queue_resource(path: String, p_in_front: bool = false, p_permanent: bool = 
 	if path in pending:
 		return
 
-	elif ResourceLoader.has_cached(path):
+	if ResourceLoader.has_cached(path):
 		var res = ResourceLoader.load(path)
 		pending[path] = ESCResourceDescriptor.new(res, p_permanent)
 	else:
@@ -102,20 +102,19 @@ func get_resource(path):
 
 			return res
 
-		else:
-			var res = pending[path].res
-			if !pending[path].permanent:
-				pending.erase(path)
+		var res = pending[path].res
+		if !pending[path].permanent:
+			pending.erase(path)
 
-			return res
-	else:
-		# We can't use ESCProjectSettingsManager here since this method
-		# can be called from escoria._init()
-		if not ProjectSettings.get_setting("escoria/platform/skip_cache"):
-			var res = ResourceLoader.load(path)
-			pending[path] = ESCResourceDescriptor.new(res, true)
-			return res
-		return ResourceLoader.load(path)
+		return res
+
+	# We can't use ESCProjectSettingsManager here since this method
+	# can be called from escoria._init()
+	if not ProjectSettings.get_setting("escoria/platform/skip_cache"):
+		var res = ResourceLoader.load(path)
+		pending[path] = ESCResourceDescriptor.new(res, true)
+		return res
+	return ResourceLoader.load(path)
 
 
 func print_progress(p_path, p_progress):

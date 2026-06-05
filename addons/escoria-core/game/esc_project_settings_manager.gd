@@ -1,7 +1,7 @@
 ## Registers and allows access to Escoria-specific project settings.
 ## @MANAGER
-extends Resource
 class_name ESCProjectSettingsManager
+extends Resource
 
 ## Root for Escoria-specific project settings.
 const _ESCORIA_SETTINGS_ROOT = "escoria"
