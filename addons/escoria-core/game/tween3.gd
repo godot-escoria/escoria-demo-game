@@ -103,7 +103,16 @@ func _init(tween_parent: Node):
 ## [br]
 ## Returns nothing.
 func _create_tween():
-	_tween = _tween_parent.get_tree().create_tween()
+	var tree = _tween_parent.get_tree()
+	if tree == null:
+		push_error("Tween3: Parent node is not in the scene tree. Cannot create tween.")
+		return
+
+	_tween = tree.create_tween()
+	if _tween == null:
+		push_error("Tween3: Failed to create tween.")
+		return
+
 	_tween.pause()  # prevent autoplay
 
 	_tween.finished.connect(_on_finished)
