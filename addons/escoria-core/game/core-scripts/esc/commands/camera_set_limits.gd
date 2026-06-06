@@ -15,8 +15,8 @@
 ##
 ## @ASHES
 ## @COMMAND
-extends ESCCameraBaseCommand
 class_name CameraSetLimitsCommand
+extends ESCCameraBaseCommand
 
 
 ## The descriptor of the arguments of this command.[br]

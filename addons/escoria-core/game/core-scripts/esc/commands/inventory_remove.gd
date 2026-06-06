@@ -10,8 +10,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name InventoryRemoveCommand
+extends ESCBaseCommand
 
 ## List of illegal strings that cannot be used in item names.
 const ILLEGAL_STRINGS = ["/"]

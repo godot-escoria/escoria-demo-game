@@ -2,8 +2,8 @@
 ##
 ## Scoping is implemented using this class, including traditional scoping rules.
 ## Scope binding and resolution are handled in this class.
-extends Object
 class_name ESCEnvironment
+extends Object
 
 
 var _enclosing: # ESCEnvironment

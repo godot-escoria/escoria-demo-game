@@ -12,8 +12,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name WalkCommand
+extends ESCBaseCommand
 
 
 ## Walking object

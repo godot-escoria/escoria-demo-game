@@ -12,18 +12,8 @@
 ##    run once the room is visible.[br]
 ## - `:use <global id>` : Called from the current item when it is used with the item
 ##   with specified by `<global id>`.
-extends ESCStatement
 class_name ESCEvent
-
-## Regex identifying an ESC event.
-const REGEX = \
-	'^:(?<name>[^|]+)( \\|\\s*(?<flags>( ' + \
-	'(TK|NO_TT|NO_UI|NO_SAVE)' + \
-	')+))?$'
-
-## Prefix to identify this as an ESC event.
-const PREFIX = ":"
-
+extends ESCStatement
 
 ## Valid event flags:[br]
 ## - `TK`: stands for "telekinetic". It means the player won't walk over to
@@ -43,6 +33,14 @@ enum FLAGS {
 	NO_SAVE = 8
 }
 
+## Regex identifying an ESC event.
+const REGEX = \
+	'^:(?<name>[^|]+)( \\|\\s*(?<flags>( ' + \
+	'(TK|NO_TT|NO_UI|NO_SAVE)' + \
+	')+))?$'
+
+## Prefix to identify this as an ESC event.
+const PREFIX = ":"
 
 ## Name of the event.
 var name: String

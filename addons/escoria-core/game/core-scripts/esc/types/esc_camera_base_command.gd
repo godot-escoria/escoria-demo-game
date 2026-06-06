@@ -6,8 +6,8 @@
 ## [br]
 ## None.
 ## [br]
-extends ESCBaseCommand
 class_name ESCCameraBaseCommand
+extends ESCBaseCommand
 
 
 ## Generates a log entry when attempting to move the camera to an invalid position.[br]

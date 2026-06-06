@@ -12,8 +12,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name SetGlobalCommand
+extends ESCBaseCommand
 
 ## The list of illegal strings that cannot be used in global names.
 const ILLEGAL_STRINGS = ["/"]

@@ -13,8 +13,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name WalkToPosBlockCommand
+extends ESCBaseCommand
 
 
 ## Walking object

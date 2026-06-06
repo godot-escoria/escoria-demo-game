@@ -14,8 +14,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name SlideCommand
+extends ESCBaseCommand
 
 
 ## A hash of tweens currently active for animated items

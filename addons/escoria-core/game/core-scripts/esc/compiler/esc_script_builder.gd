@@ -1,7 +1,7 @@
 ## Convenience class to help build scripts in code for use with the ASHES compiler
 ## toolchain. Loosely follows the Builder pattern.
-extends RefCounted
 class_name ESCScriptBuilder
+extends RefCounted
 
 
 # Not really a "Builder" pattern per se, but helps with readability.

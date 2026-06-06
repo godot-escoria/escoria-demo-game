@@ -1,6 +1,6 @@
 ## A registry of ASHES command objects.
-extends RefCounted
 class_name ESCCommandRegistry
+extends RefCounted
 
 
 ## The registry of registered commands.
@@ -54,5 +54,4 @@ func load_command(command_name: String) -> ESCBaseCommand:
 func is_command_or_control_pressed(command_name: String) -> ESCBaseCommand:
 	if self.registry.has(command_name):
 		return self.registry[command_name]
-	else:
-		return self.load_command(command_name)
+	return self.load_command(command_name)

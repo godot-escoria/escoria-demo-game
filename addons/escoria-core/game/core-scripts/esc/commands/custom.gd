@@ -13,8 +13,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name CustomCommand
+extends ESCBaseCommand
 
 
 ## The descriptor of the arguments of this command.[br]
@@ -54,7 +54,7 @@ func validate(arguments: Array):
 	if not escoria.object_manager.has(arguments[0]):
 		raise_invalid_object_error(self, arguments[0])
 		return false
-	elif not escoria.object_manager.get_object(arguments[0]).node.has_node(
+	if not escoria.object_manager.get_object(arguments[0]).node.has_node(
 		arguments[1]
 	):
 		raise_error(self, "Invalid node. Object with global id %s has no child node called %s."
@@ -63,7 +63,7 @@ func validate(arguments: Array):
 						arguments[1],
 					])
 		return false
-	elif not escoria.object_manager.get_object(arguments[0]).node\
+	if not escoria.object_manager.get_object(arguments[0]).node\
 		.get_node(
 			arguments[1]
 		)\

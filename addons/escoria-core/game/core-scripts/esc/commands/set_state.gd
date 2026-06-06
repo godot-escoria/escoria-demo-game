@@ -12,8 +12,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name SetStateCommand
+extends ESCBaseCommand
 
 
 ## The descriptor of the arguments of this command.[br]

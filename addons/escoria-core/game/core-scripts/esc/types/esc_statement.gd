@@ -5,8 +5,8 @@
 ## newer ASHES scripting language used by Escoria. Although this class is extended
 ## to facilitate the execution of actual commands and dialogs, the name may be
 ## a bit misleading and may eventually be renamed or refactored.
-extends RefCounted
 class_name ESCStatement
+extends RefCounted
 
 
 ## Emitted when the event has finished running.[br]
@@ -136,7 +136,7 @@ func run() -> int:
 			)
 			if rc == ESCExecution.RC_REPEAT:
 				return await self.run()
-			elif rc != ESCExecution.RC_OK:
+			if rc != ESCExecution.RC_OK:
 				final_rc = rc
 				current_statement.is_completed = true
 				break

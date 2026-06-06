@@ -8,8 +8,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name EndBlockSayCommand
+extends ESCBaseCommand
 
 
 ## Constructor (bypasses the default constructor to avoid)[br]
@@ -49,7 +49,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 ## #### Returns[br]
 ## [br]
 ## Returns True if the arguments are valid, false otherwise. (`bool`)
-func validate(arguments: Array):
+func validate(_arguments: Array):
 	return true
 
 
@@ -64,7 +64,7 @@ func validate(arguments: Array):
 ## #### Returns[br]
 ## [br]
 ## Returns the execution result code. (`int`)
-func run(command_params: Array) -> int:
+func run(_command_params: Array) -> int:
 	escoria.dialog_player.disable_preserve_dialog_box()
 	return ESCExecution.RC_OK
 

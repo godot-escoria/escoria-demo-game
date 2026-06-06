@@ -12,8 +12,8 @@
 ##
 ## @ASHES
 ## @COMMAND
-extends ESCCameraBaseCommand
 class_name CameraSetPosCommand
+extends ESCCameraBaseCommand
 
 
 ## The descriptor of the arguments of this command.[br]

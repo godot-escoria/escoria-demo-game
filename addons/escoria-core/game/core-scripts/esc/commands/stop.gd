@@ -8,8 +8,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name StopCommand
+extends ESCBaseCommand
 
 
 ## The descriptor of the arguments of this command.[br]
@@ -40,7 +40,7 @@ func configure() -> ESCCommandArgumentDescriptor:
 ## #### Returns[br]
 ## [br]
 ## Returns the execution result code. (`int`)
-func run(command_params: Array) -> int:
+func run(_command_params: Array) -> int:
 	return ESCExecution.RC_CANCEL
 
 

@@ -23,8 +23,8 @@
 ##
 ## @ASHES
 ## @COMMAND
-extends ESCCameraBaseCommand
 class_name CameraShiftBlockCommand
+extends ESCCameraBaseCommand
 
 
 # The list of supported transitions as per the link mentioned above

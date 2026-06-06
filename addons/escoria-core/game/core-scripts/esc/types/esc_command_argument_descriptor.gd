@@ -1,6 +1,6 @@
 ## Describes the arguments of commands that extend `ESCBaseCommand`.
-extends RefCounted
 class_name ESCCommandArgumentDescriptor
+extends RefCounted
 
 
 ## As the get_type command was deprecated with Godot 2.x w we need a way to determine

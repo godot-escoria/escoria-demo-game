@@ -26,8 +26,8 @@
 ##
 ## @ASHES
 ## @COMMAND
-extends ESCCameraBaseCommand
 class_name CameraPushBlockCommand
+extends ESCCameraBaseCommand
 
 
 ## The list of supported transitions as per the link mentioned above

@@ -13,8 +13,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name WalkToPosCommand
+extends ESCBaseCommand
 
 
 ## Walking object
@@ -56,7 +56,7 @@ func validate(arguments: Array):
 	if not escoria.object_manager.has(arguments[0]):
 		raise_error(
 			self,
-			 "Invalid first object. The object to make walk with global id '%s' was not found." % arguments[0]
+			"Invalid first object. The object to make walk with global id '%s' was not found." % arguments[0]
 		)
 		return false
 

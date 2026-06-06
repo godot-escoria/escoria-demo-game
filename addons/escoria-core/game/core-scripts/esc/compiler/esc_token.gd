@@ -3,11 +3,11 @@
 ##
 ## This class contains any information required by the parser but also carries
 ## with it associated information useful for debugging and tracing purposes.
-extends RefCounted
 class_name ESCToken
+extends RefCounted
 
 
-var _tokenType: int: # ESCScanner.TokenType enum
+var _token_type: int: # ESCScanner.TokenType enum
 	get = get_type
 var _lexeme: String:
 	get = get_lexeme
@@ -38,8 +38,8 @@ var _filename: String:
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func init(tokenType: int, lexeme: String, literal, source: String, line: int, filename: String) -> void:
-	_tokenType = tokenType
+func init(token_type: int, lexeme: String, literal, source: String, line: int, filename: String) -> void:
+	_token_type = token_type
 	_lexeme = lexeme
 	_literal = literal
 	_source = source
@@ -85,7 +85,7 @@ func get_source() -> String:
 ## [br]
 ## Returns the type of token this is; will be a value from `ESCTokenType.TokenType`. (`int`)
 func get_type() -> int:
-	return _tokenType
+	return _token_type
 
 
 ## The literal value of the token, if it exists.[br]
@@ -141,4 +141,4 @@ func get_filename() -> String:
 
 
 func _to_string() -> String:
-	return ESCTokenType.get_token_type_name(_tokenType) + " " + str(_lexeme) + " " + (str(_literal) if _literal else "")
+	return ESCTokenType.get_token_type_name(_token_type) + " " + str(_lexeme) + " " + (str(_literal) if _literal else "")

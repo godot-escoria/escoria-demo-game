@@ -10,8 +10,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name EnableTerrainCommand
+extends ESCBaseCommand
 
 
 ## The descriptor of the arguments of this command.[br]
@@ -52,9 +52,8 @@ func run(command_params: Array) -> int:
 				new_active_navigation_instance
 		escoria.room_terrain.current_active_navigation_instance.enabled = true
 		return ESCExecution.RC_OK
-	else:
-		raise_error(self, "Can not find terrain node. Terrain node %s could not be found." % name)
-		return ESCExecution.RC_ERROR
+	raise_error(self, "Can not find terrain node. Terrain node %s could not be found." % name)
+	return ESCExecution.RC_ERROR
 
 
 ## Function called when the command is interrupted.[br]
