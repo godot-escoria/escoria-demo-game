@@ -1,7 +1,7 @@
 ## A manager for inventory objects.
 ## @MANAGER
-extends Resource
 class_name ESCInventoryManager
+extends Resource
 
 
 ## Checks whether the player has an inventory item.[br]

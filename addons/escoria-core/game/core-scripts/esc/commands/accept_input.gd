@@ -10,8 +10,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name AcceptInputCommand
+extends ESCBaseCommand
 
 
 ## The list of supported input types

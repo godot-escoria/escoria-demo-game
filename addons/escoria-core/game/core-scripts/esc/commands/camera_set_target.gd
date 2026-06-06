@@ -13,8 +13,8 @@
 ##
 ## @ASHES
 ## @COMMAND
-extends ESCCameraBaseCommand
 class_name CameraSetTargetCommand
+extends ESCCameraBaseCommand
 
 
 ## Provides the argument descriptor that defines the command signature.[br]

@@ -1,6 +1,6 @@
 ## Container for `NavigationPolygon`s stored in the object manager.
-extends ESCRoomContainer
 class_name ESCRoomTerrains
+extends ESCRoomContainer
 
 
 ## The hash of terrains registered to the room.

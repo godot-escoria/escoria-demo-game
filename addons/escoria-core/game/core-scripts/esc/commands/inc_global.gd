@@ -11,8 +11,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name IncGlobalCommand
+extends ESCBaseCommand
 
 
 ## The descriptor of the arguments of this command.[br]

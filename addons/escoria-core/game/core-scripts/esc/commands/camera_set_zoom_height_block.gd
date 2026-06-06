@@ -11,8 +11,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name CameraSetZoomHeightBlockCommand
+extends ESCBaseCommand
 
 
 ## Tween for blocking

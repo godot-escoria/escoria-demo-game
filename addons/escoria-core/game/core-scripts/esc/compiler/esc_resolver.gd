@@ -1,8 +1,8 @@
 ## Resolves script variables to ensure that scoping rules are obeyed.
 ##
 ## The class will throw errors if scoping rules are broken or otherwise not followed.
-extends RefCounted
 class_name ESCResolver
+extends RefCounted
 
 
 var _interpreter
@@ -136,7 +136,7 @@ func visit_while_stmt(stmt: ESCGrammarStmts.While):
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func visit_pass_stmt(stmt: ESCGrammarStmts.Pass):
+func visit_pass_stmt(_stmt: ESCGrammarStmts.Pass):
 	pass
 
 
@@ -151,7 +151,7 @@ func visit_pass_stmt(stmt: ESCGrammarStmts.Pass):
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func visit_stop_stmt(stmt: ESCGrammarStmts.Stop):
+func visit_stop_stmt(_stmt: ESCGrammarStmts.Stop):
 	pass
 
 
@@ -186,7 +186,7 @@ func visit_var_stmt(stmt: ESCGrammarStmts.Var):
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func visit_global_stmt(stmt: ESCGrammarStmts.Global):
+func visit_global_stmt(_stmt: ESCGrammarStmts.Global):
 	pass
 
 
@@ -237,7 +237,7 @@ func visit_break_stmt(stmt: ESCGrammarStmts.Break):
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func visit_done_stmt(stmt: ESCGrammarStmts.Done):
+func visit_done_stmt(_stmt: ESCGrammarStmts.Done):
 	pass
 
 
@@ -270,7 +270,7 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func visit_literal_expr(expr: ESCGrammarExprs.Literal):
+func visit_literal_expr(_expr: ESCGrammarExprs.Literal):
 	pass
 
 

@@ -11,8 +11,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name SaveGameCommand
+extends ESCBaseCommand
 
 
 ## Constructor[br]

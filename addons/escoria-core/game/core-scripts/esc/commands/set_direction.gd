@@ -12,8 +12,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name SetDirectionCommand
+extends ESCBaseCommand
 
 
 ## The descriptor of the arguments of this command.[br]
@@ -55,14 +55,14 @@ func validate(arguments: Array):
 					% [get_command_name(), arguments[0]]
 		)
 		return false
-	elif not escoria.object_manager.get_object(arguments[0]).node.is_movable:
+	if not escoria.object_manager.get_object(arguments[0]).node.is_movable:
 		escoria.logger.error(
 			self,
 			"[%s]: invalid object. Object with global id %s is not movable."
 					% [get_command_name(), arguments[0]]
 		)
 		return false
-	elif arguments[1] < 0 or arguments[1] > escoria.object_manager.get_object(arguments[0]).node \
+	if arguments[1] < 0 or arguments[1] > escoria.object_manager.get_object(arguments[0]).node \
 			.get_directions_quantity() - 1:
 		escoria.logger.error(
 			self,

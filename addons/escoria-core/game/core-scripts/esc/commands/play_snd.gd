@@ -12,8 +12,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name PlaySndCommand
+extends ESCBaseCommand
 
 
 ## The specified sound player

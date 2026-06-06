@@ -1,7 +1,7 @@
 ## Abstract base class for a container of Escoria entities specific to a room
 ## to be stored in and used by the Escoria object manager.
-extends RefCounted
 class_name ESCRoomContainer
+extends RefCounted
 
 
 ## Designates whether the objects contained in this container are all reserved objects.

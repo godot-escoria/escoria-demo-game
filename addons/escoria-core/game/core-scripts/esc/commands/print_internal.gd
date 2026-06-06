@@ -10,8 +10,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name PrintCommand
+extends ESCBaseCommand
 
 
 ## The descriptor of the arguments of this command.[br]

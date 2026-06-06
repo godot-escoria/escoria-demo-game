@@ -17,8 +17,8 @@
 ##
 ## @ASHES
 ## @COMMAND
-extends ESCCameraBaseCommand
 class_name CameraSetTargetBlockCommand
+extends ESCCameraBaseCommand
 
 
 # Tween for blocking

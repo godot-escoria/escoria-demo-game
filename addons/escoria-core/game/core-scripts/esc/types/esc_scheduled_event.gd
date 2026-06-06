@@ -1,6 +1,6 @@
 ## Represents an event that is scheduled to run sometime in the future.
-extends RefCounted
 class_name ESCScheduledEvent
+extends RefCounted
 
 
 ## The event to run when timeout is reached.

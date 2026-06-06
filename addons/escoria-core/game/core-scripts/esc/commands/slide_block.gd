@@ -13,8 +13,8 @@
 ##
 ## @ASHES
 ## @COMMAND
-extends SlideCommand
 class_name SlideBlockCommand
+extends SlideCommand
 
 
 ## Runs the command.[br]

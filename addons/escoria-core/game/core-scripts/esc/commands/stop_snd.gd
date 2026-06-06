@@ -10,16 +10,14 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name StopSndCommand
-
-
-## The specified sound player
-var _snd_player: String
+extends ESCBaseCommand
 
 ## The previous sound state, saved for interrupting
 var previous_snd_state: String
 
+## The specified sound player
+var _snd_player: String
 
 ## The descriptor of the arguments of this command.[br]
 ## [br]
@@ -93,20 +91,20 @@ func run(command_params: Array) -> int:
 ## [br]
 ## Returns nothing.
 func interrupt():
-	var _sound_players = []
+	var sound_players = []
 	if previous_snd_state.is_empty():
 		previous_snd_state = "off"
 
 	if _snd_player.is_empty():
-		_sound_players = [
+		sound_players = [
 			ESCObjectManager.MUSIC,
 			ESCObjectManager.SOUND,
 			ESCObjectManager.SPEECH
 		]
 	else:
-		_sound_players = [_snd_player]
+		sound_players = [_snd_player]
 
-	for snd_player in _sound_players:
+	for snd_player in sound_players:
 		if escoria.object_manager.get_object(snd_player).node:
 			escoria.object_manager.get_object(snd_player).node.set_state(
 				previous_snd_state

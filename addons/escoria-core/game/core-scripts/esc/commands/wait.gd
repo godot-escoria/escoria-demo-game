@@ -10,8 +10,8 @@
 ## [br]
 ## @ASHES
 ## @COMMAND
-extends ESCBaseCommand
 class_name WaitCommand
+extends ESCBaseCommand
 
 ## Timer to wait for
 var timer: Timer

@@ -1,6 +1,6 @@
 ## Class with enum containing the return codes returned by ASHES script functions.
-extends Resource
 class_name ESCExecution
+extends Resource
 ## Execution result values.
 
 ## Return codes handled by events.[br]

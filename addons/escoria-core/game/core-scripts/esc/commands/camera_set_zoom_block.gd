@@ -20,8 +20,8 @@
 ##
 ## @ASHES
 ## @COMMAND
-extends ESCCameraBaseCommand
 class_name CameraSetZoomBlockCommand
+extends ESCCameraBaseCommand
 
 
 var _camera_tween: Tween3

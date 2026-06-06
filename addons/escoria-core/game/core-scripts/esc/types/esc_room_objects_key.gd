@@ -1,7 +1,7 @@
 ## Simple pair container to store a room's identifying information for use in
 ## the object manager.
-extends RefCounted
 class_name ESCRoomObjectsKey
+extends RefCounted
 
 
 ## Contains the `global_id` of the room being represented by this key.

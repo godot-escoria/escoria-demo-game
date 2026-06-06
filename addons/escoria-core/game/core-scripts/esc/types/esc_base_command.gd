@@ -1,8 +1,8 @@
 ## Abstract base class for every ESC command.
 ##
 ## Extending classes have to override the configure and run function
-extends Resource
 class_name ESCBaseCommand
+extends Resource
 
 
 ## The filename from which the relevant command is being called, if available.
@@ -60,7 +60,7 @@ func validate(arguments: Array) -> bool:
 ## #### Returns[br]
 ## [br]
 ## Returns a `int` value. (`int`)
-func run(command_params: Array) -> int:
+func run(_command_params: Array) -> int:
 	raise_error(self, "Command %s did not override run. Please implement a run() function." % get_command_name())
 
 	return 0

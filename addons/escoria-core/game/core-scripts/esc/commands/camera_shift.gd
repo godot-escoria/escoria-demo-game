@@ -20,8 +20,8 @@
 ##
 ## @ASHES
 ## @COMMAND
-extends ESCCameraBaseCommand
 class_name CameraShiftCommand
+extends ESCCameraBaseCommand
 
 ## The list of supported transitions as per the link mentioned above
 const SUPPORTED_TRANSITIONS = ["LINEAR","SINE","QUINT","QUART","QUAD" ,"EXPO","ELASTIC","CUBIC",
