@@ -15,10 +15,10 @@ extends ESCLocation
 ## [br]
 ## | Name | Type | Description | Required? |[br]
 ## |:-----|:-----|:------------|:----------|[br]
-## |p_classname|`String`|String class to compare against|yes|[br]
+## |p_classname|`StringName`|String class to compare against|yes|[br]
 ## [br]
 ## #### Returns[br]
 ## [br]
 ## Returns a `bool` value. (`bool`)
-func is_class(p_classname: String) -> bool:
+func is_class(p_classname: StringName) -> bool:
 	return p_classname == "ESCDialogLocation"

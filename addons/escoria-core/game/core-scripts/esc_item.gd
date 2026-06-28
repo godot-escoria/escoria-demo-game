@@ -561,7 +561,7 @@ func _unhandled_input(input_event: InputEvent) -> void:
 ## Returns a `String` value containing configuration warnings joined by newlines. (`String`)
 func _get_configuration_warnings():
 	validate_animations(animations)
-	return "\n".join(_scene_warnings)
+	return _scene_warnings
 
 ## Tests whether given point is inside a shape.[br]
 ## [br]
