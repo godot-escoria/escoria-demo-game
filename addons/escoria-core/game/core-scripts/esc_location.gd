@@ -56,12 +56,12 @@ var _multiple_start_locations_exist: bool = false:
 ## [br]
 ## | Name | Type | Description | Required? |[br]
 ## |:-----|:-----|:------------|:----------|[br]
-## |p_classname|`String`|Class name to compare against this location.|yes|[br]
+## |p_classname|`StringName`|Class name to compare against this location.|yes|[br]
 ## [br]
 ## #### Returns[br]
 ## [br]
 ## Returns a `bool` value. (`bool`)
-func is_class(p_classname: String) -> bool:
+func is_class(p_classname: StringName) -> bool:
 	return p_classname == "ESCLocation"
 
 
