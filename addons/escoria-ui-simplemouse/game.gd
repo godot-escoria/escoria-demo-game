@@ -394,7 +394,8 @@ func show_ui():
 
 func hide_main_menu():
 	show_ui()
-	escoria.current_state = escoria.GameState.DEFAULT
+	if escoria.current_state != escoria.GameState.LOADING:
+		escoria.current_state = escoria.GameState.DEFAULT
 	if get_node(main_menu).visible:
 		get_node(main_menu).hide()
 

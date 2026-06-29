@@ -150,7 +150,6 @@ func set_current_room(room: ESCRoom) -> void:
 ## Returns nothing.
 func register_object(object: ESCObject, room: ESCRoom = null, force: bool = false, \
 	auto_unregister: bool = true) -> void:
-
 	if object.global_id.is_empty():
 		object.global_id = str(object.node.get_path()).split("/root/", false)[0]
 		object.node.global_id = object.global_id
@@ -439,7 +438,7 @@ func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 		escoria.logger.debug(
 			self,
 			"Unable to unregister object. " +
-			"Object with global ID %s room (%s, %s) not found. If this was "
+			"Object with global ID '%s' room (%s, %s) not found. If this was "
 			% [
 				"?" if object == null else object.global_id,
 				room_key.room_global_id,
@@ -447,7 +446,6 @@ func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 			] +
 			"part of a 'forced' registration, ignore this warning."
 		)
-
 		return
 
 	var room_objects = _get_room_objects_objects(room_key)
@@ -458,7 +456,7 @@ func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 		if object.node != null:
 			object.node = object.node.duplicate()
 			register_object(object, null, true)
-
+	
 	if object.state == ESCObject.STATE_DEFAULT:
 		room_objects.erase(object.global_id)
 
@@ -718,3 +716,31 @@ func _erase_room(room_key: ESCRoomObjectsKey) -> void:
 		if _compare_container_to_key(room_container, room_key):
 			room_objects.erase(room_container)
 			return
+
+
+## Disconnect all existing items from registered ESCObjects for the given room.
+## [br]
+## #### Parameters[br]
+## [br]
+## | Name | Type | Description | Required? |[br]
+## |:-----|:-----|:------------|:----------|[br]
+## |room_key|`ESCRoomObjectsKey`|The key representing the desired room in the object manager array|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
+func disconnect_tree_exit_for_room_items(room_key: ESCRoomObjectsKey) -> void:
+	#var _room_objects = _get_room_objects_objects(room_key)
+	var i: int = 0
+	for room_container in room_objects:
+		if _compare_container_to_key(room_container, room_key):
+			
+			for object in room_container.objects:
+				var ro = room_objects[i]
+				if room_objects[i].objects[object].node.is_connected("tree_exited", unregister_object):
+					room_objects[i].objects[object].node.tree_exited.disconnect(unregister_object)
+				
+			break
+		else:
+			i += 1
+			continue

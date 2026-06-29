@@ -13,7 +13,7 @@ func _ready():
 
 func _on_cancel_button_pressed():
 	acceptinput_command.run(["ALL"])
-	escoria.current_state = escoria.GAME_STATE.DEFAULT
+	escoria.current_state = escoria.GameState.DEFAULT
 	queue_free()
 
 func _on_ok_button_pressed():
@@ -29,4 +29,4 @@ func _on_ok_button_pressed():
 		]
 	)
 	acceptinput_command.run(["ALL"])
-	escoria.current_state = escoria.GAME_STATE.DEFAULT
+	escoria.current_state = escoria.GameState.DEFAULT

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://176d1virb6l5"]
+[gd_scene format=3 uid="uid://176d1virb6l5"]
 
 [ext_resource type="FontFile" path="res://game/fonts/caslonantique.tres" id="3"]
 [ext_resource type="PackedScene" uid="uid://chf3qovs1q8kr" path="res://game/characters/mark/mark.tscn" id="4"]
@@ -6,11 +6,11 @@
 [ext_resource type="Script" uid="uid://dshelmw7y44qg" path="res://addons/escoria-core/game/core-scripts/esc_item.gd" id="7"]
 [ext_resource type="Script" uid="uid://beh3ds4eapldu" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="8"]
 [ext_resource type="Script" uid="uid://5pbcieq7gpdo" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="10"]
-[ext_resource type="Texture2D" uid="uid://dg6wor5u2h1iq" path="res://game/rooms/room02/room2background.png" id="11"]
-[ext_resource type="Texture2D" uid="uid://d0ypnnis8oiym" path="res://game/rooms/room02/floor3.png" id="12"]
-[ext_resource type="Texture2D" uid="uid://dtt6uo1nv4nk2" path="res://game/rooms/room02/floor1.png" id="13"]
-[ext_resource type="Texture2D" uid="uid://bdklqci3umhdo" path="res://game/rooms/room02/floor4.png" id="14"]
-[ext_resource type="Texture2D" uid="uid://nhp2hw4l5dqe" path="res://game/rooms/room02/floor2.png" id="15"]
+[ext_resource type="Texture2D" uid="uid://b3lwyst2p1p0g" path="res://game/rooms/room02/room2background.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://ph4l4mxsvkwr" path="res://game/rooms/room02/floor3.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://csprekoea4xrf" path="res://game/rooms/room02/floor1.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://cenbma767heu6" path="res://game/rooms/room02/floor4.png" id="14"]
+[ext_resource type="Texture2D" uid="uid://dxdxvci5jswry" path="res://game/rooms/room02/floor2.png" id="15"]
 
 [sub_resource type="NavigationPolygon" id="1"]
 vertices = PackedVector2Array(10, 378, 86, 337, 88, 374, 8, 545, 121, 355, 488, 354, 409, 546, 1184, 373, 1185, 343, 1272, 393, 1272, 548, 875, 546, 802, 357, 1161, 358)
@@ -190,19 +190,19 @@ _data = {
 
 [sub_resource type="CapsuleShape2D" id="8"]
 
-[node name="room2" type="Node2D"]
+[node name="room2" type="Node2D" unique_id=1480513969]
 script = ExtResource("6")
 global_id = "room2"
 esc_script = "res://game/rooms/room02/esc/room02_bridge.esc"
 player_scene = ExtResource("4")
-camera_limits = [Rect2(0, 0, 1280, 555)]
+camera_limits = [Rect2(0, 0, 1280, 900)]
 editor_debug_mode = 1
 
-[node name="Room2Background" type="Sprite2D" parent="."]
+[node name="Room2Background" type="Sprite2D" parent="." unique_id=1661482258]
 texture = ExtResource("11")
 centered = false
 
-[node name="room_label" type="Label" parent="Room2Background"]
+[node name="room_label" type="Label" parent="Room2Background" unique_id=1740857971]
 offset_left = 18.0
 offset_top = 12.0
 offset_right = 100.0
@@ -210,28 +210,28 @@ offset_bottom = 33.0
 theme_override_fonts/font = ExtResource("3")
 text = "ROOM 2"
 
-[node name="Floor1" type="Sprite2D" parent="Room2Background"]
+[node name="Floor1" type="Sprite2D" parent="Room2Background" unique_id=2048444131]
 position = Vector2(495, 650)
 texture = ExtResource("13")
 
-[node name="Floor2" type="Sprite2D" parent="Room2Background"]
+[node name="Floor2" type="Sprite2D" parent="Room2Background" unique_id=239854181]
 position = Vector2(585, 650)
 texture = ExtResource("15")
 
-[node name="Floor4" type="Sprite2D" parent="Room2Background"]
+[node name="Floor4" type="Sprite2D" parent="Room2Background" unique_id=21533591]
 position = Vector2(786, 650)
 texture = ExtResource("14")
 
-[node name="Floor3" type="Sprite2D" parent="Room2Background"]
+[node name="Floor3" type="Sprite2D" parent="Room2Background" unique_id=15295064]
 position = Vector2(696, 650)
 scale = Vector2(1.01351, 1)
 texture = ExtResource("12")
 
-[node name="Polygon2D" type="Polygon2D" parent="Room2Background"]
+[node name="Polygon2D" type="Polygon2D" parent="Room2Background" unique_id=2016117978]
 color = Color(0, 0, 0, 1)
 polygon = PackedVector2Array(0, 550, 1280, 550, 1280, 800, 0, 800)
 
-[node name="room_label2" type="Label" parent="Room2Background"]
+[node name="room_label2" type="Label" parent="Room2Background" unique_id=1965814495]
 offset_left = 17.0
 offset_top = 558.0
 offset_right = 1126.0
@@ -241,7 +241,7 @@ text = "Room  2 demonstrates modifying the walkable area of a room. Performing \
 in the middle) with one that covers the whole room (platforms + bridge) - allowing the player to walk from one side to the other.
 Setting the state of the r2_bridge variable to \"bridge_open\" or \"bridge_closed\" (see button.esc) automatically runs the animation with the same name."
 
-[node name="r_platform" type="Area2D" parent="."]
+[node name="r_platform" type="Area2D" parent="." unique_id=1337437528]
 process_mode = 1
 script = ExtResource("7")
 global_id = "r2_right_platform"
@@ -250,14 +250,14 @@ tooltip_name = "Right platform"
 default_action = "look"
 actions_requiring_target_object = PackedStringArray()
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="r_platform"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="r_platform" unique_id=367491593]
 polygon = PackedVector2Array(870.974, 538.342, 827.536, 353.995, 1181.4, 357.174, 1287.34, 413.325, 1289.46, 545.758)
 
-[node name="action_pos" type="Marker2D" parent="r_platform"]
+[node name="action_pos" type="Marker2D" parent="r_platform" unique_id=1595990472]
 position = Vector2(394, 460)
 script = ExtResource("8")
 
-[node name="r_door" type="Area2D" parent="."]
+[node name="r_door" type="Area2D" parent="." unique_id=668630443]
 process_mode = 1
 script = ExtResource("7")
 global_id = "r2_r_exit"
@@ -267,14 +267,14 @@ default_action = "walk"
 actions_requiring_target_object = PackedStringArray()
 is_exit = true
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="r_door"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="r_door" unique_id=1149180491]
 polygon = PackedVector2Array(1177.94, 348.61, 1175.95, 45.3759, 1276.06, 92.0953, 1277.95, 399.407)
 
-[node name="Marker2D" type="Marker2D" parent="r_door"]
+[node name="Marker2D" type="Marker2D" parent="r_door" unique_id=621397706]
 position = Vector2(1227, 387)
 script = ExtResource("8")
 
-[node name="l_door" type="Area2D" parent="."]
+[node name="l_door" type="Area2D" parent="." unique_id=1816219379]
 process_mode = 1
 script = ExtResource("7")
 global_id = "r2_l_exit"
@@ -284,31 +284,31 @@ default_action = "walk"
 actions_requiring_target_object = PackedStringArray()
 is_exit = true
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="l_door"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="l_door" unique_id=1979321263]
 polygon = PackedVector2Array(-1.37926, 443.158, 7.96461, 122.796, 84.0504, 77.4118, 88.055, 377.751)
 
-[node name="Marker2D" type="Marker2D" parent="l_door"]
+[node name="Marker2D" type="Marker2D" parent="l_door" unique_id=1186750590]
 position = Vector2(52.1462, 384.691)
 script = ExtResource("8")
 
-[node name="player_start" type="Marker2D" parent="."]
+[node name="player_start" type="Marker2D" parent="." unique_id=1855486495]
 position = Vector2(76.7617, 437.649)
 script = ExtResource("8")
 global_id = "r2_player_start"
 is_start_location = true
 
-[node name="walkable_area" type="Node2D" parent="."]
+[node name="walkable_area" type="Node2D" parent="." unique_id=576027826]
 script = ExtResource("10")
 
-[node name="bridge_open" type="NavigationRegion2D" parent="walkable_area"]
+[node name="bridge_open" type="NavigationRegion2D" parent="walkable_area" unique_id=1980490413]
 navigation_polygon = SubResource("1")
 
-[node name="bridge_closed" type="NavigationRegion2D" parent="walkable_area"]
+[node name="bridge_closed" type="NavigationRegion2D" parent="walkable_area" unique_id=1855198344]
 visible = false
 navigation_polygon = SubResource("2")
 enabled = false
 
-[node name="button_left" type="Area2D" parent="."]
+[node name="button_left" type="Area2D" parent="." unique_id=387938318]
 process_mode = 1
 script = ExtResource("7")
 global_id = "r2_button"
@@ -318,17 +318,17 @@ dialog_color = Color(0.196078, 1, 0, 1)
 default_action = "use"
 actions_requiring_target_object = PackedStringArray()
 
-[node name="Marker2D" type="Marker2D" parent="button_left"]
+[node name="Marker2D" type="Marker2D" parent="button_left" unique_id=1278313723]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="button_left"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="button_left" unique_id=711462835]
 position = Vector2(370, 190.5)
 shape = SubResource("3")
 
-[node name="ESCLocation" type="Marker2D" parent="button_left"]
+[node name="ESCLocation" type="Marker2D" parent="button_left" unique_id=369307365]
 position = Vector2(369, 375)
 script = ExtResource("8")
 
-[node name="button_right2" type="Area2D" parent="."]
+[node name="button_right2" type="Area2D" parent="." unique_id=528098596]
 process_mode = 1
 script = ExtResource("7")
 global_id = "r2_button_right"
@@ -338,27 +338,25 @@ dialog_color = Color(0.196078, 1, 0, 1)
 default_action = "use"
 actions_requiring_target_object = PackedStringArray()
 
-[node name="Marker2D" type="Marker2D" parent="button_right2"]
+[node name="Marker2D" type="Marker2D" parent="button_right2" unique_id=1574727274]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="button_right2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="button_right2" unique_id=477567582]
 position = Vector2(911, 190.5)
 shape = SubResource("4")
 
-[node name="ESCLocation" type="Marker2D" parent="button_right2"]
+[node name="ESCLocation" type="Marker2D" parent="button_right2" unique_id=702849182]
 position = Vector2(914, 378)
 script = ExtResource("8")
 
-[node name="bridge" type="Area2D" parent="."]
+[node name="bridge" type="Area2D" parent="." unique_id=255352587]
 process_mode = 1
 script = ExtResource("7")
 global_id = "r2_bridge"
 actions_requiring_target_object = PackedStringArray()
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="bridge"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="bridge" unique_id=914281156]
 root_node = NodePath("../..")
-libraries = {
-"": SubResource("AnimationLibrary_8318n")
-}
+libraries/ = SubResource("AnimationLibrary_8318n")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="bridge"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bridge" unique_id=455261399]
 shape = SubResource("8")

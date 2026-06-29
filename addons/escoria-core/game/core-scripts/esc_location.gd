@@ -77,11 +77,16 @@ func is_class(p_classname: String) -> bool:
 func _ready():
 	if not Engine.is_editor_hint():
 		if not self.global_id.is_empty():
+			var _force_registration = false
+			if escoria.save_manager.is_loading_game:
+				_force_registration = true
 			escoria.object_manager.register_object(
 				ESCObject.new(
 					self.global_id,
 					self
-				)
+				),
+				null,
+				_force_registration
 			)
 
 ## Escoria editor plugin: on tree exit (ie. this node was removed), notify ESCRoom to update the list of start locations.[br]
