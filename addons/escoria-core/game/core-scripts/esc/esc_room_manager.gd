@@ -116,6 +116,14 @@ func change_scene_to_file(room_path: String, enable_automatic_transitions: bool)
 		room_scene.add_child(escoria.game_scene)
 		room_scene.move_child(escoria.game_scene, 0)
 		room_scene.game = escoria.game_scene
+		
+		# If the scene we're loading is the same as the current one, disconnect
+		# the tree_exit signal on the existing items (that was connected when
+		# items got registered in Object Manager) so that objects for new items 
+		# of the new room don't get unregistered.
+		if room_scene.global_id == escoria.main.current_scene.global_id:
+			escoria.object_manager.disconnect_tree_exit_for_room_items(escoria.object_manager.current_room_key)
+		
 		escoria.main.set_scene(room_scene)
 
 		# We know the scene has been loaded. Make its global ID available for
@@ -416,12 +424,19 @@ func _perform_script_events(room: ESCRoom) -> int:
 
 	# Add new camera to scene being prepared.
 	if room.player_camera:
-		room.remove_child(room.player_camera)
+		room.remove_child(room.player_camera) # This unregisters the camera from object manager
 		room.player_camera.queue_free()
 	var new_player_camera: ESCCamera = escoria.resource_cache.get_resource(
 		CAMERA_SCENE_PATH
 	).instantiate()
-	new_player_camera.register()
+	escoria.object_manager.register_object(
+		ESCObject.new(
+			ESCObjectManager.CAMERA,
+			new_player_camera
+		),
+		null,
+		true
+	)
 	room.player_camera = new_player_camera
 
 	# We must first set the camera limits, and then worry about subsequent

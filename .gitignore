@@ -23,3 +23,6 @@ addons/gdUnit4/GdUnitRunner.cfg
 
 # Local tooling, caches, and virtual environments
 .local/
+
+# AI files
+CLAUDE.md

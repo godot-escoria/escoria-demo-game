@@ -324,8 +324,6 @@ func load_game(id: int):
 
 	escoria.settings_manager.load_settings_from_dict(save_game.settings)
 
-	escoria.settings_manager.load_settings_from_dict(save_game.settings)
-
 	var plugin_config = ConfigFile.new()
 	plugin_config.load("res://addons/escoria-core/plugin.cfg")
 	var escoria_version = plugin_config.get_value("plugin", "version")
@@ -385,11 +383,13 @@ func load_game(id: int):
 	#     Set save manager "is_loading_game" var to false since we're now done
 
 	# Hide main and pause menus
-	escoria.game_scene.hide_main_menu()
+	escoria.game_scene.hide_main_menu() # THIS SETS escoria.current_state = DEFAULT !!
 	escoria.game_scene.unpause_game()
-
+	
+	escoria.current_state = escoria.GameState.LOADING
+	
 	escoria.room_manager.change_scene_to_file(save_game.main.current_scene_filename, false)
-
+	
 	_load_savegame_objects(save_game.objects)
 
 	escoria.globals_manager.clear()

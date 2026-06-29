@@ -43,27 +43,6 @@ func _process(_delta):
 	if is_instance_valid(_follow_target) and not _tween.is_running() and _follow_target.has_moved():
 		self.global_position = _follow_target.global_position
 
-## Register this camera with the object manager so it can be used before being made active as part of the current scene tree.[br]
-## [br]
-## #### Parameters[br]
-## [br]
-## | Name | Type | Description | Required? |[br]
-## |:-----|:-----|:------------|:----------|[br]
-## |room|`Variant`|The room with which to register the camera|no|[br]
-## [br]
-## #### Returns[br]
-## [br]
-## Returns nothing.
-func register(room = null):
-	escoria.object_manager.register_object(
-		ESCObject.new(
-			escoria.object_manager.CAMERA,
-			self
-		),
-		room,
-		true
-	)
-
 ## The camera's tween instance.[br]
 ## [br]
 ## #### Parameters[br]
