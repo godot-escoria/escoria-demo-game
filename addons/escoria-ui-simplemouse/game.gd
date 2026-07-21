@@ -499,3 +499,7 @@ func _on_input_mode_changed(new_mode):
 	):
 		return
 	$mouse_layer/verbs_menu.set_by_name(escoria.action_manager.current_action)
+
+
+func _on_MenuButton_pressed() -> void:
+	pause_game()
