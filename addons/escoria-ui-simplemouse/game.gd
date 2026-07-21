@@ -377,6 +377,7 @@ func mousewheel_action(direction: int):
 
 
 func hide_ui():
+	$dialog_layer.propagate_call("set_visible", [false], true)
 	$ui/inventory_ui.propagate_call("set_visible", [false], true)
 	$ui/tooltip.propagate_call("set_visible", [false], true)
 	$ui/HBoxContainer/VBoxContainer.visible = false
@@ -384,6 +385,7 @@ func hide_ui():
 
 
 func show_ui():
+	$dialog_layer.propagate_call("set_visible", [true], true)
 	$ui/inventory_ui.propagate_call("set_visible", [true], true)
 	$ui/tooltip.propagate_call("set_visible", [true], true)
 	$ui/HBoxContainer/VBoxContainer.visible = true
