@@ -37,15 +37,8 @@ Implement methods to react to inputs.
 - _on_event_done(event_name: String)
 """
 
-
-
-
 const VERB_USE = "use"
 const VERB_WALK = "walk"
-
-
-
-
 
 # Value to use for `device` argument to various `Input.get_joy` methods.
 const JOY_DEVICE = 0
@@ -77,9 +70,12 @@ var _is_gamepad_connected = false
 # Tracks the mouse's current position onscreen.
 var _current_mouse_pos: Vector2 = Vector2.ZERO
 
+
 func _ready():
 	hide_ui()
 	$ui/tooltip.connect("tooltip_size_updated", Callable(self, "update_tooltip_following_mouse_position"))
+	escoria.inputs_manager.input_mode_changed.connect(_on_input_mode_changed)
+
 
 func _enter_tree():
 	initialize_esc_game()
@@ -492,3 +488,14 @@ func _on_event_done(_return_code: int, _event_name: String):
 func _on_room_ready():
 	$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
 	$mouse_layer/verbs_menu.action_manually_changed = false
+
+func _on_input_mode_changed(new_mode):
+	if new_mode == ESCInputsManager.INPUT_NONE:
+		$mouse_layer/verbs_menu.set_by_name("wait")
+		return
+	if (
+		escoria.action_manager.action_state
+		== ESCActionManager.ActionInputState.AWAITING_TARGET_ITEM
+	):
+		return
+	$mouse_layer/verbs_menu.set_by_name(escoria.action_manager.current_action)
