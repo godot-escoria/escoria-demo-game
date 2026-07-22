@@ -19,3 +19,7 @@ func _input(event):
 				and event.keycode == KEY_ENTER \
 				or event.keycode == KEY_KP_ENTER:
 			_on_ok_pressed()
+
+
+func _on_about_to_popup() -> void:
+	$MarginContainer/VBoxContainer/LineEdit.grab_focus()

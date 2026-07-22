@@ -1,71 +1,46 @@
-[gd_scene load_steps=2 format=3 uid="uid://coiqm0xcq8f8o"]
+[gd_scene format=3 uid="uid://coiqm0xcq8f8o"]
 
 [ext_resource type="Script" uid="uid://blqbjhwtenth5" path="res://addons/escoria-core/ui_library/menus/load_save/save/save_name_popup.gd" id="2"]
 
-[node name="save_name_popup" type="Popup"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="save_name_popup" type="Popup" unique_id=1050292675]
+oversampling_override = 1.0
+size = Vector2i(209, 185)
 script = ExtResource("2")
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=410184148]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/margin_right = 30
-theme_override_constants/margin_top = 30
 theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 30
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-offset_left = 30.0
-offset_top = 401.0
-offset_right = 1250.0
-offset_bottom = 499.0
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=440596471]
+layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/separation = 20
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
-offset_right = 1220.0
-offset_bottom = 14.0
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=2007386692]
+layout_mode = 2
 text = "ENTER_SAVE_NAME"
 
-[node name="LineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer"]
-offset_top = 34.0
-offset_right = 1220.0
-offset_bottom = 58.0
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer" unique_id=1605064251]
+layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-offset_top = 78.0
-offset_right = 1220.0
-offset_bottom = 98.0
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1175843435]
+layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="cancel" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-offset_left = 1118.0
-offset_right = 1179.0
-offset_bottom = 20.0
+[node name="cancel" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1190606511]
+layout_mode = 2
 text = "CANCEL"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="ok" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-offset_left = 1189.0
-offset_right = 1220.0
-offset_bottom = 20.0
+[node name="ok" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=2090364237]
+layout_mode = 2
 text = "OK"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
+[connection signal="about_to_popup" from="." to="." method="_on_about_to_popup"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/cancel" to="." method="_on_cancel_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/ok" to="." method="_on_ok_pressed"]
