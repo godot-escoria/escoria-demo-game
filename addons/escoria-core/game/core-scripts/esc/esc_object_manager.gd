@@ -456,7 +456,7 @@ func unregister_object(object: ESCObject, room_key: ESCRoomObjectsKey) -> void:
 		if object.node != null:
 			object.node = object.node.duplicate()
 			register_object(object, null, true)
-	
+
 	if object.state == ESCObject.STATE_DEFAULT:
 		room_objects.erase(object.global_id)
 
@@ -734,12 +734,10 @@ func disconnect_tree_exit_for_room_items(room_key: ESCRoomObjectsKey) -> void:
 	var i: int = 0
 	for room_container in room_objects:
 		if _compare_container_to_key(room_container, room_key):
-			
 			for object in room_container.objects:
 				var ro = room_objects[i]
 				if room_objects[i].objects[object].node.is_connected("tree_exited", unregister_object):
 					room_objects[i].objects[object].node.tree_exited.disconnect(unregister_object)
-				
 			break
 		else:
 			i += 1
