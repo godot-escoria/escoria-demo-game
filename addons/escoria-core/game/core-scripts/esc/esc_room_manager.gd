@@ -116,15 +116,15 @@ func change_scene_to_file(room_path: String, enable_automatic_transitions: bool)
 		room_scene.add_child(escoria.game_scene)
 		room_scene.move_child(escoria.game_scene, 0)
 		room_scene.game = escoria.game_scene
-		
+
 		# If the scene we're loading is the same as the current one, disconnect
 		# the tree_exit signal on the existing items (that was connected when
-		# items got registered in Object Manager) so that objects for new items 
+		# items got registered in Object Manager) so that objects for new items
 		# of the new room don't get unregistered.
 		if escoria.main.current_scene != null \
 				and room_scene.global_id == escoria.main.current_scene.global_id:
 			escoria.object_manager.disconnect_tree_exit_for_room_items(escoria.object_manager.current_room_key)
-		
+
 		escoria.main.set_scene(room_scene)
 
 		# We know the scene has been loaded. Make its global ID available for

@@ -1233,8 +1233,8 @@ func _update_terrain(_rc: int, event_name: String) -> void:
 ## #### Returns[br]
 ## [br]
 ## Returns nothing.
-func _get_property_list():
-	var properties = []
+func _get_property_list() -> Array[Dictionary]:
+	var properties: Array[Dictionary] = []
 	properties.append({
 		"name": "animations",
 		"type": TYPE_OBJECT,
