@@ -19,7 +19,7 @@ func _on_cancel_button_pressed():
 func _on_ok_button_pressed():
 	var text = $Panel/LineEdit.text
 	queue_free()
-	
+
 	say_command.run(
 		[
 			"player",
