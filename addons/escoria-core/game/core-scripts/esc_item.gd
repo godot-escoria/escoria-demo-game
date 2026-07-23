@@ -307,7 +307,7 @@ func _ready():
 
 		if escoria.save_manager.is_loading_game:
 			_force_registration = true
-			
+
 		escoria.object_manager.register_object(
 			ESCObject.new(
 				global_id,
