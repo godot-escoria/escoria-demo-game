@@ -221,6 +221,14 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 		object.node.tree_exited.disconnect(object.unregister_object_callback)
 
 	if force:
+		var existing_object: ESCObject = _get_room_objects_objects(room_key).get(object.global_id)
+		if existing_object != null and is_instance_valid(existing_object.node):
+			if existing_object.node.tree_exited.is_connected(
+					existing_object.unregister_object_callback
+			):
+				existing_object.node.tree_exited.disconnect(
+					existing_object.unregister_object_callback
+				)
 		# If this ID already exists and we're about to overwrite it, do the
 		# safe thing and unregister the old object first
 		unregister_object_by_global_id(object.global_id, room_key)
@@ -734,10 +742,12 @@ func disconnect_tree_exit_for_room_items(room_key: ESCRoomObjectsKey) -> void:
 	#var _room_objects = _get_room_objects_objects(room_key)
 	var i: int = 0
 	for room_container in room_objects:
-		if _compare_container_to_key(room_container, room_key):
+		if room_container.room_global_id == room_key.room_global_id \
+				and room_container.room_instance_id == room_key.room_instance_id:
 			for object in room_container.objects:
 				var ro: ESCObject = room_objects[i].objects[object]
-				if ro.node.tree_exited.is_connected(ro.unregister_object_callback):
+				if is_instance_valid(ro.node) and \
+						ro.node.tree_exited.is_connected(ro.unregister_object_callback):
 					ro.node.tree_exited.disconnect(ro.unregister_object_callback)
 			break
 		else:
