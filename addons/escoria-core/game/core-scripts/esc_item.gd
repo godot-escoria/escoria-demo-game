@@ -290,9 +290,9 @@ func _ready():
 	validate_animations(animations)
 	validate_exported_parameters()
 
-	if not input_event.is_connected(_on_input_event):
+	if not self.input_event.is_connected(_on_input_event):
 		input_event.connect(_on_input_event)
-	if not mouse_exited.is_connected(_on_mouse_exited):
+	if not self.mouse_exited.is_connected(_on_mouse_exited):
 		mouse_exited.connect(_on_mouse_exited)
 
 	# Register and connect all elements to Escoria backoffice.
@@ -329,61 +329,46 @@ func _ready():
 							get_animation_player().get_animation()
 						)
 
-
 		if escoria.object_manager.get_object(global_id).state == ESCObject.STATE_DEFAULT \
 				and escoria.object_manager.get_object(global_id).node.get_animation_player() != null:
 			escoria.object_manager.get_object(global_id) \
 					.set_state(get_animation_player().get_animation())
 			if is_movable:
 				escoria.object_manager.get_object(global_id).node._movable.last_dir = 1
-						#animations.get_direction_id_from_animation_name(
-							#.get_animation_player().get_animation()
-						#)
 
 		if !is_trigger:
-			if not self.is_connected(
-					"mouse_entered_item",
-					escoria.inputs_manager._on_mouse_entered_item
+			if not self.mouse_entered_item.is_connected(
+				escoria.inputs_manager._on_mouse_entered_item
 			):
-				mouse_entered_item.connect(
-					escoria.inputs_manager._on_mouse_entered_item
-				)
-			if not self.is_connected(
-					"mouse_exited_item",
-					escoria.inputs_manager._on_mouse_exited_item
+				mouse_entered_item.connect(escoria.inputs_manager._on_mouse_entered_item)
+			if not self.mouse_exited_item.is_connected(
+				escoria.inputs_manager._on_mouse_exited_item
 			):
-				mouse_exited_item.connect(
-					escoria.inputs_manager._on_mouse_exited_item
-				)
-			if not self.is_connected(
-					"mouse_left_clicked_item",
-					escoria.inputs_manager._on_mouse_left_clicked_item
+				mouse_exited_item.connect(escoria.inputs_manager._on_mouse_exited_item)
+			if not self.mouse_left_clicked_item.is_connected(
+				escoria.inputs_manager._on_mouse_left_clicked_item
 			):
-				mouse_left_clicked_item.connect(
-					escoria.inputs_manager._on_mouse_left_clicked_item
-				)
-			if not self.is_connected(
-				"mouse_double_left_clicked_item",
+				mouse_left_clicked_item.connect(escoria.inputs_manager._on_mouse_left_clicked_item)
+			if not self.mouse_double_left_clicked_item.is_connected(
 				escoria.inputs_manager._on_mouse_left_double_clicked_item
 			):
 				mouse_double_left_clicked_item.connect(
 					escoria.inputs_manager._on_mouse_left_double_clicked_item
 				)
-			if not self.is_connected(
-				"mouse_right_clicked_item",
+			if not self.mouse_right_clicked_item.is_connected(
 				escoria.inputs_manager._on_mouse_right_clicked_item
 			):
 				mouse_right_clicked_item.connect(
 					escoria.inputs_manager._on_mouse_right_clicked_item
 				)
 		else: # Item is a trigger
-			if not self.is_connected("area_entered", _element_entered):
+			if not self.area_entered.is_connected(_element_entered):
 				area_entered.connect(_element_entered)
-			if not self.is_connected("area_exited", _element_exited):
+			if not self.area_exited.is_connected(_element_exited):
 				area_exited.connect(_element_exited)
-			if not self.is_connected("body_entered", _element_entered):
+			if not self.body_entered.is_connected(_element_entered):
 				body_entered.connect(_element_entered)
-			if not self.is_connected("body_exited", _element_exited):
+			if not self.body_exited.is_connected(_element_exited):
 				body_exited.connect(_element_exited)
 
 		# If object can be in the inventory, set default_action_inventory to same as
@@ -673,8 +658,8 @@ func set_animations(p_animations: ESCAnimationResource) -> void:
 
 	animations = p_animations
 
-	if not animations.is_connected("changed", Callable(self, "_validate_animations")):
-		animations.connect("changed", Callable(self, "_validate_animations"))
+	if not animations.changed.is_connected(validate_animations):
+		animations.changed.connect(validate_animations)
 
 
 ## The animation player node[br]

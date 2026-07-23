@@ -185,15 +185,15 @@ func _process(delta: float) -> void:
 					if not _running_events[channel_name].source.is_empty()
 					else "(unknown)"
 			)
-			if not _running_events[channel_name].is_connected(
-				"finished", _on_event_finished
+			if not _running_events[channel_name].finished.is_connected(
+				_on_event_finished.bind(channel_name)
 			):
 				_running_events[channel_name].finished.connect(
 					_on_event_finished.bind(channel_name),
 					CONNECT_ONE_SHOT
 				)
-			if not _running_events[channel_name].is_connected(
-				"interrupted", _on_event_finished
+			if not _running_events[channel_name].interrupted.is_connected(
+				_on_event_finished.bind(channel_name)
 			):
 				_running_events[channel_name].interrupted.connect(
 					_on_event_finished.bind(channel_name),

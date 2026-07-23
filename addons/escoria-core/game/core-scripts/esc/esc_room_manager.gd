@@ -121,9 +121,17 @@ func change_scene_to_file(room_path: String, enable_automatic_transitions: bool)
 		# the tree_exit signal on the existing items (that was connected when
 		# items got registered in Object Manager) so that objects for new items
 		# of the new room don't get unregistered.
-		if escoria.main.current_scene != null \
-				and room_scene.global_id == escoria.main.current_scene.global_id:
-			escoria.object_manager.disconnect_tree_exit_for_room_items(escoria.object_manager.current_room_key)
+		var current_scene: Node = escoria.main.current_scene
+		var new_room_global_id: String = room_scene.global_id \
+				if not room_scene.global_id.is_empty() else room_scene.name
+		if is_instance_valid(current_scene):
+			var current_room_global_id: String = \
+					current_scene.global_id if not current_scene.global_id.is_empty() \
+					else current_scene.name
+			if new_room_global_id == current_room_global_id:
+				escoria.object_manager.disconnect_tree_exit_for_room_items(
+					escoria.object_manager.current_room_key
+				)
 
 		escoria.main.set_scene(room_scene)
 

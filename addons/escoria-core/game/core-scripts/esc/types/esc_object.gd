@@ -30,6 +30,9 @@ var events = ESC_EVENTS_CONTAINER_SCRIPT.new()
 ## The node representing the object in the scene.
 var node: Node
 
+## Variable that stores the Callable method to unregister the object from Object Manager
+var unregister_object_callback: Callable
+
 ## Initializes the ESCObject with a global id and node.[br]
 ## [br]
 ## #### Parameters[br]

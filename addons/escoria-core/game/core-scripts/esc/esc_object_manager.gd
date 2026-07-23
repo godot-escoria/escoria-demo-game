@@ -217,8 +217,8 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 	# forcing the registration, since we don't know if this object will be
 	# overwritten ("forced") in the future and, if it is, if it's set to
 	# auto-unregister or not. In most cases, objects are set to auto unregister.
-	if object.node.tree_exited.is_connected(unregister_object):
-		object.node.tree_exited.disconnect(unregister_object)
+	if object.node.tree_exited.is_connected(object.unregister_object_callback):
+		object.node.tree_exited.disconnect(object.unregister_object_callback)
 
 	if force:
 		# If this ID already exists and we're about to overwrite it, do the
@@ -226,7 +226,8 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 		unregister_object_by_global_id(object.global_id, room_key)
 
 	if auto_unregister:
-		object.node.tree_exited.connect(unregister_object.bind(object, room_key))
+		object.unregister_object_callback = unregister_object.bind(object, room_key)
+		object.node.tree_exited.connect(object.unregister_object_callback)
 
 	if "is_interactive" in object.node and object.node.is_interactive:
 		object.interactive = true
@@ -735,9 +736,9 @@ func disconnect_tree_exit_for_room_items(room_key: ESCRoomObjectsKey) -> void:
 	for room_container in room_objects:
 		if _compare_container_to_key(room_container, room_key):
 			for object in room_container.objects:
-				var ro = room_objects[i]
-				if room_objects[i].objects[object].node.is_connected("tree_exited", unregister_object):
-					room_objects[i].objects[object].node.tree_exited.disconnect(unregister_object)
+				var ro: ESCObject = room_objects[i].objects[object]
+				if ro.node.tree_exited.is_connected(ro.unregister_object_callback):
+					ro.node.tree_exited.disconnect(ro.unregister_object_callback)
 			break
 		else:
 			i += 1
