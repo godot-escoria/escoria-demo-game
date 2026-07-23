@@ -168,8 +168,8 @@ func _connect_location_nodes() -> void:
 func _connect_location_nodes_in_tree(node: Node) -> void:
 	for n in node.get_children():
 		if n is ESCLocation:
-			if not n.is_connected("editor_is_start_location_set",_validate_start_locations):
-				n.connect("editor_is_start_location_set", _validate_start_locations)
+			if not n.editor_is_start_location_set.is_connected(_validate_start_locations):
+				n.editor_is_start_location_set.connect(_validate_start_locations)
 
 		if n.get_child_count() > 0:
 			_connect_location_nodes_in_tree(n)
