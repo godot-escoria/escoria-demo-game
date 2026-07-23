@@ -659,7 +659,7 @@ func set_animations(p_animations: ESCAnimationResource) -> void:
 	animations = p_animations
 
 	if not animations.changed.is_connected(validate_animations):
-		animations.changed.connect(validate_animations)
+		animations.changed.connect(validate_animations.bind(animations))
 
 
 ## The animation player node[br]
