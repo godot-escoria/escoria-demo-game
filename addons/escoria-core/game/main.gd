@@ -25,6 +25,9 @@ var previous_scene: Node
 ## The Escoria context currently in wait state
 var wait_level
 
+## Last used camera limit id for current scene
+var last_current_scene_camera_limit_id: int
+
 ## Reference to the scene transition node
 @onready var scene_transition: ESCTransitionPlayer
 
@@ -203,6 +206,7 @@ func set_camera_limits(camera_limit_id: int = 0, scene: Node = current_scene) ->
 				last_available_camera_limit
 			]
 		)
+	last_current_scene_camera_limit_id = camera_limit_id
 	var scene_camera_limits = scene.camera_limits[camera_limit_id]
 	if scene_camera_limits.size.x == 0 and scene_camera_limits.size.y == 0:
 		var area = Rect2()
