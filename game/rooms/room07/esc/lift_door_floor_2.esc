@@ -8,6 +8,7 @@
 		teleport_pos($player, 5000, 5000)
 		set_angle($player, 180)
 		camera_push($r7_lift_door_floor_1, 3)
+		set_state($r7_lift, "lift_floor_2_to_1_with_player")
 		anim_block($r7_lift, "lift_floor_2_to_1_with_player")
 		teleport($player, "r7_lift_door_floor_1")
 		say($r7_lift_door_floor_1, "Ding!")

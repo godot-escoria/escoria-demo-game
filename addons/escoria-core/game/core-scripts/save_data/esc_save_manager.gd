@@ -48,6 +48,7 @@ var _add_inventory: InventoryAddCommand
 var _transition: TransitionCommand
 var _hide_menu: HideMenuCommand
 var _camera_set_target: CameraSetTargetCommand
+var _camera_set_limits: CameraSetLimitsCommand
 var _change_scene: ChangeSceneCommand
 var _enable_terrain: EnableTerrainCommand
 var _set_active: SetActiveCommand
@@ -81,6 +82,7 @@ func _init():
 	_transition = TransitionCommand.new()
 	_hide_menu = HideMenuCommand.new()
 	_camera_set_target = CameraSetTargetCommand.new()
+	_camera_set_limits = CameraSetLimitsCommand.new()
 	_change_scene = ChangeSceneCommand.new()
 	_enable_terrain = EnableTerrainCommand.new()
 	_set_active = SetActiveCommand.new()
@@ -450,9 +452,16 @@ func _load_savegame_objects(savegame_objects: Dictionary):
 func _load_room_objects(room_id: String, objects_dictionary: Dictionary):
 	escoria.logger.info(self, "Loading room '%s'" % room_id)
 
+	var camera_loaded_data = null
+	if objects_dictionary.has(escoria.object_manager.CAMERA):
+		camera_loaded_data = objects_dictionary[escoria.object_manager.CAMERA]
+		objects_dictionary.erase(escoria.object_manager.CAMERA)
 	for object_id in objects_dictionary:
 		_load_object(object_id, objects_dictionary[object_id], room_id)
-
+	# Then load camera
+	if camera_loaded_data != null:
+		_load_object(escoria.object_manager.CAMERA, camera_loaded_data, room_id)
+	
 	escoria.logger.info(self, "Finished loading room '%s'" % room_id)
 
 ## Load one object saved in a savegame data.[br]
@@ -472,6 +481,7 @@ func _load_object(object_id: String, object_dictionary: Dictionary, _room_id: St
 	escoria.logger.info(self, "Loading object '%s'" % object_id)
 
 	if object_id == ESCObjectManager.CAMERA:
+		_camera_set_limits.run([object_dictionary["limit_id"]])
 		_camera_set_target.run([0, object_dictionary["target"]])
 	else:
 		# Active
