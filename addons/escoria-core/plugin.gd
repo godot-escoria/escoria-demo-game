@@ -33,6 +33,7 @@ func _enable_plugin():
 		"escoria",
 		"res://addons/escoria-core/game/esc_autoload.gd"
 	)
+	
 	# Prepare settings
 	_set_escoria_main_settings()
 	_set_escoria_debug_settings()
@@ -102,6 +103,9 @@ func _disable_plugin():
 func _enter_tree():
 	# have to add this here since reloading the project doesn't re-add the Tools menu item
 	add_tool_menu_item(ASHES_ANALYZER_MENU_ITEM, _compiler_analyzer.analyze)
+	
+	# Pre-enabling checks and actions
+	_prepare_specific_godot_version()
 
 
 ## Called when Escoria plugin gets removed from Godot Editor's tree.[br]
@@ -611,3 +615,31 @@ func _set_filesystem_hide_esc_files():
 			"docks/filesystem/textfile_extensions",
 			COMMA_SEPARATOR.join(displayed_extensions)
 			)
+
+
+func _prepare_specific_godot_version(engine_version: int = Engine.get_version_info().hex) -> void:
+	var dir = DirAccess.open("res://addons/escoria-core/game/core-scripts/pre-4.7/")
+	if dir == null:
+		print(dir.get_open_error())
+	var res: Error = dir.remove("res://addons/escoria-core/game/core-scripts/esc_dialog_location.gd")
+	res = dir.remove("res://addons/escoria-core/game/core-scripts/esc_interaction_location.gd")
+	res = dir.remove("res://addons/escoria-core/game/core-scripts/esc_item.gd")
+	res = dir.remove("res://addons/escoria-core/game/core-scripts/esc_location.gd")
+	print(res)
+	print("Preparing Escoria for version %s" % [str(engine_version)])
+	
+	if engine_version < 0x40700:
+		# Copy 4.6 files
+		res = DirAccess.copy_absolute("res://addons/escoria-core/game/core-scripts/pre-4.7/esc_dialog_location.4.6.gd","res://addons/escoria-core/game/core-scripts/esc_dialog_location.gd")
+		res = DirAccess.copy_absolute("res://addons/escoria-core/game/core-scripts/pre-4.7/esc_interaction_location.4.6.gd", "res://addons/escoria-core/game/core-scripts/esc_interaction_location.gd")
+		res = DirAccess.copy_absolute("res://addons/escoria-core/game/core-scripts/pre-4.7/esc_item.4.6.gd", "res://addons/escoria-core/game/core-scripts/esc_item.gd")
+		res = DirAccess.copy_absolute("res://addons/escoria-core/game/core-scripts/pre-4.7/esc_location.4.6.gd", "res://addons/escoria-core/game/core-scripts/esc_location.gd")
+		print(res)
+	else:
+		# Copy 4.7 files
+		res = DirAccess.copy_absolute("res://addons/escoria-core/game/core-scripts/pre-4.7/esc_dialog_location.4.7.gd", "res://addons/escoria-core/game/core-scripts/esc_dialog_location.gd")
+		res = DirAccess.copy_absolute("res://addons/escoria-core/game/core-scripts/pre-4.7/esc_interaction_location.4.7.gd", "res://addons/escoria-core/game/core-scripts/esc_interaction_location.gd")
+		res = DirAccess.copy_absolute("res://addons/escoria-core/game/core-scripts/pre-4.7/esc_item.4.7.gd", "res://addons/escoria-core/game/core-scripts/esc_item.gd")
+		res = DirAccess.copy_absolute("res://addons/escoria-core/game/core-scripts/pre-4.7/esc_location.4.7.gd", "res://addons/escoria-core/game/core-scripts/esc_location.gd")
+		print(res)
+	print("Preparation ok.")
