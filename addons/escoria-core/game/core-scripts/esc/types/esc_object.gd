@@ -200,7 +200,8 @@ func get_save_data() -> Dictionary:
 
 	if self.global_id in ["_music", "_sound", "_ambient"] and self.node.get("state"):
 		save_data["state"] = self.node.get("state")
-		save_data["playback_position"] = self.node.get_playback_position()
+		if escoria.settings_manager.get_settings_dict()[ESCProjectSettingsManager.SAVE_SOUNDS_PLAYBACK_POSITION]:
+			save_data["playback_position"] = self.node.get_playback_position()
 
 	if self.global_id == "_camera":
 		save_data["target"] = self.node.get("_follow_target").global_id

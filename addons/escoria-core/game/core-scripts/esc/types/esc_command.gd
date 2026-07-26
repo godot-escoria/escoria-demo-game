@@ -107,6 +107,15 @@ func run() -> int:
 	)
 
 	if command_object.validate(prepared_arguments):
+		if escoria.save_manager.is_loading_game \
+				and escoria.event_manager.get_running_event(escoria.event_manager.CHANNEL_FRONT).get_event_name() == escoria.event_manager.EVENT_READY \
+				and not command_object.run_in_ready_allowed_during_savegame_loading:
+			escoria.logger.debug(
+				self,
+				"Skipped command %s with parameters %s because it is not allowed to be ran from :ready event during savegame load."
+						% [self.name, prepared_arguments]
+			)
+			return ESCExecution.RC_WONT_QUEUE
 		escoria.logger.debug(
 			self,
 			"Running command %s with parameters %s."

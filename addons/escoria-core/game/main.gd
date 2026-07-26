@@ -402,3 +402,19 @@ func show_ui() -> void:
 func show_current_scene() -> void:
 	if escoria.main.current_scene != null:
 		escoria.main.current_scene.show()
+
+## Stops all sound channels.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
+func stop_all_sounds() -> void:
+	var _stop_snd: StopSndCommand = StopSndCommand.new()
+	_stop_snd.run([ESCObjectManager.AMBIENT])
+	_stop_snd.run([ESCObjectManager.MUSIC])
+	_stop_snd.run([ESCObjectManager.SOUND])
+	_stop_snd.run([ESCObjectManager.SPEECH])

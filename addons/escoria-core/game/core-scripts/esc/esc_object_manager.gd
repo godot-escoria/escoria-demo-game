@@ -217,7 +217,8 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 	# forcing the registration, since we don't know if this object will be
 	# overwritten ("forced") in the future and, if it is, if it's set to
 	# auto-unregister or not. In most cases, objects are set to auto unregister.
-	if object.node.tree_exited.is_connected(object.unregister_object_callback):
+	if not object.unregister_object_callback.is_null() and \
+			object.node.tree_exited.is_connected(object.unregister_object_callback):
 		object.node.tree_exited.disconnect(object.unregister_object_callback)
 
 	if force:

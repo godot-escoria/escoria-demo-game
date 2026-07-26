@@ -317,6 +317,14 @@ func _set_escoria_main_settings():
 		}
 	)
 
+	register_setting(
+		ESCProjectSettingsManager.SAVE_SOUNDS_PLAYBACK_POSITION,
+		true,
+		{
+			"type": TYPE_BOOL,
+		}
+	)
+
 
 ## Prepare the settings in the Escoria debug category[br]
 ## [br]

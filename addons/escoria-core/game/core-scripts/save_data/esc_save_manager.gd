@@ -297,6 +297,9 @@ func load_game(id: int):
 		)
 		return
 
+	# Stop all musics and sounds
+	escoria.main.stop_all_sounds()
+
 	# Disconnect all trigger areas in the current room so that they don't
 	# trigger after room is loaded (eg: when player was in a trigger area,
 	# trigger_out won't fire after loading the game)
@@ -389,7 +392,16 @@ func load_game(id: int):
 	escoria.current_state = escoria.GameState.LOADING
 
 	escoria.room_manager.change_scene_to_file(save_game.main.current_scene_filename, false)
+	
+	# Pop sound and music data from the savegame
+	var sound_music_saved_data: Dictionary = {}
+	for object_id in save_game.objects:
+		if object_id in ESCObjectManager.RESERVED_OBJECTS: 
+			sound_music_saved_data[object_id] = save_game.objects[object_id]
+	for object_id in sound_music_saved_data:
+		save_game.objects.erase(object_id)
 
+	# Load the object
 	_load_savegame_objects(save_game.objects)
 
 	escoria.globals_manager.clear()
@@ -397,7 +409,10 @@ func load_game(id: int):
 	_load_savegame_inventory(save_game.inventory)
 	_load_savegame_terrain_navpolys(save_game.terrain_navpolys)
 	_load_savegame_events(save_game.events)
-	_transition.run(["", "in", 1.0])
+	await _transition.run(["", "in", 1.0])
+
+	# Music and sound resume
+	_load_savegame_objects(sound_music_saved_data)
 
 	escoria.set_game_paused(false)
 
@@ -425,12 +440,19 @@ func load_game(id: int):
 func _load_savegame_objects(savegame_objects: Dictionary):
 	for object_id in savegame_objects:
 		var saved_object_data = savegame_objects[object_id]
-		if object_id in ESCObjectManager.RESERVED_OBJECTS: # Sound players only atm
+		if object_id in ESCObjectManager.RESERVED_OBJECTS: 
+			# Sound players only atm
+			# Sounds and music to be resumed after transition
 			if saved_object_data.has("state") \
 					and saved_object_data["state"] in ["off", "default"]:
 				_stop_snd.run([object_id])
 			else:
-				_play_snd.run([saved_object_data["state"], object_id, saved_object_data["playback_position"]])
+				var playback_position: float = 0.0
+				if ESCProjectSettingsManager.get_setting(
+							ESCProjectSettingsManager.SAVE_SOUNDS_PLAYBACK_POSITION
+						) and saved_object_data.has("playback_position"):
+					playback_position = saved_object_data["playback_position"]
+				_play_snd.run([saved_object_data["state"], object_id, playback_position])
 		else:
 			if object_id == escoria.main.current_scene.global_id:
 				_load_room_objects(object_id, saved_object_data)
