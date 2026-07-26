@@ -19,6 +19,20 @@ var previous_snd_state: String
 ## The specified sound player
 var _snd_player: String
 
+
+## Constructor of this command.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
+func _init() -> void:
+	run_in_ready_allowed_during_savegame_loading = false
+
+
 ## The descriptor of the arguments of this command.[br]
 ## [br]
 ## #### Parameters[br]

@@ -47,6 +47,9 @@ const SETTINGS_PATH = _ESCORIA_SETTINGS_ROOT + "/" + _MAIN_ROOT + "/" + "setting
 const TEXT_LANG = _ESCORIA_SETTINGS_ROOT + "/" + _MAIN_ROOT + "/" + "text_lang"
 ## Path to the voice language setting.
 const VOICE_LANG = _ESCORIA_SETTINGS_ROOT + "/" + _MAIN_ROOT + "/" + "voice_lang"
+## Save sounds playback position in savegames. If this is false, playback will resume from beginning
+## after loading.
+const SAVE_SOUNDS_PLAYBACK_POSITION = _ESCORIA_SETTINGS_ROOT + "/" + _MAIN_ROOT + "/" + "save_sounds_playback_position"
 
 ## Debug-related Escoria project settings root.
 const _DEBUG_ROOT = "debug"
