@@ -377,7 +377,6 @@ func mousewheel_action(direction: int):
 
 
 func hide_ui():
-	$dialog_layer.propagate_call("set_visible", [false], true)
 	$ui/inventory_ui.propagate_call("set_visible", [false], true)
 	$ui/tooltip.propagate_call("set_visible", [false], true)
 	$ui/HBoxContainer/VBoxContainer.visible = false
@@ -385,7 +384,6 @@ func hide_ui():
 
 
 func show_ui():
-	$dialog_layer.propagate_call("set_visible", [true], true)
 	$ui/inventory_ui.propagate_call("set_visible", [true], true)
 	$ui/tooltip.propagate_call("set_visible", [true], true)
 	$ui/HBoxContainer/VBoxContainer.visible = true
@@ -394,6 +392,7 @@ func show_ui():
 
 func hide_main_menu():
 	show_ui()
+	$dialog_layer.propagate_call("set_visible", [true], true)
 	if escoria.current_state != escoria.GameState.LOADING:
 		escoria.current_state = escoria.GameState.DEFAULT
 	if get_node(main_menu).visible:
@@ -404,12 +403,14 @@ func show_main_menu():
 		return
 	escoria.current_state = escoria.GameState.PAUSED
 	hide_ui()
+	$dialog_layer.propagate_call("set_visible", [false], true)
 	if not get_node(main_menu).visible:
 		get_node(main_menu).reset()
 		get_node(main_menu).show()
 
 func unpause_game():
 	show_ui()
+	$dialog_layer.propagate_call("set_visible", [true], true)
 	escoria.current_state = escoria.GameState.DEFAULT
 	if get_node(pause_menu).visible:
 		get_node(pause_menu).hide()
@@ -421,7 +422,8 @@ func unpause_game():
 func pause_game():
 	if escoria.current_state == escoria.GameState.PAUSED:
 		return
-	show_ui()
+	hide_ui()
+	$dialog_layer.propagate_call("set_visible", [false], true)
 	escoria.current_state = escoria.GameState.PAUSED
 	if not get_node(pause_menu).visible:
 		get_node(main_menu).reset()
