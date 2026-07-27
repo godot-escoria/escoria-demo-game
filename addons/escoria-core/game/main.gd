@@ -25,8 +25,8 @@ var previous_scene: Node
 ## The Escoria context currently in wait state
 var wait_level
 
-## Last used camera limit id for current scene
-var last_current_scene_camera_limit_id: int
+## Last used camera limit id by room global id
+var camera_limit_id_by_room_global_id: Dictionary = {}
 
 ## Reference to the scene transition node
 @onready var scene_transition: ESCTransitionPlayer
@@ -183,6 +183,98 @@ func _on_wait_finished() -> void:
 	escoria.esc_level_runner.finished(wait_level)
 
 
+## Returns true iff the specified camera limit id can be applied to the scene.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## |camera_limit_id|`int`|The camera limit id to check.|yes|[br]
+## |scene|`Node`|The scene to check against.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns `true` if the specified camera limit id can be applied to the scene.
+func _is_valid_camera_limit_id_for_room(camera_limit_id: int, scene: Node) -> bool:
+	if scene == null or not is_instance_valid(scene):
+		return false
+	if not (scene is ESCRoom):
+		return false
+
+	var last_available_camera_limit = scene.camera_limits.size() - 1
+	return camera_limit_id >= 0 and camera_limit_id <= last_available_camera_limit
+
+
+## Clears stored camera limit id for the specified scene global id.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## |scene_global_id|`String`|The global id of the scene.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
+func clear_camera_limit_id_for_room(scene_global_id: String) -> void:
+	if scene_global_id == "":
+		return
+	camera_limit_id_by_room_global_id.erase(scene_global_id)
+
+
+## Returns the stored camera limit id for the scene if it is valid.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## |room|`Node`|The room to get the camera limit id for.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns the stored camera limit id for the scene if it is valid.
+func get_camera_limit_id_for_room(room: Node) -> Variant:
+	if room == null or not is_instance_valid(room):
+		return null
+	if not (room is ESCRoom):
+		return null
+	if not camera_limit_id_by_room_global_id.has(room.global_id):
+		return null
+
+	var stored_camera_limit_id = camera_limit_id_by_room_global_id[room.global_id]
+	if typeof(stored_camera_limit_id) != TYPE_INT:
+		camera_limit_id_by_room_global_id.erase(room.global_id)
+		return null
+	if not _is_valid_camera_limit_id_for_room(stored_camera_limit_id, room):
+		camera_limit_id_by_room_global_id.erase(room.global_id)
+		return null
+
+	return stored_camera_limit_id
+
+
+## Restores camera limits for a scene global id iff the id belongs to that scene.
+## [br]
+## #### Parameters[br]
+## [br]
+## |room_global_id|`String`|The room to get the camera limit id for.|yes|[br]
+## |camera_limit_id|`int`|The camera limit id to restore for the room.|yes|[br]
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
+func restore_camera_limit_for_room_global_id(room_global_id: String, camera_limit_id: Variant) -> void:
+	if room_global_id == "":
+		return
+	if current_scene == null or not (current_scene is ESCRoom):
+		clear_camera_limit_id_for_room(room_global_id)
+		return
+	if current_scene.global_id != room_global_id:
+		clear_camera_limit_id_for_room(room_global_id)
+		return
+	if typeof(camera_limit_id) != TYPE_INT:
+		clear_camera_limit_id_for_room(room_global_id)
+		return
+	if not _is_valid_camera_limit_id_for_room(camera_limit_id, current_scene):
+		clear_camera_limit_id_for_room(room_global_id)
+		return
+
+	set_camera_limits(camera_limit_id, current_scene)
+
+
 ## Set the camera limits[br]
 ## [br]
 ## #### Parameters[br]
@@ -197,8 +289,13 @@ func _on_wait_finished() -> void:
 ## Returns nothing.
 func set_camera_limits(camera_limit_id: int = 0, scene: Node = current_scene) -> void:
 	var limits = {}
+	if scene == null or not is_instance_valid(scene):
+		return
+	if not (scene is ESCRoom):
+		return
+
 	var last_available_camera_limit = scene.camera_limits.size() - 1
-	if camera_limit_id > last_available_camera_limit:
+	if camera_limit_id < 0 or camera_limit_id > last_available_camera_limit:
 		escoria.logger.error(
 			self,
 			"Camera3D limit %d requested. Last available camera limit is %d." % [
@@ -206,7 +303,8 @@ func set_camera_limits(camera_limit_id: int = 0, scene: Node = current_scene) ->
 				last_available_camera_limit
 			]
 		)
-	last_current_scene_camera_limit_id = camera_limit_id
+		camera_limit_id_by_room_global_id.erase(scene.global_id)
+		return
 	var scene_camera_limits = scene.camera_limits[camera_limit_id]
 	if scene_camera_limits.size.x == 0 and scene_camera_limits.size.y == 0:
 		var area = Rect2()
@@ -252,6 +350,8 @@ func set_camera_limits(camera_limit_id: int = 0, scene: Node = current_scene) ->
 	escoria.object_manager.get_object(
 		escoria.object_manager.CAMERA
 	).node.set_limits(limits)
+	camera_limit_id_by_room_global_id[scene.global_id] = camera_limit_id
+
 
 
 ## Save the game state to the provided savegame resource.[br]
