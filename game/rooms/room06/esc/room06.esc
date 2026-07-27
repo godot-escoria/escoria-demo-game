@@ -19,6 +19,8 @@
 		teleport("player", "r6_r_exit")
 		# Set player look left
 		set_angle("player", 270)
+		if !r6_r_exit_locked:
+			set_active("worker", false)
 
 
 :ready
