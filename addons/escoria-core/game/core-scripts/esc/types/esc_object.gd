@@ -205,7 +205,9 @@ func get_save_data() -> Dictionary:
 
 	if self.global_id == "_camera":
 		save_data["target"] = self.node.get("_follow_target").global_id
-		save_data["limit_id"] = escoria.main.last_current_scene_camera_limit_id
+		var camera_limit_id = escoria.main.get_camera_limit_id_for_room(escoria.main.current_scene)
+		if camera_limit_id != null:
+			save_data["limit_id"] = camera_limit_id
 
 	return save_data
 

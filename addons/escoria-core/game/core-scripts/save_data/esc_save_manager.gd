@@ -483,7 +483,7 @@ func _load_room_objects(room_id: String, objects_dictionary: Dictionary):
 	# Then load camera
 	if camera_loaded_data != null:
 		_load_object(escoria.object_manager.CAMERA, camera_loaded_data, room_id)
-	
+
 	escoria.logger.info(self, "Finished loading room '%s'" % room_id)
 
 ## Load one object saved in a savegame data.[br]
@@ -503,7 +503,13 @@ func _load_object(object_id: String, object_dictionary: Dictionary, _room_id: St
 	escoria.logger.info(self, "Loading object '%s'" % object_id)
 
 	if object_id == ESCObjectManager.CAMERA:
-		_camera_set_limits.run([object_dictionary["limit_id"]])
+		if object_dictionary.has("limit_id"):
+			escoria.main.restore_camera_limit_for_room_global_id(
+				_room_id,
+				object_dictionary["limit_id"]
+			)
+		else:
+			escoria.main.clear_camera_limit_id_for_room_global_id(_room_id)
 		_camera_set_target.run([0, object_dictionary["target"]])
 	else:
 		# Active
