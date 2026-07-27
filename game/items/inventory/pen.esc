@@ -20,5 +20,6 @@
 	say("player", "Name...")
 	say("player", "Address...")
 	inventory_add("r5_filled_sheet")
+	pen_and_paper_used = true
 	# Allow player interaction again
 	accept_input("ALL")
