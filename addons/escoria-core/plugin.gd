@@ -114,22 +114,20 @@ func _enter_tree():
 	match action:
 		MigrationAction.DOWNGRADE_4_6:
 			popup_info = AcceptDialog.new()
-			popup_info.dialog_text = """The version of Godot Engine you appear to be running is older \
-			than the one this version of Escoria relies on (4.7.x).
-
+			popup_info.dialog_text = """The version of Godot Engine you appear to be running is older 
+			than the one this version of Escoria relies on (4.7.x).\n
 			Godot Engine 4.6 and 4.7 APIs have some differences in methods that Escoria makes use of.
-			Escoria can now automatically revert its impacted core scripts to makes them compatible \
-			with Godot Engine 4.6.
-
+			Escoria can now automatically revert its impacted core scripts to makes them compatible
+			with Godot Engine 4.6.\n
 			Here is the list of the impacted files:
 			- res://addons/escoria-core/game/core-scripts/esc_dialog_location.gd
 			- res://addons/escoria-core/game/core-scripts/esc_interaction_location.gd
 			- res://addons/escoria-core/game/core-scripts/esc_item.gd
-			- res://addons/escoria-core/game/core-scripts/esc_location.gd
-
+			- res://addons/escoria-core/game/core-scripts/esc_location.gd\n
+			⚠️IMPORTANT⚠️: the editor will restart after this action is done.\n
 			If you wish to let Escoria proceed, choose 'OK'.
 			If you wish to upgrade to a newer version of Godot, choose 'Cancel'.
-			If you have edited these files for your own needs, you'll need to manually fix them: \
+			If you have edited these files for your own needs, you'll need to manually fix them:
 			choose 'Cancel' (existing files will be backuped anyway).
 			"""
 			popup_info.add_cancel_button("Cancel")
@@ -140,22 +138,20 @@ func _enter_tree():
 
 		MigrationAction.UPGRADE_4_7:
 			popup_info = AcceptDialog.new()
-			popup_info.dialog_text = """The version of Godot Engine you appear to be running is newer \
-			than the one this version of Escoria relies on (4.6.x).
-
+			popup_info.dialog_text = """The version of Godot Engine you appear to be running is newer
+			than the one this version of Escoria relies on (4.6.x).\n
 			Godot Engine 4.6 and 4.7 APIs have some differences in methods that Escoria makes use of.
-			Escoria can now automatically revert its impacted core scripts to makes them compatible \
-			with Godot Engine 4.7.
-
+			Escoria can now automatically revert its impacted core scripts to makes them compatible
+			with Godot Engine 4.7.\n
 			Here is the list of the impacted files:
 			- res://addons/escoria-core/game/core-scripts/esc_dialog_location.gd
 			- res://addons/escoria-core/game/core-scripts/esc_interaction_location.gd
 			- res://addons/escoria-core/game/core-scripts/esc_item.gd
-			- res://addons/escoria-core/game/core-scripts/esc_location.gd
-
+			- res://addons/escoria-core/game/core-scripts/esc_location.gd\n
+			⚠️IMPORTANT⚠️: the editor will restart after this action is done.\n
 			If you wish to let Escoria proceed, choose 'OK'.
 			If you wish to upgrade to a newer version of Godot, choose 'Cancel'.
-			If you have edited these files for your own needs, you'll need to manually fix them: \
+			If you have edited these files for your own needs, you'll need to manually fix them:
 			choose 'Cancel' (existing files will be backuped anyway).
 			"""
 			popup_info.add_cancel_button("Cancel")
@@ -771,3 +767,5 @@ func _prepare_specific_godot_version(target_hex: int) -> void:
 	# Lastly, store the last used engine version in a file
 	var new_last_version_used_file = FileAccess.open("res://addons/escoria-core/game/core-scripts/pre-4.7/last_version_used", FileAccess.WRITE)
 	new_last_version_used_file.store_32(target_hex)
+	
+	EditorInterface.restart_editor()
