@@ -12,6 +12,29 @@ If you want to contribute to the development of Escoria, please read our [Contri
 
 This is the demo game that acts as a testing ground for future Escoria development and a general showcase of its features.
 
+## Godot Engine versions to be used
+
+Escoria is meant to work with both Godot Engine 4.6.x and 4.7.x. However, some API changes between 4.6 and 4.7 that Escoria uses forces some tweaks in
+some scripts: 
+
+	- res://addons/escoria-core/game/core-scripts/esc_dialog_location.gd
+	- res://addons/escoria-core/game/core-scripts/esc_interaction_location.gd
+	- res://addons/escoria-core/game/core-scripts/esc_location.gd
+	- res://addons/escoria-core/game/core-scripts/esc_item.gd
+
+Escoria will detect on launch if these scripts need to be replaced with the according for your version of Godot Engine.
+
+However, if you have made some changes in these files for your own build of Escoria, you may want to apply the necessary changes yourself.
+To do so, you'll need to fix the `is_class()` overrides in the 3 first files above:
+
+	- 4.6 expects `is_class(String)`
+	- 4.7 expects `is_class(StringName)`
+
+Also, in `esc_item.gd`, the `_get_configuration_warnings()` method needs to return:
+
+	- 4.6: `return "\n".join(_scene_warnings)`
+	- 4.7: `return _scene_warnings`
+
 ## Art credits
 
 ### Characters
