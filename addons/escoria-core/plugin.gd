@@ -2,11 +2,7 @@
 ## Plugin script to initialize Escoria
 extends EditorPlugin
 
-enum MigrationAction {
-	UPGRADE_4_7,
-	DOWNGRADE_4_6,
-	DO_NOTHING
-}
+
 
 ## Comma separator const used to build enabled extensions.
 const COMMA_SEPARATOR = ","
@@ -19,6 +15,7 @@ const ASHES_ANALYZER_MENU_ITEM = "Analyze ASHES Scripts"
 
 ## The warning popup displayed on escoria-core enabling.
 var popup_info: AcceptDialog
+var popup_migration: AcceptDialogMigrate4647
 
 ## ASHES scripts analyzer. Needed to allow calling the analyzer from
 ## Project>Tools menu.
@@ -69,7 +66,6 @@ func _enable_plugin():
 	get_editor_interface().get_editor_main_screen().add_child(popup_info)
 	popup_info.popup_centered()
 
-
 ## Callback for warning popup displayed on escoria-core plugin enabling.[br]
 ## [br]
 ## #### Parameters[br]
@@ -80,7 +76,7 @@ func _enable_plugin():
 ## [br]
 ## Returns nothing.
 func _on_warning_popup_confirmed():
-	popup_info.queue_free()
+	popup_info.hide()
 
 
 ## Virtual function called when plugin is disabled.[br]
@@ -110,58 +106,15 @@ func _enter_tree():
 	# have to add this here since reloading the project doesn't re-add the Tools menu item
 	add_tool_menu_item(ASHES_ANALYZER_MENU_ITEM, _compiler_analyzer.analyze)
 
-	var action: MigrationAction = _check_need_upgrade_or_downgrade_scripts()
-	match action:
-		MigrationAction.DOWNGRADE_4_6:
-			popup_info = AcceptDialog.new()
-			popup_info.dialog_text = """The version of Godot Engine you appear to be running is older 
-			than the one this version of Escoria relies on (4.7.x).\n
-			Godot Engine 4.6 and 4.7 APIs have some differences in methods that Escoria makes use of.
-			Escoria can now automatically revert its impacted core scripts to makes them compatible
-			with Godot Engine 4.6.\n
-			Here is the list of the impacted files:
-			- res://addons/escoria-core/game/core-scripts/esc_dialog_location.gd
-			- res://addons/escoria-core/game/core-scripts/esc_interaction_location.gd
-			- res://addons/escoria-core/game/core-scripts/esc_item.gd
-			- res://addons/escoria-core/game/core-scripts/esc_location.gd\n
-			⚠️IMPORTANT⚠️: the editor will restart after this action is done.\n
-			If you wish to let Escoria proceed, choose 'OK'.
-			If you wish to upgrade to a newer version of Godot, choose 'Cancel'.
-			If you have edited these files for your own needs, you'll need to manually fix them:
-			choose 'Cancel' (existing files will be backuped anyway).
-			"""
-			popup_info.add_cancel_button("Cancel")
-			popup_info.confirmed.connect(self._prepare_specific_godot_version.bind(Engine.get_version_info().hex), CONNECT_ONE_SHOT)
-			popup_info.canceled.connect(self._on_warning_popup_confirmed, CONNECT_ONE_SHOT)
-			get_editor_interface().get_editor_main_screen().add_child(popup_info)
-			popup_info.popup_centered()
-
-		MigrationAction.UPGRADE_4_7:
-			popup_info = AcceptDialog.new()
-			popup_info.dialog_text = """The version of Godot Engine you appear to be running is newer
-			than the one this version of Escoria relies on (4.6.x).\n
-			Godot Engine 4.6 and 4.7 APIs have some differences in methods that Escoria makes use of.
-			Escoria can now automatically revert its impacted core scripts to makes them compatible
-			with Godot Engine 4.7.\n
-			Here is the list of the impacted files:
-			- res://addons/escoria-core/game/core-scripts/esc_dialog_location.gd
-			- res://addons/escoria-core/game/core-scripts/esc_interaction_location.gd
-			- res://addons/escoria-core/game/core-scripts/esc_item.gd
-			- res://addons/escoria-core/game/core-scripts/esc_location.gd\n
-			⚠️IMPORTANT⚠️: the editor will restart after this action is done.\n
-			If you wish to let Escoria proceed, choose 'OK'.
-			If you wish to upgrade to a newer version of Godot, choose 'Cancel'.
-			If you have edited these files for your own needs, you'll need to manually fix them:
-			choose 'Cancel' (existing files will be backuped anyway).
-			"""
-			popup_info.add_cancel_button("Cancel")
-			popup_info.confirmed.connect(self._prepare_specific_godot_version.bind(Engine.get_version_info().hex), CONNECT_ONE_SHOT)
-			popup_info.canceled.connect(self._on_warning_popup_confirmed, CONNECT_ONE_SHOT)
-			get_editor_interface().get_editor_main_screen().add_child(popup_info)
-			popup_info.popup_centered()
-		MigrationAction.DO_NOTHING:
-			print("No migration of scripts was required.")
-
+	print("MIGRATION")
+	popup_migration = preload("res://addons/escoria-core/editor/migration_4_6_4_7/acceptdialog_migrate_4_6_4_7.tscn").instantiate()
+	get_editor_interface().get_editor_main_screen().add_child(popup_migration)
+	if popup_migration.required_migration:
+		popup_migration.popup_centered()
+	else:
+		get_editor_interface().get_editor_main_screen().remove_child(popup_migration)
+	
+	
 ## Called when Escoria plugin gets removed from Godot Editor's tree.[br]
 ## [br]
 ## #### Parameters[br]
@@ -669,103 +622,3 @@ func _set_filesystem_hide_esc_files():
 			"docks/filesystem/textfile_extensions",
 			COMMA_SEPARATOR.join(displayed_extensions)
 			)
-
-func _check_need_upgrade_or_downgrade_scripts(engine_version: Dictionary = Engine.get_version_info()) -> MigrationAction:
-	var last_version_used_file = FileAccess.open("res://addons/escoria-core/game/core-scripts/pre-4.7/last_version_used", FileAccess.READ)
-	if last_version_used_file == null:
-		print("Failed opening 'last_version_used' file: migration not done.")
-		if engine_version.hex >= 0x040700:
-			print("Targeting 4.7")
-			return MigrationAction.UPGRADE_4_7
-		else:
-			print("Targeting 4.6")
-			return MigrationAction.DOWNGRADE_4_6
-	var last_version: int = last_version_used_file.get_32()
-	last_version_used_file.close()
-	
-	print("Last used Godot version is %s\nCurrent is (%s)" % [str(last_version), engine_version.string])
-	if engine_version.hex >= 0x040700: # we're running 4.7
-		if last_version >= engine_version.hex:
-			return MigrationAction.DO_NOTHING
-		else: # last version is 4.6
-			return MigrationAction.UPGRADE_4_7
-
-	else: # engine_version.hex < 0x040700 -> we're running 4.6
-		if last_version >= 0x040700:
-			return MigrationAction.DOWNGRADE_4_6
-		else: # last version is 4.6
-			return MigrationAction.DO_NOTHING 
-
-
-func _prepare_specific_godot_version(target_hex: int) -> void:
-	var dir = DirAccess.open("res://addons/escoria-core/game/core-scripts/")
-	print("Preparing Escoria for Godot version %s" % [target_hex])
-
-	# Backup existing files, just in case they were edited by gamedev (and so, different from
-	# origin).
-	var datetime: String = Time.get_datetime_string_from_system().replace(":",".")
-	var res: Error = dir.copy(
-		"res://addons/escoria-core/game/core-scripts/esc_dialog_location.gd",
-		"res://addons/escoria-core/game/core-scripts/pre-4.7/esc_dialog_location.gd.%s.bak" % datetime
-	)
-	res = dir.copy(
-		"res://addons/escoria-core/game/core-scripts/esc_interaction_location.gd",
-		"res://addons/escoria-core/game/core-scripts/pre-4.7/esc_interaction_location.gd.%s.bak" % datetime
-	)
-	res = dir.copy(
-		"res://addons/escoria-core/game/core-scripts/esc_item.gd",
-		"res://addons/escoria-core/game/core-scripts/pre-4.7/esc_item.gd.%s.bak" % datetime
-	)
-	res = dir.copy(
-		"res://addons/escoria-core/game/core-scripts/esc_location.gd",
-		"res://addons/escoria-core/game/core-scripts/pre-4.7/esc_location.gd.%s.bak" % datetime
-	)
-
-	# Then remove
-	res = dir.remove("res://addons/escoria-core/game/core-scripts/esc_dialog_location.gd")
-	res = dir.remove("res://addons/escoria-core/game/core-scripts/esc_interaction_location.gd")
-	res = dir.remove("res://addons/escoria-core/game/core-scripts/esc_item.gd")
-	res = dir.remove("res://addons/escoria-core/game/core-scripts/esc_location.gd")
-
-	if target_hex < 0x40700: # < 4.7.0
-		# Copy 4.6 files
-		res = DirAccess.copy_absolute(
-			"res://addons/escoria-core/game/core-scripts/pre-4.7/esc_dialog_location.4.6.gd",
-			"res://addons/escoria-core/game/core-scripts/esc_dialog_location.gd"
-		)
-		res = DirAccess.copy_absolute(
-			"res://addons/escoria-core/game/core-scripts/pre-4.7/esc_interaction_location.4.6.gd",
-			"res://addons/escoria-core/game/core-scripts/esc_interaction_location.gd"
-		)
-		res = DirAccess.copy_absolute(
-			"res://addons/escoria-core/game/core-scripts/pre-4.7/esc_item.4.6.gd",
-			"res://addons/escoria-core/game/core-scripts/esc_item.gd"
-		)
-		res = DirAccess.copy_absolute(
-			"res://addons/escoria-core/game/core-scripts/pre-4.7/esc_location.4.6.gd",
-			"res://addons/escoria-core/game/core-scripts/esc_location.gd"
-		)
-	else: # >= 4.7.x
-		# Copy 4.7 files
-		res = DirAccess.copy_absolute(
-			"res://addons/escoria-core/game/core-scripts/pre-4.7/esc_dialog_location.4.7.gd",
-			"res://addons/escoria-core/game/core-scripts/esc_dialog_location.gd"
-		)
-		res = DirAccess.copy_absolute(
-			"res://addons/escoria-core/game/core-scripts/pre-4.7/esc_interaction_location.4.7.gd",
-			"res://addons/escoria-core/game/core-scripts/esc_interaction_location.gd"
-		)
-		res = DirAccess.copy_absolute(
-			"res://addons/escoria-core/game/core-scripts/pre-4.7/esc_item.4.7.gd",
-			"res://addons/escoria-core/game/core-scripts/esc_item.gd"
-		)
-		res = DirAccess.copy_absolute(
-			"res://addons/escoria-core/game/core-scripts/pre-4.7/esc_location.4.7.gd",
-			"res://addons/escoria-core/game/core-scripts/esc_location.gd"
-		)
-
-	# Lastly, store the last used engine version in a file
-	var new_last_version_used_file = FileAccess.open("res://addons/escoria-core/game/core-scripts/pre-4.7/last_version_used", FileAccess.WRITE)
-	new_last_version_used_file.store_32(target_hex)
-	
-	EditorInterface.restart_editor()
