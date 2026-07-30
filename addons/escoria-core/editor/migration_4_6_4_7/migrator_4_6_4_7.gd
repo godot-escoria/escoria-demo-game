@@ -8,28 +8,30 @@ enum MigrationAction {
 }
 
 const migration_done = "migration_done"
+const GODOT_4_7_HEX = 0x040700
 
 
 func check_need_upgrade_or_downgrade_scripts(engine_version: Dictionary = Engine.get_version_info()) -> MigrationAction:
 	var data: Dictionary = read_migration_file()
+	var current_version_hex: int = engine_version["hex"]
+	var current_is_4_7_or_newer: bool = current_version_hex >= GODOT_4_7_HEX
 	if data.is_empty(): # No existing file : initiate migration
-		print("Failed opening 'last_version_used' file: migration not done.")
-		if engine_version.hex >= 0x040700:
-			print("Targeting 4.7")
+		if current_is_4_7_or_newer:
 			return MigrationAction.UPGRADE_4_7
-		else:
-			print("Targeting 4.6")
-			return MigrationAction.DOWNGRADE_4_6
+		return MigrationAction.DOWNGRADE_4_6
 	
 	if not data[migration_done]:
-		if data["last_engine_version_hex"] >= 0x040700:
-			print("Targeting 4.7")
+		if data["last_engine_version_hex"] >= GODOT_4_7_HEX:
 			return MigrationAction.UPGRADE_4_7
-		else:
-			print("Targeting 4.6")
+		return MigrationAction.DOWNGRADE_4_6
+	else: # migration already done, let's check if it corresponds to current version
+		var last_migration_version = data["last_engine_version_hex"]
+		var last_is_4_7_or_newer: bool = last_migration_version >= GODOT_4_7_HEX
+		if last_is_4_7_or_newer == current_is_4_7_or_newer:
+			return MigrationAction.DO_NOTHING
+		if last_is_4_7_or_newer:
 			return MigrationAction.DOWNGRADE_4_6
-	else: # Migration was marked as done
-		return MigrationAction.DO_NOTHING
+		return MigrationAction.UPGRADE_4_7
 
 
 func prepare_specific_godot_version(target_hex: int) -> void:
@@ -84,7 +86,6 @@ func read_migration_file() -> Dictionary:
 	if new_last_version_used_file == null:
 		return {}
 	var data: Dictionary = JSON.parse_string(new_last_version_used_file.get_as_text())
-	print(data)
 	if data == null:
 		push_error("Error reading file res://addons/escoria-core/game/core-scripts/pre-4.7/last_version_used.json")
 	new_last_version_used_file.close()
