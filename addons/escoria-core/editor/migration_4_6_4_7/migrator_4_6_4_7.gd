@@ -7,7 +7,7 @@ enum MigrationAction {
 	DO_NOTHING
 }
 
-const migration_done = "migration_done"
+const MIGRATION_DONE = "migration_done"
 const GODOT_4_7_HEX = 0x040700
 
 
@@ -19,19 +19,19 @@ func check_need_upgrade_or_downgrade_scripts(engine_version: Dictionary = Engine
 		if current_is_4_7_or_newer:
 			return MigrationAction.UPGRADE_4_7
 		return MigrationAction.DOWNGRADE_4_6
-	
-	if not data[migration_done]:
+
+	if not data[MIGRATION_DONE]:
 		if data["last_engine_version_hex"] >= GODOT_4_7_HEX:
 			return MigrationAction.UPGRADE_4_7
 		return MigrationAction.DOWNGRADE_4_6
-	else: # migration already done, let's check if it corresponds to current version
-		var last_migration_version = data["last_engine_version_hex"]
-		var last_is_4_7_or_newer: bool = last_migration_version >= GODOT_4_7_HEX
-		if last_is_4_7_or_newer == current_is_4_7_or_newer:
-			return MigrationAction.DO_NOTHING
-		if last_is_4_7_or_newer:
-			return MigrationAction.DOWNGRADE_4_6
-		return MigrationAction.UPGRADE_4_7
+
+	var last_migration_version = data["last_engine_version_hex"]
+	var last_is_4_7_or_newer: bool = last_migration_version >= GODOT_4_7_HEX
+	if last_is_4_7_or_newer == current_is_4_7_or_newer:
+		return MigrationAction.DO_NOTHING
+	if last_is_4_7_or_newer:
+		return MigrationAction.DOWNGRADE_4_6
+	return MigrationAction.UPGRADE_4_7
 
 
 func prepare_specific_godot_version(target_hex: int) -> void:
@@ -40,7 +40,7 @@ func prepare_specific_godot_version(target_hex: int) -> void:
 
 	# Backup existing files, just in case they were edited by gamedev (and so, different from
 	# origin).
-	var datetime: String = Time.get_datetime_string_from_system().replace(":",".")
+	var datetime: String = Time.get_datetime_string_from_system().replace(":", ".")
 	var res: Error = dir.copy(
 		"res://addons/escoria-core/game/core-scripts/esc_item.gd",
 		"res://addons/escoria-core/game/core-scripts/pre-4.7/esc_item.gd.%s.bak" % datetime
@@ -49,23 +49,22 @@ func prepare_specific_godot_version(target_hex: int) -> void:
 	# Then remove
 	res = dir.remove("res://addons/escoria-core/game/core-scripts/esc_item.gd")
 
-	if target_hex < 0x40700: # < 4.7.0
+	if target_hex < GODOT_4_7_HEX: # < 4.7.0
 		# Copy 4.6 files
 		res = DirAccess.copy_absolute(
 			"res://addons/escoria-core/game/core-scripts/pre-4.7/esc_item.4.6.gd",
 			"res://addons/escoria-core/game/core-scripts/esc_item.gd"
 		)
-
 	else: # >= 4.7.x
 		# Copy 4.7 files
 		res = DirAccess.copy_absolute(
 			"res://addons/escoria-core/game/core-scripts/pre-4.7/esc_item.4.7.gd",
 			"res://addons/escoria-core/game/core-scripts/esc_item.gd"
 		)
-	
+
 	# Lastly, store the last used engine version in a file
 	save_migration_file(true)
-	
+
 	EditorInterface.restart_editor()
 
 
