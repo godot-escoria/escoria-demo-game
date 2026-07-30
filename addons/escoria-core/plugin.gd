@@ -112,8 +112,8 @@ func _enter_tree():
 		popup_migration.popup_centered()
 	else:
 		get_editor_interface().get_base_control().remove_child(popup_migration)
-	
-	
+
+
 ## Called when Escoria plugin gets removed from Godot Editor's tree.[br]
 ## [br]
 ## #### Parameters[br]

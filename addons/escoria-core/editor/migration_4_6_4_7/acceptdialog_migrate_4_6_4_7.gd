@@ -5,15 +5,13 @@ extends Window
 signal confirmed
 signal canceled
 
+var migrator: Migrator4647
+var required_migration: bool = false
+
 @onready var label: Label = $FlowContainer/Label
 @onready var mark_this_as_done: CheckButton = $FlowContainer/mark_this_as_done
 @onready var confirm_button: Button = $FlowContainer/HBoxContainer/confirm
 @onready var cancel_button: Button = $FlowContainer/HBoxContainer/cancel
-
-var migrator: Migrator4647
-var required_migration: bool = false
-
-
 
 
 func _ready() -> void:
@@ -39,7 +37,7 @@ func _ready() -> void:
 			required_migration = true
 		Migrator4647.MigrationAction.DOWNGRADE_4_6:
 			title = "Auto-downgrade Escoria-core scripts for Godot Engine 4.6.x"
-			label.text = """The version of Godot Engine you appear to be running is older 
+			label.text = """The version of Godot Engine you appear to be running is older
 					than the one this version of Escoria relies on (4.7.x) or this is the first time
 					you run this version of Escoria.\n
 					Godot Engine 4.6 and 4.7 APIs have some differences in methods that Escoria makes use of.
@@ -49,12 +47,11 @@ func _ready() -> void:
 					- res://addons/escoria-core/game/core-scripts/esc_item.gd\n
 					⚠️IMPORTANT⚠️: the editor will restart after this action is done.\n
 					If you wish to let Escoria proceed, choose 'OK' (a backup of the existing file will be created).
-					If you wish to upgrade to a newer version of Godot, choose 'Cancel' (nothing will be done, 
+					If you wish to upgrade to a newer version of Godot, choose 'Cancel' (nothing will be done,
 					but this tool will happen next time you open the editor).
 					If you have edited these files for your own needs, you'll need to manually fix them:
 					choose 'Cancel' (see README; existing files will be backuped anyway).
 					"""
-			
 			required_migration = true
 
 		_:
@@ -74,6 +71,7 @@ func _on_cancel_pressed() -> void:
 	await migrator.save_migration_file($FlowContainer/mark_this_as_done.button_pressed)
 	canceled.emit()
 	hide()
+
 
 func _on_mark_this_as_done_toggled(toggled_on: bool) -> void:
 	if toggled_on:
