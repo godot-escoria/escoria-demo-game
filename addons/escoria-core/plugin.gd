@@ -106,13 +106,12 @@ func _enter_tree():
 	# have to add this here since reloading the project doesn't re-add the Tools menu item
 	add_tool_menu_item(ASHES_ANALYZER_MENU_ITEM, _compiler_analyzer.analyze)
 
-	print("MIGRATION")
 	popup_migration = preload("res://addons/escoria-core/editor/migration_4_6_4_7/acceptdialog_migrate_4_6_4_7.tscn").instantiate()
-	get_editor_interface().get_editor_main_screen().add_child(popup_migration)
+	get_editor_interface().get_base_control().add_child(popup_migration)
 	if popup_migration.required_migration:
 		popup_migration.popup_centered()
 	else:
-		get_editor_interface().get_editor_main_screen().remove_child(popup_migration)
+		get_editor_interface().get_base_control().remove_child(popup_migration)
 	
 	
 ## Called when Escoria plugin gets removed from Godot Editor's tree.[br]

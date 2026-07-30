@@ -2,23 +2,23 @@
 
 [ext_resource type="Script" uid="uid://cxx10dv5352wk" path="res://addons/escoria-core/editor/migration_4_6_4_7/acceptdialog_migrate_4_6_4_7.gd" id="1_ogeh4"]
 
-[node name="AcceptDialogMigrate4647" type="AcceptDialog" unique_id=936216323]
+[node name="AcceptDialogMigrate4647" type="Window" unique_id=1453257784]
 oversampling_override = 1.0
 position = Vector2i(0, 36)
-size = Vector2i(720, 505)
-visible = true
+size = Vector2i(720, 530)
 script = ExtResource("1_ogeh4")
 
 [node name="FlowContainer" type="VBoxContainer" parent="." unique_id=726240657]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 712.0
-offset_bottom = 456.0
+offset_bottom = 517.0
 
 [node name="Label" type="Label" parent="FlowContainer" unique_id=1668065635]
 layout_mode = 2
 text = "The version of Godot Engine you appear to be running is older 
-					than the one this version of Escoria relies on (4.7.x).
+					than the one this version of Escoria relies on (4.7.x) or this is the first time
+					you run this version of Escoria.
 
 					Godot Engine 4.6 and 4.7 APIs have some differences in methods that Escoria makes use of.
 					Escoria can now automatically revert its impacted core scripts to makes them compatible
@@ -26,6 +26,7 @@ text = "The version of Godot Engine you appear to be running is older
 
 					Here is the list of the impacted files:
 					- res://addons/escoria-core/game/core-scripts/esc_item.gd
+
 					⚠️IMPORTANT⚠️: the editor will restart after this action is done.
 
 					If you wish to let Escoria proceed, choose 'OK'.
@@ -36,6 +37,21 @@ text = "The version of Godot Engine you appear to be running is older
 
 [node name="mark_this_as_done" type="CheckButton" parent="FlowContainer" unique_id=99402283]
 layout_mode = 2
-text = "Mark this as done"
+text = "Mark this as already done"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="FlowContainer" unique_id=1123299495]
+layout_mode = 2
+theme_override_constants/separation = 55
+alignment = 1
+
+[node name="confirm" type="Button" parent="FlowContainer/HBoxContainer" unique_id=1563226882]
+layout_mode = 2
+text = "Ok"
+
+[node name="cancel" type="Button" parent="FlowContainer/HBoxContainer" unique_id=2075346076]
+layout_mode = 2
+text = "Cancel"
 
 [connection signal="toggled" from="FlowContainer/mark_this_as_done" to="." method="_on_mark_this_as_done_toggled"]
+[connection signal="pressed" from="FlowContainer/HBoxContainer/confirm" to="." method="_on_confirm_pressed"]
+[connection signal="pressed" from="FlowContainer/HBoxContainer/cancel" to="." method="_on_cancel_pressed"]
