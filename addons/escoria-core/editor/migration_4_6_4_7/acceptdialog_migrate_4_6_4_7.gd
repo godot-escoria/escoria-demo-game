@@ -54,4 +54,3 @@ func _on_confirmed():
 
 func _on_canceled():
 	await migrator.save_migration_file($FlowContainer/mark_this_as_done.button_pressed)
-	queue_free()
