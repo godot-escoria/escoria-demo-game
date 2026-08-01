@@ -3,3 +3,9 @@
 
 :pickup | TK
 	say($current_player, "I can't take this!")
+
+:look | TK
+	say($current_player, "I see nothing special.")
+
+:talk | TK
+	say($current_player, "I can't talk to that!")

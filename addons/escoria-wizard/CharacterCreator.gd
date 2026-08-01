@@ -1268,12 +1268,14 @@ func export_player(scene_name) -> void:
 
 	var animations_resource = ESCAnimationResource.new()
 
-	# This is necessary to avoid a Godot bug when appending to one array
-	# appends to all arrays in the same class (possibly for resources only).
-	animations_resource.dir_angles = []
-	animations_resource.directions = []
-	animations_resource.idles = []
-	animations_resource.speaks = []
+	# Build typed arrays locally first. ESCAnimationResource properties are
+	# Array[ESCDirectionAngle] / Array[ESCAnimationName], so untyped [] cannot
+	# be assigned. Local arrays also avoid a Godot bug where appending to one
+	# array appends to all arrays on the same resource.
+	var dir_angles: Array[ESCDirectionAngle] = []
+	var directions: Array[ESCAnimationName] = []
+	var idles: Array[ESCAnimationName] = []
+	var speaks: Array[ESCAnimationName] = []
 
 	if get_node(DIR_COUNT_NODE).get_node("four_directions").button_pressed:
 		num_directions = 4
@@ -1304,16 +1306,21 @@ func export_player(scene_name) -> void:
 
 		dir_angle.angle_start = start_angle_array[loop]
 		dir_angle.angle_size = angle_size
-		animations_resource.dir_angles.append(dir_angle)
+		dir_angles.append(dir_angle)
 
 		anim_details = _create_esc_animation(TYPE_WALK, dirnames[loop])
-		animations_resource.directions.append(anim_details)
+		directions.append(anim_details)
 
 		anim_details = _create_esc_animation(TYPE_TALK, dirnames[loop])
-		animations_resource.speaks.append(anim_details)
+		speaks.append(anim_details)
 
 		anim_details = _create_esc_animation(TYPE_IDLE, dirnames[loop])
-		animations_resource.idles.append(anim_details)
+		idles.append(anim_details)
+
+	animations_resource.dir_angles = dir_angles
+	animations_resource.directions = directions
+	animations_resource.idles = idles
+	animations_resource.speaks = speaks
 
 #	var largest_sprite = export_generate_animations(new_character, num_directions)
 	export_largest_sprite = Vector2.ONE

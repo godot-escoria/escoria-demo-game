@@ -43,7 +43,7 @@ search_in_file_extensions=PackedStringArray("gd", "shader", "esc")
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/escoria-core/plugin.cfg", "res://addons/escoria-dialog-simple/plugin.cfg", "res://addons/escoria-ui-simplemouse/plugin.cfg", "res://addons/gdUnit4/plugin.cfg")
+enabled=PackedStringArray("res://addons/escoria-core/plugin.cfg", "res://addons/escoria-dialog-simple/plugin.cfg", "res://addons/escoria-ui-simplemouse-cycle/plugin.cfg", "res://addons/escoria-wizard/plugin.cfg")
 
 [escoria]
 
@@ -66,12 +66,15 @@ debug/crash_message="We're sorry, but the game crashed. Please send us the follo
 %s"
 debug/enable_room_selector=true
 debug/room_selector_room_dir="res://game/rooms"
-ui/game_scene="res://addons/escoria-ui-simplemouse/game.tscn"
+ui/game_scene="res://addons/escoria-ui-simplemouse-cycle/game.tscn"
 ui/inventory_items_path="res://game/items/inventory"
 ui/default_transition="instant"
 ui/transition_paths=["res://addons/escoria-core/game/scenes/transitions/shaders/"]
 ui/inventory_item_size=Vector2(72, 72)
 ui/dialog_managers=["res://addons/escoria-dialog-simple/esc_dialog_simple.gd"]
+ui_simplemouse_cycle/show_verb_cursor=true
+ui_simplemouse_cycle/show_verb_in_tooltip=true
+ui_simplemouse_cycle/dialog_choice_cursor=""
 sound/master_volume=1
 sound/music_volume=1
 sound/sfx_volume=1
@@ -94,12 +97,12 @@ dialog_simple/text_time_per_letter_ms=100
 dialog_simple/text_time_per_fast_letter_ms=25
 dialog_simple/clear_text_by_click_only=false
 dialog_simple/reading_speed_in_wpm=200
-dialog_simple/left_click_action="Speed up"
+dialog_simple/left_click_action="Instant finish"
 dialog_simple/stop_talking_animation_on="End of audio"
 debug/enable_hover_stack_viewer=true
 main/escoria_version="4.0-alpha"
 debug/perform_script_analysis_at_runtime=true
-wizard/path_to_rooms="res://game/rooms"
+wizard/path_to_rooms="res://rooms"
 
 [file_customization]
 

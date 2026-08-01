@@ -593,8 +593,19 @@ func visit_dialog_stmt(stmt: ESCGrammarStmts.Dialog):
 
 				if execute_ret is ESCGrammarStmts.Break:
 					var levels_left := 0
-					if execute_ret.get_levels():
-						levels_left = await _evaluate(execute_ret.get_levels()) - 1
+					var levels_expr = execute_ret.get_levels()
+					# Bare `break` has no levels expression. Guard evaluation so a
+					# missing/invalid level value never does `null - 1`.
+					if levels_expr != null:
+						var evaluated_levels = await _evaluate(levels_expr)
+						if typeof(evaluated_levels) in [TYPE_INT, TYPE_FLOAT]:
+							levels_left = int(evaluated_levels) - 1
+						else:
+							escoria.logger.warn(
+								self,
+								"Dialog 'break' levels expression did not evaluate to a number (got '%s'). Defaulting to a single-level break." \
+									% str(evaluated_levels)
+							)
 
 					# A top-level dialog consumes `break` by concluding the current dialog.
 					if _dialog_depth == 1:

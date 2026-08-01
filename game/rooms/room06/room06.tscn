@@ -1,19 +1,19 @@
-[gd_scene load_steps=19 format=3 uid="uid://d4l4dxxrbc27i"]
+[gd_scene format=3 uid="uid://d4l4dxxrbc27i"]
 
 [ext_resource type="Script" uid="uid://5pbcieq7gpdo" path="res://addons/escoria-core/game/core-scripts/esc_terrain.gd" id="1"]
 [ext_resource type="Script" uid="uid://btt4cprco53ec" path="res://addons/escoria-core/game/core-scripts/esc_exit.gd" id="3"]
 [ext_resource type="PackedScene" uid="uid://chf3qovs1q8kr" path="res://game/characters/mark/mark.tscn" id="4"]
-[ext_resource type="Texture2D" uid="uid://b53pqqunb887h" path="res://game/rooms/room06/wave.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://bshcgjgjo3iq" path="res://game/rooms/room06/wave.png" id="5"]
 [ext_resource type="Script" uid="uid://c7fcpp72w3dnj" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="6"]
 [ext_resource type="PackedScene" uid="uid://b415eoguy2fid" path="res://game/characters/worker/worker.tscn" id="7"]
 [ext_resource type="FontFile" path="res://game/fonts/caslonantique.tres" id="8"]
 [ext_resource type="Script" uid="uid://beh3ds4eapldu" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="9"]
 [ext_resource type="Script" uid="uid://dsmrbd8i03n88" path="res://game/rooms/room06/scenery.gd" id="10"]
-[ext_resource type="Texture2D" uid="uid://dwep2v3npiw6n" path="res://game/rooms/room06/boat_hull.png" id="11"]
-[ext_resource type="Texture2D" uid="uid://dak60hpii57r0" path="res://game/rooms/room06/room6background.png" id="12"]
-[ext_resource type="Texture2D" uid="uid://iuw6njtjw2hh" path="res://game/rooms/room06/cloud.png" id="13"]
-[ext_resource type="Texture2D" uid="uid://ukafxnr3523i" path="res://game/rooms/room06/boat.png" id="14"]
-[ext_resource type="Texture2D" uid="uid://0tp7uft51ybk" path="res://game/rooms/room06/locked_door.png" id="16"]
+[ext_resource type="Texture2D" uid="uid://bp3mhq10mnrb4" path="res://game/rooms/room06/boat_hull.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://bni2ho7fyp214" path="res://game/rooms/room06/room6background.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://cb0jq3dca3lc1" path="res://game/rooms/room06/cloud.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://4mr6lgqcciip" path="res://game/rooms/room06/boat.png" id="14"]
+[ext_resource type="Texture2D" uid="uid://cg36ylui6svux" path="res://game/rooms/room06/locked_door.png" id="16"]
 
 [sub_resource type="NavigationPolygon" id="1"]
 vertices = PackedVector2Array(28, 365, 924, 369, 923, 389, 28, 385)
@@ -58,101 +58,99 @@ _data = {
 &"open_door": SubResource("3")
 }
 
-[node name="room6" type="Node2D"]
+[node name="room6" type="Node2D" unique_id=1614461260]
 script = ExtResource("6")
 global_id = "room6"
 esc_script = "res://game/rooms/room06/esc/room06.esc"
 player_scene = ExtResource("4")
-camera_limits = [Rect2(0, 0, 1280, 555)]
+camera_limits = [Rect2(0, 0, 1280, 900)]
 
-[node name="Room6Background" type="Sprite2D" parent="."]
+[node name="Room6Background" type="Sprite2D" parent="." unique_id=1044427430]
 texture = ExtResource("12")
 centered = false
 
-[node name="walkable_area" type="Node2D" parent="."]
+[node name="walkable_area" type="Node2D" parent="." unique_id=373909036]
 script = ExtResource("1")
 scale_min = 0.7
 scale_max = 0.7
 
-[node name="platform" type="NavigationRegion2D" parent="walkable_area"]
+[node name="platform" type="NavigationRegion2D" parent="walkable_area" unique_id=1610274621]
 navigation_polygon = SubResource("1")
 
-[node name="Hotspots" type="Node2D" parent="."]
+[node name="Hotspots" type="Node2D" parent="." unique_id=904390867]
 
-[node name="worker" parent="Hotspots" instance=ExtResource("7")]
+[node name="worker" parent="Hotspots" unique_id=1118908358 instance=ExtResource("7")]
 z_index = 300
 position = Vector2(478, 377)
 esc_script = "res://game/rooms/room06/esc/worker.esc"
-interaction_angle = 90
-actions_requiring_target_object = PackedStringArray()
 dialog_color = Color(0.14902, 0.388235, 0.462745, 1)
+actions_requiring_target_object = PackedStringArray()
+interaction_angle = 90
 
-[node name="Marker2D" type="Marker2D" parent="Hotspots/worker"]
+[node name="Marker2D" type="Marker2D" parent="Hotspots/worker" unique_id=877262658]
 position = Vector2(-111, 2)
 script = ExtResource("9")
 
-[node name="r6_l_exit" type="Area2D" parent="Hotspots"]
+[node name="r6_l_exit" type="Area2D" parent="Hotspots" unique_id=1334508549]
 script = ExtResource("3")
 global_id = "r6_l_exit"
 esc_script = "res://game/rooms/room06/esc/left_exit.esc"
-is_exit = true
 tooltip_name = "door"
 default_action = "walk"
+is_exit = true
 
-[node name="ESCLocation" type="Marker2D" parent="Hotspots/r6_l_exit"]
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/r6_l_exit" unique_id=1721951164]
 position = Vector2(59, 375)
 script = ExtResource("9")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r6_l_exit"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r6_l_exit" unique_id=910154624]
 polygon = PackedVector2Array(23, 384, 21, 183, 41, 167, 64, 163, 88, 168, 103, 183, 107, 385)
 
-[node name="r6_r_exit" type="Area2D" parent="Hotspots"]
+[node name="r6_r_exit" type="Area2D" parent="Hotspots" unique_id=657164504]
 z_index = 100
 script = ExtResource("3")
 global_id = "r6_r_exit"
 esc_script = "res://game/rooms/room06/esc/r6_door.esc"
-is_exit = true
 tooltip_name = "door"
 default_action = "use"
+is_exit = true
 
-[node name="Sprite2D" type="Sprite2D" parent="Hotspots/r6_r_exit"]
+[node name="Sprite2D" type="Sprite2D" parent="Hotspots/r6_r_exit" unique_id=633562202]
 z_index = 11
 position = Vector2(562, 232.5)
 texture = ExtResource("16")
 
-[node name="ESCLocation" type="Marker2D" parent="Hotspots/r6_r_exit"]
+[node name="ESCLocation" type="Marker2D" parent="Hotspots/r6_r_exit" unique_id=478306883]
 position = Vector2(563, 380)
 script = ExtResource("9")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r6_r_exit"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hotspots/r6_r_exit" unique_id=1816300111]
 position = Vector2(499, -2)
 polygon = PackedVector2Array(23, 384, 21, 183, 41, 167, 64, 163, 88, 168, 103, 183, 107, 385)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/r6_r_exit"]
-libraries = {
-"": SubResource("AnimationLibrary_53608")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hotspots/r6_r_exit" unique_id=1029006359]
+libraries/ = SubResource("AnimationLibrary_53608")
 
-[node name="worker_face_down" type="Marker2D" parent="Hotspots"]
+[node name="worker_face_down" type="Marker2D" parent="Hotspots" unique_id=1717848214]
 position = Vector2(479, 513)
 script = ExtResource("9")
 global_id = "worker_face_down"
 
-[node name="player_start" type="Marker2D" parent="."]
+[node name="player_start" type="Marker2D" parent="." unique_id=303182650]
 position = Vector2(61, 375)
 script = ExtResource("9")
 global_id = "r6_player_start"
 is_start_location = true
 
-[node name="Text" type="Node2D" parent="."]
+[node name="Text" type="Node2D" parent="." unique_id=1826158053]
 z_index = 10
 
-[node name="Polygon2D" type="Polygon2D" parent="Text"]
+[node name="Polygon2D" type="Polygon2D" parent="Text" unique_id=761966105]
 position = Vector2(37, 11)
 color = Color(1, 1, 1, 0.635294)
 polygon = PackedVector2Array(750, 40, 1150, 40, 1150, 200, 750, 200)
 
-[node name="Label" type="Label" parent="Text/Polygon2D"]
+[node name="Label" type="Label" parent="Text/Polygon2D" unique_id=247306648]
 modulate = Color(0, 0.227451, 1, 1)
 offset_left = 762.0
 offset_top = 49.0
@@ -166,50 +164,50 @@ Conversations are also demonstrated with both lines
 that will be repeated and ones that will only be an
 option for the player to choose once."
 
-[node name="scenery" type="Node2D" parent="."]
+[node name="scenery" type="Node2D" parent="." unique_id=1838718064]
 script = ExtResource("10")
 
-[node name="wave3" type="Sprite2D" parent="scenery"]
+[node name="wave3" type="Sprite2D" parent="scenery" unique_id=605772956]
 modulate = Color(0.00392157, 0.607843, 0.745098, 1)
 z_index = 500
 position = Vector2(958, 677)
 texture = ExtResource("5")
 
-[node name="wave2" type="Sprite2D" parent="scenery"]
+[node name="wave2" type="Sprite2D" parent="scenery" unique_id=1899640509]
 modulate = Color(0, 0.686275, 0.843137, 1)
 z_index = 500
 position = Vector2(882, 753)
 texture = ExtResource("5")
 
-[node name="wave" type="Sprite2D" parent="scenery"]
+[node name="wave" type="Sprite2D" parent="scenery" unique_id=107113808]
 z_index = 500
 position = Vector2(804, 789)
 texture = ExtResource("5")
 
-[node name="Polygon2D" type="Polygon2D" parent="scenery/wave"]
+[node name="Polygon2D" type="Polygon2D" parent="scenery/wave" unique_id=133522270]
 z_index = 500
 color = Color(0, 0.580392, 1, 1)
 polygon = PackedVector2Array(-900, 90, 900, 90, 900, 600, -900, 600)
 
-[node name="cloud" type="Sprite2D" parent="scenery"]
+[node name="cloud" type="Sprite2D" parent="scenery" unique_id=611535418]
 z_index = 5
 z_as_relative = false
 position = Vector2(1267, 116)
 texture = ExtResource("13")
 
-[node name="cloud2" type="Sprite2D" parent="scenery"]
+[node name="cloud2" type="Sprite2D" parent="scenery" unique_id=1558377770]
 z_index = 5
 z_as_relative = false
 position = Vector2(1267, 116)
 texture = ExtResource("13")
 
-[node name="boat_rooms" type="Sprite2D" parent="scenery"]
+[node name="boat_rooms" type="Sprite2D" parent="scenery" unique_id=1353519598]
 z_index = 100
 z_as_relative = false
 position = Vector2(337.5, 152)
 texture = ExtResource("14")
 
-[node name="boat_hull" type="Sprite2D" parent="scenery"]
+[node name="boat_hull" type="Sprite2D" parent="scenery" unique_id=1387879760]
 z_index = 400
 position = Vector2(640, 427)
 texture = ExtResource("11")

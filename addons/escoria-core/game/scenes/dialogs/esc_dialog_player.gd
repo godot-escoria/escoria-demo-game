@@ -20,6 +20,9 @@ signal option_chosen(option)
 ## [br]
 signal say_finished
 
+## Emitted when a multiple-choice dialog is presented to the player.
+signal choices_started
+
 
 ## Used when specifying dialog types in various methods.
 const DIALOG_TYPE_SAY = "say"
@@ -119,6 +122,8 @@ func say(character: String, type: String, text: String, key: String) -> void:
 ## [br]
 ## Returns nothing.
 func start_dialog_choices(dialog: ESCDialog, type: String = "simple"):
+	choices_started.emit()
+
 	# We only need to remove the dialog manager from the scene tree if the dialog manager type
 	# has changed since the last use of this method.
 	_update_dialog_manager(DIALOG_TYPE_CHOOSE, _choose_dialog_manager, type)

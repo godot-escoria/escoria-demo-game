@@ -217,14 +217,16 @@ func register_object(object: ESCObject, room: ESCRoom = null, force: bool = fals
 	# forcing the registration, since we don't know if this object will be
 	# overwritten ("forced") in the future and, if it is, if it's set to
 	# auto-unregister or not. In most cases, objects are set to auto unregister.
-	if object.node.tree_exited.is_connected(object.unregister_object_callback):
+	if not object.unregister_object_callback.is_null() \
+			and object.node.tree_exited.is_connected(object.unregister_object_callback):
 		object.node.tree_exited.disconnect(object.unregister_object_callback)
 
 	if force:
 		var existing_object: ESCObject = _get_room_objects_objects(room_key).get(object.global_id)
 		if existing_object != null and is_instance_valid(existing_object.node):
-			if existing_object.node.tree_exited.is_connected(
-					existing_object.unregister_object_callback
+			if not existing_object.unregister_object_callback.is_null() \
+					and existing_object.node.tree_exited.is_connected(
+						existing_object.unregister_object_callback
 			):
 				existing_object.node.tree_exited.disconnect(
 					existing_object.unregister_object_callback
@@ -746,8 +748,9 @@ func disconnect_tree_exit_for_room_items(room_key: ESCRoomObjectsKey) -> void:
 				and room_container.room_instance_id == room_key.room_instance_id:
 			for object in room_container.objects:
 				var ro: ESCObject = room_objects[i].objects[object]
-				if is_instance_valid(ro.node) and \
-						ro.node.tree_exited.is_connected(ro.unregister_object_callback):
+				if is_instance_valid(ro.node) \
+						and not ro.unregister_object_callback.is_null() \
+						and ro.node.tree_exited.is_connected(ro.unregister_object_callback):
 					ro.node.tree_exited.disconnect(ro.unregister_object_callback)
 			break
 		else:
