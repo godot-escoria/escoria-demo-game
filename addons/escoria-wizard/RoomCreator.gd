@@ -15,6 +15,7 @@ const USE_EMPTY_BACKGROUND      = "MarginContainer/MarginContainer/VBoxContainer
 const SELECT_BACKGROUND        = "MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer/SelectBackground"
 const SELECT_BACKGROUNDSPACER  = "MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer/SelectBackgroundSpacer"
 const ROOM_FOLDER_PATH          = "MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer/RoomFolder"
+const HIDE_INVENTORY_BUTTON     = "MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer/HideInventoryButton"
 const ROOM_BACKGROUND          = "MarginContainer/MarginContainer/VBoxContainer/PreviewSection/CenterContainer/RoomBackground"
 const BACKGROUND_PREVIEW       = "MarginContainer/MarginContainer/VBoxContainer/PreviewSection/Control/BackgroundPreview"
 
@@ -64,6 +65,7 @@ func room_creator_reset() -> void:
 	get_node(ROOM_BACKGROUND).visible = true
 	get_node(BACKGROUND_PREVIEW).texture = null
 	get_node(ROOM_FOLDER_PATH).text = ProjectSettings.get_setting(ROOM_PATH_SETTING)
+	get_node(HIDE_INVENTORY_BUTTON).button_pressed = false
 	$InformationWindows/RoomFolderDialog.current_dir = ProjectSettings.get_setting(ROOM_PATH_SETTING)
 	settings_modified = false
 
@@ -201,6 +203,10 @@ func _on_MainMenuConfirmationDialog_confirmed() -> void:
 	get_node("../RoomCreator").visible = false
 
 
+func _on_HideInventoryButton_toggled(_button_pressed: bool) -> void:
+	settings_modified = true
+
+
 func _on_ChangeRoomFolderButton_pressed() -> void:
 	$"InformationWindows/RoomFolderDialog".popup_centered()
 
@@ -243,6 +249,7 @@ func _on_CreateButton_pressed() -> void:
 
 	new_room.name = room_name
 	new_room.global_id = get_node(GLOBAL_ID).text
+	new_room.hide_inventory = get_node(HIDE_INVENTORY_BUTTON).button_pressed
 
 	if ! get_node(ESC_SCRIPT).text == SCRIPT_SELECT_TEXT and ! get_node(ESC_SCRIPT).text == SCRIPT_BLANK_TEXT:
 		new_room.esc_script = "%s/%s/scripts/%s" % [base_dir, room_name, get_node(ESC_SCRIPT).text]

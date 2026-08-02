@@ -449,6 +449,8 @@ func inventory_item_unfocused() -> void:
 
 
 func open_inventory():
+	if _should_hide_inventory():
+		return
 	$ui/inventory_ui.show_inventory()
 
 
@@ -472,10 +474,17 @@ func hide_ui():
 
 func show_ui():
 	$dialog_layer.propagate_call("set_visible", [true], true)
-	$ui/inventory_ui.propagate_call("set_visible", [true], true)
+	$ui/inventory_ui.propagate_call("set_visible", [not _should_hide_inventory()], true)
 	$ui/tooltip.propagate_call("set_visible", [true], true)
 	$ui/HBoxContainer/VBoxContainer.visible = true
 	$ui/HBoxContainer/VBoxContainer/MenuButton.visible = true
+
+
+func _should_hide_inventory() -> bool:
+	if escoria.main == null or not is_instance_valid(escoria.main.current_scene):
+		return false
+	var room = escoria.main.current_scene
+	return room is ESCRoom and room.hide_inventory
 
 
 func hide_main_menu():
@@ -588,6 +597,7 @@ func _on_room_ready():
 	$mouse_layer/verbs_menu.set_by_name(VERB_WALK)
 	$mouse_layer/verbs_menu.action_manually_changed = false
 	$ui/tooltip.clear()
+	$ui/inventory_ui.propagate_call("set_visible", [not _should_hide_inventory()], true)
 
 func _on_input_mode_changed(new_mode):
 	if new_mode == ESCInputsManager.INPUT_NONE \

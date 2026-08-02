@@ -173,6 +173,23 @@ text = "Change Room Folder"
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 
+[node name="HideInventoryLabel" type="Label" parent="MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Inventory:"
+
+[node name="HideInventorySpacer" type="Control" parent="MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+
+[node name="HideInventoryButton" type="CheckButton" parent="MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+tooltip_text = "If enabled, the inventory UI is hidden while this room is active."
+text = "Hide inventory for this room"
+
+[node name="HideInventorySpacer2" type="Control" parent="MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+
 [node name="PreviewSection" type="MarginContainer" parent="MarginContainer/MarginContainer/VBoxContainer" unique_id=544658158]
 custom_minimum_size = Vector2(1000, 400)
 layout_mode = 2
@@ -268,6 +285,7 @@ file_mode = 2
 [connection signal="toggled" from="MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer/UseEmptyRoomScript" to="." method="_on_UseEmptyRoomScript_toggled"]
 [connection signal="toggled" from="MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer/UseEmptyBackground" to="." method="_on_UseEmptyBackground_toggled"]
 [connection signal="pressed" from="MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer/SelectBackground" to="." method="_on_SelectBackground_pressed"]
+[connection signal="toggled" from="MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer/HideInventoryButton" to="." method="_on_HideInventoryButton_toggled"]
 [connection signal="pressed" from="MarginContainer/MarginContainer/VBoxContainer/MarginContainer/GridContainer/ChangeRoomFolderButton" to="." method="_on_ChangeRoomFolderButton_pressed"]
 [connection signal="pressed" from="MarginContainer/MarginContainer/VBoxContainer/MarginContainer2/CenterContainer/GridContainer/CreateButton" to="." method="_on_CreateButton_pressed"]
 [connection signal="pressed" from="MarginContainer/MarginContainer/VBoxContainer/MarginContainer2/CenterContainer/GridContainer/ClearButton" to="." method="_on_ClearButton_pressed"]

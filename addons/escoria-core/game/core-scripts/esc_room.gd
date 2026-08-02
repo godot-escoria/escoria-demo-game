@@ -20,6 +20,9 @@ enum EditorRoomDebugDisplay {
 ## The player scene to use inside this room
 @export var player_scene: PackedScene
 
+## If true, the inventory UI stays hidden while this room is active.
+@export var hide_inventory: bool = false
+
 ## The camera limits available in this room
 @export var camera_limits: Array = [Rect2()]: # (Array, Rect2)
 	set = set_camera_limits
