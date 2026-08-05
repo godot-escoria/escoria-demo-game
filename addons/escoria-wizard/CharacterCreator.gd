@@ -428,9 +428,9 @@ func draw_frame_outlines() -> void:
 
 # When given a frame number, this calculates the pixel coordinates that frame in the spritesheet
 # based on the number of horizontal/vertical frames configured for this spritesheet
-func calc_frame_coords(Frame: int) -> Vector2:
-	var column = (Frame - 1) % int(get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value) * frame_size.x
-	var row = int((Frame - 1) / get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value) * frame_size.y
+func calc_frame_coords(frame: int) -> Vector2:
+	var column = (frame - 1) % int(get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value) * frame_size.x
+	var row = int((frame - 1) / get_node(ANIM_CONTROLS_NODE).get_node("h_frames_spin_box").value) * frame_size.y
 	return Vector2(column, row)
 
 
@@ -823,7 +823,7 @@ func controls_on_v_frames_spin_box_value_changed(value: float) -> void:
 
 
 # Load a spritesheet when selected in the file browser
-func controls_on_FileDialog_file_selected(path: String) -> void:
+func controls_on_file_dialog_file_selected(path: String) -> void:
 	get_node(NO_SPRITESHEET_NODE).visible = false
 	load_spritesheet(path)
 
@@ -1268,13 +1268,6 @@ func export_player(scene_name) -> void:
 
 	var animations_resource = ESCAnimationResource.new()
 
-	# This is necessary to avoid a Godot bug when appending to one array
-	# appends to all arrays in the same class (possibly for resources only).
-	animations_resource.dir_angles = []
-	animations_resource.directions = []
-	animations_resource.idles = []
-	animations_resource.speaks = []
-
 	if get_node(DIR_COUNT_NODE).get_node("four_directions").button_pressed:
 		num_directions = 4
 		start_angle_array = [315, 45, 135, 225]
@@ -1532,7 +1525,7 @@ func spritesheet_on_reset_confirmed() -> void:
 	character_creator_reset()
 
 
-func spritesheet_on_MainMenuConfirmation_confirmed() -> void:
+func spritesheet_on_main_menu_confirmation_confirmed() -> void:
 	get_node("../Menu").visible = true
 	get_node(".").visible = false
 
