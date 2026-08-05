@@ -1268,13 +1268,6 @@ func export_player(scene_name) -> void:
 
 	var animations_resource = ESCAnimationResource.new()
 
-	# This is necessary to avoid a Godot bug when appending to one array
-	# appends to all arrays in the same class (possibly for resources only).
-	animations_resource.dir_angles = []
-	animations_resource.directions = []
-	animations_resource.idles = []
-	animations_resource.speaks = []
-
 	if get_node(DIR_COUNT_NODE).get_node("four_directions").button_pressed:
 		num_directions = 4
 		start_angle_array = [315, 45, 135, 225]
