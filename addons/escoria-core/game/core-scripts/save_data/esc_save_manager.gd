@@ -392,11 +392,11 @@ func load_game(id: int):
 	escoria.current_state = escoria.GameState.LOADING
 
 	escoria.room_manager.change_scene_to_file(save_game.main.current_scene_filename, false)
-	
+
 	# Pop sound and music data from the savegame
 	var sound_music_saved_data: Dictionary = {}
 	for object_id in save_game.objects:
-		if object_id in ESCObjectManager.RESERVED_OBJECTS: 
+		if object_id in ESCObjectManager.RESERVED_OBJECTS:
 			sound_music_saved_data[object_id] = save_game.objects[object_id]
 	for object_id in sound_music_saved_data:
 		save_game.objects.erase(object_id)
@@ -440,7 +440,7 @@ func load_game(id: int):
 func _load_savegame_objects(savegame_objects: Dictionary):
 	for object_id in savegame_objects:
 		var saved_object_data = savegame_objects[object_id]
-		if object_id in ESCObjectManager.RESERVED_OBJECTS: 
+		if object_id in ESCObjectManager.RESERVED_OBJECTS:
 			# Sound players only atm
 			# Sounds and music to be resumed after transition
 			if saved_object_data.has("state") \

@@ -11,7 +11,7 @@ var filename: String = ""
 ## The line number from the file the relevant command is being called from.
 var line_number: int = 0
 
-## Whether the command is allowed to be ran in a room's :ready event during a 
+## Whether the command is allowed to be ran in a room's :ready event during a
 ## savegame loading. This is especially the case for sound control commands,
 ## for which the Save Manager resumes from the recorded position.[br]
 ## Set this to `false` in the `_init()` method of such commands when necessary.

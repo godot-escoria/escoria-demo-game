@@ -413,8 +413,8 @@ func show_current_scene() -> void:
 ## [br]
 ## Returns nothing.
 func stop_all_sounds() -> void:
-	var _stop_snd: StopSndCommand = StopSndCommand.new()
-	_stop_snd.run([ESCObjectManager.AMBIENT])
-	_stop_snd.run([ESCObjectManager.MUSIC])
-	_stop_snd.run([ESCObjectManager.SOUND])
-	_stop_snd.run([ESCObjectManager.SPEECH])
+	var stop_snd: StopSndCommand = StopSndCommand.new()
+	stop_snd.run([ESCObjectManager.AMBIENT])
+	stop_snd.run([ESCObjectManager.MUSIC])
+	stop_snd.run([ESCObjectManager.SOUND])
+	stop_snd.run([ESCObjectManager.SPEECH])

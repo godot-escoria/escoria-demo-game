@@ -32,8 +32,8 @@ text = "The version of Godot Engine you appear to be running is older
 					If you wish to let Escoria proceed, choose 'OK'.
 					If you wish to upgrade to a newer version of Godot, choose 'Cancel'.
 					If you have edited these files for your own needs, you'll need to manually fix them:
-					choose 'Cancel' (see README; existing files will be backuped anyway).
-					"
+					choose 'Cancel' (see README; existing files will be backuped anyway)."
+autowrap_mode = 3
 
 [node name="mark_this_as_done" type="CheckButton" parent="FlowContainer" unique_id=99402283]
 layout_mode = 2
