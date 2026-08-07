@@ -115,6 +115,7 @@ func run() -> int:
 				"Skipped command %s with parameters %s because it is not allowed to be ran from :ready event during savegame load."
 						% [self.name, prepared_arguments]
 			)
+			_running_command_impl = null
 			return ESCExecution.RC_WONT_QUEUE
 		escoria.logger.debug(
 			self,
