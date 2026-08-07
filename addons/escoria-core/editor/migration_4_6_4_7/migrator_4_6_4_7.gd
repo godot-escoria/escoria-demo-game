@@ -37,6 +37,9 @@ func check_need_upgrade_or_downgrade_scripts(engine_version: Dictionary = Engine
 func prepare_specific_godot_version(target_hex: int) -> void:
 	var dir = DirAccess.open("res://addons/escoria-core/game/core-scripts/")
 	print("Preparing Escoria for Godot version %s" % [target_hex])
+	if dir == null:
+		print("Failed opening folder res://addons/escoria-core/game/core-scripts/")
+		return
 
 	# Backup existing files, just in case they were edited by gamedev (and so, different from
 	# origin).
@@ -45,9 +48,15 @@ func prepare_specific_godot_version(target_hex: int) -> void:
 		"res://addons/escoria-core/game/core-scripts/esc_item.gd",
 		"res://addons/escoria-core/game/core-scripts/pre-4.7/esc_item.gd.%s.bak" % datetime
 	)
+	if res != OK:
+		print("Failed backup of existing file res://addons/escoria-core/game/core-scripts/esc_item.gd")
+		return
 
 	# Then remove
 	res = dir.remove("res://addons/escoria-core/game/core-scripts/esc_item.gd")
+	if res != OK:
+		print("Failed removing file res://addons/escoria-core/game/core-scripts/esc_item.gd")
+		return
 
 	if target_hex < GODOT_4_7_HEX: # < 4.7.0
 		# Copy 4.6 files
@@ -55,12 +64,18 @@ func prepare_specific_godot_version(target_hex: int) -> void:
 			"res://addons/escoria-core/game/core-scripts/pre-4.7/esc_item.4.6.gd",
 			"res://addons/escoria-core/game/core-scripts/esc_item.gd"
 		)
+		if res != OK:
+			print("Failed copying file res://addons/escoria-core/game/core-scripts/pre-4.7/esc_item.4.6.gd")
+			return
 	else: # >= 4.7.x
 		# Copy 4.7 files
 		res = DirAccess.copy_absolute(
 			"res://addons/escoria-core/game/core-scripts/pre-4.7/esc_item.4.7.gd",
 			"res://addons/escoria-core/game/core-scripts/esc_item.gd"
 		)
+		if res != OK:
+			print("Failed copying file res://addons/escoria-core/game/core-scripts/pre-4.7/esc_item.4.7.gd")
+			return
 
 	# Lastly, store the last used engine version in a file
 	save_migration_file(true)
@@ -84,8 +99,9 @@ func read_migration_file() -> Dictionary:
 	var new_last_version_used_file = FileAccess.open("res://addons/escoria-core/game/core-scripts/pre-4.7/last_version_used.json", FileAccess.READ)
 	if new_last_version_used_file == null:
 		return {}
-	var data: Dictionary = JSON.parse_string(new_last_version_used_file.get_as_text())
-	if data == null:
-		push_error("Error reading file res://addons/escoria-core/game/core-scripts/pre-4.7/last_version_used.json")
+	var parsed: Variant = JSON.parse_string(new_last_version_used_file.get_as_text())
 	new_last_version_used_file.close()
-	return data
+	if not (parsed is Dictionary):
+		push_error("Error reading file res://addons/escoria-core/game/core-scripts/pre-4.7/last_version_used.json")
+		return {}
+	return parsed
