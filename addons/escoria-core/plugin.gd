@@ -44,6 +44,7 @@ func _enable_plugin():
 	_set_escoria_sound_settings()
 	_set_escoria_platform_settings()
 	_set_filesystem_show_esc_files()
+	_set_inputmap()
 
 	# Define standard settings
 	ProjectSettings.set_setting(
@@ -91,6 +92,7 @@ func _on_warning_popup_confirmed():
 func _disable_plugin():
 	remove_autoload_singleton("escoria")
 	_set_filesystem_hide_esc_files()
+	_unset_inputmap()
 
 
 ## Called when Escoria plugin gets added to Godot Editor's tree.[br]
@@ -206,6 +208,47 @@ func _set_escoria_ui_settings():
 			"type": TYPE_PACKED_STRING_ARRAY
 		}
 	)
+
+
+## Sets up Escoria core actions in the Input Map[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
+func _set_inputmap():
+	# Show debug prompt
+	if not ProjectSettings.get("input/" + ESCInputsManager.ESC_SHOW_DEBUG_PROMPT):
+		InputMap.add_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT)
+		var f2_ev = InputEventKey.new()
+		f2_ev.physical_keycode = KEY_F2
+		InputMap.action_add_event(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT, f2_ev)
+		ProjectSettings.set_setting("input/" + ESCInputsManager.ESC_SHOW_DEBUG_PROMPT, 
+			{
+				"deadzone": 0.2,
+				"events": [f2_ev]
+			})
+		ProjectSettings.save()
+
+
+## Removes Escoria core actions from the Input Map[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## Returns nothing.
+func _unset_inputmap():
+	# Show debug prompt
+	if ProjectSettings.get("input/" + ESCInputsManager.ESC_SHOW_DEBUG_PROMPT):
+		InputMap.erase_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT)
+		ProjectSettings.set_setting("input/" + ESCInputsManager.ESC_SHOW_DEBUG_PROMPT, null)
+		ProjectSettings.save()
 
 
 ## Prepare the settings in the Escoria main category[br]

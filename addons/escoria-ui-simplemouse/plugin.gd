@@ -12,6 +12,11 @@ func _get_plugin_name():
 func _disable_plugin():
 	print("Disabling plugin Escoria UI Simple Mouse.")
 	EscoriaPlugin.deregister_ui("res://addons/escoria-ui-simplemouse/game.tscn")
+	
+	if ProjectSettings.get("input/"+SimpleMouseConstants.ESC_UI_CHANGE_VERB_ACTION):
+		InputMap.erase_action(SimpleMouseConstants.ESC_UI_CHANGE_VERB_ACTION)
+		ProjectSettings.set_setting("input/" + SimpleMouseConstants.ESC_UI_CHANGE_VERB_ACTION, null)
+		ProjectSettings.save()
 
 
 # Register UI with Escoria
@@ -22,3 +27,12 @@ func _enable_plugin():
 			_get_plugin_name(),
 			false
 		)
+
+	if not ProjectSettings.get("input/"+SimpleMouseConstants.ESC_UI_CHANGE_VERB_ACTION):
+		InputMap.add_action(SimpleMouseConstants.ESC_UI_CHANGE_VERB_ACTION)
+		ProjectSettings.set_setting("input/" + SimpleMouseConstants.ESC_UI_CHANGE_VERB_ACTION, 
+		{
+			"deadzone": 0.2,
+			"events": []
+		})
+		ProjectSettings.save()

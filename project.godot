@@ -29,7 +29,7 @@ buses/default_bus_layout="res://addons/escoria-core/buses/default_bus_layout.tre
 
 [autoload]
 
-escoria="*res://addons/escoria-core/game/esc_autoload.gd"
+escoria="*uid://dcskv8vx80gov"
 
 [display]
 
@@ -88,6 +88,11 @@ ui/default_dialog_scene="res://addons/escoria-core/ui_library/dialogs/floating_d
 main/action_default_script="res://action_defaults.esc"
 dialog_simple/text_speed_per_character=0.1
 dialog_simple/fast_text_speed_per_character=0.25
+debug/enable_hover_stack_viewer=true
+main/escoria_version="4.0-alpha"
+debug/perform_script_analysis_at_runtime=true
+wizard/path_to_rooms="res://game/rooms"
+main/save_sounds_playback_position=true
 ui/default_dialog_type="floating"
 dialog_simple/avatars_path="res://game/dialog_avatars"
 dialog_simple/text_time_per_letter_ms=100
@@ -115,9 +120,13 @@ settings/test/test_lookup_folder="testing"
 [input]
 
 esc_show_debug_prompt={
-"deadzone": 0.5,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194333,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194333,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
+}
+esc_change_verb={
+"deadzone": 0.2,
+"events": []
 }
 
 [internationalization]
