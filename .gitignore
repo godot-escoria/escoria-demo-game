@@ -5,6 +5,10 @@ bin
 .godot
 .vscode
 
+# Ignore 4.6/4.7 core backups files
+addons/escoria-core/game/core-scripts/pre-4.7/*.bak
+addons/escoria-core/game/core-scripts/pre-4.7/last_version_used.json
+
 # Local overrides to project.godot go in override.cfg.
 /override.cfg
 
