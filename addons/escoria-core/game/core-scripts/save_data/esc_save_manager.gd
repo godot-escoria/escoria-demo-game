@@ -53,6 +53,7 @@ var _change_scene: ChangeSceneCommand
 var _enable_terrain: EnableTerrainCommand
 var _set_active: SetActiveCommand
 var _set_active_if_exists: SetActiveIfExistsCommand
+var _set_animations: SetAnimationsCommand
 var _set_interactive: SetInteractiveCommand
 var _set_item_custom_data: SetItemCustomDataCommand
 var _teleport_pos: TeleportPosCommand
@@ -90,6 +91,7 @@ func _init():
 	_set_interactive = SetInteractiveCommand.new()
 	_set_item_custom_data = SetItemCustomDataCommand.new()
 	_teleport_pos = TeleportPosCommand.new()
+	_set_animations = SetAnimationsCommand.new()
 	_set_direction = SetDirectionCommand.new()
 	_set_global = SetGlobalCommand.new()
 	_set_state = SetStateCommand.new()
@@ -519,6 +521,12 @@ func _load_object(object_id: String, object_dictionary: Dictionary, _room_id: St
 		# Interactive
 		if object_dictionary.has("interactive") and _set_interactive.validate([object_id, object_dictionary["interactive"]]):
 			_set_interactive.run([object_id, object_dictionary["interactive"]])
+
+		# Animations
+		if object_dictionary.has("animations_resource_path") and _set_animations.validate([object_id, object_dictionary["animations_resource_path"]]):
+			_set_animations.run([object_id, object_dictionary["animations_resource_path"]])
+		if object_dictionary.has("current_animation"):
+			_set_state.run([object_id, object_dictionary["current_animation"], true])
 
 		# State
 		if object_dictionary.has("state") and _set_state.validate([object_id, object_dictionary["state"], true]):

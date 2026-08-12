@@ -16,7 +16,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 config/name="Escoria"
 run/main_scene="res://addons/escoria-core/game/main_scene.tscn"
-config/features=PackedStringArray("4.6")
+config/features=PackedStringArray("4.7")
 boot_splash/bg_color=Color(0.960784, 0.384314, 0, 1)
 boot_splash/stretch_mode=0
 boot_splash/use_filter=false
@@ -100,6 +100,7 @@ debug/enable_hover_stack_viewer=true
 main/escoria_version="4.0-alpha"
 debug/perform_script_analysis_at_runtime=true
 wizard/path_to_rooms="res://game/rooms"
+main/save_sounds_playback_position=true
 
 [file_customization]
 
