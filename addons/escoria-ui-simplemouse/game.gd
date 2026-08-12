@@ -59,9 +59,6 @@ const PRIMARY_ACTION_BUTTON = JOY_BUTTON_X
 # map to the "secondary action," in practice, so we treat it like a right click.
 const CHANGE_VERB_BUTTON = JOY_BUTTON_Y
 
-# Input action for use by InputMap
-const ESC_UI_CHANGE_VERB_ACTION = "esc_change_verb"
-
 var targeted_node: Node
 
 # true when a gamepad is connected.
@@ -130,16 +127,14 @@ func _on_gamepad_connected():
 
 	var verb_event = InputEventJoypadButton.new()
 	verb_event.button_index = CHANGE_VERB_BUTTON
-	InputMap.add_action(ESC_UI_CHANGE_VERB_ACTION)
-	InputMap.action_add_event(ESC_UI_CHANGE_VERB_ACTION, verb_event)
+	InputMap.action_add_event(SimpleMouseConstants.ESC_UI_CHANGE_VERB_ACTION, verb_event)
 
 
 func _on_gamepad_disconnected():
 	InputMap.action_erase_events(escoria.inputs_manager.ESC_UI_PRIMARY_ACTION)
 	InputMap.erase_action(escoria.inputs_manager.ESC_UI_PRIMARY_ACTION)
 
-	InputMap.action_erase_events(ESC_UI_CHANGE_VERB_ACTION)
-	InputMap.erase_action(ESC_UI_CHANGE_VERB_ACTION)
+	InputMap.action_erase_events(SimpleMouseConstants.ESC_UI_CHANGE_VERB_ACTION)
 
 	set_physics_process(false)
 	_is_gamepad_connected = false
@@ -188,7 +183,7 @@ func _process_input(event: InputEvent, is_default_state: bool) -> bool:
 			escoria.inputs_manager._on_left_click_on_bg(get_global_mouse_position())
 			return true
 
-	if event.is_action_pressed(ESC_UI_CHANGE_VERB_ACTION):
+	if event.is_action_pressed(SimpleMouseConstants.ESC_UI_CHANGE_VERB_ACTION):
 		mousewheel_action(1)
 		return true
 	return false
