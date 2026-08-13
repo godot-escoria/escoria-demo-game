@@ -59,6 +59,7 @@ var _set_item_custom_data: SetItemCustomDataCommand
 var _teleport_pos: TeleportPosCommand
 var _set_direction: SetDirectionCommand
 var _set_global: SetGlobalCommand
+var _set_speed: SetSpeedCommand
 var _set_state: SetStateCommand
 var _stop_snd: StopSndCommand
 var _play_snd: PlaySndCommand
@@ -94,6 +95,7 @@ func _init():
 	_set_animations = SetAnimationsCommand.new()
 	_set_direction = SetDirectionCommand.new()
 	_set_global = SetGlobalCommand.new()
+	_set_speed = SetSpeedCommand.new()
 	_set_state = SetStateCommand.new()
 	_stop_snd = StopSndCommand.new()
 	_play_snd = PlaySndCommand.new()
@@ -539,6 +541,10 @@ func _load_object(object_id: String, object_dictionary: Dictionary, _room_id: St
 				object_dictionary["global_transform"].origin.x,
 				object_dictionary["global_transform"].origin.y
 			])
+
+		# Speed 
+		if object_dictionary.has("speed"):
+			_set_speed.run([object_id, object_dictionary["speed"]])
 
 		# Orientation
 		if object_dictionary.has("last_dir"):

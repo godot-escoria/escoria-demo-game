@@ -201,6 +201,7 @@ func get_save_data() -> Dictionary:
 			save_data["global_transform"] = self.node.global_transform
 			save_data["last_deg"] = wrapi(self.node._movable._get_angle() - 90 + 1, 0, 360)
 			save_data["last_dir"] = self.node._movable.last_dir
+			save_data["speed"] = self.node.speed
 		if self.node.has_method("get_custom_data"):
 			save_data["custom_data"] = self.node.get_custom_data()
 
