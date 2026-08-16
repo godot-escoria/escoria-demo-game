@@ -527,7 +527,12 @@ func _load_object(object_id: String, object_dictionary: Dictionary, _room_id: St
 		# Animations
 		if object_dictionary.has("animations_resource_path") and _set_animations.validate([object_id, object_dictionary["animations_resource_path"]]):
 			_set_animations.run([object_id, object_dictionary["animations_resource_path"]])
-		if object_dictionary.has("current_animation"):
+		if object_dictionary.has("current_animation")\
+				and _set_state.validate([
+					object_id,
+					object_dictionary["current_animation"],
+					true
+				]):
 			_set_state.run([object_id, object_dictionary["current_animation"], true])
 
 		# State
