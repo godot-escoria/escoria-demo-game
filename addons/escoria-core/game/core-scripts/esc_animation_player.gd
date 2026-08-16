@@ -201,6 +201,7 @@ func has_animation(name: String) -> bool:
 ## [br]
 ## Returns nothing.
 func seek_end(name: String):
+	_current_animation = name
 	if _is_animation_player:
 		_animation_player.current_animation = name
 		_animation_player.seek(_animation_player.get_animation(name).length, true)

@@ -193,9 +193,10 @@ func get_save_data() -> Dictionary:
 	if is_instance_valid(self.node):
 		if self.node is ESCItem:
 			if self.node.animations != null:
-				var a = (self.node as ESCItem).animations
 				save_data["animations_resource_path"] = (self.node as ESCItem).animations.resource_path
-				save_data["current_animation"] = (self.node as ESCItem).get_animation_player().get_current_animation()
+				var animation_player = (self.node as ESCItem).get_animation_player()
+				if is_instance_valid(animation_player):
+					save_data["current_animation"] = animation_player.get_current_animation()
 
 		if self.node.get("is_movable") and self.node.is_movable:
 			save_data["global_transform"] = self.node.global_transform

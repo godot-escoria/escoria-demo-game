@@ -74,7 +74,7 @@ func validate(arguments: Array):
 ## [br]
 ## Returns the execution result code. (`int`)
 func run(command_params: Array) -> int:
-	(escoria.object_manager.get_object(command_params[0]).node as ESCPlayer)\
+	(escoria.object_manager.get_object(command_params[0]).node as ESCItem)\
 			.animations = load(command_params[1])
 	if not escoria.globals_manager.has(
 		escoria.room_manager.GLOBAL_ANIMATION_RESOURCES
