@@ -191,16 +191,25 @@ func get_save_data() -> Dictionary:
 	save_data["state"] = self.state
 
 	if is_instance_valid(self.node):
+		if self.node is ESCItem:
+			if self.node.animations != null:
+				var a = (self.node as ESCItem).animations
+				save_data["animations_resource_path"] = (self.node as ESCItem).animations.resource_path
+				save_data["current_animation"] = (self.node as ESCItem).get_animation_player().get_current_animation()
+
 		if self.node.get("is_movable") and self.node.is_movable:
 			save_data["global_transform"] = self.node.global_transform
 			save_data["last_deg"] = wrapi(self.node._movable._get_angle() - 90 + 1, 0, 360)
 			save_data["last_dir"] = self.node._movable.last_dir
+			save_data["speed"] = self.node.speed
 		if self.node.has_method("get_custom_data"):
 			save_data["custom_data"] = self.node.get_custom_data()
 
 	if self.global_id in ["_music", "_sound", "_ambient"] and self.node.get("state"):
 		save_data["state"] = self.node.get("state")
-		if escoria.settings_manager.get_settings_dict()[ESCProjectSettingsManager.SAVE_SOUNDS_PLAYBACK_POSITION]:
+		if ESCProjectSettingsManager.get_setting(
+				ESCProjectSettingsManager.SAVE_SOUNDS_PLAYBACK_POSITION
+			):
 			save_data["playback_position"] = self.node.get_playback_position()
 
 	if self.global_id == "_camera":

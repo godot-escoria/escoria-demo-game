@@ -28,7 +28,8 @@ var _animated_sprite: AnimatedSprite2D
 var _is_animation_player: bool = false
 
 ## Currently running animation.
-var _current_animation: String = ""
+var _current_animation: String = "":
+	get = get_current_animation
 
 
 ## Create a new animation player.[br]
@@ -271,3 +272,16 @@ func _on_animation_finished(name: String):
 ## Returns nothing.
 func _on_animation_finished_animated_sprite():
 	_on_animation_finished(_current_animation)
+
+
+## Gets the current animation name.[br]
+## [br]
+## #### Parameters[br]
+## [br]
+## None.
+## [br]
+## #### Returns[br]
+## [br]
+## A string containing the current animation name.
+func get_current_animation() -> String:
+	return _current_animation
