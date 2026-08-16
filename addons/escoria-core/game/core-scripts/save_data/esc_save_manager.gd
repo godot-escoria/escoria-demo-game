@@ -547,7 +547,7 @@ func _load_object(object_id: String, object_dictionary: Dictionary, _room_id: St
 				object_dictionary["global_transform"].origin.y
 			])
 
-		# Speed 
+		# Speed
 		if object_dictionary.has("speed"):
 			_set_speed.run([object_id, object_dictionary["speed"]])
 
