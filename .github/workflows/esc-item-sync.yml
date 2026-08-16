@@ -1,0 +1,90 @@
+name: "ESCItem pre-4.7 sync"
+
+on:
+  pull_request:
+    branches: ["main"]
+  push:
+    branches: ["main"]
+
+jobs:
+  esc-item-sync:
+    name: "Check ESCItem mirror files"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout repo"
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: "Detect ESCItem file changes"
+        id: changed_files
+        uses: step-security/changed-files@60967b822d3001fa82242f8d6b4ed46bc3600a68 # v47.0.1
+        with:
+          files: |
+            addons/escoria-core/game/core-scripts/esc_item.gd
+            addons/escoria-core/game/core-scripts/pre-4.7/esc_item.4.6.gd
+            addons/escoria-core/game/core-scripts/pre-4.7/esc_item.4.7.gd
+
+      - name: "Verify ESCItem mirrors stay in sync"
+        if: steps.changed_files.outputs.any_changed == 'true'
+        run: |
+          python3 - <<'PY'
+          from __future__ import annotations
+
+          import difflib
+          import pathlib
+          import sys
+
+          root = pathlib.Path.cwd()
+          files = {
+              "main": root / "addons/escoria-core/game/core-scripts/esc_item.gd",
+              "4.6": root / "addons/escoria-core/game/core-scripts/pre-4.7/esc_item.4.6.gd",
+              "4.7": root / "addons/escoria-core/game/core-scripts/pre-4.7/esc_item.4.7.gd",
+          }
+
+          def normalized_text(path: pathlib.Path, version: str) -> str:
+              text = path.read_text(encoding="utf-8")
+              lines = text.splitlines()
+
+              if version == "4.6" and lines[:1] == ["# 4.6"]:
+                  lines = lines[1:]
+
+              return "\n".join(lines)
+
+          normalized = {
+              name: normalized_text(path, name)
+              for name, path in files.items()
+          }
+
+          baseline = normalized["main"]
+          mismatches = []
+
+          for name in ("4.6", "4.7"):
+              if normalized[name] != baseline:
+                  mismatches.append(name)
+
+          if mismatches:
+              print("ESCItem mirror files are out of sync with the main file:")
+              print("- addons/escoria-core/game/core-scripts/esc_item.gd")
+              print("- addons/escoria-core/game/core-scripts/pre-4.7/esc_item.4.6.gd")
+              print("- addons/escoria-core/game/core-scripts/pre-4.7/esc_item.4.7.gd")
+              print()
+
+              for name in mismatches:
+                  other = normalized[name]
+                  diff = difflib.unified_diff(
+                      baseline.splitlines(),
+                      other.splitlines(),
+                      fromfile="esc_item.gd",
+                      tofile=f"esc_item.{name}.gd",
+                      lineterm="",
+                  )
+                  print(f"--- Diff vs {name} ---")
+                  print("\n".join(diff))
+                  print()
+
+              sys.exit(1)
+
+          print("ESCItem mirror files are synchronized.")
+          PY
