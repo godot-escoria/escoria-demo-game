@@ -193,7 +193,6 @@ func get_save_data() -> Dictionary:
 	if is_instance_valid(self.node):
 		if self.node is ESCItem:
 			if self.node.animations != null:
-				var a = (self.node as ESCItem).animations
 				save_data["animations_resource_path"] = (self.node as ESCItem).animations.resource_path
 				save_data["current_animation"] = (self.node as ESCItem).get_animation_player().get_current_animation()
 
