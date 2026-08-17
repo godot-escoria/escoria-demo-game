@@ -10,12 +10,16 @@ jobs:
   esc-item-sync:
     name: "Check ESCItem mirror files"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
 
     steps:
       - name: "Checkout repo"
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: "Detect ESCItem file changes"
         id: changed_files
