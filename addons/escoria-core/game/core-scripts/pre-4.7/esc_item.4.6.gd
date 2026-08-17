@@ -306,6 +306,7 @@ func _ready():
 		if not escoria.event_manager.event_finished.is_connected(_update_terrain):
 			escoria.event_manager.event_finished.connect(_update_terrain)
 
+		_force_registration = true if escoria.save_manager.is_loading_game else false
 		escoria.object_manager.register_object(
 			ESCObject.new(
 				global_id,
