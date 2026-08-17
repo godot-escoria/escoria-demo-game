@@ -183,7 +183,7 @@ func _set_interactive(value: bool):
 func get_save_data() -> Dictionary:
 	var save_data: Dictionary = {}
 
-	if self.global_id == "player" and not is_instance_valid(self.node):
+	if self.node is ESCPlayer and not is_instance_valid(self.node):
 		return save_data
 
 	save_data["active"] = self.active
@@ -206,14 +206,14 @@ func get_save_data() -> Dictionary:
 		if self.node.has_method("get_custom_data"):
 			save_data["custom_data"] = self.node.get_custom_data()
 
-	if self.global_id in ["_music", "_sound", "_ambient"] and self.node.get("state"):
+	if self.global_id in [ESCObjectManager.MUSIC, ESCObjectManager.SOUND, ESCObjectManager.AMBIENT] and self.node.get("state"):
 		save_data["state"] = self.node.get("state")
 		if ESCProjectSettingsManager.get_setting(
 				ESCProjectSettingsManager.SAVE_SOUNDS_PLAYBACK_POSITION
 			):
 			save_data["playback_position"] = self.node.get_playback_position()
 
-	if self.global_id == "_camera":
+	if self.global_id == ESCObjectManager.CAMERA:
 		save_data["target"] = self.node.get("_follow_target").global_id
 		var camera_limit_id = escoria.main.get_camera_limit_id_for_room(escoria.main.current_scene)
 		if camera_limit_id != null:
