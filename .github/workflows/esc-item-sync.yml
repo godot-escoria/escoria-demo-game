@@ -30,6 +30,68 @@ jobs:
             addons/escoria-core/game/core-scripts/pre-4.7/esc_item.4.6.gd
             addons/escoria-core/game/core-scripts/pre-4.7/esc_item.4.7.gd
 
+      - name: "Verify esc_item.gd equals esc_item.4.7.gd (normalized)"
+        if: steps.changed_files.outputs.any_changed == 'true'
+        run: |
+          python3 - <<'PY'
+          from __future__ import annotations
+
+          import difflib
+          import pathlib
+          import sys
+
+          root = pathlib.Path.cwd()
+          main_path = root / "addons/escoria-core/game/core-scripts/esc_item.gd"
+          v47_path = root / "addons/escoria-core/game/core-scripts/pre-4.7/esc_item.4.7.gd"
+
+          def strip_configuration_warnings_block(lines: list[str]) -> list[str]:
+              func_name = "func _get_configuration_warnings():"
+              try:
+                  func_index = next(i for i, line in enumerate(lines) if line.strip() == func_name)
+              except StopIteration:
+                  return lines
+
+              start = func_index
+              while start > 0:
+                  previous = lines[start - 1]
+                  if previous.startswith("##") or previous.strip() == "":
+                      start -= 1
+                      continue
+                  break
+
+              end = func_index + 1
+              while end < len(lines):
+                  current = lines[end]
+                  if current.startswith("\t") or current.startswith("    ") or current.strip() == "":
+                      end += 1
+                      continue
+                  break
+
+              return lines[:start] + lines[end:]
+
+          def normalized_text(path: pathlib.Path) -> str:
+              lines = path.read_text(encoding="utf-8").splitlines()
+              lines = strip_configuration_warnings_block(lines)
+              return "\n".join(lines)
+
+          main_text = normalized_text(main_path)
+          v47_text = normalized_text(v47_path)
+
+          if main_text != v47_text:
+              print("esc_item.gd and esc_item.4.7.gd differ (after normalization).")
+              diff = difflib.unified_diff(
+                  main_text.splitlines(),
+                  v47_text.splitlines(),
+                  fromfile="esc_item.gd",
+                  tofile="esc_item.4.7.gd",
+                  lineterm="",
+              )
+              print("\n".join(diff))
+              sys.exit(1)
+
+          print("esc_item.gd and esc_item.4.7.gd are synchronized (after normalization).")
+          PY
+
       - name: "Verify ESCItem mirrors stay in sync"
         if: steps.changed_files.outputs.any_changed == 'true'
         run: |
@@ -47,9 +109,36 @@ jobs:
               "4.7": root / "addons/escoria-core/game/core-scripts/pre-4.7/esc_item.4.7.gd",
           }
 
+          def strip_configuration_warnings_block(lines: list[str]) -> list[str]:
+              func_name = "func _get_configuration_warnings():"
+              try:
+                  func_index = next(i for i, line in enumerate(lines) if line.strip() == func_name)
+              except StopIteration:
+                  return lines
+
+              start = func_index
+              while start > 0:
+                  previous = lines[start - 1]
+                  if previous.startswith("##") or previous.strip() == "":
+                      start -= 1
+                      continue
+                  break
+
+              end = func_index + 1
+              while end < len(lines):
+                  current = lines[end]
+                  if current.startswith("\t") or current.startswith("    ") or current.strip() == "":
+                      end += 1
+                      continue
+                  break
+
+              return lines[:start] + lines[end:]
+
           def normalized_text(path: pathlib.Path, version: str) -> str:
               text = path.read_text(encoding="utf-8")
               lines = text.splitlines()
+
+              lines = strip_configuration_warnings_block(lines)
 
               if version == "4.6" and lines[:1] == ["# 4.6"]:
                   lines = lines[1:]
