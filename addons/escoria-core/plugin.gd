@@ -12,6 +12,9 @@ const ESC_SCRIPT_EXTENSION = "esc"
 const ASH_SCRIPT_EXTENSION = "ash"
 const ASHES_ANALYZER_MENU_ITEM = "Analyze ASHES Scripts"
 
+# Input map actions
+const ESC_SHOW_DEBUG_PROMPT_ACTION_PATH = "input/" + ESCInputsManager.ESC_SHOW_DEBUG_PROMPT
+
 
 ## The warning popup displayed on escoria-core enabling.
 var popup_info: AcceptDialog
@@ -221,12 +224,12 @@ func _set_escoria_ui_settings():
 ## Returns nothing.
 func _set_inputmap():
 	# Show debug prompt
-	if not ProjectSettings.get("input/" + ESCInputsManager.ESC_SHOW_DEBUG_PROMPT):
+	if not ProjectSettings.get(ESC_SHOW_DEBUG_PROMPT_ACTION_PATH):
 		InputMap.add_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT)
 		var f2_ev = InputEventKey.new()
 		f2_ev.physical_keycode = KEY_F2
 		InputMap.action_add_event(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT, f2_ev)
-		ProjectSettings.set_setting("input/" + ESCInputsManager.ESC_SHOW_DEBUG_PROMPT, 
+		ProjectSettings.set_setting(ESC_SHOW_DEBUG_PROMPT_ACTION_PATH,
 			{
 				"deadzone": 0.2,
 				"events": [f2_ev]
@@ -245,9 +248,9 @@ func _set_inputmap():
 ## Returns nothing.
 func _unset_inputmap():
 	# Show debug prompt
-	if ProjectSettings.get("input/" + ESCInputsManager.ESC_SHOW_DEBUG_PROMPT):
+	if ProjectSettings.get(ESC_SHOW_DEBUG_PROMPT_ACTION_PATH):
 		InputMap.erase_action(ESCInputsManager.ESC_SHOW_DEBUG_PROMPT)
-		ProjectSettings.set_setting("input/" + ESCInputsManager.ESC_SHOW_DEBUG_PROMPT, null)
+		ProjectSettings.set_setting(ESC_SHOW_DEBUG_PROMPT_ACTION_PATH, null)
 		ProjectSettings.save()
 
 

@@ -208,7 +208,9 @@ func get_save_data() -> Dictionary:
 
 	if self.global_id in [ESCObjectManager.MUSIC, ESCObjectManager.SOUND, ESCObjectManager.AMBIENT] and self.node.get("state"):
 		save_data["state"] = self.node.get("state")
-		if ESCProjectSettingsManager.get_setting(
+		if ESCProjectSettingsManager.has_setting(
+				ESCProjectSettingsManager.SAVE_SOUNDS_PLAYBACK_POSITION
+				) and ESCProjectSettingsManager.get_setting(
 				ESCProjectSettingsManager.SAVE_SOUNDS_PLAYBACK_POSITION
 			):
 			save_data["playback_position"] = self.node.get_playback_position()
