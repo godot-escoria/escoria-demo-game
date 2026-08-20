@@ -548,7 +548,8 @@ func _load_object(object_id: String, object_dictionary: Dictionary, _room_id: St
 			])
 
 		# Speed
-		if object_dictionary.has("speed"):
+		if object_dictionary.has("speed") \
+				and _set_speed.validate([object_id, object_dictionary["speed"]]):
 			_set_speed.run([object_id, object_dictionary["speed"]])
 
 		# Orientation
