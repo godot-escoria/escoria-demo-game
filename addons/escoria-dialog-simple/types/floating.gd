@@ -209,13 +209,17 @@ func finish():
 
 # To be called if voice audio has finished.
 func voice_audio_finished():
-		_stop_character_talking()
+	_stop_character_talking()
 
 
 # The dialog line was printed, start the waiting time and then finish
 # the dialog
 func _on_dialog_line_typed(object, key):
-	_stop_character_talking()
+	# We need to avoid the situation where "Text time per letter" is 0 and 
+	# "Stop talking animation on" is set to "End of audio".
+	if _should_stop_talking_when_text_finishes():
+		_stop_character_talking()
+
 	text_node.visible_characters = -1
 
 	var time_to_disappear: float = _calculate_time_to_disappear()
@@ -223,6 +227,24 @@ func _on_dialog_line_typed(object, key):
 	$Timer.timeout.connect(_on_dialog_finished)
 
 	say_visible.emit()
+
+
+func _should_stop_talking_when_text_finishes() -> bool:
+	var stop_on_setting_value: StringName = ESCProjectSettingsManager.get_setting(
+		SimpleDialogSettings.STOP_TALKING_ANIMATION_ON
+	)
+
+	if stop_on_setting_value == SimpleDialogSettings.STOP_TALKING_ANIMATION_ON_END_OF_TEXT:
+		return true
+
+	var speech_object := escoria.object_manager.get_object(escoria.object_manager.SPEECH)
+
+	if not speech_object or not is_instance_valid(speech_object.node):
+		return true
+
+	var speech_player := speech_object.node as ESCSpeechPlayer
+
+	return speech_player == null or not speech_player.stream.is_playing()
 
 
 func _calculate_time_to_disappear() -> float:
