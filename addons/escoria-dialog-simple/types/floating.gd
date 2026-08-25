@@ -9,6 +9,8 @@ signal say_finished
 signal say_visible
 
 
+var dialog_location_node = null
+
 # The text speed per character for normal display
 var _text_time_per_character: float
 
@@ -42,7 +44,6 @@ var _current_line: String
 # Whether the dialog manager is paused
 @onready var is_paused: bool = true
 
-var dialog_location_node = null
 
 # Enable bbcode and catch the signal when a tween completed
 func _ready():
@@ -108,7 +109,7 @@ func _ready():
 	_current_line = ""
 
 
-func _process(delta):
+func _process(_delta):
 	if _current_character.is_inside_tree() and \
 			is_instance_valid(dialog_location_node):
 		# Position the RichTextLabel on the character's dialog position, if any.
@@ -125,7 +126,7 @@ func _process(delta):
 # #### Parameters
 # - character: The global id of the character speaking
 # - line: Line to say
-func say(character: String, line: String) :
+func say(character: String, line: String):
 	_current_line = line
 
 	show()
@@ -214,8 +215,8 @@ func voice_audio_finished():
 
 # The dialog line was printed, start the waiting time and then finish
 # the dialog
-func _on_dialog_line_typed(object, key):
-	# We need to avoid the situation where "Text time per letter" is 0 and 
+func _on_dialog_line_typed(_object, _key):
+	# We need to avoid the situation where "Text time per letter" is 0 and
 	# "Stop talking animation on" is set to "End of audio".
 	if _should_stop_talking_when_text_finishes():
 		_stop_character_talking()
