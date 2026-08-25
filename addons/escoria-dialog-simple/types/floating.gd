@@ -34,6 +34,12 @@ var _is_speeding_up: bool = false
 # The current line of text being displayed.
 var _current_line: String
 
+# Whether the current line's reading timer has elapsed.
+var _text_timing_finished: bool = false
+
+# Whether the current line started with voice audio that is still playing.
+var _waiting_for_voice_audio: bool = false
+
 
 # Tween node for text animation
 @onready var tween: Tween3 = Tween3.new(self)
@@ -128,6 +134,8 @@ func _process(_delta):
 # - line: Line to say
 func say(character: String, line: String):
 	_current_line = line
+	_text_timing_finished = false
+	_waiting_for_voice_audio = false
 
 	show()
 
@@ -211,6 +219,8 @@ func finish():
 # To be called if voice audio has finished.
 func voice_audio_finished():
 	_stop_character_talking()
+	_waiting_for_voice_audio = false
+	_finish_dialog_if_ready()
 
 
 # The dialog line was printed, start the waiting time and then finish
@@ -223,9 +233,11 @@ func _on_dialog_line_typed(_object, _key):
 
 	text_node.visible_characters = -1
 
+	_waiting_for_voice_audio = not _should_stop_talking_when_text_finishes()
 	var time_to_disappear: float = _calculate_time_to_disappear()
 	$Timer.start(time_to_disappear)
-	$Timer.timeout.connect(_on_dialog_finished)
+	if not $Timer.timeout.is_connected(_on_dialog_finished):
+		$Timer.timeout.connect(_on_dialog_finished)
 
 	say_visible.emit()
 
@@ -258,6 +270,16 @@ func _get_number_of_words() -> int:
 
 # Ending the dialog
 func _on_dialog_finished():
+	_text_timing_finished = true
+	_finish_dialog_if_ready()
+
+
+func _finish_dialog_if_ready() -> void:
+	if not _text_timing_finished or _waiting_for_voice_audio:
+		return
+
+	$Timer.stop()
+
 	# Only trigger to clear the text if we aren't limiting the clearing trigger to a click.
 	if not ESCProjectSettingsManager.get_setting(SimpleDialogSettings.CLEAR_TEXT_BY_CLICK_ONLY):
 		say_finished.emit()
@@ -279,6 +301,7 @@ func _on_resumed():
 
  # Handler to deal with this node being removed
 func _on_tree_exiting() -> void:
+	$Timer.stop()
 	_stop_character_talking()
 
 
