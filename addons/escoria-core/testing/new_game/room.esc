@@ -1,0 +1,2 @@
+:setup
+	set_global("setup_executed", true)
