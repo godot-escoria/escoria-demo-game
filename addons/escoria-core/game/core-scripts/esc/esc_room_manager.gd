@@ -85,7 +85,8 @@ func register_reserved_globals() -> void:
 ## [br]
 ## Returns nothing.
 func change_scene_to_file(room_path: String, enable_automatic_transitions: bool) -> void:
-	_check_and_prepare_managers_for_room(room_path)
+	if not _check_and_prepare_managers_for_room(room_path):
+		return
 
 	# Load room scene
 	var res_room = escoria.resource_cache.get_resource(room_path)
@@ -166,7 +167,8 @@ func change_scene_to_file(room_path: String, enable_automatic_transitions: bool)
 ## [br]
 ## Returns nothing.
 func change_scene_to_godot_file(room_path: String) -> void:
-	_check_and_prepare_managers_for_room(room_path)
+	if not _check_and_prepare_managers_for_room(room_path):
+		return
 
 	# Load room scene
 	var res_room = escoria.resource_cache.get_resource(room_path)
@@ -183,20 +185,21 @@ func change_scene_to_godot_file(room_path: String) -> void:
 ## [br]
 ## #### Returns[br]
 ## [br]
-## Returns nothing.
-func _check_and_prepare_managers_for_room(room_path: String) -> void:
+## Returns `true` if a replacement scene should be instantiated, or `false` if the current room was reused.
+func _check_and_prepare_managers_for_room(room_path: String) -> bool:
 	if escoria.main \
 			and escoria.main.current_scene \
-			and escoria.main.current_scene.scene_file_path == room_path:
+			and escoria.main.current_scene.scene_file_path == room_path \
+			and not escoria.creating_new_game:
 		escoria.logger.info(
 			self,
 			"Attempting to change scene to same scene as the current scene. Aborting."
 		)
 		if not Engine.is_editor_hint() \
-				and (escoria.save_manager.is_loading_game or escoria.creating_new_game):
+				and escoria.save_manager.is_loading_game:
 			escoria.main.current_scene.enabled_automatic_transitions = false
 			escoria.room_manager.init_room(escoria.main.current_scene)
-		return
+		return false
 
 	# We're changing scenes, so users shouldn't be able to do stuff during.
 	escoria.inputs_manager.input_mode = escoria.inputs_manager.INPUT_NONE
@@ -240,6 +243,8 @@ func _check_and_prepare_managers_for_room(room_path: String) -> void:
 	if escoria.main.current_scene \
 			and escoria.game_scene.get_parent() == escoria.main.current_scene:
 		escoria.main.current_scene.remove_child(escoria.game_scene)
+
+	return true
 
 
 ## Sanitize camera limits, add player node and set the global id to the name of this node if it's not set manually.[br]

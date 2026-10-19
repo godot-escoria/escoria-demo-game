@@ -282,6 +282,7 @@ func new_game():
 		)
 
 	var rc = await run_event_from_script(escoria.start_script, escoria.event_manager.EVENT_NEW_GAME)
+	escoria.creating_new_game = false
 	if rc == ESCExecution.RC_OK:
 		escoria.new_game_started.emit()
 
