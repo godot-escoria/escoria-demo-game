@@ -183,28 +183,28 @@ func _set_interactive(value: bool):
 func get_save_data() -> Dictionary:
 	var save_data: Dictionary = {}
 
-	if self.node is ESCPlayer and not is_instance_valid(self.node):
-		return save_data
-
 	save_data["active"] = self.active
 	save_data["interactive"] = self.interactive
 	save_data["state"] = self.state
 
-	if is_instance_valid(self.node):
-		if self.node is ESCItem:
-			if self.node.animations != null:
-				save_data["animations_resource_path"] = (self.node as ESCItem).animations.resource_path
-				var animation_player = (self.node as ESCItem).get_animation_player()
-				if is_instance_valid(animation_player):
-					save_data["current_animation"] = animation_player.get_current_animation()
+	# Retained room state can outlive its scene nodes.
+	if not is_instance_valid(self.node):
+		return save_data
 
-		if self.node.get("is_movable") and self.node.is_movable:
-			save_data["global_transform"] = self.node.global_transform
-			save_data["last_deg"] = wrapi(self.node._movable._get_angle() - 90 + 1, 0, 360)
-			save_data["last_dir"] = self.node._movable.last_dir
-			save_data["speed"] = self.node.speed
-		if self.node.has_method("get_custom_data"):
-			save_data["custom_data"] = self.node.get_custom_data()
+	if self.node is ESCItem:
+		if self.node.animations != null:
+			save_data["animations_resource_path"] = (self.node as ESCItem).animations.resource_path
+			var animation_player = (self.node as ESCItem).get_animation_player()
+			if is_instance_valid(animation_player):
+				save_data["current_animation"] = animation_player.get_current_animation()
+
+	if self.node.get("is_movable") and self.node.is_movable:
+		save_data["global_transform"] = self.node.global_transform
+		save_data["last_deg"] = wrapi(self.node._movable._get_angle() - 90 + 1, 0, 360)
+		save_data["last_dir"] = self.node._movable.last_dir
+		save_data["speed"] = self.node.speed
+	if self.node.has_method("get_custom_data"):
+		save_data["custom_data"] = self.node.get_custom_data()
 
 	if self.global_id in [ESCObjectManager.MUSIC, ESCObjectManager.SOUND, ESCObjectManager.AMBIENT] and self.node.get("state"):
 		save_data["state"] = self.node.get("state")
