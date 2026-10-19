@@ -77,6 +77,8 @@ func run(command_params: Array) -> int:
 	timer.start()
 	await timer.timeout
 	escoria.remove_child(timer)
+	timer.queue_free()
+	timer = null
 	return ESCExecution.RC_OK
 
 
@@ -90,7 +92,7 @@ func run(command_params: Array) -> int:
 ## [br]
 ## Returns nothing.
 func interrupt():
-	if timer == null:
+	if not is_instance_valid(timer):
 		return
 
 	timer.timeout.emit()
