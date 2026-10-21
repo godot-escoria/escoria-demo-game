@@ -63,3 +63,30 @@ Do not use `--ignoreHeadlessMode` for tests that rely on UI interaction, scene i
 - `gdUnit4` writes reports under `reports/`.
 - Existing asset UID warnings in this project are unrelated to ASHES tests, but they still appear in CLI output.
 - For compiler pipeline work, prefer asserting behavior directly rather than asserting on logs.
+
+## New-game room lifecycle
+
+Run the focused core lifecycle regression suite with:
+
+```sh
+"<godot_binary>" --headless --path . -s res://addons/gdUnit4/bin/GdUnitCmdTool.gd --ignoreHeadlessMode -c -a res://addons/escoria-core/testing/new_game_room_lifecycle_test.gd
+```
+
+`-c` runs all cases after a failure. The suite uses minimal scenes under
+`addons/escoria-core/testing/new_game/` with the real room manager, object
+manager, ASHES runtime, and scene tree. It checks starting-room restart, restart
+from another room, repeated restart, object registration before `:setup` and
+after old-room deletion, ordinary same-room transitions, and same-room loading.
+The loading case exercises the manager branch with `is_loading_game`; it does
+not read a saved file.
+
+The paused-menu case calls the actual game pause methods while an ASHES wait
+event is active. It does not synthesize input or verify menu rendering, so
+headless execution is appropriate. Dialogue interaction and a manual gameplay
+walkthrough remain separate checks.
+
+Also run `esc_object_manager_test.gd` and `issue_946_room_transition_test.gd` in
+the same testing directory for adjacent registration and room-transition
+coverage. Treat compiler/import failures as validation blockers, distinct from
+lifecycle assertion failures; do not infer successful runtime validation from
+a test runner that could not load its dependencies.
