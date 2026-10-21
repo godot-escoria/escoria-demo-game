@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_room.gd" id="1"]
+[ext_resource type="Script" path="res://addons/escoria-core/game/core-scripts/esc_location.gd" id="2"]
+
+[node name="starting_room" type="Node2D"]
+script = ExtResource("1")
+global_id = "starting_room"
+esc_script = "res://addons/escoria-core/testing/new_game/room.esc"
+camera_limits = [Rect2(0, 0, 640, 480)]
+
+[node name="Start" type="Marker2D" parent="."]
+script = ExtResource("2")
+global_id = "restart_location"

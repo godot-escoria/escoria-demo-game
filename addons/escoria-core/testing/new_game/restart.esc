@@ -1,0 +1,5 @@
+:newgame
+	change_scene("res://addons/escoria-core/testing/new_game/starting_room.tscn", false)
+:waiting
+	wait(30)
+	set_global("old_event_completed", true)

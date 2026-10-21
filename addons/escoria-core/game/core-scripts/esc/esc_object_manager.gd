@@ -105,6 +105,16 @@ func _init() -> void:
 ## [br]
 ## Returns nothing.
 func reset_game_state() -> void:
+	# Old scene nodes remain alive until the replacement room is initialized.
+	# Their exit callbacks must not unregister objects from the new game.
+	for room_container in room_objects:
+		if room_container.is_reserved:
+			continue
+		var room_key := ESCRoomObjectsKey.new()
+		room_key.room_global_id = room_container.room_global_id
+		room_key.room_instance_id = room_container.room_instance_id
+		disconnect_tree_exit_for_room_items(room_key)
+
 	room_objects.clear()
 	room_objects.push_back(reserved_objects_container)
 	room_terrains.clear()
@@ -748,6 +758,7 @@ func disconnect_tree_exit_for_room_items(room_key: ESCRoomObjectsKey) -> void:
 			for object in room_container.objects:
 				var ro: ESCObject = room_objects[i].objects[object]
 				if is_instance_valid(ro.node) and \
+						ro.unregister_object_callback.is_valid() and \
 						ro.node.tree_exited.is_connected(ro.unregister_object_callback):
 					ro.node.tree_exited.disconnect(ro.unregister_object_callback)
 			break
